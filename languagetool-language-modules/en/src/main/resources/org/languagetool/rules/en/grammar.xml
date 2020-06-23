@@ -12281,32 +12281,6 @@ USA
             <example>When it started to rain we got under cover.</example>
             <example>Store seats under cover before the bad weather sets in.</example>
         </rule>
-        <rulegroup id="HALF_WAY_COMPOUND" name="half way">
-            <url>https://www.lexico.com/definition/halfway</url>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>half</token>
-                        <token>way</token>
-                    </marker>
-                    <token postag="IN" />
-                </pattern>
-                <message>The adjective or adverb <suggestion>halfway</suggestion> is spelled as one word.</message>
-                <example correction="halfway">He stopped <marker>half way</marker> down the passage.</example>
-                <example correction="halfway">Tom is only <marker>half way</marker> through doing that.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>half</token>
-                        <token>way</token>
-                    </marker>
-                    <token regexp="yes">away|home|measure(ment)?|points?|marks?</token>
-                </pattern>
-                <message>The adjective or adverb <suggestion>halfway</suggestion> is spelled as one word.</message>
-                <example correction="halfway">We've reached the <marker>half way</marker> point of the season.</example>
-            </rule>
-        </rulegroup>
         <rule id="THANK_YOU_MUCH" name="Thank you much">
             <antipattern>
                 <token>much</token>
@@ -12647,6 +12621,23 @@ USA
                 <example>Dr. Hellofs has excellent teaching ratings, and I'm pleased to have her on board.</example>
                 <example>Give it to her on stage #5</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token skip="3">line</token>
+                    <token postag="CD" />
+                </antipattern>
+                <antipattern>
+                    <token>line</token>
+                    <token regexp="yes">X|Y</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">on|off</token>
+                    <token>line</token>
+                </pattern>
+                <message>Did you mean the adverb or adjective <suggestion><match no="1" case_conversion="alllower" />line</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/online</url>
+                <example correction="online">My new website is <marker>on line</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="HEAD_COMPOUNDS" name="head shot (thunderstorm)">
             <antipattern case_sensitive="yes"><!-- https://en.wikipedia.org/wiki/Head_Hunters -->
@@ -12708,7 +12699,7 @@ USA
                 <token>pipe</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">dead|guide|border|pipe|base|head|stream|blood</token>
+                <token regexp="yes">dead|guide|border|pipe|base|head|stream|blood|roof</token>
                 <token regexp="yes">lines?</token>
             </pattern>
             <message>This is normally spelled as one word.</message>
@@ -13129,7 +13120,7 @@ USA
             <antipattern>
                 <token>home</token>
                 <token>made</token>
-                <token regexp="yes">me|my|him|his|her|them|their|us|our|the|an?|many</token>
+                <token regexp="yes">me|my|him|his|her|them|their|us|our|your?|the|an?|many</token>
             </antipattern>
             <pattern>
                 <token>home</token>
@@ -13438,36 +13429,72 @@ USA
             <example correction="skyline">New York City has a beautiful <marker>sky line</marker>.</example>
             <example>My Sky box isn't working anymore.</example>
         </rule>
-        <rule id="WAY_COMPOUNDS" name="park way (parkway)">
-            <antipattern case_sensitive="yes">
-                <token regexp="yes">[A-Z].*</token>
-                <token regexp="yes">Way|WAY</token>
-            </antipattern>
-            <antipattern>
-                <token>way</token>
-                <token regexp="yes">too|back|ahead|behind|before|after|off|out|in|up|into|down|over|under|from|past</token>
-            </antipattern>
-            <antipattern>
-                <token>way</token>
-                <token postag="JJR" />
-            </antipattern>
-            <antipattern>
-                <token>way</token>
-                <token>to</token>
-                <token>go</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">park|rail|drive|high|sky|motor|run|gate|race|path|speed|entry|water|sub|route|life|hall|door</token>
-                <token regexp="yes">ways?</token>
-            </pattern>
-            <message>This noun is normally spelled as one word.</message>
-            <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
-            <example correction="driveway">His car parks in the <marker>drive way</marker>.</example>
-            <example>We live on Inverness Park Way, and used to live on Cedarspur a few years back.</example>
-            <example>You drive way too fast.</example>
-            <example>In the sky way too many clouds are seen.</example>
-            <example>You can run way faster than him.</example>
-        </rule>
+        <rulegroup id="WAY_COMPOUNDS" name="park way (parkway)">
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">[A-Z].*</token>
+                    <token regexp="yes">Way|WAY</token>
+                </antipattern>
+                <antipattern>
+                    <token>way</token>
+                    <token regexp="yes">too|back|ahead|behind|before|after|off|out|in|up|into|down|over|under|from|past</token>
+                </antipattern>
+                <antipattern>
+                    <token>way</token>
+                    <token postag="JJR" />
+                </antipattern>
+                <antipattern>
+                    <token>way</token>
+                    <token>to</token>
+                    <token>go</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">park|rail|drive|high|sky|motor|run|gate|race|path|speed|entry|water|sub|route|life|hall|door</token>
+                    <token regexp="yes">ways?</token>
+                </pattern>
+                <message>This noun is normally spelled as one word.</message>
+                <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
+                <example correction="driveway">His car parks in the <marker>drive way</marker>.</example>
+                <example>We live on Inverness Park Way, and used to live on Cedarspur a few years back.</example>
+                <example>You drive way too fast.</example>
+                <example>In the sky way too many clouds are seen.</example>
+                <example>You can run way faster than him.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>half</token>
+                        <token>way</token>
+                    </marker>
+                    <token postag="IN" />
+                </pattern>
+                <message>The adjective or adverb <suggestion>halfway</suggestion> is spelled as one word.</message>
+                <url>https://www.lexico.com/definition/halfway</url>
+                <example correction="halfway">He stopped <marker>half way</marker> down the passage.</example>
+                <example correction="halfway">Tom is only <marker>half way</marker> through doing that.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>half</token>
+                        <token>way</token>
+                    </marker>
+                    <token regexp="yes">away|home|measure(ment)?|points?|marks?</token>
+                </pattern>
+                <message>The adjective or adverb <suggestion>halfway</suggestion> is spelled as one word.</message>
+                <url>https://www.lexico.com/definition/halfway</url>
+                <example correction="halfway">We've reached the <marker>half way</marker> point of the season.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>side</token>
+                    <token>ways</token>
+                </pattern>
+                <message>The adjective or adverb <suggestion>sideways</suggestion> is spelled as one word.</message>
+                <url>https://www.merriam-webster.com/dictionary/sideways</url>
+                <example correction="sideways">The economy gets in trouble, people’s mental and emotional health goes <marker>side ways</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="HOLDER_COMPOUNDS" name="share holder (shareholder)">
             <antipattern>
                 <token regexp="yes">credit|green|blue|ghana</token>
@@ -13519,9 +13546,13 @@ USA
                 <token regexp="yes">[A-Z].*</token>
                 <token regexp="yes">Ship|SHIP</token>
             </antipattern>
+            <antipattern>
+                <token>friend</token>
+                <token>ships</token>
+            </antipattern>
             <pattern>
                 <!-- TODO: friendship (My friend ships ...) -->
-                <token regexp="yes">space|relation|intern|member|leader|mentor|flag|town|trainee|citizen|scholar|owner|controller|dictator|champion|fellow|censor|apprentice</token>
+                <token regexp="yes">space|relation|intern|member|leader|mentor|flag|town|trainee|citizen|scholar|owner|controller|dictator|champion|fellow|censor|apprentice|partner|friend</token>
                 <token regexp="yes">ships?</token>
             </pattern>
             <message>This noun is normally spelled as one.</message>
@@ -23016,9 +23047,13 @@ USA
                     <token regexp="yes">Apple|APPLE</token>
                     <token regexp="yes">[A-Z].+</token>
                 </antipattern>
+                <antipattern>
+                    <token>silicon</token>
+                    <token regexp="yes">valleys?</token>
+                </antipattern>
                 <pattern>
                     <token>apple</token>
-                    <token regexp="yes">i?Mac|MacBook|Watch|Pay|Store|Inc|A\d+|Card|Homepod|Music|Wallet|Xcode|HomeKit|ARKit|Care|Carplay|EarPods|AirPods|Health|Maps|Siri|Lightning|iMovie|Arcade|Pencil</token>
+                    <token regexp="yes">i?Mac|MacBook|Watch|Pay|Store|Inc|A\d+|Card|Homepod|Music|Wallet|Xcode|HomeKit|ARKit|Care|Carplay|EarPods|AirPods|Health|Maps|Siri|Lightning|iMovie|Arcade|Pencil|silicon</token>
                 </pattern>
                 <message>Did you mean the proper noun <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="startupper" regexp_match="pod" regexp_replace="Pod" /></suggestion>?</message>
                 <example correction="Apple Inc">He's working for <marker>apple inc</marker>.</example>
@@ -23159,6 +23194,35 @@ USA
                 <message>This name of a Microsoft operating system needs to be capitalized.</message>
                 <suggestion>Windows \2 <match no="3" case_conversion="startupper" /></suggestion>
                 <example correction="Windows 8 Home">I was using <marker>windows 8 home</marker> edition.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">the|an?|my|his|her|y?our</token>
+                    <token>one</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">an?|the|one|my|y?our|his|her</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0">
+                        <exception postag="CD" />
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes">word</token>
+                    </marker>
+                    <token regexp="yes">charts?|documents?|docx?|files?|macros?|add-[io]ns?|pages?</token>
+                </pattern>
+                <message>Did you mean <suggestion>Word</suggestion> (= computer program, capitalized)?</message>
+                <example correction="Word">Have you seen my <marker>word</marker> document?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">outlook</token>
+                    </marker>
+                    <token regexp="yes">e?-?mails?|website|logins?|accounts?|signatures?|program|apps?|web|calendars?|passwords?|address</token>
+                </pattern>
+                <message>Did you mean <suggestion>Outlook</suggestion> (= email program, capitalized)?</message>
+                <url>https://en.wikipedia.org/wiki/Microsoft_Outlook</url>
+                <example correction="Outlook">I haven't checked my <marker>outlook</marker> mails yet.</example>
             </rule>
         </rulegroup>
         <rule id="VITAMIN_C" name="vitamin C">
@@ -23941,7 +24005,7 @@ USA
                     <marker>
                         <token case_sensitive="yes">windows</token>
                     </marker>
-                    <token regexp="yes">\d{1,2}|20\d{2}|ce|nt|updates?|environments?|os|devices?|re\-?boots?|boots?|xp|vista|store|computers?|exe|dll|(power)?shell|machines?|pcs?|sdks?|servers?|services?|conf|config(uration)?|audios?|api|media|(sub)?systems?|apps?|phones?|work\-?station|desktops?|drivers?|explorer|errors?|folders?|firewalls?|installers?|kernel|keys?|keyboards?|logos?|licenses?|media|terminals?|registry|version|usb|upgrades?|games?|files?|vms?</token>
+                    <token regexp="yes">\d{1,2}|20\d{2}|ce|nt|updates?|environments?|os|devices?|re\-?boots?|boots?|xp|vista|store|computers?|exe|dll|(power)?shell|machines?|pcs?|sdks?|servers?|services?|conf|config(uration)?|audios?|api|media|(sub)?systems?|apps?|phones?|work\-?station|desktops?|drivers?|explorer|errors?|folders?|firewalls?|installers?|kernel|keys?|keyboards?|logos?|licenses?|media|terminals?|registry|version|usb|upgrades?|games?|files?|vms?|users?</token>
                 </pattern>
                 <message><suggestion><match no="1" case_conversion="startupper" /></suggestion> (operating system by Microsoft) is a proper noun and needs to be capitalized.</message>
                 <example correction="Windows">The <marker>windows</marker> 10 update failed.</example>
@@ -23973,7 +24037,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" skip="4">eat</token>
+                    <token inflected="yes" skip="4" regexp="yes">eat|buy</token>
                     <marker>
                         <token case_sensitive="yes">snickers</token>
                     </marker>
@@ -24160,6 +24224,19 @@ USA
             <suggestion>\1-\2 \3</suggestion>
             <example correction="one-night stand">Tom and Mary had a <marker>one night stand</marker>.</example>
         </rule>
+        <rule id="PUSH_UP_HYPHEN" name="missing hyphen in 'push up bra'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>push</token>
+                    <token>up</token>
+                </marker>
+                <token regexp="yes">bras?|bikinis?</token>
+            </pattern>
+            <message>The adjective <suggestion>\1-\2</suggestion> is spelled with a hyphen.</message>
+            <url>https://www.lexico.com/definition/push-up</url>
+            <example correction="push-up">She was wearing a <marker>push up</marker> bra.</example>
+        </rule>
+
         <rulegroup id="IN_APP_HYPHEN" name="missing hyphen in 'in app'">
             <url>https://www.lexico.com/en/definition/in-app</url>
             <rule>
@@ -25290,12 +25367,12 @@ USA
                 <token>tasks</token>
             </antipattern>
             <antipattern><!-- spanish -->
-                <token regexp="yes">bien|que|por|hola</token>
+                <token regexp="yes">bien|que|por|hola|para</token>
                 <token regexp="yes">todos?</token>
             </antipattern>
             <antipattern><!-- spanish -->
                 <token regexp="yes">todos?</token>
-                <token regexp="yes">con|santos|tus|l[ao]s|por</token>
+                <token regexp="yes">con|santos|tus|l[ao]s|por|para|muchos</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -36614,6 +36691,7 @@ USA
                             <exception postag="VB[NDZ]|JJ.*|RB|MD|IN" postag_regexp="yes"/>
                             <!-- already found by EN_CONTRACTION_SPELLING: -->
                             <exception>cant</exception>
+                            <exception case_sensitive="yes">Harry</exception>
                             <exception scope="next" regexp="yes">&apostrophe;</exception>
                         </token>
                     </marker>
@@ -36634,6 +36712,7 @@ USA
                 <example correction="hates|hated">Everybody <marker>hate</marker> to hear bad news.</example>
                 <example correction="moves|moved">Nobody <marker>move</marker>?</example>
                 <example>Nobody move!</example>
+                <example>Please tell someone about Harry.</example>
                 <example>-Is he going to tell the truth?</example><!-- missing space between (different error) -->
                 <example>The bride came into the room, with everyone staring at her.</example>
                 <example correction="does|did">Without somebody <marker>do</marker> the test, we cannot know.</example>
@@ -36907,6 +36986,10 @@ USA
                     <token>strand</token>
                 </antipattern>
                 <antipattern>
+                    <token regexp="yes">HBO|Slack</token>
+                    <token>channel</token>
+                </antipattern>
+                <antipattern>
                     <token postag="SENT_START|PCT" postag_regexp="yes" />
                     <token>may</token>
                     <token regexp="yes">contain|include</token>
@@ -36952,7 +37035,7 @@ USA
                         <token postag="VBP?" postag_regexp="yes" regexp="yes">
                             \p{Lower}+
                             <exception postag="VB[ND]|JJ|IN|MD" postag_regexp="yes"/>
-                            <exception>people</exception><!-- uncommon verbs -->
+                            <exception regexp="yes">people|police</exception><!-- uncommon verbs -->
                         </token>
                     </marker>
                     <token postag="IN|DT" postag_regexp="yes"/>
@@ -38850,6 +38933,11 @@ USA
                 <token postag="CD" />
                 <token case_sensitive="yes">Word</token>
                 <token postag="NNS" />
+            </antipattern>
+            <antipattern>
+                <token>one</token>
+                <token>word</token>
+                <token regexp="yes">doc|document</token>
             </antipattern>
             <antipattern>
                 <token>one</token>
@@ -50225,6 +50313,11 @@ The accident victim died from her injuries.
                 <antipattern>
                     <token regexp="yes">left|right</token>
                     <token>hand</token>
+                    <token chunk="B-VP" />
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">left|right</token>
+                    <token>hand</token>
                     <token postag="VB.+" postag_regexp="yes"/>
                     <token postag="JJ"/>
                 </antipattern>
@@ -50242,6 +50335,7 @@ The accident victim died from her injuries.
                     </marker>
                     <token postag="NN.*" postag_regexp="yes">
                         <exception postag="IN"/>
+                        <exception>away</exception>
                     </token>
                 </pattern>
                 <message>Did you mean the adjective <suggestion>\1-hand</suggestion>?</message>
@@ -50250,6 +50344,7 @@ The accident victim died from her injuries.
                 <example>His left hand felt numb.</example>
                 <example>He talked to them with his left hand holding a gun.</example>
                 <example correction="left-hand">You'll see the bank on the <marker>left hand</marker> side of the hospital.</example>
+                <example>She moved her right hand away from his.</example>
             </rule>
             <rule><!-- English-speaking -->
                 <pattern>
@@ -50422,6 +50517,18 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rule id="MATER_MATTER" name="mater vs matter" default="temp_off">
+            <pattern>
+                <token inflected="yes" regexp="yes">do|will|can|shall</token>
+                <token min="0" regexp="yes">&apostrophe;</token>
+                <token min="0" postag="RB" />
+                <marker>
+                    <token>mater</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>matter</suggestion>?</message>
+            <example correction="matter">It does not <marker>mater</marker> to us.</example>
+        </rule>
         <rulegroup id="DISCUS_DISCUSS" name="he discuses (discusses)">
             <url>https://www.merriam-webster.com/dictionary/discuss</url>
             <rule>
