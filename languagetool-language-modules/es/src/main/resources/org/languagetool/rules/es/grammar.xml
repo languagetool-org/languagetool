@@ -6892,7 +6892,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token postag="D[NI].*|AO.*" postag_regexp="yes"/>
                 <token regexp="yes" inflected="yes">vez|&unidades_tiempo;</token>
-                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"></token>
+                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -6968,9 +6968,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token postag="NC[MC][PN]000|A..[MC][PN].|V.P..SM" postag_regexp="yes"/>
+                <token postag="A..[MC][SN].*|V.P..SM|PX.MS.*" postag_regexp="yes"/>
+                <token regexp="yes">,|y|e|o|u</token>
+                <token postag="A..[MC][SN].*|V.P..SM|PX.MS.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="NC[MC][PN]000|A..[MC][PN].|V.P..SM" postag_regexp="yes"/>
+                <token postag="A..[MC][PN].*|V.P..PM|PX.MP.*" postag_regexp="yes"/>
+                <token regexp="yes">,|y|e|o|u</token>
+                <token postag="A..[MC][PN].*|V.P..PM|PX.MP.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="NC[FC][PN]000|A..[FC][PN].|V.P..SF" postag_regexp="yes"/>
+                <token postag="A..[FC][SN].*|V.P..SF|PX.FS.*" postag_regexp="yes"/>
+                <token regexp="yes">,|y|e|o|u</token>
+                <token postag="A..[FC][SN].*|V.P..SF|PX.FS.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="NC[FC][PN]000|A..[FC][PN].|V.P..SF" postag_regexp="yes"/>
+                <token postag="A..[FC][PN].*|V.P..PF|PX.FP.*" postag_regexp="yes"/>
+                <token regexp="yes">,|y|e|o|u</token>
+                <token postag="A..[FC][PN].*|V.P..PF|PX.FP.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/> <exception regexp="yes">primero|juntos|juntas|dado|dada|dados|dadas|incluso</exception><exception regexp="yes">\p{Lu}.*</exception></token>
-            </pattern>    
+            </pattern>
             <filter class="org.languagetool.rules.es.PostponedAdjectiveConcordanceFilter" args="key:value"/>
             <message>Revise la concordancia de la palabra «\1».</message>
             <example correction="">La casa del pueblo <marker>blancas</marker>.</example>

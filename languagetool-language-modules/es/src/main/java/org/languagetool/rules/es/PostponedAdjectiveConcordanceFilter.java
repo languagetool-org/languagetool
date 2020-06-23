@@ -89,7 +89,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern PUNTUACIO = Pattern.compile("_PUNCT.*");
   private static final Pattern LOC_ADV = Pattern.compile(".*LOC_ADV.*");
   private static final Pattern ADVERBIS_ACCEPTATS = Pattern.compile("RG_before");
-  private static final Pattern COORDINACIO = Pattern.compile(",|y|e|o|u");
+  //private static final Pattern COORDINACIO = Pattern.compile(",|y|e|o|u");
   private static final Pattern COORDINACIO_IONI = Pattern.compile("y|e|o|u|ni");
   private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAIDP].*|SPS.*|SP\\+DA|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*|PX.*");
   private static final Pattern KEEP_COUNT2 = Pattern.compile(",|y|o|ni"); // |\\d+%?|%
@@ -109,10 +109,10 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
 
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     int i = patternTokenPos;
-    String nextToken = "";
-    if (i < tokens.length - 1) {
+    //String nextToken = "";
+    /*if (i < tokens.length - 1) {
       nextToken = tokens[i + 1].getToken();
-    }
+    }*/
     int j;
     boolean isPlural = true;
     boolean isPrevNoun = false;
@@ -121,7 +121,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     Pattern adjPattern = null;
 
     // exception: noun (or adj) plural + two or more adjectives
-    if (i < tokens.length - 2) {
+    /*if (i < tokens.length - 2) {
       Matcher pCoordina = COORDINACIO.matcher(nextToken);
       if (pCoordina.matches()) {
         if (((matchPostagRegexp(tokens[i - 1], NOM_MP) || matchPostagRegexp(tokens[i - 1], ADJECTIU_MP))
@@ -135,7 +135,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
           return null;
         }
       }
-    }
+    }*/
 
     /* Count all nouns and determiners before the adjectives */
     // Takes care of acceptable combinations.
