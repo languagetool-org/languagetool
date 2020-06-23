@@ -137,12 +137,14 @@ public class Catalan extends Language {
       case "CA_SIMPLE_REPLACE_BALEARIC": return 100;
       case "INCORRECT_EXPRESSIONS": return 50;
       case "MOTS_NO_SEPARATS": return 40;
+      case "REPETEAD_ELEMENTS": return 40;
       case "CONCORDANCES_CASOS_PARTICULARS": return 30;
       case "CONFUSIONS_ACCENT": return 20;
       case "DIACRITICS": return 20;
       case "ACCENTUATION_CHECK": return 10;
       case "HAVER_SENSE_HAC": return 10;
       case "CONCORDANCES_DET_NOM": return 5;
+      case "VENIR_NO_REFLEXIU": return 5;
       case "REGIONAL_VERBS": return -10;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
       case "SUBSTANTIUS_JUNTS": return -25;

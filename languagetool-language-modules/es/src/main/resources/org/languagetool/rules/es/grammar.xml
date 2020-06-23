@@ -1156,6 +1156,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En su lugar decimos esto.</example>
                 <example>El semáforo indica la luz amarilla.</example>
                 <example>Con gusto verifico su informe.</example>
+                <example>No te lo tomes a mal si critico tu trabajo.</example>
             </rule>
             <rule>
                 <!-- de forma integra -->
@@ -1249,14 +1250,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ella es demasiado baja.</example>
                 <example>En el estado opera el nepotismo.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- Only noun + adj: with 2 errors: alivian la nauseas matutinas-->
                 <pattern>
-                    <token><exception regexp="yes">&pronombre_personal_no_articulo;</exception></token>
+                    <token><exception regexp="yes">&pronombre_personal_no_articulo;|si</exception></token>
                     <marker>
                         <token><exception postag="RG|LOC_ADV|[NA].*" postag_regexp="yes"/><exception>practico</exception></token>
                     </marker>
-                    <token postag="AQ..P." postag_regexp="yes"/>
+                    <token postag="AQ..P." postag_regexp="yes"><exception postag="D.*" postag_regexp="yes"/></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:N.* gendernumber_from:3"/>
                 <message>Si es adjetivo o nombre, se escribe con tilde.</message>
@@ -1266,6 +1267,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ellos le llamaron cobarde.</example>
                 <example>Ellos llamaron pirata al presidente Roosevelt.</example>
                 <example>¿A quién le envió rosas?</example>
+                <example>Si prestramos atentos oídos.</example>
+                <example>Es necesario que domines ciertos temas.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">tener</token>
+                    <token postag="RG_before|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
+                    <marker>
+                        <token><exception postag="RG|LOC_ADV|[NA].*" postag_regexp="yes"/><exception>practico</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\3 postag:N.*"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="lío">Tengo un poco <marker>lio</marker> con todo esto.</example>
+                <example correction="lío">Tengo <marker>lio</marker> con todo esto.</example>
+                <example>Se lio con esto.</example>
             </rule>
         </rulegroup>
         <rule id="DIACRITICS_CONDICIONAL" name="secundaria/secundaría">
@@ -2914,21 +2932,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>seria<exception postag="_GN_FS"/></token>
                     </marker>
-                    <token postag="[AD].*" postag_regexp="yes"/>
+                    <token postag="[AD].*|RG" postag_regexp="yes"/>
                 </pattern>
                 <message>Si es del v. 'ser', se escribe con tilde. Correcto como adjetivo.</message>
                 <suggestion>sería</suggestion>
                 <example correction="sería">Y <marker>seria</marker> bueno que pasara.</example>
                 <example correction="sería">Y <marker>seria</marker> lo mejor.</example>
+                <example correction="sería">Una persona española <marker>seria</marker> hispana.</example>
+                <example correction="sería">Creo que <marker>seria</marker> mejor utilizar otra cosa.</example>
                 <example>Es una persona seria la que buscamos.</example>
                 <example>Se puso seria otra vez.</example>
+                <example>Estaba seria a menudo.</example>
+                <example>Estaba seria frecuentemente.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token>serias<exception postag="_GN_FP"/></token>
                     </marker>
-                    <token postag="[AD].*" postag_regexp="yes"/>
+                    <token postag="[AD].*|RG" postag_regexp="yes"/>
                 </pattern>
                 <message>Si es del v. 'ser', se escribe con tilde. Correcto como adjetivo.</message>
                 <suggestion>serías</suggestion>
@@ -3273,6 +3295,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Está"><marker>Esta</marker> muy bonito.</example>
                 <example correction="Está"><marker>Esta</marker> preciosa.</example>
                 <example correction="está">Tu cuenta <marker>esta</marker> vacía.</example>
+                <example correction="está">¿Tom <marker>esta</marker> todavía despierto?</example>
                 <example>Esta preciosa y antigua casa</example>
                 <!-- "y" needs disambiguation -->
                 <example>Esta preciosa casa es muy antiga.</example>
@@ -4940,6 +4963,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Lo ha dicho.</example>
             <example>Lo ha claramente dicho.</example>
             <example>Ha de regarse sin falta.</example>
+            <example>que alguien ha incluso incrementado</example>
         </rule>
         <rule id="AH_INF" name="ah + infinitivo (a)">
             <pattern case_sensitive="no">
@@ -5053,6 +5077,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="echo">Lo <marker>hecho</marker> a la calle.</example>
             <example correction="echa">Las <marker>hecha</marker> a la calle.</example>
             <example correction="echa">Se les <marker>hecha</marker> a la calle.</example>
+            <example correction="echo">No le <marker>hecho</marker> azúcar al café.</example>
             <example>Las crudas no, las hechas.</example>
             <example>Las hechas por el fabricante.</example>
             <example>Lo hecho, hecho está.</example>
@@ -5432,7 +5457,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>de<exception postag="_possible_NP"/></token>
-                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Construcción incorrecta.</message>
                 <suggestion>se \2</suggestion>
@@ -5447,7 +5472,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>de<exception postag="_possible_NP"/></token>
                     <token regexp="yes">lo|los|les|la|las|nos|os</token>
-                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Construcción incorrecta.</message>
                 <suggestion>se \2 \3</suggestion>
@@ -5458,7 +5483,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SPS00|LOC_PREP|SP\+DA" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/></token>
-                    <token postag="VMSI[13]S0" postag_regexp="yes" regexp="yes">[\p{Ll}]+se<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                    <token postag="VMSI[13]S0" postag_regexp="yes" regexp="yes">[\p{Ll}]+se<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Construcción incorrecta.</message>
                 <suggestion>\1 <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="VMN0000.PP3CN000"/></suggestion>
@@ -5468,7 +5493,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SPS00|LOC_PREP|SP\+DA" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/></token>
-                    <token postag="VMM02V0.PP.{6}" postag_regexp="yes" regexp="yes">[\p{Ll}].+<exception negate_pos="yes" postag="VMM.*|SENT_END" postag_regexp="yes"/></token>
+                    <token postag="VMM02V0.PP.{6}" postag_regexp="yes" regexp="yes">[\p{Ll}].+<exception negate_pos="yes" postag="VMM.*|_GV_|SENT_END" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Construcción incorrecta.</message>
                 <suggestion>\1 <match no="2" postag="VMM02V0.(PP.+)" postag_regexp="yes" postag_replace="VMN0000.$1"/></suggestion>
@@ -5477,7 +5502,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SPS00|LOC_PREP|SP\+DA" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/></token>
-                    <token postag="VMM02V0.PP.{6}.PP.{6}" postag_regexp="yes" regexp="yes">[\p{Ll}].+<exception negate_pos="yes" postag="VMM.*|SENT_END" postag_regexp="yes"/></token>
+                    <token postag="VMM02V0.PP.{6}.PP.{6}" postag_regexp="yes" regexp="yes">[\p{Ll}].+<exception negate_pos="yes" postag="VMM.*|_GV_|SENT_END" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Construcción incorrecta.</message>
                 <suggestion>\1 <match no="2" postag="VMM02V0.(PP.+).(PP.+)" postag_regexp="yes" postag_replace="VMN0000.$1.$2"/></suggestion>
@@ -5488,7 +5513,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">ir</token>
                     <marker>
                         <token>a<exception postag="_possible_NP"/></token>
-                        <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
+                        <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Construcción incorrecta.</message>
@@ -5499,18 +5524,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>a<exception postag="_possible_NP"/></token>
-                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Construcción incorrecta.</message>
                 <suggestion>la \2</suggestion>
                 <suggestion>\1 <match no="2" postag="V.[SI].*" postag_regexp="yes" postag_replace="V.N0000"/></suggestion>
                 <example correction="la podemos|a podar|a poder">Y <marker>a podemos</marker> hacer.</example>
+                <example correction="la he|a haber">Prestando dinero <marker>a he</marker> aprendido algo.</example>
                 <example>La letra a es la primera del alfabeto.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/></token>
-                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Construcción incorrecta.</message>
                 <suggestion>\1 <match no="2" postag="V.[SI].*" postag_regexp="yes" postag_replace="V.N0000"/></suggestion>
@@ -5524,7 +5550,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SPS00|SP\+DA|LOC_PREP" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/></token>
                     <token min="0" max="3" postag="DA.*|PP3..A.*|PP[123]C[SP]000|P0[123].*" postag_regexp="yes"/>
-                    <token postag="V.[MSI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
+                    <token postag="V.[MSI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Combinación imposible: preposición seguida de verbo conjugado.</message>
                 <example correction=""><marker>en informa</marker>.</example>
@@ -6408,7 +6434,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>expresando ambas positividad</example>
                 <example>Tanto mayores serán los beneficios.</example>
                 <example>el buen comportamiento de unos recompensa el mal comportamiento de otros</example>
-                <example>No he estudiado <marker>mucho física</marker>.</example>
+                <example correction="mucha física|muchas físicas" type="triggers_error" reason="ambiguous">No he estudiado <marker>mucho física</marker>.</example>
                 <example>Por todo América.</example>
                 <example>Mil quinientas cincuenta y una bombillas.</example>
                 <example>Me gusta mucho Mary.</example>
@@ -6436,6 +6462,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Un ajedrecista|Unos ajedrecistas|Una ajedrecista|Unas ajedrecistas"><marker>Un ajedrecistas</marker></example>
                 <example correction="Un recepcionista|Unos recepcionistas|Una recepcionista|Unas recepcionistas"><marker>Unos recepcionista</marker>.</example>
                 <example correction="Otro recepcionista|Otros recepcionistas|Otra recepcionista|Otras recepcionistas"><marker>Otras recepcionista</marker>.</example>
+                <example correction="mucho carioca|muchos cariocas|mucha carioca|muchas cariocas">En la memoria de <marker>mucho cariocas</marker>.</example>
                 <example>El salvavidas</example>
                 <example>Los salvavidas</example>
                 <example>El microondas y los microondas.</example>
@@ -6936,6 +6963,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>tan</token>
                 <token>rápido</token>
             </antipattern>
+            <antipattern>
+                <token postag="NP.*" postag_regexp="yes"/>
+                <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/> <exception regexp="yes">primero|juntos|juntas|dado|dada|dados|dadas|incluso</exception><exception regexp="yes">\p{Lu}.*</exception></token>
             </pattern>    
@@ -6953,6 +6985,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">en un restaurante <marker>lujosa</marker></example>
             <example correction="">en un restaurante solemnemente <marker>decorada</marker></example>
             <example correction="">¿Cuál es el más <marker>calurosa</marker> de todas las estaciones?</example>
+            <example correction="">con la bobina y la placa electrónica <marker>montados</marker> en una caja</example>
+            <example>con la bobina y la placa electrónica montadas en una caja única</example>
             <example>El contacto con la cultura y la historia japonesas.</example>
             <example>en un restaurante lujosa y solemnemente decorado</example>
             <example>Estas son las sillas blancas de las que te hablé.</example>
@@ -7011,6 +7045,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>¿Por qué hablas tan fuerte?</example>
             <example>¿Por qué hablas sola?</example>
             <example>y lo deja tuerto</example>
+            <example>lo terrestre era imperfecto</example>
+            <example>El chándal le parece a Silvia un poco caro.</example>
+            <example>Dado que resulta un poco más complejo.</example>
             <!-- 
                 Ella fue al concierto acompañada de una amiga.
                 Soy cualquier cosa menos mentiroso. 
@@ -7135,6 +7172,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Media docena son seis.</example>
                 <example>Un ejemplo son los que existen en el Panteón.</example>
                 <example>Esta obra son estampas del Antiguo Testamento.</example>
+                <example>Esta franja solo la tienen para la publicidad.</example>
             </rule>
             <rule>
                 <pattern>
