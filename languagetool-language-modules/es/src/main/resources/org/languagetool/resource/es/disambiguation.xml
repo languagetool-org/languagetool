@@ -1102,9 +1102,20 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="filter" postag="DA.*"/>
     </rule>
 
-    <!-- ADVERBS -->
+    <rule id="solo" name="solo (noun)">
+        <pattern>
+            <token postag="D..[MC]S." postag_regexp="yes"/>
+            <marker>
+                <token postag="NC.*" postag_regexp="yes">solo</token>
+            </marker>
+            <token regexp="yes">de|del</token>
+            <token postag="D.*" postag_regexp="yes" min="0"/>
+            <token postag="NC.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="N.*"/>
+    </rule>
 
-    <rulegroup id="DEMASIADO" name="demasiado">
+    <rulegroup id="ADVERBS" name="adverbios">
         <rule>
             <pattern>
                 <token>demasiado<exception scope="previous" regexp="yes">ha|has</exception></token>
@@ -1789,7 +1800,8 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <and>
-                    <token regexp="yes">ser|haber|ver|parecer|andar<exception postag="D..[MC]S." postag_regexp="yes" scope="previous"/></token>
+                    <!--ser|haber|ver|parecer|andar-->
+                    <token postag="V.N.*" postag_regexp="yes"><exception postag="D..[MC]S." postag_regexp="yes" scope="previous"/></token>
                     <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </pattern>
@@ -2739,7 +2751,7 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
 
-    
+
 
     <rule id="not_adj_no_agreement2" name="not adjective if no agreement">
         <pattern>
@@ -2770,37 +2782,66 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="remove" postag="V.[MSI].*"/>
     </rule>
 
-    <rule id="refleja_verb" name="refleja adj/verb">
-        <pattern>
-            <token><exception inflected="yes">ser</exception></token>
-            <marker>
-                <and>
-                    <token postag="A.*" postag_regexp="yes" regexp="yes">refleja|reflejas<exception postag="_GN_.*" postag_regexp="yes"/></token>
-                    <token postag="V.*" postag_regexp="yes"/>
-                </and>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="A.*"/>
-    </rule>
+    <rulegroup id="not_adj_special" name="not adjective (special cases)">
+        <rule>
+            <pattern>
+                <token><exception inflected="yes">ser</exception></token>
+                <marker>
+                    <and>
+                        <token postag="A.*" postag_regexp="yes" regexp="yes">refleja|reflejas<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token postag="V.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="A.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token><exception inflected="yes">estar</exception></token>
+                <marker>
+                    <and>
+                        <token postag="A.*" postag_regexp="yes" inflected="yes">falto<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
+                    </and>
+                </marker>
+                <token><exception regexp="yes">de|del</exception></token>
+            </pattern>
+            <disambig action="remove" postag="A.*"/>
+        </rule>
+    </rulegroup>
 
     <rule id="not_noun_no_agreement" name="not noun if no agreement">
         <pattern>
             <marker>
                 <and>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes">tantos?|resultas?|uso|usas?|cuestas?|hablas?|cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|queda|quedas<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">faltas?|tantos?|resultas?|uso|usas?|cuestas?|hablas?|cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|queda|quedas<exception postag="_GN_.*" postag_regexp="yes"
+                        /></token>
                     <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
         </pattern>
         <disambig action="remove" postag="N.*"/>
     </rule>
+    
+    <rule id="not_adj_but_verb0" name="not adjective but verb">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="A.*" postag_regexp="yes" regexp="yes">quedas?|quedo<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous"
+                        postag="V.[NMIS].*" postag_regexp="yes"/></token>
+                    <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="A.*"/>
+    </rule>
 
     <rule id="not_adj_but_verb" name="not adjective but verb">
         <pattern>
             <marker>
                 <and>
-                    <token postag="A.*" postag_regexp="yes" regexp="yes">faltas?|tardo|tardas?|cortas?|duro|dura|duras|cojo|coja|cojas|quedo|queda|quedas|despierto|despiertas?|paso|pasas|pasa<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[NMIS].*|RG_before"
-                        postag_regexp="yes"/></token>
+                    <token postag="A.*" postag_regexp="yes" regexp="yes">aceptas?|acepto|infectas?|faltas?|falto|precisas?|preciso|tardo|tardas?|cortas?|duro|dura|duras|cojo|coja|cojas|quedo|queda|quedas|despierto|despiertas?|paso|pasas|pasa<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous"
+                        postag="V.[NMIS].*|RG_before" postag_regexp="yes"/></token>
                     <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
@@ -2877,7 +2918,7 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filter" postag="V.[^P].*"/>
     </rule>-->
-    
+
     <rulegroup id="AdjNom" name="adj + nom">
         <rule>
             <pattern>
