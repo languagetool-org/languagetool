@@ -1130,6 +1130,12 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
+                <token>pronto<exception postag="_GN_MS"/></token>
+            </pattern>
+            <disambig action="filter" postag="RG.*"/>
+        </rule>
+        <rule>
+            <pattern>
                 <marker>
                     <token postag="RG" regexp="yes">demasiado|bastante|poco|tanto|mal|bien|muy</token>
                     <token postag="A.*|V.P.*" postag_regexp="yes"/>
@@ -2207,18 +2213,6 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="remove" postag="V.[^N].*"/>
     </rule>
 
-
-    <rule id="no_adj" name="no adjetivo">
-        <pattern>
-            <token><exception postag="NC[MC][SN].*" postag_regexp="yes"/></token>
-            <marker>
-                <token postag="RG">pronto</token>
-            </marker>
-            <token><exception postag="NC[MC][SN].*" postag_regexp="yes"/></token>
-        </pattern>
-        <disambig action="filter" postag="RG"/>
-    </rule>
-
     <rule id="modal_verb" name="modal verb">
         <pattern>
             <marker>
@@ -2840,7 +2834,7 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <marker>
                 <and>
-                    <token postag="A.*" postag_regexp="yes" regexp="yes">aceptas?|acepto|infectas?|faltas?|falto|precisas?|preciso|tardo|tardas?|cortas?|duro|dura|duras|cojo|coja|cojas|quedo|queda|quedas|despierto|despiertas?|paso|pasas|pasa<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous"
+                    <token postag="A.*" postag_regexp="yes" regexp="yes">custodias?|sanas?|aceptas?|acepto|infectas?|faltas?|falto|precisas?|preciso|tardo|tardas?|cortas?|duro|dura|duras|cojo|coja|cojas|quedo|queda|quedas|despierto|despiertas?|paso|pasas|pasa<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous"
                         postag="V.[NMIS].*|RG_before" postag_regexp="yes"/></token>
                     <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
@@ -3064,7 +3058,7 @@ Copyright (C) 2011 Juan Martorell
             <marker>
                 <and>
                     <token postag="A.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}+[\p{Ll}·]*</exception><exception regexp="yes">presentes?</exception></token>
-                    <token postag="V.*" postag_regexp="yes"><exception postag="_GV_|VMIP1S0|V.G.*|VMM.*" postag_regexp="yes"/><exception regexp="yes">viu|nous?|massissa|senzilla</exception></token>
+                    <token postag="V.*" postag_regexp="yes"><exception postag="_GV_|VM[IS]P1S0|V.G.*|VMM..V.*|V.+\+P.*" postag_regexp="yes"/><exception regexp="yes">viu|nous?|massissa|senzilla</exception></token>
                 </and>
             </marker>
         </pattern>
