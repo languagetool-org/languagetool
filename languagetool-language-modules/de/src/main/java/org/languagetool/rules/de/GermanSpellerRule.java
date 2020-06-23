@@ -141,6 +141,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("nacher", "nachher");
     put("jeztz", "jetzt");
     put("les", "lese");
+    put("wr", "wir");
+    put("be­zwei­fel", "bezweifle");
     put("[wW]ah?rscheindlichkeit", "Wahrscheinlichkeit");
     put("Hijab", "Hidschāb");
     put("[lL]eerequiment", "Leerequipment");
