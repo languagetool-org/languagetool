@@ -139,6 +139,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                      !k.getReplacement().endsWith(" HHH") && // unecessary suggestion (e.g. for "OHHHH")
                      !k.getReplacement().endsWith(" ally") && // adverbs ending in "ally" that LT doesn't know (yet)
                      !k.getReplacement().endsWith(" ize") && // "advertize"
+                     !k.getReplacement().endsWith(" en") && // "Antwerpen" suggests "Antwerp en"
                      !k.getReplacement().endsWith(" ed"))
         .collect(Collectors.toList());
       ruleMatch.setSuggestedReplacementObjects(cleaned);
@@ -606,6 +607,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("gove", Arrays.asList("love", "give", "gave", "move"));
     s.put("birdseye", Arrays.asList("bird's-eye"));
     s.put("Birdseye", Arrays.asList("Bird's-eye"));
+    s.put("al", Arrays.asList("all", "Al"));
+    s.put("publically", Arrays.asList("publicly"));
 
     return s;
   }
