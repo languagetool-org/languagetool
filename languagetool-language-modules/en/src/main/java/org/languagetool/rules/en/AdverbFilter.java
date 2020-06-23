@@ -216,6 +216,9 @@ public class AdverbFilter extends RuleFilter {
     put("strongly", "strong");
     put("purposely", "intentional");
     put("thoroughly", "thorough");
+    put("outwardly", "outward");
+    put("horizontally", "horizontal");
+    put("vertically", "vertical");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
