@@ -12518,6 +12518,19 @@ USA
             <message>The noun <suggestion>step<match no="2" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
             <example correction="stepson">She has a <marker>step son</marker> from his previous marriage.</example>
         </rule>
+        <rule id="NOTE_COMPOUNDS" name="key note (keynote)" default="temp_off">
+            <antipattern case_sensitive="yes"><!-- Currency and Bank Notes Act 1928 -->
+                <token>Bank</token>
+                <token>Notes</token>
+                <token>Act</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">foot|key|bank|head|fist</token>
+                <token regexp="yes">notes?</token>
+            </pattern>
+            <message>The noun <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
+            <example correction="keynotes">Steve Jobs' biggest strength was his unique appearance in Apple's <marker>key notes</marker>.</example>
+        </rule>
         <rule id="EYE_COMPOUNDS" name="eye brow/lash/lid/sight/sore (eyebrow/eyelash/eyelid/eyesight/eyesore)">
             <pattern>
                 <token>eye</token>
@@ -24236,7 +24249,6 @@ USA
             <url>https://www.lexico.com/definition/push-up</url>
             <example correction="push-up">She was wearing a <marker>push up</marker> bra.</example>
         </rule>
-
         <rulegroup id="IN_APP_HYPHEN" name="missing hyphen in 'in app'">
             <url>https://www.lexico.com/en/definition/in-app</url>
             <rule>
@@ -38517,6 +38529,17 @@ USA
             <url>https://en.wikipedia.org/wiki/Multi-factor_authentication</url>
             <example correction="2-factor">He enabled <marker>2 factor</marker> auth to protect his Facebook account.</example>
         </rule>
+        <rule id="MONEY_BACK_HYPHEN" name="missing hyphen in 'money back guarantee'" default="temp_off">
+            <pattern>
+                <token>money</token>
+                <token>back</token>
+                <token regexp="yes">guarantees?|polic(y|ies)|warrant(y|ies)|deals?|offers?</token>
+            </pattern>
+            <message>In this phrase "money-back" is an adjective and needs to be spelled with a hyphen.</message>
+            <suggestion>\1-\2 \3</suggestion>
+            <url>https://www.merriam-webster.com/dictionary/money-back</url>
+            <example correction="money-back guarantee">We offer a 14-day <marker>money back guarantee</marker>.</example>
+        </rule>
         <rule id="WEEK_LONG_HYPHEN" name="A week long (week-long) vacation">
             <pattern>
                 <token regexp="yes">an?|the|this|th[oe]se|my|y?our|their|his|her|s|of</token>
@@ -50273,7 +50296,7 @@ The accident victim died from her injuries.
                         </token>
                         <token>day</token>
                     </marker>
-                    <token regexp="yes">weeks?|deadline|shipping|penalty|pandemi[ac]|residency|calendar|window|diary|turnarounds?|deliver(y|ies)|event|seminar|cookies?|trade|diet|cruise|festival|school|weather|forecast|challenges?|warrant(y|ies)|guarantees?|getaways?|weekends?|course|conference|tour|adventure|training|off-?site|workout|travel|experience|rule|ticket|timeframe|trip|diary|lockdown|shutdown|periods?|intervals?</token>
+                    <token regexp="yes">weeks?|money-back|deadline|shipping|penalty|pandemi[ac]|residency|calendar|window|diary|turnarounds?|deliver(y|ies)|event|seminar|cookies?|trade|diet|cruise|festival|school|weather|forecast|challenges?|warrant(y|ies)|guarantees?|getaways?|weekends?|course|conference|tour|adventure|training|off-?site|workout|travel|experience|rule|ticket|timeframe|trip|diary|lockdown|shutdown|periods?|intervals?</token>
                 </pattern>
                 <message>When a number forms part of an adjectival compound, use a hyphen: <suggestion>\1-\2</suggestion></message>
                 <example correction="2-day">FedEx <marker>2 day</marker> delivery.</example>
@@ -50527,6 +50550,21 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rule id="AL_ALL" name="al vs. all" default="temp_off">
+            <antipattern>
+                <token>El</token>
+                <token>Al</token>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START" />
+                <marker>
+                    <token case_sensitive="yes">Al</token>
+                </marker>
+                <token regexp="yes">of|in|from|at|my|his|her|their|y?our|the</token>
+            </pattern>
+            <message>Did you mean <suggestion>All</suggestion>?</message>
+            <example correction="All"><marker>Al</marker> of my friends are happy.</example>
+        </rule>
         <rule id="MATER_MATTER" name="mater vs matter" default="temp_off">
             <pattern>
                 <token inflected="yes" regexp="yes">do|will|can|shall</token>
@@ -61309,6 +61347,26 @@ The accident victim died from her injuries.
                 <suggestion><match no="1" regexp_match="(?i)rowdy\-sheeter" regexp_replace="lawbreaker" case_conversion="alllower" /></suggestion>
                 <example correction="criminal|lawbreaker">He is a <marker>rowdy-sheeter</marker> because he has stolen.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>annexure</token>
+                </pattern>
+                <message>This is expression is chiefly Indian English. Consider an alternative that is more suited for an international audience.</message>
+                <suggestion>appendix</suggestion>
+                <suggestion>supplement</suggestion>
+                <url>https://www.lexico.com/definition/annexure</url>
+                <example correction="appendix|supplement">The <marker>annexure</marker> of the technical proposal.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>annexures</token>
+                </pattern>
+                <message>This is expression is chiefly Indian English. Consider an alternative that is more suited for an international audience.</message>
+                <suggestion>appendixes</suggestion>
+                <suggestion>supplements</suggestion>
+                <url>https://www.lexico.com/definition/annexure</url>
+                <example correction="appendixes|supplements">The <marker>annexures</marker> of the technical proposal.</example>
+            </rule>
             <!-- <rule>
                 <pattern>
                     <token regexp="yes">sub-inspectors?</token>
@@ -62311,6 +62369,24 @@ The accident victim died from her injuries.
                 <message>The operating system from Apple is called <suggestion><match no="1" case_conversion="startlower" regexp_match="(?i)macos" regexp_replace="macOS" /></suggestion>.</message>
                 <url>https://en.wikipedia.org/wiki/MacOS</url>
                 <example correction="macOS">Do you prefer Windows or <marker>MacOS</marker>?</example>
+                <example>MacOS updates were failing.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern case_sensitive="yes">
+                    <token postag="SENT_START" />
+                    <token>WatchOS</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">watchOS|WATCHOS</token>
+                </antipattern>
+                <pattern>
+                    <token>
+                        WatchOS
+                    </token>
+                </pattern>
+                <message>The operating system from Apple is called <suggestion><match no="1" case_conversion="startlower" regexp_match="(?i)watchos" regexp_replace="watchOS" /></suggestion>.</message>
+                <url>https://en.wikipedia.org/wiki/WatchOS</url>
+                <example correction="watchOS">His Apple Watch is running the latest version of <marker>WatchOS</marker>.</example>
                 <example>MacOS updates were failing.</example>
             </rule>
             <rule>
