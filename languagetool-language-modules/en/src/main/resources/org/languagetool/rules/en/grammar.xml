@@ -6720,15 +6720,6 @@ USA
             <example correction="however">We knew, <marker>how ever</marker>, that he would come around.</example>
             <example>However, this was strictly unnecessary.</example>
         </rule>
-        <!-- key note::word=keynote -->
-        <rule id="KEY_NOTE" name="key note (keynote)">
-            <pattern>
-                <token>key</token>
-                <token>note</token>
-            </pattern>
-            <message>Did you mean <suggestion>keynote</suggestion>?</message>
-            <example correction="keynote">The <marker>key note</marker> speaker was Bill Gates.</example>
-        </rule>
         <!-- laughing stock::word=laughingstock -->
         <rule id="LAUGHING_STOCK" name="laughing stock (laughingstock)">
             <pattern>
@@ -12518,7 +12509,27 @@ USA
             <message>The noun <suggestion>step<match no="2" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
             <example correction="stepson">She has a <marker>step son</marker> from his previous marriage.</example>
         </rule>
-        <rule id="NOTE_COMPOUNDS" name="key note (keynote)" default="temp_off">
+        <rule id="LONG_COMPOUNDS" name="life long">
+            <antipattern>
+                <token skip="2" regexp="yes">whole|entire</token>
+                <token>life</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>life</token>
+                    <token>long</token>
+                </marker>
+                <token postag="JJ|NN.*" postag_regexp="yes">
+                    <exception postag="VBD" />
+                </token>
+            </pattern>
+            <message>The adjective <suggestion>lifelong</suggestion> is spelled as one word.</message>
+            <url>https://www.merriam-webster.com/dictionary/lifelong</url>
+            <example correction="lifelong">They had a <marker>life long</marker> relationship.</example>
+            <example>While scholars of Kant's life long accepted the claim, there is no evidence that Kant's paternal line was Scottish.</example>
+            <example>In all, the positive view of Soviet life long presented to the public by the official media was rapidly fading.</example>
+        </rule>
+        <rule id="NOTE_COMPOUNDS" name="key note (keynote)">
             <antipattern case_sensitive="yes"><!-- Currency and Bank Notes Act 1928 -->
                 <token>Bank</token>
                 <token>Notes</token>
@@ -12634,14 +12645,14 @@ USA
                 <example>Dr. Hellofs has excellent teaching ratings, and I'm pleased to have her on board.</example>
                 <example>Give it to her on stage #5</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token skip="3">line</token>
                     <token postag="CD" />
                 </antipattern>
                 <antipattern>
-                    <token>line</token>
-                    <token regexp="yes">X|Y</token>
+                    <token skip="1">line</token>
+                    <token regexp="yes">X|Y|Z</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">on|off</token>
@@ -12657,12 +12668,17 @@ USA
                 <token>Head</token>
                 <token>Hunters</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">shots?</token>
+                <token>up</token>
+            </antipattern>
             <pattern>
                 <token>head</token>
                 <token regexp="yes">spaces?|shots?|shrinkers?|hunters?|quarters?|masters?|boards?|gear|wear|ships?|winds?|bands?|rooms?|set|lands?|stones?</token>
             </pattern>
             <message>The word <suggestion>head<match no="2" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
             <example correction="headlands">These represent the <marker>head lands</marker> separating bundles of strips within the open fields</example>
+            <example>My head shot up at the sound of the front door creaking open.</example>
         </rule>
         <rule id="MATE_COMPOUNDS" name="stale mate (stalemate)">
             <pattern>
@@ -13498,7 +13514,7 @@ USA
                 <url>https://www.lexico.com/definition/halfway</url>
                 <example correction="halfway">We've reached the <marker>half way</marker> point of the season.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>side</token>
                     <token>ways</token>
@@ -13969,8 +13985,8 @@ USA
                 <pattern>
                     <token>over</token>
                     <token inflected="yes" regexp="yes">
-                        complicate|think|come|estimate|haul|flow|kill|look|whelm|reach|see|view|wear|rate|take|size|sizing|sized|react|power|load
-                        <exception regexp="yes">power|load</exception>
+                        complicate|think|come|estimate|haul|flow|kill|look|whelm|reach|see|view|wear|rate|take|size|react|power|load|price|hear
+                        <exception regexp="yes">power|load|price</exception>
                         <exception postag="VBG" /><!-- see [3] -->
                     </token>
                 </pattern>
@@ -14009,7 +14025,7 @@ USA
                     <token postag="RB" min="0" max="2" />
                     <marker>
                         <token>over</token>
-                        <token regexp="yes">complicating|thinking|coming|estimating|hauling|flowing|killing|looking|whelming|reaching|seeing|viewing|wearing|reporting|rating</token>
+                        <token regexp="yes">complicating|thinking|coming|estimating|hauling|flowing|killing|looking|whelming|reaching|seeing|viewing|wearing|reporting|rating|taking|sizing|reacting|powering|loading|pricing|hearing</token>
                     </marker>
                 </pattern>
                 <message>This is normally spelled as one word.</message>
@@ -23159,7 +23175,7 @@ USA
                 </antipattern>
                 <pattern>
                     <token>microsoft</token>
-                    <token regexp="yes">word|excel|outlook|office|edge|azure|inc|surface|windows|hotmail|lumia|bing|solitaire|editor|teams|defender</token>
+                    <token regexp="yes">word|excel|outlook|office|edge|azure|inc|surface|windows|hotmail|lumia|bing|solitaire|editor|teams|defender|dynamics</token>
                 </pattern>
                 <message>Did you mean the proper noun <suggestion>Microsoft <match no="2" case_conversion="startupper" /></suggestion> (= Microsoft product)?</message>
                 <example correction="Microsoft Word"><marker>Microsoft word</marker> is a word processor.</example>
@@ -23208,7 +23224,7 @@ USA
                 <suggestion>Windows \2 <match no="3" case_conversion="startupper" /></suggestion>
                 <example correction="Windows 8 Home">I was using <marker>windows 8 home</marker> edition.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes">the|an?|my|his|her|y?our</token>
                     <token>one</token>
@@ -23226,7 +23242,7 @@ USA
                 <message>Did you mean <suggestion>Word</suggestion> (= computer program, capitalized)?</message>
                 <example correction="Word">Have you seen my <marker>word</marker> document?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token case_sensitive="yes">outlook</token>
@@ -24237,7 +24253,7 @@ USA
             <suggestion>\1-\2 \3</suggestion>
             <example correction="one-night stand">Tom and Mary had a <marker>one night stand</marker>.</example>
         </rule>
-        <rule id="PUSH_UP_HYPHEN" name="missing hyphen in 'push up bra'" default="temp_off">
+        <rule id="PUSH_UP_HYPHEN" name="missing hyphen in 'push up bra'">
             <pattern>
                 <marker>
                     <token>push</token>
@@ -25098,6 +25114,14 @@ USA
                 <token>her</token>
                 <token>go</token>
             </antipattern>
+            <antipattern>
+                <token>on</token>
+                <token>the</token>
+                <token>go</token>
+                <token>to</token>
+                <token>market</token>
+                <token postag="PRP.*|DT" postag_regexp="yes" />
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">an?|the|his|her|its|my|y?our|their|s</token>
@@ -25113,6 +25137,7 @@ USA
                 <example correction="go-to-market">My <marker>go to market</marker> plan is ready.</example>
                 <example>Let's go to market.</example>
                 <example>I'll make her go to market.</example>
+                <example>I'm on the go to market his new tool.</example>
             </rule>
             <rule>
                 <pattern>
@@ -38529,7 +38554,7 @@ USA
             <url>https://en.wikipedia.org/wiki/Multi-factor_authentication</url>
             <example correction="2-factor">He enabled <marker>2 factor</marker> auth to protect his Facebook account.</example>
         </rule>
-        <rule id="MONEY_BACK_HYPHEN" name="missing hyphen in 'money back guarantee'" default="temp_off">
+        <rule id="MONEY_BACK_HYPHEN" name="missing hyphen in 'money back guarantee'"><!-- needs higher prio than A_UNCOUNTABLE -->
             <pattern>
                 <token>money</token>
                 <token>back</token>
@@ -38651,6 +38676,7 @@ USA
                     <token regexp="yes">[1-8]|one|two|three|four|five|six|seven|eight</token>
                     <token regexp="yes">bed|(bed|bath)?room|bath</token>
                 </marker>
+                <token min="0">dormer</token>
                 <token regexp="yes">apartments?|tents?|bungalows?|flats?|flexis?|houses?|condos?|cabins?|villas?|hotel|suites?|schoolhouse|rental|accommodations?|cottages?|basement|mansions?</token>
             </pattern>
             <message>It appears that a hyphen is missing.</message>
@@ -38771,13 +38797,18 @@ USA
             <example correction="two-year">The <marker>two year</marker> cycle.</example>
         </rule>
         <rule id="FIGURE_HYPHEN" name="missing hyphen in '7 figure salary'">
+            <antipattern>
+                <token>more</token>
+                <token regexp="yes">th[ea]n</token>
+                <token>one</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="CD" />
                     <token>figure</token>
                 </marker>
                 <token postag="JJ.*" postag_regexp="yes" min="0" />
-                <token regexp="yes">salar(ies|y)|jobs?|business|revenues?|sum|developer|compensation|income|earner|number|profits?</token>
+                <token regexp="yes">salar(ies|y)|jobs?|business|revenues?|sum|developer|compensation|income|earner|number|profits?|deals?</token>
             </pattern>
             <message>It seems that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
@@ -38815,7 +38846,7 @@ USA
                     <token>degree</token>
                 </marker>
                 <token postag="JJ.*" postag_regexp="yes" min="0" />
-                <token regexp="yes">angle|rotation|photos?|panoramas?|cameras?|circles?|marketing|evaluation|videos?|assessments?|appraisals?|system|feedback|turn|elbow|surface|drill|corners?|tilt</token>
+                <token regexp="yes">angle|rotation|photos?|panoramas?|cameras?|circles?|marketing|evaluation|videos?|assessments?|appraisals?|system|feedback|turn|elbow|surface|drill|corners?|tilt|ovens?</token>
             </pattern>
             <message>It seems that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
@@ -38929,7 +38960,7 @@ USA
                     <token>inch</token>
                 </marker>
                 <token min="0" />
-                <token regexp="yes">monitors?|screens?|macbooks?|nails?|guns?|holes?|ipads?|drives?|tablets?|systems?|satellite|galaxy|laptops?|tvs?|projectors?|softballs?|tires?|bikes?|bicycles?|bmx|dishwashers?|rims?|wheels?|dell|samsung|hd|floppy|disks?|binders?|mac|heels|cakes?|subway|grinders?|cables?|records?|tft|led|howitzer|table</token>
+                <token regexp="yes">monitors?|waists?|screens?|macbooks?|nails?|guns?|holes?|ipads?|drives?|tablets?|systems?|satellite|galaxy|laptops?|tvs?|projectors?|softballs?|tires?|bikes?|bicycles?|bmx|dishwashers?|rims?|wheels?|dell|samsung|hd|floppy|disks?|binders?|mac|heels|cakes?|subway|grinders?|cables?|records?|tft|led|howitzer|table</token>
             </pattern>
             <message>It appears that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
@@ -38983,9 +39014,9 @@ USA
                         <token regexp="yes">\d+</token>
                         <token spacebefore="no">,</token>
                         <token spacebefore="no" regexp="yes">\d+</token>
-                        <token regexp="yes">word|character|paragraph</token>
+                        <token regexp="yes">word|character|paragraph|column</token>
                     </marker>
-                    <token regexp="yes">limit|google|articles?|letters?|blog|thesis|doc(umentation)?|text|document|essays?|story|paragraphs?|poems?|abstract|papers?|sentences?|tweets|cv|message|description|memoir|biography|summary|vocabulary|manuscripts?</token>
+                    <token regexp="yes">limit|google|articles?|dissertations?|letters?|blog|thesis|doc(umentation)?|text|document|essays?|story|paragraphs?|page|poems?|abstract|papers?|sentences?|tweets|cv|message|description|memoir|biography|summary|vocabulary|manuscripts?</token>
                 </pattern>
                 <message>It appears that a hyphen is missing.</message>
                 <suggestion>\1\2\3-\4</suggestion>
@@ -39211,7 +39242,7 @@ USA
                 <token regexp="yes">ten|10</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">page?|pg|clause|stage</token>
+                <token regexp="yes">page?|pg|clause|stage|phase|paper</token>
                 <token regexp="yes">\d+</token>
             </antipattern>
             <antipattern>
@@ -39332,6 +39363,11 @@ USA
                 <token>and</token>
                 <token postag="VB"/>
                 <token postag="IN"/>
+            </antipattern>
+            <antipattern>
+                <token postag="CD" />
+                <token>acre</token>
+                <token regexp="yes">park|field|garden|backyard</token>
             </antipattern>
             <antipattern><!-- 400 grad = 4 right angles. www.merriam-webster.com/dictionary/grad -->
                 <token postag="CD" regexp="yes">[0-9]+</token>
@@ -39712,6 +39748,14 @@ USA
                 <token regexp="yes">one|two|three|four|five|six|seven|eight|nine|ten|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety</token><!-- DT_JJ_NN correctly removes CD. Thus, this token is necessary. -->
                 <token>is</token>
             </antipattern>
+            <antipattern>
+                <token>at</token>
+                <token>the</token>
+                <token>age</token>
+                <token>of</token>
+                <token postag="CD" />
+                <token chunk="E-NP-singular"><exception regexp="yes">year|month|day</exception></token>
+            </antipattern>
             <pattern>
                 <token postag="CD">
                     <exception scope="previous" spacebefore="no" regexp="yes">[^,]</exception>
@@ -39726,7 +39770,7 @@ USA
                     <exception scope="previous" regexp="yes">×|x</exception>
                 </token>
                 <token chunk="I-NP-singular" min="0" max="-1">
-                    <exception regexp="yes">Pound|Dollar|RUB|percent|min(ute)?|megapixel|mp|oz|bit|foot|[kcm]ms?|BC|CE|[KMGk]B|^[^a-zA-Z]+|cc|am|pm|mi|ft|mg|kg|lb|mpg|°C|(milli)?watt|ml|sec|yo|yr|year-old</exception>
+                    <exception regexp="yes">Pound|Dollar|RUB|percent|min(ute)?|megapixel|mp|oz|bit|foot|[kcm]ms?|BC|CE|[KMGk]B|^[^a-zA-Z]+|cc|am|pm|mi|ft|mg|kg|lb|mpg|°C|(milli|kilo)?watt|kW|ml|sec|yo|yr|year-old</exception>
                     <exception regexp="yes">one|thou|zero|1</exception>
                     <exception regexp="yes">[,;()×]</exception>
                     <exception postag="MD|PRP\$|UNKNOWN" postag_regexp="yes" />
@@ -50550,7 +50594,7 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
-        <rule id="AL_ALL" name="al vs. all" default="temp_off">
+        <rule id="AL_ALL" name="al vs. all">
             <antipattern>
                 <token>El</token>
                 <token>Al</token>
@@ -50565,7 +50609,7 @@ The accident victim died from her injuries.
             <message>Did you mean <suggestion>All</suggestion>?</message>
             <example correction="All"><marker>Al</marker> of my friends are happy.</example>
         </rule>
-        <rule id="MATER_MATTER" name="mater vs matter" default="temp_off">
+        <rule id="MATER_MATTER" name="mater vs matter">
             <pattern>
                 <token inflected="yes" regexp="yes">do|will|can|shall</token>
                 <token min="0" regexp="yes">&apostrophe;</token>
@@ -53166,6 +53210,11 @@ The accident victim died from her injuries.
         </rulegroup>
         <rulegroup id="COMA_COMMA" name="coma / comma">
             <rule>
+                <antipattern>
+                    <token>coma</token>
+                    <token skip="4">after</token>
+                    <token regexp="yes">years?|months?|weeks?|days?|hours?|time</token>
+                </antipattern>
                 <pattern>
                     <marker><token>coma</token></marker>
                     <token regexp="yes">after|be(fore|tween)|missing|missed</token>
@@ -53173,6 +53222,7 @@ The accident victim died from her injuries.
                 <message>Did you mean <suggestion>comma</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="comma">Please put a <marker>coma</marker> between the two main clauses.</example>
+                <example>He woke up from a coma after 10 years.</example>
             </rule>
             <rule>
                 <pattern>
@@ -61347,25 +61397,27 @@ The accident victim died from her injuries.
                 <suggestion><match no="1" regexp_match="(?i)rowdy\-sheeter" regexp_replace="lawbreaker" case_conversion="alllower" /></suggestion>
                 <example correction="criminal|lawbreaker">He is a <marker>rowdy-sheeter</marker> because he has stolen.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>annexure</token>
                 </pattern>
                 <message>This word is chiefly Indian English. Consider an alternative that is more suited for an international audience.</message>
                 <suggestion>appendix</suggestion>
+                <suggestion>attachment</suggestion>
                 <suggestion>supplement</suggestion>
                 <url>https://www.lexico.com/definition/annexure</url>
-                <example correction="appendix|supplement">The <marker>annexure</marker> of the technical proposal.</example>
+                <example correction="appendix|attachment|supplement">The <marker>annexure</marker> of the technical proposal.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>annexures</token>
                 </pattern>
                 <message>This word is chiefly Indian English. Consider an alternative that is more suited for an international audience.</message>
                 <suggestion>appendixes</suggestion>
+                <suggestion>attachments</suggestion>
                 <suggestion>supplements</suggestion>
                 <url>https://www.lexico.com/definition/annexure</url>
-                <example correction="appendixes|supplements">The <marker>annexures</marker> of the technical proposal.</example>
+                <example correction="appendixes|attachments|supplements">The <marker>annexures</marker> of the technical proposal.</example>
             </rule>
             <!-- <rule>
                 <pattern>
@@ -62371,7 +62423,7 @@ The accident victim died from her injuries.
                 <example correction="macOS">Do you prefer Windows or <marker>MacOS</marker>?</example>
                 <example>MacOS updates were failing.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern case_sensitive="yes">
                     <token postag="SENT_START" />
                     <token>WatchOS</token>
