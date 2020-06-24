@@ -368,19 +368,16 @@ public class UpperCaseNgramRule extends Rule {
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("This <marker>Prototype</marker> was developed by Miller et al."),
                    Example.fixed("This <marker>prototype</marker> was developed by Miller et al."));
-    if (userConfig != null) {
-      if (linguServices == null) {
-        linguServices = userConfig.getLinguServices();
-        initTrie();
-      }
-    } else {
-      if (spellerRule == null) {
-        initTrie();
-        try {
-          spellerRule = new MorfologikAmericanSpellerRule(messages, lang);
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
+    if (userConfig != null && linguServices == null) {
+      linguServices = userConfig.getLinguServices();
+      initTrie();
+    }
+    if (spellerRule == null) {
+      initTrie();
+      try {
+        spellerRule = new MorfologikAmericanSpellerRule(messages, lang);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
       }
     }
   }
