@@ -6177,6 +6177,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="si no">¿Qué podía hacer <marker>sino</marker> quería resignarme?</example>
                 <example>No es así, sino de otra manera.</example>
                 <example>No hace un siglo, sino hace escasamente dos meses.</example>
+                <example>No implica contacto sino falta de cooperación.</example>
             </rule>
             <rule>
                 <pattern>
@@ -6938,6 +6939,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>que</token>
             </antipattern>
             <antipattern>
+                <token regexp="yes">.*%</token>
+                <token regexp="yes">más|menos</token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token postag="RG|LOC_ADV|NP..G.*" postag_regexp="yes"/>
                 <token>mismo</token>
             </antipattern>
@@ -7103,6 +7109,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>El chándal le parece a Silvia un poco caro.</example>
             <example>Dado que resulta un poco más complejo.</example>
             <example>Se dice que el alcalde acepta sobornos.</example>
+            <example>Es un 58% más dura.</example>
+            <example>Son un 58% más duras.</example>
+            <example>El hechizo sólo dura hasta medianoche.</example>
+            <example>El hechizo solo dura hasta medianoche.</example>
             <!-- 
                 Ella fue al concierto acompañada de una amiga.
                 Soy cualquier cosa menos mentiroso. 
@@ -7114,6 +7124,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 A menos que tomes una decisión rápido,
                 Escribí la composición apurado,
                 Mis parlantes son un juguete comparados con los tuyos.
+                 producidos por la aceleración y desaceleración lineal y angular repetitivas.
                 -->
         </rule>
     </category>

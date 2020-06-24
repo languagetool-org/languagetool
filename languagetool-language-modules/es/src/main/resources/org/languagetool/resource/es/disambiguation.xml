@@ -1102,18 +1102,30 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="filter" postag="DA.*"/>
     </rule>
 
-    <rule id="solo" name="solo (noun)">
-        <pattern>
-            <token postag="D..[MC]S." postag_regexp="yes"/>
-            <marker>
-                <token postag="NC.*" postag_regexp="yes">solo</token>
-            </marker>
-            <token regexp="yes">de|del</token>
-            <token postag="D.*" postag_regexp="yes" min="0"/>
-            <token postag="NC.*" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="filter" postag="N.*"/>
-    </rule>
+    <rulegroup id="solo" name="solo (noun)">
+        <rule>
+            <pattern>
+                <token postag="D..[MC]S." postag_regexp="yes"/>
+                <marker>
+                    <token postag="NC.*" postag_regexp="yes">solo</token>
+                </marker>
+                <token regexp="yes">de|del</token>
+                <token postag="D.*" postag_regexp="yes" min="0"/>
+                <token postag="NC.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D..[MC]S." postag_regexp="yes"/>
+                <marker>
+                    <token postag="NC.*" postag_regexp="yes" skip="5">solo</token>
+                </marker>
+                <token regexp="yes">tuttis?</token>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+    </rulegroup>
 
     <rulegroup id="ADVERBS" name="adverbios">
         <rule>
@@ -1126,7 +1138,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <token>además</token>
             </pattern>
-            <disambig action="filter" postag="RG"/>
+            <disambig action="filter" postag="RG.*"/>
         </rule>
         <rule>
             <pattern>
@@ -1156,7 +1168,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <token regexp="yes">temprano|incluso|solo<exception postag="_GN_MS"/></token>
             </pattern>
-            <disambig action="filter" postag="RG"/>
+            <disambig action="filter" postag="RG.*"/>
         </rule>
     </rulegroup>
 
@@ -1993,6 +2005,24 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="filter" postag="NC.*"/>
         </rule>
     </rulegroup>
+    <rule id="verbnoun_sentstart" name="verb/noun at sent start">
+        <!-- Copa del mundo, formas de vida... Y objetos de valor -->
+        <antipattern>
+            <token>de</token>
+            <token>que</token>
+        </antipattern>
+        <pattern>
+            <token postag="SENT_START|CC|_PUNCT.*" postag_regexp="yes"/>
+            <marker>
+                <and>
+                    <token postag="V.[IS].*" postag_regexp="yes"/>
+                    <token postag="NC.*" postag_regexp="yes"/>
+                </and>
+            </marker>
+            <token inflected="yes" regexp="yes">de|entre</token>
+        </pattern>
+        <disambig action="remove" postag="V.[ISM].*"/>
+    </rule>
     <rulegroup id="la_planta" name="la planta (noun), exeption to next rule">
         <rule>
             <pattern>
@@ -2550,7 +2580,16 @@ Copyright (C) 2011 Juan Martorell
                     <token postag="SPS00">bajo<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </marker>
                 <token postag="D.*" postag_regexp="yes"/>
-                <token postag="[DAN].*" postag_regexp="yes"/>
+                <token postag="[DAN].*|PR.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="SPS00"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="SPS00">bajo<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                </marker>
+                <token regexp="yes">poder|dominio|dirección|presidencia</token>
             </pattern>
             <disambig action="filter" postag="SPS00"/>
         </rule>
@@ -2816,13 +2855,12 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="remove" postag="N.*"/>
     </rule>
-    
+
     <rule id="not_adj_but_verb0" name="not adjective but verb">
         <pattern>
             <marker>
                 <and>
-                    <token postag="A.*" postag_regexp="yes" regexp="yes">quedas?|quedo<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous"
-                        postag="V.[NMIS].*" postag_regexp="yes"/></token>
+                    <token postag="A.*" postag_regexp="yes" regexp="yes">quedas?|quedo|duras?|duro<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[NMIS].*" postag_regexp="yes"/></token>
                     <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
@@ -2834,8 +2872,8 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <marker>
                 <and>
-                    <token postag="A.*" postag_regexp="yes" regexp="yes">custodias?|sanas?|aceptas?|acepto|infectas?|faltas?|falto|precisas?|preciso|tardo|tardas?|cortas?|duro|dura|duras|cojo|coja|cojas|quedo|queda|quedas|despierto|despiertas?|paso|pasas|pasa<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous"
-                        postag="V.[NMIS].*|RG_before" postag_regexp="yes"/></token>
+                    <token postag="A.*" postag_regexp="yes" regexp="yes">custodias?|sanas?|aceptas?|acepto|infectas?|faltas?|falto|precisas?|preciso|tardo|tardas?|cortas?|cojo|coja|cojas|quedo|queda|quedas|despierto|despiertas?|paso|pasas|pasa<exception postag="_GN_.*" postag_regexp="yes"
+                        /><exception scope="previous" postag="V.[NMIS].*|RG_before" postag_regexp="yes"/></token>
                     <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
