@@ -144,12 +144,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token postag="SENT_START" />
                 <token regexp="yes" min="0">\p{P}|\></token>
-                <token>Gesetzt</token>
+                <token regexp="yes">Gesetzt|Muttert</token>
             </antipattern>
             <pattern>
-                <token case_sensitive="yes">Gesetzt</token>
+                <token case_sensitive="yes" regexp="yes">Gesetzt|Muttert</token>
             </pattern>
-            <message>Meinten Sie das Nomen <suggestion>Gesetz</suggestion>?</message>
+            <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="t$" regexp_replace="" /></suggestion>?</message>
             <example correction="Gesetz">Er wurde beschuldigt, das <marker>Gesetzt</marker> gebrochen zu haben.</example>
             <example>- Gesetzt wird damit:</example>
         </rule>

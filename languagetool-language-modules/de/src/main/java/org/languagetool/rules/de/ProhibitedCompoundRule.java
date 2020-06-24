@@ -175,7 +175,19 @@ public class ProhibitedCompoundRule extends Rule {
           "Reitsachen",
           "Mehrfachabrechnung",
           "Stuhlrolle",
-          "Stuhlrollen"
+          "Stuhlrollen",
+          "neugestartet",
+          "Vertragskonto",
+          "Männerding",
+          "Restwoche",
+          "Startpakete", // vs Rakete
+          "Startpaketen", // vs Rakete
+          "Suchintention", // vs Sach
+          "Wettglück", // vs Welt
+          "Wettprogramm", // vs Welt
+          "Wettprogramme", // vs Welt
+          "Zählerwechsel",
+          "Zählerwechsels"
   ));
 
   // have per-class static list of these and reference that in instance

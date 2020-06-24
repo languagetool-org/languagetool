@@ -179,7 +179,7 @@ public class CaseRule extends Rule {
     ),
     // names with english adjectives
     Arrays.asList(
-      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern|Responsive|Simple|Legend|Human"),
+      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern|Responsive|Simple|Legend|Human|Light"),
       pos("UNKNOWN")
     ),
     Arrays.asList(
@@ -202,7 +202,7 @@ public class CaseRule extends Rule {
     // names with english adjectives
     Arrays.asList(
       pos("UNKNOWN"),
-      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern|Responsive|Simple|Legend|Human")
+      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern|Responsive|Simple|Legend|Human|Light")
     ),
     // names with english adjectives
     Arrays.asList(
