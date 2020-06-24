@@ -22,6 +22,8 @@ import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.LinguServices;
+import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ngrams.Probability;
@@ -46,6 +48,7 @@ public class UpperCaseNgramRule extends Rule {
 
   public static final int THRESHOLD = 50;
   private static MorfologikAmericanSpellerRule spellerRule;
+  private static LinguServices linguServices = null;
   private static Set<String> exceptions = new HashSet<>(Arrays.asList(
     "Bin", "Spot",  // names
     "Go",           // common usage, as in "Go/No Go decision"
@@ -353,7 +356,7 @@ public class UpperCaseNgramRule extends Rule {
   private final Language lang;
   private final LanguageModel lm;
 
-  public UpperCaseNgramRule(ResourceBundle messages, LanguageModel lm, Language lang) {
+  public UpperCaseNgramRule(ResourceBundle messages, LanguageModel lm, Language lang, UserConfig userConfig) {
     super(messages);
     super.setCategory(Categories.CASING.getCategory(messages));
     this.lm = lm;
@@ -361,12 +364,19 @@ public class UpperCaseNgramRule extends Rule {
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("This <marker>Prototype</marker> was developed by Miller et al."),
                    Example.fixed("This <marker>prototype</marker> was developed by Miller et al."));
-    if (spellerRule == null) {
-      initTrie();
-      try {
-        spellerRule = new MorfologikAmericanSpellerRule(messages, lang);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
+    if (userConfig != null) {
+      if (linguServices == null) {
+        linguServices = userConfig.getLinguServices();
+        initTrie();
+      }
+    } else {
+      if (spellerRule == null) {
+        initTrie();
+        try {
+          spellerRule = new MorfologikAmericanSpellerRule(messages, lang);
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
       }
     }
   }
@@ -430,7 +440,7 @@ public class UpperCaseNgramRule extends Rule {
           && !nextIsOneOfThenUppercase(tokens, i, Arrays.asList("of"))
           && !tokenStr.matches("I")
           && !exceptions.contains(tokenStr)
-          && !spellerRule.isMisspelled(StringTools.lowercaseFirstChar(tokenStr))    // e.g. "German" is correct, "german" isn't
+          && !isMisspelled(StringTools.lowercaseFirstChar(tokenStr))    // e.g. "German" is correct, "german" isn't
           && !trieMatches(sentence.getText(), token)
           && !maybeTitle(tokens, i)
       ) {
@@ -454,6 +464,10 @@ public class UpperCaseNgramRule extends Rule {
       }
     }
     return toRuleMatchArray(matches);
+  }
+  
+  boolean isMisspelled(String word) throws IOException {
+    return (linguServices == null ? spellerRule.isMisspelled(word) : !linguServices.isCorrectSpell(word, lang));
   }
 
   // a very rough guess whether the word at the given position might be part of a title

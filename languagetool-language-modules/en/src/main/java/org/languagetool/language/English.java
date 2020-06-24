@@ -203,7 +203,7 @@ public class English extends Language implements AutoCloseable {
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
     return Arrays.asList(
-        new UpperCaseNgramRule(messages, languageModel, this),
+        new UpperCaseNgramRule(messages, languageModel, this, userConfig),
         new EnglishConfusionProbabilityRule(messages, languageModel, this),
         new EnglishNgramProbabilityRule(messages, languageModel, this)
     );
