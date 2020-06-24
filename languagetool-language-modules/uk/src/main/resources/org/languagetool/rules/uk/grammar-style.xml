@@ -1731,6 +1731,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <suggestion><match no="1" postag_regexp="yes" postag="(verb.*):short(.*)" postag_replace="$1$2"/></suggestion>
       <example correction="співає">Він <marker>співа</marker>.</example>
       <example correction="співати">давай <marker>співать</marker>.</example>
+      <example correction="спадає">і він <marker>спада</marker></example>
       <example>він дає.</example>
       <example>й бува.</example>
       <example>Ігоря Поклада</example>
@@ -1793,7 +1794,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </antipattern>
       <pattern>
         <token postag_regexp="yes" postag=".*:arch.*">
-          <exception negate_pos="yes" postag_regexp="yes" postag=".*:arch.*"/>
+          <exception negate_pos="yes" postag_regexp="yes" postag=".*:arch.*|.*_END"/>
         </token>
       </pattern>
       <message>Це слово є застарілим, архаїчним або діалектним.</message>
@@ -1807,11 +1808,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="vulgar" name="Вульгаризми">
       <pattern>
         <token postag_regexp="yes" postag=".*:vulg.*">
-          <exception negate_pos="yes" postag_regexp="yes" postag=".*:vulg.*"/>
+          <exception negate_pos="yes" postag_regexp="yes" postag=".*:vulg.*|.*_END"/>
         </token>
       </pattern>
       <message>Це слово є вульгарним.</message>
-      <example correction="">все до <marker>сраки</marker>.</example>
+      <example correction="">«все до <marker>сраки</marker>!»</example>
+      <example correction="">все до <marker>сраки</marker></example>
+    </rule>
+
+    <rule id="vocative_inanim" name="Кличний для неістот">
+      <pattern>
+        <token postag_regexp="yes" postag="noun:inanim:.:v_kly.*">
+          <exception negate_pos="yes" postag_regexp="yes" postag="noun:inanim:.:v_kly.*|.*_END"/>
+          <exception regexp="yes">земле|народе|батьківщино|У?країно|(не)?доле|громадо|вітре|надіє|гол[оі]вонько|тумане|святосте|достойносте|красо|діброво|(все)?світе|фортуно|діброво|лишко|братіє|вітчизно|мордо|образе|квітко|зіронько|святине|роде|годинонько|хвилинонько|маро|душко|зірочко|муко|зброє|весно|ноче|редакціє|(ред)?колегіє|думо|морозе|націє|владо|худобо|верше</exception>
+          <!-- рідкі
+          <exception regexp="yes">трояндо|долино|книго|суде|радосте|скорбото|красо|шкуро|втіхо|завірюхо|чарочко|кровиночко|холеро|шкапо|луже|вельможносте|веснонько|лапко|пучино|долино|молитво|хвиле|хмаро|згубо|славо|ніченько|березо|вербо|розпуко</exception>
+           -->
+          <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'].*</exception>
+          <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ]+</exception>
+        </token>
+      </pattern>
+      <message>Форми кличного відмінку для неістот мають обмежене вживання.</message>
+      <example correction=""><marker>автокомісійко</marker>.</example>
+      <example correction=""><marker>аберометре</marker></example>
+      <example>земле.</example>
+      <example>того.</example>
+      <example>Матіоло.</example>
+      <example>ПАСЕ</example>
     </rule>
 
     <rule id="u_znak_vdiachnosti" name="У знак вдячності">
@@ -1947,7 +1970,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <or>
             <token postag_regexp="yes" postag="noun:anim:.:v_oru.*">
-              <exception negate_pos="yes" postag_regexp="yes" postag="noun:anim:.:v_oru.*"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="noun:anim:.:v_oru.*|.*_END"/>
               <exception postag_regexp="yes" postag="noun.*?pron.*"/>
               <exception postag_regexp="yes" postag="&lt;(adv|insert)&gt;"/>
               <exception>персоною</exception>

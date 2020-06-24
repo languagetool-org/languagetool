@@ -190,7 +190,7 @@ public abstract class LemmaHelper {
     final int sz = word.length();
     for (int i = 0; i < sz; i++) {
         char ch = word.charAt(i);
-        if (ch != '-' && ch != '\u2013' && !Character.isUpperCase(ch)) {
+        if (ch != '-' && ch != '\u2013' && ch != '\'' && !Character.isUpperCase(ch)) {
             return false;
         }
     }

@@ -1053,6 +1053,20 @@
     <example type="untouched">ніде правди діти.</example>
   </rule>
 
+  <rule name="Трускавці - місто" id="Truskavci_misto">
+    <pattern>
+      <token negate_pos="yes" postag="SENT_START"/>
+      <marker>
+        <token case_sensitive="yes">Трускавці</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:m:.*:prop.*"/>
+    <example type="ambiguous"
+        inputform="Трускавці[Трускавець/noun:inanim:m:v_mis:prop:geo,трускавка/noun:inanim:f:v_dav:coll,трускавка/noun:inanim:f:v_mis:coll]"
+        outputform="Трускавці[Трускавець/noun:inanim:m:v_mis:prop:geo]">В <marker>Трускавці</marker>.</example>
+    <example type="untouched">Трускавці треба тепло.</example>
+  </rule>
+
 
   <rule name="пристрою - іменник" id="prystroyu-noun">
     <pattern>
@@ -1511,7 +1525,7 @@
       <token postag_regexp="yes" postag="prep.*"/>
       <marker>
         <token regexp="yes" postag_regexp="yes" postag="verb.*">[А-ЯІЇЄҐ][а-яіїєґ'-]+
-          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*"/>
+          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|.*_END"/>
         </token>
       </marker>
     </pattern>
@@ -2225,6 +2239,21 @@
         outputform="Ван[ван/part:pers]"
             >для <marker>Ван</marker> Гаала</example>
     <example type="untouched">В Ван приїхав султан.</example>
+  </rule>
+
+  <rule name="Частка 'арте'" id="part_arte">
+    <pattern>
+      <token>дель</token>
+      <marker>
+        <token>арте</token>
+      </marker>
+    </pattern>
+    <disambig><wd lemma="арте" pos="noninfl:foreign"/></disambig>
+    <example type="ambiguous"
+        inputform="арте[арт/noun:inanim:m:v_kly]"
+        outputform="арте[арте/noninfl:foreign]"
+            >дель <marker>арте</marker>.</example>
+    <example type="untouched">до арте.</example>
   </rule>
 
   <rule name="Сполучник та частка 'да'" id="conj_or_part_da">
