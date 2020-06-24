@@ -37298,7 +37298,9 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="VER:AUX.+" postag_regexp="yes" inflected="yes" skip="4">haben<exception scope="next" postag="SENT_END"/></token>
-                    <token postag="VER:INF:.+" postag_regexp="yes" regexp="yes">[a-zöäü].*</token>
+                    <token postag="VER:INF:.+" postag_regexp="yes" regexp="yes">[a-zöäü].*
+                        <exception postag="ART:.+" postag_regexp="yes"/>
+                    </token>
                     <marker>
                         <token regexp="yes">ge(seh|lass)en</token>
                     </marker>
@@ -37312,6 +37314,7 @@ Andere Projekte</example>
                 <example correction="sehen">Ich habe es ja kommen <marker>gesehen</marker>.</example>
                 <example correction="lassen">Ich habe dich am ausgestreckten Arm verhungern <marker>gelassen</marker>.</example>
                 <example correction="lassen">Du hast ihn kommen <marker>gelassen</marker>.</example>
+                <example>Ich habe noch nie einen gesehen.</example>
             </rule>
             <!-- FIXME: replacement doesn't work, as discussed on the mailing list around May 11, 2012
             <rule>
