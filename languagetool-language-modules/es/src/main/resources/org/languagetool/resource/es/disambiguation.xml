@@ -1816,11 +1816,23 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="remove" postag="NC.*"/>
         </rule>
         <rule>
+            <!-- al buscarlas -->
+            <pattern>
+                <token>al</token>
+                <marker>
+                    <and>
+                        <token postag="V.N.*" postag_regexp="yes"><exception>parecer</exception></token>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="NC.*"/>
+        </rule>
+        <rule>
             <pattern>
                 <and>
-                    <!--ser|haber|ver|parecer|andar-->
-                    <token postag="V.N.*" postag_regexp="yes"><exception postag="D..[MC]S." postag_regexp="yes" scope="previous"/></token>
-                    <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
+                    <token postag="V.N.*" postag_regexp="yes"><exception postag="D..[MC]..|AQ0MS0" postag_regexp="yes" scope="previous"/></token>
+                    <token postag="N.*" postag_regexp="yes"/>
                 </and>
             </pattern>
             <disambig action="remove" postag="NC.*"/>
@@ -2861,7 +2873,7 @@ Copyright (C) 2011 Juan Martorell
             <marker>
                 <and>
                     <token postag="A.*" postag_regexp="yes" regexp="yes">quedas?|quedo|duras?|duro<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[NMIS].*" postag_regexp="yes"/></token>
-                    <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
+                    <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
         </pattern>
@@ -2874,7 +2886,7 @@ Copyright (C) 2011 Juan Martorell
                 <and>
                     <token postag="A.*" postag_regexp="yes" regexp="yes">custodias?|sanas?|aceptas?|acepto|infectas?|faltas?|falto|precisas?|preciso|tardo|tardas?|cortas?|cojo|coja|cojas|quedo|queda|quedas|despierto|despiertas?|paso|pasas|pasa<exception postag="_GN_.*" postag_regexp="yes"
                         /><exception scope="previous" postag="V.[NMIS].*|RG_before" postag_regexp="yes"/></token>
-                    <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
+                    <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
         </pattern>

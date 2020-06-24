@@ -1270,7 +1270,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Si prestramos atentos oídos.</example>
                 <example>Es necesario que domines ciertos temas.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes">tener</token>
                     <token postag="RG_before|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
@@ -2928,6 +2928,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">serias?</token>
             </antipattern>
             <rule>
+                <antipattern>
+                    <token>poco</token>
+                    <token>seria</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>seria<exception postag="_GN_FS"/></token>
@@ -2943,6 +2947,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Se puso seria otra vez.</example>
                 <example>Estaba seria a menudo.</example>
                 <example>Estaba seria frecuentemente.</example>
+                <example>con una poco seria tercera persona omnisciente</example>
             </rule>
             <rule>
                 <pattern>
@@ -8440,6 +8445,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PUNCTUATION" name="Puntuación">
+        <rule id="POR_CIERTO" name="por cierto(,)" default="temp_off">
+            <pattern>
+                <token>por</token>
+                <token>cierto</token>
+                <token postag="N.FS.*|A..FS." postag_regexp="yes"/>
+            </pattern>
+            <message>Probablemente falta una coma.</message>
+            <suggestion>\1 \2, \3</suggestion>
+            <example correction="Por cierto, Valeria"><marker>Por cierto Valeria</marker> está preciosa.</example>
+        </rule>
         <rulegroup id="COMA_SUJETO_PREDICADO" name="coma incorrecta entre sujeto y predicado">
             <antipattern>
                 <token>es</token>
