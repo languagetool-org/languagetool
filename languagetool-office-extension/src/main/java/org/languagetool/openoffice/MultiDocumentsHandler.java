@@ -575,13 +575,15 @@ public class MultiDocumentsHandler {
         File ngramLangDir = new File(config.getNgramDirectory(), currentLanguage.getShortCode());
         if (ngramLangDir.exists()) {  // user might have ngram data only for some languages and that's okay
           langTool.activateLanguageModelRules(ngramDirectory);
-          MessageHandler.printToLogFile("ngram Model activated for language: " + currentLanguage.getShortCode());
+          if (debugMode) {
+            MessageHandler.printToLogFile("ngram Model activated for language: " + currentLanguage.getShortCode());
+          }
         }
       }
       File word2VecDirectory = config.getWord2VecDirectory();
       if (word2VecDirectory != null) {
         File word2VecLangDir = new File(config.getWord2VecDirectory(), currentLanguage.getShortCode());
-        if (word2VecLangDir.exists()) {  // user might have ngram data only for some languages and that's okay
+        if (word2VecLangDir.exists()) {  // user might have word2vec data only for some languages and that's okay
           langTool.activateWord2VecModelRules(word2VecDirectory);
         }
       }
