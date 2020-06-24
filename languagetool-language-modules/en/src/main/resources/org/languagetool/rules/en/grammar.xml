@@ -18384,6 +18384,7 @@ USA
                 <token regexp="yes">th[eo]se</token>
                 <marker><token postag="NN(:UN?)?" postag_regexp="yes">
                     <exception postag_regexp="yes" postag="VB[GP]|NNP?S|CD|JJ.?|MD"/>
+                    <exception>information</exception>
                     </token></marker>
                 <token inflected="yes" regexp="yes">\W+|be</token>
             </pattern>
@@ -32724,6 +32725,17 @@ USA
                 <example>Since this affects your judgement.</example>
                 <example>This addresses most major concerns.</example><!-- #2334 -->
                 <example>Add "short" between "product" and "description", unless this causes a problem.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">th[eo]se</token>
+                        <token regexp="yes">informations?</token>
+                    </marker>
+                    <token postag="VB.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Did you mean <suggestion>this information</suggestion>? 'information' is uncountable (except for a legal meaning).</message>
+                <example correction="this information">I am not sure how much of <marker>these information</marker> is provided by the company.</example>
             </rule>
             <rule>
                 <antipattern>
