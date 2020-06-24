@@ -18685,14 +18685,25 @@ though, and has since been slightly modified)-->
       <example correction="ignifuges|réfractaires"><marker>résistants au feu</marker></example>
       <example><marker>ignifuge</marker></example>
     </rule>
-    <rule id="PERE_LEGAL" name="père légal">
-      <pattern>
-        <token>père</token>
-        <token regexp="yes">légals?|légaux</token>
-      </pattern>
-      <message>« Père légal » est un anglicisme (legal father). Employez <suggestion>père juridique</suggestion>.</message>
-      <example correction="père juridique"><marker>père légal</marker></example>
-    </rule>
+    <rulegroup id="PERE_LEGAL" name="père légal">
+        <rule>
+          <pattern>
+            <token>père</token>
+            <token regexp="yes">légals?</token>
+          </pattern>
+          <message>« Père légal » est un anglicisme (legal father). Employez <suggestion>père <match no="2" regexp_match="légal(s)?" regexp_replace="juridique$1"/></suggestion>.</message>
+          <example correction="père juridique"><marker>père légal</marker></example>
+            <example correction="père juridiques"><marker>père légals</marker></example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>père</token>
+                <token>légaux</token>
+            </pattern>
+            <message>« Père légal » est un anglicisme (legal father). Employez <suggestion>père juridiques</suggestion>.</message>
+            <example correction="père juridiques"><marker>père légaux</marker></example>
+        </rule>
+    </rulegroup>
     <rule id="PRESSE_ETHNIQUE" name="presse ethnique">
       <pattern>
         <token>presse</token>
