@@ -4690,6 +4690,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token>по</token>
+          <token postag_regexp="yes" postag="adj:p:v_mis.*" min="0"/>
+          <token>правилах</token>
+        </pattern>
+        <message>Правильно: <suggestion>за <match no="2" postag_regexp="yes" postag="(adj:p:)v_mis(.*)" postag_replace="$1v_oru$2"/> правилами</suggestion></message>
+        <example correction="за такими правилами">і <marker>по таких правилах</marker> </example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>по</token>
           <token>сумісництву</token>
         </pattern>
         <message>Правильно: <suggestion>за сумісництвом</suggestion></message>
