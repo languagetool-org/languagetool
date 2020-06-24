@@ -117,6 +117,20 @@
     <example type="untouched">шевченкова сила</example>
   </rule>
 
+  <rule name="Кличний неістот для абревіатур" id="inanim_v_kly_abbr">
+    <pattern>
+      <marker>
+        <token case_sensitive="yes" postag_regexp="yes" postag="noun:inanim:.:v_kly" regexp="yes">[А-ЯІЇЄҐ]{3,}
+          <exception regexp="yes">УКРАЇНО|КИЄВЄ</exception>
+        </token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun:inanim:.:v_kly" />
+    <example type="ambiguous"
+        inputform="УМЕ[ум/noun:inanim:m:v_kly]"
+        outputform="УМЕ[УМЕ]">в <marker>УМЕ</marker>.</example>
+    <example type="untouched">УКРАЇНО</example>
+  </rule>
 
   <rule name="Коли" id="koly_not_verb">
     <pattern>

@@ -1817,13 +1817,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
 
     <rule id="vocative_inanim" name="Кличний для неістот">
+      <antipattern>
+        <token postag_regexp="yes" postag="verb.*?:impr:.*"/>
+        <token>,</token>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+          <token postag_regexp="yes" postag="adj:.:v_kly.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:inanim:.:v_kly.*"/>
+        </unify>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">ой|о|ох|агов|гей|нумо|годі|гудбай|привіт</token>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+          <token postag_regexp="yes" postag="adj:.:v_kly.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:inanim:.:v_kly.*"/>
+        </unify>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">ой|о|ох|агов|гей|нумо|годі|гудбай|привіт</token>
+        <token min="0">ти</token>
+        <token>,</token>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+          <token postag_regexp="yes" postag="adj:.:v_kly.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:inanim:.:v_kly.*"/>
+        </unify>
+      </antipattern>
       <pattern>
         <token postag_regexp="yes" postag="noun:inanim:.:v_kly.*">
           <exception negate_pos="yes" postag_regexp="yes" postag="noun:inanim:.:v_kly.*|.*_END"/>
-          <exception regexp="yes">земле|народе|батьківщино|У?країно|(не)?доле|громадо|вітре|надіє|гол[оі]вонько|тумане|святосте|достойносте|красо|діброво|(все)?світе|фортуно|діброво|лишко|братіє|вітчизно|мордо|образе|квітко|зіронько|святине|роде|годинонько|хвилинонько|маро|душко|зірочко|муко|зброє|весно|ноче|редакціє|(ред)?колегіє|думо|морозе|націє|владо|худобо|верше</exception>
-          <!-- рідкі
-          <exception regexp="yes">трояндо|долино|книго|суде|радосте|скорбото|красо|шкуро|втіхо|завірюхо|чарочко|кровиночко|холеро|шкапо|луже|вельможносте|веснонько|лапко|пучино|долино|молитво|хвиле|хмаро|згубо|славо|ніченько|березо|вербо|розпуко</exception>
-           -->
+          <exception regexp="yes">народе|батьківщино|У?країно|(не)?доле|громадо|вітре|надіє|гол[оі]вонько|святосте|достойносте|красо|діброво|(все)?світе|лишко|братіє|вітчизно|мордо|квітко|зіронько|зірочко|святине|годинонько|хвилинонько|маро|зброє|весно|ноче|редакціє|(ред)?колегіє|думо|націє|владо|верше|душко</exception>
+          <!-- рідкіші
+          <exception regexp="yes">трояндо|долино|книго|суде|радосте|скорбото|красо|шкуро|втіхо|завірюхо|чарочко|кровиночко|холеро|шкапо|луже|вельможносте|веснонько|лапко|пучино|долино|молитво|хвиле|хмаро|згубо|славо|ніченько|березо|вербо|розпуко|худобо|вітре|морозе</exception>
+          -->
           <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'].*</exception>
           <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ]+</exception>
         </token>
@@ -1831,10 +1861,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Форми кличного відмінку для неістот мають обмежене вживання.</message>
       <example correction=""><marker>автокомісійко</marker>.</example>
       <example correction=""><marker>аберометре</marker></example>
-      <example>земле.</example>
       <example>того.</example>
       <example>Матіоло.</example>
       <example>ПАСЕ</example>
+      <example>прощавай, стара імперіє</example>
+      <example>ой, хато ти моя</example>
+      <example>агов тумане</example>
     </rule>
 
     <rule id="u_znak_vdiachnosti" name="У знак вдячності">
