@@ -7610,7 +7610,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
             
-        <rule default="temp_off" id="Ne_pril_prich1" name="«Не» с прилагательными и причастиями (краткая форма)"> 
+        <rule default="on" id="Ne_pril_prich1" name="«Не» с прилагательными и причастиями (краткая форма)"> 
                 <!-- Его походка медлительна, неуверенна. Это краткое прилагательное, слитное написание НЕ, две буквы НН, зависимых слов нет   default="temp_off" -->
              <antipattern>   
                     <marker>
@@ -7620,6 +7620,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>,</token>
                     <token>а</token>               
             </antipattern>
+    <!--     Ne_pril_prich -->
+    
             <antipattern>
                 <token regexp="yes">очень|весьма|крайне|совершенно|вполне|почти|отчасти|совсем|чрезвычайно|далеко|отнюдь|вовсе|ничуть|нисколько</token>   
                 <marker>
@@ -7628,7 +7630,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception negate_pos="yes"  postag="ADJ:Short:.*" postag_regexp="yes"/>
                     </token>
                 </marker>
-            </antipattern>
+            </antipattern> 
+   
             <antipattern>
                 <token     postag="PNN:.*" regexp="yes" postag_regexp="yes">(ни)[а-я](.*)</token>   
                 <marker>
