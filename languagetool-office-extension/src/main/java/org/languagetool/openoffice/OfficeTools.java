@@ -54,6 +54,7 @@ class OfficeTools {
   public static final String ZERO_WIDTH_SPACE = "\u200B";  // Used to mark footnotes
   public static final String LOG_LINE_BREAK = System.lineSeparator();  //  LineBreak in Log-File (MS-Windows compatible)
   public static final int MAX_SUGGESTIONS = 15;  // Number of suggestions maximal shown in LO/OO
+  public static final int NUMBER_TEXTLEVEL_CACHE = 2;  // Number of caches for matches of text level rules
 
   
   public static int DEBUG_MODE_SD = 0;

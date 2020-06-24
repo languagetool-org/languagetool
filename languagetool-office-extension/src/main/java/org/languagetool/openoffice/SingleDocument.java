@@ -126,6 +126,10 @@ class SingleDocument {
     this.mDocHandler = mDH;
     this.sentencesCache = new ResultCache();
     this.singleParaCache = new ResultCache();
+    this.paragraphsCache = new ArrayList<>();
+    for(int i = 0; i < OfficeTools.NUMBER_TEXTLEVEL_CACHE; i++) {
+      paragraphsCache.add(new ResultCache());
+    }
     this.textIsChanged = new HashSet<>();
     this.isDialogRequest = new HashSet<>();
     this.resetCheck = new HashSet<>();
@@ -384,15 +388,14 @@ class SingleDocument {
   void resetCache() {
     sentencesCache.removeAll();
     singleParaCache.removeAll();
-    paragraphsCache = new ArrayList<>();
+    for(int i = 0; i < OfficeTools.NUMBER_TEXTLEVEL_CACHE; i++) {
+      paragraphsCache.get(i).removeAll();
+    }
     numParasReset = numParasToCheck;
     if((doFullCheckAtFirst || numParasToCheck < 0 || useQueue) && mDocHandler != null) {
       minToCheckPara = mDocHandler.getNumMinToCheckParas();
       if(minToCheckPara == null) {
         return;
-      }
-      for(int i = 0; i < minToCheckPara.size(); i++) {
-        paragraphsCache.add(new ResultCache());
       }
       if(numParasReset < 0) {
         for(int minPara : minToCheckPara) {
@@ -401,8 +404,6 @@ class SingleDocument {
           }
         }
       }
-    } else {
-      paragraphsCache.add(new ResultCache());
     }
   }
   
