@@ -5211,17 +5211,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
-        <rule id="MUCHO" name="mucho/muy (adverbio)" default="temp_off">
-            <pattern>
-                <marker>
-                    <token>muy</token>
-                </marker>
-                <token regexp="yes">mejor|peor|mayor|menor|más|menos|antes|después</token>
-            </pattern>
-            <message>Cuando precede al comparativo \2, el adverbio "mucho" conserva su forma plena</message>
-            <suggestion>mucho</suggestion>
-            <example correction="mucho">Esto es <marker>muy</marker> peor de lo que pensaba.</example>
-        </rule>
+        <rulegroup id="MUY_MUCHO" name="mucho/muy (adverbio)" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>muy</token>
+                    </marker>
+                    <token regexp="yes">mejor|peor|menor|más|menos|antes|después</token>
+                </pattern>
+                <message>Cuando precede al comparativo \2, el adverbio "mucho" conserva su forma plena</message>
+                <suggestion>mucho</suggestion>
+                <example correction="mucho">Esto es <marker>muy</marker> peor de lo que pensaba.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>muy</token>
+                    </marker>
+                    <token>mayor</token>
+                    <token regexp="yes">que|de</token>
+                </pattern>
+                <message>Cuando precede al comparativo \2, el adverbio "mucho" conserva su forma plena</message>
+                <suggestion>mucho</suggestion>
+                <example correction="mucho">Esto es <marker>muy</marker> mayor de lo que piensas.</example>
+                <example>Yo soy muy mayor.</example>
+            </rule>
+        </rulegroup>
         <rule id="MUY_GRAVISIMO" name="*muy gravísimo" default="temp_off">
             <pattern>
                 <marker>
@@ -6823,11 +6838,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>mucho</token>
                 </marker>
                 <token regexp="yes">más|menos</token>
-                <token postag="NCFS000"/>
+                <token postag="NCFS000"><exception postag="A.*|V.P.*|RG" postag_regexp="yes"/></token>
             </pattern>
             <message>Error de concordancia.</message>
             <suggestion suppress_misspelled="yes"><match no="3" postag="NC(..).*" postag_regexp="yes" postag_replace="DI.$1.">mucho</match></suggestion>
             <example correction="mucha">Aparentaba <marker>mucho</marker> más edad.</example>
+            <example>Ella es mucho más alta que yo.</example>
+            <example>Ella está mucho más informada que yo.</example>
+            <example>Es mucho más ingenua y sencilla.</example>
+            <example>Es mucho más lógica que la lengua francesa.</example>
+            <example>Es mucho más tarde de lo que piensas.</example>
         </rule>
         <rule id="DET_FEM_NOM_FEM" name="la agua>el agua">
             <antipattern>
@@ -7367,6 +7387,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Es bueno ser caritativos.</example>
             <example>Pero le era embarazoso ser vista por sus amigos.</example>
             <example>Unas veces me pone eufórica y otras nostálgica.</example>
+            <example>Una patética caricatura de mi más profundo ser.</example>
             <!-- 
                 Ella fue al concierto acompañada de una amiga.
                 Soy cualquier cosa menos mentiroso. 
