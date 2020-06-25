@@ -16610,14 +16610,18 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="LANG_HL" name="Lang woord in hoofdletters">
 			<rule>
+				<antipattern>
+					<token postag="SENT_START"/>
+					<token regexp="yes" case_sensitive="yes">[A-Z]{5,79}<exception regexp="yes">[0-9a-f]{6}</exception></token>
+					<token spacebefore="yes" regexp="yes">-|—</token>
+				</antipattern>
 				<pattern case_sensitive="yes">
-					<token><exception postag="SENT_START"/><exception>#</exception></token>
 					<marker>
 						<token regexp="yes" case_sensitive="yes">[A-Z]{5,79}<exception regexp="yes">[0-9a-f]{6}</exception></token>
 						<!-- uitzondering voor hex kleuren tbv Wikipedia check -->
 					</marker>
 				</pattern>
-				<message>Het helemaal in hoofdletters schrijven van woorden met meer dan 4 letters wordt afgeraden; schrijf liever <suggestion><match no="2" case_conversion="alllower"/></suggestion>.</message>
+				<message>Het helemaal in hoofdletters schrijven van woorden met meer dan 4 letters wordt afgeraden; schrijf liever <suggestion><match no="1" case_conversion="alllower"/></suggestion>.</message>
 				<short>Lelijk</short>
 				<example correction="altijd">Das echt <marker>ALTIJD</marker>.</example>
 			</rule>
@@ -20531,10 +20535,10 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="AD_HOC" name="ad hoc">
 			<rule>
-				<pattern>
-					<token>ad</token>
+				<pattern case_sensitive="yes">
+					<token regexp="yes">[Aa]d</token>
 					<token>hoc</token>
-					<token postag=".*ZNW.*" postag_regexp="yes"><exception regexp="yes">is|moeten|kan|kunnen|over</exception><exception postag_regexp="yes" postag="BNW:.*"/></token>
+					<token postag=".*ZNW.*" postag_regexp="yes"><exception regexp="yes">is|moeten|kan|kunnen|over|willwn</exception><exception postag_regexp="yes" postag="BNW:.*"/></token>
 				</pattern>
 				<message>De kans is groot dat hier <suggestion><match no="1"/>-<match no="2"/><match no="3"/></suggestion> moet staan.</message>
 				<url>http://woordenlijst.org/#/?q=ad-hocactie</url>
@@ -20546,8 +20550,9 @@ steenwijk;Steenwijk
 				<example correction="ad-hocaanpak">Precies die structurele initiatieven maken het verschil met de <marker>ad hoc aanpak</marker> uit het verleden.</example>
 			</rule>
 			<rule>
-				<pattern>
-					<token>ad</token><token>hoc</token>
+				<pattern case_sensitive="yes">
+					<token regexp="yes">[Aa]d</token>
+					<token>hoc</token>
 				</pattern>
 				<message>De tekst wordt vlotter als u deze herschrijft met <suggestion>direct</suggestion> of <suggestion>plaatselijk</suggestion> of <suggestion>tijdelijk</suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
