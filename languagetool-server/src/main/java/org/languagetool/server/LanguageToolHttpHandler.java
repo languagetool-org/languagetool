@@ -308,7 +308,16 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (text != null) {
       message += "text length: " + text.length() + ", ";
     }
-    message += "m: " + ServerTools.getMode(params) + ", ";
+    try {
+      message += "m: " + ServerTools.getMode(params) + ", ";
+    } catch (IllegalArgumentException ex) {
+      message += "m: invalid, ";
+    }
+    try {
+      message += "l: " + ServerTools.getLevel(params) + ", ";
+    } catch (IllegalArgumentException ex) {
+      message += "l: invalid, ";
+    }
     if (params.containsKey("instanceId")) {
       message += "iID: " + params.get("instanceId") + ", ";
     }

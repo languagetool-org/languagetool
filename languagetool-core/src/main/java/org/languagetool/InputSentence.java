@@ -40,11 +40,12 @@ class InputSentence {
   private final UserConfig userConfig;
   private final List<Language> altLanguages;
   private final JLanguageTool.Mode mode;
+  private final JLanguageTool.Level level;
 
   InputSentence(String text, Language lang, Language motherTongue,
                 Set<String> disabledRules, Set<CategoryId> disabledRuleCategories,
                 Set<String> enabledRules, Set<CategoryId> enabledRuleCategories, UserConfig userConfig,
-                List<Language> altLanguages, JLanguageTool.Mode mode) {
+                List<Language> altLanguages, JLanguageTool.Mode mode, JLanguageTool.Level level) {
     this.text = Objects.requireNonNull(text);
     this.lang = Objects.requireNonNull(lang);
     this.motherTongue = motherTongue;
@@ -55,6 +56,7 @@ class InputSentence {
     this.userConfig = userConfig;
     this.altLanguages = altLanguages;
     this.mode = Objects.requireNonNull(mode);
+    this.level = Objects.requireNonNull(level);
   }
 
   /** @since 4.1 */
@@ -77,13 +79,14 @@ class InputSentence {
            Objects.equals(enabledRuleCategories, other.enabledRuleCategories) &&
            Objects.equals(userConfig, other.userConfig) &&
            Objects.equals(altLanguages, other.altLanguages) &&
-           Objects.equals(mode, other.mode);
+           Objects.equals(mode, other.mode) &&
+           Objects.equals(level, other.level);
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(text, lang, motherTongue, disabledRules, disabledRuleCategories,
-            enabledRules, enabledRuleCategories, userConfig, altLanguages, mode);
+            enabledRules, enabledRuleCategories, userConfig, altLanguages, mode, level);
   }
 
   @Override

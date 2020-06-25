@@ -353,4 +353,5 @@ public abstract class AbstractPatternRule extends Rule {
   String getShortMessage() {
   	return StringUtils.EMPTY;
   }
+
 }

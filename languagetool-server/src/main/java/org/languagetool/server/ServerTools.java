@@ -175,4 +175,22 @@ final class ServerTools {
     return mode;
   }
 
+  @NotNull
+  static JLanguageTool.Level getLevel(Map<String, String> params) {
+    JLanguageTool.Level level;
+    if (params.get("level") != null) {
+      String param = params.get("level");
+      if ("default".equals(param)) {
+        level = JLanguageTool.Level.DEFAULT;
+      } else if ("picky".equals(param)) {
+        level = JLanguageTool.Level.PICKY;
+      } else {
+        throw new IllegalArgumentException("If 'level' is set, it must be set to 'default' or 'picky'");
+      }
+    } else {
+      level = JLanguageTool.Level.DEFAULT;
+    }
+    return level;
+  }
+
 }

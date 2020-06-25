@@ -20,7 +20,6 @@ package org.languagetool.server;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sun.net.httpserver.HttpExchange;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -150,7 +149,7 @@ abstract class TextChecker {
       for (JLanguageTool.Mode mode : addonModes) {
         QueryParams params = new QueryParams(Collections.emptyList(), Collections.emptyList(), addonDisabledRules,
           Collections.emptyList(), Collections.emptyList(), false, true,
-          false, false, false, mode, null);
+          false, false, false, mode, JLanguageTool.Level.DEFAULT, null);
         PipelinePool.PipelineSettings settings = new PipelinePool.PipelineSettings(language, null, params, config.globalConfig, user);
         prewarmSettings.put(settings, NUM_PIPELINES_PER_SETTING);
 
@@ -334,10 +333,11 @@ abstract class TextChecker {
     boolean allowIncompleteResults = "true".equals(parameters.get("allowIncompleteResults"));
     boolean enableHiddenRules = "true".equals(parameters.get("enableHiddenRules"));
     JLanguageTool.Mode mode = ServerTools.getMode(parameters);
+    JLanguageTool.Level level = ServerTools.getLevel(parameters);
     String callback = parameters.get("callback");
     QueryParams params = new QueryParams(altLanguages, enabledRules, disabledRules,
       enabledCategories, disabledCategories, useEnabledOnly,
-      useQuerySettings, allowIncompleteResults, enableHiddenRules, enableTempOffRules, mode, callback);
+      useQuerySettings, allowIncompleteResults, enableHiddenRules, enableTempOffRules, mode, level, callback);
 
     int textSize = aText.getPlainText().length();
 
@@ -611,7 +611,7 @@ abstract class TextChecker {
     try {
       settings = new PipelinePool.PipelineSettings(lang, motherTongue, params, config.globalConfig, userConfig);
       lt = pipelinePool.getPipeline(settings);
-      matches.addAll(lt.check(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener, params.mode, executorService));
+      matches.addAll(lt.check(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener, params.mode, params.level, executorService));
     } finally {
       if (lt != null) {
         pipelinePool.returnPipeline(settings, lt);
@@ -701,10 +701,11 @@ abstract class TextChecker {
     final boolean enableHiddenRules;
     final boolean enableTempOffRules;
     final JLanguageTool.Mode mode;
+    final JLanguageTool.Level level;
     final String callback;
 
     QueryParams(List<Language> altLanguages, List<String> enabledRules, List<String> disabledRules, List<CategoryId> enabledCategories, List<CategoryId> disabledCategories,
-                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, boolean enableTempOffRules, JLanguageTool.Mode mode, @Nullable String callback) {
+                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, boolean enableTempOffRules, JLanguageTool.Mode mode, JLanguageTool.Level level, @Nullable String callback) {
       this.altLanguages = Objects.requireNonNull(altLanguages);
       this.enabledRules = enabledRules;
       this.disabledRules = disabledRules;
@@ -716,6 +717,7 @@ abstract class TextChecker {
       this.enableHiddenRules = enableHiddenRules;
       this.enableTempOffRules = enableTempOffRules;
       this.mode = Objects.requireNonNull(mode);
+      this.level = Objects.requireNonNull(level);
       if (callback != null && !callback.matches("[a-zA-Z]+")) {
         throw new IllegalArgumentException("'callback' value must match [a-zA-Z]+: '" + callback + "'");
       }
@@ -736,6 +738,7 @@ abstract class TextChecker {
         .append(enableHiddenRules)
         .append(enableTempOffRules)
         .append(mode)
+        .append(level)
         .append(callback)
         .toHashCode();
     }
@@ -759,6 +762,7 @@ abstract class TextChecker {
         .append(enableHiddenRules, other.enableHiddenRules)
         .append(enableTempOffRules, other.enableTempOffRules)
         .append(mode, other.mode)
+        .append(level, other.level)
         .append(callback, other.callback)
         .isEquals();
     }
@@ -777,7 +781,8 @@ abstract class TextChecker {
         .append("enableHiddenRules", enableHiddenRules)
         .append("enableTempOffRules", enableTempOffRules)
         .append("mode", mode)
-        .append("callback", mode)
+        .append("level", level)
+        .append("callback", callback)
         .build();
     }
   }

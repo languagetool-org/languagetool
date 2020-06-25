@@ -199,6 +199,11 @@ public class JLanguageTool {
     ALL_BUT_TEXTLEVEL_ONLY
   }
   
+  public enum Level {
+    DEFAULT,
+    PICKY
+  }
+
   private static final List<File> temporaryFiles = new ArrayList<>();
 
   /**
@@ -788,7 +793,7 @@ public class JLanguageTool {
     } else {
       mode = Mode.ALL;
     }
-    return check(annotatedText, tokenizeText, paraMode, listener, mode);
+    return check(annotatedText, tokenizeText, paraMode, listener, mode, Level.DEFAULT);
   }
 
   /**
@@ -796,8 +801,8 @@ public class JLanguageTool {
    * sentences against all currently active rules depending on {@code mode}.
    * @since 4.3
    */
-  public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener, Mode mode) throws IOException {
-    return check(annotatedText, tokenizeText, paraMode, listener, mode, null);
+  public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener, Mode mode, Level level) throws IOException {
+    return check(annotatedText, tokenizeText, paraMode, listener, mode, level, null);
   }
 
   /**
@@ -807,7 +812,8 @@ public class JLanguageTool {
    *                              then waits on result afterwards
    * @since 4.6
    */
-  public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener, Mode mode, @Nullable ExecutorService remoteRulesThreadPool) throws IOException {
+  public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener,
+                               Mode mode, Level level, @Nullable ExecutorService remoteRulesThreadPool) throws IOException {
     List<String> sentences;
     if (tokenizeText) { 
       sentences = sentenceTokenize(annotatedText.getPlainText());
@@ -825,6 +831,9 @@ public class JLanguageTool {
 
     List<RuleMatch> remoteMatches = Collections.emptyList();
     List<FutureTask<List<RuleMatch>>> remoteRuleTasks = null;
+    if (mode != Mode.TEXTLEVEL_ONLY && level == Level.DEFAULT) {
+      allRules = allRules.stream().filter(rule -> !rule.hasTag(Tags.picky)).collect(Collectors.toList());
+    }
     if (remoteRulesThreadPool != null && mode != Mode.TEXTLEVEL_ONLY) {
       remoteRuleTasks = allRules.stream()
         .filter(rule -> rule instanceof RemoteRule)
@@ -835,7 +844,7 @@ public class JLanguageTool {
     }
 
     List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules,
-      paraMode, annotatedText, listener, mode, remoteRulesThreadPool == null);
+      paraMode, annotatedText, listener, mode, level, remoteRulesThreadPool == null);
 
     if (remoteRuleTasks != null) {
       remoteMatches = remoteRuleTasks.stream()
@@ -903,16 +912,16 @@ public class JLanguageTool {
   }
   
   protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
-                                         List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, Mode mode) throws IOException {
-    return performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText, null, mode, true);
+                                         List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, Mode mode, Level level) throws IOException {
+    return performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText, null, mode, level, true);
   }
 
   /**
    * @since 3.7
    */
   protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
-                                         List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, RuleMatchListener listener, Mode mode, boolean checkRemoteRules) throws IOException {
-    Callable<List<RuleMatch>> matcher = new TextCheckCallable(allRules, sentences, analyzedSentences, paraMode, annotatedText, 0, 0, 1, listener, mode, checkRemoteRules);
+                                         List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, RuleMatchListener listener, Mode mode, Level level, boolean checkRemoteRules) throws IOException {
+    Callable<List<RuleMatch>> matcher = new TextCheckCallable(allRules, sentences, analyzedSentences, paraMode, annotatedText, 0, 0, 1, listener, mode, level, checkRemoteRules);
     try {
       return matcher.call();
     } catch (IOException e) {
@@ -1366,14 +1375,15 @@ public class JLanguageTool {
     private final List<AnalyzedSentence> analyzedSentences;
     private final RuleMatchListener listener;
     private final Mode mode;
-    
+    private final Level level;
+
     private int charCount;
     private int lineCount;
     private int columnCount;
 
     TextCheckCallable(List<Rule> rules, List<String> sentences, List<AnalyzedSentence> analyzedSentences,
                       ParagraphHandling paraMode, AnnotatedText annotatedText, int charCount, int lineCount, int columnCount,
-                      RuleMatchListener listener, Mode mode, boolean checkRemoteRules) {
+                      RuleMatchListener listener, Mode mode, Level level, boolean checkRemoteRules) {
       this.rules = rules;
       this.checkRemoteRules = checkRemoteRules;
       if (sentences.size() != analyzedSentences.size()) {
@@ -1388,6 +1398,7 @@ public class JLanguageTool {
       this.columnCount = columnCount;
       this.listener = listener;
       this.mode = Objects.requireNonNull(mode);
+      this.level = Objects.requireNonNull(level);
     }
 
     @Override
@@ -1461,7 +1472,7 @@ public class JLanguageTool {
           if (cache != null) {
             cacheKey = new InputSentence(analyzedSentence.getText(), language, motherTongue,
                     disabledRules, disabledRuleCategories,
-                    enabledRules, enabledRuleCategories, userConfig, altLanguages, mode);
+                    enabledRules, enabledRuleCategories, userConfig, altLanguages, mode, level);
             sentenceMatches = cache.getIfPresent(cacheKey);
           }
           if (sentenceMatches == null) {

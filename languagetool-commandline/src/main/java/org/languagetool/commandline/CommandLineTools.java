@@ -198,6 +198,12 @@ public final class CommandLineTools {
       } else if (rule.getUrl() != null) {
         System.out.println("More info: " + rule.getUrl());
       }
+      if (rule instanceof AbstractPatternRule) {
+        List<String> tags = ((AbstractPatternRule) rule).getTags();
+        if (!tags.isEmpty()) {
+          System.out.println("Tags: " + tags);
+        }
+      }
       if (i < ruleMatches.size()) {
         System.out.println();
       }

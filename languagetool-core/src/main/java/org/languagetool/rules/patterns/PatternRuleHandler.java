@@ -52,6 +52,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
 
   private final List<DisambiguationPatternRule> rulegroupAntiPatterns = new ArrayList<>();
   private final List<DisambiguationPatternRule> ruleAntiPatterns = new ArrayList<>();
+  private final List<String> tags = new ArrayList<>();
 
   private int subId;
   private boolean interpretPosTagsPreDisambiguation;
@@ -114,6 +115,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (attrs.getValue(TYPE) != null) {
           categoryIssueType = attrs.getValue(TYPE);
         }
+        if (attrs.getValue("tags") != null) {
+          tags.addAll(Arrays.asList(attrs.getValue("tags").split(" ")));
+        }
         break;
       case "rules":
         String languageStr = attrs.getValue("lang");
@@ -173,6 +177,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
           ruleIssueType = attrs.getValue(TYPE);
         }
         isRuleSuppressMisspelled = false;
+        if (attrs.getValue("tags") != null) {
+          tags.addAll(Arrays.asList(attrs.getValue("tags").split(" ")));
+        }
         break;
       case PATTERN:
         startPattern(attrs);
@@ -291,6 +298,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (attrs.getValue(TYPE) != null) {
           ruleGroupIssueType = attrs.getValue(TYPE);
         }
+        if (attrs.getValue("tags") != null) {
+          tags.addAll(Arrays.asList(attrs.getValue("tags").split(" ")));
+        }
         break;
       case MATCH:
         setMatchElement(attrs, inSuggestion && (isSuggestionSupressMisspelled || isRuleSuppressMisspelled));
@@ -380,6 +390,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         inRule = false;
         filterClassName = null;
         filterArgs = null;
+        tags.clear();
         break;
       case EXCEPTION:
         finalizeExceptions();
@@ -579,6 +590,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         rule = new PatternRule(id, language, tmpPatternTokens, name,
                 message.toString(), shortMessage,
                 suggestionsOutMsg.toString(), phrasePatternTokens.size() > 1, interpretPosTagsPreDisambiguation);
+        rule.addTags(tags);
         rule.setSourceFile(sourceFile);
       } else if (regex.length() > 0) {
         int flags = regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE;
@@ -669,6 +681,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
     if (!ruleAntiPatterns.isEmpty()) {
       rule.setAntiPatterns(ruleAntiPatterns);
       ruleAntiPatterns.clear();
+    }
+    if (!tags.isEmpty()) {
+      rule.addTags(tags);
+      tags.clear();
     }
     if (inRuleGroup) {
       rule.setSubId(Integer.toString(subId));

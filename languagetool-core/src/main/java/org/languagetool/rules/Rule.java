@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.patterns.PatternToken;
@@ -42,10 +43,12 @@ import java.util.*;
  * @author Daniel Naber
  */
 public abstract class Rule {
+
   private static final Category MISC = new Category(CategoryIds.MISC, "Miscellaneous");
 
   protected final ResourceBundle messages;
 
+  private List<String> tags = new ArrayList<>();
   private List<CorrectExample> correctExamples;
   private List<IncorrectExample> incorrectExamples;
   private List<ErrorTriggeringExample> errorTriggeringExamples;
@@ -459,6 +462,37 @@ public abstract class Rule {
       correctExamples.clear();
     }
     addExamplePair(incorrectSentence, correctSentence);
+  }
+
+  /**
+   * @since 5.1
+   */
+  public void addTags(List<String> tags) {
+    //System.out.println(getFullId() + " =>" + tags);
+    for (String tag : tags) {
+      if (!this.tags.contains(tag)) {
+        this.tags.add(tag);
+      }
+    }
+  }
+
+  /**
+   * @since 5.1
+   */
+  public void setTags(List<String> tags) {
+    //System.out.println(getFullId() + " ->" + tags);
+    this.tags = Objects.requireNonNull(tags);
+  }
+
+  /** @since 5.1 */
+  @NotNull
+  public List<String> getTags() {
+    return this.tags;
+  }
+
+  /** @since 5.1 */
+  public boolean hasTag(Tags tag) {
+    return this.tags.contains(tag.toString());
   }
 
 }

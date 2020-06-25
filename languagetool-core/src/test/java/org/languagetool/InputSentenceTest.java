@@ -36,38 +36,39 @@ public class InputSentenceTest {
     UserConfig userConfig1 = new UserConfig(Arrays.asList("foo1", "foo2"));
     List<Language> altLanguages = new ArrayList<>();
     JLanguageTool.Mode mode = JLanguageTool.Mode.ALL;
+    JLanguageTool.Level level = JLanguageTool.Level.DEFAULT;
     InputSentence inputSentence1a = new InputSentence("foo", lang, lang,
             new HashSet<>(Arrays.asList("ID1")), new HashSet<>(Arrays.asList(new CategoryId("C1"))),
-            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig1, altLanguages, mode);
+            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig1, altLanguages, mode, level);
     InputSentence inputSentence1b = new InputSentence("foo", lang, lang,
             new HashSet<>(Arrays.asList("ID1")), new HashSet<>(Arrays.asList(new CategoryId("C1"))),
-            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig1, altLanguages, mode);
+            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig1, altLanguages, mode, level);
     assertEquals(inputSentence1a, inputSentence1b);
     InputSentence inputSentence2 = new InputSentence("foo", lang, null,
             new HashSet<>(Arrays.asList("ID1")), new HashSet<>(Arrays.asList(new CategoryId("C1"))),
-            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig1, altLanguages, mode);
+            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig1, altLanguages, mode, level);
     assertNotEquals(inputSentence1a, inputSentence2);
     assertNotEquals(inputSentence1b, inputSentence2);
     UserConfig userConfig2 = new UserConfig(Arrays.asList("foo1", "foo2"));
     InputSentence inputSentence1bUserConfig2 = new InputSentence("foo", lang, lang,
             new HashSet<>(Arrays.asList("ID1")), new HashSet<>(Arrays.asList(new CategoryId("C1"))),
-            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig2, altLanguages, mode);
+            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig2, altLanguages, mode, level);
     assertEquals(inputSentence1a, inputSentence1bUserConfig2);
 
     InputSentence inputSentence1aOtherMode = new InputSentence("foo", lang, lang,
             new HashSet<>(Arrays.asList("ID1")), new HashSet<>(Arrays.asList(new CategoryId("C1"))),
-            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig1, altLanguages, JLanguageTool.Mode.TEXTLEVEL_ONLY);
+            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig1, altLanguages, JLanguageTool.Mode.TEXTLEVEL_ONLY, level);
     assertNotEquals(inputSentence1a, inputSentence1aOtherMode);
 
     List<Language> altLanguages1 = new ArrayList<>();
     List<Language> altLanguages2 = Arrays.asList(Languages.getLanguageForShortCode("xx"));
     InputSentence inputSentence1aSameAltLang = new InputSentence("foo", lang, lang,
             new HashSet<>(Arrays.asList("ID1")), new HashSet<>(Arrays.asList(new CategoryId("C1"))),
-            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig1, altLanguages1, mode);
+            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig1, altLanguages1, mode, level);
     assertEquals(inputSentence1a, inputSentence1aSameAltLang);
     InputSentence inputSentence1aOtherAltLang = new InputSentence("foo", lang, lang,
             new HashSet<>(Arrays.asList("ID1")), new HashSet<>(Arrays.asList(new CategoryId("C1"))),
-            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig1, altLanguages2, mode);
+            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig1, altLanguages2, mode, level);
     assertNotEquals(inputSentence1a, inputSentence1aOtherAltLang);
   }
 
