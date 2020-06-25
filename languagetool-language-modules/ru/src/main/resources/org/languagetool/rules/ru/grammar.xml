@@ -7596,7 +7596,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 никому (ни для кого и т. п.) не нужная вещь, никогда не встречающаяся ошибка, никому не выгодно за это браться;
                 -->
                 <pattern>
-                    <token postag="PNN:.*" regexp="yes" postag_regexp="yes">(ни)(.*)<exception regexp="yes">ним|них</exception></token>
+                    <token postag="PNN:.*" regexp="yes" postag_regexp="yes">(ни)(.*)<exception regexp="yes">ним|них|ничего</exception></token>
                     <token postag="(ADJ:.*)|(PT:.*)" postag_regexp="yes" regexp="yes">(не)(.*)<exception regexp="yes">(необходим)(.*)|(немецк)(.*)</exception></token>   <!-- <exception   postag="ADJ:Short:.*" postag_regexp="yes"/>  общее правило для полной и краткой формы прилагательных-->
                 </pattern>
                 <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
@@ -7604,7 +7604,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Пишется раздельно с «не»: <suggestion><match no="1"></match> <match no="2" regexp_match="(не)(.*)" regexp_replace="$1 $2"></match></suggestion>.</message>
                 <short>Раздельно с «не»</short>
                 <example>На полке лежит никому не нужная коробка.</example>
-                <example>Наличие в них недостоверных сведений.</example> 
+                <example>Наличие в них недостоверных сведений.</example>
+                <example>В жизни нет ничего невозможного.</example> <!-- ничего - исключение, не зависит от прилагательных, а само ими поясняется -->
                 <example>На корабль доставили контейнеры с погруженными в них немецкими автомобилями.</example>
                 <example correction="никому не нужная">На полке лежит <marker>никому ненужная</marker> коробка.</example>
             </rule>
