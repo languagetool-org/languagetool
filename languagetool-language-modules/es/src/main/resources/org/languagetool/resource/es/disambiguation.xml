@@ -237,6 +237,57 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="replace" postag="RG"/>
         </rule>
     </rulegroup>
+    <rulegroup id="NADA" name="nada">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>nada<exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="NCFS000"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>nada</token>
+                </marker>
+                <token regexp="yes">más|menos</token>
+            </pattern>
+            <disambig action="filter" postag="PI0CS000"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="MUCHO" name="mucho (adverb)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">mucho|muchísimo|bastante</token>
+                </marker>
+                <token regexp="yes" inflected="yes">mejor|peor|mayor|menor|más|menos|antes|después</token>
+            </pattern>
+            <disambig action="filter" postag="RG"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <marker>
+                    <token>mucho</token>
+                </marker>
+                <token regexp="yes">juntos|juntas</token>
+            </pattern>
+            <disambig action="filter" postag="RG"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>quien</token>
+                <marker>
+                    <token>mucho</token>
+                </marker>
+                <token min="0" max="1" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="RG"/>
+        </rule>
+    </rulegroup>
     <rule id="ADVERB_BEFORE" name="adverb before adjective">
         <pattern>
             <token postag="RG" regexp="yes">todavía|mal|.+mente|muy|poco|muchísimo|poquísimo|tantísimo|tanto|tan|entonces|pronto|bastante|bien|aún|casi|harto|nada|incluso|ya|nunca|demasiado|medio|mejor|más|menos|no|solo|sólo|peor|quizás?|algo|siempre|también|tampoco|todo|aun</token>
@@ -1015,15 +1066,6 @@ Copyright (C) 2011 Juan Martorell
             <token regexp="yes" case_sensitive="yes">[A-ZÀÈÌÒÙÁÉÍÓÚ].*</token>
         </pattern>
         <disambig action="filter" postag="NC.*"/>
-    </rule>
-    <rule id="NADA" name="nada">
-        <pattern>
-            <marker>
-                <token>nada</token>
-            </marker>
-            <token regexp="yes">más|menos</token>
-        </pattern>
-        <disambig action="filter" postag="PI0CS000"/>
     </rule>
     <rule id="not_adj" name="not adj">
         <pattern>
@@ -1838,9 +1880,23 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="remove" postag="NC.*"/>
         </rule>
         <rule>
+            <!-- por qué ser -->
+            <pattern>
+                <token>por</token>
+                <token>qué</token>
+                <marker>
+                    <and>
+                        <token postag="V.N.*" postag_regexp="yes"/>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="NC.*"/>
+        </rule>
+        <rule>
             <pattern>
                 <and>
-                    <token postag="V.N.*" postag_regexp="yes"><exception postag="D..[MC]..|AQ0MS0" postag_regexp="yes" scope="previous"/></token>
+                    <token postag="V.N.*" postag_regexp="yes"><exception postag="D..[MC]S.|DA.[MC].." postag_regexp="yes" scope="previous"/></token> <!--|AQ0MS0-->
                     <token postag="N.*" postag_regexp="yes"/>
                 </and>
             </pattern>
@@ -2036,7 +2092,7 @@ Copyright (C) 2011 Juan Martorell
             <token postag="SENT_START|CC|_PUNCT.*" postag_regexp="yes"/>
             <marker>
                 <and>
-                    <token postag="V.[IS].*" postag_regexp="yes"/>
+                    <token postag="V.[IS].*" postag_regexp="yes"><exception>deje</exception></token>
                     <token postag="NC.*" postag_regexp="yes"/>
                 </and>
             </marker>
@@ -2137,18 +2193,6 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="filter" postag="V.*|_GV_"/>
         </rule>
     </rulegroup>
-
-    <rule id="mucho" name="mucho adv">
-        <pattern>
-            <token>quien</token>
-            <marker>
-                <token>mucho</token>
-            </marker>
-            <token min="0" max="1" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-            <token postag="V.[SI].*" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="filter" postag="RG"/>
-    </rule>
 
     <rulegroup id="verbnoun_verb" name="verb/noun + verb">
         <antipattern>
@@ -2977,7 +3021,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <marker>
                     <token postag="A..[MC][SN0].*|V.P..SM|PX.[MC][SN0].*" postag_regexp="yes"><exception postag="AQ0CN0|_GV_|N.CN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">tener|poder|voler|saber|hacer</exception></token>
-                    <token postag="N.[MC][SN0].*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/></token>
+                    <token postag="N.[MC][SN0].*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/><exception>ser</exception></token>
                 </marker>
             </pattern>
             <disambig action="add">

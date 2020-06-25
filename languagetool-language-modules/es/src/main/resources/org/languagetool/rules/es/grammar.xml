@@ -3440,7 +3440,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- esté + participio-->
                 <pattern>
-                    <token postag="PR.*" postag_regexp="yes" skip="4"/>
+                    <token postag="PR.*|CS" postag_regexp="yes" skip="4"/>
                     <marker>
                         <token>este</token>
                     </marker>
@@ -3451,6 +3451,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="esté">Que <marker>este</marker> cansado.</example>
                 <example correction="esté">Cuando <marker>este</marker> muy cansado.</example>
                 <example correction="esté">Cuando <marker>este</marker> agotado.</example>
+                <example correction="esté">Aunque <marker>este</marker> cansada.</example>
                 <example>Este diario es antiguo.</example>
             </rule>
             <rule>
@@ -5210,6 +5211,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
+        <rule id="MUCHO" name="mucho/muy (adverbio)" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>muy</token>
+                </marker>
+                <token regexp="yes">mejor|peor|mayor|menor|más|menos|antes|después</token>
+            </pattern>
+            <message>Cuando precede al comparativo \2, el adverbio "mucho" conserva su forma plena</message>
+            <suggestion>mucho</suggestion>
+            <example correction="mucho">Esto es <marker>muy</marker> peor de lo que pensaba.</example>
+        </rule>
+        <rule id="MUY_GRAVISIMO" name="*muy gravísimo" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>muy</token>
+                    <token postag="A.*" postag_regexp="yes" inflected="yes" regexp="yes">.*ísimo</token>
+                </marker>
+            </pattern>
+            <message>No es posible formar el superlativo con "muy" y "-ísimo" al mismo tiempo.</message>
+            <suggestion>\2</suggestion>
+            <example correction="gravísimo">Esto es <marker>muy gravísimo</marker>.</example>
+        </rule>
         <rulegroup id="LEISMO" name="leísmo">
             <rule>
                 <pattern>
@@ -6428,6 +6451,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Donde las dan las toman.</example>
                 <example>Andaba el 32º a casi 25 minutos del líder.</example>
                 <example>El plazo termina el 1º de mayo.</example>
+                <example>¿Puede alguno de estos ser real?</example>
                 <!-- <example>no esta claro</example> better: other rule-->
             </rule>
             <rule>
@@ -6680,11 +6704,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*<exception case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</exception></token>
                 <token case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</token>
             </antipattern>
+            <antipattern>
+                <!-- confusion º / °, to be fixed in another rule -->
+                <token regexp="yes">\d+[º°]</token>
+            </antipattern>
             <rule>
                 <antipattern>
                     <!-- triggers another rule -->
                     <token>esta</token>
-                    <token postag="V.P..SM" postag_regexp="yes"><exception postag="NCFS000"/></token>
+                    <token postag="V.P..SM|A..MS." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">unas|a</token>
+                    <token skip="6">veces</token>
+                    <token>otras</token>
+                    <token/>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -6703,6 +6737,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][PN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="A..[FC][PN].|V.P..PF" postag_regexp="yes" case_conversion="preserve"/></suggestion>
                 <example correction="el rojo|los rojos|la roja|las rojas">De las rosas quiero <marker>la rojo</marker>.</example>
                 <example>El rojo y las rojas.</example>
+                <example>Unas veces está contento, otras melancólico.</example>
+                <example>Nosotros aprendemos mucho juntos.</example>
+                <example>Los hombres son mucho peores.</example>
+                <example>Unas veces me pone eufórica y otras nostálgica.</example>
             </rule>
             <rule>
                 <pattern>
@@ -6750,6 +6788,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][PN]." postag_regexp="yes" case_conversion="preserve"/> \2 <match no="3" postag="A..[FC][PN].|V.P..PF" postag_regexp="yes" case_conversion="preserve"/></suggestion>
                 <example correction="el más rojo|los más rojos|la más roja|las más rojas">De las rosas quiero <marker>la más rojo</marker>.</example>
                 <example>El rojo y las rojas.</example>
+                <example>Su comunicación podría ser mucho más compleja de lo que pensamos.</example>
+                <example>La explicación es mucho más complicada.</example>
+                <example>Los hermanos están bastante más bronceados que ella.</example>
+                <example>Mary acabo muchísimo más bronceada.</example>
             </rule>
             <rule>
                 <pattern>
@@ -7219,6 +7261,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">,|y|e|o|u</token>
                 <token postag="A..[FC][PN].*|V.P..PF|PX.FP.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">unas|a</token>
+                <token skip="6">veces</token>
+                <token>otras</token>
+                <token/>
+            </antipattern>
             <pattern>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/> <exception regexp="yes">primero|juntos|juntas|dado|dada|dados|dadas|incluso</exception><exception regexp="yes">\p{Lu}.*</exception></token>
             </pattern>
@@ -7304,6 +7352,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Son un 58% más duras.</example>
             <example>El hechizo sólo dura hasta medianoche.</example>
             <example>El hechizo solo dura hasta medianoche.</example>
+            <example>Es bueno ser caritativos.</example>
+            <example>Pero le era embarazoso ser vista por sus amigos.</example>
+            <example>Unas veces me pone eufórica y otras nostálgica.</example>
             <!-- 
                 Ella fue al concierto acompañada de una amiga.
                 Soy cualquier cosa menos mentiroso. 
@@ -7322,10 +7373,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="AGREEMENT_VERBS" name="Concordancia sujeto/predicado" type="inconsistency" default="on">
         <rulegroup id="AGREEMENT_VERB_PARTICIPLE" name="*están hecho/hechos" default="temp_off">
             <antipattern>
-                <marker>
-                    <token inflected="yes">ser</token>
-                    <token postag="N.*" postag_regexp="yes"/>
-                </marker>
+                <token inflected="yes">ser</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">ser</token>
+                <token regexp="yes">nada|algo</token>
+                <token/>
             </antipattern>
             <rule>
                 <pattern>
@@ -7395,9 +7449,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="AGREEMENT_SER_PARTICIPLE" name="son hecho/hechos" default="temp_off">
+            <antipattern>
+                <token inflected="yes">ser</token>
+                <token regexp="yes">nada|algo</token>
+                <token/>
+            </antipattern>
             <pattern>
                 <token postag="V...[13]P." postag_regexp="yes" inflected="yes">ser</token>
-                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"><exception postag="PI.*" postag_regexp="yes"/></token>
                 <marker>
                     <token postag="V.P..SM" postag_regexp="yes"><exception regexp="yes">resultado|pecado</exception></token>
                 </marker>
@@ -7410,6 +7469,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>No eren pecado.</example>
             <example>Son resultado de una acción particular.</example>
             <example>¿Estáis preparado?</example>
+            <example>No son nada comparado a los suyos.</example>
         </rule>
         <rulegroup id="AGREEMENT_PP_VERB" name="Concordancias: pronombre personal + verbo">
             <short>Concordancia de persona dudosa.</short>
