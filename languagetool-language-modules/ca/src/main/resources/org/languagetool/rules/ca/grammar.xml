@@ -1969,9 +1969,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="CONCORDANCES_DET_ADJ" name="Concordances determinant i adjectiu">
             <antipattern>
-                <token postag="DA.[MC]S." postag_regexp="yes"/>
-                <token min="1" max="4" regexp="yes" case_sensitive="yes">\p{Lu}.*<exception case_sensitive="yes" regexp="yes">Club|TM|UD|UE|SD|Team</exception></token>
-                <token case_sensitive="yes" regexp="yes">Club|TM|UD|UE|SD|Team</token>
+                <token postag="DA0[MC]S0" postag_regexp="yes"/>
+                <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*<exception case_sensitive="yes" regexp="yes">&common_english_nouns_masculine;</exception></token>
+                <token case_sensitive="yes" regexp="yes">&common_english_nouns_masculine;</token>
+            </antipattern>
+            <antipattern>
+                <token>la</token>
+                <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*<exception case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</exception></token>
+                <token case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</token>
             </antipattern>
             <rule>
                 <pattern>
