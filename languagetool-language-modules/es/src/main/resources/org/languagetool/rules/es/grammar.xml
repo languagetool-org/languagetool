@@ -6817,6 +6817,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="del más informado|de los más informados|de la más informada|de las más informadas"><marker>del más informadas</marker></example>
             </rule>
         </rulegroup>
+        <rule id="MUCHO_MAS_EDAD" name="*mucho/mucha más edad" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>mucho</token>
+                </marker>
+                <token regexp="yes">más|menos</token>
+                <token postag="NCFS000"/>
+            </pattern>
+            <message>Error de concordancia.</message>
+            <suggestion suppress_misspelled="yes"><match no="3" postag="NC(..).*" postag_regexp="yes" postag_replace="DI.$1.">mucho</match></suggestion>
+            <example correction="mucha">Aparentaba <marker>mucho</marker> más edad.</example>
+        </rule>
         <rule id="DET_FEM_NOM_FEM" name="la agua>el agua">
             <antipattern>
                 <token>alta</token>
