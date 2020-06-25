@@ -17804,6 +17804,8 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="SPATIE_VOOR" name="spatie na ; of :">
 			<rule>
+				<!-- common in some sources -->
+				<antipattern><token>[</token><token spacebefore="no">…</token><token spacebefore="no">]</token></antipattern>
 				<pattern>
 					<token><exception>(</exception></token>
 					<token spacebefore="no">…</token>
@@ -34022,6 +34024,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="DEN" name="Waarschuwen voor 'den' buiten staande uitdrukkingen">
 			<rule>
+				<antipattern case_sensitive="yes"><token/><token/><token>Den</token></antipattern>
 				<antipattern><token>in</token><token>den</token><token>eeuwigheid</token></antipattern>
 				<antipattern><token>in</token><token>den</token><token>beginne</token></antipattern>
 				<antipattern><token>in</token><token>den</token><token>blinde</token></antipattern>
@@ -34042,9 +34045,8 @@ steenwijk;Steenwijk
 				<antipattern><token/><token>den</token><token regexp="yes" case_sensitive="yes">[A-Z].*</token></antipattern> <!-- eigennamen -->
 				<!-- TODO Afraden van al deze ouderwetsigheid -->
 				<pattern>
-					<token/>
 					<marker>
-						<token>den</token>
+						<token case_sensitive="yes" regexp="yes">[Dd]en</token>
 					</marker>
 					<token/>
 				</pattern>
