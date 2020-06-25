@@ -7160,6 +7160,97 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AGREEMENT_VERBS" name="Concordancia sujeto/predicado" type="inconsistency" default="on">
+        <rulegroup id="AGREEMENT_VERB_PARTICIPLE" name="*están hecho/hechos" default="temp_off">
+            <antipattern>
+                <marker>
+                    <token inflected="yes">ser</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="V...[13]P." postag_regexp="yes" inflected="yes" regexp="yes">estar|ser|ir|quedar|restar|continuar|seguir|permanecer</token>
+                    <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V.P..SM" postag_regexp="yes"><exception>resultado</exception></token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión o falta de concordancia.</message>
+                <suggestion><match no="3" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..PM"/></suggestion>
+                <suggestion><match no="3" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.G...."/></suggestion>
+                <example correction="hechos|haciendo">Están <marker>hecho</marker> de carne.</example>
+                <example correction="documentados|documentando">Estamos <marker>documentado</marker>.</example>
+                <example correction="cantados|cantando">Están siempre <marker>cantado</marker> estas cosas.</example>
+                <example>No eran pecado.</example>
+                <example>Son resultado de una acción particular.</example>
+                <example>¿Estáis preparado?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V...[13]P." postag_regexp="yes" inflected="yes" regexp="yes">poder|querer|estar|ser|deber|ir|continuar|seguir|permanecer</token>
+                    <token regexp="yes">estar|ser|ir|quedar|restar|continuar|seguir|permanecer</token>
+                    <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V.P..SM" postag_regexp="yes"><exception>resultado</exception></token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión o falta de concordancia.</message>
+                <suggestion><match no="4" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..PM"/></suggestion>
+                <suggestion><match no="4" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.G...."/></suggestion>
+                <example correction="demandados|demandando">Podemos seguir <marker>demandado</marker> soluciones.</example>
+                <example correction="callados|callando">Quieren permanecer siempre <marker>callado</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V...[13]P." postag_regexp="yes" inflected="yes">haber</token>
+                    <token postag="V.P..SM" postag_regexp="yes" inflected="yes" regexp="yes">estar|ser|ir|quedar|restar|continuar|seguir|permanecer</token>
+                    <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V.P..SM" postag_regexp="yes"><exception>resultado</exception></token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión o falta de concordancia.</message>
+                <suggestion><match no="4" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..PM"/></suggestion>
+                <suggestion><match no="4" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.G...."/></suggestion>
+                <example correction="cantados|cantando">Han sido <marker>cantado</marker>.</example>
+                <example correction="documentados|documentando">Hemos estado frecuentemente <marker>documentado</marker>.</example>
+                <example>No han sido pecado.</example>
+                <example>Han sido resultado de una acción particular.</example>
+                <example>¿Estáis preparado?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V...[13]P." postag_regexp="yes" inflected="yes">haber</token>
+                    <token postag="V.P..SM" postag_regexp="yes" inflected="yes" regexp="yes">poder|querer|estar|ser|ir|continuar|seguir|permanecer|deber</token>
+                    <token regexp="yes">estar|ésser|ser|anar|quedar|restar|continuar|seguir|permanecer</token>
+                    <marker>
+                        <token postag="V.P..SM" postag_regexp="yes"><exception>resultado</exception></token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión o falta de concordancia.</message>
+                <suggestion><match no="4" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..PM"/></suggestion>
+                <suggestion><match no="4" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.G...."/></suggestion>
+                <example correction="demandados|demandando">Hemos podido seguir <marker>demandado</marker>.</example>
+                <example correction="callados|callando">Han querido permanecer <marker>callado</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rule id="AGREEMENT_SER_PARTICIPLE" name="son hecho/hechos" default="temp_off">
+            <pattern>
+                <token postag="V...[13]P." postag_regexp="yes" inflected="yes">ser</token>
+                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <marker>
+                    <token postag="V.P..SM" postag_regexp="yes"><exception regexp="yes">resultado|pecado</exception></token>
+                </marker>
+            </pattern>
+            <message>Posible confusión o falta de concordancia.</message>
+            <suggestion><match no="3" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..PM"/></suggestion>
+            <example correction="enviados">Serán directamente <marker>enviado</marker> a los clientes.</example>
+            <example correction="documentados">Son <marker>documentado</marker>.</example>
+            <example correction="hechos">Son siempre <marker>hecho</marker> de carne.</example>
+            <example>No eren pecado.</example>
+            <example>Son resultado de una acción particular.</example>
+            <example>¿Estáis preparado?</example>
+        </rule>
         <rulegroup id="AGREEMENT_PP_VERB" name="Concordancias: pronombre personal + verbo">
             <short>Concordancia de persona dudosa.</short>
             <antipattern>
