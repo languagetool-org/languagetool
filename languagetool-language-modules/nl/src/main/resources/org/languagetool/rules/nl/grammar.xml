@@ -33425,6 +33425,26 @@ steenwijk;Steenwijk
 		</rule>
 		-->
 		<rulegroup id="KAN_KUN" name="kan vs kun">
+			<antipattern>
+				<token postag="SENT_START"/>
+				<token regexp="yes">wat|wie</token>
+				<token postag_regexp="yes" postag="ZNW:EKV.*"/>
+				<token>kan</token>
+				<token regexp="yes">u|je</token>
+			</antipattern>
+			<antipattern>
+				<token postag="SENT_START"/>
+				<token regexp="yes">hij|zij|ze|men</token>
+				<token postag_regexp="yes" postag="ZNW:EKV.*"/>
+				<token>kan</token>
+				<token regexp="yes">u|je</token>
+			</antipattern>
+			<antipattern>
+				<token>kan</token>
+				<token>je</token>
+				<token postag_regexp="yes" postag="ZNW:EKV.*"/>
+			</antipattern>
+			
 			<rule>
 				<!-- 2014-08-20 TaalTik -->
 				<pattern>
@@ -33440,6 +33460,9 @@ steenwijk;Steenwijk
 				<example correction="Kun"><marker>Kan</marker> je nog weg?</example>
 				<example correction="kun">Wat <marker>kan</marker> je doen?</example>
 				<example correction="kun">Zo <marker>kan</marker> je het tonen.</example>
+				<!-- TODO: antipattern for <example>Oxxio kan je om een waarborgsom vragen.</example> -->
+				<example>Wanneer kan je kind in een rugdrager?</example>
+				<example>Waarschijnlijk kan je salesafdeling haarfijn uitleggen hoe de reis verloopt.</example>
 			</rule>
 			<rule>
 				<pattern>
@@ -33468,6 +33491,7 @@ steenwijk;Steenwijk
 				<example correction="kunt">Je <marker>kan</marker> dat niet vergelijken.</example>
 				<example correction="kunt">U <marker>kan</marker> één lied beluisteren.</example>
 				<example correction="kunt">En je <marker>kan</marker> er lekker eten.</example>
+				<example>Uw kinderbijslagfonds kan u vertellen.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="ZAL_ZUL" name="zal of zul">
