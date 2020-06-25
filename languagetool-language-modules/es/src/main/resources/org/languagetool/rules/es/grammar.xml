@@ -6615,6 +6615,166 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Cuando menos te lo esperas te deja.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AGREEMENT_DET_ADJ" name="Concordancias determinante y adjetivo" default="temp_off">
+            <antipattern>
+                <token regexp="yes">el|un|los|unos</token>
+                <token>/</token>
+                <token regexp="yes">la|una|las|unas</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">el|al|del|un|algún|ningún</token>
+                <token regexp="yes">&nombre_fem_el;</token>
+            </antipattern>
+            <antipattern>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag_regexp="yes">.</token>
+            </antipattern>
+            <antipattern>
+                <token>tanto</token>
+                <token postag="NP.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>mas</token>
+            </antipattern>
+            <antipattern>
+                <and>
+                    <token postag="_GN_MS"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </and>
+                <token postag="_GN_MS"/>
+            </antipattern>
+            <antipattern>
+                <and>
+                    <token postag="_GN_FS"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </and>
+                <token postag="_GN_FS"/>
+            </antipattern>
+            <antipattern>
+                <and>
+                    <token postag="_GN_MP"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </and>
+                <token postag="_GN_MP"/>
+            </antipattern>
+            <antipattern>
+                <and>
+                    <token postag="_GN_FP"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </and>
+                <token postag="_GN_FP"/>
+            </antipattern>
+            <antipattern>
+                <!-- with prefixes it is imposible to know the word-->
+                <token postag="A.*" postag_regexp="yes"/>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">al|del|el</token>
+                <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*<exception case_sensitive="yes" regexp="yes">&common_english_nouns_masculine;</exception></token>
+                <token case_sensitive="yes" regexp="yes">&common_english_nouns_masculine;</token>
+            </antipattern>
+            <antipattern>
+                <token>la</token>
+                <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*<exception case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</exception></token>
+                <token case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</token>
+            </antipattern>
+            <rule>
+                <antipattern>
+                    <!-- triggers another rule -->
+                    <token>esta</token>
+                    <token postag="V.P..SM" postag_regexp="yes"><exception postag="NCFS000"/></token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <unify negate="yes">
+                            <feature id="numero"/>
+                            <feature id="genero"/>
+                            <token postag="D[^RN].*" postag_regexp="yes"><exception postag="DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/></token>
+                            <token postag="A.....|V.P...." postag_regexp="yes"><exception postag="AQ0CN0|N.CN.*|V.[IS].*" postag_regexp="yes"/></token>
+                        </unify>
+                    </marker>
+                </pattern>
+                <message>Error de concordancia.</message>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[MC][SN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="A..[MC][SN].|V.P..SM" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[MC][PN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="A..[MC][PN].|V.P..PM" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][SN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="A..[FC][SN].|V.P..SF" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][PN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="A..[FC][PN].|V.P..PF" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <example correction="el rojo|los rojos|la roja|las rojas">De las rosas quiero <marker>la rojo</marker>.</example>
+                <example>El rojo y las rojas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <unify negate="yes">
+                            <feature id="numero"/>
+                            <feature id="genero"/>
+                            <token postag="SP\+DA" postag_regexp="yes" regexp="yes">del|al<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
+                            <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="(A.|N).[CM][NS].*|_GV_" postag_regexp="yes"/></token>
+                        </unify>
+                    </marker>
+                </pattern>
+                <message>Error de concordancia.</message>
+                <suggestion suppress_misspelled="yes">\1 <match no="2" postag="A..[MC][SN].|V.P..SM" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)(de|a)l" regexp_replace="$1"/> los <match no="2" postag="A..[MC][PN].|V.P..PM" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)(de|a)l" regexp_replace="$1"/> la <match no="2" postag="A..[FC][SN].|V.P..SF" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)(de|a)l" regexp_replace="$1"/> las <match no="2" postag="A..[FC][PN].|V.P..PF" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <example correction="del rojo|de los rojos|de la roja|de las rojas">Quiero el <marker>del rojos</marker>.</example>
+                <example correction="al rojo|a los rojos|a la roja|a las rojas">Apunta <marker>al rojos</marker>.</example>
+                <example correction="del informado|de los informados|de la informada|de las informadas"><marker>del informadas</marker></example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>esta</token>
+                    <token postag="RG"/>
+                    <token postag="V.P..SM" postag_regexp="yes"><exception postag="NCFS000"/></token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <unify negate="yes">
+                            <feature id="numero"/>
+                            <feature id="genero"/>
+                            <token postag="D[^RN].*" postag_regexp="yes"><exception postag="DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/></token>
+                            <unify-ignore>
+                                <token postag="RG"/>
+                            </unify-ignore>
+                            <token postag="A.....|V.P...." postag_regexp="yes"><exception postag="AQ0CN0|N.CN.*|V.[IS].*" postag_regexp="yes"/></token>
+                        </unify>
+                    </marker>
+                </pattern>
+                <message>Error de concordancia.</message>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[MC][SN]." postag_regexp="yes" case_conversion="preserve"/> \2 <match no="3" postag="A..[MC][SN].|V.P..SM" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[MC][PN]." postag_regexp="yes" case_conversion="preserve"/> \2 <match no="3" postag="A..[MC][PN].|V.P..PM" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][SN]." postag_regexp="yes" case_conversion="preserve"/> \2 <match no="3" postag="A..[FC][SN].|V.P..SF" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][PN]." postag_regexp="yes" case_conversion="preserve"/> \2 <match no="3" postag="A..[FC][PN].|V.P..PF" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <example correction="el más rojo|los más rojos|la más roja|las más rojas">De las rosas quiero <marker>la más rojo</marker>.</example>
+                <example>El rojo y las rojas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <unify negate="yes">
+                            <feature id="numero"/>
+                            <feature id="genero"/>
+                            <token postag="SP\+DA" postag_regexp="yes" regexp="yes">del|al<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
+                            <unify-ignore>
+                                <token postag="RG"/>
+                            </unify-ignore>
+                            <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="(A.|N).[CM][NS].*|_GV_" postag_regexp="yes"/></token>
+                        </unify>
+                    </marker>
+                </pattern>
+                <message>Error de concordancia.</message>
+                <suggestion suppress_misspelled="yes">\1 \2 <match no="3" postag="A..[MC][SN].|V.P..SM" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)(de|a)l" regexp_replace="$1"/> los \2 <match no="3" postag="A..[MC][PN].|V.P..PM" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)(de|a)l" regexp_replace="$1"/> la \2 <match no="3" postag="A..[FC][SN].|V.P..SF" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)(de|a)l" regexp_replace="$1"/> las \2 <match no="3" postag="A..[FC][PN].|V.P..PF" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <example correction="del más rojo|de los más rojos|de la más roja|de las más rojas">Quiero el <marker>del más rojos</marker>.</example>
+                <example correction="al más rojo|a los más rojos|a la más roja|a las más rojas">Apunta <marker>al más rojos</marker>.</example>
+                <example correction="del más informado|de los más informados|de la más informada|de las más informadas"><marker>del más informadas</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="DET_FEM_NOM_FEM" name="la agua>el agua">
             <antipattern>
                 <token>alta</token>
