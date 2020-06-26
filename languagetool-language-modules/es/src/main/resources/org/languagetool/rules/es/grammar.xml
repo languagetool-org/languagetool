@@ -3159,6 +3159,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Como el vino los amores.</example>
                 <example>Andaba el 32º a casi 25 minutos del líder.</example>
                 <example>Editan también el Sport y El Mundo Deportivo.</example>
+                <example>El mal nunca triunfa y el bien tampoco.</example>
             </rule>
             <rule id="TU_TILDE" name="tu / tú">
                 <antipattern>
@@ -6694,7 +6695,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token>lo</token>
-                        <token postag="RG"/>
+                        <token regexp="yes">más|menos</token>
                         <token postag="AQ.[MC]P.|V.P..PM" postag_regexp="yes"><exception postag="V.[SI].*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -6702,6 +6703,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>los \2 <match no="3" postag="A..[MC][PN].|V.P..PM" postag_regexp="yes" case_conversion="preserve"/></suggestion>
                 <suggestion>lo \2 <match no="3" postag="A..[MC][SN].|V.P..SM" postag_regexp="yes" case_conversion="preserve"/></suggestion>
                 <example correction="los más seguros|lo más seguro">Pero <marker>lo más seguros</marker> es que no.</example>
+                <example>Son lo suficientemente seguros.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_DET_ADJ" name="Concordancias determinante y adjetivo">

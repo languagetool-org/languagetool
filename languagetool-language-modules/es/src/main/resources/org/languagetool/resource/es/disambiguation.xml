@@ -1215,7 +1215,18 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <marker>
-                    <token postag="RG" regexp="yes">demasiado|bastante|poco|tanto|mal|bien|muy</token>
+                    <token postag="RG" regexp="yes">mal|bien</token>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+            <example type="untouched">El mal siempre triunfa.</example>
+            <example type="untouched">El bien siempre triunfa.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="RG" regexp="yes">demasiado|bastante|poco|tanto|muy</token>
                     <token postag="A.*|V.P.*|RG" postag_regexp="yes"/>
                 </marker>
             </pattern>
