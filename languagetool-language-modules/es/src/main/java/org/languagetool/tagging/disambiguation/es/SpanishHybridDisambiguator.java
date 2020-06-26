@@ -40,7 +40,7 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
  */
 public class SpanishHybridDisambiguator extends AbstractDisambiguator {
 
-  private final Disambiguator chunker = new MultiWordChunker("/es/multiwords.txt", true);
+  private final Disambiguator chunker = new MultiWordChunker("/es/multiwords.txt", true, true);
   private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Spanish());
 
   /**

@@ -29,7 +29,7 @@ import java.util.List;
 
 /**
  * Fast hack to find words which have an uppercase reading in the speller dict
- * but only a lowercase reading in the POS dict => Reading might be missing
+ * but only a lowercase reading in the POS dict =&gt; Reading might be missing
  * in POS dict.
  */
 public class MissingGermanPosForms {

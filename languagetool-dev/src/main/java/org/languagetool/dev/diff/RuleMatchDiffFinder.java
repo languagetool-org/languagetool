@@ -41,7 +41,7 @@ public class RuleMatchDiffFinder {
         if (!oldMatch.getSuggestions().equals(match.getSuggestions()) ||
             !oldMatch.getMessage().equals(match.getMessage()) ||
             oldMatch.getStatus() != match.getStatus() ||
-            !Objects.equals(oldMatch.getSubId(), match.getSubId()) ||
+            //!Objects.equals(oldMatch.getSubId(), match.getSubId()) ||   -- sub id change = other sub-rule added or removed, this is usually not relevant
             !oldMatch.getCoveredText().equals(match.getCoveredText())) {
           result.add(RuleMatchDiff.modified(oldMatch, match));
         }

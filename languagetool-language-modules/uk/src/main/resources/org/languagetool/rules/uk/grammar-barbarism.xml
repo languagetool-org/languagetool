@@ -1486,6 +1486,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>вона знущалася з нього</example>
     </rule>
 
+    <rule id="v_obmorok" name="В обморок">
+      <pattern>
+        <token postag_regexp="yes" postag="verb.*"/>
+        <token regexp="yes">[ву]</token>
+        <token>обморок</token>
+      </pattern>
+      <message>Правильно: <suggestion>непритомніти</suggestion></message>
+      <suggestion>мліти</suggestion>
+      <suggestion>зомлівати</suggestion>
+      <example correction="непритомніти|мліти|зомлівати"><marker>падати в обморок</marker>.</example>
+    </rule>
+
+    <rule id="dyvytysia_v_oba" name="Дивитися в оба">
+      <pattern>
+        <token inflected="yes">дивитися</token>
+        <token>в</token>
+        <token>оба</token>
+      </pattern>
+      <message>Правильно: <suggestion>взяти очі в руки</suggestion></message>
+      <suggestion>пильнувати</suggestion>
+      <suggestion>бути на осторозі</suggestion>
+      <example correction="взяти очі в руки|пильнувати|бути на осторозі">вів <marker>дивився в оба</marker></example>
+    </rule>
+
     <rulegroup id="PRAVYTY_BAL" name="Правити бал">
       <rule>
         <pattern>
@@ -1529,6 +1553,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Правильно: <suggestion>з \3 вилучити</suggestion></message>
         <example correction="з переговірників вилучити"><marker>з числа переговірників виключили</marker> всіх інших</example>
         <example correction="з котрих вилучити"><marker>з числа котрих виключили</marker> всіх інших</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="vyrazhaty" name="Виражати">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">виражати|виразити</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:.:v_zna.*" min="0"/>
+          <token regexp="no">бажання</token>
+        </pattern>
+        <message>Правильно: <suggestion>висловлювати</suggestion></message>
+        <example correction="висловлювати"><marker>виражати</marker> бажання допомогти</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="zazhyvo" name="Заживо">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">з?горіти|згоряти|(зі)?гнити|(зі)?гнисти|закопаний|закопати|спалений|с?палити|похований|поховати|замурований|замуровати|зварений|з?варити</token>
+          <marker>
+            <token>заживо</token>
+          </marker>
+        </pattern>
+        <message>«заживо» означає «за життя», правильно: <suggestion>живцем</suggestion></message>
+        <example correction="живцем">згоріти <marker>заживо</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>заживо</token>
+          </marker>
+          <token inflected="yes" regexp="yes">з?горіти|згоряти|(зі)?гнити|(зі)?гнисти|закопаний|закопати|спалений|с?палити|похований|поховати|замурований|замуровати|зварений|з?варити</token>
+        </pattern>
+        <message>«заживо» означає «за життя», правильно: <suggestion>живцем</suggestion></message>
+        <example correction="живцем"><marker>заживо</marker> закопаний</example>
       </rule>
     </rulegroup>
 
@@ -1791,7 +1853,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>ситуацій</token>
         </antipattern>
         <pattern>
-          <token regexp="yes" inflected="yes" postag_regexp="yes" postag=".*(v_zna|v_rod).*">.+[аеєя]ння|біда|.*вбивство|вибух|випадок|відмова|вчинок|диверсія|дія|забудова|загроза|замах|злочин|злочинність|катастрофа|конфлікт|криза|насильство|наслідок|нашестя|небезпека|обстріл|пандемія|передача|підрив|провокація|прояв|розвиток|ситуація|скоєння|спроба|тенденція|теракт|торгівля|хвороба
+          <token regexp="yes" inflected="yes" postag_regexp="yes" postag=".*(v_zna|v_rod).*">.+[аеєя]ння|біда|.*вбивство|аварія|вибух|випадок|відмова|вчинок|диверсія|дія|забудова|загроза|замах|злочин|злочинність|катастрофа|конфлікт|криза|насильство|наслідок|нашестя|небезпека|обстріл|пандемія|передача|підрив|провокація|прояв|розвиток|ситуація|скоєння|спроба|тенденція|теракт|торгівля|хвороба
             <exception regexp="yes">видання|відділення|дослідження|зарання|засідання|зрання|командування|населення|оточення|самоврядування|скорочення</exception>
           </token>
           <token postag_regexp="yes" postag="adv.*" min="0"/>
@@ -2961,33 +3023,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Правильно: <suggestion>так званий</suggestion></message>
       <example correction="так званий">В <marker>так називаний</marker> парадоксальний ефект.</example>
     </rule>
-
-    <!--
-        <rule>
-        <pattern>
-        <marker>
-        <token inflected="yes">глупий
-        !-
-        <exception scope="previous" inflected="yes">ніч</exception>
-        <exception scope="next" inflected="yes">ніч</exception>
-        -
-        </token>
-        </marker>
-        <token postag_regexp="yes" postag="adj.*" min="0"/>
-        <token><exception inflected="yes">ніч</exception></token>
-        </pattern>
-        <message>Правильно: <suggestion>нерозумний</suggestion>, <suggestion>дурний</suggestion>, <suggestion>дурноголовий</suggestion>, <suggestion>безголовий</suggestion></message>
-        <example correction="нерозумний|дурний|дурноголовий|безголовий">У нас не такі <marker>глупі</marker> люди.</example>
-        <example correction="нерозумний|дурний|дурноголовий|безголовий">У нас не <marker>глупіші</marker> люди.</example>
-        <example correction="нерозумний|дурний|дурноголовий|безголовий">Отакий він був <marker>глупий</marker>.</example>
-        <example correction="Нерозумний|Дурний|Дурноголовий|Безголовий"><marker>Глупої</marker> новорічної ночі.</example>
-        <example>Стояла глупа ніч.</example>
-        <example>співи тривали до глупої ночі</example>
-        !  TODO
-        <example>Позавчорашньої ночі — глупої й морозної</example>
-
-        </rule>
-    -->
 
     <rulegroup id="OVKA_FOR_PROCESS" name="-овка, -обка на позначення процесу">
       <rule>
@@ -4655,6 +4690,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token>по</token>
+          <token postag_regexp="yes" postag="adj:p:v_mis.*" min="0"/>
+          <token>правилах</token>
+        </pattern>
+        <message>Правильно: <suggestion>за <match no="2" postag_regexp="yes" postag="(adj:p:)v_mis(.*)" postag_replace="$1v_oru$2"/> правилами</suggestion></message>
+        <example correction="за такими правилами">і <marker>по таких правилах</marker> </example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>по</token>
           <token>сумісництву</token>
         </pattern>
         <message>Правильно: <suggestion>за сумісництвом</suggestion></message>
@@ -6085,10 +6130,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <exception postag_regexp="yes" postag="numr.*pron.*"/> <!--одних|багатьох -->
           <exception>обох</exception>
         </token>
-        <token postag_regexp="yes" postag="noun.*v_rod.*"/>
+        <token postag_regexp="yes" postag="(noun|numr).*v_rod.*"/>
       </pattern>
       <message>Правильно: <suggestion>близько <match no="2"/> <match no="3"/></suggestion></message>
       <example correction="близько п'яти відсотків"><marker>біля п'яти відсотків</marker></example>
+      <example correction="близько 1 млрд."><marker>біля 1 млрд.</marker> осіб</example>
       <example>біля одного воза він зупинився</example>
       <example>біля обох воріт</example>
     </rule>
@@ -6473,6 +6519,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       -->
     </rulegroup>
+
+    <rule id="po_pyani" name="По п'яні">
+      <pattern>
+        <token>по</token>
+        <token>п'яні</token>
+      </pattern>
+      <message>Правильно: <suggestion>по п'яному</suggestion></message>
+      <suggestion>напідпитку</suggestion>
+      <suggestion>з п'яних очей</suggestion>
+      <example correction="по п'яному|напідпитку|з п'яних очей">загинув <marker>по п'яні</marker>.</example>
+    </rule>
+
+    <rule id="glupyi" name="Глупий">
+      <pattern>
+        <token inflected="yes">глупий
+          <exception scope="next" inflected="yes" regexp="yes">ніч|доба</exception>
+        </token>
+      </pattern>
+      <message>Правильно: <suggestion>дурний</suggestion></message>
+      <suggestion>безголовий</suggestion>
+      <suggestion>дурноголовий</suggestion>
+      <example correction="дурний|безголовий|дурноголовий">така <marker>глупа</marker> дівчинка.</example>
+      <example>глупої ночі</example>
+    </rule>
 
 <!--  Too many false positives with надоїти, moved to replace.txt
     <rule id="nadoyisty" name="Надоїсти">

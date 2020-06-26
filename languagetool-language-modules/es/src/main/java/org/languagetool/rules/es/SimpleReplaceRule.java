@@ -30,8 +30,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
- * A rule that matches words which should not be used and suggests
- * correct ones instead. 
+ * A rule that matches words which should not be used and suggests correct ones
+ * instead.
  * 
  * Loads the relevant words from <code>rules/es/replace.txt</code>.
  * 
@@ -46,21 +46,21 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   protected Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
-  
+
   public SimpleReplaceRule(final ResourceBundle messages) throws IOException {
     super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     this.setIgnoreTaggedWords();
     this.setCheckLemmas(false);
-  }  
+  }
 
   @Override
   public final String getId() {
     return "ES_SIMPLE_REPLACE";
   }
 
- @Override
+  @Override
   public String getDescription() {
     return "Detecta palabras incorrectas y propone sugerencias.";
   }
@@ -69,17 +69,20 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   public String getShort() {
     return "Palabra incorrecta";
   }
-  
+
   @Override
-  public String getMessage(String tokenStr,List<String> replacements) {
-    return "Palabra incorrecta.";
+  public String getMessage(String tokenStr, List<String> replacements) {
+    if (replacements.size() > 0) {
+      return "¿Quería decir «" + replacements.get(0) + "»?";
+    }
+    return getShort();
   }
-  
+
   @Override
   public boolean isCaseSensitive() {
     return false;
   }
-  
+
   @Override
   public Locale getLocale() {
     return ES_LOCALE;

@@ -45,6 +45,9 @@ public class SimpleReplaceSoftRuleTest {
     matches = rule.match(langTool.getAnalyzedSentence("Ці рядки повинні збігатися."));
     assertEquals(0, matches.length);
 
+    matches = rule.match(langTool.getAnalyzedSentence("у Трускавці."));
+    assertEquals(0, matches.length);
+
     matches = rule.match(langTool.getAnalyzedSentence("Цей брелок"));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("дармовис"), matches[0].getSuggestedReplacements());

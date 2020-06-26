@@ -136,7 +136,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // https://github.com/languagetool-org/languagetool/issues/1515
       SENT_START,
-      regex("▶︎|▶|▶️|→|\\*|•|-|★|⧪|⮞"),
+      regex("▶︎|▶|▶️|→|\\*|•|-|★|⧪|⮞|✔︎|✓|✅|➡️"),
       regex(".*")
     ),
     Arrays.asList(
@@ -179,7 +179,7 @@ public class CaseRule extends Rule {
     ),
     // names with english adjectives
     Arrays.asList(
-      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern"),
+      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern|Responsive|Simple|Legend|Human|Light"),
       pos("UNKNOWN")
     ),
     Arrays.asList(
@@ -202,12 +202,17 @@ public class CaseRule extends Rule {
     // names with english adjectives
     Arrays.asList(
       pos("UNKNOWN"),
-      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern")
+      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern|Responsive|Simple|Legend|Human|Light")
+    ),
+    // names with english adjectives
+    Arrays.asList(
+      token("Smart"),
+      posRegex("SUB.*")
     ),
     // names with english adjectives
     Arrays.asList(
       token("National"),
-      regex("Sales")
+      regex("Sales|University")
     ),
     Arrays.asList(
       // see http://www.lektorenverband.de/die-deutsche-rechtschreibung-was-ist-neu/
@@ -262,7 +267,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // Names: "Jeremy Schulte", "Alexa Jung", "Fiete Lang", ...
       posRegex("UNKNOWN|EIG:.+"),
-      regex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Weigert|D(ü|ue)rr|Nagele|Hoppe|D(ö|oe)rre|G(ö|oe)ttlich")
+      regex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Weigert|D(ü|ue)rr|Nagele|Hoppe|D(ö|oe)rre|G(ö|oe)ttlich|Stark")
     ),
     Arrays.asList(
       token(","),
@@ -497,15 +502,89 @@ public class CaseRule extends Rule {
       csToken("Time")
     ),
     Arrays.asList( // Hey Süßer,
-      regex("Hey|Hi|Hallo|Na"),
+      regex("Hey|Hi|Hallo|Na|Moin|Servus"),
       regex("Süßer?|Hübscher?"),
       pos("PKT")
     ),
+    Arrays.asList( // Hey Matt (name),
+      regex("Hey|Hi|Hallo|Na|Moin|Servus"),
+      regex("Matt")
+    ),
     Arrays.asList( // Hey mein Süßer,
-      regex("Hey|Hi|Hallo|Na"),
+      regex("Hey|Hi|Hallo|Na|Moin|Servus"),
       regex("du|meine?"),
       regex("Süßer?|Hübscher?"),
       pos("PKT")
+    ),
+    Arrays.asList( // Grüße aus Höchst, Ich wohne in Wohlen
+      regex("aus|in"),
+      regex("Höchst|Wohlen")
+    ),
+    Arrays.asList( // Am So. (Sonntag)
+      regex(",|/|-|am|bis|vor|\\("),
+      csToken("So"),
+      token(".")
+    ),
+    Arrays.asList(
+      // a.) Im Mittelpunkt ...
+      SENT_START,
+      regex("[a-z]"),
+      token("."),
+      token(")"),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // ---> Der USB  ...
+      SENT_START,
+      regex("[-]{1,}"),
+      token(">"),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // # Was macht eigentlich Karl
+      SENT_START,
+      regex("[#]{1,}"),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // = Schrittweise Erklärung ()
+      SENT_START,
+      token("="),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // == Schrittweise Erklärung
+      SENT_START,
+      token("="),
+      token("="),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // === Schrittweise Erklärung
+      SENT_START,
+      token("="),
+      token("="),
+      token("="),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // ==== Schrittweise Erklärung
+      SENT_START,
+      token("="),
+      token("="),
+      token("="),
+      token("="),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // ===== Schrittweise Erklärung
+      SENT_START,
+      token("="),
+      token("="),
+      token("="),
+      token("="),
+      token("="),
+      regex("[A-ZÄÜÖ].*")
     )
   );
 
@@ -535,13 +614,14 @@ public class CaseRule extends Rule {
    * workaround to avoid false alarms, these words can be added here.
    */
   private static final String[] exceptions = {
+    "Out", // eng
     "Mo",
     "Di",
     "Mi",
     "Do",   // "Di. und Do. um 18 Uhr"
     "Fr",   // "Fr. Dr. Müller"
     "Sa",   // Sa. 12 - 16 Uhr
-    "Gr",   // "Gr. 12"
+    "Gr",   // "Gr. 12" (Größe)
     "Mag",   // "Mag. Helke Müller"
     "Diss",
     "Invalide",
@@ -624,6 +704,9 @@ public class CaseRule extends Rule {
     "Vorstandsvorsitzender",
     "Vorstandsvorsitzenden",
     "Vorstandsvorsitzende",
+    "Marketingtreibende",
+    "Marketingtreibender",
+    "Marketingtreibenden",
     "Strafgefangenen",
     "Strafgefangener",
     "Strafgefangene",
@@ -1359,6 +1442,7 @@ public class CaseRule extends Rule {
         !isSingularImperative(lowercaseReadings, tokens[i]) &&  // too many names like "Kusch", "Klemm" etc.
         !isExceptionPhrase(i, tokens) &&
         !(i == 2 && "“".equals(tokens[i-1].getToken())) &&   // closing quote at sentence start (https://github.com/languagetool-org/languagetool/issues/2558)
+        !isCaseTypo(tokens[i].getToken()) &&
         !isNounWithVerbReading(i, tokens)) {
       String fixedWord = StringTools.lowercaseFirstChar(tokens[i].getToken());
       if (":".equals(tokens[i - 1].getToken())) {
@@ -1373,6 +1457,10 @@ public class CaseRule extends Rule {
       }
       addRuleMatch(ruleMatches, sentence, UPPERCASE_MESSAGE, tokens[i], fixedWord);
     }
+  }
+
+  private boolean isCaseTypo(String token) {
+    return token.matches("[A-ZÖÄÜ][A-ZÖÄÜ][a-zöäüß-]+");   // e.g. "WUrzeln"
   }
 
   private boolean isSingularImperative(AnalyzedTokenReadings lowercaseReadings, AnalyzedTokenReadings token) {

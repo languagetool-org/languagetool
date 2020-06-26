@@ -397,7 +397,17 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("в... одягненому");
     assertEquals(Arrays.asList("в", "...", " ", "одягненому"), testList);
-    
+
+    // invaild but happens
+    testList = w.tokenize("10 млн. чоловік");
+    assertEquals(Arrays.asList("10", " ", "млн.", " ", "чоловік"), testList);
+
+    testList = w.tokenize("від Таврійської губ.5");
+    assertEquals(Arrays.asList("від", " ", "Таврійської", " ", "губ.", "5"), testList);
+
+    testList = w.tokenize("від червоних губ.");
+    assertEquals(Arrays.asList("від", " ", "червоних", " ", "губ", "."), testList);
+
     // not too frequent
 //    testList = w.tokenize("30.04.10р.");
 //    assertEquals(Arrays.asList("30.04.10", "р."), testList);

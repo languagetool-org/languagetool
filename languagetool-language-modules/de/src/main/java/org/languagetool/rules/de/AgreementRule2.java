@@ -69,6 +69,7 @@ public class AgreementRule2 extends Rule {
     asList(token("endlich")),    // "Endlich Mittagspause!"
     asList(token("unbemerkt")),    // "Unbemerkt Süßigkeiten essen"
     asList(token("Typisch"), tokenRegex("Mann|Frau")),    // "Einfach Bescheid sagen ..."
+    asList(token("Ausreichend"), tokenRegex("Bewegung")),    // "Ausreichend Bewegung ..."
     asList(token("Genau"), token("Null")),
     asList(token("wohl")),       // "Wohl Anfang 1725 begegnete Bach ..."
     asList(token("erst")),       // "Erst X, dann ..."
@@ -80,12 +81,13 @@ public class AgreementRule2 extends Rule {
     asList(token("security")),   // engl.
     asList(token("business")),   // oft engl.
     asList(token("voll"), token("Sorge")),
+    asList(token("Total"), tokenRegex("Tankstellen?")),
     asList(token("Ganz"), token("Gentleman")),
     asList(token("Russisch"), token("Roulette")),
     asList(token("Clever"), tokenRegex("Shuttles?")), // name
-    asList(token("Personal"), tokenRegex("(Computer|Coach|Trainer).*")),
-    asList(tokenRegex("Digital|Regional|Global|Bilingual|International|National|Visual|Final|Rapid|Dual"), tokenRegex("(Initiative|Connection|Bootcamp|Leadership|Sales|Community|Service|Management|Board|Identity|City|Paper|Transfer|Transformation|Power).*")),
-    asList(token("Smart"), tokenRegex("(Service|Home|Meter|City|Hall).*")),
+    asList(token("Personal"), tokenRegex("(Computer|Coach|Trainer|Brand).*")),
+    asList(tokenRegex("Digital|Regional|Global|Bilingual|International|National|Visual|Final|Rapid|Dual"), tokenRegex("(Initiative|Connection|Bootcamp|Leadership|Sales|Community|Service|Management|Board|Identity|City|Paper|Transfer|Transformation|Power|Shopping|Brand|Master).*")),
+    asList(token("Smart"), tokenRegex("(Service|Home|Meter|City|Hall|Shopper|Shopping).*")),
     asList(token("GmbH"))
   );
   private final Language language;

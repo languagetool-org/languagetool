@@ -168,6 +168,7 @@ public class CaseRuleTest {
     assertGood("A) Das Haus");
     assertGood("Rabi und Polykarp Kusch an der Columbia-Universität");
     assertGood("Man geht davon aus, dass es sich dabei nicht um Reinigungsverhalten handelt.");
+    assertGood("WUrzeln");  // to be found by spell checker
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");
@@ -344,6 +345,14 @@ public class CaseRuleTest {
     assertGood("#4 Aktuelle Situation");
     assertGood("* [ ] Ein GitHub Markdown Listenpunkt");
     assertGood("Tom ist ein engagierter, gutaussehender Vierzigjähriger, der...");
+    assertGood("a.) Im Zusammenhang mit ...");
+    assertGood("✔︎ Weckt Aufmerksamkeit.");
+    assertGood("Hallo Eckhart,");
+    assertGood("Er kann Polnisch und Urdu.");
+    assertGood("---> Der USB 3.0 Stecker");
+    assertGood("Black Lives Matter");
+    assertGood("== Schrittweise Erklärung");
+    assertGood("Audi A5 Sportback 2.0 TDI");
 
     // uppercased adjective compounds
     assertGood("Er isst UV-bestrahltes Obst.");

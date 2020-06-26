@@ -369,6 +369,12 @@ public class AgreementRuleTest {
     assertGood("Dann hat das Konsequenzen.");
     assertGood("Sollte das Konsequenzen nach sich ziehen?");
     assertGood("Der Echo Show von Amazon");
+    assertGood("Die BVG kommen immer zu spät.");
+    assertGood("In der Frühe der Nacht.");
+    assertGood("Der TV Steinfurt.");
+    assertGood("Ein ID 3 von Volkswagen.");
+    assertGood("Der ID.3 von Volkswagen.");
+    assertGood("Der ID3 von Volkswagen.");
 
     assertBad("Hier steht Ihre Text.");
     assertBad("Hier steht ihre Text.");

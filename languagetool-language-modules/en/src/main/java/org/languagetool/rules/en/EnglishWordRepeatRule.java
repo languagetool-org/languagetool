@@ -118,6 +118,8 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;
     } else if (wordRepetitionOf("jay", tokens, position)) {
       return true; // Jay Jay (name)
+    } else if (wordRepetitionOf("walla", tokens, position)) {
+      return true; // Walla Walla is a city in Washington State
     } else if (wordRepetitionOf("sri", tokens, position)) {
       return true; // Sri Sri (name)
     } else if (wordRepetitionOf("xiao", tokens, position)) {

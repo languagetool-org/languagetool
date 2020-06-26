@@ -46,6 +46,7 @@ import org.languagetool.tools.Tools;
 public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   private static final Map<String, List<String>> wrongWords = loadFromPath("/uk/replace.txt");
+//  private static final Set<String> FORCE_REPLACE_LIST = new HashSet<>(Arrays.asList("главком"));
   private final MorfologikUkrainianSpellerRule morfologikSpellerRule;
 
   @Override
@@ -82,12 +83,20 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   @Override
   protected boolean isTagged(AnalyzedTokenReadings tokenReadings) {
+//    if( FORCE_REPLACE_LIST.contains(tokenReadings.getToken()) )
+//      return false;
+    
     for (AnalyzedToken token: tokenReadings.getReadings()) {
+      // optimize
+      if ( token.hasNoTag() )
+        return false;
+
       String posTag = token.getPOSTag();
       if (isGoodPosTag(posTag)) {
         return true;
       }
     }
+
     return false;
   }
 
@@ -117,7 +126,9 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
         matches.add(match);
       }
       else {
-        if( PosTagHelper.hasPosTagPart(tokenReadings, ":bad") && ! PosTagHelper.hasPosTagStart(tokenReadings, "number") ) {
+        if( PosTagHelper.hasPosTagPart(tokenReadings, ":bad") 
+            && ! PosTagHelper.hasPosTagStart(tokenReadings, "number")
+            && ! "чоловік".equalsIgnoreCase(tokenReadings.getToken()) ) {
 //          try {
             String msg = "Неправильно написане слово.";
 
@@ -141,7 +152,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
       }
     }
     else {
-      if( PosTagHelper.hasPosTagPart(tokenReadings, ":subst") ) {
+      if( PosTagHelper.hasPosTag(tokenReadings, Pattern.compile("(?!verb).*:subst")) ) {
         for(int i=0; i<matches.size(); i++) {
           RuleMatch match = matches.get(i);
           RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), "Це розмовна просторічна форма");

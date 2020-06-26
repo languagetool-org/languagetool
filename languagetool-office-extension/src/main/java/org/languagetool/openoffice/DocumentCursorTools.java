@@ -30,6 +30,7 @@ import com.sun.star.text.XParagraphCursor;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
+import com.sun.star.text.XTextRange;
 import com.sun.star.uno.UnoRuntime;
 
 /**
@@ -62,7 +63,14 @@ class DocumentCursorTools {
       if (xText == null) {
         return null;
       }
-      else return xText.createTextCursor();
+      else {
+        XTextRange xStart = xText.getStart();
+        try {
+          return xText.createTextCursorByRange(xStart);
+        } catch (Throwable t) {
+          return null;           // Return null without message - is needed for documents without main text (e.g. only a table)
+        }
+      }
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed

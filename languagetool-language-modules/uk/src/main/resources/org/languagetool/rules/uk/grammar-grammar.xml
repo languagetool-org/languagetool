@@ -121,9 +121,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>можна буде встояти.</example>
         <example>Комерційний підхід до треб є незрозумілим</example>
         <example>конгрес повинен був сформулювати</example>
-        <!--  verb:inf:coll not in default dictionary
         <example>Не можна встоять.</example>
-         -->
       </rule>
 
       <rule>
@@ -1246,6 +1244,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="Привіт, Василю"><marker>Привіт Василь</marker>!</example>
     </rule>
 
+    <rule id="im_choloviche_prizvysche" name="Ім. + чоловіче прізвище">
+      <pattern>
+        <token>ім.</token>
+        <marker>
+          <token postag_regexp="yes" postag="noun:anim:m:v_naz.*?:lname.*">
+            <exception postag_regexp="yes" postag="noun:anim:m:v_rod.*?:lname.*"/>
+          </token>
+        </marker>
+      </pattern>
+      <message>Чоловіче прізвище відмінюється</message>
+      <suggestion><match no="2" postag_regexp="yes" postag="(noun:anim:m:)v_naz(.*?:lname.*)" postag_replace="$1v_rod.*"/></suggestion>
+      <example correction="Довженка">Кіностудія ім. <marker>Довженко</marker>.</example>      
+    </rule>
+
     <rule id="VIDMINA_CHOLOVICHYH_PRIZVYSCH" name="Відмінювання чоловічих прізвищ">
       <antipattern>
         <token postag_regexp="yes" postag="noun:anim:f.*?:fname.*"/>
@@ -2284,6 +2296,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>вивісиш</example>
     </rule>
 
+    <rule id="pozhezhni" name="Пожежні">
+      <antipattern>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+          <token inflected="yes" postag_regexp="yes" postag="adj:p:.*">пожежний</token>
+          <token postag_regexp="yes" postag="noun:inanim:p:.*"/>
+        </unify>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token inflected="yes" postag_regexp="yes" postag="adj:p:.*">пожежний</token>
+        </marker>
+      </pattern>
+      <message>У значенні іменника правильно вживати <suggestion>пожежники</suggestion></message>
+      <example correction="пожежники">приїхали <marker>пожежні</marker>.</example>
+      <example>пожежні вежі</example>
+      <example>пожежних випадків</example>
+      <!-- 
+      <example>пожежних інспекторів</example>
+       -->
+    </rule>
+
     <rule id="V_SHOCI" name="В шоці">
       <pattern>
         <token regexp="yes">[ув]</token>
@@ -2420,7 +2455,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token postag_regexp="yes" postag="noun:inanim:m:v_dav.*" regexp="yes">.+[ую]
               <exception postag_regexp="yes" postag="noun:.*?(v_rod|pron|numr|prop).*"/>
-              <exception negate_pos="yes" postag_regexp="yes" postag="noun.*"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="noun.*|.*_END"/>
             </token>
           </marker>
         </pattern>
@@ -2444,7 +2479,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token postag_regexp="yes" postag="noun:inanim:m:v_dav.*" regexp="yes">.+[ую]
               <exception postag_regexp="yes" postag="noun:.*?(v_rod|pron|numr|prop).*"/>
-              <exception negate_pos="yes" postag_regexp="yes" postag="noun.*"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="noun.*|.*_END"/>
               <exception scope="previous" postag_regexp="yes" postag="prep.*"/>
             </token>
           </marker>

@@ -185,13 +185,16 @@ public class MultiDocumentsHandler {
         isSameLanguage = langForShortName.equals(docLanguage);
       }
       if (!isSameLanguage || langTool == null || recheck) {
+        boolean initDocs = langTool == null || recheck;
         if (!isSameLanguage) {
           docLanguage = langForShortName;
           extraRemoteRules.clear();
         }
         langTool = initLanguageTool();
-        initCheck(langTool);
-        initDocuments(locale);
+        initCheck(langTool, locale);
+        if (initDocs) {
+          initDocuments();
+        }
       }
     }
     docNum = getNumDoc(paRes.aDocumentIdentifier);
@@ -572,12 +575,15 @@ public class MultiDocumentsHandler {
         File ngramLangDir = new File(config.getNgramDirectory(), currentLanguage.getShortCode());
         if (ngramLangDir.exists()) {  // user might have ngram data only for some languages and that's okay
           langTool.activateLanguageModelRules(ngramDirectory);
+          if (debugMode) {
+            MessageHandler.printToLogFile("ngram Model activated for language: " + currentLanguage.getShortCode());
+          }
         }
       }
       File word2VecDirectory = config.getWord2VecDirectory();
       if (word2VecDirectory != null) {
         File word2VecLangDir = new File(config.getWord2VecDirectory(), currentLanguage.getShortCode());
-        if (word2VecLangDir.exists()) {  // user might have ngram data only for some languages and that's okay
+        if (word2VecLangDir.exists()) {  // user might have word2vec data only for some languages and that's okay
           langTool.activateWord2VecModelRules(word2VecDirectory);
         }
       }
@@ -600,7 +606,7 @@ public class MultiDocumentsHandler {
   /**
    * Enable or disable rules as given by configuration file
    */
-  void initCheck(SwJLanguageTool langTool) {
+  void initCheck(SwJLanguageTool langTool, Locale locale) {
     Set<String> disabledRuleIds = config.getDisabledRuleIds();
     if (disabledRuleIds != null) {
       // copy as the config thread may access this as well
@@ -630,17 +636,6 @@ public class MultiDocumentsHandler {
         langTool.disableRule(id);
       }
     }
-  }
-  
-  /**
-   * Initialize single documents, prepare text level rules and start queue
-   */
-  void initDocuments(Locale locale) {
-    setConfigValues(config, langTool);
-    sortedTextRules = new SortedTextRules();
-    for (SingleDocument document : documents) {
-      document.resetCache();
-    }
     if (config.useLtDictionary()) {
       if (dictionary.setLtDictionary(xContext, locale, linguServices)) {
         resetCheck();
@@ -649,6 +644,17 @@ public class MultiDocumentsHandler {
       if (dictionary.removeLtDictionaries(xContext)) {
         resetCheck();
       }
+    }
+  }
+  
+  /**
+   * Initialize single documents, prepare text level rules and start queue
+   */
+  void initDocuments() {
+    setConfigValues(config, langTool);
+    sortedTextRules = new SortedTextRules();
+    for (SingleDocument document : documents) {
+      document.resetCache();
     }
     if(useQueue) {
       if(textLevelQueue == null) {

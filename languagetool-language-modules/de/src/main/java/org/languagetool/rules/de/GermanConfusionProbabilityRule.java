@@ -74,11 +74,13 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "damit wir für",
     "wie finden sie",
     "ach die armen",
+    "wie stehen da die", // vs wir
     "wir würden sie", // vs wird
     "damit wir ihre daten", // vs wird
     "kannst du doch gerne", // vs dich
     "wie ist hier der Stand", // vs Sand
     "wie ist der Stand", // vs Sand
+    "hole dich auch ab", // vs dir
     "anders seht" // falls ihr das anders seht (weht)
   );
 

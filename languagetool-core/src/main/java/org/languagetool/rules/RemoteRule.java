@@ -23,14 +23,12 @@ package org.languagetool.rules;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.markup.AnnotatedText;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -53,6 +51,7 @@ public abstract class RemoteRule extends Rule {
   // needed to run callables with timeout
   private static final ConcurrentMap<String, ExecutorService> executors = new ConcurrentHashMap<>();
   protected final RemoteRuleConfig serviceConfiguration;
+  private AnnotatedText annotatedText;
 
   public RemoteRule(ResourceBundle messages, RemoteRuleConfig config) {
     super(messages);
@@ -70,16 +69,17 @@ public abstract class RemoteRule extends Rule {
 
   protected class RemoteRequest {}
 
-  protected abstract RemoteRequest prepareRequest(List<AnalyzedSentence> sentences);
+  protected abstract RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText);
   protected abstract Callable<RemoteRuleResult> executeRequest(RemoteRequest request);
   protected abstract RemoteRuleResult fallbackResults(RemoteRequest request);
 
-  public FutureTask<List<RuleMatch>> run(List<AnalyzedSentence> sentences) {
+  public FutureTask<List<RuleMatch>> run(List<AnalyzedSentence> sentences, AnnotatedText annotatedText) {
+    this.annotatedText = annotatedText;
     return new FutureTask<>(() -> {
       long startTime = System.nanoTime();
       long characters = sentences.stream().mapToInt(sentence -> sentence.getText().length()).sum();
       String ruleId = getId();
-      RemoteRequest req = prepareRequest(sentences);
+      RemoteRequest req = prepareRequest(sentences, annotatedText);
       RemoteRuleResult result;
 
       if (consecutiveFailures.get(ruleId).get() >= serviceConfiguration.getFall()) {
@@ -147,7 +147,7 @@ public abstract class RemoteRule extends Rule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    FutureTask<List<RuleMatch>> task = run(Collections.singletonList(sentence));
+    FutureTask<List<RuleMatch>> task = run(Collections.singletonList(sentence), annotatedText);
     task.run();
     try {
       return task.get().toArray(new RuleMatch[0]);

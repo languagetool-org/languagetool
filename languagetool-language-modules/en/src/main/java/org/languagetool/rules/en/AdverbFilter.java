@@ -208,6 +208,17 @@ public class AdverbFilter extends RuleFilter {
     put("apparently", "apparent");
     put("straightforwardly", "straightforward");
     put("anatomically", "anatomical");
+    put("uniquely", "unique");
+    put("systemically", "systemic");
+    put("jokily", "jokey");
+    put("critically", "critical");
+    put("equally", "equal");
+    put("strongly", "strong");
+    put("purposely", "intentional");
+    put("thoroughly", "thorough");
+    put("outwardly", "outward");
+    put("horizontally", "horizontal");
+    put("vertically", "vertical");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

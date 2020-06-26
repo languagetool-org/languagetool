@@ -25,10 +25,7 @@ import org.languagetool.rules.*;
 import org.languagetool.rules.en.translation.BeoLingusTranslator;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.rules.translation.Translator;
-import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tools.StringTools;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
@@ -37,8 +34,8 @@ import java.util.stream.Collectors;
 @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
-  private static Logger logger = LoggerFactory.getLogger(AbstractEnglishSpellerRule.class);
-  private static final EnglishSynthesizer synthesizer = (EnglishSynthesizer) Languages.getLanguageForShortCode("en").getSynthesizer();
+  //private static Logger logger = LoggerFactory.getLogger(AbstractEnglishSpellerRule.class);
+  //private static final EnglishSynthesizer synthesizer = (EnglishSynthesizer) Languages.getLanguageForShortCode("en").getSynthesizer();
 
   private final BeoLingusTranslator translator;
 
@@ -99,7 +96,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     List<SuggestedReplacement> result = super.filterSuggestions(suggestions, sentence, i);
     List<SuggestedReplacement> clean = new ArrayList<>();
     for (SuggestedReplacement suggestion : result) {
-      if (!suggestion.getReplacement().matches(".* (s|t|d|ll|ve)")) {  // e.g. 'timezones' suggests 'timezone s'
+      if (!suggestion.getReplacement().matches(".* (b|c|d|e|f|g|h|j|k|l|m|n|o|p|q|r|s|t|v|w|y|z|ll|ve)")) {  // e.g. 'timezones' suggests 'timezone s'
         clean.add(suggestion);
       }
     }
@@ -132,8 +129,17 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       List<SuggestedReplacement> cleaned = ruleMatch.getSuggestedReplacementObjects().stream()
         .filter(k -> !k.getReplacement().startsWith("re ") &&
                      !k.getReplacement().startsWith("en ") &&
+                     !k.getReplacement().startsWith("pre ") &&
                      !k.getReplacement().startsWith("inter ") &&
+                     !k.getReplacement().startsWith("sub ") &&
+                     !k.getReplacement().startsWith("auto ") &&
+                     !k.getReplacement().startsWith("dis ") &&
                      !k.getReplacement().endsWith(" able") &&
+                     !k.getReplacement().endsWith(" OO") && // unecessary suggestion (e.g. for "HELLOOO")
+                     !k.getReplacement().endsWith(" HHH") && // unecessary suggestion (e.g. for "OHHHH")
+                     !k.getReplacement().endsWith(" ally") && // adverbs ending in "ally" that LT doesn't know (yet)
+                     !k.getReplacement().endsWith(" ize") && // "advertize"
+                     !k.getReplacement().endsWith(" en") && // "Antwerpen" suggests "Antwerp en"
                      !k.getReplacement().endsWith(" ed"))
         .collect(Collectors.toList());
       ruleMatch.setSuggestedReplacementObjects(cleaned);
@@ -292,11 +298,21 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("ctrl", Arrays.asList("Ctrl"));
     s.put("vip", Arrays.asList("VIP"));
     s.put("vips", Arrays.asList("VIPs"));
+    s.put("leds", Arrays.asList("LEDs"));
+    s.put("hugo", Arrays.asList("Hugo"));
+    s.put("lola", Arrays.asList("Lola"));
+    s.put("imho", Arrays.asList("IMHO"));
+    s.put("imo", Arrays.asList("IMO"));
+    s.put("lte", Arrays.asList("LTE"));
+    s.put("dc", Arrays.asList("DC"));
+    s.put("ac", Arrays.asList("AC"));
+    s.put("cdn", Arrays.asList("CDN"));
 
     s.put("italia", Arrays.asList("Italy"));
     s.put("macboook", Arrays.asList("MacBook"));
     s.put("macboooks", Arrays.asList("MacBooks"));
     s.put("paypal", Arrays.asList("PayPal"));
+    s.put("copenhague", Arrays.asList("Copenhagen"));
     s.put("youtube", Arrays.asList("YouTube"));
     s.put("whatsapp", Arrays.asList("WhatsApp"));
     s.put("webex", Arrays.asList("WebEx"));
@@ -306,6 +322,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("wensday", Arrays.asList("Wednesday"));
     s.put("linkedin", Arrays.asList("LinkedIn"));
     s.put("ebay", Arrays.asList("eBay"));
+    s.put("admob", Arrays.asList("AdMob"));
     s.put("interweb", Arrays.asList("internet"));
     s.put("interwebs", Arrays.asList("internet"));
 
@@ -398,6 +415,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Monkie", Arrays.asList("Monkey"));
     s.put("monkies", Arrays.asList("monkeys"));
     s.put("Monkies", Arrays.asList("Monkeys"));
+    s.put("Daddys", Arrays.asList("Daddy's", "Daddies"));
+    s.put("Mommys", Arrays.asList("Mommy's", "Mommies"));
+    s.put("daddys", Arrays.asList("daddy's", "daddies"));
+    s.put("mommys", Arrays.asList("mommy's", "mommies"));
     // the replacement pairs would prefer "speak"
     s.put("speach", Arrays.asList("speech"));
     s.put("icecreem", Arrays.asList("ice cream"));
@@ -580,11 +601,17 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Ji", Arrays.asList("Hi"));
     s.put("Dontcha", Arrays.asList("don't you"));
     s.put("greatfruit", Arrays.asList("grapefruit", "great fruit"));
-    s.put("ur", Arrays.asList("your", "you are"));
     s.put("Insta", Arrays.asList("Instagram"));
     s.put("IO", Arrays.asList("I/O"));
     s.put("wierd", Arrays.asList("weird"));
     s.put("Wierd", Arrays.asList("Weird"));
+    s.put("hiphop", Arrays.asList("hip-hop"));
+    s.put("HipHop", Arrays.asList("Hip-Hop"));
+    s.put("gove", Arrays.asList("love", "give", "gave", "move"));
+    s.put("birdseye", Arrays.asList("bird's-eye"));
+    s.put("Birdseye", Arrays.asList("Bird's-eye"));
+    s.put("al", Arrays.asList("all", "Al"));
+    s.put("publically", Arrays.asList("publicly"));
 
     return s;
   }
@@ -594,8 +621,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
    */
   @Override
   protected List<SuggestedReplacement> getAdditionalTopSuggestions(List<SuggestedReplacement> suggestions, String word) throws IOException {
-
-    if (word.length() < 20 && word.matches("[a-zA-Z-]+.?")) {
+    /*if (word.length() < 20 && word.matches("[a-zA-Z-]+.?")) {
       List<String> prefixes = Arrays.asList("inter", "pre");
       for (String prefix : prefixes) {
         if (word.startsWith(prefix)) {
@@ -607,8 +633,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           }
         }
       }
-    }
-
+    }*/
     List<String> curatedSuggestions = new ArrayList<>();
     curatedSuggestions.addAll(topSuggestions.getOrDefault(word, Collections.emptyList()));
     curatedSuggestions.addAll(topSuggestionsIgnoreCase.getOrDefault(word.toLowerCase(), Collections.emptyList()));

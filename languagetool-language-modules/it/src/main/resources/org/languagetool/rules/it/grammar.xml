@@ -119,6 +119,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  PB014    We don't need the skip in article rules since we are unifying adj and noun 
  ======== ==================================================================================
 -->
+<!DOCTYPE rules [
+    <!ENTITY days_week "domenica|giovedì|lunedì|martedì|mercoledì|sabato|venerdì">
+    <!ENTITY days_week_abr "do|gi|lu|ma|me|sa|ve">
+    <!ENTITY months_year "gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre">
+    <!ENTITY months_year_abr "gen|feb|mar|apr|mag|giu|lug|ago|set|ott|nov|dic">
+]>
 
 <rules lang="it" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 
@@ -1921,5 +1927,134 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-
+    <category id="SEMANTICS" name="Semantica" type="inconsistency">
+        <rule id="ANNO20011_2011" name="*20011/2011">
+            <pattern>
+                <token regexp="yes">da|dal|del|corso|anno|accademico|&months_year;|&months_year_abr;</token>
+                <marker>
+                    <token regexp="yes">200[12]\d</token>
+                </marker>
+            </pattern>
+            <message>Forse volevi dire <suggestion><match no="2" regexp_match="200(..)" regexp_replace="20$1"/></suggestion>?</message>
+            <example correction="2014">È dal <marker>20014</marker>.</example>
+            <example correction="2014">Del corso <marker>20014</marker>.</example>
+            <example>Es del 2015.</example>
+        </rule>
+        <rulegroup id="DATE_WEEKDAY" name="Data incorrecta">
+            <rule>
+                <pattern>
+                    <token regexp="yes">&days_week;|(&days_week_abr;).*</token>
+                    <token min="0">,</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token min="0" regexp="yes">[\.\-/]</token>
+                    <token regexp="yes">&months_year;|&months_year_abr;</token>
+                    <token min="0" regexp="yes">[\.\-/]|del</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.it.DateCheckFilter" args="year:\7 month:\5 day:\3 weekDay:\1"/>
+                <message>Questa data non è un {day} ma un {realDay}.</message>
+                <!-- TODO: tokenization <example correction=""><marker>Lunedì, 7-ottobre-2014</marker></example> -->
+                <example correction=""><marker>Lunedì 7 ottobre 2014</marker></example>
+                <example><marker>Martedì, 7 ottobre 2014</marker></example>
+                <example correction=""><marker>Lunedì, 7.ott.2014</marker></example>
+                <example correction=""><marker>Lunedì 7/ottobre/2014</marker></example>
+                <example><marker>Martedì, 7 ottobre 2014</marker></example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">&months_year;|&months_year_abr;</token>
+                    <token min="0" regexp="yes">[\.\-/]|del</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">&days_week;|(&days_week_abr;).*</token>
+                    <token min="0">,</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token min="0" regexp="yes">[\.\-/]</token>
+                    <token regexp="yes">&months_year;|&months_year_abr;</token>
+                </pattern>
+                <filter class="org.languagetool.rules.it.DateCheckFilter" args="month:\5 day:\3 weekDay:\1"/>
+                <message>Se si riferisce all'anno in corso ({currentYear}), questa data non è un {day} ma un {realDay}.</message>
+                <example correction=""><marker>Lunedì 7 ottobre</marker></example>
+                <example correction=""><marker>Lunedì, 7 ottobre</marker></example>
+                <example><marker>Martedì, 7 ottobre</marker></example>
+                <example>Martedì 27 novembre 1922</example>
+                <example>Martedì 27 novembre del 1922</example>
+                <example>Martedì 27 novembre 1922</example>
+            </rule>
+        </rulegroup>
+        <rulegroup  id="NUMBER_DAYS_MONTH" name="giorni massimi del mese (28, 29, 30, 31)" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>31</token>
+                    </marker>
+                    <token min="0" regexp="yes">[-/]|de</token>
+                    <token regexp="yes">aprile|apr|giugno|giu|settembre|set|novembre|nov|0?[469]|11</token>
+                </pattern>
+                <message>Il mese «\3» ha solo <suggestion>30</suggestion> giorni.</message>
+                <example correction="30">È nato il <marker>31</marker> settembre.</example>
+                <example correction="30">È nato il  <marker>31</marker>/11/1988.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">3[01]</token>
+                    </marker>
+                    <token min="0" regexp="yes">[-/]|de</token>
+                    <token regexp="yes">febbraio|feb|0?2</token>
+                </pattern>
+                <message>Il mese di febbraio ha solo <suggestion>28</suggestion> o <suggestion>29</suggestion> giorni.</message>
+                <example correction="28|29">È nato il <marker>31</marker> febbraio.</example>
+                <example correction="28|29">È nato il <marker>30</marker>/2/1988.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>29</token>
+                    </marker>
+                    <token min="0" regexp="yes">[-/]|de</token>
+                    <token regexp="yes">febbraio|feb|0?2</token>
+                    <token min="0" regexp="yes">[-/]|de|del|da|dal</token>
+                    <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])
+                        <exception regexp="yes">[13579][26]00|[2468][048]00</exception>
+                    </token>
+                </pattern>
+                <message>Il mese di febbraio ha solo <suggestion>28</suggestion> giorni, perché l'anno \5 non è un anno bisestile.</message>
+                <example correction="28">El <marker>29</marker> febbraio de 1900.</example>
+                <example correction="28">El <marker>29</marker>/febbraio/1900.</example>
+                <example correction="28">El <marker>29</marker>/02/1900.</example>
+                <example correction="28">El <marker>29</marker>/2/1900.</example>
+                <!-- 2000 is a leap year (divisible by 400) -->
+                <example>El <marker>29</marker> febbraio 2000.</example>
+                <example>El <marker>29</marker>/febbraio/2000.</example>
+                <example>El <marker>29</marker>/02/2000.</example>
+                <example>El <marker>29</marker>/2/2000.</example>
+                <example correction="28">El <marker>29</marker> febbraio 2001.</example>
+                <example correction="28">El <marker>29</marker> febbraio 2002.</example>
+                <example correction="28">El <marker>29</marker> febbraio 2003.</example>
+                <!-- 2004 is a leap year (divisible by 4) -->
+                <example>El <marker>29</marker> febbraio 2004.</example>
+                <example correction="28">El <marker>29</marker> febbraio 2005.</example>
+                <example correction="28">El <marker>29</marker> febbraio del 2006.</example>
+                <example correction="28">El <marker>29</marker> febbraio 2007.</example>
+                <!-- 2008 is a leap year (divisible by 4) -->
+                <example>El <marker>29</marker> febbraio 2008.</example>
+                <example correction="28">El <marker>29</marker> febbraio del 2009.</example>
+                <example correction="28">El <marker>29</marker> febbraio de 2010.</example>
+                <example correction="28">El <marker>29</marker> febbraio 2011.</example>
+                <!-- 2012 is a leap year (divisible by 4) -->
+                <example>El <marker>29</marker> febbraio 2012.</example>
+                <example correction="28">El <marker>29</marker> febbraio del 2014.</example>
+                <example>El <marker>29</marker> febbraio 2016.</example>
+                <example correction="28">El <marker>29</marker> febbraio 2018.</example>
+                <example>El <marker>29</marker> febbraio 2020.</example>
+                <!-- 2100 is not a leap year (divisible by 100) -->
+                <example correction="28">El <marker>29</marker> febbraio del 2100.</example>
+                <!-- TOKENIZER: <example correction="28">El <marker>29</marker>-02-1900</marker></example>
+                <example correction="28">El <marker>29</marker>-feb-2005</marker></example>-->
+                <example>El 29-feb-2004</example>
+            </rule>
+        </rulegroup>
+    </category>
 </rules>

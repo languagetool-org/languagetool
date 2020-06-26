@@ -36,18 +36,28 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
   @Override
   public List<String> expandLine(String line) {
     List<String> result = new ArrayList<>();
-    if (!line.startsWith("#") && line.contains("_")) {
+    if (isLineWithVerbPrefix(line)) {
       handleLineWithPrefix(line, result);
-    } else if (!line.startsWith("#") && line.contains("/")) {
+    } else if (isLineWithFlag(line)) {
       handleLineWithFlags(line, result);
     } else {
-      result.add(cleanTags(line));
+      result.add(cleanTagsAndEscapeChars(line));
     }
     return result;
   }
 
+  private boolean isLineWithFlag(String line) {
+    int idx = line.indexOf("/");
+    return !line.startsWith("#") && idx > 0 && line.charAt(idx-1) != '\\';
+  }
+
+  private boolean isLineWithVerbPrefix(String line) {
+    int idx = line.indexOf("_");
+    return !line.startsWith("#") && idx > 0 && line.charAt(idx-1) != '\\';
+  }
+
   private void handleLineWithPrefix(String line, List<String> result) {
-    String[] parts = cleanTags(line).split("_");
+    String[] parts = cleanTagsAndEscapeChars(line).split("_");
     if (parts.length != 2) {
       throw new IllegalArgumentException("Unexpected line format, expected at most one '_': " + line);
     }
@@ -73,7 +83,7 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
   }
 
   private void handleLineWithFlags(String line, List<String> result) {
-    String[] parts = cleanTags(line).split("/");
+    String[] parts = cleanTagsAndEscapeChars(line).split("/");
     if (parts.length != 2) {
       throw new IllegalArgumentException("Unexpected line format, expected at most one slash: " + line);
     }
@@ -120,11 +130,11 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
   }
 
   // ignore "#..." so it can be used as a tag:
-  private String cleanTags(String s) {
+  private String cleanTagsAndEscapeChars(String s) {
     int idx = s.indexOf('#');
     if (idx != -1) {
       s = s.substring(0, idx);
     }
-    return s.trim();
+    return s.replaceAll("\\\\", "").trim();
   }
 }

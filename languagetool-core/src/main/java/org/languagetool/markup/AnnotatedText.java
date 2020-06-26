@@ -121,7 +121,7 @@ public class AnnotatedText {
       }
     }
     if (bestMatch == null) {
-      throw new RuntimeException("Could not map " + plainTextPosition + " to original position");
+      throw new RuntimeException("Could not map " + plainTextPosition + " to original position. isToPos: " + isToPos + ", mappings: " + mapping.size());
     }
     // we remove markup total length if usage of fake markup and need from position
     if (!isToPos && bestMatch.getFakeMarkupLength() > 0) {

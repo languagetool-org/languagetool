@@ -58,6 +58,14 @@ public class SimpleReplaceVerbsRuleTest {
     assertEquals(1, matches.length);
     assertEquals("desinfecten", matches[0].getSuggestedReplacements().get(0));
     
+    matches = rule.match(langTool.getAnalyzedSentence("mutearse"));
+    assertEquals(1, matches.length);
+    assertEquals("silenciarse", matches[0].getSuggestedReplacements().get(0));
+    
+    matches = rule.match(langTool.getAnalyzedSentence("mutearlos"));
+    assertEquals(1, matches.length);
+    assertEquals("silenciarlos", matches[0].getSuggestedReplacements().get(0));
+    
     //matches = rule.match(langTool.getAnalyzedSentence("sanitícenla"));
     //assertEquals(1, matches.length);
     //assertEquals("desinféctenla", matches[0].getSuggestedReplacements().get(0));

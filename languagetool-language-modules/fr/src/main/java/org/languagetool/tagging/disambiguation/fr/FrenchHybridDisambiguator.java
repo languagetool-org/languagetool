@@ -41,7 +41,7 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 
 public class FrenchHybridDisambiguator extends AbstractDisambiguator {
 
-  private final Disambiguator chunker = new MultiWordChunker("/fr/multiwords.txt", true); //true = allow capitalized word
+  private final Disambiguator chunker = new MultiWordChunker("/fr/multiwords.txt", true, true);
   private final Disambiguator disambiguator = new XmlRuleDisambiguator(new French());
 
   /**

@@ -87,6 +87,9 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Раймон Бенжамен і керівник європейського філії")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("обвинувачення у вчинені злочину, передбаченого")).length);
 
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("перша ступінь")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("друга ступінь")).length);
+
     // не працює через іменник "французька" (мова)
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("французька політик")).length);
 
@@ -198,8 +201,8 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("У мінську влада")).length);
 
     // barbarism
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("двометрові забори")).length);
     // will be caught by barbarism rule
+//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("двометрові забори")).length);
     assertEmptyMatch("на пострадянський манер");
 
     
@@ -623,6 +626,11 @@ public class TokenAgreementAdjNounRuleTest {
     //TODO:
 //  assertEmptyMatch("визнання легітимними президента і прем'єра");        // v_rod??
 
+  }
+
+  @Test
+  public void testExceptionsAdv() throws IOException {
+//    assertEmptyMatch("cюди Більше порад");
   }
   
   @Test

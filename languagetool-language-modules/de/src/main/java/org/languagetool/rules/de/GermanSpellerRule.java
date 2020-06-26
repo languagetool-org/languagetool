@@ -83,6 +83,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("wiederhall(e|st|t|en|te|ten)?", "wieder", "wider");
     putRepl("wiedersetz(e|t|en|te|ten)?", "wieder", "wider");
     putRepl("wiederstreb(e|st|t|en|te|ten)?", "wieder", "wider");
+    put("gesynct", "synchronisiert");
+    put("gesynced", "synchronisiert");
+    put("gesyncht", "synchronisiert");
+    put("gesyngt", "synchronisiert");
+    put("synce", "synchronisiere");
+    put("synche", "synchronisiere");
+    put("syncen", "synchronisieren");
+    put("synchen", "synchronisieren");
     put("wiederspiegelten", "widerspiegelten");
     put("wiedererwarten", "wider Erwarten");
     put("widerholen", "wiederholen");
@@ -133,6 +141,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("nacher", "nachher");
     put("jeztz", "jetzt");
     put("les", "lese");
+    put("wr", "wir");
+    put("be­zwei­fel", "bezweifle");
     put("[wW]ah?rscheindlichkeit", "Wahrscheinlichkeit");
     put("Hijab", "Hidschāb");
     put("[lL]eerequiment", "Leerequipment");

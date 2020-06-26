@@ -140,6 +140,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="GESETZT_GESETZ" name="Gesetzt (Gesetz)">
+            <antipattern>
+                <token postag="SENT_START" />
+                <token regexp="yes" min="0">\p{P}|\></token>
+                <token regexp="yes">Gesetzt|Muttert</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes" regexp="yes">Gesetzt|Muttert</token>
+            </pattern>
+            <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="t$" regexp_replace="" /></suggestion>?</message>
+            <example correction="Gesetz">Er wurde beschuldigt, das <marker>Gesetzt</marker> gebrochen zu haben.</example>
+            <example>- Gesetzt wird damit:</example>
+        </rule>
         <rule id="ENTSCHEIDEN_ENTSCHEIDEND" name="entscheiden(d)">
             <pattern case_sensitive="yes">
                 <token inflected="yes" skip="1">sein<exception scope="next">zu</exception><exception postag="PKT" scope="next"/></token>
@@ -1462,12 +1475,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token negate="yes" regexp="yes">bloc|gros|passant|masse|vogue|suite|.*[ÁáÀàÇçÉéÈèÍíÌìÓóÒòÚúÙù].*</token>
                 </pattern>
-                <message>Möglicher Tippfehler: Meinten Sie evtl. <suggestion>eng</suggestion> oder <suggestion>in</suggestion>?</message>
+                <message>Möglicher Tippfehler: Meinten Sie evtl. <suggestion>eng</suggestion>, <suggestion>ein</suggestion> oder <suggestion>in</suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
                 <example>Das ist <marker>en</marker> vogue jetzt.</example>
                 <example>Das haben wir <marker>en</marker> passant erledigt.</example>
                 <example>Société et pouvoir <marker>en</marker> Algérie</example>
-                <example correction="eng|in">Das ist zu <marker>en</marker>.</example>
+                <example correction="eng|ein|in">Das ist zu <marker>en</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_TLD" name="'example,com (example.com)'">
@@ -3914,7 +3927,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token>wider</token>
-                    <token regexp="yes">zu</token>
+                    <token>zu</token>
                     <token inflected="yes" regexp="yes">hallen|klingen|schallen|scheinen|spiegeln|strahlen|reden|setzen</token>
                 </antipattern>
                   <antipattern>
@@ -4848,6 +4861,77 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rule id="SICH_AUSDRUCKEN" name="sich ausdrucken (ausdrücken)">
+            <pattern>
+                <token postag="PRO:REF:AKK.*" postag_regexp="yes" />
+                <token min="0">nicht</token>
+                <token postag="(ADV:|ADJ:PRD:GRU).*" postag_regexp="yes" max="2"/>
+                <marker>
+                    <token inflected="yes">ausdrucken</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="4" regexp_match="dru" regexp_replace="drü" /></suggestion>?</message>
+            <example correction="ausgedrückt">Da habe ich mich nicht klar genug <marker>ausgedruckt</marker>.</example>
+            <example correction="ausgedrückt">Da habe ich mich ungeschickt <marker>ausgedruckt</marker>.</example>
+            <example>Das habe ich mir sofort <marker>ausgedruckt</marker>.</example>
+        </rule>
+        <rule id="ARRANGIERT_ENGAGIERT" name="sozial arrangiert (engagiert)">
+            <pattern>
+                <token>sozial</token>
+                <marker>
+                    <token regexp="yes">arrangiert(e[mnrs]?)?</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="2" regexp_match="arrangiert" regexp_replace="engagiert" /></suggestion>?</message>
+            <example correction="engagiert">Sie ist sozial <marker>arrangiert</marker>.</example>
+        </rule>
+        <rule id="IT-Girl" name="IT-Girl">
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">IT-Girls?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="IT" regexp_replace="It" /></suggestion> (= prominente Person)?</message>
+            <url>https://de.wikipedia.org/wiki/It-Girl</url>
+            <example correction="It-Girl">Ein <marker>IT-Girl</marker> ist nach der modernen Definition eine junge oder jüngere Frau, die durch ihr häufiges öffentliches Auftreten in Gesellschaft prominenter Personen und ihre starke Medienpräsenz einer breiten Öffentlichkeit bekannt ist.</example>
+        </rule>
+        <rule id="OHMEN" name="Ohmen (Omen)">
+            <pattern>
+                <token regexp="yes">gutes|schlechtes</token>
+                <marker>
+                    <token>Ohmen</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>Omen</suggestion> (aus dem Sprichwort "ein gutes Omen")?</message>
+            <url>https://www.duden.de/rechtschreibung/Omen</url>
+            <example correction="Omen">Das ist doch ein gutes <marker>Ohmen</marker>.</example>
+        </rule>
+        <rulegroup id="DANKS" name="Danks (Danke)">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|PKT" postag_regexp="yes" />
+                    <marker>
+                        <token>Danks</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>Danke</suggestion>?</message>
+                <example correction="Danke"><marker>Danks</marker> für deine Hilfe.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes" skip="1">des|meines|unseres|ihres|s?eines</token>
+                    <token>Danks</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>Danks</token>
+                    </marker>
+                    <token regexp="yes">(da)?für</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Danke</suggestion>?</message>
+                <example correction="Danke"><marker>Danks</marker> für deine Hilfe.</example>
+                <example>Kein Wort des Danks.</example>
+                <example>Eine kleine Geste des Danks für die Unterstützung.</example>
+            </rule>
+        </rulegroup>
         <!-- TODO emphatisch/empathisch -->
         <rule id="UEBERWEIDUNG" name="Überweidung (Überweisung)">
             <pattern>
@@ -7693,11 +7777,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="PAY_PAL" name="PayPal">
             <pattern>
                 <token>Pay</token>
-                <token>Pal</token>
+                <token regexp="yes">Pals?</token>
             </pattern>
             <message>Der Name <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (= Zahlungsdienstleister) wird als ein Wort geschrieben.</message>
             <url>https://de.wikipedia.org/wiki/PayPal</url>
             <example correction="PayPal">Er zahlte die Ware mit <marker>Pay Pal</marker>.</example>
+        </rule>
+        <rule id="POWER_POINT" name="PowerPoint">
+            <pattern>
+                <token>Power</token>
+                <token regexp="yes">Points?</token>
+            </pattern>
+            <message>Der Name <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (= Präsentationsprogramm) wird als ein Wort geschrieben.</message>
+            <url>https://de.wikipedia.org/wiki/Microsoft_PowerPoint</url>
+            <example correction="PowerPoint">Er hat eine Präsentation mit <marker>Power Point</marker> gebaut.</example>
         </rule>
         <rule id="BLACK_LIVES_MATTER" name="Black Lives Matter">
             <antipattern case_sensitive="yes">
@@ -7788,6 +7881,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Der Begriff <suggestion><match no="1" /><match no="2" case_conversion="alllower" /></suggestion> (= Viruserkrankung) wird als ein Wort geschrieben.</message>
                 <url>https://www.duden.de/rechtschreibung/Coronavirus</url>
                 <example correction="Coronavirus">Das <marker>Corona Virus</marker> hat 2020 eine Pandemie ausgelöst.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SOVIEL" name="so viel (soviel)">
+            <url>https://www.korrekturen.de/wortliste/soviel.shtml</url>
+            <rule>
+                <antipattern>
+                    <token>soviel</token>
+                    <token skip="6">wie</token>
+                    <token regexp="yes">bedeute(t|n)|hei(ß|ss)(t|en)</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="1">bedeutet|hei(ß|ss)t</token>
+                    <token>soviel</token>
+                    <token>wie</token>
+                </antipattern>
+                <pattern>
+                    <marker><token>soviel</token></marker>
+                    <token>wie</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>so viel</suggestion>?</message>
+                <example correction="so viel">Er verdient <marker>soviel</marker> wie ich.</example>
+                <example>Der Name bedeutet soviel wie „Brunnen an der Esche“.</example>
+                <example>Einer Auffassung zufolge soll die erste Silbe aus dem mittelniederdeutschen „kurren, korren“ gebildet worden sein, was soviel wie das Murmeln eines Baches bedeutet.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token>soviel</token></marker>
+                    <token postag="PA2.+" postag_regexp="yes"></token>
+                </pattern>
+                <message>Meinten Sie <suggestion>so viel</suggestion>?</message>
+                <example correction="so viel">Er hat <marker>soviel</marker> gewonnen, dass er aufhören sollte.</example>
+                <example correction="so viel">Er hat schon <marker>soviel</marker> gesehen.</example>
             </rule>
         </rulegroup>
         <rule id="FRANK_WALTER_STEINMEIER" name="Frank-Walter Steinmeier">
@@ -8016,8 +8141,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="EMMANUEL_MACRON" name="Emmanuel Macron">
             <antipattern case_sensitive="yes">
-                <token>Emmanuel</token>
-                <token>Macron</token>
+                <token regexp="yes">Emmanuel|EMMANUEL</token>
+                <token regexp="yes">Macron|MACRON</token>
             </antipattern>
             <pattern>
                 <token regexp="yes">E?mm?anue?ll?e?</token>
@@ -9265,6 +9390,102 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="FEST_COMPOUNDS" name="fest genommen (festgenommen)">
+            <pattern>
+                <token>fest</token>
+                <token inflected="yes" regexp="yes">nehmen|halten|stellen</token>
+            </pattern>
+            <message>Das Verb <suggestion>fest<match no="2" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
+            <example correction="festgenommen">Der Dieb wurde auf der Flucht von der Polizei <marker>fest genommen</marker>.</example>
+        </rule>
+        <rulegroup id="NO_GO" name="No-Go">
+            <rule>
+                <pattern>
+                    <token>no</token>
+                    <token>go</token>
+                    <token regexp="yes">areas?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>No-go-<match no="3" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="No-go-Area">Die Stadt wurde nachts zu einer <marker>No Go Area</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">no-?go</token>
+                    <token regexp="yes">areas?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>No-go-<match no="2" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="No-go-Area">Die Stadt wurde nachts zu einer <marker>No-Go Area</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>no</token>
+                    <token>go</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>No-Go</suggestion>?</message>
+                <example correction="No-Go">Das ist ein <marker>no go</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PLUG_IN_HYBRID" name="Plug-in-Hybrid">
+            <url>https://de.wikipedia.org/wiki/Plug-in-Hybrid</url>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Plug-in-Hybrid(s|e|en)?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Plug-?in</token>
+                    <token regexp="yes">Hybrid(s|e|en)?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Plug-in-<match no="2" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="Plug-in-Hybride"><marker>Plugin Hybride</marker> sind sehr viel umweltschonender.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Plug-?in-?Hybrid(s|e|en)?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Plug-in-<match no="1" regexp_match="(?i)Plug-?in-?" regexp_replace="" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="Plug-in-Hybrid">Er fährt einen <marker>Plugin-Hybrid</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rule id="MIDLIFE_CRISIS" name="Midlife-Crisis">
+            <pattern>
+                <token regexp="yes">midli[vf]e</token>
+                <token regexp="yes">[kc]ris[ie]s?</token>
+            </pattern>
+            <message>Meinten Sie das Nomen <suggestion>Midlife-Crisis</suggestion>?</message>
+            <example correction="Midlife-Crisis">Mit 40 bekam er eine <marker>Midlife Crises</marker>.</example>
+        </rule>
+        <rule id="RUND_UM_DIE_UHR_BEWACHUNG" name="Rund-um-die-Uhr-Bewachung">
+            <pattern>
+                <token>Rund</token>
+                <token>um</token>
+                <token>die</token>
+                <token>Uhr</token>
+                <token>Bewachung</token>
+            </pattern>
+            <message>Meinten Sie das Nomen <suggestion>Rund-um-die-Uhr-Bewachung</suggestion>?</message>
+            <url>https://www.duden.de/suchen/dudenonline/Rund-um-die-Uhr-Bewachung</url>
+            <example correction="Rund-um-die-Uhr-Bewachung">Er ordnete eine <marker>rund um die Uhr Bewachung</marker> an.</example>
+        </rule>
+        <rule id="EIN_KIND_POLITIK" name="Ein-Kind-Politik"><!-- needs higher prio than DE_AGREEMENT -->
+            <pattern>
+                <token>ein</token>
+                <token>Kind</token>
+                <token>Politik</token>
+            </pattern>
+            <message>Das Nomen <suggestion>Ein-Kind-Politik</suggestion> wird mit Bindestrichen geschrieben.</message>
+            <url>https://de.wikipedia.org/wiki/Ein-Kind-Politik</url>
+            <example correction="Ein-Kind-Politik">Die <marker>ein Kind Politik</marker> war eine Politik zur Kontrolle des Bevölkerungswachstums in der Volksrepublik China.</example>
+        </rule>
+        <rule id="SCHRITT_FUER_SCHRITT_ANLEITUNG" name="Schritt-für-Schritt-Anleitung"><!-- needs higher prio than DE_AGREEMENT -->
+            <pattern>
+                <token>Schritt</token>
+                <token>für</token>
+                <token>Schritt</token>
+                <token regexp="yes">Anleitung(en)?|Erklärung(en)?|Tutorial</token>
+            </pattern>
+            <message>Das Nomen <suggestion>Schritt-für-Schritt-<match no="4" case_conversion="startupper" /></suggestion> wird mit Bindestrichen geschrieben.</message>
+            <example correction="Schritt-für-Schritt-Anleitung">Sie hat extra dafür eine <marker>Schritt für Schritt Anleitung</marker> erstellt.</example>
+        </rule>
         <rule id="TOP_GROSS_SUB" name="Top Model (Top-Model|Topmodel|top Model)">
             <antipattern>
                 <token>top</token>
@@ -17343,6 +17564,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>drauf</token>
                     <token postag="VER:.*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">Geschwindigkeit|Speed</token>
+                    <token>drauf</token>
+                </antipattern>
                 <pattern>
                     <token>drauf</token>
                 </pattern>
@@ -17350,6 +17575,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://www.duden.de/rechtschreibung/drauf</url>
                 <example correction="darauf">Ich komme einfach nicht <marker>drauf</marker>.</example>
                 <example>Schau doch mal bitte da drauf.</example>
+                <example>Da bekommt man scheinbar ganz schön Speed drauf!</example>
             </rule>
         </rulegroup>
     </category>
@@ -33318,6 +33544,21 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="PERSONA_NON_GRATA" name="Persona non grata">
+            <antipattern case_sensitive="yes">
+                <token>Persona</token>
+                <token>non</token>
+                <token>grata</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Persona?s?</token>
+                <token regexp="yes">non?</token>
+                <token regexp="yes">grat(a|er)</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Persona non grata</suggestion> (= ungewünschte Person)?</message>
+            <url>https://de.wikipedia.org/wiki/Persona_non_grata</url>
+            <example correction="Persona non grata">Als <marker>Person non grata</marker> bezeichnet man den Status einer Person, deren Aufenthalt von der Regierung des Gastlandes per Notifikation nicht mehr geduldet wird.</example>
+        </rule>
         <rule id="WHO_S_WHO" name="Das Who's who">
             <pattern>
                 <token>who</token>
@@ -34647,7 +34888,7 @@ Andere Projekte</example>
         </rulegroup>
         <rule id="SEHR_GEEHRTER_NAME" name="Sehr geehrter (Name) -> Herr/Frau (Name)">
             <antipattern>
-                <token regexp="yes">Herr(e?n)?|Hr|Fr|Frau(en)?|Damen?|Kunden?|Kundin|Sponsor(en)?|Redaktion|Mandant([ei]n)?|Mitarbeiter(innen)?|Angestellter?|Anwender|(Fahr|Reise|Flug)?(gast|gäste)|Nutzer(in)?|User|Interessent(en)?|Kollegen?|Kollegin(nen)?|Gastgeber|Professor(en)?|Lehrer(innen)?|Klient(en)?|Partner(in)?|Vertreter(in)?|Fachschaft|Eltern|Familien?|.+beratung|.+manager</token>
+                <token regexp="yes">Herr(e?n)?|Hr|Fr|Frau(en)?|Damen?|Kunden?|Kundin|Kundinnen|Sponsor(en)?|Redaktion|Mandant([ei]n)?|Mitarbeiter(innen)?|Angestellter?|Anwender|(Fahr|Reise|Flug)?(gast|gäste)|Nutzer(in)?|User|Interessent(en|in)?|Kollegen?|Kollegin(nen)?|Gastgeber|Professor(en|in)?|Lehrer(innen)?|Klient(en)?|Partner(in)?|Vertreter(in)?|Fachschaft|Eltern|Familien?|.+beratung|.+manager|.*beirat|.*partner|Support|Präsident|Miss|Händler|Kommiliton.+|X{1,}|Eheleute|Teilnehmer(innen)?|Prof|Investor(en|in)?|Kundenbetreuung</token>
             </antipattern>
             <pattern>
                 <token>Sehr</token>
@@ -37057,7 +37298,9 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="VER:AUX.+" postag_regexp="yes" inflected="yes" skip="4">haben<exception scope="next" postag="SENT_END"/></token>
-                    <token postag="VER:INF:.+" postag_regexp="yes" regexp="yes">[a-zöäü].*</token>
+                    <token postag="VER:INF:.+" postag_regexp="yes" regexp="yes">[a-zöäü].*
+                        <exception postag="ART:.+" postag_regexp="yes"/>
+                    </token>
                     <marker>
                         <token regexp="yes">ge(seh|lass)en</token>
                     </marker>
@@ -37071,6 +37314,7 @@ Andere Projekte</example>
                 <example correction="sehen">Ich habe es ja kommen <marker>gesehen</marker>.</example>
                 <example correction="lassen">Ich habe dich am ausgestreckten Arm verhungern <marker>gelassen</marker>.</example>
                 <example correction="lassen">Du hast ihn kommen <marker>gelassen</marker>.</example>
+                <example>Ich habe noch nie einen gesehen.</example>
             </rule>
             <!-- FIXME: replacement doesn't work, as discussed on the mailing list around May 11, 2012
             <rule>
@@ -38465,6 +38709,46 @@ Andere Projekte</example>
                 <suggestion>Nötigsten</suggestion>
                 <short>&prgk;.</short>
                 <example correction="Nötigsten">Es fehlte ihr am <marker>nötigsten</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ALLES_MOEGLICHE" name="'alles mögliche (Mögliche)'">
+            <url>https://www.korrekturen.de/wortliste/alles_moegliche.shtml</url>
+            <rule>
+                <pattern>
+                    <token>alles</token>
+                    <marker>
+                        <token postag="ADJ:(AKK|NOM):PLU:NEU:...:SOL" postag_regexp="yes" case_sensitive="yes" regexp="yes">[a-züöä].+e
+                            <exception>andere</exception>
+                            <exception scope="previous" inflected="yes">sein</exception>
+                            <exception postag="VER.+|ADJ:PRD:GRU" postag_regexp="yes"></exception>
+                        </token>
+                    </marker>
+                    <token><exception case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].+|„|»|›|'|‘|“|‹|«</exception></token>
+                </pattern>
+                <message>Schreiben Sie dieses als Nomen gebrauchte Adjektiv groß.</message>
+                <suggestion><match no="2" case_conversion="startupper"/></suggestion>
+                <short>&prgk;.</short>
+                <example correction="Mögliche">Er tat alles <marker>mögliche</marker>, um ihr zu helfen.</example>
+                <example correction="Übrige">Er tat alles <marker>übrige</marker>.</example>
+                <example correction="Weitere">Er tat alles <marker>weitere</marker>.</example>
+                <example>Das sind alles <marker>weitere</marker> Bruchstücke derselben Vase.</example>
+                <example>Ich liebe sie; alles <marker>andere</marker> ist egal.</example>
+                <example>Er stellte fest, dass der Klimawandel alles irdische Leben ausgelöscht hatte.</example>
+                <example>Das ist alles zwangsweise eine Sache der Erziehung.</example>
+                <example>Du siehst so aus wie jemand, dem ich gleich sagen werde, dass ich ihn über alles liebe!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>das</token>
+                    <marker>
+                        <token case_sensitive="yes">mögliche</token>
+                    </marker>
+                    <token inflected="yes">tun</token>
+                </pattern>
+                <message>Schreiben Sie dieses als Nomen gebrauchte Adjektiv groß.</message>
+                <suggestion>Mögliche</suggestion>
+                <short>&prgk;.</short>
+                <example correction="Mögliche">Er tat das <marker>mögliche</marker> getan, um ihr zu helfen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FASSUNGSLOS" name="kein Nomen: .*ungslos">
@@ -43939,6 +44223,13 @@ Andere Projekte</example>
                     <token>,</token>
                     <token postag="KON:.+" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token>laut</token>
+                    <token skip="3"/>
+                    <token postag="NEG"/>
+                    <token>,</token>
+                    <token postag="VER:IMP:.+" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token skip="-1" postag="SENT_START">
                         <exception scope="next" postag="VER:.*|UNKNOWN" postag_regexp="yes"/>
@@ -43966,6 +44257,8 @@ Andere Projekte</example>
                 <example>Nicht nur in Deutschland, auch in Nachbarländern verbreitet sich die schlechte Nachricht.</example>
                 <example>Hauptartikel: Geschichte Kaliforniens, siehe auch: Kalifornien (historische Landschaft).</example>
                 <example>Kenntnisse in Python, PHP und MySQL sind gerne gesehen.</example>
+                <example>Laut dem Thomas nicht, vergleiche das Haus dort mal mit der Villa.</example>
+                <example>Laut Büchern nicht, vergleiche es dort mal mit "Jeans".</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_VOR_INFINITIVGRUPPEN_OPT" name="Optional: Komma vor Infinitivgruppen" default="off">
@@ -44971,4 +45264,3 @@ Andere Projekte</example>
         </rule>
     </category>
 </rules>
-

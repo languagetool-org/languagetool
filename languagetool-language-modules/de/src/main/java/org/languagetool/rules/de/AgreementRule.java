@@ -712,6 +712,18 @@ public class AgreementRule extends Rule {
       tokenRegex("Agent")
     ),
     Arrays.asList(
+      csToken("Total"),
+      tokenRegex("Tankstellen?")
+    ),
+    Arrays.asList(
+      csToken("Real"),
+      tokenRegex("Madrid|Valladolid|Mallorca")
+    ),
+    Arrays.asList( // Eng.
+      csToken("Real"),
+      pos("UNKNOWN")
+    ),
+    Arrays.asList(
       csToken("Hammer"),
       tokenRegex("Stra(ß|ss)e")
     ),

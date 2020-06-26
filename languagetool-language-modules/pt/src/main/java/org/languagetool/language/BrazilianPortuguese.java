@@ -41,6 +41,7 @@ public class BrazilianPortuguese extends Portuguese {
     rules.add(new BrazilianPortugueseReplaceRule(messages));
     rules.add(new PostReformPortugueseDashRule(messages));
     rules.add(new PortugueseBarbarismsRule(messages, "/pt/barbarisms-pt-BR.txt"));
+    rules.add(new PortugueseArchaismsRule(messages, "/pt/archaisms-pt-BR.txt"));
     return rules;
   }
 

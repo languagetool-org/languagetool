@@ -60,6 +60,8 @@ public class CatalanWordRepeatRuleTest {
     assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("cada un un llibre"));
     assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("Si no no es gaudeix."));
+    assertEquals(0, matches.length);
         
     //incorrect
     matches = rule.match(langTool.getAnalyzedSentence("Tots els els homes són iguals."));

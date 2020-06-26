@@ -124,10 +124,16 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "1 thing",
       "way easier",
       "way faster",
+      "way harder",
       "way quicker",
       "way more",
       "way less",
       "way outside",
+      "way before",
+      "way smaller",
+      "way bigger",
+      "way longer",
+      "way shorter",
       "I now don't",
       "once your return is",
       "can we text",
@@ -150,10 +156,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "on twitter", // vs in
       "enjoy us being", // vs is
       "If your use of", // vs you
-      "way too much", // vs was
-      "way too early", // vs was
-      "way too soon", // vs was
-      "way too quick", // vs was
+      "way too", // vs was
       "then,", // vs than
       "then?", // vs than
       "no it doesn", // vs know
@@ -183,6 +186,27 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "no you wouldn",
       "no you couldn",
       "no you shouldn",
+      "no they were not",
+      "no there was no",
+      "no there was not",
+      "no there wasn",
+      "no there is no",
+      "no there is not",
+      "no there isn",
+      "no there are no",
+      "no there are not",
+      "no there aren",
+      "no there were no",
+      "no there were not",
+      "no there weren",
+      "no this is not",
+      "no that is not",
+      "no we were not",
+      "no all good",
+      "no everything alright",
+      "no everything good",
+      "no everything fine",
+      "no we don't",
       "for your recharge", // vs you
       "all you kids", // vs your
       "thanks for the patience", // vs patients
@@ -231,17 +255,56 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "the role at", // vs add
       "same false alarm", // vs some
       "why is he relevant", // vs the
+      "why is he famous", // vs the
       "then that would", // vs than
       "was he part of", // vs the
       "is he right now", // vs the
+      "news page", // vs new
+      "news pages",
+      "news headline",
+      "news headlines",
+      "news title",
+      "news titles",
       "news site",
+      "news sites",
       "news website",
+      "news websites",
+      "news channel",
+      "news channels",
       "news organization",
+      "news organizations",
       "news organisation",
+      "news organisations",
       "scene in a movie",
       "mr.bean", // vs been
       "mr. bean", // vs been
-      "your push notification" // vs you
+      "your push notification", // vs you
+      "check our page about",
+      "have a think", // vs thing (see https://www.lexico.com/definition/think)
+      "had a think",
+      "live support", // vs life
+      "your troll", // vs you
+      "waist type", // vs waste
+      "(wait)",
+      "now ahead of schedule", // vs know
+      "tag us in", // vs is
+      "your rebuild", // vs you
+      "got to know new", // vs now
+      "to live post", // vs life
+      "sea pineapple", // vs see
+      "the commit", // vs to
+      "appreciate you contacting me",
+      "appreciate you contacting us",
+      "appreciate you informing me",
+      "appreciate you informing us",
+      "appreciate you confirming it",
+      "appreciate you confirming this",
+      "appreciate you confirming that",
+      "appreciate you choosing us",
+      "appreciate you choosing me",
+      "wand wood", // vs want
+      "my order", // vs by
+      "of you being her" // vs your
     );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {

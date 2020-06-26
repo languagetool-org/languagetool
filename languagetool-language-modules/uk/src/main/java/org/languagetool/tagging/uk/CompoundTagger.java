@@ -83,7 +83,7 @@ class CompoundTagger {
 
   // додаткові вкорочені прикметникові ліві частини, що не мають відповідного прикметника
   private static final List<String> LEFT_O_ADJ = Arrays.asList(
-    "австро", "адиго", "американо", "англо", "афро", "еко", "іспано", "італо", "історико", "києво", "марокано", "угро", "японо"
+    "австро", "адиго", "американо", "англо", "афро", "еко", "іспано", "італо", "історико", "києво", "марокано", "угро", "японо", "румуно"
   );
 
   private static final List<String> LEFT_O_ADJ_INVALID = Arrays.asList(
@@ -330,6 +330,40 @@ class CompoundTagger {
       return null;
 
 
+    // майстер-класу
+    
+    if( dashPrefixMatch ) {
+      List<AnalyzedToken> newTokens = new ArrayList<>();
+      if( leftWord.length() == 1 && leftWord.matches("[a-zA-Zα-ωΑ-Ω]") ) {
+        List<AnalyzedToken> newTokensAdj = getNvPrefixLatWithAdjMatch(word, rightAnalyzedTokens, leftWord);
+        if( newTokensAdj != null ) {
+          newTokens.addAll(newTokensAdj);
+        }
+      }
+      
+      String extraTag = "";
+      if( dashPrefixes.containsKey( leftWord ) ) {
+        extraTag = dashPrefixes.get(leftWord);
+      }
+      else { 
+        if( dashPrefixes.containsKey( leftWord.toLowerCase() ) ) {
+          extraTag = dashPrefixes.get(leftWord.toLowerCase());
+        }
+      }
+      
+      List<AnalyzedToken> newTokensNoun = getNvPrefixNounMatch(word, rightAnalyzedTokens, leftWord, extraTag);
+      if( newTokensNoun != null ) {
+        newTokens.addAll(newTokensNoun);
+      }
+      
+      // топ-десять
+      if( leftWord.equalsIgnoreCase("топ") && PosTagHelper.hasPosTagPart(rightAnalyzedTokens, "numr:") ) {
+        return generateTokensWithRighInflected(word, leftWord, rightAnalyzedTokens, "numr:", ":bad");
+      }
+      
+      return newTokens;
+    }
+
     // пів-України
 
     if( Character.isUpperCase(rightWord.charAt(0)) ) {
@@ -371,41 +405,6 @@ class CompoundTagger {
 
         return null;
       }
-    }
-
-    // TODO: ua_2019
-    // майстер-класу
-    
-    if( dashPrefixMatch ) {
-      List<AnalyzedToken> newTokens = new ArrayList<>();
-      if( leftWord.length() == 1 && leftWord.matches("[a-zA-Zα-ωΑ-Ω]") ) {
-        List<AnalyzedToken> newTokensAdj = getNvPrefixLatWithAdjMatch(word, rightAnalyzedTokens, leftWord);
-        if( newTokensAdj != null ) {
-          newTokens.addAll(newTokensAdj);
-        }
-      }
-      
-      String extraTag = "";
-      if( dashPrefixes.containsKey( leftWord ) ) {
-        extraTag = dashPrefixes.get(leftWord);
-      }
-      else { 
-        if( dashPrefixes.containsKey( leftWord.toLowerCase() ) ) {
-          extraTag = dashPrefixes.get(leftWord.toLowerCase());
-        }
-      }
-      
-      List<AnalyzedToken> newTokensNoun = getNvPrefixNounMatch(word, rightAnalyzedTokens, leftWord, extraTag);
-      if( newTokensNoun != null ) {
-        newTokens.addAll(newTokensNoun);
-      }
-      
-      // топ-десять
-      if( leftWord.equalsIgnoreCase("топ") && PosTagHelper.hasPosTagPart(rightAnalyzedTokens, "numr:") ) {
-        return generateTokensWithRighInflected(word, leftWord, rightAnalyzedTokens, "numr:", ":bad");
-      }
-      
-      return newTokens;
     }
 
     // don't allow: Донець-кий, зовнішньо-економічний, мас-штаби
@@ -1291,8 +1290,11 @@ class CompoundTagger {
 //            posTag = PosTagHelper.addIfNotContains(posTag, ":bad");
 //        }
 
-        if( StringUtils.isNotEmpty(extraTag) ) {
-          posTag = PosTagHelper.addIfNotContains(posTag, extraTag);
+        // міні-БПЛА - ok for ua_2019 too
+        if( ! extraTag.equals(":ua_1992") || ! Character.isUpperCase(analyzedToken.getLemma().charAt(0)) ) {
+          if( StringUtils.isNotEmpty(extraTag) ) {
+            posTag = PosTagHelper.addIfNotContains(posTag, extraTag);
+          }
         }
 
         newAnalyzedTokens.add(new AnalyzedToken(word, posTag, leftWord + "-" + analyzedToken.getLemma()));
@@ -1414,6 +1416,10 @@ class CompoundTagger {
           right = right.substring(1);
           apo = "'";
         }
+        
+        if( right.length() < 2 )
+          continue;
+          
 
         boolean apoNeeded = false;
         if( "єїюя".indexOf(right.charAt(0)) != -1

@@ -111,7 +111,8 @@ final class TokenAgreementAdjNounExceptionHelper {
     // Першими голодування оголосили
     // одним із перших
     if( i > 1
-        && LemmaHelper.hasLemma(adjAnalyzedTokenReadings, Arrays.asList("перший")) ) { 
+        && LemmaHelper.hasLemma(adjAnalyzedTokenReadings, Arrays.asList("перший")) 
+        && ! LemmaHelper.hasLemma(tokens[i], TokenAgreementAdjNounRule.FAKE_FEM_LIST, "noun:inanim:m:") ) {
       //                && PosTagHelper.hasPosTag(slaveTokenReadings, ".*v_naz.*")) ) {
       logException();
       return true;

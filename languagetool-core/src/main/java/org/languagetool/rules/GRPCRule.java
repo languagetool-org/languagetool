@@ -32,6 +32,7 @@ import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.ml.MLServerGrpc;
 import org.languagetool.rules.ml.MLServerProto;
 import org.slf4j.Logger;
@@ -48,11 +49,11 @@ import java.util.stream.Collectors;
  * Base class fur rules running on external servers;
  * see gRPC service definition in languagetool-core/src/main/proto/ml_server.proto
  *
- * @see create() for an easy to add rules; return rule in Language::getRelevantRemoteRules
+ * @see #create(ResourceBundle, RemoteRuleConfig, String, String, Map)  for an easy to add rules; return rule in Language::getRelevantRemoteRules
  * add it like this:
-  <code>
-   public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
-     List<Rule> rules = new ArrayList<>(super.getRelevantRemoteRules(
+  <pre>
+   public List&lt;Rule&gt; getRelevantRemoteRules(ResourceBundle messageBundle, List&lt;RemoteRuleConfig&gt; configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
+     List&lt;Rule&gt; rules = new ArrayList&lt;&gt;(super.getRelevantRemoteRules(
      messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages));
      Rule exampleRule = GRPCRule.create(messageBundle,
        RemoteRuleConfig.getRelevantConfig("EXAMPLE_ID", configs),
@@ -61,7 +62,7 @@ import java.util.stream.Collectors;
      rules.add(exampleRule);
      return rules;
    }
-  </code>
+  </pre>
 
  */
 public abstract class GRPCRule extends RemoteRule {
@@ -152,7 +153,7 @@ public abstract class GRPCRule extends RemoteRule {
   }
 
   @Override
-  protected RemoteRule.RemoteRequest prepareRequest(List<AnalyzedSentence> sentences) {
+  protected RemoteRule.RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText) {
     List<String> text = sentences.stream().map(AnalyzedSentence::getText).collect(Collectors.toList());
     MLServerProto.MatchRequest req = MLServerProto.MatchRequest.newBuilder().addAllSentences(text).build();
     return new MLRuleRequest(req, sentences);
@@ -204,7 +205,7 @@ public abstract class GRPCRule extends RemoteRule {
                    to load this in Language::getRelevantRemoteRules
    * @param id ID of rule
    * @param descriptionKey key in MessageBundle.properties for rule description
-   * @param messagesByID mapping match.sub_id -> key in MessageBundle.properties for RuleMatch's message
+   * @param messagesByID mapping match.sub_id -&gt; key in MessageBundle.properties for RuleMatch's message
    * @return instance of RemoteMLRule
    */
   public static GRPCRule create(ResourceBundle messages, RemoteRuleConfig config,

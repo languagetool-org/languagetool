@@ -37,7 +37,7 @@ import org.languagetool.rules.*;
  * 
  * @author Jaume Ortolà i Font
  */
-public class ComplexAdjectiveConcordanceRule extends Rule {
+public class PostponedAdjectiveConcordanceRule extends Rule {
 
   /**
    * Patterns
@@ -115,7 +115,7 @@ public class ComplexAdjectiveConcordanceRule extends Rule {
   boolean conjunctionAppeared = false;
   boolean punctuationAppeared = false;
 
-  public ComplexAdjectiveConcordanceRule(ResourceBundle messages)
+  public PostponedAdjectiveConcordanceRule(ResourceBundle messages)
       throws IOException {
     super.setCategory(new Category(new CategoryId("CONCORDANCES_GRUPS_NOMINALS"), "Z) Concordances en grups nominals"));
     setLocQualityIssueType(ITSIssueType.Grammar);

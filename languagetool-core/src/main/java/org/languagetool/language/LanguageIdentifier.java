@@ -24,16 +24,13 @@ import com.optimaize.langdetect.ngram.NgramExtractors;
 import com.optimaize.langdetect.profiles.LanguageProfile;
 import com.optimaize.langdetect.profiles.LanguageProfileReader;
 import com.optimaize.langdetect.text.*;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.logging.Level;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -50,7 +47,6 @@ public class LanguageIdentifier {
 
   private static final Logger logger = LoggerFactory.getLogger(LanguageIdentifier.class);
   private static final double MINIMAL_CONFIDENCE = 0.9;
-  private static final int K_HIGHEST_SCORES = 5;
   private static final int SHORT_ALGO_THRESHOLD = 50;
   // texts shorter than this will *only* consider preferred languages (if set):
   private static final int CONSIDER_ONLY_PREFERRED_THRESHOLD = 50;
@@ -73,10 +69,7 @@ public class LanguageIdentifier {
   private final int maxLength;
   private final UnicodeBasedLangIdentifier unicodeIdentifier = new UnicodeBasedLangIdentifier();
 
-  private boolean fasttextEnabled = false;
-  private Process fasttextProcess;
-  private BufferedReader fasttextIn;
-  private BufferedWriter fasttextOut;
+  private FastText fastText;
 
   public LanguageIdentifier() {
     this(1000);
@@ -117,11 +110,9 @@ public class LanguageIdentifier {
   public void enableFasttext(File fasttextBinary, File fasttextModel) {
     if (fasttextBinary != null && fasttextModel != null) {
       try {
-        startFasttext(fasttextModel, fasttextBinary);
+        fastText = new FastText(fasttextModel, fasttextBinary);
         logger.info("Started fasttext process for language identification: Binary " + fasttextBinary + " with model @ " + fasttextModel);
-        fasttextEnabled = true;
       } catch (IOException e) {
-        fasttextEnabled = false;
         logger.error("Error while starting fasttext (binary: " + fasttextBinary + ", model: " + fasttextModel + ")", e);
         throw new RuntimeException("Could not start fasttext process for language identification @ " + fasttextBinary + " with model @ " + fasttextModel, e);
       }
@@ -207,7 +198,7 @@ public class LanguageIdentifier {
       additionalLangs.addAll(unicodeIdentifier.getAdditionalLangCodes(text));
     }
     Map.Entry<String,Double> result = null;
-    if (fasttextEnabled) {
+    if (fastText != null) {
       try {
         // do *not* use TextObjectFactory because of https://github.com/languagetool-org/languagetool/issues/1278
         // (using it for optimaize is okay, assuming the same strong normalization was applied during training):
@@ -215,7 +206,7 @@ public class LanguageIdentifier {
         shortText = new RemoveEMailSignatureFilter().filter(shortText);
         shortText = new RemoveNonBreakingSpaces().filter(shortText);
         shortText = shortText.replaceAll("\uFEFF+", " ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
-        Map<String, Double> scores = runFasttext(shortText, additionalLangs);
+        Map<String, Double> scores = fastText.runFasttext(shortText, additionalLangs);
         result = getHighestScoringResult(scores);
         if (result.getValue().floatValue() < THRESHOLD) {
           //System.out.println(text + " ->" + result.getValue().floatValue() + " " + result.getKey());
@@ -247,12 +238,12 @@ public class LanguageIdentifier {
         //System.out.println("newScore  : " + newScore);
         result = new AbstractMap.SimpleImmutableEntry<>(result.getKey(), newScore);
       } catch (Exception e) {
-        fasttextEnabled = false;
-        fasttextProcess.destroy();
+        fastText.destroy();
+        fastText = null;
         logger.error("Fasttext disabled", e);
       }
     }
-    if (!fasttextEnabled) { // no else, value can change in if clause
+    if (fastText == null) { // no else, value can change in if clause
       shortText = textObjectFactory.forText(shortText).toString();
       result = detectLanguageCode(shortText);
       if (additionalLangs.size() > 0) {
@@ -268,14 +259,8 @@ public class LanguageIdentifier {
     }
   }
   
-  private boolean canLanguageBeDetected(String langCode, List<String> additionalLanguageCodes) {
+  static boolean canLanguageBeDetected(String langCode, List<String> additionalLanguageCodes) {
     return Languages.isLanguageSupported(langCode) || additionalLanguageCodes.contains(langCode);
-  }
-
-  private void startFasttext(File modelPath, File binaryPath) throws IOException {
-    fasttextProcess = new ProcessBuilder(binaryPath.getPath(), "predict-prob", modelPath.getPath(), "-", "" + K_HIGHEST_SCORES).start();
-    fasttextIn = new BufferedReader(new InputStreamReader(fasttextProcess.getInputStream(), StandardCharsets.UTF_8));
-    fasttextOut = new BufferedWriter(new OutputStreamWriter(fasttextProcess.getOutputStream(), StandardCharsets.UTF_8));
   }
 
   private Map.Entry<String, Double> getHighestScoringResult(Map<String, Double> probs) {
@@ -288,46 +273,6 @@ public class LanguageIdentifier {
       }
     }
     return new AbstractMap.SimpleImmutableEntry<>(result, max);
-  }
-
-  private Map<String, Double> runFasttext(String text, List<String> additionalLanguageCodes) throws IOException {
-    Map<String, Double> probabilities = new HashMap<>();
-    String joined = text.replace("\n", " ");
-    String buffer;
-    synchronized(this) {
-      fasttextOut.write(joined);
-      fasttextOut.newLine();
-      fasttextOut.flush();
-      buffer = fasttextIn.readLine();
-      if (buffer == null) {
-        // hack to see if this helps us debug the rare case of readLine() returning null:
-        try {
-          logger.warn("fasttextIn.readLine() returned null, trying again after short delay for input '" + text + "'");
-          Thread.sleep(10);
-          buffer = fasttextIn.readLine();
-          if (buffer == null) {
-            logger.warn("fasttextIn.readLine() returned null again");
-          }
-        } catch (InterruptedException e) {
-          throw new RuntimeException(e);
-        }
-      }
-    }
-    String[] values = buffer.split(" ");
-    if (values.length % 2 != 0) {
-      logger.error("Error while parsing fasttext output '{}'", buffer);
-      throw new RuntimeException("Error while parsing fasttext output: " + buffer);
-    }
-    for (int i = 0; i < values.length; i += 2) {
-      String lang = values[i];
-      String langCode = lang.substring(lang.lastIndexOf("__") + 2);
-      String prob = values[i + 1];
-      Double probValue = Double.parseDouble(prob);
-      if (canLanguageBeDetected(langCode, additionalLanguageCodes)) {
-        probabilities.put(langCode, probValue);
-      }
-    }
-    return probabilities;
   }
 
   /**

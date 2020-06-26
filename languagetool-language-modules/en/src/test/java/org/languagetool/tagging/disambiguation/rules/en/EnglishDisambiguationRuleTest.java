@@ -74,6 +74,9 @@ public class EnglishDisambiguationRuleTest {
     TestTools.myAssert("The quid pro quo.",
         "/[null]SENT_START The/[the]DT  /[null]null quid/[quid pro quo]NN  /[null]null pro/[quid pro quo]NN  /[null]null quo/[quid pro quo]NN ./[.]PCT", 
         tokenizer, sentenceTokenizer, tagger, hybridDisam);
+    TestTools.myAssert("The QUID PRO QUO.",
+        "/[null]SENT_START The/[the]DT  /[null]null QUID/[quid pro quo]NN  /[null]null PRO/[quid pro quo]NN  /[null]null QUO/[quid pro quo]NN ./[.]PCT", 
+        tokenizer, sentenceTokenizer, tagger, hybridDisam);
   }
 
 }

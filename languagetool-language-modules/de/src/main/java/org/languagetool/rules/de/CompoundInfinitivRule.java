@@ -57,8 +57,9 @@ public class CompoundInfinitivRule extends Rule {
   private static Dictionary dict;
   
   private final LinguServices linguServices;
-  private Speller speller = null;
   private final Language lang;
+
+  private Speller speller = null;
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     //
@@ -78,7 +79,7 @@ public class CompoundInfinitivRule extends Rule {
     )
   );
   
-  private static final String ADJ_EXCEPTION[] = {
+  private static final String[] ADJ_EXCEPTION = {
     "schwer",
     "klar",
     "verloren",
@@ -242,7 +243,7 @@ public class CompoundInfinitivRule extends Rule {
         && !isException(tokens, i)
         && !isMisspelled(tokens[i - 1].getToken() + tokens[i + 1].getToken())) {
         String msg = "Wenn der erweiterte Infinitv von dem Verb '" + tokens[i - 1].getToken() + tokens[i + 1].getToken()
-                   + "' abgeleitet ist, muss er zusammengeschrieben werden";
+                   + "' abgeleitet ist, sollte er zusammengeschrieben werden.";
         RuleMatch ruleMatch = new RuleMatch(this, sentence, tokens[i - 1].getStartPos(), tokens[i + 1].getEndPos(), msg);
         List<String> suggestions = new ArrayList<>();
         suggestions.add(tokens[i - 1].getToken() + tokens[i].getToken() + tokens[i + 1].getToken());

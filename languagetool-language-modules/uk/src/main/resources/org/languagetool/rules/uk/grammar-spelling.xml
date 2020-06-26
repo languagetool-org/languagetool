@@ -286,8 +286,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ']+</token>
       </antipattern>
       <pattern>
-        <token postag_regexp="yes" postag="verb.*?:p:1:subst.*">
-          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?:p:1:subst.*|SENT_END|PARA_END"/>
+        <token postag_regexp="yes" postag="verb.*?:p:1.*?:subst.*">
+          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?:p:1.*?:subst.*|SENT_END|PARA_END"/>
         </token>
       </pattern>
       <message>Форми теп. і майб. ч. на -м(ся) є просторічними. Нормативними є форми на -мо: <suggestion><match no="1" regexp_match="^(.*?)(ся)?$" regexp_replace="$1о$2"/></suggestion></message>
@@ -303,8 +303,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="VERB_SUBSTANDARD_FORMS_2" name="Просторічні форми 2">
       <pattern>
-        <token postag_regexp="yes" postag="verb.*?:p:3:subst.*">
-          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?:p:3:subst.*|SENT_END|PARA_END"/>
+        <token postag_regexp="yes" postag="verb.*?:p:3.*?:subst.*">
+          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?:p:3.*?:subst.*|SENT_END|PARA_END"/>
         </token>
       </pattern>
       <message>Ця дієслівна форма є просторічною</message>
@@ -481,7 +481,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">(авт\.|ред\.)</token>
         </antipattern>
         <pattern>
-          <token case_sensitive="yes" regexp="yes">[мк]?г|мкг|грн|год|крб|м?л|млн|млрд|[мнсдк]м|мкм|[нм]с|мкс|смт|трлн|хв</token>
+          <token case_sensitive="yes" regexp="yes">[мк]?г|мкг|грн|год|крб|м?л|[мнсдк]м|мкм|[нм]с|мкс|смт|трлн|хв|млн|млрд</token>
           <token negate_pos="yes" postag_regexp="yes" postag="SENT_END|PARA_END">.</token>
         </pattern>
         <message>Стягнені скорочення та метричні одиниці пишуться без крапки: <suggestion><match no="1"/></suggestion></message>
@@ -494,6 +494,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Прийшов Л. Коцюба.</example>
         <example>штрафували на 30 тисяч злотих (близько 54 000 грн. – Авт.), конфіскували у нього машину.</example>
         <example>населення Землі налічує 257 млн. </example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">млн\.|млрд\.</token>
+        </pattern>
+        <message>Стягнені скорочення пишуться без крапки: <suggestion><match no="1" regexp_match="(.*)\." regexp_replace="$1"/></suggestion></message>
+        <example correction="млн">всього 20 <marker>млн.</marker> осіб.</example>
       </rule>
 
       <rule>
@@ -1155,6 +1163,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="відтепер"><marker>від тепер</marker> і до кінця.</example>
     </rule>
 
+    <rule id="na_pryzvolyasche" name="На призволяще">
+      <pattern>
+        <token>на</token>
+        <token>призволяще</token>
+      </pattern>
+      <message><suggestion>напризволяще</suggestion> пишеться разом</message>
+      <example correction="напризволяще">кинути <marker>на призволяще</marker>.</example>
+    </rule>
+
+    <rule id="chym_duzh" name="Чим дуж">
+      <pattern>
+        <token>чим</token>
+        <token>дуж</token>
+      </pattern>
+      <message><suggestion>чимдуж</suggestion> пишеться разом</message>
+      <example correction="чимдуж"><marker>чим дуж</marker>.</example>
+    </rule>
+
+    <rule id="v_odnochas" name="В одночас">
+      <pattern>
+        <token>в</token>
+        <token>одночас</token>
+      </pattern>
+      <message>«Одночас» пишеться разом</message>
+      <suggestion>водночас</suggestion>
+      <example correction="водночас"><marker>в одночас</marker>.</example>
+    </rule>
+
     <rule id="dva_prizvyscha" name="Два прізвища через дефіс">
       <pattern>
         <token regexp="yes">Джексона-Веніка|Колесніченка-Ківалова|Молотова-Ріббентропа</token>
@@ -1168,7 +1204,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <marker>
-            <token regexp="yes">бо|чорт</token>
+            <token regexp="yes">бо|чорт|хто</token>
             <token>зна</token>
             <token inflected="yes" regexp="yes">котрий|чий|який|хто|що|де|як|коли|куди|звідки</token>
           </marker>
@@ -1176,13 +1212,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Орфографічна помилка</message>
         <suggestion><match no="1"/><match no="2"/>-<match no="3"/></suggestion>
         <example correction="бозна-якому"><marker>бо зна якому</marker></example>
+        <example correction="хтозна-що"><marker>хто зна що</marker></example>
         <example>бозна в якому</example>
+        <example>і хтозна, що діятиметься</example>
       </rule>
 
       <rule>
         <pattern>
           <marker>
-            <token regexp="yes">казна|хтозна</token>
+            <token regexp="yes">казна|хтозна|чортзна|бозна</token>
             <token inflected="yes" regexp="yes">котрий|чий|який|хто|що|де|як|коли|куди|звідки</token>
           </marker>
         </pattern>
@@ -1190,20 +1228,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <suggestion><match no="1"/>-<match no="2"/></suggestion>
         <example correction="казна-якому"><marker>казна якому</marker></example>
         <example>казна щомісяця одержуватиме</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <marker>
-            <token>хто</token>
-            <token>зна</token>
-            <token inflected="yes" regexp="yes">котрий|чий|який|хто|що|де|як|коли|куди|звідки</token>
-          </marker>
-        </pattern>
-        <message>Орфографічна помилка</message>
-        <suggestion><match no="1"/><match no="2"/>-<match no="3"/></suggestion>
-        <example correction="хтозна-що"><marker>хто зна що</marker></example>
-        <example>і хтозна, що діятиметься</example>
       </rule>
     </rulegroup>
 
