@@ -49,7 +49,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY expresiones_tiempo "ahora|hoy|ayer|antaño|hogaño|temporada|curso"> <!-- to add manually when needed: mañana-->
 <!ENTITY nombres_colectivos "mayoría|par|gente|grupo|parte|familia|docena|centena|millar">
 <!ENTITY common_english_nouns_feminine "Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation|Conference">
-<!ENTITY common_english_nouns_masculine "Club|TM|UD|UE|SD|Team|Day|Center|Centre">
+<!ENTITY common_english_nouns_masculine "Club|TM|UD|UE|SD|Team|Day|Center|Centre|Hilton">
 <!ENTITY context_ano "anal|culo|cáncer|rectal|estómago|intestino|defecación|defecar|digestivo|sistema|tracto|hez|mierda|excremento|orificio|excretar|cagar">
 <!ENTITY denominacion "elemento|palabra|término|expresión|vocablo|nombre|tipo|denominación">
 ]>
@@ -6735,6 +6735,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>otras</token>
                     <token/>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="6">unas|algunas</token>
+                    <token>otras</token>
+                    <token/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <unify negate="yes">
@@ -6756,6 +6761,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nosotros aprendemos mucho juntos.</example>
                 <example>Los hombres son mucho peores.</example>
                 <example>Unas veces me pone eufórica y otras nostálgica.</example>
+                <example>algunas de ellas de carácter político y otras cultural</example>
+                <!-- El más grande de estos encontrado en el universo -->
             </rule>
             <rule>
                 <pattern>
@@ -6807,6 +6814,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La explicación es mucho más complicada.</example>
                 <example>Los hermanos están bastante más bronceados que ella.</example>
                 <example>Mary acabo muchísimo más bronceada.</example>
+                <example>Tienen una explicación tanto más satisfactoria cuanto mejor se conoce</example>
+                <example>Los biomas están bastante bien distribuidos.</example>
             </rule>
             <rule>
                 <pattern>
@@ -7405,18 +7414,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="AGREEMENT_VERBS" name="Concordancia sujeto/predicado" type="inconsistency" default="on">
         <rulegroup id="AGREEMENT_VERB_PARTICIPLE" name="*están hecho/hechos" default="temp_off">
-            <antipattern>
+            <!--<antipattern>
                 <token inflected="yes">ser</token>
                 <token postag="N.*" postag_regexp="yes"/>
-            </antipattern>
+            </antipattern>-->
             <antipattern>
-                <token inflected="yes">ser</token>
+                <token inflected="yes" regexp="yes">ser|seguir</token>
                 <token regexp="yes">nada|algo</token>
                 <token/>
             </antipattern>
+            <antipattern>
+                <token>debido</token>
+                <token regexp="yes">a|al</token>
+            </antipattern>
             <rule>
                 <pattern>
-                    <token postag="V...[13]P." postag_regexp="yes" inflected="yes" regexp="yes">estar|ser|ir|quedar|restar|continuar|seguir|permanecer</token>
+                    <token postag="V...[13]P." postag_regexp="yes" inflected="yes">ser</token>
+                    <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"><exception postag="PI.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="V.P..SM" postag_regexp="yes"><exception regexp="yes">resultado|pecado</exception></token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión o falta de concordancia.</message>
+                <suggestion><match no="3" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..PM"/></suggestion>
+                <example correction="enviados">Serán directamente <marker>enviado</marker> a los clientes.</example>
+                <example correction="documentados">Son <marker>documentado</marker>.</example>
+                <example correction="hechos">Son siempre <marker>hecho</marker> de carne.</example>
+                <example>No eren pecado.</example>
+                <example>Son resultado de una acción particular.</example>
+                <example>No son nada comparado a los suyos.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V...[13]P." postag_regexp="yes" inflected="yes" regexp="yes">estar|ir|quedar|restar|continuar|seguir|permanecer</token>
                     <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
                     <marker>
                         <token postag="V.P..SM" postag_regexp="yes"><exception>resultado</exception></token>
@@ -7453,7 +7483,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.P..SM" postag_regexp="yes" inflected="yes" regexp="yes">estar|ser|ir|quedar|restar|continuar|seguir|permanecer</token>
                     <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
                     <marker>
-                        <token postag="V.P..SM" postag_regexp="yes"><exception>resultado</exception></token>
+                        <token postag="V.P..SM" postag_regexp="yes"><exception regexp="yes">resultado|pecado</exception></token>
                     </marker>
                 </pattern>
                 <message>Posible confusión o falta de concordancia.</message>
@@ -7471,7 +7501,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.P..SM" postag_regexp="yes" inflected="yes" regexp="yes">poder|querer|estar|ser|ir|continuar|seguir|permanecer|deber</token>
                     <token regexp="yes">estar|ésser|ser|anar|quedar|restar|continuar|seguir|permanecer</token>
                     <marker>
-                        <token postag="V.P..SM" postag_regexp="yes"><exception>resultado</exception></token>
+                        <token postag="V.P..SM" postag_regexp="yes"><exception regexp="yes">resultado|pecado</exception></token>
                     </marker>
                 </pattern>
                 <message>Posible confusión o falta de concordancia.</message>
@@ -7481,29 +7511,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="callados|callando">Han querido permanecer <marker>callado</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="AGREEMENT_SER_PARTICIPLE" name="son hecho/hechos" default="temp_off">
-            <antipattern>
-                <token inflected="yes">ser</token>
-                <token regexp="yes">nada|algo</token>
-                <token/>
-            </antipattern>
-            <pattern>
-                <token postag="V...[13]P." postag_regexp="yes" inflected="yes">ser</token>
-                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"><exception postag="PI.*" postag_regexp="yes"/></token>
-                <marker>
-                    <token postag="V.P..SM" postag_regexp="yes"><exception regexp="yes">resultado|pecado</exception></token>
-                </marker>
-            </pattern>
-            <message>Posible confusión o falta de concordancia.</message>
-            <suggestion><match no="3" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..PM"/></suggestion>
-            <example correction="enviados">Serán directamente <marker>enviado</marker> a los clientes.</example>
-            <example correction="documentados">Son <marker>documentado</marker>.</example>
-            <example correction="hechos">Son siempre <marker>hecho</marker> de carne.</example>
-            <example>No eren pecado.</example>
-            <example>Son resultado de una acción particular.</example>
-            <example>¿Estáis preparado?</example>
-            <example>No son nada comparado a los suyos.</example>
-        </rule>
         <rulegroup id="AGREEMENT_PP_VERB" name="Concordancias: pronombre personal + verbo">
             <short>Concordancia de persona dudosa.</short>
             <antipattern>
@@ -8178,6 +8185,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Quería decir <suggestion>este</suggestion>?</message>
             <example correction="este">En <marker>esto</marker> campo es el mejor.</example>
         </rule>-->
+        <rule id="A_FINALES" name="*al/a finales" default="temp_off">
+            <pattern>
+                <token>al</token>
+                <token>finales</token>
+            </pattern>
+            <message>¿Quería decir <suggestion>a finales</suggestion>?</message>
+            <example correction="A finales"><marker>Al finales</marker> del siglo XX.</example>
+        </rule>
         <rule id="ENSERIO" name="enserio / en serio">
             <pattern>
                 <token>enserio</token>

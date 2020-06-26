@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
     <!ENTITY common_english_nouns_feminine "Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation|Conference">
-    <!ENTITY common_english_nouns_masculine "Club|TM|UD|UE|SD|Team|Day|Center|Centre">
+    <!ENTITY common_english_nouns_masculine "Club|TM|UD|UE|SD|Team|Day|Center|Centre|Hilton">
     <!ENTITY adjectius_TE_INFUSIO "descafeïnat|mòlt|jove|conegut|preparat|empaquetat|xin[èé]s|amargant|sud-americà|instantani|lleuger|indi|roquer|dolç|fals|bord|tradicional|gal·l[éè]s|pudent|salvatge|àrab|angl[éè]s|fosc|negre|verd|vermell|blanc|gelat|fred|calent|turc">
     <!ENTITY adverbis_temps_lloc "entra(t|ts|da|des)|passa(t|ts|da|des)|tocad(a|es)|arran|enfront|per|durant|llavors|tard|aviat|pròximament|properament|prompte|avui|abans|després|hui|ara|demà|ahir|abans-d'ahir|despús-ahir|despús-demà|aquí|ací|allí|allà|ahí|aleshores|recentment|posteriorment|mai">
     <!ENTITY context_ALOS "Isil|Àneu|Pallars|Sobirà">
@@ -6413,13 +6413,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No sé quant vam trigar, però recordo que anava molt a poc a poc.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">vam|vau|vàrem|vàreu|vàgim|vàgem|vàgeu|vàgiu</token>
+                    <token postag="V.[PG].*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes" skip="-1">vam|vau|vàrem|vàreu|vàgim|vàgem|vàgeu|vàgiu<exception scope="next" postag="V.N.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="SENT_END"/>
                 </pattern>
-                <message>Falta un infinitiu darrere del verb l'auxiliar.</message>
+                <message>Falta un infinitiu darrere del verb l'auxiliar 3.</message>
                 <short>Hi falta un infinitiu</short>
                 <example correction=""><marker>Vam</marker>.</example>
                 <example>Vam córrer.</example>
@@ -14491,21 +14495,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="portant-hi"><marker>portant-t'hi</marker>.</example>
         </rule>
         <rulegroup id="ESTAN_FET" name="*estan fet/estan fent/estan fets">
-            <antipattern>
-                <marker>
-                    <token inflected="yes">ser</token>
-                    <token postag="N.*" postag_regexp="yes"/>
-                </marker>
-            </antipattern>
+            <!--<antipattern>
+                <token inflected="yes">ser</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>-->
             <rule>
                 <pattern>
-                    <token postag="V...[13]P.." postag_regexp="yes" inflected="yes" regexp="yes">estar|ser|anar|quedar|restar|continuar|seguir|romandre</token>
+                    <token postag="V...[13]P.." postag_regexp="yes" inflected="yes">ser</token>
+                    <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V.P..SM." postag_regexp="yes"><exception regexp="yes">aviat|després|resultat|pecat</exception></token>
+                    </marker>
+                </pattern>
+                <message>Possible confusió o falta de concordança.</message>
+                <suggestion><match no="3" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..PM."/></suggestion>
+                <example correction="enviats">Seran directament <marker>enviat</marker> als clients.</example>
+                <example correction="documentats">Són <marker>documentat</marker>.</example>
+                <example correction="fets">Són sempre <marker>fet</marker> aquestes coses.</example>
+                <example>No eren pecat.</example>
+                <example>Són resultat d'una acció particular</example>
+                <example>Esteu preparat?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V[^A]..[13]P.." postag_regexp="yes" inflected="yes" regexp="yes">estar|ser|anar|quedar|restar|continuar|seguir|romandre<exception regexp="yes">van|vaig</exception></token>
                     <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
                     <marker>
                         <token postag="V.P..SM." postag_regexp="yes"><exception regexp="yes">aviat|després|resultat</exception></token>
                     </marker>
                 </pattern>
-                <message>Possible confusió.</message>
+                <message>Possible confusió o falta de concordança.</message>
                 <suggestion><match no="3" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.G.*"/></suggestion>
                 <suggestion><match no="3" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..PM."/></suggestion>
                 <example correction="fent|fets">Estan <marker>fet</marker>.</example>
@@ -14517,14 +14536,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V...[13]P.." postag_regexp="yes" inflected="yes" regexp="yes">poder|voler|estar|ser|anar|continuar|seguir|romandre</token>
+                    <token postag="V[^A]..[13]P.." postag_regexp="yes" inflected="yes" regexp="yes">poder|voler|estar|ser|anar|continuar|seguir|romandre<exception regexp="yes">van|vaig</exception></token>
                     <token regexp="yes">estar|ésser|ser|anar|quedar|restar|continuar|seguir|romandre</token>
                     <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
                     <marker>
                         <token postag="V.P..SM." postag_regexp="yes"><exception regexp="yes">aviat|després|resultat</exception></token>
                     </marker>
                 </pattern>
-                <message>Possible confusió.</message>
+                <message>Possible confusió o falta de concordança.</message>
                 <suggestion><match no="4" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..PM."/></suggestion>
                 <suggestion><match no="4" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.G.*"/></suggestion>
                 <example correction="demanats|demanant">podem continuar <marker>demanat</marker>.</example>
@@ -14539,7 +14558,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="V.P..SM." postag_regexp="yes"><exception regexp="yes">aviat|després|resultat</exception></token>
                     </marker>
                 </pattern>
-                <message>Possible confusió.</message>
+                <message>Possible confusió o falta de concordança.</message>
                 <suggestion><match no="4" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.G.*"/></suggestion>
                 <suggestion><match no="4" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..PM."/></suggestion>
                 <example correction="fent|fets">Han estat <marker>fet</marker>.</example>
@@ -14557,30 +14576,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="V.P..SM." postag_regexp="yes"><exception regexp="yes">aviat|després|resultat</exception></token>
                     </marker>
                 </pattern>
-                <message>Possible confusió.</message>
+                <message>Possible confusió o falta de concordança.</message>
                 <suggestion><match no="4" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..PM."/></suggestion>
                 <suggestion><match no="4" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.G.*"/></suggestion>
                 <example correction="demanats|demanant">Hem pogut continuar <marker>demanat</marker>.</example>
                 <example correction="callats|callant">Han volgut restar <marker>callat</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="SON_FET" name="són *fet/fets" default="temp_off">
-            <pattern>
-                <token postag="V...[13]P.." postag_regexp="yes" inflected="yes">ser</token>
-                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
-                <marker>
-                    <token postag="V.P..SM." postag_regexp="yes"><exception regexp="yes">aviat|després|resultat|pecat</exception></token>
-                </marker>
-            </pattern>
-            <message>Possible confusió.</message>
-            <suggestion><match no="3" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..PM."/></suggestion>
-            <example correction="enviats">Seran directament <marker>enviat</marker> als clients.</example>
-            <example correction="documentats">Són <marker>documentat</marker>.</example>
-            <example correction="fets">Són sempre <marker>fet</marker> aquestes coses.</example>
-            <example>No eren pecat.</example>
-            <example>Són resultat d'una acció particular</example>
-            <example>Esteu preparat?</example>
-        </rule>
         <rulegroup id="VAIG_FAIG" name="vaig/faig">
             <rule>
                 <antipattern>

@@ -260,7 +260,7 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">mucho|muchísimo|bastante</token>
+                    <token regexp="yes">mucho|muchísimo|bastante|tanto</token>
                 </marker>
                 <token regexp="yes" inflected="yes">mejor|peor|mayor|menor|más|menos|antes|después</token>
             </pattern>
@@ -1218,6 +1218,15 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <token regexp="yes">temprano|incluso|solo<exception postag="_GN_MS"/></token>
+            </pattern>
+            <disambig action="filter" postag="RG.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>bastante</token>
+                </marker>
+                <token postag="RG|A.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="RG.*"/>
         </rule>
