@@ -1,6 +1,6 @@
 # LanguageTool Change Log
 
-## 5.0-SNAPSHOT (release planned for 2020-06-26)
+## 5.0 (2020-06-27)
 
 #### Arabic
   * added and improved rules
@@ -12,6 +12,9 @@
 #### Catalan
   * added and improved rules
   * updated dictionary (catalan-pos-dict-2.10)
+
+#### Dutch
+  * added and improved rules
 
 #### English
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.85 - 2020-06-01)
@@ -41,9 +44,9 @@
 #### Russian
   * added and improved rules
   * added new Java rules
-  * rebuilded and improved main spellchecker dictionary, added many new words
+  * rebuilt and improved main spellchecker dictionary, added many new words
   * new variant (only yo "ё") spellchecker dictionary and new java rule for it (set off by default)
-  * new filter's arguments: prefix and suffix to be used for matching the part-of-speech of parts of words 
+  * new `filter` arguments: `prefix` and `suffix` to be used for matching the part-of-speech of parts of words 
     with prefix and suffix added to original token, e.g.:
 ```xml
        <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
