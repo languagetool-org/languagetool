@@ -6,7 +6,7 @@
 # set to 1 to list what will be signed and uploaded, set to 0 to actually sign and upload:
 DRY_RUN=0
 # set this to the version you want to release:
-VERSION=4.9
+VERSION=5.0
 
 CURRENT_DIR=`pwd`
 CURRENT_BASE=`basename $CURRENT_DIR`
