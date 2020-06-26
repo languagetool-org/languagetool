@@ -33439,11 +33439,6 @@ steenwijk;Steenwijk
 				<token>kan</token>
 				<token regexp="yes">u|je</token>
 			</antipattern>
-			<antipattern>
-				<token>kan</token>
-				<token>je</token>
-				<token postag_regexp="yes" postag="ZNW:EKV.*"/>
-			</antipattern>
 			<antipattern><token postag="SENT_START"/><token>Kan</token><token regexp="yes">je|u</token><token>nog</token><token postag="BNW:STL:ONV"/><token>van</token><token>pas</token><token>komen</token><token postag="SENT_END">.</token></antipattern>
 			
 			<rule>
@@ -33455,15 +33450,12 @@ steenwijk;Steenwijk
 					</marker>
 					<token regexp="yes">je|jij</token>
 				</pattern>
-				<message>Velen vinden dat <suggestion>kun</suggestion> netter is. Kan mag echter ook.</message>
+				<message>Velen vinden dat <suggestion>kun</suggestion> netter is als '\3' het onderwerp is. Kan mag echter ook.</message>
 				<url>https://taaladvies.net/taal/advies/vraag/442/je_kan_kunt/</url>
 				<example><marker>Kun</marker> je het even doen voor mij?.</example>
 				<example correction="Kun"><marker>Kan</marker> je nog weg?</example>
 				<example correction="kun">Wat <marker>kan</marker> je doen?</example>
 				<example correction="kun">Zo <marker>kan</marker> je het tonen.</example>
-				<!-- TODO: antipattern for <example>Oxxio kan je om een waarborgsom vragen.</example> -->
-				<example>Wanneer kan je kind in een rugdrager?</example>
-				<example>Waarschijnlijk kan je salesafdeling haarfijn uitleggen hoe de reis verloopt.</example>
 			</rule>
 			<rule>
 				<pattern>
@@ -33473,7 +33465,7 @@ steenwijk;Steenwijk
 					</marker>
 					<token>u</token>
 				</pattern>
-				<message>Velen vinden dat <suggestion>kunt</suggestion> netter is. Kan mag echter ook.</message>
+				<message>Velen vinden dat <suggestion>kunt</suggestion> netter is als '\3' het onderwerp is. Kan mag echter ook.</message>
 				<url>https://taaladvies.net/taal/advies/vraag/442/je_kan_kunt/</url>
 				<example correction="Kunt"><marker>Kan</marker> U de grasmaaier niet zelf vervoeren?</example>
 				<example correction="kunt">Onze schoolbrochure <marker>kan</marker> u downloaden.</example>
@@ -33488,7 +33480,7 @@ steenwijk;Steenwijk
 					</marker>
 					<token><exception postag="WKW:TGW:INF"/></token>
 				</pattern>
-				<message>Velen vinden dat <suggestion>kunt</suggestion> netter is. Kan mag echter ook.</message>
+				<message>Velen vinden dat <suggestion>kunt</suggestion> netter is als '\1' het onderwerp is. Kan mag echter ook.</message>
 				<example correction="kunt">Je <marker>kan</marker> dat niet vergelijken.</example>
 				<example correction="kunt">U <marker>kan</marker> één lied beluisteren.</example>
 				<example correction="kunt">En je <marker>kan</marker> er lekker eten.</example>
