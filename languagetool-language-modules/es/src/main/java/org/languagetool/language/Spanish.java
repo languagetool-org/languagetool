@@ -157,7 +157,10 @@ public class Spanish extends Language implements AutoCloseable{
       case "CONFUSIONS": return 40;
       case "NO_SEPARADO": return 40;
       case "DIACRITICS": return 30;
+      case "POR_CIERTO": return 30;
+      case "LO_LOS": return 30;
       case "AGREEMENT_DET_NOUN": return 20;
+      case "AGREEMENT_DET_ADJ": return 10;
       case "TYPOGRAPHY": return 10;
       case "HALLA_HAYA": return 10;
       case "VALLA_VAYA": return 10;
