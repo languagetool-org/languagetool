@@ -48,6 +48,7 @@
 ```xml
        <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
                 args="no:2 regexp:(.*) postag_regexp:(ADV) prefix:не suffix:  "/>  
+```
 
 #### Slovak
   * commented out rules that caused many false alarms
