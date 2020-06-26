@@ -47,7 +47,7 @@ public class PortugueseHybridDisambiguator extends AbstractDisambiguator {
    * disambiguator.
    * 
    * Put the results of the MultiWordChunker in a more appropriate and useful way.
-   *   <NN></NN> becomes NN NN
+   *   &lt;NN&gt;&lt;/NN&gt; becomes NN NN
    *   The individual original tags are removed. 
    *   Add spell ignore
    */
@@ -57,7 +57,7 @@ public class PortugueseHybridDisambiguator extends AbstractDisambiguator {
     AnalyzedSentence analyzedSentence = chunker.disambiguate(input);
            
     AnalyzedTokenReadings[] aTokens = analyzedSentence.getTokens();
-    int i=0;
+    int i = 0;
     String POSTag = "";
     String lemma = "";
     String nextPOSTag = "";

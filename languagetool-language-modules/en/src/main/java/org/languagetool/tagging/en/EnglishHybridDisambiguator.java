@@ -47,7 +47,7 @@ public class EnglishHybridDisambiguator extends AbstractDisambiguator {
    * disambiguator.
    * 
    * Put the results of the MultiWordChunker in a more appropriate and useful way.
-   *   <NN></NN> becomes NN NN
+   *   &lt;NN&gt;&lt;/NN&gt; becomes NN NN
    *   The individual original tags are removed. 
    *   Add spell ignore
    */
