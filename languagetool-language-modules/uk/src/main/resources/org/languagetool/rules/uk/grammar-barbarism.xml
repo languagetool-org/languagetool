@@ -3971,6 +3971,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Як порівняти середні місячні температури виходить, що найтеплішим місяцем у північній півкулі є липень.</example>
     </rule>
 
+    <rule id="pry_dopomozi" name="При допомозі">
+      <pattern>
+        <marker>
+          <token>при</token>
+          <token>допомозі</token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion>за допомогою</suggestion>, <suggestion>з допомогою</suggestion></message>
+      <example correction="за допомогою|з допомогою"><marker>при допомозі</marker> дружини</example>
+    </rule>
+
     <rule id="KORINNYM_OBRAZOM" name="Корінним образом">
       <pattern>
         <marker>
@@ -4573,11 +4584,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token>по</token>
-          <token postag_regexp="yes" postag="noun:inanim:.:v_dav.*" regexp="yes" inflected="yes">підготовка|охорона|безпека|видобуток|виготовлення</token>
+          <token postag_regexp="yes" postag="noun:inanim:.:v_dav.*" regexp="yes" inflected="yes">підготовка|охорона|безпека|видобуток|виготовлення|врегулювання|виконання</token>
         </pattern>
-        <message>Правильно: <suggestion>з <match no="2" postag_regexp="yes" postag="(noun:inanim:.):v_dav(.*)" postag_replace="$1:v_rod$2"/></suggestion>, <suggestion><match no="2" postag_regexp="yes" postag="(noun:inanim:.):v_dav(.*)" postag_replace="$1:v_rod$2"/></suggestion></message>
-        <example correction="з підготовки|підготовки">курси <marker>по підготовці</marker></example>
-        <example correction="з охорони|охорони">міністерство <marker>по охороні</marker></example>
+        <message>Правильно: <suggestion>з <match no="2" postag_regexp="yes" postag="(noun:inanim:.):v_dav(.*)" postag_replace="$1:v_rod$2"/></suggestion></message>
+        <suggestion>щодо <match no="2" postag_regexp="yes" postag="(noun:inanim:.):v_dav(.*)" postag_replace="$1:v_rod$2"/></suggestion>
+        <suggestion><match no="2" postag_regexp="yes" postag="(noun:inanim:.):v_dav(.*)" postag_replace="$1:v_rod$2"/></suggestion>
+        <example correction="з підготовки|щодо підготовки|підготовки">курси <marker>по підготовці</marker></example>
+        <example correction="з охорони|щодо охорони|охорони">міністерство <marker>по охороні</marker></example>
       </rule>
 
       <rule>
@@ -4652,6 +4665,99 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Правильно: <suggestion>праворуч</suggestion>, <suggestion>справа</suggestion>, <suggestion>з правого боку</suggestion>, <suggestion>по праву руку</suggestion></message>
         <example correction="праворуч|справа|з правого боку|по праву руку"><marker>по праву сторону</marker></example>
         <example>праворуч</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>судячи</token>
+          <marker>
+            <token>по</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>з</suggestion></message>
+        <example correction="з">судячи <marker>по</marker> реакції</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>по</token>
+          <token regexp="yes">питанню|питанням</token>
+        </pattern>
+        <message>Правильно: <suggestion>з <match no="2" postag_regexp="yes" postag="(noun:inanim:.):v_mis" postag_replace="$1:v_rod"/></suggestion></message>
+        <suggestion>у справах</suggestion>
+        <example correction="з питання|у справах">конференція <marker>по питанню</marker> рівності</example>
+      </rule>
+
+      <rule>
+        <antipattern>
+          <token regexp="yes" inflected="yes">судити|видно|дивитися|оцінювати|оцінити|але</token>
+          <token min="0"/>
+          <token>по</token>
+        </antipattern>
+        <pattern>
+          <token>по</token>
+          <token>справах</token>
+        </pattern>
+        <message>Правильно: <suggestion>у \2</suggestion></message>
+        <example correction="у справах">прийшов <marker>по справах</marker> контори</example>
+        <example>видно по справах</example>
+        <example>судити можна по справах</example>
+        <example>проходив по справі</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>по</token>
+          <token>пошуку</token>
+        </pattern>
+        <message>Правильно: <suggestion>з пошуку</suggestion></message>
+        <suggestion>для пошуку</suggestion>
+        <example correction="з пошуку|для пошуку">витрати <marker>по пошуку</marker> нового персоналу</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">голосування|комісія|кампанія</token>
+          <marker>
+            <token>по</token>
+            <token>виборах</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>з виборів</suggestion></message>
+        <suggestion>щодо виборів</suggestion>
+        <example correction="з виборів|щодо виборів">голосування <marker>по виборах</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>по</token>
+          <token>незнанню</token>
+        </pattern>
+        <message>Правильно: <suggestion>через незнання</suggestion></message>
+        <suggestion>не знаючи</suggestion>
+        <suggestion>знезнавки</suggestion>
+        <example correction="через незнання|не знаючи|знезнавки">зробили це <marker>по незнанню</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>по</token>
+          <token>необачності</token>
+        </pattern>
+        <message>Правильно: <suggestion>з необачності</suggestion></message>
+        <suggestion>через необачність</suggestion>
+        <suggestion>з необачки</suggestion>
+        <example correction="з необачності|через необачність|з необачки">зробили це <marker>по необачності</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>по</token>
+          <token>неуважності</token>
+        </pattern>
+        <message>Правильно: <suggestion>з неуважності</suggestion></message>
+        <suggestion>через неуважність</suggestion>
+        <example correction="з неуважності|через неуважність">зробили це <marker>по неуважності</marker></example>
       </rule>
     </rulegroup>
 
@@ -4870,6 +4976,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <short>Правильно «за підсумками»</short>
         <example correction="За підсумками"><marker>По підсумках</marker> роботи.</example>
         <example>За підсумками роботи.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>по</token>
+          <token postag_regexp="yes" postag="adj:p:v_mis.*" min="0"/>
+          <token>обставинах</token>
+        </pattern>
+        <message>Правильно: <suggestion>за <match no="2" postag_regexp="yes" postag="(adj:p):v_mis(.*)" postag_replace="$1:v_rod$2"/> обставин</suggestion></message>
+        <suggestion>до <match no="2" postag_regexp="yes" postag="(adj:p):v_mis(.*)" postag_replace="$1:v_rod$2"/> обставин</suggestion>
+        <suggestion>на <match no="2" postag_regexp="yes" postag="(adj:p):v_mis(.*)" postag_replace="$1:v_zna:rinanim$2"/> обставини</suggestion>
+        <example correction="за сімейних обставин|до сімейних обставин|на сімейні обставини"><marker>по сімейних обставинах</marker></example>
       </rule>
     </rulegroup>
 
