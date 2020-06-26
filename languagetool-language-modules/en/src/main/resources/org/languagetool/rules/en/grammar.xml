@@ -12261,6 +12261,11 @@ USA
                 <token>Under</token>
                 <token>Cover</token>
             </antipattern>
+            <antipattern><!-- confusion of hear/here, caught by CONFUSION_RULE -->
+                <token skip="2">come</token>
+                <token>over</token>
+                <token>hear</token>
+            </antipattern>
             <pattern>
                 <token>under</token>
                 <token>cover</token>
@@ -13014,7 +13019,7 @@ USA
             </antipattern>
             <antipattern>
                 <token>time</token>
-                <token>after</token>
+                <token regexp="yes">after|to</token>
                 <token>time</token>
             </antipattern>
             <pattern>
@@ -13252,6 +13257,11 @@ USA
                 <token skip="3">in</token>
                 <token>case</token>
                 <token regexp="yes">workers?</token>
+            </antipattern>
+            <antipattern>
+                <token>glass</token>
+                <token regexp="yes" skip="2">workers?</token>
+                <token>guild</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">part|full|real</token>
@@ -13839,7 +13849,7 @@ USA
             </antipattern>
             <antipattern>
                 <token>under</token>
-                <token regexp="yes">line|rate|estimate|report|score</token>
+                <token regexp="yes">line|rate|estimate|report|score|statements?</token>
                 <token min="0" regexp="yes" skip="1">#|no|nr|number</token>
                 <token postag="CD" />
             </antipattern>
@@ -13895,7 +13905,7 @@ USA
                 <pattern>
                     <token>under</token>
                     <token inflected="yes" regexp="yes">
-                        appreciate|estimate|achieve|whelm|line|rate|report|represent|mine|score|stand|go|take|cut|lie
+                        appreciate|estimate|achieve|whelm|line|rate|report|represent|mine|score|stand|go|take|cut|lie|statement
                     </token>
                 </pattern>
                 <message>This is normally spelled as one word.</message>
@@ -13985,7 +13995,7 @@ USA
                 <pattern>
                     <token>over</token>
                     <token inflected="yes" regexp="yes">
-                        complicate|think|come|estimate|haul|flow|kill|look|whelm|reach|see|view|wear|rate|take|size|react|power|load|price|hear
+                        complicate|think|come|estimate|haul|flow|kill|look|whelm|reach|see|view|wear|rate|take|size|react|power|load|price|hear|lap|lapped|lay
                         <exception regexp="yes">power|load|price</exception>
                         <exception postag="VBG" /><!-- see [3] -->
                     </token>
@@ -14025,7 +14035,7 @@ USA
                     <token postag="RB" min="0" max="2" />
                     <marker>
                         <token>over</token>
-                        <token regexp="yes">complicating|thinking|coming|estimating|hauling|flowing|killing|looking|whelming|reaching|seeing|viewing|wearing|reporting|rating|taking|sizing|reacting|powering|loading|pricing|hearing</token>
+                        <token regexp="yes">complicating|thinking|coming|estimating|hauling|flowing|killing|looking|whelming|reaching|seeing|viewing|wearing|reporting|rating|taking|sizing|reacting|powering|loading|pricing|hearing|lapping|laying</token>
                     </marker>
                 </pattern>
                 <message>This is normally spelled as one word.</message>
@@ -23176,11 +23186,24 @@ USA
                 </antipattern>
                 <pattern>
                     <token>microsoft</token>
-                    <token regexp="yes">word|excel|outlook|office|edge|azure|inc|surface|windows|hotmail|lumia|bing|solitaire|editor|teams|defender|dynamics</token>
+                    <token regexp="yes">word|excel|outlook|office|edge|azure|surface|windows|hotmail|lumia|bing|solitaire|editor|teams|defender|dynamics</token>
                 </pattern>
                 <message>Did you mean the proper noun <suggestion>Microsoft <match no="2" case_conversion="startupper" /></suggestion> (= Microsoft product)?</message>
                 <example correction="Microsoft Word"><marker>Microsoft word</marker> is a word processor.</example>
                 <example><marker>Microsoft Office</marker> is popular software that not only runs on Windows machines but also on macOS.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern case_sensitive="yes">
+                    <token>MS</token>
+                    <token regexp="yes">[A-Z].+</token>
+                </antipattern>
+                <pattern>
+                    <token>ms</token>
+                    <token regexp="yes">word|excel|outlook|office|edge|azure|surface|windows|hotmail|lumia|bing|solitaire|editor|teams|defender|dynamics|paint</token>
+                </pattern>
+                <message>Did you mean the proper noun <suggestion>MS <match no="2" case_conversion="startupper" /></suggestion> (= Microsoft product)?</message>
+                <example correction="MS Word"><marker>MS word</marker> is a word processor.</example>
+                <example><marker>MS Office</marker> is popular software that not only runs on Windows machines but also on macOS.</example>
             </rule>
             <rule>
                 <pattern>
