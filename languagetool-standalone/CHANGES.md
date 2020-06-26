@@ -55,6 +55,7 @@
 #### Spanish
   * added and improved rules
   * new tagger dictionary by Jaume Ortolà, LGPL, source: https://github.com/jaumeortola/spanish-dict-tools
+  * the spelling rule is enabled in LibreOffice using the tagger dictionary (no other spelling dictionay is needed) 
 
 #### Ukrainian
   * dictionary update, including many rare and slang words

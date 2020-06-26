@@ -45,6 +45,12 @@ public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
   public final String getId() {
     return "MORFOLOGIK_RULE_ES";
   }
+  
+  @Override
+  // Use this rule in LO/OO extension despite being a spelling rule
+  public boolean useInOffice() {
+    return true;
+  }
  
 
 }
