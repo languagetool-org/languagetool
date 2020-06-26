@@ -61,7 +61,22 @@ Copyright (C) 2011 Juan Martorell
     </unification>
     <!--<rulegroup id="DICT_FIXES" name="dictionary fixes">
     </rulegroup>-->
-
+    
+    <rulegroup id="fix_dict" name="fix dictionary">
+        <rule>
+            <pattern>
+                <token>primer</token>
+            </pattern>
+            <disambig action="replace"><wd lemma="primero" pos="AO0MS0"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>buen</token>
+            </pattern>
+            <disambig action="replace"><wd lemma="bueno" pos="AQ0MS0"></wd></disambig>
+        </rule>
+    </rulegroup>
+    
 
     <rulegroup id="LOC_ADV" name="locuciones adverbiales">
         <rule id="pese_a" name="pese a">
@@ -457,7 +472,7 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">[1234567890]+[aª]<exception postag="AO.*" postag_regexp="yes"/><exception>0a</exception></token>
+                    <token regexp="yes" case_sensitive="yes">[1234567890]+[aª]<exception postag="AO.*" postag_regexp="yes"/><exception>0a</exception></token>
                 </marker>
             </pattern>
             <disambig action="add">
@@ -1201,7 +1216,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <marker>
                     <token postag="RG" regexp="yes">demasiado|bastante|poco|tanto|mal|bien|muy</token>
-                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <token postag="A.*|V.P.*|RG" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <disambig action="filterall"/>
@@ -1218,15 +1233,6 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <token regexp="yes">temprano|incluso|solo<exception postag="_GN_MS"/></token>
-            </pattern>
-            <disambig action="filter" postag="RG.*"/>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token>bastante</token>
-                </marker>
-                <token postag="RG|A.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="RG.*"/>
         </rule>
@@ -2689,7 +2695,7 @@ Copyright (C) 2011 Juan Martorell
                 <marker>
                     <token postag="SPS00">bajo<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </marker>
-                <token regexp="yes">poder|dominio|dirección|presidencia</token>
+                <token regexp="yes">poder|dominio|dirección|presidencia|cuidado|atención</token>
             </pattern>
             <disambig action="filter" postag="SPS00"/>
         </rule>
