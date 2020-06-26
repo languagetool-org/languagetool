@@ -9817,11 +9817,17 @@ MARCOAGPINTO 2020-02-18 -->
           <token>ou</token>
           <token postag_regexp='yes' postag='Z.+'/>
       </antipattern>
+      <antipattern>
+          <token skip="-1">ou</token>
+          <token postag="C.*" postag_regexp="yes" skip="-1"><exception>ou</exception></token>
+          <token>ou</token>
+      </antipattern>
       <pattern>
           <token>ou</token>
           <token skip='-1'>
             <exception regexp='yes'>[»“”\(\)\"]|&separadores_de_oracoes;</exception>
-            <exception scope='next' regexp='yes'>[»“”\(\)\"]|&separadores_de_oracoes;</exception></token>
+            <exception scope='next' regexp='yes'>[»“”\(\)\"]|&separadores_de_oracoes;</exception>
+          </token>
           <token>ou
             <exception scope='previous' postag_regexp='yes' postag='C.+'/></token>
       </pattern>
@@ -9829,6 +9835,7 @@ MARCOAGPINTO 2020-02-18 -->
         <suggestion>\1 <match no='2' include_skipped='all'/>, \3</suggestion>
       <example correction='Ou sim, ou'>"<marker>Ou sim ou</marker> sopas?"</example>
       <example>Ou fazem algo mais ou menos adequado à situação, ou não fazemos nada.</example>
+      <example>Este direito inclui a liberdade de mudar de religião ou crença e a liberdade de manifestar essa religião ou crença.</example>
     </rule>
   </rulegroup>
 
