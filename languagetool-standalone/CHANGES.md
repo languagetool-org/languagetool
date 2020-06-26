@@ -11,7 +11,7 @@
   
 #### Catalan
   * added and improved rules
-  * updated dictionary (catalan-pos-dict-2.8), now with a specific dictionary file for spelling suggestions
+  * updated dictionary (catalan-pos-dict-2.10)
 
 #### English
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.85 - 2020-06-01)
