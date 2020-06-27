@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!--suppress CheckTagEmptyBody -->
 <!DOCTYPE rules [
-<!ENTITY weekdays "понедельник|вторник|среда|четверг|пятница|суббота|воскресенье">
+<!ENTITY weekdays "понедельник|вторник|среда|среду|четверг|пятница|пятницу|суббота|субботу|воскресенье|пн|вт|ср|чт|пт|сб|вс|вск">
 <!ENTITY months "январь|февраль|март|апрель|май|июнь|июль|август|сентябрь|октябрь|ноябрь|декабрь|января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря">
 <!ENTITY abbrevMonths "янв|фев|мар|апр|ин|ил|авг|сен|окт|ноя|дек">
 <!ENTITY color "черн.*|чёрн.*|бел.*|красн.*|син.*|желт.*|жёлт.*|зелен.*|зелён.*"> <!-- цвет -->
@@ -201,9 +201,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
                 <filter class="org.languagetool.rules.ru.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
-                <message>Днём недели \3 \4 \5 является не \1, а {realDay}.</message>
+                <message>Днём недели \3 \4 \5 является {realDay}.</message>
                 <example correction="">Конференция состоится в <marker>понедельник, 7 октября 2014</marker> г.</example>
                 <example correction="">Конференция состоится в <marker>понедельник 7 октября 2014</marker> г.</example>
+                <example correction="">Конференция состоится в <marker>пятницу 7 октября 2014</marker> г.</example>
                 <example correction="">Конференция состоится в <marker>понедельник, 7 окт 2014</marker> г.</example>
                 <example>Конференция состоится во <marker>вторник, 7 октября 2014</marker> г.</example>
                 <example>Конференция состоится во <marker>вторник, 7 окт 2014</marker> г.</example>
