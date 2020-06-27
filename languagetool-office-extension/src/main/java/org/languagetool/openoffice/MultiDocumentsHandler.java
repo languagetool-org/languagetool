@@ -590,9 +590,10 @@ public class MultiDocumentsHandler {
       for (Rule rule : langTool.getAllActiveOfficeRules()) {
         if (rule.isDictionaryBasedSpellingRule()) {
           langTool.disableRule(rule.getId());
-        }
-        if (rule.useInOffice()) {
-          langTool.enableRule(rule.getId());
+          if (rule.useInOffice()) {
+            // set default off so it can be re-enabled by user configuration
+            rule.setDefaultOff();
+          }
         }
       }
       recheck = false;
