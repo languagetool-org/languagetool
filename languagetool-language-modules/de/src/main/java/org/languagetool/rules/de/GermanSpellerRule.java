@@ -915,7 +915,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("desinfektierend(e[mnrs]?)?", "fekt", "fiz");
     putRepl("desinfektieren?", "fekt", "fiz");
     putRepl("ausbüchsen?", "chs", "x");
-    putRepl("ausbüchst(en?)?", "chs", "x");
+    putRepl("aus(ge)?büchst(en?)?", "chs", "x");
     put("undsoweiter", "und so weiter");
     put("Gladbeckerstrasse", "Gladbecker Straße");
     put("[bB]range", "Branche");
