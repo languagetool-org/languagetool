@@ -207,7 +207,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
-        <rule id="A_CONTRAPIE" name="*a contra pie/a contrapié" default="temp_off">
+        <rule id="A_CONTRAPIE" name="*a contra pie/a contrapié">
             <pattern>
                 <token>a</token>
                 <token>contra</token>
@@ -2692,6 +2692,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="líquido">Eso quiere decir <marker>liquido</marker>.</example>
                 <example>Ahora liquido la deuda.</example>
                 <example>Le liquidas las deudas.</example>
+            </rule>
+            <rule id="GRAFICO" name="grafico/gráfico" default="temp_off">
+                <antipattern>
+                    <token postag="P.*" postag_regexp="yes"/>
+                    <token regexp="yes">graficas?|grafico</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">graficas?|grafico</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">graficas?|grafico</token>
+                </pattern>
+                <message>Si es sustantivo o adjetivo, lleva tilde. Correcto si es del v. 'graficar'.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(gr)a(.*)" regexp_replace="$1á$2"/></suggestion>
+                <example correction="gráfica">La tarjeta <marker>grafica</marker>.</example>
+                <example>Se grafica con un ordenador.</example>
             </rule>
             <rule id="NUMERO" name="numero/número">
                 <antipattern>
@@ -6656,12 +6673,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Lo aburridos que son.</example>
                 <example>Cuando menos te lo esperas te deja.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>los</token>
                         <token postag="RG"/>
-                        <token postag="AQ.[CM]S.|V.P..SM" postag_regexp="yes"><exception postag="V.[SI].*" postag_regexp="yes"/></token>
+                        <token postag="AQ.[CM]S.|V.P..SM" postag_regexp="yes"><exception postag="V.[SI].*|N.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Posible error de concordancia.</message>
@@ -6674,11 +6691,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Lo aburridos que son.</example>
                 <example>Cuando menos te lo esperas te deja.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>los</token>
-                        <token postag="AQ.[CM]S.|V.P..SM" postag_regexp="yes"><exception postag="V.[SI].*" postag_regexp="yes"/></token>
+                        <token postag="AQ.[CM]S.|V.P..SM" postag_regexp="yes"><exception postag="V.[SI].*|N.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Posible error de concordancia.</message>
@@ -6692,7 +6709,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Lo aburridos que son.</example>
                 <example>Cuando menos te lo esperas te deja.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>lo</token>
@@ -8289,7 +8306,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Quería decir <suggestion>este</suggestion>?</message>
             <example correction="este">En <marker>esto</marker> campo es el mejor.</example>
         </rule>-->
-        <rule id="A_FINALES" name="*al/a finales" default="temp_off">
+        <rule id="A_FINALES" name="*al/a finales">
             <pattern>
                 <token>al</token>
                 <token>finales</token>
@@ -8934,7 +8951,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PUNCTUATION" name="Puntuación">
-        <rule id="POR_CIERTO" name="por cierto(,)" default="temp_off">
+        <rule id="POR_CIERTO" name="por cierto(,)">
             <pattern>
                 <token>por</token>
                 <token>cierto</token>

@@ -185,9 +185,9 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
         if (moresugg.size() > 0) {
           String newWord;
           if (suggestionPosition == 1) {
-            newWord = moresugg.get(0) + matcher.group(2);
+            newWord = moresugg.get(0).toLowerCase() + matcher.group(2);
           } else {
-            newWord = matcher.group(1) + moresugg.get(0);
+            newWord = matcher.group(1) + moresugg.get(0).toLowerCase();
           }
           return findSuggestion(suggestion, newWord, wordPattern, postagPattern, suggestionPosition, separator, false);
         }
