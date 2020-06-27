@@ -911,6 +911,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[mM]isstraurig(e[mnrs]?)?", "rig", "isch");
     putRepl("[iI]nflagrantie?", "flagrantie?", " flagranti");
     putRepl("Aux-Anschl(uss(es)?|üssen?)", "Aux", "AUX");
+    putRepl("desinfektiert(e[mnrs]?)?", "fekt", "fiz");
+    putRepl("desinfektierend(e[mnrs]?)?", "fekt", "fiz");
+    putRepl("desinfektieren?", "fekt", "fiz");
+    putRepl("ausbüchsen?", "chs", "x");
+    putRepl("ausbüchst(en?)?", "chs", "x");
+    put("undsoweiter", "und so weiter");
+    put("Gladbeckerstrasse", "Gladbecker Straße");
+    put("[bB]range", "Branche");
     put("Gewebtrauma", "Gewebetrauma");
     put("aufgehangen", "aufgehängt");
     put("Ehrenamtpauschale", "Ehrenamtspauschale");
