@@ -7288,8 +7288,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="nomverb_nom0" name="nom + verb/nom">
         <!-- la segona porta accent. Excep: el seu germà, necessità deu anys. -->
+        <antipattern>
+            <token postag="SPS00|D[DI].*|PX.*|.*LOC_PREP.*" postag_regexp="yes"/>
+            <token min="0" postag="_cometes_obertura"/>
+            <token postag="NC.*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
-            <token><exception postag="SPS00|D[DI].*|PX.*|.*LOC_PREP.*" postag_regexp="yes"/></token>
             <marker>
                 <and>
                     <token postag="V.[GIS].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">nom|persona|ritme</exception><exception postag="VMIP1S0B"/><exception regexp="yes">dona|dones</exception></token>
@@ -9415,8 +9419,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="[^V].*"/>
     </rule>
     <rule id="nomverb_nom" name="nom + verb/nom">
+        <antipattern>
+            <token postag="SPS00|D[DI].*|PX.*|.*LOC_PREP.*" postag_regexp="yes"/>
+            <token min="0" postag="_cometes_obertura"/>
+            <token postag="NC.*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
-            <token><exception postag="SPS00|D[DI].*" postag_regexp="yes"/></token>
             <marker>
                 <and>
                     <token postag="V.[IS].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">nom|persona|ritme</exception><exception postag="VMIP1S0B"/><exception regexp="yes">dona|dones</exception></token>

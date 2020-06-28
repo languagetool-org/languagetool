@@ -51130,6 +51130,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token/>
                 <token regexp="yes">amunt|avall|enllà|endins|enfora</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">[“‘«'"]</token>
+                <token postag="NC.*" postag_regexp="yes"/>
+                <token postag="NC.*" postag_regexp="yes"/>
+                <token regexp="yes">[’”»'"]</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -51175,6 +51181,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>fins a 200 km mar endins</example>
                 <example>Quan hi ha trobat problemes.</example>
                 <example>Hi ha afegit vídeos d'alta qualitat.</example>
+                <example>Probablement era el «ministre tresorer».</example>
             </rule>
         </rulegroup>
         <rulegroup id="FALTA_ELEMENT_ENTRE_GN" name="Falta un element entre grups nominals" default="off">
