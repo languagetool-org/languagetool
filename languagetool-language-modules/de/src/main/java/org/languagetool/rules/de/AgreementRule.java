@@ -753,6 +753,10 @@ public class AgreementRule extends Rule {
       tokenRegex("Steinberg|Park"),
       csToken("Apotheke")
     ),
+    Arrays.asList(
+      csToken("IT"),
+      csToken("Finanzmagazin")
+    ),
     Arrays.asList( // Vielen Dank fürs Bescheid geben
       token("fürs"),
       token("Bescheid"),
