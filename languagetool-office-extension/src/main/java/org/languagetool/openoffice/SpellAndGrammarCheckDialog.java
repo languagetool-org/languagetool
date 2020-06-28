@@ -52,7 +52,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
   
   private XComponentContext xContext;
   
-  SpellAndGrammarCheckDialog(XComponentContext xContext) {
+  SpellAndGrammarCheckDialog(XComponentContext xContext, MultiDocumentsHandler mdh) {
     this.xContext = xContext;
   }
   
@@ -60,6 +60,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
   public void run() {
     CheckDialog checkDialog = new CheckDialog(xContext);
     checkDialog.show();
+  }
+
+  public void nextError() {
   }
 
   public class CheckDialog implements XDialogEventHandler {
