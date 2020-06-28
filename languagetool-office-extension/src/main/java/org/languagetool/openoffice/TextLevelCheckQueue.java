@@ -375,10 +375,7 @@ public class TextLevelCheckQueue {
     
     public void initLangtool(Language language) {
       langTool = multiDocHandler.initLanguageTool(language);
-      if (language == null) {
-        language = langTool.getLanguage();
-      }
-      multiDocHandler.initCheck(langTool, LinguisticServices.getLocale(language));
+      multiDocHandler.initCheck(langTool, multiDocHandler.getLocale());
       multiDocHandler.activateTextRulesByIndex(1, langTool);
     }
     
