@@ -931,19 +931,32 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
     </rulegroup>
-    <rule id="secar" name="paraules coincidents amb el verb secar (només AVL)">
-        <pattern>
-            <marker>
-                <and>
-                    <token inflected="yes">secar<exception scope="previous" postag="P.*" postag_regexp="yes"/></token>
-                    <token negate="yes" inflected="yes">secar</token>
-                </and>
-            </marker>
-        </pattern>
-        <disambig action="remove">
-            <wd lemma="secar"/>
-        </disambig>
-    </rule>
+    <rulegroup id="secar" name="paraules coincidents amb el verb secar (només AVL)">
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token inflected="yes">secar<exception scope="previous" postag="P.*" postag_regexp="yes"/></token>
+                        <token negate="yes" inflected="yes">secar</token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove">
+                <wd lemma="secar"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>el</token>
+                <marker>
+                    <token>secà</token>
+                </marker>
+            </pattern>
+            <disambig action="remove">
+                <wd lemma="secar"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rule id="nAdj" name="no adjectiu">
         <!--  paraules comunes que no solen ser adjectiu gairebé mai -->
         <pattern>
@@ -1943,7 +1956,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
             <token><exception regexp="yes">,|!</exception></token>
         </pattern>
-        <disambig action="remove" postag="I"></disambig>
+        <disambig action="remove" postag="I"/>
     </rule>
     <rulegroup id="sigui_qui_sigui" name="sigui qui sigui">
         <rule>
