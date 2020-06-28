@@ -12507,9 +12507,13 @@ USA
             <example correction="Sounds"><marker>Sound</marker> great!</example>
         </rule>
         <rule id="STEP_COMPOUNDS" name="step father (stepfather)">
+            <antipattern case_sensitive="yes">
+                <token>Step</token>
+                <token regexp="yes">[A-Z].+</token>
+            </antipattern>
             <pattern>
                 <token>step</token>
-                <token regexp="yes">(father|mother|mom|dad|son|daughter|brother|sister)s?|child|children|family|families</token>
+                <token regexp="yes">(father|mother|mom|dad|son|daughter|brother|sister)s?|child|children|family|families|parents?</token>
             </pattern>
             <message>The noun <suggestion>step<match no="2" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
             <example correction="stepson">She has a <marker>step son</marker> from his previous marriage.</example>
@@ -12679,7 +12683,7 @@ USA
             </antipattern>
             <pattern>
                 <token>head</token>
-                <token regexp="yes">spaces?|shots?|shrinkers?|hunters?|quarters?|masters?|boards?|gear|wear|ships?|winds?|bands?|rooms?|set|lands?|stones?</token>
+                <token regexp="yes">spaces?|shots?|shrinkers?|hunters?|quarters?|masters?|boards?|gear|wear|ships?|winds?|bands?|rooms?|set|land|stones?</token>
             </pattern>
             <message>The word <suggestion>head<match no="2" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
             <example correction="headlands">These represent the <marker>head lands</marker> separating bundles of strips within the open fields</example>
@@ -12687,7 +12691,7 @@ USA
         </rule>
         <rule id="MATE_COMPOUNDS" name="stale mate (stalemate)">
             <pattern>
-                <token regexp="yes">stale|room|class|school|seat|work|cell|ship|team</token>
+                <token regexp="yes">stale|room|class|school|seat|work|cell|ship|team|litter</token>
                 <token regexp="yes">mates?</token>
             </pattern>
             <message>The noun <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
@@ -12733,7 +12737,7 @@ USA
                 <token>pipe</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">dead|guide|border|pipe|base|head|stream|blood|roof</token>
+                <token regexp="yes">dead|guide|border|pipe|base|head|stream|blood|roof|pot</token>
                 <token regexp="yes">lines?</token>
             </pattern>
             <message>This is normally spelled as one word.</message>
@@ -13987,9 +13991,15 @@ USA
                 <token regexp="yes">com|js</token>
             </antipattern>
             <antipattern>
-                <token inflected="yes">lose</token>
+                <token inflected="yes" skip="1">lose</token>
                 <token>control</token>
                 <token>over</token>
+            </antipattern>
+            <antipattern>
+                <token>over</token>
+                <token>lay</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>s</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -14012,6 +14022,7 @@ USA
                 <example>We can take over reports on storage inventory.</example>
                 <example>Just to comment, our add-on is built over React framework.</example>
                 <example>It is 10% over load.</example>
+                <example>Bankers argue that potential bidders would be unwilling to ride roughshod over Lay's wishes through a hostile bid as most of Enron's value is tied up in intellectual capital.</example>
             </rule>
             <rule>
                 <pattern>
@@ -23192,7 +23203,7 @@ USA
                 <example correction="Microsoft Word"><marker>Microsoft word</marker> is a word processor.</example>
                 <example><marker>Microsoft Office</marker> is popular software that not only runs on Windows machines but also on macOS.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern case_sensitive="yes">
                     <token>MS</token>
                     <token regexp="yes">[A-Z].+</token>
