@@ -2668,7 +2668,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">paginas?</token>
                 </pattern>
                 <message>Si es sustantivo, lleva tilde. Correcto si es del verbo 'paginar'.</message>
-                <suggestion><match no="1" regexp_match="(?iu)(.)a(.*)" regexp_replace="$1á$2"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(.)a(.*)" regexp_replace="$1á$2" case_conversion="preserve"/></suggestion>
                 <example correction="páginas">Copia las <marker>paginas</marker> 3 y 4.</example>
                 <example correction="Página"><marker>Pagina</marker> 34.</example>
                 <example>Este libro lo pagina con el programa de edición.</example>
@@ -2687,13 +2687,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">liquidas?|liquido</token>
                 </pattern>
                 <message>Si es sustantivo o adjetivo, lleva tilde. Correcto si es del v. 'liquidar'.</message>
-                <suggestion><match no="1" regexp_match="(?iu)(l)i(.*)" regexp_replace="$1í$2"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(l)i(.*)" regexp_replace="$1í$2" case_conversion="preserve"/></suggestion>
                 <example correction="Líquida"><marker>Liquida</marker> quiere decir cuantificable.</example>
                 <example correction="líquido">Eso quiere decir <marker>liquido</marker>.</example>
                 <example>Ahora liquido la deuda.</example>
                 <example>Le liquidas las deudas.</example>
             </rule>
-            <rule id="GRAFICO" name="grafico/gráfico" default="temp_off">
+            <rule id="GRAFICO" name="grafico/gráfico">
                 <antipattern>
                     <token postag="P.*" postag_regexp="yes"/>
                     <token regexp="yes">graficas?|grafico</token>
@@ -2706,7 +2706,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">graficas?|grafico</token>
                 </pattern>
                 <message>Si es sustantivo o adjetivo, lleva tilde. Correcto si es del v. 'graficar'.</message>
-                <suggestion><match no="1" regexp_match="(?iu)(gr)a(.*)" regexp_replace="$1á$2"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(gr)a(.*)" regexp_replace="$1á$2" case_conversion="preserve"/></suggestion>
                 <example correction="gráfica">La tarjeta <marker>grafica</marker>.</example>
                 <example>Se grafica con un ordenador.</example>
             </rule>
@@ -6719,8 +6719,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Posible error de concordancia.</message>
                 <suggestion>los \2 <match no="3" postag="A..[MC][PN].|V.P..PM" postag_regexp="yes" case_conversion="preserve"/></suggestion>
-                <suggestion>lo \2 <match no="3" postag="A..[MC][SN].|V.P..SM" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion>lo \2 <match no="3" postag="A..[MC][PN].|V.P..PM" postag_regexp="yes" postag_replace="A..[MC][SN].|V.P..SM"  case_conversion="preserve"/></suggestion>
                 <example correction="los más seguros|lo más seguro">Pero <marker>lo más seguros</marker> es que no.</example>
+                <!-- bug?: why originado? -->
+                <example correction="los más originales|lo más originado|lo más original">Son de <marker>lo más originales</marker>.</example>
                 <example>Son lo suficientemente seguros.</example>
             </rule>
         </rulegroup>
