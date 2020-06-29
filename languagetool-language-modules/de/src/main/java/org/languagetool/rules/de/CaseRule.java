@@ -692,6 +692,7 @@ public class CaseRule extends Rule {
     "Rutsch",
     "Spar",
     "Merz",
+    "Scheinselbstständige",
     "Bundestagsabgeordneter",
     "Bundestagsabgeordneten",
     "Bundestagsabgeordnete",
