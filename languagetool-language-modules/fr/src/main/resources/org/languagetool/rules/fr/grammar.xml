@@ -9184,7 +9184,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">\d+</token>
         </antipattern>
         <pattern>
-          <token regexp="yes">[2-9]|[1-9]\d+
+          <token regexp="yes">[2-9]|[1-9][\d ]+
             <exception regexp="yes">[12]\d\d\d</exception>
             <exception scope="previous" spacebefore="no">,</exception>
             <exception scope="previous" regexp="yes">année|taille|(?-i)Peugeot|.*Benz|version</exception>
@@ -9223,6 +9223,8 @@ though, and has since been slightly modified)-->
         <example>iPhone 11 Pro</example>
         <example>l’acte 5 scène 4</example>
         <example>2.3.3 Musique</example>
+        <example>Nous avons enregistré 554 000 vues ces 3 derniers mois</example>
+        <example correction="vues">Nous avons enregistré 554 000 <marker>vue</marker> ces 3 derniers mois</example>
       </rule>
       <rule name="singulier suivi du pluriel">
           <antipattern>
@@ -19216,26 +19218,42 @@ though, and has since been slightly modified)-->
         <token inflected="yes">de</token>
         <token regexp="yes">entreprises?</token>
       </pattern>
-      <message>« Gérant d’entreprise » est un anglicisme (business manager). Employez <suggestion>chef d'entreprise</suggestion>.</message>
+      <message>« Gérant d’entreprise » est un anglicisme (business manager). Employez <suggestion><match no="1" regexp_match="gérante?(s)?" regexp_replace="chef$1"/> d'entreprise</suggestion>.</message>
       <example correction="chef d'entreprise"><marker>gérant d’entreprise</marker></example>
+        <example correction="chefs d'entreprise"><marker>gérants d’entreprise</marker></example>
     </rule>
-    <rule id="GERANT_DE_BANQUE" name="gérant de banque">
-      <pattern>
-        <token regexp="yes" skip="3">gérante?s?</token>
-        <token>de</token>
-        <token regexp="yes">banques?</token>
-      </pattern>
-      <message>« Gérant de banque » est un anglicisme (bank manager). Employez <suggestion>directeur d’agence bancaire</suggestion>, <suggestion>directeur d’agence</suggestion>, <suggestion>directeur de banque</suggestion>.</message>
-      <example correction="directeur d’agence bancaire|directeur d’agence|directeur de banque"><marker>gérant de banque</marker></example>
-      <example><marker>directeur de banque</marker></example>
-    </rule>
+    <rulegroup id="GERANT_DE_BANQUE" name="gérant de banque">
+        <rule>
+          <pattern>
+            <token regexp="yes" skip="3">gérants?</token>
+            <token>de</token>
+            <token regexp="yes">banques?</token>
+          </pattern>
+          <message>« Gérant de banque » est un anglicisme (bank manager). Employez <suggestion><match no="1" regexp_match="gérant(s)?" regexp_replace="directeur$1"/> d’agence bancaire</suggestion>, <suggestion><match no="1" regexp_match="gérant(s)?" regexp_replace="directeur$1"/> d’agence</suggestion>, <suggestion><match no="1" regexp_match="gérant(s)?" regexp_replace="directeur$1"/> de banque</suggestion>.</message>
+          <example correction="directeur d’agence bancaire|directeur d’agence|directeur de banque"><marker>gérant de banque</marker></example>
+            <example correction="directeurs d’agence bancaire|directeurs d’agence|directeurs de banque"><marker>gérants de banque</marker></example>
+          <example><marker>directeur de banque</marker></example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" skip="3">gérantes?</token>
+                <token>de</token>
+                <token regexp="yes">banques?</token>
+            </pattern>
+            <message>« Gérant de banque » est un anglicisme (bank manager). Employez <suggestion><match no="1" regexp_match="gérante(s)?" regexp_replace="directrice$1"/> d’agence bancaire</suggestion>, <suggestion><match no="1" regexp_match="gérante(s)?" regexp_replace="directrice$1"/> d’agence</suggestion>, <suggestion><match no="1" regexp_match="gérante(s)?" regexp_replace="directrice$1"/> de banque</suggestion>.</message>
+            <example correction="directrice d’agence bancaire|directrice d’agence|directrice de banque"><marker>gérante de banque</marker></example>
+            <example correction="directrices d’agence bancaire|directrices d’agence|directrices de banque"><marker>gérantes de banque</marker></example>
+            <example><marker>directeur de banque</marker></example>
+        </rule>
+    </rulegroup>
     <rule id="ENTRETIEN_FORMEL" name="entretien formel">
       <pattern>
         <token regexp="yes" skip="2">entretiens?</token>
         <token regexp="yes">formels?</token>
       </pattern>
-      <message>« Entretien formel » est un anglicisme. Employez <suggestion>entretien officiel</suggestion>.</message>
+      <message>« Entretien formel » est un anglicisme. Employez <suggestion><match no="1" regexp_match="entretien(s)?" regexp_replace="entretien$1"/> officiel</suggestion>.</message>
       <example correction="entretien officiel"><marker>entretien formel</marker></example>
+        <example correction="entretiens officiel"><marker>entretiens formels</marker></example>
     </rule>
     <rule id="FAMILIER_AVEC" name="familier avec">
       <pattern>
@@ -19285,7 +19303,7 @@ though, and has since been slightly modified)-->
         <token>sous</token>
         <token regexp="yes">contrôles?</token>
       </pattern>
-      <message>« Incendie sous contrôle » est un anglicisme. Employez <suggestion>incendie maîtrisé</suggestion>, <suggestion>incendie circonscrit</suggestion> (ne pouvant se propager plus loin qu’où il se trouve).</message>
+      <message>« Incendie sous contrôle » est un anglicisme. Employez <suggestion>\1 maîtrisé</suggestion>, <suggestion>\1 circonscrit</suggestion> (ne pouvant se propager plus loin qu’où il se trouve).</message>
       <example correction="incendie maîtrisé|incendie circonscrit"><marker>incendie sous contrôle</marker></example>
       <example><marker>incendie circonscrit</marker></example>
     </rule>
@@ -19294,8 +19312,9 @@ though, and has since been slightly modified)-->
         <token regexp="yes">dates?</token>
         <token regexp="yes">due|dû</token>
       </pattern>
-      <message>« Date due » est un anglicisme. Employez <suggestion>date d’échéance</suggestion>, <suggestion>échéance</suggestion>.</message>
+      <message>« Date due » est un anglicisme. Employez <suggestion>\1 d’échéance</suggestion>, <suggestion><match no="1" regexp_match="date(s)?" regexp_replace="échéance$1"/></suggestion>.</message>
       <example correction="date d’échéance|échéance"><marker>date due</marker></example>
+        <example correction="dates d’échéance|échéances"><marker>dates due</marker></example>
       <example><marker>date d’échéance</marker></example>
     </rule>
     <rule id="EXTRACTEUR_A_JUS" name="extracteur à/de jus">
@@ -19303,8 +19322,9 @@ though, and has since been slightly modified)-->
         <token regexp="yes" skip="2">extracteurs?</token>
         <token>jus</token>
       </pattern>
-      <message>« Extracteur à/de jus » est un anglicisme (juice extractor). Employez <suggestion>centrifugeuse</suggestion>.</message>
+      <message>« Extracteur à/de jus » est un anglicisme (juice extractor). Employez <suggestion><match no="1" regexp_match="extracteur(s)?" regexp_replace="centrifugeuse$1"/></suggestion>.</message>
       <example correction="centrifugeuse"><marker>extracteur à jus</marker></example>
+        <example correction="centrifugeuses"><marker>extracteurs à jus</marker></example>
     </rule>
     <rule id="LAIT_EVAPORE" name="lait évaporé">
       <pattern>
@@ -19320,19 +19340,30 @@ though, and has since been slightly modified)-->
         <token regexp="yes" skip="2">entrée?s?</token>
         <token regexp="yes">marchandises?</token>
       </pattern>
-      <message>« Entrée des marchandises » est un anglicisme (goods entrance). Employez <suggestion>entrée de service</suggestion> (affiche), <suggestion>entrée de livraison</suggestion> (affiche).</message>
+      <message>« Entrée des marchandises » est un anglicisme (goods entrance). Employez <suggestion>\1 de service</suggestion> (affiche), <suggestion>\1 de livraison</suggestion> (affiche).</message>
       <example correction="entrée de service|entrée de livraison"><marker>entrée des marchandises</marker></example>
       <example><marker>entrée de service</marker></example>
     </rule>
-    <rule id="ESPACE_A_LOUER" name="espace à louer">
-      <pattern>
-        <token regexp="yes">espaces?</token>
-        <token regexp="yes">[àa]</token>
-        <token>louer</token>
-      </pattern>
-      <message>« Espace à louer » est un anglicisme. Employez <suggestion>locaux à louer</suggestion>.</message>
-      <example correction="locaux à louer"><marker>espace à louer</marker></example>
-    </rule>
+    <rulegroup id="ESPACE_A_LOUER" name="espace à louer">
+        <rule>
+          <pattern>
+            <token>espace</token>
+            <token regexp="yes">[àa]</token>
+            <token>louer</token>
+          </pattern>
+          <message>« Espace à louer » est un anglicisme. Employez <suggestion>local à louer</suggestion>.</message>
+          <example correction="local à louer"><marker>espace à louer</marker></example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>espaces</token>
+                <token regexp="yes">[àa]</token>
+                <token>louer</token>
+            </pattern>
+            <message>« Espace à louer » est un anglicisme. Employez <suggestion>locaux à louer</suggestion>.</message>
+            <example correction="locaux à louer"><marker>espaces à louer</marker></example>
+        </rule>
+    </rulegroup>
     <rule id="EPICIER_LICENCIE" name="épicier licencié">
       <pattern>
         <token regexp="yes" skip="5">épiciers?</token>
@@ -19357,7 +19388,7 @@ though, and has since been slightly modified)-->
         <token inflected="yes">de</token>
         <token regexp="yes">opérations?</token>
       </pattern>
-      <message>« Dépense d’opération » est un anglicisme. Employez <suggestion>dépense de fonctionnement</suggestion>.</message>
+      <message>« Dépense d’opération » est un anglicisme. Employez <suggestion>\1 de fonctionnement</suggestion>.</message>
       <example correction="dépense de fonctionnement"><marker>dépense d’opération</marker></example>
     </rule>
     <rule id="COUT_DOPERATION" name="coût d’opération">
@@ -19380,19 +19411,23 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="EMISSION_DUN_DIPLOME" name="émission d’un diplôme">
       <pattern>
-        <token regexp="yes" skip="3">émissions?</token>
+          <marker>
+            <token regexp="yes" skip="3">émissions?</token>
+          </marker>
         <token regexp="yes">diplômes?</token>
       </pattern>
-      <message>« Émission d’un diplôme » est un anglicisme. Employez <suggestion>délivrance d’un diplôme</suggestion>.</message>
-      <example correction="délivrance d’un diplôme"><marker>émission d’un diplôme</marker></example>
+      <message>« Émission d’un diplôme » est un anglicisme. Employez <suggestion><match no="1" regexp_match="émission(s)?" regexp_replace="délivrance$1"/></suggestion> d’un diplôme.</message>
+      <example correction="délivrance"><marker>émission</marker> d’un diplôme</example>
     </rule>
     <rule id="OPERER_UN_COMMERCE" name="opérer un commerce">
       <pattern>
-        <token inflected="yes" skip="6">opérer</token>
+          <marker>
+            <token inflected="yes" skip="6">opérer</token>
+          </marker>
         <token regexp="yes">commerces?</token>
       </pattern>
-      <message>« Opérer un commerce » est un anglicisme (to operate). Employez <suggestion>exploiter un commerce</suggestion>.</message>
-      <example correction="exploiter un commerce"><marker>opérer un commerce</marker></example>
+      <message>« Opérer un commerce » est un anglicisme (to operate). Employez <suggestion>exploiter</suggestion> un commerce.</message>
+      <example correction="exploiter"><marker>opérer</marker> un commerce</example>
     </rule>
     <rule id="OPERER_UNE_ENTREPRISE" name="opérer une entreprise">
       <pattern>
@@ -19404,70 +19439,86 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="OPERER_UNE_MACHINE" name="opérer une machine">
       <pattern>
-        <token inflected="yes" skip="6">opérer</token>
+          <marker>
+            <token inflected="yes" skip="6">opérer</token>
+          </marker>
         <token regexp="yes">machines?</token>
       </pattern>
-      <message>« Opérer un machine » est un anglicisme (to operate). Employez <suggestion>conduire une machine</suggestion>, <suggestion>faire fonctionner une machine</suggestion>, <suggestion>manœuvrer une machine</suggestion>.</message>
-      <example correction="conduire une machine|faire fonctionner une machine|manœuvrer une machine"><marker>opérer une machine</marker></example>
+      <message>« Opérer un machine » est un anglicisme (to operate). Employez <suggestion>conduire</suggestion> une machine, <suggestion>faire fonctionner</suggestion> une machine, <suggestion>manœuvrer</suggestion> une machine.</message>
+      <example correction="conduire|faire fonctionner|manœuvrer"><marker>opérer</marker> une machine</example>
       <example><marker>conduire une machine</marker></example>
     </rule>
     <rule id="EMETTRE_UN_COMMUNIQUE" name="émettre un communiqué">
       <pattern>
-        <token inflected="yes" skip="1">émettre</token>
+          <marker>
+            <token inflected="yes" skip="1">émettre</token>
+          </marker>
         <token regexp="yes">communiqués?</token>
       </pattern>
-      <message>« Émettre un communiqué » est un anglicisme (to issue a communique). Employez <suggestion>publier un communiqué</suggestion>, <suggestion>rendre public un communiqué</suggestion>, <suggestion>lancer un communiqué</suggestion>.</message>
-      <example correction="publier un communiqué|rendre public un communiqué|lancer un communiqué"><marker>émettre un communiqué</marker></example>
+      <message>« Émettre un communiqué » est un anglicisme (to issue a communique). Employez <suggestion>publier</suggestion> un communiqué, <suggestion>rendre public</suggestion> public un communiqué, <suggestion>lancer</suggestion> un communiqué.</message>
+      <example correction="publier|rendre public|lancer"><marker>émettre</marker> un communiqué</example>
       <example><marker>publier un communiqué</marker></example>
     </rule>
     <rule id="EMETTRE_UN_BREVET" name="émettre un brevet">
       <pattern>
-        <token inflected="yes" skip="1">émettre</token>
+          <marker>
+            <token inflected="yes" skip="1">émettre</token>
+          </marker>
         <token regexp="yes">brevets?</token>
       </pattern>
-      <message>« Émettre un brevet » est un anglicisme. Employez <suggestion>délivrer un brevet</suggestion>.</message>
-      <example correction="délivrer un brevet"><marker>émettre un brevet</marker></example>
+      <message>« Émettre un brevet » est un anglicisme. Employez <suggestion>délivrer</suggestion> un brevet.</message>
+      <example correction="délivrer"><marker>émettre</marker> un brevet</example>
     </rule>
     <rule id="EMETTRE_UN_CERTIFICAT" name="émettre un certificat">
       <pattern>
-        <token inflected="yes" skip="1">émettre</token>
+          <marker>
+            <token inflected="yes" skip="1">émettre</token>
+          </marker>
         <token regexp="yes">certificats?</token>
       </pattern>
-      <message>« Émettre un certificat » est un anglicisme. Employez <suggestion>délivrer un certificat</suggestion>.</message>
-      <example correction="délivrer un certificat"><marker>émettre un certificat</marker></example>
+      <message>« Émettre un certificat » est un anglicisme. Employez <suggestion>délivrer</suggestion> un certificat.</message>
+      <example correction="délivrer"><marker>émettre</marker> un certificat</example>
     </rule>
     <rule id="EMETTRE_UN_PASSEPORT" name="émettre un passeport">
       <pattern>
-        <token inflected="yes" skip="1">émettre</token>
+          <marker>
+            <token inflected="yes" skip="1">émettre</token>
+          </marker>
         <token regexp="yes">passeports?</token>
       </pattern>
-      <message>« Émettre un passeport » est un anglicisme. Employez <suggestion>délivrer un passeport</suggestion>.</message>
-      <example correction="délivrer un passeport"><marker>émettre un passeport</marker></example>
+      <message>« Émettre un passeport » est un anglicisme. Employez <suggestion>délivrer</suggestion> un passeport.</message>
+      <example correction="délivrer"><marker>émettre</marker> un passeport</example>
     </rule>
     <rule id="EMETTRE_UN_RECU" name="émettre un reçu">
       <pattern>
-        <token inflected="yes" skip="1">émettre</token>
+          <marker>
+            <token inflected="yes" skip="1">émettre</token>
+          </marker>
         <token regexp="yes">reçus?</token>
       </pattern>
-      <message>« Émettre un reçu » est un anglicisme. Employez <suggestion>donner un reçu</suggestion>.</message>
-      <example correction="donner un reçu"><marker>émettre un reçu</marker></example>
+      <message>« Émettre un reçu » est un anglicisme. Employez <suggestion>donner</suggestion> un reçu.</message>
+      <example correction="donner"><marker>émettre</marker> un reçu</example>
       <example><marker>délivrer un reçu</marker></example>
     </rule>
     <rule id="EMETTRE_UN_RAPPORT" name="émettre un rapport">
       <pattern>
-        <token inflected="yes" skip="1">émettre</token>
+          <marker>
+            <token inflected="yes" skip="1">émettre</token>
+          </marker>
         <token regexp="yes">rapports?</token>
       </pattern>
-      <message>« Émettre un rapport » est un anglicisme. Employez <suggestion>produire un rapport</suggestion>.</message>
-      <example correction="produire un rapport"><marker>émettre un rapport</marker></example>
+      <message>« Émettre un rapport » est un anglicisme. Employez <suggestion>produire</suggestion> un rapport.</message>
+      <example correction="produire"><marker>émettre</marker> un rapport</example>
     </rule>
     <rule id="EMETTRE_UN_VERDICT" name="émettre un verdict">
       <pattern>
-        <token inflected="yes" skip="1">émettre</token>
+          <marker>
+            <token inflected="yes" skip="1">émettre</token>
+          </marker>
         <token regexp="yes">verdicts?</token>
       </pattern>
-      <message>« Émettre un verdict » est un anglicisme. Employez <suggestion>rendre un verdict</suggestion>.</message>
-      <example correction="rendre un verdict"><marker>émettre un verdict</marker></example>
+      <message>« Émettre un verdict » est un anglicisme. Employez <suggestion>rendre</suggestion> un verdict.</message>
+      <example correction="rendre"><marker>émettre</marker> un verdict</example>
     </rule>
     <rule id="DEMOTION" name="démotion">
       <pattern>
