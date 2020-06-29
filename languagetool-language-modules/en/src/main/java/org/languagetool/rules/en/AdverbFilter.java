@@ -219,6 +219,8 @@ public class AdverbFilter extends RuleFilter {
     put("outwardly", "outward");
     put("horizontally", "horizontal");
     put("vertically", "vertical");
+    put("technically", "technical");
+    put("swiftly", "swift");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
