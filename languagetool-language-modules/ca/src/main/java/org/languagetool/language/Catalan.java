@@ -149,9 +149,9 @@ public class Catalan extends Language {
       case "VENIR_NO_REFLEXIU": return 5;
       case "REGIONAL_VERBS": return -10;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
-      case "SUBSTANTIUS_JUNTS": return -25;
       case "MUNDAR": return -50;
       case "MORFOLOGIK_RULE_CA_ES": return -100;
+      case "SUBSTANTIUS_JUNTS": return -150;
       case "FALTA_ELEMENT_ENTRE_VERBS": return -200;
       case "NOMBRES_ROMANS": return -400;
       case "UPPERCASE_SENTENCE_START": return -500;
