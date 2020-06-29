@@ -3452,6 +3452,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Pensamos que esta pobre Europa.</example>
                 <example>La conversación que he tenido esta misma mañana.</example>
                 <example>Esta mañana temprano.</example>
+                <example>Ya que esta afecta a todos.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ESTAS_TILDE" name="estas/estás">
@@ -3917,6 +3918,74 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="cuales">Documentos a los <marker>cuáles</marker> ha tenido acceso.</example>
                 <example correction="cual">Lo <marker>cuál</marker> es muy importante.</example>
                 <example>¿Cuál es la respuesta correcta?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SI" name="si/sí" default="temp_off">
+            <url>https://www.rae.es/dpd/s%C3%AD</url>
+            <rule>
+                <pattern>
+                    <token>de</token>
+                    <token>por</token>
+                    <token>si</token>
+                </pattern>
+                <message>Esta locución se escribe con tilde.</message>
+                <suggestion>de por sí</suggestion>
+                <example correction="de por sí">Lo hizo <marker>de por si</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>un</token>
+                    <token>si</token>
+                    <token>es</token>
+                    <token>no</token>
+                    <token>es</token>
+                </pattern>
+                <message>Esta locución se escribe con tilde.</message>
+                <suggestion>un sí es no es</suggestion>
+                <url>https://www.rae.es/dpd/ser#7</url>
+                <example correction="Un sí es no es"><marker>Un si es no es</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                    <token regexp="yes">que|[\.;]</token>
+                </pattern>
+                <message>Como adverbio de afirmación, se escribe con tilde.</message>
+                <suggestion>sí</suggestion>
+                <example correction="Sí"><marker>Si</marker> que me gusta mucho</example>
+                <example correction="sí">He dicho que <marker>si</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|un</token>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                </pattern>
+                <message>Como sustantivo masuclino ('permiso, conformidad'), se escribe con tilde.</message>
+                <suggestion>sí</suggestion>
+                <example correction="sí">Le dio el <marker>si</marker> tan deseado.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">de|en|para</token>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                </pattern>
+                <message>Como pronombre personal reflexivo, se escribe con tilde.</message>
+                <suggestion>sí</suggestion>
+                <example correction="sí">No cabía en <marker>si</marker> de alegría.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>con</token>
+                    <token regexp="yes">si|sí</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>consigo</suggestion>?</message>
+                <example correction="consigo">Estaba satisfecho <marker>con sí</marker> mismo.</example>
             </rule>
         </rulegroup>
     </category>
@@ -6797,7 +6866,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Posible error de concordancia.</message>
                 <suggestion>los \2 <match no="3" postag="A..[MC][PN].|V.P..PM" postag_regexp="yes" case_conversion="preserve"/></suggestion>
-                <suggestion>lo \2 <match no="3" postag="A..[MC][PN].|V.P..PM" postag_regexp="yes" postag_replace="A..[MC][SN].|V.P..SM"  case_conversion="preserve"/></suggestion>
+                <suggestion>lo \2 <match no="3" postag="A..[MC][PN].|V.P..PM" postag_regexp="yes" postag_replace="A..[MC][SN].|V.P..SM" case_conversion="preserve"/></suggestion>
                 <example correction="los más seguros|lo más seguro">Pero <marker>lo más seguros</marker> es que no.</example>
                 <!-- bug?: why originado? -->
                 <example correction="los más originales|lo más originado|lo más original">Son de <marker>lo más originales</marker>.</example>
@@ -6891,24 +6960,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token/>
             </antipattern>
             <rule>
-            <pattern>
-                <marker>
-                    <unify negate="yes">
-                        <feature id="numero"/>
-                        <feature id="genero"/>
-                        <token postag="D[^RN].*" postag_regexp="yes">este<exception postag="DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/></token>
-                        <token postag="A.....|V.P...." postag_regexp="yes"><exception postag="AQ0CN0|N.CN.*|V.[IS].*" postag_regexp="yes"/></token>
-                    </unify>
-                </marker>
-            </pattern>
-            <message>Error de concordancia.</message>
-            <suggestion>esté \2</suggestion>
-            <suggestion suppress_misspelled="yes"><match no="1" postag="D..[MC][SN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="A..[MC][SN].|V.P..SM" postag_regexp="yes" case_conversion="preserve"/></suggestion>
-            <suggestion suppress_misspelled="yes"><match no="1" postag="D..[MC][PN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="A..[MC][PN].|V.P..PM" postag_regexp="yes" case_conversion="preserve"/></suggestion>
-            <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][SN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="A..[FC][SN].|V.P..SF" postag_regexp="yes" case_conversion="preserve"/></suggestion>
-            <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][PN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="A..[FC][PN].|V.P..PF" postag_regexp="yes" case_conversion="preserve"/></suggestion>
-            <example correction="esté configurada|este configurado|estos configurados|esta configurada|estas configuradas">Para que la cuenta <marker>este configurada</marker>.</example>
-            <example>Este rojo y estas rojas.</example>
+                <pattern>
+                    <marker>
+                        <unify negate="yes">
+                            <feature id="numero"/>
+                            <feature id="genero"/>
+                            <token postag="D[^RN].*" postag_regexp="yes">este<exception postag="DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/></token>
+                            <token postag="A.....|V.P...." postag_regexp="yes"><exception postag="AQ0CN0|N.CN.*|V.[IS].*" postag_regexp="yes"/></token>
+                        </unify>
+                    </marker>
+                </pattern>
+                <message>Error de concordancia.</message>
+                <suggestion>esté \2</suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[MC][SN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="A..[MC][SN].|V.P..SM" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[MC][PN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="A..[MC][PN].|V.P..PM" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][SN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="A..[FC][SN].|V.P..SF" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][PN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="A..[FC][PN].|V.P..PF" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <example correction="esté configurada|este configurado|estos configurados|esta configurada|estas configuradas">Para que la cuenta <marker>este configurada</marker>.</example>
+                <example>Este rojo y estas rojas.</example>
             </rule>
             <rule>
                 <antipattern>
