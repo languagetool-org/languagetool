@@ -17864,6 +17864,57 @@ o tomate'>
       <example correction="e mais tarde">As mulheres engravidam menos <marker>e mas tarde</marker>.</example>
     </rule>
 
+    <rulegroup id='POR_PÔR' name="Confusão: por - pôr" >
+    <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-06-29   -->
+	 <rule>
+      <pattern>
+		<token postag='VMI[SP]1S0|VMM01P0|VM[IS]P1P0|VMIF[13]P0|SENT_START' postag_regexp='yes'/>
+        <marker>
+          <token>por</token>
+        </marker>
+		<token postag='NC[CM]S000|AQ0CN0' postag_regexp='yes'>
+		<exception postag_regexp='yes' postag='V.+'/></token>
+		<token regexp='yes'>aos?|às?</token>
+      </pattern>
+      <message>Substitua por <suggestion>pôr</suggestion>.</message>
+      <example correction="pôr">Vou <marker>por</marker> termo ao contrato.</example>
+	 </rule>
+	 <rule>	  
+      <antipattern> 
+		<token postag_regexp='yes' postag='V.+'/>
+		<token regexp='yes' spacebefore='no'>&hifen;</token>
+		<token regexp='yes'>se|lhes?|te</token>
+		<token>por</token>
+	    <token postag='NC[CM]S000|AQ0CN0' postag_regexp='yes'/>
+		<token>a</token>
+		<token postag='NC[CFM]S000' postag_regexp='yes'/>
+	  </antipattern>	 
+      <antipattern> 
+		<token postag_regexp='yes' postag='V.+'/>
+		<token>por</token>
+	    <token postag='NC[CM]S000|AQ0CN0' postag_regexp='yes'/>
+		<token>a</token>
+		<token postag='NC[CFM]S000' postag_regexp='yes'/>
+	  </antipattern>
+      <pattern>
+		<token negate="yes" regexp='yes'>e|,</token>
+        <marker>
+          <token>por</token>
+        </marker>
+		<token postag='NC[CM]S000|AQ0CN0' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='V.+'/></token>
+		<token>a</token>
+		<token postag='PI0NN000|NC[CFM]S000|PI0CN000|RN' postag_regexp='yes'/>
+		<and>
+			<token negate="yes" regexp='yes'>das?|de|dos?|com|em</token>
+			<token negate_pos="yes" postag_regexp='yes' postag='V.+'/>
+		</and>
+      </pattern>
+      <message>Substitua por <suggestion>pôr</suggestion>.</message>
+      <example correction="pôr">Vou <marker>por</marker> termo a tudo.</example>
+	 </rule>	 
+    </rulegroup>
+
     <!--          Tiago F. Santos Rules Start         ****START**** -->
     <!-- ********************************************************** -->
   <rulegroup id='PARONYM_A_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (á)'>
