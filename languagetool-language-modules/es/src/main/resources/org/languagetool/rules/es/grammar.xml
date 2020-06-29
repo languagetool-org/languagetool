@@ -1989,6 +1989,84 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Y <marker>sabias</marker> como los hombres.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AMPLIA" name="amplia/amplía" default="temp_off">
+            <antipattern>
+                <token postag="RG"/>
+                <token regexp="yes">amplias?|amplio</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.[IS].*" postag_regexp="yes"/>
+                <token regexp="yes">amplias?|amplio</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&pronombre_personal_atono;</token>
+                    <marker>
+                        <token regexp="yes">amplias|amplia|amplio</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'ampliar', se escribe con tilde. Correcto si es adjetivo.</message>
+                <suggestion><match no="2" regexp_match="(?iu)(ampl)i(a|as|o)" regexp_replace="$1í$2"/></suggestion>
+                <example correction="amplía">Se <marker>amplia</marker> el plazo.</example>
+                <example correction="amplías">¿Lo <marker>amplias</marker>?</example>
+                <example>Se ha visto una amplia coherencia.</example>
+                <example>Se ha visto un amplio consenso.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>amplia</token>
+                    <token postag="NCFS000"/>
+                </antipattern>
+                <antipattern>
+                    <token>amplio</token>
+                    <token postag="NCMS000"/>
+                </antipattern>
+                <antipattern>
+                    <token>amplias</token>
+                    <token postag="NCFP000"/>
+                </antipattern>
+                <antipattern>
+                    <token>amplia</token>
+                    <token regexp="yes">,|y|o|e|u|ni</token>
+                    <token postag="AQ0[CF][SN]0" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>amplio</token>
+                    <token regexp="yes">,|y|o|e|u|ni</token>
+                    <token postag="AQ0[CM][SN]0" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>amplias</token>
+                    <token regexp="yes">,|y|o|e|u|ni</token>
+                    <token postag="AQ0[CF][PN]0" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="AQ0[CF][SN]0" postag_regexp="yes"/>
+                    <token regexp="yes">,|y|o|e|u|ni</token>
+                    <token>amplia</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="AQ0[CF][PN]0" postag_regexp="yes"/>
+                    <token regexp="yes">,|y|o|e|u|ni</token>
+                    <token>amplias</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="AQ0[CM][SN]0" postag_regexp="yes"/>
+                    <token regexp="yes">,|y|o|e|u|ni</token>
+                    <token>amplio</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">amplia|amplias|amplio<exception postag="_GN_." postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'ampliar', se escribe con tilde. Correcto si es adjetivo.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(ampl)i(o|a|as)" regexp_replace="$1í$2"/></suggestion>
+                <example correction="Amplía"><marker>Amplia</marker> su oferta.</example>
+                <example correction="amplía">¿Quién <marker>amplia</marker> la oferta?</example>
+                <example>Hay una amplia armonía.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TENIA" name="tenia/tenía" default="on">
             <rule>
                 <pattern>
