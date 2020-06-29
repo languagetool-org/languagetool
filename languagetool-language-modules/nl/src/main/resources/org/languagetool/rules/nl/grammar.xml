@@ -97,7 +97,7 @@ regexp case-insensitive maken : (?i)
 	</category>
 	-->
 	<category id="PICKY" name="Regels die meer voor een pietje-precies zijn." default="off">
-		<rulegroup id="GETALLEN_0_20_OF_ROND" name="Getallen onder 20 en ronde getallen uitschrijven"><!-- picky -->
+		<rulegroup id="GETALLEN_0_20_OF_ROND" name="Getallen onder 20 en ronde getallen uitschrijven" tags="picky">
 			<rule>
 				<antipattern><token regexp="yes">[A-Z][a-z].*(straat|weg|plein|steeg|dreef|boulevard)|[€.,/-]|lid|artikel|jaar|jaren|figuur|sub|stap|tabel|ISO|groep'</token><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token/></antipattern>
 				<antipattern><token/><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token regexp="yes">.{4,50}|[%.,/-]|GB|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|º|mg|kg|dl|ml|m|mm|cm|km|kHz|TB</token>
@@ -119,7 +119,7 @@ regexp case-insensitive maken : (?i)
 				<example>Er was <marker>honderd</marker> man aanwezig.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="INSPECIFIEK" name="vage aanduiding hoeveelheid"><!-- picky -->
+		<rulegroup id="INSPECIFIEK" name="vage aanduiding hoeveelheid" tags="picky">
 			<rule>
 				<antipattern><token>zoveel</token><token>mogelijk</token></antipattern>
 				<antipattern><token>zo</token><token postag="BNW:STL:VRB"/><token>mogelijk</token></antipattern>
@@ -178,7 +178,7 @@ regexp case-insensitive maken : (?i)
 				<example type="incorrect">Dit <marker>kan gebeuren</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="WIJ_ZIJ_MIJ" name="Wij, zij, jij , jouw → we, ze, je, me"><!-- picky -->
+		<rulegroup id="WIJ_ZIJ_MIJ" name="Wij, zij, jij , jouw → we, ze, je, me" tags="picky">
 			<rule>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">Wij|Zij|Jij</token><token regexp="yes">van|en|als</token></antipattern>
 				<antipattern><token regexp="yes">volgens|voor</token><token>mij</token></antipattern>
@@ -33558,7 +33558,7 @@ steenwijk;Steenwijk
 				<example correction="bezigheid">Zulke inkomsten worden dus behaald in de uitoefening van de <marker>beroepswerkzaamheid</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="BREUKSTREEP" name="/" default="off"> <!-- picky (or at least experienced as such -->
+		<rulegroup id="BREUKSTREEP" name="/" default="off" tags="picky"> <!-- picky (or at least experienced as such -->
 			<rule>
 				<!-- TODO: individuele gevallen zoeken; het is anders een wel heel algemene melding -->
 				<antipattern><token regexp="yes" skip="-1">http.*</token><token postag="SENT_END"/></antipattern>
