@@ -4745,6 +4745,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="microrracismo">Eran situaciones de <marker>micro-racismo</marker>.</example>
                 <example correction="microbiología">Era un estudio de <marker>micro biología</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>nacional</token>
+                    <token min="0">-</token>
+                    <token inflected="yes" regexp="yes">populismo|populista|católico|socialismo|catolicismo|sindicalismo|sindicalista</token>
+                </pattern>
+                <message suppress_misspelled="yes">Se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="nacional$1" case_conversion="alllower"/></suggestion>
+                <example correction="nacionalpopulistas">Son gobiernos <marker>nacional-populistas</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="ALREDEDOR" name="*(a) alrededor">
             <antipattern>

@@ -22519,6 +22519,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion suppress_misspelled="yes"><match no="3" regexp_match="(.+)" regexp_replace="post$1"/></suggestion>
                 <example correction="postcapitalista">L'economia <marker>post capitalista</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>nacional</token>
+                    <token min="0">-</token>
+                    <token inflected="yes" regexp="yes">populisme|populista|catòlic|socialisme|catolicisme|sindicalisme|sindicalista</token>
+                </pattern>
+                <message suppress_misspelled="yes">S'escriu junt.</message>
+                <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="nacional$1" case_conversion="alllower"/></suggestion>
+                <example correction="nacionalpopulista">És un govern <marker>nacional-populista</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="CONTRACCIONS" name="contraccions">
             <antipattern>
