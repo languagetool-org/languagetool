@@ -19524,8 +19524,9 @@ though, and has since been slightly modified)-->
       <pattern>
         <token regexp="yes" skip="1">démotions?</token>
       </pattern>
-      <message>« Démotion » est un anglicisme (demotion). Employez <suggestion>rétrogradation</suggestion>, <suggestion>déclassement</suggestion>.</message>
+      <message>« Démotion » est un anglicisme (demotion). Employez <suggestion><match no="1" regexp_match="démotion(s)?" regexp_replace="rétrogradation$1"/></suggestion>, <suggestion><match no="1" regexp_match="démotion(s)?" regexp_replace="déclassement$1"/></suggestion>.</message>
       <example correction="rétrogradation|déclassement"><marker>démotion</marker></example>
+      <example correction="rétrogradations|déclassements"><marker>démotions</marker></example>
       <example><marker>déclassement</marker></example>
     </rule>
     <rule id="OPPORTUNITE_DAFFAIRES" name="opportunité d’affaires">
@@ -19543,50 +19544,60 @@ though, and has since been slightly modified)-->
         <token regexp="yes" skip="1">crayons?</token>
         <token>plomb</token>
       </pattern>
-      <message>« Crayon (au/de) plomb » est un anglicisme (lead pencil). Employez <suggestion>crayon</suggestion>, <suggestion>crayon à mine de plomb</suggestion>, <suggestion>crayon noir</suggestion>, <suggestion>crayon graphite</suggestion>.</message>
+      <message>« Crayon (au/de) plomb » est un anglicisme (lead pencil). Employez <suggestion>\1</suggestion>, <suggestion>\1 à mine de plomb</suggestion>, <suggestion>\1 noir</suggestion>, <suggestion>\1 graphite</suggestion>.</message>
       <example correction="crayon|crayon à mine de plomb|crayon noir|crayon graphite"><marker>crayon plomb</marker></example>
       <example><marker>crayon graphite</marker></example>
     </rule>
     <rule id="DEDUCTION_A_LA_SOURCE" name="déduction à la source">
       <pattern>
-        <token skip="3">déduction</token>
+          <marker>
+            <token skip="3">déduction</token>
+          </marker>
         <token>source</token>
       </pattern>
-      <message>« Déduction à la source » est un anglicisme. Employez <suggestion>retenue à la source</suggestion>.</message>
-      <example correction="retenue à la source"><marker>déduction à la source</marker></example>
+      <message>« Déduction à la source » est un anglicisme. Employez <suggestion>retenue</suggestion> à la source, <suggestion>prélèvement</suggestion> à la source.</message>
+      <example correction="retenue|prélèvement"><marker>déduction</marker> à la source</example>
     </rule>
     <rule id="DEDUCTION_SUR_LE_SALAIRE" name="déduction sur le salaire">
       <pattern>
-        <token skip="3">déduction</token>
+          <marker>
+            <token skip="3">déduction</token>
+          </marker>
         <token>salaire</token>
       </pattern>
-      <message>« Déduction à la source » est un anglicisme. Employez <suggestion>retenue sur le salaire</suggestion>.</message>
-      <example correction="retenue sur le salaire"><marker>déduction sur le salaire</marker></example>
+      <message>« Déduction à la source » est un anglicisme. Employez <suggestion>retenue</suggestion> sur le salaire.</message>
+      <example correction="retenue"><marker>déduction</marker> sur le salaire</example>
     </rule>
     <rule id="ENDOSSER_UNE_CANDIDATURE" name="endosser une candidature">
       <pattern>
-        <token inflected="yes" skip="6">endosser</token>
+          <marker>
+            <token inflected="yes" skip="6">endosser</token>
+          </marker>
         <token regexp="yes">candidatures?</token>
       </pattern>
-      <message>« Endosser une candidature » est un anglicisme. Employez <suggestion>appuyer une candidature</suggestion>.</message>
-      <example correction="appuyer une candidature"><marker>endosser une candidature</marker></example>
+      <message>« Endosser une candidature » est un anglicisme. Employez <suggestion>appuyer</suggestion> une candidature.</message>
+      <example correction="appuyer"><marker>endosser</marker> une candidature</example>
     </rule>
     <rule id="ENDOSSER_UNE_DECISION" name="endosser une décision">
       <pattern>
-        <token inflected="yes" skip="6">endosser</token>
+          <marker>
+            <token inflected="yes" skip="6">endosser</token>
+          </marker>
         <token regexp="yes">décisions?</token>
       </pattern>
-      <message>« Endosser une décision » est un anglicisme. Employez <suggestion>appuyer une décision</suggestion>, <suggestion>approuver une décision</suggestion>.</message>
-      <example correction="appuyer une décision|approuver une décision"><marker>endosser une décision</marker></example>
+      <message>« Endosser une décision » est un anglicisme. Employez <suggestion>appuyer</suggestion> une décision, <suggestion>approuver</suggestion> une décision.</message>
+      <example correction="appuyer|approuver"><marker>endosser</marker> une décision</example>
       <example><marker>appuyer une décision</marker></example>
     </rule>
     <rule id="ENDOSSER_UNE_OPINION" name="endosser une opinion">
       <pattern>
-        <token inflected="yes" skip="6">endosser</token>
+          <marker>
+            <token inflected="yes" skip="6">endosser</token>
+          </marker>
         <token regexp="yes">opinions?</token>
       </pattern>
-      <message>« Endosser une opinion » est un anglicisme. Employez <suggestion>adhérer à une opinion</suggestion>.</message>
-      <example correction="adhérer à une opinion"><marker>endosser une opinion</marker></example>
+      <message>« Endosser une opinion » est un anglicisme. Employez <suggestion>adhérer</suggestion> à une opinion.</message>
+      <example correction="adhérer"><marker>endosser</marker> une opinion</example>
     </rule>
     <rule id="DEFRAYER_LES_DEPENSES_DE_QUELQUUN" name="défrayer les dépenses de [quelqu’un]">
       <pattern>
@@ -19609,18 +19620,22 @@ though, and has since been slightly modified)-->
     <rule id="DETTE_ENCOURUE" name="dette encourue">
       <pattern>
         <token regexp="yes" skip="3">dettes?</token>
-        <token regexp="yes">encourues?</token>
+        <marker>
+            <token regexp="yes">encourues?</token>
+        </marker>
       </pattern>
-      <message>« Dette encourue » est un anglicisme (incurred debt). Employez <suggestion>dette contractée</suggestion>.</message>
-      <example correction="dette contractée"><marker>dette encourue</marker></example>
+      <message>« Dette encourue » est un anglicisme (incurred debt). Employez dette <suggestion>contractée</suggestion>.</message>
+      <example correction="contractée">dette <marker>encourue</marker></example>
     </rule>
     <rule id="PERTES_ENCOURUES" name="pertes encourues">
       <pattern>
-        <token regexp="yes" skip="3">pertes?</token>
+          <marker>
+            <token regexp="yes" skip="3">pertes?</token>
+          </marker>
         <token regexp="yes">encourues?</token>
       </pattern>
-      <message>« Pertes encourues » est un anglicisme (incurred losses). Employez <suggestion>dépenses engagées</suggestion>.</message>
-      <example correction="dépenses engagées"><marker>pertes encourues</marker></example>
+      <message>« Pertes encourues » est un anglicisme (incurred losses). Employez <suggestion>dépenses</suggestion> engagées.</message>
+      <example correction="dépenses"><marker>pertes</marker> encourues</example>
     </rule>
     <rule id="COTON_A_FROMAGE" name="coton à fromage">
       <pattern>
@@ -19628,26 +19643,31 @@ though, and has since been slightly modified)-->
         <token>à</token>
         <token regexp="yes">fromages?</token>
       </pattern>
-      <message>« Coton à fromage » est un anglicisme (cheesecloth). Employez <suggestion>étamine</suggestion> (usage domestique), <suggestion>gaze</suggestion> (pansement).</message>
+      <message>« Coton à fromage » est un anglicisme (cheesecloth). Employez <suggestion><match no="1" regexp_match="coton(s)?" regexp_replace="étamine$1"/></suggestion> (usage domestique), <suggestion><match no="1" regexp_match="coton(s)?" regexp_replace="gaze$1"/></suggestion> (pansement).</message>
       <example correction="étamine|gaze"><marker>coton à fromage</marker></example>
+      <example correction="étamines|gazes"><marker>cotons à fromage</marker></example>
       <example><marker>étamine</marker></example>
     </rule>
     <rule id="CORPORATION_PROFESSIONNELLE" name="corporation professionnelle">
       <pattern>
-        <token regexp="yes">corporations?</token>
+          <marker>
+            <token regexp="yes">corporations?</token>
+          </marker>
         <token regexp="yes">professionnelles?</token>
       </pattern>
-      <message>« Corporation professionnelle » est un anglicisme (professional corporation). Employez <suggestion>ordre professionnel</suggestion>.</message>
-      <example correction="ordre professionnel"><marker>corporation professionnelle</marker></example>
+      <message>« Corporation professionnelle » est un anglicisme (professional corporation). Employez <suggestion><match no="1" regexp_match="corporation(s)?" regexp_replace="ordre$1"/></suggestion> professionnel.</message>
+      <example correction="ordre"><marker>corporation</marker> professionnelle</example>
     </rule>
     <rule id="TRAVAIL_A_CONTRAT" name="travail à contrat">
       <pattern>
         <token regexp="yes">travail|travaux</token>
         <token regexp="yes">[àa]</token>
-        <token regexp="yes">contrats?</token>
+          <marker>
+            <token regexp="yes">contrats?</token>
+          </marker>
       </pattern>
-      <message>« Travail à contrat » est un anglicisme (contract work). Employez <suggestion>travail à forfait</suggestion>.</message>
-      <example correction="travail à forfait"><marker>travail à contrat</marker></example>
+      <message>« Travail à contrat » est un anglicisme (contract work). Employez travail à <suggestion>forfait</suggestion>.</message>
+      <example correction="forfait">travail à <marker>contrat</marker></example>
     </rule>
     <rule id="CI-ATTACHE" name="ci-attaché">
       <pattern>
@@ -19660,12 +19680,14 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PRENDRE_UN_COURS" name="prendre un cours">
       <pattern>
-        <token inflected="yes" skip="1">prendre</token>
+          <marker>
+            <token inflected="yes" skip="1">prendre</token>
+          </marker>
         <token>cours<exception scope="previous">en</exception></token>
       </pattern>
-      <message>« Prendre un cours » est un anglicisme (to take a course). Employez <suggestion>suivre un cours</suggestion>, <suggestion>s’inscrire à un cours</suggestion>.</message>
-      <example correction="suivre un cours|s’inscrire à un cours"><marker>prendre un cours</marker></example>
-      <example><marker>suivre un cours</marker></example>
+      <message>« Prendre un cours » est un anglicisme (to take a course). Employez <suggestion>suivre</suggestion> un cours, <suggestion>s’inscrire</suggestion> à un cours.</message>
+      <example correction="suivre|s’inscrire"><marker>prendre</marker> un cours</example>
+      <example><marker>suivre</marker> un cours</example>
       <example>J’ai <marker>pris des passagers en cours</marker> de route.</example>
       <example>J’ai pris part à ce cours d’informatique.</example>
     </rule>
@@ -19687,7 +19709,7 @@ though, and has since been slightly modified)-->
       <message>« Mettre à date » est un anglicisme. Employez <suggestion>mettre à jour</suggestion>.</message>
       <example correction="mettre à jour"><marker>mettre à date</marker></example>
     </rule>
-    <rule id="CONTROLER_LA_SITUATION" name="contrôler la situation">
+    <rule id="CONTROLER_LA_SITUATION" name="contrôler la situation" default="off"> <!-- picky -->
       <pattern>
         <token inflected="yes" skip="1">contrôler</token>
         <token regexp="yes">situations?</token>
@@ -19696,29 +19718,35 @@ though, and has since been slightly modified)-->
       <example correction="avoir la situation en mains|tenir la situation en mains"><marker>contrôler la situation</marker></example>
       <example><marker>avoir la situation en mains</marker></example>
     </rule>
-    <rule id="CONTROLER_LA_CIRCULATION" name="contrôler la circulation">
+    <rule id="CONTROLER_LA_CIRCULATION" name="contrôler la circulation" default="off"> <!-- picky -->
       <pattern>
-        <token inflected="yes" skip="1">contrôler</token>
+          <marker>
+            <token inflected="yes" skip="1">contrôler</token>
+          </marker>
         <token regexp="yes">circulations?</token>
       </pattern>
-      <message>« Contrôler la circulation » est un anglicisme. Employez <suggestion>régler la circulation</suggestion>.</message>
-      <example correction="régler la circulation"><marker>contrôler la circulation</marker></example>
+      <message>« Contrôler la circulation » est un anglicisme. Employez <suggestion>régler</suggestion> la circulation.</message>
+      <example correction="régler"><marker>contrôler</marker> la circulation</example>
     </rule>
     <rule id="CONTROLER_UN_INCENDIE" name="contrôler un incendie">
       <pattern>
-        <token inflected="yes" skip="1">contrôler</token>
+          <marker>
+            <token inflected="yes" skip="1">contrôler</token>
+          </marker>
         <token regexp="yes">incendies?</token>
       </pattern>
-      <message>« Contrôler un incendie » est un anglicisme. Employez <suggestion>maîtriser un incendie</suggestion>.</message>
-      <example correction="maîtriser un incendie"><marker>contrôler un incendie</marker></example>
+      <message>« Contrôler un incendie » est un anglicisme. Employez <suggestion>maîtriser</suggestion> un incendie.</message>
+      <example correction="maîtriser"><marker>contrôler</marker> un incendie</example>
     </rule>
     <rule id="COUPER_DES_POSTES" name="couper des postes">
       <pattern>
-        <token inflected="yes" skip="1">couper</token>
+          <marker>
+            <token inflected="yes" skip="1">couper</token>
+          </marker>
         <token regexp="yes">postes?</token>
       </pattern>
-      <message>« Couper des postes » est un anglicisme. Employez <suggestion>abolir des postes</suggestion>, <suggestion>supprimer des postes</suggestion>.</message>
-      <example correction="abolir des postes|supprimer des postes"><marker>couper des postes</marker></example>
+      <message>« Couper des postes » est un anglicisme. Employez <suggestion>abolir</suggestion> des postes, <suggestion>supprimer</suggestion> des postes.</message>
+      <example correction="abolir|supprimer"><marker>couper</marker> des postes</example>
       <example><marker>abolir des postes</marker></example>
     </rule>
     <rule id="COUPER_LA_LIGNE" name="couper la ligne">
