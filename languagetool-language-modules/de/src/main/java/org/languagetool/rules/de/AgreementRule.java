@@ -757,6 +757,10 @@ public class AgreementRule extends Rule {
       csToken("IT"),
       csToken("Finanzmagazin")
     ),
+    Arrays.asList(
+      csToken("Golden"),
+      csToken("Gate")
+    ),
     Arrays.asList( // Vielen Dank fürs Bescheid geben
       token("fürs"),
       token("Bescheid"),
