@@ -143,6 +143,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("les", "lese");
     put("wr", "wir");
     put("bezweifel", "bezweifle");
+    put("verzweifel", "verzweifle");
+    put("zweifel", "zweifle");
     put("[wW]ah?rscheindlichkeit", "Wahrscheinlichkeit");
     put("Hijab", "Hidschāb");
     put("[lL]eerequiment", "Leerequipment");
