@@ -7805,6 +7805,140 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                  producidos por la aceleración y desaceleración lineal y angular repetitivas.
                 -->
         </rule>
+        <rulegroup id="AGREEMENT_ADJ_NOUN" name="Concordancias adjetivo y nombre" default="temp_off">
+            <antipattern>
+                <marker>
+                    <token postag="SPS00"/>
+                    <token regexp="yes">sí|yo|tú|él|ella|nosotros|nosotras|vosotros|vosotras|ellos|ellas|usted|ustedes</token>
+                    <token inflected="yes">mismo</token>
+                </marker>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="A.*" postag_regexp="yes" regexp="yes">buen|buenas</token>
+                    <token postag="N.MP.*" postag_regexp="yes"><exception postag="N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion suppress_misspelled="yes">buen <match no="2" postag="N.[MC][SN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes">buenos <match no="2" postag="N.[MC][PN].*" postag_regexp="yes"/></suggestion>
+                <example correction="Buen amigo|Buenos amigos"><marker>Buen amigos</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="A.*" postag_regexp="yes" regexp="yes">buena|buenas</token>
+                    <token postag="N.MS.*" postag_regexp="yes"><exception postag="N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion suppress_misspelled="yes">buen <match no="2" postag="N.[MC][SN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes">buenos <match no="2" postag="N.[MC][PN].*" postag_regexp="yes"/></suggestion>
+                <example correction="buen pastel|buenos pasteles">Quiero comerme un <marker>buena pastel</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="A..FS." postag_regexp="yes"/>
+                    <token postag="N.FS.*|A..[FC]S." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="A..FP." postag_regexp="yes"/>
+                    <token postag="N.FP.*|A..[FC]P." postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <token postag="A.*" postag_regexp="yes"><exception postag="NP.*|complement.*|ignore_concordance|_possible_nompropi" postag_regexp="yes"/><exception inflected="yes" regexp="yes">plegats|junt</exception></token>
+                        <token postag="N.M.*" postag_regexp="yes"><exception postag="N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                    </unify>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="A..[MC][SN].*" postag_regexp="yes"/> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="A..[MC][PN].*" postag_regexp="yes"/> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes"/></suggestion>
+                <example correction="Magnífico cuchillo|Magníficos cuchillos"><marker>Magníficas cuchillos</marker>.</example>
+                <example correction="Magnífico cuchillo|Magníficos cuchillos"><marker>Magnífica cuchillos</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <token postag="A.*|PX.*" postag_regexp="yes"><exception postag="NP.*|complement.*|ignore_concordance|_possible_nompropi" postag_regexp="yes"/><exception inflected="yes" regexp="yes">plegats|junt</exception></token>
+                        <token postag="N.F.*" postag_regexp="yes"><exception postag="N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/><exception>ca</exception></token>
+                    </unify>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(PX|A.).[FC][SN].*" postag_regexp="yes"/> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(PX|A.).[FC][PN].*" postag_regexp="yes"/> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes"/></suggestion>
+                <example correction="magnífica cuchara|magníficas cucharas">Con <marker>magníficos cucharas</marker>.</example>
+                <example correction="magnífica cuchara|magníficas cucharas">De <marker>magníficas cuchara</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <token postag="A.*|PX.*" postag_regexp="yes"><exception postag="NP.*|complement.*|ignore_concordance|_possible_nompropi" postag_regexp="yes"/><exception inflected="yes" regexp="yes">plegats|junt</exception></token>
+                        <token postag="N.C.*" postag_regexp="yes"><exception postag="N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                    </unify>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(A.).[MC][SN].*" postag_regexp="yes"/> <match no="2" postag="(N.[MC][SN].*)" postag_regexp="yes" postag_replace="$1"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(A.).[MC][PN].*" postag_regexp="yes"/> <match no="2" postag="(N.[MC][PN].*)" postag_regexp="yes" postag_replace="$1"/></suggestion>
+                <!-- TODO: select only N in synthesis -->
+                <example correction="diferente cava|diferente cavo|diferentes cavas">Se pueden visitar <marker>diferente cavas</marker>.</example>
+                <example correction="diferente cava|diferentes cavas|diferentes cavos">Se pueden visitar <marker>diferentes cava</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AGREEMENT_PARTICIPLE_NOUN" name="concordancias participio y nombre" default="temp_off">
+            <antipattern>
+                <token regexp="yes">ab[ií](a|as|an|amos|ais)|as|emos|e|an<exception regexp="yes">\p{Lu}+</exception><exception postag="_GN_MS"/></token>
+                <token postag="V.P..SM" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>avenida</token>
+                <token regexp="yes">\p{Lu}.*</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <!-- <token><exception postag="SENT_START"/><exception regexp="yes" spacebefore="yes">[¿¡"«»—–:\-]</exception></token> -->
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <marker>
+                            <token postag="V.P.*" postag_regexp="yes"><exception postag="_GV_|V.[MIS].*|RG|ignore_concordance|complement.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes"
+                                >titular|nombrar|llamar|denominar|declarar|morir|incluir|mencionar</exception><exception>mes</exception></token>
+                            <token postag="N.M.*" postag_regexp="yes"><exception postag="_GN_.*|A.*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/><exception regexp="yes">&dias_semana;</exception></token>
+                        </marker>
+                    </unify>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion><match no="1" postag="V.P.*SM.?" postag_regexp="yes"/> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes"/></suggestion>
+                <suggestion><match no="1" postag="V.P.*PM.?" postag_regexp="yes"/> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes"/></suggestion>
+                <example correction="deformado cuchillo|deformados cuchillos">Con <marker>deformados cuchillo</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token postag="V.P.*" postag_regexp="yes" inflected="yes">hacer</token>
+                        <token>realidad</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <marker>
+                            <token postag="V.P.*" postag_regexp="yes"><exception postag="_GV_|V.[MIS].*|RG|ignore_concordance|complement.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes"
+                                >titular|nombrar|llamar|denominar|declarar|morir|incluir|mencionar</exception><exception>mes</exception></token>
+                            <token postag="N.F.*" postag_regexp="yes"><exception postag="_GN_.*|A.*|ignore_concordance|.*LOC_ADV.*|NPCN.*" postag_regexp="yes"/></token>
+                        </marker>
+                    </unify>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion><match no="1" postag="V.P.*SF.?" postag_regexp="yes"/> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes"/></suggestion>
+                <suggestion><match no="1" postag="V.P.*PF.?" postag_regexp="yes"/> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes"/></suggestion>
+                <example correction="contada excepción|contadas excepciones">En <marker>contados excepciones</marker>.</example>
+                <example correction="contada excepción|contadas excepciones">En <marker>contado excepciones</marker>.</example>
+            </rule>
+        </rulegroup>
     </category>
     <category id="AGREEMENT_VERBS" name="Concordancia sujeto/predicado" type="inconsistency" default="on">
         <rulegroup id="AGREEMENT_VERB_PARTICIPLE" name="*están hecho/hechos">

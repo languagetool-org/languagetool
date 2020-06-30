@@ -2763,6 +2763,20 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
 
+    <rule id="adj_punct" name="adjectivo no verbo antes de puntuación">
+        <pattern>
+            <token><exception regexp="yes">no|que|ya|porqe|aún|como</exception><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
+            <marker>
+                <and>
+                    <token postag="AQ.*" postag_regexp="yes"><exception regexp="yes">somos|molesta|reflejas?</exception></token>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </and>
+            </marker>
+            <token postag="_PUNCT.*" postag_regexp="yes"><exception>?</exception></token>
+        </pattern>
+        <disambig action="filter" postag="AQ.*|_GN_.*|N.*"/>
+    </rule>
+
     <rule id="de_not_adj" name="de + no adj">
         <pattern>
             <token>de</token>
