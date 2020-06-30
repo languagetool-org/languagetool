@@ -61,22 +61,26 @@ Copyright (C) 2011 Juan Martorell
     </unification>
     <!--<rulegroup id="DICT_FIXES" name="dictionary fixes">
     </rulegroup>-->
-    
+
     <rulegroup id="fix_dict" name="fix dictionary">
         <rule>
             <pattern>
                 <token>primer</token>
             </pattern>
-            <disambig action="replace"><wd lemma="primero" pos="AO0MS0"></wd></disambig>
+            <disambig action="replace">
+                <wd lemma="primero" pos="AO0MS0"/>
+            </disambig>
         </rule>
         <rule>
             <pattern>
                 <token>buen</token>
             </pattern>
-            <disambig action="replace"><wd lemma="bueno" pos="AQ0MS0"></wd></disambig>
+            <disambig action="replace">
+                <wd lemma="bueno" pos="AQ0MS0"/>
+            </disambig>
         </rule>
     </rulegroup>
-    
+
 
     <rulegroup id="LOC_ADV" name="locuciones adverbiales">
         <rule id="pese_a" name="pese a">
@@ -194,6 +198,15 @@ Copyright (C) 2011 Juan Martorell
             <example type="untouched"><marker>Sobre todo</marker> lo demás.</example>
             <example type="untouched">Sobre todo hombre.</example>
             <example type="untouched">Sobre todo lo demás.</example>
+        </rule>
+    </rulegroup>
+    <rulegroup id="tal_como" name="tal como">
+        <rule>
+            <pattern>
+                <token postag="PD.*|RG" postag_regexp="yes" regexp="yes">tal|tales|así|igual</token>
+                <token postag="PR000000">como</token>
+            </pattern>
+            <disambig action="filterall"/>
         </rule>
     </rulegroup>
     <rule id="no_ij" name="no interjecció">
@@ -752,7 +765,7 @@ Copyright (C) 2011 Juan Martorell
                     <token>min</token>
                 </marker>
             </pattern>
-            <disambig action="ignore_spelling"></disambig>
+            <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
     <rulegroup id="ENUMERATIONS" name="enumeraciones con lestras: a)">
@@ -1922,7 +1935,8 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <and>
-                    <token postag="V.N.*" postag_regexp="yes"><exception postag="D..[MC]S.|DA.[MC].." postag_regexp="yes" scope="previous"/></token> <!--|AQ0MS0-->
+                    <token postag="V.N.*" postag_regexp="yes"><exception postag="D..[MC]S.|DA.[MC].." postag_regexp="yes" scope="previous"/></token>
+                    <!--|AQ0MS0-->
                     <token postag="N.*" postag_regexp="yes"><exception>ser</exception></token>
                 </and>
             </pattern>
@@ -1937,7 +1951,7 @@ Copyright (C) 2011 Juan Martorell
                     <token postag="NCMS000">ser</token>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="NCMS000"></disambig>
+            <disambig action="filter" postag="NCMS000"/>
         </rule>
         <rule>
             <antipattern>
@@ -1948,7 +1962,8 @@ Copyright (C) 2011 Juan Martorell
             </antipattern>
             <pattern>
                 <and>
-                    <token postag="V.N.*" postag_regexp="yes">ser<exception postag="D..[MC]S.|DA.[MC].." postag_regexp="yes" scope="previous"/></token> <!--|AQ0MS0-->
+                    <token postag="V.N.*" postag_regexp="yes">ser<exception postag="D..[MC]S.|DA.[MC].." postag_regexp="yes" scope="previous"/></token>
+                    <!--|AQ0MS0-->
                     <token postag="N.*" postag_regexp="yes"/>
                 </and>
             </pattern>

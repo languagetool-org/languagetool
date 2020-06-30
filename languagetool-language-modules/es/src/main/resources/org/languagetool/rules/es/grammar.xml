@@ -1991,7 +1991,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="AMPLIA" name="amplia/amplía" default="temp_off">
             <antipattern>
-                <token postag="RG"/>
+                <token postag="RG|SPS00|LOC_PREP" postag_regexp="yes"/>
                 <token regexp="yes">amplias?|amplio</token>
             </antipattern>
             <antipattern>
@@ -2002,15 +2002,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">&pronombre_personal_atono;</token>
                     <marker>
-                        <token regexp="yes">amplias|amplia|amplio</token>
+                        <token regexp="yes">amplias|amplia|amplio<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Si es del v. 'ampliar', se escribe con tilde. Correcto si es adjetivo.</message>
-                <suggestion><match no="2" regexp_match="(?iu)(ampl)i(a|as|o)" regexp_replace="$1í$2"/></suggestion>
+                <suggestion><match no="2" regexp_match="(?iu)(ampl)i(a|as|o)" regexp_replace="$1í$2" case_conversion="preserve"/></suggestion>
                 <example correction="amplía">Se <marker>amplia</marker> el plazo.</example>
                 <example correction="amplías">¿Lo <marker>amplias</marker>?</example>
                 <example>Se ha visto una amplia coherencia.</example>
                 <example>Se ha visto un amplio consenso.</example>
+                <example>La amplia popularidad de los teóricos llamó la atención a estos temas.</example>
+                <example>Engloba a la amplia mayoría de los jugadores.</example>
+                <example>Existen territorios dominados por las amplias praderas.</example>
+                <example>El coleccionismo empezó de forma amplia en la antigua Roma.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -2028,43 +2032,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>amplia</token>
                     <token regexp="yes">,|y|o|e|u|ni</token>
-                    <token postag="AQ0[CF][SN]0" postag_regexp="yes"/>
+                    <token postag="AQ0[CF][SN]0|V.P..SF" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token>amplio</token>
                     <token regexp="yes">,|y|o|e|u|ni</token>
-                    <token postag="AQ0[CM][SN]0" postag_regexp="yes"/>
+                    <token postag="AQ0[CM][SN]0|V.P..SM" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token>amplias</token>
                     <token regexp="yes">,|y|o|e|u|ni</token>
-                    <token postag="AQ0[CF][PN]0" postag_regexp="yes"/>
+                    <token postag="AQ0[CF][PN]0|V.P..PF" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token postag="AQ0[CF][SN]0" postag_regexp="yes"/>
+                    <token postag="AQ0[CF][SN]0|V.P..SF" postag_regexp="yes"/>
                     <token regexp="yes">,|y|o|e|u|ni</token>
                     <token>amplia</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="AQ0[CF][PN]0" postag_regexp="yes"/>
+                    <token postag="AQ0[CF][PN]0|V.P..PF" postag_regexp="yes"/>
                     <token regexp="yes">,|y|o|e|u|ni</token>
                     <token>amplias</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="AQ0[CM][SN]0" postag_regexp="yes"/>
+                    <token postag="AQ0[CM][SN]0|V.P..SM" postag_regexp="yes"/>
                     <token regexp="yes">,|y|o|e|u|ni</token>
                     <token>amplio</token>
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">amplia|amplias|amplio<exception postag="_GN_." postag_regexp="yes"/></token>
+                        <token regexp="yes">amplia|amplias|amplio<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Si es del v. 'ampliar', se escribe con tilde. Correcto si es adjetivo.</message>
-                <suggestion><match no="1" regexp_match="(?iu)(ampl)i(o|a|as)" regexp_replace="$1í$2"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(ampl)i(o|a|as)" regexp_replace="$1í$2" case_conversion="preserve"/></suggestion>
                 <example correction="Amplía"><marker>Amplia</marker> su oferta.</example>
                 <example correction="amplía">¿Quién <marker>amplia</marker> la oferta?</example>
+                <example>El ateísmo es, en un sentido amplio, la no creencia en deidades.</example>
                 <example>Hay una amplia armonía.</example>
+                <example>Las hojas de Agathis son opuestas y amplias.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TENIA" name="tenia/tenía" default="on">
@@ -3920,8 +3926,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Cuál es la respuesta correcta?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SI" name="si/sí" default="temp_off">
+        <rulegroup id="SI" name="si/sí">
             <url>https://www.rae.es/dpd/s%C3%AD</url>
+            <antipattern>
+                <token case_sensitive="yes">SI</token>
+            </antipattern>
+            <antipattern>
+                <token>si</token>
+                <token regexp="yes">mayor|menor|bemol|sostenido</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>de</token>
@@ -3958,6 +3971,65 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
+                        <token case_sensitive="yes">si</token>
+                    </marker>
+                    <token regexp="yes">mismo|misma|mismos|mismas</token>
+                </pattern>
+                <message>Como pronombre personal reflexivo, se escribe con tilde.</message>
+                <suggestion>sí</suggestion>
+                <example correction="sí">En <marker>si</marker> mismo no tiene misterio.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes" inflected="yes" skip="2">depender|independiente|independientemente|dependiente|seguro|seguridad|acerca de|función|cuestión|pregunta|certeza|duda|dudar|idea</token>
+                    <token>de</token>
+                    <token>si</token>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token skip="6">si</token>
+                    <token>de</token>
+                    <token>si</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="1">dar</token>
+                    <token skip="2">cuenta</token>
+                    <token>de</token>
+                    <token>si</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" inflected="yes" skip="2">diferir|pensar|fijar</token>
+                    <token>en</token>
+                    <token>si</token>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token>si</token>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">de|en|para|entre</token>
+                    <marker>
+                        <token case_sensitive="yes">si</token>
+                    </marker>
+                </pattern>
+                <message>Como pronombre personal reflexivo, se escribe con tilde.</message>
+                <suggestion>sí</suggestion>
+                <example correction="sí">No cabía en <marker>si</marker> de alegría.</example>
+                <example correction="sí">El hecho en <marker>si</marker> sucedió en la carretera.</example>
+                <example>en el caso de Si monocristalino</example>
+                <example>no ha oído nada definitivo acerca de si acaso él quedó o no en Harvard.</example>
+                <example>No estoy segura de si podré venir al cine o no.</example>
+                <example>Depende tan solo de si uno es un hombre o un ratón.</example>
+                <example>indeciso de si debería entrar o no</example>
+                <example>un test de si sos fan de lady bug o no</example>
+                <example>podemos darnos cuenta de si el asunto tiene importancia o no</example>
+                <example>no depende de si lo siento o no, de si me ha ido bien o si tengo</example>
+                <example>Esto no es un debate de si eres de una secta o no.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
                         <token>si</token>
                     </marker>
                     <token regexp="yes">que|[\.;]</token>
@@ -3973,36 +4045,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>si</token>
                     </marker>
                     <token>,</token>
-                    <token postag="V.[MSI].*" postag_regexp="yes"/>
+                    <token>sí</token>
+                </pattern>
+                <message>Como adverbio de afirmación, se escribe con tilde.</message>
+                <suggestion>sí</suggestion>
+                <example correction="Sí"><marker>Si</marker>, sí, claro.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>y</token>
+                    <token regexp="yes">solo|sólo</token>
+                    <token>si</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                    <token>,</token>
+                    <token postag="V.[MSI].*" postag_regexp="yes"><exception postag="C.*|PR.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Como adverbio de afirmación, se escribe con tilde.</message>
                 <suggestion>sí</suggestion>
                 <example correction="Sí"><marker>Si</marker>, quiero que vengas.</example>
                 <example correction="sí">He dicho que <marker>si</marker>, tienes que hacerlo.</example>
+                <example>Un entero es natural si, y solo si, es mayor o igual a 0.</example>
+                <example>¿Qué pasaría si, como regalo del día del niño, le dieras esto?</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">el|un</token>
                     <marker>
-                        <token>si</token>
+                        <token case_sensitive="yes">si</token>
                     </marker>
                 </pattern>
-                <message>Como sustantivo masuclino ('permiso, conformidad'), se escribe con tilde.</message>
+                <message>Como sustantivo masculino ('permiso, conformidad'), se escribe con tilde.</message>
                 <suggestion>sí</suggestion>
                 <example correction="sí">Le dio el <marker>si</marker> tan deseado.</example>
             </rule>
             <rule>
-                <pattern>
-                    <token regexp="yes">de|en|para</token>
-                    <marker>
-                        <token>si</token>
-                    </marker>
-                </pattern>
-                <message>Como pronombre personal reflexivo, se escribe con tilde.</message>
-                <suggestion>sí</suggestion>
-                <example correction="sí">No cabía en <marker>si</marker> de alegría.</example>
-            </rule>
-            <rule>
+                <antipattern>
+                    <token>sí</token>
+                    <token>o</token>
+                    <token>no</token>
+                </antipattern>
                 <pattern>
                     <token>con</token>
                     <token regexp="yes">si|sí</token>
