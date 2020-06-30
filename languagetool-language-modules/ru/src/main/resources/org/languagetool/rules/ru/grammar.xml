@@ -3050,7 +3050,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         
         
         <rulegroup default="temp_off" id="PO_MERE_TOGO_KAK" name="Запятые в оборотах: «по мере того как…», …"> <!-- default="off" -->
-<!--   («с того времени как…», «с той поры как…», «по мере того как…»)     -->
+<!--   («с того времени как…», «с той поры как…», «по мере того как…»)  TODO: set on     -->
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
@@ -3067,6 +3067,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Возможно запятая не нужна</short>
                 <example correction="По мере того как"><marker>По мере того, как</marker> цена товара снижается, а величина спроса растет при линейной функции спроса.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token>С</token>
+                        <token>того</token>
+                        <token>времени</token>
+                        <token>,</token>
+                        <token>как</token>
+                    </marker>
+                </pattern>
+                <message>Возможно запятая не нужна: <suggestion>\2 \3 \4 \6</suggestion>.</message>
+                <url>http://gramota.ru/class/coach/punct/45_183</url>
+                <short>Возможно запятая не нужна</short>
+                <example correction="С того времени как"><marker>С того времени, как</marker> цена товара снижается, а величина спроса растет при линейной функции спроса.</example>
+            </rule><rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token>С</token>
+                        <token>той</token>
+                        <token>поры</token>
+                        <token>,</token>
+                        <token>как</token>
+                    </marker>
+                </pattern>
+                <message>Возможно запятая не нужна: <suggestion>\2 \3 \4 \6</suggestion>.</message>
+                <url>http://gramota.ru/class/coach/punct/45_183</url>
+                <short>Возможно запятая не нужна</short>
+                <example correction="С той поры как"><marker>С той поры, как</marker> цена товара снижается, а величина спроса растет при линейной функции спроса.</example>
+            </rule>
+            
         </rulegroup>
         
          <rulegroup default="on" id="TAKIM_KAK" name="Запятые при сравнительных оборотах: «таким как»">
