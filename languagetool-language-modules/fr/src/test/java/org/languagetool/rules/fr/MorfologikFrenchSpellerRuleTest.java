@@ -42,6 +42,9 @@ public class MorfologikFrenchSpellerRuleTest {
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Écoute-moi.")).length);
 
+    // TODO: autour de 37°C, Si vous prêtez 20$, est 300 000 yen
+     
+    
     // Test for Multiwords.
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("vox populi")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("statu quo.")).length);
