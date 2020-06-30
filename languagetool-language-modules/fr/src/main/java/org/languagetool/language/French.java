@@ -106,7 +106,8 @@ public class French extends Language implements AutoCloseable {
             // very fast, but no suggestions:
             //new HunspellNoSuggestionRule(messages, this, Example.wrong("Le <marker>chein</marker> noir"), Example.fixed("Le <marker>chien</marker> noir")),
             // slower than HunspellNoSuggestionRule but with suggestions:
-            new FrenchCompoundAwareHunspellRule(messages, this, userConfig, altLanguages),
+            //new FrenchCompoundAwareHunspellRule(messages, this, userConfig, altLanguages),
+            new MorfologikFrenchSpellerRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
@@ -170,6 +171,7 @@ public class French extends Language implements AutoCloseable {
       case "FRENCH_WHITESPACE": return 0;
       case "ELISION": return 0; // should be lower in priority than spell checker
       case "JE_SUI": return 1;  // needs higher priority than spell checker
+      case "NONVERB_PRON": return -10; // show the suggestion by the spell checker if exists
     }
     if (id.startsWith("grammalecte_")) {
       return -1;
