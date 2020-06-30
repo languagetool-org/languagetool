@@ -63,6 +63,8 @@ title="Easy editing stylesheet" ?>
 
     <!ENTITY naipes "(?:o[iu]ros|copas|espadas|paus|trunfos?)">
 
+	<!ENTITY gerundio_verbos "acabar|afundar|criar|fazer|ir|ser|vir">
+
 	<!ENTITY gerundio_excecoes "abandonando|acumulando|beneficiando|caindo|crescendo|decrescendo|desaparecendo|emergindo|ficando|ganhando|levantando|originando|perdendo|permitindo|progredindo|propagando|saindo|sendo|surgindo|usando">
 
 ]>
@@ -523,16 +525,16 @@ title="Easy editing stylesheet" ?>
       <url>https://pt.wikipedia.org/wiki/Gerundismo</url>
       <short>Possível gerundismo.</short>
     <rule>
-<!-- MARCOAGPINTO 2020-06-19 *START* -->
+<!-- MARCOAGPINTO 2020-06-19 + 2020-06-30 *START* -->
 <!-- "Com efeito, vinham-se acumulando estudos e testemunhos." -->
       <antipattern>
 <!--	      <token negate_pos="yes" postag='CS|RG|PP3[FM][SP]A00' postag_regexp='yes'/> -->
-          <token inflected='yes' regexp='yes'>ir|vir|criar</token>
+          <token inflected='yes' regexp='yes'>&gerundio_verbos;</token>
 		  <token regexp='yes' spacebefore='no'>&hifen;</token>
 		   <token regexp='no'>se</token>
           <token regexp='yes'>&gerundio_excecoes;</token> <!-- MARCOAGPINTO 2020-06-27 -->
       </antipattern>
-<!-- MARCOAGPINTO 2020-06-19 *END* -->	
+<!-- MARCOAGPINTO 2020-06-19 + 2020-06-30 *END* -->	
       <pattern>
           <token inflected='yes' regexp='yes'>estar|andar|ir|vir</token><!-- TODO Review all cases and confirm it can be safely expanded to more cases-->
           <token regexp='yes' spacebefore='no'>&hifen;</token>
@@ -550,7 +552,7 @@ title="Easy editing stylesheet" ?>
           <token>sendo</token>
           <token postag='V.P.+' postag_regexp='yes'/>
       </antipattern>
-<!-- MARCOAGPINTO 2020-06-12 + 2020-06-13 + 2020-06-14 + 2020-06-16 + 2020-06-17 + 2020-06-19 *START* -->
+<!-- MARCOAGPINTO 2020-06-12 + 2020-06-13 + 2020-06-14 + 2020-06-16 + 2020-06-17 + 2020-06-19 + 2020-06-30 *START* -->
 <!-- "Ao fazê-lo vão saindo resultados cada vez mais inesperados." -->
 <!-- "Ao fazê-lo vai saindo resultados cada vez mais inesperados." -->
 <!-- "Ao fazê-lo vão saindo equações cada vez mais inesperadas." -->
@@ -559,10 +561,10 @@ title="Easy editing stylesheet" ?>
 <!-- "Ao fazê-lo vai saindo agentes cada vez mais inesperadas." -->
       <antipattern>
 	      <token negate_pos="yes" postag='CS|RG|PP3[FM][SP]A00' postag_regexp='yes'/>
-          <token inflected='yes' regexp='yes'>ir|vir|criar</token>
+          <token inflected='yes' regexp='yes'>&gerundio_verbos;</token>
           <token regexp='yes'>&gerundio_excecoes;</token> <!-- MARCOAGPINTO 2020-06-27 -->
       </antipattern>
-<!-- MARCOAGPINTO 2020-06-12 + 2020-06-13 + 2020-06-14 + 2020-06-16 + 2020-06-17 + 2020-06-19 *END* -->
+<!-- MARCOAGPINTO 2020-06-12 + 2020-06-13 + 2020-06-14 + 2020-06-16 + 2020-06-17 + 2020-06-19 + 2020-06-30 *END* -->
       <pattern>
           <token inflected='yes' regexp='yes'>estar|andar|ir|vir</token>
           <token postag='V.G0+' postag_regexp='yes'/>
@@ -578,7 +580,7 @@ title="Easy editing stylesheet" ?>
           <token>sendo</token>
           <token postag='V.P.+' postag_regexp='yes'/>
       </antipattern>
-<!-- MARCOAGPINTO 2020-06-12 + 2020-06-13 + 2020-06-14 + 2020-06-16 + 2020-06-17 + 2020-06-19 *START* -->
+<!-- MARCOAGPINTO 2020-06-12 + 2020-06-13 + 2020-06-14 + 2020-06-16 + 2020-06-17 + 2020-06-19 + 2020-06-30 *START* -->
 <!-- "Ao fazê-lo vão saindo resultados cada vez mais inesperados." -->
 <!-- "Ao fazê-lo vai saindo resultados cada vez mais inesperados." -->
 <!-- "Ao fazê-lo vão saindo equações cada vez mais inesperadas." -->
@@ -587,10 +589,18 @@ title="Easy editing stylesheet" ?>
 <!-- "Ao fazê-lo vai saindo agentes cada vez mais inesperadas." -->
       <antipattern>
 	      <token negate_pos="yes" postag='CS|RG|PP3[FM][SP]A00' postag_regexp='yes'/>
-          <token inflected='yes' regexp='yes'>ir|vir|criar</token>
+          <token inflected='yes' regexp='yes'>&gerundio_verbos;</token>
           <token regexp='yes'>&gerundio_excecoes;</token> <!-- MARCOAGPINTO 2020-06-27 -->
       </antipattern>
-<!-- MARCOAGPINTO 2020-06-12 + 2020-06-13 + 2020-06-14 + 2020-06-16 + 2020-06-17 + 2020-06-19 *END* -->
+      <antipattern>
+	      <token negate_pos="yes" postag='CS' postag_regexp='no'/>
+		  <and>
+			<token inflected='yes' regexp='yes'>&gerundio_verbos;</token>
+			<token postag='VMI[MS]3P0' postag_regexp='yes'/>
+		  </and>
+          <token regexp='yes'>&gerundio_excecoes;</token> <!-- MARCOAGPINTO 2020-06-27 -->
+      </antipattern>	  
+<!-- MARCOAGPINTO 2020-06-12 + 2020-06-13 + 2020-06-14 + 2020-06-16 + 2020-06-17 + 2020-06-19 + 2020-06-30 *END* -->
         <pattern>
           <token postag='V.+' postag_regexp='yes'>
             <exception inflected='yes' regexp='yes'>medida|votar</exception>
