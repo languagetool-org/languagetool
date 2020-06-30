@@ -28729,6 +28729,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CASING" name="E) Majúscules i minúscules" type="typographical">
+        <rule id="BRAILLE" name="braille">
+            <pattern>
+                <token regexp="yes">en|idioma|llengua|el|llenguatge</token>
+                <marker>
+                    <token case_sensitive="yes">Braille</token>
+                </marker>
+            </pattern>
+            <message>El sistema d'escriptura per a cecs inventat per Louis Braille s'escriu en minúscula.</message>
+            <suggestion><match no="2" case_conversion="alllower"></match></suggestion>
+            <example correction="braille">Fitxes escrites en <marker>Braille</marker>.</example>
+        </rule>
+        <rule id="MEDICAMENTS" name="medicaments en minúscula">
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">Paracetamol|Acetaminofèn|Favipiravir|Fenetil·lina|Amoxicil·lina|Povidona|Clorazepat|Almagat<exception scope="previous" postag="SENT_START"/></token>
+            </pattern>
+            <message>Els noms dels principis actius de les medicines s'escriuen en minúscula.</message>
+            <suggestion><match no="1" case_conversion="alllower"/></suggestion>
+            <example correction="paracetamol">He comprat <marker>Paracetamol</marker>.</example>
+        </rule>
         <rule id="HOMO" name="homo/Homo">
             <pattern>
                 <marker>

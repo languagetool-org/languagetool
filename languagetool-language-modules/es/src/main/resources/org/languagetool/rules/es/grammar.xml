@@ -183,13 +183,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>García Domingo.</example>
         </rule>
         <rule id="MIN_ESTACIONES" name="Estaciones del año en minúscula">
+            <antipattern>
+                <token>Primavera</token>
+                <token>de</token>
+                <token>Praga</token>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token negate_pos="yes" postag="SENT_START"/>
                 <marker>
                     <token regexp="yes">Primavera|Verano|Otoño|Invierno</token>
                 </marker>
             </pattern>
-            <message>Las estaciones del año se escriben en minúsculas: <suggestion><match case_conversion="alllower" no="2"/></suggestion>.</message>
+            <message>Las estaciones del año se escriben en minúsculas.</message>
+            <suggestion><match case_conversion="alllower" no="2"/></suggestion>
             <url>http://www.rae.es/consultas/mayuscula-o-minuscula-en-los-meses-los-dias-de-la-semana-y-las-estaciones-del-ano</url>
             <example correction="verano" type="incorrect">Este <marker>Verano</marker> me voy de vacaciones.</example>
             <example type="correct">Ha sido el <marker>invierno</marker> más frío que recuerdo.</example>
