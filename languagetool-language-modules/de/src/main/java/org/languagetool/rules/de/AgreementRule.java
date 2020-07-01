@@ -783,6 +783,19 @@ public class AgreementRule extends Rule {
     Arrays.asList(
       csToken("FC"), // Die FC Bayern München Hymne (Vorschlag macht keinen Sinn "FC-Bayern")
       csToken("Bayern")
+    ),
+    Arrays.asList(
+      tokenRegex("Office|Microsoft"),
+      csToken("365")
+    ),
+    Arrays.asList( // "Bitte öffnen Sie die CAD.pdf"
+      tokenRegex("\\w+"),
+      new PatternTokenBuilder().token(".").setIsWhiteSpaceBefore(false).build(),
+      new PatternTokenBuilder().tokenRegex("pdf|zip|jpe?g|gif|png|rar|mp[34]|mpe?g|avi|docx?|xlsx?|pptx?|html?").setIsWhiteSpaceBefore(false).build()
+    ),
+    Arrays.asList( // "Ich mache eine Ausbildung zur Junior Digital Marketing Managerin"
+      new PatternTokenBuilder().tokenRegex("Junior|Senior").setSkip(3).build(),
+      tokenRegex("Manager[ns]?|Managerin(nen)?")
     )
   );
 

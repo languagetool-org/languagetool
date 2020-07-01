@@ -364,6 +364,8 @@ public class AgreementRuleTest {
     assertGood("Dein Vorschlag befindet sich unter meinen Top 5.");
     assertGood("Unter diesen rief das großen Unmut hervor.");
     assertGood("Bei mir löste das Panik aus.");
+    assertGood("Sie können das machen in dem sie die CAD.pdf öffnen.");
+    assertGood("Ich mache eine Ausbildung zur Junior Digital Marketing Managerin.");
 
     assertGood("Dann wird das Konsequenzen haben.");
     assertGood("Dann hat das Konsequenzen.");

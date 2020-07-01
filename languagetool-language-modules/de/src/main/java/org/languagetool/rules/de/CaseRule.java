@@ -136,7 +136,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // https://github.com/languagetool-org/languagetool/issues/1515
       SENT_START,
-      regex("▶︎|▶|▶️|→|\\*|•|-|★|⧪|⮞|✔︎|✓|✅|➡️"),
+      regex("▶︎|▶|▶️|→|\\*|•|-|★|⧪|⮞|✔︎|✓|✔️|✅|➡️"),
       regex(".*")
     ),
     Arrays.asList(
