@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY dual "урока|брата|сына|cапога|курса|помощника|фактора|языка|парня|закона|сестры|жены|угла|дня|вопроса|звезды|телефона|любовника|зуба|переводчика|господина|типа|участка|фильма|яблока|вида|прогноза|вектора|села|представителя|вдоха|человека|корабля|спутника|пчелы|шара|билета|ответа|брака|канала|лицея|соседа|ресторана|скворечника|часа|вкуса|кабеля|вулкана|хребта|гиганта|варианта|пресса|обеда|рода|стула|взноса|слезы|приступа|отца|экзамена|стекла|игрока|писаки|военных|этапа|причины|коллеги|вагин|героя|друга|вождя|паек|телеканала|коридора|терминала|Венеры|маршрута|храма|юл|олушей|бедра|дубов|художника|полка|лозунга|законопроекта|органа|блока|заказника|банка|изолятора|департамента|говора|района|порта|символа|брокера|парка|стола|магазина"> <!-- два,двое,пара -->
 <!ENTITY prep_v "институте|кино|Крым|Крыму|мастерской|спортзале|театре|техникуме|университете|цехе|цирке|школе|экспедицию"> <!-- words that require 'в' instead of 'на' as a preposition -->
 <!ENTITY prep_na "балет|заводе|Кавказ|концерт|фабрике|факультете"> <!-- words that require 'на' instead of 'в' as a preposition  на почте, в почте #3026   -->
-<!ENTITY start_vvodnoe "по-видимому|по-моему|по-твоему|впрочем|итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых|к|видишь|понимаешь|конечно|несомненно|вероятно|может|кажется|однако|одним|несмотря|наверное|прежде"> <!-- First words for exceptions in other rules!!! -->
+<!ENTITY start_vvodnoe "по-видимому|по-моему|по-твоему|впрочем|итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых|к|видишь|понимаешь|конечно|несомненно|вероятно|может|кажется|однако|одним|несмотря|наверное|прежде"> <!-- First words for exceptions in other rules!!! po-->
 <!ENTITY missing_yo "жилье|белье|битье|щеткой|стерней|сырье|ружье|фоторужье|копье|чутье|офицерье|рытье|цевье|острие|вранье|дутье|нытье|звезды">
 <!ENTITY double_num "два|две|три|четыре|2|3|4">
 <!ENTITY pnct "[.?,!:;»)(«—–'’‘„“”…-]|&quot;">   <!--  &#34;  =  ["] = &quot; -->  
@@ -4268,7 +4268,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>случае</token>
                         <token>,</token>
                     </marker>
-                    <token negate="yes" regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</token>
+                    <token>
+                        <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
+                        <exception postag="PARENTHESIS"></exception>                    
+                    </token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -4285,7 +4288,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">результате|действительности|итоге|особенности|остальном</token>
                         <token>,</token>
                     </marker>
-                    <token negate="yes" regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</token>
+                    <token>
+                        <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
+                        <exception postag="PARENTHESIS"></exception>                    
+                    </token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -4302,7 +4308,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>итоге</token>
                         <token>,</token>
                     </marker>
-                    <token negate="yes" regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</token>
+                    <token>
+                        <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
+                        <exception postag="PARENTHESIS"></exception>                    
+                    </token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -4319,7 +4328,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>случае</token>
                         <token>,</token>
                     </marker>
-                    <token negate="yes" regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</token>
+                    <token>
+                        <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
+                        <exception postag="PARENTHESIS"></exception>                    
+                    </token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -4337,7 +4349,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>вышеизложенным</token>
                         <token>,</token>
                     </marker>
-                    <token negate="yes" regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</token>
+                    <token>
+                        <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
+                        <exception postag="PARENTHESIS"></exception>                    
+                    </token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \5</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -4354,7 +4369,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">случай|момент</token>
                         <token>,</token>
                     </marker>
-                    <token negate="yes" regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</token>
+                    <token>
+                        <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
+                        <exception postag="PARENTHESIS"></exception>                    
+                    </token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -4371,7 +4389,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>тем</token>
                         <token>,</token>
                     </marker>
-                    <token negate="yes" regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</token>
+                    <token>
+                        <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
+                        <exception postag="PARENTHESIS"></exception>                    
+                    </token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -4389,7 +4410,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>что</token>
                         <token>,</token>
                     </marker>
-                    <token negate="yes" regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</token>
+                    <token>
+                        <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
+                        <exception postag="PARENTHESIS"></exception>                    
+                    </token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \5</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -4424,7 +4448,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>чтобы</token>
                         <token>,</token>
                     </marker>
-                    <token negate="yes" regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</token>
+                    <token>
+                        <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
+                        <exception postag="PARENTHESIS"></exception>                    
+                    </token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -4442,7 +4469,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>как</token>
                         <token>,</token>
                     </marker>
-                    <token negate="yes" regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</token>
+                    <token>
+                        <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
+                        <exception postag="PARENTHESIS"></exception>                    
+                    </token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \5</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -4459,7 +4489,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>как</token>
                         <token>,</token>
                     </marker>
-                    <token negate="yes" regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</token>
+                    <token>
+                        <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
+                        <exception postag="PARENTHESIS"></exception>                    
+                    </token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -4477,7 +4510,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>как</token>
                         <token>,</token>
                     </marker>
-                    <token negate="yes" regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</token>
+                    <token>
+                        <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
+                        <exception postag="PARENTHESIS"></exception>                    
+                    </token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \5</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -4495,7 +4531,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>как</token>
                         <token>,</token>
                     </marker>
-                    <token negate="yes" regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</token>
+                    <token>
+                        <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
+                        <exception postag="PARENTHESIS"></exception>                    
+                    </token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \5</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -4512,7 +4551,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>как</token>
                         <token>,</token>
                     </marker>
-                    <token negate="yes" regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</token>
+                    <token>
+                        <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
+                        <exception postag="PARENTHESIS"></exception>                    
+                    </token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -4529,7 +4571,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>что</token>
                         <token>,</token>
                     </marker>
-                    <token negate="yes" regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</token>
+                    <token>
+                        <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
+                        <exception postag="PARENTHESIS"></exception>                    
+                    </token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -4544,7 +4589,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">Причем|Причём</token>
                         <token>,</token>
                     </marker>
-                    <token negate="yes" regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</token>
+                    <token>
+                        <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>
+                        <exception postag="PARENTHESIS"></exception>
+                    </token>
                 </pattern>
                 <message>Слово не является вводным. Запятые не нужны: <suggestion>\2</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -4564,7 +4612,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <and>
                         <token negate="yes" regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</token>
-                        <token negate_pos="yes" postag_regexp="yes" postag="PT:.*|DPT:.*"></token>
+                        <token negate_pos="yes" postag_regexp="yes" postag="PT:.*|DPT:.*|PARENTHESIS"></token>
                     </and>
                 </pattern>
                 <message>Слово часто не является вводным и запятые не нужны: <suggestion>\2 \3 \4</suggestion>. Определить, является ли в конкретном случае конструкция «тем не менее» вводным оборотом очень просто: проверить, может
