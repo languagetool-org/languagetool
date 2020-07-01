@@ -119,6 +119,7 @@ public class MorfologikFrenchSpellerRuleTest {
     assertSuggestion(rule, langTool, "Parcontre", "Par contre");  // see #1797
     assertSuggestion(rule, langTool, "parcontre", "par contre");  // see #1797
     //assertSuggestion(rule, langTool, "Ca", "Ça");  // see #912
+    //assertSuggestion(rule, langTool, "aus", "aux"); TODO: to be improved with frequency information
     assertSuggestion(rule, langTool, "Décu", "Déçu");  // see #912
     assertSuggestion(rule, langTool, "etant", "étant");  // see #1633
     assertSuggestion(rule, langTool, "Cliqez", "Cliquez");

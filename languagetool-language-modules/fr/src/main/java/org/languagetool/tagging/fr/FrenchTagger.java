@@ -43,7 +43,7 @@ public class FrenchTagger extends BaseTagger {
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto|auto-|re-)([^-].*[aeiouêàéèíòóïü].+[aeiouêàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   private static final Pattern NOUN_ADJ = Pattern.compile("[NJ] .+|V ppa.*");
-  private static final Pattern PREFIXES_NOUN_ADJ = Pattern.compile("(géo-|nord-|sud-|néo-|méga-|ultra-|pro-|inter-|micro-|macro-|sous-|haut-|auto-|ré-|pré-|super-|vice-|hyper-|proto-|grand-|pseudo-)(.+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern PREFIXES_NOUN_ADJ = Pattern.compile("(anti-|géo-|nord-|sud-|néo-|méga-|ultra-|pro-|inter-|micro-|macro-|sous-|haut-|auto-|ré-|pré-|super-|vice-|hyper-|proto-|grand-|pseudo-)(.+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   //|nord-|sud-
   
   public FrenchTagger() {
