@@ -49,6 +49,7 @@ public class MorfologikFrenchSpellerRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("vox populi")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("statu quo.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Bugs Bunny")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("L'iPhone")).length);
 
     // tests for mixed case words
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("pH")).length);
