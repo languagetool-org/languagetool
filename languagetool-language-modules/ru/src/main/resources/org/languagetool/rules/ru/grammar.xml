@@ -10394,18 +10394,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Работа должна быть выполнена в течение 10 дней.</example>
           </rule>
         </rulegroup>
-        <rule id="V_PRODOLJENIЕ" name="Словосочетание: «в продолжение (отрезка времени)»">
+        <rulegroup id="V_PRODOLJENIЕ" name="Словосочетание: «в продолжение (отрезка времени)»">
+          <rule>
             <pattern>
                 <token>в</token>
                 <token>продолжении</token>
                 <token regexp="yes">часа|минуты|промежутка|секунды|дня|времени|недели|месяца|года|столетия|тысячелетия|разговора|беседы</token>
             </pattern>
-            <message>Должно быть: <suggestion>\1 продолжение \3</suggestion></message>
+            <message>Должно быть: <suggestion>\1 продолжение \3</suggestion> (время).</message>
             <short>В продолжение (времени, часа, ...)</short>
             <example correction="в продолжение дня">Работа была выполнена <marker>в продолжении дня</marker>.</example>
             <example>Работа была выполнена в продолжение дня.</example>
         </rule>
         <!-- TO DO:  в продолжении (существительное) -->
+         <rule>
+            <pattern>
+                <token>в</token>
+                <token>продолжение</token>
+                <token regexp="yes">отрезка|дороги|участка|поля|пути|маршрута</token>
+            </pattern>
+            <message>Должно быть: <suggestion>\1 продолжении \3</suggestion> (расстояние).</message>
+            <short>В продолжении (отрезка, пути, ...)</short>
+            <example correction="В продолжении пути"><marker>В продолжение пути</marker> будет привал.</example>
+            <example>В продолжении дороги будет карман.</example>
+          </rule>
+        </rulegroup>
     </category>
     <category id="STYLE" name="Стиль">
         
