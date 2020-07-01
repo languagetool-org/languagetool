@@ -38101,6 +38101,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rulegroup id="GAMMA" name="gama/gamma">
+            <rule>
+                <pattern>
+                    <token>gama</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>gamma</suggestion>? Correcte si és del v. gamar-se.</message>
+                <example correction="gamma">Una àmplia <marker>gama</marker> de productes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>games</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>gammes</suggestion>? Correcte si és del v. gamar-se.</message>
+                <example correction="gammes">Uns àmplies <marker>games</marker> de productes.</example>
+            </rule>
+        </rulegroup>
         <rule id="A_VALL" name="a vall/avall">
             <antipattern>
                 <token regexp="yes">com|vall</token>
