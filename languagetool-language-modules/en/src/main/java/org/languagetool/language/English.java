@@ -260,6 +260,7 @@ public class English extends Language implements AutoCloseable {
       case "EN_COMPOUNDS":              return 2;
       case "ABBREVIATION_PUNCTUATION":  return 2;
       case "COVID_19":                  return 1;
+      case "DON_T_AREN_T":              return 1;   // higher prio than DID_BASEFORM
       case "MONEY_BACK_HYPHEN":         return 1;   // higher prio than A_UNCOUNTABLE
       case "WORLDS_BEST":               return 1;   // higher prio than THE_SUPERLATIVE
       case "STEP_COMPOUNDS":            return 1;   // higher prio than STARS_AND_STEPS

@@ -78,6 +78,7 @@ public class UpperCaseNgramRuleTest {
     assertGood("His name is Carp.");
     assertGood("Victor or Rabbit as everyone calls him.");
     assertGood("Think I'm Tripping?");
+    assertGood("Music and Concepts.");
     // TODO:
     //assertGood("Best Regards.");
     //assertGood("USB Port.");
