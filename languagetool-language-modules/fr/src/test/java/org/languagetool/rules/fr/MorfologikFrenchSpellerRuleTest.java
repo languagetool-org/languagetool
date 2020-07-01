@@ -62,6 +62,7 @@ public class MorfologikFrenchSpellerRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("déconfinement")).length);  // from spelling.txt
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Déconfinement")).length); 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Le Déconfinement")).length); // Should be only lower-case??
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Cesse de t'autoflageller.")).length);
     
     // Test for Multiwords.
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("vox populi")).length);
