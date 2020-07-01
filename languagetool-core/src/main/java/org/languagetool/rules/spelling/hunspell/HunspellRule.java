@@ -232,7 +232,7 @@ public class HunspellRule extends SpellingCheckRule {
             // Find potentially missing compounds with privacy-friendly logging: we only log a single unknown word with no
             // meta data and only if it's made up of two valid words, similar to the "UNKNOWN" logging in
             // GermanSpellerRule:
-            if (language.getShortCode().equals("de")) {
+            /*if (language.getShortCode().equals("de")) {
               String covered = sentence.getText().substring(len, len + cleanWord.length());
               if (suggestions.stream().anyMatch(
                     k -> k.getReplacement().contains(" ") &&
@@ -242,7 +242,7 @@ public class HunspellRule extends SpellingCheckRule {
                   )) {
                 logger.info("COMPOUND: " + covered);
               }
-            }
+            }*/
             // TODO user suggestions
             addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions, null, ruleMatch);
           } else {
