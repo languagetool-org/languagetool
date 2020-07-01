@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
@@ -126,14 +127,14 @@ public class AgreementRule2 extends Rule {
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
     for (int i = 0; i < tokens.length; i++) {
       String token = tokens[i].getToken();
-      if (!tokens[i].isSentenceStart() && !token.matches("[\"„»«]")) {
+      if (!tokens[i].isSentenceStart() && !StringUtils.equalsAny(token, "\"", "„", "»", "«")) {
         // skip quotes, as these are not relevant
-        if (i+ 1 < tokens.length && tokens[i].hasPosTagStartingWith("ADJ:") && tokens[i+1].hasPosTagStartingWith("SUB:") && !tokens[i+1].hasPosTagStartingWith("EIG:")) {
+        if (i+ 1 < tokens.length && tokens[i].hasPosTagStartingWith("ADJ") && tokens[i+1].hasPosTagStartingWith("SUB") && !tokens[i+1].hasPosTagStartingWith("EIG")) {
           if (tokens[i].isImmunized() || tokens[i+1].isImmunized()) {
             continue;
           }
           AnalyzedTokenReadings nextToken = i + 2 < tokens.length ? tokens[i + 2] : null;
-          if (nextToken != null && nextToken.hasPosTagStartingWith("SUB:")) {
+          if (nextToken != null && nextToken.hasPosTagStartingWith("SUB")) {
             // no alarm for e.g. "Deutscher Taschenbuch Verlag"
             break;
           }
@@ -155,7 +156,7 @@ public class AgreementRule2 extends Rule {
     Set<String> set = retainCommonCategories(token1, token2);
     RuleMatch ruleMatch = null;
     if (set.isEmpty()) {
-      String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Adjektiv und " +
+      String msg = "Möglicherweise fehlende grammatikalische Übereinstimmung zwischen Adjektiv und " +
             "Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'kleiner Haus' statt 'kleines Haus'";
       String shortMsg = "Möglicherweise keine Übereinstimmung bezüglich Kasus, Numerus oder Genus";
       ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token2.getEndPos(), msg, shortMsg);
