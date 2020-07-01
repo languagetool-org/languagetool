@@ -29,6 +29,8 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.StringTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -59,6 +61,7 @@ public class HunspellRule extends SpellingCheckRule {
   protected Hunspell hunspell = null;
 
   private static final ConcurrentLinkedQueue<String> activeChecks = new ConcurrentLinkedQueue<>();
+  private static Logger logger = LoggerFactory.getLogger(HunspellRule.class);
   private static final String NON_ALPHABETIC = "[^\\p{L}]";
 
   private final boolean monitorRules;
@@ -237,7 +240,7 @@ public class HunspellRule extends SpellingCheckRule {
                     k.getReplacement().length() > 6 && k.getReplacement().length() < 25 &&
                     k.getReplacement().matches("[a-zA-ZÖÄÜöäüß -]+")
                   )) {
-                System.out.println("COMPOUND: " + covered);
+                logger.info("COMPOUND: " + covered);
               }
             }
             // TODO user suggestions
