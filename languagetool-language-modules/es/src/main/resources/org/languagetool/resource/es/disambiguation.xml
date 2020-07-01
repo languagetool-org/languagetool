@@ -199,6 +199,21 @@ Copyright (C) 2011 Juan Martorell
             <example type="untouched">Sobre todo hombre.</example>
             <example type="untouched">Sobre todo lo demás.</example>
         </rule>
+        <rule id="el_paso_a_paso" name="el paso a paso (noun)">
+            <pattern>
+                <token>el</token>
+                <marker>
+                    <token>paso</token>
+                    <token>a</token>
+                    <token>paso</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd pos="NCMS000"/>
+                <wd pos="SPS00"/>
+                <wd pos="NCMS000"/>
+            </disambig>
+        </rule>
     </rulegroup>
     <rulegroup id="tal_como" name="tal como">
         <rule>
@@ -1812,6 +1827,19 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
+                <token><exception regexp="yes">no|que|ya|porqe|aún|como</exception><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
+                <marker>
+                    <and>
+                        <token postag="AQ.*" postag_regexp="yes"><exception regexp="yes">somos|molesta|reflejas?</exception></token>
+                        <token postag="V.[SI].2S." postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token postag="_PUNCT.*" postag_regexp="yes" regexp="yes">[\.,;]<exception>?</exception></token>
+            </pattern>
+            <disambig action="filter" postag="AQ.*|_GN_.*|N.*"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="RG"/></token>
                 <unify>
                     <feature id="genero"/>
@@ -2763,19 +2791,21 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
 
-    <rule id="adj_punct" name="adjectivo no verbo antes de puntuación">
-        <pattern>
-            <token><exception regexp="yes">no|que|ya|porqe|aún|como</exception><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
-            <marker>
-                <and>
-                    <token postag="AQ.*" postag_regexp="yes"><exception regexp="yes">somos|molesta|reflejas?</exception></token>
-                    <token postag="V.[SI].*" postag_regexp="yes"/>
-                </and>
-            </marker>
-            <token postag="_PUNCT.*" postag_regexp="yes"><exception>?</exception></token>
-        </pattern>
-        <disambig action="filter" postag="AQ.*|_GN_.*|N.*"/>
-    </rule>
+    <!--<rulegroup id="adj_punct" name="adjectivo no verbo antes de puntuación">
+        <rule>
+            <pattern>
+                <token><exception regexp="yes">no|que|ya|porqe|aún|como</exception><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
+                <marker>
+                    <and>
+                        <token postag="AQ.*" postag_regexp="yes"><exception regexp="yes">somos|molesta|reflejas?</exception></token>
+                        <token postag="V.[SI].2S." postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token postag="_PUNCT.*" postag_regexp="yes" regexp="yes">[\.,;]<exception>?</exception></token>
+            </pattern>
+            <disambig action="filter" postag="AQ.*|_GN_.*|N.*"/>
+        </rule>
+    </rulegroup>-->
 
     <rule id="de_not_adj" name="de + no adj">
         <pattern>
@@ -3155,7 +3185,7 @@ Copyright (C) 2011 Juan Martorell
                 <marker>
                     <and>
                         <token postag="N.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.+</exception></token>
-                        <token postag="V.P.*|AQ.*" postag_regexp="yes"><exception postag="_GN.*|SPS00|V.[GMIS].*|CC|RG.*" postag_regexp="yes"/></token>
+                        <token postag="V.P.*|AQ.*" postag_regexp="yes"><exception postag="_GN.*|SPS00|V.[GMIS].*|CC|RG.*" postag_regexp="yes"/><exception inflected="yes">amigo</exception></token>
                         <!--  exc. just allà -->
                     </and>
                 </marker>
@@ -3246,8 +3276,8 @@ Copyright (C) 2011 Juan Martorell
             <token><exception postag="RG_before|LOC_ADV|_GV_|SPS00|CC|UNKNOWN|V.[SI].*|_PUNCT.*|&pronombre_personal_atono_POS;" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|estar|parecer|considerar</exception></token>
             <marker>
                 <and>
-                    <token postag="A.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}+[\p{Ll}·]*</exception><exception regexp="yes">presentes?</exception></token>
-                    <token postag="V.*" postag_regexp="yes"><exception postag="_GV_|VM[IS]P1S0|V.G.*|VMM..V.*|V.+\+P.*" postag_regexp="yes"/><exception regexp="yes">viu|nous?|massissa|senzilla</exception></token>
+                    <token postag="A.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}+[\p{Ll}·]*</exception><exception regexp="yes">presentes?|antiguas?</exception></token>
+                    <token postag="V.*" postag_regexp="yes"><exception postag="_GV_|VM[IS]P1S0|V.G.*|VMM..V.*|V.+\+P.*" postag_regexp="yes"/></token>
                 </and>
             </marker>
         </pattern>

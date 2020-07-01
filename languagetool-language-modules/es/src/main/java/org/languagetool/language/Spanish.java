@@ -172,6 +172,9 @@ public class Spanish extends Language implements AutoCloseable{
       case "SUBJUNTIVO_FUTURO": return -30;
       case "SUBJUNTIVO_PASADO": return -30;
       case "SUBJUNTIVO_PASADO2": return -30;
+      case "AGREEMENT_ADJ_NOUN": return -30;
+      case "AGREEMENT_PARTICIPLE_NOUN": return -30;
+      case "AGREEMENT_POSTPONED_ADJ": return -30;
       case "VOSEO": return -40;
       case "UPPERCASE_SENTENCE_START": return -50;
     }

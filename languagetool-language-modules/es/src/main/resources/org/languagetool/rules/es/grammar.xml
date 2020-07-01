@@ -188,10 +188,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>de</token>
                 <token>Praga</token>
             </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>Primavera</token>
+                <token regexp="yes">Árabe|Negra</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">\p{Lu}.*</token>
+                <token>de</token>
+                <token regexp="yes">Primavera|Verano|Otoño|Invierno</token>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token negate_pos="yes" postag="SENT_START"/>
                 <marker>
-                    <token regexp="yes">Primavera|Verano|Otoño|Invierno</token>
+                    <token regexp="yes">Primavera|Verano|Otoño|Invierno<exception postag="NP.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <message>Las estaciones del año se escriben en minúsculas.</message>
@@ -199,6 +208,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://www.rae.es/consultas/mayuscula-o-minuscula-en-los-meses-los-dias-de-la-semana-y-las-estaciones-del-ano</url>
             <example correction="verano" type="incorrect">Este <marker>Verano</marker> me voy de vacaciones.</example>
             <example type="correct">Ha sido el <marker>invierno</marker> más frío que recuerdo.</example>
+            <example>Feria de Primavera.</example>
+            <example>Palacio de Invierno.</example>
+            <example>Plan de Invierno</example>
+            <example>Festival de Primavera</example>
+            <example>Juegos Olímpicos de Verano</example>
+            <example>Nos veremos en el Primavera Sound.</example>
         </rule>
         <rule id="HOMO" name="homo/Homo">
             <pattern>
@@ -1843,6 +1858,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Dime si se lo vas a dar o no.</example>
                 <example>Hoy es el día en que se casa Ken.</example>
                 <example>El objetivo per se no importa.</example>
+                <example>aquel en que se “expresa” Rimbaud</example>
             </rule>
             <rule>
                 <pattern>
@@ -1995,7 +2011,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Y <marker>sabias</marker> como los hombres.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AMPLIA" name="amplia/amplía" default="temp_off">
+        <rulegroup id="AMPLIA" name="amplia/amplía">
             <antipattern>
                 <token postag="RG|SPS00|LOC_PREP" postag_regexp="yes"/>
                 <token regexp="yes">amplias?|amplio</token>
@@ -3267,6 +3283,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Andaba el 32º a casi 25 minutos del líder.</example>
                 <example>Editan también el Sport y El Mundo Deportivo.</example>
                 <example>El mal nunca triunfa y el bien tampoco.</example>
+                <example>El paso a paso.</example>
+                <!-- used in LatAm -->
             </rule>
             <rule id="TU_TILDE" name="tu / tú">
                 <antipattern>
@@ -3985,7 +4003,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>sí</suggestion>
                 <example correction="sí">En <marker>si</marker> mismo no tiene misterio.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes" inflected="yes" skip="2">depender|independiente|independientemente|dependiente|seguro|seguridad|acerca de|función|cuestión|pregunta|certeza|duda|dudar|idea</token>
                     <token>de</token>
@@ -4013,6 +4031,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>si</token>
                     <token postag="V.[SI].*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token>hecho</token>
+                    <token>de</token>
+                    <token>si</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">de|en|para|entre</token>
                     <marker>
@@ -4032,6 +4055,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>podemos darnos cuenta de si el asunto tiene importancia o no</example>
                 <example>no depende de si lo siento o no, de si me ha ido bien o si tengo</example>
                 <example>Esto no es un debate de si eres de una secta o no.</example>
+                <example>Los principios éticos están determinados por el hecho de si una acción cualquiera podría tener una consecuencia dañina.</example>
             </rule>
             <rule>
                 <pattern>
@@ -4747,7 +4771,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>nacional</token>
+                    <token>nacional<exception postag="_possible_NP"/></token>
                     <token min="0">-</token>
                     <token inflected="yes" regexp="yes">populismo|populista|católico|socialismo|catolicismo|sindicalismo|sindicalista</token>
                 </pattern>
@@ -7816,22 +7840,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="A.*" postag_regexp="yes" regexp="yes">buen|buenas</token>
-                    <token postag="N.MP.*" postag_regexp="yes"><exception postag="N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                    <token postag="N.[MC]P.*" postag_regexp="yes"><exception postag="N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Posible error de concordancia.</message>
                 <suggestion suppress_misspelled="yes">buen <match no="2" postag="N.[MC][SN].*" postag_regexp="yes"/></suggestion>
                 <suggestion suppress_misspelled="yes">buenos <match no="2" postag="N.[MC][PN].*" postag_regexp="yes"/></suggestion>
-                <example correction="Buen amigo|Buenos amigos"><marker>Buen amigos</marker>.</example>
+                <suggestion>\1, \2</suggestion>
+                <example correction="Buen amigo|Buenos amigos|Buen, amigos"><marker>Buen amigos</marker>.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="A.*" postag_regexp="yes" regexp="yes">buena|buenas</token>
-                    <token postag="N.MS.*" postag_regexp="yes"><exception postag="N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                    <token postag="A.*" postag_regexp="yes" regexp="yes">buena|buenas|buenos</token>
+                    <token postag="N.[MC]S.*" postag_regexp="yes"><exception postag="N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Posible error de concordancia.</message>
                 <suggestion suppress_misspelled="yes">buen <match no="2" postag="N.[MC][SN].*" postag_regexp="yes"/></suggestion>
                 <suggestion suppress_misspelled="yes">buenos <match no="2" postag="N.[MC][PN].*" postag_regexp="yes"/></suggestion>
-                <example correction="buen pastel|buenos pasteles">Quiero comerme un <marker>buena pastel</marker>.</example>
+                <suggestion>\1, \2</suggestion>
+                <example correction="buen pastel|buenos pasteles|buena, pastel">Quiero comerme un <marker>buena pastel</marker>.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -7853,8 +7879,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Posible error de concordancia.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="A..[MC][SN].*" postag_regexp="yes"/> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes"/></suggestion>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="A..[MC][PN].*" postag_regexp="yes"/> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes"/></suggestion>
-                <example correction="Magnífico cuchillo|Magníficos cuchillos"><marker>Magníficas cuchillos</marker>.</example>
-                <example correction="Magnífico cuchillo|Magníficos cuchillos"><marker>Magnífica cuchillos</marker>.</example>
+                <suggestion>\1, \2</suggestion>
+                <example correction="Magnífico cuchillo|Magníficos cuchillos|Magníficas, cuchillos"><marker>Magníficas cuchillos</marker>.</example>
+                <example correction="Magnífico cuchillo|Magníficos cuchillos|Magnífica, cuchillos"><marker>Magnífica cuchillos</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -7868,23 +7895,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Posible error de concordancia.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(PX|A.).[FC][SN].*" postag_regexp="yes"/> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes"/></suggestion>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(PX|A.).[FC][PN].*" postag_regexp="yes"/> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes"/></suggestion>
-                <example correction="magnífica cuchara|magníficas cucharas">Con <marker>magníficos cucharas</marker>.</example>
-                <example correction="magnífica cuchara|magníficas cucharas">De <marker>magníficas cuchara</marker>.</example>
+                <suggestion>\1, \2</suggestion>
+                <example correction="magnífica cuchara|magníficas cucharas|magníficos, cucharas">Con <marker>magníficos cucharas</marker>.</example>
+                <example correction="magnífica cuchara|magníficas cucharas|magníficas, cuchara">De <marker>magníficas cuchara</marker>.</example>
             </rule>
             <rule>
                 <pattern>
                     <unify negate="yes">
                         <feature id="numero"/>
-                        <token postag="A.*|PX.*" postag_regexp="yes"><exception postag="NP.*|complement.*|ignore_concordance|_possible_nompropi" postag_regexp="yes"/><exception inflected="yes" regexp="yes">plegats|junt</exception></token>
+                        <token postag="A.*" postag_regexp="yes"><exception postag="NP.*|complement.*|ignore_concordance|_possible_nompropi" postag_regexp="yes"/><exception inflected="yes" regexp="yes">plegats|junt</exception></token>
                         <token postag="N.C.*" postag_regexp="yes"><exception postag="N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     </unify>
                 </pattern>
                 <message>Posible error de concordancia.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(A.).[MC][SN].*" postag_regexp="yes"/> <match no="2" postag="(N.[MC][SN].*)" postag_regexp="yes" postag_replace="$1"/></suggestion>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(A.).[MC][PN].*" postag_regexp="yes"/> <match no="2" postag="(N.[MC][PN].*)" postag_regexp="yes" postag_replace="$1"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(A.).[FC][SN].*" postag_regexp="yes"/> <match no="2" postag="(N.[MC][SN].*)" postag_regexp="yes" postag_replace="$1"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(A.).[FC][PN].*" postag_regexp="yes"/> <match no="2" postag="(N.[MC][PN].*)" postag_regexp="yes" postag_replace="$1"/></suggestion>
+                <suggestion>\1, \2</suggestion>
                 <!-- TODO: select only N in synthesis -->
-                <example correction="diferente cava|diferente cavo|diferentes cavas">Se pueden visitar <marker>diferente cavas</marker>.</example>
-                <example correction="diferente cava|diferentes cavas|diferentes cavos">Se pueden visitar <marker>diferentes cava</marker>.</example>
+                <example correction="antiguo aeronauta|antiguos aeronautas|antigua aeronauta|antiguas aeronautas|antiguos, aeronauta">Eran <marker>antiguos aeronauta</marker>.</example>
+                <example correction="antiguo aeronauta|antiguos aeronautas|antigua aeronauta|antiguas aeronautas|antigua, aeronautas">Eran <marker>antigua aeronautas</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_PARTICIPLE_NOUN" name="concordancias participio y nombre" default="temp_off">
@@ -9202,6 +9233,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREPOSITIONS" name="Preposiciones">
+        <rule id="DEPENDER_DE" name="depender *en/de" default="temp_off">
+            <pattern>
+                <token inflected="yes">depender</token>
+                <marker>
+                    <token>en</token>
+                </marker>
+                <token regexp="yes">si|que</token>
+            </pattern>
+            <message>La preposición adecuada es <suggestion>de</suggestion></message>
+            <example correction="de">Esto depende <marker>en</marker> si te gusta o no</example>
+        </rule>
         <rulegroup id="DESCONFIAR_DE" name="desconfiar *en/de">
             <rule>
                 <pattern>
