@@ -3049,7 +3049,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         
         
-        <rulegroup default="temp_off" id="PO_MERE_TOGO_KAK" name="Запятые в оборотах: «по мере того как…», …"> <!-- default="off" -->
+        <rulegroup default="on" id="PO_MERE_TOGO_KAK" name="Запятые в оборотах: «по мере того как…», …"> <!-- default="off" -->
 <!--   («с того времени как…», «с той поры как…», «по мере того как…»)  TODO: set on     -->
             <rule>
                 <pattern case_sensitive="yes">
@@ -5771,7 +5771,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><exception  postag="VB:.*|UNKNOWN|DPT.*|PT:.*|PT_Short:.*|ADJ:Short:.*" postag_regexp="yes" /></token>
                 <token>,</token>
                 <token postag="PNN:.*:Nom:P3" postag_regexp="yes"><exception  postag="PNN:.*:Nom:P3" postag_regexp="yes"  negate_pos="yes"></exception></token>
-                <token postag="VB:.*|SENT_END|PARA_END" postag_regexp="yes"><exception  postag="VB:.*|SENT_END|PARA_END" postag_regexp="yes"  negate_pos="yes"></exception></token>
+                <token postag="VB:.*|SENT_END|PARA_END" postag_regexp="yes">
+                    <exception  postag="VB:.*|SENT_END|PARA_END" postag_regexp="yes"  negate_pos="yes"></exception>
+                    <exception>может</exception>
+                </token>
             </pattern>
             <message>Грамматическая ошибка. Дублирование местоимением существительного-подлежащего: <suggestion>\1 \2 \5</suggestion>.</message>
             
@@ -5781,6 +5784,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Эта героиня выступала, она стремилась показать себя с лучшей стороны.</example>
             <example>У разных агентств разные критерии того, кого считать пользователем она.</example>
             <example>Понимая, что его дни сочтены, он пытался решить проблему.</example>
+            <example>Как персонификация леса, он может принимать самые различные образы.</example>
             <example>Наше резервирование ещё раз подтвердили в администрации здания, оно продолжает действовать.</example>
         </rule>
         <rule id="grammar_vse_li_noun" name="Склонение (число) «все ли + существительное»">
