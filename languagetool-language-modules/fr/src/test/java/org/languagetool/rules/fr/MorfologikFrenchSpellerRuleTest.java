@@ -27,8 +27,11 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class MorfologikFrenchSpellerRuleTest {
 
@@ -41,9 +44,24 @@ public class MorfologikFrenchSpellerRuleTest {
     JLanguageTool langTool = new JLanguageTool(new French());
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Écoute-moi.")).length);
-
-    // TODO: autour de 37°C, Si vous prêtez 20$, est 300 000 yen
-     
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("35%")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("20$")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("300 000 yen")).length);   
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("20°C")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("même s'il coûte 10.000 yens")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("J'ai 38,9 de fièvre.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Thunderbird 2.0.0.14")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Va-t’en !")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("-Je ne suis pas venu par manque de temps.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("12hr-14hr")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Dominique Strauss-Kahn")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("L'ONU")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("d'1")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("L'email")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Et d'Harvard")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("déconfinement")).length);  // from spelling.txt
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Déconfinement")).length); 
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Le Déconfinement")).length); // Should be only lower-case??
     
     // Test for Multiwords.
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("vox populi")).length);
@@ -86,11 +104,49 @@ public class MorfologikFrenchSpellerRuleTest {
     matches = rule.match(langTool.getAnalyzedSentence("dhommes"));
     assertEquals(1, matches.length);
     assertEquals("d'hommes", matches[0].getSuggestedReplacements().get(0));
+    
+    matches = rule.match(langTool.getAnalyzedSentence("language"));
+    assertEquals(1, matches.length);
+    assertEquals("l'aiguage", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("langage", matches[0].getSuggestedReplacements().get(1));
+    
+    assertSuggestion(rule, langTool, "qu’il sagissait", "s'agissait"); // see #3068
+    assertSuggestion(rule, langTool, "bonne sante", "santé"); // see #3068
+    //assertSuggestion(rule, langTool, "et ca", "CA", "cA"); // see #2900
+    //assertSuggestion(rule, langTool, "La journé", "jour né"); // see #2900. Better: journée
+    assertSuggestion(rule, langTool, "la sante", "santé"); // see #2900
+    assertSuggestion(rule, langTool, "Parcontre", "Par contre");  // see #1797
+    assertSuggestion(rule, langTool, "parcontre", "par contre");  // see #1797
+    //assertSuggestion(rule, langTool, "Ca", "Ça");  // see #912
+    assertSuggestion(rule, langTool, "Décu", "Déçu");  // see #912
+    assertSuggestion(rule, langTool, "etant", "étant");  // see #1633
+    assertSuggestion(rule, langTool, "Cliqez", "Cliquez");
+    assertSuggestion(rule, langTool, "cliqez", "cliquez");
+    assertSuggestion(rule, langTool, "offe", "OFCE", "effet", "off", "offre");  // "offre" would be better as first suggestion? 
+    assertSuggestion(rule, langTool, "problemes", "problèmes"); 
+    assertSuggestion(rule, langTool, "coulurs", "couleurs"); 
+    assertSuggestion(rule, langTool, "boton", "Boston", "Cotton", "boson");  // "bouton" would be better? 
+    //assertSuggestion(rule, langTool, "skype", "Skype");
+    assertSuggestion(rule, langTool, "Wordpress", "WordPress");
+    assertSuggestion(rule, langTool, "wordpress", "WordPress");
+    assertSuggestion(rule, langTool, "Etais-tu", "Étais");
+    assertSuggestion(rule, langTool, "etais-tu", "étais");
+    assertSuggestion(rule, langTool, "Playstation", "PlayStation"); 
 
     // don't split prefixes 
     matches = rule.match(langTool.getAnalyzedSentence("macrodiscipline"));
     assertEquals(1, matches.length);
     assertEquals(0, matches[0].getSuggestedReplacements().size());
 
+  }
+  
+  private void assertSuggestion(MorfologikFrenchSpellerRule rule, JLanguageTool langTool, String input, String... expected) throws IOException {
+    RuleMatch[]  matches = rule.match(langTool.getAnalyzedSentence(input));
+    int i = 0;
+    for (String s : expected) {
+      assertEquals(s, matches[0].getSuggestedReplacements().get(i));
+      i++;
+    }
+    
   }
 }

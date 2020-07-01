@@ -169,12 +169,13 @@ public class French extends Language implements AutoCloseable {
       case "A_A_ACCENT": return 1; // triggers false alarms for IL_FAUT_INF if there is no a/à correction
       case "FRENCH_WHITESPACE_STRICT": return 1;  // default off, but if on, it should overwrite FRENCH_WHITESPACE 
       case "FRENCH_WHITESPACE": return 0;
-      case "ELISION": return 0; // should be lower in priority than spell checker
       case "JE_SUI": return 1;  // needs higher priority than spell checker
-      case "NONVERB_PRON": return -10; // show the suggestion by the spell checker if exists
+      case "FR_SPELLING_RULE": return -100;
+      case "ELISION": return -200; // should be lower in priority than spell checker
+      case "NONVERB_PRON": return -200; // show the suggestion by the spell checker if exists
     }
     if (id.startsWith("grammalecte_")) {
-      return -1;
+      return -1000;
     }
     return super.getPriorityForId(id);
   }

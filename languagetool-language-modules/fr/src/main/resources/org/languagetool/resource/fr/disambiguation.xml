@@ -2175,6 +2175,38 @@ RB => Règles Brutes
       <disambig action="ignore_spelling"/>
     </rule>
     <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes">[\d\., ]+[%$€£º°]?</token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes">[12][0-9]([\.,][0-5][0-9])?(h|hr|hrs)?</token> <!-- TODO: rules suggesting proper formatting -->
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes">[$€£][\d\., ]+</token> <!-- TODO: create rule suggesting another format -->
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes">[\d\., ]+[º°][CF]</token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
       <!-- chapter-style numbering: -1-, -2-, ... -->
       <pattern>
         <marker>

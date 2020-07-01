@@ -59,7 +59,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern MOVE_TO_SECOND_POS = Pattern.compile("^(.+'[nt])$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern VERB_INDSUBJ = Pattern.compile("V.[SI].*");
+  private static final Pattern VERB_INDSUBJ = Pattern.compile("V .*(ind|sub).*");
   private static final Pattern VERB_INDSUBJ_M = Pattern.compile("V.[SI].[123]S.*|V.[SI].[23]P.*");
   private static final Pattern NOM_SING = Pattern.compile("[NJ] .* s|V .inf|V .*ppa.* s");
   private static final Pattern NOM_PLURAL = Pattern.compile("[NJ] .* p|V .*ppa.* p");
