@@ -1573,6 +1573,13 @@ title="Easy editing stylesheet" ?>
 		  <token postag='V.+|NP[FM]S000' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-22 *END* -->
+<!-- MARCOAGPINTO 2020-07-02 *START* -->
+<!-- "Estes são os monumentos Património da Humanidade." -->
+      <antipattern>  		  
+		  <token postag='NC[CFM]P000' postag_regexp='yes'/>	  
+		  <token regexp='yes'>património|patrimônio</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-07-02 *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -2545,6 +2552,14 @@ title="Easy editing stylesheet" ?>
       <example>O nosso País foi sempre dependente das importações dos países vizinhos.</example>
     </rule>
     <rule>
+<!-- MARCOAGPINTO 2020-07-02 *START* -->
+<!-- "Estes monumentos são Património da Humanidade." -->
+<!-- "Estes monumentos foram Património da Humanidade." -->
+      <antipattern>  		  
+		  <token postag='VMI[PMS]3P0' postag_regexp='yes'/>	  
+		  <token regexp='yes'>património|patrimônio</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-07-02 *END* -->	
       <pattern case_sensitive='yes'>
         <marker>
           <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;
