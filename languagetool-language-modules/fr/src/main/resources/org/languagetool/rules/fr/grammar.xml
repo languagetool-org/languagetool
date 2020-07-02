@@ -30608,26 +30608,39 @@ though, and has since been slightly modified)-->
       <example>Ils ont beaucoup d’enfants.</example>
       <example>Pressez la touche 'c' pour continuer.</example>
     </rule>
-    <rule id="APOS_INCORRECT" name="apostrophe incorrecte">
+    <rulegroup id="APOS_INCORRECT" name="apostrophe incorrecte">
       <antipattern>
         <token regexp="yes">\d[\d ,\.]*</token>
         <token>′</token> <!-- prime, minutes -->
       </antipattern>
-      <pattern>
-        <marker>
-          <token/>
-          <token spacebefore="no" regexp="yes">[´‘′`]</token>
-        </marker>
-        <token spacebefore="no"></token>
-      </pattern>
-      <message>Caractère d'apostrophe incorrect.</message>
-      <suggestion>\1’</suggestion>
-      <suggestion>\1'</suggestion>
-      <example correction="D’|D'"><marker>D´</marker>enfants.</example>
-      <example correction="D’|D'"><marker>D‘</marker>enfants.</example>
-      <example correction="D’|D'"><marker>D′</marker>enfants.</example>
-      <example>Les Humains (court métrage, 9′), 2003</example>
-    </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token/>
+            <token spacebefore="no" regexp="yes">[´‘′`]</token>
+          </marker>
+          <token spacebefore="no"></token>
+        </pattern>
+        <message>Caractère d'apostrophe incorrect.</message>
+        <suggestion>\1’</suggestion>
+        <suggestion>\1'</suggestion>
+        <example correction="D’|D'"><marker>D´</marker>enfants.</example>
+        <example correction="D’|D'"><marker>D‘</marker>enfants.</example>
+        <example correction="D’|D'"><marker>D′</marker>enfants.</example>
+        <example>Les Humains (court métrage, 9′), 2003</example>
+      </rule>
+      <rule default="temp_off">
+        <pattern>
+          <token regexp="yes">[dljmnst]|jusqu|qu</token>
+          <token spacebefore="no" regexp="yes">[´‘′`’']</token>
+          <token spacebefore="no" regexp="yes">[´‘′`’']</token>
+        </pattern>
+        <message>Caractère d'apostrophe répété.</message>
+        <suggestion>\1’</suggestion>
+        <suggestion>\1'</suggestion>
+        <example correction="l’|l'"><marker>l''</marker>homme</example>
+      </rule>
+    </rulegroup>
     <rule id="SAINT_VALENTIN" name="Saint Valentin">
       <pattern>
         <token postag="D f s"/>
