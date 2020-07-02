@@ -8028,6 +8028,64 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_ELISION" name="Élision">
+    <rulegroup id="PAS_D_ELISION" name="pas d'élision" default="temp_off">
+      <rule>
+        <pattern>
+          <token>l'</token>
+          <token postag=".* f .*" postag_regexp="yes"><exception regexp="yes">h?[àâaéêèeiîouœ]\D.*|à|hy\D.*|y[pts].*</exception></token>
+        </pattern>
+        <message>« \1\2 » ne s’élide pas.</message>
+        <suggestion>la \2</suggestion>
+        <example correction="La femme"><marker>L'femme</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>l'</token>
+          <token postag=".* f .*" postag_regexp="yes" inflected="yes" regexp="yes">&exceptions_ELISION1;</token>
+        </pattern>
+        <message>« \1\2 » ne s’élide pas.</message>
+        <suggestion>la \2</suggestion>
+        <example correction="La hiérarchie"><marker>L'hiérarchie</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>l'</token>
+          <token postag=".* f .*" postag_regexp="yes" regexp="yes">&exceptions_ELISION2;</token>
+        </pattern>
+        <message>« \1\2 » ne s’élide pas.</message>
+        <suggestion>la \2</suggestion>
+        <example correction="La hausse"><marker>L'hausse</marker> des profits pétroliers.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[dljmnst]'|jusqu'|qu'</token>
+          <token><exception regexp="yes">h?[àâaéêèeiîouœ]\D.*|à|hy\D.*|y[pts].*</exception></token>
+        </pattern>
+        <message>« \1\2 » ne s’élide pas.</message>
+        <suggestion><match no="1" regexp_match="'$" regexp_replace="e"/> \2</suggestion>
+        <example correction="Je vais"><marker>J'vais</marker> partir.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[dljmnst]'|jusqu'|qu'</token>
+          <token inflected="yes" regexp="yes">&exceptions_ELISION1;</token>
+        </pattern>
+        <message>« \1\2 » ne s’élide pas.</message>
+        <suggestion><match no="1" regexp_match="'$" regexp_replace="e"/> \2</suggestion>
+        <example correction="Le oui"><marker>L'oui</marker>.</example>
+        <example correction="Le hibou"><marker>L'hibou</marker>.</example>
+        <example correction="Je hurle"><marker>J'hurle</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[dljmnst]'|jusqu'|qu'</token>
+          <token regexp="yes">&exceptions_ELISION2;</token>
+        </pattern>
+        <message>« \1\2 » ne s’élide pas.</message>
+        <suggestion><match no="1" regexp_match="'$" regexp_replace="e"/> \2</suggestion>
+        <example correction="que avec">Vous passez plus de temps ici <marker>qu'avec</marker> Mamie.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
       <rule>
         <pattern>
