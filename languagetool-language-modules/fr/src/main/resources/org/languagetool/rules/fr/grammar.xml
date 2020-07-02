@@ -8077,15 +8077,29 @@ though, and has since been slightly modified)-->
         <example correction="Je hurle"><marker>J'hurle</marker>.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token regexp="yes">qu'|d'</token>
+          <token>avec</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">[dljmnst]'|jusqu'|qu'</token>
           <token regexp="yes">&exceptions_ELISION2;</token>
         </pattern>
         <message>« \1\2 » ne s’élide pas.</message>
         <suggestion><match no="1" regexp_match="'$" regexp_replace="e"/> \2</suggestion>
-        <example correction="que avec">Vous passez plus de temps ici <marker>qu'avec</marker> Mamie.</example>
+        <example correction="Le Hollywood"><marker>L'Hollywood</marker></example>
+        <example>Vous passez plus de temps ici qu'avec Mamie.</example>
       </rule>
     </rulegroup>
+    <rule id="EL_AVEC" name="Élision qu'avec, d'avec" default="temp_off">
+      <pattern>
+        <token regexp="yes">que|de</token>
+        <token>avec</token>
+      </pattern>
+      <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>'\2</suggestion>.</message>
+      <example correction="qu'avec">Vous passez plus de temps ici <marker>que avec</marker> Mamie.</example>
+      <example correction="d'avec">Les barrières qui séparaient les juifs <marker>de avec</marker> les chrétiens.</example>
+    </rule>
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
       <rule>
         <pattern>

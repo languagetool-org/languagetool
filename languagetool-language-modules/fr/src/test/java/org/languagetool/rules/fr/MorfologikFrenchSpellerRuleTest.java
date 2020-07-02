@@ -63,12 +63,12 @@ public class MorfologikFrenchSpellerRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Déconfinement")).length); 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Le Déconfinement")).length); // Should be only lower-case??
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Cesse de t'autoflageller.")).length);
-    
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("L'iPhone")).length);
+        
     // Test for Multiwords.
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("vox populi")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("statu quo.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Bugs Bunny")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("L'iPhone")).length);
 
     // tests for mixed case words
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("pH")).length);
@@ -84,10 +84,9 @@ public class MorfologikFrenchSpellerRuleTest {
     matches = rule.match(langTool.getAnalyzedSentence("ecoute-moi"));
     assertEquals(1, matches.length);
     assertEquals("écoute", matches[0].getSuggestedReplacements().get(0));
-    // TODO: is "écoutè" correct?
-    assertEquals("écoutè", matches[0].getSuggestedReplacements().get(1));
-    assertEquals("écouté", matches[0].getSuggestedReplacements().get(2));
-    assertEquals("coute", matches[0].getSuggestedReplacements().get(3));
+    assertEquals("écouté", matches[0].getSuggestedReplacements().get(1));
+    assertEquals("écoutè", matches[0].getSuggestedReplacements().get(2));
+    assertEquals("coûte", matches[0].getSuggestedReplacements().get(3));
 
     matches = rule.match(langTool.getAnalyzedSentence("ecrit-il"));
     assertEquals(1, matches.length);
@@ -108,31 +107,31 @@ public class MorfologikFrenchSpellerRuleTest {
     
     matches = rule.match(langTool.getAnalyzedSentence("language"));
     assertEquals(1, matches.length);
-    assertEquals("l'aiguage", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("l'engagé", matches[0].getSuggestedReplacements().get(0));
     assertEquals("langage", matches[0].getSuggestedReplacements().get(1));
     
-    assertSuggestion(rule, langTool, "qu’il sagissait", "s'agissait"); // see #3068
-    assertSuggestion(rule, langTool, "bonne sante", "santé"); // see #3068
+    assertSuggestion(rule, langTool, "qu’il sagissait", "ils agissait", "il s'agissait"); // see #3068 TODO: change order
+    assertSuggestion(rule, langTool, "bonne sante", "bonnes ante", "bonne santé"); // see #3068 TODO: change order
     //assertSuggestion(rule, langTool, "et ca", "CA", "cA"); // see #2900
-    //assertSuggestion(rule, langTool, "La journé", "jour né"); // see #2900. Better: journée
+    assertSuggestion(rule, langTool, "La journé", "journée"); // see #2900. Better: journée
     assertSuggestion(rule, langTool, "la sante", "santé"); // see #2900
     assertSuggestion(rule, langTool, "Parcontre", "Par contre");  // see #1797
     assertSuggestion(rule, langTool, "parcontre", "par contre");  // see #1797
     //assertSuggestion(rule, langTool, "Ca", "Ça");  // see #912
-    //assertSuggestion(rule, langTool, "aus", "aux"); TODO: to be improved with frequency information
+    //assertSuggestion(rule, langTool, "aus", "aux"); // TODO: to be improved with frequency information
     assertSuggestion(rule, langTool, "Décu", "Déçu");  // see #912
     assertSuggestion(rule, langTool, "etant", "étant");  // see #1633
     assertSuggestion(rule, langTool, "Cliqez", "Cliquez");
     assertSuggestion(rule, langTool, "cliqez", "cliquez");
-    assertSuggestion(rule, langTool, "offe", "OFCE", "effet", "off", "offre");  // "offre" would be better as first suggestion? 
+    assertSuggestion(rule, langTool, "offe", "effet", "offre", "coffre");  // "offre" would be better as first suggestion? 
     assertSuggestion(rule, langTool, "problemes", "problèmes"); 
     assertSuggestion(rule, langTool, "coulurs", "couleurs"); 
-    assertSuggestion(rule, langTool, "boton", "Boston", "Cotton", "boson");  // "bouton" would be better? 
+    assertSuggestion(rule, langTool, "boton", "bâton", "béton", "Boston", "coton", "bouton");  // "bouton" would be better? 
     //assertSuggestion(rule, langTool, "skype", "Skype");
     assertSuggestion(rule, langTool, "Wordpress", "WordPress");
     assertSuggestion(rule, langTool, "wordpress", "WordPress");
-    assertSuggestion(rule, langTool, "Etais-tu", "Étais");
-    assertSuggestion(rule, langTool, "etais-tu", "étais");
+    assertSuggestion(rule, langTool, "Etais-tu", "Étés", "Étais"); //TODO: suggest only verbs
+    assertSuggestion(rule, langTool, "etais-tu", "étés", "étais"); //TODO: suggest only verbs
     assertSuggestion(rule, langTool, "Playstation", "PlayStation"); 
 
     // don't split prefixes 
