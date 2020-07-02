@@ -108,6 +108,19 @@ Copyright (C) 2011 Juan Martorell
                 <wd pos="LOC_ADV"/>
             </disambig>
         </rule>
+        <rule id="por_cierto" name="por cierto">
+            <pattern>
+                <marker>
+                    <token>por</token>
+                    <token>cierto</token>
+                </marker>
+                <token><exception postag="NC[MC][SN].*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="replace">
+                <wd pos="LOC_ADV"/>
+                <wd pos="LOC_ADV"/>
+            </disambig>
+        </rule>
         <rule id="de_nuevo" name="de nuevo">
             <pattern>
                 <marker>
@@ -201,11 +214,26 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule id="el_paso_a_paso" name="el paso a paso (noun)">
             <pattern>
-                <token>el</token>
+                <token regexp="yes">el|del|al</token>
                 <marker>
                     <token>paso</token>
                     <token>a</token>
                     <token>paso</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd pos="NCMS000"/>
+                <wd pos="SPS00"/>
+                <wd pos="NCMS000"/>
+            </disambig>
+        </rule>
+        <rule id="el_dia_a_dia" name="el día a día (noun)">
+            <pattern>
+                <token regexp="yes">el|del|al|mi|tu|su|nuestro|vuestro</token>
+                <marker>
+                    <token>día</token>
+                    <token>a</token>
+                    <token>día</token>
                 </marker>
             </pattern>
             <disambig action="replace">
@@ -1450,14 +1478,24 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
-    <rule id="E_CONJ" name="e (conjunción">
-        <pattern>
-            <marker>
-                <token>e<exception scope="previous" regexp="yes">la|una|esta|esa|aquella</exception></token>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="N.*"/>
-    </rule>
+    <rulegroup id="E_CONJ" name="e (conjunción">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>e<exception scope="previous" regexp="yes">la|una|esta|esa|aquella</exception></token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>u<exception scope="previous" regexp="yes">la|una|esta|esa|aquella</exception></token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="N.*"/>
+        </rule>
+    </rulegroup>
 
     <!--sobre (no preposición, nombre)-->
     <rule id="SOBRE" name="sobre (nombre)">
@@ -2414,6 +2452,28 @@ Copyright (C) 2011 Juan Martorell
     </rule>
 
     <!-- NOMINAL GROUPS -->
+    
+    <rulegroup id="los_distintos" name="los distintos">
+        <rule>
+            <pattern>
+                <token postag="DA.*" postag_regexp="yes"/>
+                <marker>
+                    <token inflected="yes" regexp="yes">varios|distintos|diferentes</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="D.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">varios|distintos|diferentes</token>
+                </marker>
+                <token>debido</token>
+                <token>a</token>
+            </pattern>
+            <disambig action="remove" postag="D.*"></disambig>
+        </rule>
+    </rulegroup>
 
 
     <rulegroup id="DNumN" name="Det + Numeral + Nom/Adj">
