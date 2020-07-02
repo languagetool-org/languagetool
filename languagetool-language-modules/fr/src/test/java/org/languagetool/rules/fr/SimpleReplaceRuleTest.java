@@ -48,17 +48,17 @@ public class SimpleReplaceRuleTest {
   public void testRule() throws IOException {
 
     // incorrect sentences:
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("C'est la vie"));
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Y'a pas de quoi"));
     assertEquals(0, matches.length);
 
     // incorrect sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("cest la vie"));
+    matches = rule.match(langTool.getAnalyzedSentence("ya pas de quoi"));
     assertEquals(1, matches.length);
-    assertEquals("c'est", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("y'a", matches[0].getSuggestedReplacements().get(0));
     
-    matches = rule.match(langTool.getAnalyzedSentence("Cest la vie"));
+    matches = rule.match(langTool.getAnalyzedSentence("Ya pas da de quoi"));
     assertEquals(1, matches.length);
-    assertEquals("C'est", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Y'a", matches[0].getSuggestedReplacements().get(0));
  
 
   }

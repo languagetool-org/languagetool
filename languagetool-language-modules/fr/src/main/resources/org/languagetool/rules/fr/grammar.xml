@@ -8700,6 +8700,19 @@ though, and has since been slightly modified)-->
           <example correction="trois fois par semaine">Je joue au Softball <marker>trois fois au semaine</marker>.</example>
       </rule>
       <!-- End of additions -->
+      <rule id="HEURE_CEST" name="heure cest">
+          <pattern>
+              <token regexp="yes">\d+</token>
+              <marker>
+                  <token>cest
+                      <exception case_sensitive="yes">CEST</exception>
+                  </token>
+              </marker>
+          </pattern>
+          <message>Did you mean <suggestion>CEST</suggestion> ?</message>
+          <example correction="CEST">La présentation commence à 15:00 <marker>cest</marker>.</example>
+          <example>Tu penses que cest bon ?</example>
+      </rule>
       <rulegroup id="ETRE_D_N_V_inf" name="V être suivi de déterminant, nom et verbe à l'infinitif">
           <rule name="féminin singulier">
               <pattern>
@@ -29652,6 +29665,22 @@ though, and has since been slightly modified)-->
         <example>Bonjour à (…)</example>
       </rule>
     </rulegroup>
+      <rule id="CEST_TYPO" name="Typo c'est">
+      <antipattern>
+          <token regexp="yes">\d+</token>
+          <token>cest</token>
+      </antipattern>
+      <pattern>
+          <token>cest
+              <exception case_sensitive="yes">CEST</exception>
+          </token>
+      </pattern>
+      <message>Did you mean <suggestion>c'est</suggestion> ?</message>
+      <example correction="c'est">Tu penses que <marker>cest</marker> bon ?</example>
+      <example>La présentation commence à 15:00 CEST</example>
+      <example>La présentation commence à 15:00 cest</example>
+    </rule>
+>>>>>>> 759716a1a9... [fr] added rule for CEST, adjusted replace.txt & tests
     <rule id="_3G" name="3 g / 3G" default="temp_off">
       <pattern>
         <token regexp="yes" case_sensitive="yes">[345]g</token>
