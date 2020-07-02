@@ -8099,10 +8099,31 @@ though, and has since been slightly modified)-->
         <pattern>
           <token regexp="yes">presqu'.+<exception regexp="yes">presqu'[îi]les?</exception></token>
         </pattern>
-        <message>« presque » ne s’élide que dans le nom « presqu’île ». Employez <suggestion><match no="1" regexp_match="(?iu)presqu'(.+)" regexp_replace="presque $1"/></suggestion>.</message>
+        <message>« presque » ne s’élide que dans le nom « presqu’île ».</message>
+        <suggestion><match no="1" regexp_match="(?iu)presqu'(.+)" regexp_replace="presque $1"/></suggestion>
         <example correction="presque exacte">La réponse est <marker>presqu’exacte</marker>.</example>
         <example>presqu'ile</example>
         <example>presqu'îles</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="EL_QUELQUE" name="Élision de quelque" default="temp_off">
+      <rule>
+        <pattern>
+          <token>quelque</token>
+          <token regexp="yes">un|une</token>
+        </pattern>
+        <message>« \1 \2 » s’élide en <suggestion>quelqu'\2</suggestion>.</message>
+        <example correction="quelqu'un"><marker>quelque un</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">quelqu'.+<exception regexp="yes">quelqu'une?</exception></token>
+        </pattern>
+        <message>« quelque » ne s’élide que dans le nom « quelqu’un ».</message>
+        <suggestion><match no="1" regexp_match="(?iu)quelqu'(.+)" regexp_replace="quelque $1"/></suggestion>
+        <example correction="quelque autre">La réponse est <marker>quelqu'autre</marker>.</example>
+        <example>quelqu'un</example>
+        <example>quelqu'une</example>
       </rule>
     </rulegroup>
     <rule id="ELISION" name="Élision de le, la…">
