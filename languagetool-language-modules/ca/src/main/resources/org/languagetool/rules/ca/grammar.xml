@@ -8934,40 +8934,81 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>dins o fora</example>
             </rule>
         </rulegroup>
-        <rule id="DONCS_CAUSAL" name="*'doncs' causal">
+        <rulegroup id="DONCS_CAUSAL" name="*'doncs' causal">
             <!-- La regla aprofita que és més probable que després del 'doncs' il·latiu hi hagi un verb
                 i darrere del 'doncs' causal un subjecte.
                 False alarm: que allò que no veuen, doncs simplement no existeix. -->
-            <pattern>
-                <!-- No funciona si hi ha més d'una coma abans, regla Java-->
-                <token postag="SENT_START" skip="-1"><exception scope="next">si</exception></token>
-                <token regexp="yes">[,;]<exception scope="previous" regexp="yes">bé|home|senyor</exception></token>
-                <marker>
-                    <token>doncs</token>
-                </marker>
-                <token><exception postag="_PUNCT.*" postag_regexp="yes"/><exception regexp="yes">bé|sí|vinga|vaja</exception></token>
-            </pattern>
-            <message>Incorrecte si equival a "perquè" (valor causal). Correcte si equival a "per tant" o indica continuació.</message>
-            <suggestion>perquè</suggestion>
-            <suggestion>ja que</suggestion>
-            <suggestion>puix</suggestion>
-            <suggestion>puix que</suggestion>
             <!--<url>http://esadir.cat/gramatica/sintaxi/conjdoncs</url>-->
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=doncs&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12637&amp;idHit=12637&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=2&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27doncs%27+o+%27perqu%E8%27%3F&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
-            <short>Incorrecte si equival a "perquè"</short>
-            <example correction="perquè|ja que|puix|puix que">Vingué, <marker>doncs</marker> això li agradava.</example>
-            <example correction="perquè|ja que|puix|puix que">La indicació no és certa, <marker>doncs</marker> aquesta opció no hi és.</example>
-            <example>Bé, doncs vam arribar a mig matí.</example>
-            <example>Bé, doncs digueu-li-ho de seguida.</example>
-            <example>Això era, doncs, el que li agradava.</example>
-            <example>¿Com va anar, doncs?</example>
-            <example>Bé, doncs Arquimedes va trobar que un cos submergit</example>
-            <example>Bé, doncs sí, els pètals</example>
-            <example>; doncs bé, jo us dic</example>
-            <example>Si això us sembla exagerat; doncs el que sentireu encara ho és més.</example>
-            <example>Algú pot pensar, doncs vaja, ¡quin descobriment!</example>
-            <!-- Ja sé que tot això us sembla exagerat; doncs el que sentireu encara ho és més -->
-        </rule>
+            <antipattern>
+                <token>doncs</token>
+                <token regexp="yes">bé|sí|vinga|vaja</token>
+            </antipattern>
+            <antipattern>
+                <token>doncs</token>
+                <token  postag="_PUNCT.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">bé|sí|vinga|vaja|home|senyor|dona|senyora</token>
+                <token min="0">,</token>
+                <token>doncs</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">si</token>
+                <token>doncs</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[,;]</token>
+                    <marker>
+                        <token>doncs</token>
+                    </marker>
+                </pattern>
+                <message>Incorrecte si equival a "perquè" (valor causal). Correcte si equival a "per tant" o indica continuació.</message>
+                <suggestion>perquè</suggestion>
+                <suggestion>ja que</suggestion>
+                <suggestion>puix</suggestion>
+                <suggestion>puix que</suggestion>
+                <short>Incorrecte si equival a "perquè"</short>
+                <example correction="perquè|ja que|puix|puix que">Vingué, <marker>doncs</marker> això li agradava.</example>
+                <example correction="perquè|ja que|puix|puix que">La indicació no és certa, <marker>doncs</marker> aquesta opció no hi és.</example>
+                <example>Bé, doncs vam arribar a mig matí.</example>
+                <example>Bé, doncs digueu-li-ho de seguida.</example>
+                <example>Això era, doncs, el que li agradava.</example>
+                <example>¿Com va anar, doncs?</example>
+                <example>Bé, doncs Arquimedes va trobar que un cos submergit</example>
+                <example>Bé, doncs sí, els pètals</example>
+                <example>; doncs bé, jo us dic</example>
+                <example>Si això us sembla exagerat; doncs el que sentireu encara ho és més.</example>
+                <example>Algú pot pensar, doncs vaja, ¡quin descobriment!</example>
+                <!-- Ja sé que tot això us sembla exagerat; doncs el que sentireu encara ho és més -->
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="V.[SI].*" postag_regexp="yes" skip="-1"/>
+                    <marker>
+                        <token skip="-1">doncs<exception scope="previous" regexp="yes">[,;]</exception></token>
+                    </marker>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </pattern>
+                <message>Incorrecte si equival a "perquè" (valor causal). Correcte si equival a "per tant" o indica continuació.</message>
+                <suggestion>perquè</suggestion>
+                <short>Incorrecte si equival a "perquè"</short>
+                <example correction="perquè">Vingué <marker>doncs</marker> això li agradava.</example>
+                <example correction="perquè">La indicació no és certa <marker>doncs</marker> aquesta opció no hi és.</example>
+                <example correction="perquè">No hem anat a Puigcerda <marker>doncs</marker> no teníem cotxe.</example>
+                <example>Bé doncs vam arribar a mig matí.</example>
+                <example>Bé doncs digueu-li-ho de seguida.</example>
+                <example>Això era, doncs, el que li agradava.</example>
+                <example>¿Com va anar doncs?</example>
+                <example>Bé, doncs Arquimedes va trobar que un cos submergit</example>
+                <example>Bé, doncs sí, els pètals</example>
+                <example>; doncs bé, jo us dic</example>
+                <example>Si això us sembla exagerat; doncs el que sentireu encara ho és més.</example>
+                <example>Algú pot pensar, doncs vaja, ¡quin descobriment!</example>
+                <!-- Ja sé que tot això us sembla exagerat; doncs el que sentireu encara ho és més -->
+            </rule>
+        </rulegroup>
         <rule id="CONFORME_CONJUNCIO" name="*conforme (conjunció)">
             <pattern>
                 <token><exception postag="V.[SI].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">ser|estar|anar|quedar|restar</exception></token>
@@ -28747,7 +28788,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>El sistema d'escriptura per a cecs inventat per Louis Braille s'escriu en minúscula.</message>
-            <suggestion><match no="2" case_conversion="alllower"></match></suggestion>
+            <suggestion><match no="2" case_conversion="alllower"/></suggestion>
             <example correction="braille">Fitxes escrites en <marker>Braille</marker>.</example>
         </rule>
         <rule id="MEDICAMENTS" name="medicaments en minúscula">
