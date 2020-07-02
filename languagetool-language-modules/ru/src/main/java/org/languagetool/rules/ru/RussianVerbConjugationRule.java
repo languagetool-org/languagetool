@@ -72,8 +72,17 @@ public class RussianVerbConjugationRule extends Rule {
                 if ((pronounMatcher.find()) && !(previousToken.equals("и")))  {
                     Pair<String, String> pronounPair = new ImmutablePair<>(pronounMatcher.group(1), pronounMatcher.group(2));
                     AnalyzedToken nextLemmaTok = nextReading.getReadings().get(0);
+                    String next2Token = "";
+                    if (i < tokenReadings.length - 2) {
+                    AnalyzedTokenReadings next2Reading = tokenReadings[i + 2];
+                    AnalyzedToken next2LemmaTok = next2Reading.getReadings().get(0);
+                    next2Token = next2LemmaTok.getToken();
+                    } else  {
+                            next2Token = "";
+                            }
+                    
                     String nextPosTag = nextLemmaTok.getPOSTag();
-                    if(nextPosTag != null && !(nextPosTag.isEmpty()) && !(nextLemmaTok.getToken().equals("может")) ) {  // replace check nextLemmaTok+1 && "быть"
+                    if(nextPosTag != null && !(nextPosTag.isEmpty()) && !(next2Token.equals("быть")) ) {  //  "может быть"
                         Matcher verbMatcher = FUT_REAL_VERB.matcher(nextPosTag);
                         if (verbMatcher.find()) {
                             Pair<String, String> verbPair = new ImmutablePair<>(verbMatcher.group(4), verbMatcher.group(5));
