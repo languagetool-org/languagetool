@@ -21,6 +21,10 @@ package org.languagetool.openoffice;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.languagetool.openoffice.FlatParagraphTools.ParagraphContainer;
+
+import com.sun.star.lang.Locale;
+
 /**
  * Class to store the Text of a LO document 
  * @since 5.0
@@ -30,11 +34,13 @@ public class DocumentCache {
   
   private static boolean debugMode;         //  should be false except for testing
 
-  List<String> paragraphs = null;            //  stores the flat paragraphs of document
-  List<Integer> headings = null;             //  stores the paragraphs formated as headings; is used to subdivide the document in chapters
-  List<Integer> toTextMapping = new ArrayList<>();  //Mapping from FlatParagraph to DocumentCursor
-  List<Integer> toParaMapping = new ArrayList<>();  //Mapping from DocumentCursor to FlatParagraph
-  int defaultParaCheck;
+  private List<String> paragraphs = null;            //  stores the flat paragraphs of document
+  private List<Integer> headings = null;             //  stores the paragraphs formated as headings; is used to subdivide the document in chapters
+  private List<Locale> locales = null;               //  stores the language of the paragraphs;
+  private List<int[]> footnotes = null;              //  stores the footnotes of the paragraphs;
+  private List<Integer> toTextMapping = new ArrayList<>();  //Mapping from FlatParagraph to DocumentCursor
+  private List<Integer> toParaMapping = new ArrayList<>();  //Mapping from DocumentCursor to FlatParagraph
+  private int defaultParaCheck;
 
   DocumentCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, int defaultParaCheck) {
     debugMode = OfficeTools.DEBUG_MODE_DC;
@@ -44,15 +50,22 @@ public class DocumentCache {
   
   public void reset(DocumentCursorTools docCursor, FlatParagraphTools flatPara) {
     List<String> textParas = docCursor.getAllTextParagraphs();
+    ParagraphContainer paragraphContainer = null;
     if(textParas != null) {
       headings = docCursor.getParagraphHeadings();
-      paragraphs = flatPara.getAllFlatParagraphs();
+      paragraphContainer = flatPara.getAllFlatParagraphs();
+      if(paragraphContainer == null) {
+        MessageHandler.printToLogFile("paragraphContainer == null - ParagraphCache not initialised");
+        return;
+      }
+      paragraphs = paragraphContainer.paragraphs;
     }
     if(paragraphs == null) {
       MessageHandler.printToLogFile("paragraphs == null - ParagraphCache not initialised");
       return;
     }
-    List<int[]> footnotes = flatPara.getFootnotePositions();
+    locales = paragraphContainer.locales;
+    footnotes = paragraphContainer.footnotePositions;
     
     if(debugMode) {
       MessageHandler.printToLogFile("\n\nNot mapped paragraphs:");
@@ -93,6 +106,10 @@ public class DocumentCache {
         for(int i = 0; i < headings.size(); i++) {
           MessageHandler.printToLogFile("Num: " + i + " Heading: " + headings.get(i));
         }
+        MessageHandler.printToLogFile("\nNumber of Flat Paragraphs: " + paragraphs.size());
+        MessageHandler.printToLogFile("Number of Text Paragraphs: " + toParaMapping.size());
+        MessageHandler.printToLogFile("Number of footnotes: " + footnotes.size());
+        MessageHandler.printToLogFile("Number of locales: " + locales.size());
       }
     }
   }
@@ -116,6 +133,41 @@ public class DocumentCache {
    */
   public String getTextParagraph(int n) {
     return paragraphs.get(toParaMapping.get(n));
+  }
+  
+  /**
+   * get Number of Flat Paragraph from Number of Text Paragraph
+   */
+  public int getFlatParagraphNumber(int n) {
+    return toParaMapping.get(n);
+  }
+  
+  /**
+   * get Locale of Flat Paragraph by Index
+   */
+  public Locale getFlatParagraphLocale(int n) {
+    return locales.get(n);
+  }
+  
+  /**
+   * get Locale of Text Paragraph by Index
+   */
+  public Locale getTextParagraphLocale(int n) {
+    return locales.get(toParaMapping.get(n));
+  }
+  
+  /**
+   * get footnotes of Flat Paragraph by Index
+   */
+  public int[] getFlatParagraphFootnotes(int n) {
+    return footnotes.get(n);
+  }
+  
+  /**
+   * get footnotes of Text Paragraph by Index
+   */
+  public int[] getTextParagraphFootnotes(int n) {
+    return footnotes.get(toParaMapping.get(n));
   }
   
   /**

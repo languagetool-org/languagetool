@@ -51,7 +51,7 @@ public class ViewCursorTools {
    * Returns null if it fails
    */
   @Nullable
-  private XTextViewCursor getViewCursor() {
+  public XTextViewCursor getViewCursor() {
     try {
       XComponent xCurrentComponent = xDesktop.getCurrentComponent();
       if (xCurrentComponent == null) {

@@ -256,6 +256,9 @@ public class LinguisticServices extends LinguServices {
     PropertyValue[] properties = new PropertyValue[0];
     try {
       XSpellAlternatives spellAlternatives = spellChecker.spell(word, locale, properties);
+      if (spellAlternatives == null) {
+        return null;
+      }
       return spellAlternatives.getAlternatives();
     } catch (Throwable t) {
       // If anything goes wrong, give the user a stack trace

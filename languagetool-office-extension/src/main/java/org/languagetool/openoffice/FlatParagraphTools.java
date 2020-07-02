@@ -27,6 +27,7 @@ import org.jetbrains.annotations.Nullable;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.container.XStringKeyMap;
+import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.linguistic2.SingleProofreadingError;
 import com.sun.star.text.TextMarkupType;
@@ -176,7 +177,7 @@ public class FlatParagraphTools {
    * Returns null if it fails
    */
   @Nullable
-  public List<String> getAllFlatParagraphs() {
+  public ParagraphContainer getAllFlatParagraphs() {
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
@@ -186,17 +187,35 @@ public class FlatParagraphTools {
         return null;
       }
       List<String> allParas = new ArrayList<>();
+      List<Locale> locales = new ArrayList<>();
+      List<int[]> footnotePositions = new ArrayList<>();
       XFlatParagraph tmpFlatPara = xFlatPara;
       while (tmpFlatPara != null) {
-        allParas.add(0, tmpFlatPara.getText());
+        String text = tmpFlatPara.getText();
+        int len = text.length();
+        allParas.add(0, text);
+        footnotePositions.add(0, getPropertyValues("FootnotePositions", tmpFlatPara));
+        Locale local = tmpFlatPara.getLanguageOfText(0, len);
+        if (local == null || local.Language.isEmpty()) {
+          local = tmpFlatPara.getPrimaryLanguageOfText(0, len);
+        }
+        locales.add(0, local);
         tmpFlatPara = xFlatParaIter.getParaBefore(tmpFlatPara);
       }
       tmpFlatPara = xFlatParaIter.getParaAfter(xFlatPara);
       while (tmpFlatPara != null) {
-        allParas.add(tmpFlatPara.getText());
+        String text = tmpFlatPara.getText();
+        int len = text.length();
+        allParas.add(text);
+        footnotePositions.add(getPropertyValues("FootnotePositions", tmpFlatPara));
+        Locale local = tmpFlatPara.getLanguageOfText(0, len);
+        if (local == null || local.Language.isEmpty()) {
+          local = tmpFlatPara.getPrimaryLanguageOfText(0, len);
+        }
+        locales.add(local);
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
       }
-      return allParas;
+      return new ParagraphContainer(allParas, locales, footnotePositions);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
@@ -267,6 +286,7 @@ public class FlatParagraphTools {
   /** 
    * Returns the absolute positions of all footnotes (and endnotes) of the text
    */
+/*
   List<int[]> getFootnotePositions() {
     List<int[]> paraPositions = new ArrayList<>();
     try {
@@ -297,7 +317,7 @@ public class FlatParagraphTools {
       return paraPositions;     // Return empty list as method failed
     }
   }
-
+*/
   /**
    * Marks all paragraphs as checked with exception of the paragraphs "from" to "to"
    */
@@ -504,4 +524,16 @@ public class FlatParagraphTools {
     }
   }
 
+  public class ParagraphContainer {
+    public List<String> paragraphs;
+    public List<Locale> locales;
+    public List<int[]> footnotePositions;
+    
+    ParagraphContainer(List<String> paragraphs, List<Locale> locales, List<int[]> footnotePositions) {
+      this.paragraphs = paragraphs;
+      this.locales = locales;
+      this.footnotePositions = footnotePositions;
+    }
+  }
+  
 }

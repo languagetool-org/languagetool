@@ -172,12 +172,11 @@ class SingleDocument {
         ignoredMatches = new HashMap<>();
       }
       SingleProofreadingError[] sErrors = null;
+      paraNum = getParaPos(nPara, paraText, paRes.nStartOfSentencePosition);
       if (nPara < 0) {
-        paraNum = getParaPos(paraText, paRes.nStartOfSentencePosition);
         this.paraNum = paraNum;
       } else {
-        paraNum = nPara;
-        isDialogRequest.add(nPara);
+        isDialogRequest.add(paraNum);
       }
       // Don't use Cache for check in single paragraph mode
       if(numParasToCheck != 0 && paraNum >= 0) {
@@ -290,7 +289,7 @@ class SingleDocument {
     } else {
       doFullCheckAtFirst = config.doFullCheckAtFirst();
     }
-    changedParas = null;
+    changedParas = new ArrayList<Integer>();
     firstCheckIsDone = false;
     if(ltMenus != null) {
       ltMenus.setConfigValues(config);
@@ -370,6 +369,12 @@ class SingleDocument {
     return docID;
   }
   
+  /** Get flat paragraph tools of the document
+   */
+  FlatParagraphTools getFlatParagraphTools () {
+    return flatPara;
+  }
+  
   /** Get document cache of the document
    */
   DocumentCache getDocumentCache() {
@@ -435,7 +440,7 @@ class SingleDocument {
    * Search for Position of Paragraph
    * gives Back the Position in full text / -1 if Paragraph can not be found
    */
-  private int getParaPos(String chPara, int startPos) {
+  private int getParaPos(int nPara, String chPara, int startPos) {
 
     if (numParasToCheck == 0 || xComponent == null) {
       return -1;  //  check only the processed paragraph
@@ -462,10 +467,14 @@ class SingleDocument {
       }
     }
 
+    if (nPara >= 0) {
+      return setPossibleChanges(chPara, nPara);
+    }
+    
     if (debugMode > 1) {
       MessageHandler.printToLogFile("proofInfo = " + proofInfo);
     }
-
+    
     if(proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
       return getParaFromViewCursorOrDialog(chPara);
     }
@@ -494,7 +503,7 @@ class SingleDocument {
     }
     
     // number of paragraphs has changed? --> Update the internal information
-    nParas = changesInNumberOfParagraph();
+    nParas = changesInNumberOfParagraph(true);
     
     if(proofInfo == OfficeTools.PROOFINFO_MARK_PARAGRAPH && nParas < 0) {
       if (debugMode > 0) {
@@ -523,6 +532,43 @@ class SingleDocument {
 
     // find position from changed paragraph
     return getPosFromChangedPara(chPara, nParas);
+  }
+
+  /**
+   * Actualize document cache and result cache for given paragraph number
+   */
+  private int setPossibleChanges (String chPara, int nPara) {
+    int nOldParas = docCache.size();
+    changesInNumberOfParagraph(false);
+    int numParas = docCache.size();
+    if (numParas <= 0) {
+      if(debugMode > 1) {
+        MessageHandler.printToLogFile("Internal request: docCache error!");
+      }
+      return -1;
+    }
+    resetCheck.add(nPara);
+    textIsChanged.add(nPara);
+    if (nOldParas != numParas) {
+      if(debugMode > 1) {
+        MessageHandler.printToLogFile("Internal request: Number of Paragraphs has changed: o:" +
+            nOldParas + ", n:" + numParas);
+      }
+      return nPara;
+    }
+    if (!chPara.equals(docCache.getTextParagraph(nPara))) {
+      if(debugMode > 1) {
+        MessageHandler.printToLogFile("Internal request: Paragraph has changed:\no:" 
+            + chPara + "\nn:" + docCache.getTextParagraph(nPara));
+      }
+      docCache.setFlatParagraph(docCache.getFlatParagraphNumber(nPara), chPara);
+      sentencesCache.remove(nPara);
+      for(ResultCache cache : paragraphsCache) {
+        cache.remove(nPara);
+      }
+      ignoredMatches.remove(nPara);
+    }
+    return nPara;
   }
 
   /** 
@@ -581,7 +627,7 @@ class SingleDocument {
    * returns Flat paragraph number
    * returns -1 if the tested paragraph should be tested for view cursor position
    */
-  private int changesInNumberOfParagraph() {
+  private int changesInNumberOfParagraph(boolean getCurNum) {
     // Test if Size of allParas is correct; Reset if not
     if (docCache == null) {
       return -1;
@@ -589,9 +635,12 @@ class SingleDocument {
     if (flatPara == null) {
       flatPara = new FlatParagraphTools(xComponent);
     }
-    int nParas = flatPara.getCurNumFlatParagraph();
-    if(nParas < 0) {
-      return -1;
+    int nParas = 0;
+    if (getCurNum) {
+      nParas = flatPara.getCurNumFlatParagraph();
+      if(nParas < 0) {
+        return -1;
+      }
     }
     int nFParas = flatPara.getNumberOfAllFlatPara();
     if(nFParas == docCache.size()) {
@@ -664,10 +713,12 @@ class SingleDocument {
     if (nFParas < docCache.textSize()) {
       return -1;   // try to get ViewCursor position for proof info unknown
     }
-    int nTPara = docCache.getNumberOfTextParagraph(nParas);
-    if (nTPara >= 0) {
-      resetCheck.add(nTPara);
-      textIsChanged.add(nTPara);
+    if (getCurNum) {
+      int nTPara = docCache.getNumberOfTextParagraph(nParas);
+      if (nTPara >= 0) {
+        resetCheck.add(nTPara);
+        textIsChanged.add(nTPara);
+      }
     }
     return nParas;
   }
@@ -721,6 +772,7 @@ class SingleDocument {
     }
     return docCache.getNumberOfTextParagraph(nFParas);
   }
+  
   /**
    * Heuristic try to find next position (automatic iteration)
    * Is paragraph same, next not empty after or before   

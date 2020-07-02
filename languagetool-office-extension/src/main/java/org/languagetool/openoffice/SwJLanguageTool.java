@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.MultiThreadedJLanguageTool;
@@ -196,6 +197,16 @@ public class SwJLanguageTool {
         return mlt.sentenceTokenize(text); 
     } else {
       return lt.sentenceTokenize(text); 
+    }
+  }
+
+  public AnalyzedSentence getAnalyzedSentence(String sentence) throws IOException {
+    if(isRemote) {
+      return lt.getAnalyzedSentence(sentence);   // This is only a dummy; don't use it for call of remote server
+    } else if(isMultiThread) {
+        return mlt.getAnalyzedSentence(sentence); 
+    } else {
+      return lt.getAnalyzedSentence(sentence); 
     }
   }
 
