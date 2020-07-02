@@ -191,7 +191,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
           else if (s.equalsIgnoreCase("mers-cov") || s.equalsIgnoreCase("mcgraw-hill")
               || s.equalsIgnoreCase("sars-cov-2") || s.equalsIgnoreCase("sars-cov") || s.equalsIgnoreCase("ph-metre")
               || s.equalsIgnoreCase("ph-metres") || s.equalsIgnoreCase("anti-ivg") || s.equalsIgnoreCase("anti-uv")
-              || s.equalsIgnoreCase("anti-vih")) {
+              || s.equalsIgnoreCase("anti-vih") || s.equalsIgnoreCase("al-qaïda")) {
             l.add(s);
           } else {
             // if not found, the word is split
