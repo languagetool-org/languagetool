@@ -2560,19 +2560,22 @@ title="Easy editing stylesheet" ?>
 		  <token regexp='yes'>património|patrimônio</token>
       </antipattern>
 <!-- MARCOAGPINTO 2020-07-02 (2-JUL-2020+) *END* -->
-<!-- MARCOAGPINTO 2020-07-02 (2-JUL-2020+) *START* -->
+<!-- MARCOAGPINTO 2020-07-02 + 2020-07-03 (2-JUL-2020+) *START* -->
 <!-- "Casacos pretos são moda neste inverno." -->
       <antipattern>  		  
 		  <token postag='V.+' postag_regexp='yes'/>	  
-		  <token postag='NCFS000' postag_regexp='no'/>	  
-   		  <token regexp='yes'>nestes?|estes?|das?|dos?|de|em|nos?|para|\d.+</token>
+		  <token postag='NC[CFM]S000' postag_regexp='yes'/>	  
+		  <and>
+			<token regexp='yes'>às?|disso|nestes?|estes?|das?|dos?|de|em|nos?|para|\d.+</token>
+			<token negate="yes" regexp='yes'>pelas?|pelos?</token> <!-- This must be added as exception in the rule itself *MARCOAGPINTO* -2020-07-03 -->
+		  </and>
       </antipattern>
       <antipattern>  		  
 		  <token postag='V.+' postag_regexp='yes'/>	  
 		  <token postag='NCFS000' postag_regexp='no'/>	  
 		  <token postag='AQ0[CFM]S0' postag_regexp='yes'/>	  
       </antipattern>
-<!-- MARCOAGPINTO 2020-07-02 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-07-02 + 2020-07-03 (2-JUL-2020+) *END* -->
       <pattern case_sensitive='yes'>
         <marker>
           <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;
@@ -17952,7 +17955,7 @@ o tomate'>
 	 </rule>	 
     </rulegroup>
 
-    <rule id='QUE_QUÊ' name="Confusão: que - quê" default="temp_off">
+    <rule id='QUE_QUÊ' name="Confusão: que - quê">
     <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-07-02 (2-JUL-2020+) -->
       <pattern>		
         <marker>
