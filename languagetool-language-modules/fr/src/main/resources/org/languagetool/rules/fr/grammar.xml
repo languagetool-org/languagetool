@@ -8028,6 +8028,78 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_ELISION" name="Élision">
+    <rulegroup id="PAS_D_ELISION" name="pas d'élision" default="temp_off">
+      <rule>
+        <pattern>
+          <token>l'</token>
+          <token postag=".* f .*" postag_regexp="yes"><exception regexp="yes">h?[àâaéêèeiîouœ]\D.*|à|hy\D.*|y[pts].*</exception></token>
+        </pattern>
+        <message>« \1\2 » ne s’élide pas.</message>
+        <suggestion>la \2</suggestion>
+        <example correction="La femme"><marker>L'femme</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>l'</token>
+          <token postag=".* f .*" postag_regexp="yes" inflected="yes" regexp="yes">&exceptions_ELISION1;</token>
+        </pattern>
+        <message>« \1\2 » ne s’élide pas.</message>
+        <suggestion>la \2</suggestion>
+        <example correction="La hiérarchie"><marker>L'hiérarchie</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>l'</token>
+          <token postag=".* f .*" postag_regexp="yes" regexp="yes">&exceptions_ELISION2;</token>
+        </pattern>
+        <message>« \1\2 » ne s’élide pas.</message>
+        <suggestion>la \2</suggestion>
+        <example correction="La hausse"><marker>L'hausse</marker> des profits pétroliers.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[dljmnst]'|jusqu'|qu'</token>
+          <token><exception regexp="yes">h?[àâaéêèeiîouœ]\D.*|à|hy\D.*|y[pts].*</exception></token>
+        </pattern>
+        <message>« \1\2 » ne s’élide pas.</message>
+        <suggestion><match no="1" regexp_match="'$" regexp_replace="e"/> \2</suggestion>
+        <example correction="Je vais"><marker>J'vais</marker> partir.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[dljmnst]'|jusqu'|qu'</token>
+          <token inflected="yes" regexp="yes">&exceptions_ELISION1;</token>
+        </pattern>
+        <message>« \1\2 » ne s’élide pas.</message>
+        <suggestion><match no="1" regexp_match="'$" regexp_replace="e"/> \2</suggestion>
+        <example correction="Le oui"><marker>L'oui</marker>.</example>
+        <example correction="Le hibou"><marker>L'hibou</marker>.</example>
+        <example correction="Je hurle"><marker>J'hurle</marker>.</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token regexp="yes">qu'|d'</token>
+          <token>avec</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">[dljmnst]'|jusqu'|qu'</token>
+          <token regexp="yes">&exceptions_ELISION2;</token>
+        </pattern>
+        <message>« \1\2 » ne s’élide pas.</message>
+        <suggestion><match no="1" regexp_match="'$" regexp_replace="e"/> \2</suggestion>
+        <example correction="Le Hollywood"><marker>L'Hollywood</marker></example>
+        <example>Vous passez plus de temps ici qu'avec Mamie.</example>
+      </rule>
+    </rulegroup>
+    <rule id="EL_AVEC" name="Élision qu'avec, d'avec" default="temp_off">
+      <pattern>
+        <token regexp="yes">que|de</token>
+        <token>avec</token>
+      </pattern>
+      <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>'\2</suggestion>.</message>
+      <example correction="qu'avec">Vous passez plus de temps ici <marker>que avec</marker> Mamie.</example>
+      <example correction="d'avec">Les barrières qui séparaient les juifs <marker>de avec</marker> les chrétiens.</example>
+    </rule>
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
       <rule>
         <pattern>
@@ -8041,10 +8113,31 @@ though, and has since been slightly modified)-->
         <pattern>
           <token regexp="yes">presqu'.+<exception regexp="yes">presqu'[îi]les?</exception></token>
         </pattern>
-        <message>« presque » ne s’élide que dans le nom « presqu’île ». Employez <suggestion><match no="1" regexp_match="(?iu)presqu'(.+)" regexp_replace="presque $1"/></suggestion>.</message>
+        <message>« presque » ne s’élide que dans le nom « presqu’île ».</message>
+        <suggestion><match no="1" regexp_match="(?iu)presqu'(.+)" regexp_replace="presque $1"/></suggestion>
         <example correction="presque exacte">La réponse est <marker>presqu’exacte</marker>.</example>
         <example>presqu'ile</example>
         <example>presqu'îles</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="EL_QUELQUE" name="Élision de quelque" default="temp_off">
+      <rule>
+        <pattern>
+          <token>quelque</token>
+          <token regexp="yes">un|une</token>
+        </pattern>
+        <message>« \1 \2 » s’élide en <suggestion>quelqu'\2</suggestion>.</message>
+        <example correction="quelqu'un"><marker>quelque un</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">quelqu'.+<exception regexp="yes">quelqu'une?</exception></token>
+        </pattern>
+        <message>« quelque » ne s’élide que dans le nom « quelqu’un ».</message>
+        <suggestion><match no="1" regexp_match="(?iu)quelqu'(.+)" regexp_replace="quelque $1"/></suggestion>
+        <example correction="quelque autre">La réponse est <marker>quelqu'autre</marker>.</example>
+        <example>quelqu'un</example>
+        <example>quelqu'une</example>
       </rule>
     </rulegroup>
     <rule id="ELISION" name="Élision de le, la…">
@@ -8060,7 +8153,7 @@ though, and has since been slightly modified)-->
           <exception postag="UNKNOWN|Z.*" postag_regexp="yes" regexp="yes">h.+</exception><!-- no error for unknown words or proper names -->
       </token>
     </pattern>
-    <message>« \1 \2 » s’élide en <suggestion suppress_misspelled="yes"><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
+    <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
       <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1745</url>
       <example correction="L’île"><marker>La île</marker> est encore loin.</example>
       <example correction="l’œuf">Prenez <marker>le œuf</marker>.</example>
@@ -15530,6 +15623,15 @@ though, and has since been slightly modified)-->
         <example correction="là">Il y <marker>la</marker> un risque.</example>
         <example>Les pays de la CE.</example>
         <example>La quarante-quatrième.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>la</token>
+          <token>-</token>
+          <token regexp="yes">bas|dedans|dessus</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>là-\3</suggestion> ?</message>
+        <example correction="là-bas">Il est <marker>la-bas</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="INV_T_EUPHONIQUE" name="t euphonique invalide">
@@ -29525,6 +29627,31 @@ though, and has since been slightly modified)-->
       </rule>
   </category>
   <category id="CAT_TYPOGRAPHIE" name="Typographie">
+    <rulegroup id="POINTS_SUSPENSIONS_SPACE" name="espace derrière trois points" default="temp_off">
+      <url>https://fr.wikipedia.org/wiki/Points_de_suspension#Normes_typographiques</url>
+      <rule>
+        <pattern>
+          <token>.</token>
+          <token spacebefore="no">.</token>
+          <token spacebefore="no">.</token>
+          <token spacebefore="no"><exception regexp="yes">[\.\]\)\}&gt;]</exception></token>
+        </pattern>
+        <message>Le caractère « points de suspension » est suivi par une espace.</message>
+        <suggestion>... \4</suggestion>
+        <example correction="... sauf">Bonjour à tout le monde<marker>...sauf</marker> aux traducteurs.</example>
+        <example>Bonjour à [...].</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>…</token>
+          <token spacebefore="no"><exception regexp="yes">[\.\]\)\}&gt;]</exception></token>
+        </pattern>
+        <message>Le caractère « points de suspension » est suivi par une espace.</message>
+        <suggestion>… \4</suggestion>
+        <example correction="… sauf">Bonjour à tout le monde<marker>…sauf</marker> aux traducteurs.</example>
+        <example>Bonjour à (…)</example>
+      </rule>
+    </rulegroup>
     <rule id="_3G" name="3 g / 3G" default="temp_off">
       <pattern>
         <token regexp="yes" case_sensitive="yes">[345]g</token>
@@ -29552,7 +29679,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">\d+.+</token>
       </antipattern>
       <pattern>
-        <token regexp="yes">[\d\.,]+([kcmµn]?m|[km]?g|°C|m?l|(kilo|méga|giga|téra|péta)?watt|[TGMK]o|ohms?|kW|[MGTP]W|mph|fps|m²|m³|m2|m3|euros?|ans|frs?|F|[mcd]?[lL]|m?s|[GMkhdcm]N|V|min|px|Mpx|[GM]?Hz|[TGMKtgmk]o|mA|Ω|mcg|pts|mAh|gr)</token>
+        <token regexp="yes">[\d\.,]+([kcmµn]?m|[km]?g|°C|m?l|(kilo|méga|giga|téra|péta)?watt|[TGMK]o|ohms?|kW|[MGTP]W|mph|fps|m²|m³|m2|m3|euros?|ans|frs?|F|[mcd]?[lL]|m?s|[GMkhdcm]N|V|min|px|Mpx|[GM]?Hz|[TGMKtgmk]o|mA|Ω|mcg|pts|mAh|gr|[€$£])</token>
       </pattern>
       <message>Il faut utiliser une espace insécable avant l’unité. Voulez-vous écrire <suggestion><match no="1" regexp_match="([\d\.,]+)(.*)" regexp_replace="$1 $2"/></suggestion> ?</message>
       <example correction="80 kg">Je pèse <marker>80kg</marker>.</example>
@@ -29681,6 +29808,19 @@ though, and has since been slightly modified)-->
         <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1732</url>
         <example correction="ici même">Je l’ai vu <marker>ici-même</marker> hier.</example>
         <example>Je l’ai vu ici même hier.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Viet|Viêt</token>
+          <token>-</token>
+          <token>Nam</token>
+        </pattern>
+        <message>S’écrit sans trait d’union.</message>
+        <suggestion>Viêt Nam</suggestion>
+        <suggestion>Viet Nam</suggestion>
+        <suggestion>Vietnam</suggestion>
+        <suggestion>Viêtnam</suggestion>
+        <example correction="Viêt Nam|Viet Nam|Vietnam|Viêtnam"><marker>Viêt-nam</marker></example>
       </rule>
       <rule>
         <pattern>
@@ -30569,26 +30709,39 @@ though, and has since been slightly modified)-->
       <example>Ils ont beaucoup d’enfants.</example>
       <example>Pressez la touche 'c' pour continuer.</example>
     </rule>
-    <rule id="APOS_INCORRECT" name="apostrophe incorrecte">
+    <rulegroup id="APOS_INCORRECT" name="apostrophe incorrecte">
       <antipattern>
         <token regexp="yes">\d[\d ,\.]*</token>
         <token>′</token> <!-- prime, minutes -->
       </antipattern>
-      <pattern>
-        <marker>
-          <token/>
-          <token spacebefore="no" regexp="yes">[´‘′`]</token>
-        </marker>
-        <token spacebefore="no"></token>
-      </pattern>
-      <message>Caractère d'apostrophe incorrect.</message>
-      <suggestion>\1’</suggestion>
-      <suggestion>\1'</suggestion>
-      <example correction="D’|D'"><marker>D´</marker>enfants.</example>
-      <example correction="D’|D'"><marker>D‘</marker>enfants.</example>
-      <example correction="D’|D'"><marker>D′</marker>enfants.</example>
-      <example>Les Humains (court métrage, 9′), 2003</example>
-    </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token/>
+            <token spacebefore="no" regexp="yes">[´‘′`]</token>
+          </marker>
+          <token spacebefore="no"></token>
+        </pattern>
+        <message>Caractère d'apostrophe incorrect.</message>
+        <suggestion>\1’</suggestion>
+        <suggestion>\1'</suggestion>
+        <example correction="D’|D'"><marker>D´</marker>enfants.</example>
+        <example correction="D’|D'"><marker>D‘</marker>enfants.</example>
+        <example correction="D’|D'"><marker>D′</marker>enfants.</example>
+        <example>Les Humains (court métrage, 9′), 2003</example>
+      </rule>
+      <rule default="temp_off">
+        <pattern>
+          <token regexp="yes">[dljmnst]|jusqu|qu</token>
+          <token spacebefore="no" regexp="yes">[´‘′`’']</token>
+          <token spacebefore="no" regexp="yes">[´‘′`’']</token>
+        </pattern>
+        <message>Caractère d'apostrophe répété.</message>
+        <suggestion>\1’</suggestion>
+        <suggestion>\1'</suggestion>
+        <example correction="l’|l'"><marker>l''</marker>homme</example>
+      </rule>
+    </rulegroup>
     <rule id="SAINT_VALENTIN" name="Saint Valentin">
       <pattern>
         <token postag="D f s"/>
@@ -32576,6 +32729,23 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_MAJUSCULES" name="Majuscules">
+    <rule id="SKYPE" name="skype/Skype" default="temp_off">
+      <antipattern>
+        <token regexp="yes">je|il|elle</token>
+        <token>skype</token>
+      </antipattern>
+      <antipattern>
+        <token postag="Z .*" postag_regexp="yes"/>
+        <token>skype</token>
+      </antipattern>
+      <pattern>
+        <token case_sensitive="yes">skype</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion><match no="1" case_conversion="startupper"/></suggestion> ? Il peut être écrit en minuscules s'il s'agit d'un verbe.</message>
+      <example correction="Skype">J'utilise toujours <marker>skype</marker>.</example>
+      <example>Je skype tous les jours.</example>
+      <example>Pierre skype tous les jours.</example>
+    </rule>
     <rule id="MON_DIEU" name="mon dieu">
       <pattern>
         <token>mon</token>

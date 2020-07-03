@@ -91,7 +91,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
         "^([^\\-]*)(-ce|-t-elle|-t-elles|-elle|-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)(-ce|-elle|-t-elle|-elles|-t-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
         Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[4] = Pattern.compile(
-        "^([^\\-]*)(-t|-m)('en|'y)$",
+        "^([^\\-]*)(-t|-m)(['’]en|['’]y)$",
         Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[5] = Pattern.compile(
         "^(.*)(-t-elle|-t-elles|-t-il|-t-ils|-t-on)$",
@@ -191,7 +191,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
           else if (s.equalsIgnoreCase("mers-cov") || s.equalsIgnoreCase("mcgraw-hill")
               || s.equalsIgnoreCase("sars-cov-2") || s.equalsIgnoreCase("sars-cov") || s.equalsIgnoreCase("ph-metre")
               || s.equalsIgnoreCase("ph-metres") || s.equalsIgnoreCase("anti-ivg") || s.equalsIgnoreCase("anti-uv")
-              || s.equalsIgnoreCase("anti-vih")) {
+              || s.equalsIgnoreCase("anti-vih") || s.equalsIgnoreCase("al-qaïda")) {
             l.add(s);
           } else {
             // if not found, the word is split
