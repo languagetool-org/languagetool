@@ -14349,26 +14349,27 @@ though, and has since been slightly modified)-->
         <unify negate="yes">
           <feature id="number"/>
           <feature id="person"/>
-          <token postag="V.* (ind|sub|con) .*" postag_regexp="yes"/>
+          <token postag="V.* (ind|sub|con) .*" postag_regexp="yes"/> <!--TODO: remove subjunctive? -->
           <token postag="R pers suj .*" postag_regexp="yes" regexp="yes">-.*</token>
         </unify>
       </pattern>
+      <filter class="org.languagetool.rules.fr.InterrogativeVerbFilter" args="PronounFrom:2 VerbFrom:1"/>
       <message>« \1 » et « \2 » ne sont pas bien accordés en nombre ou personne.</message>
-      <example correction="">Que <marker>pouvait-je</marker> faire ?</example>
+      <example correction="pouvais|pourrai|puis|peux|pus">Que <marker>pouvait-je</marker> faire ?</example>
       <example correction="">Ses cheveux <marker>sont-il</marker> naturellement roux ?</example>
       <example>Que pouvais-je faire ?</example>
-      <example correction="">Que <marker>mange-tu</marker> ?</example>
+      <example correction="mangeras|manges|mangeas|mangeais">Que <marker>mange-tu</marker> ?</example>
       <example>Que manges-tu ?</example>
       <example correction=""><marker>Pourraient-il</marker> venir ?</example>
       <example correction="">Que <marker>manges-t-elle</marker> ?</example>
       <example>Pourrait-il venir ?</example>
       <example>Que mange-t-elle ?</example>
       <example>Entre-t-il ?</example>
-      <example correction="">Quand <marker>partiront-nous</marker> ?</example>
+      <example correction="partirons|partions|partîmes|partons">Quand <marker>partiront-nous</marker> ?</example>
       <example>Quand partirons-nous ?</example>
       <example>Attrapez-nous ?</example>
       <example>Attrape-nous ?</example>
-      <example correction="">Que <marker>mangeons-vous</marker> ?</example>
+      <example correction="mangerez|mangeâtes|mangez|mangiez">Que <marker>mangeons-vous</marker> ?</example>
       <example>Que mangez-vous ?</example>
       <example correction="">Que <marker>pouvait-ils</marker> faire ?</example>
       <example>Que pouvaient-ils faire ?</example>
@@ -14386,13 +14387,14 @@ though, and has since been slightly modified)-->
       </antipattern>
       <pattern>
         <marker>
-          <token><exception postag="V.* (ind|sub|imp|con).*" postag_regexp="yes"/></token>
+          <token><exception postag="V.* (ind|sub|imp|con).*" postag_regexp="yes"/></token> <!-- TODO: a different rule for imperative, and remove subjuntive -->
         </marker>
         <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-.+</token>
       </pattern>
+      <filter class="org.languagetool.rules.fr.InterrogativeVerbFilter" args="PronounFrom:2 VerbFrom:1"/>
       <message>« \1 » n’est pas un verbe valide.</message>
       <example correction="">Quand <marker>parts</marker>-tu ?</example>
-      <example correction="">Me <marker>trompé</marker>-je ?</example>
+      <example correction="trompai|trompè|trompais|trompe|tromperai">Me <marker>trompé</marker>-je ?</example> <!--TODO: fix trompe-je -->
       <example>Mon enfant ne m’en veux pas.</example>
       <example>Faites-le-moi.</example>
       <example>Dépêche-toi !</example>

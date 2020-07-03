@@ -900,6 +900,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="NCFS.*"/>
         </rule>
         <rule id="a_cal" name="a cal(s)">
+            <antipattern>
+                <token>cal</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token regexp="yes">a|per|de</token>
                 <marker>
@@ -909,6 +913,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="replace" postag="contraccio"/>
         </rule>
         <rule>
+            <antipattern>
+                <token>cal</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token regexp="yes">a|per|de</token>
                 <marker>
