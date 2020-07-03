@@ -29599,6 +29599,31 @@ though, and has since been slightly modified)-->
       </rule>
   </category>
   <category id="CAT_TYPOGRAPHIE" name="Typographie">
+    <rulegroup id="POINTS_SUSPENSIONS_SPACE" name="espace derrière trois points" default="temp_off">
+      <url>https://fr.wikipedia.org/wiki/Points_de_suspension#Normes_typographiques</url>
+      <rule>
+        <pattern>
+          <token>.</token>
+          <token spacebefore="no">.</token>
+          <token spacebefore="no">.</token>
+          <token spacebefore="no"><exception regexp="yes">[\.\]\)\}&gt;]</exception></token>
+        </pattern>
+        <message>Le caractère « points de suspension » est suivi par une espace.</message>
+        <suggestion>... \4</suggestion>
+        <example correction="... sauf">Bonjour à tout le monde<marker>...sauf</marker> aux traducteurs.</example>
+        <example>Bonjour à [...].</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>…</token>
+          <token spacebefore="no"><exception regexp="yes">[\.\]\)\}&gt;]</exception></token>
+        </pattern>
+        <message>Le caractère « points de suspension » est suivi par une espace.</message>
+        <suggestion>… \4</suggestion>
+        <example correction="… sauf">Bonjour à tout le monde<marker>…sauf</marker> aux traducteurs.</example>
+        <example>Bonjour à (…)</example>
+      </rule>
+    </rulegroup>
     <rule id="_3G" name="3 g / 3G" default="temp_off">
       <pattern>
         <token regexp="yes" case_sensitive="yes">[345]g</token>
@@ -32676,6 +32701,23 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_MAJUSCULES" name="Majuscules">
+    <rule id="SKYPE" name="skype/Skype" default="temp_off">
+      <antipattern>
+        <token regexp="yes">je|il|elle</token>
+        <token>skype</token>
+      </antipattern>
+      <antipattern>
+        <token postag="Z .*" postag_regexp="yes"/>
+        <token>skype</token>
+      </antipattern>
+      <pattern>
+        <token case_sensitive="yes">skype</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion><match no="1" case_conversion="startupper"/></suggestion> ? Il peut être écrit en minuscules s'il s'agit d'un verbe.</message>
+      <example correction="Skype">J'utilise toujours <marker>skype</marker>.</example>
+      <example>Je skype tous les jours.</example>
+      <example>Pierre skype tous les jours.</example>
+    </rule>
     <rule id="MON_DIEU" name="mon dieu">
       <pattern>
         <token>mon</token>
