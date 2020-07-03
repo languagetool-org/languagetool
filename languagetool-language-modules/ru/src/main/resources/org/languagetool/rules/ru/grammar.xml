@@ -4870,6 +4870,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="совсем как">Работа была сделана <marker>совсем, как</marker> попало.</example>
             </rule>
         </rulegroup>
+        <rule default="temp_off" id="NI_CHTO_NE" name="Словосочетания: «ничто не» ">
+            <pattern case_sensitive="no">
+                <token regexp="yes">ни</token>
+                <token regexp="yes">что</token>
+                <token>не</token>
+            </pattern>
+            <message>Оборот: <suggestion>ни\2  \3</suggestion>.</message>
+            <short>Ошибка</short>
+
+            <example correction="Ничто  не"><marker>Ни что не</marker> идеально.</example>
+        </rule>
         <rulegroup default="on" id="NO_NE_TO_CHTO" name="Словосочетания: «не то что», «не так чтобы», «не иначе как»">
             <!-- Внутри сочетаний не то что, не то (так) чтобы, не иначе как запятая не ставится.
             -->
@@ -11362,6 +11373,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>что</token>
                 <token>"</token>
+                <token></token>
                 <token  skip="-1"></token>
                 <token>"</token>
             </pattern>
@@ -11375,6 +11387,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>что</token>
                 <token>«</token>
+                <token></token>
                 <token  skip="-1"></token>
                 <token>»</token>
             </pattern>
