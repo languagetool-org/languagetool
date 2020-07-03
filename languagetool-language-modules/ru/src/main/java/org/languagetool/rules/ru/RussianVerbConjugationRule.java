@@ -72,7 +72,7 @@ public class RussianVerbConjugationRule extends Rule {
                 if ((pronounMatcher.find()) && !(previousToken.equals("и")))  {
                     Pair<String, String> pronounPair = new ImmutablePair<>(pronounMatcher.group(1), pronounMatcher.group(2));
                     AnalyzedToken nextLemmaTok = nextReading.getReadings().get(0);
-                    String next2Token = "";
+                    String next2Token;
                     if (i < tokenReadings.length - 2) {
                     AnalyzedTokenReadings next2Reading = tokenReadings[i + 2];
                     AnalyzedToken next2LemmaTok = next2Reading.getReadings().get(0);

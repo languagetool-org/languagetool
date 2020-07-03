@@ -3248,7 +3248,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="мало, но">Она говорила <marker>мало но</marker> толково.</example>
             </rule>
         </rulegroup>       
-        <rulegroup default="on" id="CHTO_COMMA" name="Союз: «что»">  <!-- default="temp_off"-->
+        <rulegroup default="on" id="CHTO_COMMA" name="Союз: «что»">
             <rule>
                 <antipattern case_sensitive="yes">
                     <token negate="yes" regexp="yes">&pnct;<exception postag="SENT_START"></exception></token>
@@ -4601,7 +4601,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Причем"><marker>Причем,</marker>я вздремнул.</example>
             </rule>
           </rulegroup>
-          <rule default="off" id="tem_ne_menee" name="Тем не менее">
+          <rule default="temp_off" id="tem_ne_menee" name="Тем не менее">
                 <pattern> 
                     <token postag="SENT_START"></token>
                     <marker>
@@ -4609,11 +4609,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>не</token>
                         <token>менее</token>
                         <token>,</token>
-                    </marker>
-                    <and>
-                        <token negate="yes" regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</token>
-                        <token negate_pos="yes" postag_regexp="yes" postag="PT:.*|DPT:.*|PARENTHESIS"></token>
-                    </and>
+                    </marker>                  
+                        <token>
+                            <exception regexp= "yes" >&start_vvodnoe;|как|если|когда|разумеется</exception>
+                            <exception postag_regexp="yes" postag="PT:.*|DPT:.*|PARENTHESIS"></exception>
+                        </token>
                 </pattern>
                 <message>Слово часто не является вводным и запятые не нужны: <suggestion>\2 \3 \4</suggestion>. Определить, является ли в конкретном случае конструкция «тем не менее» вводным оборотом очень просто: проверить, может
 ли предложение обойтись без этой конструкции без радикальной потери или изменения смысла. Если может — это вводный оборот и запятую можно оставить. При сомнениях можно попробовать заменить на «кроме того», после которого всегда ставится запятая, либо на «но», после которого запятая не нужна.</message>
@@ -5401,7 +5401,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Чтобы полететь на луну, нужен корабль.</example>
             <example>Чтобы закончить раньше (если вы не хотите).</example>
         </rule>            
-        <rule id="PUNCT_OBR" name="Запятая при обращении" default="on">  <!-- default="temp_off" -->
+        <rule id="PUNCT_OBR" name="Запятая при обращении" default="on">
             <pattern case_sensitive="yes">
                 <token postag="NN:(Name|Patr):.*" postag_regexp="yes" regexp="yes" >[А-ЯЁ][а-яё]*<exception negate_pos="yes"  postag="NN:(Name|Patr):.*" postag_regexp="yes" /><exception scope="previous">и</exception></token>
                 <token postag="VB:IMP:TRANS:PFV:.*:P2" postag_regexp="yes"><exception negate_pos="yes"  postag="VB:.*" postag_regexp="yes" /></token>
@@ -7586,7 +7586,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         </rulegroup>            
         <rule  id="Ne_narech2" name="«Не» с наречиями (2)" default="on">
-            <!-- TODO set on after release default="temp_off"-->
+            <!-- TODO set on after release -->
             <!-- слитное написание частицы не:
                отсутствует противопоставление, отсутствуют слова  «отнюдь, вовсе, далеко», отсутствует местоимение или наречие с «ни»
                 -->
@@ -10530,7 +10530,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="с днём рождения">Поздравляю <marker>с днём рожденья</marker>!</example>
             <example>С днём рождения!</example>
         </rule>
-        <rule id="grammar_tut_zdes"  name="Просторечие: «тут», «здесь»" default="off"> <!--  temp_off -->
+        <rule id="grammar_tut_zdes"  name="Просторечие: «тут», «здесь»" default="off">
             <pattern>
                 <token>,</token>
                 <marker>
