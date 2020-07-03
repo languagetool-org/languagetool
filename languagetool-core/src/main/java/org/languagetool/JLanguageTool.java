@@ -1454,6 +1454,10 @@ public class JLanguageTool {
         String sentence = sentences.get(i++);
         wordCounter += analyzedSentence.getTokensWithoutWhitespace().length;
         try {
+          //comment in to trigger an exception via input text:
+          //if (analyzedSentence.getText().contains("fakecrash")) {
+          //  throw new RuntimeException("fake crash");
+          //}
           List<RuleMatch> sentenceMatches = null;
           InputSentence cacheKey = null;
           if (cache != null) {
@@ -1506,8 +1510,8 @@ public class JLanguageTool {
         } catch (ErrorRateTooHighException e) {
           throw e;
         } catch (Exception e) {
-          throw new RuntimeException("Could not check sentence (language: " + language + "): '"
-                  + StringUtils.abbreviate(analyzedSentence.toTextString(), 500) + "'", e);
+          throw new RuntimeException("Could not check sentence (language: " + language + "): <sentcontent>'"
+                  + StringUtils.abbreviate(analyzedSentence.toTextString(), 500) + "'</sentcontent>", e);
         }
       }
       return ruleMatches;
