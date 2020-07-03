@@ -8942,14 +8942,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=doncs&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12637&amp;idHit=12637&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=2&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27doncs%27+o+%27perqu%E8%27%3F&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <antipattern>
                 <token>doncs</token>
-                <token regexp="yes">bé|sí|vinga|vaja</token>
+                <token regexp="yes">bé|sí|vinga|vaja|jo|tampoc</token>
+            </antipattern>
+            <antipattern>
+                <token>doncs</token>
+                <token>això</token>
+                <token postag="_PUNCT.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token>doncs</token>
                 <token  postag="_PUNCT.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes">bé|sí|vinga|vaja|home|senyor|dona|senyora</token>
+                <token regexp="yes">bé|sí|vinga|vaja|home|senyor|dona|senyora|així</token>
                 <token min="0">,</token>
                 <token>doncs</token>
             </antipattern>
@@ -8981,20 +8986,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>; doncs bé, jo us dic</example>
                 <example>Si això us sembla exagerat; doncs el que sentireu encara ho és més.</example>
                 <example>Algú pot pensar, doncs vaja, ¡quin descobriment!</example>
+                <example>El que no ho vulgui veure així, doncs allà ell.</example>
                 <!-- Ja sé que tot això us sembla exagerat; doncs el que sentireu encara ho és més -->
             </rule>
             <rule default="temp_off">
+                <!-- In this antipatterns, probably commas are missing -->
+                <antipattern>
+                    <token postag="V.[SI].*|_GV_" postag_regexp="yes"/>
+                    <token min="0" postag="V.N.*" postag_regexp="yes"/>
+                    <token>doncs</token>
+                </antipattern>
+                <antipattern>
+                    <token>doncs</token>
+                    <token>que</token>
+                </antipattern>
+                <antipattern>
+                    <token>que</token>
+                    <token>doncs</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">semblant|semblar|parèixer|paregut|similar</token>
+                    <token>doncs</token>
+                    <token>a</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="_PUNCT.*" postag_regexp="yes"><exception>(</exception></token>
+                    <token>doncs</token>
+                </antipattern>
                 <pattern>
                     <token postag="V.[SI].*" postag_regexp="yes" skip="-1"/>
                     <marker>
-                        <token skip="-1">doncs<exception scope="previous" regexp="yes">[,;]</exception></token>
+                        <token skip="-1">doncs</token>
                     </marker>
                     <token postag="V.[SI].*" postag_regexp="yes"/>
                 </pattern>
-                <message>Incorrecte si equival a "perquè" (valor causal). Correcte si equival a "per tant" o indica continuació.</message>
+                <message>Incorrecte si equival a "perquè" (valor causal). Correcte si equival a "per tant" o indica continuació. Potser hi manquen comes al voltant</message>
                 <suggestion>perquè</suggestion>
                 <short>Incorrecte si equival a "perquè"</short>
-                <example correction="perquè">Vingué <marker>doncs</marker> això li agradava.</example>
+                <example correction="perquè">Vingué a jugar <marker>doncs</marker> li agradava molt.</example>
                 <example correction="perquè">La indicació no és certa <marker>doncs</marker> aquesta opció no hi és.</example>
                 <example correction="perquè">No hem anat a Puigcerda <marker>doncs</marker> no teníem cotxe.</example>
                 <example>Bé doncs vam arribar a mig matí.</example>
@@ -9006,6 +9035,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>; doncs bé, jo us dic</example>
                 <example>Si això us sembla exagerat; doncs el que sentireu encara ho és més.</example>
                 <example>Algú pot pensar, doncs vaja, ¡quin descobriment!</example>
+                <example>La seva filiació seria doncs exactament la mateixa.</example>
+                <example>Cal distingir doncs el conglomerat</example>
+                <example>Cal doncs calcular alguns valors.</example>
+                <example>És possible doncs que passés.</example>
+                <example>I ell li deia "doncs què faràs?, on aniràs?".</example>
+                <example>El que no ho vulgui veure així doncs allà ell.</example>
+                <example>Aquest itinerari havia d'incloure doncs alguns elements clarament identificadors.</example>
+                <example>És molt semblant doncs a l'altre.</example>
                 <!-- Ja sé que tot això us sembla exagerat; doncs el que sentireu encara ho és més -->
             </rule>
         </rulegroup>
@@ -9032,6 +9069,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>La projecció de Mercator és una projecció cartogràfica cilíndrica conforme (manté les formes i els angles localment).</example>
             <example>però no és conforme perquè distorsiona les formes i els angles.</example>
             <example>haurà de determinar-se conforme al que disposi la legislació belga</example>
+            <example>La seva filiació seria doncs exactament la mateixa.</example>
         </rule>
         <rulegroup id="SINO_SI_NO" name="sinó/si no">
             <antipattern>
