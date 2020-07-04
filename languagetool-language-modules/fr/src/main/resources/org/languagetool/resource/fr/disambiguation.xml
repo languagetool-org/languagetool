@@ -2169,7 +2169,6 @@ RB => Règles Brutes
     <rule>
       <pattern>
         <marker>
-          <token>-</token>
           <token regexp="yes">[\d+\.,]</token>
         </marker>
       </pattern>
@@ -2179,6 +2178,14 @@ RB => Règles Brutes
       <pattern>
         <marker>
           <token regexp="yes">[\d\., ]+[%$€£º°]?</token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes">[\d\., ]+⁄[\d\., ]+</token>
         </marker>
       </pattern>
       <disambig action="ignore_spelling"/>
