@@ -469,6 +469,20 @@ title="Easy editing stylesheet" ?>
 		  <token regexp='yes'>pela|pelo|por</token>
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-27 *END* -->
+<!-- MARCOAGPINTO 2020-07-04 (2-JUL-2020+) *START* -->
+<!-- "O Rui aprende e sugere ele próprio mensagens como sendo verdadeiras." -->
+<!-- "O Rui aprende e sugere ele mesmo mensagens como sendo verdadeiras." -->
+      <antipattern>
+		  <token regexp='yes'>ao|com|de|do|e|ele|em|esse|este|mais|menos|nesse|no|o|ou|por|que|seu</token>	  
+		  <token postag='NCMS000' postag_regexp='no'/>	    
+		  <token postag='NC[CFM]P000' postag_regexp='yes'/>
+      </antipattern>  
+      <antipattern>
+		  <token postag='V.+|RG' postag_regexp='yes'/> 
+		  <token postag='NCMS000' postag_regexp='no'/>	    
+		  <token postag='NC[CFM]P000' postag_regexp='yes'/>
+      </antipattern>  	  
+<!-- MARCOAGPINTO 2020-07-04 (2-JUL-2020+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
