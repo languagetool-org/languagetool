@@ -4601,7 +4601,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Причем"><marker>Причем,</marker>я вздремнул.</example>
             </rule>
           </rulegroup>
-          <rule default="temp_off" id="tem_ne_menee" name="Тем не менее">
+          <rule default="on" id="tem_ne_menee" name="Тем не менее">
                 <pattern> 
                     <token postag="SENT_START"></token>
                     <marker>
@@ -4615,16 +4615,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception postag_regexp="yes" postag="PT:.*|DPT:.*|PARENTHESIS"></exception>
                         </token>
                 </pattern>
-                <message>Слово часто не является вводным и запятые не нужны: <suggestion>\2 \3 \4</suggestion>. Определить, является ли в конкретном случае конструкция «тем не менее» вводным оборотом очень просто: проверить, может
-ли предложение обойтись без этой конструкции без радикальной потери или изменения смысла. Если может — это вводный оборот и запятую можно оставить. При сомнениях можно попробовать заменить на «кроме того», после которого всегда ставится запятая, либо на «но», после которого запятая не нужна.</message>
+                <message>Если предложение начинается словами «тем не менее», они выступают в качестве союза, и запятая после них не ставится: <suggestion>\2 \3 \4</suggestion>.</message>
+                <!-- Выражение не является вводным и запятые не нужны. Определить, является ли в конкретном случае конструкция «тем не менее» вводным оборотом очень просто: проверить, может
+                ли предложение обойтись без этой конструкции без радикальной потери или изменения смысла. Если может — это вводный оборот и запятую можно оставить. При сомнениях можно попробовать заменить на «кроме того», после которого всегда ставится запятая, либо на «но», после которого запятая не нужна.
+                Если предложение начинается словами «тем не менее», они выступают в качестве союза, и запятая после них не ставится. -->
                 <url>http://aprikablog.com/2013/10/tem-ne-menee/</url>
-                <short>Запятые не нужны, если выражение нельзя убрать без радикальной потери смысла</short>
+                <short>В начале предложения — союз, не обособляется</short>
                 <example>Тем не менее я вздремнул.</example>
                 <example>Тем не менее, несмотря на указанные сложности, ремонт оказался завершён.</example>
                 <example>Тем не менее, приняв пакет, секретарь не проставил дату в журнале.</example>
                 <example correction="Тем не менее"><marker>Тем не менее,</marker>я вздремнул.</example>
         </rule>
-        <rulegroup default="off" id="COMPLEX_SOUZ_PUNCT" name="Зяпятые в сложных союзах">
+        <rulegroup default="on" id="COMPLEX_SOUZ_PUNCT" name="Зяпятые в сложных союзах">
             <rule>
                 <pattern> 
                     <token postag="SENT_START"></token>
@@ -4709,6 +4711,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>По мере того как он ее слушал, насмешливая улыбка показывалась на его губах.</example>
                 <example correction="По мере того как"><marker>По мере того, как</marker> он ее слушал, насмешливая улыбка показывалась на его губах.</example>
             </rule>
+        </rulegroup>
+        <rulegroup default="off" id="COMPLEX_SOUZ_PUNCT_2" name="Зяпятые в сложных союзах (2)">
             <rule>
                 <pattern> 
                     <token postag="SENT_START"></token>
@@ -4725,7 +4729,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Тем более что мыши являются переносчиком серьезных заболеваний.</example>
                 <example correction="Тем более что"><marker>Тем более, что</marker> мыши являются переносчиком серьезных заболеваний.</example>
             </rule>
-            <rule>  <!-- http://www.gramota.tv/spravka/punctum?layout=item&id=58_99 -->
+            <rule>  <!-- http://www.gramota.ru/spravka/punctum?layout=item&id=58_99 -->
                 <pattern>
                     <token postag="SENT_START"></token> 
                     <marker>
@@ -9212,7 +9216,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            <example correction="относится">Проблема может возникнуть при наличии собственных резонансов в модели, что <marker>относиться</marker> и к нашему случаю, где частота падающей волны приходится на максимум дипольного отклика частицы.</example>
         </rule>        
         </rulegroup>                
-        <rule id="Verb_INF_OR_3P_2" default="temp_off" name="Инфинитив вместо личной формы глагола">
+        <rule id="Verb_INF_OR_3P_2" default="on" name="Инфинитив вместо личной формы глагола">
             <antipattern>
                  <token postag="SENT_START" skip="-1" />
                  <token postag="VB:.*" skip="-1" postag_regexp="yes" ><exception   postag="VB:.*"  postag_regexp="yes"  negate_pos="yes"    /></token>
@@ -9222,7 +9226,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="PREP" skip="-1"></token>    
                 <token regexp="yes">[.;,!?]</token>
             </antipattern>
-              <antipattern>
+            <antipattern>
                  <token postag="SENT_START" skip="-1" />
                  <token regexp="yes" skip="-1">&verb;</token>
                  <marker>
@@ -9230,6 +9234,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token postag="PREP" skip="-1"></token>    
                 <token regexp="yes">[.;,!?]</token>
+            </antipattern>
+            <antipattern>
+                <token postag="VB:INF:.*" postag_regexp="yes"></token>
+                <token regexp="yes">и|или</token>
+                <token postag="VB:INF:.*" postag_regexp="yes"></token>    
             </antipattern>
             <pattern>
                 <marker>
@@ -9246,6 +9255,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Глагол должен быть в личной форме</short>
             <example>Но вот мой друг очень положительно относится к спорту.</example>
             <example>Ты должен немедленно отправиться в путь.</example>
+            <example>Плесень может появляться и размножаться в кислотах, которые защищают нас от бактерий.</example>
             <example>Взрослый самец может временно присоединяться к стаду с самками.</example>
             <example>Все хотят встретиться с вами, вы знаменитость!</example>
             <example correction="относится">Но вот мой друг очень положительно <marker>относиться</marker> к спорту. </example>
