@@ -4870,7 +4870,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="совсем как">Работа была сделана <marker>совсем, как</marker> попало.</example>
             </rule>
         </rulegroup>
-        <rule default="temp_off" id="NI_CHTO_NE" name="Словосочетания: «ничто не»">
+        <rule default="on" id="NI_CHTO_NE" name="Словосочетания: «ничто не»">
             <pattern case_sensitive="no">
                 <token>ни</token>
                 <token>что</token>
@@ -11373,8 +11373,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>что</token>
                 <token>"</token>
-                <token></token>
-                <token  skip="-1"></token>
+                <token><exception>"</exception></token>
+                <token  skip="-1"><exception>"</exception></token>
                 <token>"</token>
             </pattern>
             <message>Косвенная речь в кавычки не берётся.</message>
@@ -11387,8 +11387,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>что</token>
                 <token>«</token>
-                <token></token>
-                <token  skip="-1"></token>
+                <token><exception>»</exception></token>
+                <token  skip="-1"><exception>»</exception></token>
                 <token>»</token>
             </pattern>
             <message>Косвенная речь в кавычки не берётся.</message>
