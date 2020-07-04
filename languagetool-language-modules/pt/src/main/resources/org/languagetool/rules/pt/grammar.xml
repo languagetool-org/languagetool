@@ -17932,6 +17932,20 @@ o tomate'>
       <message>Substitua por <suggestion>e mais tarde</suggestion>.</message>
       <example correction="e mais tarde">As mulheres engravidam menos <marker>e mas tarde</marker>.</example>
     </rule>
+	
+    <rule id='O_AO' name="Confusão: o - ao" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-07-04 (2-JUL-2020+) -->
+      <pattern>		
+	    <token postag='V.+' postag_regexp='yes'/> 
+        <marker>
+          <token>o</token>
+        </marker>
+		<token regexp='yes'>máximo|mínimo</token>
+		<token regexp='yes'>as?|os?</token>
+      </pattern>
+      <message>Substitua por <suggestion>ao</suggestion>.</message>
+      <example correction="ao">Aproveitámos <marker>o</marker> máximo a oportunidade.</example>
+	</rule>
 
     <rulegroup id='POR_PÔR' name="Confusão: por - pôr" >
     <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-06-29 + 2020-06-30  -->
