@@ -68,7 +68,8 @@ RB => Règles Brutes
 
   <rule id="ROMAN_NUMBER" name="roman number">
     <pattern>
-      <token regexp="yes" case_sensitive="yes">(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)
+      <!--(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)-->
+      <token regexp="yes" case_sensitive="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})
         <exception scope="next" regexp="yes">&apostrophe;</exception>
       </token>
     </pattern>
