@@ -48,17 +48,17 @@ public class InterrogativeVerbFilter extends RuleFilter {
       AnalyzedTokenReadings[] patternTokens) throws IOException {
 
     Set<String> replacements = new HashSet<>();
-    String PronounFrom = getRequired("PronounFrom", arguments);
-    String VerbFrom = getRequired("VerbFrom", arguments);
+    String pronounFrom = getRequired("PronounFrom", arguments);
+    String verbFrom = getRequired("VerbFrom", arguments);
     String desiredPostag = null;
 
-    if (PronounFrom != null && VerbFrom != null) {
-      int posPronoun = Integer.parseInt(PronounFrom);
+    if (pronounFrom != null && verbFrom != null) {
+      int posPronoun = Integer.parseInt(pronounFrom);
       if (posPronoun < 1 || posPronoun > patternTokens.length) {
         throw new IllegalArgumentException(
             "ConfusionCheckFilter: Index out of bounds in " + match.getRule().getFullId() + ", PronounFrom: " + posPronoun);
       }
-      int posVerb = Integer.parseInt(VerbFrom);
+      int posVerb = Integer.parseInt(verbFrom);
       if (posVerb < 1 || posVerb > patternTokens.length) {
         throw new IllegalArgumentException(
             "ConfusionCheckFilter: Index out of bounds in " + match.getRule().getFullId() + ", VerbFrom: " + posVerb);
