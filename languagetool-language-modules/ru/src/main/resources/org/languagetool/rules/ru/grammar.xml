@@ -7062,7 +7062,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="NN:.*:Nom" postag_regexp="yes">
                     <exception regexp="yes"   inflected="yes">день|ночь|вечер|утро|час|минута|время</exception>
                 </token>
-                <token postag="VB:.*:(Masc|Fem|Neut)" postag_regexp="yes"><exception postag="NN:.*:Nom" postag_regexp="yes" scope="next"></exception><exception inflected="yes">быть</exception></token>
+                <token postag="VB:.*:(Masc|Fem|Neut)" postag_regexp="yes"><exception postag="NN:.*:Nom" postag_regexp="yes" scope="next"></exception><exception postag="NN:.*:.*" postag_regexp="yes"></exception><exception inflected="yes">быть</exception></token>
             </pattern>
             <message>Глагол при однородных членах предложения должен быть во множественном числе.</message>
             <short>Требуется множественное число</short>
@@ -7075,7 +7075,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="NN:.*:Nom" postag_regexp="yes"><exception postag="NN:.*:Nom|NN:.*:.*:PL:T" postag_regexp="yes" scope="previous"></exception></token>
                 <token skip="1">с</token>    
                 <token postag="NN:Anim:.*:T" postag_regexp="yes"></token>  <!-- TODO добавить варианты с неодушевлёнными существительными, отделив от наречных выражений  -->
-                <token postag="VB:.*:(Masc|Fem|Neut)" postag_regexp="yes"><exception inflected="yes">быть</exception></token>
+                <token postag="VB:.*:(Masc|Fem|Neut)" postag_regexp="yes"><exception inflected="yes">быть</exception><exception postag="NN:.*:.*" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Глагол при однородных членах предложения должен быть во множественном числе</message>
             <short>Требуется множественное число</short>
