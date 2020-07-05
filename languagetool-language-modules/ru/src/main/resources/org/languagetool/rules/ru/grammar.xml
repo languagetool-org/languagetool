@@ -3372,12 +3372,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" skip="-1">,|;|и</token>   
                     <token postag_regexp="yes" postag="NN:.*:.*:.*:Nom"></token>
                     <token inflected="yes">который</token>
+                    <token min="0" max="1">не</token>
                     <token postag="VB:.*|PT:.*" postag_regexp="yes"></token> 
                </antipattern>
                 <antipattern>
                     <token postag_regexp="yes" postag="NN:.*" skip="1"></token>   
                     <token postag_regexp="yes" postag="NN:.*"></token>
                     <token inflected="yes">который</token>
+                    <token min="0" max="1">не</token>
                     <token postag="VB:.*|PT:.*" postag_regexp="yes"></token> 
                </antipattern>  
                <pattern case_sensitive="yes">
@@ -3393,7 +3395,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                           <token inflected="yes">который<exception regexp="yes">которых|которого|которой</exception></token>
                     </unify>
                     </marker>
-                     <token postag="VB:.*|PT:.*" postag_regexp="yes"></token>
+                    <token min="0" max="1">не</token>
+                    <token postag="VB:.*|PT:.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2, \3</suggestion>.</message>
                 <url>https://dic.academic.ru/dic.nsf/ogegova/90842</url>
@@ -3406,6 +3409,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>На территории распространения которого расположен город.</example>
                 <example>Бухта Золотой Рог, на обоих берегах которой располагается Владивосток, является удобным местом.</example>
                 <example correction="ребята, которые">Это те же <marker>ребята которые</marker> играли в хоккей.</example>
+                <example correction="ребята, которые">Это те же <marker>ребята которые</marker> не играли в хоккей.</example>
                 <example correction="программа, которая">Chess — это <marker>программа которая</marker> играла в шахматы.</example>
             </rule>
 
@@ -3893,7 +3897,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
                     <marker>
-                        <token regexp="yes">Конечно|Несомненно|Вероятно|Кажется|Наверное|Наверно</token>
+                        <token regexp="yes">Конечно|Несомненно|Вероятно|Кажется|Наверное|Наверно|Например</token>  <!-- + например #3205 -->
                         <token negate="yes" regexp="yes">&pnct;|же</token>
                     </marker>
                 </pattern>
