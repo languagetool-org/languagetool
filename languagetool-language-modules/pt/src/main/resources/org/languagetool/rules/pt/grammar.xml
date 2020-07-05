@@ -3593,6 +3593,31 @@ MARCOAGPINTO 2020-02-18 -->
 		  <token postag='VMG0000' postag_regexp='no'/>
       </antipattern>
 	<!-- MARCOAGPINTO 2020-05-14 *END* -->
+<!-- MARCOAGPINTO 2020-07-05 (2-JUL-2020+) *START* -->
+<!-- "De entre todas as possíveis é a melhor." -->
+<!-- "De entre todos os possíveis é a melhor." -->
+<!-- "De entre todas as possíveis é o melhor." -->
+<!-- "De entre todos os possíveis é o melhor." -->
+<!-- Also added "foi" and "fora" from the verb "ser" -->
+      <antipattern>
+		  <token postag='DA0[CFM]P0' postag_regexp='yes'/>	
+		  <token postag='NC[CFM]P000' postag_regexp='yes'/>
+		  <and>
+			<token postag='VMIP3S0|VMIS3S0|VMIM[123]S0' postag_regexp='yes'/>
+			<token inflected='yes'>ser</token>
+		  </and>
+		  <token postag='RM|RG|NC[CFM]S000|VMG0000' postag_regexp='yes'/>		  
+      </antipattern>
+      <antipattern>
+		  <token postag='DA0[CFM]P0' postag_regexp='yes'/>
+		  <token postag='NC[CFM]P000|AQ0[CFM]S0' postag_regexp='yes'/>
+		  <and>
+			<token postag='VMIP3S0|VMIS3S0|VMIM[123]S0' postag_regexp='yes'/>
+			<token inflected='yes'>ser</token>
+		  </and>
+		  <token regexp='yes'>a|o|no|um|uma|nesta|como|da|de|do|com|que</token>
+      </antipattern>	  
+<!-- MARCOAGPINTO 2020-07-05 (2-JUL-2020+) *END* -->	
       <antipattern>
 		  <token postag='VMN0000' postag_regexp='no'/>
 		  <token postag='DA0[FM]P0' postag_regexp='yes'/>
