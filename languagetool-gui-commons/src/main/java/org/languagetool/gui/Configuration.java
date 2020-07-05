@@ -995,7 +995,7 @@ public class Configuration {
    * Test if http-server URL is correct
    */
   public boolean isValidServerUrl(String url) {
-    if (url.endsWith("/") || url.endsWith("/v2") || !Pattern.matches("http://.+:\\d+.*", url)) {
+    if (url.endsWith("/") || url.endsWith("/v2") || !Pattern.matches("https?://.+(:\\d+)?.*", url)) {
       return false;
     }
     return true;
