@@ -46,9 +46,7 @@ public class Main extends WeakBase implements XJobExecutor,
           "org.languagetool.openoffice.Main" };
 
   private XComponentContext xContext;
-  
-  private MultiDocumentsHandler documents = null;
-
+  private MultiDocumentsHandler documents;
 
   public Main(XComponentContext xCompContext) {
     changeContext(xCompContext);

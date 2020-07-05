@@ -320,8 +320,7 @@ class ResultCache {
     int size() {
       return sentenceEntry.size();
     }
-    
-    
+
     SingleProofreadingError[] getErrorArray(int startOfSentencePosition) {
       CacheEntry entry = sentenceEntry.get(startOfSentencePosition);
       if (entry == null) {

@@ -64,7 +64,7 @@ public class LinguisticServices extends LinguServices {
       thesaurus = GetThesaurus(mxLinguSvcMgr);
       spellChecker = GetSpellChecker(mxLinguSvcMgr);
       hyphenator = GetHyphenator(mxLinguSvcMgr);
-      synonymsCache = new HashMap<String, List<String>>();
+      synonymsCache = new HashMap<>();
       this.noSynonymsAsSuggestions = noSynonymsAsSuggestions;
     }
   }
@@ -185,12 +185,12 @@ public class LinguisticServices extends LinguServices {
   
   public List<String> getSynonyms(String word, Locale locale) {
     if (this.noSynonymsAsSuggestions) {
-      return new ArrayList<String>();
+      return new ArrayList<>();
     }
     if (synonymsCache.containsKey(word)) {
       return synonymsCache.get(word);
     }
-    List<String> synonyms = new ArrayList<String>();
+    List<String> synonyms = new ArrayList<>();
     try {
       if (thesaurus == null) {
         printText("XThesaurus == null");

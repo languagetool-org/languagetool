@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 
 import com.sun.star.lang.Locale;
 import com.sun.star.linguistic2.DictionaryType;
@@ -40,7 +39,7 @@ public class LtDictionary {
   
   private static boolean debugMode; //  should be false except for testing
 
-  private List<String> dictinaryList = new ArrayList<String>();
+  private List<String> dictionaryList = new ArrayList<>();
   
   public LtDictionary() {
     debugMode = OfficeTools.DEBUG_MODE_LD;
@@ -48,20 +47,20 @@ public class LtDictionary {
 
   public boolean setLtDictionary(XComponentContext xContext, Locale locale, LinguisticServices linguServices) {
     XSearchableDictionaryList searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);
-    if(searchableDictionaryList == null) {
+    if (searchableDictionaryList == null) {
       MessageHandler.printToLogFile("searchableDictionaryList == null");
       return false;
     }
     String shortCode = locale.Language;
     String dictionaryName = "__LT_" + shortCode + "_internal.dic";
-    if (!dictinaryList.contains(dictionaryName)) {
+    if (!dictionaryList.contains(dictionaryName)) {
       XDictionary manualDictionary = searchableDictionaryList.createDictionary(dictionaryName, locale, DictionaryType.POSITIVE, "");
       for (String word : getManualWordList(locale, linguServices)) {
         manualDictionary.add(word, false, "");
       }
       manualDictionary.setActive(true);
       searchableDictionaryList.addDictionary(manualDictionary);
-      dictinaryList.add(dictionaryName);
+      dictionaryList.add(dictionaryName);
       MessageHandler.printToLogFile("Internal LT dicitionary for language " + shortCode + " added: Number of words = " + manualDictionary.getCount());
       if (debugMode) {
         for (XDictionaryEntry entry : manualDictionary.getEntries()) {
@@ -74,7 +73,7 @@ public class LtDictionary {
   }
   
   private List<String> getManualWordList(Locale locale, LinguisticServices linguServices) {
-    List<String> words = new ArrayList<String>();
+    List<String> words = new ArrayList<>();
     String shortLangCode = locale.Language;
     String path = "/" + shortLangCode + "/added.txt";
     if (JLanguageTool.getDataBroker().resourceExists(path)) {
@@ -120,19 +119,19 @@ public class LtDictionary {
   }
   
   public boolean removeLtDictionaries(XComponentContext xContext) {
-    if (!dictinaryList.isEmpty()) {
+    if (!dictionaryList.isEmpty()) {
       XSearchableDictionaryList searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);
-      if(searchableDictionaryList == null) {
+      if (searchableDictionaryList == null) {
         MessageHandler.printToLogFile("searchableDictionaryList == null");
         return false;
       }
-      for (String dictionaryName : dictinaryList) {
+      for (String dictionaryName : dictionaryList) {
         XDictionary manualDictionary = searchableDictionaryList.getDictionaryByName(dictionaryName);
         if (manualDictionary != null) {
           searchableDictionaryList.removeDictionary(manualDictionary);
         }
       }
-      dictinaryList.clear();
+      dictionaryList.clear();
       return true;
     }
     return false;

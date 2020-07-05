@@ -50,6 +50,7 @@ import org.languagetool.rules.TextLevelRule;
  * @author Fred Kruse
  */
 class LORemoteLanguageTool {
+
   private static final String BLANK = " ";
   private static final String SERVER_URL = "https://languagetool.org/api";
   private static final int SERVER_LIMIT = 20000;

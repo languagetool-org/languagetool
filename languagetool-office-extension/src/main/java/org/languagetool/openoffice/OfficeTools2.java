@@ -42,7 +42,6 @@ public class OfficeTools2 {
     return dispatchCmd(cmd, null);
   } 
 
-
   public static boolean dispatchCmd(String cmd, PropertyValue[] props, XComponentContext xContext) {
     try {
       if (xContext == null) {

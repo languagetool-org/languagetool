@@ -283,7 +283,7 @@ public class FlatParagraphTools {
     return new int[]{};
   }
   
-  /** 
+  /* 
    * Returns the absolute positions of all footnotes (and endnotes) of the text
    */
 /*
@@ -348,7 +348,7 @@ public class FlatParagraphTools {
         if (debugMode && num >= isChecked.size()) {
           MessageHandler.printToLogFile("!?! List isChecked == null");
         }
-        if(num < isChecked.size() && isChecked.get(num)) {
+        if (num < isChecked.size() && isChecked.get(num)) {
           tmpFlatPara.setChecked(TextMarkupType.PROOFREADING, true);
         }
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
@@ -363,7 +363,7 @@ public class FlatParagraphTools {
         if (debugMode && num >= isChecked.size()) {
           MessageHandler.printToLogFile("!?! List isChecked == null");
         }
-        if(num < isChecked.size() && isChecked.get(num)) {
+        if (num < isChecked.size() && isChecked.get(num)) {
           tmpFlatPara.setChecked(TextMarkupType.PROOFREADING, true);
         }
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
@@ -414,7 +414,7 @@ public class FlatParagraphTools {
 
   public void markParagraphs(Map<Integer, SingleProofreadingError[]> changedParas, DocumentCache docCache, boolean override, XParagraphCursor cursor) {
     try {
-      if(changedParas == null || changedParas.isEmpty()) {
+      if (changedParas == null || changedParas.isEmpty()) {
         return;
       }
       XFlatParagraph xFlatPara = getLastFlatParagraph();
@@ -424,7 +424,7 @@ public class FlatParagraphTools {
         }
         return;
       }
-      if(override) {
+      if (override) {
         cursor.gotoStart(false);
       }
       XFlatParagraph tmpFlatPara = xFlatPara;
@@ -438,8 +438,8 @@ public class FlatParagraphTools {
       int nMarked = 0;
       while (tmpFlatPara != null && nMarked < changedParas.size()) {
         int nTextPara = docCache.getNumberOfTextParagraph(num);
-        if(nTextPara >= 0) {
-          if(changedParas.containsKey(nTextPara)) {
+        if (nTextPara >= 0) {
+          if (changedParas.containsKey(nTextPara)) {
             addMarksToOneParagraph(tmpFlatPara, changedParas.get(nTextPara), cursor, override);
             nMarked++;
           }
@@ -459,7 +459,7 @@ public class FlatParagraphTools {
    * add marks to existing marks of current paragraph
    */
   public void markCurrentParagraph(SingleProofreadingError[] pErrors) {
-    if(pErrors == null || pErrors.length == 0) {
+    if (pErrors == null || pErrors.length == 0) {
       return;
     }
     XFlatParagraph xFlatPara = getCurrentFlatParagraph();
@@ -478,7 +478,7 @@ public class FlatParagraphTools {
    */
   private void addMarksToOneParagraph(XFlatParagraph flatPara, SingleProofreadingError[] pErrors, XParagraphCursor cursor, boolean override) {
     
-    if(override && cursor != null) {
+    if (override && cursor != null) {
       XMarkingAccess xMarkingAccess = UnoRuntime.queryInterface(XMarkingAccess.class, cursor);
       if (xMarkingAccess == null) {
         MessageHandler.printToLogFile("xMarkingAccess == null");
@@ -486,7 +486,7 @@ public class FlatParagraphTools {
         xMarkingAccess.invalidateMarkings(TextMarkupType.PROOFREADING);
         flatPara.setChecked(TextMarkupType.PROOFREADING, true);
         XComponent markComponent = UnoRuntime.queryInterface(XComponent.class, xMarkingAccess);
-        if(markComponent != null) {
+        if (markComponent != null) {
           markComponent.dispose();
         }
       }
@@ -499,17 +499,17 @@ public class FlatParagraphTools {
       int color = -1;
       short type = -1;
       for(PropertyValue property : properties) {
-        if("LineColor".equals(property.Name)) {
+        if ("LineColor".equals(property.Name)) {
           color = (int) property.Value;
-        } else if("LineType".equals(property.Name)) {
+        } else if ("LineType".equals(property.Name)) {
           type = (short) property.Value;
         }
       }
       try {
-        if(color >= 0) {
+        if (color >= 0) {
           props.insertValue("LineColor", color);
         }
-        if(type > 0) {
+        if (type > 0) {
           props.insertValue("LineType", type);
         }
       } catch (Throwable t) {
@@ -518,7 +518,7 @@ public class FlatParagraphTools {
       flatPara.commitStringMarkup(TextMarkupType.PROOFREADING, pError.aRuleIdentifier, 
           pError.nErrorStart, pError.nErrorLength, props);
     }
-    if(override) {
+    if (override) {
       flatPara.getMarkupInfoContainer();
       flatPara.commitStringMarkup(TextMarkupType.SENTENCE, "Sentence", 0, flatPara.getText().length(), props);
     }

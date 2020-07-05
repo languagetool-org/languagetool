@@ -98,7 +98,6 @@ class DocumentCursorTools {
   /** 
    * Returns ParagraphCursor from TextCursor 
    * Returns null if it fails
-   * @return 
    */
   @Nullable
   public XParagraphCursor getParagraphCursor() {

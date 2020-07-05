@@ -51,29 +51,29 @@ public class DocumentCache {
   public void reset(DocumentCursorTools docCursor, FlatParagraphTools flatPara) {
     List<String> textParas = docCursor.getAllTextParagraphs();
     ParagraphContainer paragraphContainer = null;
-    if(textParas != null) {
+    if (textParas != null) {
       headings = docCursor.getParagraphHeadings();
       paragraphContainer = flatPara.getAllFlatParagraphs();
-      if(paragraphContainer == null) {
+      if (paragraphContainer == null) {
         MessageHandler.printToLogFile("paragraphContainer == null - ParagraphCache not initialised");
         return;
       }
       paragraphs = paragraphContainer.paragraphs;
     }
-    if(paragraphs == null) {
+    if (paragraphs == null) {
       MessageHandler.printToLogFile("paragraphs == null - ParagraphCache not initialised");
       return;
     }
     locales = paragraphContainer.locales;
     footnotes = paragraphContainer.footnotePositions;
     
-    if(debugMode) {
+    if (debugMode) {
       MessageHandler.printToLogFile("\n\nNot mapped paragraphs:");
     }
-    if(textParas != null && !textParas.isEmpty()) {
+    if (textParas != null && !textParas.isEmpty()) {
       int n = 0; 
-      for(int i = 0; i < paragraphs.size(); i++) {
-        if((footnotes != null && i < footnotes.size() && footnotes.get(i).length > 0)
+      for (int i = 0; i < paragraphs.size(); i++) {
+        if ((footnotes != null && i < footnotes.size() && footnotes.get(i).length > 0)
             || (n < textParas.size() && (paragraphs.get(i).equals(textParas.get(n)) 
                 || removeZeroWidthSpace(paragraphs.get(i)).equals(textParas.get(n))))) {
           toTextMapping.add(n);
@@ -81,29 +81,29 @@ public class DocumentCache {
           n++;
         } else {
           toTextMapping.add(-1);
-          if(debugMode) {
+          if (debugMode) {
             MessageHandler.printToLogFile("\nFlat("  + i + "): '" + paragraphs.get(i));
-            if(n < textParas.size()) {
+            if (n < textParas.size()) {
               MessageHandler.printToLogFile("Doc("  + n + "): '" + textParas.get(n));
             }
           }  
         }
       }
-      if(debugMode) {
+      if (debugMode) {
         MessageHandler.printToLogFile("\n\ntoParaMapping:");
-        for(int i = 0; i < toParaMapping.size(); i++) {
+        for (int i = 0; i < toParaMapping.size(); i++) {
           MessageHandler.printToLogFile("Doc: " + i + " Flat: " + toParaMapping.get(i)
           + OfficeTools.LOG_LINE_BREAK + getTextParagraph(i));
         }
         MessageHandler.printToLogFile("\n\ntoTextMapping:");
-        for(int i = 0; i < toTextMapping.size(); i++) {
+        for (int i = 0; i < toTextMapping.size(); i++) {
           MessageHandler.printToLogFile("Flat: " + i + " Doc: " + toTextMapping.get(i));
-//        if(toTextMapping.get(i) == -1) {
+//        if (toTextMapping.get(i) == -1) {
 //          MessageHandler.printToLogFile("'" + paragraphs.get(i) + "'");
 //        }
         }
         MessageHandler.printToLogFile("\n\nheadings:");
-        for(int i = 0; i < headings.size(); i++) {
+        for (int i = 0; i < headings.size(); i++) {
           MessageHandler.printToLogFile("Num: " + i + " Heading: " + headings.get(i));
         }
         MessageHandler.printToLogFile("\nNumber of Flat Paragraphs: " + paragraphs.size());
@@ -205,28 +205,28 @@ public class DocumentCache {
     if (numCurPara < 0 || toParaMapping.size() <= numCurPara) {
       return -1;
     }
-    if(parasToCheck < -1) {
+    if (parasToCheck < -1) {
       return 0;
     }
-    if(parasToCheck == 0) {
+    if (parasToCheck == 0) {
       return numCurPara;
     }
     int headingBefore = -1;
-    for(int heading : headings) {
-      if(heading > numCurPara) {
+    for (int heading : headings) {
+      if (heading > numCurPara) {
         break;
       } 
       headingBefore = heading;
     }
-    if(headingBefore == numCurPara) {
+    if (headingBefore == numCurPara) {
       return headingBefore;
     }
     headingBefore++;
-    if(parasToCheck < 0) {
+    if (parasToCheck < 0) {
       return headingBefore;
     }
     int startPos = numCurPara - parasToCheck;
-    if(textIsChanged) {
+    if (textIsChanged) {
       startPos -= parasToCheck;
     }
     if (startPos < headingBefore) {
@@ -243,29 +243,29 @@ public class DocumentCache {
       return -1;
     }
     int headingAfter = -1;
-    if(parasToCheck < -1) {
+    if (parasToCheck < -1) {
       return toParaMapping.size();
     }
-    if(parasToCheck == 0) {
+    if (parasToCheck == 0) {
       return numCurPara + 1;
     }
-    for(int heading : headings) {
+    for (int heading : headings) {
       headingAfter = heading;
-      if(heading >= numCurPara) {
+      if (heading >= numCurPara) {
         break;
       }
     }
-    if(headingAfter == numCurPara) {
+    if (headingAfter == numCurPara) {
       return headingAfter + 1;
     }
-    if(headingAfter < numCurPara || headingAfter > toParaMapping.size()) {
+    if (headingAfter < numCurPara || headingAfter > toParaMapping.size()) {
       headingAfter = toParaMapping.size();
     }
-    if(parasToCheck < 0) {
+    if (parasToCheck < 0) {
       return headingAfter;
     }
     int endPos = numCurPara + 1 + parasToCheck;
-    if(!textIsChanged) {
+    if (!textIsChanged) {
       endPos += defaultParaCheck;
     } else {
       endPos += parasToCheck;
@@ -282,7 +282,7 @@ public class DocumentCache {
   public String getDocAsString(int numCurPara, int parasToCheck, boolean textIsChanged) {
     int startPos = getStartOfParaCheck(numCurPara, parasToCheck, textIsChanged);
     int endPos = getEndOfParaCheck(numCurPara, parasToCheck, textIsChanged);
-    if(startPos < 0 || endPos < 0) {
+    if (startPos < 0 || endPos < 0) {
       return "";
     }
     StringBuilder docText = new StringBuilder(fixLinebreak(getTextParagraph(startPos)));
@@ -314,7 +314,7 @@ public class DocumentCache {
       return -1;
     }
     int startPos = getStartOfParaCheck(checkedPara, parasToCheck, textIsChanged);
-    if(startPos < 0) {
+    if (startPos < 0) {
       return -1;
     }
     int pos = 0;

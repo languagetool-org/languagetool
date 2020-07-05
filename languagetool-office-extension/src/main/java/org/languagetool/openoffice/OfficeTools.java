@@ -56,7 +56,6 @@ class OfficeTools {
   public static final int MAX_SUGGESTIONS = 15;  // Number of suggestions maximal shown in LO/OO
   public static final int NUMBER_TEXTLEVEL_CACHE = 2;  // Number of caches for matches of text level rules
 
-  
   public static int DEBUG_MODE_SD = 0;
   public static boolean DEBUG_MODE_MD = false;
   public static boolean DEBUG_MODE_DC = false;

@@ -18,77 +18,29 @@
  */
 package org.languagetool.openoffice;
 
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.border.LineBorder;
-import javax.swing.text.MutableAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
-
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
+import com.sun.star.beans.PropertyState;
+import com.sun.star.beans.PropertyValue;
+import com.sun.star.lang.Locale;
+import com.sun.star.lang.XComponent;
+import com.sun.star.linguistic2.ProofreadingResult;
+import com.sun.star.linguistic2.SingleProofreadingError;
+import com.sun.star.text.*;
+import com.sun.star.uno.UnoRuntime;
+import com.sun.star.uno.XComponentContext;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
-import com.sun.star.awt.Selection;
-import com.sun.star.awt.XButton;
-import com.sun.star.awt.XComboBox;
-import com.sun.star.awt.XControl;
-import com.sun.star.awt.XControlContainer;
-import com.sun.star.awt.XDialog;
-import com.sun.star.awt.XDialogEventHandler;
-import com.sun.star.awt.XDialogProvider2;
-import com.sun.star.awt.XFixedText;
-import com.sun.star.awt.XListBox;
-import com.sun.star.awt.XTextComponent;
-import com.sun.star.awt.XWindow;
-import com.sun.star.beans.PropertyState;
-import com.sun.star.beans.PropertyValue;
-import com.sun.star.beans.XPropertySet;
-import com.sun.star.deployment.PackageInformationProvider;
-import com.sun.star.deployment.XPackageInformationProvider;
-import com.sun.star.lang.Locale;
-import com.sun.star.lang.WrappedTargetException;
-import com.sun.star.lang.XComponent;
-import com.sun.star.linguistic2.ProofreadingResult;
-import com.sun.star.linguistic2.SingleProofreadingError;
-import com.sun.star.text.TextMarkupType;
-import com.sun.star.text.XParagraphCursor;
-import com.sun.star.text.XTextRange;
-import com.sun.star.text.XTextViewCursor;
-import com.sun.star.text.XWordCursor;
-import com.sun.star.uno.Exception;
-import com.sun.star.uno.UnoRuntime;
-import com.sun.star.uno.XComponentContext;
-import com.sun.star.util.XURLTransformer;
+import javax.swing.*;
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * Class defines the spell and grammar check dialog
@@ -99,7 +51,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
   
   private static final String spellingError = "Spelling Error";
   private static final String spellRuleId = "SpellingError";
+
   private final static boolean test = true;
+
   private XComponentContext xContext;
   private MultiDocumentsHandler documents;
   private SwJLanguageTool langTool;
@@ -303,7 +257,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
 */
     public SingleProofreadingError[] getSpellErrors(int numPara, Locale lang, DocumentCursorTools cursorTools) {
       try {
-        List<SingleProofreadingError> errorArray = new ArrayList<SingleProofreadingError>();
+        List<SingleProofreadingError> errorArray = new ArrayList<>();
         WordsFromParagraph wParas = new WordsFromParagraph(numPara, cursorTools);
         String word = wParas.getNextWord();
         while (word != null) {
@@ -484,7 +438,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       languageLabel.setFont(dialogFont);
       dialog.add(languageLabel);
 
-      language = new JComboBox<String>(getPossibleLanguages());
+      language = new JComboBox<>(getPossibleLanguages());
       language.setFont(dialogFont);
       language.setBounds(190, disFirstCol, widFirstCol + begFirstCol - 190, 30);
       dialog.add(language);
@@ -516,7 +470,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       dialog.add(suggestionsLabel);
 
       yFirstCol += disFirstCol + 15;
-      suggestions = new JList<String>();
+      suggestions = new JList<>();
       suggestions.setFont(dialogFont);
       suggestions.setFixedCellHeight((int) (suggestions.getFont().getSize() * 1.2 + 0.5));
       JScrollPane suggestionsPane = new JScrollPane(suggestions);
@@ -525,7 +479,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       dialog.add(suggestionsPane);
       
       yFirstCol += 2 * disFirstCol + 100;
-      help = new JButton (helpButtonName);
+      help = new JButton(helpButtonName);
       help.setFont(dialogFont);
       help.setBounds(begFirstCol, yFirstCol, buttonWidthRow, buttonHigh);
       help.addActionListener(this);
@@ -533,7 +487,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       dialog.add(help);
       
       int xButtonRow = begFirstCol + buttonWidthRow + buttonDistRow;
-      options = new JButton (optionsButtonName);
+      options = new JButton(optionsButtonName);
       options.setFont(dialogFont);
       options.setBounds(xButtonRow, yFirstCol, buttonWidthRow, buttonHigh);
       options.addActionListener(this);
@@ -541,7 +495,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       dialog.add(options);
       
       xButtonRow += buttonWidthRow + buttonDistRow;
-      undo = new JButton (undoButtonName);
+      undo = new JButton(undoButtonName);
       undo.setFont(dialogFont);
       undo.setBounds(xButtonRow, yFirstCol, buttonWidthRow, buttonHigh);
       undo.addActionListener(this);
@@ -549,7 +503,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       dialog.add(undo);
       
       xButtonRow += buttonWidthRow + buttonDistRow;
-      close = new JButton (closeButtonName);
+      close = new JButton(closeButtonName);
       close.setFont(dialogFont);
       close.setBounds(xButtonRow, yFirstCol, buttonWidthRow, buttonHigh);
       close.addActionListener(this);
@@ -557,7 +511,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       dialog.add(close);
       
       int ySecondCol = 2 * disFirstCol + 30;
-      more = new JButton (moreButtonName);
+      more = new JButton(moreButtonName);
       more.setBounds(begSecondCol, ySecondCol, buttonWidthCol, buttonHigh);
       more.setFont(dialogFont);
       more.addActionListener(this);
@@ -565,7 +519,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       dialog.add(more);
       
       ySecondCol += disFirstCol + 40;
-      ignoreOnce = new JButton (ignoreButtonName);
+      ignoreOnce = new JButton(ignoreButtonName);
       ignoreOnce.setFont(dialogFont);
       ignoreOnce.setBounds(begSecondCol, ySecondCol, buttonWidthCol, buttonHigh);
       ignoreOnce.addActionListener(this);
@@ -573,7 +527,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       dialog.add(ignoreOnce);
       
       ySecondCol += buttonDistCol + buttonHigh;
-      ignoreAll = new JButton (ignoreAllButtonName);
+      ignoreAll = new JButton(ignoreAllButtonName);
       ignoreAll.setFont(dialogFont);
       ignoreAll.setBounds(begSecondCol, ySecondCol, buttonWidthCol, buttonHigh);
       ignoreAll.addActionListener(this);
@@ -581,7 +535,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       dialog.add(ignoreAll);
       
       ySecondCol += buttonDistCol + buttonHigh;
-      deactivateRule = new JButton (deactivateRuleButtonName);
+      deactivateRule = new JButton(deactivateRuleButtonName);
       deactivateRule.setFont(dialogFont);
       deactivateRule.setBounds(begSecondCol, ySecondCol, buttonWidthCol, buttonHigh);
       deactivateRule.setVisible(false);
@@ -589,14 +543,14 @@ public class SpellAndGrammarCheckDialog extends Thread {
       deactivateRule.setActionCommand("deactivateRule");
       dialog.add(deactivateRule);
       
-      addToDictionary = new JComboBox<String> ();
+      addToDictionary = new JComboBox<>();
       addToDictionary.setFont(dialogFont);
       addToDictionary.setBounds(begSecondCol, ySecondCol, buttonWidthCol, buttonHigh);
       addToDictionary.setPrototypeDisplayValue(addToDictionaryName);
       dialog.add(addToDictionary);
       
       ySecondCol += 4*buttonDistCol + buttonHigh;
-      change = new JButton (changeButtonName);
+      change = new JButton(changeButtonName);
       change.setFont(dialogFont);
       change.setBounds(begSecondCol, ySecondCol, buttonWidthCol, buttonHigh);
       change.addActionListener(this);
@@ -604,7 +558,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       dialog.add(change);
       
       ySecondCol += buttonDistCol + buttonHigh;
-      changeAll = new JButton (changeAllButtonName);
+      changeAll = new JButton(changeAllButtonName);
       changeAll.setFont(dialogFont);
       changeAll.setBounds(begSecondCol, ySecondCol, buttonWidthCol, buttonHigh);
       changeAll.addActionListener(this);
@@ -756,8 +710,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
       }
     }
     
-
-
   }
 
 }

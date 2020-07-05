@@ -85,7 +85,6 @@ public class LanguageToolMenus {
   }
   
   void removeListener() {
-    
   }
   
   /**
@@ -120,7 +119,7 @@ public class LanguageToolMenus {
       for (short i = 0; i < menubar.getItemCount(); i++) {
         toolsId = menubar.getItemId(i);
         String command = menubar.getCommand(toolsId);
-        if(TOOLS_COMMAND.equals(command)) {
+        if (TOOLS_COMMAND.equals(command)) {
           toolsMenu = menubar.getPopupMenu(toolsId);
           break;
         }
@@ -131,7 +130,7 @@ public class LanguageToolMenus {
       }
       for (short i = 0; i < toolsMenu.getItemCount(); i++) {
         String command = toolsMenu.getCommand(toolsMenu.getItemId(i));
-        if(WORD_COUNT_COMMAND.equals(command)) {
+        if (WORD_COUNT_COMMAND.equals(command)) {
           ltId = toolsMenu.getItemId((short) (i - 1));
           ltMenu = toolsMenu.getPopupMenu(ltId);
           break;
@@ -144,7 +143,7 @@ public class LanguageToolMenus {
 
       for (short i = 0; i < ltMenu.getItemCount(); i++) {
         String command = ltMenu.getCommand(ltMenu.getItemId(i));
-        if(LT_SWITCH_OFF_COMMAND.equals(command)) {
+        if (LT_SWITCH_OFF_COMMAND.equals(command)) {
           switchOffId = ltMenu.getItemId(i);
           switchOffPos = i;
           break;
@@ -155,7 +154,7 @@ public class LanguageToolMenus {
         return;
       }
       
-      if(MESSAGES.getString("loMenuSwitchOff").equals(ltMenu.getItemText(switchOffId))) {
+      if (MESSAGES.getString("loMenuSwitchOff").equals(ltMenu.getItemText(switchOffId))) {
         MessageHandler.printToLogFile("LT menu already installed");
         return;
       } else {
@@ -175,14 +174,14 @@ public class LanguageToolMenus {
     }
     
     private void setLtMenu() {
-      if(switchOff) {
+      if (switchOff) {
         ltMenu.checkItem(switchOffId, true);
       } else {
         ltMenu.checkItem(switchOffId, false);
       }
       short profilesId = (short)(switchOffId + 10);
       short profilesPos = (short)(switchOffPos + 2);
-      if(ltMenu.getItemId(profilesPos) != profilesId) {
+      if (ltMenu.getItemId(profilesPos) != profilesId) {
         setProfileMenu(profilesId, profilesPos);
       }
       setProfileItems();
@@ -191,7 +190,7 @@ public class LanguageToolMenus {
     private void setProfileMenu(short profilesId, short profilesPos) {
       ltMenu.insertItem(profilesId, MESSAGES.getString("loMenuChangeProfiles"), MenuItemStyle.AUTOCHECK, profilesPos);
       xProfileMenu = OfficeTools.getPopupMenu(xContext);
-      if(xProfileMenu == null) {
+      if (xProfileMenu == null) {
         MessageHandler.printToLogFile("Profile menu == null");
         return;
       }
@@ -204,24 +203,24 @@ public class LanguageToolMenus {
     private void setProfileItems() {
       currentProfile = config.getCurrentProfile();
       definedProfiles = config.getDefinedProfiles();
-      if(xProfileMenu != null) {
+      if (xProfileMenu != null) {
         xProfileMenu.removeItem((short)0, xProfileMenu.getItemCount());
         short nId = (short) (switchOffId + 21);
         short nPos = 0;
         xProfileMenu.insertItem(nId, MESSAGES.getString("guiUserProfile"), (short) 0, nPos);
         xProfileMenu.setCommand(nId, LT_PROFILE_COMMAND);
-        if(currentProfile == null || currentProfile.isEmpty()) {
+        if (currentProfile == null || currentProfile.isEmpty()) {
           xProfileMenu.enableItem(nId , false);
         } else {
           xProfileMenu.enableItem(nId , true);
         }
-        if(definedProfiles != null) {
+        if (definedProfiles != null) {
           for (int i = 0; i < definedProfiles.size(); i++) {
             nId++;
             nPos++;
             xProfileMenu.insertItem(nId, definedProfiles.get(i), (short) 0, nPos);
             xProfileMenu.setCommand(nId, LT_PROFILE_COMMAND + definedProfiles.get(i));
-            if(currentProfile != null && currentProfile.equals(definedProfiles.get(i))) {
+            if (currentProfile != null && currentProfile.equals(definedProfiles.get(i))) {
               xProfileMenu.enableItem(nId , false);
             } else {
               xProfileMenu.enableItem(nId , true);
@@ -233,7 +232,7 @@ public class LanguageToolMenus {
 
     private void runProfileAction(String profile) {
       List<String> definedProfiles = config.getDefinedProfiles();
-      if(profile != null && (definedProfiles == null || !definedProfiles.contains(profile))) {
+      if (profile != null && (definedProfiles == null || !definedProfiles.contains(profile))) {
         MessageHandler.showMessage("profile '" + profile + "' not found");
       } else {
         try {
@@ -256,7 +255,7 @@ public class LanguageToolMenus {
     }
     @Override
     public void itemActivated(MenuEvent event) {
-      if(event.MenuId == 0) {
+      if (event.MenuId == 0) {
         setLtMenu();
       }
     }
@@ -268,9 +267,9 @@ public class LanguageToolMenus {
     }
     @Override
     public void itemSelected(MenuEvent event) {
-      if(event.MenuId == switchOffId + 21) {
+      if (event.MenuId == switchOffId + 21) {
         runProfileAction(null);
-      } else if(event.MenuId > switchOffId + 21 && event.MenuId <= switchOffId + 21 + definedProfiles.size()) {
+      } else if (event.MenuId > switchOffId + 21 && event.MenuId <= switchOffId + 21 + definedProfiles.size()) {
         runProfileAction(definedProfiles.get(event.MenuId - switchOffId - 22));
       }
     }
@@ -338,24 +337,24 @@ public class LanguageToolMenus {
             printProperties(props);
           }
           String str = null;
-          if(props.getPropertySetInfo().hasPropertyByName("CommandURL")) {
+          if (props.getPropertySetInfo().hasPropertyByName("CommandURL")) {
             str = props.getPropertyValue("CommandURL").toString();
           }
-          if(str != null && IGNORE_ONCE_URL.equals(str)) {
+          if (str != null && IGNORE_ONCE_URL.equals(str)) {
             int n;  
             for(n = i + 1; n < count; n++) {
               a = (Any) xContextMenu.getByIndex(n);
               XPropertySet tmpProps = (XPropertySet) a.getObject();
-              if(tmpProps.getPropertySetInfo().hasPropertyByName("CommandURL")) {
+              if (tmpProps.getPropertySetInfo().hasPropertyByName("CommandURL")) {
                 str = tmpProps.getPropertyValue("CommandURL").toString();
               }
-              if(ADD_TO_DICTIONARY_2.equals(str) || ADD_TO_DICTIONARY_3.equals(str)) {
+              if (ADD_TO_DICTIONARY_2.equals(str) || ADD_TO_DICTIONARY_3.equals(str)) {
                 break;
               }
             }
-            if(n >= count) {
+            if (n >= count) {
               document.setMenuDocId();
-              if(document.getCurrentNumberOfParagraph() >= 0) {
+              if (document.getCurrentNumberOfParagraph() >= 0) {
                 props.setPropertyValue("CommandURL", LT_IGNORE_ONCE);
               }
               XMultiServiceFactory xMenuElementFactory = UnoRuntime.queryInterface(XMultiServiceFactory.class, xContextMenu);
@@ -367,7 +366,7 @@ public class LanguageToolMenus {
               xContextMenu.insertByIndex(i + 2, xNewMenuEntry1);
               
               int nId = i + 4;
-              if(isRemote) {
+              if (isRemote) {
                 XPropertySet xNewMenuEntry2 = UnoRuntime.queryInterface(XPropertySet.class,
                     xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
                 xNewMenuEntry2.setPropertyValue("Text", MESSAGES.getString("loMenuRemoteInfo"));
@@ -395,7 +394,7 @@ public class LanguageToolMenus {
         xContextMenu.insertByIndex(count, xSeparator);
         
         int nId = count + 1;
-        if(isRemote) {
+        if (isRemote) {
           XPropertySet xNewMenuEntry2 = UnoRuntime.queryInterface(XPropertySet.class,
               xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
           xNewMenuEntry2.setPropertyValue("Text", MESSAGES.getString("loMenuRemoteInfo"));
@@ -425,10 +424,10 @@ public class LanguageToolMenus {
       for (Property property : propInfo) {
         MessageHandler.printToLogFile("Property: Name: " + property.Name + ", Type: " + property.Type);
       }
-      if(props.getPropertySetInfo().hasPropertyByName("Text")) {
+      if (props.getPropertySetInfo().hasPropertyByName("Text")) {
         MessageHandler.printToLogFile("Property: Name: " + props.getPropertyValue("Text"));
       }
-      if(props.getPropertySetInfo().hasPropertyByName("CommandURL")) {
+      if (props.getPropertySetInfo().hasPropertyByName("CommandURL")) {
         MessageHandler.printToLogFile("Property: CommandURL: " + props.getPropertyValue("CommandURL"));
       }
     }
