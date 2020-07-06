@@ -32,6 +32,7 @@ import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.ml.MLServerGrpc;
 import org.languagetool.rules.ml.MLServerProto;
@@ -221,6 +222,34 @@ public abstract class GRPCRule extends RemoteRule {
       @Override
       public String getDescription() {
         return messages.getString(descriptionKey);
+      }
+    };
+  }
+
+  /**
+   * Helper method to create instances of RemoteMLRule
+   * @param config configuration for remote rule server;
+   *               options: secure, clientKey, clientCertificate, rootCertificate
+                   use RemoteRuleConfig.getRelevantConfig(id, configs)
+                   to load this in Language::getRelevantRemoteRules
+   * @param id ID of rule
+   * @param description rule description
+   * @param messagesByID mapping match.sub_id to RuleMatch's message
+   * @return instance of RemoteMLRule
+   */
+  public static GRPCRule create(RemoteRuleConfig config,
+                                String id, String description, Map<String, String> messagesByID) {
+    return new GRPCRule(JLanguageTool.getMessageBundle(), config) {
+
+
+      @Override
+      protected String getMessage(MLServerProto.Match match, AnalyzedSentence sentence) {
+        return messagesByID.get(match.getSubId());
+      }
+
+      @Override
+      public String getDescription() {
+        return description;
       }
     };
   }
