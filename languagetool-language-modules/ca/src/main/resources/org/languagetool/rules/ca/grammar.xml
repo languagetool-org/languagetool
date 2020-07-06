@@ -29109,12 +29109,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern case_sensitive="yes">
                 <marker>
-                    <token regexp="yes">[XICV]+[èé]<exception postag="[VNAS].*" postag_regexp="yes"/><exception scope="previous" regexp="yes">aux?|du</exception></token>
+                    <token regexp="yes">[XICV]+[èé]<exception postag="[VNA].*|SPS00" postag_regexp="yes"/><exception scope="previous" regexp="yes">aux?|du</exception></token>
                 </marker>
             </pattern>
             <message>Els ordinals romans no necessiten la terminació -è.</message>
             <suggestion><match no="1" regexp_match="([XICV]+)[èé]" regexp_replace="$1"/></suggestion>
             <example correction="XI"><marker>XIè</marker> seminari.</example>
+            <example correction="VI">Felip <marker>VIé</marker></example>
             <example>Le XXè siècle</example>
         </rule>
         <rule id="EVITA_APOSTROF_DECIMALS" name="Evita l'apòstrof per a indicar nombres decimals">
