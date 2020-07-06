@@ -3705,7 +3705,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
                     <marker>
-                        <token regexp="yes">Итак|Следовательно|Во-первых|Во-вторых|В-третьих|В-четвертых|В-пятых</token>
+                        <token regexp="yes">Итак|Следовательно|Во-первых|Во-вторых|В-третьих|В-четвертых|В-пятых|Например</token>   <!-- + например #3205 -->
                         <token negate="yes" regexp="yes">&pnct;</token>
                     </marker>
                 </pattern>
@@ -3897,7 +3897,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
                     <marker>
-                        <token regexp="yes">Конечно|Несомненно|Вероятно|Кажется|Наверное|Наверно|Например</token>  <!-- + например #3205 -->
+                        <token regexp="yes">Конечно|Несомненно|Вероятно|Кажется|Наверное|Наверно</token>
                         <token negate="yes" regexp="yes">&pnct;|же</token>
                     </marker>
                 </pattern>
@@ -9220,7 +9220,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            <example correction="относится">Проблема может возникнуть при наличии собственных резонансов в модели, что <marker>относиться</marker> и к нашему случаю, где частота падающей волны приходится на максимум дипольного отклика частицы.</example>
         </rule>        
         </rulegroup>                
-        <rule id="Verb_INF_OR_3P_2" default="on" name="Инфинитив вместо личной формы глагола">
+        <rule id="Verb_INF_OR_3P_2" default="off" name="Инфинитив вместо личной формы глагола"> <!-- set temp off -->
             <antipattern>
                  <token postag="SENT_START" skip="-1" />
                  <token postag="VB:.*" skip="-1" postag_regexp="yes" ><exception   postag="VB:.*"  postag_regexp="yes"  negate_pos="yes"    /></token>
