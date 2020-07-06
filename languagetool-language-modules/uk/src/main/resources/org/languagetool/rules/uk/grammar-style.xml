@@ -1792,6 +1792,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token case_sensitive="yes" regexp="yes">Мо|Сю</token>
         <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'-]+</token>
       </antipattern>
+      <antipattern>
+        <token>ні</token>
+        <token>з</token>
+        <token>сього</token>
+      </antipattern>
       <pattern>
         <token postag_regexp="yes" postag=".*:arch.*">
           <exception negate_pos="yes" postag_regexp="yes" postag=".*:arch.*|.*_END"/>
@@ -1803,6 +1808,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Анголи</example>
       <example>китаянку Сю Ян</example>
       <example>бігуна Мо Кейна</example>
+      <example>ні з того ні з сього</example>
     </rule>
 
     <rule id="vulgar" name="Вульгаризми">
@@ -1849,7 +1855,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </antipattern>
       <pattern>
         <token postag_regexp="yes" postag="noun:inanim:.:v_kly.*">
-          <exception negate_pos="yes" postag_regexp="yes" postag="noun:inanim:.:v_kly.*|.*_END"/>
+          <exception negate_pos="yes" postag_regexp="yes" postag="noun:inanim:.:v_kly.*|verb.*subst.*|.*_END"/>
           <exception regexp="yes">народе|батьківщино|У?країно|(не)?доле|громадо|вітре|надіє|гол[оі]вонько|святосте|достойносте|красо|діброво|(все)?світе|лишко|братіє|вітчизно|мордо|квітко|зіронько|зірочко|святине|годинонько|хвилинонько|маро|зброє|весно|ноче|редакціє|(ред)?колегіє|думо|націє|владо|верше|душко</exception>
           <!-- рідкіші
           <exception regexp="yes">трояндо|долино|книго|суде|радосте|скорбото|красо|шкуро|втіхо|завірюхо|чарочко|кровиночко|холеро|шкапо|луже|вельможносте|веснонько|лапко|пучино|долино|молитво|хвиле|хмаро|згубо|славо|ніченько|березо|вербо|розпуко|худобо|вітре|морозе</exception>
@@ -1861,12 +1867,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Форми кличного відмінку для неістот мають обмежене вживання.</message>
       <example correction=""><marker>автокомісійко</marker>.</example>
       <example correction=""><marker>аберометре</marker></example>
+      <example correction=""><marker>роде</marker></example>
       <example>того.</example>
       <example>Матіоло.</example>
       <example>ПАСЕ</example>
       <example>прощавай, стара імперіє</example>
       <example>ой, хато ти моя</example>
       <example>агов тумане</example>
+    </rule>
+
+    <rule id="pry_bazhanni" name="При бажанні">
+      <pattern>
+        <token>при</token>
+        <token>бажанні</token>
+      </pattern>
+      <message>На думку деяких мовознавців, слід вживати <suggestion>якщо є охота (бажання)</suggestion>, <suggestion>якщо (коли) маєш (маєте) бажання (охоту)</suggestion></message>
+      <example correction="Якщо є охота (бажання)|Якщо (коли) маєш (маєте) бажання (охоту)"><marker>При бажанні</marker> Блохін може залишитися в Динамо</example>
+      <example>Якщо Блохін має бажання він може залишитися в Динамо</example>
     </rule>
 
     <rule id="u_znak_vdiachnosti" name="У знак вдячності">

@@ -3728,7 +3728,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token>як</token>
       </pattern>
       <message>Правильно: <suggestion>бо</suggestion>, <suggestion>через те, що</suggestion>, <suggestion>тому, що</suggestion>, <suggestion>оскільки</suggestion></message>
-      <example correction="бо|через те, що|тому, що|оскільки">Збори не відбулися, <marker>так як</marker> прийшло мало людей.</example>
+      <suggestion>позаяк</suggestion>
+      <example correction="бо|через те, що|тому, що|оскільки|позаяк">Збори не відбулися, <marker>так як</marker> прийшло мало людей.</example>
       <example>Збори не відбулися тому, що прийшло мало людей.</example>
     </rule>
 
@@ -4125,16 +4126,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="щосили|з усієї сили|щодуху|чимдуж|на всю витягу">Він побіг <marker>що є сили</marker></example>
       <example correction="щосили|з усієї сили|щодуху|чимдуж|на всю витягу">Він побіг <marker>що є духу</marker></example>
       <example>Він побіг щодуху</example>
-    </rule>
-
-    <rule id="PRY_BAZHANNI" name="При бажанні">
-      <pattern>
-        <token>при</token>
-        <token>бажанні</token>
-      </pattern>
-      <message>Правильно: <suggestion>якщо є охота (бажання)</suggestion>, <suggestion>якщо (коли) маєш (маєте) бажання (охоту)</suggestion></message>
-      <example correction="Якщо є охота (бажання)|Якщо (коли) маєш (маєте) бажання (охоту)"><marker>При бажанні</marker> Блохін може залишитися в Динамо</example>
-      <example>Якщо Блохін має бажання він може залишитися в Динамо</example>
     </rule>
 
     <rule id="Z_USIMA_ZRUCHNOSTIAMY" name="З усіма зручностями">
@@ -4673,9 +4664,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token>по</token>
           </marker>
+          <token postag_regexp="yes" postag="adj:.:v_mis.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:inanim:.:v_mis.*"/>
         </pattern>
         <message>Правильно: <suggestion>з</suggestion></message>
         <example correction="з">судячи <marker>по</marker> реакції</example>
+        <example>судячи по ньому</example>
       </rule>
 
       <rule>
@@ -4686,6 +4680,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Правильно: <suggestion>з <match no="2" postag_regexp="yes" postag="(noun:inanim:.):v_mis" postag_replace="$1:v_rod"/></suggestion></message>
         <suggestion>у справах</suggestion>
         <example correction="з питання|у справах">конференція <marker>по питанню</marker> рівності</example>
+      </rule>
+
+
+      <rule>
+        <antipattern>
+          <token regexp="yes" inflected="yes">оцінювати|оцінити</token>
+          <token>по</token>
+          <token postag="number"/>
+        </antipattern>
+        <antipattern>
+          <token>по</token>
+          <token regexp="yes">заслузі|правді</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes" inflected="yes">оцінювати|оцінити</token>
+          <marker>
+            <token>по</token>
+            <token>справах</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>за <match no="3" postag_regexp="yes" postag="(noun:inanim:.):v_mis" postag_replace="$1:v_oru"/></suggestion></message>
+        <example correction="за справами">оцінювати <marker>по справах</marker>.</example>
+        <example>оцінити по 600 грн.</example>
       </rule>
 
       <rule>
@@ -5191,14 +5208,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>час</token>
         </pattern>
         <message>Краще: <suggestion>водночас</suggestion></message>
-        <suggestion>рівночасно</suggestion>
         <suggestion>одночасно</suggestion>
         <suggestion>в той самий час</suggestion>
         <suggestion>однак</suggestion>
         <suggestion>разом з тим</suggestion>
         <suggestion>а втім</suggestion>
         <suggestion>і все ж</suggestion>
-        <example correction="водночас|рівночасно|одночасно|в той самий час|однак|разом з тим|а втім|і все ж">але <marker>в той же час</marker> і складний тиждень</example>
+        <example correction="водночас|одночасно|в той самий час|однак|разом з тим|а втім|і все ж">але <marker>в той же час</marker> і складний тиждень</example>
       </rule>
 
       <rule>
@@ -5209,10 +5225,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>час</token>
         </pattern>
         <message>Краще: <suggestion>водночас</suggestion></message>
-        <suggestion>рівночасно</suggestion>
         <suggestion>одночасно</suggestion>
+        <suggestion>в той таки час</suggestion>
         <suggestion>в той самий час</suggestion>
-        <example correction="водночас|рівночасно|одночасно|в той самий час">і <marker>в цей же час</marker> впливати на процес реформування науки</example>
+        <example correction="водночас|одночасно|в той таки час|в той самий час">і <marker>в цей же час</marker> впливати на процес реформування науки</example>
       </rule>
     </rulegroup>
 
@@ -5543,12 +5559,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token inflected="yes">масло</token>
           </unify>
         </pattern>
-<!--
-        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="(adj):n:(.*)" postag_replace="$1:f:$2"/> <match no="2" postag="(noun:inanim):n:(.*)" postag_replace="$1:f:$2">олія</match></suggestion></message>
--->
-        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj:f:v_naz"/> олія</suggestion></message>
-        <example correction="рослинна олія">полити <marker>рослинним маслом</marker>.</example>
-        <example correction="оливкова олія">полити <marker>оливковим маслом</marker>.</example>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="(adj)(:n)(.*)" postag_replace="$1(:f)(?!:v_zna:ranim)$3.*"/> <match no="2" postag="(noun:inanim):n:(.*)" postag_replace="$1:f:$2.*">олія</match></suggestion></message>
+        <example correction="рослинною олією">полити <marker>рослинним маслом</marker>.</example>
+        <example correction="пальмова олію|пальмову олію">взяти <marker>пальмове масло</marker>.</example>
+        <example correction="оливкової олії">проти <marker>оливкового масла</marker>.</example>
+        <!-- 
+        <example correction="рослинних олій">з <marker>рослинних масел</marker>.</example>
+         -->
       </rule>
 
       <rule>
@@ -5560,19 +5577,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token inflected="yes" regexp="yes">масло|олія</token>
           </unify>
         </pattern>
-<!--
-        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="(adj):[fn]:(.*)" postag_replace="$1:f:$2"/> <match no="2" postag_regexp="yes" postag="(noun:inanim):[fn]:(.*)" postag_replace="$1:f:$2">олива</match></suggestion></message>
--->
-        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj:f:v_naz"/> олива</suggestion></message>
-        <example correction="машинна олива">залити <marker>машинним маслом</marker>.</example>
-        <!-- TODO: fix correction inflections
-        <example correction="машинну оливу">додати <marker>машинне масло</marker>.</example>
-        -->
-        <example correction="машинна олива">немає <marker>машинної олії</marker>.</example>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="(adj):[nf]:(.*)" postag_replace="$1:f:$2(?!ranim).*"/> <match no="2" postag="(noun:inanim):[fn]:(.*)" postag_replace="$1:f:$2.*">олива</match></suggestion></message>
+        <suggestion><match no="1" postag_regexp="yes" postag="(adj):[nf]:(.*)" postag_replace="$1:n:$2(?!ranim).*"/> <match no="2" postag="(noun:inanim):[fn]:(.*)" postag_replace="$1:n:$2">мастило</match></suggestion>
+        <example correction="машинною оливою|машинним мастилом">залити <marker>машинним маслом</marker>.</example>
+        <example correction="машинної оливи|машинного мастила">немає <marker>машинної олії</marker>.</example>
+        <!-- 
+        <example correction="машинними оливами|машинними мастилами">залити <marker>машинними маслами</marker>.</example>
+         -->
       </rule>
     </rulegroup>
 
-    <rulegroup id="DVA_CHOBOTY" name="Два чоботи пара">
+    <rulegroup id="dva_choboty" name="Два чоботи пара">
       <rule>
         <pattern>
           <token regexp="yes">(оби)?два</token>
@@ -5672,7 +5687,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="мати рацію|мати слушність|(чиясь) правда">може <marker>бути правим</marker> лише тому.</example>
         <example correction="мати рацію|мати слушність|(чиясь) правда">класики <marker>були праві</marker>.</example>
         <example correction="мати рацію|мати слушність|(чиясь) правда">він <marker>був правий</marker>.</example>
+        <!--
         <example correction="мати рацію|мати слушність|(чиясь) правда">вона <marker>буде права</marker>.</example>
+        -->
         <example>співак є правою рукою дизайнера Анни</example>
         <example>зверху була права рука</example>
         <example>не було правого сидіння</example>
@@ -6246,7 +6263,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token>біля</token>
         <token postag_regexp="yes" postag="number|numr:p:v_rod.*">
           <exception postag_regexp="yes" postag="numr.*pron.*"/> <!--одних|багатьох -->
-          <exception>обох</exception>
+          <exception regexp="yes">обох|одних</exception>
         </token>
         <token postag_regexp="yes" postag="(noun|numr).*v_rod.*"/>
       </pattern>
@@ -6255,6 +6272,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="близько 1 млрд."><marker>біля 1 млрд.</marker> осіб</example>
       <example>біля одного воза він зупинився</example>
       <example>біля обох воріт</example>
+      <example>біля одних дверей</example>
     </rule>
 
     <rule id="v_poti_lycia" name="В поті лиця">

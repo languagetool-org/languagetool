@@ -303,12 +303,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="VERB_SUBSTANDARD_FORMS_2" name="Просторічні форми 2">
       <pattern>
-        <token postag_regexp="yes" postag="verb.*?:p:3.*?:subst.*">
-          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?:p:3.*?:subst.*|SENT_END|PARA_END"/>
+        <token postag_regexp="yes" postag="verb.*?:3.*?:subst.*">
+          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?:3.*?:subst.*|SENT_END|PARA_END"/>
         </token>
       </pattern>
       <message>Ця дієслівна форма є просторічною</message>
-      <example correction="">щось <marker>хотять</marker>.</example>
+      <suggestion><match no="1" postag_regexp="yes" postag="(verb.*):subst(.*)" postag_replace="$1$2"/></suggestion>
+      <example correction="хочуть">щось <marker>хотять</marker>.</example>
+      <example correction="ходить">хтось <marker>ходе</marker>.</example>
     </rule>
 
     <rulegroup id="DIGITS_AND_LETTERS" name="Цифри та літери">
@@ -1161,6 +1163,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Відтепер пишеться разом</message>
       <suggestion>відтепер</suggestion>
       <example correction="відтепер"><marker>від тепер</marker> і до кінця.</example>
+    </rule>
+
+    <rule id="ne_perelyvky" name="Не переливки">
+      <pattern>
+        <token>не</token>
+        <token>переливки</token>
+      </pattern>
+      <message>Присудкове слово <suggestion>непереливки</suggestion> пишеться разом</message>
+      <example correction="непереливки">буде <marker>не переливки</marker>.</example>
     </rule>
 
     <rule id="na_pryzvolyasche" name="На призволяще">
