@@ -221,6 +221,10 @@ public class AdverbFilter extends RuleFilter {
     put("vertically", "vertical");
     put("technically", "technical");
     put("swiftly", "swift");
+    put("accessibly", "accessible");
+    put("occasionally", "occasional");
+    put("specifically", "specific");
+    put("subtly", "subtle");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

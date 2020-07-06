@@ -295,6 +295,7 @@ public class English extends Language implements AutoCloseable {
       case "CD_NN_APOSTROPHE_S":        return 1;   // prefer over CD_NN and LOWERCASE_NAME_APOSTROPHE_S
       case "IT_IF":                     return 1;   // needs higher prio than PRP_COMMA
       case "PROFANITY":                 return 5;   // prefer over spell checker
+      case "FOR_NOUN_SAKE":             return 6;   // prefer over PROFANITY (e.g. "for fuck sake")
       case "RUDE_SARCASTIC":            return 6;   // prefer over spell checker
       case "CHILDISH_LANGUAGE":         return 8;   // prefer over spell checker
       case "EN_DIACRITICS_REPLACE":     return 9;   // prefer over spell checker (like PHRASE_REPETITION)
@@ -303,7 +304,7 @@ public class English extends Language implements AutoCloseable {
       case "A_LOT_OF_NN":               return -1;
       case "IT_VBZ":                    return -1;
       case "IT_IS_2":                   return -1;
-      case "A_RB_NN":                   return -1;  // prefer other more specific rules (e.g. QUIET_QUITE)
+      case "A_RB_NN":                   return -1;  // prefer other more specific rules (e.g. QUIET_QUITE, A_QUITE_WHILE)
       case "PLURAL_VERB_AFTER_THIS":    return -1;  // prefer other more specific rules (e.g. COMMA_TAG_QUESTION)
       case "BE_RB_BE":                  return -1;  // prefer other more specific rules
       case "IT_ITS":                    return -1;  // prefer other more specific rules
