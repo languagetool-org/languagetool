@@ -2592,6 +2592,16 @@ title="Easy editing stylesheet" ?>
           <token inflected='yes' postag_regexp='yes' postag='V....S.+' regexp='yes'>&verbos_de_ligacao;</token>
           <token regexp="yes">[\d,. ]+[&#37;&#8240;&#8241;]</token>
       </antipattern>
+<!-- MARCOAGPINTO 2020-07-06 (2-JUL-2020+) *START* -->
+<!-- "Esta é agrupada em cinco eras principais." -->
+      <antipattern>
+		  <and>
+			<token postag='V.+' postag_regexp='yes'/>
+			<token postag='NC[CFM]P000' postag_regexp='yes'/>
+		  </and>
+		  <token postag='NC[CFM]P000' postag_regexp='yes'/>
+      </antipattern>  	  
+<!-- MARCOAGPINTO 2020-07-06 (2-JUL-2020+) *END* -->
       <pattern case_sensitive='yes'>
           <token inflected='yes' postag_regexp='yes' postag='V....S.+' regexp='yes'>&verbos_de_ligacao;
             <exception postag_regexp='yes' postag='V.[NP].+'/>
@@ -2640,6 +2650,15 @@ title="Easy editing stylesheet" ?>
 		  <token postag='AQ0[CFM]S0' postag_regexp='yes'/>	  
       </antipattern>
 <!-- MARCOAGPINTO 2020-07-02 + 2020-07-03 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-07-06 (2-JUL-2020+) *START* -->
+<!-- "Os nossos sonhos viraram realidade." -->
+<!-- "Os nossos sonhos virarão realidade." -->
+      <antipattern>
+	      <token postag='NC[CFM]P000' postag_regexp='yes'/>
+		  <token postag='VMI[FMS]3P0' postag_regexp='yes'/>	
+		  <token postag='NC[CFM]S000' postag_regexp='yes'/>
+      </antipattern>  	  
+<!-- MARCOAGPINTO 2020-07-06 (2-JUL-2020+) *END* -->
       <pattern case_sensitive='yes'>
         <marker>
           <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;
