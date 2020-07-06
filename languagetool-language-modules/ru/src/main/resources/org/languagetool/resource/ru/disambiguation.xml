@@ -508,5 +508,35 @@ Copyright (C) 2009-2020 Yakov Reztsov
             <token>.</token> 
         </pattern>
          <disambig action="add" ><wd pos="ABR"></wd></disambig>
-    </rule>  
+    </rule>
+     <!-- double -->
+    <rule id="NumD_D_tag" name="NumD_D tag">
+      <pattern>
+        <token regexp="yes">\d*[234]<exception regexp="yes">\d*12|\d*13|\d*14</exception></token>
+      </pattern>
+      <disambig postag="NumD_D"/>
+      <example type="ambiguous" inputform="73[73]" outputform="73[73/NumD_D]"><marker>73</marker> процента</example>
+    </rule>
+    <!-- singular -->
+    <rule id="NumD_S_tag" name="NumD_S tag"> 
+      <pattern>
+        <token regexp="yes">\d*[1]<exception regexp="yes">\d*[1][1]</exception></token>
+      </pattern>
+      <disambig postag="NumD_S"/>  
+      <example type="ambiguous" inputform="71[71]" outputform="71[71/NumD_S]"><marker>71</marker> процент</example>
+    </rule> 
+     <!-- plural -->
+    <rule id="NumD_P_tag" name="NumD_P tag"> 
+      <pattern>
+        <token regexp="yes">\d*[567890]|\d*[1][1234]</token>
+      </pattern>
+      <disambig postag="NumD_P"/> 
+      <example type="ambiguous" inputform="75[75]" outputform="75[75/NumD_P]">
+          <marker>75</marker> процентов</example>
+      <example type="ambiguous" inputform="11[11]" outputform="11[11/NumD_P]">
+          <marker>11</marker> процентов</example>
+      <example type="ambiguous" inputform="12[12]" outputform="12[12/NumD_P]">
+          <marker>12</marker> процентов</example>
+    </rule>
+   
 </rules>
