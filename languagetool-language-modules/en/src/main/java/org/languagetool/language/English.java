@@ -374,7 +374,7 @@ public class English extends Language implements AutoCloseable {
   public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>(super.getRelevantRemoteRules(
       messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages));
-    String theInsertionID = "THE_INS_RULE";
+    String theInsertionID = "AI_THE_INS_RULE";
     RemoteRuleConfig theInsertionConfig = RemoteRuleConfig.getRelevantConfig(theInsertionID, configs);
     if (theInsertionConfig != null) {
       Map<String, String> theInsertionMessages = new HashMap<>();
@@ -385,7 +385,7 @@ public class English extends Language implements AutoCloseable {
         theInsertionID, "the_ins_rule_description", theInsertionMessages);
       rules.add(theInsertionRule);
     }
-    String missingTheID = "MISSING_THE";
+    String missingTheID = "AI_MISSING_THE";
     RemoteRuleConfig missingTheConfig = RemoteRuleConfig.getRelevantConfig(missingTheID, configs);
     if (missingTheConfig != null) {
       Map<String, String> missingTheMessages = new HashMap<>();
@@ -395,7 +395,7 @@ public class English extends Language implements AutoCloseable {
         missingTheID, "the_ins_rule_description", missingTheMessages);
       rules.add(missingTheRule);
     }
-    List<String> confpairRules = Arrays.asList("CONFPAIRS_EN_GPT2", "CONFPAIRS_EN_GPT2_L", "CONFPAIRS_EN_GPT2_XL");
+    List<String> confpairRules = Arrays.asList("AI_CONFPAIRS_EN_GPT2", "AI_CONFPAIRS_EN_GPT2_L", "AI_CONFPAIRS_EN_GPT2_XL");
     for (String confpairID : confpairRules) {
       RemoteRuleConfig confpairConfig = RemoteRuleConfig.getRelevantConfig(confpairID, configs);
       if (confpairConfig != null) {
