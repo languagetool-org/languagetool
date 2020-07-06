@@ -377,23 +377,24 @@ public class English extends Language implements AutoCloseable {
       messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages));
     String theInsertionID = "AI_THE_INS_RULE";
     RemoteRuleConfig theInsertionConfig = RemoteRuleConfig.getRelevantConfig(theInsertionID, configs);
+    final String missingTheDescription = "This rule identifies whether the article 'the' is missing in a sentence, as well as checking if every instance of 'the' in the sentence is correct.";
+    final String delMessage = "This article might not be necessary here.";
+    final String insMessage = "You might be missing an article here.";
     if (theInsertionConfig != null) {
       Map<String, String> theInsertionMessages = new HashMap<>();
-      theInsertionMessages.put("THE_INS", "the_ins_rule_del_the");
-      theInsertionMessages.put("INS_THE", "the_ins_rule_ins_the");
-      Rule theInsertionRule = GRPCRule.create(messageBundle,
-        theInsertionConfig,
-        theInsertionID, "the_ins_rule_description", theInsertionMessages);
+      theInsertionMessages.put("THE_INS", delMessage);
+      theInsertionMessages.put("INS_THE", insMessage);
+      Rule theInsertionRule = GRPCRule.create(theInsertionConfig, theInsertionID,
+                                              missingTheDescription, theInsertionMessages);
       rules.add(theInsertionRule);
     }
     String missingTheID = "AI_MISSING_THE";
     RemoteRuleConfig missingTheConfig = RemoteRuleConfig.getRelevantConfig(missingTheID, configs);
     if (missingTheConfig != null) {
       Map<String, String> missingTheMessages = new HashMap<>();
-      missingTheMessages.put("MISSING_THE", "the_ins_rule_ins_the");
-      Rule missingTheRule = GRPCRule.create(messageBundle,
-        missingTheConfig,
-        missingTheID, "the_ins_rule_description", missingTheMessages);
+      missingTheMessages.put("MISSING_THE", insMessage);
+      Rule missingTheRule = GRPCRule.create(missingTheConfig, missingTheID,
+                                            missingTheDescription, missingTheMessages);
       rules.add(missingTheRule);
     }
     List<String> confpairRules = Arrays.asList("AI_CONFPAIRS_EN_GPT2", "AI_CONFPAIRS_EN_GPT2_L", "AI_CONFPAIRS_EN_GPT2_XL");
