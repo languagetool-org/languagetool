@@ -83,12 +83,12 @@ public class UkrainianDisambiguationRuleTest {
   public void testDisambiguatorRemoveVmis() throws IOException {
     TestTools.myAssert("У Зв'язку",
         "/[null]SENT_START У/[у]prep  /[null]null "
-        + "Зв'язку/[зв'язка]noun:inanim:f:v_zna|Зв'язку/[зв'язкий]adj:f:v_zna|Зв'язку/[зв'язок]noun:inanim:m:v_dav|Зв'язку/[зв'язок]noun:inanim:m:v_mis|Зв'язку/[зв'язок]noun:inanim:m:v_rod",
+        + "Зв'язку/[зв'язка]noun:inanim:f:v_zna|Зв'язку/[зв'язок]noun:inanim:m:v_dav|Зв'язку/[зв'язок]noun:inanim:m:v_mis|Зв'язку/[зв'язок]noun:inanim:m:v_rod",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert("Зв'язку",
         "/[null]SENT_START "
-        + "Зв'язку/[зв'язка]noun:inanim:f:v_zna|Зв'язку/[зв'язкий]adj:f:v_zna|Зв'язку/[зв'язок]noun:inanim:m:v_dav|Зв'язку/[зв'язок]noun:inanim:m:v_rod",
+        + "Зв'язку/[зв'язка]noun:inanim:f:v_zna|Зв'язку/[зв'язок]noun:inanim:m:v_dav|Зв'язку/[зв'язок]noun:inanim:m:v_rod",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert("нейтралітеті",

@@ -132,6 +132,21 @@
     <example type="untouched">УКРАЇНО</example>
   </rule>
 
+  <rule name="Минулого - прикм" id="mynulogo_adj">
+    <pattern>
+      <marker>
+        <token>минулого</token>
+      </marker>
+      <token regexp="yes">року|тижня|століття|разу|літа|понеділка|четверга</token>
+    </pattern>
+    <disambig action="filter" postag="adj:.:.*"/>
+    <example type="ambiguous"
+        inputform="минулого[минуле/noun:inanim:n:v_rod,минулий/adj:m:v_rod:&amp;adjp:actv:perf,минулий/adj:m:v_zna:ranim:&amp;adjp:actv:perf,минулий/adj:n:v_rod:&amp;adjp:actv:perf]"
+        outputform="минулого[минулий/adj:m:v_rod:&amp;adjp:actv:perf,минулий/adj:m:v_zna:ranim:&amp;adjp:actv:perf,минулий/adj:n:v_rod:&amp;adjp:actv:perf]"
+        >і <marker>минулого</marker> року</example>
+    <example type="untouched">минулого і майбутнього</example>
+  </rule>
+
   <rule name="Коли" id="koly_not_verb">
     <pattern>
       <marker>
@@ -3016,6 +3031,48 @@
     <example type="untouched">писать</example>
   </rule>
 
+  <rule name="Права - іменник" id="prava_noun">
+    <antipattern>
+      <token>права</token>
+      <token postag_regexp="yes" postag="noun.*?:f:v_(naz|kly).*"/>
+    </antipattern>
+    <antipattern>
+      <token regexp="yes">опозиційна|радикальна|крайня</token>
+      <token>права</token>
+    </antipattern>
+    <antipattern>
+      <token>права</token>
+      <token regexp="yes">опозиційна|радикальна|крайня</token>
+    </antipattern>
+    <antipattern>
+      <token>права</token>
+      <token min="0" max="3">
+        <exception regexp="yes">була|ліва</exception>
+      </token>
+      <token regexp="yes">була|ліва</token>
+    </antipattern>
+    <antipattern>
+      <token regexp="yes">була|ліва</token>
+      <token min="0" max="3">
+        <exception>права</exception>
+      </token>
+      <token>права</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token>права</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="adj:f:v_(naz|kly).*"/>
+    <example type="ambiguous"
+        inputform="права[правий/adj:f:v_kly:compb,правий/adj:f:v_naz:compb,право/noun:inanim:n:v_rod,право/noun:inanim:p:v_naz,право/noun:inanim:p:v_zna]" 
+        outputform="права[право/noun:inanim:n:v_rod,право/noun:inanim:p:v_naz,право/noun:inanim:p:v_zna]">не має <marker>права</marker>.</example>
+    <example type="untouched">права рука</example>
+    <example type="untouched">права та ліва частини</example>
+    <example type="untouched">вона була стовідсотково права</example>
+    <example type="untouched">права була моя бабуся</example>
+  </rule>
+
   <rule name="Місяць дати" id="date_month">
     <pattern>
       <token regexp="yes">[1-3]?[0-9]</token>
@@ -3029,6 +3086,33 @@
         inputform="Тра[тра/noninfl:&amp;predic:arch]" 
         outputform="Тра[тра/noninfl:abbr]">15 <marker>Тра</marker> 2019.</example>
     <example type="untouched">Тра 2 ведра взять.</example>
+  </rule>
+
+  <rule name="Мету - іменник" id="metu_noun">
+    <pattern>
+      <token>мету
+        <exception scope="previous">я</exception>
+      </token>
+    </pattern>
+    <disambig action="remove" postag="verb.*"/>
+    <example type="ambiguous" 
+        inputform="мету[мести/verb:imperf:pres:s:1,мета/noun:inanim:f:v_zna]" 
+        outputform="мету[мета/noun:inanim:f:v_zna]">за <marker>мету</marker>.</example>
+    <example type="untouched">Я мету.</example>
+  </rule>
+
+  <rule name="одяг - іменник" id="odyag_noun">
+    <pattern>
+      <token>одяг
+        <exception scope="previous">він</exception>
+        <exception scope="previous" postag_regexp="yes" postag="noun:anim:m:v_naz.*"/>
+      </token>
+    </pattern>
+    <disambig action="remove" postag="verb.*"/>
+    <example type="ambiguous" 
+        inputform="одяг[одяг/noun:inanim:m:v_naz,одяг/noun:inanim:m:v_zna,одягти/verb:perf:past:m]" 
+        outputform="одяг[одяг/noun:inanim:m:v_naz,одяг/noun:inanim:m:v_zna]">і <marker>одяг</marker>.</example>
+    <example type="untouched">Він одяг пальто.</example>
   </rule>
 
   <!--

@@ -176,7 +176,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
           
           if( PosTagHelper.hasPosTagPart(analyzedToken, ":bad") 
               && lowerLemmaToCheck.equals(analyzedToken.getLemma()) ) {
-            tokens[i].removeReading(analyzedToken, this.toString());
+            tokens[i].removeReading(analyzedToken, "lowercase_bad_vs_uppercase_good");
           }
         }
       }
@@ -196,7 +196,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
           
           if( ! PosTagHelper.hasPosTagPart(analyzedToken, ":abbr") 
               && ! JLanguageTool.SENTENCE_END_TAGNAME.equals(analyzedToken) ) {
-            tokens[i].removeReading(analyzedToken, this.toString());
+            tokens[i].removeReading(analyzedToken, "lowercase_vs_abbr");
           }
         }
       }
@@ -236,13 +236,17 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
 
       if( inanimVklyReadings.size() > 0 && otherFound ) {
         for(AnalyzedToken analyzedToken: inanimVklyReadings) {
-          tokens[i].removeReading(analyzedToken, this.toString());
+          tokens[i].removeReading(analyzedToken, "inanim_v_kly");
         }
       }
     }
   }
 
+  private static final List<String> LIKELY_V_KLY = Arrays.asList("суде", "роде", "заходе");
   private boolean likelyVklyContext(AnalyzedTokenReadings[] tokens, int i) {
+    if( LIKELY_V_KLY.contains(tokens[i].getToken().toLowerCase()) )
+      return true;
+
     return i < tokens.length - 1
         && ("о".equalsIgnoreCase(tokens[i-1].getToken()) || ! PosTagHelper.hasPosTag(tokens[i-1], PREP_PATTERN))
         && PUNCT_AFTER_KLY_PATTERN.matcher(tokens[i+1].getToken()).matches()
@@ -292,7 +296,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
       }
       if( pluralNameReadings.size() > 0 && otherFound ) {
         for(AnalyzedToken analyzedToken: pluralNameReadings) {
-          tokens[i].removeReading(analyzedToken, this.toString());
+          tokens[i].removeReading(analyzedToken, "plural_for_names");
         }
       }
     }
