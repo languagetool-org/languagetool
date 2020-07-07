@@ -41,6 +41,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLException;
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.function.Function;
@@ -68,6 +69,33 @@ import java.util.stream.Collectors;
  */
 public abstract class GRPCRule extends RemoteRule {
   private static final Logger logger = LoggerFactory.getLogger(GRPCRule.class);
+
+  /**
+   * Internal rule to create rule matches with IDs based on Match Sub-IDs
+   */
+  protected class GRPCSubRule extends Rule {
+    private final String subId;
+
+    GRPCSubRule(String subId) {
+      this.subId = subId;
+    }
+
+    @Override
+    public String getId() {
+      return GRPCRule.this.getId() + "_" + subId;
+    }
+
+    @Override
+    public String getDescription() {
+      return GRPCRule.this.getDescription();
+    }
+
+    @Override
+    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+      throw new UnsupportedOperationException();
+    }
+
+  }
 
   static class Connection {
     final ManagedChannel channel;
@@ -176,7 +204,8 @@ public abstract class GRPCRule extends RemoteRule {
       List<RuleMatch> matches = Streams.zip(response.getSentenceMatchesList().stream(), req.sentences.stream(), (matchList, sentence) ->
         matchList.getMatchesList().stream().map(match -> {
             int relativeOffset = offsets.get(sentence);
-            RuleMatch m = new RuleMatch(this, sentence,
+            GRPCSubRule subRule = new GRPCSubRule(match.getSubId());
+            RuleMatch m = new RuleMatch(subRule, sentence,
               relativeOffset + match.getOffset(),
               relativeOffset + match.getOffset() + match.getLength(),
               getMessage(match, sentence));
