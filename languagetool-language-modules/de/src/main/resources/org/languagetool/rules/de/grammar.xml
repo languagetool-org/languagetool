@@ -33098,6 +33098,7 @@ Andere Projekte</example>
                     <token postag="PRO:.*:SIN:NEU:.*|ADJ:(AKK|DAT):...:NEU:.*|ZAL" postag_regexp="yes">
                         <exception regexp="yes">gerade|ungerade|jedem</exception>
                         <exception postag_regexp="yes" postag="VER:IMP:.*"/>
+                        <exception postag="PRO:PER:NOM:.+" postag_regexp="yes"/>
                     </token>
                     <marker>
                         <token case_sensitive="yes">mal</token>
@@ -33110,6 +33111,7 @@ Andere Projekte</example>
                 <example>Sie hatte es ihm einige <marker>Mal</marker> gezeigt.</example>
                 <example correction="Mal">Beim nächsten <marker>mal</marker> werde ich ihn schlagen.</example>
                 <example>Achte mal darauf, wie der Spieler seine Ellbogen einsetzt.</example>
+                <example>Wir treffen uns nächste Woche und ich versuche ihr mal ein paar Sachen zu zeigen.</example>
             </rule>
             <rule>
                 <pattern>
@@ -33805,6 +33807,10 @@ Andere Projekte</example>
                 <token>in</token>
                 <token>der</token>
             </antipattern>
+            <antipattern>
+                <token>in</token>
+                <token postag="PRO:POS:.+" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
               <marker>
                   <token postag="PRP:LOK+TMP+MOD:DAT+AKK" skip="3">
@@ -33826,6 +33832,7 @@ Andere Projekte</example>
             <example>Ich stelle sicher, dass unser Add-on in deren Store kommt.</example>
             <example>Ich bin froh, in einer Gegend zu leben, in der Frieden herrscht.</example>
             <example>Da keine hochrangigen sowjetischen Offiziere in Reims teilgenommen hatten, ...</example>
+            <example>Kann ich morgen in Ihr Büro kommen?</example>
           </rule>
         </rulegroup>
         <!-- TODO: testen!!
