@@ -1959,6 +1959,43 @@ title="Easy editing stylesheet" ?>
 		  <token postag='AQ0[CFM]P0|NC[CFM]P000' postag_regexp='yes'/>
       </antipattern>  	  	    
 <!-- MARCOAGPINTO 2020-07-06 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-07-07 (2-JUL-2020+) *START* -->
+<!-- "Os fatores políticos e de segurança internos que influenciam os criminosos." -->
+<!-- "Os fatores políticos e de segurança internos influenciam os criminosos." -->
+<!-- "Os fatores políticos e de perigo internos que influenciam os criminosos." -->
+<!-- "Os fatores políticos e de perigo internos influenciam os criminosos." -->
+      <antipattern>
+		  <token postag='AQ0[CFM]P0|NC[CFM]P000' postag_regexp='yes'/>
+		  <token regexp='yes'>e|ou</token>
+		  <token regexp='yes'>de|do</token>
+	      <token postag='NC[CFM]S000' postag_regexp='yes'/>
+		  <token postag='AQ0[CFM]P0|NC[CFM]P000' postag_regexp='yes'/>
+      </antipattern>
+	  <!-- "No dia 15 de agosto milhares de pessoas soltam pipas." -->
+	  <!-- "As características de sabor de uma cerveja podem vir do tipo e quantidade de malte utilizados." -->
+      <antipattern>
+	      <token negate="yes" regexp='yes'>da|de|do|o|um</token>
+		  <token postag='Z0CN0|NC[CFM]S000' postag_regexp='yes'/>
+		  <token regexp='no'>de</token>
+	      <token postag='NC[CFM]S000' postag_regexp='yes'/>
+		  <token postag='AQ0[CFM]P0|NC[CFM]P000' postag_regexp='yes'/>
+      </antipattern>
+	  <!-- "Seu trabalho é de catar caixas e outros materiais de papelão nas ruas do Rio." -->
+      <antipattern>
+          <token postag='AQ0[CFM]S0|NC[CFM]S000' postag_regexp='yes'/>
+		  <token regexp='no'>é</token>
+		  <token regexp='no'>de</token>
+	      <token postag='NC[CFM]S000' postag_regexp='yes'/>
+		  <token postag='AQ0[CFM]P0|NC[CFM]P000' postag_regexp='yes'/>
+      </antipattern>
+	  <!-- "Memória flash semelhantes às EEPROMs são mais rápidas e de menor custo." -->
+      <antipattern>
+	      <token negate="yes" regexp='yes'>da|de|do|o|um</token>
+		  <token postag='NC[CFM]S000' postag_regexp='yes'/>
+	      <token postag='NC[CFM]S000' postag_regexp='yes'/>
+		  <token postag='AQ0[CFM]P0|NC[CFM]P000' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-07-07 (2-JUL-2020+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
