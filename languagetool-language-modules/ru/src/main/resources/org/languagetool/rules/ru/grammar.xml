@@ -11164,6 +11164,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>35,5 процента.</example>
                 <example correction="35,5 процента"><marker>35,5 процентов</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="NumD_S" ></token>
+                    <token postag="NN:.*:.*:.*:R" postag_regexp="yes">
+                        <exception negate_pos="yes" postag="NN:.*:.*:.*:R" postag_regexp="yes"></exception>
+                        <exception>лет</exception>
+                    </token>
+                </pattern>
+                <message>Существительное должно употребляться в единственном числе, а не во множественном: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):R" postag_regexp="yes" postag_replace="NN:$1:Sin:Nom"></match></suggestion></message>
+                <short>Требуется единственное число</short>
+                <example>1 процент.</example>
+                <example correction="1 процент"><marker>1 процента</marker>.</example>
+                <example correction="1 процент"><marker>1 процентов</marker>.</example>
+            </rule>
         </rulegroup>        
 
         <rulegroup default="on" id="Prep_Soglasno" name="Предлоги: «согласно», «благодаря», «вопреки»">
