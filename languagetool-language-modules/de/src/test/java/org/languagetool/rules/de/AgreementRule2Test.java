@@ -43,7 +43,8 @@ public class AgreementRule2Test {
     assertGood("\"Kleines Haus am Waldesrand\"");
     assertBad("Wirtschaftlich Wachstum kommt ins Stocken");
     assertGood("Wirtschaftliches Wachstum kommt ins Stocken");
-    
+    assertGood("Unter Berücksichtigung des Übergangs");
+
     assertGood("Wirklich Frieden herrscht aber noch nicht");
     assertBad("Deutscher Taschenbuch");
     assertGood("Deutscher Taschenbuch Verlag expandiert");

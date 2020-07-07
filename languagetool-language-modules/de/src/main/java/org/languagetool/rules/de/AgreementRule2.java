@@ -130,7 +130,7 @@ public class AgreementRule2 extends Rule {
       if (!tokens[i].isSentenceStart() && !StringUtils.equalsAny(token, "\"", "„", "»", "«")) {
         // skip quotes, as these are not relevant
         if (i+ 1 < tokens.length && tokens[i].hasPosTagStartingWith("ADJ") && tokens[i+1].hasPosTagStartingWith("SUB") && !tokens[i+1].hasPosTagStartingWith("EIG")) {
-          if (tokens[i].isImmunized() || tokens[i+1].isImmunized()) {
+          if (tokens[i].isImmunized() || tokens[i+1].isImmunized() || tokens[i].getToken().equalsIgnoreCase("unter")) {
             continue;
           }
           AnalyzedTokenReadings nextToken = i + 2 < tokens.length ? tokens[i + 2] : null;

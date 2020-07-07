@@ -2,7 +2,9 @@
 
 ## 5.1-SNAPSHOT (release planned for 2020-09-25)
 
-...
+#### German
+  * Updated the German part-of-speech dictionary (https://github.com/languagetool-org/german-pos-dict)
+    to version 1.2.2.
 
 
 ## 5.0 (2020-06-27)
