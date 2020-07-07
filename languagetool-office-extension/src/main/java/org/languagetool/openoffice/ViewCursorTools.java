@@ -131,6 +131,7 @@ public class ViewCursorTools {
       if (xParagraphCursor == null) {
         return -1;
       }
+      xParagraphCursor.collapseToStart();
       xParagraphCursor.gotoStartOfParagraph(true);
       return xParagraphCursor.getString().length();
     } catch (Throwable t) {

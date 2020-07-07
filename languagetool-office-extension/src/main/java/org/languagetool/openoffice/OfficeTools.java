@@ -23,9 +23,12 @@ import org.jetbrains.annotations.Nullable;
 import com.sun.star.awt.XMenuBar;
 import com.sun.star.awt.XPopupMenu;
 import com.sun.star.beans.Property;
+import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.beans.XPropertySetInfo;
 import com.sun.star.frame.XDesktop;
+import com.sun.star.frame.XDispatchHelper;
+import com.sun.star.frame.XDispatchProvider;
 import com.sun.star.frame.XFrame;
 import com.sun.star.frame.XLayoutManager;
 import com.sun.star.lang.XComponent;
@@ -56,6 +59,7 @@ class OfficeTools {
   public static final int MAX_SUGGESTIONS = 15;  // Number of suggestions maximal shown in LO/OO
   public static final int NUMBER_TEXTLEVEL_CACHE = 2;  // Number of caches for matches of text level rules
 
+  
   public static int DEBUG_MODE_SD = 0;
   public static boolean DEBUG_MODE_MD = false;
   public static boolean DEBUG_MODE_DC = false;
@@ -222,6 +226,62 @@ class OfficeTools {
       return null;           // Return null as method failed
     }
   }
+  
+  /**
+   *  dispatch an internal LO/OO command
+   *  cmd does not include the ".uno:" substring; e.g. pass "Zoom" not ".uno:Zoom"
+   */
+  public static boolean dispatchCmd(String cmd, XComponentContext xContext) {
+    return dispatchCmd(cmd, new PropertyValue[0], xContext);
+  } 
+
+
+  public static boolean dispatchCmd(String cmd, PropertyValue[] props, XComponentContext xContext) {
+    try {
+      if (xContext == null) {
+        return false;
+      }
+      XMultiComponentFactory xMCF = UnoRuntime.queryInterface(XMultiComponentFactory.class,
+              xContext.getServiceManager());
+      if (xMCF == null) {
+        return false;
+      }
+      Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xContext);
+      if (desktop == null) {
+        return false;
+      }
+      XDesktop xdesktop = UnoRuntime.queryInterface(XDesktop.class, desktop);
+      if (xdesktop == null) {
+        return false;
+      }
+      
+      Object helper = xMCF.createInstanceWithContext("com.sun.star.frame.DispatchHelper", xContext);
+      if (helper == null) {
+        return false;
+      }
+      XDispatchHelper dispatchHelper = UnoRuntime.queryInterface(XDispatchHelper.class, helper);
+      if (dispatchHelper == null) {
+        return false;
+      }
+  
+      XDispatchProvider provider = UnoRuntime.queryInterface(XDispatchProvider.class, xdesktop.getCurrentFrame());
+      if (provider == null) {
+        MessageHandler.printToLogFile("Dispatch: provider == null");
+        return false;
+      }
+
+      dispatchHelper.executeDispatch(provider, (".uno:" + cmd), "", 0, props);
+
+      return true;
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      return false;
+    }
+  }
+
+/**
+ * Handle logLevel for debugging and development
+ */
   
   static void setLogLevel(String logLevel) {
     if (logLevel != null) {

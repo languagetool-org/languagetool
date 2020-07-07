@@ -40,6 +40,7 @@ public class LtDictionary {
   private static boolean debugMode; //  should be false except for testing
 
   private List<String> dictionaryList = new ArrayList<>();
+  private XDictionary listIgnoredWords = null;
   
   public LtDictionary() {
     debugMode = OfficeTools.DEBUG_MODE_LD;
@@ -51,6 +52,16 @@ public class LtDictionary {
       MessageHandler.printToLogFile("searchableDictionaryList == null");
       return false;
     }
+    if (listIgnoredWords == null) {
+      XDictionary[] dictionaryList = searchableDictionaryList.getDictionaries();
+      listIgnoredWords = dictionaryList[dictionaryList.length - 1];
+    }
+/*
+    MessageHandler.printToLogFile("Dictionaries:");
+    for (XDictionary dictionary : searchableDictionaryList.getDictionaries()) {
+      MessageHandler.printToLogFile(dictionary.getName() + " (" + dictionary.getLocale().Language + ")");
+    }
+*/
     String shortCode = locale.Language;
     String dictionaryName = "__LT_" + shortCode + "_internal.dic";
     if (!dictionaryList.contains(dictionaryName)) {
@@ -136,5 +147,45 @@ public class LtDictionary {
     }
     return false;
   }
-
+  
+  /**
+   * Add a word to the List of ignored words
+   * Used for ignore all in spelling check
+   */
+  public void addIgnoredWord(String word) {
+    listIgnoredWords.add(word, false, "");
+  }
+  
+  /**
+   * Add a word to a user dictionary
+   */
+  public void addWordToDictionary(String dictionaryName, String word, XComponentContext xContext) {
+    XSearchableDictionaryList searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);
+    if (searchableDictionaryList == null) {
+      MessageHandler.printToLogFile("searchableDictionaryList == null");
+      return;
+    }
+    XDictionary dictionary = searchableDictionaryList.getDictionaryByName(dictionaryName);
+    dictionary.add(word, false, "");
+  }
+  
+  /**
+   * Get all user dictionaries
+   */
+  public String[] getUserDictionaries(XComponentContext xContext) {
+    XSearchableDictionaryList searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);
+    if (searchableDictionaryList == null) {
+      MessageHandler.printToLogFile("searchableDictionaryList == null");
+      return null;
+    }
+    XDictionary[] dictionaryList = searchableDictionaryList.getDictionaries();
+    List<String> userDictionaries = new ArrayList<String>();
+    for (XDictionary dictionary : dictionaryList) {
+      String name = dictionary.getName();
+      if (!name.startsWith("__LT_") && !name.equals(listIgnoredWords.getName())) {
+        userDictionaries.add(new String(name));
+      }
+    }
+    return userDictionaries.toArray(new String[userDictionaries.size()]);
+  }
 }
