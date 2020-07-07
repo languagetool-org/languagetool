@@ -18879,7 +18879,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">pressa|presses</token>
                     </marker>
                     <token regexp="yes">de|d'</token>
-                    <token regexp="yes" inflected="yes">pèl|xocolat[ae]|vista|possessió|raó|corrent|terra|força|so|aire|decisió</token>
+                    <token regexp="yes" inflected="yes">pèl|xocolat[ae]|vista|possessió|raó|corrent|terra|força|so|aire|decisió|mostra</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match="press(.+)" regexp_replace="pres$1"/></suggestion>?</message>
                 <short>Possible confusió</short>
@@ -18918,6 +18918,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>perquè ha estat presa de l'home</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>presa</token>
+                    <token>de</token>
+                    <token regexp="yes">pèl|xocolat[ae]|vista|possessió|raó|corrent|terra|força|so|aire|decisió|mostra</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">amb|sense</token>
                     <marker>
@@ -48992,7 +48997,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>oferta</token>
                 </marker>
-                <token><exception postag="CC"/></token>
+                <token><exception postag="CC|A..[FC][SN]." postag_regexp="yes"/></token>
             </pattern>
             <message>Si és un verb, cal dir <suggestion>ofereix</suggestion>.</message>
             <example correction="ofereix">Ningú no <marker>oferta</marker> res per ell.</example>
@@ -49002,6 +49007,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>L'oferta és bona.</example>
             <example>Quan oferta i demanda es conjuguen.</example>
             <example>No hi ha gaire oferta.</example>
+            <example>És una bona notícia que hi hagi més oferta comercial.</example>
         </rule>
         <rule id="CULT" name="cult">
             <pattern>
