@@ -9221,7 +9221,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            <example correction="относится">Проблема может возникнуть при наличии собственных резонансов в модели, что <marker>относиться</marker> и к нашему случаю, где частота падающей волны приходится на максимум дипольного отклика частицы.</example>
         </rule>        
         </rulegroup>                
-        <rule id="Verb_INF_OR_3P_2" default="off" name="Инфинитив вместо личной формы глагола"> <!-- set temp off -->
+        <rule id="Verb_INF_OR_3P_2" default="temp_off" name="Инфинитив вместо личной формы глагола"> <!-- set temp off -->
             <antipattern>
                  <token postag="SENT_START" skip="-1" />
                  <token postag="VB:.*" skip="-1" postag_regexp="yes" ><exception   postag="VB:.*"  postag_regexp="yes"  negate_pos="yes"    /></token>
@@ -9247,7 +9247,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <marker>
-                    <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception negate_pos="yes" postag="VB:INF:.*" postag_regexp="yes"/><exception postag_regexp="yes" scope="next" postag="VB:.*"></exception><exception postag_regexp="yes" scope="previous" postag="VB:.*|NN:.*:Nom|PNN:.*:Nom:.*" /></token>
+                    <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception negate_pos="yes" postag="VB:INF:.*" postag_regexp="yes"/>
+                        <exception postag_regexp="yes" scope="next" postag="VB:.*"></exception>
+                        <exception postag_regexp="yes" scope="previous" postag="VB:.*|NN:.*:Nom|PNN:.*:Nom:.*" />
+                        <exception regexp="yes" scope="previous" >можно|сложно|нужно|трудно|надо|нелегко|легко|лучше|хуже|невозможно|успешно|чтобы|сильно|слабо|непросто|небрежно|вовремя|разрешено</exception> <!-- check word, maybe set POStag? -->
+                    </token>
                 </marker>
                 <token postag="PREP" skip="-1"></token>    
                 <token regexp="yes">[.;,!?]</token>
@@ -9260,6 +9264,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Глагол должен быть в личной форме</short>
             <example>Но вот мой друг очень положительно относится к спорту.</example>
             <example>Ты должен немедленно отправиться в путь.</example>
+            <example>Тебе нужно встретиться с ней.</example>
             <example>Плесень может появляться и размножаться в кислотах, которые защищают нас от бактерий.</example>
             <example>Взрослый самец может временно присоединяться к стаду с самками.</example>
             <example>Все хотят встретиться с вами, вы знаменитость!</example>
