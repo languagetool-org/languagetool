@@ -1117,7 +1117,43 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
     </pattern>
 		<disambig action="add"><wd pos="NAME_PART"/><wd pos="NAME_PART"/></disambig>
 	</rule>
-	
+
+    <!-- meld geen spelfouten als er () in een woord staat -->
+	<rule id="HAAKJES_IN_WOORD_1" name="">
+		<pattern case_sensitive="yes">
+            <marker>
+                <token spacebefore="yes">(</token>
+                <token spacebefore="no" regexp="yes">.*[a-zA-Z].*</token>
+                <token spacebefore="no">)</token>
+                <token spacebefore="no" regexp="yes">.*[a-zA-Z].*</token>
+            </marker>
+        </pattern>
+		<disambig action="ignore_spelling"/>
+	</rule>
+	<rule id="HAAKJES_IN_WOORD_2" name="">
+		<pattern case_sensitive="yes">
+            <marker>
+                <token spacebefore="yes" regexp="yes">.*[a-zA-Z].*</token>
+                <token spacebefore="no">(</token>
+                <token spacebefore="no" regexp="yes">.*[a-zA-Z].*</token>
+                <token spacebefore="no">)</token>
+                <token spacebefore="no" regexp="yes">.*[a-zA-Z].*</token>
+            </marker>
+        </pattern>
+		<disambig action="ignore_spelling"/>
+	</rule>
+	<rule id="HAAKJES_IN_WOORD_3" name="">
+		<pattern case_sensitive="yes">
+            <marker>
+                <token spacebefore="yes" regexp="yes">.*[a-zA-Z].*</token>
+                <token spacebefore="no">(</token>
+                <token spacebefore="no" regexp="yes">.*[a-zA-Z].*</token>
+                <token spacebefore="no">)</token>
+            </marker>
+        </pattern>
+		<disambig action="ignore_spelling"/>
+	</rule>
+    
 	<!-- aanhalingstekens openen 
 	<rule id="AANHAAL_OPN_1" name="">
         <pattern><token>‘</token></pattern>
