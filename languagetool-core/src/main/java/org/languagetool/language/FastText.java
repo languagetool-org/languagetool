@@ -35,9 +35,9 @@ class FastText {
   private static final Logger logger = LoggerFactory.getLogger(FastText.class);
   private static final int K_HIGHEST_SCORES = 5;
 
-  private Process fasttextProcess;
-  private BufferedReader fasttextIn;
-  private BufferedWriter fasttextOut;
+  private final Process fasttextProcess;
+  private final BufferedReader fasttextIn;
+  private final BufferedWriter fasttextOut;
 
   FastText(File modelPath, File binaryPath) throws IOException {
     fasttextProcess = new ProcessBuilder(binaryPath.getPath(), "predict-prob", modelPath.getPath(), "-", "" + K_HIGHEST_SCORES).start();
