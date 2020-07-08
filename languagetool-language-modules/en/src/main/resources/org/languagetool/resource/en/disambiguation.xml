@@ -6230,6 +6230,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token inflected="yes" regexp="yes">be|have</token>
             <token>drank</token>
         </antipattern>
+        <antipattern><!-- #3220 have questions please let me -->
+            <token inflected="yes" regexp="yes">be|have</token>
+            <token postag="NNS"/>
+            <token postag="RB"/>
+            <token postag_regexp="yes" postag="VBP?"/>
+        </antipattern>
         <pattern>
             <token inflected="yes" regexp="yes">be|have</token>
             <token min="0" max="2" postag="PRP|NN.*|RB" postag_regexp="yes"/>
@@ -6248,6 +6254,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Incorrect grammar. The primary problem was <marker>it's cost</marker>.</example>
         <example type="untouched">Incorrect grammar. ... and have <marker>it's cost calculations</marker> been...?</example>
         <example type="untouched">Informal/non-standard. He had <marker>drank</marker> that too quickly.</example>
+        <example type="untouched">If you have questions please let me know.</example><!-- #3220 -->
+        <example type="untouched">If there are problems please put the manager in the loop.</example><!-- #3220 -->
+        <example type="untouched">If there are problems immediately put me in touch with the manager.</example><!-- #3220 -->
+        <example type="untouched">If you were having ideas quickly set all of them aside.</example><!-- #3220 -->
 <!--        <example type="untouched">She was <marker>pleased</marker> with her new car.</example> Adjective. Compare with the 'considered' example. Refer to https://en.wikipedia.org/wiki/English_passive_voice#Stative_and_adjectival_uses -->
         <example type="ambiguous" inputform="made[make/VBD,make/VBN]" outputform="made[make/VBN]">He has <marker>made</marker> a mistake.</example>
         <example type="ambiguous" outputform="liked[like/VBN]" inputform="liked[like/VBD,like/VBN]">Have you <marker>liked</marker> Dutch jazz music?</example>
