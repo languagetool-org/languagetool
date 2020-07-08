@@ -182,7 +182,7 @@ class CheckCallable implements Callable<File> {
             throw new ApiErrorException(error);
           } else {
             String backendServer = httpConn.getHeaderField("x-backend-server");
-            throw new IOException("Failed posting to " + url + ", server " + backendServer + " responded with code " + httpConn.getResponseCode() + " and error: " + error);
+            throw new IOException("Failed posting to " + url + ", server " + backendServer + " responded with code " + httpConn.getResponseCode() + " and error: " + error + " for postData: " + postData);
           }
         } else {
           inputStream = httpConn.getInputStream();
