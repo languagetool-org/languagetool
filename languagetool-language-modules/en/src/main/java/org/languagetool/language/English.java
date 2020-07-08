@@ -260,6 +260,8 @@ public class English extends Language implements AutoCloseable {
       case "EN_COMPOUNDS":              return 2;
       case "ABBREVIATION_PUNCTUATION":  return 2;
       case "COVID_19":                  return 1;
+      case "IT_SOMETHING":              return 1;   // higher prio than IF_YOU_ANY
+      case "NO_KNOW":                   return 1;   // higher prio than DOUBLE_NEGATIVE
       case "FEDEX":                     return 1;   // higher prio than PLEASE_VB
       case "DON_T_AREN_T":              return 1;   // higher prio than DID_BASEFORM
       case "MONEY_BACK_HYPHEN":         return 1;   // higher prio than A_UNCOUNTABLE
@@ -294,7 +296,7 @@ public class English extends Language implements AutoCloseable {
       case "WONT_CONTRACTION":          return 1;   // prefer over WONT_WANT
       case "THAN_THANK":                return 1;   // prefer over THAN_THEN
       case "CD_NN_APOSTROPHE_S":        return 1;   // prefer over CD_NN and LOWERCASE_NAME_APOSTROPHE_S
-      case "IT_IF":                     return 1;   // needs higher prio than PRP_COMMA
+      case "IT_IF":                     return 1;   // needs higher prio than PRP_COMMA and IF_YOU_ANY
       case "PROFANITY":                 return 5;   // prefer over spell checker
       case "FOR_NOUN_SAKE":             return 6;   // prefer over PROFANITY (e.g. "for fuck sake")
       case "RUDE_SARCASTIC":            return 6;   // prefer over spell checker
