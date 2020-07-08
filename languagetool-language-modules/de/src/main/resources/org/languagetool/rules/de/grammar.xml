@@ -38197,6 +38197,12 @@ Andere Projekte</example>
                 <example>Weil er das Haus, die zwei Ferngläser und die Funkgeräte sah, geriet er in Panik.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="SUB:.*:NEU" postag_regexp="yes"></token>
+                    <token regexp="yes">zu|zur|zum|über</token>
+                    <token postag='ART:.+:.+:SIN:FEM' postag_regexp='yes' min="0"/>
+                    <token postag='SUB:.+:SIN:FEM' postag_regexp='yes'/>
+                </antipattern>
                 <pattern>
                     <token postag='ART:.+:.+:SIN:FEM' postag_regexp='yes'/>
                     <token postag='SUB:.+:SIN:FEM' postag_regexp='yes'/>
@@ -38215,6 +38221,7 @@ Andere Projekte</example>
                 <example>Er hatte eine Frau, das heißt er war verheiratet.</example>
                 <example>Das ist eine Episode, der spätere Bearbeiter des Stoffs eine ursprünglich völlig fehlende erotische Komponente verleihen.</example>
                 <example>Ein Architekturmodell von Objekten insbesondere aus der Informatik, das als Vorlage für die Entwicklung dient, wird Referenzarchitektur genannt.</example>
+                <example>Der Schriftsteller verfasste ein bedeutendes Werk über die Landwirtschaft, das nicht erhalten ist.</example>
             </rule>
             <rule>
                 <antipattern>
