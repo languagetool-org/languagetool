@@ -6,6 +6,9 @@
   * Updated the German part-of-speech dictionary (https://github.com/languagetool-org/german-pos-dict)
     to version 1.2.2.
 
+#### Russian
+  * added and improved rules
+
 
 ## 5.0 (2020-06-27)
 
