@@ -28457,7 +28457,7 @@ TODO Write better examples
       <antipattern>
           <token regexp="yes">“|«|"|\(</token>
           <token regexp="yes">:|;</token>
-          <token spacebefore="no" regexp="yes">”|»|"|\)</token>
+          <token regexp="yes">”|»|"|\)</token>
       </antipattern>
       <antipattern><!-- XXX Wikipedia lists and time formats -->
           <token>:</token>
@@ -28469,7 +28469,7 @@ TODO Write better examples
           <token spacebefore="no">:</token>
       </antipattern>
       <antipattern>
-          <token regexp="yes">:|;</token>
+          <token>;</token>
           <token regexp="yes">“|»|«|"|”</token>
           <token spacebefore="yes"/>
       </antipattern>
@@ -28484,13 +28484,15 @@ TODO Write better examples
           <token spacebefore="no" min='0'>-</token>
           <token spacebefore="no" regexp="yes">[()\/DPS]</token>
       </antipattern>
+<!-- MARCOAGPINTO Fixed: 2020-07-08 (2-JUL-2020+) *START* -->
       <pattern>
         <marker>
-          <token regexp="yes">:|;</token>
-          <token spacebefore="no">
-            <exception postag="SENT_END"/></token>
+		  <token regexp="yes">:|;
+			<exception postag_regexp='no' postag='SENT_END'/></token>
+          <token spacebefore="no"></token>
         </marker>
       </pattern>
+<!-- MARCOAGPINTO Fixed: 2020-07-08 (2-JUL-2020+) *END* -->
       <message>Deve colocar um espaço após '\1'.</message>
         <suggestion>\1 \2</suggestion>
       <example correction=": «">Ele disse<marker>:«</marker>O jardim é verdadeiramente bonito.»</example>
