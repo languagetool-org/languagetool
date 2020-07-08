@@ -85,6 +85,11 @@ public class AgreementRule extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      token("Domain"),
+      token("Name"),
+      tokenRegex("Systems?")
+    ),
+    Arrays.asList(
       tokenRegex("der|das|die"),
       new PatternTokenBuilder().min(0).build(),
       token("Bad"),
