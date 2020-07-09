@@ -985,6 +985,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="NAKEUREN_NAKUREN" name="waarschuwing bij gebruik nakuren i.p.v. nakeuren">
 			<rule>
+                <antipattern><token regexp="yes">de|die</token><token>nakuren</token></antipattern>
 				<pattern>
 					   <token>nakuren</token>
 				</pattern>
@@ -3734,6 +3735,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="SAGEN_ZAGEN" name="waarschuwing bij gebruik sagen i.p.v. zagen">
 			<rule>
+                <antipattern><token postag=".*VRB" postag_regexp="yes"/><token>sagen</token></antipattern>
 				<pattern><token>sagen</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>zagen</suggestion> (met een zaag)? Of toch  'ĺegenden'?</message>
 				<example correction="zagen">Het woord <marker>sagen</marker> kan een vergissing zijn.</example>
@@ -3742,7 +3744,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="SUSSEN_ZUSSEN" name="waarschuwing bij gebruik sussen i.p.v. zussen">
 			<rule>
-                <antipattern><token postag="SENT_START" skip="-1" /><token skip="-1">slaap</token><token postag="SENT_END"/></antipattern>
+                <antipattern><token postag="SENT_START" skip="-1" /><token skip="-1" regexp="yes">slaap|ongerust</token><token postag="SENT_END"/></antipattern>
 				<antipattern><token regexp="yes">te|het</token><token>sussen</token></antipattern>
 				<pattern><token>sussen</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>zussen</suggestion>?</message>
@@ -3806,7 +3808,7 @@ regexp case-insensitive maken : (?i)
 		-->
 		<rulegroup id="SELDEN_ZELDEN" name="waarschuwing bij gebruik selden i.p.v. zelden">
 			<rule>
-				<pattern><token>selden</token></pattern>
+				<pattern><token case_sensitive="yes">selden</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>zelden</suggestion>? Het werkwoord sellen is zeldzaam en af te raden.</message>
 				<example correction="zelden">Het woord <marker>selden</marker> kan een vergissing zijn.</example>
 			</rule>
@@ -4427,7 +4429,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="POSEN_POZEN" name="waarschuwing bij gebruik posen i.p.v. pozen">
 			<rule>
-				<pattern><token>posen</token></pattern>
+                <pattern case_sensitive="yes"><token>posen</token></pattern><!-- Posen is ook een plaats -->
 				<message>Bedoelt u wellicht <suggestion>pozen</suggestion> (wachttijden)? Of toch houdingen?</message>
 				<example correction="pozen">Het woord <marker>posen</marker> kan een vergissing zijn.</example>
 			</rule>
@@ -27310,6 +27312,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="PORTEFEUILLE" name="portefeuille">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">pakte?|biljet|briefje</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					<token inflected="yes">portefeuille</token>
 				</pattern>
@@ -31682,6 +31685,7 @@ steenwijk;Steenwijk
 		-->
 		<rulegroup id="JIJ_BEHEERD" name="Jij beheerd → jij beheert">
 			<rule>
+                <antipattern><token postag="SENT_START"/><token>Je</token><token>afgesloofd</token></antipattern>
 				<antipattern><token>je</token><token postag="ZNW.*" postag_regexp="yes"/><token/></antipattern> <!-- je geduld wordt .. -->
 				<antipattern><token>je</token><token>gezond</token></antipattern> <!-- je gezond verstand .. -->
 				<pattern>
@@ -31850,6 +31854,7 @@ steenwijk;Steenwijk
 		
 		<rulegroup id="MET_ZONDER_X" name="met zonder jas / zonder jas">
 			<rule>
+                <antipattern><token>in</token><token>vergelijking</token><token>met</token></antipattern>
 				<antipattern><token>met</token><token>zonder</token><token regexp="yes">meer|uitzondering|enige</token></antipattern>
 				<pattern>
 					<token>met</token>
@@ -32589,6 +32594,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="SEPSIS_SCEPSIS" name="Sepsis vs scepsis">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(bloed|huid).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 						<token>sepsis</token>
 				</pattern>
@@ -32903,7 +32909,7 @@ steenwijk;Steenwijk
 		<rulegroup id="BEDOENING" name="Bedoening → bedoeling">
 			<rule>
 				<pattern>
-					<token postag="BNW:STL:VRB"><exception regexp="yes">tamme|idiote|helse|stijve|toffe|flauwe|bonte|gladde|sjieke|drukke|trieste|leuke|saaie|natte|gezellige|ascetische|risicovolle|belachelijke|leerzame|softe|nervueze|kale|zelfingenomen|delicate|wereldvreemde|ludieke|prijzige</exception></token>
+					<token postag="BNW:STL:VRB"><exception regexp="yes">tamme|idiote|helse|stijve|toffe|flauwe|bonte|gladde|sjieke|drukke|trieste|leuke|saaie|natte|gezellige|ascetische|risicovolle|belachelijke|leerzame|softe|nervueze|kale|zelfingenomen|delicate|wereldvreemde|ludieke|prijzige|troosteloze</exception></token>
 					<token>bedoening</token>
 				</pattern>
 				<message>Bedoelt u wellicht: <suggestion>\1 bedoeling</suggestion> (gedoe)?</message>
@@ -34126,6 +34132,7 @@ steenwijk;Steenwijk
 			<rule>
 				<!-- 2014-09-24 TaalTik nieuw -->
 				<!-- haren en mijnen uitgeschakeld i.v.m. vele false positives -->
+                <antipattern><token>te</token><token>jouwen</token></antipattern>
 				<pattern case_sensitive="yes">
 					<token negate="yes">de</token>
 					<marker>
@@ -35164,7 +35171,7 @@ steenwijk;Steenwijk
 					<token>stap</token>
 					<token>voor</token>
 					<token>stap</token>
-					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer|hele|wat|hoe|kan</exception><exception postag_regexp="yes" postag="WKW.*"/></token>
+					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer|hele|wat|hoe|kan</exception><exception postag_regexp="yes" postag="WKW.*|BNW.*"/></token>
 				</pattern>
 				<message>Bedoelt u wellicht: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 				<url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -36988,6 +36995,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="HOLLANDS_GLORIE" name="Hollands glorie">
 			<rule>
+                <antipattern case_sensitive="yes"><token>Hollands</token><token>Glorie</token></antipattern><!-- de titel -->
 				<pattern>
 					<token>hollands</token>
 					<token>glorie</token>
