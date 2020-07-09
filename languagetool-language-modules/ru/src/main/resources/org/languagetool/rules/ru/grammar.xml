@@ -11166,16 +11166,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="NumD_S" ></token>
+                    <token postag="NumD_S" ><exception scope="previous" regexp="yes">по|–|—</exception><exception scope="previous" spacebefore="no">-</exception></token>
                     <token postag="NN:.*:.*:PL:.*" postag_regexp="yes">
                         <exception negate_pos="yes" postag="NN:.*:.*:PL:.*" postag_regexp="yes"></exception>
                         <exception  postag="NN:.*:.*:Sin:.Nom" postag_regexp="yes"></exception>
                         <exception>лет</exception>
+                        
                     </token>
                 </pattern>
                 <message>Существительное должно употребляться в единственном числе, а не во множественном: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):PL:(.*)" postag_regexp="yes" postag_replace="NN:$1:Sin:$2"></match></suggestion></message>
                 <short>Требуется единственное число</short>
                 <example>1 процент.</example>
+                <example>Три тома второго издания книги вышли в 1966 — 1971 годах.</example>
                 <example correction="1 процента"><marker>1 процентов</marker>.</example>
             </rule>
         </rulegroup>        
