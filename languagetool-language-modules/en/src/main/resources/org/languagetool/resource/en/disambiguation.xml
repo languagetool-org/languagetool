@@ -2967,6 +2967,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
             <token>to</token>
         </antipattern>
+        <antipattern><!-- Premium #1564 If any professional want to know... Incorrect grammar, but 'professional' is not an adjective -->
+            <token chunk="B-NP-singular" postag_regexp="yes" postag="DT|PRP\$"/>
+            <token chunk="I-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token chunk="E-NP-singular"  postag_regexp="yes" postag="VB.*"/><!-- chunker error -->
+            <token chunk="B-VP">to</token>
+            <token chunk="I-VP" postag_regexp="yes" postag="VBP?"/>
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception><exception scope="previous">of</exception></token>
             <token postag="JJ"><exception postag="RB|NNPS?|NN:U|PRP" postag_regexp="yes"/></token>
@@ -3007,6 +3014,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">The two hand out money for the poor.</example><!-- #2651 hand/E-NP-singular -->
         <example type="untouched">If the media want to know about their customers...</example><!-- Premium #1564 -->
         <example type="untouched">Some state want to go slow.</example><!-- Premium #1564 -->
+        <example type="untouched">If any professional want to know the new...</example><!-- Premium #1564 -->
         <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">Today, the black <marker>dogs</marker> barks loudly.</example>
         <example type="ambiguous" inputform="will[will/MD,will/NN:UN,will/VB,will/VBP]" outputform="will[will/NN:UN]">Undoubtedly, the general <marker>will</marker> is an important notion in Rousseau.</example>
         <example type="ambiguous" inputform="course[course/NN:UN,course/VB,course/VBP]" outputform="course[course/NN:UN]">Panovsky's notion of the dialectic makes history follow a predetermined <marker>course</marker>.</example>
@@ -4019,6 +4027,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
             <token>to</token>
         </antipattern>
+        <antipattern><!-- Premium #1564 If any professional want to know... Incorrect grammar, but 'professional' is not an adjective -->
+            <token chunk="B-NP-singular" postag_regexp="yes" postag="DT|PRP\$"/>
+            <token chunk="I-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token chunk="E-NP-singular"  postag_regexp="yes" postag="VB.*"/><!-- chunker error -->
+            <token chunk="B-VP">to</token>
+            <token chunk="I-VP" postag_regexp="yes" postag="VBP?"/>
+        </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"/>
             <token postag="JJ.*|VBG" postag_regexp="yes"><exception postag="RB"/><exception regexp="yes">being|one</exception></token>
@@ -4060,6 +4075,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">This makes my skin crawl.</example><!-- #3092 -->
         <example type="untouched">If the media want to know about their customers...</example><!-- Premium #1564 -->
         <example type="untouched">Some state want to go slow.</example><!-- Premium #1564 -->
+        <example type="untouched">If any professional want to know the new...</example><!-- Premium #1564 -->
         <example type="ambiguous" inputform="nose[nose/NN,nose/VB,nose/VBP]" outputform="nose[nose/NN]">The elephant swings its long <marker>nose</marker>.</example>
         <example type="ambiguous" inputform="stone[stone/JJ,stone/NN:UN,stone/NNS,stone/VB,stone/VBP]" outputform="stone[stone/NN:UN,stone/NNS]">A rolling <marker>stone</marker> gathers no moss.</example>
         <example type="ambiguous" inputform="make[make/NN:UN,make/VB,make/VBP]" outputform="make[make/NN:UN]">No, I mean like <marker>make</marker> or brand name, in which case no further actions are necessary.</example>
@@ -5710,6 +5726,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>to</token>
             <token chunk="E-NP-singular" postag_regexp="yes" postag="VBP?"/>
         </antipattern>
+        <antipattern><!-- Premium #1564 If any professional want to know... Incorrect grammar, but 'professional' is not an adjective -->
+            <token chunk="B-NP-singular" postag_regexp="yes" postag="DT|PRP\$"/>
+            <token chunk="I-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token chunk="E-NP-singular"  postag_regexp="yes" postag="VB.*"/><!-- chunker error -->
+            <token chunk="B-VP">to</token>
+            <token chunk="I-VP" postag_regexp="yes" postag="VBP?"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -5830,6 +5853,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Tom will have to work tomorrow.</example><!-- #3209 -->
         <example type="untouched">I've never had to work very hard.</example><!-- #3209 -->
         <example type="untouched">I hate having to part with you for a whole week.</example><!-- #3209 -->
+        <example type="untouched">If any professional want to know the new...</example><!-- Premium #1564 -->
         <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
         <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
         <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">Does this <marker>work</marker> contain any errors?</example>
@@ -7657,6 +7681,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="E-NP-plural" postag="NNS"/>
             <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]?"/>
         </antipattern>
+        <antipattern><!-- Premium #1564 If any professional want to know... Incorrect grammar, but 'professional' is not an adjective -->
+            <token chunk="B-NP-singular" postag_regexp="yes" postag="DT|PRP\$"/>
+            <token chunk="I-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token chunk="E-NP-singular"  postag_regexp="yes" postag="VB.*"/><!-- chunker error -->
+            <token chunk="B-VP">to</token>
+            <token chunk="I-VP" postag_regexp="yes" postag="VBP?"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -7706,6 +7737,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">In a perfect world spreaders don't exist.</example><!-- #3101 -->
         <example type="untouched">In a perfect world technicians don this equipment for protection.</example><!-- #3101 -->
         <example type="untouched">In a perfect world technicians wear PPE.</example><!-- #3101 -->
+        <example type="untouched">If any professional want to know the new...</example><!-- Premium #1564 -->
     </rule>
 
     <rule id="DT_JJ_NNJJ_NN_VB_APOSTROPHE" name="determiner + adj + noun/adj + noun + verbn't => noun"><!-- #3108 -->
