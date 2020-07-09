@@ -3126,7 +3126,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>huismeid</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>huismijt</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>huismijt</suggestion> (ongedierte)? Of toch een bediende?</message>
 				<example correction="huismijt">Het woord <marker>huismeid</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -3556,6 +3556,7 @@ regexp case-insensitive maken : (?i)
  
 		<rulegroup id="RAGE_RASJE" name="waarschuwing bij gebruik rasje i.p.v. rage">
 			<rule>
+                <antipattern><token>wij</token><token>zijn</token><token>blijkbaar</token><token>een</token><token>rasje</token><token>van</token><token>zwakke</token></antipattern>
 				<pattern>
 					   <token>rasje</token>
 				</pattern>
@@ -4314,18 +4315,17 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 
-<!--
 		<rulegroup id="BUSSEN_BUZZEN" name="waarschuwing bij gebruik bussen i.p.v. buzzen">
 			<rule>
 				<pattern>
 					   <token>bussen</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>buzzen</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>buzzen</suggestion> (gonzen)?</message>
 				<example correction="buzzen">Het woord <marker>bussen</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
-		-->
-		<rulegroup id="VERSWAAR_VERZWAAR" name="waarschuwing bij gebruik verswaar i.p.v. verzwaar">
+
+        <rulegroup id="VERSWAAR_VERZWAAR" name="waarschuwing bij gebruik verswaar i.p.v. verzwaar">
 			<rule>
 				<pattern>
 					   <token>verswaar</token>
@@ -4334,15 +4334,15 @@ regexp case-insensitive maken : (?i)
 				<example correction="verzwaar">Het woord <marker>verswaar</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
-<!--
+
 		<rulegroup id="PAUSEN_PAUZEN" name="waarschuwing bij gebruik pausen i.p.v. pauzen">
 			<rule>
 				<pattern><token>pausen</token></pattern>
-				<message>Bedoelt u wellicht <suggestion>pauzen</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>pauzen</suggestion> (=rustmomenten)? Of toch kerkleiders?</message>
 				<example correction="pauzen">Het woord <marker>pausen</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
-		-->
+
 		<rulegroup id="SAAIERS_ZAAIERS" name="waarschuwing bij gebruik saaiers i.p.v. zaaiers">
 			<rule>
 				<pattern><token negate="yes" regexp="yes">wat|iets|niks</token><marker><token>saaiers</token></marker></pattern>
