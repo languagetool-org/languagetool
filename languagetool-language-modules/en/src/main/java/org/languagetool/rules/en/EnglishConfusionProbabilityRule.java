@@ -313,8 +313,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
 
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams) {
     super(messages, languageModel, language, grams, EXCEPTIONS);
-    addExamplePair(Example.wrong("I did not <marker>now</marker> where it came from."),
-                   Example.fixed("I did not <marker>know</marker> where it came from."));
+    addExamplePair(Example.wrong("Don't forget to put on the <marker>breaks</marker>."),
+                   Example.fixed("Don't forget to put on the <marker>brakes</marker>."));
   }
 
   @Override
