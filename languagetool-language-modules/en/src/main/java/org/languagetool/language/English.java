@@ -247,11 +247,11 @@ public class English extends Language implements AutoCloseable {
 
   @Override
   protected int getPriorityForId(String id) {
+    // higher priority for testing/evaluation; only activated by configuring remote rule
+    if (id.startsWith("AI_")) {
+      return 50;
+    }
     switch (id) {
-      case "THE_INS_RULE": return 50; // higher priority for testing/evaluation; only activated by configuring remote rule
-      case "CONFPAIRS_EN_GPT2": return 50; // higher priority for testing/evaluation; only activated by configuring remote rule
-      case "CONFPAIRS_EN_GPT2_L": return 50; // higher priority for testing/evaluation; only activated by configuring remote rule
-      case "CONFPAIRS_EN_GPT2_XL": return 50; // higher priority for testing/evaluation; only activated by configuring remote rule
       case "I_E":                       return 10; // needs higher prio than EN_COMPOUNDS ("i.e learning")
       case "MISSING_HYPHEN":            return 5;
       case "TRANSLATION_RULE":          return 5;   // Premium

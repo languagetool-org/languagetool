@@ -70,19 +70,24 @@ import java.util.stream.Collectors;
 public abstract class GRPCRule extends RemoteRule {
   private static final Logger logger = LoggerFactory.getLogger(GRPCRule.class);
 
+  public static String cleanID(String id) {
+    return id.replaceAll("[^a-zA-Z_]", "_");
+  }
   /**
    * Internal rule to create rule matches with IDs based on Match Sub-IDs
    */
   protected class GRPCSubRule extends Rule {
     private final String subId;
+    private final String matchId;
 
     GRPCSubRule(String subId) {
       this.subId = subId;
+      this.matchId = GRPCRule.this.getId() + "_" + cleanID(subId);
     }
 
     @Override
     public String getId() {
-      return GRPCRule.this.getId() + "_" + subId;
+      return matchId;
     }
 
     @Override
