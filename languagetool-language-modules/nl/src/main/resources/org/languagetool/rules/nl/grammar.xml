@@ -857,11 +857,13 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="GEPEURD_GEPURD" name="waarschuwing bij gebruik gepurd i.p.v. gepeurd">
 			<rule>
+                <antipattern><token>gekit</token><token>en</token><token>gepurd</token></antipattern>
 				<pattern>
 					   <token>gepurd</token>
 				</pattern>
 				<message>Bedoelt u wellicht <suggestion>gepeurd</suggestion>? Gepeurd=getild, gevist; gepurd=opgevuld met schuim</message>
 				<example correction="gepeurd">Het woord <marker>gepurd</marker> kan een vergissing zijn.</example>
+                <example>Allemaal eruit gejaagd of doodgemaakt, de boel dicht gekit en gepurd.</example>
 			</rule>
 		</rulegroup>
 
@@ -2135,15 +2137,6 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="GEOORDEN_GEORDEN" name="waarschuwing bij gebruik georden i.p.v. geoorden">
-			<rule>
-				<pattern>
-					   <token>georden</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>geoorden</suggestion>?</message>
-				<example correction="geoorden">Het woord <marker>georden</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
 
 		<rulegroup id="BOORDRANDJE_BORDRANDJE" name="waarschuwing bij gebruik bordrandje i.p.v. boordrandje">
 			<rule>
@@ -3592,11 +3585,13 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="GAGE_GASJE" name="waarschuwing bij gebruik gasje i.p.v. gage">
 			<rule>
+                <antipattern><token>een</token><token>heel</token><token>nuttig</token><token>gasje</token></antipattern>
 				<pattern>
 					   <token>gasje</token>
 				</pattern>
 				<message>Bedoelt u wellicht <suggestion>gage</suggestion>?</message>
 				<example correction="gage">Het woord <marker>gasje</marker> kan een vergissing zijn.</example>
+                <example>CO2 is een heel nuttig gasje dus dat kan het bezwaar niet zijn.</example>
 			</rule>
 		</rulegroup>
 <!--
@@ -4198,10 +4193,12 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		<rulegroup id="BEGINSET_BEGINZET" name="waarschuwing bij gebruik beginset i.p.v. beginzet">
+            <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">kopers?</token><token postag="SENT_END"/></antipattern>
 			<rule>
 				<pattern><token>beginset</token></pattern>
-				<message>Bedoelt u wellicht <suggestion>beginzet</suggestion>(1e verrplaatsing van pion)? Of toch de eerste set van een tenniswedstrijd?</message>
+				<message>Bedoelt u wellicht <suggestion>beginzet</suggestion> (1e verplaatsing van pion)? Of toch de eerste set van een tenniswedstrijd?</message>
 				<example correction="beginzet">Het woord <marker>beginset</marker> kan een vergissing zijn.</example>
+                <example>De kopers van een beginset kregen er een cadeau bij.</example>
 			</rule>
 		</rulegroup>
 
@@ -4266,6 +4263,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="SIPPER_ZIPPER" name="waarschuwing bij gebruik sipper i.p.v. zipper">
 			<rule>
+                <antipattern><token>steeds</token><token>sipper</token></antipattern>
 				<pattern>
 					   <token>sipper</token>
 				</pattern>
@@ -4490,8 +4488,8 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>sippers</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>zippers</suggestion>?</message>
-				<example correction="zippers">Het woord <marker>sippers</marker> kan een vergissing zijn.</example>
+				<message>Bedoelt u wellicht <suggestion>zippers</suggestion> of <suggestion>slippers</suggestion>?</message>
+				<example correction="zippers|slippers">Het woord <marker>sippers</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
 
@@ -5076,6 +5074,7 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 
 		<rulegroup id="FORSTEN_VORSTEN" name="waarschuwing bij gebruik forsten i.p.v. vorsten">
+            <antipattern><token>zijn</token><token>stiefbroer</token><token case_sensitive="yes">Forsten</token></antipattern>
 			<rule>
 				<pattern><token>forsten</token></pattern>
 				<message>U bedoelt vast <suggestion>vorsten</suggestion>, en niet 'zij die het meest fors zijn'.</message>
@@ -35205,7 +35204,7 @@ steenwijk;Steenwijk
 					<token>voet</token>
 					<token>bij</token>
 					<token>stuk</token>
-					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer</exception><exception postag_regexp="yes" postag="WKW.*"/></token>
+					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer</exception><exception postag_regexp="yes" postag="BNW.*|WKW.*"/></token>
 				</pattern>
 				<message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 				<url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
