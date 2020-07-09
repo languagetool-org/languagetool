@@ -670,6 +670,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="KEUREND_KUREND" name="waarschuwing bij gebruik kurend i.p.v. keurend">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*gezondheid.*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					   <token>kurend</token>
 				</pattern>
@@ -4797,8 +4798,8 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>fesje</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>fezje</suggestion>?</message>
-				<example correction="fezje">Het woord <marker>fesje</marker> kan een vergissing zijn.</example>
+				<message>Bedoelt u wellicht <suggestion>fezje</suggestion> of <suggestion>flesje</suggestion>?</message>
+				<example correction="fezje|flesje">Het woord <marker>fesje</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
 
@@ -5067,6 +5068,7 @@ regexp case-insensitive maken : (?i)
 		-->
 		<rulegroup id="FATTEN_VATTEN" name="waarschuwing bij gebruik fatten i.p.v. vatten">
 			<rule>
+                <antipattern><token postag_regexp="yes" postag=".*VRB"/><token>fatten</token></antipattern>
 				<pattern><token>fatten</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>vatten</suggestion> (snappen, pakken)? Of toch dandy's?</message>
 				<example correction="vatten">Het woord <marker>fatten</marker> kan een vergissing zijn.</example>
@@ -6359,7 +6361,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>fermaten</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>vermaten</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>vermaten</suggestion>? Of toch fermaten (rustpauzes)</message>
 				<example correction="vermaten">Het woord <marker>fermaten</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -6376,6 +6378,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="CONFECTIEMODELLEN_CONVECTIEMODELLEN" name="waarschuwing bij gebruik confectiemodellen i.p.v. convectiemodellen">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">schoen(en)?</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					   <token>confectiemodellen</token>
 				</pattern>
@@ -11540,6 +11543,7 @@ onwaarschijnlijk
 		</rulegroup>
 		<rulegroup id="ONDERHAAR" name="onderhaar → onder haar">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1">bovenhaar</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					<marker>
 						<token>onderhaar</token>
@@ -34707,11 +34711,11 @@ steenwijk;Steenwijk
 					<token>baas</token>
 					<token>boven</token>
 					<token>baas</token>
-					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer</exception></token>
+					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer|was</exception></token>
 				</pattern>
-				<message>U bedoelt vast: <suggestion>\1-\2\3</suggestion> of <suggestion>\1-\2-\3</suggestion></message>
+				<message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 				<url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
-				<example correction="baas-bovenbaas|baas-boven-baas">Dit is een <marker>baas boven baas principe</marker>.</example>
+				<example correction="baas-boven-baasprincipe|baas-boven-baas-principe">Dit is een <marker>baas boven baas principe</marker>.</example>
 				<example>Het is een <marker>baas-boven-baasprincipe</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -37093,7 +37097,8 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="VACCINEREND" name="vaccinerend → fascinerend">
 			<rule>
-				<pattern>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*virus.*</token><token postag="SENT_END"/></antipattern>
+                <pattern>
 					<token skip="-1" postag="SENT_START"><exception scope="next" regexp="yes">.*(ije|ië)|.*(land|dokter|verpleeg|pest|personeel).*</exception></token>
 					<marker>
 						<token skip="-1" regexp="yes">vaccinerend|vaccinerende</token>
@@ -37106,6 +37111,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="MOMENT_SUBLIEM" name="moment subliem → moment suprême">
 			<rule>
+                <antipattern><token>tot</token><token>dat</token><token>moment</token></antipattern>
 				<pattern>
 					<token>moment</token>
 					<token>subliem</token>
