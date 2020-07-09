@@ -3845,6 +3845,40 @@ MARCOAGPINTO 2020-02-18 -->
 		<token postag_regexp='yes' postag='AQ0[FM]P0'></token>
       </antipattern>
 <!-- MARCOAGPINTO 2020-05-13 *END* -->
+<!-- MARCOAGPINTO 2020-07-09 (2-JUL-2020+) *START* -->
+<!-- "O conflito armado e o radicalismo estão interligados." -->
+      <antipattern>
+	      <token regexp='yes'>e|ou|no</token>
+		  <token regexp='yes'>a|o|seu|da</token>
+	      <token postag='NC[CFM]S000' postag_regexp='yes'/>
+		  <token postag='VMIP3P0' postag_regexp='no'/>
+		  <token regexp='yes'>as?|nos?|o|ao|um|têm|que</token>
+      </antipattern>  	    
+	  <!-- "No seu território existem duas sub-regiões" -->
+      <antipattern>
+	      <token regexp='yes'>e|ou|no</token>
+		  <token regexp='yes'>a|o|seu</token>
+	      <token postag='NC[CFM]S000' postag_regexp='yes'/>
+		  <token postag='VMIP3P0' postag_regexp='no'/>
+		  <token postag='Z0[FM]P0|NC[CFM]P000|DI0[FM]S0|PI0[FM]S000|AQ0[CFM]P0|VMP00PM' postag_regexp='yes'/>
+      </antipattern>
+	  <!-- "Forças como o eletromagnetismo operam apenas tridimensionalmente." -->
+      <antipattern>
+	      <token regexp='yes'>como|nem|todo|para</token>
+		  <token regexp='yes'>a|o</token>
+	      <token postag='NC[CFM]S000' postag_regexp='yes'/>
+		  <token postag='VMIP3P0' postag_regexp='no'/>
+		  <token postag='CC|RG|VMN0000|VMN0[13]S0|VMSF[13]S0|NC[CFM]P000' postag_regexp='yes'/>
+      </antipattern>  	    
+	  <!-- "Contornando o município estão as serras." -->
+      <antipattern>	  
+		  <token postag='VMG0000|VMIP3P0|VMM03P0|VMSP3P0' postag_regexp='yes'/>
+		  <token regexp='yes'>a|o</token>
+	      <token postag='NC[CFM]S000' postag_regexp='yes'/>
+		  <token postag='VMIP3P0' postag_regexp='no'/>
+		  <token regexp='yes'>as|na|no</token>
+      </antipattern> 	  
+<!-- MARCOAGPINTO 2020-07-09 (2-JUL-2020+) *END* -->
       <pattern>
 <!-- MARCOAGPINTO 2020-05-09 *START* -->
 <!-- "As pessoas no meu trabalho infelizmente não falam Alemão, apenas português." -->	  
