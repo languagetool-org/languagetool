@@ -44,7 +44,7 @@ public final class Tools {
    */
   public static String i18n(ResourceBundle messages, String key, Object... messageArguments) {
     MessageFormat formatter = new MessageFormat("");
-    formatter.applyPattern(messages.getString(key).replaceAll("'", "''"));
+    formatter.applyPattern(messages.getString(key));
     return formatter.format(messageArguments);
   }
 
