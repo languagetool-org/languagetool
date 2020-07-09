@@ -1942,6 +1942,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="KOORNIS_KORNIS" name="waarschuwing bij gebruik kornis i.p.v. koornis">
 			<rule>
+                <antipattern><token>tussen</token><token>kornis</token><token>en</token><token>voetpad</token></antipattern>
 				<pattern>
 					   <token inflected="yes">kornis</token>
 				</pattern>
@@ -5263,6 +5264,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="FLAKKER_VLAKKER" name="waarschuwing bij gebruik flakker i.p.v. vlakker">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(vlam|licht|zon).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					   <token>flakker</token>
 				</pattern>
@@ -5958,6 +5960,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="FEZELEN_VEZELEN" name="waarschuwing bij gebruik fezelen i.p.v. vezelen">
 			<rule>
+                <antipattern><token>te</token><token>fezelen</token></antipattern>
 				<pattern>
 					   <token>fezelen</token>
 				</pattern>
@@ -6192,7 +6195,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>fittende</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>vittende</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>vittende</suggestion> (ruzie makende)? Of toch 'pas makende'?</message>
 				<example correction="vittende">Het woord <marker>fittende</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
