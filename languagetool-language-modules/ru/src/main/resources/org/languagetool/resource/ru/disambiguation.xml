@@ -538,5 +538,36 @@ Copyright (C) 2009-2020 Yakov Reztsov
       <example type="ambiguous" inputform="12[12]" outputform="12[12/NumD_P]">
           <marker>12</marker> процентов</example>
     </rule>
-   
+    <rulegroup id="VERB-KA" name="VERB-KA">
+        <rule>
+            <pattern>
+                <token regexp="yes">([а-яё]+)-ка</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:([а-яё]+)-ка postag_regexp:VB:IMP:TRANS:PFV:Sin:P2"/><!-- The filter is case-sensitive -->
+            <disambig action="add"><wd pos="VB:IMP:TRANS:PFV:Sin:P2"/></disambig>
+            <example type="ambiguous" inputform="дай-ка[дай-ка]" outputform="дай-ка[дай-ка/VB:IMP:TRANS:PFV:Sin:P2]">Ваня, <marker>дай-ка</marker> мне этот молоток.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" postag="VB:IMP:TRANS:PFV:Sin:P2" >([а-яё]+)-ка</token>
+            </pattern>
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">([а-яё]+)-ка</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:([а-яё]+)-ка postag_regexp:VB:IMP:TRANS:IMPFV:Sin:P2"/><!-- The filter is case-sensitive -->
+            <disambig action="add"><wd pos="VB:IMP:TRANS:IMPFV:Sin:P2"/></disambig>
+            <example type="ambiguous" inputform="пой-ка[пой-ка]" outputform="пой-ка[пой-ка/VB:IMP:TRANS:IMPFV:Sin:P2]">Ваня, <marker>пой-ка</marker> эту песню!</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" postag="VB:IMP:TRANS:IMPFV:Sin:P2">([а-яё]+)-ка</token>
+            </pattern>
+          <disambig action="ignore_spelling"></disambig>
+        </rule>
+    </rulegroup>
 </rules>
