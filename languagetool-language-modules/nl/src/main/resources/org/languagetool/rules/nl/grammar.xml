@@ -559,6 +559,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="SCHEURINGEN_SCHURINGEN" name="waarschuwing bij gebruik schuringen i.p.v. scheuringen">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(wrij[fv]|wreev|wreven).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					   <token>schuringen</token>
 				</pattern>
@@ -2529,16 +2530,16 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="VERMIJDEN_VERMEIDEN" name="waarschuwing bij gebruik vermeiden i.p.v. vermijden">
 			<rule>
 				<pattern><token>vermeiden</token></pattern>
-				<message>Bedoelt u wellicht <suggestion>vermijden</suggestion> (ontwijken)? Of toch de verleden tijd van vermeien?</message>
-				<example correction="vermijden">Het woord <marker>vermeiden</marker> kan een vergissing zijn.</example>
+                <message>Bedoelt u wellicht <suggestion>vermijden</suggestion> (ontwijken) of <suggestion>vermelden</suggestion>? Of toch de verleden tijd van vermeien?</message>
+				<example correction="vermijden|vermelden">Het woord <marker>vermeiden</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
 
 		<rulegroup id="VERMIJD_VERMEID" name="waarschuwing bij gebruik vermeid i.p.v. vermijd">
 			<rule>
 				<pattern><token>vermeid</token></pattern>
-				<message>Bedoelt u wellicht <suggestion>vermijd</suggestion> (ontwijk)? Of toch de vorm van vermeien?</message>
-				<example correction="vermijd">Het woord <marker>vermeid</marker> kan een vergissing zijn.</example>
+                <message>Bedoelt u wellicht <suggestion>vermijd</suggestion> (ontwijk) of <suggestion>vermeld</suggestion>? Of toch de vorm van vermeien?</message>
+				<example correction="vermijd|vermeld">Het woord <marker>vermeid</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
 
@@ -3036,8 +3037,8 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>vermeit</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>vermijd</suggestion>?</message>
-				<example correction="vermijd">Het woord <marker>vermeit</marker> kan een vergissing zijn.</example>
+				<message>Bedoelt u wellicht <suggestion>vermijd</suggestion> of <suggestion>vermijdt</suggestion> (ontwijken)? Of toch 'vermeien'?</message>
+				<example correction="vermijd|vermijdt">Het woord <marker>vermeit</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
 
@@ -4450,7 +4451,9 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="BRIEZEN_BRIESEN" name="waarschuwing bij gebruik briezen i.p.v. briesen">
 			<rule>
+                <antipattern><token>koude</token><token>briezen</token></antipattern>
 				<antipattern><token>de</token><token>briesen</token></antipattern>
+                <antipattern><token>uitschietende</token><token>briezen</token></antipattern>
 				<pattern><token>briezen</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>briesen</suggestion> (door de neus blazen)? Briezen is alleen het meervoud van bries.</message>
 				<example correction="briesen">Het woord <marker>briezen</marker> kan een vergissing zijn.</example>
@@ -4551,7 +4554,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>bussende</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>buzzende</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>buzzende</suggestion> (gonzende)? Of toch reizen met de bus?</message>
 				<example correction="buzzende">Het woord <marker>bussende</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -4759,7 +4762,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>losertje</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>lozertje</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>lozertje</suggestion> (die iets weggooit)? Of toch sukkeltjes?</message>
 				<example correction="lozertje">Het woord <marker>losertje</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
