@@ -1936,7 +1936,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>portscan</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>poortscan</suggestion>?</message>
+				<message>Wellicht is <suggestion>poortscan</suggestion> iets beter Nederlands? De betekenis is hetzelfde.</message>
 				<example correction="poortscan">Het woord <marker>portscan</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -5207,7 +5207,7 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="FORM_VORM" name="waarschuwing bij gebruik form i.p.v. vorm">
 			<rule>
 				<pattern><token>in</token><token>de</token><marker><token>form</token></marker><token>van</token></pattern>
-				<message>Bedoelt u wellicht <suggestion>vorm</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>vorm</suggestion>? Of toch iets met een formulier?</message>
 				<example correction="vorm">Het woord in de <marker>form</marker> van kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -5259,7 +5259,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>gefist</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>gevist</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>gevist</suggestion>? Of toch iets onbetamelijks?</message>
 				<example correction="gevist">Het woord <marker>gefist</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -5699,10 +5699,11 @@ regexp case-insensitive maken : (?i)
 		-->
 		<rulegroup id="HYFE_HYVE" name="waarschuwing bij gebruik hyfe i.p.v. hyve">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*schimmel.*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					   <token>hyfe</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>hyve</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>hyve</suggestion> (bijenkorf)? Of toch schimmeldraad?</message>
 				<example correction="hyve">Het woord <marker>hyfe</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
