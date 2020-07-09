@@ -353,6 +353,9 @@ public class CaseRuleTest {
     assertGood("Black Lives Matter");
     assertGood("== Schrittweise Erklärung");
     assertGood("Audi A5 Sportback 2.0 TDI");
+    assertGood("§ 1 Allgemeine Bedingungen");
+    assertGood("§1 Allgemeine Bedingungen");
+    assertGood(" Das ist das Aus des Airbus A380.");
 
     // uppercased adjective compounds
     assertGood("Er isst UV-bestrahltes Obst.");

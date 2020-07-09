@@ -9394,6 +9394,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rulegroup id="GELD_ZURUECK_GARANTIE" name="Geld-zurück-Garantie" default="temp_off">
+            <url>https://www.bpb.de/nachschlagen/lexika/lexikon-der-wirtschaft/19445/geld-zurueck-garantie</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">Tage|Wochen|Monate</token>
+                    <token>Geld</token>
+                    <token>zurück</token>
+                    <token regexp="yes">Garantien?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>\1-<match no="2" case_conversion="startupper" />-Geld-zurück-<match no="5" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="14-Tage-Geld-zurück-Garantie">Der Shop bietet eine <marker>14 Tage Geld zurück Garantie</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">Tage|Wochen|Monate</token>
+                    <token>Geld-zurück-Garantie</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>\1-<match no="2" case_conversion="startupper" />-\3</suggestion>?</message>
+                <example correction="14-Tage-Geld-zurück-Garantie">Der Shop bietet eine <marker>14 Tage Geld-zurück-Garantie</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+\-(Tage|Wochen|Monate)</token>
+                    <token>Geld</token>
+                    <token>zurück</token>
+                    <token regexp="yes">Garantien?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>\1-Geld-zurück-<match no="4" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="14-Tage-Geld-zurück-Garantie">Der Shop bietet eine <marker>14-Tage Geld zurück Garantie</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Geld</token>
+                    <token>zurück</token>
+                    <token regexp="yes">Garantien?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Geld-zurück-<match no="3" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="Geld-zurück-Garantie">Der Shop bietet eine <marker>Geld zurück Garantie</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="FEST_COMPOUNDS" name="fest genommen (festgenommen)">
             <pattern>
                 <token>fest</token>
@@ -16969,6 +17011,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1 ist \3 nicht sinnvoll</suggestion>
                 <suggestion>\1 ist sinnlos</suggestion>
                 <example correction="Das ergibt keinen Sinn|Das stiftet keinen Sinn|Das ist nicht sinnvoll|Das ist sinnlos"><marker>Das macht keinen Sinn</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>keinen</token>
+                    <token>Sinn</token>
+                    <token>macht</token>
+                </pattern>
+                <message>'Sinn machen' ist umgangssprachlich.</message>
+                <suggestion>\1 \2 ergibt</suggestion>
+                <suggestion>\1 \2 stiftet</suggestion>
+                <suggestion>nicht sinnvoll ist</suggestion>
+                <suggestion>sinnlos ist</suggestion>
+                <example correction="keinen Sinn ergibt|keinen Sinn stiftet|nicht sinnvoll ist|sinnlos ist">Auch, wenn das <marker>keinen Sinn macht</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -38342,6 +38397,23 @@ Andere Projekte</example>
     <!-- Redewendungen -->
     <!-- ====================================================================== -->
     <category id="IDIOMS" name="Redewendungen">
+        <rule id="WIE_EH_UND_JE" name="wie eh und je" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">[Ss]chon|[Ss]eit|[Ww]ie</token>
+                <token>eh</token>
+                <token regexp="yes">und|&amp;</token>
+                <token>je</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">schon|sei[dt]|wie</token>
+                <token regexp="yes">ee?h?</token>
+                <token regexp="yes">und|&amp;</token>
+                <token regexp="yes">[yj]eh?</token>
+            </pattern>
+            <message>Meinten Sie die Redewendung <suggestion><match no="1" regexp_match="eid" regexp_replace="eit" /> eh und je</suggestion>?</message>
+            <url>https://www.wortbedeutung.info/eh_und_je/</url>
+            <example correction="seit eh und je">Er macht das schon <marker>seit Eh und Jeh</marker> so.</example>
+        </rule>
         <rule id="WEDER_OHNE_NOCH" name="'weder' ohne 'noch'">
             <antipattern>
                 <token skip="-1">weder</token>

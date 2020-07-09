@@ -39,6 +39,8 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import javax.annotation.RegEx;
+
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 
 /**
@@ -136,7 +138,25 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // https://github.com/languagetool-org/languagetool/issues/1515
       SENT_START,
-      regex("▶︎|▶|▶️|→|\\*|•|-|★|⧪|⮞|✔︎|✓|✔️|✅|➡️"),
+      regex("▶︎|▶|▶️|→|\\*|•|-|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|☛|%|◆|▪|☞"),
+      regex(".*")
+    ),
+    Arrays.asList(
+      SENT_START,
+      token("*"),
+      token("*"),
+      regex(".*")
+    ),
+    Arrays.asList( // two single quotes (’’) that create one double quote (needs different rule)
+      SENT_START,
+      token("’"),
+      token("’"),
+      regex(".*")
+    ),
+    Arrays.asList( // => Hallo test
+      SENT_START,
+      regex("=|-"),
+      token(">"),
       regex(".*")
     ),
     Arrays.asList(
@@ -373,6 +393,13 @@ public class CaseRule extends Rule {
      csToken("Aus"),
      posRegex("^PRP:.+|VER:[1-3]:.+")
     ),
+    Arrays.asList(
+      // Das ist das Aus des Airbus A380.
+      regex("das"),
+      csToken("Aus"),
+      tokenRegex("des|eines"),
+      posRegex("EIG:.+|SUB:.*|UNKNOWN")
+    ),
     /*Arrays.asList(
       // "...,die ins Nichts griff."
       new PatternTokenBuilder().csTokenRegex("ins|ans|vors|durchs|hinters").setSkip(1).build(),
@@ -496,6 +523,10 @@ public class CaseRule extends Rule {
       csToken("Lasse"),
       posRegex("EIG:.*|UNKNOWN")
     ),
+    Arrays.asList( // Spanish name (e.g. "Las Condes")
+      csToken("Las"),
+      new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-Z].+").build()
+    ),
     Arrays.asList(
       csToken("Just"),
       token("in"),
@@ -503,7 +534,7 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList( // Hey Süßer,
       regex("Hey|Hi|Hallo|Na|Moin|Servus"),
-      regex("Süßer?|Hübscher?"),
+      regex("Süßer?|Hübscher?|Liebster?"),
       pos("PKT")
     ),
     Arrays.asList( // Hey Matt (name),
@@ -584,6 +615,19 @@ public class CaseRule extends Rule {
       token("="),
       token("="),
       token("="),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // § 1 Allgemeine Bedingungen
+      SENT_START,
+      token("§"),
+      regex("\\d"),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // §1 Allgemeine Bedingungen
+      SENT_START,
+      regex("§\\d"),
       regex("[A-ZÄÜÖ].*")
     )
   );
