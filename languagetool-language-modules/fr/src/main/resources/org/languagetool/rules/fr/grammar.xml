@@ -16157,8 +16157,9 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le verbe « \4 » ne doit pas être au subjonctif après la location « \1 \2 ».</message>
-        <suggestion><match no="4" postag="V (.*) sub .* ([123] [sp])" postag_regexp="yes" postag_replace="V $1 ind psim $2"/></suggestion>
-        <example correction="fus">Il est arrivé après que je <marker>sois</marker> parti.</example>
+        <suggestion><match no="4" postag="V (.*) sub (.* [123] [sp])" postag_regexp="yes" postag_replace="V $1 ind $2"/></suggestion>
+        <url>http://www.academie-francaise.fr/apres-que</url>
+        <example correction="suis">Il est arrivé après que je <marker>sois</marker> parti.</example>
         <example>Il est arrivé après que je <marker>fus</marker> parti.</example>
       </rule>
       <rule>
@@ -29590,7 +29591,7 @@ though, and has since been slightly modified)-->
       <example correction="casier|remise|débarras|armoire extérieure"><marker>locker</marker></example>
       <example><marker>remise</marker></example>
     </rule>
-      <rule id="VISIO" name="raccourci visio" default="temp_off">
+      <rule id="VISIO" name="raccourci visio">
           <antipattern>
               <token>visio</token>
               <token>raconte</token>
@@ -29611,28 +29612,28 @@ though, and has since been slightly modified)-->
           <example>Le but de la Visio Karoli Grossi est clairement de légitimer la succession des Carolingiens.</example>
           <example>La Visio raconte comment le fier chevalier Tondale...</example>
       </rule>
-      <rule id="FORM" name="form" default="temp_off">
+      <rule id="FORM" name="form">
           <pattern>
               <token regexp="yes">forms?</token>
           </pattern>
           <message>« \1 » est un anglicisme. Employez <suggestion><match no="1" regexp_match="(form)(s)?" regexp_replace="questionnaire$2"/></suggestion>, <suggestion><match no="1" regexp_match="(form)(s)?" regexp_replace="formulaire$2"/></suggestion>, <suggestion><match no="1" regexp_match="(form)(s)?" regexp_replace="forme$2"/></suggestion>, <suggestion>mouler</suggestion>.</message>
           <example correction="questionnaire|formulaire|forme|mouler">Je lui ai donné cette <marker>form</marker> a remplir</example>
       </rule>
-      <rule id="TEAM" name="team" default="temp_off">
+      <rule id="TEAM" name="team">
           <pattern>
               <token>team</token>
           </pattern>
           <message>« \1 » est un anglicisme. Employez <suggestion>équipe</suggestion>.</message>
           <example correction="équipe">IL fait partie de la <marker>team</marker> Castor</example>
       </rule>
-      <rule id="LINK" name="link" default="temp_off">
+      <rule id="LINK" name="link">
           <pattern>
               <token case_sensitive="yes">link</token>
           </pattern>
           <message>« \1 » est un anglicisme. Employez <suggestion>lien</suggestion>.</message>
           <example correction="lien">Pense à mettre <marker>link</marker> entre les deux éléments.</example>
       </rule>
-      <rule id="SEARCH" name="search" default="temp_off">
+      <rule id="SEARCH" name="search">
           <pattern>
               <token>search</token>
           </pattern>
@@ -29641,7 +29642,7 @@ though, and has since been slightly modified)-->
       </rule>
   </category>
   <category id="CAT_TYPOGRAPHIE" name="Typographie">
-    <rulegroup id="POINTS_SUSPENSIONS_SPACE" name="espace derrière trois points" default="temp_off">
+    <rulegroup id="POINTS_SUSPENSIONS_SPACE" name="espace derrière trois points">
       <url>https://fr.wikipedia.org/wiki/Points_de_suspension#Normes_typographiques</url>
       <rule>
         <pattern>
@@ -29666,7 +29667,7 @@ though, and has since been slightly modified)-->
         <example>Bonjour à (…)</example>
       </rule>
     </rulegroup>
-      <rule id="CEST_TYPO" name="Typo c'est" default="temp_off">
+      <rule id="CEST_TYPO" name="Typo c'est">
       <antipattern>
           <token regexp="yes">\d+</token>
           <token>cest</token>
@@ -29681,7 +29682,7 @@ though, and has since been slightly modified)-->
       <example>La présentation commence à 15:00 CEST</example>
       <example>La présentation commence à 15:00 cest</example>
     </rule>
-    <rule id="_3G" name="3 g / 3G" default="temp_off">
+    <rule id="_3G" name="3 g / 3G">
       <pattern>
         <token regexp="yes" case_sensitive="yes">[345]g</token>
       </pattern>
@@ -29814,7 +29815,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rulegroup id="PAS_DE_TRAIT_UNION" name="en-bas → en bas (etc.)">
       <rule default="temp_off">
-        <!-- if the word exists in the dictionar without hyphen suggest the change-->
+        <!-- if the word exists in the dictionnary without hyphen suggest the change-->
         <pattern>
           <token regexp="yes">(géo-|nord-|sud-|néo-|méga-|ultra-|pro-|inter-|micro-|macro-|sous-|haut-|auto-|ré-|pré-|super-|vice-|hyper-|proto-|grand-|pseudo-).+</token>
         </pattern>
@@ -30817,21 +30818,21 @@ though, and has since been slightly modified)-->
         <url>https://fr.wikipedia.org/wiki/Heure#Typographie</url>
         <example correction="20 h|20:00">Il est <marker>20h</marker>.</example>
       </rule>
-        <rule default="temp_off">
+        <rule>
             <pattern><token regexp="yes">\-?(\d+[.,]\d+)[hH]</token></pattern>
             <message>La lettre h doit être espacée dans les heures abrégées.</message>
             <suggestion><match no="1" regexp_match="(\d+[\.,]\d+)[hH]" regexp_replace="$1 h"/></suggestion>
             <url>https://fr.wikipedia.org/wiki/Heure#Typographie</url>
             <example correction="1.5 h">Il arrive dans <marker>1.5h</marker>.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <pattern>
                 <token regexp="yes">([3-9]\d+|25|26|27|28|29)[hH:](.+)?</token><!-- invalid hour -->
             </pattern>
             <message>Attention, cette heure est invalide.</message>
             <example correction="">Il est <marker>26h30</marker>.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <pattern>
                 <token regexp="yes">(1[0-9]|2[01234])[hH:](6[1-9]|[789]\d|\d\d\d+)</token><!-- invalid minutes -->
             </pattern>
@@ -32758,7 +32759,7 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_MAJUSCULES" name="Majuscules">
-    <rule id="SKYPE" name="skype/Skype" default="temp_off">
+    <rule id="SKYPE" name="skype/Skype">
       <antipattern>
         <token regexp="yes">je|il|elle</token>
         <token>skype</token>
@@ -32783,7 +32784,7 @@ though, and has since been slightly modified)-->
       <message>« Mon dieu » est une expression fautive. Employez <suggestion>mon Dieu</suggestion>.</message>
       <example correction="Mon Dieu"><marker>Mon dieu</marker> !</example>
     </rule>
-    <rule id="DIEU" name="dieu" default="temp_off"> <!-- TODO: too many false alarms -->
+    <rule id="DIEU" name="dieu"> <!-- TODO: too many false alarms -->
       <pattern case_sensitive="yes">
         <token>dieu<exception postag="D.*" postag_regexp="yes" scope="previous"/></token>
       </pattern>
