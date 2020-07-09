@@ -2231,6 +2231,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="KLAARLIGT_KLAARLICHT" name="waarschuwing bij gebruik klaarlicht i.p.v. klaarligt">
 			<rule>
+                <antipattern><token postag="SENT_START"/><token inflected="yes">zijn</token><token postag="BYW"/><token>klaarlicht</token></antipattern>
 				<pattern><token>klaarlicht</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>klaarligt</suggestion>? Of toch 'overdag'?</message>
 				<example correction="klaarligt">Het woord <marker>klaarlicht</marker> kan een vergissing zijn.</example>
@@ -5352,6 +5353,8 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="FEZEL_VEZEL" name="waarschuwing bij gebruik fezel i.p.v. vezel">
 			<rule>
+                <antipattern><token>fezel</token><token regexp="yes">ik|jij</token></antipattern>
+                <antipattern><token>ik</token><token>fezel</token></antipattern>
 				<pattern>
 					   <token>fezel</token>
 				</pattern>
