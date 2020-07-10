@@ -16630,6 +16630,11 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 		<rulegroup id="LANG_HL" name="Lang woord in hoofdletters">
+            <antipattern>
+                <!-- newspaper habit -->
+                <token postag="SENT_START"/>
+                <token postag_regexp="yes" postag="ENM.*"/>
+            </antipattern>
 			<rule>
 				<antipattern>
 					<token postag="SENT_START"/>
@@ -16638,7 +16643,7 @@ steenwijk;Steenwijk
 				</antipattern>
 				<pattern case_sensitive="yes">
 					<marker>
-						<token regexp="yes" case_sensitive="yes">[A-Z]{5,79}<exception regexp="yes">[0-9a-f]{6}</exception></token>
+                        <token regexp="yes" case_sensitive="yes">[A-Z]{5,79}<exception regexp="yes">[0-9a-f]{6}</exception><exception postag_regexp="yes" postag="ENM.*"/></token>
 						<!-- uitzondering voor hex kleuren tbv Wikipedia check -->
 					</marker>
 				</pattern>
@@ -16646,6 +16651,18 @@ steenwijk;Steenwijk
 				<short>Lelijk</short>
 				<example correction="altijd">Das echt <marker>ALTIJD</marker>.</example>
 			</rule>
+            <!--
+			<rule>
+				<pattern case_sensitive="yes">
+					<marker>
+                        <token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ENM.*">[A-Z]{5,79}</token>
+					</marker>
+				</pattern>
+				<message>Het helemaal in hoofdletters schrijven van woorden met meer dan 4 letters wordt afgeraden; schrijf liever <suggestion><match no="1" case_conversion="alllower"/></suggestion>.</message>
+				<short>Lelijk</short>
+				<example correction="altijd">Das echt <marker>ALTIJD</marker>.</example>
+			</rule>
+            -->
 			<rule>
 				<pattern case_sensitive="yes">
 					<token postag="SENT_START"/>
@@ -16654,7 +16671,7 @@ steenwijk;Steenwijk
 						<!-- uitzondering voor hex kleuren tbv Wikipedia check -->
 					</marker>
 				</pattern>
-				<message>Het helemaal in hoofdletters schrijven van woorden met meer dan 4 letters wordt afgeraden; schrijf liever <suggestion><match no="2" case_conversion="alllower"/></suggestion>.</message>
+				<message>Het helemaal in hoofdletters schrijven van woorden met meer dan 4 letters wordt afgeraden<suggestion><match no="2" case_conversion="alllower"/></suggestion>.</message>
 				<short>Lelijk</short>
 				<example correction="altijd"><marker>ALTIJD</marker> is vreemd.</example>
 			</rule>
