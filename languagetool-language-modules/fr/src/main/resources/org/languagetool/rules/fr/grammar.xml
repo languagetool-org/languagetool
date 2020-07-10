@@ -1231,16 +1231,16 @@ though, and has since been slightly modified)-->
         <example correction="forcément">Vous n’avez pas <marker>forcement</marker> raison.</example>
         <example correction="forcément">S’exprimer sans <marker>forcement</marker> parler.</example>
       </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">-(ce|je|tu|ils?|elles?|[nv]ous)</token>
-                <marker>
-                    <token>forcement</token>
-                </marker>
-            </pattern>
-            <message>« \2 » est un nom. Voulez-vous utiliser l’adverbe <suggestion>forcément</suggestion> ?</message>
-            <example correction="forcément">Est-ce <marker>forcement</marker> grave ?</example>
-        </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">-(ce|je|tu|ils?|elles?|[nv]ous)</token>
+          <marker>
+            <token>forcement</token>
+          </marker>
+        </pattern>
+        <message>« \2 » est un nom. Voulez-vous utiliser l’adverbe <suggestion>forcément</suggestion> ?</message>
+        <example correction="forcément">Est-ce <marker>forcement</marker> grave ?</example>
+      </rule>
     </rulegroup>
     <rulegroup id="AMENDE_AMANDE" name="Amende ou amande">
       <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2045</url>
@@ -12856,10 +12856,10 @@ though, and has since been slightly modified)-->
         <example>Elle ne s’en <marker>souvient</marker> pas.</example>
       </rule>
       <rule name="nous + Verbe">
-          <antipattern>
-              <token>nous</token>
-              <token regexp="yes">contacter|téléphoner|appeler|recommander|aider|soutenir</token>
-          </antipattern>
+        <antipattern>
+          <token>nous</token>
+          <token regexp="yes">contacter|téléphoner|appeler|recommander|aider|soutenir</token>
+        </antipattern>
         <pattern>
           <token postag="R pers suj 1 p"><exception postag="R pers obj 1 p"/><exception regexp="yes">-.*</exception></token>
           <token min="0" max="1">ne</token>
@@ -12894,8 +12894,8 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="vous + Verbe">
         <antipattern>
-            <token regexp="yes">vous|te</token>
-            <token regexp="yes">remerciant|souhaitant</token>
+          <token regexp="yes">vous|te</token>
+          <token regexp="yes">remerciant|souhaitant</token>
         </antipattern>
         <pattern>
           <token postag="R pers suj 2 p"><exception postag="R pers obj 2 p"/><exception regexp="yes">-.*</exception></token>
@@ -15995,13 +15995,13 @@ though, and has since been slightly modified)-->
           <token postag="V.*" postag_regexp="yes"><exception postag="V .*sub .*" postag_regexp="yes"/></token>
         </antipattern>
         <antipattern>
-            <token postag="[ZR].*" postag_regexp="yes"/>
-            <and>
-                <token postag="V.*ind.*" postag_regexp="yes"/>
-                <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|suggérer|vouloir</token>
-            </and>
-            <token skip="-1">que</token>
-            <token postag="V .*sub .*" postag_regexp="yes"/>
+          <token postag="[ZR].*" postag_regexp="yes"/>
+          <and>
+            <token postag="V.*ind.*" postag_regexp="yes"/>
+            <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|suggérer|vouloir</token>
+          </and>
+          <token skip="-1">que</token>
+          <token postag="V .*sub .*" postag_regexp="yes"/>
         </antipattern>
         <pattern>
           <token postag="[ZR].*" postag_regexp="yes"/>
@@ -28534,9 +28534,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="BACKGROUND" name="background">
       <antipattern>
-          <token>(</token>
-          <token regexp="yes">backgrounds?</token>
-          <token>)</token>
+        <token>(</token>
+        <token regexp="yes">backgrounds?</token>
+        <token>)</token>
       </antipattern>
       <pattern>
         <token regexp="yes">backgrounds?</token>
@@ -32519,31 +32519,31 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rule id="JAVA_SCRIPT" name="JavaScript">
-        <pattern>
-            <token>java</token>
-            <token>script</token>
-        </pattern>
-        <message>Voulez-vous écrire <suggestion>JavaScript</suggestion> (le langage de programmation)?</message>
-        <url>https://fr.wikipedia.org/wiki/JavaScript</url>
-        <example correction="JavaScript"><marker>Java Script</marker> est un langage de programmation</example>
+      <pattern>
+        <token>java</token>
+        <token>script</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>JavaScript</suggestion> (le langage de programmation)?</message>
+      <url>https://fr.wikipedia.org/wiki/JavaScript</url>
+      <example correction="JavaScript"><marker>Java Script</marker> est un langage de programmation</example>
     </rule>
     <rule id="YOU_TUBE" name="YouTube">
-        <pattern>
-            <token>You</token>
-            <token>Tube</token>
-        </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (le site d’hébergement de vidéos)?</message>
-        <url>https://fr.wikipedia.org/wiki/YouTube</url>
-        <example correction="YouTube"><marker>You tube</marker> est un site web d’hébergement de vidéos.</example>
+      <pattern>
+        <token>You</token>
+        <token>Tube</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (le site d’hébergement de vidéos)?</message>
+      <url>https://fr.wikipedia.org/wiki/YouTube</url>
+      <example correction="YouTube"><marker>You tube</marker> est un site web d’hébergement de vidéos.</example>
     </rule>
     <rule id="PAY_PAL" name="PayPal">
-        <pattern>
-            <token>Pay</token>
-            <token>Pal</token>
-        </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (le service de paiement)?</message>
-        <url>https://fr.wikipedia.org/wiki/PayPal</url>
-        <example correction="PayPal"><marker>Pay Pal</marker> est une entreprise américaine offrant un système de service de paiement.</example>
+      <pattern>
+        <token>Pay</token>
+        <token>Pal</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (le service de paiement)?</message>
+      <url>https://fr.wikipedia.org/wiki/PayPal</url>
+      <example correction="PayPal"><marker>Pay Pal</marker> est une entreprise américaine offrant un système de service de paiement.</example>
     </rule>
     <rulegroup id="SQLITE" name="SQLite">
       <rule>
@@ -32640,19 +32640,19 @@ though, and has since been slightly modified)-->
       <example correction="Windows"><marker>Window</marker> Vista plante tout le temps.</example>
     </rule>
     <rule id="X_WINDOW" name="X Window">
-        <antipattern case_sensitive="yes">
-          <token>X</token>
-          <token>Window</token>
-        </antipattern>
-        <pattern>
-          <token case_sensitive="yes">X</token>
-          <token min="0">-</token>
-          <token regexp="yes">Windows?</token>
-        </pattern>
-        <message>Voulez-vous écrire <suggestion>X Window</suggestion> ?</message>
-        <url>https://fr.wikipedia.org/wiki/X_Toolkit</url>
-        <example correction="X Window">C’est le MIT qui a publié la première version de <marker>X Windows</marker> en juin 1984.</example>
-        <example correction="X Window">C’est le MIT qui a publié la première version de <marker>X-Windows</marker> en juin 1984.</example>
+      <antipattern case_sensitive="yes">
+        <token>X</token>
+        <token>Window</token>
+      </antipattern>
+      <pattern>
+        <token case_sensitive="yes">X</token>
+        <token min="0">-</token>
+        <token regexp="yes">Windows?</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>X Window</suggestion> ?</message>
+      <url>https://fr.wikipedia.org/wiki/X_Toolkit</url>
+      <example correction="X Window">C’est le MIT qui a publié la première version de <marker>X Windows</marker> en juin 1984.</example>
+      <example correction="X Window">C’est le MIT qui a publié la première version de <marker>X-Windows</marker> en juin 1984.</example>
     </rule>
     <rulegroup id="OPEN_STREET_MAP" name="OpenStreetMap">
       <url>https://fr.wikipedia.org/wiki/OpenStreetMap</url>
@@ -32794,28 +32794,28 @@ though, and has since been slightly modified)-->
     <rulegroup id="MOIS" name="mois de l’année">
       <url>http://www.academie-francaise.fr/questions-de-langue#42_strong-em-jours-de-la-semaine-pluriel-et-majuscules-em-strong</url>
       <rule>
-          <antipattern>
-              <token regexp="yes">révolution|place</token>
-              <token>de</token>
-              <token case_sensitive="yes" regexp="yes">Mai|Février</token>
-          </antipattern>
-          <antipattern>
-              <token>Alain</token>
-              <token>Juillet</token>
-          </antipattern>
-          <antipattern>
-              <token>Editions</token>
-              <token>Prairial</token>
-          </antipattern>
-          <!-- TODO: Generalize proper names exceptions -->
-          <antipattern>
-              <token>Avril</token>
-              <token>Haines</token>
-          </antipattern>
-          <antipattern>
-              <token>Mai</token>
-              <token>Yamane</token>
-          </antipattern>
+        <antipattern>
+          <token regexp="yes">révolution|place</token>
+          <token>de</token>
+          <token case_sensitive="yes" regexp="yes">Mai|Février</token>
+        </antipattern>
+        <antipattern>
+          <token>Alain</token>
+          <token>Juillet</token>
+        </antipattern>
+        <antipattern>
+          <token>Editions</token>
+          <token>Prairial</token>
+        </antipattern>
+        <!-- TODO: Generalize proper names exceptions -->
+        <antipattern>
+          <token>Avril</token>
+          <token>Haines</token>
+        </antipattern>
+        <antipattern>
+          <token>Mai</token>
+          <token>Yamane</token>
+        </antipattern>
         <antipattern>
           <token case_sensitive="yes">Mai</token>
           <token>68</token>
