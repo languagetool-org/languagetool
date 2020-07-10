@@ -144,6 +144,7 @@ public class AgreementRuleTest {
     assertGood("Lieber jemanden, der einem Tipps gibt.");
     assertGood("Jainas ist sogar der Genuss jeglicher tierischer Nahrungsmittel strengstens untersagt.");
     assertGood("Es sind jegliche tierische Nahrungsmittel untersagt.");
+    assertGood("Das reicht bis weit ins heutige Hessen.");
     //assertGood("... der zu dieser Zeit aber ohnehin schon allen Einfluss verloren hatte.");
 
     assertGood("Wir machen das Januar.");
