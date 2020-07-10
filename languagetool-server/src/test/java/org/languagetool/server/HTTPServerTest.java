@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.language.*;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.SAXException;
@@ -56,12 +57,27 @@ public class HTTPServerTest {
     try {
       server.run();
       assertTrue(server.isRunning());
+      runTranslatedMessageTest();
       runTestsV2();
       runDataTests();
     } finally {
       server.stop();
       assertFalse(server.isRunning());
     }
+  }
+
+  void runTranslatedMessageTest() throws IOException {
+    String result1 = checkV2(Languages.getLanguageForShortCode("fr"), "C'est unx");
+    assertTrue(result1.contains("Faute de frappe possible trouvée"));
+    assertFalse(result1.contains("Possible spelling mistake found"));
+
+    String result2 = checkV2(Languages.getLanguageForShortCode("es"), "unx");
+    assertTrue(result2.contains("Se ha encontrado un posible error ortográfico."));
+    assertFalse(result2.contains("Possible spelling mistake found"));
+
+    String result3 = checkV2(Languages.getLanguageForShortCode("nl"), "unx");
+    assertTrue(result3.contains("Er is een mogelijke spelfout gevonden."));
+    assertFalse(result3.contains("Possible spelling mistake found"));
   }
 
   void runTestsV2() throws IOException, SAXException, ParserConfigurationException {
