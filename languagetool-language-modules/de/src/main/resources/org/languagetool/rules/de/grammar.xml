@@ -7778,6 +7778,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&getrennt;.</short>
             <example correction="WhatsApp">Wir schrieben per <marker>whats app</marker>.</example>
         </rule>
+        <rule id="POWER_SHELL" name="PowerShell">
+            <pattern>
+                <token>power</token>
+                <token>shell</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>PowerShell</suggestion> (= Windows Framework)?</message>
+            <url>https://de.wikipedia.org/wiki/PowerShell</url>
+            <example correction="PowerShell"><marker>Power Shell</marker> ist ein plattformübergreifendes Framework von Microsoft zur Automatisierung, Konfiguration und Verwaltung von Systemen.</example>
+        </rule>
         <rule id="PAY_PAL" name="PayPal">
             <pattern>
                 <token>Pay</token>
@@ -9394,7 +9403,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rulegroup id="GELD_ZURUECK_GARANTIE" name="Geld-zurück-Garantie" default="temp_off">
+        <rulegroup id="GELD_ZURUECK_GARANTIE" name="Geld-zurück-Garantie">
             <url>https://www.bpb.de/nachschlagen/lexika/lexikon-der-wirtschaft/19445/geld-zurueck-garantie</url>
             <rule>
                 <pattern>
@@ -33611,6 +33620,41 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rulegroup id="MITGLIEDERINNEN" name="Mitgliederinnen" default="temp_off">
+            <url>https://www.duden.de/sprachwissen/sprachratgeber/%E2%80%9ELiebe-Mit%C2%ADglieder%C2%ADinnen-und-Mit%C2%ADglieder%E2%80%9C-%E2%80%93-Personen%C2%AD%C2%ADbezeich%C2%ADnungen</url>
+            <rule>
+                <pattern>
+                    <token>Mitgliederinnen</token>
+                    <token regexp="yes">und|oder|&amp;</token>
+                    <token>Mitglieder</token>
+                </pattern>
+                <message>Das Wort "Mitglied" ist ein Neutrum ("das Mitglied") und bezeichnet sowohl Frauen als auch Männer. <suggestion>Mitglieder</suggestion> reicht daher aus, um beide Geschlechter anzusprechen.</message>
+                <example correction="Mitglieder">Liebe <marker>Mitgliederinnen und Mitglieder</marker>, danke für eure Hilfe.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Mitglieder</token>
+                    <token regexp="yes">und|oder|&amp;</token>
+                    <token>Mitgliederinnen</token>
+                </pattern>
+                <message>Das Wort "Mitglied" ist ein Neutrum ("das Mitglied") und bezeichnet sowohl Frauen als auch Männer. <suggestion>Mitglieder</suggestion> reicht daher aus, um beide Geschlechter anzusprechen.</message>
+                <example correction="Mitglieder">Liebe <marker>Mitglieder und Mitgliederinnen</marker>, danke für eure Hilfe.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Mitgliederinnen</token>
+                </pattern>
+                <message>Das Wort "Mitglied" ist ein Neutrum ("das Mitglied") und bezeichnet sowohl Frauen als auch Männer. <suggestion>Mitglieder</suggestion> reicht daher aus, um beide Geschlechter anzusprechen.</message>
+                <example correction="Mitglieder">Ich habe die <marker>Mitgliederinnen</marker> informiert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Mitgliederin</token>
+                </pattern>
+                <message>Das Wort "Mitglied" ist ein Neutrum ("das Mitglied") und bezeichnet sowohl Frauen als auch Männer. <suggestion>Mitglied</suggestion> reicht daher aus, um beide Geschlechter anzusprechen.</message>
+                <example correction="Mitglied">Ich habe die <marker>Mitgliederin</marker> informiert.</example>
+            </rule>
+        </rulegroup>
         <rule id="PERSONA_NON_GRATA" name="Persona non grata">
             <antipattern case_sensitive="yes">
                 <token>Persona</token>
@@ -38397,7 +38441,7 @@ Andere Projekte</example>
     <!-- Redewendungen -->
     <!-- ====================================================================== -->
     <category id="IDIOMS" name="Redewendungen">
-        <rule id="WIE_EH_UND_JE" name="wie eh und je" default="temp_off">
+        <rule id="WIE_EH_UND_JE" name="wie eh und je">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">[Ss]chon|[Ss]eit|[Ww]ie</token>
                 <token>eh</token>
