@@ -42,9 +42,11 @@ import com.sun.star.uno.UnoRuntime;
 class DocumentCursorTools {
   
   private final XParagraphCursor xPCursor;
+  private final XTextCursor xTextCursor;
   private final List<Integer> headerNumbers = new ArrayList<Integer>();
   
   DocumentCursorTools(XComponent xComponent) {
+    xTextCursor = getCursor(xComponent);
     xPCursor = getParagraphCursor(xComponent);
   }
 
@@ -84,15 +86,23 @@ class DocumentCursorTools {
   @Nullable
   private XParagraphCursor getParagraphCursor(XComponent xComponent) {
     try {
-      XTextCursor xCursor = getCursor(xComponent);
-      if (xCursor == null) {
+      if (xTextCursor == null) {
         return null;
       }
-      return UnoRuntime.queryInterface(XParagraphCursor.class, xCursor);
+      return UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
+  }
+  
+  /** 
+   * Returns the TextCursor of the Document
+   * Returns null if it fails
+   */
+  @Nullable
+  public XTextCursor getTextCursor() {
+    return xTextCursor;
   }
   
   /** 

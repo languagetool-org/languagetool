@@ -157,6 +157,14 @@ public class LtDictionary {
   }
   
   /**
+   * Remove a word from the List of ignored words
+   * Used for ignore all in spelling check
+   */
+  public void removeIgnoredWord(String word) {
+    listIgnoredWords.remove(word);
+  }
+  
+  /**
    * Add a word to a user dictionary
    */
   public void addWordToDictionary(String dictionaryName, String word, XComponentContext xContext) {
@@ -167,6 +175,19 @@ public class LtDictionary {
     }
     XDictionary dictionary = searchableDictionaryList.getDictionaryByName(dictionaryName);
     dictionary.add(word, false, "");
+  }
+  
+  /**
+   * Add a word to a user dictionary
+   */
+  public void removeWordFromDictionary(String dictionaryName, String word, XComponentContext xContext) {
+    XSearchableDictionaryList searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);
+    if (searchableDictionaryList == null) {
+      MessageHandler.printToLogFile("searchableDictionaryList == null");
+      return;
+    }
+    XDictionary dictionary = searchableDictionaryList.getDictionaryByName(dictionaryName);
+    dictionary.remove(word);
   }
   
   /**
