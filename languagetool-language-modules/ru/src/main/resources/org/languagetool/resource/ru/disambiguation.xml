@@ -569,5 +569,40 @@ Copyright (C) 2009-2020 Yakov Reztsov
             </pattern>
           <disambig action="ignore_spelling"></disambig>
         </rule>
-    </rulegroup>
+        <!-- *******  VB:IMP:INTR:IMPFV:Sin:P2-->
+        <rule>
+            <pattern>
+                <token regexp="yes">([а-яё]+)-ка</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:([а-яё]+)-ка postag_regexp:VB:IMP:INTR:IMPFV:Sin:P2"/><!-- The filter is case-sensitive -->
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">([а-яё]+)-ка</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:([а-яё]+)-ка postag_regexp:VB:IMP:INTR:IMPFV:Sin:P2"/><!-- The filter is case-sensitive -->
+            <disambig action="add"><wd pos="VB:IMP:INTR:IMPFV:Sin:P2"/></disambig>
+            <example type="ambiguous" inputform="прыгай-ка[прыгай-ка]" outputform="прыгай-ка[прыгай-ка/VB:IMP:INTR:IMPFV:Sin:P2]">Ваня, <marker>прыгай-ка</marker> сюда быстрее!</example>
+        </rule>
+         <!-- *******  VB:IMP:INTR:PFV:Sin:P2-->
+        <rule>
+            <pattern>
+                <token regexp="yes">([а-яё]+)-ка</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:([а-яё]+)-ка postag_regexp:VB:IMP:INTR:PFV:Sin:P2"/><!-- The filter is case-sensitive -->
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">([а-яё]+)-ка</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:([а-яё]+)-ка postag_regexp:VB:IMP:INTR:PFV:Sin:P2"/><!-- The filter is case-sensitive -->
+            <disambig action="add"><wd pos="VB:IMP:INTR:PFV:Sin:P2"/></disambig>
+        </rule>
+    </rulegroup> 
 </rules>
