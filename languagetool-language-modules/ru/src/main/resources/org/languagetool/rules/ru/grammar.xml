@@ -3049,8 +3049,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         
         
-        <rulegroup default="on" id="PO_MERE_TOGO_KAK" name="Запятые в оборотах: «по мере того как…», …"> <!-- default="off" -->
-<!--   («с того времени как…», «с той поры как…», «по мере того как…»)  TODO: set on     -->
+        <rulegroup default="on" id="PO_MERE_TOGO_KAK" name="Запятые в оборотах: «по мере того как…», …">
+<!--   («с того времени как…», «с той поры как…», «по мере того как…»)    -->
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
@@ -10521,7 +10521,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>Рассматривались трёхслойные частицы из заранее выбранных материалов при рассмотрении</marker> поглощения света наночастицами.</example>
             </rule>
         </rulegroup>
-        <rule id="PARTICLE_JE" name="Избыточная частица «же»" default="off">
+        <rule id="PARTICLE_JE" name="Избыточная частица «же»" default="off"  tags="picky">
             <antipattern>
                 <token regexp="yes" skip="-1">«|что</token>
                 <token>же</token>
@@ -10561,7 +10561,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="с днём рождения">Поздравляю <marker>с днём рожденья</marker>!</example>
             <example>С днём рождения!</example>
         </rule>
-        <rule id="grammar_tut_zdes"  name="Просторечие: «тут», «здесь»" default="off">
+        <rule id="grammar_tut_zdes"  name="Просторечие: «тут», «здесь»" default="off"   tags="picky">
             <pattern>
                 <token>,</token>
                 <marker>
@@ -10610,7 +10610,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Загруженность местоимениями</short>
             <example type="incorrect"><marker>Он её не любил, она его не любила, они многое</marker> знали.</example>
         </rule>
-        <rulegroup id="po_povodu_togo" name="Канцелярский штамп: «по поводу того»" default="off">
+        <rulegroup id="po_povodu_togo" name="Канцелярский штамп: «по поводу того»" default="off"  tags="picky">
             <rule> 
                 <pattern>
                     <token>по</token>                  
@@ -10636,7 +10636,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=" могу">Я<marker>, возможно ошибаясь, могу</marker> предложить способ решения.</example>
             </rule>
         </rulegroup> 
-        <rulegroup id="tak_skazat" name="Слова-паразиты: «так сказать»" default="off">
+        <rulegroup id="tak_skazat" name="Слова-паразиты: «так сказать»" default="off"  tags="picky">
             <rule> 
                 <pattern>
                     <token>,</token>
@@ -10650,7 +10650,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=" свое">Каждый напиток имеет<marker>, так сказать, свое</marker> значение.</example>
             </rule>
         </rulegroup>                         
-        <rulegroup id="kak_bi" name="Слова-паразиты: «как бы»" default="off">
+        <rulegroup id="kak_bi" name="Слова-паразиты: «как бы»" default="off"  tags="picky">
             <rule> 
                 <pattern>
                     <token>как<exception scope="previous" regexp="yes">,|и|то</exception></token>                  
@@ -10788,7 +10788,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         
       
-        <rulegroup default="off" id="O_tom_chto" name="Связка слов: «о том, что»">    
+        <rulegroup default="off" id="O_tom_chto" name="Связка слов: «о том, что»"  tags="picky">    
             <rule>
                 <!-- о том, что
                 -->
@@ -11180,6 +11180,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Три тома второго издания книги вышли в 1966 — 1971 годах.</example>
                 <example correction="1 процента"><marker>1 процентов</marker>.</example>
             </rule>
+            <rule> <!-- TODO: check suggestion in message!!!!!!!!!!! -->
+                <pattern>
+                    <token postag="NumD_P" ><exception scope="previous" regexp="yes">по|–|—</exception><exception scope="previous" spacebefore="no">-</exception></token>
+                    <token postag="NN:.*:.*:Sin:.*" postag_regexp="yes">
+                        <exception negate_pos="yes" postag="NN:.*:.*:Sin:.*" postag_regexp="yes"></exception>
+                        <exception  postag="NN:.*:.*:PL:.*" postag_regexp="yes"></exception>
+                        <exception>лет</exception>           
+                    </token>
+                </pattern>
+                <message>Существительное должно употребляться во множественном числе, а не в единственном: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):Sin:(.*)" postag_regexp="yes" postag_replace="NN:$1:PL:$2"></match></suggestion></message>
+                <short>Требуется единственное число</short>
+                <example>1 процент.</example>
+                <example>Три тома второго издания книги вышли в 1966 — 1977 годах.</example>
+                <example correction="7 процентов"><marker>7 процента</marker>.</example>
+            </rule>
         </rulegroup>        
 
         <rulegroup default="on" id="Prep_Soglasno" name="Предлоги: «согласно», «благодаря», «вопреки»">
@@ -11491,7 +11506,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="звёзды, которые">Яркие <marker>звёзды, которая</marker> сияли.</example>      
         </rule>
         
-        <rulegroup default="off" name="Благозвучность" id="BLAGOZVUCHNOST">
+        <rulegroup default="off" name="Благозвучность" id="BLAGOZVUCHNOST"  tags="picky">
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">.*([йцкнгшщзхфвпрлджчсмтб]{2,2})</token>
@@ -11746,7 +11761,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Он – Иван <marker>Иванов</marker>.</example>
             <example correction="Иванов">Он – Иван <marker>иванов</marker>.</example>
         </rule>
-        <rulegroup default="off" id="AllCaps" name="Все буквы в слове ЗАГЛАВНЫЕ">
+        <rulegroup default="off" id="AllCaps" name="Все буквы в слове ЗАГЛАВНЫЕ"  tags="picky">
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" negate_pos="yes"></token>
