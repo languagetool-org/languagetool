@@ -361,7 +361,7 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="SMEERT_SMIRT" name="waarschuwing bij gebruik smirt i.p.v. smeert">
 			<rule>
 				<pattern>
-					   <token>smirt</token>
+					   <token case_sensitive="yes">smirt</token>
 				</pattern>
 				<message>Bedoelt u <suggestion>smeert</suggestion>? Smirt komt weinig voor.</message>
 				<example correction="smeert">De beer <marker>smirt</marker> een broodje.</example>
@@ -2019,6 +2019,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="SIERBOORD_SIERBORD" name="waarschuwing bij gebruik sierbord i.p.v. sierboord">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(aardewerk).*</token><token postag="SENT_END"/></antipattern>
 				<pattern><token inflected="yes">sierbord</token></pattern>
 				<message>Bedoelt u wellicht <suggestion><match no="1" regexp_match="bord" regexp_replace="boord"/></suggestion> (op kleding) of toch een mooie schaal?</message>
 				<example correction="sierboord">Het woord <marker>sierbord</marker> kan een vergissing zijn.</example>
@@ -2781,7 +2782,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>ontweiden</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>ontwijden</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>ontwijden</suggestion> (schenden), of toch 'van darmen ontdoen'?</message>
 				<example correction="ontwijden">Het woord <marker>ontweiden</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -2833,7 +2834,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>ontweide</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>ontwijde</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>ontwijde</suggestion> (schond), of toch 'darmen verwijderen' halen?</message>
 				<example correction="ontwijde">Het woord <marker>ontweide</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -3061,7 +3062,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>ontweit</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>ontwijd</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>ontwijd</suggestion> (schendt), of toch 'darmen verwijderen'?</message>
 				<example correction="ontwijd">Het woord <marker>ontweit</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -3905,7 +3906,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>saaien</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>zaaien</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>zaaien</suggestion> (van planten) of toch wollen stof?</message>
 				<example correction="zaaien">Het woord <marker>saaien</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -4059,7 +4060,7 @@ regexp case-insensitive maken : (?i)
 					   <token>sier</token>
 				   </marker>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>zier</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>zier</suggestion> (barst), of toch verfraaiing?</message>
 				<example correction="zier">Het woord geen <marker>sier</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -4410,10 +4411,11 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="SETSYSTEEM_ZETSYSTEEM" name="waarschuwing bij gebruik setsysteem i.p.v. zetsysteem">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(race|wedstrijd).*|GP</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					   <token>setsysteem</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>zetsysteem</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>zetsysteem</suggestion> (voor de drukker), of toch iets met wedstrijden?</message>
 				<example correction="zetsysteem">Het woord <marker>setsysteem</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -4539,6 +4541,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="SUPERSOON_SUPERZOON" name="waarschuwing bij gebruik supersoon i.p.v. superzoon">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(vliegtuig|snelheid).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					   <token>supersoon</token>
 				</pattern>
@@ -4569,10 +4572,11 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="SLOTSET_SLOTZET" name="waarschuwing bij gebruik slotset i.p.v. slotzet">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(ploeg|team|wedstrijd).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					   <token>slotset</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>slotzet</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>slotzet</suggestion> (eindzet), of toch het laatste deel an de wedstrijd of een aantal sloten?</message>
 				<example correction="slotzet">Het woord <marker>slotset</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -4821,7 +4825,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>sipjes</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>zipjes</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>zipjes</suggestion> (bestanden), of toch verdrietig?</message>
 				<example correction="zipjes">Het woord <marker>sipjes</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -11213,7 +11217,7 @@ onwaarschijnlijk
 		<rulegroup id="MOET_JE" name="moetje → moet je">
 			<!-- 2017-06-21 by TaalTik -->
 			<rule>
-				<antipattern><token>een</token><token>moetje</token></antipattern>
+				<antipattern><token regexp="yes">g?een</token><token>moetje</token></antipattern>
 				<pattern>
 					<token>moetje</token>
 				</pattern>
@@ -32999,6 +33003,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="MONOPOLIEN" name="monopoliën of monopolyen">
 			<rule>
+                <antipattern><token>het</token><token>monopolyen</token></antipattern>
 				<pattern>
 					<token regexp="yes">monopoliën|monopolyen</token>
 				</pattern>
