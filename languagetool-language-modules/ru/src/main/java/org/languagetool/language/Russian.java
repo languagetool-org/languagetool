@@ -105,18 +105,18 @@ public class Russian extends Language implements AutoCloseable {
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
 	    new SentenceWhitespaceRule(messages),
-        //  new WhiteSpaceBeforeParagraphEnd(messages, this),
+            new WhiteSpaceBeforeParagraphEnd(messages, this),  //    
             new WhiteSpaceAtBeginOfParagraph(messages),
-        //  new EmptyLineRule(messages, this),
+            new EmptyLineRule(messages, this),  //
             new LongSentenceRule(messages, userConfig),
             new LongParagraphRule(messages, this, userConfig),
             new ParagraphRepeatBeginningRule(messages, this),
             new RussianFillerWordsRule(messages, this, userConfig),
         //  new PunctuationMarkAtParagraphEnd(messages, this),
-        //  new PunctuationMarkAtParagraphEnd2(messages, this),
+            new PunctuationMarkAtParagraphEnd2(messages, this),  //
         //  new ReadabilityRule(messages, this, userConfig, false), // need use localise rule
         //  new ReadabilityRule(messages, this, userConfig, true),  // need use localise rule
-     
+      
             
                 // specific to Russian :
             new MorfologikRussianYOSpellerRule(messages, this, userConfig, altLanguages), // This rule must set off by default!!!
