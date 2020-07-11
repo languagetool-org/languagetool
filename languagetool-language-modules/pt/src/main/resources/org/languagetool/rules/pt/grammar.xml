@@ -1860,15 +1860,6 @@ title="Easy editing stylesheet" ?>
 		  <token postag='NC[CFM]P000' postag_regexp='yes'/>		  
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-06 *END* -->
-<!-- MARCOAGPINTO 2020-06-14 *START* -->
-<!-- "Algumas medidas revelaram-se de tal modo eficazes que persistiram nos diversos regulamentos." -->
-      <antipattern>
-	      <token postag='NC[CFM]S000' postag_regexp='yes'/>
-		  <token postag='AQ0[CFM]P0' postag_regexp='yes'/>
-		  <token postag='CS|P[ERT]0CN000' postag_regexp='yes'/>
-		  <token postag='VMIM3P0|VMIS3P0' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-06-14 *END* -->
 <!-- MARCOAGPINTO 2020-06-15 *START* -->
 <!-- "As ciências exatas são em princípio capazes de fornecer resultados com elevado grau de precisão." -->
       <antipattern>
@@ -1996,6 +1987,41 @@ title="Easy editing stylesheet" ?>
 		  <token postag='AQ0[CFM]P0|NC[CFM]P000' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-07-07 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-07-11 (2-JUL-2020+) *START* -->
+<!-- "Algumas medidas revelaram-se de tal modo eficazes que persistiram nos diversos regulamentos." -->
+      <antipattern>	  
+		  <token postag='DD0CS0|DI0CS0|PD0CS000|PI0CS000' postag_regexp='yes'/>
+		  <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
+		  <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
+      </antipattern>	  
+      <antipattern>
+	      <and>
+			<token negate="yes" regexp='yes'>de|do|o</token>
+			<token negate="yes" postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
+		  </and>
+		  <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
+		  <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
+		  <and>
+			<token postag='CS|RG|CC|SPS00|VMIP3P0|NC[CFM]P000|VMP00SM|AQ0[CFM]P0' postag_regexp='yes'/>
+			<token negate="yes" regexp='yes'>a|com|e|de|do|que</token>
+		  </and>	
+      </antipattern>
+	  <!-- "Para a saúde e o coração associados ao álcool." -->
+      <antipattern>	  
+		  <token regexp='yes'>e|ou|a|eles|elas</token>
+		  <token regexp='yes'>os?|as?|um|por|este|esse</token>
+		  <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
+		  <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
+		  <token negate="yes" regexp='no'>tem</token>
+      </antipattern>	  
+	  <!-- "Inclui 84 pranchas coloridas com desenhos científicos de cada ave feitos pelo artista Tomas Sigrist." -->
+      <antipattern>
+	      <token negate="yes" regexp='yes'>a|de|do|o</token>
+		  <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
+		  <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
+		  <token regexp='yes'>pelas?|pelos?|às?|nas?|dos?|nos?</token>
+      </antipattern>	  	  
+<!-- MARCOAGPINTO 2020-07-11 (2-JUL-2020+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
