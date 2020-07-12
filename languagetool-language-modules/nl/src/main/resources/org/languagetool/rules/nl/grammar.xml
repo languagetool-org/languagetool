@@ -671,6 +671,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="KEUREND_KUREND" name="waarschuwing bij gebruik kurend i.p.v. keurend">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(berg|zee).*</token><token postag="SENT_END"/></antipattern>
                 <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*gezondheid.*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					   <token>kurend</token>
@@ -755,7 +756,8 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="AFSCHEURING_AFSCHURING" name="waarschuwing bij gebruik afschuring i.p.v. afscheuring">
 			<rule>
-				<pattern>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(slijt).*</token><token postag="SENT_END"/></antipattern>
+                <pattern>
 					   <token>afschuring</token>
 				</pattern>
 				<message>Bedoelt u wellicht <suggestion>afscheuring</suggestion>? Afscheuring=het losmaken, afschuring=het verwijderen door wrijven.</message>
@@ -1851,7 +1853,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="BOORDRAND_BORDRAND" name="waarschuwing bij gebruik bordrand i.p.v. boordrand">
 			<rule>
-                <antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes" skip="-1">deponeer.*|bord</token><token postag="SENT_START"/></antipattern>
+                <antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes" skip="-1">deponeer.*|bord|garnee?r</token><token postag="SENT_START"/></antipattern>
 				<pattern>
 					   <token>bordrand</token>
 				</pattern>
@@ -3204,7 +3206,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>gescheid</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>geschijt</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>geschijt</suggestion> (ontlasten), of toch uit elkaar gaan?</message>
 				<example correction="geschijt">Het woord <marker>gescheid</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -3595,6 +3597,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="GAGE_GASJE" name="waarschuwing bij gebruik gasje i.p.v. gage">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(CO2).*</token><token postag="SENT_END"/></antipattern>
                 <antipattern><token>een</token><token>heel</token><token>nuttig</token><token>gasje</token></antipattern>
 				<pattern>
 					   <token>gasje</token>
@@ -4564,6 +4567,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="BUSSENDE_BUZZENDE" name="waarschuwing bij gebruik bussende i.p.v. buzzende">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(fiets|auto|trein|vervoer).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					   <token>bussende</token>
 				</pattern>
@@ -4588,8 +4592,8 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>fessen</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>fezzen</suggestion>?</message>
-				<example correction="fezzen">Het woord <marker>fessen</marker> kan een vergissing zijn.</example>
+				<message>Bedoelt u wellicht <suggestion>fezzen</suggestion> (hofddeksels) of <suggestion>flessen</suggestion>?</message>
+				<example correction="fezzen|flessen">Het woord <marker>fessen</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
 
@@ -5755,10 +5759,11 @@ regexp case-insensitive maken : (?i)
 		-->
 		<rulegroup id="GEFIT_GEVIT" name="waarschuwing bij gebruik gefit i.p.v. gevit">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*((gas|water)leiding).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					   <token>gefit</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>gevit</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>gevit</suggestion> (gekibbel), of toch passen, aansluiten?</message>
 				<example correction="gevit">Het woord <marker>gefit</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -6209,6 +6214,7 @@ regexp case-insensitive maken : (?i)
 		-->
 		<rulegroup id="FITTENDE_VITTENDE" name="waarschuwing bij gebruik fittende i.p.v. vittende">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(vliegtuig|snelheid|kleren|kleding|broek).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					   <token>fittende</token>
 				</pattern>
@@ -21539,6 +21545,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="BLACK_SPOT" name="black spot">
 			<rule>
+                <antipattern><token>Citrus</token><token>Black</token><token>Spot</token></antipattern>
 				<pattern>
 					<token>black</token><token>spot</token>
 				</pattern>
@@ -34788,7 +34795,7 @@ steenwijk;Steenwijk
 					<token>baas</token>
 					<token>boven</token>
 					<token>baas</token>
-					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer|was</exception></token>
+                    <token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">een|weer</exception><exception postag_regexp="yes" postag="VRZ|BNW.*|WKW.*"/></token>
 				</pattern>
 				<message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 				<url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -35198,7 +35205,7 @@ steenwijk;Steenwijk
 					<token>rond</token>
 					<token>de</token>
 					<token>tafel</token>
-					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer|van|wil|voor|te</exception><exception postag_regexp="yes" postag="WKW.*|VRZ"/></token>
+					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">zo|bij|een|weer|van|wil|voor|te</exception><exception postag_regexp="yes" postag="WKW.*|VRZ"/></token>
 				</pattern>
 				<message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 				<url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -37225,7 +37232,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<token>draadkracht</token>
 				</pattern>
-				<message>U bedoelt vast: <suggestion>daadkracht</suggestion>, opvliegend.</message>
+				<message>U bedoelt vast: <suggestion>daadkracht</suggestion>, doortastendheid.</message>
 				<example correction="daadkracht">Hij heeft <marker>draadkracht</marker>.</example>
 			</rule>
 		</rulegroup>
