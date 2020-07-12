@@ -1004,6 +1004,32 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion>Peut-être</suggestion> ?</message>
         <example correction="Peut-être"><marker>Peut être</marker> viendra-t-il ?</example>
       </rule>
+      <rule default="temp_off">
+        <!--<antipattern>
+          <token>d'</token>
+          <token>ici</token>
+          <token>peu</token>
+        </antipattern>
+        <antipattern>
+          <token>peu</token>
+          <token>à</token>
+          <token>peu</token>
+        </antipattern>-->
+        <pattern>
+          <token inflected="yes" regexp="yes">être|avoir</token>
+          <marker>
+           <token>peu</token>
+           <token min="0">-</token>
+           <token>être</token>
+          </marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>peut-être</suggestion> ?</message>
+        <example correction="peut-être">Il y a <marker>peu être</marker> du pain.</example>
+        <example correction="peut-être">Il y a <marker>peu-être</marker> du pain.</example>
+        <example correction="peut-être">C'est <marker>peu être</marker> la même chose.</example>
+        <example>nos clients vont d'ici peu être contraints de procéder</example>
+        <example>tout cela doit peu à peu être investi</example>
+      </rule>
     </rulegroup>
     <rulegroup id="PEUT_PEUX_PEU" name="Peut ou peux au lieu de peu">
       <rule>
