@@ -1716,7 +1716,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>verwordingen</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>verwoordingen</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>verwoordingen</suggestion> (beschrijvingen), of toch 'verval'?</message>
 				<example correction="verwoordingen">Het woord <marker>verwordingen</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -2049,6 +2049,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="KOORTOREN_KORTOREN" name="waarschuwing bij gebruik kortoren i.p.v. koortoren">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(langoor|langoren|konijn).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					   <token>kortoren</token>
 				</pattern>
@@ -2992,7 +2993,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>leidertje</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>lijdertje</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>lijdertje</suggestion> (zieke), of toch de aanvoerder?</message>
 				<example correction="lijdertje">Het woord <marker>leidertje</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -3729,6 +3730,7 @@ regexp case-insensitive maken : (?i)
 		-->
 		<rulegroup id="SONNETJE_ZONNETJE" name="waarschuwing bij gebruik sonnetje i.p.v. zonnetje">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(rijm|gedicht|rederijker).*</token><token postag="SENT_END"/></antipattern>
 				<pattern><token regexp="yes">sonnetjes?</token></pattern>
 				<message>Bedoelt u wellicht <suggestion><match no="1" regexp_match="son" regexp_replace="zon"/></suggestion>? Of toch een gedichtje?</message>
 				<example correction="zonnetje">Het woord <marker>sonnetje</marker> kan een vergissing zijn.</example>
@@ -4906,7 +4908,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>nasietje</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>nazietje</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>nazietje</suggestion> (rijstschotel), of toch een kleine nazi?</message>
 				<example correction="nazietje">Het woord <marker>nasietje</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -5235,7 +5237,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>toefen</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>toeven</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>toeven</suggestion> (verblijven), of toch toefjes?</message>
 				<example correction="toeven">Het woord <marker>toefen</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -6463,7 +6465,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>lakh</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>lach</suggestion>? Lakh is erg zeldzaam.</message>
+				<message>Bedoelt u wellicht <suggestion>lach</suggestion>? Lakh (munteenheid) is erg zeldzaam.</message>
 				<example correction="lach">Het woord <marker>lakh</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -12776,11 +12778,37 @@ onwaarschijnlijk
 		<rulegroup id="JARIG_LUSTRUM" name="rare combinatie">
 			<rule>
 				<pattern>
-					<token regexp="yes">.*jarige?</token>
+					<token regexp="yes">[1-9].*-jarige?</token>
 					<token>lustrum</token>
 				</pattern>
-				<message>Onlogisch. Een lustrum is een periode van 5 jaar. Schijf <suggestion>\1 jubileum</suggestion> of deel het aantal jaren door 5 en gebruik lustrum.</message>
+				<message>Onlogisch. Een lustrum is een periode van 5 jaar. Schrijf <suggestion>\1 jubileum</suggestion> of deel het aantal jaren door 5 en gebruik lustrum.</message>
 				<example correction="10-jarig jubileum">Hij vierde het <marker>10-jarig lustrum</marker> met verve.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">[1-9].*</token>
+					<token regexp="yes">jarige?</token>
+					<token>lustrum</token>
+				</pattern>
+				<message>Onlogisch. Een lustrum is een periode van 5 jaar. Schrijf <suggestion>\1-\2 jubileum</suggestion> of deel het aantal jaren door 5 en gebruik lustrum.</message>
+				<example correction="10-jarig jubileum">Hij vierde het <marker>10 jarig lustrum</marker> met verve.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">vijf|tien|vijftien|(vijfen)?(twintig|dertig|veertig|vijftig|zestig|zeventig)</token>
+					<token regexp="yes">jarige?</token>
+					<token>lustrum</token>
+				</pattern>
+				<message>Onlogisch. Een lustrum is een periode van 5 jaar. Schrijf <suggestion>\1\2 jubileum</suggestion> of deel het aantal jaren door 5 en gebruik lustrum.</message>
+				<example correction="vijftienjarig jubileum">Hij vierde het <marker>vijftien jarig lustrum</marker> met verve.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">(vijf|tien|vijftien|(vijfen)?(twintig|dertig|veertig|vijftig|zestig|zeventig))jarige?</token>
+					<token>lustrum</token>
+				</pattern>
+				<message>Onlogisch. Een lustrum is een periode van 5 jaar. Schrijf <suggestion>\1 jubileum</suggestion> of deel het aantal jaren door 5 en gebruik lustrum.</message>
+				<example correction="vijftienjarig jubileum">Hij vierde het <marker>vijftienjarig lustrum</marker> met verve.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="A_APO_S" name=" ">
