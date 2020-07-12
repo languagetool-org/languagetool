@@ -4627,6 +4627,7 @@ regexp case-insensitive maken : (?i)
 		-->
 		<rulegroup id="SLEUTELSET_SLEUTELZET" name="waarschuwing bij gebruik sleutelset i.p.v. sleutelzet">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(dop|steek)sleutel.*</token><token postag="SENT_END"/></antipattern>
 				<pattern><token>sleutelset</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>sleutelzet</suggestion> (belangrijke zet)? Of toch een verzameling sleutels?</message>
 				<example correction="sleutelzet">Het woord <marker>sleutelset</marker> kan een vergissing zijn.</example>
@@ -11686,7 +11687,7 @@ onwaarschijnlijk
 		</rulegroup>
 		<rulegroup id="TEGELOVEN" name="tegeloven → te geloven">
 			<rule>
-				<!-- 2017-06-24 TaalTik -->
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(bakke).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					<token negate="yes" regexp="yes">de|een</token>
 					<marker>
