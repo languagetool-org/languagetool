@@ -11190,12 +11190,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Три тома второго издания книги вышли в 1966 — 1971 годах.</example>
                 <example correction="1 процента"><marker>1 процентов</marker>.</example>
             </rule>
-            <rule> <!-- TODO: check suggestion in message!!!!!!!!!!! -->
+        </rulegroup> 
+            <!-- TODO: check suggestion in message!!!!!!!!!!! -->
+            <!-- comment rule, many false positives -->
+        <rule default="temp_off" id="Num_plus_Noun2" name="Сочетание числительных с существительными 2"> 
                 <pattern>
-                    <token postag="NumD_P" ><exception scope="previous" regexp="yes">по|–|—</exception><exception scope="previous" spacebefore="no">-</exception></token>
+                    <token postag="NumD_P" ><exception scope="previous" regexp="yes">по|–|—</exception>
+                    <exception scope="previous" spacebefore="no">-</exception>
+                    </token>
                     <token postag="NN:.*:.*:Sin:.*" postag_regexp="yes">
                         <exception negate_pos="yes" postag="NN:.*:.*:Sin:.*" postag_regexp="yes"></exception>
                         <exception  postag="NN:.*:.*:PL:.*" postag_regexp="yes"></exception>
+                        <exception  postag="NN:.*:.*:Sin:D" postag_regexp="yes"></exception>
                         <exception>лет</exception>           
                     </token>
                 </pattern>
@@ -11203,9 +11209,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Требуется единственное число</short>
                 <example>1 процент.</example>
                 <example>Три тома второго издания книги вышли в 1966 — 1977 годах.</example>
+                <example>Три тома второго издания книги вышли в 1977 году.</example>
                 <example correction="7 процентов"><marker>7 процента</marker>.</example>
-            </rule>
-        </rulegroup>        
+         </rule>
+            
+       
 
         <rulegroup default="on" id="Prep_Soglasno" name="Предлоги: «согласно», «благодаря», «вопреки»">
             <rule>
