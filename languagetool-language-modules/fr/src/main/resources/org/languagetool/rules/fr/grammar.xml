@@ -8503,9 +8503,10 @@ though, and has since been slightly modified)-->
               <token regexp="yes">an|ans</token>
             </marker>
           </pattern>
-          <message>On ne peut utiliser « an » qu’en concordance des nombres cardinaux. Utilisez plutôt <suggestion>année</suggestion>."</message>
+          <message>On ne peut utiliser « an » qu’en concordance des nombres cardinaux. Utilisez plutôt <suggestion><match no="2" regexp_match="(?iu)an" regexp_replace="année"/></suggestion>."</message>
           <example correction="année">Bon <marker>an</marker> !</example>
           <example correction="année">Chaque <marker>an</marker>, nous allons célébrer dans un grand restaurant.</example>
+          <example correction="années">pendant les bons <marker>ans</marker></example>
           <example>Régiments de hussards (an IV).</example>
           <example>Cinq ans après le diagnostic, 70 % des 15–45 ans survivent.</example>
           <example>Il est venu chez nous fêter le nouvel an.</example>
@@ -8538,15 +8539,11 @@ though, and has since been slightly modified)-->
               <token postag="K|Y" postag_regexp="yes"/>
               <token postag="D e p"><exception regexp="yes">des|les|quelques|plusieurs|nouvel|ses|ces|aux|par</exception></token>
             </or>
-            <marker><token regexp="yes">année|années</token></marker>
+            <marker><token>année</token></marker>
           </pattern>
-          <message>Il convient d’utiliser « an » après un nombre cardinal.</message>
-          <suggestion>an</suggestion>
-          <suggestion>ans</suggestion>
+          <message>Il convient d’utiliser « <suggestion>an</suggestion> » après un nombre cardinal.</message>
           <url>https://www.dictionnaire-academie.fr/article/QDL010</url>
-          <example correction="an|ans">Quatre <marker>années</marker> après, il était toujours motivé !</example>
-          <example correction="an|ans">Il l'a racheté douze <marker>années</marker> plus tard.</example>
-          <example correction="an|ans">Un <marker>année</marker> après, il était toujours motivé !</example>
+          <example correction="an">Un <marker>année</marker> après, il était toujours motivé !</example>
           <example>Il est né en l'an trente.</example>
           <example>provisional est d'ailleurs abandonné vers la fin des années 1970.</example>
           <example>Les tensions présentes depuis plusieurs années au sein du Front national aboutissent à une scission à la fin des années 1990.</example>
@@ -8556,7 +8553,43 @@ though, and has since been slightly modified)-->
           <example>l'année suivante</example>
           <example>tout au long de l'année</example>
           <example>meilleurs films de l'année 2019</example>
-            <example>Livre numéro 14 année II.</example>
+          <example>Livre numéro 14 année II.</example>
+        </rule>
+        <rule>
+          <antipattern>
+            <token>numéro</token>
+            <token regexp="yes">\d+</token>
+            <token regexp="yes">années?</token>
+          </antipattern>
+          <pattern>
+            <or>
+              <token>un</token>
+              <token regexp="yes">'<exception scope="previous" regexp="yes">d'|l'</exception></token>
+              <token>sept</token>
+              <token>cent</token>
+              <token>cents</token>
+              <token regexp="yes">\d*\-\d*</token>
+              <token regexp="yes">\w*\-\w*</token>
+              <token regexp="yes">\d+</token>
+              <token postag="K|Y" postag_regexp="yes"/>
+              <token postag="D e p"><exception regexp="yes">des|les|quelques|plusieurs|nouvel|ses|ces|aux|par</exception></token>
+            </or>
+            <marker><token>années</token></marker>
+          </pattern>
+          <message>Il convient d’utiliser « <suggestion>ans</suggestion> » après un nombre cardinal.</message>
+          <url>https://www.dictionnaire-academie.fr/article/QDL010</url>
+          <example correction="ans">Quatre <marker>années</marker> après, il était toujours motivé !</example>
+          <example correction="ans">Il l'a racheté douze <marker>années</marker> plus tard.</example>
+          <example>Il est né en l'an trente.</example>
+          <example>provisional est d'ailleurs abandonné vers la fin des années 1970.</example>
+          <example>Les tensions présentes depuis plusieurs années au sein du Front national aboutissent à une scission à la fin des années 1990.</example>
+          <example>Années de jeunesse : un départ brillant</example>
+          <example>A augmenté de 60 % pendant l’année.</example>
+          <example>L'année 1890 est considérée comme un tournant dans l'histoire.</example>
+          <example>l'année suivante</example>
+          <example>tout au long de l'année</example>
+          <example>meilleurs films de l'année 2019</example>
+          <example>Livre numéro 14 année II.</example>
         </rule>
         <rule>
           <pattern>
