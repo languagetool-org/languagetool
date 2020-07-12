@@ -9106,6 +9106,16 @@ though, and has since been slightly modified)-->
       <example>Un voyage de mille milles.</example>
       <example>Il reste seulement dix milles jusqu’à l’arrivée.</example>
     </rule>
+    <rule id="ACCORD_CHAQUE" name="Accord chaque + nom">
+      <pattern>
+        <token>chaque</token>
+        <token postag="N .* p" postag_regexp="yes"/>
+      </pattern>
+      <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre.</message>
+      <suggestion>\1 <match no="2" postag="(N .* )p" postag_regexp="yes" postag_replace="$1s"/></suggestion>
+      <example correction="Chaque service"><marker>Chaque services</marker></example>
+      <example correction="chaque application">Chaque service et <marker>chaque applications</marker>.</example>
+    </rule>
     <rulegroup id="ACCORD_NOMBRE" name="Accord en nombre">
       <antipattern>
         <token regexp="yes" inflected="yes">rapport|relation|rencontre|interprète|traduction|cycle|association</token>
