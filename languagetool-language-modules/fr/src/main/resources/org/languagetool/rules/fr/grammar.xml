@@ -1004,7 +1004,7 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion>Peut-être</suggestion> ?</message>
         <example correction="Peut-être"><marker>Peut être</marker> viendra-t-il ?</example>
       </rule>
-      <rule default="temp_off">
+      <rule>
         <!--<antipattern>
           <token>d'</token>
           <token>ici</token>
@@ -8117,7 +8117,7 @@ though, and has since been slightly modified)-->
         <example>Vous passez plus de temps ici qu'avec Mamie.</example>
       </rule>
     </rulegroup>
-    <rule id="EL_AVEC" name="Élision qu'avec, d'avec" default="temp_off">
+    <rule id="EL_AVEC" name="Élision qu'avec, d'avec">
       <pattern>
         <token regexp="yes">que|de</token>
         <token>avec</token>
@@ -8146,7 +8146,7 @@ though, and has since been slightly modified)-->
         <example>presqu'îles</example>
       </rule>
     </rulegroup>
-    <rulegroup id="EL_QUELQUE" name="Élision de quelque" default="temp_off">
+    <rulegroup id="EL_QUELQUE" name="Élision de quelque">
       <rule>
         <pattern>
           <token>quelque</token>
@@ -30836,7 +30836,7 @@ though, and has since been slightly modified)-->
         <example correction="D’|D'"><marker>D′</marker>enfants.</example>
         <example>Les Humains (court métrage, 9′), 2003</example>
       </rule>
-      <rule default="temp_off">
+      <rule>
         <pattern>
           <token regexp="yes">[dljmnst]|jusqu|qu</token>
           <token spacebefore="no" regexp="yes">[´‘′`’']</token>
@@ -32860,7 +32860,7 @@ though, and has since been slightly modified)-->
       <message>« Mon dieu » est une expression fautive. Employez <suggestion>mon Dieu</suggestion>.</message>
       <example correction="Mon Dieu"><marker>Mon dieu</marker> !</example>
     </rule>
-    <rule id="DIEU" name="dieu"> <!-- TODO: too many false alarms -->
+    <rule id="DIEU" name="dieu" default="temp_off"> <!-- TODO: too many false alarms -->
       <pattern case_sensitive="yes">
         <token>dieu<exception postag="D.*" postag_regexp="yes" scope="previous"/></token>
       </pattern>
