@@ -352,6 +352,10 @@ public class UpperCaseNgramRule extends Rule {
       tokenRegex("or|and|&"),
       tokenRegex("[A-Z].*")
     ),
+    Arrays.asList( // Hashtags
+      token("#"),
+      tokenRegex("[A-Z].*")
+    ),
     Arrays.asList(
       tokenRegex("Teams|Maps|Canvas|Remind|Switch|Gems?|Glamour|Divvy|Solo|Splash") // Microsoft Teams, Google Maps, Remind App, Nintendo Switch (not tagged as NNP), Gems (Ruby Gems)
     ),
@@ -361,6 +365,15 @@ public class UpperCaseNgramRule extends Rule {
       tokenRegex("or|and|&"),
       tokenRegex("[A-Z].*"),
       pos("SENT_END")
+    ),
+    Arrays.asList( // Please click Send
+      tokenRegex("click(ed|s)?|type(d|s)|hit"),
+      tokenRegex("[A-Z].*")
+    ),
+    Arrays.asList( // Please click on Send
+      tokenRegex("click(ed|s)?"),
+      tokenRegex("on|at"),
+      tokenRegex("[A-Z].*")
     )
   );
 
