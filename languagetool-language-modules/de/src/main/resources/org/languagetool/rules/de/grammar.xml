@@ -9403,6 +9403,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rulegroup id="GET_TOGETHER" name="Get-together" default="temp_off">
+            <url>https://www.duden.de/rechtschreibung/Get_together</url>
+            <rule>
+                <pattern>
+                    <token>get</token>
+                    <token regexp="yes">togethers?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Get-<match no="2" case_conversion="alllower" /></suggestion> (= das Zusammenkommen)?</message>
+                <example correction="Get-together">Die Veranstalter organisierten ein kurzes <marker>Get Together</marker> am Anfang der Konferenz.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token case_sensitive="yes" regexp="yes">Get-togethers?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">get\-?togethers?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="(?i)get\-?together" regexp_replace="Get-together" /></suggestion> (= das Zusammenkommen)?</message>
+                <example correction="Get-together">Die Veranstalter organisierten ein kurzes <marker>Get-Together</marker> am Anfang der Konferenz.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GELD_ZURUECK_GARANTIE" name="Geld-zurück-Garantie">
             <url>https://www.bpb.de/nachschlagen/lexika/lexikon-der-wirtschaft/19445/geld-zurueck-garantie</url>
             <rule>
@@ -33620,7 +33641,7 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rulegroup id="MITGLIEDERINNEN" name="Mitgliederinnen" default="temp_off">
+        <rulegroup id="MITGLIEDERINNEN" name="Mitgliederinnen">
             <url>https://www.duden.de/sprachwissen/sprachratgeber/%E2%80%9ELiebe-Mit%C2%ADglieder%C2%ADinnen-und-Mit%C2%ADglieder%E2%80%9C-%E2%80%93-Personen%C2%AD%C2%ADbezeich%C2%ADnungen</url>
             <rule>
                 <pattern>
