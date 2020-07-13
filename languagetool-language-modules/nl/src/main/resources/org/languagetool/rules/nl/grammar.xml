@@ -1439,7 +1439,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="KOORTS_KORTS" name="waarschuwing bij gebruik korts i.p.v. koorts">
 			<rule>
-				<antipattern><token>iets</token><token>korts</token></antipattern>
+				<antipattern><token regexp="yes">n?iets</token><token>korts</token></antipattern>
 				<pattern>
 					   <token>korts</token>
 				</pattern>
@@ -30761,6 +30761,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="INBED" name="inbed → in bed, inbedt">
 			<rule>
+                <antipattern><token>inbed</token><token>in</token></antipattern>
 				<pattern>
 					<token>inbed</token>
 				</pattern>
