@@ -8510,6 +8510,11 @@ though, and has since been slightly modified)-->
             <token>nouvel</token>
             <token>an</token>
           </antipattern>
+          <antipattern>
+            <token regexp="yes">\d+</token>
+            <token>)</token>
+            <token regexp="yes">an|ans</token>
+          </antipattern>
           <pattern>
             <token>
               <exception>par</exception>
@@ -8545,6 +8550,7 @@ though, and has since been slightly modified)-->
           <example>Trois cents ans</example>
           <example>Trois-cents ans</example>
           <example>Onze cents ans</example>
+          <example>de moins de dix-huit (18) ans</example>
         </rule>
         <rule>
           <antipattern>
@@ -9135,12 +9141,14 @@ though, and has since been slightly modified)-->
     <rule id="ACCORD_CHAQUE" name="Accord chaque + nom">
       <pattern>
         <token>chaque</token>
-        <token postag="N .* p" postag_regexp="yes"/>
+        <token postag="N .* p" postag_regexp="yes"><exception postag=".* (s|sp)" postag_regexp="yes"/></token>
       </pattern>
       <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre.</message>
       <suggestion>\1 <match no="2" postag="(N .* )p" postag_regexp="yes" postag_replace="$1s"/></suggestion>
       <example correction="Chaque service"><marker>Chaque services</marker></example>
       <example correction="chaque application">Chaque service et <marker>chaque applications</marker>.</example>
+      <example>Il me fallait à chaque fois corriger cette erreur.</example>
+      <example>pour chaque cours en ligne</example>
     </rule>
     <rulegroup id="ACCORD_NOMBRE" name="Accord en nombre">
       <antipattern>
