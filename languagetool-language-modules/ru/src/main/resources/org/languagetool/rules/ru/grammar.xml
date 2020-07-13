@@ -4862,6 +4862,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
+        <rule id="Punct_skoree_chem" name="Запятая в союзах «скорее ..., чем», «нежели ..., чем»">
+            <pattern>
+                <marker>
+                    <token>скорее</token>  
+                    <token skip="-1"><exception>,</exception></token>
+                    <token  regexp="yes">чем|нежели<exception scope="previous">,</exception></token>
+                </marker>
+            </pattern>
+            <message>Запятая нужна: <suggestion><match no="1"/> <match no="2" include_skipped="all"/>, <match no="3"/></suggestion>.</message>
+            <short>Запятая</short>
+            <example>В их семье мужчины скорее знали об хороших манерах, нежели владели ими.</example>
+            <example correction="скорее знали об изысканных манерах, нежели">В их семье мужчины <marker>скорее знали об изысканных манерах нежели</marker> владели ими.</example>
+        </rule>
+        
         <rulegroup default="on" id="NO_NE_KAK" name="«Почти как», «не как», ...">
             <!--Перед сравнительным оборотом стоит "не" или слова: совсем, совершенно, почти, именно, + вроде, точь-в-точь  ->> запятая не ставится.
            -->
