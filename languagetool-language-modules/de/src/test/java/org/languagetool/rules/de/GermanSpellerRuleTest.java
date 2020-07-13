@@ -441,6 +441,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("misstraurig", "misstrauisch", rule, lt);
     assertFirstSuggestion("Aux-Anschluss", "AUX-Anschluss", rule, lt);
     assertFirstSuggestion("Wi", "Wie", rule, lt);
+    assertFirstSuggestion("Verspäterung", "Verspätung", rule, lt);
+    assertFirstSuggestion("groesste", "größte", rule, lt);
   }
 
   @Test
