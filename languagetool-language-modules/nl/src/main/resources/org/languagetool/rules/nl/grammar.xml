@@ -1218,48 +1218,6 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="TOORN_TORN" name="waarschuwing bij gebruik torn i.p.v. toorn">
-			<rule>
-                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(tegen|aan|storm|wind).*</token><token postag="SENT_END"/></antipattern>
-				<pattern>
-					   <token>torn</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>toorn</suggestion>?</message>
-				<example correction="toorn">Het woord <marker>torn</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="TOORNDE_TORNDE" name="waarschuwing bij gebruik tornde i.p.v. toornde">
-			<rule>
-                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(tegen|aan|storm|wind).*</token><token postag="SENT_END"/></antipattern>
-				<antipattern><token skip="3">aan</token><token>tornde</token></antipattern>
-				<pattern>
-					   <token>tornde</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>toornde</suggestion>?</message>
-				<example correction="toornde">Het woord <marker>tornde</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="TOORNDEN_TORNDEN" name="waarschuwing bij gebruik tornden i.p.v. toornden">
-			<rule>
-                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(tegen|aan|storm|wind).*</token><token postag="SENT_END"/></antipattern>
-				<pattern>
-					   <token>tornden</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>toornden</suggestion>?</message>
-				<example correction="toornden">Het woord <marker>tornden</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="GETOORNDE_GETORNDE" name="waarschuwing bij gebruik getornde i.p.v. getoornde">
-			<rule>
-                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(tegen|aan|storm|wind).*</token><token postag="SENT_END"/></antipattern>
-				<pattern>
-					   <token>getornde</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>getoornde</suggestion>?</message>
-				<example correction="getoornde">Het woord <marker>getornde</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>		
-
 		<rulegroup id="GEHOORD_GEHORD" name="waarschuwing bij gebruik gehord i.p.v. gehoord">
 			<rule>
 				<pattern>
@@ -1874,19 +1832,6 @@ regexp case-insensitive maken : (?i)
 				<example correction="gemoorde">Het woord <marker>gemorde</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
-<!--
-		-->
-		<!-- getoornd is nogal zeldzaam!
-		<rulegroup id="GETOORND_GETORND" name="waarschuwing bij gebruik getornd i.p.v. getoornd">
-			<rule>
-				<pattern>
-					   <token>getornd</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>getoornd</suggestion>?</message>
-				<example correction="getoornd">Het woord <marker>getornd</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
-		-->
 		
 		<rulegroup id="BOORDZIJDE_BORDZIJDE" name="waarschuwing bij gebruik bordzijde i.p.v. boordzijde">
 			<rule>
@@ -1959,45 +1904,14 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		
-		<rulegroup id="TOORNT_TORNT" name="waarschuwing bij gebruik tornt i.p.v. toornt">
-			<rule>
-                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">waaraan|aan</token><token postag="SENT_START"/></antipattern>
-				<pattern>
-					   <token>tornt</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>toornt</suggestion>?</message>
-				<example correction="toornt">Het woord <marker>tornt</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
-<!--
 		<rulegroup id="TOORNEN_TORNEN" name="waarschuwing bij gebruik tornen i.p.v. toornen">
 			<rule>
-				<antipattern><token>tornen</token><token skip="1">aan</token></antipattern>
-				<antipattern><token skip="3">aan</token><token>tornen</token></antipattern>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">aan|tegen|wind|storm</token><token postag="SENT_END"/></antipattern>
 				<pattern>
-					   <token>tornen</token>
+					   <token inflected="yes">tornen</token>
 				</pattern>
-				<message>Bedoelt u Z<suggestion>toornen</suggestion>?</message>
+                <message>Bedoelt u <suggestion><match no="1" regexp_match="tor" regexp_replace="toor"/></suggestion>?</message>
 				<example correction="toornen">Het woord <marker>tornen</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
-		-->
-		<rulegroup id="TOORNENDE_TORNENDE" name="waarschuwing bij gebruik tornende i.p.v. toornende">
-			<rule>
-				<pattern>
-					   <token>tornende</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>toornende</suggestion> (kwaad zijnde)? Of toch losmakende?</message>
-				<example correction="toornende">Het woord <marker>tornende</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="TOORNEND_TORNEND" name="waarschuwing bij gebruik tornend i.p.v. toornend">
-			<rule>
-				<pattern>
-					   <token>tornend</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>toornend</suggestion> (kwaad zijnd)? Of toch losmakend?</message>
-				<example correction="toornend">Het woord <marker>tornend</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
 
@@ -2168,16 +2082,6 @@ regexp case-insensitive maken : (?i)
 				</pattern>
 				<message>Bedoelt u wellicht <suggestion>bloemenboorden</suggestion>?</message>
 				<example correction="bloemenboorden">Het woord <marker>bloemenborden</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
-
-		<rulegroup id="TOORNENDEN_TORNENDEN" name="waarschuwing bij gebruik tornenden i.p.v. toornenden">
-			<rule>
-				<pattern>
-					   <token>tornenden</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>toornenden</suggestion>?</message>
-				<example correction="toornenden">Het woord <marker>tornenden</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
 
@@ -2632,6 +2536,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="VERWIJDEN_VERWEIDEN" name="waarschuwing bij gebruik verweiden i.p.v. verwijden">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">vee|.*(ontworm).*</token><token postag="SENT_END"/></antipattern>
 				<pattern><token inflected="yes">verweiden</token></pattern>
 				<message>Bedoelt u wellicht <suggestion><match no="1" regexp_match="weid" regexp_replace="wijd"/></suggestion>? Verwijden=groter maken, verweiden=in andere weide zetten.</message>
 				<example correction="verwijden">Het woord <marker>verweiden</marker> kan een vergissing zijn.</example>
@@ -3104,6 +3009,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="BIJTJES_BEIDJES" name="waarschuwing bij gebruik beidjes i.p.v. bijtjes">
 			<rule>
+                <antipattern><token regexp="yes">ons|u</token><token>beidjes</token></antipattern>
 				<pattern>
 					<token negate="yes" regexp="yes">jullie|ons|hun|z'n|je|zijn|uw|wij</token>
 					<marker>
@@ -6899,7 +6805,8 @@ regexp case-insensitive maken : (?i)
 -->
 		<rulegroup id="CRANKS_KRANKS" name="waarschuwing bij gebruik kranks i.p.v. cranks">
 			<rule>
-				<pattern><token negate="yes">iets</token><marker><token>kranks</token></marker></pattern>
+				<antipattern><token regexp="yes">n?iets</token><token>kranks</token></antipattern>
+				<pattern case_sensitive="yes"><token>kranks</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>cranks</suggestion> (assen)? Of toch iets zieks?</message>
 				<example correction="cranks">Het woord <marker>kranks</marker> kan een vergissing zijn.</example>
 			</rule>
@@ -37172,6 +37079,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="VOL_PENSIOEN" name="Vol pensioen → Vol pension">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(AOW|6[0-9]).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					<token regexp="yes">vol|half</token>
 					<token>pensioen</token>
