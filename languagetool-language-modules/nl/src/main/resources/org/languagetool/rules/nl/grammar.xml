@@ -5364,18 +5364,6 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="FEZEL_VEZEL" name="waarschuwing bij gebruik fezel i.p.v. vezel">
-			<rule>
-                <antipattern><token>fezel</token><token regexp="yes">ik|jij</token></antipattern>
-                <antipattern><token>ik</token><token>fezel</token></antipattern>
-				<pattern>
-					   <token>fezel</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>vezel</suggestion>?</message>
-				<example correction="vezel">Het woord <marker>fezel</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
-
 <!--
 		<rulegroup id="FA_VA" name="waarschuwing bij gebruik fa i.p.v. va">
 			<rule>
@@ -5676,6 +5664,7 @@ regexp case-insensitive maken : (?i)
 		-->
 		<rulegroup id="GOLFING_GOLVING" name="waarschuwing bij gebruik golfing i.p.v. golving">
 			<rule>
+                <antipattern case_sensitive="yes"><token>Golfing</token><token regexp="yes">[A-Z].*</token></antipattern>
 				<pattern>
 					   <token>golfing</token>
 				</pattern>
@@ -5972,14 +5961,12 @@ regexp case-insensitive maken : (?i)
 			<rule>
                 <antipattern><token>te</token><token>fezelen</token></antipattern>
 				<pattern>
-					   <token>fezelen</token>
+					   <token inflected="yes">fezelen</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>vezelen</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion><match no="1" regexp_match="^f" regexp_replace="v" /></suggestion> (met vezels van weefsels), of toch zeuren?</message>
 				<example correction="vezelen">Het woord <marker>fezelen</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
-
-
 
 		<rulegroup id="TRAFOS_TRAVOS" name="waarschuwing bij gebruik trafo's i.p.v. travo's">
 			<rule>
@@ -6150,16 +6137,6 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="GEFEZELD_GEVEZELD" name="waarschuwing bij gebruik gefezeld i.p.v. gevezeld">
-			<rule>
-				<pattern>
-					   <token>gefezeld</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>gevezeld</suggestion>?</message>
-				<example correction="gevezeld">Het woord <marker>gefezeld</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
-
 		<rulegroup id="MAILFORM_MAILVORM" name="waarschuwing bij gebruik mailform i.p.v. mailvorm">
 			<rule>
 				<pattern>
@@ -6243,15 +6220,6 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		-->
-		<rulegroup id="GEFEZELDE_GEVEZELDE" name="waarschuwing bij gebruik gefezelde i.p.v. gevezelde">
-			<rule>
-				<pattern>
-					   <token>gefezelde</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>gevezelde</suggestion> (met vezels), of toch 'zeikerig gebracht'?</message>
-				<example correction="gevezelde">Het woord <marker>gefezelde</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
 <!-- veilbare is erg zeldzaam
 		<rulegroup id="FEILBARE_VEILBARE" name="waarschuwing bij gebruik feilbare i.p.v. veilbare">
 			<rule>
@@ -6291,26 +6259,6 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="FEZELT_VEZELT" name="waarschuwing bij gebruik fezelt i.p.v. vezelt">
-			<rule>
-				<pattern>
-					   <token>fezelt</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>vezelt</suggestion> (vezels geeft), of toch zeuren?</message>
-				<example correction="vezelt">Het woord <marker>fezelt</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
-
-		<rulegroup id="FEZELDE_VEZELDE" name="waarschuwing bij gebruik fezelde i.p.v. vezelde">
-			<rule>
-				<pattern>
-					   <token>fezelde</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>vezelde</suggestion>?</message>
-				<example correction="vezelde">Het woord <marker>fezelde</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
-
 		<rulegroup id="FOOR_VOOR" name="waarschuwing bij gebruik foor i.p.v. voor">
 			<rule>
 				<pattern><token>foor</token></pattern>
@@ -6325,16 +6273,6 @@ regexp case-insensitive maken : (?i)
 				</pattern>
 				<message>Bedoelt u wellicht <suggestion>voortje</suggestion>?</message>
 				<example correction="voortje">Het woord <marker>foortje</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
-
-		<rulegroup id="FEZELEND_VEZELEND" name="waarschuwing bij gebruik fezelend i.p.v. vezelend">
-			<rule>
-				<pattern>
-					   <token>fezelend</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>vezelend</suggestion>?</message>
-				<example correction="vezelend">Het woord <marker>fezelend</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
 
@@ -6375,16 +6313,6 @@ regexp case-insensitive maken : (?i)
 				</pattern>
 				<message>Bedoelt u wellicht <suggestion>vermaten</suggestion>? Of toch fermaten (rustpauzes)</message>
 				<example correction="vermaten">Het woord <marker>fermaten</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
-
-		<rulegroup id="FEZELENDE_VEZELENDE" name="waarschuwing bij gebruik fezelende i.p.v. vezelende">
-			<rule>
-				<pattern>
-					   <token>fezelende</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>vezelende</suggestion>?</message>
-				<example correction="vezelende">Het woord <marker>fezelende</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
 
@@ -6927,15 +6855,6 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		-->
-		<rulegroup id="DISCMAN_DISKMAN" name="waarschuwing bij gebruik diskman i.p.v. discman">
-			<rule>
-				<pattern>
-					   <token>diskman</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>discman</suggestion>?</message>
-				<example correction="discman">Het woord <marker>diskman</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
 
 		<rulegroup id="TOPCAST_TOPKAST" name="waarschuwing bij gebruik topkast i.p.v. topcast">
 			<rule>
