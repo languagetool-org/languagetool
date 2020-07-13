@@ -70,7 +70,8 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
           "mRNA",
           "iHeartRadio",
           "iMessage",
-          "iFood"
+          "iFood",
+          "x86"
   ));
 
   private final Language language;
