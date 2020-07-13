@@ -8956,7 +8956,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token>doncs</token>
-                <token  postag="_PUNCT.*" postag_regexp="yes"/>
+                <token postag="_PUNCT.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token regexp="yes">bé|sí|vinga|vaja|home|senyor|dona|senyora|així</token>
@@ -29074,7 +29074,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="MAJ_DESPRES_INTERROGANT" name="Majúscula després d'interrogant">
             <pattern>
                 <token regexp="yes">[?!]</token>
-                <token regexp="yes">\p{Ll}.*<exception postag="IS_URL"></exception></token>
+                <token regexp="yes">\p{Ll}.*<exception postag="IS_URL"/></token>
             </pattern>
             <message>Possible error de puntuació.</message>
             <suggestion><match no="1"/>, <match no="2"/></suggestion>
@@ -45484,6 +45484,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>a mitjan \5</suggestion>
             <example correction="A mitjan segle"><marker>A meitat del segle</marker>.</example>
             <example correction="A mitjan camí"><marker>A meitat de camí</marker>.</example>
+            <example>A la meitat del segle.</example>
+            <example>M'ho va vendre a meitat de preu.</example>
+        </rule>
+        <rule id="A_MEITATS_DE" name="a meitats de/a mitjan" default="temp_off">
+            <pattern>
+                <token>a</token>
+                <token regexp="yes">meitats|mitats</token>
+                <token regexp="yes">de|d'</token>
+                <token min="0" postag="DA.*" postag_regexp="yes"/>
+                <token postag="A.*|N.*" postag_regexp="yes"><exception>preu</exception></token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>a mitjan \5</suggestion>
+            <!-- també: a mitjans de (però per a escriure els suggeriments bé hi ha molts casos -->
+            <example correction="A mitjan segle"><marker>A meitats de segle</marker>.</example>
+            <example correction="A mitjan segle"><marker>A meitats del segle</marker>.</example>
+            <example correction="A mitjan dècada"><marker>A meitats de la dècada</marker> passada.</example>
             <example>A la meitat del segle.</example>
             <example>M'ho va vendre a meitat de preu.</example>
         </rule>
