@@ -11173,15 +11173,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Требуется единственное число</short>
                 <example>35,5 процента.</example>
                 <example correction="35,5 процента"><marker>35,5 процентов</marker>.</example>
-            </rule>
-            <rule>
+            </rule> 
+        </rulegroup>
+        <rule  id="Num_plus_Noun1" name="Сочетание числительных с существительными 1">
                 <pattern>
                     <token postag="NumD_S" ><exception scope="previous" regexp="yes">по|–|—</exception><exception scope="previous" spacebefore="no">-</exception></token>
                     <token postag="NN:.*:.*:PL:.*" postag_regexp="yes">
                         <exception negate_pos="yes" postag="NN:.*:.*:PL:.*" postag_regexp="yes"></exception>
                         <exception  postag="NN:.*:.*:Sin:.Nom" postag_regexp="yes"></exception>
-                        <exception>лет</exception>
-                        
+                        <exception>лет</exception>                    
                     </token>
                 </pattern>
                 <message>Существительное должно употребляться в единственном числе, а не во множественном: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):PL:(.*)" postag_regexp="yes" postag_replace="NN:$1:Sin:$2"></match></suggestion></message>
@@ -11189,10 +11189,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>1 процент.</example>
                 <example>Три тома второго издания книги вышли в 1966 — 1971 годах.</example>
                 <example correction="1 процента"><marker>1 процентов</marker>.</example>
-            </rule>
-        </rulegroup> 
+        </rule> 
             <!-- TODO: check suggestion in message!!!!!!!!!!! -->
-            <!-- comment rule, many false positives -->
+            <!-- comment rule, many false positives используется как множественное, так и единственное число
         <rule default="temp_off" id="Num_plus_Noun2" name="Сочетание числительных с существительными 2"> 
                 <pattern>
                     <token postag="NumD_P" ><exception scope="previous" regexp="yes">по|–|—</exception>
@@ -11211,9 +11210,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Три тома второго издания книги вышли в 1966 — 1977 годах.</example>
                 <example>Три тома второго издания книги вышли в 1977 году.</example>
                 <example correction="7 процентов"><marker>7 процента</marker>.</example>
-         </rule>
-            
-       
+         </rule>         
+    -->   
 
         <rulegroup default="on" id="Prep_Soglasno" name="Предлоги: «согласно», «благодаря», «вопреки»">
             <rule>
