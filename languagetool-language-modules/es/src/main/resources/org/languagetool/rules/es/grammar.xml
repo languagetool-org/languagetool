@@ -10086,6 +10086,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\2</suggestion>
                 <example correction="1930">En los años <marker>1930's</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">los|años</token>
+                    <marker>
+                        <token regexp="yes">(veinte|treinta|cuarenta|cincuenta|sesenta|setenta|ochenta|noventa)s</token>
+                    </marker>
+                </pattern>
+                <message>Los números de las décadas se escriben en singular.</message>
+                <suggestion><match no="2" regexp_match="(?iu)s$" regexp_replace=""/></suggestion>
+                <example correction="treinta">En los años <marker>treintas</marker>.</example>
+                <example correction="noventa">En los <marker>noventas</marker> pasaron muchas cosas.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AM_PM" name="AM/PM" default="off">
             <rule>
