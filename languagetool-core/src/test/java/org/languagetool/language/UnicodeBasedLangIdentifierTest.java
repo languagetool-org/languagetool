@@ -29,7 +29,7 @@ public class UnicodeBasedLangIdentifierTest {
 
   @Test
   public void testGetAdditionalLangCodes() {
-    String arabic = "[ar]";
+    String arabic = "[ar, fa]";
     String cyrillic = "[ru, uk, be]";
     String cjk = "[zh, ja]";
     String devanagari = "[hi, mr]";

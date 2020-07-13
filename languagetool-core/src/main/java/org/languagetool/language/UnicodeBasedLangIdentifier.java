@@ -79,6 +79,7 @@ class UnicodeBasedLangIdentifier {
     List<String> langCodes = new ArrayList<>();
     if ((float)arabicChars / significantChars >= THRESHOLD) {
       langCodes.add("ar");
+      langCodes.add("fa");
     }
     if ((float)cyrillicChars / significantChars >= THRESHOLD) {
       langCodes.add("ru");
