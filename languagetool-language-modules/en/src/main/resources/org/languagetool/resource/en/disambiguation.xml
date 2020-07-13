@@ -2694,7 +2694,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <pattern>
               <token regexp="yes">are|is|was|been</token>
               <token>not</token>
-              <token postag="RB"><exception regexp="yes">in|t?here</exception><exception postag="VBN|JJ.*|CC" postag_regexp="yes"/></token>
+              <token postag="RB">
+                  <exception regexp="yes">in|t?here|please</exception><!-- please #3223 -->
+                  <exception postag="VBN|JJ.*|CC" postag_regexp="yes"/>
+                  </token>
               <marker>
                   <and>
                       <token postag_regexp="yes" postag="VBP?"/>
@@ -2705,6 +2708,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <disambig action="filter" postag="NN.*"/>
           <example type="untouched">He was not fine.</example>
           <example type="untouched">Incorrect grammar: He was not easily find his glasses.</example><!-- #2344 -->
+          <example type="untouched">... if you are not please call Paul and reschedule. </example><!-- #3223 -->
           <example type="ambiguous" inputform="founder[founder/NN,founder/VB,founder/VBP]" outputform="founder[founder/NN]">He was not really <marker>founder</marker> of the Chemical Society of London in 1841, being its first Treasurer and second President.</example>
         </rule>
     </rulegroup>
