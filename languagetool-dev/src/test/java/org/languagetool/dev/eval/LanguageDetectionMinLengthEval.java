@@ -41,6 +41,9 @@ class LanguageDetectionMinLengthEval {
 
   private final LanguageIdentifier languageIdentifier;
 
+  private static final int MIN_INPUT_LEN = 5;
+  private static final int MAX_INPUT_LEN = 30;
+
   private int totalInputs = 0;
   private int totalFailures = 0;
 
@@ -50,6 +53,7 @@ class LanguageDetectionMinLengthEval {
     //languageIdentifier.enableFasttext(new File("/path/to/fasttext/binary"), new File("/path/to/fasttext/model"));
     // Daniel's paths:
     //languageIdentifier.enableFasttext(new File("/prg/fastText-0.1.0/fasttext"), new File("/prg/fastText-0.1.0/data/lid.176.bin"));
+    //languageIdentifier.enableFasttext(new File("/home/dnaber/lt/robert/langid_prod/start.sh"), new File("/prg/fastText-0.1.0/data/lid.176.bin"));
   }
 
   private float evaluate(Language language) throws IOException {
@@ -63,10 +67,24 @@ class LanguageDetectionMinLengthEval {
       String maxText = null;
       int minChars = 0;
       int failures = 0;
+      int linesConsidered = 0;
       List<String> list = getLines(stream);
       for (String line : list) {
+        if (line.trim().isEmpty()) {
+          System.err.println("Skipping empty input for " + language.getShortCode());
+          continue;
+        }
+        if (line.trim().length() < MIN_INPUT_LEN) {
+          System.err.println("Skipping short input for " + language.getShortCode() + ": " + line);
+          continue;
+        }
         try {
           int minChar = getShortestCorrectDetection(line, language);
+          if (minChar == -1) {
+            System.err.println("Skipping line, could not find minimum text length for '" + line + "'");
+            continue;
+          }
+          linesConsidered++;
           minChars += minChar;
           if (minChar > minCharsMax) {
             minCharsMax = minChar;
@@ -77,7 +95,7 @@ class LanguageDetectionMinLengthEval {
           failures++;
         }
       }
-      float avgMinChars = (float) minChars / list.size();
+      float avgMinChars = (float) minChars / linesConsidered;
       System.out.printf(Locale.ENGLISH, "Average minimum size still correctly detected: %.2f, max: %d ('%s')\n", avgMinChars, minCharsMax, maxText);
       if (failures > 0) {
         System.out.println("Detection failures: " + failures + " of " + list.size());
@@ -89,10 +107,15 @@ class LanguageDetectionMinLengthEval {
 
   private int getShortestCorrectDetection(String line, Language expectedLanguage) {
     totalInputs++;
-    int textLength = 1;
-    for (int i = line.length(); i > 0; i--) {
+    int textLength = -1;
+    boolean stillOkay = true;
+    for (int i = Math.min(line.length(), MAX_INPUT_LEN); i > MIN_INPUT_LEN; i--) {
       String text = line.substring(0, i);
+      if (stillOkay) {
+        textLength = text.length();
+      }
       DetectedLanguage detectedLangObj = languageIdentifier.detectLanguage(text, Collections.emptyList(), Collections.emptyList());
+      //System.out.println("INPUT: " + text + " - " + text.length() + " - " + detectedLangObj);
       String detectedLang = null;
       if (detectedLangObj != null) {
         detectedLang = detectedLangObj.getDetectedLanguage().getShortCode();
@@ -100,22 +123,19 @@ class LanguageDetectionMinLengthEval {
       if (detectedLang == null && i == line.length()) {
         throw new DetectionException("Detection failed for '" + line + "', detected <null>");
       } else if (detectedLang == null) {
-        if (textLength == 1) {
-          textLength = i + 1;
-        }
         //System.out.println("minLen: " + textLength);
         //System.out.println("TEXT     : " + line);
         //System.out.println("TOO SHORT : " + text + " => " + detectedLang + " (" + textLength + ")");
+        stillOkay = false;
       } else if (!expectedLanguage.getShortCode().equals(detectedLang)){
         //System.out.printf(Locale.ENGLISH, "WRONG: Expected %s, but got %s -> %s (%.2f)%n", expectedLanguage.getShortCode(), detectedLang, text, detectedLangObj.getDetectionConfidence());
-        if (textLength == 1) {
-          textLength = i + 1;
-        }
+        stillOkay = false;
       } else {
         //System.out.println("STILL OKAY: " + text + " => " + detectedLang);
       }
     }
-    return textLength;
+    //System.out.println("textLen: " + (textLength+1));
+    return textLength + 1;
   }
 
   private List<String> getLines(InputStream stream) throws IOException {
@@ -130,6 +150,7 @@ class LanguageDetectionMinLengthEval {
   }
 
   public static void main(String[] args) throws IOException {
+    System.out.println("Input length: " + MIN_INPUT_LEN + " to " + MAX_INPUT_LEN + " characters");
     LanguageDetectionMinLengthEval eval = new LanguageDetectionMinLengthEval();
     long startTime = System.currentTimeMillis();
     float minCharsTotal = 0;
@@ -156,7 +177,7 @@ class LanguageDetectionMinLengthEval {
     System.out.printf(Locale.ENGLISH, "Avg. minimum chars: %.3f\n", avgMinChars);
   }
 
-  class DetectionException extends RuntimeException {
+  static class DetectionException extends RuntimeException {
     DetectionException(String s) {
       super(s);
     }
