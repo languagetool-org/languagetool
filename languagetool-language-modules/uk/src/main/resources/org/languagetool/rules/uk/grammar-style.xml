@@ -1453,6 +1453,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token postag_regexp="yes" postag=".*:slang.*">
           <exception negate_pos="yes" postag_regexp="yes" postag=".*:slang.*|SENT_END|PARA_END"/>
+          <exception inflected="yes">чарт</exception>
         </token>
       </pattern>
       <message>Це слово є жаргонним</message>
@@ -2134,6 +2135,84 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>За системою транскрипції Кірносової-Цісар, має бути <suggestion>Вухань</suggestion></message>
       <url>https://uk.wikipedia.org/wiki/%D0%A1%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0_%D0%9A%D1%96%D1%80%D0%BD%D0%BE%D1%81%D0%BE%D0%B2%D0%BE%D1%97%E2%80%94%D0%A6%D1%96%D1%81%D0%B0%D1%80</url>
       <example correction="Вухань"><marker>Ухань</marker></example>
+    </rule>
+
+    <rule id="korotshe_kazhychy" name="Коротше кажучи">
+      <pattern>
+        <token>коротше</token>
+        <token>кажучи</token>
+      </pattern>
+      <message>Краще: <suggestion>коротко кажучи</suggestion></message>
+      <suggestion>(одним) словом</suggestion>
+      <example correction="Коротко кажучи|(Одним) словом"><marker>Коротше кажучи</marker></example>
+      <example>Коротко кажучи</example>
+    </rule>
+
+    <rulegroup id="buty_pravym" name="Бути правим">
+      <rule>
+        <antipattern>
+          <token inflected="yes">право</token>
+          <token postag_regexp="yes" postag="noun:.*:v_rod.*">
+          <!--
+            <exception postag_regexp="yes" postag="noun:.*:v_(naz|oru).*"/>
+          -->
+          </token>
+        </antipattern>
+        <antipattern>
+          <token inflected="yes">право</token>
+          <token>на</token>
+          <token postag_regexp="yes" postag="noun:.*:v_naz.*"/>
+        </antipattern>
+        <pattern>
+          <marker>
+            <unify>
+              <feature id="number"/>
+
+              <token inflected="yes" postag_regexp="yes" negate_pos="yes" postag="verb:imperf:.*?:n(:.*|$)">бути
+                <exception>суть</exception>
+              </token>
+              <token regexp="yes" min="0">би?</token>
+              <token inflected="yes" postag_regexp="yes" postag="adj:.:v_(naz|oru).*">правий</token>
+            </unify>
+          </marker>
+          <token>
+            <exception regexp="yes" inflected="yes" postag_regexp="yes" postag="noun.*?:v_(naz|oru).*">рука|політик|партія|сила|консерватор</exception>
+            <exception inflected="yes">качати</exception>
+            <exception postag_regexp="yes" postag="verb:.*?:inf.*"/>
+          </token>
+        </pattern>
+        <message>Деякі мовознавці вважають, що у значенні «такий, що правильно мислить, діє» правильно: <suggestion>мати рацію</suggestion></message>
+        <suggestion>мати слушність</suggestion>
+        <suggestion>(чиясь) правда</suggestion>
+        <example correction="мати рацію|мати слушність|(чиясь) правда">може <marker>бути правим</marker> лише тому.</example>
+        <example correction="мати рацію|мати слушність|(чиясь) правда">класики <marker>були праві</marker>.</example>
+        <example correction="мати рацію|мати слушність|(чиясь) правда">він <marker>був правий</marker>.</example>
+        <!--
+        <example correction="мати рацію|мати слушність|(чиясь) правда">вона <marker>буде права</marker>.</example>
+        -->
+        <example>співак є правою рукою дизайнера Анни</example>
+        <example>зверху була права рука</example>
+        <example>не було правого сидіння</example>
+        <example>буде права качати</example>
+        <example>у них не було права</example>
+        <example>у них були права й привілеї</example>
+        <example>завтра не буде права нарікати</example>
+        <example>у них не було права на смерть</example>
+        <example>найважливішими є права людини</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="liky_vid" name="Ліки від">
+      <pattern>
+        <token inflected="yes">ліки</token>
+        <marker>
+          <token>від</token>
+        </marker>
+      </pattern>
+      <message>На думку Антоненка-Давидовича правильно: <suggestion>проти</suggestion>, але в мовній практиці переважає «від»</message>
+      <url>http://yak-my-hovorymo.wikidot.com/pryjmennyky#vid-proty-na-proty</url>
+      <example correction="проти">ліки <marker>від</marker> усяких хвороб</example>
+      <example>ліки проти усяких хвороб</example>
     </rule>
 
 <!--
