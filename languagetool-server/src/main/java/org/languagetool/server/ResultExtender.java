@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Experimental;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -119,7 +118,7 @@ class ResultExtender {
     } catch (Exception e) {
       // These are issue that can be request-specific, like wrong parameters. We don't throw an
       // exception, as the calling code would otherwise assume this is a persistent error:
-      logger.warn("Warn: Failed to query hidden matches server at " + url + ": " + e.getClass() + ": " + e.getMessage() + ", input was " + plainText.length() + " characters");
+      logger.warn("Warn: Failed to query hidden matches server at " + url + ": " + e.getClass() + ": " + e.getMessage() + ", input was " + plainText.length() + " characters - request-specific error, ignoring");
       return Collections.emptyList();
     } finally {
       huc.disconnect();
