@@ -19,23 +19,39 @@ public final class MLServerProto {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * input text to be analyzed
+     * </pre>
+     *
      * <code>repeated string sentences = 1;</code>
      * @return A list containing the sentences.
      */
     java.util.List<java.lang.String>
         getSentencesList();
     /**
+     * <pre>
+     * input text to be analyzed
+     * </pre>
+     *
      * <code>repeated string sentences = 1;</code>
      * @return The count of sentences.
      */
     int getSentencesCount();
     /**
+     * <pre>
+     * input text to be analyzed
+     * </pre>
+     *
      * <code>repeated string sentences = 1;</code>
      * @param index The index of the element to return.
      * @return The sentences at the given index.
      */
     java.lang.String getSentences(int index);
     /**
+     * <pre>
+     * input text to be analyzed
+     * </pre>
+     *
      * <code>repeated string sentences = 1;</code>
      * @param index The index of the value to return.
      * @return The bytes of the sentences at the given index.
@@ -137,6 +153,10 @@ public final class MLServerProto {
     public static final int SENTENCES_FIELD_NUMBER = 1;
     private com.google.protobuf.LazyStringList sentences_;
     /**
+     * <pre>
+     * input text to be analyzed
+     * </pre>
+     *
      * <code>repeated string sentences = 1;</code>
      * @return A list containing the sentences.
      */
@@ -145,6 +165,10 @@ public final class MLServerProto {
       return sentences_;
     }
     /**
+     * <pre>
+     * input text to be analyzed
+     * </pre>
+     *
      * <code>repeated string sentences = 1;</code>
      * @return The count of sentences.
      */
@@ -152,6 +176,10 @@ public final class MLServerProto {
       return sentences_.size();
     }
     /**
+     * <pre>
+     * input text to be analyzed
+     * </pre>
+     *
      * <code>repeated string sentences = 1;</code>
      * @param index The index of the element to return.
      * @return The sentences at the given index.
@@ -160,6 +188,10 @@ public final class MLServerProto {
       return sentences_.get(index);
     }
     /**
+     * <pre>
+     * input text to be analyzed
+     * </pre>
+     *
      * <code>repeated string sentences = 1;</code>
      * @param index The index of the value to return.
      * @return The bytes of the sentences at the given index.
@@ -498,6 +530,10 @@ public final class MLServerProto {
          }
       }
       /**
+       * <pre>
+       * input text to be analyzed
+       * </pre>
+       *
        * <code>repeated string sentences = 1;</code>
        * @return A list containing the sentences.
        */
@@ -506,6 +542,10 @@ public final class MLServerProto {
         return sentences_.getUnmodifiableView();
       }
       /**
+       * <pre>
+       * input text to be analyzed
+       * </pre>
+       *
        * <code>repeated string sentences = 1;</code>
        * @return The count of sentences.
        */
@@ -513,6 +553,10 @@ public final class MLServerProto {
         return sentences_.size();
       }
       /**
+       * <pre>
+       * input text to be analyzed
+       * </pre>
+       *
        * <code>repeated string sentences = 1;</code>
        * @param index The index of the element to return.
        * @return The sentences at the given index.
@@ -521,6 +565,10 @@ public final class MLServerProto {
         return sentences_.get(index);
       }
       /**
+       * <pre>
+       * input text to be analyzed
+       * </pre>
+       *
        * <code>repeated string sentences = 1;</code>
        * @param index The index of the value to return.
        * @return The bytes of the sentences at the given index.
@@ -530,6 +578,10 @@ public final class MLServerProto {
         return sentences_.getByteString(index);
       }
       /**
+       * <pre>
+       * input text to be analyzed
+       * </pre>
+       *
        * <code>repeated string sentences = 1;</code>
        * @param index The index to set the value at.
        * @param value The sentences to set.
@@ -546,6 +598,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * input text to be analyzed
+       * </pre>
+       *
        * <code>repeated string sentences = 1;</code>
        * @param value The sentences to add.
        * @return This builder for chaining.
@@ -561,6 +617,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * input text to be analyzed
+       * </pre>
+       *
        * <code>repeated string sentences = 1;</code>
        * @param values The sentences to add.
        * @return This builder for chaining.
@@ -574,6 +634,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * input text to be analyzed
+       * </pre>
+       *
        * <code>repeated string sentences = 1;</code>
        * @return This builder for chaining.
        */
@@ -584,6 +648,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * input text to be analyzed
+       * </pre>
+       *
        * <code>repeated string sentences = 1;</code>
        * @param value The bytes of the sentences to add.
        * @return This builder for chaining.
@@ -657,24 +725,44 @@ public final class MLServerProto {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * results for each corresponding sentence in MatchRequest (aligned)
+     * </pre>
+     *
      * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
      */
     java.util.List<org.languagetool.rules.ml.MLServerProto.MatchList> 
         getSentenceMatchesList();
     /**
+     * <pre>
+     * results for each corresponding sentence in MatchRequest (aligned)
+     * </pre>
+     *
      * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
      */
     org.languagetool.rules.ml.MLServerProto.MatchList getSentenceMatches(int index);
     /**
+     * <pre>
+     * results for each corresponding sentence in MatchRequest (aligned)
+     * </pre>
+     *
      * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
      */
     int getSentenceMatchesCount();
     /**
+     * <pre>
+     * results for each corresponding sentence in MatchRequest (aligned)
+     * </pre>
+     *
      * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
      */
     java.util.List<? extends org.languagetool.rules.ml.MLServerProto.MatchListOrBuilder> 
         getSentenceMatchesOrBuilderList();
     /**
+     * <pre>
+     * results for each corresponding sentence in MatchRequest (aligned)
+     * </pre>
+     *
      * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
      */
     org.languagetool.rules.ml.MLServerProto.MatchListOrBuilder getSentenceMatchesOrBuilder(
@@ -774,12 +862,20 @@ public final class MLServerProto {
     public static final int SENTENCEMATCHES_FIELD_NUMBER = 1;
     private java.util.List<org.languagetool.rules.ml.MLServerProto.MatchList> sentenceMatches_;
     /**
+     * <pre>
+     * results for each corresponding sentence in MatchRequest (aligned)
+     * </pre>
+     *
      * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
      */
     public java.util.List<org.languagetool.rules.ml.MLServerProto.MatchList> getSentenceMatchesList() {
       return sentenceMatches_;
     }
     /**
+     * <pre>
+     * results for each corresponding sentence in MatchRequest (aligned)
+     * </pre>
+     *
      * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
      */
     public java.util.List<? extends org.languagetool.rules.ml.MLServerProto.MatchListOrBuilder> 
@@ -787,18 +883,30 @@ public final class MLServerProto {
       return sentenceMatches_;
     }
     /**
+     * <pre>
+     * results for each corresponding sentence in MatchRequest (aligned)
+     * </pre>
+     *
      * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
      */
     public int getSentenceMatchesCount() {
       return sentenceMatches_.size();
     }
     /**
+     * <pre>
+     * results for each corresponding sentence in MatchRequest (aligned)
+     * </pre>
+     *
      * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
      */
     public org.languagetool.rules.ml.MLServerProto.MatchList getSentenceMatches(int index) {
       return sentenceMatches_.get(index);
     }
     /**
+     * <pre>
+     * results for each corresponding sentence in MatchRequest (aligned)
+     * </pre>
+     *
      * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
      */
     public org.languagetool.rules.ml.MLServerProto.MatchListOrBuilder getSentenceMatchesOrBuilder(
@@ -1161,6 +1269,10 @@ public final class MLServerProto {
           org.languagetool.rules.ml.MLServerProto.MatchList, org.languagetool.rules.ml.MLServerProto.MatchList.Builder, org.languagetool.rules.ml.MLServerProto.MatchListOrBuilder> sentenceMatchesBuilder_;
 
       /**
+       * <pre>
+       * results for each corresponding sentence in MatchRequest (aligned)
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
        */
       public java.util.List<org.languagetool.rules.ml.MLServerProto.MatchList> getSentenceMatchesList() {
@@ -1171,6 +1283,10 @@ public final class MLServerProto {
         }
       }
       /**
+       * <pre>
+       * results for each corresponding sentence in MatchRequest (aligned)
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
        */
       public int getSentenceMatchesCount() {
@@ -1181,6 +1297,10 @@ public final class MLServerProto {
         }
       }
       /**
+       * <pre>
+       * results for each corresponding sentence in MatchRequest (aligned)
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
        */
       public org.languagetool.rules.ml.MLServerProto.MatchList getSentenceMatches(int index) {
@@ -1191,6 +1311,10 @@ public final class MLServerProto {
         }
       }
       /**
+       * <pre>
+       * results for each corresponding sentence in MatchRequest (aligned)
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
        */
       public Builder setSentenceMatches(
@@ -1208,6 +1332,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * results for each corresponding sentence in MatchRequest (aligned)
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
        */
       public Builder setSentenceMatches(
@@ -1222,6 +1350,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * results for each corresponding sentence in MatchRequest (aligned)
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
        */
       public Builder addSentenceMatches(org.languagetool.rules.ml.MLServerProto.MatchList value) {
@@ -1238,6 +1370,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * results for each corresponding sentence in MatchRequest (aligned)
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
        */
       public Builder addSentenceMatches(
@@ -1255,6 +1391,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * results for each corresponding sentence in MatchRequest (aligned)
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
        */
       public Builder addSentenceMatches(
@@ -1269,6 +1409,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * results for each corresponding sentence in MatchRequest (aligned)
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
        */
       public Builder addSentenceMatches(
@@ -1283,6 +1427,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * results for each corresponding sentence in MatchRequest (aligned)
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
        */
       public Builder addAllSentenceMatches(
@@ -1298,6 +1446,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * results for each corresponding sentence in MatchRequest (aligned)
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
        */
       public Builder clearSentenceMatches() {
@@ -1311,6 +1463,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * results for each corresponding sentence in MatchRequest (aligned)
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
        */
       public Builder removeSentenceMatches(int index) {
@@ -1324,6 +1480,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * results for each corresponding sentence in MatchRequest (aligned)
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
        */
       public org.languagetool.rules.ml.MLServerProto.MatchList.Builder getSentenceMatchesBuilder(
@@ -1331,6 +1491,10 @@ public final class MLServerProto {
         return getSentenceMatchesFieldBuilder().getBuilder(index);
       }
       /**
+       * <pre>
+       * results for each corresponding sentence in MatchRequest (aligned)
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
        */
       public org.languagetool.rules.ml.MLServerProto.MatchListOrBuilder getSentenceMatchesOrBuilder(
@@ -1341,6 +1505,10 @@ public final class MLServerProto {
         }
       }
       /**
+       * <pre>
+       * results for each corresponding sentence in MatchRequest (aligned)
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
        */
       public java.util.List<? extends org.languagetool.rules.ml.MLServerProto.MatchListOrBuilder> 
@@ -1352,6 +1520,10 @@ public final class MLServerProto {
         }
       }
       /**
+       * <pre>
+       * results for each corresponding sentence in MatchRequest (aligned)
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
        */
       public org.languagetool.rules.ml.MLServerProto.MatchList.Builder addSentenceMatchesBuilder() {
@@ -1359,6 +1531,10 @@ public final class MLServerProto {
             org.languagetool.rules.ml.MLServerProto.MatchList.getDefaultInstance());
       }
       /**
+       * <pre>
+       * results for each corresponding sentence in MatchRequest (aligned)
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
        */
       public org.languagetool.rules.ml.MLServerProto.MatchList.Builder addSentenceMatchesBuilder(
@@ -1367,6 +1543,10 @@ public final class MLServerProto {
             index, org.languagetool.rules.ml.MLServerProto.MatchList.getDefaultInstance());
       }
       /**
+       * <pre>
+       * results for each corresponding sentence in MatchRequest (aligned)
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
        */
       public java.util.List<org.languagetool.rules.ml.MLServerProto.MatchList.Builder> 
@@ -1445,24 +1625,44 @@ public final class MLServerProto {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * list of matches
+     * </pre>
+     *
      * <code>repeated .lt_ml_server.Match matches = 1;</code>
      */
     java.util.List<org.languagetool.rules.ml.MLServerProto.Match> 
         getMatchesList();
     /**
+     * <pre>
+     * list of matches
+     * </pre>
+     *
      * <code>repeated .lt_ml_server.Match matches = 1;</code>
      */
     org.languagetool.rules.ml.MLServerProto.Match getMatches(int index);
     /**
+     * <pre>
+     * list of matches
+     * </pre>
+     *
      * <code>repeated .lt_ml_server.Match matches = 1;</code>
      */
     int getMatchesCount();
     /**
+     * <pre>
+     * list of matches
+     * </pre>
+     *
      * <code>repeated .lt_ml_server.Match matches = 1;</code>
      */
     java.util.List<? extends org.languagetool.rules.ml.MLServerProto.MatchOrBuilder> 
         getMatchesOrBuilderList();
     /**
+     * <pre>
+     * list of matches
+     * </pre>
+     *
      * <code>repeated .lt_ml_server.Match matches = 1;</code>
      */
     org.languagetool.rules.ml.MLServerProto.MatchOrBuilder getMatchesOrBuilder(
@@ -1562,12 +1762,20 @@ public final class MLServerProto {
     public static final int MATCHES_FIELD_NUMBER = 1;
     private java.util.List<org.languagetool.rules.ml.MLServerProto.Match> matches_;
     /**
+     * <pre>
+     * list of matches
+     * </pre>
+     *
      * <code>repeated .lt_ml_server.Match matches = 1;</code>
      */
     public java.util.List<org.languagetool.rules.ml.MLServerProto.Match> getMatchesList() {
       return matches_;
     }
     /**
+     * <pre>
+     * list of matches
+     * </pre>
+     *
      * <code>repeated .lt_ml_server.Match matches = 1;</code>
      */
     public java.util.List<? extends org.languagetool.rules.ml.MLServerProto.MatchOrBuilder> 
@@ -1575,18 +1783,30 @@ public final class MLServerProto {
       return matches_;
     }
     /**
+     * <pre>
+     * list of matches
+     * </pre>
+     *
      * <code>repeated .lt_ml_server.Match matches = 1;</code>
      */
     public int getMatchesCount() {
       return matches_.size();
     }
     /**
+     * <pre>
+     * list of matches
+     * </pre>
+     *
      * <code>repeated .lt_ml_server.Match matches = 1;</code>
      */
     public org.languagetool.rules.ml.MLServerProto.Match getMatches(int index) {
       return matches_.get(index);
     }
     /**
+     * <pre>
+     * list of matches
+     * </pre>
+     *
      * <code>repeated .lt_ml_server.Match matches = 1;</code>
      */
     public org.languagetool.rules.ml.MLServerProto.MatchOrBuilder getMatchesOrBuilder(
@@ -1949,6 +2169,10 @@ public final class MLServerProto {
           org.languagetool.rules.ml.MLServerProto.Match, org.languagetool.rules.ml.MLServerProto.Match.Builder, org.languagetool.rules.ml.MLServerProto.MatchOrBuilder> matchesBuilder_;
 
       /**
+       * <pre>
+       * list of matches
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.Match matches = 1;</code>
        */
       public java.util.List<org.languagetool.rules.ml.MLServerProto.Match> getMatchesList() {
@@ -1959,6 +2183,10 @@ public final class MLServerProto {
         }
       }
       /**
+       * <pre>
+       * list of matches
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.Match matches = 1;</code>
        */
       public int getMatchesCount() {
@@ -1969,6 +2197,10 @@ public final class MLServerProto {
         }
       }
       /**
+       * <pre>
+       * list of matches
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.Match matches = 1;</code>
        */
       public org.languagetool.rules.ml.MLServerProto.Match getMatches(int index) {
@@ -1979,6 +2211,10 @@ public final class MLServerProto {
         }
       }
       /**
+       * <pre>
+       * list of matches
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.Match matches = 1;</code>
        */
       public Builder setMatches(
@@ -1996,6 +2232,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * list of matches
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.Match matches = 1;</code>
        */
       public Builder setMatches(
@@ -2010,6 +2250,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * list of matches
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.Match matches = 1;</code>
        */
       public Builder addMatches(org.languagetool.rules.ml.MLServerProto.Match value) {
@@ -2026,6 +2270,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * list of matches
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.Match matches = 1;</code>
        */
       public Builder addMatches(
@@ -2043,6 +2291,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * list of matches
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.Match matches = 1;</code>
        */
       public Builder addMatches(
@@ -2057,6 +2309,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * list of matches
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.Match matches = 1;</code>
        */
       public Builder addMatches(
@@ -2071,6 +2327,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * list of matches
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.Match matches = 1;</code>
        */
       public Builder addAllMatches(
@@ -2086,6 +2346,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * list of matches
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.Match matches = 1;</code>
        */
       public Builder clearMatches() {
@@ -2099,6 +2363,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * list of matches
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.Match matches = 1;</code>
        */
       public Builder removeMatches(int index) {
@@ -2112,6 +2380,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * list of matches
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.Match matches = 1;</code>
        */
       public org.languagetool.rules.ml.MLServerProto.Match.Builder getMatchesBuilder(
@@ -2119,6 +2391,10 @@ public final class MLServerProto {
         return getMatchesFieldBuilder().getBuilder(index);
       }
       /**
+       * <pre>
+       * list of matches
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.Match matches = 1;</code>
        */
       public org.languagetool.rules.ml.MLServerProto.MatchOrBuilder getMatchesOrBuilder(
@@ -2129,6 +2405,10 @@ public final class MLServerProto {
         }
       }
       /**
+       * <pre>
+       * list of matches
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.Match matches = 1;</code>
        */
       public java.util.List<? extends org.languagetool.rules.ml.MLServerProto.MatchOrBuilder> 
@@ -2140,6 +2420,10 @@ public final class MLServerProto {
         }
       }
       /**
+       * <pre>
+       * list of matches
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.Match matches = 1;</code>
        */
       public org.languagetool.rules.ml.MLServerProto.Match.Builder addMatchesBuilder() {
@@ -2147,6 +2431,10 @@ public final class MLServerProto {
             org.languagetool.rules.ml.MLServerProto.Match.getDefaultInstance());
       }
       /**
+       * <pre>
+       * list of matches
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.Match matches = 1;</code>
        */
       public org.languagetool.rules.ml.MLServerProto.Match.Builder addMatchesBuilder(
@@ -2155,6 +2443,10 @@ public final class MLServerProto {
             index, org.languagetool.rules.ml.MLServerProto.Match.getDefaultInstance());
       }
       /**
+       * <pre>
+       * list of matches
+       * </pre>
+       *
        * <code>repeated .lt_ml_server.Match matches = 1;</code>
        */
       public java.util.List<org.languagetool.rules.ml.MLServerProto.Match.Builder> 
@@ -2233,23 +2525,39 @@ public final class MLServerProto {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * start position in the sentence (i.e. not relative to whole text)
+     * </pre>
+     *
      * <code>uint32 offset = 1;</code>
      * @return The offset.
      */
     int getOffset();
 
     /**
+     * <pre>
+     * length of matched area; &gt;0
+     * </pre>
+     *
      * <code>uint32 length = 2;</code>
      * @return The length.
      */
     int getLength();
 
     /**
+     * <pre>
+     * prefix for rule ids; should use a common value for one model/server
+     * </pre>
+     *
      * <code>string id = 3;</code>
      * @return The id.
      */
     java.lang.String getId();
     /**
+     * <pre>
+     * prefix for rule ids; should use a common value for one model/server
+     * </pre>
+     *
      * <code>string id = 3;</code>
      * @return The bytes for id.
      */
@@ -2257,11 +2565,19 @@ public final class MLServerProto {
         getIdBytes();
 
     /**
+     * <pre>
+     * more specific suffix for rule ids; i.e. one model/server can return multiple values to distinguish between mach types
+     * </pre>
+     *
      * <code>string sub_id = 4;</code>
      * @return The subId.
      */
     java.lang.String getSubId();
     /**
+     * <pre>
+     * more specific suffix for rule ids; i.e. one model/server can return multiple values to distinguish between mach types
+     * </pre>
+     *
      * <code>string sub_id = 4;</code>
      * @return The bytes for subId.
      */
@@ -2292,6 +2608,66 @@ public final class MLServerProto {
      */
     com.google.protobuf.ByteString
         getSuggestionsBytes(int index);
+
+    /**
+     * <pre>
+     * added later, optional (can be substituted by Java)
+     * </pre>
+     *
+     * <code>string ruleDescription = 6;</code>
+     * @return The ruleDescription.
+     */
+    java.lang.String getRuleDescription();
+    /**
+     * <pre>
+     * added later, optional (can be substituted by Java)
+     * </pre>
+     *
+     * <code>string ruleDescription = 6;</code>
+     * @return The bytes for ruleDescription.
+     */
+    com.google.protobuf.ByteString
+        getRuleDescriptionBytes();
+
+    /**
+     * <pre>
+     * description of the match; displayed in e.g. the add-on pop-up
+     * </pre>
+     *
+     * <code>string matchDescription = 7;</code>
+     * @return The matchDescription.
+     */
+    java.lang.String getMatchDescription();
+    /**
+     * <pre>
+     * description of the match; displayed in e.g. the add-on pop-up
+     * </pre>
+     *
+     * <code>string matchDescription = 7;</code>
+     * @return The bytes for matchDescription.
+     */
+    com.google.protobuf.ByteString
+        getMatchDescriptionBytes();
+
+    /**
+     * <pre>
+     * shortened description of the match; displayed in e.g. LibreOffice context menu
+     * </pre>
+     *
+     * <code>string matchShortDescription = 8;</code>
+     * @return The matchShortDescription.
+     */
+    java.lang.String getMatchShortDescription();
+    /**
+     * <pre>
+     * shortened description of the match; displayed in e.g. LibreOffice context menu
+     * </pre>
+     *
+     * <code>string matchShortDescription = 8;</code>
+     * @return The bytes for matchShortDescription.
+     */
+    com.google.protobuf.ByteString
+        getMatchShortDescriptionBytes();
   }
   /**
    * Protobuf type {@code lt_ml_server.Match}
@@ -2309,6 +2685,9 @@ public final class MLServerProto {
       id_ = "";
       subId_ = "";
       suggestions_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      ruleDescription_ = "";
+      matchDescription_ = "";
+      matchShortDescription_ = "";
     }
 
     @java.lang.Override
@@ -2373,6 +2752,24 @@ public final class MLServerProto {
               suggestions_.add(s);
               break;
             }
+            case 50: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              ruleDescription_ = s;
+              break;
+            }
+            case 58: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              matchDescription_ = s;
+              break;
+            }
+            case 66: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              matchShortDescription_ = s;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -2411,6 +2808,10 @@ public final class MLServerProto {
     public static final int OFFSET_FIELD_NUMBER = 1;
     private int offset_;
     /**
+     * <pre>
+     * start position in the sentence (i.e. not relative to whole text)
+     * </pre>
+     *
      * <code>uint32 offset = 1;</code>
      * @return The offset.
      */
@@ -2421,6 +2822,10 @@ public final class MLServerProto {
     public static final int LENGTH_FIELD_NUMBER = 2;
     private int length_;
     /**
+     * <pre>
+     * length of matched area; &gt;0
+     * </pre>
+     *
      * <code>uint32 length = 2;</code>
      * @return The length.
      */
@@ -2431,6 +2836,10 @@ public final class MLServerProto {
     public static final int ID_FIELD_NUMBER = 3;
     private volatile java.lang.Object id_;
     /**
+     * <pre>
+     * prefix for rule ids; should use a common value for one model/server
+     * </pre>
+     *
      * <code>string id = 3;</code>
      * @return The id.
      */
@@ -2447,6 +2856,10 @@ public final class MLServerProto {
       }
     }
     /**
+     * <pre>
+     * prefix for rule ids; should use a common value for one model/server
+     * </pre>
+     *
      * <code>string id = 3;</code>
      * @return The bytes for id.
      */
@@ -2467,6 +2880,10 @@ public final class MLServerProto {
     public static final int SUB_ID_FIELD_NUMBER = 4;
     private volatile java.lang.Object subId_;
     /**
+     * <pre>
+     * more specific suffix for rule ids; i.e. one model/server can return multiple values to distinguish between mach types
+     * </pre>
+     *
      * <code>string sub_id = 4;</code>
      * @return The subId.
      */
@@ -2483,6 +2900,10 @@ public final class MLServerProto {
       }
     }
     /**
+     * <pre>
+     * more specific suffix for rule ids; i.e. one model/server can return multiple values to distinguish between mach types
+     * </pre>
+     *
      * <code>string sub_id = 4;</code>
      * @return The bytes for subId.
      */
@@ -2535,6 +2956,138 @@ public final class MLServerProto {
       return suggestions_.getByteString(index);
     }
 
+    public static final int RULEDESCRIPTION_FIELD_NUMBER = 6;
+    private volatile java.lang.Object ruleDescription_;
+    /**
+     * <pre>
+     * added later, optional (can be substituted by Java)
+     * </pre>
+     *
+     * <code>string ruleDescription = 6;</code>
+     * @return The ruleDescription.
+     */
+    public java.lang.String getRuleDescription() {
+      java.lang.Object ref = ruleDescription_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        ruleDescription_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * added later, optional (can be substituted by Java)
+     * </pre>
+     *
+     * <code>string ruleDescription = 6;</code>
+     * @return The bytes for ruleDescription.
+     */
+    public com.google.protobuf.ByteString
+        getRuleDescriptionBytes() {
+      java.lang.Object ref = ruleDescription_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        ruleDescription_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int MATCHDESCRIPTION_FIELD_NUMBER = 7;
+    private volatile java.lang.Object matchDescription_;
+    /**
+     * <pre>
+     * description of the match; displayed in e.g. the add-on pop-up
+     * </pre>
+     *
+     * <code>string matchDescription = 7;</code>
+     * @return The matchDescription.
+     */
+    public java.lang.String getMatchDescription() {
+      java.lang.Object ref = matchDescription_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        matchDescription_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * description of the match; displayed in e.g. the add-on pop-up
+     * </pre>
+     *
+     * <code>string matchDescription = 7;</code>
+     * @return The bytes for matchDescription.
+     */
+    public com.google.protobuf.ByteString
+        getMatchDescriptionBytes() {
+      java.lang.Object ref = matchDescription_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        matchDescription_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int MATCHSHORTDESCRIPTION_FIELD_NUMBER = 8;
+    private volatile java.lang.Object matchShortDescription_;
+    /**
+     * <pre>
+     * shortened description of the match; displayed in e.g. LibreOffice context menu
+     * </pre>
+     *
+     * <code>string matchShortDescription = 8;</code>
+     * @return The matchShortDescription.
+     */
+    public java.lang.String getMatchShortDescription() {
+      java.lang.Object ref = matchShortDescription_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        matchShortDescription_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * shortened description of the match; displayed in e.g. LibreOffice context menu
+     * </pre>
+     *
+     * <code>string matchShortDescription = 8;</code>
+     * @return The bytes for matchShortDescription.
+     */
+    public com.google.protobuf.ByteString
+        getMatchShortDescriptionBytes() {
+      java.lang.Object ref = matchShortDescription_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        matchShortDescription_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -2563,6 +3116,15 @@ public final class MLServerProto {
       }
       for (int i = 0; i < suggestions_.size(); i++) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 5, suggestions_.getRaw(i));
+      }
+      if (!getRuleDescriptionBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, ruleDescription_);
+      }
+      if (!getMatchDescriptionBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, matchDescription_);
+      }
+      if (!getMatchShortDescriptionBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 8, matchShortDescription_);
       }
       unknownFields.writeTo(output);
     }
@@ -2595,6 +3157,15 @@ public final class MLServerProto {
         size += dataSize;
         size += 1 * getSuggestionsList().size();
       }
+      if (!getRuleDescriptionBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, ruleDescription_);
+      }
+      if (!getMatchDescriptionBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, matchDescription_);
+      }
+      if (!getMatchShortDescriptionBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, matchShortDescription_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -2620,6 +3191,12 @@ public final class MLServerProto {
           .equals(other.getSubId())) return false;
       if (!getSuggestionsList()
           .equals(other.getSuggestionsList())) return false;
+      if (!getRuleDescription()
+          .equals(other.getRuleDescription())) return false;
+      if (!getMatchDescription()
+          .equals(other.getMatchDescription())) return false;
+      if (!getMatchShortDescription()
+          .equals(other.getMatchShortDescription())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -2643,6 +3220,12 @@ public final class MLServerProto {
         hash = (37 * hash) + SUGGESTIONS_FIELD_NUMBER;
         hash = (53 * hash) + getSuggestionsList().hashCode();
       }
+      hash = (37 * hash) + RULEDESCRIPTION_FIELD_NUMBER;
+      hash = (53 * hash) + getRuleDescription().hashCode();
+      hash = (37 * hash) + MATCHDESCRIPTION_FIELD_NUMBER;
+      hash = (53 * hash) + getMatchDescription().hashCode();
+      hash = (37 * hash) + MATCHSHORTDESCRIPTION_FIELD_NUMBER;
+      hash = (53 * hash) + getMatchShortDescription().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2786,6 +3369,12 @@ public final class MLServerProto {
 
         suggestions_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
+        ruleDescription_ = "";
+
+        matchDescription_ = "";
+
+        matchShortDescription_ = "";
+
         return this;
       }
 
@@ -2822,6 +3411,9 @@ public final class MLServerProto {
           bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.suggestions_ = suggestions_;
+        result.ruleDescription_ = ruleDescription_;
+        result.matchDescription_ = matchDescription_;
+        result.matchShortDescription_ = matchShortDescription_;
         onBuilt();
         return result;
       }
@@ -2894,6 +3486,18 @@ public final class MLServerProto {
           }
           onChanged();
         }
+        if (!other.getRuleDescription().isEmpty()) {
+          ruleDescription_ = other.ruleDescription_;
+          onChanged();
+        }
+        if (!other.getMatchDescription().isEmpty()) {
+          matchDescription_ = other.matchDescription_;
+          onChanged();
+        }
+        if (!other.getMatchShortDescription().isEmpty()) {
+          matchShortDescription_ = other.matchShortDescription_;
+          onChanged();
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -2926,6 +3530,10 @@ public final class MLServerProto {
 
       private int offset_ ;
       /**
+       * <pre>
+       * start position in the sentence (i.e. not relative to whole text)
+       * </pre>
+       *
        * <code>uint32 offset = 1;</code>
        * @return The offset.
        */
@@ -2933,6 +3541,10 @@ public final class MLServerProto {
         return offset_;
       }
       /**
+       * <pre>
+       * start position in the sentence (i.e. not relative to whole text)
+       * </pre>
+       *
        * <code>uint32 offset = 1;</code>
        * @param value The offset to set.
        * @return This builder for chaining.
@@ -2944,6 +3556,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * start position in the sentence (i.e. not relative to whole text)
+       * </pre>
+       *
        * <code>uint32 offset = 1;</code>
        * @return This builder for chaining.
        */
@@ -2956,6 +3572,10 @@ public final class MLServerProto {
 
       private int length_ ;
       /**
+       * <pre>
+       * length of matched area; &gt;0
+       * </pre>
+       *
        * <code>uint32 length = 2;</code>
        * @return The length.
        */
@@ -2963,6 +3583,10 @@ public final class MLServerProto {
         return length_;
       }
       /**
+       * <pre>
+       * length of matched area; &gt;0
+       * </pre>
+       *
        * <code>uint32 length = 2;</code>
        * @param value The length to set.
        * @return This builder for chaining.
@@ -2974,6 +3598,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * length of matched area; &gt;0
+       * </pre>
+       *
        * <code>uint32 length = 2;</code>
        * @return This builder for chaining.
        */
@@ -2986,6 +3614,10 @@ public final class MLServerProto {
 
       private java.lang.Object id_ = "";
       /**
+       * <pre>
+       * prefix for rule ids; should use a common value for one model/server
+       * </pre>
+       *
        * <code>string id = 3;</code>
        * @return The id.
        */
@@ -3002,6 +3634,10 @@ public final class MLServerProto {
         }
       }
       /**
+       * <pre>
+       * prefix for rule ids; should use a common value for one model/server
+       * </pre>
+       *
        * <code>string id = 3;</code>
        * @return The bytes for id.
        */
@@ -3019,6 +3655,10 @@ public final class MLServerProto {
         }
       }
       /**
+       * <pre>
+       * prefix for rule ids; should use a common value for one model/server
+       * </pre>
+       *
        * <code>string id = 3;</code>
        * @param value The id to set.
        * @return This builder for chaining.
@@ -3034,6 +3674,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * prefix for rule ids; should use a common value for one model/server
+       * </pre>
+       *
        * <code>string id = 3;</code>
        * @return This builder for chaining.
        */
@@ -3044,6 +3688,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * prefix for rule ids; should use a common value for one model/server
+       * </pre>
+       *
        * <code>string id = 3;</code>
        * @param value The bytes for id to set.
        * @return This builder for chaining.
@@ -3062,6 +3710,10 @@ public final class MLServerProto {
 
       private java.lang.Object subId_ = "";
       /**
+       * <pre>
+       * more specific suffix for rule ids; i.e. one model/server can return multiple values to distinguish between mach types
+       * </pre>
+       *
        * <code>string sub_id = 4;</code>
        * @return The subId.
        */
@@ -3078,6 +3730,10 @@ public final class MLServerProto {
         }
       }
       /**
+       * <pre>
+       * more specific suffix for rule ids; i.e. one model/server can return multiple values to distinguish between mach types
+       * </pre>
+       *
        * <code>string sub_id = 4;</code>
        * @return The bytes for subId.
        */
@@ -3095,6 +3751,10 @@ public final class MLServerProto {
         }
       }
       /**
+       * <pre>
+       * more specific suffix for rule ids; i.e. one model/server can return multiple values to distinguish between mach types
+       * </pre>
+       *
        * <code>string sub_id = 4;</code>
        * @param value The subId to set.
        * @return This builder for chaining.
@@ -3110,6 +3770,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * more specific suffix for rule ids; i.e. one model/server can return multiple values to distinguish between mach types
+       * </pre>
+       *
        * <code>string sub_id = 4;</code>
        * @return This builder for chaining.
        */
@@ -3120,6 +3784,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * more specific suffix for rule ids; i.e. one model/server can return multiple values to distinguish between mach types
+       * </pre>
+       *
        * <code>string sub_id = 4;</code>
        * @param value The bytes for subId to set.
        * @return This builder for chaining.
@@ -3245,6 +3913,294 @@ public final class MLServerProto {
         onChanged();
         return this;
       }
+
+      private java.lang.Object ruleDescription_ = "";
+      /**
+       * <pre>
+       * added later, optional (can be substituted by Java)
+       * </pre>
+       *
+       * <code>string ruleDescription = 6;</code>
+       * @return The ruleDescription.
+       */
+      public java.lang.String getRuleDescription() {
+        java.lang.Object ref = ruleDescription_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          ruleDescription_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * added later, optional (can be substituted by Java)
+       * </pre>
+       *
+       * <code>string ruleDescription = 6;</code>
+       * @return The bytes for ruleDescription.
+       */
+      public com.google.protobuf.ByteString
+          getRuleDescriptionBytes() {
+        java.lang.Object ref = ruleDescription_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          ruleDescription_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * added later, optional (can be substituted by Java)
+       * </pre>
+       *
+       * <code>string ruleDescription = 6;</code>
+       * @param value The ruleDescription to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRuleDescription(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        ruleDescription_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * added later, optional (can be substituted by Java)
+       * </pre>
+       *
+       * <code>string ruleDescription = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRuleDescription() {
+        
+        ruleDescription_ = getDefaultInstance().getRuleDescription();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * added later, optional (can be substituted by Java)
+       * </pre>
+       *
+       * <code>string ruleDescription = 6;</code>
+       * @param value The bytes for ruleDescription to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRuleDescriptionBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        ruleDescription_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object matchDescription_ = "";
+      /**
+       * <pre>
+       * description of the match; displayed in e.g. the add-on pop-up
+       * </pre>
+       *
+       * <code>string matchDescription = 7;</code>
+       * @return The matchDescription.
+       */
+      public java.lang.String getMatchDescription() {
+        java.lang.Object ref = matchDescription_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          matchDescription_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * description of the match; displayed in e.g. the add-on pop-up
+       * </pre>
+       *
+       * <code>string matchDescription = 7;</code>
+       * @return The bytes for matchDescription.
+       */
+      public com.google.protobuf.ByteString
+          getMatchDescriptionBytes() {
+        java.lang.Object ref = matchDescription_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          matchDescription_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * description of the match; displayed in e.g. the add-on pop-up
+       * </pre>
+       *
+       * <code>string matchDescription = 7;</code>
+       * @param value The matchDescription to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMatchDescription(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        matchDescription_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * description of the match; displayed in e.g. the add-on pop-up
+       * </pre>
+       *
+       * <code>string matchDescription = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMatchDescription() {
+        
+        matchDescription_ = getDefaultInstance().getMatchDescription();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * description of the match; displayed in e.g. the add-on pop-up
+       * </pre>
+       *
+       * <code>string matchDescription = 7;</code>
+       * @param value The bytes for matchDescription to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMatchDescriptionBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        matchDescription_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object matchShortDescription_ = "";
+      /**
+       * <pre>
+       * shortened description of the match; displayed in e.g. LibreOffice context menu
+       * </pre>
+       *
+       * <code>string matchShortDescription = 8;</code>
+       * @return The matchShortDescription.
+       */
+      public java.lang.String getMatchShortDescription() {
+        java.lang.Object ref = matchShortDescription_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          matchShortDescription_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * shortened description of the match; displayed in e.g. LibreOffice context menu
+       * </pre>
+       *
+       * <code>string matchShortDescription = 8;</code>
+       * @return The bytes for matchShortDescription.
+       */
+      public com.google.protobuf.ByteString
+          getMatchShortDescriptionBytes() {
+        java.lang.Object ref = matchShortDescription_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          matchShortDescription_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * shortened description of the match; displayed in e.g. LibreOffice context menu
+       * </pre>
+       *
+       * <code>string matchShortDescription = 8;</code>
+       * @param value The matchShortDescription to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMatchShortDescription(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        matchShortDescription_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * shortened description of the match; displayed in e.g. LibreOffice context menu
+       * </pre>
+       *
+       * <code>string matchShortDescription = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMatchShortDescription() {
+        
+        matchShortDescription_ = getDefaultInstance().getMatchShortDescription();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * shortened description of the match; displayed in e.g. LibreOffice context menu
+       * </pre>
+       *
+       * <code>string matchShortDescription = 8;</code>
+       * @param value The bytes for matchShortDescription to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMatchShortDescriptionBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        matchShortDescription_ = value;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -3331,13 +4287,15 @@ public final class MLServerProto {
       "Request\022\021\n\tsentences\030\001 \003(\t\"A\n\rMatchRespo" +
       "nse\0220\n\017sentenceMatches\030\001 \003(\0132\027.lt_ml_ser" +
       "ver.MatchList\"1\n\tMatchList\022$\n\007matches\030\001 " +
-      "\003(\0132\023.lt_ml_server.Match\"X\n\005Match\022\016\n\006off" +
-      "set\030\001 \001(\r\022\016\n\006length\030\002 \001(\r\022\n\n\002id\030\003 \001(\t\022\016\n" +
-      "\006sub_id\030\004 \001(\t\022\023\n\013suggestions\030\005 \003(\t2N\n\010ML" +
-      "Server\022B\n\005Match\022\032.lt_ml_server.MatchRequ" +
-      "est\032\033.lt_ml_server.MatchResponse\"\000B*\n\031or" +
-      "g.languagetool.rules.mlB\rMLServerProtob\006" +
-      "proto3"
+      "\003(\0132\023.lt_ml_server.Match\"\252\001\n\005Match\022\016\n\006of" +
+      "fset\030\001 \001(\r\022\016\n\006length\030\002 \001(\r\022\n\n\002id\030\003 \001(\t\022\016" +
+      "\n\006sub_id\030\004 \001(\t\022\023\n\013suggestions\030\005 \003(\t\022\027\n\017r" +
+      "uleDescription\030\006 \001(\t\022\030\n\020matchDescription" +
+      "\030\007 \001(\t\022\035\n\025matchShortDescription\030\010 \001(\t2N\n" +
+      "\010MLServer\022B\n\005Match\022\032.lt_ml_server.MatchR" +
+      "equest\032\033.lt_ml_server.MatchResponse\"\000B*\n" +
+      "\031org.languagetool.rules.mlB\rMLServerProt" +
+      "ob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3366,7 +4324,7 @@ public final class MLServerProto {
     internal_static_lt_ml_server_Match_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_lt_ml_server_Match_descriptor,
-        new java.lang.String[] { "Offset", "Length", "Id", "SubId", "Suggestions", });
+        new java.lang.String[] { "Offset", "Length", "Id", "SubId", "Suggestions", "RuleDescription", "MatchDescription", "MatchShortDescription", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
