@@ -5868,6 +5868,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token skip="-1" postag="JJ"/>
             <token>?</token>
         </antipattern>
+        <antipattern><!-- #3251 new features can handled by -->
+            <token postag_regexp="yes" postag="JJ|DT"/>
+            <token chunk="E-NP-plural"/>
+            <token chunk="B-VP" postag="MD"/>
+            <token chunk="I-VP" postag_regexp="yes" postag="VB[DN]"/>
+            <token postag_regexp="yes" postag="IN|RB"/>
+        </antipattern>
         <pattern>
             <and>
                 <token chunk="E-NP-plural"/>
@@ -5901,6 +5908,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">The benefit is that that method makes improvements incredibly fast.</example><!-- #2923 -->
         <example type="untouched">It was 15 minutes too long.</example><!-- #2923 -->
         <example type="untouched">Was it 15 minutes too long when you did it?</example><!-- #2923 -->
+        <example type="untouched">Bugs and new features can handled by the LT-team directly.</example><!-- #3251 -->
+        <example type="untouched">New features can handled by the team directly.</example><!-- #3251 -->
+        <example type="untouched">These problems can happened occasionally.</example><!-- #3251 -->
     </rule>
 
     <rulegroup id="VBP_VBZ_NNS" name="VBZ/NN->VBZ">
