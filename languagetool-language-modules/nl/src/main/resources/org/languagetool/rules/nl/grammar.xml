@@ -5073,16 +5073,6 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 		-->
 		<!--
-		<rulegroup id="GOLFEN_GOLVEN" name="waarschuwing bij gebruik golfen i.p.v. golven">
-			<rule>
-				<pattern>
-					   <token>golfen</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>golven</suggestion> (verhogingen in water)? Alleen in dat geval moet het met een v.</message>
-				<example correction="golven">Het woord <marker>golfen</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
-		-->
 		<rulegroup id="FIEREN_VIEREN" name="waarschuwing bij gebruik fieren i.p.v. vieren">
 			<rule>
 				<pattern>
@@ -5092,7 +5082,8 @@ regexp case-insensitive maken : (?i)
 				<example correction="vieren">Het woord <marker>fieren</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
-
+        -->
+<!--
 		<rulegroup id="FISJES_VISJES" name="waarschuwing bij gebruik fisjes i.p.v. visjes">
 			<rule>
 				<pattern>
@@ -5101,7 +5092,8 @@ regexp case-insensitive maken : (?i)
 				<message>Bedoelt u wellicht <suggestion>visjes</suggestion>?</message>
 				<example correction="visjes">Het woord <marker>fisjes</marker> kan een vergissing zijn.</example>
 			</rule>
-		</rulegroup>
+        </rulegroup>
+        -->
 <!--
 		<rulegroup id="FAT_VAT" name="waarschuwing bij gebruik fat i.p.v. vat">
 			<rule>
@@ -5250,11 +5242,26 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="GOLFEND_GOLVEND" name="waarschuwing bij gebruik golfend i.p.v. golvend">
+		<rulegroup id="GOLFEN_GOLVEN" name="waarschuwing bij gebruik golfen i.p.v. golven">
 			<rule>
-				<pattern><token regexp="yes">golfende?</token></pattern>
-				<message>Bedoelt u wellicht <suggestion><match no="1" regexp_match="golf" regexp_replace="golv" /></suggestion>? Golfend is onjuist als het om water gaat.</message>
-				<example correction="golvende">Het woord <marker>golfende</marker> kan een vergissing zijn.</example>
+				<pattern>
+                    <marker>
+                        <token skip="-1" inflected="yes">golfen</token>
+                    </marker>
+                    <token>water</token>
+                </pattern>
+				<message>Bedoelt u wellicht <suggestion><match no="1" regexp_match="golf" regexp_replace="golv" /></suggestion>? Golfen is onjuist als het om water gaat.</message>
+				<example correction="golvende">Het <marker>golfende</marker> water is fout.</example>
+			</rule>
+			<rule>
+				<pattern>
+                    <token skip="-1">water</token>
+                    <marker>
+                        <token skip="-1" inflected="yes">golfen</token>
+                    </marker>
+                </pattern>
+				<message>Bedoelt u wellicht <suggestion><match no="2" regexp_match="golf" regexp_replace="golv" /></suggestion>? Golfen is onjuist als het om water gaat.</message>
+				<example correction="golvende">Het water was <marker>golfende</marker>.</example>
 			</rule>
 		</rulegroup>
 
