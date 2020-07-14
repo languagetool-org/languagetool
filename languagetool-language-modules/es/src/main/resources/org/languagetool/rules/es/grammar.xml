@@ -8791,16 +8791,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <!--<rule id="ESTO_ESTE" name="esto/este">
+        <rule id="ESTO_ESTE" name="esto/este" default="temp_off">
             <pattern>
                 <marker>
                     <token>esto</token>
                 </marker>
-                <token postag="NCMS000"><exception postag="V.[SI].*" postag_regexp="yes"/></token>
+                <token postag="NCMS000"/> <!--<exception postag="V.[SI].*" postag_regexp="yes"/>-->
             </pattern>
             <message>¿Quería decir <suggestion>este</suggestion>?</message>
+            <example correction="este">En <marker>esto</marker> ámbito es el mejor.</example>
             <example correction="este">En <marker>esto</marker> campo es el mejor.</example>
-        </rule>-->
+            <example>En esto suelo ser el primero.</example>
+        </rule>
         <rulegroup id="PRONOMBRE_SIN_VERBO" name="pronombre si verbo" default="temp_off">
             <antipattern>
                 <token regexp="yes">&pronombre_personal_atono;</token>
