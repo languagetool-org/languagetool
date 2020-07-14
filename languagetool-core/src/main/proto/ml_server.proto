@@ -9,21 +9,25 @@ service MLServer {
 }
 
 message MatchRequest {
-    repeated string sentences = 1;
+    repeated string sentences = 1; // input text to be analyzed
 }
 
 message MatchResponse {
-    repeated MatchList sentenceMatches = 1;
+    repeated MatchList sentenceMatches = 1; // results for each corresponding sentence in MatchRequest (aligned)
 }
 
 message MatchList {
-    repeated Match matches = 1;
+    repeated Match matches = 1; // list of matches
 }
 
 message Match {
-    uint32 offset = 1;
-    uint32 length = 2;
-    string id = 3;
-    string sub_id = 4;
+    uint32 offset = 1; // start position in the sentence (i.e. not relative to whole text)
+    uint32 length = 2; // length of matched area; >0
+    string id = 3; // prefix for rule ids; should use a common value for one model/server
+    string sub_id = 4; // more specific suffix for rule ids; i.e. one model/server can return multiple values to distinguish between mach types
     repeated string suggestions = 5;
+    // added later, optional (can be substituted by Java)
+    string ruleDescription = 6; // description of the rule; can be specific to rule_id + sub_id or shared for all sub_ids of one rule_id
+    string matchDescription = 7; // description of the match; displayed in e.g. the add-on pop-up
+    string matchShortDescription = 8; // shortened description of the match; displayed in e.g. LibreOffice context menu
 }

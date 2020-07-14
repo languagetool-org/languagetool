@@ -79,10 +79,19 @@ public abstract class GRPCRule extends RemoteRule {
   protected class GRPCSubRule extends Rule {
     private final String subId;
     private final String matchId;
+    private final String description;
 
-    GRPCSubRule(String subId) {
+    GRPCSubRule(String subId, @Nullable String description) {
       this.subId = subId;
       this.matchId = GRPCRule.this.getId() + "_" + cleanID(subId);
+      if (description == null || description.isEmpty()) {
+        this.description = GRPCRule.this.getDescription();
+        if (this.description == null || this.description.isEmpty()) {
+          throw new RuntimeException("Missing description for rule with ID " + matchId);
+        }
+      } else {
+        this.description = description;
+      }
     }
 
     @Override
@@ -92,7 +101,7 @@ public abstract class GRPCRule extends RemoteRule {
 
     @Override
     public String getDescription() {
-      return GRPCRule.this.getDescription();
+      return this.description;
     }
 
     @Override
@@ -209,11 +218,20 @@ public abstract class GRPCRule extends RemoteRule {
       List<RuleMatch> matches = Streams.zip(response.getSentenceMatchesList().stream(), req.sentences.stream(), (matchList, sentence) ->
         matchList.getMatchesList().stream().map(match -> {
             int relativeOffset = offsets.get(sentence);
-            GRPCSubRule subRule = new GRPCSubRule(match.getSubId());
+            GRPCSubRule subRule = new GRPCSubRule(match.getSubId(), match.getRuleDescription());
+            String message = match.getMatchDescription();
+            String shortMessage = match.getMatchShortDescription();
+            if (message == null || message.isEmpty()) {
+              message = getMessage(match, sentence);
+            }
+            if (message == null || message.isEmpty()) {
+              throw new RuntimeException("Missing message for match with ID " + subRule.getId());
+            }
+            int start = relativeOffset + match.getOffset();
+            int end = start + match.getLength();
             RuleMatch m = new RuleMatch(subRule, sentence,
-              relativeOffset + match.getOffset(),
-              relativeOffset + match.getOffset() + match.getLength(),
-              getMessage(match, sentence));
+                                        start, end,
+                                        message, shortMessage);
             m.setSuggestedReplacements(match.getSuggestionsList());
             return m;
           }
@@ -224,6 +242,10 @@ public abstract class GRPCRule extends RemoteRule {
     };
   }
 
+  /**
+   * messages can be provided by the ML server or the Java client
+   * fill them in here or leave this empty if the server takes care of it
+   */
   protected abstract String getMessage(MLServerProto.Match match, AnalyzedSentence sentence);
 
   @Override
