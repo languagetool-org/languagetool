@@ -35,20 +35,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
   <category id="PUNCTUATION" name="Пунктуація">
 
-    <rulegroup id="PLEASE_NO_COMMA" name="«будь ласка» виділяється комами">
+    <rulegroup id="please_no_comma" name="«будь ласка» виділяється комами">
       <rule>
         <pattern>
           <marker>
             <token>будь</token>
             <token>ласка</token>
           </marker>
-          <token regexp="yes">[а-яіїєґa-z]</token>
+          <token>
+            <exception regexp="yes">&punct_std_no_lquote;</exception>
+            <exception postag_regexp="yes" postag="SENT_END|PARA_END">.</exception>
+          </token>
         </pattern>
         <message>Відсутня права кома: <suggestion>\1 \2,</suggestion>.</message>
         <example correction="будь ласка,">Запитайте, <marker>будь ласка</marker> у водія.</example>
         <example>— Будь ласка — миску, ложку й мій хліб!</example>
         <example>— "Будь ласка"?</example>
       </rule>
+
       <rule>
         <pattern>
           <token negate="yes" regexp="yes">&punct_std;
@@ -63,10 +67,275 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rulegroup id="INSERTED_WORDS_NO_COMMA" name="вставні слова, напр., «мабуть», «щоправда», виділяються комами">
+    <rulegroup id="vzagali_kazhuchy" name="Взагалі кажучи">
       <rule>
         <pattern>
-          <token regexp="yes">мабуть|по-перше|по-друге|по-третє|щоправда|о?крім того|а втім</token>
+          <marker>
+            <token regexp="yes">взагалі|загалом|власне|щиро|інакше|м'яко|образно|просто|правду</token>
+            <token>кажучи</token>
+          </marker>
+          <token>
+            <exception regexp="yes">&punct_std_no_lquote;</exception>
+            <exception postag_regexp="yes" postag="SENT_END|PARA_END">.</exception>
+          </token>
+        </pattern>
+        <message>Вставні сполуки виділяються комами (відсутня права кома): <suggestion>\1 \2,</suggestion>.</message>
+        <example correction="взагалі кажучи,">І, <marker>взагалі кажучи</marker> хто він такий.</example>
+        <example>Взагалі кажучи — тут все моє</example>
+      </rule>
+
+      <rule>
+        <antipattern>
+          <token>дуже</token>
+          <token>м'яко</token>
+          <token>кажучи</token>
+        </antipattern>
+        <pattern>
+          <token negate="yes" regexp="yes">&punct_std;
+            <exception postag="SENT_START"/>
+          </token>
+          <marker>
+            <token regexp="yes">взагалі|загалом|власне|щиро|інакше|м'яко|образнопросто|правду</token>
+            <token>кажучи</token>
+          </marker>
+        </pattern>
+        <message>Вставні сполуки виділяються комами (відсутня ліва кома): <suggestion>, \2 \3</suggestion>.</message>
+        <example correction=", взагалі кажучи">І<marker> взагалі кажучи</marker>, не хочу.</example>
+        <example>дуже м'яко кажучи</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="na_zhal" name="На жаль" default="off">
+      <rule>
+        <pattern>
+          <marker>
+            <token>на</token>
+            <token postag_regexp="yes" postag="adj:m:v_zna:rinanim.*" min="0"/>
+            <token>жаль</token>
+          </marker>
+          <token>
+            <exception regexp="yes">&punct_std_no_lquote;</exception>
+            <exception postag_regexp="yes" postag="SENT_END|PARA_END">.</exception>
+            <exception regexp="yes">для|чи</exception>
+          </token>
+        </pattern>
+        <message>Вставні сполуки виділяються комами (відсутня права кома): <suggestion>\1 \2 \3,</suggestion>.</message>
+        <example correction="на жаль,">І, <marker>на жаль</marker> хто він такий.</example>
+        <example>На превеликий жаль для генерала</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token negate="yes" regexp="yes">&punct_std;
+            <exception postag="SENT_START"/>
+          </token>
+          <marker>
+            <token>на</token>
+            <token postag_regexp="yes" postag="adj:m:v_zna:rinanim.*" min="0"/>
+            <token>жаль</token>
+          </marker>
+        </pattern>
+        <message>Вставні сполуки виділяються комами (відсутня ліва кома): <suggestion>, \2 \3 \4</suggestion>.</message>
+        <example correction=", на превеликий жаль">І<marker> на превеликий жаль</marker>, не хочу.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="poza_sumnivom" name="Поза сумнівом" default="off">
+      <rule>
+        <pattern>
+          <marker>
+            <token>поза</token>
+            <token postag_regexp="yes" postag="adj:[mp]:v_oru.*" min="0"/>
+            <token regexp="yes">сумнівом|сумнівами</token>
+          </marker>
+          <token>
+            <exception regexp="yes">&punct_std_no_lquote;</exception>
+            <exception postag_regexp="yes" postag="SENT_END|PARA_END">.</exception>
+          </token>
+        </pattern>
+        <message>Вставні сполуки виділяються комами (відсутня права кома): <suggestion>\1 \2 \3,</suggestion>.</message>
+        <example correction="поза сумнівом,">І, <marker>поза сумнівом</marker> хто він такий.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token negate="yes" regexp="yes">&punct_std;
+            <exception postag="SENT_START"/>
+          </token>
+          <marker>
+            <token>поза</token>
+            <token postag_regexp="yes" postag="adj:[mp]:v_oru.*" min="0"/>
+            <token regexp="yes">сумнівом|сумнівами</token>
+          </marker>
+        </pattern>
+        <message>Вставні сполуки виділяються комами (відсутня ліва кома): <suggestion>, \2 \3 \4</suggestion>.</message>
+        <example correction=", поза всякими сумнівами">І<marker> поза всякими сумнівами</marker>, не було.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="z_dozvolu_skazaty" name="З дозволу сказати">
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">з|по</token>
+            <token regexp="yes">дозволу|правді</token>
+            <token>сказати</token>
+          </marker>
+          <token>
+            <exception regexp="yes">&punct_std_no_lquote;</exception>
+            <exception postag_regexp="yes" postag="SENT_END|PARA_END">.</exception>
+          </token>
+        </pattern>
+        <message>Вставні сполуки виділяються комами (відсутня права кома): <suggestion>\1 \2 \3,</suggestion>.</message>
+        <example correction="з дозволу сказати,">І, <marker>з дозволу сказати</marker> хто він такий.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token negate="yes" regexp="yes">&punct_std;
+            <exception postag="SENT_START"/>
+          </token>
+          <marker>
+            <token regexp="yes">з|по</token>
+            <token regexp="yes">дозволу|правді</token>
+            <token>сказати</token>
+          </marker>
+        </pattern>
+        <message>Вставні сполуки виділяються комами (відсутня ліва кома): <suggestion>, \2 \3 \4</suggestion>.</message>
+        <example correction=", з дозволу сказати">І<marker> з дозволу сказати</marker>, не хочу.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="do_rechi" name="До речі" default="off">
+      <antipattern> 
+        <token>не</token>
+        <token>до</token>
+      </antipattern>
+      <rule>
+        <pattern>
+          <!--  TODO: "до слова" має купу правильних вжитків -->
+          <marker>
+            <token>до</token>
+            <token>речі
+              <exception scope="next">посполитої</exception>
+              <exception scope="next" postag_regexp="yes" postag="SENT_END|PARA_END"/>
+            </token>
+            <token min="0">кажучи</token>
+          </marker>
+          <token>
+            <exception regexp="yes">&punct_std_no_lquote;</exception>
+            <exception postag_regexp="yes" postag="SENT_END|PARA_END">.</exception>
+            <exception>кажучи</exception>
+          </token>
+        </pattern>
+        <message>Вставні сполуки виділяються комами (відсутня права кома): <suggestion>\1 \2 \3,</suggestion>.</message>
+        <example correction="до речі,">І, <marker>до речі</marker> хто він такий.</example>
+        <example correction="до речі кажучи,">І, <marker>до речі кажучи</marker> хто він такий.</example>
+        <example>до Речі Посполитої</example>
+        <example>не до речі</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token negate="yes" regexp="yes">&punct_std;
+            <exception postag="SENT_START"/>
+          </token>
+          <marker>
+            <token>до</token>
+            <token>речі
+              <exception scope="next">посполитої</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Вставні сполуки виділяються комами (відсутня ліва кома): <suggestion>, \2 \3</suggestion>.</message>
+        <example correction=", до речі">І<marker> до речі</marker>, не хочу.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="grih_skazaty" name="Гріх сказати">
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">гріх|грішним</token>
+            <token regexp="yes">сказати|ділом</token>
+          </marker>
+          <token>
+            <exception regexp="yes">&punct_std_no_lquote;</exception>
+            <exception postag_regexp="yes" postag="SENT_END|PARA_END">.</exception>
+          </token>
+        </pattern>
+        <message>Вставні сполуки виділяються комами (відсутня права кома): <suggestion>\1 \2,</suggestion>.</message>
+        <example correction="гріх сказати,">І, <marker>гріх сказати</marker> хто він такий.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token negate="yes" regexp="yes">&punct_std;
+            <exception postag="SENT_START"/>
+          </token>
+          <token regexp="yes">гріх|грішним</token>
+          <token regexp="yes">сказати|ділом</token>
+        </pattern>
+        <message>Вставні сполуки виділяються комами (відсутня ліва кома): <suggestion>\1, \2 \3</suggestion>.</message>
+        <example>І, грішним ділом, подумав про неї.</example>
+        <example correction="І, грішним ділом"><marker>І грішним ділом</marker>, подумав.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="jasna_rich" name="Ясна річ">
+      <antipattern>
+        <token>не</token>
+        <token regexp="yes">звісна|ясна|зрозуміла|певна</token>
+        <token>річ</token>
+      </antipattern>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">звісна|ясна|зрозуміла|певна</token>
+            <token>річ</token>
+          </marker>
+          <token>
+            <exception regexp="yes">&punct_std_no_lquote;</exception>
+            <exception postag_regexp="yes" postag="SENT_END|PARA_END">.</exception>
+          </token>
+        </pattern>
+        <message>Вставні сполуки виділяються комами (відсутня права кома): <suggestion>\1 \2,</suggestion>.</message>
+        <example correction="ясна річ,">І, <marker>ясна річ</marker> все пропало.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token negate="yes" regexp="yes">&punct_std;
+            <exception postag="SENT_START"/>
+          </token>
+          <marker>
+            <token regexp="yes">звісна|ясна|зрозуміла|певна</token>
+            <token>річ</token>
+          </marker>
+        </pattern>
+        <message>Вставні сполуки виділяються комами (відсутня ліва кома): <suggestion>, \2 \3</suggestion>.</message>
+        <example>І, ясна річ, подумав про неї.</example>
+        <!-- TODO: why we catch space? -->
+        <example correction=", ясна річ">І<marker> ясна річ</marker>, подумав.</example>
+        <example>зовсім не зрозуміла річ</example>
+        <example>розкіш — не певна річ, яку можна купити</example>
+        <!-- TODO: 
+        <example>коли певна річ знищується</example>
+        <example>абсолютно зрозуміла річ для людей</example>
+        -->
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="insert_words_no_comma" name="Вставні слова виділяються комами">
+      <rule>
+        <antipattern>
+          <token regexp="yes">як|от|ось|чи</token>
+          <token>бач</token>
+        </antipattern>
+        <antipattern>
+          <token>бач</token>
+          <token inflected="yes">який</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">мабуть|по-перше|по-друге|по-третє|щоправда|о?крім того|а втім|їй-бо(гу)?|бач|бігме|мовляв|очевидячки</token>
           <token regexp="yes" min="0">же?</token>
           <token>
             <exception regexp="yes">&punct_std_no_lquote;</exception>
@@ -74,22 +343,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <exception regexp="yes">же?</exception>
           </token>
         </pattern>
-        <message>Відсутня права кома: <suggestion><match no="1"/> <match no="2"/>, <match no="3"/></suggestion>.</message>
+        <message>Вставні слова виділяються комами (відсутня права кома): <suggestion><match no="1"/> <match no="2"/>, <match no="3"/></suggestion>.</message>
         <example correction="мабуть, його">Це, <marker>мабуть його</marker> водій.</example>
         <example correction="мабуть же, його">Це, <marker>мабуть же його</marker> водій.</example>
         <example>Це, мабуть, його водій.</example>
         <example>По-третє.</example>
         <example>Та, мабуть же, й...</example>
+        <example>Бач яка, щоб її правці взяли</example>
       </rule>
 
       <rule>
+        <antipattern>
+          <token regexp="yes">от|ось|ти|чи</token>
+          <token>бач</token>
+        </antipattern>
         <pattern>
           <token negate="yes" regexp="yes">&punct_std_no_dot;|[/аій]|та
             <exception postag="SENT_START"/>
           </token>
-          <token regexp="yes" case_sensitive="yes">мабуть|щоправда|о?крім того|[ув]тім</token>
+          <token regexp="yes" case_sensitive="yes">мабуть|щоправда|о?крім того|[ув]тім|їй-бо(гу)?|бач|бігме|мовляв|очевидячки</token>
         </pattern>
-        <message>Відсутня ліва кома: <suggestion>\1, \2</suggestion>.</message>
+        <message>Вставні слова виділяються комами (відсутня ліва кома): <suggestion>\1, \2</suggestion>.</message>
         <!-- крапка замість коми, TODO: fix correction -->
         <example correction="., щоправда">призначає нового    прем’єра<marker>. щоправда</marker>, у Держдуми</example>
         <example correction="Це, мабуть"><marker>Це мабуть</marker>, водій.</example>
@@ -97,6 +371,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Це, мабуть, водій.</example>
         <example>Але це... мабуть, водій.</example>
         <example>Розмова з глухими    Утім, було би надто</example>
+        <!-- TODO
+          <example>а мій бач як вчинив</example>
+         -->
       </rule>
 
       <rule>
@@ -150,7 +427,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token regexp="yes" negate="yes">&punct_std_no_rquote;|[нН]у
               <exception postag="SENT_START"/>
             </token>
-            <token regexp="yes">а|але|однак|проте|зате|адже|хоча</token>
+            <token regexp="yes">а|але|однак|проте|зате|адже|хоча|аніж</token>
           </marker>
           <token regexp="yes" negate="yes">&punct_std;</token>
         </pattern>
@@ -173,18 +450,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rulegroup name="Відсутня кома після вставного слова" id="COMMA_AFTER_INSERT">
+    <rulegroup name="Відсутня кома" id="COMMA_AFTER_INSERT" default="off">
+<!-- 
       <rule>
         <pattern>
+          <token postag="SENT_START"/>
           <marker>
-            <token case_sensitive="yes" regexp="yes">Наприклад|Приміром</token>
+            <token regexp="yes">наприклад|приміром</token>
           </marker>
-          <token negate="yes" regexp="yes">&punct_std;</token>
+          <token negate="yes" regexp="yes">&punct_std;
+            <exception postag_regexp="yes" postag="SENT_END|PARA_END">.</exception>
+          </token>
         </pattern>
-        <message>Відсутня кома після наприклад: <suggestion>\1,</suggestion></message>
+        <message>Відсутня кома (або двокрапка) після «\1»: <suggestion>\1,</suggestion></message>
         <example correction="Наприклад,"><marker>Наприклад</marker> редакторством чи викладанням.</example>
         <example>Наприклад «Ржевський проти Наполеона».</example>
         <example>Наприклад?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token negate="yes" regexp="yes">&punct_std;
+            <exception postag="SENT_START"/>
+          </token>
+          <marker>
+            <token regexp="yes">наприклад|приміром</token>
+          </marker>
+        </pattern>
+        <message>Відсутня ліва кома: <suggestion>, \2</suggestion>.</message>
+        <example correction=", наприклад">от<marker> наприклад</marker>, подумав.</example>
+      </rule>
+ -->
+      <rule>
+        <pattern>
+          <marker>
+            <token>а</token>
+            <token>саме</token>
+          </marker>
+          <token negate="yes" regexp="yes">&punct_std;
+            <exception postag_regexp="yes" postag="SENT_END|PARA_END">.</exception>
+            <exception postag_regexp="yes" postag="(noun|adj).*?:n:v_(naz|zna).*"/>
+            <exception inflected="yes">такий</exception>
+          </token>
+        </pattern>
+        <message>Відсутня кома або двокрапка після «\1 \2»: <suggestion>\1 \2:</suggestion></message>
+        <suggestion>\1 \2,</suggestion>
+        <example correction="а саме:|а саме,">спецкольори, <marker>а саме</marker> сині, зелені та білі.</example>
+        <example>а саме середнє значення</example>
+        <example>а саме такий</example>
       </rule>
     </rulegroup>
 
@@ -202,7 +514,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Отже ж, прикрість яка!</example>
       </rule>
     </rulegroup>
-
 
 <!--
     <rulegroup id="VOCATIVE_NO_COMMA" name="Кличний без коми">
@@ -244,6 +555,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <url>http://pravopys.net/sections/118/</url>
         <example correction="почервонів як рак"><marker>почервонів, як рак</marker>.</example>
       </rule>
+
       <rule>
         <pattern>
           <token postag_regexp="yes" postag="verb.*"/>
@@ -257,6 +569,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <url>http://pravopys.net/sections/118/</url>
         <example correction="лив як з відра">Дощ <marker>лив, як з відра</marker>.</example>
       </rule>
+      
+      <!-- 
+      <rule>
+        <pattern>
+          <token>,</token>
+          <token>вочевидь</token>
+          <token>,</token>
+        </pattern>
+        <message>Прислівник «вочевидь» не буває вставним словом, можливо ви мали на увазі <suggestion>, очевидно,</suggestion></message>
+        <suggestion>, мабуть,</suggestion>
+        <suggestion>, певно,</suggestion>
+        <suggestion>\2</suggestion>
+        <example correction=", очевидно,|, мабуть,|, певно,|вочевидь">то<marker>, вочевидь,</marker> зовсім не сподобалося</example>
+      </rule>
+       -->
+
+      <rule>
+        <pattern>
+          <token>,</token>
+          <token regexp="yes">[ву]се</token>
+          <token>ж</token>
+          <token>,</token>
+        </pattern>
+        <message>Сполучний засіб «\2 \3» не буває вставним словом: <suggestion>\2 \3</suggestion></message>
+        <example correction="все ж">і<marker>, все ж,</marker> не сподобалося</example>
+      </rule>
+  
+      <rule>
+        <pattern>
+          <token>,</token>
+          <token regexp="yes">[ву]се-таки</token>
+          <token>,</token>
+        </pattern>
+        <message>Сполучний засіб «\2» не буває вставним словом: <suggestion>\2</suggestion></message>
+        <example correction="все-таки">і<marker>, все-таки,</marker> не сподобалося</example>
+      </rule>
+      
       <!--
           <rule>
           <pattern>
