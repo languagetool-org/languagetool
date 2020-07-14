@@ -163,6 +163,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="entschieden|entscheidend">Für ihn war es <marker>entscheiden</marker>, dass sie kommt.</example>
             <example>Zuerst entscheiden wir, was notwendig ist zu entscheiden.</example>
         </rule>
+        <rule id="WIEN_WEIN" name="Wien (Wein)">
+            <pattern case_sensitive="yes">
+                <token inflected="yes" regexp="yes">trinken|Glas|Flasche|Schoppen|weiß|rot|süß|lieblich|trocken|herb|spritzig|süffig|schwer</token>
+                <token postag="ADV:MOD" min="0" max="2"></token>
+                <marker><token>Wien</token></marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>Wein</suggestion>?</message>
+            <example correction="Wein">Sie trinkt gerne <marker>Wien</marker>.</example>
+            <example correction="Wein">Sie trinkt gerne ein Glas <marker>Wien</marker> am Abend.</example>
+        </rule>
         <rule id="ZEIL" name="Möglicher Tippfehler 'Zeil'">
             <antipattern>
                 <token regexp="yes">auf|an</token>
