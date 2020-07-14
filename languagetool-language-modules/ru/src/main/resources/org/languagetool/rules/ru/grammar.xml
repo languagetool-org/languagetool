@@ -4890,6 +4890,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Да и это, собственно говоря, пустяки.</example>
                 <example correction="собственно говоря, пустяки">Да и это, <marker>собственно говоря пустяки</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token><exception regexp="yes">&pnct;</exception><exception postag="SENT_START" /></token>
+                        <token>собственно</token>
+                        <token>говоря</token>
+  
+                    </marker>
+                </pattern>
+                <message>Запятая нужна: <suggestion><match no="1"/>, <match no="2" /> <match no="3"/></suggestion>.</message>
+                <short>Запятая</short>
+                <example>Да и это, собственно говоря, пустяки.</example>
+                <example correction="это, собственно говоря">Да и <marker>это собственно говоря</marker>, пустяки.</example>
+            </rule>
         </rulegroup>
         
         <rulegroup default="on" id="NO_NE_KAK" name="«Почти как», «не как», ...">
