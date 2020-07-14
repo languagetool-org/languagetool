@@ -1285,19 +1285,6 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token case_sensitive='yes'>Podemos</token>
       </antipattern>
-<!-- MARCOAGPINTO 2020-04-29 *START* -->
-<!-- "Na semana que vem irei trabalhar em Tóquio." -->
-<!-- "Na semana que vem iremos trabalhar em Tóquio." -->
-<!-- "Na semana que vem vou trabalhar em Tóquio." -->
-<!-- "Na semana que vem vamos trabalhar em Tóquio." -->
-<!-- "Na semana que vem fui trabalhar em Tóquio." -->
-<!-- "Na semana que vem fomos trabalhar em Tóquio." -->
-      <antipattern>
-          <token postag_regexp="yes" postag="VMIP3S0|VMM02S0"></token>
-		  <token postag_regexp="yes" postag="VMIF1S0|VMIS1S0|VMIF1P0|VMM01P0|VMSP1P0|VMIP1S0|VMIP1P0|VMIS1P0"></token>
-          <token postag_regexp="no" postag="VMN0000"></token>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-04-29 *END* -->
 <!-- MARCOAGPINTO 2020-05-03 *START* -->
 <!-- "Quem quiser pode ficar. " -->
       <antipattern>
@@ -1307,6 +1294,14 @@ title="Easy editing stylesheet" ?>
       </antipattern>
 <!-- MARCOAGPINTO 2020-05-03 *END* -->
     <rule>
+<!-- MARCOAGPINTO 2020-07-14 (2-JUL-2020+) *START* -->
+<!-- "Na semana que vem vou ao cinema." -->
+      <antipattern>
+		  <token postag='CS|PE0CN000|PR0CN000|PT0CN000' postag_regexp='yes'/>
+		  <token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
+		  <token postag='V.+' postag_regexp='yes'/>		  
+      </antipattern>	  
+<!-- MARCOAGPINTO 2020-07-14 (2-JUL-2020+) *END* -->
       <pattern>
           <token inflected="yes" regexp='yes'>&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;
             <exception inflected='yes'>ser</exception>
