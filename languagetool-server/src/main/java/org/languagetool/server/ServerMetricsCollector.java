@@ -128,6 +128,9 @@ public class ServerMetricsCollector {
     .build("languagetool_hidden_matches_server_enabled", "Configuration of hidden matches server").register();
   private final Gauge hiddenMatchesServerStatus = Gauge
     .build("languagetool_hidden_matches_server_up", "Status of hidden matches server").register();
+  private final Counter hiddenMatchesServerRequests = Counter
+    .build("languagetool_hidden_matches_server_requests_total", "Number of hidden server requests by status")
+    .labelNames("status").register();
 
   private final CacheMetricsCollector cacheMetrics = new CacheMetricsCollector().register();
 
@@ -155,6 +158,16 @@ public class ServerMetricsCollector {
 
   public void logHiddenServerStatus(boolean up) {
     hiddenMatchesServerStatus.set(up ? 1.0 : 0.0);
+  }
+
+  public void logHiddenServerRequest(boolean success) {
+    if (hiddenMatchesServerStatus.get() == 0.0) {
+      hiddenMatchesServerRequests.labels("down").inc();
+    } else if (success) {
+      hiddenMatchesServerRequests.labels("success").inc();
+    } else {
+      hiddenMatchesServerRequests.labels("failure").inc();
+    }
   }
 
   public void logCheck(Language language, long milliseconds, int textSize, int matchCount,

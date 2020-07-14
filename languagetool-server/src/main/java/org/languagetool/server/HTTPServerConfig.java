@@ -89,6 +89,7 @@ public class HTTPServerConfig {
   protected String hiddenMatchesServer;
   protected int hiddenMatchesServerTimeout;
   protected int hiddenMatchesServerFailTimeout;
+  protected int hiddenMatchesServerFall;
   protected List<Language> hiddenMatchesLanguages = new ArrayList<>();
   protected String dbDriver = null;
   protected String dbUrl = null;
@@ -114,7 +115,7 @@ public class HTTPServerConfig {
     "beolingusFile", "blockedReferrers", "cacheSize", "cacheTTLSeconds",
     "dbDriver", "dbPassword", "dbUrl", "dbUsername", "disabledRuleIds", "fasttextBinary", "fasttextModel", "grammalectePassword",
     "grammalecteServer", "grammalecteUser", "hiddenMatchesLanguages", "hiddenMatchesServer", "hiddenMatchesServerFailTimeout",
-    "hiddenMatchesServerTimeout", "ipFingerprintFactor", "languageModel", "maxCheckThreads", "maxCheckTimeMillis",
+    "hiddenMatchesServerTimeout", "hiddenMatchesServerFall", "ipFingerprintFactor", "languageModel", "maxCheckThreads", "maxCheckTimeMillis",
     "maxCheckTimeWithApiKeyMillis", "maxErrorsPerWordRate", "maxPipelinePoolSize", "maxSpellingSuggestions", "maxTextHardLength",
     "maxTextLength", "maxTextLengthWithApiKey", "maxWorkQueueSize", "neuralNetworkModel", "pipelineCaching",
     "pipelineExpireTimeInSeconds", "pipelinePrewarming", "prometheusMonitoring", "prometheusPort", "remoteRulesFile",
@@ -287,6 +288,7 @@ public class HTTPServerConfig {
         hiddenMatchesServer = getOptionalProperty(props, "hiddenMatchesServer", null);
         hiddenMatchesServerTimeout = Integer.parseInt(getOptionalProperty(props, "hiddenMatchesServerTimeout", "1000"));
         hiddenMatchesServerFailTimeout = Integer.parseInt(getOptionalProperty(props, "hiddenMatchesServerFailTimeout", "10000"));
+        hiddenMatchesServerFall = Integer.parseInt(getOptionalProperty(props, "hiddenMatchesServerFall", "1"));
         String langCodes = getOptionalProperty(props, "hiddenMatchesLanguages", "");
         for (String code : langCodes.split(",\\s*")) {
           if (!code.isEmpty()) {
@@ -812,6 +814,15 @@ public class HTTPServerConfig {
    */
   List<Language> getHiddenMatchesLanguages() {
     return hiddenMatchesLanguages;
+  }
+
+  /**
+   * Number of failed/timed out requests after which server gets marked as down
+   * @since 5.1
+   */
+  @Experimental
+  int getHiddenMatchesServerFall() {
+    return hiddenMatchesServerFall;
   }
 
   /**

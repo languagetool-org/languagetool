@@ -86,6 +86,8 @@ abstract class TextChecker {
   // keep track of timeouts of the hidden matches server, check health periodically;
   // -1 => healthy, else => check timed out at given date, check back if time difference > config.getHiddenMatchesFailTimeout()
   private long lastHiddenMatchesServerTimeout;
+  // counter; mark as down if this reaches hidenMatchesServerFall
+  private long hiddenMatchesServerFailures = 0;
   private final LanguageIdentifier identifier;
   private final ExecutorService executorService;
   private final ResultCache cache;
@@ -185,7 +187,7 @@ abstract class TextChecker {
     executorService.shutdownNow();
     RemoteRule.shutdown();
   }
-  
+
   void checkText(AnnotatedText aText, HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter,
                  String remoteAddress) throws Exception {
     checkParams(parameters);
@@ -342,7 +344,7 @@ abstract class TextChecker {
     int textSize = aText.getPlainText().length();
 
     List<RuleMatch> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
-    
+
     Future<List<RuleMatch>> future = executorService.submit(new Callable<List<RuleMatch>>() {
       @Override
       public List<RuleMatch> call() throws Exception {
@@ -396,7 +398,7 @@ abstract class TextChecker {
       if (params.allowIncompleteResults) {
         logger.info(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
         matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
-        incompleteResultReason = "Results are incomplete: text checking took longer than allowed maximum of " + 
+        incompleteResultReason = "Results are incomplete: text checking took longer than allowed maximum of " +
                 String.format(Locale.ENGLISH, "%.2f", limits.getMaxCheckTimeMillis()/1000.0) + " seconds";
       } else {
         ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.MAX_CHECK_TIME);
@@ -414,6 +416,7 @@ abstract class TextChecker {
       if(config.getHiddenMatchesServerFailTimeout() > 0 && lastHiddenMatchesServerTimeout != -1 &&
         System.currentTimeMillis() - lastHiddenMatchesServerTimeout < config.getHiddenMatchesServerFailTimeout()) {
         ServerMetricsCollector.getInstance().logHiddenServerStatus(false);
+        ServerMetricsCollector.getInstance().logHiddenServerRequest(false);
         logger.warn("Warn: Skipped querying hidden matches server at " +
           config.getHiddenMatchesServer() + " because of recent error/timeout (timeout=" + config.getHiddenMatchesServerFailTimeout() + "ms).");
       } else {
@@ -426,10 +429,18 @@ abstract class TextChecker {
           logger.info("Hidden matches: " + extensionMatches.size() + " -> " + hiddenMatches.size() + " in " + (end - start) + "ms for " + lang.getShortCodeWithCountryAndVariant());
           ServerMetricsCollector.getInstance().logHiddenServerStatus(true);
           lastHiddenMatchesServerTimeout = -1;
+          hiddenMatchesServerFailures = 0;
+          ServerMetricsCollector.getInstance().logHiddenServerRequest(true);
         } catch (Exception e) {
-          ServerMetricsCollector.getInstance().logHiddenServerStatus(false);
-          logger.warn("Failed to query hidden matches server at " + config.getHiddenMatchesServer() + ": " + e.getClass() + ": " + e.getMessage() + ", input was " + aText.getPlainText().length() + " characters");
-          lastHiddenMatchesServerTimeout = System.currentTimeMillis();
+          ServerMetricsCollector.getInstance().logHiddenServerRequest(false);
+          hiddenMatchesServerFailures++;
+          if (hiddenMatchesServerFailures >= config.getHiddenMatchesServerFall()) {
+            ServerMetricsCollector.getInstance().logHiddenServerStatus(false);
+            logger.warn("Failed to query hidden matches server at " + config.getHiddenMatchesServer() + ": " + e.getClass() + ": " + e.getMessage() + ", input was " + aText.getPlainText().length() + " characters - marked as down now");
+            lastHiddenMatchesServerTimeout = System.currentTimeMillis();
+          } else {
+            logger.warn("Failed to query hidden matches server at " + config.getHiddenMatchesServer() + ": " + e.getClass() + ": " + e.getMessage() + ", input was " + aText.getPlainText().length() + " characters - " + (config.getHiddenMatchesServerFall() - hiddenMatchesServerFailures) + " errors until marked as down");
+          }
         }
       }
     }
