@@ -3233,7 +3233,7 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="BEITEL_BIJTEL" name="waarschuwing bij gebruik beitel i.p.v. bijtel">
 			<rule>
 				<pattern>
-					   <token>bijtel</token>
+					   <token case_sensitive="yes">bijtel</token>
 				</pattern>
 				<message>Bedoelt u wellicht <suggestion>beitel</suggestion> (steekgereedschap)? Of toch optellen?</message>
 				<example correction="beitel">Het woord <marker>bijtel</marker> kan een vergissing zijn.</example>
@@ -5031,7 +5031,8 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		-->
-		<rulegroup id="FOREN_VOREN" name="waarschuwing bij gebruik foren i.p.v. voren">
+		<rulegroup id="FOREN_VOREN" name="waarschuwing bij gebruik foren i.p.v. voren" default="temp_off">
+            <!-- TODO : delete> -->
 			<rule>
 				<pattern>
 					   <token>foren</token>
@@ -34678,7 +34679,7 @@ steenwijk;Steenwijk
 					<token>in</token>
 					<token>een</token>
 					<token>dozijn</token>
-					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer</exception><exception postag_regexp="yes" postag="VRZ|BNW.*"/></token>
+					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer|kunnen</exception><exception postag_regexp="yes" postag="VRZ|BNW.*"/></token>
 				</pattern>
 				<message>U bedoelt vast: <suggestion>\1-\2-\3-\4\5</suggestion> of <suggestion>\1-\2-\3-\4-\5</suggestion></message>
 				<url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
