@@ -3792,7 +3792,7 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="SULT_ZULT" name="waarschuwing bij gebruik sult i.p.v. zult">
 			<rule>
 				<pattern>
-					   <token>sult</token>
+					   <token case_sensitive="yes">sult</token>
 				</pattern>
 				<message>Bedoelt u wellicht <suggestion>zult</suggestion>?</message>
 				<example correction="zult">Het woord <marker>sult</marker> kan een vergissing zijn.</example>
@@ -3944,7 +3944,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="SEIS_ZEIS" name="waarschuwing bij gebruik seis i.p.v. zeis">
 			<rule>
-				<pattern><token>seis</token></pattern>
+				<pattern><token case_sensitive="yes">seis</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>zeis</suggestion> (om te maaien)?</message>
 				<example correction="zeis">Het woord <marker>seis</marker> kan een vergissing zijn.</example>
 			</rule>
@@ -5262,8 +5262,8 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>fazen</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>vazen</suggestion>?</message>
-				<example correction="vazen">Het woord <marker>fazen</marker> kan een vergissing zijn.</example>
+				<message>Bedoelt u wellicht <suggestion>vazen</suggestion> of <suggestion>fasen</suggestion>?</message>
+				<example correction="vazen|fasen">Het woord <marker>fazen</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
 
@@ -5290,6 +5290,7 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="FRIES_VRIES" name="waarschuwing bij gebruik fries i.p.v. vries">
 			<antipattern><token case_sensitive="yes">Fries</token></antipattern>
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(gepleisterd|arcade|versiering|daklijst|gevel|lijstgoot|pilaster|kroonlijst|gemetseld|traveën).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					   <token>fries</token>
 				</pattern>
@@ -34879,7 +34880,7 @@ steenwijk;Steenwijk
 					<token>man</token>
 					<token>tegen</token>
 					<token>man</token>
-					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer|wel|wil</exception><exception postag_regexp="yes" postag="VRZ|BNW.*"/></token>
+					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer|wel|wil|moet|was|gevochten|tegen</exception><exception postag_regexp="yes" postag="VRZ|BNW.*"/></token>
 				</pattern>
 				<message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 				<url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
