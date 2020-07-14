@@ -2536,7 +2536,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="VERWIJDEN_VERWEIDEN" name="waarschuwing bij gebruik verweiden i.p.v. verwijden">
 			<rule>
-                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">vee|.*(ontworm).*</token><token postag="SENT_END"/></antipattern>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">vee|.*(ontworm|rund).*</token><token postag="SENT_END"/></antipattern>
 				<pattern><token inflected="yes">verweiden</token></pattern>
 				<message>Bedoelt u wellicht <suggestion><match no="1" regexp_match="weid" regexp_replace="wijd"/></suggestion>? Verwijden=groter maken, verweiden=in andere weide zetten.</message>
 				<example correction="verwijden">Het woord <marker>verweiden</marker> kan een vergissing zijn.</example>
@@ -3950,6 +3950,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="SIER_ZIER" name="waarschuwing bij gebruik sier i.p.v. zier">
 			<rule>
+                <antipattern><token>goede</token><token>sier</token></antipattern>
 				<pattern>
 					<token skip="2">geen</token>
 					<marker>
@@ -4736,7 +4737,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>leisen</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>leizen</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>leizen</suggestion> (lange lui) of toch gezang?</message>
 				<example correction="leizen">Het woord <marker>leisen</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -4825,6 +4826,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="SOLDERINKJE_ZOLDERINKJE" name="waarschuwing bij gebruik solderinkje i.p.v. zolderinkje">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(koper|kabel|ele[ck]tr).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					   <token>solderinkje</token>
 				</pattern>
@@ -5722,7 +5724,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="FIERDER_VIERDER" name="waarschuwing bij gebruik fierder i.p.v. vierder">
 			<rule>
-				<pattern><token>fierder</token></pattern>
+				<pattern case_sensitive="yes"><token>fierder</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>vierder</suggestion> (feestganger)? Of toch 'meer fier'?</message>
 				<example correction="vierder">Het woord <marker>fierder</marker> kan een vergissing zijn.</example>
 			</rule>
@@ -6015,7 +6017,8 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="WEIFELDEN_WEIVELDEN" name="waarschuwing bij gebruik weifelden i.p.v. weivelden">
+		<rulegroup id="WEIFELDEN_WEIVELDEN" name="waarschuwing bij gebruik weifelden i.p.v. weivelden" default="temp_off">
+            <!-- TODO do final check for deletion later -->
 			<rule>
 				<pattern>
 					   <token>weifelden</token>
@@ -6425,7 +6428,7 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="CABINETJE_KABINETJE" name="waarschuwing bij gebruik kabinetje i.p.v. cabinetje">
 			<rule>
 				<pattern><token regexp="yes">kabinetjes?</token></pattern>
-				<message>Bedoelt u wellicht <suggestion><match no="1" regexp_match="kabine" regexp_replace="cabine"/></suggestion> (van de regering)? Of toch een kleine cabine?</message>
+				<message>Bedoelt u wellicht <suggestion><match no="1" regexp_match="kabine" regexp_replace="cabine"/></suggestion> (kleine cabine)? Of toch de regering of kast?</message>
 				<example correction="cabinetje">Het woord <marker>kabinetje</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -6823,7 +6826,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="MACA_MAKA" name="waarschuwing bij gebruik maka i.p.v. maca">
 			<rule>
-				<pattern><token>maka</token></pattern>
+				<pattern case_sensitive="yes"><token>maka</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>maca</suggestion> (plant)? Maka is Surinaams.</message>
 				<example correction="maca">Het woord <marker>maka</marker> kan een vergissing zijn.</example>
 			</rule>
@@ -10798,13 +10801,12 @@ onwaarschijnlijk
 			</rule>
 			<rule>
 				<pattern>
-					<token><exception>prikkelbare</exception></token>
+					<token postag_regexp="yes" postag="BNW:STL:VRB"/>
 					<token>darmsyndroom</token>
 				</pattern>
-				<message>U bedoelt mogelijk: <suggestion>prikkelbaredarmsyndroom</suggestion></message>
+				<message>U bedoelt mogelijk: <suggestion>\1darmsyndroom</suggestion></message>
 				<url>http://woordenlijst.org/#/?q=prikkelbaredarmsyndroom</url>
-				<example correction="prikkelbaredarmsyndroom">Dit is een <marker>prikkelbaar darmsyndroom</marker>.</example>
-				<example>Dit is een <marker>prikkelbaredarmsyndroom</marker>.</example>
+				<example correction="kortedarmsyndroom">Dit is een <marker>korte darmsyndroom</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="VAN_TE_VOREN" name="van te voren → van tevoren">
@@ -11014,7 +11016,7 @@ onwaarschijnlijk
 			<!-- 2017-06-21 by TaalTik -->
 			<rule>
 				<pattern>
-					<token>jein</token>
+					<token case_sensitive="yes">jein</token>
 				</pattern>
 				<message>Hoewel '<match no="1"/>' een correct woord is, is de kans groot dat hier <suggestion>je in</suggestion> moet staan.</message>
 				<example correction="je in">QQ <marker>jein</marker> QQQ.</example>
@@ -11305,6 +11307,7 @@ onwaarschijnlijk
 		<rulegroup id="OPMAAT" name="opmaat → op maat">
 			<rule>
 				<!-- created 2017-06-22 by TaalTik -->
+                <antipattern><token>de</token><token>opmaat</token><token regexp="yes">naar|van|tot</token></antipattern>
 				<pattern>
 					<marker>
 						<token skip="3">opmaat</token>
@@ -17303,6 +17306,7 @@ steenwijk;Steenwijk
 		<rulegroup id="IJSLANDER" name="IJslander of ijslander">
 			<!-- 2014-08-19 TaalTik -->
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(toerist|buitenland).*</token><token postag="SENT_END"/></antipattern>
 				<pattern case_sensitive="yes">
 					<token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">rijd.*|draaf.*</exception></token>
 					<marker>
@@ -33856,7 +33860,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="EIGENER_1" name="uitdrukkingen met 'eigener'">
 			<rule>
-				<antipattern><token>eigener</token><token>beweging</token></antipattern>
+				<antipattern><token>eigener</token><token regexp="yes">beweging|'|dan</token></antipattern>
 				<pattern>
 					<token>eigener</token>
 					<token/>
@@ -34882,6 +34886,18 @@ steenwijk;Steenwijk
 				<url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
 				<example correction="mond-op-mondbeademing|mond-op-mond-beademing">Dit is een <marker>mond op mond beademing</marker>.</example>
 				<example correction="mond-op-mondkus|mond-op-mond-kus">Je hebt ook verschillende kussen: de gewone <marker>mond op mond kus</marker>, de kleine tongkus &amp; de echte 'french kiss'.</example>
+			</rule>
+			<rule>
+				<!-- TaalTik 2014-09-09  -->
+				<pattern>
+					<token>mond</token>
+					<token>op</token>
+					<token>neus</token>
+					<token>beademing</token>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
+				<url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
+				<example correction="mond-op-neusbeademing|mond-op-neus-beademing">Dit is een <marker>mond op neus beademing</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="MOND-OP-MOND-RECLAME" name="mond op mond reclame → mond-tot-mond-reclame">
@@ -37177,7 +37193,7 @@ steenwijk;Steenwijk
 					<token>ontroerend</token>
 					<token>goed</token>
 				</pattern>
-				<message>U bedoelt vast: <suggestion>onroerend goed</suggestion> (gebouwen).</message>
+				<message>U bedoelt vast: <suggestion>onroerend goed</suggestion> (gebouwen), of toch 'emotionerend'?</message>
 				<example correction="onroerend goed">Het <marker>ontroerend goed</marker> is onbetaalbaar.</example>
 				<example correction="onroerend goed">Een “getopte” boom kan zelfs de <marker>ontroerend goed</marker> waarde naar beneden brengen.</example> <!-- spatiefout ook! -->
 				<example correction="onroerend goed">Mulder voelde zich bij Anderlecht <marker>ontroerend goed</marker> in zijn vel.</example> <!-- false positive -->
