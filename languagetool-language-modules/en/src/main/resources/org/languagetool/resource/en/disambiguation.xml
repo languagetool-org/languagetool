@@ -2807,6 +2807,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>it</token>
             <token case_sensitive="yes">Black</token>
         </antipattern>
+        <antipattern><!-- #2521 you no answer me -->
+            <token regexp="yes">&subject_pronouns;</token>
+            <token postag="DT"/>
+            <token/><!-- answer/E-NP-singular -->
+            <token regexp="yes">&object_pronouns;</token>
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT|RB" postag_regexp="yes" /><exception regexp="yes">th[eo]se|each|that|much</exception></token>
             <marker>
@@ -2840,7 +2846,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Especially the <marker>Paint it Black</marker> suite.</example><!-- #2521 -->
         <example type="untouched">But some <marker>call</marker> it surfing, while others ...</example><!-- #2592 -->
         <example type="untouched">But you know some <marker>call</marker> it surfing, while others ...</example><!-- #2592 -->
-
+        <example type="untouched">Why you no answer me?</example><!-- #3252 -->
+        <example type="untouched">I'm annoyed because she no talks us yesterday.</example><!-- #3252 -->
+        <example type="untouched">It the oil us in the reservoir, and thus the equipment failed.</example><!-- #3252 -->
     </rule>
 
     <rule name="each + verb/NN -&gt; NN" id="EACH_VB_NN">
