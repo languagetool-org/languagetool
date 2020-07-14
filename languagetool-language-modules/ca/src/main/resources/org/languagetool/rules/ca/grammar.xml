@@ -30444,6 +30444,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="ALLO_PER_LA_QUAL_COSA" name="*allò per la qual cosa">
+            <rule>
+                <pattern>
+                    <token>allò</token>
+                    <token>per</token>
+                    <token>la</token>
+                    <token>qual</token>
+                    <token>cosa</token>
+                </pattern>
+                <message>Construcció incorrecta.</message>
+                <suggestion>allò per què</suggestion>
+                <suggestion>la cosa per la qual</suggestion>
+                <example correction="allò per què|la cosa per la qual">Hem de fer <marker>allò per la qual cosa</marker> hem nascut.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>allò</token>
+                    <token>pe</token>
+                    <token>l</token>
+                    <token>que</token>
+                </pattern>
+                <message>Construcció probablement incorrecta.</message>
+                <suggestion>allò per què</suggestion>
+                <suggestion>la cosa per la qual</suggestion>
+                <example correction="allò per què|la cosa per la qual">Hem de fer <marker>allò pel que</marker> hem nascut.</example>
+            </rule>
+        </rulegroup>
         <rule id="RIURE_UNA_MICA" name="*fer uns riures/riure una mica">
             <pattern>
                 <token inflected="yes">fer</token>
