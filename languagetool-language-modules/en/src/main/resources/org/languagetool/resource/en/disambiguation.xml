@@ -2807,11 +2807,18 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>it</token>
             <token case_sensitive="yes">Black</token>
         </antipattern>
-        <antipattern><!-- #2521 you no answer me -->
+        <antipattern><!-- #3252 you no answer me -->
             <token regexp="yes">&subject_pronouns;</token>
             <token postag="DT"/>
             <token/><!-- answer/E-NP-singular -->
             <token regexp="yes">&object_pronouns;</token>
+        </antipattern>
+        <antipattern><!-- #3252 Why you no reply to me -->
+            <token postag_regexp="yes" postag="WRB|CC"/>
+            <token regexp="yes">&subject_pronouns;</token>
+            <token postag="DT"/>
+            <token/>
+            <token postag_regexp="yes" postag="TO|PRP\$"/>
         </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT|RB" postag_regexp="yes" /><exception regexp="yes">th[eo]se|each|that|much</exception></token>
@@ -2849,6 +2856,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Why you no answer me?</example><!-- #3252 -->
         <example type="untouched">I'm annoyed because she no talks us yesterday.</example><!-- #3252 -->
         <example type="untouched">It the oil us in the reservoir, and thus the equipment failed.</example><!-- #3252 -->
+        <example type="untouched">Why you no reply to me?</example><!-- #3252 -->
+        <example type="untouched">Why you no answer my question?</example><!-- #3252 -->
     </rule>
 
     <rule name="each + verb/NN -&gt; NN" id="EACH_VB_NN">
