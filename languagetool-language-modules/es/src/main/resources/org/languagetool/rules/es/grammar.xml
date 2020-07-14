@@ -8801,6 +8801,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Quería decir <suggestion>este</suggestion>?</message>
             <example correction="este">En <marker>esto</marker> campo es el mejor.</example>
         </rule>-->
+        <rulegroup id="PRONOMBRE_SIN_VERBO" name="pronombre si verbo" default="temp_off">
+            <antipattern>
+                <token regexp="yes">&pronombre_personal_atono;</token>
+                <token postag="V.[IS].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&pronombre_personal_atono;</token>
+                <token regexp="yes">&pronombre_personal_atono;</token>
+                <token postag="V.[IS].*" postag_regexp="yes"/>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>le</token>
+                </pattern>
+                <message>Posible confusión. Pronombre átono sin verbo.</message>
+                <suggestion>el</suggestion>
+                <suggestion>la</suggestion>
+                <example correction="El|La"><marker>Le</marker> tiempo perdido.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>les</token>
+                </pattern>
+                <message>Posible confusión. Pronombre átono sin verbo.</message>
+                <suggestion>las</suggestion>
+                <suggestion>los</suggestion>
+                <example correction="Los|Las"><marker>Les</marker> buenos tiempos.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>te</token>
+                </pattern>
+                <message>Posible confusión. Pronombre átono sin verbo.</message>
+                <suggestion>de</suggestion>
+                <suggestion>el</suggestion>
+                <example correction="de|el">Es <marker>te</marker> hoy.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">me|se|nos|os</token>
+                    <!--|lo|los|la|las-->
+                </pattern>
+                <message>Posible confusión. Pronombre átono sin verbo.</message>
+                <example><marker>Nos</marker> buenos tiempos</example>
+            </rule>
+        </rulegroup>
         <rule id="MANTELO" name="mantelo/mantenlo">
             <pattern>
                 <token>mantelo<exception postag="SPS00|D..MS." postag_regexp="yes" scope="previous"/></token>
