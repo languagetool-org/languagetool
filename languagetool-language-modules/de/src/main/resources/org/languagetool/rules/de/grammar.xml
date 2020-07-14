@@ -3242,6 +3242,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>de</token>
                     <token>Chevalier</token>
                 </antipattern>
+                <antipattern>
+                    <token>Rival</token>
+                    <token>de</token>
+                    <token regexp="yes">Loops?</token>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token regexp="yes">Sainte?\-.*|Bouillon|Grande?|Bibliographie|Gendarmes</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">Tour|Amateurs|Internationale|Mondiale|Francisco|Hugues|Dôme</token>
+                    <token>de</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token negate="yes" regexp="yes">\.|van|/|.*[ÁáÀàÇçÉéÈèÍíÌìÓóÒòÚúÙù].*</token>
                     <marker>
@@ -9403,7 +9416,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rulegroup id="GET_TOGETHER" name="Get-together" default="temp_off">
+        <rulegroup id="GET_TOGETHER" name="Get-together">
             <url>https://www.duden.de/rechtschreibung/Get_together</url>
             <rule>
                 <pattern>
