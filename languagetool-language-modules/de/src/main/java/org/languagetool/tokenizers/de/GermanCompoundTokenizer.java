@@ -140,6 +140,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Siebengestirns", asList("Sieben", "gestirns"));
     wordSplitter.addException("Siebengestirnes", asList("Sieben", "gestirnes"));
     wordSplitter.addException("Alpinforum", asList("Alpin", "forum"));
+    wordSplitter.addException("Rollerskate", asList("Rollerskate"));
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }
