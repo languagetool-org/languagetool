@@ -4272,6 +4272,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" regexp_match="(.+)S" regexp_replace="$1"/></suggestion>
                 <example correction="ONG">las <marker>ONGS</marker></example>
             </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">.*\p{Ll}</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">(ERE)S<exception postag="N,*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>El plural de las siglas no se marca gráficamente.</message>
+                <suggestion><match no="2" regexp_match="(.+)S" regexp_replace="$1"/></suggestion>
+                <url>https://www.fundeu.es/recomendacion/los-ere-los-eres-pero-no-los-eres-ni-los-eres/</url>
+                <example correction="ERE">los <marker>ERES</marker></example>
+            </rule>
         </rulegroup>
         <rulegroup id="ABBREVIATION" name="abreviaturas">
             <url>https://www.rae.es/dpd/ayuda/abreviaturas</url>
