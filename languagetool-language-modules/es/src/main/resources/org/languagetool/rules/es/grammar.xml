@@ -454,7 +454,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="NP.*|N.*|A.*" postag_regexp="yes" min="1" max="3"/>
                     <token>?</token>
                 </pattern>
-                <message>Faltan tildes o una coma.</message>
+                <message>Faltan tildes y coma.</message>
                 <suggestion>¿<match no="2" regexp_match="(?iu)c[oó]mo" regexp_replace="cómo" case_conversion="preserve"/> <match no="3" regexp_match="(?iu)est[aá](i?s?n?)" regexp_replace="está$1" case_conversion="alllower"/>,</suggestion>
                 <example correction="¿Cómo estáis,">"<marker>Como estais</marker> amigos?</example>
                 <example correction="¿Cómo estás,"><marker>¿Cómo estas</marker> Jorge?</example>
@@ -3566,7 +3566,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag=".+[FC][PN].+|V.P..[PN][FC]" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token>cómo<exception scope="previous" postag="SPS00"/></token>
+                    <token regexp="yes">cómo|dónde|donde<exception scope="previous" postag="SPS00"/></token>
                     <marker>
                         <token>estas</token>
                     </marker>
@@ -3574,6 +3574,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es del verbo 'estar', lleva tilde.</message>
                 <suggestion>estás</suggestion>
                 <example correction="estás">¿Cómo <marker>estas</marker>?</example>
+                <example correction="estás">¿Dónde <marker>estas</marker>, Gabriela?</example>
+                <example correction="estás">¿Dónde <marker>estas</marker> Gabriela?</example>
                 <example>¿Como estas?</example>
                 <example>de cómo estas células se regulan</example>
             </rule>
