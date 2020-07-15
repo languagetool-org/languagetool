@@ -52,7 +52,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
 
   private final List<DisambiguationPatternRule> rulegroupAntiPatterns = new ArrayList<>();
   private final List<DisambiguationPatternRule> ruleAntiPatterns = new ArrayList<>();
-  private final List<String> tags = new ArrayList<>();
+  private final List<String> categoryTags = new ArrayList<>();
+  private final List<String> ruleGroupTags = new ArrayList<>();
+  private final List<String> ruleTags = new ArrayList<>();
 
   private int subId;
   private boolean interpretPosTagsPreDisambiguation;
@@ -116,7 +118,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
           categoryIssueType = attrs.getValue(TYPE);
         }
         if (attrs.getValue("tags") != null) {
-          tags.addAll(Arrays.asList(attrs.getValue("tags").split(" ")));
+          categoryTags.addAll(Arrays.asList(attrs.getValue("tags").split(" ")));
         }
         break;
       case "rules":
@@ -178,7 +180,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         }
         isRuleSuppressMisspelled = false;
         if (attrs.getValue("tags") != null) {
-          tags.addAll(Arrays.asList(attrs.getValue("tags").split(" ")));
+          ruleTags.addAll(Arrays.asList(attrs.getValue("tags").split(" ")));
         }
         break;
       case PATTERN:
@@ -299,7 +301,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
           ruleGroupIssueType = attrs.getValue(TYPE);
         }
         if (attrs.getValue("tags") != null) {
-          tags.addAll(Arrays.asList(attrs.getValue("tags").split(" ")));
+          ruleGroupTags.addAll(Arrays.asList(attrs.getValue("tags").split(" ")));
         }
         break;
       case MATCH:
@@ -349,6 +351,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
     switch (qName) {
       case "category":
         categoryIssueType = null;
+        categoryTags.clear();
         break;
       case "regexp":
         inRegex = false;
@@ -390,7 +393,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         inRule = false;
         filterClassName = null;
         filterArgs = null;
-        tags.clear();
+        ruleTags.clear();
         break;
       case EXCEPTION:
         finalizeExceptions();
@@ -517,6 +520,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         ruleGroupDefaultTempOff = false;
         defaultOff = false;
         defaultTempOff = false;
+        ruleGroupTags.clear();
         break;
       case MARKER:
         if (inCorrectExample) {
@@ -590,7 +594,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
         rule = new PatternRule(id, language, tmpPatternTokens, name,
                 message.toString(), shortMessage,
                 suggestionsOutMsg.toString(), phrasePatternTokens.size() > 1, interpretPosTagsPreDisambiguation);
-        rule.addTags(tags);
+        rule.addTags(ruleTags);
+        rule.addTags(ruleGroupTags);
+        rule.addTags(categoryTags);
         rule.setSourceFile(sourceFile);
       } else if (regex.length() > 0) {
         int flags = regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE;
@@ -682,10 +688,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
       rule.setAntiPatterns(ruleAntiPatterns);
       ruleAntiPatterns.clear();
     }
-    if (!tags.isEmpty()) {
-      rule.addTags(tags);
-      tags.clear();
-    }
+    rule.addTags(ruleTags);
+    rule.addTags(ruleGroupTags);
+    rule.addTags(categoryTags);
     if (inRuleGroup) {
       rule.setSubId(Integer.toString(subId));
     } else {
