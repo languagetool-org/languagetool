@@ -10943,9 +10943,9 @@ onwaarschijnlijk
 		<rulegroup id="DAT_ER" name="dater → dat er">
 			<rule>
 				<!-- generated 2017-06-21 by TaalTik -->
-				<pattern>
-					<token>dater</token>
-				</pattern>
+				<antipattern><token regexp="yes">de|een|elke|iedere</token><token>dater</token></antipattern>
+				<antipattern><token postag="BNW.*VRB" postag_regexp="yes"/><token>dater</token></antipattern>
+				<pattern><token>dater</token></pattern>
 				<message>Hoewel '<match no="1"/>' een correct woord is, is de kans groot dat hier <suggestion>dat er</suggestion> moet staan.</message>
 				<example correction="dat er">QQ <marker>dater</marker> QQQ.</example>
 				<example>QQ <marker>dat er</marker> QQQ.</example>
@@ -18515,14 +18515,14 @@ steenwijk;Steenwijk
 				<example>Niet als <marker>het</marker> firma Janssen betreft.</example>
 			</rule>
 		</rulegroup>
-<!-- TODO CHECK TODO -->
+
 		<rulegroup id="WIKKEN" name="wikken zonder wegen" >
+			<!-- TODO heeft de regel zo wel zin? -->
 			<rule>
 				<antipattern><token postag="SENT_START" skip="-1"/><token>wegen</token></antipattern>
-				<pattern>
-					<token>wikken</token>
-				</pattern>
-				<message>Verwacht wordt: 'wikken en wegen'. Is dit een typfout?</message>
+				<antipattern><token>wikken</token><token>en</token><token>wegen</token></antipattern>
+				<pattern><token>wikken</token></pattern>
+				<message>Het woord 'wikken'staat meestal in 'wikken en wegen'. Maar het kan ook het meervoud van 'wikke' (plant) zijn en ook los worden gebrukt als 'afwegen'.</message>
 				<example type="incorrect">Ik loop door de <marker>wikken</marker> heen.</example>
 			</rule>
 		</rulegroup>
@@ -18569,12 +18569,11 @@ steenwijk;Steenwijk
 					<token regexp="yes">€[a-z]{4}.*</token>
 				</pattern>
 				<message>Gebruik een koppelteken na een symbool in een samengesteld woord. Gebruik het euroteken ook niet als letter.</message>
-				<suggestion><match no="1" regexp_match="(€)(.*)" regexp_replace="$1-$2"/></suggestion>
-				<suggestion><match no="1" regexp_match="(€)" regexp_replace="€ "/></suggestion>
-				<suggestion><match no="1" regexp_match="€" regexp_replace="E"/></suggestion>
+				<suggestion suppress_misspelled="yes"><match no="1" regexp_match="(€)(.*)" regexp_replace="$1-$2"/></suggestion>
+				<suggestion suppress_misspelled="yes"><match no="1" regexp_match="€" regexp_replace="E"/></suggestion>
 				<short>spatie na EUR (EUR_004)</short>
-				<example correction="€-teken|€ teken|Eteken">Hij gaf mij een <marker>€teken</marker>.</example>
-				<example correction="€-uromuntje|€ uromuntje|Euromuntje">Hij gaf mij een <marker>€uromuntje</marker>.</example>
+				<example correction="€-teken">Hij gaf mij een <marker>€teken</marker>.</example>
+				<example correction="Euromuntje">Hij gaf mij een <marker>€uromuntje</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="EURO" name="Correcties rond euro">
@@ -25344,7 +25343,7 @@ steenwijk;Steenwijk
 		<rulegroup id="KWESTIEUS" name="kwestieus">
 			<rule>
 				<pattern>
-					<token>kwestieus</token>
+					<token case_sensitive="yes">kwestieus</token>
 				</pattern>
 				<message>De tekst wordt vlotter als u deze herschrijft met <suggestion>twijfelachtig</suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
@@ -32845,14 +32844,18 @@ steenwijk;Steenwijk
 		<!-- TaalTik 2014-09-26 nieuw -->
 		<rulegroup id="BUIGEN_OP" name="Buigen op / bogen op">
 			<rule>
+				<antipattern><token>af</token><token inflected="yes">kunnen</token></antipattern>
 				<pattern>
-					<token>buigen</token>
+					<token skip="-1" inflected="yes">kunnen</token>
+					<marker>
+						<token>buigen</token>
+					</marker>
 					<token>op</token>
 				</pattern>
-				<message>U bedoelt vast: <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">bogen</match> op</suggestion> (terugvallen op).</message>
+				<message>U bedoelt mogelijk: <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">bogen</match></suggestion> (terugvallen).</message>
 				<url>https://onzetaal.nl/taaladvies/advies/bogen-buigen-op</url>
-				<example correction="bogen op">De oprichters kunnen <marker>buigen op</marker> jaren ervaring in online verkoop.</example>
-				<example correction="bogen op">Bovendien kunnen onze wijnbouwers na al die jaren ook <marker>buigen op</marker> een grotere knowhow."</example>
+				<example correction="bogen">De oprichters kunnen <marker>buigen</marker> op jaren ervaring in online verkoop.</example>
+				<example correction="bogen">Bovendien kunnen onze wijnbouwers na al die jaren ook <marker>buigen</marker> op een grotere knowhow."</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="MONOPOLIEN" name="monopoliën of monopolyen">
