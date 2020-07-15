@@ -260,6 +260,7 @@ public class English extends Language implements AutoCloseable {
       case "EN_COMPOUNDS":              return 2;
       case "ABBREVIATION_PUNCTUATION":  return 2;
       case "COVID_19":                  return 1;
+      case "FOLLOW_UP":                 return 1;   // higher prio than MANY_NN
       case "IT_SOMETHING":              return 1;   // higher prio than IF_YOU_ANY
       case "NO_KNOW":                   return 1;   // higher prio than DOUBLE_NEGATIVE
       case "FEDEX":                     return 1;   // higher prio than PLEASE_VB
@@ -302,7 +303,7 @@ public class English extends Language implements AutoCloseable {
       case "RUDE_SARCASTIC":            return 6;   // prefer over spell checker
       case "CHILDISH_LANGUAGE":         return 8;   // prefer over spell checker
       case "EN_DIACRITICS_REPLACE":     return 9;   // prefer over spell checker (like PHRASE_REPETITION)
-      case "BLACK_SEA":                 return -1;  // less priority than SEA_COMPOUNDS
+      case "MANY_NN":                   return -1;  // less priority than PUSH_UP_HYPHEN
       case "WE_BE":                     return -1;
       case "A_LOT_OF_NN":               return -1;
       case "IT_VBZ":                    return -1;
