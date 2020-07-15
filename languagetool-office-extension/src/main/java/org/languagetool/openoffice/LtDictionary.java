@@ -86,7 +86,11 @@ public class LtDictionary {
   private List<String> getManualWordList(Locale locale, LinguisticServices linguServices) {
     List<String> words = new ArrayList<>();
     String shortLangCode = locale.Language;
-    String path = "/" + shortLangCode + "/added.txt";
+    String path;
+/*
+ *  Deactivated because of discussion in issue #3202
+ *  
+    path = "/" + shortLangCode + "/added.txt";
     if (JLanguageTool.getDataBroker().resourceExists(path)) {
       List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
       if (lines != null) {
@@ -100,6 +104,7 @@ public class LtDictionary {
         }
       }
     }
+*/
     for (int i = 0; i < 4; i++) {
       if (i == 0) {
         path = "/" + shortLangCode + "/spelling.txt";
