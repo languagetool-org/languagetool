@@ -11606,6 +11606,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="A.*|N.*|V.P.*"/>
     </rule>
+    <rule id="tant_no_det" name="tant: no determinant">
+        <pattern>
+            <token postag="V.*" postag_regexp="yes"/>
+            <marker>
+                <token regexp="yes">tant|molt</token>
+            </marker>
+            <token postag="NP.*|V.N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="D.*"/>
+    </rule>
     <rulegroup id="mig_x_mig_y" name="mig x mig y. Ex: mig figa mig raïm">
         <rule>
             <pattern>
