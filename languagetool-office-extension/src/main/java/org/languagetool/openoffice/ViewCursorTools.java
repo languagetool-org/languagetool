@@ -78,6 +78,48 @@ public class ViewCursorTools {
   }
   
   /** 
+   * Returns text cursor from start of ViewCursor 
+   * Returns null if method fails
+   */
+  XTextCursor getTextCursorBeginn() {
+    try {
+      XTextViewCursor xVCursor = getViewCursor();
+      if (xVCursor == null) {
+        return null;
+      }
+      XText xDocumentText = xVCursor.getText();
+      if (xDocumentText == null) {
+        return null;
+      }
+      return xDocumentText.createTextCursorByRange(xVCursor.getStart());
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      return null;             // Return null as method failed
+    }
+  }
+  
+  /** 
+   * Returns text cursor from end of ViewCursor 
+   * Returns null if method fails
+   */
+  XTextCursor getTextCursorEnd() {
+    try {
+      XTextViewCursor xVCursor = getViewCursor();
+      if (xVCursor == null) {
+        return null;
+      }
+      XText xDocumentText = xVCursor.getText();
+      if (xDocumentText == null) {
+        return null;
+      }
+      return xDocumentText.createTextCursorByRange(xVCursor.getEnd());
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      return null;             // Return null as method failed
+    }
+  }
+  
+  /** 
    * Returns a Paragraph cursor from ViewCursor 
    * Returns null if method fails
    */

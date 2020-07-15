@@ -166,6 +166,7 @@ class SingleDocument {
     }
     
     int paraNum = -1;
+    boolean isIntern = false;
     try {
       if(docReset) {
         numLastVCPara = 0;
@@ -176,6 +177,7 @@ class SingleDocument {
       this.paraNum = paraNum;
       if (nPara >= 0) {
         isDialogRequest.add(paraNum);
+        isIntern = true;
       }
       // Don't use Cache for check in single paragraph mode
       if(numParasToCheck != 0 && paraNum >= 0) {
@@ -209,11 +211,11 @@ class SingleDocument {
       }
 
       List<SingleProofreadingError[]> pErrors = checkTextRules(paraText, paraNum, paRes.nStartOfSentencePosition,
-          paRes.nStartOfNextSentencePosition, langTool);
+          paRes.nStartOfNextSentencePosition, langTool, isIntern);
 
       if(sErrors == null) {
         sErrors = checkSentence(text, paRes.nStartOfSentencePosition, paRes.nStartOfNextSentencePosition, 
-            paraNum, footnotePositions, langTool);
+            paraNum, footnotePositions, langTool, isIntern);
       }
       
       paRes.aErrors = mergeErrors(sErrors, pErrors);
@@ -892,11 +894,11 @@ class SingleDocument {
    * (for different kinds of text level rules)
    */
   private List<SingleProofreadingError[]> checkTextRules( String paraText, int paraNum, 
-      int startSentencePos, int endSentencePos, SwJLanguageTool langTool) {
+      int startSentencePos, int endSentencePos, SwJLanguageTool langTool, boolean isIntern) {
     List<SingleProofreadingError[]> pErrors = new ArrayList<>();
 
     if(paraNum < 0 || (numParasToCheck >= 0 && !doFullCheckAtFirst && !useQueue)) {
-      pErrors.add(checkParaRules(paraText, paraNum, startSentencePos, endSentencePos, langTool, 0, numParasToCheck));
+      pErrors.add(checkParaRules(paraText, paraNum, startSentencePos, endSentencePos, langTool, 0, numParasToCheck, isIntern));
       if(resetCheck.contains(paraNum)) {
         addChangedParas();
       }
@@ -929,7 +931,7 @@ class SingleDocument {
             paragraphsCache.set(i, new ResultCache(oldCache));
           }
         }
-        pErrors.add(checkParaRules(paraText, paraNum, startSentencePos, endSentencePos, langTool, i, parasToCheck));
+        pErrors.add(checkParaRules(paraText, paraNum, startSentencePos, endSentencePos, langTool, i, parasToCheck, isIntern));
         if(resetCheck.contains(paraNum) && !useQueue) {
           if(parasToCheck < 0) {
             tmpChangedParas = paragraphsCache.get(i).differenceInCaches(oldCache);
@@ -1046,15 +1048,15 @@ class SingleDocument {
    * run a text level check from a queue entry (initiated by the queue)
    */
   public void runQueueEntry(int nStart, int nEnd, int cacheNum, int nCheck, boolean doReset, SwJLanguageTool langTool) {
-    addParaErrorsToCache(nStart, langTool, cacheNum, nCheck, doReset);
+    addParaErrorsToCache(nStart, langTool, cacheNum, nCheck, doReset, false);
   }
 
   /**
    * check the text level rules associated with a given cache (cacheNum)
    */
   @Nullable
-  private SingleProofreadingError[] checkParaRules( String paraText, int paraNum, 
-      int startSentencePos, int endSentencePos, SwJLanguageTool langTool, int cacheNum, int parasToCheck) {
+  private SingleProofreadingError[] checkParaRules( String paraText, int paraNum, int startSentencePos, 
+          int endSentencePos, SwJLanguageTool langTool, int cacheNum, int parasToCheck, boolean isIntern) {
 
     List<RuleMatch> paragraphMatches;
     SingleProofreadingError[] pErrors = null;
@@ -1107,7 +1109,7 @@ class SingleDocument {
             if(toPos > paraText.length()) {
               toPos = paraText.length();
             }
-            errorList.add(createOOoError(myRuleMatch, 0, toPos, paraText.charAt(toPos-1)));
+            errorList.add(createOOoError(myRuleMatch, 0, toPos, isIntern ? ' ' : paraText.charAt(toPos-1)));
           }
           if (!errorList.isEmpty()) {
             if (paraNum < 0) {
@@ -1139,7 +1141,7 @@ class SingleDocument {
       }
 
       //  check of numParasToCheck or full text 
-      addParaErrorsToCache(paraNum, langTool, cacheNum, parasToCheck, false);
+      addParaErrorsToCache(paraNum, langTool, cacheNum, parasToCheck, false, isIntern);
       return paragraphsCache.get(cacheNum).getFromPara(paraNum, startSentencePos, endSentencePos);
 
     } catch (Throwable t) {
@@ -1152,7 +1154,8 @@ class SingleDocument {
    *   check for number of Paragraphs > 0, chapter wide or full text
    *   is also called by text level queue
    */
-  private void addParaErrorsToCache(int paraNum, SwJLanguageTool langTool, int cacheNum, int parasToCheck, boolean override) {
+  private void addParaErrorsToCache(int paraNum, SwJLanguageTool langTool, int cacheNum, int parasToCheck, 
+          boolean override, boolean isIntern) {
     //  make the method thread save
     MultiDocumentsHandler mDH = mDocHandler;
     FlatParagraphTools flatPara = this.flatPara;
@@ -1210,7 +1213,7 @@ class SingleDocument {
             if (startErrPos >= startPos && startErrPos < endPos) {
               int toPos = docCache.getTextParagraph(i).length();
               if(toPos > 0) {
-                errorList.add(createOOoError(myRuleMatch, -textPos, toPos, docCache.getTextParagraph(i).charAt(toPos-1)));
+                errorList.add(createOOoError(myRuleMatch, -textPos, toPos, isIntern ? ' ' : docCache.getTextParagraph(i).charAt(toPos-1)));
               }
             }
           }
@@ -1287,7 +1290,7 @@ class SingleDocument {
    * check a single sentence
    */
   private SingleProofreadingError[] checkSentence(String sentence, int startPos, int nextPos, 
-      int numCurPara, int[] footnotePositions, SwJLanguageTool langTool) {
+      int numCurPara, int[] footnotePositions, SwJLanguageTool langTool, boolean isIntern) {
     try {
       SingleProofreadingError[] errorArray;
       if (StringTools.isEmpty(sentence)) {
@@ -1305,7 +1308,7 @@ class SingleDocument {
           int i = 0;
           for (RuleMatch myRuleMatch : ruleMatches) {
             errorArray[i] = createOOoError(myRuleMatch, startPos,
-                                          sentence.length(), sentence.charAt(sentence.length()-1));
+                                          sentence.length(), isIntern ? ' ' : sentence.charAt(sentence.length()-1));
             i++;
           }
         } else {

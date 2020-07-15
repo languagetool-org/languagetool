@@ -1087,14 +1087,14 @@ public class MultiDocumentsHandler {
         deactivateRule();
         resetDocument();
       } else if ("checkDialog".equals(sEvent)) {
-        if (OfficeTools.DEVELOP_MODE) {
+//        if (OfficeTools.DEVELOP_MODE) {
           if (ltDialog != null) {
             ltDialog.closeDialog();
           }
           SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this);
           MessageHandler.printToLogFile("Start Spell And Grammar Check Dialog");
           checkDialog.start();
-        }
+//        }
       } else if ("nextError".equals(sEvent)) {
         SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this);
         checkDialog.nextError();

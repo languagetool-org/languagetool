@@ -61,13 +61,14 @@ class OfficeTools {
 
   
   public static int DEBUG_MODE_SD = 0;
-  public static boolean DEBUG_MODE_MD = false;
-  public static boolean DEBUG_MODE_DC = false;
-  public static boolean DEBUG_MODE_FP = false;
-  public static boolean DEBUG_MODE_LM = false;
-  public static boolean DEBUG_MODE_TQ = false;
-  public static boolean DEBUG_MODE_LD = false;
-  public static boolean DEVELOP_MODE = false;
+  public static boolean DEBUG_MODE_MD = false;    //  Activate Debug Mode for MultiDocumentsHandler
+  public static boolean DEBUG_MODE_DC = false;    //  Activate Debug Mode for DocumentCache
+  public static boolean DEBUG_MODE_FP = false;    //  Activate Debug Mode for FlatParagraphTools
+  public static boolean DEBUG_MODE_LM = false;    //  Activate Debug Mode for LanguageToolMenus
+  public static boolean DEBUG_MODE_TQ = false;    //  Activate Debug Mode for TextLevelCheckQueue
+  public static boolean DEBUG_MODE_LD = false;    //  Activate Debug Mode for LtDictionary
+  public static boolean DEBUG_MODE_CD = false;    //  Activate Debug Mode for SpellAndGrammarCheckDialog
+  public static boolean DEVELOP_MODE = false;     //  Activate Development Mode
 
   private static final String MENU_BAR = "private:resource/menubar/menubar";
   private static final String LOG_DELIMITER = ",";
@@ -331,6 +332,8 @@ class OfficeTools {
           DEBUG_MODE_TQ = true;
         } else if(level.equals("ld")) {
           DEBUG_MODE_LD = true;
+        } else if(level.equals("cd")) {
+          DEBUG_MODE_CD = true;
         } else if(level.equals("dev")) {
           DEVELOP_MODE = true;
         }
