@@ -649,7 +649,8 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="INSCHEUREN_INSCHUREN" name="waarschuwing bij gebruik inschuren i.p.v. inscheuren">
+		<rulegroup id="INSCHEUREN_INSCHUREN" name="waarschuwing bij gebruik inschuren i.p.v. inscheuren" default="temp_off">
+			<!-- TODO mogelijk schrappen -->
 			<rule>
 				<pattern>
 					   <token>inschuren</token>
@@ -18563,16 +18564,17 @@ steenwijk;Steenwijk
 	<category id="NOTATIES" name="Notaties" type="style">
 
 		<rulegroup id="EURO_TEKEN" name="€ teken → €-teken">
-			<!-- 2014-08-19 TaalTik	   Regel aangepast omdat de melding er vaak naast zat en het om een vergeten spatie ging. -->
 			<rule>
 				<pattern>
 					<token regexp="yes">€[a-z]{4}.*</token>
 				</pattern>
-				<message>Gebruik een koppelteken na een symbool in een samengesteld woord. <suggestion><match no="1" regexp_match="(€)(.*)" regexp_replace="$1-$2"/></suggestion> Of voeg een spatie toe <suggestion><match no="1" regexp_match="(€)" regexp_replace="€ "/></suggestion></message>
+				<message>Gebruik een koppelteken na een symbool in een samengesteld woord. Gebruik het euroteken ook niet als letter.</message>
+				<suggestion><match no="1" regexp_match="(€)(.*)" regexp_replace="$1-$2"/></suggestion>
+				<suggestion><match no="1" regexp_match="(€)" regexp_replace="€ "/></suggestion>
+				<suggestion><match no="1" regexp_match="€" regexp_replace="E"/></suggestion>
 				<short>spatie na EUR (EUR_004)</short>
-				<example correction="€-teken|€ teken">Hij gaf mij een <marker>€teken</marker>.</example>
-				<example>Hij gaf mij een <marker>€-teken</marker>.</example>
-				<example correction="€-centjes|€ centjes">Het was slechts een paar <marker>€centjes</marker> goedkoper geweest.</example>
+				<example correction="€-teken|€ teken|Eteken">Hij gaf mij een <marker>€teken</marker>.</example>
+				<example correction="€-uromuntje|€ uromuntje|Euromuntje">Hij gaf mij een <marker>€uromuntje</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="EURO" name="Correcties rond euro">
