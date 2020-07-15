@@ -367,11 +367,11 @@ public class UpperCaseNgramRule extends Rule {
       pos("SENT_END")
     ),
     Arrays.asList( // Please click Send
-      tokenRegex("click(ed|s)?|type(d|s)|hit"),
+      csRegex("click(ed|s)?|type(d|s)|hit"),
       tokenRegex("[A-Z].*")
     ),
     Arrays.asList( // Please click on Send
-      tokenRegex("click(ed|s)?"),
+      csRegex("click(ed|s)?"),
       tokenRegex("on|at"),
       tokenRegex("[A-Z].*")
     )
