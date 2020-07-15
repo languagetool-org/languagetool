@@ -138,7 +138,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // https://github.com/languagetool-org/languagetool/issues/1515
       SENT_START,
-      regex("▶︎|▶|▶️|→|\\*|•|-|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|☛|%|◆|▪|☞"),
+      regex("▶︎|▶|▶️|→|\\*|•|-|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|☛|%|◆|▪|☞|❤"),
       regex(".*")
     ),
     Arrays.asList(
@@ -534,7 +534,7 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList( // Hey Süßer,
       regex("Hey|Hi|Hallo|Na|Moin|Servus"),
-      regex("Süßer?|Hübscher?|Liebster?"),
+      regex("Süßer?|Hübscher?|Liebster?|Liebes"),
       pos("PKT")
     ),
     Arrays.asList( // Hey Matt (name),
@@ -667,6 +667,7 @@ public class CaseRule extends Rule {
     "Sa",   // Sa. 12 - 16 Uhr
     "Gr",   // "Gr. 12" (Größe)
     "Mag",   // "Mag. Helke Müller"
+    "Nov",
     "Diss",
     "Invalide",
     "Invalider",
@@ -856,6 +857,8 @@ public class CaseRule extends Rule {
     "Dozierende",
     "Dozierenden",
     "Studierende",
+    "Studierender",
+    "Studierenden",
     "Suchbegriffen",
     "Plattdeutsch",
     "Wallet",
@@ -871,6 +874,7 @@ public class CaseRule extends Rule {
     "Mitwirkender",
     "Mitwirkenden",
     "Selbstständige",
+    "Selbstständigen",
     "Selbstständiger",
     "Genaueres",
     "Äußersten",
