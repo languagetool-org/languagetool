@@ -69,6 +69,8 @@ public class UkrainianSRXSentenceTokenizerTest {
     testSplit("Від англ.\n  File.");
     testSplit("Від фр.  \nparachute.");
 
+    testSplit("Від р. Дніпро.");
+
     testSplit("інкримінують ч. 1 ст. 11");
 
     testSplit("В цих світлих просторих апартаментах...  м’які крісла, килими, дорогі статуетки");
@@ -101,6 +103,8 @@ public class UkrainianSRXSentenceTokenizerTest {
     testSplit("Швидкістю 30 м/с. ", "Поїхали.");
     testSplit("до 0,64 г/куб. дм. ", "Найчистіша");
     testSplit("Останні 100 м. ", "І тут все пропало.");
+    testSplit("всього 20 м. ", "Почалося");
+    testSplit(" січні 2013 р. ", "Як бачимо");
     testSplit("Корисна площа 67 тис. кв.  м. ", "У 1954 році над Держпромом...");
     testSplit("На 0,6°C. ", "Але ми все маємо."); //лат С 
     testSplit("На 0,6°С. ", "Але ми все маємо."); //укр С

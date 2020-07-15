@@ -5331,8 +5331,9 @@
 <beforebreak>(^|[ \t\u00A0\u202F])(\.\.\.|…)</beforebreak>
 <afterbreak>\p{Lu}</afterbreak>
 </rule>
+<!-- Наші в... Лос-Анджелесі -->
 <rule break="no">
-<beforebreak>(в|у|на|за|з|із|зі|зо)(\.\.\.|…)[ \t\u00A0\u202F]*</beforebreak>
+<beforebreak>\b(в|у|на|за|з|із|зі|зо)(\.\.\.|…)[ \t\u00A0\u202F]*</beforebreak>
 <afterbreak>\p{Lu}</afterbreak>
 </rule>
 <rule break="no">
@@ -5382,9 +5383,13 @@
 <beforebreak>(^|[\s\u00A0\u202F])Ів\.[\s\u00A0\u202F]</beforebreak>
 <afterbreak>[А-ЯІЇЄҐA-Z]</afterbreak>
 </rule>
-<!-- Year: 2000 р. -->
+<!-- Year: 2000 р.:
+    виробила у 2018 р. 8,1 млн декалітрів
+    від 26 квітня 2017 р. №35
+    а до лютого 2020 р. — затвердити
+-->
 <rule break="no">
-<beforebreak>\b([0-9]{2}|[0-9]{4})[\s\u00A0\u202F]р\.\s</beforebreak>
+<beforebreak>\b([0-9]{2}|[0-9]{4})[\s\u00A0\u202F]+р\.\s</beforebreak>
 <afterbreak>[\s\u00A0\u202F]*[№0-9-—–]</afterbreak>
 </rule>
 <!-- Years: рр. -->
@@ -5432,14 +5437,26 @@
 <beforebreak>\b(див)\.[\s\u00A0\u202F]</beforebreak>
 <afterbreak>[\s\u00A0\u202F]*[^А-ЯІЇЄҐ]</afterbreak>
 </rule>
-<!-- скорочення в дужках -->
+<!-- Верховний орган, див. Африканський національний конгрес -->
+<rule break="no">
+<beforebreak>[,–—-]\s*(див)\.[\s\u00A0\u202F]</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- скорочення в дужках:
+    України (див. Зимові походи)
+-->
 <rule break="no">
 <beforebreak>(\([^)]*|\[[^\]]*|,[\s\u00A0\u202F]*)\b(див)\.[\s\u00A0\u202F]*</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- abbreviation with proper noun: проф. Грицько, о. Лісове -->
 <rule break="no">
-<beforebreak>\b([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Рр]еж|[Аа]рх|[Сс]вв?|о|р|ім|упоряд|чл\.-кор)\.[ \t\u00A0\u202F]*</beforebreak>
+<beforebreak>\b([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Рр]еж|[Аа]рх|[Сс]вв?|о|ім|упоряд|чл\.-кор)\.[ \t\u00A0\u202F]*</beforebreak>
+<afterbreak>[ \t\u00A0\u202F]*[А-ЯІЇЄҐA-Z]</afterbreak>
+</rule>
+<!-- річка - р. Дніпро -->
+<rule break="no">
+<beforebreak>(?&lt;!\d[ \t\u00A0\u202F]*)\bр\.[ \t\u00A0\u202F]*</beforebreak>
 <afterbreak>[ \t\u00A0\u202F]*[А-ЯІЇЄҐA-Z]</afterbreak>
 </rule>
 <!-- смерть гр. Болтаровича -->
@@ -5453,14 +5470,15 @@
 <beforebreak>\bарт\.[\s\u00A0\u202F]*</beforebreak>
 <afterbreak>[\s\u00A0\u202F]*[0-9]</afterbreak>
 </rule>
+<!-- ХІІ р., 3-6 арт. -->
 <rule break="no">
 <beforebreak>[0-9][\s\u00A0\u202F]+арт\.[\s\u00A0\u202F]*</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- місто, але принаймні з парою літер в назві бо є ще метри (м) -->
-<!-- TODO: «всього 20 м. Почалося»  варто розбити -->
+<!-- але розбиваємо «всього 20 м. Почалося» -->
 <rule break="no">
-<beforebreak>\bм\.[\s\u00A0\u202F]*</beforebreak>
+<beforebreak>(?&lt;!\d[\s\u00A0\u202F]*)\bм\.[\s\u00A0\u202F]*</beforebreak>
 <afterbreak>[А-ЯІЇЄҐ][а-яіїєґ]</afterbreak>
 </rule>
 <!-- село/сторінка/місто, але щоб не збігалося з секундами/метрами -->
