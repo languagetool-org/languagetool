@@ -44642,6 +44642,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">obrir|tancar|reobrir</token>
+                    <token min="0" postag="RG"/>
                     <marker>
                         <token>les</token>
                         <token regexp="yes">seues|seves</token>
@@ -44649,8 +44650,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>El possessiu és redundant.</message>
-                <suggestion>\2 \4</suggestion>
+                <suggestion>\3 \5</suggestion>
                 <example correction="les portes">La botiga reobre <marker>les seves portes</marker>.</example>
+                <example correction="les portes">La botiga reobre temporalment <marker>les seves portes</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="FORT_RESPECTE" name="*fort/gran respecte">
