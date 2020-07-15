@@ -5698,6 +5698,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>to</token>
             <token chunk="E-NP-singular" postag_regexp="yes" postag="VBP?"/>
         </antipattern>
+        <antipattern><!-- #3255 but many fall by -->
+            <token postag="CC"/>
+            <token chunk="B-NP-singular" regexp="yes">both|some|many|th[eo]se|most</token>
+            <token chunk="E-NP-singular" postag_regexp="yes" postag="VBP?"/><!-- fall/E-NP-singular -->
+            <token postag="IN"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -5818,6 +5824,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Tom will have to work tomorrow.</example><!-- #3209 -->
         <example type="untouched">I've never had to work very hard.</example><!-- #3209 -->
         <example type="untouched">I hate having to part with you for a whole week.</example><!-- #3209 -->
+        <example type="untouched">The best ones succeed, but many fall by the wayside.</example><!-- #3255 -->
         <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
         <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
         <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">Does this <marker>work</marker> contain any errors?</example>
