@@ -308,6 +308,15 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="replace" postag="RG"/>
         </rule>
     </rulegroup>
+    <rule id="TAL" name="qué tal">
+        <pattern>
+            <token>qué</token>
+            <marker>
+                <token>tal</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="PD.*"/>
+    </rule>
     <rulegroup id="NADA" name="nada">
         <rule>
             <pattern>
@@ -2462,7 +2471,7 @@ Copyright (C) 2011 Juan Martorell
     </rule>
 
     <!-- NOMINAL GROUPS -->
-    
+
     <rulegroup id="los_distintos" name="los distintos">
         <rule>
             <pattern>
@@ -2471,7 +2480,7 @@ Copyright (C) 2011 Juan Martorell
                     <token inflected="yes" regexp="yes">varios|distintos|diferentes</token>
                 </marker>
             </pattern>
-            <disambig action="remove" postag="D.*"></disambig>
+            <disambig action="remove" postag="D.*"/>
         </rule>
         <rule>
             <pattern>
@@ -2481,7 +2490,7 @@ Copyright (C) 2011 Juan Martorell
                 <token>debido</token>
                 <token>a</token>
             </pattern>
-            <disambig action="remove" postag="D.*"></disambig>
+            <disambig action="remove" postag="D.*"/>
         </rule>
     </rulegroup>
 
