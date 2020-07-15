@@ -28,19 +28,19 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 /**
- * Russian version of {@link AbstractWordCoherencyRule}.
- *
+ * WordRootRepeatRule. Experimental.
+ * @Experimental
  * @author Yakov Reztsov
- * @since 3.6
+ * @since 5.1
  */
-public class RussianWordCoherencyRule extends AbstractWordCoherencyRule {
+public class RussianWordRootRepeatRule extends AbstractWordCoherencyRule {
 
-  private static final Map<String, Set<String>> wordMap = new WordCoherencyDataLoader().loadWords("/ru/coherency.txt");
+  private static final Map<String, Set<String>> wordMap = new WordCoherencyDataLoader().loadWords("/ru/wordrootrep.txt");
 
-  public RussianWordCoherencyRule(ResourceBundle messages) throws IOException {
+  public RussianWordRootRepeatRule(ResourceBundle messages) throws IOException {
     super(messages);
-    addExamplePair(Example.wrong("Понятие «оффлайн» тоже имеет английские корни и связано со словом «offline», что означает «вне сети». Принтер перешёл в состояние <marker>офлайн</marker>."),
-                   Example.fixed("Понятие «оффлайн» тоже имеет английские корни и связано со словом «offline», что означает «вне сети». Принтер перешёл в состояние <marker>оффлайн</marker>."));
+    addExamplePair(Example.wrong("Абрикос рос в саду. У меня на столе стоит <marker>абрикосный</marker> сок."),
+                   Example.fixed("Абрикос рос в саду. У меня на столе стоит сок из <marker>абрикосов</marker>."));
   }
 
   @Override
@@ -50,17 +50,17 @@ public class RussianWordCoherencyRule extends AbstractWordCoherencyRule {
 
   @Override
   protected String getMessage(String word1, String word2) {
-    return "«" + word1 + "» и «" + word2 + "» не следует использовать одновременно";
+    return "«" + word1 + "» и «" + word2 + "» – однокоренные слова, их не стоит использовать одновременно";
   }
   
   @Override
   public String getId() {
-    return "RU_WORD_COHERENCY";
+    return "RU_WORD_ROOT_REPEAT";
   }
 
   @Override
   public String getDescription() {
-    return "Единообразное написание слов с более чем одним допустимым написанием";
+    return "Повтор однокоренных слов";
   }
 
 }

@@ -125,6 +125,7 @@ public class Russian extends Language implements AutoCloseable {
             new RussianSimpleReplaceRule(messages),
             new RussianWordCoherencyRule(messages),
             new RussianWordRepeatRule(messages),
+            new RussianWordRootRepeatRule(messages),
             new RussianVerbConjugationRule(messages),
             new RussianDashRule(messages),
             new RussianSpecificCaseRule(messages)
