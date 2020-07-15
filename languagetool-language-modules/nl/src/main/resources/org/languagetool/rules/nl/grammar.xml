@@ -1624,7 +1624,8 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 		-->
 		
-		<rulegroup id="GEMOORD_GEMORD" name="waarschuwing bij gebruik gemord i.p.v. gemoord">
+		<rulegroup id="GEMOORD_GEMORD" name="waarschuwing bij gebruik gemord i.p.v. gemoord" default="temp_off">
+			<!-- TODO: verwijderen? -->
 			<rule>
 				<pattern>
 					   <token>gemord</token>
@@ -1794,17 +1795,6 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 
-<!--	te zeldzaam   
-		<rulegroup id="DOORRENDE_DORRENDE" name="waarschuwing bij gebruik dorrende i.p.v. doorrende">
-			<rule>
-				<pattern>
-					   <token>dorrende</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>doorrende</suggestion>? Anders is <suggestion>verdorrende</suggestion> gebruikelijker.</message>
-				<example correction="doorrende|verdorrende">Het woord <marker>dorrende</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
-		-->
 		<rulegroup id="KOORDELEN_KORDELEN" name="waarschuwing bij gebruik kordelen i.p.v. koordelen">
 			<rule>
 				<pattern>
@@ -1846,7 +1836,8 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="DOORREN_DORREN" name="waarschuwing bij gebruik dorren i.p.v. doorren">
+		<rulegroup id="DOORREN_DORREN" name="waarschuwing bij gebruik dorren i.p.v. doorren" default="temp_off">
+			<!-- TODO: heeft regel wel zin? -->
 			<rule>
 				<pattern>
 					   <token>dorren</token>
@@ -5459,7 +5450,9 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="FIFO_VIVO" name="waarschuwing bij gebruik fifo i.p.v. vivo">
+		<rulegroup id="FIFO_VIVO" name="waarschuwing bij gebruik fifo i.p.v. vivo" default="temp_off">
+			<!-- TODO: verwijderen? -->
+			
 			<rule>
 				<pattern><token>fifo</token></pattern>
 				<message>Bedoelt u wellicht (in) <suggestion>vivo</suggestion> (levend)? Of toch 'first in first out'?</message>
@@ -6015,16 +6008,6 @@ regexp case-insensitive maken : (?i)
 				</pattern>
 				<message>Bedoelt u wellicht <suggestion>vittend</suggestion>?</message>
 				<example correction="vittend">Het woord <marker>fittend</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
-
-		<rulegroup id="FLADDER_VLADDER" name="waarschuwing bij gebruik fladder i.p.v. vladder">
-			<rule>
-				<pattern>
-					   <token>fladder</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>vladder</suggestion>?</message>
-				<example correction="vladder">Het woord <marker>fladder</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
 
@@ -15450,7 +15433,7 @@ onwaarschijnlijk
 		
 		<rulegroup id="ABRAHAM" name="Abraham / abraham">
 			<rule>
-                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes" case_sensitive="yes">.*(sara).*</token><token postag="SENT_END"/></antipattern>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes" case_sensitive="yes">.*(sara|50|jarig|pop).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					<token negate="yes">een</token>
 					<marker>
@@ -15463,7 +15446,7 @@ onwaarschijnlijk
 		</rulegroup>
 		<rulegroup id="SARA" name="Sara / sara">
 			<rule>
-                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes" case_sensitive="yes">.*(abraham).*</token><token postag="SENT_END"/></antipattern>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes" case_sensitive="yes">.*(abraham|50|jarig|pop).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					<token negate="yes">een</token>
 					<marker>
@@ -32801,7 +32784,7 @@ steenwijk;Steenwijk
 					<token regexp="yes">drukke|trieste|leuke|saaie|natte|gezellige|ascetische|risicovolle|belachelijke|leerzame|softe|nervueze|kale|zelfingenomen|delicate|wereldvreemde|ludieke|prijzige</token>
 					<token>bedoeling</token>
 				</pattern>
-				<message>Bedoelt u wellicht: <suggestion>\1 bedoening</suggestion>?</message>
+				<message>Bedoelt u wellicht: <suggestion>\1 bedoening</suggestion> (toestand)?</message>
 				<example correction="saaie bedoening">Dit is een <marker>saaie bedoeling</marker>.</example>
 				<example correction="natte bedoening">Lokeren, storm en regen kon ons niet deren: een <marker>natte bedoeling</marker> met droge nabespreking.</example>
 				<example correction="leuke bedoening">Het was een zeer <marker>leuke bedoeling</marker> maar om 1 uur gingen zij door naar een café en hebben wij besloten om naar huis te gaan om ons bedje op te zoeken.</example>
