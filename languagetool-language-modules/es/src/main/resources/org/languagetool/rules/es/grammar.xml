@@ -1615,6 +1615,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¡Como yo pensaba, estaban equivocados!</example>
             </rule>
         </rulegroup>
+        <rulegroup id="QUE_TAL" name="que/qué tal" default="temp_off">
+            <antipattern>
+                <token>tal</token>
+                <token postag="NC.*|A.*" postag_regexp="yes"/>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token skip="-1">tal</token>
+                    <token>?</token>
+                </pattern>
+                <message>Se escribe con tilde si es una interrogación.</message>
+                <suggestion>qué</suggestion>
+                <example correction="qué">Hola <marker>que</marker> tal estás, Juan?</example>
+                <example>¿Te parece bien que tal persona se comporte así?</example>
+                <example correction="qué">Hola <marker>que</marker> tal?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SE_CREO" name="confusión: se creo/creó">
             <rule>
                 <pattern>
