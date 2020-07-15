@@ -6444,6 +6444,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ellos habían nacido para jugar.</example>
             <example>De la dinastía Han.</example>
         </rule>
+        <rule id="PODER_HABER" name="poder haber (concordancia)" >
+            <antipattern>
+                <token>haber</token>
+                <token postag="V.P..SM" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes" inflected="yes">poder|soler|deber<exception postag="V...3S." postag_regexp="yes"/></token>
+                </marker>
+                <token min="0">de</token>
+                <token>haber</token>
+            </pattern>
+            <message>Posible confusión.</message>
+            <suggestion><match no="1" postag="(V...)..(.)" postag_regexp="yes" postag_replace="$13S$2"/></suggestion>
+            <suggestion><match no="1" postag="(V.)....(.)" postag_regexp="yes" postag_replace="$1IP3S$2"/></suggestion>
+            <example correction="Pudo|Puede"><marker>Pude</marker> haber cuatro.</example>
+            <example correction="Puede"><marker>Pueden</marker> haber cuatro.</example>
+            <example correction="Debe"><marker>Deben</marker> de haber cuatro.</example>
+            <example>Puede haber cuatro.</example>
+            <example>Pude haber hecho algo mal.</example>
+        </rule>
         <rulegroup id="HABER_GERUNDIO" name="han *realizando/realizado">
             <antipattern>
                 <!-- triggers other rules-->
