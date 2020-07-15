@@ -5923,6 +5923,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No hauríeu, de cap manera, de configurar l'usuari.</example>
             </rule>
             <rule>
+                <pattern>
+                    <marker>
+                        <token>ni</token>
+                        <token postag="VA..3...?" postag_regexp="yes" inflected="yes">haver<exception postag="_perfet|_obligacio" postag_regexp="yes"/></token>
+                    </marker>
+                    <token><exception postag="V.[NG].*" postag_regexp="yes"/><exception>esment</exception></token>
+                </pattern>
+                <message>Hi falta un participi, el pronom 'hi' o la preposició 'de'.</message>
+                <suggestion>n'hi <match no="2"/></suggestion>
+                <suggestion>ni hi <match no="2"/></suggestion>
+                <example correction="N'hi havia|Ni hi havia"><marker>Ni havia</marker> quatre.</example>
+                <example>Ni havia dit això ni havia dit allò.</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <marker>
                         <token>se</token>

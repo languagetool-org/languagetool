@@ -2533,7 +2533,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes" inflected="yes">esperar|desear|rogar|solicitar</token>
-                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0"/>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
                 <token postag="VMSP[13]S0" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -2648,6 +2648,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Puerto serie RS232C</example>
             <example>se añade directamente al número base de la CDU.</example>
             <example>configuró la pantalla en modo deporte</example>
+            <example>Ruego se le consulte a la empresa.</example>
             <!--<example>Cada uno exprese su opinión.</example>
                 ambigous: ¡Sí! ¡Gane dos veces seguidas! -->
         </rule>
@@ -3056,7 +3057,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule id="UNUSUAL_WITHOUT_ACCENT" name="palabras usualmente con accento">
                 <pattern>
                     <marker>
-                        <token regexp="yes">yacio|pario|aliaria|convivio|desplego|heria|prometio|rodo|rogo|pario|pedia|servia</token>
+                        <token regexp="yes">yacio|aliaria|convivio|desplego|heria|prometio|rodo|rogo|pario|pedia|servia</token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:VMI.*"/>
@@ -6444,7 +6445,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ellos habían nacido para jugar.</example>
             <example>De la dinastía Han.</example>
         </rule>
-        <rule id="PODER_HABER" name="poder haber (concordancia)" >
+        <rule id="PODER_HABER" name="poder haber (concordancia)">
             <antipattern>
                 <token>haber</token>
                 <token postag="V.P..SM" postag_regexp="yes"/>
@@ -8817,7 +8818,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>esto</token>
                 </marker>
-                <token postag="NCMS000"/> <!--<exception postag="V.[SI].*" postag_regexp="yes"/>-->
+                <token postag="NCMS000"/>
+                <!--<exception postag="V.[SI].*" postag_regexp="yes"/>-->
             </pattern>
             <message>¿Quería decir <suggestion>este</suggestion>?</message>
             <example correction="este">En <marker>esto</marker> ámbito es el mejor.</example>
