@@ -1313,6 +1313,32 @@ title="Easy editing stylesheet" ?>
 		  <token postag='V.+' postag_regexp='yes'/>		  
       </antipattern>	  
 <!-- MARCOAGPINTO 2020-07-14 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-07-15 (2-JUL-2020+) *START* -->
+<!-- "Cristo não chegou aqui com Colombo, quem chegou foi o Anticristo." -->
+<!-- "Quando ele chegou viu que as Terras Natais tinham sido saqueadas." -->
+      <antipattern>
+	      <token postag='P[RTDE]0CN000|PP3[FM]S000' postag_regexp='yes'/>
+		  <token postag='VMIS3S0' postag_regexp='no'/>
+		  <token postag='VMIS3S0' postag_regexp='no'/>
+		  <token postag='DA0[FM]S0|CS|P[RTE]0CN000' postag_regexp='yes'/>
+      </antipattern>
+      <!-- "A primeira mulher que eu vi foi numa revista." -->
+      <antipattern>
+	      <token postag='CS|P[RTE]0CN000' postag_regexp='yes'/>
+		  <token min="0" max="1" postag='PP1CSN00' postag_regexp='no'/>
+		  <token postag='VMX0000|VMIS1S0' postag_regexp='yes'/>
+		  <token postag='VMIS3S0' postag_regexp='no'/>
+		  <token regexp='yes'>a|o|como|na|no|numa|num</token>
+      </antipattern>	  
+	  <!-- "A última vez que nos vimos foi no aniversário da Ana." -->
+      <antipattern>
+		  <token postag='CS|P[RTE]0CN000' postag_regexp='yes'/>
+	      <token min="0" max="1" regexp='no'>nos</token>
+		  <token postag='VMI[SP]1P0' postag_regexp='yes'/>
+		  <token postag='VMIS3S0' postag_regexp='no'/>
+		  <token regexp='yes'>a|o|como|na|no|numa|num</token>
+      </antipattern>	  
+<!-- MARCOAGPINTO 2020-07-15 (2-JUL-2020+) *END* -->
       <pattern>
           <token inflected="yes" regexp='yes'>&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;
             <exception inflected='yes'>ser</exception>
