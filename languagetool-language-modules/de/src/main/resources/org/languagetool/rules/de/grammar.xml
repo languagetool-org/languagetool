@@ -13524,6 +13524,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="ZUSAMMENSCHREIBUNG_HER" name="Zusammenschreibung von Verben mit dem Präfix 'her', 'hervor', 'umher', etc.">
             <antipattern>
+                <!-- avoid loop with 'herumordern' (not even know to dict, I think it's too colloquial) -->
+                <token>herum</token>
+                <token regexp="yes">ordern|ordere|orderst|ordert|geordert|orderte|ordertest|orderten</token>
+            </antipattern>
+            <antipattern>
                 <token postag="SENT_START"/>
                 <token/>
                 <token regexp="yes">(um)?her(ein|aus|vor|bei|nieder|über|unter)?</token>
