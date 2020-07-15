@@ -864,6 +864,7 @@ public class AgreementRule extends Rule {
     "denen",
     "sich",
     "aller",
+    "allen",  // "das allen bekannte Wollnashorn"
     "man",
     "beide",
     "beiden",
