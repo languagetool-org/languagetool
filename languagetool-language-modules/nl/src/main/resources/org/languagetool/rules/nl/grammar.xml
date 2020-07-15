@@ -3736,7 +3736,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="SONE_ZONE" name="waarschuwing bij gebruik sone i.p.v. zone">
 			<rule>
-				<pattern><token>sone</token></pattern>
+				<pattern case_sensitive="yes"><token>sone</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>zone</suggestion> (gebied)? De sone is een meeteenheid.</message>
 				<example correction="zone">Het woord <marker>sone</marker> kan een vergissing zijn.</example>
 			</rule>
@@ -3871,7 +3871,8 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 		-->
 		
-		<rulegroup id="VERSWAREN_VERZWAREN" name="waarschuwing bij gebruik verswaren i.p.v. verzwaren">
+		<rulegroup id="VERSWAREN_VERZWAREN" name="waarschuwing bij gebruik verswaren i.p.v. verzwaren" default="temp_off">
+			<!-- probablyt to be deleted -->
 			<rule>
 				<pattern>
 					   <token>verswaren</token>
@@ -6367,7 +6368,8 @@ regexp case-insensitive maken : (?i)
 				<example correction="kindercast">Het woord <marker>kinderkast</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="FILMCAST_FILMKAST" name="waarschuwing bij gebruik filmkast i.p.v. filmcast">
+		<rulegroup id="FILMCAST_FILMKAST" name="waarschuwing bij gebruik filmkast i.p.v. filmcast" default="temp_off">
+			<!-- probably to be deleted -->
 			<rule>
 				<pattern><token>filmkast</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>filmcast</suggestion> (rolbezetting)? Of toch een opbergruimte voor films?</message>
@@ -10966,14 +10968,12 @@ onwaarschijnlijk
 			<!-- 2017-06-21 by TaalTik -->
 			<rule>
 				<pattern>
-					<token regexp="yes" negate="yes">de|een|geen</token>
 					<marker>
 						<token>afte</token>
 					</marker>
+					<token postag="WKW:TGW:INF"/>
 				</pattern>
 				<message>Hoewel '<match no="1"/>' een correct woord is, is de kans groot dat hier <suggestion>af te</suggestion> moet staan.</message>
-				<example correction="af te">QQ <marker>afte</marker> QQQ.</example>
-				<example>QQ <marker>af te</marker> QQQ.</example>
 				<example correction="af te">Het is gemakkelijk <marker>afte</marker> geven.</example>
 				<example correction="af te">Dus is het <marker>afte</marker> raden te dicht voor een vracht wagen af te snijden.</example>
 			</rule>
@@ -11579,14 +11579,13 @@ onwaarschijnlijk
 			<rule>
 				<pattern>
 					<token regexp="yes">a|à</token>
-					<token regexp="yes">(capella|priori|vista|posteriori).+<exception>priorie</exception></token>
+					<token regexp="yes">(capella|priori|vista|posteriori).+<exception regexp="yes">priorie|priori's$|capella's$</exception></token>
 				</pattern>
 				<message>U bedoelt vast <suggestion>a-<match no="2"/></suggestion>.</message>
 				<url>https://taaladvies.net/taal/advies/vraag/1283/a_la_cartevakantie_lacartevakantie/</url>
 				<example correction="a-capellagroep">De stijl balanceert tussen een mannenkoor en een <marker>a capellagroep</marker>.</example>
 				<example correction="a-priori-definities">De meeste <marker>a priori-definities</marker> blijken impliciet normatief te zijn.</example>
 				<example correction="a-capellawerken">Hij componeerde verschillende <marker>a capellawerken</marker> en cantates voor koor en orkest.</example>
-				<example correction="a-priori's">De negatieve "<marker>a priori's</marker>" geven enkel des te meer smaak aan deze sympathieke kerstlekkernij.</example>
 				<example correction="a-capellastukje">Anderson presenteert zichzelf meer en meer als een zanger, en met een knap <marker>a capellastukje</marker> in "Chinese Whispers" bewijst hij dat dat ook maar terecht is.</example>
 			</rule>
 		</rulegroup>
@@ -20521,12 +20520,9 @@ steenwijk;Steenwijk
 				<pattern>
 					<token inflected="yes">affirmatief</token>
 				</pattern>
-				<message>De tekst wordt vlotter als u deze herschrijft met 'bevestigend'.</message>
+				<message>De tekst wordt vlotter als u deze herschrijft met <suggestion><match no="1" postag="BNW.*">bevestigend</match></suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-				<example type="incorrect">Dus conclusie : ja, <marker>affirmatief</marker>.</example>
-				<example type="incorrect">Dit leidt tot een <marker>affirmatieve</marker> houding die de traditie omarmt.</example>
-				<example type="incorrect">De sector moet zich volgens hem <marker>affirmatiever</marker> en meer eensgezind opstellen.</example>
-				<example type="incorrect">Het antwoord was <marker>affirmatief</marker> en dat de Chickskes hier op krottenmaandag nog een mooi vervolg aanbreiden, laat zich raden.</example>
+				<example correction="bevestigend">Dus conclusie : ja, <marker>affirmatief</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="AFGEZIEN_VAN" name="afgezien van">
@@ -24585,7 +24581,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="IN_DUPLO" name="in duplo">
 			<rule>
-				<pattern>
+				<pattern case_sensitive="yes"><!-- is also proper name -->
 					<token>in</token><token>duplo</token>
 				</pattern>
 				<message>De tekst wordt vlotter als u deze herschrijft met <suggestion>in tweevoud</suggestion>.</message>
@@ -30772,12 +30768,7 @@ steenwijk;Steenwijk
 		-->
 		<rulegroup id="ZOEVEN" name="zo-even">
 			<rule>
-				<!--
-				2014-08-20 TaalTik
-				veel false positives
-				regel aangepast
-				TODO: regel opnieuw controleren
-				-->
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(snelweg|ringweg|geluid).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					<token regexp="yes">is|de|het</token>
 					<marker>
@@ -30909,9 +30900,16 @@ steenwijk;Steenwijk
 				<example correction="ad-hocbudget">In 2014-2015 wordt het <marker>ad hocbudget</marker> ingezet voor het uitwerken van living labs, test cases voor de implementatie van gewenst beleid, in het centrale deel van Vlaanderen.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="FRANK_EN" name="frank en vrij">
+		<rulegroup id="FRANK_EN_VRIJ" name="frank en vrij">
 			<rule>
 				<!-- 2014-08-19 TaalTik: regel werkt goed.-->
+				<antipattern case_sensitive="yes">
+					<marker>
+						<token>Vrank</token>
+					</marker>
+					<token>en</token>
+					<token>Vrij</token>
+				</antipattern>
 				<pattern>
 					<marker>
 						<token>vrank</token>
@@ -31116,12 +31114,14 @@ steenwijk;Steenwijk
 			<rule>
 				<!-- 2014-08-19 TaalTik : 'dan' verwijderd, vanwege false positives. -->
 				<pattern>
-					<token>als</token>
-					<token>hem</token>
+					<marker>
+						<token>als</token>
+						<token>hem</token>
+					</marker>
 					<token postag="SENT_END"/>
 				</pattern>
-				<message>Bedoelt u: dan <suggestion>hij</suggestion></message>
-				<example correction="hij">En toch voelde ik dat ik vlotter liep <marker>als hem.</marker></example>
+				<message>Bedoelt u: <suggestion>als hij</suggestion> of <suggestion>dan hij</suggestion></message>
+				<example correction="als hij|dan hij">En toch voelde ik dat ik vlotter liep <marker>als hem</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="ALS_JOU" name="als jou">
@@ -31407,8 +31407,9 @@ steenwijk;Steenwijk
 						<token>hout</token>
 					</marker>
 					<token regexp="yes">je|jij|hij|men|zij|ze|ik</token>
+					<token><exception postag_regexp="yes" postag="WKW.*"/></token>
 				</pattern>
-				<message>U bedoelt vast: <suggestion>houd</suggestion>.</message>
+				<message>U bedoelt misschien: <suggestion>houd</suggestion>.</message>
 				<example correction="houd">Wat <marker>hout</marker> je tegen?</example>
 			</rule>
 		</rulegroup>
@@ -32110,14 +32111,13 @@ steenwijk;Steenwijk
 		<rulegroup id="GEVALLE" name="gevalle">
 			<rule>
 				<pattern>
-					<token/>
+					<token>in</token>
 					<token negate="yes">allen</token>
 					<token>gevalle</token>
 				</pattern>
-				<message>Verwacht werd <suggestion>allen <match no="3"/></suggestion> of <match no="3"/> is een typefout. </message>
+				<message>Dit is nogal ouderwets. Beter is <suggestion>in alle gevallen</suggestion> of <suggestion>in elk geval</suggestion>. </message>
 				<url>https://onzetaal.nl/taaladvies/advies/staande-uitdrukkingen</url>
-				<example correction="Allen gevalle"><marker>In alle gevalle</marker> fout.</example>
-				<example><marker>In allen gevalle</marker> goed.</example>
+				<example correction="In alle gevallen|In elk geval"><marker>In alle gevalle</marker> fout.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="VOORBEDACHTEN_RADE" name="rade">
@@ -35142,7 +35142,7 @@ steenwijk;Steenwijk
 					<token>vraag</token>
 					<token>en</token>
 					<token>antwoord</token>
-					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer|van</exception><exception postag_regexp="yes" postag="VRZ|BNW.*"/></token>
+					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer|van|over</exception><exception postag_regexp="yes" postag="VRZ|BNW.*"/></token>
 				</pattern>
 				<message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 				<url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
