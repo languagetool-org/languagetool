@@ -1060,8 +1060,8 @@ title="Easy editing stylesheet" ?>
 			<message>&MSG_ECG;</message>
 			<suggestion>próprio</suggestion>
 			<example correction="próprio">Ele <marker>própria</marker> escolheu.</example>
-		</rule>
-		<rule>
+        </rule>
+        <rule>
 			<pattern>				
 				<token>eles</token>
 				<marker>
@@ -29945,7 +29945,7 @@ TODO Write better examples
           <token regexp='yes' min='0'>[ao]s?</token>
           <token regexp='yes'>(?:home(?:m|ns)|mulher(?:es)?)</token>
       </antipattern>
-    <rule>
+    <rule tags="picky">
       <pattern>
           <token postag="(?:P.|N).FP.+" postag_regexp="yes"/>
           <token postag="CC">
@@ -29956,7 +29956,7 @@ TODO Write better examples
       <example correction="amigos">Chegamos <marker>amigas e amigos</marker></example>
       <example>Defenderemos os nossos companheiros.</example>
     </rule>
-    <rule>
+    <rule tags="picky">
       <pattern>
           <token postag="(?:P.|N).MP.+" postag_regexp="yes"/>
           <token postag="CC">
@@ -29967,7 +29967,7 @@ TODO Write better examples
       <example correction="amigos">Chegados <marker>amigos e amigas</marker></example>
       <example>Defenderemos os nossos companheiros.</example>
     </rule>
-    <rule>
+    <rule tags="picky">
       <pattern>
           <token postag="[DP].+" postag_regexp="yes">
             <exception postag="N.+" postag_regexp="yes"/></token>
@@ -29981,7 +29981,7 @@ TODO Write better examples
       <message>Possível redundância. Se não pretende realçar a diferença de género, é suficiente utilizar <suggestion><match include_skipped="following" no="4"/> <match no='5'/></suggestion>.</message>
       <example correction="os rapazes">Olha como se divertem <marker>as raparigas e os rapazes</marker></example>
     </rule>
-    <rule>
+    <rule tags="picky">
       <pattern>
           <token postag="[DP].+" postag_regexp="yes">
             <exception postag="N.+" postag_regexp="yes"/></token>
@@ -29998,7 +29998,7 @@ TODO Write better examples
   </rulegroup>
     <!--	      Style rules from Spanish grammar.xml    - END  -->
 
-    <rule id='REDUNDANCY_MAN_AND_WOMAN' name="Redundâncias não sexistas: Homens e mulheres" type='style'>
+    <rule id='REDUNDANCY_MAN_AND_WOMAN' name="Redundâncias não sexistas: Homens e mulheres" type='style' default="off">
     <!--     Created by Tiago F. Santos, Portuguese rule, 2017-10-13   -->
       <pattern>
           <token regexp='yes' min='0'>[ao]s?</token>
@@ -30014,7 +30014,7 @@ TODO Write better examples
 
   <rulegroup id='EU_NÓS_REMOVAL' name="Omitir pronome pessoal eu/nós" type='style'>
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-    <rule>
+    <rule tags="picky">
 <!-- MARCOAGPINTO 2020-06-07 + 2020-06-09 *START* -->
 <!-- ! or ? or . at the end -->
       <antipattern>
@@ -30037,7 +30037,7 @@ TODO Write better examples
       <message>Para melhorar o estilo de escrita, pode omitir o pronome pessoal: <suggestion>\2</suggestion>.</message>
       <example correction="quero">O que <marker>eu quero</marker> é casar.</example>
     </rule>
-    <rule>
+    <rule tags="picky">
 <!-- MARCOAGPINTO 2020-06-07 + 2020-06-09 *START* -->
 <!-- ! or ? or . at the end -->
       <antipattern>
