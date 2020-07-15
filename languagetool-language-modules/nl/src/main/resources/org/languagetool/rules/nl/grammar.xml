@@ -786,7 +786,8 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		-->
-		<rulegroup id="WEGSCHEUREN_WEGSCHUREN" name="waarschuwing bij gebruik wegschuren i.p.v. wegscheuren">
+		<rulegroup id="WEGSCHEUREN_WEGSCHUREN" name="waarschuwing bij gebruik wegschuren i.p.v. wegscheuren" default="temp_off">
+			<!-- verwijderen ? -->
 			<rule>
 				<pattern>
 					   <token>wegschuren</token>
@@ -3819,7 +3820,8 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		-->
-		<rulegroup id="SOEK_ZOEK" name="waarschuwing bij gebruik soek i.p.v. zoek">
+		<rulegroup id="SOEK_ZOEK" name="waarschuwing bij gebruik soek i.p.v. zoek" default="temp_off">
+			<!-- verwijderen? -->
 			<rule>
 				<antipattern><token regexp="yes" skip="1">de|een</token><token>soek</token></antipattern>
 				<pattern><token>soek</token></pattern>
@@ -4929,8 +4931,10 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 		-->
 		
-		<rulegroup id="FAKER_VAKER" name="waarschuwing bij gebruik faker i.p.v. vaker">
+		<rulegroup id="FAKER_VAKER" name="waarschuwing bij gebruik faker i.p.v. vaker" default="temp_off">
+			<!-- verwijderen? -->
 			<rule>
+				<antipattern><token>Chet</token><token>Faker</token></antipattern><!-- eigennaam -->
 				<pattern><token>faker</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>vaker</suggestion> (meer)? Of toch iemand die doet alsof?</message>
 				<example correction="vaker">Het woord <marker>faker</marker> kan een vergissing zijn.</example>
@@ -4947,6 +4951,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="FAAG_VAAG" name="waarschuwing bij gebruik faag i.p.v. vaag">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(erase|bacteri|DNA|infectie|eiwit|virus|evoluee?r).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					   <token>faag</token>
 				</pattern>
@@ -5747,7 +5752,7 @@ regexp case-insensitive maken : (?i)
 		-->
 		<rulegroup id="VOUTE_FOUTE" name="waarschuwing bij gebruik voute i.p.v. foute">
 			<rule>
-				<pattern><token>voute</token></pattern>
+				<pattern><token case_sensitive="yes">voute</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>foute</suggestion> (verkeerde)? Een voute is een gewelf.</message>
 				<example correction="foute">Het <marker>voute</marker> woord kan een vergissing zijn.</example>
 			</rule>
@@ -6561,6 +6566,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="CARTER_KARTER" name="waarschuwing bij gebruik karter i.p.v. carter">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(karts|kampioen|wedstrijd).*</token><token postag="SENT_END"/></antipattern>
 				<pattern><token inflected="yes">karter</token></pattern>
 				<message>Bedoelt u wellicht <suggestion><match no="1" regexp_match="kart" regexp_replace="cart"/></suggestion> (auto-onderdeel)? Een karter is iemand die kart rijdt.</message>
 				<example correction="carter">Het woord <marker>karter</marker> kan een vergissing zijn.</example>
@@ -11057,28 +11063,16 @@ onwaarschijnlijk
 			<rule>
 				<antipattern><token>niette</token><token>min</token></antipattern>
 				<pattern>
-					<token>niette</token>
+					<marker>
+						<token>niette</token>
+					</marker>
+					<token postag="WKW:TGW:INF"/>
 				</pattern>
 				<message>Hoewel '<match no="1"/>' een correct woord is, is de kans groot dat hier <suggestion>niet te</suggestion> moet staan.</message>
 				<example><marker>Niette</marker> min, diegene die begeren hem.</example>
-				<example correction="niet te">En bezorgd hoeft ge u over mij <marker>niette</marker>.</example>
-				<example><marker>Niette</marker> min zijn die lijsten zeer gerievig.</example>
+				<example correction="niet te">En bezorgd hoeft ge u over mij <marker>niette</marker> zijn.</example>
 			</rule>
 		</rulegroup>
-		<!--
-		TODO: move to rules !
-		<rulegroup id="NIET_TE" name="niette → niet te">
-		<rule>
-		<pattern>
-		<token>niette</token>
-		<token>min</token>
-		</pattern>
-		<message>Juist is: <suggestion>niettemin</suggestion>.</message>
-		<example correction="Niettemin"><marker>Niette</marker> min, diegene die begeren hem.</example>
-		<example correction="Niettemin"><marker>Niette</marker> min zijn die lijsten zeer gerievig.</example>
-		</rule>
-		</rulegroup>
-		-->
 		<rulegroup id="ME_NIET" name="meniet → me niet">
 			<!-- 2017-06-21 by TaalTik -->
 			<rule>
@@ -18825,6 +18819,7 @@ steenwijk;Steenwijk
 			<!-- 2014-09-08 TaalTik -->
 			<rule>
 				<antipattern><token>zegge</token><token>en</token><token>schrijve</token></antipattern>
+				<antipattern><token>we</token><token>zeggen</token></antipattern>
 				<pattern>
 					<marker>
 						<token regexp="yes">zeggen?</token>
