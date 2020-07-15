@@ -5182,7 +5182,8 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="FAK_VAK" name="waarschuwing bij gebruik fak i.p.v. vak">
+		<rulegroup id="FAK_VAK" name="waarschuwing bij gebruik fak i.p.v. vak" default="temp_off">
+			<!-- verwijderen? -->
 			<rule>
 				<pattern><token>fak</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>vak</suggestion>? Of toch de studentenkroeg?</message>
@@ -31150,8 +31151,9 @@ steenwijk;Steenwijk
 				<example correction="aanvaardt|aanvaard">Wie die opvatting steunt of <marker>aanvaart</marker> wil definitief een einde maken aan de vrijheid van gedachte en de democratie afschaffen.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="HOUW_VAN" name="houw van">
+		<rulegroup id="HOUW_VAN" name="houw van" default="temp_off">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(zwaard|kapmes|sabel|degen|zwaai|sneed|speer).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					<marker>
 						<token>houw</token>
