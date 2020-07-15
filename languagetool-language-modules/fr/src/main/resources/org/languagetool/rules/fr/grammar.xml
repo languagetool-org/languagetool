@@ -21,6 +21,8 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
+    <!ENTITY elision_regexp "h?[àâaêèéeiîoôòóöŌuœ]\D.*|à|hy\D.*|y[ptsv].*">
+    <!ENTITY elision_regexp_PAS_D_ELISION "h?[àâaéêèeiîoôòóöŌuœ].*|à|hy\D.*|y[ptsv].*|y">
     <!ENTITY exceptions_ELISION1 "onze|onzièmes?|une?|au?|oui|ouistiti|ouï[-‑‐]dire|énième|Iouri|ouate|Ouacif|Ouagadougou|Ouarzazate|Ouémo|Ouidah|one(-.*)?|o[ùu]|(?-i)[IVXLCM]+e?|Ier|Ire|habanera|hâblerie|hâbleur|hâbleuse|hachage|hache|hachée?|hache-.*|hachement|hacher|hachette|hacheur|hachereau|hachis|hasch|hachisch|hachoir|hachure|hachurer|hackle|hadale?|hadalaux|haddock|haflinger|hafnium|hagard|haggis|haie|haillon|haillonneux|haillonneuse|haine|haineusement|haineux|haineuse|haïr|haire|haïssable|Haïtien|Haïtienne|halage|hâlage|halal|halbi|halbran|halbrenée?|halde|hâle|hâlée?|hale-bas|hale-breu|hale-croc|halefis|hâle-haut|haler|hâler|haletant|halètement|haleter|haleur|haleuse|half-track|hall|halle|hallebarde|halo|hallux|halte|halte-garderie|hamac|hamada|hamburger|hameau|hamman|hampe|hamster|hanche|hanchement|hancher|hand-?ball|handballeur|handballeuse|handicap|handicapante?|handicapée?|handicaper|handicapeur|handisport|hangar|hanneton|hanon|hanse|hanter|hantise|happement|happening|happer|happy|nd|haque|haquenée|haquet|hara-kiri|harangue|haranguer|harangueur|harangueuse|haras|harassante?|harassée?|harassement|harasser|harcelante?|harcèlement|harceler|hard|hard-.*|harde|hardé|harder|hardes|round|hardie?|hardiesse|hardiment|hardware|harem|hareng|harengade|harengaison|harengère|harenguet|harengueux|harenguier|harenguière|haret|harfang|hargne|hargneusement|hargneux|hargneuse|haricot|haridelle|harissa|harka|harki|harnachement|harnacher|harnais|harnat|harnois|haro|harouelle|harpail|harpaye|harpe|harpe-cithare|harpette|harpie|harpiste|harpe-luth|harpocéras|harpodon|harpoise|harpon|harponnage|harponnement|harponner|harponneur|harpye|harrier|hart|bas-been|hasard|hasarder|hasardeusement|hasardeux|hasardeuse|has|een|hachich|hashich|haschisch|hase|hâte|hâter|hatha-yoga|hâtier|hâtif|hâtive|hattéria|hauban|haubanage|haubaner|haubert|haussehotdog|hausse-col|haussement|hausser|hausse-repère|haussier|haussière|autain|hautaine?|aut-bar|hautbois|hautboïste|haute?|haute?-.*|hautement|hauteur|haut-fond|hautin|hauturier|hauturière|havage|havane|hâve|havée|haveneau|havenet|haver|haveur|haveuse|havre|havresac|havrit|haylage|hayon|hé|heat-set|heaume|hein|héler|hem|henné|hennin|hennir|hennissante?|hennissement|hennuyer|hep|héraut|hère|hérissée?|érissement|hérisser|hérisson|hérissonne|herniaire|hernie|herniée?|ernieux|ernieuse|héron|héronneau|héronnier|héronnière|héros|héroïne|hersage|herse|herser|hersillon|hêtraie|hêtre|heu|heurt|heurter|heurtoir|hibou|hic|hickory|hideur|hideusement|hideux|hideuse|hiement|hiérarchie|hiérarchique|hiérarchiquement|hiérarchisation|hiérarchiser|hiérarque|hi-fi|high|ulk|high-tech|hilaire|hile|hindi|hip|hip-hop|hippie|hippy|hidjab|hissage|hit|hit-parade|ho|hobby|hobbyste|hobereau|hochement|hochepot|hochequeue|hocher|hochet|hockey|hockeyeur|hockeyeuse|ho!|isse!|holà|holding|hold-up|Hollande|Hollando-.*|hollandite|hollywoodien|hollywoodienne|homard|homarderie|homardier|home|home-trainer|hongre|hongrer|hongreur|hongreuse|hongroierie|hongroyage|hongroyer|hongroyeur|Hongrie|honning|honnir|honoris|honte|honteusement|honteux|honteuse|hooligan|hooliganisme|hop|hop-je|hoquet|hoqueter|hoqueton|horde|horion|hormis|hornblende|hors|horsain|horsin|hors-.*|horse|horse-.*|horst|hot|hotdog|hot-.*|hotinus|honey|hotte|hottée|hotu|hou|houache|houaiche|houage|houblon|houe|houer|houille|houiller|houillère|houle|houlette|houleux|houleuse|houligan|houliganisme|houlque|houp|houppe|houppelande|houppette|houppier|hourd|hourdage|hourder|hourdir|hourdis|houri|hourque|hourra|hourri|hourrite|hourvari|housche|houseau|house-boat|houspiller|houssage|housse|housser|housset|houssière|houst|houx|hovéa|hoyau|hoyée?|huard|huart|hublot|huche|hucher|huchier|hue|huée|huer|huerta|huguenot|huipil|huir|huis|los|huit|huitain|huitaine|huitante|huit-en-huit|huitième|huitièmement|huit-reflets|hulotte|hululation|hululement|hululer|hum|humantin|humer|hune|hunier|hunter|huppe|huppée?|uque|hurdler|hure|hurlant|hurlement|hurler|hurleur|hurleuse|huron|huronne|hurrah|hurricane|husky|hussard|hussarde|hutinet|hutte|hutteau">
     <!ENTITY exceptions_ELISION2 "haye|avec|hausse|et|hayley|hotspot|henry|hoover|hallstatt|hambourg|hollywood|(haute?|hache|hard|Hollando|horse?|hot)-.+|one(-.*)?">
     <!ENTITY H_ASPIRE "habanera|hâbler|hâblerie|hâbleur|hache|hacher|hachereau|hachette|hachage|hacheur|hachis|hachich|hachisch|hachoir|hachure|hack|hackeur|hacquebute|haquebute|haquebutier|hadal|haddock|hadîth|hadj|hadji|HADOPI|haguais|Haguais|Hague|hagard|haha|hahé|haie|haïe|haïk|haillon|haillonneux|haine|haineux|haineusement|haïr|haïssable|halage|halbran|HALDE|hâle|halecret|haler|hâler|haleter|halètement|hall|halle|hallebarde|hallebardier|hallier|hallstatien|halo|haloir|hâloir|halophile|halot|halte|halva|hamac|hamada|Hambourg|hamburger|hameau|hammal|hamal|hammam|Hammerfest|hammerless|hampe|hamster|han|hanap|hanche|hanchement|hancher|handball|handballeur|handicap|handicaper|hangar|hanneton|hannetonner|hanse|hanséatique|hanter|hantise|happe|happelourde|happer|happening|happement|happy|hacquebutier|haquenée|haquet|hara|harangue|haranguer|harangueur|haras|harassant|harasser|harassement|harceler|harcèlement|harceleur|Harald|harde|harder|hardes|hardi|hardiesse|hardiment|hardware|harem|hareng|harengère|haret|harfang|hargne|hargneux|hargneusement|haricot|haricoter|haridelle|harissa|harka|harki|harle|harlou|harnacher|harnacheur|harnachement|harnais|harnois|Harold|haro|harpailler|harpe|harper|harpie|harpiste|harpon|harponner|harponneur|harponnage|Harry|hart|Harvard|hasard|hasarder|hasardeux|hasardeusement|has|haschich|hase|hast|hastaire|haste|Hastings|hâte|hâtelet|hâtelette|hâter|hâtier|hâtif|hâtiveau|hâtivement|hauban|haubanner|haubanneur|haubergeon|haubert|hausse|haussement|hausser|hausseur|hausseusement|haussier|haut|hautain|hautbois|hautement|hautesse|hauteur|hautin|hauturier|havage|havanais|Havanais|havane|Havane|hâve|haveneau|havenet|haver|haveur|havir|havrais|Havrais|havre|Havre|havresac|havresacs|hayon|hé|heaume|heaumier|heimatlos|héler|héleur|hèlement|hem|hum|hemloc|hemlock|henné|hennir|hennissant|hennissement|hennisseur|Henri|henry|Henry|hep|héraut|hercheur|hère|hérissement|hérisser|hérisseur|hérisson|hérissonner|hermitique|herniaire|hernie|hernieux|héron|héronnier|herschage|herchage|herscher|hercher|herscheur|herse|herser|hertz|hertzien|Hesse|hêtraie|hêtre|heu.../heux|heulandite|heurt|heurtement|heurtequin|heurter|heurteur|heurtoir|hiatal|hibou|hic|hickory|hideur|hideusement|hideux|hie|hiement|hier|hiéracocéphale|hiérarchie|hiérarchique|hiérarchiquement|hiérarchiser|hiérarchisation|hiératique|hiératiquement|hiératisant|hiératisé|hiératisme|hiérochromie|hiérocrate|hiérocratisme|hiérodrame|hiérogamie|hiérogamique|hiéroglyphe|hiéroglyphé|hiéroglyphie|hiéroglyphié|hiéroglyphique|hiéroglyphiquement|hiéroglyphisme|hiéroglyphite|hiérogramme|hiérogrammate|hiérogrammatisme|hiérographe|hiéromancie|hiéromoine|hiérophanie|hiéroscopie|hiéroscopique|hi|highlandais|Highlander|Highlands|high|highlifer|highlifeur|hilaire|hile|hiloire|Hilbert|Hildegarde|hindi|hindî|hip|hippie|hippy|hiragana|Hiroshima|hissage|hisser|hissement|hisseur|hit|hittite|Hittite|HLM|ho|Hobart|hobby|hobereau|hobereautaille|hoberelle|hoc|hoca|hoche|hochement|hochepot|hochequeue|hochequeues|hocher|hochet|hockey|hockeyeur|hocko|hocco|hodja|hoffmannesque|hoffmannien|hognement|hogner|holà|holding|hôler|hold|hollandais|Hollandais|hollandaisement|hollande|Hollande|hollandé|hollandiser|hollando|Hollywood|hollywoodesque|hollywoodien|homard|homarderie|homardier|home|homespun|hon|Honduras|hondurien|Hondurien|Hongkong|Hongkongais|hongre|hongreline|hongrer|hongreur|Hongrie|hongrois|Hongrois|hongroyage|hongroyer|hongroyeur|honnir|honnissement|Honshu|honte|honteux|honteusement|hooligan|hop|hoquet|hoqueter|hoquètement|hoqueton|horde|horion|hormis|hornblende|hors|horsain|horseguard|horse|horseguards|horst|hosanna|hosannière|hotdog|hot|hotdogs|hotte|hottée|hotter|hottentot|hotteur|hou|houblon|houblonner|houblonneur|houblonnière|houdan|Houdan|houe|houhou|houille|houiller|hourdi|hourdis|houret|houri|hourque|hourvari|houseau|houspiller|houspilleur|houspillement|houssage|houssaie|housse|housser|houssine|houssoir|Houston|houx|hoyau|huard|hublot|huche|huchée|hucher|huchet|huchier|hue|huée|huer|huerta|huehau|Hugo|hugolâtre|hugolâtrie|hugolien|hugotique|hugotisme|Hugues|huguenot|huit|huitain|huitaine|huitante|huitième|Hulk|hulotte|hululation|hululer|humage|humement|humer|humeux|Hun(s)|humoter|hune|hunier|hunter|huppe|huppé|huque|hure|hurlade|hurlée|hurlement|hurler|hurleur|huro|huron|Huron|Huronien|huronien|hurricane|husky|hussard|hussite|hussitisme|hutin|hutinet|hutte|hutteau|hutter|huttier">
@@ -8055,10 +8057,13 @@ though, and has since been slightly modified)-->
   </category>
   <category id="CAT_ELISION" name="Élision">
     <rulegroup id="PAS_D_ELISION" name="pas d'élision" default="temp_off">
+      <antipattern> <!-- There is no a clear solution for these words. Perhaps we need a picky rule --> 
+        <token regexp="yes">handicap.*|hollywood.*|henry</token>
+      </antipattern>
       <rule>
         <pattern>
           <token>l'</token>
-          <token postag=".* f .*" postag_regexp="yes"><exception regexp="yes">h?[àâaéêèeiîouœ]\D.*|à|hy\D.*|y[pts].*</exception></token>
+          <token postag=".* f .*" postag_regexp="yes"><exception regexp="yes">&elision_regexp_PAS_D_ELISION;</exception></token>
         </pattern>
         <message>« \1\2 » ne s’élide pas.</message>
         <suggestion>la \2</suggestion>
@@ -8072,6 +8077,7 @@ though, and has since been slightly modified)-->
         <message>« \1\2 » ne s’élide pas.</message>
         <suggestion>la \2</suggestion>
         <example correction="La hiérarchie"><marker>L'hiérarchie</marker>.</example>
+        <example correction="la héroïne" type="triggers_error" reason="the word is in the exception list">l’opium et <marker>l’héroïne</marker></example>
       </rule>
       <rule>
         <pattern>
@@ -8083,13 +8089,29 @@ though, and has since been slightly modified)-->
         <example correction="La hausse"><marker>L'hausse</marker> des profits pétroliers.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token regexp="yes">[dljmnst]'|jusqu'|qu'</token>
+          <token regexp="yes" min="0">["«“]</token>
+          <token regexp="yes">&elision_regexp_PAS_D_ELISION;</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">[dljmnst]'|jusqu'|qu'</token>
-          <token><exception regexp="yes">h?[àâaéêèeiîouœ]\D.*|à|hy\D.*|y[pts].*</exception></token>
+          <token/>
         </pattern>
         <message>« \1\2 » ne s’élide pas.</message>
         <suggestion><match no="1" regexp_match="'$" regexp_replace="e"/> \2</suggestion>
         <example correction="Je vais"><marker>J'vais</marker> partir.</example>
+        <example>Il demandait d'« importer des experts du Zimbabwe ».</example>
+        <example>L'A</example>
+        <example>d'A</example>
+        <example>d'hôpitaux</example>
+        <example>d'où</example>
+        <example>d'une</example>
+        <example>d'un</example>
+        <example>d'y penser</example>
+        <example>d'Yvonne</example>
+        <example>J'y pense</example>
+        <example>L'héroïne</example>
       </rule>
       <rule>
         <pattern>
@@ -8113,7 +8135,7 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>« \1\2 » ne s’élide pas.</message>
         <suggestion><match no="1" regexp_match="'$" regexp_replace="e"/> \2</suggestion>
-        <example correction="Le Hollywood"><marker>L'Hollywood</marker></example>
+        <example correction="de Hallstatt"><marker>d'Hallstatt</marker></example>
         <example>Vous passez plus de temps ici qu'avec Mamie.</example>
       </rule>
     </rulegroup>
@@ -8173,7 +8195,7 @@ though, and has since been slightly modified)-->
       </antipattern>
       <pattern>
         <token regexp="yes">[dljmnst]e|la|jusque|que</token>
-        <token regexp="yes">h?[àâaéêèeiîouœ]\D.*|à|hy\D.*|y[pts].*
+        <token regexp="yes">&elision_regexp;
           <exception inflected="yes" regexp="yes">&exceptions_ELISION1;</exception>
           <exception regexp="yes">&exceptions_ELISION2;</exception><!-- https://fr.wikipedia.org/wiki/La_Haye -->
           <exception postag="UNKNOWN|Z.*" postag_regexp="yes" regexp="yes">h.+</exception><!-- no error for unknown words or proper names -->
