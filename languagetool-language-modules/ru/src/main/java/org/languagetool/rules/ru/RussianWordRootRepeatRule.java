@@ -39,6 +39,7 @@ public class RussianWordRootRepeatRule extends AbstractWordCoherencyRule {
 
   public RussianWordRootRepeatRule(ResourceBundle messages) throws IOException {
     super(messages);
+    setDefaultOff();
     addExamplePair(Example.wrong("Абрикос рос в саду. У меня на столе стоит <marker>абрикосный</marker> сок."),
                    Example.fixed("Абрикос рос в саду. У меня на столе стоит сок из <marker>абрикосов</marker>."));
   }
