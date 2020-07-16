@@ -3923,10 +3923,23 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="SONDEREN_ZONDEREN" name="waarschuwing bij gebruik sonderen i.p.v. zonderen">
 			<rule>
 				<pattern>
+					<token skip="-1">af</token>
+					<marker>
 					   <token>sonderen</token>
+				   </marker>
 				</pattern>
 				<message>Bedoelt u wellicht <suggestion>zonderen</suggestion>?</message>
-				<example correction="zonderen">Het woord <marker>sonderen</marker> kan een vergissing zijn.</example>
+				<example correction="zonderen">Het is niet af te <marker>sonderen</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+					   <token skip="-1">sonderen</token>
+				   </marker>
+					<token>af</token>
+				</pattern>
+				<message>Bedoelt u wellicht <suggestion>zonderen</suggestion>?</message>
+				<example correction="zonderen">We <marker>sonderen</marker> het af.</example>
 			</rule>
 		</rulegroup>
 
@@ -5179,8 +5192,9 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="FIOOL_VIOOL" name="waarschuwing bij gebruik fiolen i.p.v. violen">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(engel|glazen|schaal|goot|zalf|water|inhoud|geest).*</token><token postag="SENT_END"/></antipattern>
 				<pattern><token inflected="yes">fiool</token></pattern>
-				<message>Bedoelt u wellicht <suggestion><match no="1" regexp_match="fio" regexp_replace="vio"/></suggestion> (bloem)? Of toch een vaas of fles?</message>
+				<message>Bedoelt u wellicht <suggestion><match no="1" regexp_match="fio" regexp_replace="vio"/></suggestion> (bloem, muziekinstrument)? Of toch een vaas of fles?</message>
 				<example correction="violen">Het woord <marker>fiolen</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
