@@ -4478,6 +4478,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token>pro</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">....+</token>
+                </pattern>
+                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="pro$1"/></suggestion>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="pror$1"/></suggestion>
+                <example correction="prodemócrata">Es <marker>pro-demócrata</marker>.</example>
+                <example correction="prodemocrático">Es <marker>pro democrático</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>anti</token>
                     <token min="0">-</token>
                     <token regexp="yes">..+</token>
