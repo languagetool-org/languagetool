@@ -9021,13 +9021,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>que</token>
                 </antipattern>
                 <antipattern>
-                    <token>que</token>
+                    <token regexp="yes">que|i</token>
                     <token>doncs</token>
                 </antipattern>
                 <antipattern>
                     <token inflected="yes" regexp="yes">semblant|semblar|parèixer|paregut|similar</token>
                     <token>doncs</token>
                     <token>a</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token>doncs</token>
+                    <token postag="SPS00"/>
                 </antipattern>
                 <antipattern>
                     <token postag="_PUNCT.*" postag_regexp="yes"><exception>(</exception></token>
@@ -9063,6 +9068,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El que no ho vulgui veure així doncs allà ell.</example>
                 <example>Aquest itinerari havia d'incloure doncs alguns elements clarament identificadors.</example>
                 <example>És molt semblant doncs a l'altre.</example>
+                <example>un fenomen de civilització, deslligat doncs de tot canvi ètnic</example>
                 <!-- Ja sé que tot això us sembla exagerat; doncs el que sentireu encara ho és més -->
             </rule>
         </rulegroup>
@@ -51317,7 +51323,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token inflected="yes" regexp="yes">binomi|relació|connexió</token>
                 <token/>
-                <token regexp="yes">[/-i]</token>
+                <token regexp="yes">[/i\-]</token>
                 <token/>
             </antipattern>
             <antipattern>

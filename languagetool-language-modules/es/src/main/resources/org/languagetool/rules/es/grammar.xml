@@ -1625,7 +1625,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>que</token>
                     </marker>
-                    <token skip="-1">tal</token>
+                    <token skip="-1">tal<exception postag="LOC_ADV"/></token>
                     <token>?</token>
                 </pattern>
                 <message>Se escribe con tilde si es una interrogación.</message>
@@ -1633,6 +1633,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="qué">Hola <marker>que</marker> tal estás, Juan?</example>
                 <example>¿Te parece bien que tal persona se comporte así?</example>
                 <example correction="qué">Hola <marker>que</marker> tal?</example>
+                <example>¿Crees que tal vez es más económico?</example>
             </rule>
         </rulegroup>
         <rulegroup id="SE_CREO" name="confusión: se creo/creó">
@@ -1802,6 +1803,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="SE" name="se/sé" default="on">
             <rule>
+                <pattern>
+                    <token>se</token>
+                    <token postag="V.P..SF" postag_regexp="yes"/>
+                </pattern>
+                <message>Posible confusión.</message>
+                <suggestion>\1 <match no="2" postag="V.P..SF" postag_regexp="yes" postag_replace="V.II3S."/></suggestion>
+                <example correction="Se representaba"><marker>Se representada</marker> el 15 de agosto.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>se</token>
+                    <token postag="V.P..SM" postag_regexp="yes"/>
+                </pattern>
+                <message>Posible confusión.</message>
+                <suggestion>\1 ha \2</suggestion>
+                <example correction="se ha dado">Lo que <marker>se dado</marker> en llamar educación.</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <token>se</token>
                     <token regexp="yes" min="0">["«“‘']</token>
@@ -1814,7 +1833,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>se</token>
-                    <token regexp="yes" min="0">["«“‘']</token>
+                    <token regexp="yes" min="0">["«“‘']|re</token>
                     <token postag="V...3..|UNKNOWN" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
@@ -4175,6 +4194,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="consigo">Estaba satisfecho <marker>con sí</marker> mismo.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="PASO" name="paso/pasó" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">esto|eso|aquello</token>
+                    <marker>
+                        <token>paso</token>
+                    </marker>
+                </pattern>
+                <message>Si es un verbo en pasado, se escribe con tilde.</message>
+                <suggestion>pasó</suggestion>
+                <example correction="pasó">Esto <marker>paso</marker> el año pasado.</example>
+            </rule>
+        </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
         <rulegroup id="CONTRACCIONES" name="contracciones: del, al" default="on">
@@ -5738,7 +5770,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule id="Y_E" name="e ante palabras empezando por i">
                 <pattern>
                     <token>y<exception scope="previous">¿</exception></token>
-                    <token regexp="yes">^h?[ií].* <exception regexp="yes">^h?ih?[aeouáéóú].*</exception><!--Números romanos--><exception regexp="yes">[ivxlcdm]+</exception></token>
+                    <token regexp="yes">h?[ií].*<exception regexp="yes">^h?ih?[aeouáéóú].*</exception><!--Números romanos--><exception regexp="yes">[ivxlcdm]+</exception></token>
                 </pattern>
                 <message>Cuando precede a palabras que comienzan por «i-» (o «hi-»), la conjunción «y» se transforma en «e».</message>
                 <suggestion>e <match no="2"/></suggestion>
@@ -6490,16 +6522,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="PODER_HABER" name="poder haber (concordancia)">
             <antipattern>
                 <token>haber</token>
-                <token postag="V.P..SM" postag_regexp="yes"/>
+                <token postag="V.P.*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <marker>
-                    <token regexp="yes" inflected="yes">poder|soler|deber<exception postag="V...3S." postag_regexp="yes"/></token>
+                    <token regexp="yes" inflected="yes">poder|soler|deber<exception postag="V...3S.|V.N.*" postag_regexp="yes"/></token>
                 </marker>
                 <token min="0">de</token>
                 <token>haber</token>
             </pattern>
-            <message>Posible confusión.</message>
+            <message>Posible confusión. El v. 'haber' impersonal se conjuga solo en singular.</message>
             <suggestion><match no="1" postag="(V...)..(.)" postag_regexp="yes" postag_replace="$13S$2"/></suggestion>
             <suggestion><match no="1" postag="(V.)....(.)" postag_regexp="yes" postag_replace="$1IP3S$2"/></suggestion>
             <example correction="Pudo|Puede"><marker>Pude</marker> haber cuatro.</example>
@@ -6507,6 +6539,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Debe"><marker>Deben</marker> de haber cuatro.</example>
             <example>Puede haber cuatro.</example>
             <example>Pude haber hecho algo mal.</example>
+            <example>va a poder haber una alarma</example>
+        </rule>
+        <rule name="haber + participio masc sg" id="HABER_PARTICIPO" default="temp_off">
+            <pattern>
+                <token inflected="yes">haber</token>
+                <marker>
+                    <token postag="V.P..PM|V.P..F." postag_regexp="yes"><exception postag="V.P.*|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Posible confusión. El participio que acompaña el v. 'haber' debe ser masculino singular.</message>
+            <suggestion><match no="2" postag="V.P..PM|V.P..F." postag_regexp="yes" postag_replace="V.P..SM"/></suggestion>
+            <example correction="cambiado">Los géneros pueden haber <marker>cambiados</marker>.</example>
         </rule>
         <rulegroup id="HABER_GERUNDIO" name="han *realizando/realizado">
             <antipattern>
@@ -8856,28 +8900,104 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rulegroup id="E_EL" name="confusión e/el" default="temp_off">
+            <antipattern>
+                <token>e</token>
+                <token regexp="yes">h?[ií].*</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>E</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>e</token>
+                    </marker>
+                    <token postag="N.[MC][SN].*|A..[MC][SN]." postag_regexp="yes"/>
+                </pattern>
+                <message>Posible confusión.</message>
+                <suggestion>el</suggestion>
+                <suggestion>en</suggestion>
+                <suggestion>de</suggestion>
+                <example correction="el|en|de">No me ha llegado <marker>e</marker> correo.</example>
+                <example>Libres e iguales.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>e</token>
+                    </marker>
+                    <token postag="N.*|A.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Posible confusión.</message>
+                <suggestion>en</suggestion>
+                <suggestion>de</suggestion>
+                <example correction="en|de">No me ha llegado <marker>e</marker> vuelta.</example>
+            </rule>
+        </rulegroup>
         <rule id="ESTO_ESTE" name="esto/este" default="temp_off">
+            <antipattern>
+                <token skip="-1">esto</token>
+                <token>?</token>
+            </antipattern>
+            <antipattern>
+                <token>todo</token>
+                <token>esto</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>esto</token>
+                <token postag="V.P.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>que</token>
+                <token>esto</token>
+                <token min="0" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>esto</token>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes" regexp="yes">.+lo</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>esto</token>
                 </marker>
-                <token postag="NCMS000"/>
+                <token postag="NCMS000"><exception regexp="yes">paso|bien|rápido|seguro|vale|cumple</exception></token>
                 <!--<exception postag="V.[SI].*" postag_regexp="yes"/>-->
             </pattern>
             <message>¿Quería decir <suggestion>este</suggestion>?</message>
             <example correction="este">En <marker>esto</marker> ámbito es el mejor.</example>
             <example correction="este">En <marker>esto</marker> campo es el mejor.</example>
+            <example correction="este">Estoy viviendo en <marker>esto</marker> momento en Rusia</example>
             <example>En esto suelo ser el primero.</example>
+            <example>¿Es esto intrusismo?</example>
+            <example>Esto pasó en el año 2000.</example>
+            <example>Tendré todo esto preparadao a las ocho.</example>
+            <example>Tendré esto preparadao a las ocho.</example>
+            <example>Lo haré para evitar que esto pase.</example>
+            <example>Con esto seguro que se paliará el dolor.</example>
+            <example>Hay que dejar esto hecho.</example>
+            <example>Esto logro detectarlo.</example>
+            <example>¿Sabría decirme en qué idioma está esto escrito?</example>
         </rule>
         <rulegroup id="PRONOMBRE_SIN_VERBO" name="pronombre si verbo" default="temp_off">
             <antipattern>
                 <token regexp="yes">&pronombre_personal_atono;</token>
-                <token postag="V.[IS].*" postag_regexp="yes"/>
+                <token min="0" regexp="yes">["«“‘]</token>
+                <token postag="V.[IS].*|UNKNOWN" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token regexp="yes">&pronombre_personal_atono;</token>
                 <token regexp="yes">&pronombre_personal_atono;</token>
+                <token min="0" regexp="yes">["«“‘]</token>
                 <token postag="V.[IS].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern> <!-- trigger other rules -->
+                <token regexp="yes">&pronombre_personal_atono;</token>
+                <token min="0" regexp="yes">["«“‘]</token>
+                <token regexp="yes">rió|frió|dió|continua|este|esta|estan|esten|a|hacia|amplia</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -8892,48 +9012,72 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">&pronombre_personal_atono;</token>
+                    <token regexp="yes">&pronombre_personal_atono;<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <token/>
                 </pattern>
                 <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:VMI.*"/>
                 <message>Si es un verbo, se escribe con tilde.</message>
                 <suggestion>\1 {suggestion}</suggestion>
                 <example correction="Lo confesó"><marker>Lo confeso</marker>.</example>
+                <example>En la secundaria</example>
+                <example>Ha perdido las primarias.</example>
+                <!-- la lapidaria>lapidaría ambigious -->
             </rule>
             <rule>
                 <pattern>
-                    <token>le</token>
+                    <token regexp="yes">&pronombre_personal_atono;<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Posible confusión. Pronombre átono sin verbo.</message>
+                <suggestion>\1 <match no="2" postag="V.N.*" postag_regexp="yes" postag_replace="V.IP3S."/></suggestion>
+                <suggestion>\1 <match no="2" postag="V.N.*" postag_regexp="yes" postag_replace="V.IF3S."/></suggestion>
+                <example correction="te ayuda|te ayudará">Esto <marker>te ayudar</marker> a mejorar.</example>
+                <example>El ayudar es un primer paso</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>le<exception postag="NP.*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Posible confusión. Pronombre átono sin verbo.</message>
                 <suggestion>el</suggestion>
                 <suggestion>la</suggestion>
                 <example correction="El|La"><marker>Le</marker> tiempo perdido.</example>
+                <example>Le prometi ser valiente.</example>
+                <!-- error in "prometi", no "le"-->
+                <example>para impedir que su hermano de 5 años le «copiara»</example>
+                <example>En el país de Le Pen.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>les</token>
+                    <token>les<exception postag="NP.*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Posible confusión. Pronombre átono sin verbo.</message>
                 <suggestion>las</suggestion>
                 <suggestion>los</suggestion>
                 <example correction="Las|Los"><marker>Les</marker> buenos tiempos.</example>
+                <example correction="las|los">Ninguno de <marker>les</marker> riñones le funcionaba.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>te</token>
+                    <token>te<exception postag="NP.*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Posible confusión. Pronombre átono sin verbo.</message>
                 <suggestion>de</suggestion>
                 <suggestion>el</suggestion>
-                <example correction="de|el">Es <marker>te</marker> hoy.</example>
+                <suggestion>te he</suggestion>
+                <example correction="de|el|te he">Es <marker>te</marker> hoy.</example>
+                <example correction="de|el|te he">Yo <marker>te</marker> encontrado.</example>
+                <example>se te "compensará"</example>
+                <example>dale que te dale</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">me|se|nos|os</token>
-                    <!--|lo|los|la|las-->
+                    <token regexp="yes">me|nos|os<exception postag="NP.*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
+                    <!--|lo|los|la|las|se -->
                 </pattern>
                 <message>Posible confusión. Pronombre átono sin verbo.</message>
                 <example correction=""><marker>Nos</marker> buenos tiempos</example>
+                <example>versiones anteriores de Mac OS</example>
             </rule>
         </rulegroup>
         <rule id="MANTELO" name="mantelo/mantenlo">

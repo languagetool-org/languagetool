@@ -1414,7 +1414,12 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filter" postag="V.*"/>
     </rule>
-    <rule id="SOLER" name="soler (verb)">
+    <rulegroup id="SOLER" name="soler (verb)">
+        <antipattern>
+            <token postag="DA0MS0"/>
+            <token>suelo</token>
+        </antipattern>
+        <rule>
         <pattern>
             <marker>
                 <token inflected="yes">soler</token>
@@ -1423,6 +1428,27 @@ Copyright (C) 2011 Juan Martorell
             <token postag="V.N.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filter" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes">soler</token>
+                </marker>
+                <token min="0" postag="RG"/>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove"><wd lemma="solar"/></disambig>
+        </rule>
+    </rulegroup>
+    <rule id="PODER" name="poder/pudrir (verb)">
+        <pattern>
+            <marker>
+                <token inflected="yes">poder</token>
+            </marker>
+            <token min="0" postag="RG"/>
+            <token postag="V.N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove"><wd lemma="pudrir"/></disambig>
     </rule>
     <rulegroup id="hacer_falta1" name="hacer falta (verb)">
         <rule>
