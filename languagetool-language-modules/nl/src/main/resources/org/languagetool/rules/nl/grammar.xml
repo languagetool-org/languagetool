@@ -27075,7 +27075,15 @@ steenwijk;Steenwijk
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 				<example type="incorrect">QQ <marker>slaat piketpaal</marker> QQQ.</example>
 			</rule>
-			
+			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(grond|heien|geheid|hout|talud|\bhek\b|gebonden|terras|terrein|bouw|\bplek\b).*</token><token postag="SENT_END"/></antipattern>
+				<pattern>
+					<token inflected="yes">piketpaal</token>
+				</pattern>
+				<message>Als dit figuurlijk is, is het een cliché. Probeer het op een andere manier uit te drukken.</message>
+				<example type="incorrect">Ze hadden een <marker>piketpaaltje</marker>.</example>
+				<example>Er is geen correct voorbeeld van.</example>
+			</rule>
 		</rulegroup>
 		<rulegroup id="PILOT" name="pilot">
 			<rule>
@@ -36776,16 +36784,6 @@ steenwijk;Steenwijk
 				</pattern>
 				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
 				<example type="incorrect">Panama heeft de <marker>wind in de zeilen</marker>.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="PIKETPAAL" name="Piketpaaltjes slaan">
-			<rule>
-				<pattern>
-					<token regexp="yes">piketpa.*</token>
-				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
-				<example type="incorrect">Ze sloegen de <marker>piketpaaltje</marker>.</example>
-				<example>Er is geen correct voorbeeld van.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="SLEUTEL_TOT_SUCCES" name="Sleutel tot succes">
