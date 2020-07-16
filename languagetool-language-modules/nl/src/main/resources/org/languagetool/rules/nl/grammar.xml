@@ -12386,6 +12386,11 @@ onwaarschijnlijk
 				<suggestion><match no="3" postag_regexp="yes" postag="(BNW):(STL):(.*)" postag_replace="$1:OVR:$3"/></suggestion>
 				<example correction="belangrijkst">Dit zal nog des te <marker>belangrijk</marker> worden.</example>
 			</rule>
+			<rule>
+				<pattern><token>des</token><token>te</token><marker><token><exception postag="BNW:STL:ONV"/></token></marker></pattern>
+				<message>Er staat een onverwacht woord na 'des te'.</message>
+				<example correction="">Dit zal nog des te <marker>meet</marker> worden.</example>
+			</rule>
 		</rulegroup>
 		
 		<rulegroup id="VREEMD_VRZ_HIJ" name="vang">
