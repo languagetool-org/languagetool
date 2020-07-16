@@ -2131,16 +2131,16 @@ regexp case-insensitive maken : (?i)
 				<example correction="echt">Het woord <marker>egt</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
-		
+<!-- too many false, maybe better to use 'voorligt' as the wrong version
 		<rulegroup id="VOORLIGT_VOORLICHT" name="waarschuwing bij gebruik voorlicht i.p.v. voorligt">
 			<rule>
 				<antipattern><token regexp="yes">nu|thans</token><token>voorlicht</token></antipattern>
 				<pattern><token>voorlicht</token></pattern>
-				<message>Bedoelt u wellicht <suggestion>voorligt</suggestion> (ter behandeling)? Of toch de lamp?</message>
+				<message>Bedoelt u wellicht <suggestion>voorligt</suggestion> (ter behandeling)? Of toch de lamp of informeren?</message>
 				<example correction="voorligt">Het woord <marker>voorlicht</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
-
+		-->
 		<rulegroup id="KLAARLIGT_KLAARLICHT" name="waarschuwing bij gebruik klaarlicht i.p.v. klaarligt">
 			<rule>
                 <antipattern><token postag="SENT_START"/><token inflected="yes">zijn</token><token postag="BYW"/><token>klaarlicht</token></antipattern>
@@ -3706,16 +3706,6 @@ regexp case-insensitive maken : (?i)
 				<pattern><token case_sensitive="yes">selden</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>zelden</suggestion>? Het werkwoord sellen is zeldzaam en af te raden.</message>
 				<example correction="zelden">Het woord <marker>selden</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
-
-		<rulegroup id="VERSEN_VERZEN" name="waarschuwing bij gebruik versen i.p.v. verzen">
-			<rule>
-				<pattern>
-					   <token>versen</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>verzen</suggestion>?</message>
-				<example correction="verzen">Het woord <marker>versen</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
 
