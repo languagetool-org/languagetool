@@ -90,6 +90,7 @@ class CheckCallable implements Callable<File> {
           //printOut("textToCheck: " + textToCheck);
           String postData = "language=" + langCode +
               "&text=" + URLEncoder.encode(textToCheck, "UTF-8") +
+              "&level=picky" +
               "&enableTempOffRules=true";
           postData += token != null ? "&token=" + URLEncoder.encode(token, "UTF-8"): "";
           String tokenInfo = token != null ? " with token" : " without token";
