@@ -165,7 +165,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="WIEN_WEIN" name="Wien (Wein)">
             <pattern case_sensitive="yes">
-                <token inflected="yes" regexp="yes">trinken|Glas|Flasche|Schoppen|weiß|rot|süß|lieblich|trocken|herb|spritzig|süffig|schwer</token>
+                <token inflected="yes" regexp="yes">trinken|Glas|Flasche|Schoppen|wei(ß|ss)|rot|sü(ß|ss)|lieblich|trocken|herb|spritzig|süffig|schwer</token>
                 <token postag="ADV:MOD" min="0" max="2"></token>
                 <marker><token>Wien</token></marker>
             </pattern>
@@ -17005,18 +17005,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>macht</token>
-                    <token regexp="yes">es|das</token>
+                    <token regexp="yes">es|das|dies</token>
+                    <token min="0">einen</token>
                     <token>Sinn</token>
                 </pattern>
                 <message>'Sinn machen' ist umgangssprachlich.</message>
-                <suggestion>ergibt \2 Sinn</suggestion>
-                <suggestion>stiftet \2 Sinn</suggestion>
+                <suggestion>ergibt \2 \3 Sinn</suggestion>
+                <suggestion>stiftet \2 \3 Sinn</suggestion>
                 <suggestion>ist \2 sinnvoll</suggestion>
                 <example correction="Ergibt es Sinn|Stiftet es Sinn|Ist es sinnvoll"><marker>Macht es Sinn</marker>, dass wir das schon heute erledigen?</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">es|das</token>
+                    <token>macht</token>
+                    <token regexp="yes">es|das|dies</token>
+                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total</token>
+                    <token>keinen</token>
+                    <token>Sinn</token>
+                </pattern>
+                <message>'Sinn machen' ist umgangssprachlich.</message>
+                <suggestion>ergibt \2 \3 \4 Sinn</suggestion>
+                <suggestion>stiftet \2 \3 \4 Sinn</suggestion>
+                <suggestion>ist \2 sinnlos</suggestion>
+                <example correction="ergibt das keinen Sinn|stiftet das keinen Sinn|ist das sinnlos">Bis jetzt <marker>macht das keinen Sinn</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">es|das|dies</token>
                     <token>macht</token>
                     <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|total|schon</token>
                     <token>Sinn</token>
@@ -17029,7 +17044,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">es|das</token>
+                    <token regexp="yes">es|das|dies</token>
                     <token regexp="yes">würde|könnte|müsste|sollte|wird|kann|muss|soll</token>
                     <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|total|schon|keinen</token>
                     <token>Sinn</token>
@@ -17042,7 +17057,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">es|das</token>
+                    <token regexp="yes">es|das|dies</token>
                     <token>macht</token>
                     <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total</token>
                     <token>keinen</token>
@@ -17057,7 +17072,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">es|das</token>
+                    <token regexp="yes">es|das|dies</token>
                     <token>macht</token>
                     <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total</token>
                     <token>keinen</token>

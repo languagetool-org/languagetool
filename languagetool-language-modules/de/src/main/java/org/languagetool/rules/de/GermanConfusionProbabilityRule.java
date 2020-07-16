@@ -81,6 +81,7 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "wie ist hier der Stand", // vs Sand
     "wie ist der Stand", // vs Sand
     "hole dich auch ab", // vs dir
+    "würdest du dich vorstellen", // vs dir
     "daten wir über", // "welche Daten wir über unsere Nutzer erfassen"
     "anders seht" // falls ihr das anders seht (weht)
   );
