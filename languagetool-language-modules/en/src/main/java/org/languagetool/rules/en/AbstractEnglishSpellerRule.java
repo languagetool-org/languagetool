@@ -135,6 +135,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                      !k.getReplacement().startsWith("auto ") &&
                      !k.getReplacement().startsWith("dis ") &&
                      !k.getReplacement().endsWith(" able") &&
+                     !k.getReplacement().endsWith(" sly") && // uneccesary suggestion (e.g. for continuesly)
                      !k.getReplacement().endsWith(" OO") && // unecessary suggestion (e.g. for "HELLOOO")
                      !k.getReplacement().endsWith(" HHH") && // unecessary suggestion (e.g. for "OHHHH")
                      !k.getReplacement().endsWith(" ally") && // adverbs ending in "ally" that LT doesn't know (yet)
@@ -634,6 +635,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Automisation", Arrays.asList("Automatisation"));
     s.put("ensuite", Arrays.asList("en suite"));
     s.put("Ensuite", Arrays.asList("En suite"));
+    s.put("aswell", Arrays.asList("as well"));
+    s.put("Continuesly", Arrays.asList("Continuously"));
+    s.put("continuesly", Arrays.asList("continuously"));
 
     return s;
   }
