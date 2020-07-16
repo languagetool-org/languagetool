@@ -3179,11 +3179,15 @@ regexp case-insensitive maken : (?i)
 		-->
 		<rulegroup id="FEIT_FIJT" name="waarschuwing bij gebruik fijt">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(ontsteking|bacteri).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
+					<token regexp="yes">het|een|geen</token>
+					<marker>
 					   <token>fijt</token>
+					</marker>
 				</pattern>
 				<message>Dit is een huidaandoening; u bedoelt vast: <suggestion>feit</suggestion>?</message>
-				<example correction="feit">Het woord <marker>fijt</marker> kan een vergissing zijn.</example>
+				<example correction="feit">Het is een <marker>fijt</marker> dat het een vergissing kan zijn.</example>
 			</rule>
 		</rulegroup>
 
