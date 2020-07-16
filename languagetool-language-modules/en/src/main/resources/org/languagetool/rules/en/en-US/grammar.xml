@@ -103,6 +103,17 @@ USA
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Possible Typo" type="misspelling">
+        <rule id="STREET_LIGHTS_COMPOUND" name="street light (streetlight)">
+            <pattern>
+                <token>street</token>
+                <token regexp="yes">lights?|lamps?</token>
+            </pattern>
+            <message>In American English this is noun is spelled as one word.</message>
+            <suggestion>street<match no="2" case_conversion="alllower" /></suggestion>
+            <url>https://www.merriam-webster.com/dictionary/streetlight</url>
+            <example correction="streetlights">I only go out once the <marker>street lights</marker> are turned on.</example>
+        </rule>
+
         <rule id="HOME_COMPOUNDS_EN_US" name="home town (hometown)">
             <pattern>
                 <token>home</token>

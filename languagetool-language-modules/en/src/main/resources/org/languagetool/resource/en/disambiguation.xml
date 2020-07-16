@@ -2818,7 +2818,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">&subject_pronouns;</token>
             <token postag="DT"/>
             <token/>
-            <token postag_regexp="yes" postag="TO|PRP\$"/>
+            <token postag_regexp="yes" postag="TO|PRP\$|DT"/>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">&subject_pronouns;</token>
+            <token>no</token>
+            <token postag="VB[PZ]?" postag_regexp="yes" />
         </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT|RB" postag_regexp="yes" /><exception regexp="yes">th[eo]se|each|that|much</exception></token>
@@ -2858,6 +2863,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">It the oil us in the reservoir, and thus the equipment failed.</example><!-- #3252 -->
         <example type="untouched">Why you no reply to me?</example><!-- #3252 -->
         <example type="untouched">Why you no answer my question?</example><!-- #3252 -->
+        <example type="untouched">I no want to do that.</example><!-- #3252 -->
+        <example type="untouched">Why you no answer the question?</example><!-- #3252 -->
     </rule>
 
     <rule name="each + verb/NN -&gt; NN" id="EACH_VB_NN">
@@ -11224,7 +11231,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <pattern case_sensitive="yes">
             <token>Papua</token>
             <token>New</token>
-            <token regexp="yes">Guinean?</token>
+            <token regexp="yes">Guinea|Guineans?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

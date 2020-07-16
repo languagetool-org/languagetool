@@ -304,7 +304,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "appreciate you choosing me",
       "wand wood", // vs want
       "my order", // vs by
-      "of you being her" // vs your
+      "of you being her", // vs your
+      "ad free"
     );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {

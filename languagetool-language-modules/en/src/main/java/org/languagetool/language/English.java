@@ -257,6 +257,8 @@ public class English extends Language implements AutoCloseable {
       case "ABBREVIATION_PUNCTUATION":  return 2;
       case "COVID_19":                  return 1;
       case "UPPERCASE_SENTENCE_START":  return 1; // higher prio than AI_MISSING_THE_*
+      case "THERE_FORE":                return 1;   // higher prio than FORE_FOR
+      case "PRP_NO_VB":                 return 1;   // higher prio than I_IF
       case "FOLLOW_UP":                 return 1;   // higher prio than MANY_NN
       case "IT_SOMETHING":              return 1;   // higher prio than IF_YOU_ANY
       case "NO_KNOW":                   return 1;   // higher prio than DOUBLE_NEGATIVE
@@ -269,6 +271,7 @@ public class English extends Language implements AutoCloseable {
       case "WAN_T":                     return 1;   // higher prio than DON_T_AREN_T
       case "THE_US":                    return 1;   // higher prio than DT_PRP
       case "THE_IT":                    return 1;   // higher prio than DT_PRP
+      case "A_NUMBER_NNS":              return 1;   // higher prio than A_NNS
       case "A_HUNDREDS":                return 1;   // higher prio than A_NNS
       case "NOW_A_DAYS":                return 1;   // higher prio than A_NNS
       case "COUPLE_OF_TIMES":           return 1;   // higher prio than A_NNS
@@ -300,7 +303,8 @@ public class English extends Language implements AutoCloseable {
       case "RUDE_SARCASTIC":            return 6;   // prefer over spell checker
       case "CHILDISH_LANGUAGE":         return 8;   // prefer over spell checker
       case "EN_DIACRITICS_REPLACE":     return 9;   // prefer over spell checker (like PHRASE_REPETITION)
-      case "MANY_NN":                   return -1;  // less priority than PUSH_UP_HYPHEN
+      case "BLACK_SEA":                 return -1;  // less priority than SEA_COMPOUNDS
+      case "MANY_NN":                   return -1;  // less priority than PUSH_UP_HYPHEN, SOME_FACULTY
       case "WE_BE":                     return -1;
       case "A_LOT_OF_NN":               return -1;
       case "IT_VBZ":                    return -1;
