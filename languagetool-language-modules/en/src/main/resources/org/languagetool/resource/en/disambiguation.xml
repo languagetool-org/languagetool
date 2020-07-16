@@ -7542,6 +7542,33 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <example type="ambiguous" inputform="training[train/VBG,training/NN:U]" outputform="training[training/NN:U]">We need to to pay for <marker>training</marker> to meet national skilled manpower needs.</example>
         </rule>
 
+        <rule id="WILL_MD" name="will as modal verb">
+          <antipattern>
+            <token>what</token>
+            <token>will</token>
+            <token skip="-1">are</token>
+            <token>?</token>
+          </antipattern>
+          <pattern>
+            <marker>
+            <and>
+              <token postag="MD">will<exception scope="previous" postag_regexp="yes" postag="POS|WP\$|DT|CC"/></token>
+              <token postag="NN:UN"/>
+            </and>
+            </marker>
+            <token postag="VB.*" postag_regexp="yes"/>
+          </pattern>
+          <disambig postag="MD"/>
+          <example type="ambiguous" inputform="will[will/MD,will/NN:UN,will/VB,will/VBP]" outputform="will[will/MD]">This road <marker>will</marker> designated.</example><!-- Although 'will designated' is not correct English, we can parse 'will' as MD. -->
+          <example type="untouched">I will do it.</example>
+          <example type="untouched">A person's will is an important document.</example>
+          <example type="untouched">I was one who did not conform, and whose will could not be broken.</example>
+          <example type="untouched">... and this will featured regularly in the lawyers' debates.</example>
+          <example type="untouched">... control of thought, feelings and will combined with openness, tolerance and flexibility.</example>
+          <example type="untouched">By the way, what will are you talking about?</example>
+          <example type="untouched">Remind me, what will are these people contesting?</example>
+        </rule>
+
     <rule id="NNJJ_NN_JJ" name="noun/adj + noun => adj + noun">
         <antipattern>
             <token postag="MD"/>
