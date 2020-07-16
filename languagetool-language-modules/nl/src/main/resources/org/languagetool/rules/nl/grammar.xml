@@ -96,8 +96,6 @@ regexp case-insensitive maken : (?i)
 	<!--
 	<category id="REDUNDANCY">
 	</category>
-	<category id="STYLE" name="Stijlaspecten die niet in de andere categorieën worden afgehandeld.">
-	</category>
 	-->
 	<category id="PICKY" name="Regels die meer voor een pietje-precies zijn." default="off">
 		<rulegroup id="GETALLEN_0_20_OF_ROND" name="Getallen onder 20 en ronde getallen uitschrijven" tags="picky">
@@ -4415,7 +4413,7 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="SIPS_ZIPS" name="waarschuwing bij gebruik sips i.p.v. zips">
 			<rule>
 				<antipattern><token>iets</token><token>sips</token></antipattern>
-				<pattern><token>sips</token></pattern>
+				<pattern><token case_sensitive="yes">sips</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>zips</suggestion> (ingepakte bestanden)?</message>
 				<example correction="zips">Het woord <marker>sips</marker> kan een vergissing zijn.</example>
 			</rule>
@@ -4939,6 +4937,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="GRAFEN_GRAVEN" name="waarschuwing bij gebruik grafen i.p.v. graven">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(chorda|cykel|studeren|analyse|wiskunde|optim|algoritm|chroma|isomorf).*</token><token postag="SENT_END"/></antipattern>
 				<pattern><token>grafen</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>graven</suggestion>? Grafen zijn technisch grafieken; Graven zijn edelen of voor overledenen.</message>
 				<example correction="graven">Het woord <marker>grafen</marker> kan een vergissing zijn.</example>
@@ -6890,42 +6889,7 @@ onwaarschijnlijk
 			<example correction="op het continent">Taaladvies over <marker>in het continent</marker>.</example> 
 		</rule>
 	</category>
-	<category id="HINTS_CAT" name="Geen fout, maar er is een gerelateerd advies" default="on" type="style">
-		<rulegroup id="HINTS" name="Taaladvies over woord of woordgroep">
-			<rule>
-				<pattern>
-					<token inflected="yes" regexp="yes">materiaal|materieel</token>
-				</pattern>
-				<message>&taaladvies;</message>
-				<url>https://taaladvies.net/taal/advies/vraag/523</url>
-				<example type="incorrect">Taaladvies over <marker>materiaal</marker>.</example> 
-			</rule>
-			<rule>
-				<pattern>
-					<token>mekaar</token>
-				</pattern>
-				<message>&taaladvies;</message>
-				<url>https://taaladvies.net/taal/advies/vraag/530</url>
-				<example type="incorrect">Taaladvies over <marker>mekaar</marker>.</example> 
-			</rule>			
-			<rule>
-				<pattern>
-					<token>hoogachtend</token>
-				</pattern>
-				<message>&taaladvies;</message>
-				<url>https://taaladvies.net/taal/advies/vraag/539</url>
-				<example type="incorrect">Taaladvies over <marker>hoogachtend</marker>.</example> 
-			</rule>			
-			<rule>
-				<pattern>
-					<token regexp="yes">mits|tenzij</token>
-				</pattern>
-				<message>&taaladvies;</message>
-				<url>https://taaladvies.net/taal/advies/vraag/555</url>
-				<example type="incorrect">Taaladvies over <marker>mits</marker>.</example> 
-			</rule>			
-		</rulegroup>
-	</category>
+
 	<category id="BE_NL" name="Verschil België en Nederland" type="style">
 		<rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
 			<rule>
@@ -12479,8 +12443,8 @@ onwaarschijnlijk
 						<token postag="BNW:STL:IET"><exception negate_pos="yes" postag="BNW:STL:IET"/><exception>anders</exception></token>
 					</marker>
 				</pattern>
-				<message>U bedoelt mogelijk: <suggestion>\3t</suggestion>.</message>
-				<example correction="zachtst">Het is echt het <marker>zachts</marker>.</example>
+				<message>U bedoelt mogelijk: <suggestion>\3t</suggestion> of <suggestion><match no="3" regexp_match="s$" regexp_replace=""/></suggestion>.</message>
+				<example correction="zachtst|zacht">Het is echt het <marker>zachts</marker>.</example>
 			</rule>
 		</rulegroup>
 		
@@ -17309,6 +17273,14 @@ steenwijk;Steenwijk
 		</rulegroup>
 	</category>
 	<category id="COLLOQUIALISMS" name="Informeel" type="style">
+		<rule id="MEKAAR" name="Mekaar/elkaar">
+			<pattern>
+				<token>mekaar</token>
+			</pattern>
+			<message>'Mekaar' is spreektaal, in schrijftaal is <suggestion>elkaar</suggestion> beter.</message>
+			<url>https://taaladvies.net/taal/advies/vraag/530</url>
+			<example correction="elkaar">We geven <marker>mekaar</marker> een hand.</example> 
+		</rule>
 		<rulegroup id="OVERNIEUW" name="overnieuw → opnieuw">
 			<rule>
 				<pattern>
@@ -30722,6 +30694,14 @@ steenwijk;Steenwijk
 		</rulegroup>
 	</category>
 	<category id="STYLE" name="Stijl" type="style">
+		<rule id="MITS_TENZIJ" name="verwarring mits en tenzij">
+			<pattern>
+				<token regexp="yes">mits|tenzij</token>
+			</pattern>
+			<message>'Mits' (als maar) en 'tenzij' (als maar niet) worden vaak door schrijvers en lezeers verward. Vermijd deze woorden als het kan.</message>
+			<url>https://taaladvies.net/taal/advies/vraag/555</url>
+			<example type="incorrect">Taaladvies over <marker>mits</marker>.</example> 
+		</rule>
 		<rule id="NIET_ON" name="Niet ondenkbeeldig">
 			<pattern>
 				<token>niet</token>
