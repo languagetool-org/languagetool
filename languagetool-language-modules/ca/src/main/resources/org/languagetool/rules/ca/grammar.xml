@@ -32249,6 +32249,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match>\2 callar</suggestion>
             <example correction="tapar-nos la boca|fer-nos callar">Per a <marker>callar-nos la boca</marker>.</example>
         </rule>
+        <rulegroup id="CALLAR_NOS" name="*ens callaran" default="temp_off">
+            <url>https://esadir.cat/entrades/fitxa/id/1438</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">em|et|el|la|ens|us|els|les</token>
+                    <token postag="V.[IS].3.*" postag_regexp="yes" inflected="yes">callar</token>
+                </pattern>
+                <message>Construcció incorrecta.</message>
+                <suggestion>\1 <match no="2" postag="(V.[IS].*)" postag_regexp="yes" postag_replace="$1">fer</match> callar</suggestion>
+                <example correction="ens faran callar">No <marker>ens callaran</marker>.</example>
+                <example correction="ens farà callar">No <marker>ens callarà</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">em|et|el|la|ens|us|els|les</token>
+                    <token postag="VA[IS].3.*" postag_regexp="yes"/>
+                    <token postag="V.[NP].*" postag_regexp="yes" inflected="yes">callar</token>
+                </pattern>
+                <message>Construcció incorrecta.</message>
+                <suggestion>\1 \2 <match no="3" postag="(V.[NP].*)" postag_regexp="yes" postag_replace="$1">fer</match> callar</suggestion>
+                <example correction="ens han fet callar">No <marker>ens han callat</marker>.</example>
+                <example correction="ens van fer callar">No <marker>ens van callar</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="AIXECAR_CAP" name="*aixecar cap/ aixecar el cap">
             <pattern>
                 <marker>
