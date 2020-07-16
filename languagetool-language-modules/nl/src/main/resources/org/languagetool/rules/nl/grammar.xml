@@ -20637,13 +20637,9 @@ steenwijk;Steenwijk
 				<pattern>
 					<token inflected="yes">annonce</token>
 				</pattern>
-				<message>De tekst wordt vlotter als u deze herschrijft met <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">aankondiging</match></suggestion>.</message>
+				<message>De tekst wordt vlotter als u deze herschrijft met <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">aankondiging</match></suggestion> of <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">advertentie</match></suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-				<example correction="aankondiging">Op die <marker>annonce</marker> in de krant is nooit een reactie gekomen.</example>
-				<example correction="aankondigingen">De generatie onder de dertig jaar werpt geen blik meer op de <marker>annonces</marker> in de kranten.</example>
-				<example correction="aankondiging">Uw <marker>annonce</marker> wordt online geplaatst voor een periode van 3 maanden.</example>
-				<example correction="aankondigingen">Daarbij wijst hij erop dat vooral voor de kleine <marker>annonces</marker> de krantensector minder voor de hand liggend is geworden.</example>
-				<example correction="aankondiging">Toen er deze zomer een <marker>annonce</marker> in Het Belang van Limburg stond dat Ford terug ging aanwerven, heb ik direct een sollicitatiebrief geschreven.</example>
+				<example correction="aankondiging|advertentie">Op die <marker>annonce</marker> in de krant is nooit een reactie gekomen.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="ANTICIPEREN" name="anticiperen">
@@ -32456,9 +32452,10 @@ steenwijk;Steenwijk
 					</marker>
 					<token>twijfel</token>
 				</pattern>
-				<message>Iets 'lijdt' geen twijfel.</message>
+				<message>Het begrip 'twijfel leiden' moet worden geschreven als 'twijfel lijden'.</message>
+				<suggestion><match no="1" regexp_match="ei" regexp_replace="ij"/></suggestion>
 				<url>https://onzetaal.nl/taaladvies/ei-ij-twijfelgevallen</url>
-				<example type="incorrect">Dit <marker>leidt</marker> geen twijfel.</example>
+				<example correction="lijdt">Dit <marker>leidt</marker> geen twijfel.</example>
 			</rule>
 			<rule>
 				<pattern>
@@ -32467,9 +32464,10 @@ steenwijk;Steenwijk
 						<token inflected="yes">leiden</token>
 					</marker>
 				</pattern>
-				<message>Iets 'lijdt' geen twijfel.</message>
+				<message>Het begrip 'twijfel leiden' moet worden geschreven als 'twijfel lijden'.</message>
 				<url>https://onzetaal.nl/taaladvies/ei-ij-twijfelgevallen</url>
-				<example type="incorrect">Dit kan geen twijfel <marker>leiden</marker>.</example>
+				<suggestion><match no="2" regexp_match="ei" regexp_replace="ij"/></suggestion>
+				<example correctio="lijden">Dit kan geen twijfel <marker>leiden</marker>.</example>
 			</rule>
 		</rulegroup>
 		
