@@ -4014,7 +4014,8 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 		-->
 		
-		<rulegroup id="VERSAGEN_VERZAGEN" name="waarschuwing bij gebruik versagen i.p.v. verzagen">
+		<rulegroup id="VERSAGEN_VERZAGEN" name="waarschuwing bij gebruik versagen i.p.v. verzagen" default="temp_off">
+			<!-- TODO: lijkt voerbodige regel -->
 			<rule>
 				<antipattern><token>niet</token><token inflected="yes">versagen</token></antipattern>
 				<antipattern><token>niet</token><token>te</token><token inflected="yes">versagen</token></antipattern>
@@ -6335,7 +6336,7 @@ regexp case-insensitive maken : (?i)
 		-->
 		<rulegroup id="COLA_KOLA" name="waarschuwing bij gebruik kola i.p.v. cola">
 			<rule>
-				<pattern><token inflected="yes">kola</token></pattern>
+				<pattern><token inflected="yes" case_sensitive="yes">kola</token></pattern>
 				<message>Bedoelt u wellicht <suggestion><match no="1" regexp_match="kola" regexp_replace="cola"/></suggestion> (drank)? Een kola is een soort boom.</message>
 				<example correction="cola">Het woord <marker>kola</marker> kan een vergissing zijn.</example>
 			</rule>
@@ -12207,7 +12208,7 @@ onwaarschijnlijk
 					</marker>
 					<token><exception postag="SENT_END"/></token>
 				</pattern>
-				<message>Dit is geen afkorting maar een eenheid: <suggestion><match no="1"/></suggestion></message>
+				<message>Dit is geen afkorting maar een eenheid: <suggestion><match no="1"/></suggestion>, dus zonder punt.</message>
 				<url>https://taaladvies.net/taal/advies/vraag/170</url>
 				<example correction="mm">Het is 15 <marker>mm.</marker> dik.</example>
 				<example correction="cm">Kinderwagens met ten minste twee afmetingen van meer dan 80 <marker>cm.</marker> worden in T-treinen niet aangenomen.</example>
