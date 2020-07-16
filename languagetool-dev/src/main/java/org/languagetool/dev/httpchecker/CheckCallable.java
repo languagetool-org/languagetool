@@ -95,7 +95,7 @@ class CheckCallable implements Callable<File> {
           postData += token != null ? "&token=" + URLEncoder.encode(token, "UTF-8"): "";
           String tokenInfo = token != null ? " with token" : " without token";
           float progress = (float)i / allLines.size() * 100.0f;
-          printOut(String.format(Locale.ENGLISH, threadName + " - Posting " + tempLines.size() + " texts with " + textToCheck.length() +
+          printOut(String.format(Locale.ENGLISH, threadName + " - Posting " + tempLines.size() + " texts from " + file.getName() + " with " + textToCheck.length() +
             " chars to " + url +  tokenInfo + ", %.1f%%", progress));
           for (int retry = 1; true; retry++) {
             String pseudoFileName = HttpApiSentenceChecker.class.getSimpleName() + "-result-" + count + "-" + startLine + "-" + i;
