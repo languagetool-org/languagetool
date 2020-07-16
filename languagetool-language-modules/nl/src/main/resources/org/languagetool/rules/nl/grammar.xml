@@ -449,13 +449,12 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="GEBEUREN_GEBUREN" name="waarschuwing bij gebruik geburen i.p.v. gebeuren">
 			<rule>
 				<pattern>
-					   <token negate="yes">de</token>
 					   <marker>
 							<token>geburen</token>
 					   </marker>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>gebeuren</suggestion>? Geburen zijn de buren.</message>
-				<example correction="gebeuren">Het woord <marker>geburen</marker> kan een vergissing zijn.</example>
+				<message>Bedoelt u wellicht <suggestion>gebeuren</suggestion>? Geburen zijn de <suggestion>buren</suggestion>.</message>
+				<example correction="gebeuren|buren">Het woord <marker>geburen</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
 <!--
@@ -6297,8 +6296,9 @@ regexp case-insensitive maken : (?i)
 		
 		<rulegroup id="KICKEN_KIKKEN" name="waarschuwing bij gebruik kikken i.p.v. kicken">
 			<rule>
+				<antipattern><token>maar</token><token>te</token><token>kikken</token></antipattern>
 				<pattern><token>kikken</token></pattern>
-				<message>Bedoelt u wellicht <suggestion>kicken</suggestion> (trappen, gaaf zijn)? Kikken is geluid maken.</message>
+				<message>Bedoelt u wellicht <suggestion>kicken</suggestion> (trappen, gaaf zijn, een kick krijgen)? Kikken is geluid maken.</message>
 				<example correction="kicken">Het woord <marker>kikken</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
