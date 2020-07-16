@@ -12375,16 +12375,16 @@ onwaarschijnlijk
 	<category id="CONSTRUCTIEFOUT" name="Constructiefout">
 
 		<rulegroup id="DES_TE-VREEMD" name="Vreemd woord na des te">
+			<antipattern><token>des</token><token>te</token><token postag="WKW:TGW:INF"/></antipattern><!-- des als ziekte of medicijn -->
+			<antipattern><token>des</token><token>te</token><token postag_regexp="yes" postag="BNW:VGR:(ONV|VRB)"/></antipattern>
+			<antipattern><token>des</token><token>te</token><token regexp="yes">meer|eerder|minder</token></antipattern>
+			<antipattern><token>des</token><token>te</token><token postag="UNKNOWN"/></antipattern>
+			<antipattern><token>te</token><token>Den</token><token regexp="yes">Haag|Bosch</token></antipattern>
 			<rule>
-				<antipattern><token>des</token><token>te</token><token postag="WKW:TGW:INF"/></antipattern><!-- des als ziekte of medicijn -->
-				<antipattern><token>des</token><token>te</token><token postag_regexp="yes" postag="BNW:VGR:(ONV|VRB)"/></antipattern>
-				<antipattern><token>des</token><token>te</token><token regexp="yes">meer|eerder|minder</token></antipattern>
-				<antipattern><token>des</token><token>te</token><token postag="UNKNOWN"/></antipattern>
-				<antipattern><token>te</token><token>Den</token><token regexp="yes">Haag|Bosch</token></antipattern>
-				
-				<pattern><token>des</token><token>te</token><token/></pattern>
-				<message>\1 \2 \3</message>
-				<example type="incorrect"><marker>des te liep</marker></example>
+				<pattern><token>des</token><token>te</token><marker><token postag="BNW:STL:ONV"/></marker></pattern>
+				<message>Er staat een onverwacht woord na 'des te'.</message>
+				<suggestion><match no="3" postag_regexp="yes" postag="(BNW):(STL):(.*)" postag_replace="$1:OVR:$3"/></suggestion>
+				<example correction="belangrijkst">Dit zal nog des te <marker>belangrijk</marker> worden.</example>
 			</rule>
 		</rulegroup>
 		
@@ -13198,13 +13198,14 @@ onwaarschijnlijk
 			</rule>
 		</rulegroup>
 		
-		<rulegroup id="T_PLAATS" name="'t Plaats">
-			<!--
-			2014-08-23 TaalTik
-			regel is vrij ruw, mar komt ook niet zo vaak op.
-			-->
+		<rulegroup id="T_PLAATS" name="'t Plaats" default="temp_off">
+			<!-- TODO: check if it should be kept... ots of falses -->
 			<rule>
+				<antipattern><token regexp="yes">'|‘</token><token>t</token><token>eind</token><token>van</token></antipattern>
+				<antipattern><token>is</token><token regexp="yes">'|‘</token><token>t</token><token>waar</token></antipattern>
+				<antipattern><token regexp="yes">'|‘</token><token>t</token><token>waar</token><token>is</token></antipattern>
 				<antipattern><token regexp="yes">aan|op|van</token><token regexp="yes">'|‘</token><token>t</token></antipattern>
+				<antipattern><token>kop</token><token>in</token><token regexp="yes">'|‘</token><token>t</token><token>zand</token></antipattern>
 				<pattern case_sensitive="yes">
 					<token regexp="yes">'|‘</token>
 					<token>t</token>
@@ -25960,27 +25961,23 @@ steenwijk;Steenwijk
 		<rulegroup id="M_I" name="m.i.">
 			<rule>
 				<antipattern><token>m</token><token spacebefore="no">.</token><token spacebefore="no">i</token><token spacebefore="no">.</token><token spacebefore="no">v</token><token spacebefore="no">.</token></antipattern>
-				<pattern>
-					<token>m</token><token spacebefore="no">.</token><token spacebefore="no">i</token><token spacebefore="no">.</token>
-				</pattern>
+				<antipattern><token>m</token><token>.</token><token>i</token><token>.</token><token>v</token><token>.</token></antipattern>
+				<pattern><token>m</token><token spacebefore="no">.</token><token case_sensitive="yes" spacebefore="no">i</token><token case_sensitive="yes" spacebefore="no">.</token></pattern>
 				<message>De tekst wordt vlotter als u deze herschrijft met <suggestion>volgens mij</suggestion>, 'ik vind' of 'ik denk'.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 				<example correction="volgens mij">Dat is hij <marker>m.i.</marker> ook.</example>
 				<example correction="Volgens mij"><marker>M.i.</marker>maakt dat wel degelijk uit.</example>
 			</rule>
 			<rule>
-				<pattern>
-					<token>o</token><token spacebefore="no">.</token><token spacebefore="no">i</token><token spacebefore="no">.</token>
-				</pattern>
+				<antipattern><token>o</token><token>.</token><token>i</token><token>.</token><token regexp="yes">[dv]</token><token>.</token></antipattern>
+				<pattern><token>o</token><token case_sensitive="yes" spacebefore="no">.</token><token case_sensitive="yes" spacebefore="no">i</token><token spacebefore="no">.</token></pattern>
 				<message>De tekst wordt vlotter als u deze herschrijft met <suggestion>volgens ons</suggestion>, 'wij vinden' of 'wij denken'.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 				<example correction="volgens ons">Dat is hij <marker>o.i.</marker> ook.</example>
 				<example correction="Volgens ons"><marker>O.i.</marker>maakt dat wel degelijk uit.</example>
 			</rule>
 			<rule>
-				<pattern>
-					<token>z</token><token spacebefore="no">.</token><token spacebefore="no">i</token><token spacebefore="no">.</token>
-				</pattern>
+				<pattern><token>z</token><token spacebefore="no">.</token><token case_sensitive="yes" spacebefore="no">i</token><token spacebefore="no">.</token></pattern>
 				<message>De tekst wordt vlotter als u deze herschrijft met <suggestion>volgens hem</suggestion>, 'hij vindt' of 'hij denkt'.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 				<example correction="volgens hem">Dat is hij <marker>z.i.</marker> ook.</example>
