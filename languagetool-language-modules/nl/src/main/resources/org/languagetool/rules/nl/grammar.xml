@@ -59,9 +59,12 @@ regexp case-insensitive maken : (?i)
 <!ENTITY months "januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december">
 <!ENTITY abbrevMonths "jan|feb|(maa|mar|mrt)|apr|jun|jul|aug|sep|oct|nov|dec">
 
+
 <!-- definieer macro voor gespelde afkortingen als cd -->
 <!ENTITY gespeld "abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ov|ozb|p2p|pc|pcb|pdf|pk|pps|pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp">
 <!ENTITY apostrof "[`'‘’]">
+
+<!ENTITY taaladvies "Er zijn taaladviezen over deze tekst. Raadpleeg www.onzetaal.nl en www.taalaadvies.net, of google de tekst met daar taaladvies aan toegevoegd.">
 ]>
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lang="nl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 	<!--
@@ -1211,7 +1214,8 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		-->
-		<rulegroup id="MOORDEN_MORDEN" name="waarschuwing bij gebruik morden i.p.v. moorden">
+		<rulegroup id="MOORDEN_MORDEN" name="waarschuwing bij gebruik morden i.p.v. moorden" default="temp_off">
+			<!-- TODO: heeft regel wel zin? -->
 			<rule>
 				<pattern>
 					   <token>morden</token>
@@ -6405,6 +6409,7 @@ regexp case-insensitive maken : (?i)
 		
 		<rulegroup id="CORPSLID_KORPSLID" name="waarschuwing bij gebruik korpslid i.p.v. corpslid">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(brandweer|politie|blus|rijkswacht|commandant|kazerne|vrijwilligerskorps|bevel|wapen).*</token><token postag="SENT_END"/></antipattern>
 				<pattern><token inflected="yes">korpslid</token></pattern>
 				<message>Bedoelt u wellicht <suggestion><match no="1" regexp_match="korps" regexp_replace="corps" /></suggestion> (lid van studentenvereniging)? Of toch lid van het korps (groep, als in leger, politie, journalisten etc.)</message>
 				<example correction="corpslid">Het woord <marker>korpslid</marker> kan een vergissing zijn.</example>
@@ -6865,85 +6870,33 @@ onwaarschijnlijk
 				<example correction="colt">Het woord <marker>kolt</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
-		
-		<!-- ######### TODO : meer ######## -->
+
+		<rule id="OUDGRIEKS" name="Oud(-)Grieks">
+			<pattern>
+				<token regexp="yes" case_sensitive="yes">[Oo]ud(-){0,1}[Gg]riek(s|se)</token>
+			</pattern>
+			<message>Oudgrieks is de klassieke taal. Zaken uit de Griekse oudheid zijn Oud-Grieks of oud-Grieks; het laatste kan ook voor andere perioden worden gebruikt.</message>
+			<url>https://taaladvies.net/taal/advies/vraag/635</url>
+			<example type="incorrect">De naam afte is afkomstig uit het <marker>Oudgrieks</marker> en betekent branden.</example>
+		</rule>
+		<rule id="IN_HET_CONTINENT" name="in/op het continent">
+			<pattern>
+				<token>in</token>
+				<token>het</token>
+				<token>continent</token>
+			</pattern>
+			<message>Gebruikelijk is <suggestion>op het continent</suggestion>. Als het zich 'binnen' het content afspeelt, mag 'in' ook.</message>
+			<url>https://taaladvies.net/taal/advies/vraag/626</url>
+			<example correction="op het continent">Taaladvies over <marker>in het continent</marker>.</example> 
+		</rule>
 	</category>
 	<category id="HINTS_CAT" name="Geen fout, maar er is een gerelateerd advies" default="on" type="style">
 		<rulegroup id="HINTS" name="Taaladvies over woord of woordgroep">
 			<rule>
-				<antipattern><token>over</token></antipattern>
-				<pattern>
-					<token inflected="yes">uitwijden</token>
-				</pattern>
-				<message>Hier is een taaladvies over. Bekijk de 'Uitleg'.</message>
-				<url>https://taaladvies.net/taal/advies/vraag/824</url>
-				<example type="incorrect">Ga er hier niet <marker>uitwijden</marker>, maar je zal wel begrijpen dat het ernstig is.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token regexp="yes" case_sensitive="yes">[Oo]ud(-){0,1}[Gg]riek(s|se)</token>
-				</pattern>
-				<message>Hier is een taaladvies over. Bekijk de 'Toelichting'.</message>
-				<url>https://taaladvies.net/taal/advies/vraag/635</url>
-				<example type="incorrect">De naam afte is afkomstig uit het <marker>Oudgrieks</marker> en betekent branden.</example>
-				<example type="incorrect">In de <marker>Oud-Griekse</marker> staten was het de naam van de volksvergadering.</example>
-				<example type="incorrect">De botanische naam Melissa is afgeleid van het <marker>Oudgriekse</marker> woord voor bij.</example>
-				<example type="incorrect">Uiteindelijk werd het woord ontleend aan het <marker>Oud-Grieks</marker> ‘mustax’ (= behaarde bovenlip).</example>
-				<example type="incorrect">Zo krijgt de lokale democratie de waardigheid en stijl van de <marker>oud-Griekse</marker> forums.</example>
-				<example type="incorrect">Zijn Indo-Europese oorsprong gaf vertakkingen in tal van oude talen, waaronder het <marker>Oudgrieks</marker> themis en het Oudindisch dhāman, die beiden wet betekenen.</example>
-				<example type="incorrect">Herpes is de familienaam van het verwekkende virus, terwijl zoster het <marker>Oudgriekse</marker> woord voor gordel of ceintuur is.</example>
-				<example type="incorrect">De oudst bekende verwijzing naar deze betekenis is te vinden op de tempel van Apollo in de <marker>Oud-Griekse</marker> plaats Delphi.</example>
-				<example type="incorrect">Die <marker>oud-Griekse</marker> visie, was gekarakteriseerd door een verhouding van verregaande harmonie tussen mens en natuur.</example>
-				<example type="incorrect">Aoide of in het Latijn Aoede (<marker>Oudgrieks</marker>: Αοιδη) was één van de drie originele Muzen.</example>
-				<example type="incorrect">Van die artseneed bestaan verschillende versies die ver af staan van de oerversie (<marker>Oudgrieks</marker>) van Hippocrates.</example>
-				<example type="incorrect">De Vlachen spreken onder elkaar Vlachisch (Aromoens met hier en daar <marker>Oud-Griekse</marker> woorden).</example>
-				<example type="incorrect">Misschien moet hij het <marker>oud-Griekse</marker> woord “hubris” eens doorgronden.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token>in</token>
-					<token>het</token>
-					<token>continent</token>
-				</pattern>
-				<message>Hier is een taaladvies over. Bekijk de 'Toelichting'.</message>
-				<url>https://taaladvies.net/taal/advies/vraag/626</url>
-				<example type="incorrect">Taaladvies over <marker>in het continent</marker>.</example> 
-				<example type="incorrect">De VS blijven een nefaste rol spelen <marker>in het continent</marker>.</example>
-				<example type="incorrect">Vulde, smaakte en is gezonder dan rijsttaart (wat ze daar niet hebben, <marker>in het continent</marker> van de rijst).</example>
-				<example type="incorrect">Een aanval tegen die landen <marker>in het continent</marker> die een gelijkaardige politieke koers varen.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token>onthaal</token>
-				</pattern>
-				<message>Hier is een taaladvies over. Bekijk de 'Toelichting'.</message>
-				<url>https://taaladvies.net/taal/advies/vraag/619</url>
-				<example type="incorrect">Taaladvies over <marker>onthaal</marker>.</example> 
-				<example type="incorrect">Zorg voor <marker>onthaal</marker>.</example>
-				<example type="incorrect"><marker>Onthaal</marker> vanaf 10.30 u.</example>
-				<example type="incorrect">Het was een fijn <marker>onthaal</marker>.</example>
-				<example type="incorrect">Voor <marker>onthaal</marker> en boortoren hebben de aannemers elk 140 werkdagen.</example>
-				<example type="incorrect">Het <marker>onthaal</marker> van onze politiezone is dag en nacht geopend.</example>
-				<example type="incorrect">Terug naar <marker>onthaal</marker>.</example>
-				<example type="incorrect">Na het <marker>onthaal</marker> wacht woensdag nog een rondleiding in de school.</example>
-				<example type="incorrect"><marker>Onthaal</marker> aan boord en welkomstreceptie.</example>
-				<example type="incorrect">Ook het havenmeesterkantoor met <marker>onthaal</marker> zal hier deel van uitmaken.</example>
-				<example type="incorrect">Het werd een feestelijk <marker>onthaal</marker> met heel veel emotie.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token>niet</token>
-					<token regexp="yes">ondenkbeeldig|denkbeeldig|ondenkbaar</token>
-				</pattern>
-				<message>Hier is een taaladvies over. Bekijk de 'Toelichting'.</message>
-				<url>https://taaladvies.net/taal/advies/vraag/580</url>
-				<example type="incorrect">Taaladvies over <marker>niet denkbeeldig</marker>.</example> 
-			</rule>
-			<rule>
 				<pattern>
 					<token inflected="yes" regexp="yes">materiaal|materieel</token>
 				</pattern>
-				<message>Hier is een taaladvies over. Bekijk de 'Toelichting'.</message>
+				<message>&taaladvies;</message>
 				<url>https://taaladvies.net/taal/advies/vraag/523</url>
 				<example type="incorrect">Taaladvies over <marker>materiaal</marker>.</example> 
 			</rule>
@@ -6951,7 +6904,7 @@ onwaarschijnlijk
 				<pattern>
 					<token>mekaar</token>
 				</pattern>
-				<message>Hier is een taaladvies over. Bekijk de 'Toelichting'.</message>
+				<message>&taaladvies;</message>
 				<url>https://taaladvies.net/taal/advies/vraag/530</url>
 				<example type="incorrect">Taaladvies over <marker>mekaar</marker>.</example> 
 			</rule>			
@@ -6959,7 +6912,7 @@ onwaarschijnlijk
 				<pattern>
 					<token>hoogachtend</token>
 				</pattern>
-				<message>Hier is een taaladvies over. Bekijk de 'Toelichting'.</message>
+				<message>&taaladvies;</message>
 				<url>https://taaladvies.net/taal/advies/vraag/539</url>
 				<example type="incorrect">Taaladvies over <marker>hoogachtend</marker>.</example> 
 			</rule>			
@@ -6967,7 +6920,7 @@ onwaarschijnlijk
 				<pattern>
 					<token regexp="yes">mits|tenzij</token>
 				</pattern>
-				<message>Hier is een taaladvies over. Bekijk de 'Toelichting'.</message>
+				<message>&taaladvies;</message>
 				<url>https://taaladvies.net/taal/advies/vraag/555</url>
 				<example type="incorrect">Taaladvies over <marker>mits</marker>.</example> 
 			</rule>			
@@ -8199,6 +8152,14 @@ onwaarschijnlijk
 			</rule>
 		</rulegroup>
 		<rulegroup id="BE_NL_VERSCHIL" name="Verschil in betekenis">
+			<rule>
+				<pattern>
+					<token>onthaal</token>
+				</pattern>
+				<message>In België betekent 'onthaal' ook 'ontvangst'. In Nederland is 'onthaal' de manier van ontvangen.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/619</url>
+				<example type="incorrect">Het was een fijn <marker>onthaal</marker>.</example>
+			</rule>
 			<rule>
 				<pattern>
 					<token>aso</token>
@@ -30761,6 +30722,17 @@ steenwijk;Steenwijk
 		</rulegroup>
 	</category>
 	<category id="STYLE" name="Stijl" type="style">
+		<rule id="NIET_ON" name="Niet ondenkbeeldig">
+			<pattern>
+				<token>niet</token>
+				<token regexp="yes">ondenkbeeldig|ondenkbaar</token>
+			</pattern>
+			<message>Met deze woordkeuze is het onduidelijk wat er precies wordt bedoeld. Haal een 'on' of 'niet' weg.</message>
+			<suggestion>\2</suggestion>
+			<suggestion>niet <match no="2" regexp_match="^on" regexp_replace=""/></suggestion>
+			<url>https://taaladvies.net/taal/advies/vraag/580</url>
+			<example correction="ondenkbeeldig|niet denkbeeldig">Taaladvies over <marker>niet ondenkbeeldig</marker>.</example> 
+		</rule>
 		<rulegroup id="ER_MIST" name="Er mist → Er ontbreekt">
 			<rule>
 				<pattern>
@@ -31024,7 +30996,7 @@ steenwijk;Steenwijk
 		<rulegroup id="P_A" name="p/a">
 			<rule>
 				<!-- 2014-08-23 TaalTik -->
-				<pattern>
+				<pattern case_sensitive="yes">
 					<token>p</token>
 					<token>/</token>
 					<token>a</token>
@@ -33949,6 +33921,7 @@ steenwijk;Steenwijk
 				<antipattern><token>uit</token><token>den</token><token>boze</token></antipattern>
 				<antipattern><token>uit</token><token>den</token><token>dode</token></antipattern>
 				<antipattern><token>van</token><token>den</token><token>beginne</token></antipattern>
+				<antipattern><token>van</token><token>den</token><token>domme</token></antipattern>
 				<antipattern><token>in</token><token>den</token><token>treure</token></antipattern>
 				<antipattern><token regexp="yes">een|slanke|grove</token><token>den</token></antipattern>
 				<antipattern><token/><token>den</token><token regexp="yes" case_sensitive="yes">[A-Z].*</token></antipattern> <!-- eigennamen -->
@@ -35230,7 +35203,7 @@ steenwijk;Steenwijk
 					<token>kat</token>
 					<token>en</token>
 					<token>muis</token>
-					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer</exception><exception postag_regexp="yes" postag="VRZ|BNW.*"/></token>
+					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer|moeten</exception><exception postag_regexp="yes" postag="VRZ|BNW.*"/></token>
 				</pattern>
 				<message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 				<url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
