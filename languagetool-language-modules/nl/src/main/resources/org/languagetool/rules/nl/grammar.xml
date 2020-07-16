@@ -2957,8 +2957,10 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="SCHRIJD_SCHREIT" name="waarschuwing bij gebruik schreit i.p.v. schrijd">
+		<rulegroup id="SCHRIJD_SCHREIT" name="waarschuwing bij gebruik schreit i.p.v. schrijd" default="temp_off">
+			<!-- TODO: later nog een checken, doet het neit zo goed -->
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(hemel|verdriet|traan|tranen).*</token><token postag="SENT_END"/></antipattern>
 				<pattern><token>schreit</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>schrijd</suggestion> (loopt)? Of toch 'huilt'?</message>
 				<example correction="schrijd">Het woord <marker>schreit</marker> kan een vergissing zijn.</example>
@@ -3068,7 +3070,7 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		-->
-		
+<!-- too many falses
 		<rulegroup id="BESCHIJT_BESCHEID" name="waarschuwing bij gebruik bescheid i.p.v. beschijt">
 			<rule>
 				<antipattern><token regexp="yes">het|dit|dat|een|schriftelijk</token><token>bescheid</token></antipattern>
@@ -3077,7 +3079,7 @@ regexp case-insensitive maken : (?i)
 				<example correction="beschijt">Het woord <marker>bescheid</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
-
+		-->
 		<!--
 		<rulegroup id="UITSCHIJT_UITSCHEID" name="waarschuwing bij gebruik uitscheid i.p.v. uitschijt">
 			<rule>
@@ -34528,13 +34530,12 @@ steenwijk;Steenwijk
 					<token>alles</token>
 					<token>of</token>
 					<token>niets</token>
-					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer|is</exception><exception postag_regexp="yes" postag="VRZ|BNW.*"/></token>
+					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer|is|spelen|kan</exception><exception postag_regexp="yes" postag="VRZ|BNW.*"/></token>
 				</pattern>
 				<message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 				<url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
 				<example correction="alles-of-nietsverhaal|alles-of-niets-verhaal">De nieuwe regeling is dus een <marker>alles of niets verhaal</marker>.</example>
 				<example correction="alles-of-nietsvraag|alles-of-niets-vraag">Dit is dus ook een <marker>alles of niets vraag</marker> (score -1, 0 of 1).</example>
-				<example correction="alles-of-nietsspelen|alles-of-niets-spelen">Er zijn drie grote concurrenten die <marker>alles of niets spelen</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="BAAS-BOVEN-BAAS-PRINCIPE" name="baas boven baasprincipe → baas-boven-baasprincipe">
