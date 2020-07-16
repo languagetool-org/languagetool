@@ -3923,9 +3923,9 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="SONDEREN_ZONDEREN" name="waarschuwing bij gebruik sonderen i.p.v. zonderen">
 			<rule>
 				<pattern>
-					<token skip="-1">af</token>
+					<token skip="5">af</token>
 					<marker>
-					   <token>sonderen</token>
+					   <token case_sensitive="yes">sonderen</token>
 				   </marker>
 				</pattern>
 				<message>Bedoelt u wellicht <suggestion>zonderen</suggestion>?</message>
@@ -3934,7 +3934,7 @@ regexp case-insensitive maken : (?i)
 			<rule>
 				<pattern>
 					<marker>
-					   <token skip="-1">sonderen</token>
+					   <token skip="5" case_sensitive="yes">sonderen</token>
 				   </marker>
 					<token>af</token>
 				</pattern>
@@ -31179,7 +31179,7 @@ steenwijk;Steenwijk
 						<token>een</token>
 						<token regexp="yes">hoop|boel|heleboel</token>
 						<token postag="ZNW:MRV:DE_.*" postag_regexp="yes"/>
-						<token postag="WKW:TGW:3EP"/>
+						<token postag="WKW:TGW:3EP"><exception postag="VRZ"/></token>
 					</marker>
 				</pattern>
 				<message>Volgens Taaladvies.net heeft het werkwoord hetzelfde getal als het zelfstandig naamwoord: <suggestion><match no="2"/> <match no="3"/> <match no="4"/> <match no="5" postag="WKW:TGW:INF"/></suggestion>.</message>
@@ -31198,7 +31198,7 @@ steenwijk;Steenwijk
 						<token>een</token>
 						<token regexp="yes">hoop|boel|heleboel</token>
 						<token postag="ZNW:MRV:DE_.*" postag_regexp="yes"/>
-						<token postag="WKW:VLT:1EP"/>
+						<token postag="WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW.*VRB"/></token>
 					</marker>
 				</pattern>
 				<message>Volgens Taaladvies.net heeft het werkwoord hetzelfde getal als het zelfstandig naamwoord: <suggestion><match no="2"/> <match no="3"/> <match no="4"/> <match no="5" postag="WKW:VLT:INF"/></suggestion>.</message>
