@@ -1242,11 +1242,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="NESTY_ZBYTKY" name="Нести збитки">
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes">нести|понести|несучи|нісши|понісши</token>
+          <token inflected="yes" regexp="yes">нести|понести|несучи|нісши|понісши|понесений</token>
           <token regexp="yes" min="0">би?</token>
           <token postag_regexp="yes" postag="adv.*" min="0"/>
-          <token postag_regexp="yes" postag="adj:p:v_(zna|rod).*" min="0" max="1"/>
-          <token regexp="yes">збитки|збитків|втрати|втрат</token>
+          <token postag_regexp="yes" postag="adj:[mfp]:v_(zna|rod).*" min="0" max="1"/>
+          <token postag_regexp="yes" postag="noun:inanim:[mfp]:v_(zna|rod)" inflected="yes" regexp="yes">збиток|втрата</token>
         </pattern>
         <message>Правильно: <suggestion>зазнавати збитків</suggestion>, <suggestion>зазнавати втрат</suggestion>, <suggestion>мати збитки</suggestion>, <suggestion>мати втрати</suggestion>, <suggestion>утратити</suggestion></message>
         <example correction="зазнавати збитків|зазнавати втрат|мати збитки|мати втрати|утратити">Вони <marker>понесли значні втрати</marker></example>
@@ -1261,8 +1261,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes" regexp="yes">наносити|нанести|нанос(ивши|ячи)|нанісши|нанесений|нанесення</token>
           <token regexp="yes" min="0">би?</token>
           <token postag_regexp="yes" postag="noun:.*?v_dav.*" min="0"/>
-          <token postag_regexp="yes" postag="adj:p:v_(zna|rod).*" min="0"/>
-          <token regexp="yes">збитки|збитків|втрати|втрат</token>
+          <token postag_regexp="yes" postag="adj:[mfp]:v_(zna|rod).*" min="0" max="1"/>
+          <token postag_regexp="yes" postag="noun:inanim:[mfp]:v_(zna|rod)" inflected="yes" regexp="yes">збиток|втрата</token>
         </pattern>
         <message>Правильно: <suggestion>завдавати збитків</suggestion>, <suggestion>завдавати втрат</suggestion>, <suggestion>утрати (збитки, шкоду) робити</suggestion>, <suggestion>призводити до збитків (втрат)</suggestion>, <suggestion>спричинювати збитки</suggestion></message>
         <example correction="завдавати збитків|завдавати втрат|утрати (збитки, шкоду) робити|призводити до збитків (втрат)|спричинювати збитки">Терористи підривають мости, щоб <marker>нанести збитки</marker></example>
@@ -1271,25 +1271,77 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rulegroup id="NANOSYTY_UDAR" name="Наносити удар">
+    <rulegroup id="nanosyty_shkodu" name="Наносити шкоду">
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes">наносити|нанести|нанос(ивши|ячи)|нанісши|нанесений|нанесення</token>
+          <token inflected="yes" regexp="yes">наносити|нанести|наносячи|нанісши|нанесений|нанесення</token>
           <token regexp="yes" min="0">би?</token>
           <token postag_regexp="yes" postag="noun:.*?v_dav.*" min="0"/>
-          <token postag_regexp="yes" postag="(adj|numr):.:v_zna.*" min="0" max="2"/>
-          <token regexp="yes">удари?</token>
+          <token postag_regexp="yes" postag="adj:f:v_(zna|rod).*" min="0"/>
+          <token regexp="yes">шкоду|шкоди</token>
+        </pattern>
+        <message>Правильно: <suggestion>робити шкоду</suggestion></message>
+        <suggestion>чинити шкоду</suggestion>
+        <suggestion>заподіювати шкоду</suggestion>
+        <suggestion>шкодити</suggestion>
+        <example correction="робити шкоду|чинити шкоду|заподіювати шкоду|шкодити">Терористи підривають мости, щоб <marker>нанести шкоду</marker></example>
+        <example correction="робити шкоду|чинити шкоду|заподіювати шкоду|шкодити"> <marker>нанесення державі великої шкоди</marker></example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="nanosyty_porazku" name="Наносити поразку">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">наносити|нанести|наносячи|нанісши|нанесений|нанесення</token>
+          <token regexp="yes" min="0">би?</token>
+          <token postag_regexp="yes" postag="noun:.*?v_dav.*" min="0"/>
+          <token postag_regexp="yes" postag="adj:[fp]:v_(zna|rod).*" min="0" max="1"/>
+          <token postag_regexp="yes" postag="noun:inanim:[fp]:v_(zna|rod)" inflected="yes">поразка</token>
+        </pattern>
+        <message>Правильно: <suggestion>завдавати поразки</suggestion></message>
+        <example correction="завдавати поразки">Терористи підривають мости, щоб <marker>нанести нищівну поразку</marker></example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="nanosyty_obrazu" name="Наносити образу">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">наносити|нанести|наносячи|нанісши|нанесений|нанесення</token>
+          <token regexp="yes" min="0">би?</token>
+          <token postag_regexp="yes" postag="noun:.*?v_dav.*" min="0"/>
+          <token postag_regexp="yes" postag="adj:[fp]:v_(zna|rod).*" min="0" max="1"/>
+          <token postag_regexp="yes" postag="noun:inanim:[fp]:v_(zna|rod)" inflected="yes">образа</token>
+        </pattern>
+        <message>Правильно: <suggestion>завдавати кривду</suggestion></message>
+        <suggestion>завдавати образу</suggestion>
+        <suggestion>заподіювати кривду</suggestion>
+        <suggestion>заподіювати образу</suggestion>
+        <suggestion>чинити кривду</suggestion>
+        <suggestion>чинити образу</suggestion>
+        <example correction="завдавати кривду|завдавати образу|заподіювати кривду|заподіювати образу|чинити кривду|чинити образу">Терористи підривають мости, щоб <marker>нанести серйозну образу</marker></example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="nanosyty_udar" name="Наносити удар">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">наносити|нанести|наносивши|наносячи|нанісши|нанесений|нанесення</token>
+          <token regexp="yes" min="0">би?</token>
+          <token postag_regexp="yes" postag="noun:.*?v_dav.*" min="0"/>
+          <token postag_regexp="yes" postag="(adj|numr):[mp]:v_(zna|rod).*" min="0" max="2"/>
+          <token postag_regexp="yes" postag="noun:inanim:[mp]:v_(zna|rod)" inflected="yes">удар</token>
         </pattern>
         <message>Правильно: <suggestion>завдавати удар(у)</suggestion>, <suggestion>уражати</suggestion>, <suggestion>ударити</suggestion></message>
         <example correction="завдавати удар(у)|уражати|ударити">він <marker>наніс удар</marker>.</example>
         <example correction="завдавати удар(у)|уражати|ударити">ЗСУ <marker>нанесли нищівний удар</marker> терористам.</example>
         <example correction="завдавати удар(у)|уражати|ударити">він <marker>наніс мені удар</marker>.</example>
+        <example correction="завдавати удар(у)|уражати|ударити">він <marker>наніс чотири потужних удари</marker>.</example>
         <example>ЗСУ завдали нищівного удару терористам</example>
       </rule>
 
       <rule>
         <pattern>
-          <token regexp="yes">удари?</token>
+          <token postag_regexp="yes" postag="noun:inanim:[mp]:v_(zna|rod)" inflected="yes">удар</token>
           <token postag_regexp="yes" postag="noun.*?v_naz.*" min="0"/>
           <token min="0">не</token>
           <token inflected="yes" regexp="yes">наносити|нанести</token>
