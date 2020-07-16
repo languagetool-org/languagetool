@@ -324,12 +324,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (logStacktrace) {
       message += "Stacktrace follows:";
       String stackTrace = ExceptionUtils.getStackTrace(e);
-      if (params.getOrDefault("inputLogging", "").equals("no")) {
-        // remove text content for privacy reasons:
-        message += stackTrace.replaceAll("<sentcontent>.*</sentcontent>", "<< content removed >>");
-      } else {
-        message += stackTrace;
-      }
+      message += ServerTools.cleanUserTextFromMessage(stackTrace, params);
       logger.error(message);
     } else {
       message += "(no stacktrace logged)";

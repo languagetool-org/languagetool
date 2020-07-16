@@ -193,4 +193,14 @@ final class ServerTools {
     return level;
   }
 
+  /**
+   * Remove user-content from message in case parameters require increased privacy.
+   * @since 5.0
+   */
+  public static String cleanUserTextFromMessage(String s, Map<String, String> params) {
+    if (params.getOrDefault("inputLogging", "").equals("no")) {
+      return s.replaceAll("<sentcontent>.*?</sentcontent>", "<< content removed >>");
+    }
+    return s;
+  }
 }

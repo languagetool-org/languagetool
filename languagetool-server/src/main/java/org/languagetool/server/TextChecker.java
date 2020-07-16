@@ -378,7 +378,7 @@ abstract class TextChecker {
       } else if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {
         throw (OutOfMemoryError)e.getCause();
       } else {
-        throw new RuntimeException(e.getMessage() + ", detected: " + detLang, e);
+        throw new RuntimeException(ServerTools.cleanUserTextFromMessage(e.getMessage(), parameters) + ", detected: " + detLang, e);
       }
     } catch (TimeoutException e) {
       boolean cancelled = future.cancel(true);
