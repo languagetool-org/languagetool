@@ -247,10 +247,6 @@ public class English extends Language implements AutoCloseable {
 
   @Override
   protected int getPriorityForId(String id) {
-    // higher priority for testing/evaluation; only activated by configuring remote rule
-    if (id.startsWith("AI_")) {
-      return 50;
-    }
     switch (id) {
       case "I_E":                       return 10; // needs higher prio than EN_COMPOUNDS ("i.e learning")
       case "MISSING_HYPHEN":            return 5;
@@ -260,6 +256,7 @@ public class English extends Language implements AutoCloseable {
       case "EN_COMPOUNDS":              return 2;
       case "ABBREVIATION_PUNCTUATION":  return 2;
       case "COVID_19":                  return 1;
+      case "UPPERCASE_SENTENCE_START":  return 1; // higher prio than AI_MISSING_THE_*
       case "FOLLOW_UP":                 return 1;   // higher prio than MANY_NN
       case "IT_SOMETHING":              return 1;   // higher prio than IF_YOU_ANY
       case "NO_KNOW":                   return 1;   // higher prio than DOUBLE_NEGATIVE
