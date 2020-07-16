@@ -38,6 +38,11 @@ import java.util.regex.Pattern;
 public class SpanishTagger extends BaseTagger {
 
   private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF|A[QO].[FC][SN].");
+  private static final Pattern VERB = Pattern.compile("V.+");
+  private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto)([^r]...+)",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern PREFIXES_FOR_VERBS2 = Pattern.compile("(autor)(r...+)",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   public SpanishTagger() {
     super("/es/es-ES.dict", new Locale("es"));
@@ -113,6 +118,40 @@ public class SpanishTagger extends BaseTagger {
           }
         }
       }
+    }
+    // Any well-formed verb with prefixes is tagged as a verb copying the original tags
+    Matcher matcher = PREFIXES_FOR_VERBS.matcher(word);
+    if (matcher.matches()) {
+      final String possibleVerb = matcher.group(2).toLowerCase();
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(possibleVerb, dictLookup.lookup(possibleVerb));
+      for (AnalyzedToken taggerToken : taggerTokens) {
+        final String posTag = taggerToken.getPOSTag();
+        if (posTag != null) {
+          final Matcher m = VERB.matcher(posTag);
+          if (m.matches()) {
+            String lemma = matcher.group(1).toLowerCase().concat(taggerToken.getLemma());
+            additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
+          }
+        }
+      }
+      return additionalTaggedTokens;
+    }
+
+    matcher = PREFIXES_FOR_VERBS2.matcher(word);
+    if (matcher.matches()) {
+      final String possibleVerb = matcher.group(2).toLowerCase();
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(possibleVerb, dictLookup.lookup(possibleVerb));
+      for (AnalyzedToken taggerToken : taggerTokens) {
+        final String posTag = taggerToken.getPOSTag();
+        if (posTag != null) {
+          final Matcher m = VERB.matcher(posTag);
+          if (m.matches()) {
+            String lemma = matcher.group(1).toLowerCase().concat(taggerToken.getLemma());
+            additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
+          }
+        }
+      }
+      return additionalTaggedTokens;
     }
     return null;
   }

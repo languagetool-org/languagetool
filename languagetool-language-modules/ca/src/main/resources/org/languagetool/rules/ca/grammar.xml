@@ -11565,7 +11565,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No tenia ni idea de què significava allò.</example>
                 <example>La seguretat de què gaudeixen.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token inflected="yes">saber</token>
+                    <token>a</token>
+                    <token>canvi</token>
+                    <token>de</token>
+                    <token>què</token>
+                </antipattern>
+                <pattern>
+                    <token>a</token>
+                    <token>canvi</token>
+                    <marker>
+                        <token>de</token>
+                        <token regexp="yes">què|que</token>
+                    </marker>
+                    <token min="0" max="6" postag="&pronom_feble;|RG|LOC_ADV" postag_regexp="yes"/>
+                    <!-- ambigu en el cas de subjuntiu valencià <exception postag="V.I.*" postag_regexp="yes"/>-->
+                    <token postag="V.S.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Construcció incorrecta.</message>
+                <suggestion>que</suggestion>
+                <example correction="que">Ho farà a canvi <marker>de què</marker> li esborrin la memòria.</example>
+                <example correction="que">Ho farà a canvi <marker>de què</marker> ho demanen.</example>
+                <example correction="que">Ho farà a canvi <marker>de què</marker> ho demanin.</example>
+                <example>No se sap a canvi de què.</example>
+                <example>No se sap a canvi de què ho demana.</example>
+                <example>No se sap a canvi de què ho demanen.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>a</token>
+                    <token>canvi</token>
+                    <marker>
+                        <token>de</token>
+                        <token regexp="yes">què|que</token>
+                    </marker>
+                    <token min="0" max="6" postag="&pronom_feble;|RG|LOC_ADV" postag_regexp="yes"/>
+                    <!-- ambigu en el cas de subjuntiu valencià -->
+                    <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Construcció incorrecta.</message>
+                <suggestion>que</suggestion>
+                <example correction="que">Ho farà a canvi <marker>de què</marker> li esborrin la memòria.</example>
+                <example correction="que">Se sabrà a canvi <marker>de què</marker> ho demanin.</example>
+                <example>No se sap a canvi de què.</example>
+                <example>No se sap a canvi de què ho demana.</example>
+            </rule>
             <rule>
+                <!-- catch-all rule -->
                 <pattern>
                     <token negate="yes">des</token>
                     <marker>

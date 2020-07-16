@@ -4209,6 +4209,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
+        <rulegroup id="R_RR" name="-rr- en prefijos">
+            <url>https://www.fundeu.es/recomendacion/rr-erre-doble-en-palabras-compuestas-940/</url>
+            <rule>
+                <pattern>
+                    <token postag="UNKNOWN" regexp="yes">autor[^r]...+</token>
+                </pattern>
+                <message>En las palabras prefijadas o compuestas, se duplica la erre.</message>
+                <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)autor" regexp_replace="autorr"/></suggestion>
+                <example correction="autorretrató">Se <marker>autoretrató</marker>.</example>
+                <example correction="autorralentizan">Se <marker>autoralentizan</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CONTRACCIONES" name="contracciones: del, al" default="on">
             <!-- It must be coherent with rule EL_TILDE-->
             <antipattern>
@@ -4451,6 +4463,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Siroe Re di Persia</example>
                 <example>Concierto en re mayor.</example>
                 <example>en la tonalidad de re bemol menor.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>pre</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">....+</token>
+                </pattern>
+                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="pre$1"/></suggestion>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="prer$1"/></suggestion>
+                <example correction="prerrebajas">Han llegado las <marker>pre-rebajas</marker>.</example>
+                <example correction="prerrebajas">Han llegado las <marker>pre rebajas</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8994,7 +9018,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0" regexp="yes">["«“‘]</token>
                 <token postag="V.[IS].*" postag_regexp="yes"/>
             </antipattern>
-            <antipattern> <!-- trigger other rules -->
+            <antipattern>
+                <!-- trigger other rules -->
                 <token regexp="yes">&pronombre_personal_atono;</token>
                 <token min="0" regexp="yes">["«“‘]</token>
                 <token regexp="yes">rió|frió|dió|continua|este|esta|estan|esten|a|hacia|amplia</token>
