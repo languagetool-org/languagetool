@@ -663,10 +663,23 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="PEUREN_PUREN" name="waarschuwing bij gebruik puren i.p.v. peuren">
 			<rule>
 				<pattern>
+					<token skip="-1">uit</token>
+					<marker>
 					   <token>puren</token>
+				   </marker>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>peuren</suggestion>? Peuren= soort vissen, puren='zij die puur zijn'.</message>
-				<example correction="peuren">Het woord <marker>puren</marker> kan een vergissing zijn.</example>
+				<message>Bedoelt u wellicht <suggestion>peuren</suggestion>? Peuren=vissen, puren='zij die puur zijn'.</message>
+				<example correction="peuren">Je kunt er plezier uit <marker>puren</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+					   <token skip="-1">puren</token>
+				   </marker>
+					<token>uit</token>
+				</pattern>
+				<message>Bedoelt u wellicht <suggestion>peuren</suggestion>? Peuren=vissen, puren='zij die puur zijn'.</message>
+				<example correction="Peuren"><marker>Puren</marker> jullie er nog plezier uit?</example>
 			</rule>
 		</rulegroup>
 
@@ -3922,9 +3935,10 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		-->
-		<rulegroup id="SOG_ZOG" name="waarschuwing bij gebruik sog i.p.v. zog">
+		<rulegroup id="SOG_ZOG" name="waarschuwing bij gebruik sog i.p.v. zog" default="temp_off">
+			<!-- TODO: regel lijkt geen zin te hebben, geen trues! -->
 			<rule>
-				<pattern><token>sog</token></pattern>
+				<pattern><token case_sensitive="yes">sog</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>zog</suggestion> (van zogen)? Of toch studieontwijkend gedrag?</message>
 				<example correction="zog">Het woord <marker>sog</marker> kan een vergissing zijn.</example>
 			</rule>
