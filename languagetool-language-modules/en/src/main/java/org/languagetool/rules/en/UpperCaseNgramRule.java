@@ -357,7 +357,7 @@ public class UpperCaseNgramRule extends Rule {
       tokenRegex("[A-Z].*")
     ),
     Arrays.asList(
-      tokenRegex("Teams|Maps|Canvas|Remind|Switch|Gems?|Glamour|Divvy|Solo|Splash") // Microsoft Teams, Google Maps, Remind App, Nintendo Switch (not tagged as NNP), Gems (Ruby Gems)
+      tokenRegex("Teams|Maps|Canvas|Remind|Switch|Gems?|Glamour|Divvy|Solo|Splash|Phrase") // Microsoft Teams, Google Maps, Remind App, Nintendo Switch (not tagged as NNP), Gems (Ruby Gems)
     ),
     Arrays.asList(
       pos("SENT_START"), // Music and Concepts.
