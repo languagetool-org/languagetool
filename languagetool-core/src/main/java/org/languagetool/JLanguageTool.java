@@ -901,14 +901,14 @@ public class JLanguageTool {
     if (remoteRulesThreadPool != null && mode != Mode.TEXTLEVEL_ONLY) {
       // trigger remote rules to run on whole text at once, at the start, then we wait for the results
       remoteRuleTasks = new LinkedList<>();
-      checkRemoteRules(remoteRulesThreadPool, allRules, analyzedSentences, mode,
-        remoteRuleTasks, remoteRules, cachedResults, matchOffset, userConfig.getTextSessionId());
+      checkRemoteRules(remoteRulesThreadPool, allRules, analyzedSentences, mode, level,
+        remoteRuleTasks, remoteRules, cachedResults, matchOffset);
     }
 
     List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules,
       paraMode, annotatedText, listener, mode, level, remoteRulesThreadPool == null);
 
-    fetchRemoteRuleResults(mode, remoteMatches, remoteRuleTasks, remoteRules, cachedResults, matchOffset, annotatedText);
+    fetchRemoteRuleResults(mode, level, remoteMatches, remoteRuleTasks, remoteRules, cachedResults, matchOffset, annotatedText);
 
     ruleMatches.addAll(remoteMatches);
     ruleMatches = new SameRuleGroupFilter().filter(ruleMatches);
@@ -923,7 +923,7 @@ public class JLanguageTool {
     return ruleMatches;
   }
 
-  protected void fetchRemoteRuleResults(Mode mode, List<RuleMatch> remoteMatches,
+  protected void fetchRemoteRuleResults(Mode mode, Level level, List<RuleMatch> remoteMatches,
                                         List<FutureTask<RemoteRuleResult>> remoteRuleTasks, List<RemoteRule> remoteRules,
                                         Map<AnalyzedSentence, List<RuleMatch>> cachedResults,
                                         Map<AnalyzedSentence, Integer> matchOffset,
@@ -942,7 +942,7 @@ public class JLanguageTool {
               // store in cache
               InputSentence cacheKey = new InputSentence(
                 sentence.getText(), language, motherTongue, disabledRules, disabledRuleCategories,
-                enabledRules, enabledRuleCategories, userConfig, altLanguages, mode);
+                enabledRules, enabledRuleCategories, userConfig, altLanguages, mode, level);
               Map<String, List<RuleMatch>> cacheEntry = cache.getRemoteMatchesCache().get(cacheKey, HashMap::new);
               // TODO check if result is from fallback, don't cache?
               logger.info("Caching: Remote rule '{}'", ruleKey);
@@ -999,9 +999,9 @@ public class JLanguageTool {
   }
 
   protected void checkRemoteRules(@NotNull ExecutorService remoteRulesThreadPool,
-                                  List<Rule> allRules, List<AnalyzedSentence> analyzedSentences, Mode mode,
+                                  List<Rule> allRules, List<AnalyzedSentence> analyzedSentences, Mode mode, Level level,
                                   List<FutureTask<RemoteRuleResult>> remoteRuleTasks, List<RemoteRule> remoteRules,
-                                  Map<AnalyzedSentence, List<RuleMatch>> cachedResults, Map<AnalyzedSentence, Integer> matchOffset, Long textSessionId) {
+                                  Map<AnalyzedSentence, List<RuleMatch>> cachedResults, Map<AnalyzedSentence, Integer> matchOffset) {
     List<InputSentence> cacheKeys = new LinkedList<>();
     int offset = 0;
     // prepare keys for caching, offsets for adjusting match positions
@@ -1010,19 +1010,12 @@ public class JLanguageTool {
       offset += s.getText().length();
       InputSentence cacheKey = new InputSentence(s.getText(), language, motherTongue,
         disabledRules, disabledRuleCategories, enabledRules, enabledRuleCategories,
-        userConfig, altLanguages, mode);
+        userConfig, altLanguages, mode, level);
       cacheKeys.add(cacheKey);
     }
-    long rollout = (textSessionId != null) ? (textSessionId % 100) : 0;
     for (Rule r : allRules) {
       if (r instanceof RemoteRule && !ignoreRule(r)) {
         RemoteRule rule = (RemoteRule) r;
-        // textSessionId is cached in pipeline pool, so this is not
-        logger.info("Partial rollout for rule '{}': textSessionId={}, rollout={}, configured={}",
-          rule.getId(), textSessionId, rollout, rule.getServiceConfiguration().getRollout());
-        if (!(rollout < rule.getServiceConfiguration().getRollout())) {
-          continue;
-        }
         remoteRules.add(rule);
         FutureTask<RemoteRuleResult> task;
         if (cache != null) {
