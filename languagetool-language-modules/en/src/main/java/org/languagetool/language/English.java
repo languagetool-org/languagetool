@@ -382,7 +382,8 @@ public class English extends Language implements AutoCloseable {
       messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages));
     String theInsertionID = "AI_THE_INS_RULE";
     RemoteRuleConfig theInsertionConfig = RemoteRuleConfig.getRelevantConfig(theInsertionID, configs);
-    final String missingTheDescription = "This rule identifies whether the article 'the' is missing in a sentence, as well as checking if every instance of 'the' in the sentence is correct.";
+    final String missingTheDescription = "This rule identifies whether the article 'the' is missing in a sentence.";
+    final String missingWordDescription = "This rule identifies whether the articles 'a' or 'an' are missing in a sentence.";
     final String delMessage = "This article might not be necessary here.";
     final String insMessage = "You might be missing an article here.";
     if (theInsertionConfig != null) {
@@ -401,6 +402,13 @@ public class English extends Language implements AutoCloseable {
       Rule missingTheRule = GRPCRule.create(missingTheConfig, missingTheID,
                                             missingTheDescription, missingTheMessages);
       rules.add(missingTheRule);
+    }
+    String missingWordID = "AI_MISSING_WORD";
+    RemoteRuleConfig missingWordConfig = RemoteRuleConfig.getRelevantConfig(missingWordID, configs);
+    if (missingWordConfig != null) {
+      Rule missingWordRule = GRPCRule.create(missingWordConfig, missingWordID, missingWordDescription,
+                                             Collections.emptyMap());// provided by server
+      rules.add(missingWordRule);
     }
     List<String> confpairRules = Arrays.asList("AI_CONFPAIRS_EN_GPT2", "AI_CONFPAIRS_EN_GPT2_L", "AI_CONFPAIRS_EN_GPT2_XL");
     for (String confpairID : confpairRules) {
