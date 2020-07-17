@@ -52,7 +52,7 @@ public class UserConfig {
   private final boolean filterDictionaryMatches;
 
   // partially indifferent for comparing UserConfigs (e.g. in PipelinePool)
-  // provided to rules only for A/B tests / partial rollout of remote rules
+  // provided to rules only for A/B tests
   private final Long textSessionId;
   private final String abTest;
 
@@ -166,9 +166,6 @@ public class UserConfig {
       // -> (cached) textSessionId on server may say group A, but ID on client (relevant for saved correction) says B
       // only group must match; keeps hit rate of pipeline cache up
       .append(abTest, other.abTest)
-      // partial rollout for remote rules based on this; similar logic as for A/B test
-      .append(textSessionId != null ? textSessionId % 100 : 0,
-        other.textSessionId != null ? other.textSessionId % 100 : 0)
       .isEquals();
   }
 
@@ -180,7 +177,6 @@ public class UserConfig {
       .append(userDictName)
       .append(configurableRuleValues)
       .append(abTest)
-      .append(textSessionId != null ? textSessionId % 100: 0)
       .append(filterDictionaryMatches)
       .toHashCode();
   }

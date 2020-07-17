@@ -51,7 +51,6 @@ public class RemoteRuleConfig {
   private static final float DEFAULT_TIMEOUT_PER_CHAR = 0;
   private static final int DEFAULT_FALL = 1;
   private static final int DEFAULT_DOWN = 5000;
-  private static final int DEFAULT_ROLLOUT = 100;
 
   private static final LoadingCache<File, List<RemoteRuleConfig>> configCache = CacheBuilder.newBuilder()
     .expireAfterWrite(15, TimeUnit.MINUTES)
@@ -76,8 +75,6 @@ public class RemoteRuleConfig {
   private final Integer fall;
   private final Long downMilliseconds;
 
-  /** for partial rollout: percentage (0-100) */
-  private final Integer rollout;
 
   private final Map<String, String> options;
 
@@ -92,7 +89,6 @@ public class RemoteRuleConfig {
                           @JsonProperty("timeoutPerCharacterMilliseconds") Float timeoutPerCharacterMilliseconds,
                           @JsonProperty("fall") Integer fall,
                           @JsonProperty("downMilliseconds") Long downMilliseconds,
-                          @JsonProperty("rollout") Integer rollout,
                           @JsonProperty("options") Map<String, String> options) {
     this.ruleId = ruleId;
     this.url = url;
@@ -102,7 +98,6 @@ public class RemoteRuleConfig {
     this.timeoutPerCharacterMilliseconds = timeoutPerCharacterMilliseconds;
     this.fall = fall;
     this.downMilliseconds = downMilliseconds;
-    this.rollout = rollout;
     this.options = Collections.unmodifiableMap(options != null ? options : Collections.emptyMap());
   }
 
@@ -132,10 +127,6 @@ public class RemoteRuleConfig {
     return timeoutPerCharacterMilliseconds != null ? timeoutPerCharacterMilliseconds : DEFAULT_TIMEOUT_PER_CHAR;
   }
 
-  public int getRollout() {
-    return rollout != null ? rollout : DEFAULT_ROLLOUT;
-  }
-
   public Map<String, String> getOptions() {
     return options;
   }
@@ -161,7 +152,6 @@ public class RemoteRuleConfig {
       .append(timeoutPerCharacterMilliseconds, that.timeoutPerCharacterMilliseconds)
       .append(fall, that.fall)
       .append(downMilliseconds, that.downMilliseconds)
-      .append(rollout, that.rollout)
       .append(options, that.options)
       .isEquals();
   }
@@ -177,7 +167,6 @@ public class RemoteRuleConfig {
       .append(timeoutPerCharacterMilliseconds)
       .append(fall)
       .append(downMilliseconds)
-      .append(rollout)
       .append(options)
       .toHashCode();
   }
@@ -193,7 +182,6 @@ public class RemoteRuleConfig {
       .append("timeoutPerCharacter", timeoutPerCharacterMilliseconds)
       .append("fall", fall)
       .append("down", downMilliseconds)
-      .append("rollout", rollout)
       .append("options", options)
       .build();
   }
