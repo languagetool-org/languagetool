@@ -25,8 +25,10 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.tools.StringTools;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -165,7 +167,11 @@ class HttpApiSentenceChecker {
         List<String> lines = Files.readAllLines(threadFile.toPath());
         for (String line : lines) {
           JsonNode node = mapper.readTree(line);
-          buildDates.add(node.get("software").get("buildDate").asText());
+          JsonNode date = node.get("software").get("buildDate");
+          if (date.isNull()) {
+            System.err.println("WARNING: 'null' buildDate in " + threadFile + " with " + lines.size() + " lines, line: " + StringUtils.abbreviate(line, 500));
+          }
+          buildDates.add(date.asText());
           fw.write(line);
           fw.write('\n');
         }
