@@ -246,6 +246,8 @@ public class VerbAgreementRuleTest {
     assertBad("Wünscht du dir mehr Zeit?", "Subjekt (du) und Prädikat (Wünscht)");
     assertBad("Wir lebst noch.", 2);
     assertBad("Wir lebst noch.", 2, "Wir leben", "Wir lebten", "Du lebst");
+    assertBad("Er sagte düster: „Ich brauchen mich nicht schuldig fühlen.“", 1, "Ich brauche", "Ich brauchte", "Ich bräuchte", "Wir brauchen", "Sie brauchen");
+    assertBad("Er sagte: „Ich brauchen mich nicht schuldig fühlen.“", 1, "Ich brauche", "Ich brauchte", "Ich bräuchte", "Wir brauchen", "Sie brauchen");
   }
 
   private void assertGood(String s) throws IOException {
@@ -270,9 +272,9 @@ public class VerbAgreementRuleTest {
             errorMessage.contains(expectedErrorSubstring));
   }
 
-  private void assertBad(String s, int n, String... expectedSuggestions) throws IOException {
-    RuleMatch[] matches = rule.match(lt.analyzeText(s));
-    assertEquals("Did not find " + n + " match(es) in sentence '" + s + "'", n, matches.length);
+  private void assertBad(String input, int expectedMatches, String... expectedSuggestions) throws IOException {
+    RuleMatch[] matches = rule.match(lt.analyzeText(input));
+    assertEquals("Did not find " + expectedMatches + " match(es) in sentence '" + input + "'", expectedMatches, matches.length);
     if (expectedSuggestions.length > 0) {
       RuleMatch match = matches[0];
       // When two errors are reported by the rule (so TODO above), it might happen that the first match does not have the suggestions, but the second one
