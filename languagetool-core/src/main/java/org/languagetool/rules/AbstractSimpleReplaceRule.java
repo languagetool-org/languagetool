@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -232,6 +233,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
    * Synthesizer to generate inflected suggestions
    * @since 5.1
    */
+  @Nullable
   public Synthesizer getSynthesizer() {
     return null;
   }
