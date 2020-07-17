@@ -8641,6 +8641,69 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="STYLE" name="Estilo" type="style">
+        <rulegroup id="PAPA_MAMA" name="papa,mama/papá,mamá" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>papa</token>
+                    </marker>
+                    <token regexp="yes">,|:</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>papá</suggestion> (más habitual en el sentido de 'padre')?</message>
+                <url>https://www.rae.es/dpd/pap%C3%A1</url>
+                <example correction="Papá">¡<marker>Papa</marker>, ven aquí!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>mama</token>
+                    </marker>
+                    <token regexp="yes">,|:</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>mamá</suggestion> (más habitual en el sentido de 'madre')?</message>
+                <url>https://www.rae.es/dpd/mam%C3%A1</url>
+                <example correction="Mamá">¡<marker>Mama</marker>, ven aquí!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DP.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>papa</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>papá</suggestion> (más habitual en el sentido de 'padre')?</message>
+                <url>https://www.rae.es/dpd/pap%C3%A1</url>
+                <example correction="papá">Mi <marker>papa</marker> dice que sí.</example>
+                <example>El papa de Roma.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DP.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>papas</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>papás</suggestion> (más habitual en el sentido de 'padres')?</message>
+                <url>https://www.rae.es/dpd/pap%C3%A1</url>
+                <example correction="papás">Mis <marker>papas</marker> dicen que sí.</example>
+                <example>Los papas de Roma.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DP.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>mama</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>mamá</suggestion> (más habitual en el sentido de 'madre')?</message>
+                <url>https://www.rae.es/dpd/mam%C3%A1</url>
+                <example correction="mamá">Mi <marker>mama</marker> dice que sí.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ANGLICISM" name="anglicismos innecesarios">
             <rule>
                 <pattern>
