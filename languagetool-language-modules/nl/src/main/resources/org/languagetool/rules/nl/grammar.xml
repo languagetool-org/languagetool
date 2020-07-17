@@ -568,12 +568,13 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		
-		<rulegroup id="SCHEURING_SCHURING" name="waarschuwing bij gebruik schuring i.p.v. scheuring">
+		<rulegroup id="SCHEURING_SCHURING" name="waarschuwing bij gebruik schuring i.p.v. scheuring" default="temp_off">
+			<!-- TODO: nog zinvol? Zie alleen maar falses.... -->
 			<rule>
 				<pattern>
 					<token negate="yes">een</token>
 					<marker>
-					   <token>schuring</token>
+					   <token case_sensitive="yes">schuring</token>
 				   </marker>
 				</pattern>
 				<message>Bedoelt u wellicht <suggestion>scheuring</suggestion>? Scheuring=deling, schuring=het langs elkaar wrijven.</message>
@@ -3672,6 +3673,8 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="SOU_ZOU" name="waarschuwing bij gebruik sou i.p.v. zou">
 			<rule>
+				<antipattern><token postag_regexp="yes" postag="GET.*"/><token>sou</token></antipattern>
+				<antipattern><token skip="1">geen</token><token>sou</token></antipattern>
 				<pattern><token>sou</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>zou</suggestion>? Een sou is een (oude) munt.</message>
 				<example correction="zou">Het woord <marker>sou</marker> kan een vergissing zijn.</example>
