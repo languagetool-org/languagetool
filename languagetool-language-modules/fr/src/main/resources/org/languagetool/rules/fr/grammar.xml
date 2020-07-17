@@ -11086,19 +11086,41 @@ though, and has since been slightly modified)-->
       <example correction="au|aux">Il a gagné <marker>à le</marker> championnat.</example>
       <example>Je n’arrive pas à le déplacer.</example>
     </rule>
-    <rule id="DU_LE" name="du le">
+    <rulegroup id="DU_LE" name="du le">
+      <rule>
+        <pattern>
+          <token>du</token>
+          <token>le</token>
+        </pattern>
+        <message>Incohérence : « \1 » ne peut pas se trouver devant « \2 ».</message>
+        <suggestion>du</suggestion>
+        <example correction="du">Je vais acheter <marker>du le</marker> jambon.</example>
+        <example>Je vais acheter du jambon.</example>
+        <example>Du bon jambon.</example>
+        <example>Du très bon jambon.</example>
+        <example>Il écoute du Chopin.</example>
+        <example>Au voisinage du zéro absolu de température.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>du</token>
+          <token regexp="yes">l'|la|les</token>
+        </pattern>
+        <message>Incohérence : « \1 » ne peut pas se trouver devant « \2 ».</message>
+        <suggestion>de \2</suggestion>
+        <example correction="de l'">Je fais <marker>du l'</marker>architecture.</example>
+      </rule>
+    </rulegroup>
+    <rule id="DU_PL_SING" name="du *pains/pain" default="temp_off">
       <pattern>
         <token>du</token>
-        <token>le</token>
+        <marker>
+          <token postag="[JN] .* p" postag_regexp="yes"><exception postag=".* (sp|s)" postag_regexp="yes"/></token>
+        </marker>
       </pattern>
-      <message>Incohérence : « \1 » ne peut pas se trouver devant « \2 ».</message>
-      <suggestion>du<match no="2" regexp_match="le" regexp_replace=""/></suggestion>
-      <example correction="du">Je vais acheter <marker>du le</marker> jambon.</example>
-      <example>Je vais acheter du jambon.</example>
-      <example>Du bon jambon.</example>
-      <example>Du très bon jambon.</example>
-      <example>Il écoute du Chopin.</example>
-      <example>Au voisinage du zéro absolu de température.</example>
+      <message>Accord de nombre erroné : « \2 » devrait être au singulier.</message>
+      <suggestion><match no="2" postag="([JN] .*) p" postag_regexp="yes" postag_replace="$1 (sp|s)"/></suggestion>
+      <example correction="pain">J'ai du <marker>pains</marker>.</example>
     </rule>
     <!-- commented out due to false positive, recreated above
     <rule id="DU_LE" name="du le">
