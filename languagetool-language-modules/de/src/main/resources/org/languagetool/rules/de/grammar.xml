@@ -39238,6 +39238,46 @@ Andere Projekte</example>
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
+        <rulegroup id="KARAETIG_OHNE_BINDESTRICH" name="Zahl und -karätig werden mit Bindestrich verbunden">
+          <rule>
+            <!-- 20 karätig -->
+            <pattern>
+              <token regexp="yes">\d+</token>
+              <token regexp="yes">karätig(e[rnms]?)?</token>
+            </pattern>
+            <message><suggestion>\1-\2</suggestion> wird mit Bindestrich geschrieben.</message>
+            <example correction="20-karätigen" type="incorrect">Hier sehen Sie einen <marker>20 karätigen</marker> Diamanten.</example>
+          </rule>
+          <rule>
+            <!-- 20,5 karätig -->
+            <pattern>
+              <token regexp="yes">\d+</token>
+              <token>,</token>
+              <token regexp="yes">\d+</token>
+              <token regexp="yes">karätig(e[rnms]?)?</token>
+            </pattern>
+            <message><suggestion>\1\2\3-\4</suggestion> wird mit Bindestrich geschrieben.</message>
+            <example correction="20,5-karätigen" type="incorrect">Hier sehen Sie einen <marker>20,5 karätigen</marker> Diamanten.</example>
+          </rule>
+          <rule>
+            <!-- 20karätig -->
+            <pattern>
+              <token regexp="yes">\d+karätig(e[rnms]?)?</token>
+            </pattern>
+            <message><suggestion><match no="1" regexp_match="^(\d+)(karätig(e[rnms]?)?)$" regexp_replace="$1-$2"/></suggestion> wird mit Bindestrich geschrieben.</message>
+            <example correction="20-karätigen" type="incorrect">Hier sehen Sie einen <marker>20karätigen</marker> Diamanten.</example>
+          </rule>
+          <rule>
+            <!-- 20,5karätig -->
+            <pattern>
+              <token regexp="yes">\d+</token>
+              <token>,</token>
+              <token regexp="yes">\d+karätig(e[rnms]?)?</token>
+            </pattern>
+            <message><suggestion><match no="1"/><match no="2"/><match no="3" regexp_match="(\d+)(karätig(e[rnms]?)?)$" regexp_replace="$1-$2"/></suggestion> wird mit Bindestrich geschrieben.</message>
+            <example correction="20,5-karätigen" type="incorrect">Hier sehen Sie einen <marker>20,5karätigen</marker> Diamanten.</example>
+          </rule>
+        </rulegroup>
         <rulegroup id="KONJUNKTION_DASS_DAS" name="Super das (, dass) viele Autos nun elektrisch fahren.">
             <rule>
                 <pattern>
