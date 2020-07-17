@@ -2730,7 +2730,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="E-Mails">Er schickt mir viele <marker>e-mails</marker>.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>\b(eMail|e-Mail|e-mail|E-mail|Email)-?([aA]dressen?|[aA]accounts?|[aA]nwendung(en)?|[cC]lients?|[kK]ontakte?|[kK]ont](os?|en)|[pP]ostf[aä]ch(er|es|s)?|[pP]rogramms?|[sS]oftware|[Vv]erkehrs?)</regexp>
+                <regexp case_sensitive='yes'>\b(eMail|e-Mail|e-mail|E-mail|E[Mm]ail)-?([aA]dressen?|[aA]accounts?|[aA]nwendung(en)?|[cC]lients?|[kK]ontakte?|[kK]ont](os?|en)|[pP]ostf[aä]ch(ern?|es|s)?|[pP]rogramms?|[sS]oftware|[Vv]erkehrs?)</regexp>
                 <message>Meinten Sie <suggestion><match no="0" regexp_match=".*ail(.*)" regexp_replace="E-Mail$1"/></suggestion>? (E-Mail = elektronische Post, Email = Schmelzüberzug)</message>
                 <short>Möglicher Tippfehler</short>
                 <example correction="E-Mail-Adresse">Das ist meine <marker>eMail-Adresse</marker>.</example>
@@ -2739,6 +2739,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="E-Mail-Kontakt">Ich werde diesen <marker>eMail-Kontakt</marker> hinzufügen.</example>
                 <example>Das ist <marker>Email</marker>.</example>
                 <example>Das Apple-Mail-Programm</example>
+            </rule>
+            <rule default="temp_off">
+                <regexp case_sensitive='yes'>\b[A-ZäÖÜ][a-zäüöß]+\-?(eMail|e-Mail|e-mail|E-mail|E[Mm]ail)(-([aA]dressen?|[aA]accounts?|[aA]nwendung(en)?|[cC]lients?|[kK]ontakte?|[kK]ont](os?|en)|[pP]ostf[aä]ch(ern?|es|s)?|[pP]rogramms?|[sS]oftware|[Vv]erkehrs?))?</regexp>
+                <message>Meinten Sie <suggestion><match no="0" regexp_match="-.*ail(.*)" regexp_replace="-E-Mail$1"/></suggestion>? (E-Mail = elektronische Post, Email = Schmelzüberzug)</message>
+                <short>Möglicher Tippfehler</short>
+                <example correction="Team-E-Mail">Das ist unsere <marker>Team-Email</marker>.</example>
+                <example correction="Team-E-Mail-Adresse">Das ist unsere <marker>Team-EMail-Adresse</marker>.</example>
+                <example>Das ist unsere <marker>Team-E-Mail</marker>.</example>
+                <example>Das ist unsere <marker>Team-E-Mail-Adresse</marker>.</example>
             </rule>
             <rule>
                 <regexp case_sensitive='yes'>E-Mailadresse</regexp>

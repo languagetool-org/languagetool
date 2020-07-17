@@ -812,6 +812,14 @@ public class AgreementRule extends Rule {
     Arrays.asList( // "Ich mache eine Ausbildung zur Junior Digital Marketing Managerin"
       new PatternTokenBuilder().tokenRegex("Junior|Senior").setSkip(3).build(),
       tokenRegex("Manager[ns]?|Managerin(nen)?")
+    ),
+    Arrays.asList( // "Angel" is tagged like the "Die Angel" for fishing
+      csToken("Business"),
+      csToken("Angel")
+    ),
+    Arrays.asList( // "Angel" is tagged like the "Die Angel" for fishing
+      tokenRegex("Customer|User"),
+      tokenRegex("Journeys?")
     )
   );
 
