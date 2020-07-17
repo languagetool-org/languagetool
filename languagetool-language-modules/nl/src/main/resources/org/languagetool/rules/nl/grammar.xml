@@ -1363,13 +1363,14 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		-->
-		<rulegroup id="VOORT_VORT" name="waarschuwing bij gebruik vort i.p.v. voort">
+		<rulegroup id="VOORT_VORT" name="waarschuwing bij gebruik vort i.p.v. voort" default="temp_off">
+			<!-- TODO: check of houden of niet -->
 			<rule>
 				<antipattern><token>vort</token><token regexp="yes">,|met</token></antipattern>
 				<pattern>
 					   <token>vort</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>voort</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>voort</suggestion> (verder), 'vort' is 'weg', ook als aansporing?</message>
 				<example correction="voort">Het woord <marker>vort</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -30714,7 +30715,7 @@ steenwijk;Steenwijk
 			<pattern>
 				<token regexp="yes">mits|tenzij</token>
 			</pattern>
-			<message>'Mits' (als maar) en 'tenzij' (als maar niet) worden vaak door schrijvers en lezeers verward. Vermijd deze woorden als het kan.</message>
+			<message>'Mits' (als maar) en 'tenzij' (als maar niet) worden vaak door schrijvers en lezers verward. Vermijd deze woorden als het kan.</message>
 			<url>https://taaladvies.net/taal/advies/vraag/555</url>
 			<example type="incorrect">Taaladvies over <marker>mits</marker>.</example> 
 		</rule>
@@ -32478,7 +32479,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<token regexp="yes">de|hete|lauwe</token>
 					<marker>
-						<token>brei</token>
+						<token case_sensitive="yes">brei</token>
 					</marker>
 				</pattern>
 				<message>Een prutje is een <suggestion>brij</suggestion>.</message>
@@ -32926,6 +32927,8 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 		<rulegroup id="VERKEERD_IN_STAAT" name="Verkeerd in goede staat / verkeert in goede staat">
+			<antipattern><token skip="10">heeft</token><token>verkeerd</token><token skip="5">in</token><token>staat</token></antipattern>
+			<antipattern><token skip="10">in</token><token>staat</token><token skip="2">verkeerd</token><token>hebben</token></antipattern>
 			<rule>
 				<pattern>
 					<marker>
