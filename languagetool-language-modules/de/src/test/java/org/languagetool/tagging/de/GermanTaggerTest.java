@@ -271,9 +271,10 @@ public class GermanTaggerTest {
 
     List<AnalyzedTokenReadings> result3 = tagger.tag(Collections.singletonList("zurückgeschickt"));
     assertThat(result3.size(), is(1));
-    assertThat(result3.get(0).getReadings().size(), is(1));
+    assertThat(result3.get(0).getReadings().size(), is(2));
     String res3 = result3.toString();
     assertTrue(res3.contains("zurückschicken/VER:PA2:SFT*"));
+    assertTrue(res3.contains("PA2:PRD:GRU:VER*"));
     assertFalse(res3.contains("ADJ:"));
 
     List<AnalyzedTokenReadings> result4 = tagger.tag(Collections.singletonList("abzuschicken"));

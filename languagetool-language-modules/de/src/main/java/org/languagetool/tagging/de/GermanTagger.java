@@ -226,7 +226,7 @@ public class GermanTagger extends BaseTagger {
           String noPrefixForm = word.substring(verbInfo.prefix.length() + verbInfo.infix.length());   // infix can be "zu"
           List<TaggedWord> tags = tag(noPrefixForm);
           for (TaggedWord tag : tags) {
-            if (tag.getPosTag() != null && tag.getPosTag().startsWith("VER:")) {  // e.g. "schicke" is verb and adjective
+            if (tag.getPosTag() != null && (tag.getPosTag().startsWith("VER:") || tag.getPosTag().startsWith("PA2:"))) {  // e.g. "schicke" is verb and adjective
               readings.add(new AnalyzedToken(word, tag.getPosTag(), verbInfo.prefix + tag.getLemma()));
             }
           }
