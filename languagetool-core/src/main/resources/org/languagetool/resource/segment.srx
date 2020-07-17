@@ -5396,6 +5396,21 @@
 <beforebreak>\b([0-9]{2}|[0-9]{4})[\s\u00A0\u202F]+р\.\s</beforebreak>
 <afterbreak>[\s\u00A0\u202F]*[№0-9-—–]</afterbreak>
 </rule>
+<!-- річка - р. Дніпро -->
+<rule break="no">
+<beforebreak>(?&lt;!\d[ \t\u00A0\u202F]*)\bр\.[ \t\u00A0\u202F]*</beforebreak>
+<afterbreak>[ \t\u00A0\u202F]*[А-ЯІЇЄҐA-Z]</afterbreak>
+</rule>
+<!-- У травні 1949 р. Грушківський район -->
+<rule break="no">
+<beforebreak>[А-ЯІЇЄҐ][а-яіїєґ'’-]*([\s\u00A0\u202F]+[а-яіїєґ'’-]+)?[\s\u00A0\u202F](\d{4}[—–-])*\d{4}[\s\u00A0\u202F]*р\.[ \t\u00A0\u202F]*</beforebreak>
+<afterbreak>[ \t\u00A0\u202F]*[А-ЯІЇЄҐA-Z]</afterbreak>
+</rule>
+<!-- 15 вересня 1995 р. Україною було підписно -->
+<rule break="no">
+<beforebreak>\d{1,2}[\s\u00A0\u202F]+[а-яіїєґ]+[\s\u00A0\u202F]\d{4}[\s\u00A0\u202F]*р\.[ \t\u00A0\u202F]*</beforebreak>
+<afterbreak>[ \t\u00A0\u202F]*[А-ЯІЇЄҐA-Z]</afterbreak>
+</rule>
 <!-- Years: рр. -->
 <rule break="no">
 <beforebreak>\b([0-9]0|[0-9]{3}0)(-[мх])?рр\.[\s\u00A0\u202F]</beforebreak>
@@ -5456,11 +5471,6 @@
 <!-- abbreviation with proper noun: проф. Грицько, о. Лісове -->
 <rule break="no">
 <beforebreak>\b([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Рр]еж|[Аа]рх|[Сс]вв?|о|ім|упоряд|чл\.-кор)\.[ \t\u00A0\u202F]*</beforebreak>
-<afterbreak>[ \t\u00A0\u202F]*[А-ЯІЇЄҐA-Z]</afterbreak>
-</rule>
-<!-- річка - р. Дніпро -->
-<rule break="no">
-<beforebreak>(?&lt;!\d[ \t\u00A0\u202F]*)\bр\.[ \t\u00A0\u202F]*</beforebreak>
 <afterbreak>[ \t\u00A0\u202F]*[А-ЯІЇЄҐA-Z]</afterbreak>
 </rule>
 <!-- смерть гр. Болтаровича -->
