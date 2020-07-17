@@ -101,7 +101,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   }
 
   @Override
-  protected List<RuleMatch> findMatches(AnalyzedTokenReadings tokenReadings, AnalyzedSentence sentence) {
+  protected List<RuleMatch> findMatches(AnalyzedTokenReadings tokenReadings, AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> matches = super.findMatches(tokenReadings, sentence);
     if( matches.isEmpty() ) {
       if( PosTagHelper.hasPosTag(tokenReadings, Pattern.compile(".*?adjp:actv.*?:bad.*")) ) {
