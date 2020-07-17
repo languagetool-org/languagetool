@@ -7670,6 +7670,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="E-NP-plural" postag="NNS"/>
             <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]?"/>
         </antipattern>
+        <antipattern><!-- #3282 its business by raising -->
+            <token chunk="B-NP-singular" postag="PRP$"/>
+            <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token postag_regexp="yes" postag="IN"/>
+            <token chunk="B-VP" postag="VBG"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -7719,6 +7725,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">In a perfect world spreaders don't exist.</example><!-- #3101 -->
         <example type="untouched">In a perfect world technicians don this equipment for protection.</example><!-- #3101 -->
         <example type="untouched">In a perfect world technicians wear PPE.</example><!-- #3101 -->
+        <example type="untouched">Enron APACHE's ability to shape policies relating to its business by raising the profile...</example><!-- #3282 -->
     </rule>
 
     <rule id="DT_JJ_NNJJ_NN_VB_APOSTROPHE" name="determiner + adj + noun/adj + noun + verbn't => noun"><!-- #3108 -->
