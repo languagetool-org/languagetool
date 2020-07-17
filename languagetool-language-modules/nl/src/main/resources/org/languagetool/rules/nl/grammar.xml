@@ -1311,11 +1311,12 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		-->
-		<rulegroup id="HOORT_HORT" name="waarschuwing bij gebruik hort i.p.v. hoort">
+		<rulegroup id="HOORT_HORT" name="waarschuwing bij gebruik hort i.p.v. hoort" default="temp_off">
+			<!-- TODO: check if of use -->
 			<rule>
 				<antipattern><token>de</token><token>hort</token><token>op</token></antipattern>
 				<pattern>
-					   <token>hort</token>
+					<token case_sensitive="yes">hort</token><!-- also proper name -->
 				</pattern>
 				<message>Bedoelt u wellicht <suggestion>hoort</suggestion>?</message>
 				<example correction="hoort">Het woord <marker>hort</marker> kan een vergissing zijn.</example>
@@ -3101,12 +3102,13 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="MIJTJE_MEIDJE" name="waarschuwing bij gebruik meidje i.p.v. mijtje">
+		<rulegroup id="MIJTJE_MEIDJE" name="waarschuwing bij gebruik meidje i.p.v. mijtje" default="temp_off">
+			<!-- TODO: so far only falses; remove? -->
 			<rule>
 				<pattern>
 					   <token>meidje</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>mijtje</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>mijtje</suggestion> (teekje) Of toch een (dienst)meisje?</message>
 				<example correction="mijtje">Het woord <marker>meidje</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -4301,10 +4303,11 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		-->
-		<rulegroup id="WITS_WITZ" name="waarschuwing bij gebruik wits i.p.v. witz">
+		<rulegroup id="WITS_WITZ" name="waarschuwing bij gebruik wits i.p.v. witz" default="temp_off">
+			<!-- TODO: geen true pos gevonden, regel mag weg? -->
 			<rule>
-				<antipattern><token>iets</token><token>wits</token></antipattern>
-				<pattern><token>wits</token></pattern>
+				<antipattern><token skip="3" regexp="yes">n?iets</token><token>wits</token></antipattern>
+				<pattern><token case_sensitive="yes">wits</token></pattern>
 				<message>Bedoelt u wellicht <suggestion>witz</suggestion> (grap)?</message>
 				<example correction="witz">Het woord <marker>wits</marker> kan een vergissing zijn.</example>
 			</rule>
@@ -6685,15 +6688,18 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		-->
+		<!-- both words are too rare to make a good rule, and kornet is more common than cornet
 		<rulegroup id="CORNET_KORNET" name="waarschuwing bij gebruik kornet i.p.v. cornet">
 			<rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(leger|vaandrig|adjudant|bespelen|blazen|trompet|orkest).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					   <token inflected="yes">kornet</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>cornet</suggestion>? Een cornet is een doosje? Kornet heeft met muziek en militairen te maken.</message>
+				<message>Bedoelt u wellicht <suggestion>cornet</suggestion>? Een cornet is een doosje. Kornet heeft met muziek en militairen te maken.</message>
 				<example correction="cornet">Het woord <marker>kornet</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
+		-->
 <!--
 		<rulegroup id="WECKEN_WEKKEN" name="waarschuwing bij gebruik wekken i.p.v. wecken">
 			<rule>
@@ -16402,8 +16408,8 @@ steenwijk;Steenwijk
 						<token spacebefore="yes">ede</token>
 					</marker>
 				</pattern>
-				<message>Typefout, wellicht <suggestion>Ede</suggestion> of <suggestion>eed</suggestion></message>
-				<example correction="Ede|eed">Hij woont in <marker>ede</marker>.</example>
+				<message>Typefout, wellicht <suggestion>Ede</suggestion>, <suggestion>eed</suggestion> of <suggestion>de</suggestion></message>
+				<example correction="Ede|eed|de">Hij woont in <marker>ede</marker>.</example>
 				<example>Hij staat onder <marker>ede</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -29861,8 +29867,7 @@ steenwijk;Steenwijk
 				</pattern>
 				<message>De tekst wordt vlotter als u deze herschrijft met 'vraag'.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-				<example type="incorrect">QQ <marker>vraagpunt</marker> QQQ.</example>
-				<example>QQ <marker>vraag</marker>.</example>
+				<example type="incorrect">Het is maar een <marker>vraagpunt</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="VREZEN_VOOR" name="vrezen voor">
@@ -33423,7 +33428,7 @@ steenwijk;Steenwijk
 				<example correction="bezigheid">Zulke inkomsten worden dus behaald in de uitoefening van de <marker>beroepswerkzaamheid</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="BREUKSTREEP" name="/" default="off" tags="picky"> <!-- picky (or at least experienced as such -->
+		<rulegroup id="BREUKSTREEP" name="/" default="off" tags="picky"> 
 			<rule>
 				<!-- TODO: individuele gevallen zoeken; het is anders een wel heel algemene melding -->
 				<antipattern><token regexp="yes" skip="-1">http.*</token><token postag="SENT_END"/></antipattern>
@@ -35188,7 +35193,7 @@ steenwijk;Steenwijk
 					<token>jip</token>
 					<token>en</token>
 					<token>janneke</token>
-					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer</exception><exception postag_regexp="yes" postag="VRZ|BNW.*"/></token>
+					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer|waren</exception><exception postag_regexp="yes" postag="VRZ|BNW.*"/></token>
 				</pattern>
 				<message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 				<url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
