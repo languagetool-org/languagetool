@@ -1901,9 +1901,11 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		
-		<rulegroup id="TOORNEN_TORNEN" name="waarschuwing bij gebruik tornen i.p.v. toornen">
+		<rulegroup id="TOORNEN_TORNEN" name="waarschuwing bij gebruik tornen i.p.v. toornen" default="temp_off">
+			<!-- TODO: check if of any use -->
 			<rule>
                 <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">aan|tegen|wind|storm</token><token postag="SENT_END"/></antipattern>
+				<antipattern><token case_sensitive="yes">Torn</token></antipattern><!-- family name -->
 				<pattern>
 					   <token inflected="yes">tornen</token>
 				</pattern>
@@ -5898,12 +5900,13 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="TRAFOS_TRAVOS" name="waarschuwing bij gebruik trafo's i.p.v. travo's">
+		<rulegroup id="TRAFOS_TRAVOS" name="waarschuwing bij gebruik trafo's i.p.v. travo's" default="temp_off">
+			<!-- TODO: check if any tries, if not, no use for rule -->
 			<rule>
 				<pattern>
 					   <token>trafo's</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>travo's</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>travo's</suggestion> (travestieten), of toch transformatoren?</message>
 				<example correction="travo's">Het woord <marker>trafo's</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
