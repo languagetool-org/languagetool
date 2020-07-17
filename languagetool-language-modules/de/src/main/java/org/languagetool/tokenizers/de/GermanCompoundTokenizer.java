@@ -141,6 +141,19 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Siebengestirnes", asList("Sieben", "gestirnes"));
     wordSplitter.addException("Alpinforum", asList("Alpin", "forum"));
     wordSplitter.addException("Rollerskate", asList("Rollerskate"));
+    wordSplitter.addException("Baumeisterarbeiten", asList("Baumeister", "arbeiten"));
+    wordSplitter.addException("Bilderarbeiten", asList("Bilder", "arbeiten"));
+    wordSplitter.addException("Dachdeckerarbeiten", asList("Dachdecker", "arbeiten"));
+    wordSplitter.addException("Handlangerarbeiten", asList("Handlanger", "arbeiten"));
+    wordSplitter.addException("Handwerkerarbeiten", asList("Handwerker", "arbeiten"));
+    wordSplitter.addException("Kinderarbeiten", asList("Kinder", "arbeiten"));
+    wordSplitter.addException("Masterarbeiten", asList("Master", "arbeiten"));
+    wordSplitter.addException("Meisterarbeiten", asList("Meister", "arbeiten"));
+    wordSplitter.addException("Putzerarbeiten", asList("Putzer", "arbeiten"));
+    wordSplitter.addException("Schlosserarbeiten", asList("Schlosser", "arbeiten"));
+    wordSplitter.addException("Schneiderarbeiten", asList("Schneider", "arbeiten"));
+    wordSplitter.addException("Wanderarbeiten", asList("Wander", "arbeiten"));
+    wordSplitter.addException("Taucherarbeiten", asList("Taucher", "arbeiten"));
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }
