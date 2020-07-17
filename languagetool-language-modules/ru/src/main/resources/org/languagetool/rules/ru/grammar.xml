@@ -4906,6 +4906,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
+        
+        <rulegroup  id="Punct_tochki_zrenija" name="Вводное выражение «с моей точки зрения»">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>с</token>
+                        <token>моей</token>
+                        <token>точки</token>
+                        <token>зрения</token>
+                        <token><exception>,</exception></token>  
+                    </marker>
+                </pattern>
+                <message>Запятая нужна: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" />, <match no="5"/></suggestion>.</message>
+                <short>Запятая</short>
+                <example>Да и это, с моей точки зрения, пустяки.</example>
+                <example correction="с моей точки зрения, пустяки">Да и это, <marker>с моей точки зрения пустяки</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token><exception regexp="yes">&pnct;</exception><exception postag="SENT_START" /></token>
+                        <token>с</token>
+                        <token>моей</token>
+                        <token>точки</token>
+                        <token>зрения</token>
+                    </marker>
+                </pattern>
+                <message>Запятая нужна: <suggestion><match no="1"/>, <match no="2" /> <match no="3"/> <match no="4"/> <match no="5"/></suggestion>.</message>
+                <short>Запятая</short>
+                <example>Да и это, с моей точки зрения, пустяки.</example>
+                <example correction="это, с моей точки зрения">Да и <marker>это с моей точки зрения</marker>, пустяки.</example>
+            </rule>
+        </rulegroup>
+        
         <rulegroup default="on" id="NO_NE_KAK" name="«Почти как», «не как», ...">
             <!--Перед сравнительным оборотом стоит "не" или слова: совсем, совершенно, почти, именно, + вроде, точь-в-точь  ->> запятая не ставится.
            -->
