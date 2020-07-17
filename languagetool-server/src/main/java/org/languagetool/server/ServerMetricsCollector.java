@@ -57,6 +57,24 @@ public class ServerMetricsCollector {
     25, 50, 100, 150, 200, 250, 300, 400, 500, 750, 1000, 2500, 5000, 7500, 10000, 15000, 20000, 30000, 40000
   };
 
+  // buckets for processing speed in chars/s;
+  private static final double[] SPEED_BUCKETS = {
+// expected min: e.g. 100 chars in 10s = 10 chars/s
+    10, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500,
+    550, 600, 650, 700, 750, 800, 850, 900, 950,
+    1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900,
+    2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900,
+    3000, 3100, 3200, 3300, 3400, 3500, 3600, 3700, 3800, 3900,
+    4000, 4100, 4200, 4300, 4400, 4500, 4600, 4700, 4800, 4900,
+    5000, 5100, 5200, 5300, 5400, 5500, 5600, 5700, 5800, 5900,
+    6000, 6100, 6200, 6300, 6400, 6500, 6600, 6700, 6800, 6900,
+    7000, 7100, 7200, 7300, 7400, 7500, 7600, 7700, 7800, 7900,
+    8000, 8100, 8200, 8300, 8400, 8500, 8600, 8700, 8800, 8900,
+    9000, 9100, 9200, 9300, 9400, 9500, 9600, 9700, 9800, 9900,
+    10000, 15000, 20000, 25000, 30000, 400000, 50000, 100000
+// expected max: e.g. 100 chars in 1ms = 100,000 chars/s
+  };
+
   // client is user-provided data, don't create unlimited amount of time series in prometheus
   private static final Set<String> CLIENTS = new HashSet<>(Arrays.asList(
     "webextension-chrome-ng",
@@ -104,6 +122,9 @@ public class ServerMetricsCollector {
   private final Histogram checkSize = Histogram
     .build("languagetool_check_size_characters", "Histogram of check sizes")
     .buckets(SIZE_BUCKETS).labelNames("language", "mode").register();
+  private final Histogram checkSpeed = Histogram
+    .build("languagetool_check_speed_chars_per_second", "Histogram of relative check speed")
+    .buckets(SPEED_BUCKETS).labelNames("language", "mode").register();
 
   private final Counter ruleMatchCounter = Counter
     .build("languagetool_rule_matches_total", "Total amount of matches of a given rule")
@@ -185,6 +206,9 @@ public class ServerMetricsCollector {
     double seconds = (double) milliseconds / 1000.0;
     computationTimeCounter.labels(langLabel, clientLabel, modeLabel).inc(seconds);
     checkLatency.labels(langLabel, modeLabel).observe(seconds);
+
+    double speed = textSize / seconds;
+    checkSpeed.labels(langLabel, modeLabel).observe(speed);
 
     ruleMatches.forEach((ruleId, ruleMatchCount) -> ruleMatchCounter.labels(langLabel, ruleId).inc(ruleMatchCount));
   }
