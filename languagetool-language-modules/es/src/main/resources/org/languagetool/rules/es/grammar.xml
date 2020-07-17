@@ -1802,6 +1802,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="SE" name="se/sé" default="on">
+            <antipattern>
+                <!-- error in the next word -->
+                <token>se</token>
+                <token regexp="yes" min="0">&pronombre_personal_atono;</token>
+                <token regexp="yes">hecha|vera|rió|frió|dió|continua|este|esta|estan|esten|a|hacia|amplia<exception postag="LOC_ADV"/></token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>se</token>
+                    <token postag="V...[12].." postag_regexp="yes"><exception postag="V...3..|C.*|SP.*|AQ.*|[NCR].*" postag_regexp="yes"/><exception postag="VMIP1S0" regexp="yes">.+o</exception></token>
+                </pattern>
+                <message>Posible falta de concordancia.</message>
+                <suggestion>se <match no="2" postag="(V...)[12].(.)" postag_regexp="yes" postag_replace="$13P$2"/></suggestion>
+                <suggestion>se <match no="2" postag="(V...)[12].(.)" postag_regexp="yes" postag_replace="$13S$2"/></suggestion>
+                <example correction="Se distinguen|Se distingue"><marker>Se distingues</marker> tres casos.</example>
+                <example type="correct" reason="triggers other rule">Se creo</example>
+                <example>Se viene</example>
+            </rule>
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">poder|soler|deber|querer|desear|que|a|de</token>
@@ -1867,12 +1885,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>se</token>
                     <token regexp="yes">me|te|le|les|lo|los|nos|os</token>
-                </antipattern>
-                <antipattern>
-                    <!-- error in the next word -->
-                    <token>se</token>
-                    <token regexp="yes" min="0">&pronombre_personal_atono;</token>
-                    <token regexp="yes">vera|rió|frió|dió|continua|este|esta|estan|esten|a|hacia|amplia<exception postag="LOC_ADV"/></token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -9036,6 +9048,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="TARTA_TRATA" name="tarta/trata" default="temp_off">
+            <!-- TODO: generalize this kind of rule -->
+            <pattern>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"><exception regexp="yes">la|las</exception></token>
+                <marker>
+                    <token regexp="yes">tartas?</token>
+                </marker>
+            </pattern>
+            <message>¿Quería decir <suggestion><match no="2" regexp_match="(?iu)tart" regexp_replace="trat"/></suggestion></message>
+            <example correction="trata">Se <marker>tarta</marker> de otro tema.</example>
+            <example>Tarta de frambuesa.</example>
+            <example>La tarta es muy buena.</example>
+            <example>Las tartas de manzana.</example>
+        </rule>
+        <rulegroup id="PUDE_PUEDE" name="pude/puede">
+            <rule>
+                <pattern>
+                    <token regexp="yes">se|nos</token>
+                    <token>pude</token>
+                </pattern>
+                <message>Posible confusión. Falta de concordancia.</message>
+                <suggestion>\1 puede</suggestion>
+                <example correction="Se puede"><marker>Se pude</marker> hacer mejor.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="E_EL" name="confusión e/el">
             <antipattern>
                 <token>e</token>
