@@ -158,6 +158,7 @@ public class French extends Language implements AutoCloseable {
   @Override
   protected int getPriorityForId(String id) {
     switch (id) {
+      case "DU_DU": return 10; // greater than DU_LE
       case "ACCORD_CHAQUE": return 10; // greater than ACCORD_NOMBRE
       case "CEST_A_DIRE": return 10; // greater than A_A_ACCENT
       case "ESPACE_UNITES": return 1; // needs to have higher priority than spell checker
