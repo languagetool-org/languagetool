@@ -11595,7 +11595,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token min="0" max="6" postag="&pronom_feble;|RG|LOC_ADV" postag_regexp="yes"/>
                     <!-- ambigu en el cas de subjuntiu valencià <exception postag="V.I.*" postag_regexp="yes"/>-->
-                    <token postag="V.S.*" postag_regexp="yes"></token>
+                    <token postag="V.S.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Construcció incorrecta.</message>
                 <suggestion>que</suggestion>
@@ -30534,6 +30534,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="OUS_CARAGOLS" name="*xurres amb merines/ous amb caragols">
+            <pattern>
+                <token regexp="yes">(ch|t?x)urr[ea]s</token>
+                <token regexp="yes">i|amb</token>
+                <token regexp="yes">merin[ea]s</token>
+            </pattern>
+            <message>Expressió castellana.</message>
+            <suggestion>ous \2 caragols</suggestion>
+            <example correction="ous amb caragols">No mescleu <marker>xurres amb merines</marker></example>
+        </rule>
         <rulegroup id="ALLO_PER_LA_QUAL_COSA" name="*allò per la qual cosa">
             <rule>
                 <pattern>
@@ -33475,18 +33485,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Va de bo</example>
             <example>Va de debò</example>
         </rule>
-        <rule id="DE_MOTU_PROPIO" name="*de motu propio/motu proprio">
-            <pattern>
-                <token regexp="yes">de|per</token>
-                <token>motu</token>
-                <token regexp="yes">propr?io</token>
-            </pattern>
-            <message>Expressió incorrecta.</message>
-            <suggestion>motu proprio</suggestion>
-            <url>http://esadir.cat/entrades/fitxa/id/3355</url>
-            <example correction="motu proprio"><marker>de motu proprio</marker></example>
-            <example>motu proprio</example>
-        </rule>
+        <rulegroup id="DE_MOTU_PROPIO" name="*de motu propio/motu proprio">
+            <rule>
+                <pattern>
+                    <token regexp="yes">de|per</token>
+                    <token regexp="yes">m[ou]tu</token>
+                    <token regexp="yes">propr?io</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>motu proprio</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/3355</url>
+                <example correction="motu proprio"><marker>de motu proprio</marker></example>
+                <example>motu proprio</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>motu</token>
+                    <token>proprio</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">m[ou]tu</token>
+                    <token regexp="yes">propr?io</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>motu proprio</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/3355</url>
+                <example correction="motu proprio">Ho faig <marker>motu propio</marker>.</example>
+                <example>motu proprio</example>
+            </rule>
+        </rulegroup>
         <rule id="URBI_ET_ORBI" name="urbi et *orbe/orbi">
             <pattern>
                 <token>urbi</token>
