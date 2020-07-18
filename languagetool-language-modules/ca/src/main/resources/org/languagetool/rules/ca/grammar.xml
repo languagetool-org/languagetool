@@ -2164,6 +2164,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="els avantatges|l'avantatge">Miren <marker>les avantatges</marker> de tot.</example>
                 <example correction="El nom|Els noms"><marker>Les noms</marker>.</example>
                 <example correction="el deliri|els deliris"><marker>el deliris</marker></example>
+                <example correction="Els objectes|L'objecte"><marker>El objectes</marker> de la pantalla.</example>
                 <example>Els pisos.</example>
                 <example>Els pins.</example>
                 <example>Porta els camions.</example>
@@ -8671,6 +8672,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Forma preferible.</message>
                 <suggestion>tant o més</suggestion>
                 <example correction="tant o més">Aquest és <marker>tan o més</marker> gran.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tan</token>
+                    </marker>
+                    <token skip="6">o</token>
+                    <token>més</token>
+                </pattern>
+                <message>És preferible escriure 'tant o més'.</message>
+                <suggestion>tant</suggestion>
+                <example correction="tant">Aquest és <marker>tan</marker> o, fins i tot, més gran que l'altre.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ADV_MENT" name="dos adverbis acabats en -ment">
@@ -16287,6 +16300,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>contes</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <token>un</token>
+                <token>conte</token>
+                <token inflected="yes">de</token>
+                <token postag="_possible_nompropi"><exception regexp="yes">Barcelona|Urgell</exception></token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token inflected="yes" regexp="yes">conte|compte</token>
@@ -16303,6 +16322,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Un dels millors contes de Calders (Pere).</example>
             <example>La Sindicatura de Comptes de Catalunya</example>
             <example>Un llibre de contes de Ricard Garcia.</example>
+            <example>Un conte de Mercè Rodoreda.</example>
+            <example>Un conte de Bel Garcia.</example>
         </rule>
         <rulegroup id="COMTAT" name="contat/*comptat/comtat d'Urgell">
             <rule>
