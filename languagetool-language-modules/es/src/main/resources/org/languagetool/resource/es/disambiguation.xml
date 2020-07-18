@@ -2437,6 +2437,10 @@ Copyright (C) 2011 Juan Martorell
     </rulegroup>
 
     <rulegroup id="PP_VERB" name="pronombre personal seguido de verbo">
+        <antipattern>
+            <token>se</token>
+            <token postag="V...[12].." postag_regexp="yes"><exception postag="V...3.." postag_regexp="yes"/></token>
+        </antipattern>
         <rule>
             <pattern>
                 <token regexp="yes">me|te|se|nos|os</token>
@@ -3695,6 +3699,15 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="remove" postag="V.*"/>
     </rule>
     <!-- IGNORE SPELLING -->
+    <rule id="un_haiga" name="un haiga">
+        <pattern>
+            <token>un</token>
+            <marker>
+                <token>haiga</token>
+            </marker>
+        </pattern>
+        <disambig action="add"><wd lemma="haiga" pos="NCMS000"/></disambig>
+    </rule>
     <rulegroup id="IGNORE_SOME_ANGLICISMS" name="ignore some common anglicisms if they go with unknown words">
         <rule>
             <pattern>
