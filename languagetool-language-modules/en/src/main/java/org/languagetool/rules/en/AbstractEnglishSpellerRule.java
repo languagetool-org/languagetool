@@ -638,7 +638,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("aswell", Arrays.asList("as well"));
     s.put("Continuesly", Arrays.asList("Continuously"));
     s.put("continuesly", Arrays.asList("continuously"));
-
+    s.put("humain", Arrays.asList("humane", "human"));
+    s.put("protene", Arrays.asList("protein"));
     return s;
   }
 
