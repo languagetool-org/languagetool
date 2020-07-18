@@ -11107,6 +11107,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>Lu 7 oct 2014</marker></example>
                 <example><marker>Martes, 7 oct 2014</marker></example>
             </rule>
+            <!-- "Lunes, 7 /7/2014" -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">&dias_semana;|&dias_semana_abrv;</token>
+                    <token min="0">,</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">[/\-]</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">[/\-]</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.DateCheckFilter" args="year:\7 month:\5 day:\3 weekDay:\1"/>
+                <message>Esta fecha no es un <match no="1" case_conversion="alllower"/> sino un {realDay}.</message>
+                <example correction=""><marker>Lunes, 7-10-2014</marker></example>
+                <example correction=""><marker>Lu 7/10/2014</marker></example>
+                <example><marker>Martes, 7-10-2014</marker></example>
+            </rule>
         </rulegroup>
         <rulegroup id="NUMBER_DAYS_MONTH" name="día máximo del mes (28, 29, 30, 31)">
             <antipattern>

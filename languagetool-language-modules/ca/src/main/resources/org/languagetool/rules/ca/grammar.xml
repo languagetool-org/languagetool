@@ -238,6 +238,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>Dilluns 7 oct 2014</marker></example>
                 <example><marker>Dimarts, 7 oct 2014</marker></example>
             </rule>
+            <!-- "Lunes, 7 /7/2014" -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">&dies_setmana;|&dies_setmana_abrev;</token>
+                    <token min="0">,</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">[/\-]</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">[/\-]</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DateCheckFilter" args="year:\7 month:\5 day:\3 weekDay:\1"/>
+                <message>Aquesta data no és un <match no="1" case_conversion="alllower"/> sinó un {realDay}.</message>
+                <example correction=""><marker>Dilluns, 7-10-2014</marker></example>
+                <example correction=""><marker>Dilluns 7/10/2014</marker></example>
+                <example><marker>Dimarts, 7-10-2014</marker></example>
+            </rule>
         </rulegroup>
         <rulegroup id="NUMBER_DAYS_MONTH" name="dia màxim del mes (28, 29, 30, 31)">
             <antipattern>
