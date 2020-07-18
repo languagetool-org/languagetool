@@ -4257,6 +4257,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
+        <rule id="PLURAL_SEPARADO" name="marca de plural separada" default="temp_off">
+            <pattern>
+                <token postag="D...P." postag_regexp="yes"></token>
+                <marker>
+                    <token postag="[AM].*S.*" postag_regexp="yes"><exception postag="[AM].*P.*" postag_regexp="yes"/></token>
+                    <token regexp="yes">es|as|s</token>
+                </marker>
+            </pattern>
+            <message suppress_misspelled="yes">Posible confusión.</message>
+            <suggestion>\2\3</suggestion>
+            <example correction="titulares">Los <marker>titular es</marker> de la cuenta.</example>
+        </rule>
         <rulegroup id="R_RR" name="-rr- en prefijos">
             <url>https://www.fundeu.es/recomendacion/rr-erre-doble-en-palabras-compuestas-940/</url>
             <rule>
