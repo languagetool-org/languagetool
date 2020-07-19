@@ -260,10 +260,10 @@ public class English extends Language implements AutoCloseable {
       case "THERE_FORE":                return 1;   // higher prio than FORE_FOR
       case "PRP_NO_VB":                 return 1;   // higher prio than I_IF
       case "FOLLOW_UP":                 return 1;   // higher prio than MANY_NN
-      case "IT_SOMETHING":              return 1;   // higher prio than IF_YOU_ANY
+      case "IT_SOMETHING":              return 1;   // higher prio than IF_YOU_ANY and IT_THE_PRP
       case "NO_KNOW":                   return 1;   // higher prio than DOUBLE_NEGATIVE
       case "FEDEX":                     return 1;   // higher prio than PLEASE_VB
-      case "WILL_BASED_ON":             return 1;   // higher prio than DID_BASEFORM
+      case "WILL_BASED_ON":             return 1;   // higher prio than DID_BASEFORM / PRP_PAST_PART
       case "DON_T_AREN_T":              return 1;   // higher prio than DID_BASEFORM
       case "MONEY_BACK_HYPHEN":         return 1;   // higher prio than A_UNCOUNTABLE
       case "WORLDS_BEST":               return 1;   // higher prio than THE_SUPERLATIVE
@@ -299,6 +299,7 @@ public class English extends Language implements AutoCloseable {
       case "THAN_THANK":                return 1;   // prefer over THAN_THEN
       case "CD_NN_APOSTROPHE_S":        return 1;   // prefer over CD_NN and LOWERCASE_NAME_APOSTROPHE_S
       case "IT_IF":                     return 1;   // needs higher prio than PRP_COMMA and IF_YOU_ANY
+      case "FINE_TUNE_COMPOUNDS":       return 1;   // prefer over less specific rules
       case "PROFANITY":                 return 5;   // prefer over spell checker
       case "FOR_NOUN_SAKE":             return 6;   // prefer over PROFANITY (e.g. "for fuck sake")
       case "RUDE_SARCASTIC":            return 6;   // prefer over spell checker
@@ -344,6 +345,7 @@ public class English extends Language implements AutoCloseable {
       case "PRP_JJ":                    return -3;  // prefer other rules (e.g. PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
       case "PRONOUN_NOUN":              return -3;  // prefer other rules (e.g. PRP_VB, PRP_JJ)
       case "INDIAN_ENGLISH":            return -3;  // prefer grammar rules, but higher prio than spell checker
+      case "PRP_THE_JJ":                return -4;  // prefer other rules (e.g. I_A, PRP_JJ)
       case "MORFOLOGIK_RULE_EN_US":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_GB":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_CA":     return -10;  // more specific rules (e.g. L2 rules) have priority
