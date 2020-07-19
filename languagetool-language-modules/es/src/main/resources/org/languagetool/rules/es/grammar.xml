@@ -4317,13 +4317,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="([AM].*)S(.*)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
                 <example correction="titulares">Los <marker>titular es</marker> de la cuenta.</example>
                 <example>La bola 8 mágica es buena.</example>
-                <example>Los sorprendente es otra cosa.</example> <!-- another rule-->
+                <example>Los sorprendente es otra cosa.</example>
+                <!-- another rule-->
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                       <token regexp="yes">le|lo|la</token>
-                       <token case_sensitive="yes">s</token>
+                        <token regexp="yes">le|lo|la</token>
+                        <token case_sensitive="yes">s</token>
                     </marker>
                     <token postag="SPS00|[ANV].*" postag_regexp="yes"/>
                 </pattern>
@@ -9227,6 +9228,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rulegroup id="HABER" name="a ver/haber" default="temp_off">
+            <antipattern>
+                <token inflected="yes" regexp="yes">ir|acudir|correr</token>
+                <token>a</token>
+                <token postag="V.N.*" postag_regexp="yes" inflected="yes">ver</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>ber</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>haber</suggestion>?</message>
+                <example correction="haber">Podría <marker>a ber</marker> sido peor.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>a</token>
+                        <token postag="V.N.*" postag_regexp="yes" inflected="yes">ver</token>
+                    </marker>
+                    <token postag="V.P..SM" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Quería decir <suggestion><match no="2" regexp_match="(?iu)v" regexp_replace="hab"/></suggestion>?</message>
+                <example correction="haber">Podría, sin duda, <marker>a ver</marker> sido peor.</example>
+                <example correction="haberlo">Podría, sin duda, <marker>a verlo</marker> hecho peor.</example>
+                <example>Voy a verlos contento del esfuerzo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">soler|poder|deber|querer|desear|tener</token>
+                    <token min="0" regexp="yes">que|de</token>
+                    <marker>
+                        <token>a</token>
+                        <token postag="V.N.*" postag_regexp="yes" inflected="yes">ver</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion><match no="4" regexp_match="(?iu)v" regexp_replace="hab"/></suggestion>?</message>
+                <example correction="haber">Podría <marker>a ver</marker> otros.</example>
+                <example correction="haberlos">Podría <marker>a verlos</marker>.</example>
+                <example correction="haberlos">Tenía que <marker>a verlos</marker> dicho esto.</example>
+                <example correction="habérselo">Tenía que <marker>a vérselo</marker> dicho.</example>
+            </rule>
+        </rulegroup>
         <rule id="TARTA_TRATA" name="tarta/trata">
             <!-- TODO: generalize this kind of rule -->
             <pattern>
