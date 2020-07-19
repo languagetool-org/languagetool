@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY pronombre_personal_atono "me|te|se|nos|os|le|les|lo|los|la|las">
 <!ENTITY pronombre_personal_no_articulo "me|te|se|nos|os|le|les|lo|los">
 <!--aguadulce, aguasal, aguaviva-->
-<!ENTITY nombre_fem_el "Ática|abra|África|acta|afta|agua|ala|alba|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
+<!ENTITY nombre_fem_el "Ática|abra|África|acta|afta|agua|ala|alba|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|harpa|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
 <!ENTITY dias_semana_may "Lunes|Martes|Miércoles|Jueves|Viernes|Sábado|Domingo">
 <!ENTITY dias_semana "lunes|martes|miércoles|jueves|viernes|sábado|domingo">
 <!ENTITY dias_semana_abrv "lu|ma|mi|ju|vi|sa|do">
@@ -52,6 +52,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY common_english_nouns_masculine "Club|TM|UD|UE|SD|Team|Day|Center|Centre|Hilton">
 <!ENTITY context_ano "anal|culo|cáncer|rectal|estómago|intestino|defecación|defecar|digestivo|sistema|tracto|hez|mierda|excremento|orificio|excretar|cagar">
 <!ENTITY denominacion "elemento|palabra|término|expresión|vocablo|nombre|tipo|denominación">
+<!ENTITY wrong_as_pron_verb "a|amplia|continua|dió|esta|estan|este|esten|frió|hacia|hecha|rió|tenia|tenias|venia|venias|vera">
+<!ENTITY wrong_as_pron_verb2 "de|e">
+<!-- also: de, e-->
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
@@ -1806,7 +1809,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- error in the next word -->
                 <token>se</token>
                 <token regexp="yes" min="0">&pronombre_personal_atono;</token>
-                <token regexp="yes">hecha|vera|rió|frió|dió|continua|este|esta|estan|esten|a|hacia|amplia<exception postag="LOC_ADV"/></token>
+                <token regexp="yes">&wrong_as_pron_verb;<exception postag="LOC_ADV"/></token>
             </antipattern>
             <antipattern>
                 <token postag="_possible_NP|LOC_ADV" postag_regexp="yes">se</token>
@@ -4291,25 +4294,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
         <rulegroup id="PLURAL_SEPARADO" name="marca de plural separada" default="temp_off">
+            <antipattern>
+                <token>los</token>
+                <token postag="A.*" postag_regexp="yes" regexp="yes">s.*</token>
+                <token>es</token>
+            </antipattern>
+            <antipattern>
+                <token>la</token>
+                <token>s</token>
+                <token regexp="yes">del?</token>
+            </antipattern>
             <rule>
-            <pattern>
-                <token postag="D...P." postag_regexp="yes"/>
-                <marker>
-                    <token postag="[AM].*S.*" postag_regexp="yes"><exception postag="[AM].*P.*" postag_regexp="yes"/></token>
-                    <token regexp="yes">es|as|s</token>
-                </marker>
-            </pattern>
-            <message suppress_misspelled="yes">Posible confusión.</message>
-            <suggestion>\2\3</suggestion>
-            <example correction="titulares">Los <marker>titular es</marker> de la cuenta.</example>
+                <pattern>
+                    <token postag="D[^N]..P." postag_regexp="yes"/>
+                    <marker>
+                        <token postag="[AM].*S.*" postag_regexp="yes"><exception postag="[AM].*P.*" postag_regexp="yes"/></token>
+                        <token regexp="yes" case_sensitive="yes">es|as|s</token>
+                    </marker>
+                    <token postag="SPS00|[ANV].*" postag_regexp="yes"/>
+                </pattern>
+                <message suppress_misspelled="yes">Posible confusión.</message>
+                <suggestion><match no="2" postag="([AM].*)S(.*)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
+                <example correction="titulares">Los <marker>titular es</marker> de la cuenta.</example>
+                <example>La bola 8 mágica es buena.</example>
+                <example>Los sorprendente es otra cosa.</example> <!-- another rule-->
             </rule>
             <rule>
                 <pattern>
-                <token regexp="yes">le|lo|la</token>
-                <token>s</token>
+                    <marker>
+                       <token regexp="yes">le|lo|la</token>
+                       <token case_sensitive="yes">s</token>
+                    </marker>
+                    <token postag="SPS00|[ANV].*" postag_regexp="yes"/>
                 </pattern>
                 <message>¿Quería decir <suggestion>\1\2</suggestion></message>
                 <example correction="Les"><marker>Le s</marker> diré lo que pienso.</example>
+                <example>En Argentina la z se pronuncia igual que la s.</example>
             </rule>
         </rulegroup>
         <rulegroup id="R_RR" name="-rr- en prefijos">
@@ -4777,18 +4797,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="seroprevalencias"><marker>sero-prevalencias</marker></example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="D.*|SP.*|LOC_PREP" postag_regexp="yes"/>
+                    <token>auto</token>
+                </antipattern>
                 <pattern>
                     <token>auto</token>
                     <token min="0">-</token>
-                    <token regexp="yes">....+</token>
+                    <token regexp="yes">....+<exception postag="AQ0[MC]S0|RG|SPS00" postag_regexp="yes"/></token>
                     <!--<token regexp="yes" inflected="yes"
                         >abastecer|abastecimiento|acusación|adaptable|adaptación|adaptador|adhesivo|afirmar|afirmación|aglutinación|aglutinina|agresión|agresivo|ajustador|alimentar|alimentador|analizador|anticuerpo|antígeno|aprendizaje|arrancador|asistencia|ayuda|ayudar|banco|baño|biografía|biográfico|biográficamente|biógrafo|bomba|bombo|busero|cabeza|calentamiento|calibrador|camión|car|caravana|cargable|carril|cartera|castigo|catalítico|catálisis|censura|censurar|centrador|cerrador|choque|cine|citólisis|clave|combustión|compadecer|compasión|compensador|complacencia|complaciente|concepto|conciencia|conclusivo|conductor|confianza|configuración|configurador|consciencia|consumo|contener|control|controlar|copista|corrección|corregir|correlación|correlador|criticar|crítica|crítico|cuestionar|curación|defender|defensa|definir|definible|definición|definitorio|degradación|denominar|depurar|depuración|desarrollo|descargable|descriptivo|destrucción|destructible|destructivo|destructivamente|destruir|determinación|determinista|diagnóstico|didactismo|didáctica|didáctico|didácticamente|difusión|dinámico|dirección|disciplina|disciplinar|diseñar|documentado|dominio|ecología|edición|editar|educación|empleo|encendido|enfoque|engaño|equilibrador|erotismo|escuela|estable|estima|estéreo|evaluación|excitación|excluir|exclusión|explicativo|extintor|ferro|financiar|financiación|financiamiento|foco|formación|función|fundente|fágico|gestionar|gestión|giro|gnosis|gobierno|gol|golpe|grafía|gráfico|guardar|guiado|hemoterapia|hemólisis|heterodino|igualador|imponer|inducción|inducir|inducido|inductancia|inductivo|inflamación|infligir|injerto|inmolar|inmune|inmunidad|inmunitario|inmunización|instrucción|intoxicación|inyectable|latría|legislador|lesionar|lesión|lesivo|liquidar|liquidación|lisis|lisosoma|lote|lubricante|lubrificación|marginar|matizar|matizable|matización|medicar|medicación|mercado|moción|morfismo|motor|móvil|niveladora|nómico|nómicamente|oscilación|oscilador|oxidación|parte|pase|perpetuar|piloto|pista|plastia|polimerización|proclamar|producción|productor|programable|propulsión|propulsor|protección|proteger|pullman|regresión|regulación|representar|rizar|rizador|ría|satisfacción|saturación|seguro|servicio|soma|sostener|stop|sucesión|suficiencia|suficiente|sugestionar|sugestión|tolerancia|toque|transductor|transformador|transfusión|trasplante|trófico|vacuna|valor|valoración|vector|ventilador|volquete|vía</token>-->
                 </pattern>
-                <message suppress_misspelled="yes">Se escribe junto.</message>
+                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="auto$1"/></suggestion>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="autor$1"/></suggestion>
                 <example correction="autoayuda"><marker>auto-ayuda</marker></example>
                 <example correction="autoconsidera">Se <marker>auto-considera</marker> el mejor.</example>
+                <example>Su auto rebasó el nuestro.</example>
+                <example>El auto chocó con el camión.</example>
+                <example>Encontré los vidrios del auto rotos.</example>
+                <example>La mantención de mi auto cuesta una fortuna.</example>
+                <example>¿Qué auto eligió Tom?</example>
             </rule>
             <rule>
                 <pattern>
@@ -5031,6 +5060,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message suppress_misspelled="yes">Se escribe junto.</message>
                 <suggestion>\1\2</suggestion>
                 <example correction="email">Envíalo a mi <marker>e mail</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>mal</token>
+                    <token min="0">-</token>
+                    <token postag="[NAV].*" postag_regexp="yes"/>
+                </pattern>
+                <message suppress_misspelled="yes">Se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="mal$1" case_conversion="alllower"/></suggestion>
+                <example correction="malinterprete">No quiero que se <marker>mal interprete</marker> esto.</example>
             </rule>
         </rulegroup>
         <rule id="ALREDEDOR" name="*(a) alrededor">
@@ -9196,7 +9235,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">tartas?</token>
                 </marker>
             </pattern>
-            <message>¿Quería decir <suggestion><match no="2" regexp_match="(?iu)tart" regexp_replace="trat"/></suggestion></message>
+            <message>¿Quería decir <suggestion><match no="2" regexp_match="(?iu)tart" regexp_replace="trat"/></suggestion>?</message>
             <example correction="trata">Se <marker>tarta</marker> de otro tema.</example>
             <example>Tarta de frambuesa.</example>
             <example>La tarta es muy buena.</example>
@@ -9226,8 +9265,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>e</token>
                 <token postag="V.P..SM" postag_regexp="yes"/>
             </antipattern>
-            <antipattern>
-                <token regexp="yes">[a-z]</token>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">[a-z]<exception regexp="yes">y|o</exception></token>
                 <token>e</token>
             </antipattern>
             <rule>
@@ -9331,7 +9370,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- trigger other rules -->
                 <token regexp="yes">&pronombre_personal_atono;</token>
                 <token min="0" regexp="yes">["«“‘]</token>
-                <token regexp="yes">e|de|rió|frió|dió|continua|este|esta|estan|esten|a|hacia|amplia|venia|venias</token>
+                <token regexp="yes">&wrong_as_pron_verb;|&wrong_as_pron_verb2;</token>
             </antipattern>
             <antipattern>
                 <!-- trigger other rules-->
@@ -9341,6 +9380,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>le</token>
                 <token>hecho</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">["«“‘\-\/]</token>
+                <token regexp="yes">&pronombre_personal_atono;</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&pronombre_personal_atono;</token>
+                <token regexp="yes">["»”’\-]</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&pronombre_personal_atono;</token>
+                <token>.</token>
+                <token>.</token>
+                <token>.</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&pronombre_personal_atono;</token>
+                <token>…</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -9483,6 +9540,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Posible confusión. Pronombre átono sin verbo.</message>
                 <example correction=""><marker>Nos</marker> buenos tiempos</example>
                 <example>versiones anteriores de Mac OS</example>
+                <example>Con las/os niñas/os del Centro.</example>
             </rule>
         </rulegroup>
         <rule id="MANTELO" name="mantelo/mantenlo">
