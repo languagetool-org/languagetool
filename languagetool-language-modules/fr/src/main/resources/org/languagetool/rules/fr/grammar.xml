@@ -31213,6 +31213,152 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+    <rulegroup id="POUR_PAS_QUE" name="familier : pour (ne) pas que...">
+        <rule>
+            <!-- 1. R.* ne !V.* -->
+            <pattern>
+                <token>pour<exception scope="next">,</exception></token>
+                <token min="0">ne</token>
+                <token>pas</token>
+                <token regexp="yes">que|qu[’´'‛′‘]</token>
+                <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes"/>
+                <token postag="(R refl.*)|(R pers obj.*)" postag_regexp="yes" min="1" max="2"><exception regexp="yes">en|y</exception></token>
+                <token postag="V.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 <match no="4" regexp_match="(que)|(qu[’´'‛′‘])" regexp_replace="$1"/><match no="4" regexp_match="(que)|(qu[’´'‛′‘])" regexp_replace="$2"/>\5 ne \6 \7 \3</suggestion> ?</message>
+            <example correction="pour qu'il ne se sente pas" type="incorrect">Je vais lui rendre visite <marker>pour pas qu'il se sente</marker> seul.</example>
+        </rule>
+        <rule>
+            <!-- 2. R.* ne V.* -->
+            <pattern>
+                <token>pour<exception scope="next">,</exception></token>
+                <token min="0">ne</token>
+                <token>pas</token>
+                <token regexp="yes">qu[e’´'‛′‘]</token>
+                <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes" regexp="yes">[^aeiouyh].*|heurt.*|harc.*|ha[iï].*|hiérarchis.*|hoch.*|hurl.*|hach.*|hauss.*</token>
+            </pattern>
+            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 <match no="4" regexp_match="(que)|(qu[’´'‛′‘])" regexp_replace="$1 "/><match no="4" regexp_match="(que)|(qu[’´'‛′‘])" regexp_replace="$2"/>\5 ne \6 \3</suggestion> ?</message>
+            <example correction="pour que je ne grossisse pas" type="incorrect">Je ne mange plus de chocolat <marker>pour pas que je grossisse</marker>.</example>
+        </rule>
+        <rule>
+            <!-- 3. R.* n'!V.* -->
+            <pattern>
+                <token>pour<exception scope="next">,</exception></token>
+                <token min="0">ne</token>
+                <token>pas</token>
+                <token regexp="yes">que|qu[’´'‛′‘]</token>
+                <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes"><exception regexp="yes">(j[’´'‛′‘])|(c[’´'‛′‘])</exception></token>
+                <token regexp="yes" min="1" max="2">en|y</token>
+                <token postag="V.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 <match no="4" regexp_match="(que)|(qu[’´'‛′‘])" regexp_replace="$1"/><match no="4" regexp_match="(que)|(qu[’´'‛′‘])" regexp_replace="$2"/>\5 n'\6 \7 \3</suggestion> ?</message>
+            <example correction="pour qu'elle n'y aille pas" type="incorrect">Je vais lui parler <marker>pour pas qu'elle y aille</marker> seule.</example>
+        </rule>
+        <rule>
+            <!-- 3b. R.* n'!V.*: j'>je -->
+            <pattern>
+                <token>pour<exception scope="next">,</exception></token>
+                <token min="0">ne</token>
+                <token>pas</token>
+                <token>que</token>
+                <token regexp="yes">j[’´'‛′‘]</token>
+                <token regexp="yes" min="1" max="2">en|y</token>
+                <token postag="V.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 je n'\6 \7 \3</suggestion> ?</message>
+            <example correction="pour que je n'y aille pas" type="incorrect">Je t'attends <marker>pour pas que j'y aille</marker> seule.</example>
+        </rule>
+        <rule>
+            <!-- 3c. R.* n'!V.*: c'>ce -->
+            <pattern>
+                <token>pour<exception scope="next">,</exception></token>
+                <token min="0">ne</token>
+                <token>pas</token>
+                <token>que</token>
+                <token regexp="yes">c[’´'‛′‘]</token>
+                <token regexp="yes" min="1" max="2">en|y</token>
+                <token postag="V.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 ce n'\6 \7 \3</suggestion> ?</message>
+            <example correction="pour que ce n'en soit pas" type="incorrect">Il faut faire attention <marker>pour pas que c'en soit</marker> trop.</example>
+        </rule>
+        <rule>
+            <!-- 4. R.* n'V.* -->
+            <pattern>
+                <token>pour<exception scope="next">,</exception></token>
+                <token min="0">ne</token>
+                <token>pas</token>
+                <token regexp="yes">que|qu[’´'‛′‘]</token>
+                <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes" regexp="yes">[aeiouyh].*<exception regexp="yes">heurt.*|harc.*|ha[iï].*|hiérarchis.*|hoch.*|hurl.*|hach.*|hauss.*</exception></token>
+            </pattern>
+            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 <match no="4" regexp_match="(que)|(qu[’´'‛′‘])" regexp_replace="$1"/><match no="4" regexp_match="(que)|(qu[’´'‛′‘])" regexp_replace="$2"/>\5 n'\6 \3</suggestion> ?</message>
+            <example correction="pour qu'elle n'oublie pas" type="incorrect">Je vais lui parler <marker>pour pas qu'elle oublie</marker> ton anniversaire.</example>
+        </rule>
+        <rule>
+            <!-- 5. NZ ne !V.* -->
+            <pattern>
+                <token>pour<exception scope="next">,</exception></token>
+                <token min="0">ne</token>
+                <token>pas</token>
+                <token regexp="yes">que|qu[’´'‛′‘]</token>
+                <token postag="(D.*)|(R dem.*)" postag_regexp="yes" min="0"/>
+                <token postag="J.*" postag_regexp="yes" min="0"/>
+                <token postag="(N.*)|(Z.*)" postag_regexp="yes"/>
+                <token postag="(R refl.*)|(R pers obj.*)" postag_regexp="yes" min="1" max="2"><exception regexp="yes">en|y</exception></token>
+                <token postag="V.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 <match no="4" regexp_match="(que)|(qu[’´'‛′‘])" regexp_replace="$1 "/><match no="4" regexp_match="(que)|(qu[’´'‛′‘])" regexp_replace="$2"/>\5 \6 \7 ne \8 \9 \3</suggestion> ?</message>
+            <example correction="pour que mon père ne se fâche pas" type="incorrect">Je ne sortirai pas ce soir <marker>pour pas que mon père se fâche</marker>.</example>
+        </rule>
+        <rule>
+            <!-- 6. NZ ne V.* -->
+            <pattern>
+                <token>pour<exception scope="next">,</exception></token>
+                <token min="0">ne</token>
+                <token>pas</token>
+                <token regexp="yes">que|qu[’´'‛′‘]</token>
+                <token postag="(D.*)|(R dem.*)" postag_regexp="yes" min="0"/>
+                <token postag="J.*" postag_regexp="yes" min="0"/>
+                <token postag="(N.*)|(Z.*)" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes" regexp="yes">[^aeiouyh].*|heurt.*|harc.*|ha[iï].*|hiérarchis.*|hoch.*|hurl.*|hach.*|hauss.*</token>
+            </pattern>
+            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 <match no="4" regexp_match="(que)|(qu[’´'‛′‘])" regexp_replace="$1 "/><match no="4" regexp_match="(que)|(qu[’´'‛′‘])" regexp_replace="$2"/>\5 \6 \7 ne \8 \3</suggestion> ?</message>
+            <example correction="pour que mon père ne parte pas" type="incorrect">J'ai caché les clés de la voiture <marker>pour pas que mon père parte</marker>.</example>
+        </rule>
+        <rule>
+            <!-- 7. NZ n'!V.* -->
+            <pattern>
+                <token>pour<exception scope="next">,</exception></token>
+                <token min="0">ne</token>
+                <token>pas</token>
+                <token regexp="yes">que|qu[’´'‛′‘]</token>
+                <token postag="(D.*)|(R dem.*)" postag_regexp="yes" min="0"/>
+                <token postag="J.*" postag_regexp="yes" min="0"/>
+                <token postag="(N.*)|(Z.*)" postag_regexp="yes"/>
+                <token regexp="yes" min="1" max="2">en|y</token>
+                <token postag="V.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 <match no="4" regexp_match="(que)|(qu[’´'‛′‘])" regexp_replace="$1 "/><match no="4" regexp_match="(que)|(qu[’´'‛′‘])" regexp_replace="$2"/>\5 \6 \7 n'\8 \9 \3</suggestion> ?</message>
+            <example correction="pour que mon frère n'en boive pas" type="incorrect">J'ai caché le bon vin <marker>pour pas que mon frère en boive</marker>.</example>
+        </rule>
+        <rule>
+            <!-- 8. NZ n'V.* -->
+            <pattern>
+                <token>pour<exception scope="next">,</exception></token>
+                <token min="0">ne</token>
+                <token>pas</token>
+                <token regexp="yes">que|qu[’´'‛′‘]</token>
+                <token postag="(D.*)|(R dem.*)" postag_regexp="yes" min="0"/>
+                <token postag="J.*" postag_regexp="yes" min="0"/>
+                <token postag="(N.*)|(Z.*)" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes" regexp="yes">[aeiouyh].*<exception regexp="yes">heurt.*|harc.*|ha[iï].*|hiérarchis.*|hoch.*|hurl.*|hach.*|hauss.*</exception></token>
+            </pattern>
+            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 <match no="4" regexp_match="(que)|(qu[’´'‛′‘])" regexp_replace="$1 "/><match no="4" regexp_match="(que)|(qu[’´'‛′‘])" regexp_replace="$2"/>\5 \6 \7 n'\8 \3</suggestion> ?</message>
+            <example correction="pour que mon frère n'aille pas" type="incorrect">Ma mère m'a appelé <marker>pour pas que mon frère aille</marker> tout seul.</example>
+        </rule>
+    </rulegroup>
     <rulegroup id="RAPPELER_DE" name="se rappeler de → se rappeler">
       <rule>
         <pattern>
