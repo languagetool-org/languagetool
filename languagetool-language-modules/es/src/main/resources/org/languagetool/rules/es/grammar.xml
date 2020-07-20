@@ -4798,29 +4798,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="seroprevalencias"><marker>sero-prevalencias</marker></example>
             </rule>
             <rule>
-                <antipattern>
-                    <token postag="D.*|SP.*|LOC_PREP" postag_regexp="yes"/>
-                    <token>auto</token>
-                </antipattern>
-                <pattern>
-                    <token>auto</token>
-                    <token min="0">-</token>
-                    <token regexp="yes">....+<exception postag="AQ0[MC]S0|RG|SPS00" postag_regexp="yes"/></token>
-                    <!--<token regexp="yes" inflected="yes"
-                        >abastecer|abastecimiento|acusación|adaptable|adaptación|adaptador|adhesivo|afirmar|afirmación|aglutinación|aglutinina|agresión|agresivo|ajustador|alimentar|alimentador|analizador|anticuerpo|antígeno|aprendizaje|arrancador|asistencia|ayuda|ayudar|banco|baño|biografía|biográfico|biográficamente|biógrafo|bomba|bombo|busero|cabeza|calentamiento|calibrador|camión|car|caravana|cargable|carril|cartera|castigo|catalítico|catálisis|censura|censurar|centrador|cerrador|choque|cine|citólisis|clave|combustión|compadecer|compasión|compensador|complacencia|complaciente|concepto|conciencia|conclusivo|conductor|confianza|configuración|configurador|consciencia|consumo|contener|control|controlar|copista|corrección|corregir|correlación|correlador|criticar|crítica|crítico|cuestionar|curación|defender|defensa|definir|definible|definición|definitorio|degradación|denominar|depurar|depuración|desarrollo|descargable|descriptivo|destrucción|destructible|destructivo|destructivamente|destruir|determinación|determinista|diagnóstico|didactismo|didáctica|didáctico|didácticamente|difusión|dinámico|dirección|disciplina|disciplinar|diseñar|documentado|dominio|ecología|edición|editar|educación|empleo|encendido|enfoque|engaño|equilibrador|erotismo|escuela|estable|estima|estéreo|evaluación|excitación|excluir|exclusión|explicativo|extintor|ferro|financiar|financiación|financiamiento|foco|formación|función|fundente|fágico|gestionar|gestión|giro|gnosis|gobierno|gol|golpe|grafía|gráfico|guardar|guiado|hemoterapia|hemólisis|heterodino|igualador|imponer|inducción|inducir|inducido|inductancia|inductivo|inflamación|infligir|injerto|inmolar|inmune|inmunidad|inmunitario|inmunización|instrucción|intoxicación|inyectable|latría|legislador|lesionar|lesión|lesivo|liquidar|liquidación|lisis|lisosoma|lote|lubricante|lubrificación|marginar|matizar|matizable|matización|medicar|medicación|mercado|moción|morfismo|motor|móvil|niveladora|nómico|nómicamente|oscilación|oscilador|oxidación|parte|pase|perpetuar|piloto|pista|plastia|polimerización|proclamar|producción|productor|programable|propulsión|propulsor|protección|proteger|pullman|regresión|regulación|representar|rizar|rizador|ría|satisfacción|saturación|seguro|servicio|soma|sostener|stop|sucesión|suficiencia|suficiente|sugestionar|sugestión|tolerancia|toque|transductor|transformador|transfusión|trasplante|trófico|vacuna|valor|valoración|vector|ventilador|volquete|vía</token>-->
-                </pattern>
-                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
-                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="auto$1"/></suggestion>
-                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="autor$1"/></suggestion>
-                <example correction="autoayuda"><marker>auto-ayuda</marker></example>
-                <example correction="autoconsidera">Se <marker>auto-considera</marker> el mejor.</example>
-                <example>Su auto rebasó el nuestro.</example>
-                <example>El auto chocó con el camión.</example>
-                <example>Encontré los vidrios del auto rotos.</example>
-                <example>La mantención de mi auto cuesta una fortuna.</example>
-                <example>¿Qué auto eligió Tom?</example>
-            </rule>
-            <rule>
                 <pattern>
                     <token regexp="yes">master|máster</token>
                     <token>card</token>
@@ -5066,11 +5043,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>mal</token>
                     <token min="0">-</token>
-                    <token postag="[NAV].*" postag_regexp="yes"/>
+                    <token postag="[NAV].*" postag_regexp="yes" inflected="yes" regexp="yes">interpretar|tratar|vender|herir|gastar|acostumbrar</token>
                 </pattern>
-                <message suppress_misspelled="yes">Se escribe junto.</message>
+                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="mal$1" case_conversion="alllower"/></suggestion>
                 <example correction="malinterprete">No quiero que se <marker>mal interprete</marker> esto.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AUTO_NO_SEPARADO" name="prefijo auto- no separado" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>auto</token>
+                    <token min="0">-</token>
+                    <token regexp="yes" inflected="yes"
+                        >abastecer|abastecimiento|acusación|adaptable|adaptación|adaptador|adhesivo|afirmar|afirmación|aglutinación|aglutinina|agresión|agresivo|ajustador|alimentar|alimentador|analizador|anticuerpo|antígeno|aprendizaje|arrancador|asistencia|ayuda|ayudar|banco|baño|biografía|biográfico|biográficamente|biógrafo|bomba|bombo|busero|cabeza|calentamiento|calibrador|camión|car|caravana|cargable|carril|cartera|castigo|catalítico|catálisis|censura|censurar|centrador|cerrador|choque|cine|citólisis|clave|combustión|compadecer|compasión|compensador|complacencia|complaciente|concepto|conciencia|conclusivo|conductor|confianza|configuración|configurador|consciencia|consumo|contener|control|controlar|copista|corrección|corregir|correlación|correlador|criticar|crítica|crítico|cuestionar|curación|defender|defensa|definir|definible|definición|definitorio|degradación|denominar|depurar|depuración|desarrollo|descargable|descriptivo|destrucción|destructible|destructivo|destructivamente|destruir|determinación|determinista|diagnóstico|didactismo|didáctica|didáctico|didácticamente|difusión|dinámico|dirección|disciplina|disciplinar|diseñar|documentado|dominio|ecología|edición|editar|educación|empleo|encendido|enfoque|engaño|equilibrador|erotismo|escuela|estable|estima|estéreo|evaluación|excitación|excluir|exclusión|explicativo|extintor|ferro|financiar|financiación|financiamiento|foco|formación|función|fundente|fágico|gestionar|gestión|giro|gnosis|gobierno|gol|golpe|grafía|gráfico|guardar|guiado|hemoterapia|hemólisis|heterodino|igualador|imponer|inducción|inducir|inducido|inductancia|inductivo|inflamación|infligir|injerto|inmolar|inmune|inmunidad|inmunitario|inmunización|instrucción|intoxicación|inyectable|latría|legislador|lesionar|lesión|lesivo|liquidar|liquidación|lisis|lisosoma|lote|lubricante|lubrificación|marginar|matizar|matizable|matización|medicar|medicación|mercado|moción|morfismo|motor|móvil|niveladora|nómico|nómicamente|oscilación|oscilador|oxidación|parte|pase|perpetuar|piloto|pista|plastia|polimerización|proclamar|producción|productor|programable|propulsión|propulsor|protección|proteger|pullman|regresión|regulación|representar|rizar|rizador|ría|satisfacción|saturación|seguro|servicio|soma|sostener|stop|sucesión|suficiencia|suficiente|sugestionar|sugestión|tolerancia|toque|transductor|transformador|transfusión|trasplante|trófico|vacuna|valor|valoración|vector|ventilador|volquete|vía</token>
+                </pattern>
+                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="auto$1"/></suggestion>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="autor$1"/></suggestion>
+                <example correction="autocuración">Un manual de <marker>auto-curación</marker>.</example>
+                <example>Su auto rebasó el nuestro.</example>
+                <example>El auto chocó con el camión.</example>
+                <example>Encontré los vidrios del auto rotos.</example>
+                <example>La mantención de mi auto cuesta una fortuna.</example>
+                <example>¿Qué auto eligió Tom?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="D.*|SP.*|LOC_PREP|A..[MC][SN]." postag_regexp="yes"/>
+                    <token>auto</token>
+                </antipattern>
+                <pattern>
+                    <token>auto</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">....+<exception postag="AQ0[MC]S0|RG|SPS00" postag_regexp="yes"/></token>
+                </pattern>
+                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="auto$1"/></suggestion>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="autor$1"/></suggestion>
+                <example correction="autoayuda"><marker>auto-ayuda</marker></example>
+                <example correction="autoconsidera">Se <marker>auto-considera</marker> el mejor.</example>
+                <example>Su auto rebasó el nuestro.</example>
+                <example>El auto chocó con el camión.</example>
+                <example>Encontré los vidrios del auto rotos.</example>
+                <example>La mantención de mi auto cuesta una fortuna.</example>
+                <example>¿Qué auto eligió Tom?</example>
             </rule>
         </rulegroup>
         <rule id="ALREDEDOR" name="*(a) alrededor">
