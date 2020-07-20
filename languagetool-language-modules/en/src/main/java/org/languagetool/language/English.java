@@ -365,14 +365,14 @@ public class English extends Language implements AutoCloseable {
   }
 
   @Override
-  public Function<Rule, Rule> getRemoteEnhancedRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
-    Function<Rule, Rule> fallback = super.getRemoteEnhancedRules(messageBundle, configs, userConfig, motherTongue, altLanguages);
+  public Function<Rule, Rule> getRemoteEnhancedRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs, UserConfig userConfig, Language motherTongue, List<Language> altLanguages, boolean inputLogging) throws IOException {
+    Function<Rule, Rule> fallback = super.getRemoteEnhancedRules(messageBundle, configs, userConfig, motherTongue, altLanguages, inputLogging);
     RemoteRuleConfig bert = RemoteRuleConfig.getRelevantConfig(BERTSuggestionRanking.RULE_ID, configs);
 
     return original -> {
       if (original.isDictionaryBasedSpellingRule() && original.getId().startsWith("MORFOLOGIK_RULE_EN")) {
         if (UserConfig.hasABTestsEnabled() && bert != null) {
-          return new BERTSuggestionRanking(original, bert, userConfig);
+          return new BERTSuggestionRanking(original, bert, userConfig, inputLogging);
         }
       }
       return fallback.apply(original);
@@ -380,9 +380,9 @@ public class English extends Language implements AutoCloseable {
   }
 
   @Override
-  public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+  public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages, boolean inputLogging) throws IOException {
     List<Rule> rules = new ArrayList<>(super.getRelevantRemoteRules(
-      messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages));
+      messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages, inputLogging));
     String theInsertionID = "AI_THE_INS_RULE";
     RemoteRuleConfig theInsertionConfig = RemoteRuleConfig.getRelevantConfig(theInsertionID, configs);
     final String missingTheDescription = "This rule identifies whether the article 'the' is missing in a sentence.";
@@ -393,7 +393,7 @@ public class English extends Language implements AutoCloseable {
       Map<String, String> theInsertionMessages = new HashMap<>();
       theInsertionMessages.put("THE_INS", delMessage);
       theInsertionMessages.put("INS_THE", insMessage);
-      Rule theInsertionRule = GRPCRule.create(theInsertionConfig, theInsertionID,
+      Rule theInsertionRule = GRPCRule.create(theInsertionConfig, inputLogging, theInsertionID,
                                               missingTheDescription, theInsertionMessages);
       rules.add(theInsertionRule);
     }
@@ -402,14 +402,14 @@ public class English extends Language implements AutoCloseable {
     if (missingTheConfig != null) {
       Map<String, String> missingTheMessages = new HashMap<>();
       missingTheMessages.put("MISSING_THE", insMessage);
-      Rule missingTheRule = GRPCRule.create(missingTheConfig, missingTheID,
+      Rule missingTheRule = GRPCRule.create(missingTheConfig, inputLogging, missingTheID,
                                             missingTheDescription, missingTheMessages);
       rules.add(missingTheRule);
     }
     String missingWordID = "AI_MISSING_WORD";
     RemoteRuleConfig missingWordConfig = RemoteRuleConfig.getRelevantConfig(missingWordID, configs);
     if (missingWordConfig != null) {
-      Rule missingWordRule = GRPCRule.create(missingWordConfig, missingWordID, missingWordDescription,
+      Rule missingWordRule = GRPCRule.create(missingWordConfig, inputLogging, missingWordID, missingWordDescription,
                                              Collections.emptyMap());// provided by server
       rules.add(missingWordRule);
     }
@@ -417,7 +417,7 @@ public class English extends Language implements AutoCloseable {
     for (String confpairID : confpairRules) {
       RemoteRuleConfig confpairConfig = RemoteRuleConfig.getRelevantConfig(confpairID, configs);
       if (confpairConfig != null) {
-        Rule confpairRule = new GRPCConfusionRule(messageBundle, confpairConfig);
+        Rule confpairRule = new GRPCConfusionRule(messageBundle, confpairConfig, inputLogging);
         rules.add(confpairRule);
       }
     }

@@ -51,11 +51,13 @@ public abstract class RemoteRule extends Rule {
   // needed to run callables with timeout
   private static final ConcurrentMap<String, ExecutorService> executors = new ConcurrentHashMap<>();
   protected final RemoteRuleConfig serviceConfiguration;
+  protected final boolean inputLogging;
   private AnnotatedText annotatedText;
 
-  public RemoteRule(ResourceBundle messages, RemoteRuleConfig config) {
+  public RemoteRule(ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
     super(messages);
     serviceConfiguration = config;
+    this.inputLogging = inputLogging;
     String ruleId = getId();
     lastFailure.putIfAbsent(ruleId, 0L);
     consecutiveFailures.putIfAbsent(ruleId, new AtomicInteger());

@@ -160,6 +160,8 @@ public class JLanguageTool {
   private final Language language;
   private final List<Language> altLanguages;
   private final Language motherTongue;
+  // allow logging of input in stack traces
+  private final boolean inputLogging;
 
   private final List<RuleMatchFilter> matchFilters = new LinkedList<>();
 
@@ -256,6 +258,10 @@ public class JLanguageTool {
   public JLanguageTool(Language language, ResultCache cache, UserConfig userConfig) {
     this(language, null, cache, userConfig);
   }
+  public JLanguageTool(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache,
+                       GlobalConfig globalConfig, UserConfig userConfig) {
+    this(language, altLanguages, motherTongue, cache, globalConfig, userConfig, true);
+  }
   
   /**
    * Create a JLanguageTool and setup the built-in rules for the
@@ -270,10 +276,11 @@ public class JLanguageTool {
    *          The mother tongue may also be used as a source language for checking bilingual texts.
    * @param cache a cache to speed up checking if the same sentences get checked more than once,
    *              e.g. when LT is running as a server and texts are re-checked due to changes
+   * @param inputLogging allow inclusion of input in logs on exceptions
    * @since 4.3
    */
   public JLanguageTool(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache,
-                       GlobalConfig globalConfig, UserConfig userConfig) {
+                       GlobalConfig globalConfig, UserConfig userConfig, boolean inputLogging) {
     this.language = Objects.requireNonNull(language, "language cannot be null");
     this.altLanguages = Objects.requireNonNull(altLanguages, "altLanguages cannot be null (but empty)");
     this.motherTongue = motherTongue;
@@ -298,6 +305,7 @@ public class JLanguageTool {
     }
     this.cache = cache;
     descProvider = new ShortDescriptionProvider();
+    this.inputLogging = inputLogging;
   }
 
   /**
@@ -550,9 +558,9 @@ public class JLanguageTool {
         configs = Collections.emptyList();
       }
       List<Rule> rules = language.getRelevantRemoteRules(getMessageBundle(language), configs,
-        globalConfig, userConfig, motherTongue, altLanguages);
+        globalConfig, userConfig, motherTongue, altLanguages, inputLogging);
       userRules.addAll(rules);
-      Function<Rule, Rule> enhanced = language.getRemoteEnhancedRules(getMessageBundle(language), configs, userConfig, motherTongue, altLanguages);
+      Function<Rule, Rule> enhanced = language.getRemoteEnhancedRules(getMessageBundle(language), configs, userConfig, motherTongue, altLanguages, inputLogging);
       transformRules(enhanced, builtinRules);
       transformRules(enhanced, userRules);
 

@@ -28,8 +28,8 @@ import java.util.ResourceBundle;
 
 public class GRPCConfusionRule extends GRPCRule {
 
-  public GRPCConfusionRule(ResourceBundle messages, RemoteRuleConfig config) {
-    super(messages, config);
+  public GRPCConfusionRule(ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
+    super(messages, config, inputLogging);
   }
 
   @Override

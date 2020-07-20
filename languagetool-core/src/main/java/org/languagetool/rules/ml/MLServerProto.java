@@ -58,6 +58,16 @@ public final class MLServerProto {
      */
     com.google.protobuf.ByteString
         getSentencesBytes(int index);
+
+    /**
+     * <pre>
+     * allow logging of input on error
+     * </pre>
+     *
+     * <code>bool inputLogging = 2;</code>
+     * @return The inputLogging.
+     */
+    boolean getInputLogging();
   }
   /**
    * Protobuf type {@code lt_ml_server.MatchRequest}
@@ -113,6 +123,11 @@ public final class MLServerProto {
                 mutable_bitField0_ |= 0x00000001;
               }
               sentences_.add(s);
+              break;
+            }
+            case 16: {
+
+              inputLogging_ = input.readBool();
               break;
             }
             default: {
@@ -201,6 +216,20 @@ public final class MLServerProto {
       return sentences_.getByteString(index);
     }
 
+    public static final int INPUTLOGGING_FIELD_NUMBER = 2;
+    private boolean inputLogging_;
+    /**
+     * <pre>
+     * allow logging of input on error
+     * </pre>
+     *
+     * <code>bool inputLogging = 2;</code>
+     * @return The inputLogging.
+     */
+    public boolean getInputLogging() {
+      return inputLogging_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -217,6 +246,9 @@ public final class MLServerProto {
                         throws java.io.IOException {
       for (int i = 0; i < sentences_.size(); i++) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, sentences_.getRaw(i));
+      }
+      if (inputLogging_ != false) {
+        output.writeBool(2, inputLogging_);
       }
       unknownFields.writeTo(output);
     }
@@ -235,6 +267,10 @@ public final class MLServerProto {
         size += dataSize;
         size += 1 * getSentencesList().size();
       }
+      if (inputLogging_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(2, inputLogging_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -252,6 +288,8 @@ public final class MLServerProto {
 
       if (!getSentencesList()
           .equals(other.getSentencesList())) return false;
+      if (getInputLogging()
+          != other.getInputLogging()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -267,6 +305,9 @@ public final class MLServerProto {
         hash = (37 * hash) + SENTENCES_FIELD_NUMBER;
         hash = (53 * hash) + getSentencesList().hashCode();
       }
+      hash = (37 * hash) + INPUTLOGGING_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getInputLogging());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -402,6 +443,8 @@ public final class MLServerProto {
         super.clear();
         sentences_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
+        inputLogging_ = false;
+
         return this;
       }
 
@@ -434,6 +477,7 @@ public final class MLServerProto {
           bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.sentences_ = sentences_;
+        result.inputLogging_ = inputLogging_;
         onBuilt();
         return result;
       }
@@ -491,6 +535,9 @@ public final class MLServerProto {
             sentences_.addAll(other.sentences_);
           }
           onChanged();
+        }
+        if (other.getInputLogging() != false) {
+          setInputLogging(other.getInputLogging());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -664,6 +711,48 @@ public final class MLServerProto {
   checkByteStringIsUtf8(value);
         ensureSentencesIsMutable();
         sentences_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private boolean inputLogging_ ;
+      /**
+       * <pre>
+       * allow logging of input on error
+       * </pre>
+       *
+       * <code>bool inputLogging = 2;</code>
+       * @return The inputLogging.
+       */
+      public boolean getInputLogging() {
+        return inputLogging_;
+      }
+      /**
+       * <pre>
+       * allow logging of input on error
+       * </pre>
+       *
+       * <code>bool inputLogging = 2;</code>
+       * @param value The inputLogging to set.
+       * @return This builder for chaining.
+       */
+      public Builder setInputLogging(boolean value) {
+        
+        inputLogging_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * allow logging of input on error
+       * </pre>
+       *
+       * <code>bool inputLogging = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearInputLogging() {
+        
+        inputLogging_ = false;
         onChanged();
         return this;
       }
@@ -4283,19 +4372,19 @@ public final class MLServerProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\017ml_server.proto\022\014lt_ml_server\"!\n\014Match" +
-      "Request\022\021\n\tsentences\030\001 \003(\t\"A\n\rMatchRespo" +
-      "nse\0220\n\017sentenceMatches\030\001 \003(\0132\027.lt_ml_ser" +
-      "ver.MatchList\"1\n\tMatchList\022$\n\007matches\030\001 " +
-      "\003(\0132\023.lt_ml_server.Match\"\252\001\n\005Match\022\016\n\006of" +
-      "fset\030\001 \001(\r\022\016\n\006length\030\002 \001(\r\022\n\n\002id\030\003 \001(\t\022\016" +
-      "\n\006sub_id\030\004 \001(\t\022\023\n\013suggestions\030\005 \003(\t\022\027\n\017r" +
-      "uleDescription\030\006 \001(\t\022\030\n\020matchDescription" +
-      "\030\007 \001(\t\022\035\n\025matchShortDescription\030\010 \001(\t2N\n" +
-      "\010MLServer\022B\n\005Match\022\032.lt_ml_server.MatchR" +
-      "equest\032\033.lt_ml_server.MatchResponse\"\000B*\n" +
-      "\031org.languagetool.rules.mlB\rMLServerProt" +
-      "ob\006proto3"
+      "\n\017ml_server.proto\022\014lt_ml_server\"7\n\014Match" +
+      "Request\022\021\n\tsentences\030\001 \003(\t\022\024\n\014inputLoggi" +
+      "ng\030\002 \001(\010\"A\n\rMatchResponse\0220\n\017sentenceMat" +
+      "ches\030\001 \003(\0132\027.lt_ml_server.MatchList\"1\n\tM" +
+      "atchList\022$\n\007matches\030\001 \003(\0132\023.lt_ml_server" +
+      ".Match\"\252\001\n\005Match\022\016\n\006offset\030\001 \001(\r\022\016\n\006leng" +
+      "th\030\002 \001(\r\022\n\n\002id\030\003 \001(\t\022\016\n\006sub_id\030\004 \001(\t\022\023\n\013" +
+      "suggestions\030\005 \003(\t\022\027\n\017ruleDescription\030\006 \001" +
+      "(\t\022\030\n\020matchDescription\030\007 \001(\t\022\035\n\025matchSho" +
+      "rtDescription\030\010 \001(\t2N\n\010MLServer\022B\n\005Match" +
+      "\022\032.lt_ml_server.MatchRequest\032\033.lt_ml_ser" +
+      "ver.MatchResponse\"\000B*\n\031org.languagetool." +
+      "rules.mlB\rMLServerProtob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -4306,7 +4395,7 @@ public final class MLServerProto {
     internal_static_lt_ml_server_MatchRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_lt_ml_server_MatchRequest_descriptor,
-        new java.lang.String[] { "Sentences", });
+        new java.lang.String[] { "Sentences", "InputLogging", });
     internal_static_lt_ml_server_MatchResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_lt_ml_server_MatchResponse_fieldAccessorTable = new

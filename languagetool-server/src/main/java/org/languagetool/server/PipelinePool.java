@@ -192,7 +192,7 @@ class PipelinePool {
   Pipeline createPipeline(Language lang, Language motherTongue, TextChecker.QueryParams params, GlobalConfig globalConfig,
                           UserConfig userConfig, List<String> disabledRuleIds)
     throws Exception { // package-private for mocking
-    Pipeline lt = new Pipeline(lang, params.altLanguages, motherTongue, cache, globalConfig, userConfig);
+    Pipeline lt = new Pipeline(lang, params.altLanguages, motherTongue, cache, globalConfig, userConfig, params.inputLogging);
     lt.setMaxErrorsPerWordRate(config.getMaxErrorsPerWordRate());
     lt.disableRules(disabledRuleIds);
     if (config.getLanguageModelDir() != null) {

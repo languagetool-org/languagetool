@@ -203,7 +203,7 @@ public class PipelinePoolTest {
   @Test
   public void testPipelineMutation() {
     Pipeline pipeline = new Pipeline(Languages.getLanguageForShortCode("en-US"),
-      new ArrayList<>(), null, null, gConfig, null);
+      new ArrayList<>(), null, null, gConfig, null, true);
     pipeline.addRule(null);
     pipeline.setupFinished();
     boolean thrown = false;
