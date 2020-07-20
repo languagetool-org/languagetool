@@ -36881,14 +36881,26 @@ steenwijk;Steenwijk
 	</category>
 	<category id="AARSRIVALEN" name="Uit: Aarsrivalen, scheldkarbonades en terminale baden" type="style">
 		<rulegroup id="VLUCHTHAVEN" name="vluchthaven → luchthaven">
+			<antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(varen|eiland|kustwacht|anker|schip|scheep|misdaad|misdad|snelweg|vluchtstrook).*</token><token postag="SENT_END"/></antipattern>
 			<rule>
 				<pattern>
-					<token>vluchthaven</token>
+					<token skip="-1" regexp="yes">.*(vlieg|vlucht|terminal).*</token>
+					<marker>
+						<token>vluchthaven</token>
+					</marker>
 				</pattern>
-				<message>Mogelijk verwarring: Bedoelde u <suggestion>luchthaven</suggestion> (vliegveld.) i.p.v een veilig adres?</message>
+				<message>Mogelijk verwarring: Bedoelde u <suggestion>luchthaven</suggestion> (vliegveld.) i.p.v een veilige haven (veilig adres)?</message>
+				<example correction="luchthaven">Het vliegtuig stond klaar op de <marker>vluchthaven</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token skip="-1">vluchthaven</token>
+					</marker>
+					<token regexp="yes">.*(vlieg|vlucht|terminal).*</token>
+				</pattern>
+				<message>Mogelijk verwarring: Bedoelde u <suggestion>luchthaven</suggestion> (vliegveld.) i.p.v een veilige haven (veilig adres)?</message>
 				<example correction="luchthaven">Op de <marker>vluchthaven</marker> stond het vliegtuig klaar.</example>
-				<example correction="luchthaven">Kan u geen <marker>vluchthaven</marker> bereiken?</example>
-				<example correction="luchthaven">Een <marker>vluchthaven</marker> is aangeduid met verkeersbord F98.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="POSTALE_DEPRESSIE" name="Postale depressie → postnatale depressie">
