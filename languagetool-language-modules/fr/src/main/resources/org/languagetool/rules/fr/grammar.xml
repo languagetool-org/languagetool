@@ -8809,6 +8809,27 @@ though, and has since been slightly modified)-->
         <example correction="trois fois par semaine">Je joue au Softball <marker>trois fois au semaine</marker>.</example>
       </rule>
       <!-- End of additions -->
+      <rule id="V_LA_ACCENT" name="confusion of bed/bad" default="temp_off">
+          <pattern>
+              <token postag="V.*2 p" postag_regexp="yes"/>
+              <token>-</token>
+              <token>là</token>
+          </pattern>
+          <message>Vouliez-vous dire <suggestion>\1-la</suggestion>?</message>
+          <example correction="prenez-la">Je vous en prie, <marker>prenez-là</marker>.</example>
+      </rule>
+      <rule id="ENVOIE_DE" name="envoi de" default="temp_off">
+          <pattern>
+              <token postag="SENT_START"/>
+              <marker>
+                  <token regexp="yes">Envoies?</token>
+              </marker>
+              <token>de</token>
+          </pattern>
+          <message>Vouliez-vous dire <suggestion>Envoi</suggestion>?</message>
+          <example correction="Envoi"><marker>Envoie</marker> de marchandises.</example>
+          <example correction="Envoi"><marker>Envoie</marker> de baisers.</example>
+      </rule>
       <rule id="HEURE_CEST" name="heure cest">
         <pattern>
           <token regexp="yes">\d+</token>
