@@ -1097,6 +1097,11 @@
     </rule>
 
     <rule name="Modal verb + verb/noun -&gt; modal verb + verb" id="MD_VB">
+        <antipattern><!-- #3283 your May bill -->
+            <token postag="PRP$"/>
+            <token postag="MD"/>
+            <token chunk="E-NP-singular" postag="NN(:UN?)?" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <token postag="MD"><exception>need</exception><exception scope="previous" postag="DT"/></token>
             <marker>
@@ -1114,6 +1119,7 @@
         <example type="untouched">Will <marker>man</marker> ever reach the moon?</example>
         <example type="untouched">... but can <marker>oil</marker> be used instead of water?</example>
         <example type="untouched">Modal: ... and the can <marker>will</marker> be used repeatedly.</example>
+        <example type="untouched">Please move your May bill to June.</example><!-- #3283 -->
       <example type="ambiguous" inputform="open[open/JJ,open/NN:U,open/RP,open/VB,open/VBP]" outputform="open[open/VB]">You can <marker>open</marker> your books now.</example>
     </rule>
 
