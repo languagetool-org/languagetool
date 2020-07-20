@@ -337,9 +337,11 @@ abstract class TextChecker {
     JLanguageTool.Mode mode = ServerTools.getMode(parameters);
     JLanguageTool.Level level = ServerTools.getLevel(parameters);
     String callback = parameters.get("callback");
+    // allowed to log input on errors?
+    boolean inputLogging = !parameters.getOrDefault("inputLogging", "").equals("no");
     QueryParams params = new QueryParams(altLanguages, enabledRules, disabledRules,
       enabledCategories, disabledCategories, useEnabledOnly,
-      useQuerySettings, allowIncompleteResults, enableHiddenRules, enableTempOffRules, mode, level, callback);
+      useQuerySettings, allowIncompleteResults, enableHiddenRules, enableTempOffRules, mode, level, callback, inputLogging);
 
     int textSize = aText.getPlainText().length();
 
@@ -714,9 +716,16 @@ abstract class TextChecker {
     final JLanguageTool.Mode mode;
     final JLanguageTool.Level level;
     final String callback;
+    /** allowed to log input with stack traces to reproduce errors? */
+    final boolean inputLogging;
 
     QueryParams(List<Language> altLanguages, List<String> enabledRules, List<String> disabledRules, List<CategoryId> enabledCategories, List<CategoryId> disabledCategories,
                 boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, boolean enableTempOffRules, JLanguageTool.Mode mode, JLanguageTool.Level level, @Nullable String callback) {
+      this(altLanguages, enabledRules, disabledRules, enabledCategories, disabledCategories, useEnabledOnly, useQuerySettings, allowIncompleteResults, enableHiddenRules, enableTempOffRules, mode, level, callback, true);
+    }
+
+    QueryParams(List<Language> altLanguages, List<String> enabledRules, List<String> disabledRules, List<CategoryId> enabledCategories, List<CategoryId> disabledCategories,
+                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, boolean enableTempOffRules, JLanguageTool.Mode mode, JLanguageTool.Level level, @Nullable String callback, boolean inputLogging) {
       this.altLanguages = Objects.requireNonNull(altLanguages);
       this.enabledRules = enabledRules;
       this.disabledRules = disabledRules;
@@ -733,6 +742,7 @@ abstract class TextChecker {
         throw new IllegalArgumentException("'callback' value must match [a-zA-Z]+: '" + callback + "'");
       }
       this.callback = callback;
+      this.inputLogging = inputLogging;
     }
 
     @Override
@@ -751,6 +761,7 @@ abstract class TextChecker {
         .append(mode)
         .append(level)
         .append(callback)
+        .append(inputLogging)
         .toHashCode();
     }
 
@@ -775,6 +786,7 @@ abstract class TextChecker {
         .append(mode, other.mode)
         .append(level, other.level)
         .append(callback, other.callback)
+        .append(inputLogging, other.inputLogging)
         .isEquals();
     }
 
@@ -794,6 +806,7 @@ abstract class TextChecker {
         .append("mode", mode)
         .append("level", level)
         .append("callback", callback)
+        .append("inputLogging", inputLogging)
         .build();
     }
   }

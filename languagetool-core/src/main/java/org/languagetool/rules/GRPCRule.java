@@ -171,8 +171,8 @@ public abstract class GRPCRule extends RemoteRule {
 
   private final Connection conn;
 
-  public GRPCRule(ResourceBundle messages, RemoteRuleConfig config) {
-    super(messages, config);
+  public GRPCRule(ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
+    super(messages, config, inputLogging);
 
     synchronized (servers) {
       Connection conn = null;
@@ -198,7 +198,10 @@ public abstract class GRPCRule extends RemoteRule {
   @Override
   protected RemoteRule.RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText) {
     List<String> text = sentences.stream().map(AnalyzedSentence::getText).collect(Collectors.toList());
-    MLServerProto.MatchRequest req = MLServerProto.MatchRequest.newBuilder().addAllSentences(text).build();
+    MLServerProto.MatchRequest req = MLServerProto.MatchRequest.newBuilder()
+      .addAllSentences(text)
+      .setInputLogging(inputLogging)
+      .build();
     return new MLRuleRequest(req, sentences);
   }
 
@@ -265,9 +268,9 @@ public abstract class GRPCRule extends RemoteRule {
    * @param messagesByID mapping match.sub_id -&gt; key in MessageBundle.properties for RuleMatch's message
    * @return instance of RemoteMLRule
    */
-  public static GRPCRule create(ResourceBundle messages, RemoteRuleConfig config,
+  public static GRPCRule create(ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging,
                                 String id, String descriptionKey, Map<String, String> messagesByID) {
-    return new GRPCRule(messages, config) {
+    return new GRPCRule(messages, config, inputLogging) {
 
 
       @Override
@@ -293,9 +296,9 @@ public abstract class GRPCRule extends RemoteRule {
    * @param messagesByID mapping match.sub_id to RuleMatch's message
    * @return instance of RemoteMLRule
    */
-  public static GRPCRule create(RemoteRuleConfig config,
+  public static GRPCRule create(RemoteRuleConfig config, boolean inputLogging,
                                 String id, String description, Map<String, String> messagesByID) {
-    return new GRPCRule(JLanguageTool.getMessageBundle(), config) {
+    return new GRPCRule(JLanguageTool.getMessageBundle(), config, inputLogging) {
 
 
       @Override

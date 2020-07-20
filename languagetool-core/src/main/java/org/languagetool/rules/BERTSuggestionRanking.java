@@ -73,8 +73,8 @@ public class BERTSuggestionRanking extends RemoteRule {
   private final RemoteLanguageModel model;
   private final Rule wrappedRule;
 
-  public BERTSuggestionRanking(Rule rule, RemoteRuleConfig config, UserConfig userConfig) {
-    super(rule.messages, config);
+  public BERTSuggestionRanking(Rule rule, RemoteRuleConfig config, UserConfig userConfig, boolean inputLogging) {
+    super(rule.messages, config, inputLogging);
     this.wrappedRule = rule;
     super.setCategory(wrappedRule.getCategory());
     synchronized (models) {
