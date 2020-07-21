@@ -39,7 +39,11 @@ import java.util.*;
  * make sure that their initialization works fast. For example, if a rule needs
  * to load data from disk, it should store it in a static variable to make sure
  * the loading happens only once.
- * 
+ *
+ * Rules also need to make sure their {@code match()} code is stateless, i.e. that
+ * its results are not influenced by previous calls to {@code match()} (this is relevant
+ * if pipeline caching is used).
+ *
  * @author Daniel Naber
  */
 public abstract class Rule {
@@ -103,8 +107,10 @@ public abstract class Rule {
    * Check whether the given sentence matches this error rule, i.e. whether it
    * contains the error detected by this rule. Note that the order in which
    * this method is called is not always guaranteed, i.e. the sentence order in the
-   * text may be different than the order in which you get the sentences (this may be the
+   * text may be different from the order in which you get the sentences (this may be the
    * case when LanguageTool is used as a LibreOffice/OpenOffice add-on, for example).
+   * In other words, implementations must be stateless, so that a previous call to
+   * this method has no influence on later calls.
    *
    * @param sentence a pre-analyzed sentence
    * @return an array of {@link RuleMatch} objects
