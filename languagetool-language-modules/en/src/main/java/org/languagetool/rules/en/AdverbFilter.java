@@ -225,6 +225,7 @@ public class AdverbFilter extends RuleFilter {
     put("occasionally", "occasional");
     put("specifically", "specific");
     put("subtly", "subtle");
+    put("actually", "actual");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

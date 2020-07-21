@@ -255,16 +255,19 @@ public class English extends Language implements AutoCloseable {
       case "DOS_AND_DONTS":             return 3;
       case "EN_COMPOUNDS":              return 2;
       case "ABBREVIATION_PUNCTUATION":  return 2;
+      case "FEDEX":                     return 2;   // higher prio than many verb rules (e.g. MD_BASEFORM)
       case "COVID_19":                  return 1;
-      case "UPPERCASE_SENTENCE_START":  return 1; // higher prio than AI_MISSING_THE_*
+      case "UPPERCASE_SENTENCE_START":  return 1;   // higher prio than AI_MISSING_THE_*
       case "THERE_FORE":                return 1;   // higher prio than FORE_FOR
       case "PRP_NO_VB":                 return 1;   // higher prio than I_IF
       case "FOLLOW_UP":                 return 1;   // higher prio than MANY_NN
       case "IT_SOMETHING":              return 1;   // higher prio than IF_YOU_ANY and IT_THE_PRP
       case "NO_KNOW":                   return 1;   // higher prio than DOUBLE_NEGATIVE
-      case "FEDEX":                     return 1;   // higher prio than PLEASE_VB
-      case "WILL_BASED_ON":             return 1;   // higher prio than DID_BASEFORM / PRP_PAST_PART
+      case "WILL_BASED_ON":             return 1;   // higher prio than MD_BASEFORM / PRP_PAST_PART
       case "DON_T_AREN_T":              return 1;   // higher prio than DID_BASEFORM
+      case "WILL_BECOMING":             return 1;   // higher prio than MD_BASEFORM
+      case "WOULD_NEVER_VBN":           return 1;   // higher prio than MD_BASEFORM
+      case "MD_APPRECIATED":            return 1;   // higher prio than MD_BASEFORM
       case "MONEY_BACK_HYPHEN":         return 1;   // higher prio than A_UNCOUNTABLE
       case "WORLDS_BEST":               return 1;   // higher prio than THE_SUPERLATIVE
       case "STEP_COMPOUNDS":            return 1;   // higher prio than STARS_AND_STEPS
@@ -280,7 +283,7 @@ public class English extends Language implements AutoCloseable {
       case "A_SCISSOR":                 return 1;   // higher prio than A_NNS
       case "A_SNICKERS":                return 1;   // higher prio than A_NNS
       case "ROUND_A_BOUT":              return 1;   // higher prio than A_NNS
-      case "SEEM_SEEN":                 return 1;   // higher prio than HAVE_PART_AGREEMENT and PRP_HAVE_VB
+      case "SEEM_SEEN":                 return 1;   // higher prio than HAVE_PART_AGREEMENT and PRP_HAVE_VB and MD_BASEFORM
       case "BORN_IN":                   return 1;   // higher prio than PRP_PAST_PART
       case "DO_TO":                     return 1;   // higher prio than HAVE_PART_AGREEMENT
       case "IN_THIS_REGARDS":           return 1;   // higher prio than THIS_NNS
@@ -300,6 +303,8 @@ public class English extends Language implements AutoCloseable {
       case "CD_NN_APOSTROPHE_S":        return 1;   // prefer over CD_NN and LOWERCASE_NAME_APOSTROPHE_S
       case "IT_IF":                     return 1;   // needs higher prio than PRP_COMMA and IF_YOU_ANY
       case "FINE_TUNE_COMPOUNDS":       return 1;   // prefer over less specific rules
+      case "WHAT_IS_YOU":               return 1;   // prefer over HOW_DO_I_VB
+      case "SUPPOSE_TO":                return 1;   // prefer over HOW_DO_I_VB
       case "PROFANITY":                 return 5;   // prefer over spell checker
       case "FOR_NOUN_SAKE":             return 6;   // prefer over PROFANITY (e.g. "for fuck sake")
       case "RUDE_SARCASTIC":            return 6;   // prefer over spell checker
@@ -310,7 +315,7 @@ public class English extends Language implements AutoCloseable {
       case "WE_BE":                     return -1;
       case "A_LOT_OF_NN":               return -1;
       case "IT_VBZ":                    return -1;
-      case "IT_IS_2":                   return -1;
+      case "IT_IS_2":                   return -1;  // needs higher prio than BEEN_PART_AGREEMENT
       case "A_RB_NN":                   return -1;  // prefer other more specific rules (e.g. QUIET_QUITE, A_QUITE_WHILE)
       case "PLURAL_VERB_AFTER_THIS":    return -1;  // prefer other more specific rules (e.g. COMMA_TAG_QUESTION)
       case "BE_RB_BE":                  return -1;  // prefer other more specific rules
