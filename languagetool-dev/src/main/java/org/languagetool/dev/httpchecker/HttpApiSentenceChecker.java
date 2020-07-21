@@ -168,7 +168,7 @@ class HttpApiSentenceChecker {
         for (String line : lines) {
           JsonNode node = mapper.readTree(line);
           JsonNode date = node.get("software").get("buildDate");
-          if (date.isNull()) {
+          if (date.isNull() && !line.contains(CheckCallable.FAIL_MESSAGE)) {
             System.err.println("WARNING: 'null' buildDate in " + threadFile + " with " + lines.size() + " lines, line: " + StringUtils.abbreviate(line, 500));
           }
           buildDates.add(date.asText());
@@ -180,7 +180,7 @@ class HttpApiSentenceChecker {
     }
     if (buildDates.size() > 1) {
       System.err.println("-----------------------------------------------------");
-      System.err.println("WARNING: inconsistent build dates across API servers: Found " + buildDates);
+      System.err.println("WARNING: inconsistent build dates across API servers ('null' can be ignored): Found " + buildDates);
       System.err.println("-----------------------------------------------------");
     } else {
       System.out.println("All requests answered by API servers with build date " + buildDates);

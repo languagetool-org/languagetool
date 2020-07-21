@@ -44,6 +44,8 @@ import static java.lang.Thread.currentThread;
 
 class CheckCallable implements Callable<File> {
 
+  static final String FAIL_MESSAGE = "API request failed in a way so that re-try makes no sense: ";
+
   // This many sentences are aggregated into one request. Do NOT just increase, as the chance
   // of results getting mixed up increases then (the batchSize determines the filename, which is then used
   // as a title in MatchKey):
@@ -151,7 +153,7 @@ class CheckCallable implements Callable<File> {
   private void writeFakeError(ObjectMapper mapper, FileWriter fw, String textToCheck, String pseudoFileName, ApiErrorException e) throws IOException {
     Language lang = Languages.getLanguageForShortCode(langCode);
     JLanguageTool lt = new JLanguageTool(lang);
-    RuleMatch ruleMatch = new RuleMatch(new FakeRule(), lt.getAnalyzedSentence(textToCheck), 0, 1, "API request failed in a way so that re-try makes no sense: " + e.getMessage());
+    RuleMatch ruleMatch = new RuleMatch(new FakeRule(), lt.getAnalyzedSentence(textToCheck), 0, 1, FAIL_MESSAGE + e.getMessage());
     DetectedLanguage detectedLang = new DetectedLanguage(lang, lang);
     String json = new RuleMatchesAsJsonSerializer().ruleMatchesToJson(Collections.singletonList(ruleMatch), textToCheck, 100, detectedLang);
     JsonNode jsonNode = mapper.readTree(json);
