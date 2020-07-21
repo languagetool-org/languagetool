@@ -4815,6 +4815,64 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="VERBS" name="Verbs" type="grammar">
+        <rulegroup id="CONTACTAR" name="contactar (intransitiu)" default="temp_off">
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=contactar&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=13552&amp;idHit=13552&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=3&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=R%E8gim+verbal+de+%3Cem%3Econtactar%3C%2Fem%3E+%2F+%3Cem%3EContacta%27ns%3C%2Fem%3E+o+%3Cem%3EContacta+amb+nosaltres%3C%2Fem%3E%3F&amp;tematica=&amp;tipusCerca=cerca.tot</url>
+            <rule>
+                <pattern>
+                    <token postag="VMM.*" postag_regexp="yes"/>
+                    <token regexp="yes">-me|'m</token>
+                </pattern>
+                <message>El verb 'contactar' és intransitiu i el complement que l'acompanya s'introdueix amb la preposició 'amb'.</message>
+                <suggestion>\1 amb mi</suggestion>
+                <example correction="Contacta amb mi"><marker>Contacta'm</marker>.</example>
+                <example correction="Contacteu amb mi"><marker>Contacteu-me</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VMM.*" postag_regexp="yes"/>
+                    <token regexp="yes">-lo|'l|-li</token>
+                </pattern>
+                <message>El verb 'contactar' és intransitiu i el complement que l'acompanya s'introdueix amb la preposició 'amb'.</message>
+                <suggestion>\1 amb ell</suggestion>
+                <example correction="Contacta amb ell"><marker>Contacta'l</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VMM.*" postag_regexp="yes"/>
+                    <token>-la</token>
+                </pattern>
+                <message>El verb 'contactar' és intransitiu i el complement que l'acompanya s'introdueix amb la preposició 'amb'.</message>
+                <suggestion>\1 amb ella</suggestion>
+                <example correction="Contacta amb ella"><marker>Contacta-la</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VMM.*" postag_regexp="yes"/>
+                    <token regexp="yes">-nos|'ns</token>
+                </pattern>
+                <message>El verb 'contactar' és intransitiu i el complement que l'acompanya s'introdueix amb la preposició 'amb'.</message>
+                <suggestion>\1 amb nosaltres</suggestion>
+                <example correction="Contacteu amb nosaltres"><marker>Contacteu-nos</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VMM.*" postag_regexp="yes"/>
+                    <token regexp="yes">-los|'ls</token>
+                </pattern>
+                <message>El verb 'contactar' és intransitiu i el complement que l'acompanya s'introdueix amb la preposició 'amb'.</message>
+                <suggestion>\1 amb ells</suggestion>
+                <example correction="Contacta amb ells"><marker>Contacta'ls</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VMM.*" postag_regexp="yes"/>
+                    <token>-les</token>
+                </pattern>
+                <message>El verb 'contactar' és intransitiu i el complement que l'acompanya s'introdueix amb la preposició 'amb'.</message>
+                <suggestion>\1 amb elles</suggestion>
+                <example correction="Contacta amb elles"><marker>Contacta-les</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="NO_IMPERATIU" name="imperatiu incorrecte" default="off">
             <rule>
                 <pattern>
