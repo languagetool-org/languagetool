@@ -9283,6 +9283,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="VE_LE" name="*ve/le/me" default="temp_off">
+            <!-- TODO: more exceptions -->
+            <antipattern>
+                <token>ve</token>
+                <token regexp="yes">baja|chica|corta|doble</token>
+            </antipattern>
+            <antipattern>
+                <token>doble</token>
+                <token>ve</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>ve</token>
+                </marker>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Quería decir <suggestion>le</suggestion>?</message>
+            <suggestion>me</suggestion>
+            <suggestion>te</suggestion>
+            <example correction="le|me|te">No <marker>ve</marker> vale este resultado.</example>
+        </rule>
         <rulegroup id="A_VER_HABER" name="a ver/haber">
             <antipattern>
                 <token inflected="yes" regexp="yes">ir|acudir|correr</token>
