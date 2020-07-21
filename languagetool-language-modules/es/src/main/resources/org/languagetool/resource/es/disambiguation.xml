@@ -1429,14 +1429,14 @@ Copyright (C) 2011 Juan Martorell
             <token>suelo</token>
         </antipattern>
         <rule>
-        <pattern>
-            <marker>
-                <token inflected="yes">soler</token>
-            </marker>
-            <token min="0" postag="RG"/>
-            <token postag="V.N.*" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="filter" postag="V.*"/>
+            <pattern>
+                <marker>
+                    <token inflected="yes">soler</token>
+                </marker>
+                <token min="0" postag="RG"/>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="V.*"/>
         </rule>
         <rule>
             <pattern>
@@ -1446,7 +1446,9 @@ Copyright (C) 2011 Juan Martorell
                 <token min="0" postag="RG"/>
                 <token postag="V.N.*" postag_regexp="yes"/>
             </pattern>
-            <disambig action="remove"><wd lemma="solar"/></disambig>
+            <disambig action="remove">
+                <wd lemma="solar"/>
+            </disambig>
         </rule>
     </rulegroup>
     <rule id="PODER" name="poder/pudrir (verb)">
@@ -1457,7 +1459,9 @@ Copyright (C) 2011 Juan Martorell
             <token min="0" postag="RG"/>
             <token postag="V.N.*" postag_regexp="yes"/>
         </pattern>
-        <disambig action="remove"><wd lemma="pudrir"/></disambig>
+        <disambig action="remove">
+            <wd lemma="pudrir"/>
+        </disambig>
     </rule>
     <rulegroup id="hacer_falta1" name="hacer falta (verb)">
         <rule>
@@ -1971,7 +1975,7 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <and>
-                    <token inflected="yes" regexp="yes">todo|no|pronto<exception postag="D.*" postag_regexp="yes" scope="previous"/></token>
+                    <token inflected="yes" regexp="yes">todo|no|pronto<exception postag="D[^D].*|DD.MS." postag_regexp="yes" scope="previous"/></token>
                     <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </pattern>
@@ -3403,16 +3407,29 @@ Copyright (C) 2011 Juan Martorell
     </rule>
 
 
-    <rule id="tanto_no_det" name="tanto: no determinant">
-        <pattern>
-            <token postag="V.*" postag_regexp="yes"/>
-            <marker>
-                <token regexp="yes">tanto|mucho</token>
-            </marker>
-            <token postag="NP.*|V.N.*" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="remove" postag="D.*"/>
-    </rule>
+    <rulegroup id="tanto_no_det" name="tanto: no determinant">
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <marker>
+                    <token regexp="yes">tanto|mucho</token>
+                </marker>
+                <token postag="NP.*|V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="D.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <marker>
+                    <token>mucho</token>
+                </marker>
+                <token postag="N.*|V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="D.*"/>
+        </rule>
+
+    </rulegroup>
 
     <!-- EXCEPTIONS FOR SOME GRAMMAR RULES -->
 
@@ -3715,7 +3732,9 @@ Copyright (C) 2011 Juan Martorell
                 <token>haiga</token>
             </marker>
         </pattern>
-        <disambig action="add"><wd lemma="haiga" pos="NCMS000"/></disambig>
+        <disambig action="add">
+            <wd lemma="haiga" pos="NCMS000"/>
+        </disambig>
     </rule>
     <rulegroup id="IGNORE_SOME_ANGLICISMS" name="ignore some common anglicisms if they go with unknown words">
         <rule>
