@@ -26261,17 +26261,45 @@ TODO Write better examples
       <example correction='As viagens'><marker>As viajens</marker> foram longas, mas foram merecidas.</example>
     </rule>
     <rule id='HOMONYM_VIAGEM_2' name='Homófona: viagem - viajem'>
+        <antipattern>
+            <token postag='(?:A|D|SP|V).+|_PUNCT' postag_regexp='yes'/>
+            <token min="0" regexp="yes">["'“‘«]</token>
+            <token>viagem</token>
+        </antipattern>
+        <antipattern>
+            <token regexp='yes'>&art_detecao_paronimos;|\d+\.?ª</token>
+            <token>viagem</token>
+        </antipattern>
       <pattern>
-          <token>
-            <exception regexp='yes'>&art_detecao_paronimos;|\d+\.?ª</exception>
-            <exception postag='(?:A|D|SP|V).+|_PUNCT' postag_regexp='yes'/></token>
-          <token>viagem</token>
+          <token case_sensitive="yes">viagem</token>
       </pattern>
-      <message>Esta palavra refere-se ao ato de viajar. Se pretende referir-se à ação de viajar, deve utilizar a forma com 'j'.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' regexp_match='g' regexp_replace='j'/></suggestion>
+        <message>'Viagem' é um substantivo. Se é um verbo, deve utilizar a forma com 'j'.</message>
+        <suggestion><match no='1' regexp_match='g' regexp_replace='j'/></suggestion>
       <url>https://pt.wiktionary.org/wiki/viajar</url>
-      <example correction='Viajem'><marker>Viagem</marker> tanto quanto possam.</example>
+      <example correction="viajem">Provavelmente <marker>viagem</marker> à Argentina</example> 
+      <example>Uma viagem à Argentina</example>
+      <example>faz uma breve viagem</example>
+      <example>durante a sua quarta viagem</example>
+      <example>Viagem</example>
+      <example>Viagem ao centro da Terra</example>  
     </rule>
+      <rule id='HOMONYM_VIAGEM_3' name='Homófona: viagem - viajem'>
+          <pattern>
+              <token postag="SENT_START"/>
+              <marker>
+                <token>viagem</token>
+              </marker>
+              <token postag="RG"/>
+          </pattern>
+          <message>'Viagem' é um substantivo. Se é um verbo, deve utilizar a forma com 'j'.</message>
+          <suggestion><match no='2' regexp_match='g' regexp_replace='j'/></suggestion>
+          <url>https://pt.wiktionary.org/wiki/viajar</url>
+          <example correction='Viajem'><marker>Viagem</marker> tanto quanto possam.</example> 
+          <example>faz uma breve viagem</example>
+          <example>durante a sua quarta viagem</example>
+          <example>Viagem</example>
+          <example>Viagem ao centro da Terra</example>  
+      </rule>
     <rule id='HOMONYM_PROFETISA_3' name='Homófona: profetisa - profetiza'>
       <pattern>
           <token regexp='yes'>(?:d|n|outr|pel)?as?|(?:alg|d|n)?umas?</token>
