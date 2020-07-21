@@ -1069,6 +1069,18 @@ RB => Règles Brutes
     </rule>
   </rulegroup>
   
+  <rule id="LE_POUVOIR" name="le pouvoir">
+    <antipattern>
+      <token>pouvoir</token>
+      <token postag="V .*inf" postag_regexp="yes"/>
+    </antipattern>
+    <pattern>
+      <token postag="D m s">le</token>
+      <token postag="N m s">pouvoir</token>
+    </pattern>
+    <disambig action="filterall"></disambig>
+  </rule>
+  
   <rulegroup id="PRONOM_SUJET_VERB" name="pronom sujet + verb">
     <rule>
       <pattern>

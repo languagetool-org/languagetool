@@ -42,7 +42,7 @@ final class ServerTools {
   static String getLoggingInfo(String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange, Map<String, String> params, long runtimeMillis, RequestCounter reqCounter) {
     String message = "";
     if (e != null) {
-      message += "An error has occurred: '" +  e.getMessage() + "', sending HTTP code " + errorCode + ". ";
+      message += "An error has occurred: '" + ServerTools.cleanUserTextFromMessage(e.getMessage(), params) + "', sending HTTP code " + errorCode + ". ";
     }
     message += "Access from " + remoteAddress + ", ";
     message += "HTTP user agent: " + getHttpUserAgent(httpExchange) + ", ";

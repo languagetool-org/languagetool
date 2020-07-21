@@ -483,6 +483,24 @@ title="Easy editing stylesheet" ?>
 		  <token postag='NC[CFM]P000' postag_regexp='yes'/>
       </antipattern>  	  
 <!-- MARCOAGPINTO 2020-07-04 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-07-21 (2-JUL-2020+) *START* -->
+<!-- "Os mapas estão acessíveis a todos tendo como base estudos geográficos." -->
+<!-- "Os mapas estão acessíveis a todos tendo como alicerce classes geográficas." -->
+<!-- "Os mapas estão acessíveis a todos tendo como alicerce classes humanas." -->
+<!-- "Os mapas estão acessíveis a todos tendo um alicerce classes humanas." -->
+      <antipattern>
+		  <token regexp='yes'>em|esta|nesta|nessa|numa|à|que|com|sua|uma|como|por|na</token>
+	      <token postag='NC[CF]S000' postag_regexp='yes'/>
+	      <token postag='NC[CM]P000' postag_regexp='yes'/>
+		  <token postag='NC[CM]P000|AQ0[CM]P0' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+		  <token regexp='yes'>em|este|neste|nesse|num|o|que|com|seu|um|como|por|no</token>
+	      <token postag='NC[CM]S000' postag_regexp='yes'/>
+	      <token postag='NC[CF]P000' postag_regexp='yes'/>
+		  <token postag='NC[CF]P000|AQ0[CF]P0' postag_regexp='yes'/>
+      </antipattern>	  
+<!-- MARCOAGPINTO 2020-07-21 (2-JUL-2020+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -786,14 +804,14 @@ title="Easy editing stylesheet" ?>
           <token postag='NCMP000' postag_regexp='no'/>
       </antipattern>
 	<!-- Added by Marco A.G.Pinto - 2020-04-30 ***END***-->  
-	<!-- Added by Marco A.G.Pinto - 2020-05-04 ***START***-->
+	<!-- Added by Marco A.G.Pinto - 2020-05-04 + 2020-07-21 ***START***-->
 	<!-- "A senhora Pinto é simpática." -->
 	<!-- "A senhorita Pinto é simpática." -->
       <antipattern>
 		  <token regexp='yes'>senhora|senhorita|menina</token>
-          <token postag='NPMS000' postag_regexp='no'/>
+          <token postag='NPMS[S0]00' postag_regexp='yes'/>
       </antipattern>
-	<!-- Added by Marco A.G.Pinto - 2020-05-04 ***END***-->  
+	<!-- Added by Marco A.G.Pinto - 2020-05-04 + 2020-07-21 ***END***-->  
 	<!-- Added by Marco A.G.Pinto - 2020-05-08 ***START***-->	
 	<!-- "Temos a língua Esperanto e a língua Ido." -->
 	<!-- "Temos a linguagem Esperanto e a linguagem Ido." -->
@@ -854,6 +872,24 @@ title="Easy editing stylesheet" ?>
 		  <token postag='AQ0MS0' postag_regexp='no'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-20 *END* -->
+<!-- MARCOAGPINTO 2020-07-21 (2-JUL-2020+) *START* -->
+<!-- "Os mapas estão acessíveis a todos tendo como base estudos geográficos." -->
+<!-- "Os mapas estão acessíveis a todos tendo como alicerce classes geográficas." -->
+<!-- "Os mapas estão acessíveis a todos tendo como alicerce classes humanas." -->
+<!-- "Os mapas estão acessíveis a todos tendo um alicerce classes humanas." -->
+      <antipattern>
+		  <token regexp='yes'>em|esta|nesta|nessa|numa|à|que|com|sua|uma|como|por|na</token>
+	      <token postag='NC[CF]S000' postag_regexp='yes'/>
+	      <token postag='NC[CM]P000' postag_regexp='yes'/>
+		  <token postag='NC[CM]P000|AQ0[CM]P0' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+		  <token regexp='yes'>em|este|neste|nesse|num|o|que|com|seu|um|como|por|no</token>
+	      <token postag='NC[CM]S000' postag_regexp='yes'/>
+	      <token postag='NC[CF]P000' postag_regexp='yes'/>
+		  <token postag='NC[CF]P000|AQ0[CF]P0' postag_regexp='yes'/>
+      </antipattern>	  
+<!-- MARCOAGPINTO 2020-07-21 (2-JUL-2020+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>o|e|de|&hifen;</token> <!-- MARCOAGPINTO 2019-12-31 -->
         <marker>
@@ -26261,17 +26297,45 @@ TODO Write better examples
       <example correction='As viagens'><marker>As viajens</marker> foram longas, mas foram merecidas.</example>
     </rule>
     <rule id='HOMONYM_VIAGEM_2' name='Homófona: viagem - viajem'>
+        <antipattern>
+            <token postag='(?:A|D|SP|V).+|_PUNCT' postag_regexp='yes'/>
+            <token min="0" regexp="yes">["'“‘«]</token>
+            <token>viagem</token>
+        </antipattern>
+        <antipattern>
+            <token regexp='yes'>&art_detecao_paronimos;|\d+\.?ª</token>
+            <token>viagem</token>
+        </antipattern>
       <pattern>
-          <token>
-            <exception regexp='yes'>&art_detecao_paronimos;|\d+\.?ª</exception>
-            <exception postag='(?:A|D|SP|V).+|_PUNCT' postag_regexp='yes'/></token>
-          <token>viagem</token>
+          <token case_sensitive="yes">viagem</token>
       </pattern>
-      <message>Esta palavra refere-se ao ato de viajar. Se pretende referir-se à ação de viajar, deve utilizar a forma com 'j'.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' regexp_match='g' regexp_replace='j'/></suggestion>
+        <message>'Viagem' é um substantivo. Se é um verbo, deve utilizar a forma com 'j'.</message>
+        <suggestion><match no='1' regexp_match='g' regexp_replace='j'/></suggestion>
       <url>https://pt.wiktionary.org/wiki/viajar</url>
-      <example correction='Viajem'><marker>Viagem</marker> tanto quanto possam.</example>
+      <example correction="viajem">Provavelmente <marker>viagem</marker> à Argentina</example> 
+      <example>Uma viagem à Argentina</example>
+      <example>faz uma breve viagem</example>
+      <example>durante a sua quarta viagem</example>
+      <example>Viagem</example>
+      <example>Viagem ao centro da Terra</example>  
     </rule>
+      <rule id='HOMONYM_VIAGEM_3' name='Homófona: viagem - viajem'>
+          <pattern>
+              <token postag="SENT_START"/>
+              <marker>
+                <token>viagem</token>
+              </marker>
+              <token postag="RG"/>
+          </pattern>
+          <message>'Viagem' é um substantivo. Se é um verbo, deve utilizar a forma com 'j'.</message>
+          <suggestion><match no='2' regexp_match='g' regexp_replace='j'/></suggestion>
+          <url>https://pt.wiktionary.org/wiki/viajar</url>
+          <example correction='Viajem'><marker>Viagem</marker> tanto quanto possam.</example> 
+          <example>faz uma breve viagem</example>
+          <example>durante a sua quarta viagem</example>
+          <example>Viagem</example>
+          <example>Viagem ao centro da Terra</example>  
+      </rule>
     <rule id='HOMONYM_PROFETISA_3' name='Homófona: profetisa - profetiza'>
       <pattern>
           <token regexp='yes'>(?:d|n|outr|pel)?as?|(?:alg|d|n)?umas?</token>
@@ -26814,7 +26878,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp="yes">(\d{1,3}[\. ]?)+,\d{3}\d+</token>
+          <token regexp="yes">(\d{1,3}[\. ]?){1,10},\d{3}\d+</token>
       </pattern>
       <message>Os algarismos devem ser agrupados em grupos de 3.</message>
         <suggestion><match no='3' regexp_match="((?:\d{1,3}[\. ]?)+,\d{3})(\d+)" regexp_replace="$1 $2"/></suggestion>
@@ -27043,7 +27107,7 @@ TODO Write better examples
     <!-- Localized from German by Tiago F. Santos, Portuguese rule, 2017-09-29 -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/simbolos-de-unidades/11572</url>
     <rule>
-      <regexp case_sensitive='yes'>(\-?[0-9]+[0-9,\.]*(°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))\b</regexp>
+      <regexp case_sensitive='yes'>(\-?[0-9]+[0-9,\.]{0,10}(°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))\b</regexp>
       <message>Deve dar um espaço entre o valor e a unidade de medida: <suggestion><match no='1' regexp_match="((\-)?[0-9]+[0-9,.]*{1,})" regexp_replace="$1 "/></suggestion></message>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/simbolos-de-unidades/11572</url>
       <example correction="25 °C">Fazem <marker>25°C</marker>.</example>
@@ -27069,7 +27133,7 @@ TODO Write better examples
       <example>jbo:1901moi</example>
     </rule>
     <rule>
-      <regexp>((\-)?[0-9]+[0-9.,]*{1,}) (°[^CFK])</regexp>
+      <regexp>((\-)?[0-9]+[0-9.,]{1,10}) (°[^CFK])</regexp>
       <message>Não existe espaçamento a preceder o símbolo de grau. Utilize <suggestion>\1°</suggestion> ou adicione a unidade de medida térmica (p.ex. <suggestion>\1 °C</suggestion>).</message>
       <example correction="25°|25 °C">O ângulo é <marker>25 ° </marker></example>
       <example correction="-25,5°|-25,5 °C">Fazem <marker>-25,5 ° </marker>de temperatura.</example>
@@ -27078,7 +27142,7 @@ TODO Write better examples
       <example correction="-25°|-25 °C">Fazem <marker>-25 ° </marker>de temperatura.</example>
     </rule>
     <rule>
-      <regexp>((\-)?[0-9]+[0-9.,]*{1,}) (″)</regexp>
+      <regexp>((\-)?[0-9]+[0-9.,]*{1,10}) (″)</regexp>
       <message>O sinal de segundos (\2) não é espaçado.</message>
         <suggestion>\1\2\3</suggestion>
       <example>3°14′ 45,54″</example>

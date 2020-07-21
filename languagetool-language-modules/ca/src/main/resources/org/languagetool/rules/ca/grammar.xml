@@ -1317,7 +1317,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>zero</token>
-                    <token>absolut</token>
+                    <token regexp="yes">absolut|inicial</token>
                 </antipattern>
                 <pattern>
                     <token postag="DN..P.*" postag_regexp="yes"><exception postag="A...S.*|NCF.*|.*LOC_ADV.*|AO.*" postag_regexp="yes"/><exception regexp="yes">[\d ,.]+</exception></token>
@@ -1335,6 +1335,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>de les aigües de la deu propera</example>
                 <example>Un tant per cent anual.</example>
                 <example>De zero absolut.</example>
+                <example>Amb zero inicial.</example>
                 <!--La regla de tres directa-->
             </rule>
             <rule>
@@ -19390,6 +19391,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>—aposta molt personal de Tony Blair—</example>
             </rule>
         </rulegroup>
+        <rule id="MOT_MOLT" name="*mot/molt" default="temp_off">
+            <pattern>
+                <!--token postag="V.[SI].*|_GV_" postag_regexp="yes"/>-->
+                <marker>
+                    <token>mot</token>
+                </marker>
+                <token postag="A...P." postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>molt</suggestion></message>
+            <example correction="molt">Solien ser <marker>mot</marker> actius.</example>
+        </rule>
         <rulegroup id="MOL_MOLT" name="*mol(s)/molt(s)">
             <antipattern>
                 <marker>
@@ -30566,6 +30578,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="BE_VE" name="be/ve" default="temp_off">
+            <pattern>
+                <token>d'</token>
+                <token regexp="yes">aquí|ací</token>
+                <marker>
+                    <token regexp="yes">be|bé</token>
+                </marker>
+                <token>que</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>ve</suggestion> (v. 'venir')?</message>
+            <example correction="ve">D'ací <marker>bé</marker> que siguin tan especials.</example>
+        </rule>
         <rule id="OUS_CARAGOLS" name="*xurres amb merines/ous amb caragols">
             <pattern>
                 <token regexp="yes">(ch|t?x)urr[ea]s</token>
