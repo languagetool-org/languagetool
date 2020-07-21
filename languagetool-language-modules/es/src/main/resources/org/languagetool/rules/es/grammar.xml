@@ -3658,6 +3658,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es del verbo estar, se escribe <suggestion>está</suggestion>.</message>
                 <example correction="Está"><marker>Esta</marker> todo muy mal.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>esta</token>
+                    </marker>
+                    <token postag="NPMS.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si es del verbo estar, se escribe <suggestion>está</suggestion>.</message>
+                <example correction="está">Dónde <marker>esta</marker> Daniel Centeno.</example>
+                <example>A pesar de esta Daniel se fue.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>esta</token>
+                    <token postag="NC.[FC][SN].*|V.P..SF" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">cómo|dónde|donde<exception scope="previous" postag="SPS00"/></token>
+                    <marker>
+                        <token>esta</token>
+                    </marker>
+                </pattern>
+                <message>Si es del verbo 'estar', lleva tilde.</message>
+                <suggestion>está</suggestion>
+                <example correction="está">¿Cómo <marker>esta</marker>?</example>
+                <example correction="está">¿Dónde <marker>esta</marker>, Gabriela?</example>
+                <example correction="está">¿Dónde <marker>esta</marker> Gabriela?</example>
+                <example>¿Como esta?</example>
+                <example>de cómo esta célula se regulan</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ESTAS_TILDE" name="estas/estás">
             <antipattern>
