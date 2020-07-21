@@ -4560,6 +4560,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" regexp_match="(?iu)(©)(\d+)" regexp_replace="$1 $2"/></suggestion>
                 <example correction="© 2020"><marker>©2020</marker>.</example>
             </rule>
+            <rule id="INFINITIVO_LA" name="acabarla/acabar la" default="temp_off">
+                <pattern>
+                    <marker>
+                        <token postag="V.N.*" postag_regexp="yes" regexp="yes">.*la</token>
+                    </marker>
+                    <token postag="NCFS000"/>
+                </pattern>
+                <message>Probablemente se escribe separado.</message>
+                <suggestion><match no="1" regexp_match="(?iu)la$" regexp_replace=" la"/></suggestion>
+                <example correction="acabar la">Hay que actuar y <marker>acabarla</marker> infección.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="NO_SEPARADO" name="palabras no separadas">
             <rule>
