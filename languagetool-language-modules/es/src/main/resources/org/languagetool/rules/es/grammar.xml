@@ -4319,7 +4319,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
-        <rulegroup id="PLURAL_SEPARADO" name="marca de plural separada" default="temp_off">
+        <rulegroup id="PLURAL_SEPARADO" name="marca de plural separada">
             <antipattern>
                 <token>los</token>
                 <token postag="A.*" postag_regexp="yes" regexp="yes">s.*</token>
@@ -5065,7 +5065,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1\2</suggestion>
                 <example correction="email">Envíalo a mi <marker>e mail</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>mal</token>
                     <token min="0">-</token>
@@ -5076,7 +5076,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="malinterprete">No quiero que se <marker>mal interprete</marker> esto.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AUTO_NO_SEPARADO" name="prefijo auto- no separado" default="temp_off">
+        <rulegroup id="AUTO_NO_SEPARADO" name="prefijo auto- no separado">
             <rule>
                 <pattern>
                     <token>auto</token>
@@ -6308,7 +6308,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El complemento de un conjunto A es el conjunto A∁.</example>
                 <example>Y por contra existe otra línia de pensamiento.</example>
             </rule>
-            <!--<rule default="temp_off">
+            <!--<rule>
                 <pattern>
                     <token postag="SPS00"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/></token>
                     <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+[ns]<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/></token>
@@ -9272,7 +9272,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rulegroup id="A_VER_HABER" name="a ver/haber" default="temp_off">
+        <rulegroup id="A_VER_HABER" name="a ver/haber">
             <antipattern>
                 <token inflected="yes" regexp="yes">ir|acudir|correr</token>
                 <token>a</token>
