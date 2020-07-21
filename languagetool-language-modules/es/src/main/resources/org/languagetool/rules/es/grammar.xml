@@ -8488,6 +8488,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="AGREEMENT_VERBS" name="Concordancia sujeto/predicado" type="inconsistency" default="on">
+        <rulegroup id="PRONOUN_IMPERATIVE" name="pronombre + verbo imperativo" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token postag="V.M.*" postag_regexp="yes" regexp="yes">.*os<exception postag="V.[IS].*|_GN_.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Combinación de pronombre y verbo en imperativo imposible.</message>
+                <suggestion>\1 <match no="2" postag="V.M.*" postag_regexp="yes" postag_replace="V.IP1P."/></suggestion>
+                <example correction="Le damos"><marker>Le daos</marker> la razón</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token postag="V.M.*" postag_regexp="yes"><exception postag="V.[IS].*|_GN_.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Combinación de pronombre y verbo en imperativo imposible.</message>
+                <example correction=""><marker>Le dadle</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AGREEMENT_VERB_PARTICIPLE" name="*están hecho/hechos">
             <!--<antipattern>
                 <token inflected="yes">ser</token>
@@ -9336,10 +9355,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- TODO: more exceptions -->
             <antipattern>
                 <token>ve</token>
-                <token regexp="yes">baja|chica|corta|doble</token>
+                <token regexp="yes">baja|chica|corta|doble|nada|abajo|como|adelante</token>
             </antipattern>
             <antipattern>
-                <token>doble</token>
+                <token regexp="yes">doble|se</token>
                 <token>ve</token>
             </antipattern>
             <pattern>
@@ -9352,6 +9371,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>me</suggestion>
             <suggestion>te</suggestion>
             <example correction="le|me|te">No <marker>ve</marker> vale este resultado.</example>
+            <example>El lago se ve com un mar.</example>
+            <example>No ve nada allá abajo.</example>
         </rule>
         <rulegroup id="A_VER_HABER" name="a ver/haber">
             <antipattern>
