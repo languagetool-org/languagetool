@@ -46,11 +46,11 @@ public class PortugueseRedundancyRule extends AbstractSimpleReplaceRule2 {
   private static final Locale PT_LOCALE = new Locale("pt");  // locale used on case-conversion
 
   @Override
-  public final String getFileName() {
+  public String getFileName() {
     return FILE_NAME;
   }
 
-  public PortugueseRedundancyRule(ResourceBundle messages) throws IOException {
+  public PortugueseRedundancyRule(ResourceBundle messages) {
     super(messages, new Portuguese());
     super.setCategory(Categories.REDUNDANCY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
@@ -59,7 +59,7 @@ public class PortugueseRedundancyRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return PT_REDUNDANCY_REPLACE;
   }
 

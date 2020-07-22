@@ -49,11 +49,11 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
   private final String path;
 
   @Override
-  public final String getFileName() {
+  public String getFileName() {
     return path;
   }
 
-  public PortugueseBarbarismsRule(ResourceBundle messages, String path) throws IOException {
+  public PortugueseBarbarismsRule(ResourceBundle messages, String path) {
     super(messages, new Portuguese());
     this.path = Objects.requireNonNull(path);
     super.setCategory(Categories.STYLE.getCategory(messages));
@@ -63,7 +63,7 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return PT_BARBARISMS_REPLACE;
   }
 

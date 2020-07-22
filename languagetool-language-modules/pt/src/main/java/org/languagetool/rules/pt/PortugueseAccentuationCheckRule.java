@@ -102,18 +102,18 @@ public class PortugueseAccentuationCheckRule extends Rule {
   }
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+  public RuleMatch[] match(AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     for (int i = 1; i < tokens.length; i++) { 
       // ignoring token 0, i.e. SENT_START
-      final String token;
+      String token;
       if (i == 1) {
         token = tokens[i].getToken().toLowerCase();
       } else {
         token = tokens[i].getToken();
       }
-      final String prevToken = tokens[i - 1].getToken();
+      String prevToken = tokens[i - 1].getToken();
       String prevPrevToken = "";
       if (i > 2) {
         prevPrevToken = tokens[i - 2].getToken();
@@ -148,14 +148,13 @@ public class PortugueseAccentuationCheckRule extends Rule {
         continue;
       }
       
-      
       String replacement = null;
-      final Matcher mPreposicaoDE = PREPOSICAO_DE.matcher(nextToken);
-      final Matcher mExcepcoesDE = EXCEPCOES_ANTES_DE.matcher(nextNextToken);
-      final Matcher mArtigoOMS = ARTIGO_O_MS.matcher(prevToken);
-      final Matcher mArtigoOFS = ARTIGO_O_FS.matcher(prevToken);
-      final Matcher mArtigoOMP = ARTIGO_O_MP.matcher(prevToken);
-      final Matcher mArtigoOFP = ARTIGO_O_FP.matcher(prevToken);
+      Matcher mPreposicaoDE = PREPOSICAO_DE.matcher(nextToken);
+      Matcher mExcepcoesDE = EXCEPCOES_ANTES_DE.matcher(nextNextToken);
+      Matcher mArtigoOMS = ARTIGO_O_MS.matcher(prevToken);
+      Matcher mArtigoOFS = ARTIGO_O_FS.matcher(prevToken);
+      Matcher mArtigoOMP = ARTIGO_O_MP.matcher(prevToken);
+      Matcher mArtigoOFP = ARTIGO_O_FP.matcher(prevToken);
 
       // VERB WITHOUT ACCENT -> NOUN WITH ACCENT
       if (isRelevantWord && !matchPostagRegexp(tokens[i], GN)/* && !matchPostagRegexp(tokens[i], LOCUCOES)*/) {
@@ -331,8 +330,8 @@ public class PortugueseAccentuationCheckRule extends Rule {
 
       }
       if (replacement != null) {
-        final String msg = "Se \u00E9 um nome ou um adjectivo, tem acento.";
-        final RuleMatch ruleMatch = new RuleMatch(this, sentence,
+        String msg = "Se \u00E9 um nome ou um adjectivo, tem acento.";
+        RuleMatch ruleMatch = new RuleMatch(this, sentence,
             tokens[i].getStartPos(), tokens[i].getEndPos(),
             msg, "Falta um acento");
         ruleMatch.setSuggestedReplacement(replacement);
@@ -349,9 +348,9 @@ public class PortugueseAccentuationCheckRule extends Rule {
       Pattern pattern) {
     boolean matches = false;
     for (AnalyzedToken analyzedToken : aToken) {
-      final String posTag = analyzedToken.getPOSTag();
+      String posTag = analyzedToken.getPOSTag();
       if (posTag != null) {
-        final Matcher m = pattern.matcher(posTag);
+        Matcher m = pattern.matcher(posTag);
         if (m.matches()) {
           matches = true;
           break;

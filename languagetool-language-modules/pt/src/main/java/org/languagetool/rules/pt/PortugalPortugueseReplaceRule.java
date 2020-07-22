@@ -50,7 +50,7 @@ public class PortugalPortugueseReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public PortugalPortugueseReplaceRule(ResourceBundle messages) throws IOException {
+  public PortugalPortugueseReplaceRule(ResourceBundle messages) {
     super(messages);
     super.setCategory(Categories.REGIONALISMS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);

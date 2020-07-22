@@ -18,8 +18,6 @@
  */
 package org.languagetool.rules.pt;
 
-import org.languagetool.tools.StringTools;
-
 import java.util.Calendar;
 import java.util.Locale;
 

@@ -50,7 +50,7 @@ public class PortugueseReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public PortugueseReplaceRule(ResourceBundle messages) throws IOException {
+  public PortugueseReplaceRule(ResourceBundle messages) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
@@ -59,7 +59,7 @@ public class PortugueseReplaceRule extends AbstractSimpleReplaceRule {
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return PORTUGUESE_SIMPLE_REPLACE_RULE;
   }
 

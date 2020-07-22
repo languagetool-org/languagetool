@@ -47,11 +47,11 @@ public class PortugueseWeaselWordsRule extends AbstractSimpleReplaceRule2 {
   private static final Locale PT_LOCALE = new Locale("pt");  // locale used on case-conversion
 
   @Override
-  public final String getFileName() {
+  public String getFileName() {
     return FILE_NAME;
   }
 
-  public PortugueseWeaselWordsRule(ResourceBundle messages) throws IOException {
+  public PortugueseWeaselWordsRule(ResourceBundle messages) {
     super(messages, new Portuguese());
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
@@ -60,7 +60,7 @@ public class PortugueseWeaselWordsRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return PT_WEASELWORD_REPLACE;
   }
 

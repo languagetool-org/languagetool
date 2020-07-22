@@ -51,7 +51,7 @@ public class PortugueseClicheRule extends AbstractSimpleReplaceRule2 {
     return FILE_NAME;
   }
 
-  public PortugueseClicheRule(ResourceBundle messages) throws IOException {
+  public PortugueseClicheRule(ResourceBundle messages) {
     super(messages, new Portuguese());
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
@@ -60,7 +60,7 @@ public class PortugueseClicheRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return PORTUGUESE_CLICHE_RULE;
   }
 
