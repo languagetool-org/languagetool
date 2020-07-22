@@ -6649,21 +6649,21 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="ambiguous" inputform="selling[sell/VBG,selling/NN:U]" outputform="selling[selling/NN:U]">You want a raise? Tell me what your <marker>selling</marker> is worth!</example><!-- #2426 -->
         </rule>
 
-        <rule id="PRPPOSS_VBG_JJ_NN" name="Possessive pronoun + verb/adjective + noun sing => adjective">
-          <pattern>
+    <rule id="PRPPOSS_VBG_JJ_NN" name="Possessive pronoun + verb/adjective + noun sing => adjective">
+        <pattern>
             <token postag="PRP$"/>
             <marker>
-            <and>
-              <token postag="JJ"/>
-              <token postag="VBG" postag_regexp="yes"/>
-            </and>
+                <and>
+                   <token postag="JJ"/>
+                   <token postag="VBG" postag_regexp="yes"/>
+                </and>
             </marker>
             <token postag="NN"/>
-          </pattern>
-          <disambig postag="JJ"/>
-          <example type="untouched">I do what I want to.</example>
-          <example type="ambiguous" inputform="loving[love/VBG,loving/JJ,loving/NN:UN]" outputform="loving[loving/JJ]">Your <marker>loving</marker> friend</example>
-        </rule>
+        </pattern>
+        <disambig postag="JJ"/>
+        <example type="untouched">I do what I want to.</example>
+        <example type="ambiguous" inputform="loving[love/VBG,loving/JJ,loving/NN:UN]" outputform="loving[loving/JJ]">Your <marker>loving</marker> friend</example>
+    </rule>
 
     <rule id="PRPPOSS_JJ_NN" name="Possessive pronoun + adj/noun =>noun">
         <antipattern><!-- its home games -->
