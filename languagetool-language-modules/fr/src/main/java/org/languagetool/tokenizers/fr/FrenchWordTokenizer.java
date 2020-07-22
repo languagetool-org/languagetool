@@ -38,8 +38,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
 
   private static final int maxPatterns = 7;
   private final Pattern[] patterns = new Pattern[maxPatterns];
-
-  FrenchTagger tagger;
+  private final FrenchTagger tagger;
 
   // Patterns to avoid splitting words in certain special cases
 
@@ -72,10 +71,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
 
   public FrenchWordTokenizer() {
     
-    // lazy init
-    if (tagger == null) {
-      tagger = new FrenchTagger();
-    }
+    tagger = new FrenchTagger();
 
     // words not to be split
     patterns[0] = Pattern.compile("^(rendez-vous|garde-à-vous)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);

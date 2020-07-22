@@ -26,6 +26,7 @@ import java.util.List;
 import org.junit.Test;
 
 public class SpanishWordTokenizerTest {
+
   @Test
   public void testTokenize() {
     final SpanishWordTokenizer wordTokenizer = new SpanishWordTokenizer();
