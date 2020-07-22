@@ -6650,6 +6650,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
 
     <rule id="PRPPOSS_VBG_JJ_NN" name="Possessive pronoun + verb/adjective + noun sing => adjective">
+        <antipattern><!-- #3291 its beginning in -->
+            <token postag="PRP$"/>
+            <token chunk="E-NP-singular" postag="NN(:UN?)?" postag_regexp="yes"/>
+            <token postag="IN"/>
+        </antipattern>
         <pattern>
             <token postag="PRP$"/>
             <marker>
@@ -6662,6 +6667,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig postag="JJ"/>
         <example type="untouched">I do what I want to.</example>
+        <example type="untouched">Since its beginning in 1970, WalkAmerica has raised more than $1 billion.</example><!-- #3291 -->
+        <example type="untouched">The magazine conducts its ranking by surveying the salaries of MBAs who graduated in 1996.</example><!-- #3291 -->
+        <example type="untouched">You will have guessed its meaning by the end of the chapter.</example><!-- #3291 -->
+        <example type="untouched">... can be found at Disneyland Paris since its opening in 1992, under the name Casey's Corner.</example><!-- #3291 -->
         <example type="ambiguous" inputform="loving[love/VBG,loving/JJ,loving/NN:UN]" outputform="loving[loving/JJ]">Your <marker>loving</marker> friend</example>
     </rule>
 
