@@ -59,6 +59,9 @@ public class PortugueseWordTokenizerTest {
     final List<String> tokens7 = wordTokenizer.tokenize("Aix-en-Provence");
     assertEquals(tokens7.size(), 1);
     assertEquals("[Aix-en-Provence]", tokens7.toString());
+    final List<String> tokens8 = wordTokenizer.tokenize("Montemor-o-Novo");
+    assertEquals(tokens8.size(), 1);
+    assertEquals("[Montemor-o-Novo]", tokens8.toString());
     
   }
 }

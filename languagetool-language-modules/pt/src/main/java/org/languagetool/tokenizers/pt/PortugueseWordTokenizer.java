@@ -85,7 +85,8 @@ public class PortugueseWordTokenizer extends WordTokenizer {
   // hyphens inside words
   private static final Pattern HYPHEN_PATTERN = Pattern.compile("([\\p{L}])-([\\p{L}\\d])", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final String HYPHEN_REPL = "$1" + HYPHEN_SUBST + "$2";
-  
+  private static final Pattern NEARBY_HYPHENS_PATTERN = Pattern.compile("([\\p{L}])-([\\p{L}])-([\\p{L}])", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final String NEARBY_HYPHENS_REPL = "$1" + HYPHEN_SUBST + "$2" + HYPHEN_SUBST + "$3";
   public PortugueseWordTokenizer() { 
     tagger = new PortugueseTagger();
   }
@@ -125,6 +126,7 @@ public class PortugueseWordTokenizer extends WordTokenizer {
     	text = COLON_NUMBERS_PATTERN.matcher(text).replaceAll(COLON_NUMBERS_REPL);
     }
     if (text.contains("-")) {
+      text = NEARBY_HYPHENS_PATTERN.matcher(text).replaceAll(NEARBY_HYPHENS_REPL);
       text = HYPHEN_PATTERN.matcher(text).replaceAll(HYPHEN_REPL);  
     }
     
