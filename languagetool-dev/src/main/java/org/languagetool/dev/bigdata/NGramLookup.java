@@ -60,7 +60,7 @@ final class NGramLookup {
           System.out.println(Arrays.toString(lookup) + " -> count:" + count + ", " + p + ", log:" + Math.log(p.getProb()));
           totalP *= p.getProb();
         }
-        System.out.printf("totalP=" + totalP);
+        System.out.println("totalP=" + totalP);
       }
     }
   }
