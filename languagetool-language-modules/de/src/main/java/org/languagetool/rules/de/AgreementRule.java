@@ -815,11 +815,19 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList( // "Angel" is tagged like the "Die Angel" for fishing
       csToken("Business"),
-      csToken("Angel")
+      tokenRegex("Angel[ns]?")
+    ),
+    Arrays.asList(
+      csToken("Junior"),
+      csToken("Suite[sn]?")
     ),
     Arrays.asList( // "Angel" is tagged like the "Die Angel" for fishing
       tokenRegex("Customer|User"),
       tokenRegex("Journeys?")
+    ),
+    Arrays.asList( // Wir trinken ein kühles Blondes
+      token("kühles"),
+      token("Blondes")
     )
   );
 

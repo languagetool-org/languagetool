@@ -138,7 +138,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // https://github.com/languagetool-org/languagetool/issues/1515
       SENT_START,
-      regex("▶︎|▶|▶️|→|\\*|•|-|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|☛|%|◆|▪|☞|❤"),
+      regex("▶︎|▶|▶️|→|\\*|•|-|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|☛|%|◆|▪|☞|❤|/|_|✒︎"),
       regex(".*")
     ),
     Arrays.asList(
@@ -629,6 +629,36 @@ public class CaseRule extends Rule {
       SENT_START,
       regex("§\\d"),
       regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // 3a) Deine Idee ...
+      SENT_START,
+      regex("\\d+[a-z]"),
+      token(")"),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // @Peter Hast du morgen Zeit?
+      SENT_START,
+      regex("@[a-zA-Z0-9]+"),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // M3.2 Deine Idee ...
+      SENT_START,
+      regex("[A-Z]\\d+"),
+      token("."),
+      regex("\\d+"),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      csToken("Gefahren"),
+      csToken("lauern")
+    ),
+    Arrays.asList(
+      csRegex("[A-ZÄÜÖ].+"),
+      new PatternTokenBuilder().token("*").setIsWhiteSpaceBefore(false).build(),
+      csToken("innen")
     )
   );
 
@@ -695,6 +725,9 @@ public class CaseRule extends Rule {
     "Veränderliche",
     "Veränderlicher",
     "Veränderlichen",
+    "Werbetreibende",
+    "Werbetreibender",
+    "Werbetreibenden",
     "Werktätige",
     "Werktätiger",
     "Werktätigen",

@@ -9446,6 +9446,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rulegroup id="RUNDUM_SORGLOS_PAKET" name="Rundum-sorglos-Paket" default="temp_off">
+            <url>https://www.duden.de/rechtschreibung/Rundum_sorglos_Paket</url>
+            <rule>
+                <pattern>
+                    <token>rundum</token>
+                    <token regexp="yes">sorg(en)?los</token>
+                    <token regexp="yes">paket(en?|s)?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Rundum-sorglos-<match no="3" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="Rundum-sorglos-Paket">Sie buchten das <marker>Rundum Sorglos Paket</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>rund</token>
+                    <token>um</token>
+                    <token regexp="yes">sorg(en)?los</token>
+                    <token regexp="yes">paket(en?|s)?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Rundum-sorglos-<match no="4" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="Rundum-sorglos-Paket">Sie buchten das <marker>Rund um Sorglos Paket</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="SCHNICK_SCHNACK" name="Schnickschnack">
             <antipattern>
                 <token>Schnick</token>

@@ -168,6 +168,10 @@ public class CaseRuleTest {
     assertGood("A) Das Haus");
     assertGood("Rabi und Polykarp Kusch an der Columbia-Universität");
     assertGood("Man geht davon aus, dass es sich dabei nicht um Reinigungsverhalten handelt.");
+    assertGood("Wenn dort oft Gefahren lauern.");
+    assertGood("3b) Den Bereich absichern");
+    assertGood("@booba Da der Holger keine Zeit hat ...");
+    assertGood("Es gibt infizierte Ärzt*innen.");
     assertGood("WUrzeln");  // to be found by spell checker
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
@@ -343,6 +347,7 @@ public class CaseRuleTest {
     assertGood("Er befürchtet Schlimmeres.");
     assertBad("Bis Bald!");
     assertGood("#4 Aktuelle Situation");
+    assertGood("Er trinkt ein kühles Blondes.");
     assertGood("* [ ] Ein GitHub Markdown Listenpunkt");
     assertGood("Tom ist ein engagierter, gutaussehender Vierzigjähriger, der...");
     assertGood("a.) Im Zusammenhang mit ...");
