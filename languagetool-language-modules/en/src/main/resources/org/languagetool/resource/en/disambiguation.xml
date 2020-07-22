@@ -2165,7 +2165,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token>t</token>
             </marker>
         </pattern>
-        <disambig action="replace"><wd lemma="not" pos="RB">t</wd></disambig>
+        <disambig action="replace"><wd lemma="not" pos="RB" /></disambig>
         <example type="ambiguous" inputform="t[t]" outputform="t[not/RB]">I haven'<marker>t</marker> done it.</example>
     </rule>
 
@@ -2177,8 +2177,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">&apostrophe;</token>
             <token>t</token>
         </pattern>
-        <disambig action="replace"><wd lemma="have" pos="VBD">hadn</wd></disambig>
+        <disambig action="replace"><wd lemma="have" pos="VBD" /></disambig>
         <example type="ambiguous" inputform="hadn[hadn]" outputform="hadn[have/VBD]">I <marker>hadn</marker>'t done it.</example>
+        <example type="ambiguous" inputform="Hadn[Hadn]" outputform="Hadn[have/VBD]"><marker>Hadn</marker>'t we better be going now?</example>
     </rule>
 
     <rule name="re -> be" id="RE_VBP">
@@ -6288,6 +6289,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="RB"/>
             <token postag_regexp="yes" postag="VBP?"/>
         </antipattern>
+        <antipattern><!-- ma'am I got ... -->
+            <token />
+            <token regexp="yes">&apostrophe;</token>
+            <token spacebefore="no">am</token>
+        </antipattern>
         <pattern>
             <token inflected="yes" regexp="yes">be|have</token>
             <token min="0" max="2" postag="PRP|NN.*|RB" postag_regexp="yes"/>
@@ -6314,6 +6320,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="made[make/VBD,make/VBN]" outputform="made[make/VBN]">He has <marker>made</marker> a mistake.</example>
         <example type="ambiguous" outputform="liked[like/VBN]" inputform="liked[like/VBD,like/VBN]">Have you <marker>liked</marker> Dutch jazz music?</example>
         <example type="ambiguous" inputform="considered[consider/VBD,consider/VBN,considered/JJ]" outputform="considered[consider/VBN]">... forming the negative hydride ion, and is very occasionally <marker>considered</marker> to be a halogen on that basis.</example>
+        <example type="untouched">Ma'am I got the wrong one.</example>
     </rule>
 
     <rule id="VBD_VBN" name="Past">
