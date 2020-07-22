@@ -152,7 +152,7 @@ class CheckCallable implements Callable<File> {
 
   private void writeFakeError(ObjectMapper mapper, FileWriter fw, String textToCheck, String pseudoFileName, ApiErrorException e) throws IOException {
     Language lang = Languages.getLanguageForShortCode(langCode);
-    JLanguageTool lt = new JLanguageTool(lang);
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
     RuleMatch ruleMatch = new RuleMatch(new FakeRule(), lt.getAnalyzedSentence(textToCheck), 0, 1, FAIL_MESSAGE + e.getMessage());
     DetectedLanguage detectedLang = new DetectedLanguage(lang, lang);
     String json = new RuleMatchesAsJsonSerializer().ruleMatchesToJson(Collections.singletonList(ruleMatch), textToCheck, 100, detectedLang);
