@@ -57,8 +57,7 @@ public class PortugueseTagger extends BaseTagger {
   }
 
   @Override
-  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
-      throws IOException {
+  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) {
 
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
