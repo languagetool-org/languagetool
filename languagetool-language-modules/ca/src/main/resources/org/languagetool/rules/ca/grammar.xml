@@ -11655,7 +11655,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No tenia ni idea de què significava allò.</example>
                 <example>La seguretat de què gaudeixen.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token inflected="yes">saber</token>
                     <token>a</token>
@@ -11683,7 +11683,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No se sap a canvi de què ho demana.</example>
                 <example>No se sap a canvi de què ho demanen.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>a</token>
                     <token>canvi</token>
@@ -13536,7 +13536,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
-        <rule id="A_VER_HAVER" name="a ver/haver" default="temp_off">
+        <rule id="BACS" name="bacs/basc">
+            <pattern>
+                <token>país</token>
+                <token>bacs</token>
+            </pattern>
+            <message>Confusió.</message>
+            <suggestion>País Basc</suggestion>
+            <example correction="País Basc">Me'n vaig al <marker>País Bacs</marker>.</example>
+        </rule>
+        <rule id="A_VER_HAVER" name="a ver/haver">
             <antipattern>
                 <!-- it can be ambiguous -->
                 <token>com</token>
@@ -19450,7 +19459,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>—aposta molt personal de Tony Blair—</example>
             </rule>
         </rulegroup>
-        <rule id="MOT_MOLT" name="*mot/molt" default="temp_off">
+        <rule id="MOT_MOLT" name="*mot/molt">
             <pattern>
                 <!--token postag="V.[SI].*|_GV_" postag_regexp="yes"/>-->
                 <marker>
@@ -30637,7 +30646,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
-        <rule id="BE_VE" name="be/ve" default="temp_off">
+        <rule id="BE_VE" name="be/ve">
             <pattern>
                 <token>d'</token>
                 <token regexp="yes">aquí|ací</token>
@@ -32443,7 +32452,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match>\2 callar</suggestion>
             <example correction="tapar-nos la boca|fer-nos callar">Per a <marker>callar-nos la boca</marker>.</example>
         </rule>
-        <rulegroup id="CALLAR_NOS" name="*ens callaran" default="temp_off">
+        <rulegroup id="CALLAR_NOS" name="*ens callaran">
             <url>https://esadir.cat/entrades/fitxa/id/1438</url>
             <rule>
                 <pattern>
