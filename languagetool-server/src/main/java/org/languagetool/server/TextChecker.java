@@ -59,7 +59,7 @@ abstract class TextChecker {
   private static final int PINGS_MAX_SIZE = 5000;
 
   protected abstract void setHeaders(HttpExchange httpExchange);
-  protected abstract String getResponse(AnnotatedText text, DetectedLanguage lang, Language motherTongue, List<RuleMatch> matches,
+  protected abstract String getResponse(AnnotatedText text, Language language, DetectedLanguage lang, Language motherTongue, List<RuleMatch> matches,
                                         List<RuleMatch> hiddenMatches, String incompleteResultReason, int compactMode);
   @NotNull
   protected abstract List<String> getPreferredVariants(Map<String, String> parameters);
@@ -447,7 +447,7 @@ abstract class TextChecker {
       }
     }
     int compactMode = Integer.parseInt(parameters.getOrDefault("c", "0"));
-    String response = getResponse(aText, detLang, motherTongue, matches, hiddenMatches, incompleteResultReason, compactMode);
+    String response = getResponse(aText, lang, detLang, motherTongue, matches, hiddenMatches, incompleteResultReason, compactMode);
     if (params.callback != null) {
       // JSONP - still needed today for the special case of hosting your own on-premise LT without SSL
       // and using it from a local MS Word (not Online Word) - issue #89 in the add-in repo:
