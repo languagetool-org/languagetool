@@ -8617,7 +8617,7 @@ though, and has since been slightly modified)-->
             </or>
             <marker><token>année</token></marker>
           </pattern>
-          <message>Il convient d’utiliser « <suggestion>an</suggestion> » après un nombre cardinal.</message>
+          <message>Il convient d’utiliser <suggestion>an</suggestion> après un nombre cardinal.</message>
           <url>https://www.dictionnaire-academie.fr/article/QDL010</url>
           <example correction="an">Un <marker>année</marker> après, il était toujours motivé !</example>
           <example>Il est né en l'an trente.</example>
@@ -8809,7 +8809,25 @@ though, and has since been slightly modified)-->
         <example correction="trois fois par semaine">Je joue au Softball <marker>trois fois au semaine</marker>.</example>
       </rule>
       <!-- End of additions -->
-      <rule id="V_LA_ACCENT" name="confusion of bed/bad" default="temp_off">
+      <rule id="CHAQUE_ET_CHAQUE" name="chaque et chaque singulier">
+          <pattern>
+              <token>chaque</token>
+              <token postag_regexp="yes" postag="N.* s"/>
+              <token>et</token>
+              <token>chaque</token>
+              <token postag_regexp="yes" postag="N.* s"/>
+              <marker>
+                  <token postag_regexp="yes" postag="V.* p"/>
+              </marker>
+              <token postag_regexp="yes" postag=".* s">
+                  <exception>leur</exception>
+              </token>
+          </pattern>
+          <message>Did you mean <suggestion><match no="6" postag_regexp="yes" postag="V(.*) p" postag_replace="V$1 s"/></suggestion>?</message>
+          <example correction="est">Chaque service et chaque application <marker>sont</marker> unique.</example>
+          <example>Chaque sport et chaque période ont leur logique et c'est difficile de prendre en compte tous ces paramètres à moins de pondre un texte très copieux.</example>
+      </rule>
+      <rule id="V_LA_ACCENT" name="V suivi de là" default="temp_off">
           <pattern>
               <token postag="V.*2 p" postag_regexp="yes"/>
               <token>-</token>
@@ -8826,9 +8844,24 @@ though, and has since been slightly modified)-->
               </marker>
               <token>de</token>
           </pattern>
-          <message>Vouliez-vous dire <suggestion>Envoi</suggestion>?</message>
+          <message>Vouliez-vous dire <suggestion>Envoi</suggestion> ?</message>
           <example correction="Envoi"><marker>Envoie</marker> de marchandises.</example>
           <example correction="Envoi"><marker>Envoie</marker> de baisers.</example>
+      </rule>
+      <rule id="GARANTIR_DE" name="garentir de" default="temp_off">
+          <pattern>
+              <token postag_regexp="yes" postag="V.* inf">
+                  <exception>manager</exception>
+                  <exception>accompagner</exception>
+                  <exception>approvisionner</exception>
+              </token>
+              <marker>
+                  <token>de</token>
+              </marker>
+              <token>proximité</token>
+          </pattern>
+          <message>Vouliez-vous dire <suggestion>la</suggestion>?</message>
+          <example correction="la">Dans le but de garantir <marker>de</marker> proximité avec ses clients</example>
       </rule>
       <rule id="HEURE_CEST" name="heure cest">
         <pattern>
@@ -9225,6 +9258,10 @@ though, and has since been slightly modified)-->
       <example correction="chaque fois">Tu n'as pas à te présenter à <marker>chaque foi</marker>.</example>
     </rule>
     <rulegroup id="ACCORD_NOMBRE" name="Accord en nombre">
+        <antipattern>
+            <token regexp="yes">chargée?s?</token>
+            <token regexp="yes">projets?</token>
+        </antipattern>
       <antipattern>
         <token regexp="yes" inflected="yes">rapport|relation|rencontre|interprète|traduction|cycle|association</token>
         <token min="0" postag="J .*" postag_regexp="yes"/>
@@ -9716,6 +9753,11 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_GENRE" name="Accord en genre">
+        <antipattern>
+            <token>bon</token>
+            <token>anniversaire</token>
+            <token>chérie</token>
+        </antipattern>
         <antipattern><!-- file names -->
           <token regexp="yes">[a-z_0-9\-]+</token>
           <token spacebefore="no">.</token>
