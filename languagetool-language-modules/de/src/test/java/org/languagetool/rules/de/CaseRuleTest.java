@@ -173,7 +173,7 @@ public class CaseRuleTest {
     assertGood("@booba Da der Holger keine Zeit hat ...");
     assertGood("Es gibt infizierte Ärzt*innen.");
     assertGood("WUrzeln");  // to be found by spell checker
-    assertGood("🙂 Übrigens finde ich dein neues Ordnungssystem für dein Schmuck (Snapchat) richtig genial!");  // to be found by spell checker
+    assertGood("🙂 Übrigens finde ich dein neues Ordnungssystem richtig genial!");
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");
