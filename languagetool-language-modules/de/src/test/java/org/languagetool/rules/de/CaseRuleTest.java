@@ -173,6 +173,7 @@ public class CaseRuleTest {
     assertGood("@booba Da der Holger keine Zeit hat ...");
     assertGood("Es gibt infizierte Ärzt*innen.");
     assertGood("WUrzeln");  // to be found by spell checker
+    assertGood("🙂 Übrigens finde ich dein neues Ordnungssystem für dein Schmuck (Snapchat) richtig genial!");  // to be found by spell checker
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");
@@ -192,6 +193,7 @@ public class CaseRuleTest {
     assertBad("Das machen der Töne ist schwierig.");
     assertBad("Sie Vertraute niemandem.");
     assertBad("Beten Lernt man in Nöten.");
+    assertBad("Ä Was?");
     //assertBad("Ich gehe gerne Joggen.");
     assertBad("Er ist Groß.");
     assertBad("Die Zahl ging auf Über 1.000 zurück.");
