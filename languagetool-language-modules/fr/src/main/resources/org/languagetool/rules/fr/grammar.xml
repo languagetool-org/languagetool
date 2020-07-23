@@ -8809,7 +8809,37 @@ though, and has since been slightly modified)-->
         <example correction="trois fois par semaine">Je joue au Softball <marker>trois fois au semaine</marker>.</example>
       </rule>
       <!-- End of additions -->
-      <rule id="CHAQUE_ET_CHAQUE" name="chaque et chaque singulier">
+      <rulegroup id="NOMBRE_MONDIAL" name="Nombre suivi de mondial, régional, local" default="temp_off">
+          <rule>
+              <antipattern>
+                  <token>agenda</token>
+                  <token>21</token>
+              </antipattern>
+              <pattern>
+                  <token><exception regexp="yes">numéros?|top|n°</exception></token>
+                  <marker>
+                      <token regexp="yes">\d+
+                          <exception>1</exception>
+                      </token>
+                  </marker>
+                  <token regexp="yes">mondial|régional|local</token>
+              </pattern>
+              <message>Omission possible. Vouliez-vous dire <suggestion>\2ᵉ</suggestion> <suggestion>numéro \2</suggestion>?</message>
+              <example correction="9ᵉ|numéro 9">Elle s'est ainsi classée <marker>9</marker> mondial.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token><exception regexp="yes">numéros?|top|n°</exception></token>
+                  <marker>
+                      <token>1</token>
+                  </marker>
+                  <token regexp="yes">mondial|régional|local</token>
+              </pattern>
+              <message>Omission possible. Vouliez-vous dire <suggestion>\2ᵉ</suggestion> <suggestion>numéro \2</suggestion>?</message>
+              <example correction="1er|numéro 1">Elle s'est ainsi classée <marker>1</marker> mondial.</example>
+          </rule>
+      </rulegroup>
+      <rule id="CHAQUE_ET_CHAQUE" name="chaque et chaque singulier" default="temp_off">
           <pattern>
               <token>chaque</token>
               <token postag_regexp="yes" postag="N.* s"/>
