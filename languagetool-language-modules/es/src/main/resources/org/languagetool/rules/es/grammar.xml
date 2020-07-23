@@ -967,6 +967,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="DIACRITICS" name="Diacríticos (tilde)" type="misspelling">
+        <rule id="COMO_COMPARATIVO" name="como comparativo, sin tilde" default="temp_off">
+            <pattern>
+                <token postag="NC.*" postag_regexp="yes"/>
+                <marker>
+                    <token>cómo</token>
+                </marker>
+                <token postag="DD.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Si es un comparativo, se escribe sin tilde.</message>
+            <suggestion>como</suggestion>
+            <example correction="como">Páginas con nombres ridículos <marker>cómo</marker> esta.</example>
+        </rule>
         <rulegroup id="DIACRITICS_VERB_N_ADJ" name="nombres y adjetivos con tilde">
             <antipattern>
                 <!-- the error is: tu>tú -->
@@ -1850,6 +1862,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Posible falta de concordancia.</message>
                 <suggestion>se <match no="2" postag="(V.)..[12].(.)" postag_regexp="yes" postag_replace="$1SP3S$2"/></suggestion>
                 <example correction="se enfríe">Dejamos que <marker>se enfrié</marker>.</example>
+                <example type="correct" reason="triggers other rule">Se creo</example>
+                <example>Se viene</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>se</token>
+                    <token postag="V.M.*" postag_regexp="yes"><exception postag="V...3..|C.*|SP.*|AQ.*|[NCR].*" postag_regexp="yes"/><exception postag="VMIP1S0" regexp="yes">.+o</exception></token>
+                </pattern>
+                <message>Posible falta de concordancia.</message>
+                <suggestion>se <match no="2" postag="(V.)..[12].(.)" postag_regexp="yes" postag_replace="$1IP3S$2"/></suggestion>
+                <example correction="se caracteriza">Dejamos que <marker>se caracterizá</marker>.</example>
                 <example type="correct" reason="triggers other rule">Se creo</example>
                 <example>Se viene</example>
             </rule>
@@ -3677,8 +3700,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern> <!-- |donde -->
                     <token regexp="yes">cómo|dónde<exception scope="previous" postag="SPS00"/></token>
                     <marker>
-                        <token>esta</token>
+                        <token skip="-1">esta</token>
                     </marker>
+                    <token>?</token>
                 </pattern>
                 <message>Si es del verbo 'estar', lleva tilde.</message>
                 <suggestion>está</suggestion>
@@ -3690,6 +3714,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>de cómo esta célula se regulan</example>
                 <example>grandes polos financieros, donde esta actividad es la principal</example>
                 <example>por debajo del lugar donde esta se divide en sus dos ramas</example>
+                <example>para ver cómo esta se deshacía</example>
             </rule>
         </rulegroup>
         <rulegroup id="ESTAS_TILDE" name="estas/estás">
@@ -4608,13 +4633,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule id="INFINITIVO_LA" name="acabarla/acabar la">
                 <pattern>
                     <marker>
-                        <token postag="V.N.*" postag_regexp="yes" regexp="yes">.*la</token>
+                        <token postag="V.N.*" postag_regexp="yes" regexp="yes">.*la<exception>llamarla</exception></token>
                     </marker>
-                    <token postag="NCFS000"/>
+                    <token postag="NCFS000"><exception postag="V.[SI].*|V.P..SF" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Probablemente se escribe separado.</message>
                 <suggestion><match no="1" regexp_match="(?iu)la$" regexp_replace=" la"/></suggestion>
                 <example correction="acabar la">Hay que actuar y <marker>acabarla</marker> infección.</example>
+                <example>Tenerla parada todo el día.</example>
+                <example>Podemos llamarla precaución.</example>
             </rule>
         </rulegroup>
         <rulegroup id="NO_SEPARADO" name="palabras no separadas">
@@ -8447,6 +8474,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>avenida</token>
                 <token regexp="yes">\p{Lu}.*</token>
             </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>SA</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <!-- <token><exception postag="SENT_START"/><exception regexp="yes" spacebefore="yes">[¿¡"«»—–:\-]</exception></token> -->
@@ -9329,13 +9359,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="AYA_HAYA" name="*aya/haya">
-            <pattern>
-                <token>aya</token>
-            </pattern>
-            <message>¿Quería decir <suggestion>haya</suggestion> (v. haber; árbol)? "Aya" existe como sustantivo poco usual.</message>
-            <example correction="haya">Cuando <marker>aya</marker> venido, llámala.</example>
-        </rule>
+        <rulegroup id="AYA_HAYA" name="*aya/haya">
+            <rule>
+                <pattern>
+                    <token>más</token>
+                    <token>aya</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>más allá</suggestion>. "Aya" existe como sustantivo poco usual.</message>
+                <suggestion>más haya</suggestion>
+                <example correction="Más allá|Más haya"><marker>Más aya</marker> de esto.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>aya</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>haya</suggestion> (v. haber; árbol)? "Aya" existe como sustantivo poco usual.</message>
+                <example correction="haya">Cuando <marker>aya</marker> venido, llámala.</example>
+            </rule>
+        </rulegroup>
         <rule id="VE_LE" name="*ve/le/me" default="temp_off">
             <!-- TODO: more exceptions -->
             <antipattern>
@@ -9347,6 +9388,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>ve</token>
             </antipattern>
             <pattern>
+                <token>no</token>
                 <marker>
                     <token>ve</token>
                 </marker>
@@ -9358,6 +9400,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="le|me|te">No <marker>ve</marker> vale este resultado.</example>
             <example>El lago se ve com un mar.</example>
             <example>No ve nada allá abajo.</example>
+            <example>Todo lo que ve despierta su curiosidad.</example>
         </rule>
         <rulegroup id="A_VER_HABER" name="a ver/haber">
             <antipattern>
@@ -9522,7 +9565,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Esto logro detectarlo.</example>
             <example>¿Sabría decirme en qué idioma está esto escrito?</example>
         </rule>
-        <rulegroup id="PRONOMBRE_SIN_VERBO" name="pronombre si verbo">
+        <rulegroup id="PRONOMBRE_SIN_VERBO" name="pronombre sin verbo">
             <antipattern>
                 <token regexp="yes">&pronombre_personal_atono;</token>
                 <token min="0" regexp="yes">["«“‘]</token>
@@ -9576,12 +9619,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                    <token postag="V.M.*" postag_regexp="yes" regexp="yes">.*os<exception postag="V.[IS].*|_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"><exception scope="previous" postag="SPS00|LOC_PREP" postag_regexp="yes"/></token>
+                    <token postag="V.[MN].*" postag_regexp="yes" regexp="yes">.*os<exception postag="V.[IS].*|_GN_.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Combinación imposible de pronombre y verbo en imperativo.</message>
-                <suggestion>\1 <match no="2" postag="V.M.*" postag_regexp="yes" postag_replace="V.IP1P."/></suggestion>
+                <suggestion>\1 <match no="2" postag="V.[MN].*" postag_regexp="yes" postag_replace="V.IP1P."/></suggestion>
                 <example correction="Le damos"><marker>Le daos</marker> la razón</example>
+                <example correction="Nos acomodamos"><marker>Nos acomodarnos</marker> a todo.</example>
+                <example>El ayudar es un primer paso</example>
+                <example>En contraposición con lo solar.</example>
+                <example>Lo militar es otra cosa.</example>
             </rule>
             <rule>
                 <pattern>
@@ -9645,18 +9692,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Lo militar es otra cosa.</example>
             </rule>
             <rule>
-                <pattern>
-                    <token regexp="yes">&pronombre_personal_atono;<exception postag="_GN_.*" postag_regexp="yes"/></token>
-                    <token postag="V.N.*" postag_regexp="yes" regexp="yes">.*os</token>
-                </pattern>
-                <message>Posible confusión. Pronombre átono sin verbo.</message>
-                <suggestion>\1 <match no="2" postag="V.N.*" postag_regexp="yes" postag_replace="V.IP1P."/></suggestion>
-                <example correction="Nos acomodamos"><marker>Nos acomodarnos</marker> a todo.</example>
-                <example>El ayudar es un primer paso</example>
-                <example>En contraposición con lo solar.</example>
-                <example>Lo militar es otra cosa.</example>
-            </rule>
-            <rule>
                 <antipattern>
                     <token regexp="yes">lo|la|las</token>
                     <token postag="[AN].*" postag_regexp="yes"/>
@@ -9683,6 +9718,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1 ha \2</suggestion>
                 <suggestion>\1 he \2</suggestion>
                 <example correction="le ha dado|le he dado">Lo que <marker>le dado</marker> es secreto.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>le<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="N.FS.*|A..FS.|V.P..SF" postag_regexp="yes"/>
+                </pattern>
+                <message>Posible confusión. Pronombre átono sin verbo.</message>
+                <suggestion>la</suggestion>
+                <suggestion>de</suggestion>
+                <example correction="la|de">Las vacas <marker>le</marker> leche.</example>
+                <example>Le prometi ser valiente.</example>
+                <!-- error in "prometi", no "le"-->
+                <example>para impedir que su hermano de 5 años le «copiara»</example>
+                <example>En el país de Le Pen.</example>
+                <example>¿Dónde le o la has conocido?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>le<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="N.MS.*|A..MS.|V.P..SM" postag_regexp="yes"/>
+                </pattern>
+                <message>Posible confusión. Pronombre átono sin verbo.</message>
+                <suggestion>el</suggestion>
+                <suggestion>de</suggestion>
+                <example correction="El|De"><marker>Le</marker> tiempo perdido.</example>
+                <example>Le prometi ser valiente.</example>
+                <!-- error in "prometi", no "le"-->
+                <example>para impedir que su hermano de 5 años le «copiara»</example>
+                <example>En el país de Le Pen.</example>
+                <example>¿Dónde le o la has conocido?</example>
             </rule>
             <rule>
                 <pattern>

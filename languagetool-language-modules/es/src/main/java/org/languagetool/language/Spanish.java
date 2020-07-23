@@ -152,7 +152,6 @@ public class Spanish extends Language implements AutoCloseable{
   @Override
   protected int getPriorityForId(String id) {
     switch (id) {
-      case "PRONOUN_IMPERATIVE": return 50;
       case "TE_TILDE": return 50;
       case "PLURAL_SEPARADO": return 50;
       case "INCORRECT_EXPRESSIONS": return 40;
@@ -162,6 +161,7 @@ public class Spanish extends Language implements AutoCloseable{
       case "DIACRITICS": return 30;
       case "POR_CIERTO": return 30;
       case "LO_LOS": return 30;
+      case "PRONOMBRE_SIN_VERBO": return 25; // inside CONFUSIONS, but less than other rules ?
       case "AGREEMENT_DET_NOUN": return 20;
       //case "PRONOMBRE_SIN_VERBO": return 20;
       case "AGREEMENT_DET_ADJ": return 10;
