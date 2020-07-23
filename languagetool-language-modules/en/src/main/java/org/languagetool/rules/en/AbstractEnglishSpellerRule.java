@@ -129,6 +129,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       List<SuggestedReplacement> cleaned = ruleMatch.getSuggestedReplacementObjects().stream()
         .filter(k -> !k.getReplacement().startsWith("re ") &&
                      !k.getReplacement().startsWith("en ") &&
+                     !k.getReplacement().startsWith("co ") &&
                      !k.getReplacement().startsWith("non ") &&
                      !k.getReplacement().startsWith("pre ") &&
                      !k.getReplacement().startsWith("inter ") &&
