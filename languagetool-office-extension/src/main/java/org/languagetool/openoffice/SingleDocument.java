@@ -1338,7 +1338,8 @@ class SingleDocument {
     aError.nErrorType = TextMarkupType.PROOFREADING;
     // the API currently has no support for formatting text in comments
     aError.aFullComment = ruleMatch.getMessage()
-        .replaceAll("<suggestion>", "\"").replaceAll("</suggestion>", "\"")
+        .replaceAll("<suggestion>", docLanguage == null ? "\"" : docLanguage.getOpeningQuote())
+        .replaceAll("</suggestion>", docLanguage == null ? "\"" : docLanguage.getClosingQuote())
         .replaceAll("([\r]*\n)", " ");
     // not all rules have short comments
     if (!StringTools.isEmpty(ruleMatch.getShortMessage())) {
