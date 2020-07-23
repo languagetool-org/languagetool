@@ -142,7 +142,7 @@ public class CaseRule extends Rule {
       regex(".*")
     ),
     Arrays.asList(
-      // ignore any sentence starting with a character that is not a letter or number (in order to ignore emojies at the beginning of sentence)
+      // ignore uppercase word at beginning after a character that is not a letter or number (needed to ignore emojies or bullet points at the beginning of sentence)
       SENT_START,
       regex("^[^A-Za-z0-9ÄÖÜäöüàÀß]$"),
       csRegex("[A-ZÖÜÄ].*")
