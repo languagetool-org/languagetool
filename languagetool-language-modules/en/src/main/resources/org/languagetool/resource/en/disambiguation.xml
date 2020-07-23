@@ -6713,6 +6713,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="E-NP-singular" postag="NN(:UN?)?" postag_regexp="yes"/>
             <token postag="IN"/>
         </antipattern>
+        <antipattern><!-- #3291 its working fine now. -->
+            <token>its</token>
+            <token chunk="I-NP-singular" postag="VBG"/>
+            <token chunk="E-NP-singular" postag="RB"/>
+            <token postag_regexp="yes" postag="SENT_END|RB"/>
+        </antipattern>
         <pattern>
             <token postag="PRP$"/>
             <marker>
@@ -6729,6 +6735,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">The magazine conducts its ranking by surveying the salaries of MBAs who graduated in 1996.</example><!-- #3291 -->
         <example type="untouched">You will have guessed its meaning by the end of the chapter.</example><!-- #3291 -->
         <example type="untouched">... can be found at Disneyland Paris since its opening in 1992, under the name Casey's Corner.</example><!-- #3291 -->
+        <example type="untouched">I can confirm that its working fine now.</example><!-- #3325 -->
+        <example type="untouched">I'm sure that its working fine.</example><!-- #3325 -->
         <example type="ambiguous" inputform="loving[love/VBG,loving/JJ,loving/NN:UN]" outputform="loving[loving/JJ]">Your <marker>loving</marker> friend</example>
     </rule>
 
