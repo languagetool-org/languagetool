@@ -389,10 +389,10 @@
           <token regexp='yes'>&pronomes_retos;</token>
         <marker>
           <token regexp='yes'>[nv]?[ao]s?</token>
-        </marker>
-          <token postag="V.+" postag_regexp="yes"/>
+            <token postag="V.+" postag_regexp="yes"/>
+        </marker>       
       </pattern>
-      <disambig action="filter" postag="PP.+"/>
+      <disambig action="filterall"/>
     </rule>
 
   <!--rulegroup id="SUBJUNCTIVES" name="Verbos no conjuntivo"-->
@@ -816,14 +816,40 @@
     </rule>
   </rulegroup>
     
-    <rule id="NAO_PRON_VERB" name="não + pron + verb">
-        <pattern>
-            <token postag="RN">não</token>
-            <token postag="P.*" postag_regexp="yes"/>
-            <token postag="V.[SI].*" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
+    <rulegroup id="PRON_VERB" name="não + pron + verb">
+        <antipattern>
+            <token postag="D..[MC][SN]." postag_regexp="yes"/>
+            <token postag="NC[MC][SN]000" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token postag="D..[FC][SN]." postag_regexp="yes"/>
+            <token postag="NC[FC][SN]000" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token postag="D..[MC][PN]." postag_regexp="yes"/>
+            <token postag="NC[MC][PN]000" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token postag="D..[FC][PN]." postag_regexp="yes"/>
+            <token postag="NC[FC][PN]000" postag_regexp="yes"/>
+        </antipattern>
+        <rule>
+            <pattern>
+                <token postag="RN|RG" postag_regexp="yes"/>
+                <token postag="P.*" postag_regexp="yes"/>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>nem</token>
+                <token postag="P.*" postag_regexp="yes"/>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
 
     <!-- DDN : Determinante possesivo + Determinante indefinido + Nome -->
     <!-- 		based on Spanish disambiguation.xml by Tiago F. Santos		-->
