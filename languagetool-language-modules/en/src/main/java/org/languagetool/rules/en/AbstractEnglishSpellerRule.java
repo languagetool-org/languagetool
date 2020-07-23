@@ -129,6 +129,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       List<SuggestedReplacement> cleaned = ruleMatch.getSuggestedReplacementObjects().stream()
         .filter(k -> !k.getReplacement().startsWith("re ") &&
                      !k.getReplacement().startsWith("en ") &&
+                     !k.getReplacement().startsWith("non ") &&
                      !k.getReplacement().startsWith("pre ") &&
                      !k.getReplacement().startsWith("inter ") &&
                      !k.getReplacement().startsWith("sub ") &&
@@ -641,6 +642,14 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("humain", Arrays.asList("humane", "human"));
     s.put("protene", Arrays.asList("protein"));
     s.put("throught", Arrays.asList("thought", "through", "throat"));
+    s.put("specifity", Arrays.asList("specificity"));
+    s.put("specicity", Arrays.asList("specificity"));
+    s.put("Specifity", Arrays.asList("Specificity"));
+    s.put("Specicity", Arrays.asList("Specificity"));
+    s.put("specifities", Arrays.asList("specificities"));
+    s.put("specicities", Arrays.asList("specificities"));
+    s.put("Specifities", Arrays.asList("Specificities"));
+    s.put("Specicities", Arrays.asList("Specificities"));
     return s;
   }
 
