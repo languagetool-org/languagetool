@@ -1024,6 +1024,42 @@ title="Easy editing stylesheet" ?>
 		  <token postag='VMIP[23]S0|VMM02S0' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-28 *END* -->
+<!-- MARCOAGPINTO 2020-07-23 (2-JUL-2020+) *START* -->
+<!-- "E não os interesses, sejam eles coletivos ou pessoais." -->
+<!-- "São admissíveis desde não muito salientes." -->
+      <antipattern>
+	      <and>
+			<token postag='DI0MS0|NCMS000|PI0MS000|RG|PD0MP000|PP3MPA00|AQ0CP0|SPS00|PI0FP000|NCFP000|Z0FP0|RM|NCCP000' postag_regexp='yes'/>	
+			<token negate="yes" postag='I' postag_regexp='no'/>
+		  </and>
+		  <token postag='VMM02S0|VMSP2S0' postag_regexp='yes'/>
+		  <token negate="yes" regexp='no'>para</token>
+      </antipattern>
+	  <!-- "O sistema também é composto por centenas de equipes." -->
+      <antipattern>
+	      <token regexp='yes'>de|várias|vários|nomeadamente|grandes|demais|sobre|melhores|os|dos|por|das|contra</token>
+		  <token postag='VMM02S0|VMSP2S0' postag_regexp='yes'/>
+		  <token negate="yes" regexp='no'>para</token>
+      </antipattern>	  	  
+	  <!-- Deal with "equipes" (pt-BR) -->
+      <antipattern>
+	      <and>
+			<token postag='DI0MS0|NCMS000|PI0MS000|RG|PD0MP000|PP3MPA00|AQ0CP0|SPS00|PI0FP000|NCFP000|Z0FP0|RM|NCCP000' postag_regexp='yes'/>	
+			<token negate="yes" postag='I' postag_regexp='no'/>
+		  </and>
+		  <token regexp='no'>equipes</token>
+      </antipattern>
+	  <!-- Deal with "equipes" (pt-BR) -->
+      <antipattern>
+	      <token regexp='yes'>de|várias|vários|nomeadamente|grandes|demais|sobre|melhores|os|dos|por|das|contra</token>
+		  <token regexp='no'>equipes</token>
+      </antipattern>
+	  <!-- Deal with "duas, três, quatro, etc. equipes" (pt-BR) -->
+      <antipattern>
+	      <token postag='Z0FP0' postag_regexp='no'/>	
+		  <token regexp='no'>equipes</token>
+      </antipattern>	  
+<!-- MARCOAGPINTO 2020-07-23 (2-JUL-2020+) *END* -->
       <pattern case_sensitive="yes">
           <token min='0' regexp='yes'>tu|vós</token>
           <token postag="V...2S.+" postag_regexp='yes'>
