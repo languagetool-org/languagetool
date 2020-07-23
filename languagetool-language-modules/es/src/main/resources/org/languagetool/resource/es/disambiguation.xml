@@ -3736,6 +3736,38 @@ Copyright (C) 2011 Juan Martorell
             <wd lemma="haiga" pos="NCMS000"/>
         </disambig>
     </rule>
+    <rulegroup id="ABBREVIATIONS" name="abreviaturas">
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">p|pp</token>
+                </marker>
+                <token spacebefore="no">.</token>
+                <token regexp="yes">\d+</token>
+            </pattern>
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">Ctrl|CTRL|Alt|ALT|MAYÚS|Mayús</token>
+                </marker>
+                <token>+</token>
+                <!--<token regexp="yes">.|Alt|ALT|MAYÚS|Mayús|F[0-9]</token>-->
+            </pattern>
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">Ctrl|CTRL|Alt|ALT|MAYÚS|Mayús</token>
+                <token min="0">+</token>
+                <marker>
+                <token regexp="yes">.|Alt|ALT|MAYÚS|Mayús|F[0-9]</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="IGNORE_SOME_ANGLICISMS" name="ignore some common anglicisms if they go with unknown words">
         <rule>
             <pattern>
