@@ -14503,7 +14503,7 @@ though, and has since been slightly modified)-->
       <example correction="Puis-je"><marker>Peux-je</marker> rester ?</example>
       <example>Puis-je rester ?</example>
     </rule>
-    <rule id="ACCORD_V_QUESTION" name="Accord avec forme interrogative des verbes">
+    <rulegroup id="ACCORD_V_QUESTION" name="Accord avec forme interrogative des verbes">
       <antipattern>
         <token postag="V imp .*" postag_regexp="yes"><exception scope="previous" postag="R inte"/></token>
         <token>-nous</token>
@@ -14516,40 +14516,55 @@ though, and has since been slightly modified)-->
         <token postag="V.* (ind|sub|con) .*1 p.*" postag_regexp="yes"/>
         <token postag="R pers suj .*1 p.*" postag_regexp="yes" regexp="yes">-.*</token>
       </antipattern>
-      <pattern>
-        <unify negate="yes">
-          <feature id="number"/>
-          <feature id="person"/>
-          <token postag="V.* (ind|sub|con) .*" postag_regexp="yes"/> <!--TODO: remove subjunctive? -->
-          <token postag="R pers suj .*" postag_regexp="yes" regexp="yes">-.*</token>
-        </unify>
-      </pattern>
-      <filter class="org.languagetool.rules.fr.InterrogativeVerbFilter" args="PronounFrom:2 VerbFrom:1"/>
-      <message>« \1 » et « \2 » ne sont pas bien accordés en nombre ou personne.</message>
-      <example correction="pouvais|pourrai|puis|peux|pus">Que <marker>pouvait-je</marker> faire ?</example>
-      <example correction="">Ses cheveux <marker>sont-il</marker> naturellement roux ?</example>
-      <example>Que pouvais-je faire ?</example>
-      <example correction="mangeras|manges|mangeas|mangeais">Que <marker>mange-tu</marker> ?</example>
-      <example>Que manges-tu ?</example>
-      <example correction=""><marker>Pourraient-il</marker> venir ?</example>
-      <example correction="">Que <marker>manges-t-elle</marker> ?</example>
-      <example>Pourrait-il venir ?</example>
-      <example>Que mange-t-elle ?</example>
-      <example>Entre-t-il ?</example>
-      <example correction="partirons|partions|partîmes|partons">Quand <marker>partiront-nous</marker> ?</example>
-      <example>Quand partirons-nous ?</example>
-      <example>Attrapez-nous ?</example>
-      <example>Attrape-nous ?</example>
-      <example correction="mangerez|mangeâtes|mangez|mangiez">Que <marker>mangeons-vous</marker> ?</example>
-      <example>Que mangez-vous ?</example>
-      <example correction="">Que <marker>pouvait-ils</marker> faire ?</example>
-      <example>Que pouvaient-ils faire ?</example>
-      <example>Faites-le-moi.</example>
-      <example>Ne nous sommes-nous pas rencontrés quelque part avant ?</example>
-      <example>Combien de personnes étaient-elles présentes à la réunion ?</example>
-      <example>Les nouvelles peuvent-elles être vraies ?</example>
-      <example>Sont-elles canadiennes ?</example>
-    </rule>
+      <rule>
+        <pattern>
+          <unify negate="yes">
+            <feature id="number"/>
+            <feature id="person"/>
+            <token postag="V.* (ind|sub|con) .* p" postag_regexp="yes"/> <!--TODO: remove subjunctive? -->
+            <token postag="R pers suj .* s" postag_regexp="yes" regexp="yes">-(t-)?(il|elle)</token>
+          </unify>
+        </pattern>
+        <message>« \1 » et « \2 » ne sont pas bien accordés en nombre ou personne.</message>
+        <suggestion>\1\2s</suggestion>
+        <example correction="sont-ils">Ses cheveux <marker>sont-il</marker> naturellement roux ?</example>
+      </rule>
+      <rule>
+       <pattern>
+         <unify negate="yes">
+           <feature id="number"/>
+           <feature id="person"/>
+           <token postag="V.* (ind|sub|con) .*" postag_regexp="yes"/> <!--TODO: remove subjunctive? -->
+           <token postag="R pers suj .*" postag_regexp="yes" regexp="yes">-.*</token>
+         </unify>
+       </pattern>
+       <filter class="org.languagetool.rules.fr.InterrogativeVerbFilter" args="PronounFrom:2 VerbFrom:1"/>
+       <message>« \1 » et « \2 » ne sont pas bien accordés en nombre ou personne.</message>
+       <example correction="pouvais-je|puis-je|pourrai-je|peux-je|pus-je">Que <marker>pouvait-je</marker> faire ?</example> <!-- TODO: remove peux-je -->
+       <example correction="sera-il|était-il|est-il|fut-il">Ses cheveux <marker>sont-il</marker> naturellement roux ?</example>
+       <example>Que pouvais-je faire ?</example>
+       <example correction="mangeais-tu|manges-tu|mangeras-tu|mangeas-tu">Que <marker>mange-tu</marker> ?</example>
+       <example>Que manges-tu ?</example>
+       <example correction="pourra-il|peut-il|put-il|pouvait-il"><marker>Pourraient-il</marker> venir ?</example>
+       <example correction="mange-t-elle|mangera-t-elle|mangeait-t-elle|mangea-t-elle">Que <marker>manges-t-elle</marker> ?</example>
+       <example>Pourrait-il venir ?</example>
+       <example>Que mange-t-elle ?</example>
+       <example>Entre-t-il ?</example>
+       <example correction="partions-nous|partirons-nous|partons-nous|partîmes-nous">Quand <marker>partiront-nous</marker> ?</example>
+       <example>Quand partirons-nous ?</example>
+       <example>Attrapez-nous ?</example>
+       <example>Attrape-nous ?</example>
+       <example correction="mangiez-vous|mangeâtes-vous|mangerez-vous|mangez-vous">Que <marker>mangeons-vous</marker> ?</example>
+       <example>Que mangez-vous ?</example>
+       <example correction="pouvaient-ils|purent-ils|pourront-ils|peuvent-ils">Que <marker>pouvait-ils</marker> faire ?</example>
+       <example>Que pouvaient-ils faire ?</example>
+       <example>Faites-le-moi.</example>
+       <example>Ne nous sommes-nous pas rencontrés quelque part avant ?</example>
+       <example>Combien de personnes étaient-elles présentes à la réunion ?</example>
+       <example>Les nouvelles peuvent-elles être vraies ?</example>
+       <example>Sont-elles canadiennes ?</example>
+      </rule>
+    </rulegroup>
     <rule id="NONVERB_PRON" name="verb non valide + pronom">
       <antipattern>
         <token postag="V .*" postag_regexp="yes"/>
@@ -14559,13 +14574,14 @@ though, and has since been slightly modified)-->
       <pattern>
         <marker>
           <token><exception postag="V.* (ind|sub|imp|con).*" postag_regexp="yes"/></token> <!-- TODO: a different rule for imperative, and remove subjuntive -->
+          <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-.+</token>
         </marker>
-        <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-.+</token>
       </pattern>
       <filter class="org.languagetool.rules.fr.InterrogativeVerbFilter" args="PronounFrom:2 VerbFrom:1"/>
       <message>« \1 » n’est pas un verbe valide.</message>
-      <example correction="">Quand <marker>parts</marker>-tu ?</example>
-      <example correction="trompai|trompè|trompais|trompe|tromperai">Me <marker>trompé</marker>-je ?</example> <!--TODO: fix trompe-je -->
+      <example correction="parus-tu|pares-tu|partis-tu|pars-tu|paras-tu">Quand <marker>parts-tu</marker> ?</example>
+      <example correction="parus-tu|pares-tu|partis-tu|pars-tu|paras-tu">Quand <marker>pärts-tu</marker> ?</example>
+      <example correction="trompe-je|trompè-je|tromperai-je|trompai-je|trompais-je">Me <marker>trompé-je</marker> ?</example> <!--TODO: fix trompe-je, allow trompé-je -->
       <example>Mon enfant ne m’en veux pas.</example>
       <example>Faites-le-moi.</example>
       <example>Dépêche-toi !</example>

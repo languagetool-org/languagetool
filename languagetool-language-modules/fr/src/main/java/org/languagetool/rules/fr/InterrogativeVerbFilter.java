@@ -20,17 +20,23 @@ package org.languagetool.rules.fr;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
 
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.language.French;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.FrenchSynthesizer;
+import org.languagetool.tagging.fr.FrenchTagger;
 
 /*
  * Get appropriate suggestions for French verbs in interrogative form
@@ -42,6 +48,20 @@ public class InterrogativeVerbFilter extends RuleFilter {
   // private static final Pattern PronounSubject = Pattern.compile("R pers suj
   // ([123] [sp])");
   private static final FrenchSynthesizer synth = new FrenchSynthesizer(new French());
+  private static final FrenchTagger tagger = new FrenchTagger();
+
+  private MorfologikFrenchSpellerRule morfologikRule;
+
+  public InterrogativeVerbFilter() {
+    ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE,
+        new Locale("fr"));
+    try {
+      morfologikRule = new MorfologikFrenchSpellerRule(messages, new French(), null, Collections.emptyList());
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
@@ -55,15 +75,15 @@ public class InterrogativeVerbFilter extends RuleFilter {
     if (pronounFrom != null && verbFrom != null) {
       int posPronoun = Integer.parseInt(pronounFrom);
       if (posPronoun < 1 || posPronoun > patternTokens.length) {
-        throw new IllegalArgumentException(
-            "ConfusionCheckFilter: Index out of bounds in " + match.getRule().getFullId() + ", PronounFrom: " + posPronoun);
+        throw new IllegalArgumentException("ConfusionCheckFilter: Index out of bounds in " + match.getRule().getFullId()
+            + ", PronounFrom: " + posPronoun);
       }
       int posVerb = Integer.parseInt(verbFrom);
       if (posVerb < 1 || posVerb > patternTokens.length) {
         throw new IllegalArgumentException(
             "ConfusionCheckFilter: Index out of bounds in " + match.getRule().getFullId() + ", VerbFrom: " + posVerb);
       }
-      
+
       AnalyzedTokenReadings atrVerb = patternTokens[posVerb - 1];
       AnalyzedTokenReadings atrPronoun = patternTokens[posPronoun - 1];
       if (atrPronoun.matchesPosTagRegex(".* 1 s")) {
@@ -72,7 +92,7 @@ public class InterrogativeVerbFilter extends RuleFilter {
       if (atrPronoun.matchesPosTagRegex(".* 2 s")) {
         desiredPostag = "V .*(ind|cond).* 2 s";
       }
-      if (atrPronoun.matchesPosTagRegex(".* 3 s")) {
+      if (atrPronoun.matchesPosTagRegex(".* 3( [mf])? s")) {
         desiredPostag = "V .*(ind|cond).* 3 s";
       }
       if (atrPronoun.matchesPosTagRegex(".* 1 p")) {
@@ -81,24 +101,44 @@ public class InterrogativeVerbFilter extends RuleFilter {
       if (atrPronoun.matchesPosTagRegex(".* 2 p")) {
         desiredPostag = "V .*(ind|cond).* 2 p";
       }
-      if (atrPronoun.matchesPosTagRegex(".* 3 p")) {
+      if (atrPronoun.matchesPosTagRegex(".* 3( [mf])? p")) {
         desiredPostag = "V .*(ind|cond).* 3 p";
       }
-      if (atrVerb.matchesPosTagRegex("V .*") && desiredPostag != null) {
-        for (AnalyzedToken at : atrVerb) {
-          if (at.getPOSTag().startsWith("V ")) {
-            String synthesized[] = synth.synthesize(at, desiredPostag, true);
-            if (synthesized != null) {
-              replacements.addAll(Arrays.asList(synthesized));
+      if (desiredPostag != null) {
+        if (atrVerb.matchesPosTagRegex("V .*")) {
+          for (AnalyzedToken at : atrVerb) {
+            if (at.getPOSTag().startsWith("V ")) {
+              String synthesized[] = synth.synthesize(at, desiredPostag, true);
+              if (synthesized != null) {
+                for (String s : synthesized) {
+                  replacements.add(s + atrPronoun.getToken());
+                }
+              }
+            }
+          }
+        } else {
+          // if there isn't a verb try to find one with the speller
+          AnalyzedTokenReadings[] auxPatternTokens = new AnalyzedTokenReadings[1];
+          if (patternTokens[posVerb - 1].isTagged()) {
+            auxPatternTokens[0] = new AnalyzedTokenReadings(
+                new AnalyzedToken(makeWrong(patternTokens[posVerb - 1].getToken()), null, null));
+          } else {
+            auxPatternTokens[0] = patternTokens[posVerb - 1];
+          }
+          AnalyzedSentence sentence = new AnalyzedSentence(auxPatternTokens);
+          RuleMatch[] matches = morfologikRule.match(sentence);
+          if (matches.length > 0) {
+            List<String> suggestions = matches[0].getSuggestedReplacements();
+            List<AnalyzedTokenReadings> analyzedSuggestions = tagger.tag(suggestions);
+            for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
+              if (analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {
+                replacements.add(analyzedSuggestion.getToken() + atrPronoun.getToken());
+              }
             }
           }
         }
-      
-      } 
-      /*TODO
-      else {
-        //if there isn't a verb try to find one with the speller
-      }*/
+
+      }
     }
     String message = match.getMessage();
     RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
@@ -108,5 +148,55 @@ public class InterrogativeVerbFilter extends RuleFilter {
       ruleMatch.setSuggestedReplacements(new ArrayList<String>(replacements));
     }
     return ruleMatch;
+  }
+
+  /*
+   * Invent a wrong word to find possible replacements. This is a hack to obtain
+   * suggestions from the speller when the original word is a correct word.
+   */
+  private String makeWrong(String s) {
+    if (s.contains("a")) {
+      return s.replace("a", "ä");
+    }
+    if (s.contains("e")) {
+      return s.replace("e", "ë");
+    }
+    if (s.contains("i")) {
+      return s.replace("i", "í");
+    }
+    if (s.contains("o")) {
+      return s.replace("o", "ö");
+    }
+    if (s.contains("u")) {
+      return s.replace("u", "ü");
+    }
+    if (s.contains("é")) {
+      return s.replace("é", "ë");
+    }
+    if (s.contains("à")) {
+      return s.replace("à", "ä");
+    }
+    if (s.contains("è")) {
+      return s.replace("è", "ë");
+    }
+    if (s.contains("ù")) {
+      return s.replace("ù", "ü");
+    }
+    if (s.contains("â")) {
+      return s.replace("â", "ä");
+    }
+    if (s.contains("ê")) {
+      return s.replace("ê", "ë");
+    }
+    if (s.contains("î")) {
+      return s.replace("î", "ï");
+    }
+    if (s.contains("ô")) {
+      return s.replace("ô", "ö");
+    }
+    if (s.contains("û")) {
+      return s.replace("û", "ü");
+    }
+    return s + "-";
   }
 }

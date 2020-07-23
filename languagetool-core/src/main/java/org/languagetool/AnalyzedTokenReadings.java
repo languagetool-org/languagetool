@@ -115,7 +115,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     addHistoricalAnnotations(oldAtr.toString(), ruleApplied); 
   }
 
-  AnalyzedTokenReadings(AnalyzedToken token) {
+  public AnalyzedTokenReadings(AnalyzedToken token) {
     this(Collections.singletonList(token), 0);
   }
 
