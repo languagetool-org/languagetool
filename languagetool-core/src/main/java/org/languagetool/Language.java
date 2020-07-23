@@ -751,6 +751,16 @@ public abstract class Language {
     return false;
   }
 
+  /** @since 5.1 */
+  public String getOpeningQuote() {
+    return "\"";
+  }
+
+  /** @since 5.1 */
+  public String getClosingQuote() {
+    return "\"";
+  }
+
   /**
    * Considers languages as equal if their language code, including the country and variant codes are equal.
    */

@@ -139,6 +139,16 @@ public class French extends Language implements AutoCloseable {
     return languageModel;
   }
 
+  /** @since 5.1 */
+  public String getOpeningQuote() {
+    return "« ";
+  }
+
+  /** @since 5.1 */
+  public String getClosingQuote() {
+    return " »";
+  }
+
   /**
    * Closes the language model, if any. 
    * @since 3.1

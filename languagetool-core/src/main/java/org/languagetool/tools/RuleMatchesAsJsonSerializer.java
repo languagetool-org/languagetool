@@ -188,13 +188,11 @@ public class RuleMatchesAsJsonSerializer {
   }
 
   private String cleanSuggestion(String s) {
-    String quoteBegin = "\"";
-    String quoteEnd = "\"";
-    if (lang != null && lang.getShortCode().equalsIgnoreCase("fr")) {
-      quoteBegin = "« ";
-      quoteEnd = " »";
+    if (lang != null) {
+      return s.replace("<suggestion>", lang.getOpeningQuote()).replace("</suggestion>", lang.getClosingQuote());
+    } else {
+      return s.replace("<suggestion>", "\"").replace("</suggestion>", "\"");
     }
-    return s.replace("<suggestion>", quoteBegin).replace("</suggestion>", quoteEnd);
   }
   
   private void writeReplacements(JsonGenerator g, RuleMatch match) throws IOException {
