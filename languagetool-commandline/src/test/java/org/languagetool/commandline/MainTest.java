@@ -514,7 +514,7 @@ public class MainTest extends AbstractSecurityTestCase {
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: Polish") == 0);
-    assertTrue(stdout.contains("Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?"));
+    assertTrue(stdout.contains("Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean \"rzeczywisty\"?"));
     assertTrue(stdout.contains("Line 1, column 32, Rule ID: ACTUAL"));
     assertTrue(stdout.contains("Line 3, column 3, Rule ID: TRANSLATION_LENGTH"));
   }
@@ -531,7 +531,7 @@ public class MainTest extends AbstractSecurityTestCase {
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: Polish") == 0);
-    assertTrue(stdout.contains("Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?"));
+    assertTrue(stdout.contains("Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean \"rzeczywisty\"?"));
     assertTrue(stdout.contains("Line 1, column 32, Rule ID: ACTUAL"));
     assertFalse(stdout.contains("Rule ID: TRANSLATION_LENGTH"));
   }
