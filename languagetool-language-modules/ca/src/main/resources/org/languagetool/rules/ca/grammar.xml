@@ -32455,6 +32455,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="CALLAR_NOS" name="*ens callaran">
             <url>https://esadir.cat/entrades/fitxa/id/1438</url>
             <rule>
+                <antipattern>
+                    <!-- spanish sentence -->
+                    <token>la</token>
+                    <token>calle</token>
+                    <token postag_regexp="_possible_nompropi"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">em|et|el|la|ens|us|els|les</token>
                     <token postag="V.[IS].3.*" postag_regexp="yes" inflected="yes">callar</token>
