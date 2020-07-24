@@ -388,6 +388,7 @@
       <pattern>
           <token regexp='yes'>&pronomes_retos;</token>
         <marker>
+          <token min="0">nem</token>
           <token regexp='yes'>[nv]?[ao]s?</token>
             <token postag="V.+" postag_regexp="yes"/>
         </marker>       
@@ -835,16 +836,8 @@
         </antipattern>
         <rule>
             <pattern>
-                <token postag="RN|RG" postag_regexp="yes"/>
-                <token postag="P.*" postag_regexp="yes"/>
-                <token postag="V.[SI].*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token>nem</token>
-                <token postag="P.*" postag_regexp="yes"/>
+                <token postag="RN|RG" postag_regexp="yes"><exception postag="CS"></exception></token>
+                <token postag="P[^I].*" postag_regexp="yes"/>
                 <token postag="V.[SI].*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filterall"/>
