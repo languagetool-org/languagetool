@@ -5831,8 +5831,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>precís</token>
                     <token>que</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" postag="..(.{5})" postag_regexp="yes" postag_replace="VM$1">caldre</match> que</suggestion>?</message>
-                <example correction="(caldre) que"><marker>és precís que</marker> ho faces</example>
+                <message>Incorrecte com a perífrasi d'obligació.</message>
+                <suggestion><match no="1" postag="..(.+)" postag_regexp="yes" postag_replace="VM$1">caldre</match> que</suggestion>
+                <example correction="Cal que"><marker>És precís que</marker> ho faces</example>
                 <example>cal que ho faces</example>
             </rule>
             <rule id="ES_PRECIS_INFINITIU" name="*és precís/cal + infinitiu">
@@ -48327,8 +48328,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token skip="2" inflected="yes">acabar<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
-                        <token skip="4">amb<exception scope="next" regexp="yes" inflected="yes">mort|fi|final</exception></token>
+                        <token>amb</token>
                     </marker>
+                    <token min="0" max="4" postag="[DA].*|RG|PX.*" postag_regexp="yes"/>
                     <token regexp="yes" inflected="yes">dinastia|regnat|discriminació|abús|frau|plaga|pesta|infecció|situació|vida|exempció|excepció|precarietat</token>
                 </pattern>
                 <message>Expressió incorrecta si vol dir <suggestion>(posar fi a)</suggestion>.</message>
@@ -48346,11 +48348,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="(posar fi a)|(eliminar)|(destruir)|(desfer)|(acabar)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)">estan <marker>acabant amb</marker> aquesta situació</example>
                 <example correction="(posar fi a)|(eliminar)|(destruir)|(desfer)|(acabar)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)">Amenaçar d'<marker>acabar amb</marker> la seua vida.</example>
                 <example>Acaba amb la fi del regnat d'Alexandre.</example>
+                <example>La crema començarà i acabarà amb llum de dia, excepció feta dels focs d'esbarjo.</example>
+                <example>Acabem amb unes aplicacions a distintes situacions.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token skip="2" inflected="yes">acabar<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
+                        <token inflected="yes">acabar<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
+                        <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"><exception>encara</exception></token>
                         <token>amb</token>
                     </marker>
                     <token regexp="yes" inflected="yes">això|açò|allò</token>
@@ -48368,12 +48373,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Expressió incorrecta</short>
                 <example correction="(posar fi a)|(eliminar)|(destruir)|(desfer)|(acabar)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)">Cal <marker>acabar immediatament amb</marker> això.</example>
                 <example>Cal posar-hi fi.</example>
-                <!-- <example>la història no s'acaba encara amb això</example> -->
+                <example>la història no s'acaba encara amb això</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp="yes" inflected="yes">prou|necessari|indispensable</token>
-                    <token skip="1">per</token>
+                    <token>per</token>
+                    <token min="0">a</token>
                     <marker>
                         <token skip="2" inflected="yes">acabar<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
                         <token>amb</token>
@@ -48395,7 +48401,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token><exception inflected="yes" regexp="yes">portar|acostumar|fins|per</exception></token>
+                    <token><exception inflected="yes" regexp="yes">arribar|portar|acostumar|fins|per</exception></token>
                     <token>a</token>
                     <marker>
                         <token>acabar</token>
@@ -48805,7 +48811,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="NC.*" postag_regexp="yes"/>
                 </unify>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="V.P.*([SP])([MF]).?" postag_regexp="yes" postag_replace="AQ0$2$10">famós</match></suggestion> en lloc de <match no="1"/> (=que té fam)?</message>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="V.P.*([SP])([MF]).?" postag_regexp="yes" postag_replace="AQ0$2$10">famós</match></suggestion> en lloc de «<match no="1"/>» (=que té fam)?</message>
             <example correction="famós">un <marker>afamat</marker> personatge</example>
             <example>un famós personatge</example>
             <example>un gos afamat</example>
