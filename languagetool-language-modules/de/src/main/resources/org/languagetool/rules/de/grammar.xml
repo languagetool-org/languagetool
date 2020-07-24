@@ -2714,7 +2714,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">e-?[mM]ail|E-mail</token>
+                    <token regexp="yes" case_sensitive="yes">e-?[mM]ail|E-mail|EMail</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>E-Mail</suggestion>?</message>
                 <example correction="E-Mail">Er schickt mir eine <marker>e-mail</marker>.</example>
@@ -2724,7 +2724,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">e-?[mM]ails|E-mails</token>
+                    <token regexp="yes" case_sensitive="yes">e-?[mM]ails|E-mails|EMails</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>E-Mails</suggestion>?</message>
                 <example correction="E-Mails">Er schickt mir viele <marker>e-mails</marker>.</example>
@@ -2742,14 +2742,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Kostenlos mit GMX FreeMail: E-Mail-Adresse, 1 GB Mail Speicher, Free SMS.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>\b([A-ZäÖÜ][a-zäüöß]+\-)?(eMail|e-Mail|e-mail|E-mail|E[Mm]ail)s?\b</regexp>
+                <regexp case_sensitive='yes'>\b([A-ZäÖÜ][a-zäüöß]+\-)(eMail|e-Mail|e-mail|E-mail|E[Mm]ail)s?\b</regexp>
                 <message>Meinten Sie <suggestion><match no="0" regexp_match="-.*ail(.*)" regexp_replace="-E-Mail$1"/></suggestion>? (E-Mail = elektronische Post, Email = Schmelzüberzug)</message>
                 <short>Möglicher Tippfehler</short>
                 <example correction="Betrugs-E-Mails">Vorsicht vor <marker>Betrugs-Emails</marker>.</example>
                 <example correction="Spam-E-Mail">Das ist eine <marker>Spam-Email</marker>.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>\b([A-ZäÖÜ][a-zäüöß]+\-)?(eMail|e-Mail|e-mail|E-mail|E[Mm]ail)(-([aA]dressen?|[aA]accounts?|[aA]nwendung(en)?|[cC]lients?|[kK]ontakte?|[kK]ont](os?|en)|[pP]ostf[aä]ch(ern?|es|s)?|[pP]rogramms?|[sS]oftware|[Vv]erkehrs?))?\b</regexp>
+                <regexp case_sensitive='yes'>\b([A-ZäÖÜ][a-zäüöß]+\-)(eMail|e-Mail|e-mail|E-mail|E[Mm]ail)(-([aA]dressen?|[aA]accounts?|[aA]nwendung(en)?|[cC]lients?|[kK]ontakte?|[kK]ont](os?|en)|[pP]ostf[aä]ch(ern?|es|s)?|[pP]rogramms?|[sS]oftware|[Vv]erkehrs?))?\b</regexp>
                 <message>Meinten Sie <suggestion><match no="0" regexp_match="-.*ail(.*)" regexp_replace="-E-Mail$1"/></suggestion>? (E-Mail = elektronische Post, Email = Schmelzüberzug)</message>
                 <short>Möglicher Tippfehler</short>
                 <example correction="Team-E-Mail">Das ist unsere <marker>Team-Email</marker>.</example>
@@ -2772,7 +2772,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token negate="yes">per</token>
                     <marker>
                         <token regexp="yes">e\-?mail</token>
-                        <token regexp="yes">Adressen?|Programme?n?s?|Anwendunge?n?|Cliente?n?s?|Postf(achs?|ächern?)|Software|Kont(os?|en)|Verkehrs?</token>
+                        <token regexp="yes">Adressen?|Programme?n?s?|Anwendunge?n?|Cliente?n?s?|Postf(achs?|ächern?)|Software|Kont(os?|en)|Verkehrs?|Accounts?</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>E-Mail-<match no="3" case_conversion="startupper"/></suggestion>?</message>
@@ -9689,7 +9689,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>durch Wachsen</suggestion>
             <example correction="durchwachsen|durch Wachsen">Das Ergebnis war sehr <marker>durch wachsen</marker>.</example>
         </rule>
-        <rulegroup id="DIE_JENINGEN" name="die Jenigen (diejenigen)">
+        <rulegroup id="DIE_JENIGEN" name="die Jenigen (diejenigen)">
             <url>https://de.wiktionary.org/wiki/diejenigen</url>
             <rule>
                 <antipattern>
