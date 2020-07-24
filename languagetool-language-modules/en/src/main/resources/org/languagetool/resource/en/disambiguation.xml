@@ -7070,6 +7070,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="B-VP" postag="VBZ"/>
             <token regexp="yes">&subject_pronouns;</token>
         </antipattern>
+        <antipattern><!-- #3296 the game pushes you -->
+            <token postag="DT"/>
+            <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token chunk="B-VP" postag_regexp="yes" postag="VB[ZD]"/>
+            <token regexp="yes">&object_pronouns;</token>
+        </antipattern>
         <pattern>
             <token postag="JJ">
                 <exception scope="previous" regexp="yes">s?he|it</exception>
@@ -7107,8 +7113,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">It more or less looks like it's ready.</example><!-- #2431 -->
         <example type="untouched">Verb: Before the game <marker>starts</marker> she is unable to read all instructions.</example><!-- #2427 -->
         <example type="untouched">This all <marker>makes</marker> it a more convenient number system.</example><!-- #2523 -->
+        <example type="untouched">If the game pushes you the wrong notification then you are out of it.</example><!-- #3296 -->
         <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]" outputform="forces[force/NNS]">I like military <marker>forces</marker>.</example>
         <example type="ambiguous" inputform="FORCES[force/NNS,force/VBZ]" outputform="FORCES[force/NNS]">THEY WANT MILITARY <marker>FORCES</marker>, I THINK.</example>
+        <example type="ambiguous" inputform="parks[park/NNS,park/VBZ]" outputform="parks[park/NNS]">If the game <marker>parks</marker> you both visit have the same facilities, it will be difficult to judge the winner of this competition.</example><!-- #3296 -->
     </rule>
 
     <rule id="DT_VBZNNS_NNS" name="Plural determiners + noun plur/vb sg => noun plur">
