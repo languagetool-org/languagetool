@@ -11079,6 +11079,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">y|,</token>
                 <token regexp="yes">\d*0s</token>
             </antipattern>
+            <antipattern>
+                <token skip="1">unicode</token>
+                <token regexp="yes">[0-9a-f]{4}</token>
+            </antipattern>
+            <antipattern>
+                <token>U</token>
+                <token>+</token>
+                <token regexp="yes">[0-9a-f]{4}</token>
+            </antipattern>
+            <antipattern case_sensitive="yes"> 
+                <!-- ambigous -->
+                <token regexp="yes">[0-9]+[A-Z]+</token>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">(\d[\d.,]+)?\d+(&unidades;)</token>
