@@ -136,6 +136,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                      !k.getReplacement().startsWith("sub ") &&
                      !k.getReplacement().startsWith("auto ") &&
                      !k.getReplacement().startsWith("dis ") &&
+                     !k.getReplacement().startsWith("mu ") &&
                      !k.getReplacement().endsWith(" able") &&
                      !k.getReplacement().endsWith(" sly") && // uneccesary suggestion (e.g. for continuesly)
                      !k.getReplacement().endsWith(" OO") && // unecessary suggestion (e.g. for "HELLOOO")
@@ -239,6 +240,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     Map<String, List<String>> s = new HashMap<>();
     s.put("xml", Arrays.asList("XML"));
     s.put("php", Arrays.asList("PHP"));
+    s.put("json", Arrays.asList("JSON", "Jason"));
+    s.put("http", Arrays.asList("HTTP"));
+    s.put("https", Arrays.asList("HTTPS"));
     s.put("asp", Arrays.asList("ASP"));
     s.put("rss", Arrays.asList("RSS"));
     s.put("ssd", Arrays.asList("SSD"));
