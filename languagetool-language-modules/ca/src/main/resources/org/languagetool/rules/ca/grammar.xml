@@ -54704,4 +54704,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
+    <category id="PUNCTUATION" name="puntuació" type="grammar">
+        <rulegroup id="PER_FAVOR" name="per favor(,)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="2" postag="_PUNCT"/>
+                    <marker>
+                        <token>per</token>
+                        <token regexp="yes">favor|cierto</token>
+                    </marker>
+                    <token postag="V.M.*|RN" postag_regexp="yes"/>
+                </pattern>
+                <message>Probablement hi falta una coma.</message>
+                <suggestion>\3 \4,</suggestion>
+                <example correction="Per favor,">¡<marker>Per favor</marker> vés-te'n ara mateix!</example>
+                <example correction="Per favor,"><marker>Per favor</marker> introduïu la contrasenya.</example>
+                <example correction="Per favor,">¡<marker>Per favor</marker> no te'n vagis ara!</example>
+                <example correction="Per favor,"><marker>Per favor</marker> no doneu a ningú aquesta contrasenya.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="2" postag="_PUNCT"/>
+                    <marker>
+                        <token>si</token>
+                        <token regexp="yes">us|et|li|els</token>
+                        <token>plau</token>
+                    </marker>
+                    <token postag="V.M.*|RN" postag_regexp="yes"/>
+                </pattern>
+                <message>Probablement hi falta una coma.</message>
+                <suggestion>\3 \4 \5,</suggestion>
+                <example correction="Si et plau,">¡<marker>Si et plau</marker> vés-te'n ara mateix!</example>
+                <example correction="Si us plau,"><marker>Si us plau</marker> introduïu la contrasenya.</example>
+                <example correction="Si et plau,">¡<marker>Si et plau</marker> no te'n vagis ara!</example>
+                <example correction="Si us plau,"><marker>Si us plau</marker> no doneu a ningú aquesta contrasenya.</example>
+            </rule>
+        </rulegroup>
+    </category>
 </rules>
