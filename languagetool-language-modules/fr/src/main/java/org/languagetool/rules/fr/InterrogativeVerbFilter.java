@@ -52,15 +52,10 @@ public class InterrogativeVerbFilter extends RuleFilter {
 
   private MorfologikFrenchSpellerRule morfologikRule;
 
-  public InterrogativeVerbFilter() {
+  public InterrogativeVerbFilter() throws IOException {
     ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE,
         new Locale("fr"));
-    try {
-      morfologikRule = new MorfologikFrenchSpellerRule(messages, new French(), null, Collections.emptyList());
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+    morfologikRule = new MorfologikFrenchSpellerRule(messages, new French(), null, Collections.emptyList());
   }
 
   @Override
