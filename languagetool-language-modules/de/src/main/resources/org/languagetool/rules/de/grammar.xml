@@ -2741,9 +2741,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Das Apple-Mail-Programm</example>
                 <example>Kostenlos mit GMX FreeMail: E-Mail-Adresse, 1 GB Mail Speicher, Free SMS.</example>
             </rule>
+            <rule default="temp_off">
+                <regexp case_sensitive='yes'>\b(eMail|e-Mail|e-mail|E-mail|E[Mm]ail)-([A-ZÄÖÜ][a-zäüöß]+)\b</regexp>
+                <message>Meinten Sie <suggestion><match no="0" regexp_match=".*ail(.*)" regexp_replace="E-Mail$1"/></suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example correction="E-Mail-Suchauftrag">Mit Ihrem persönlichen <marker>eMail-Suchauftrag</marker> informieren wir Sie regelmäßig über neue Inserate die Ihren Suchkriterien entsprechen.</example>
+                <example correction="E-Mail-Benachrichtigung">Hat jemand ebenso wie Bernardo Probleme mit der <marker>E-mail-Benachrichtigung</marker>?</example>
+            </rule>
             <rule>
-                <regexp case_sensitive='yes'>\b([A-ZäÖÜ][a-zäüöß]+\-)(eMail|e-Mail|e-mail|E-mail|E[Mm]ail)s?\b</regexp>
-                <message>Meinten Sie <suggestion><match no="0" regexp_match="-.*ail(.*)" regexp_replace="-E-Mail$1"/></suggestion>? (E-Mail = elektronische Post, Email = Schmelzüberzug)</message>
+                <regexp case_sensitive='yes'>\b([A-ZÄÖÜ][a-zäüöß]+\-)(eMail|e-Mail|e-mail|E-mail|E[Mm]ail)s?\b</regexp>
+                <message>Meinten Sie <suggestion><match no="0" regexp_match="-.*ail(.*)" regexp_replace="-E-Mail$1"/></suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
                 <example correction="Betrugs-E-Mails">Vorsicht vor <marker>Betrugs-Emails</marker>.</example>
                 <example correction="Spam-E-Mail">Das ist eine <marker>Spam-Email</marker>.</example>
