@@ -383,18 +383,30 @@
     </rule>
   </rulegroup>
 
-    <rule id="PP_D_V" name="Pronome + Pronome + Verbo">
+    <rulegroup id="PP_D_V" name="Pronome + Pronome + Verbo">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-15  -->
-      <pattern>
-          <token regexp='yes'>&pronomes_retos;</token>
-        <marker>
-          <token min="0">nem</token>
-          <token regexp='yes'>[nv]?[ao]s?</token>
-            <token postag="V.+" postag_regexp="yes"/>
-        </marker>       
-      </pattern>
-      <disambig action="filterall"/>
-    </rule>
+      <rule>
+        <pattern>
+            <token regexp='yes'>&pronomes_retos;</token>
+          <marker>    
+            <token regexp='yes'>[nv]?[ao]s?</token>
+              <token postag="V.+" postag_regexp="yes"/>
+          </marker>       
+        </pattern>
+        <disambig action="filterall"/>
+      </rule>
+        <rule>
+            <pattern>
+                <token regexp='yes'>&pronomes_retos;</token>
+                <token>nem</token>
+                <marker>    
+                    <token regexp='yes'>[nv]?[ao]s?</token>
+                    <token postag="V.+" postag_regexp="yes"/>
+                </marker>       
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
 
   <!--rulegroup id="SUBJUNCTIVES" name="Verbos no conjuntivo"-->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2019-03-24  >
