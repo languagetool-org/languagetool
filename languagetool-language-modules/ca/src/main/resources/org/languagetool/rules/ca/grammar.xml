@@ -30214,7 +30214,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>+</token>
                 <token regexp="yes">[0-9a-f]{4}</token>
             </antipattern>
-            <antipattern case_sensitive="yes"> 
+            <antipattern case_sensitive="yes">
                 <!-- ambigous -->
                 <token regexp="yes">[0-9]+[A-Z]+<exception regexp="yes">[0-9]+(V|W|MW|AM|PM|MB|GB|TB)</exception></token>
             </antipattern>
@@ -43138,35 +43138,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=mateix&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=11971&amp;idHit=11971&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=2&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27propi%27+o+%27mateix%27%3F+%2F+Nova+gram%E0tica&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <rule>
                 <pattern>
-                    <marker>
-                        <unify>
-                            <feature id="genere"/>
-                            <feature id="nombre"/>
-                            <token postag="DA.*" postag_regexp="yes"/>
+                    <unify>
+                        <feature id="genere"/>
+                        <feature id="nombre"/>
+                        <token postag="DA.*" postag_regexp="yes"/>
+                        <marker>
                             <token inflected="yes">propi</token>
-                            <token postag="N.*" postag_regexp="yes" skip="-1"><exception>mans</exception></token>
-                        </unify>
-                    </marker>
+                        </marker>
+                        <token postag="N.*" postag_regexp="yes" skip="-1"><exception>mans</exception></token>
+                    </unify>
                     <token><exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Correcte si equival a '<match no="1"/> <match no="3" include_skipped="all"/> <match no="2"/>'. Si no, potser cal dir: <suggestion><match no="1"/> <match no="2" postag="AQ0(..)0" postag_regexp="yes" postag_replace="AQ0$10">mateix</match> <match no="3"
-                    /></suggestion>.</message>
-                <example correction="el mateix president">Ho digué <marker>el propi president</marker>.</example>
-                <example correction="el mateix fill">Ho digué <marker>el propi fill</marker>.</example>
-                <example correction="el mateix pare">Ho digué <marker>el propi pare</marker>.</example>
+                <message>Amb valor emfàtic cal dir <suggestion><match no="2" postag="AQ0(..)0" postag_regexp="yes" postag_replace="AQ0$10">mateix</match></suggestion>. Correcte si indica possessió.</message>
+
+                <example correction="mateix">Ho digué el <marker>propi</marker> president.</example>
+                <example correction="mateix">Ho digué el <marker>propi</marker> fill.</example>
+                <example correction="mateix">Ho digué el <marker>propi</marker> pare.</example>
                 <example>Ho digué el mateix president.</example>
                 <example>Ho va fer amb les pròpies mans.</example>
             </rule>
             <rule>
                 <pattern>
+                    <token postag="DA.*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="DA.*" postag_regexp="yes"/>
                         <token inflected="yes">propi</token>
                     </marker>
                     <token regexp="yes">\p{Lu}.+</token>
                 </pattern>
-                <message>Probablement cal dir: <suggestion><match no="1"/> <match no="2" postag=".+([MF][SP]).+" postag_regexp="yes" postag_replace="AQ0$10">mateix</match></suggestion>.</message>
-                <example correction="el mateix">Ho digué <marker>el propi</marker> Felber.</example>
+                <message>Amb valor emfàtic cal dir <suggestion><match no="2" postag=".+([MF][SP]).+" postag_regexp="yes" postag_replace="AQ0$10">mateix</match></suggestion>.</message>
+                <example correction="mateix">Ho digué el <marker>propi</marker> Felber.</example>
                 <example>Ho digué el mateix president.</example>
                 <example>Ho va fer amb les pròpies mans.</example>
             </rule>
@@ -43176,19 +43176,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token regexp="yes">deixar|quedar|restar|mostrar|sentir</token>
                 <token min="0">molt</token>
-                <token>descontent</token>
+                <token regexp="yes">descontent|malcontent</token>
             </antipattern>
             <rule>
                 <pattern>
                     <token postag="D..[MC]S.|SPS00|PX.MS...|DP3CSP" postag_regexp="yes"/>
                     <!-- <exception postag="N.*|RG|V.[NMSI].*|_GV_|C[CS]|SENT_START|_PUNCT.*|PR.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+|únic</exception> -->
                     <marker>
-                        <token>descontent</token>
+                        <token regexp="yes">descontent|malcontent</token>
                     </marker>
                     <token><exception postag="N.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+</exception></token>
                 </pattern>
-                <message>'Descontent' sols pot ser adjectiu.</message>
-                <suggestion>descontentament</suggestion>
+                <message>"<match no="2" case_conversion="startupper"/>" sols pot ser adjectiu.</message>
+                <suggestion>\2ament</suggestion>
                 <suggestion>insatisfacció</suggestion>
                 <suggestion>disgust</suggestion>
                 <suggestion>malestar</suggestion>
@@ -43216,12 +43216,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>descontent</token>
+                        <token regexp="yes">descontent|malcontent</token>
                     </marker>
                     <token regexp="yes">total|ple|general</token>
                 </pattern>
-                <message>'Descontent' sols pot ser adjectiu.</message>
-                <suggestion>descontentament</suggestion>
+                <message>"<match no="1" case_conversion="startupper"/>" sols pot ser adjectiu.</message>
+                <suggestion>\1ament</suggestion>
                 <suggestion>insatisfacció</suggestion>
                 <suggestion>disgust</suggestion>
                 <suggestion>malestar</suggestion>
@@ -43233,16 +43233,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">total|ple|general|gran|major</token>
                     <marker>
-                        <token>descontent</token>
+                        <token regexp="yes">descontent|malcontent</token>
                     </marker>
                 </pattern>
-                <message>'Descontent' sols pot ser adjectiu.</message>
-                <suggestion>descontentament</suggestion>
+                <message>"<match no="2" case_conversion="startupper"/>" sols pot ser adjectiu.</message>
+                <suggestion>\2ament</suggestion>
                 <suggestion>insatisfacció</suggestion>
                 <suggestion>disgust</suggestion>
                 <suggestion>malestar</suggestion>
                 <example correction="descontentament|insatisfacció|disgust|malestar">el ple <marker>descontent</marker> de la població</example>
                 <example>Era un descontent general.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">haver|tenir</token>
+                    <marker>
+                        <token regexp="yes">descontent|malcontent</token>
+                    </marker>
+                    <token><exception postag="N.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+</exception></token>
+                </pattern>
+                <message>"<match no="2" case_conversion="startupper"/>" sols pot ser adjectiu.</message>
+                <suggestion>\2ament</suggestion>
+                <suggestion>insatisfacció</suggestion>
+                <suggestion>disgust</suggestion>
+                <suggestion>malestar</suggestion>
+                <example correction="malcontentament|insatisfacció|disgust|malestar">Hi ha <marker>malcontent</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="DISPAR" name="dispar (adj. no subst.)">
@@ -51892,7 +51907,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Aquest procés és enfocat de diferent forma des dels àmbits acadèmics.</example>
                 <example>Es considera pèssima forma.</example>
                 <example>La més estesa forma de relació es donava entre homes adults.</example>
-                <example>No hi ha tasques d'impressió actives</example> <!-- without period -->
+                <example>No hi ha tasques d'impressió actives</example>
+                <!-- without period -->
             </rule>
         </rulegroup>
         <rule id="FALTA_COMA_FRASE_CONDICIONAL" name="Coma en frase condicional" type="style">
@@ -54432,7 +54448,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="_reflexiu"/>
                     </and>
                 </pattern>
-                <message>El verb 'riure' sols pot ser reflexiu si va acompanyat d'un complement amb "de" (riure's de, riure-se'n).</message>
+                <message>El v. 'riure' sols pot ser reflexiu si va acompanyat d'un complement amb "de" (riure's de, riure-se'n).</message>
                 <suggestion>\2 \3</suggestion>
                 <example correction="Vam riure"><marker>Ens vam riure</marker> molt.</example>
                 <example correction="Heu rigut"><marker>Us heu rigut</marker> molt.</example>
@@ -54450,7 +54466,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="_reflexiu"/>
                     </and>
                 </pattern>
-                <message>El verb 'riure' sols pot ser reflexiu si va acompanyat d'un complement amb "de" (riure's de, riure-se'n).</message>
+                <message>El v. 'riure' sols pot ser reflexiu si va acompanyat d'un complement amb "de" (riure's de, riure-se'n).</message>
                 <suggestion>\2</suggestion>
                 <example correction="Riu"><marker>Es riu</marker> molt.</example>
                 <example correction="Riguérem"><marker>Ens riguérem</marker> molt.</example>
@@ -54465,7 +54481,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">riure</token>
                     <token regexp="yes">'m|'t|'s|'ns|-us|-vos</token>
                 </pattern>
-                <message>El verb 'riure' sols pot ser reflexiu si va acompanyat d'un complement amb "de" (riure's de, riure-se'n).</message>
+                <message>El v. 'riure' sols pot ser reflexiu si va acompanyat d'un complement amb "de" (riure's de, riure-se'n).</message>
                 <suggestion>riure</suggestion>
                 <example correction="riure">Proveu de fer-ho sense <marker>riure's</marker>.</example>
                 <example correction="riure">No podia parar de <marker>riure'm</marker>.</example>
@@ -54484,7 +54500,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="_reflexiu"/>
                     </and>
                 </pattern>
-                <message>El verb 'riure' sols pot ser reflexiu si va acompanyat d'un complement amb "de" (riure's de, riure-se'n).</message>
+                <message>El v. 'riure' sols pot ser reflexiu si va acompanyat d'un complement amb "de" (riure's de, riure-se'n).</message>
                 <example correction="">Ens hem hagut de <marker>riure</marker> molt.</example>
                 <example>Proveu de fer-ho sense riure.</example>
                 <example>Proveu de fer-ho sense riure's d'ell.</example>
