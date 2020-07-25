@@ -12456,11 +12456,12 @@ though, and has since been slightly modified)-->
         <example>Parce qu'elles sont mises à part, celles-là doivent avoir été choisies.</example>
       </rule>
     </rulegroup>
-      <rule id="AUX_ETRE_VCONJ" name="Auxiliaire suivi d’un verbe conjugué">
+      <rulegroup id="AUX_ETRE_VCONJ" name="Auxiliaire suivi d’un verbe conjugué">
           <antipattern>
               <token postag_regexp="yes" postag="V.*"/>
               <token postag="R.*" postag_regexp="yes" spacebefore="no"/>
           </antipattern>
+        <rule>
           <pattern>
               <token postag="V etre .*" postag_regexp="yes">
                   <exception regexp="yes" scope="previous">.+'</exception>
@@ -12468,8 +12469,6 @@ though, and has since been slightly modified)-->
                   <exception>soit</exception>
                   <exception scope="previous">ce</exception>
               </token>
-              <token min="0" postag="R.*" postag_regexp="yes"/>
-              <token min="0" postag="A"/>
               <marker>
                   <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes">
                       <exception postag="[ZN] .*" postag_regexp="yes"/>
@@ -12497,10 +12496,32 @@ though, and has since been slightly modified)-->
           <example>La fille là-bas est Marie.</example>
           <example>Ce serait attaquer les droits de l’homme.</example>
           <example>Il faut soit partir, soit attendre.</example>
+        </rule>
+        <rule default="temp_off">
+          <pattern>
+            <token postag="V etre .*" postag_regexp="yes">
+              <exception regexp="yes" scope="previous">.+'</exception>
+              <exception inflected="yes" scope="previous">avoir</exception>
+              <exception>soit</exception>
+              <exception scope="previous">ce</exception>
+            </token>
+            <token postag="R .*|A" postag_regexp="yes" max="2"/>
+            <marker>
+              <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes">
+                <exception postag="[ZN] .*" postag_regexp="yes"/>
+              </token>
+            </marker>
+          </pattern>
+          <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quant à l’accord, celui-ci s’accorde avec le COD s’il est placé avant l’auxiliaire ; sinon il restera au masculin singulier.</message>
+          <suggestion><match no="5" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
+          <suggestion><match no="5" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
+          <suggestion><match no="5" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
+          <suggestion><match no="5" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p"/></suggestion>
           <example correction="remplacé|remplacée|remplacés|remplacées">Il sera ainsi <marker>remplacer</marker> par une voiture.</example>
           <example correction="remplacé|remplacée|remplacés|remplacées">Il sera elle aussi <marker>remplacer</marker> par une voiture.</example>
           <example correction="remplacé|remplacée|remplacés|remplacées">Il sera lui-même <marker>remplacer</marker> par une voiture.</example>
-      </rule>
+        </rule>
+      </rulegroup>
     <rulegroup id="AUX_AVOIR_VCONJ" name="Auxiliaire suivi d’un verbe conjugué">
       <rule id="RPERSSUJ_ETRE_V" name="Pronom personel + V être + verbe conjugué">
         <pattern>
