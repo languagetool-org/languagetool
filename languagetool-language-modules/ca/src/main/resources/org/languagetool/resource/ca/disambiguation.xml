@@ -3243,6 +3243,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rulegroup>
     <rulegroup id="SegPersSing" name="verb segona persona singular">
         <rule>
+            <antipattern>
+                <token postag="N.*|A.*|V.P.*" postag_regexp="yes"/>
+                <token>?</token>
+            </antipattern>
             <pattern>
                 <!-- cal revisar amb cura |UNKNOWN -->
                 <token postag="(DD|PD).*|V.*|P[P0].*|NP.*|NC.*" postag_regexp="yes"><exception postag="C.*|R.*|DA.*|V.N.*|PT.*" postag_regexp="yes"/><exception regexp="yes">tu|e[mts]|[mts]e|ens|us|[mtsln]'|'[mtsln]|'ls|'ns|li|els?|la|les|en|hi|ho|any|dia</exception></token>
@@ -3252,7 +3256,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
                         <token postag="N.*|A.*|V.P.*" postag_regexp="yes"/>
                     </and>
                 </marker>
-                <token><exception>?</exception></token>
             </pattern>
             <disambig action="remove" postag="V.[IS].2S0."/>
             <!-- les ha vistes estenent la roba -->
