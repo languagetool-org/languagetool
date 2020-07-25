@@ -1320,6 +1320,13 @@ RB => Règles Brutes
     </pattern>
     <disambig action="remove" postag="P"></disambig>
   </rule>
+  <rule id="entre" name="entre-t-il, entre (not preposition)">
+    <pattern>
+      <token postag="V.*" postag_regexp="yes"></token>
+      <token postag="R .*" postag_regexp="yes" regexp="yes">-.*</token>
+    </pattern>
+    <disambig action="filterall"></disambig>
+  </rule>
   <rule name="RB : Préposition" id="RB-PREPOSITION">
     <pattern>
       <marker>

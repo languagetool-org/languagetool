@@ -14562,6 +14562,7 @@ though, and has since been slightly modified)-->
         <suggestion>\1\2s</suggestion>
         <example correction="sont-ils">Ses cheveux <marker>sont-il</marker> naturellement roux ?</example>
         <example>Cela vous convient-il ?</example>
+        <example>Mon explication te convient-elle ?</example>
       </rule>
       <rule>
        <pattern>
@@ -14623,6 +14624,8 @@ though, and has since been slightly modified)-->
       <example> Que devrions-nous faire ?</example>
       <example>s'exclama-t-il</example>
       <example>Le soldat de garde se mit au garde-à-vous.</example>
+      <example>Tant de fiel entre-t-il dans les âmes ?</example>
+      <example>C'est mon petit chez-moi.</example>
     </rule>
     <rulegroup id="ACCORD_NOM_VERBE" name="Accord" default="off">
         <!-- TODO: more work -->
@@ -15889,6 +15892,19 @@ though, and has since been slightly modified)-->
         <example>Va-t-elle venir ?</example>
         <example>C’est un va-t-en-guerre.</example>
         <!--TODO: Vous-a-t-il dit quelque chose à propos de ça ?-->
+      </rule>
+      <rule>
+        <pattern>
+          <token/>
+          <token>-</token>
+          <token>te</token>
+          <token>-</token>
+          <token>n</token>
+        </pattern>
+        <message>Ne pas confondre le t euphonique et l’apostrophe. Écrivez <suggestion>\1-t'en</suggestion>.</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?T1=t+euphonique</url>
+        <example correction="Va-t'en"><marker>Va-te-n</marker> !</example>
+        <example>C’est un va-t-en-guerre.</example>
       </rule>
     </rulegroup>
     <rulegroup id="LA" name="là sans trait d’union">
@@ -30329,28 +30345,42 @@ though, and has since been slightly modified)-->
       <message>Faute de typographie. Employez <suggestion>\1 \3</suggestion>.</message>
       <example correction="Parce qu'il"><marker>Parce-qu’il</marker> vient.</example>
     </rule>
-    <rule id="S_IL_TE_PLAIT" name="s’il te plaît">
+    <rulegroup id="S_IL_TE_PLAIT" name="s’il te plaît">
       <antipattern>
         <token>s'</token>
         <token spacebefore="no">il</token>
         <token regexp="yes">te|vous</token>
         <token regexp="yes">pla[îi]t</token>
       </antipattern>
-      <pattern>
-        <token>s'</token>
-        <token>il</token>
-        <token regexp="yes" min="0">[-‑‐]</token>
-        <token regexp="yes">te|vous</token>
-        <token regexp="yes" min="0">[-‑‐]</token>
-        <token regexp="yes">pla[îi]t</token>
-      </pattern>
-      <message>Employez <suggestion>\1\2 \4 \6</suggestion>.</message>
-      <example correction="S'il te plaît"><marker>S’il-te-plaît</marker>, dessine-moi un mouton.</example>
-      <example correction="S'il te plaît"><marker>S’il-te plaît</marker>, dessine-moi un mouton.</example>
-      <example correction="S'il te plaît"><marker>S’il te-plaît</marker>, dessine-moi un mouton.</example>
-      <example correction="S'il vous plaît"><marker>S’il vous -plaît</marker>, dessine-moi un mouton.</example>
-      <example>S’il te plaît, dessine-moi un mouton.</example>
-    </rule>
+      <rule>
+        <pattern>
+          <token>s'</token>
+          <token>il</token>
+          <token regexp="yes" min="0">[-‑‐]</token>
+          <token regexp="yes">te|vous</token>
+          <token regexp="yes" min="0">[-‑‐]</token>
+          <token regexp="yes">pla[îi]t</token>
+        </pattern>
+        <message>Employez <suggestion>\1\2 \4 \6</suggestion>.</message>
+        <example correction="S'il te plaît"><marker>S’il-te-plaît</marker>, dessine-moi un mouton.</example>
+        <example correction="S'il te plaît"><marker>S’il-te plaît</marker>, dessine-moi un mouton.</example>
+        <example correction="S'il te plaît"><marker>S’il te-plaît</marker>, dessine-moi un mouton.</example>
+        <example correction="S'il vous plaît"><marker>S’il vous -plaît</marker>, dessine-moi un mouton.</example>
+        <example>S’il te plaît, dessine-moi un mouton.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>s'</token>
+          <token>il</token>
+          <token>-vous</token>
+          <token regexp="yes" min="0">[-‑‐]</token>
+          <token regexp="yes">pla[îi]t</token>
+        </pattern>
+        <message>Employez <suggestion>\1\2 <match no="3" regexp_match="-" regexp_replace=""/> \5</suggestion>.</message>
+        <example correction="S'il vous plaît"><marker>S’il-vous plaît</marker>, dessine-moi un mouton.</example>
+        <example>S’il te plaît, dessine-moi un mouton.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="TRAIT_UNION" name="Trait d’union">
       <rule>
         <pattern>
