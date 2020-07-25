@@ -30685,6 +30685,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="ACAS" name="*acàs">
+            <pattern>
+                <token>si</token>
+                <token regexp="yes">acas|acàs</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>si de cas</suggestion></message>
+            <suggestion>potser</suggestion>
+            <suggestion>per ventura</suggestion>
+            <suggestion>si és que</suggestion>
+            <example correction="si de cas|potser|per ventura|si és que">I <marker>si acas</marker>, no vinguis tard.</example>
+        </rule>
         <rule id="BE_VE" name="be/ve">
             <pattern>
                 <token>d'</token>
