@@ -3189,7 +3189,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
 
     <rule name="verb + pronoun + inconsistent verb > noun" id="VB_PRP_NN">
         <pattern>
-            <token postag="VB"/>
+            <token postag="VB">
+                <exception postag="MD" />
+            </token>
             <token>you</token>
             <marker>
                 <and>
@@ -3205,6 +3207,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                  outputform="grounds[ground/NNS]">That doesn't give you <marker>grounds</marker> for complaining.</example>
         <example type="untouched">How much we pay you depends on your skill.</example>
         <example type="untouched">Grammar error: Would you say you wants to do it?</example>
+        <example type="untouched">Can you makes the kitchen?</example>
     </rule>
 
     <!-- 'an' is part of a proper name here -->
@@ -6891,7 +6894,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="E-NP-plural" postag="NNS"/>
         </antipattern>
         <antipattern><!-- #3088 Tom does exercises every -->
-            <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(P|:UN?)?"/>
+            <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(P|:UN?)?|PRP"/>
             <token>does</token> 
             <token chunk="E-NP-plural" postag="NNS"/>
             <token regexp="yes">each|every</token>
@@ -6900,6 +6903,46 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="CD"/>
             <token chunk="E-NP-plural" postag="NNS"/>
             <token regexp="yes">each|every</token>
+        </antipattern>
+        <antipattern><!-- #3320 We can have changes every day. -->
+            <token inflected="yes" regexp="yes">have|do</token>
+            <token postag="NNS" />
+            <token regexp="yes">every|each</token>
+            <token postag="NN.*" postag_regexp="yes" />
+        </antipattern>
+        <antipattern><!-- #3320 We can have new changes every day. -->
+            <token inflected="yes" regexp="yes">have|do</token>
+            <token postag="JJ.*" postag_regexp="yes" />
+            <token postag="NNS" />
+            <token regexp="yes">every|each</token>
+        </antipattern>
+        <antipattern><!-- #3320 We can have changes all over the world. -->
+            <token inflected="yes" regexp="yes">have|do</token>
+            <token postag="NNS" />
+            <token>all</token>
+            <token postag="IN" /> 
+        </antipattern>
+        <antipattern><!-- #3320 We can have new changes all over the world. -->
+            <token inflected="yes" regexp="yes">have|do</token>
+            <token postag="JJ.*" postag_regexp="yes" />
+            <token postag="NNS" />
+            <token>all</token>
+            <token postag="IN" /> 
+        </antipattern>
+        <antipattern><!-- #3320 He had a lot of bruises all over his body -->
+            <token regexp="yes">plenty|lots?|bunch|number|tons?|hundreds?|couple</token>
+            <token>of</token>
+            <token postag="NNS" />
+            <token>all</token>
+            <token postag="IN" /> 
+        </antipattern>
+        <antipattern><!-- #3320 He had a lot of severe bruises all over his body -->
+            <token regexp="yes">plenty|lots?|bunch|number|tons?|hundreds?|couple</token>
+            <token>of</token>
+            <token postag="JJ.*" postag_regexp="yes" />
+            <token postag="NNS" />
+            <token>all</token>
+            <token postag="IN" /> 
         </antipattern>
         <pattern>
             <marker>
@@ -6938,6 +6981,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Tom does exercises every day.</example><!-- #3088 -->
         <example type="untouched">They do the tests 4 times each year.</example><!-- #3113 -->
         <example type="untouched">They gave the customers five samples every year.</example><!-- #3113 -->
+        <example type="untouched">I wasn't careful, and now I have sunburns all over me.</example><!-- #3320 -->
+        <example type="untouched">He had bruises all over after the fight.</example><!-- #3320 -->
+        <example type="untouched">He had a lot of bruises all over after the fight.</example><!-- #3320 -->
+        <example type="untouched">Tom has friends all over the world.</example><!-- #3320 -->
+        <example type="untouched">I do crunches every day.</example><!-- #3320 -->
+        <example type="untouched">We can have changes every week.</example><!-- #3320 -->
         <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> an event.</example>
     </rule>
 
