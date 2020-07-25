@@ -22616,18 +22616,28 @@ though, and has since been slightly modified)-->
       <example><marker>voulant que</marker></example>
     </rule>
     <rule id="CEST_ADJ" name="C'est + adjectif" default="temp_off">
+      <antipattern>
+        <token postag="J f (s|sp)" postag_regexp="yes"/>
+        <token postag="N f (s|sp)" postag_regexp="yes"/>
+      </antipattern>
+      <antipattern>
+        <token postag="J f (p|sp)" postag_regexp="yes"/>
+        <token postag="N f (p|sp)" postag_regexp="yes"/>
+      </antipattern>
       <pattern>
           <token regexp="yes">c'</token>
           <token>est</token>
           <marker>
-              <token postag='J f (s|p|sp)' postag_regexp="yes"/>
+              <token postag='J f (s|p|sp)' postag_regexp="yes"><exception postag="J [me].*" postag_regexp="yes"/></token>
           </marker>
       </pattern>
-      <message>L'adjectif suivi de «c'est» doit être au masculin singulier</message>
+      <message>L'adjectif suivi de «c'est» doit être au masculin singulier.</message>
       <suggestion ><match no="3" postag="J f s" postag_regexp="yes" postag_replace="J m s"/></suggestion>
       <example correction="génial">La vue est super, c'est <marker>géniale</marker></example>
       <example correction="exhaustif">C'est <marker>exhaustive</marker></example>
       <example >La vue est super, c'est génial</example>
+      <example>C'est pure folie.</example>
+      <example>C'est pleine lune</example>
     </rule>
     <rule id="CEST_LA_RAISON_POURQUOI" name="c’est la raison pourquoi">
       <pattern>
