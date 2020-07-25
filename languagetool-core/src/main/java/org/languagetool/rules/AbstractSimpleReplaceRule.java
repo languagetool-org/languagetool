@@ -127,7 +127,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
         continue;
       }
       List<RuleMatch> matchesForToken = findMatches(tokenReadings, sentence);
-      ruleMatches.addAll( matchesForToken );
+      ruleMatches.addAll(matchesForToken);
     }
     return toRuleMatchArray(ruleMatches);
   }

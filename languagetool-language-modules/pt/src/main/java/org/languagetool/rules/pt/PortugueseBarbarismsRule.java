@@ -25,10 +25,7 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 
-import java.io.IOException;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import java.net.URL;
 
@@ -49,8 +46,8 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
   private final String path;
 
   @Override
-  public String getFileName() {
-    return path;
+  public List<String> getFileNames() {
+    return Collections.singletonList(path);
   }
 
   public PortugueseBarbarismsRule(ResourceBundle messages, String path) {

@@ -19,6 +19,8 @@
 package org.languagetool.rules.nl;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -49,8 +51,8 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getFileName() {
-    return "/nl/replace.txt";
+  public List<String> getFileNames() {
+    return Collections.singletonList("/nl/replace.txt");
   }
 
   @Override
