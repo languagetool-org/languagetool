@@ -3824,16 +3824,21 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="ignore_spelling"/>
         </rule>
         <rule>
-            <pattern>
-                <token regexp="yes" case_sensitive="yes">[A-Z0-9]+</token>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">[A-Z]+</token>
                 <token spacebefore="no">-</token>
-                <token spacebefore="no" regexp="yes" case_sensitive="yes">[A-Z0-9]+</token>
+                <token spacebefore="no">[A-Z]+</token>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[A-Z0-9]+</token>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no" regexp="yes">[A-Z0-9]+</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes" case_sensitive="yes">[A-Z]+\d+</token>
+                <token regexp="yes" case_sensitive="yes">[A-Z]+\d+<exception>CO2</exception></token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>

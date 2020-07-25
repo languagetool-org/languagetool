@@ -7582,6 +7582,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="NOMBRES_ROMANS" name="comprova nombres romans" type="misspelling">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">[A-Z]+</token>
+                <token spacebefore="no">-</token>
+                <token regexp="yes" spacebefore="no">[A-Z]+</token>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
@@ -30211,7 +30216,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern case_sensitive="yes"> 
                 <!-- ambigous -->
-                <token regexp="yes">[0-9]+[A-Z]+</token>
+                <token regexp="yes">[0-9]+[A-Z]+<exception regexp="yes">[0-9]+(V|W|MW|AM|PM|MB|GB|TB)</exception></token>
             </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
