@@ -2741,7 +2741,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Das Apple-Mail-Programm</example>
                 <example>Kostenlos mit GMX FreeMail: E-Mail-Adresse, 1 GB Mail Speicher, Free SMS.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <regexp case_sensitive='yes'>\b(eMail|e-Mail|e-mail|E-mail|E[Mm]ail)-([A-ZÄÖÜ][a-zäüöß]+)\b</regexp>
                 <message>Meinten Sie <suggestion><match no="0" regexp_match=".*ail(.*)" regexp_replace="E-Mail$1"/></suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
@@ -34993,7 +34993,7 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token>e</token>
-                    <token regexp="yes">autos?|mobilität|motor(s|en)?|bikes?|mobil[es]?|mobility|roller[sn]?|zigaretten?|scooter[sn]?|shishas?|fahrrads?|fahrräder|gitarren?|herds?|heizung(en)?|motorrads?|motorräder|tretroller|bus(se)?|pkws?|lkws?|maschinen?|sport|shishas?|schischas?</token>
+                    <token regexp="yes">autos?|mobilität|ladestation(en)?|ladepunkte?n?|motor(s|en)?|bikes?|mobil[es]?|mobility|roller[sn]?|zigaretten?|scooter[sn]?|shishas?|fahrrads?|fahrräder|gitarren?|herds?|heizung(en)?|motorrads?|motorräder|tretroller|bus(se)?|pkws?|lkws?|maschinen?|sport|shishas?|schischas?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>E-<match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="E-Autos">Die <marker>E Autos</marker> sind oft umweltschonender als Autos mit Verbrenner.</example>
@@ -35003,7 +35003,7 @@ Andere Projekte</example>
                     <token regexp="yes">E-[A-Z].+</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">e-?(autos?|mobilität|motor(s|en)?|bikes?|mobil[es]?|mobility|roller[sn]?|zigaretten?|scooter[sn]?|shishas?|fahrrads?|fahrräder|gitarren?|herds?|heizung(en)?|motorrads?|motorräder|tretroller|bus(se)?|pkws?|lkws?|maschinen?|sport|shishas?|schischas?)</token>
+                    <token regexp="yes">e-?(autos?|mobilität|ladestation(en)?|ladepunkte?n?|motor(s|en)?|bikes?|mobil[es]?|mobility|roller[sn]?|zigaretten?|scooter[sn]?|shishas?|fahrrads?|fahrräder|gitarren?|herds?|heizung(en)?|motorrads?|motorräder|tretroller|bus(se)?|pkws?|lkws?|maschinen?|sport|shishas?|schischas?)</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>E-<match no="1" regexp_match="(?i)^e-?" regexp_replace="" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="E-Auto">Ein <marker>eAuto</marker> ist oft umweltschonender als ein Auto mit Verbrenner.</example>
