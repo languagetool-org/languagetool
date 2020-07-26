@@ -317,6 +317,23 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>[ao]s?</token>
           <token postag='V.+' postag_regexp='yes' regexp='yes'>.+(?:am|ão|õe)$</token>
       </antipattern>
+<!-- MARCOAGPINTO 2020-07-26 (2-JUL-2020+) *START* -->
+<!-- "O Rui suscitando em nós o poder criador." -->
+<!-- "O Rui suscitando em nós a força criadora." -->
+<!-- "O Rui suscitando em nós os poderes criadores." -->
+<!-- "O Rui suscitando em nós as forças criadoras." -->
+<!-- "Entre elas as chamadas 16 regras do esperanto." -->
+<!-- "Os vícios da mocidade, entre eles as drogas e as bebidas." -->
+<!-- "Havia vários cursos de água em Xangai, entre eles o rio Zhaojia." -->
+      <antipattern>
+		  <token regexp='yes'>em|entre|por</token>
+          <token regexp='yes'>&pronomes_retos;|mim|ti|si</token>
+		  <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|[ao]s?|[nv]os</token>
+		  <token postag='V.+|AQ0[CFM][SP]0|NC[CFM][SP]000|NP[CFM][SP][0GS]00' postag_regexp='yes'/>
+		  <token negate="yes" regexp='yes'>nas?|nos?|em|pelos?|pelas?|como|tal|tais</token>
+<!--		  <token postag='AQ0[CFM][SP]0|NC[CFM][SP]000|Z0CN0|VMIP2S0|VMIP3S0|VMM02S0|NP[CFM][SP][0GS]00' postag_regexp='yes'/> -->
+      </antipattern>
+<!-- MARCOAGPINTO 2020-07-26 (2-JUL-2020+) *END* -->
       <pattern>
           <token regexp='yes'>&pronomes_retos;</token>
           <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|[ao]s?|[nv]os</token>
@@ -352,6 +369,23 @@ title="Easy editing stylesheet" ?>
           <token>a</token>
           <token postag='VMN0000'/>
       </antipattern>
+<!-- MARCOAGPINTO 2020-07-26 (2-JUL-2020+) *START* -->
+<!-- "O Rui suscitando em nós o poder criador." -->
+<!-- "O Rui suscitando em nós a força criadora." -->
+<!-- "O Rui suscitando em nós os poderes criadores." -->
+<!-- "O Rui suscitando em nós as forças criadoras." -->
+<!-- "Entre elas as chamadas 16 regras do esperanto." -->
+<!-- "Os vícios da mocidade, entre eles as drogas e as bebidas." -->
+<!-- "Havia vários cursos de água em Xangai, entre eles o rio Zhaojia." -->
+      <antipattern>
+		  <token regexp='yes'>em|entre|por</token>
+          <token regexp='yes'>&pronomes_retos;|mim|ti|si</token>
+		  <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|[ao]s?|[nv]os</token>
+		  <token postag='V.+|AQ0[CFM][SP]0|NC[CFM][SP]000|NP[CFM][SP][0GS]00' postag_regexp='yes'/>
+		  <token negate="yes" regexp='yes'>nas?|nos?|em|pelos?|pelas?|como|tal|tais</token>
+<!--		  <token postag='AQ0[CFM][SP]0|NC[CFM][SP]000|Z0CN0|VMIP2S0|VMIP3S0|VMM02S0|NP[CFM][SP][0GS]00' postag_regexp='yes'/> -->
+      </antipattern>
+<!-- MARCOAGPINTO 2020-07-26 (2-JUL-2020+) *END* -->
       <pattern>
           <token regexp='yes'>&pronomes_retos;</token>
           <token regexp='yes'>[ao]s?</token>
