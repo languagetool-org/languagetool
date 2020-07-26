@@ -357,6 +357,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("g-mail", Arrays.asList("Gmail"));
     s.put("playstation", Arrays.asList("PlayStation"));
     s.put("wix", Arrays.asList("Wix"));
+    s.put("nazi", Arrays.asList("Nazi"));
+    s.put("nazis", Arrays.asList("Nazis"));
     return s;
   }
 
@@ -655,6 +657,11 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("specicities", Arrays.asList("specificities"));
     s.put("Specifities", Arrays.asList("Specificities"));
     s.put("Specicities", Arrays.asList("Specificities"));
+    s.put("Neonazi", Arrays.asList("Neo-Nazi"));
+    s.put("Neonazis", Arrays.asList("Neo-Nazis"));
+    s.put("neonazi", Arrays.asList("neo-Nazi"));
+    s.put("neonazis", Arrays.asList("neo-Nazis"));
+
     return s;
   }
 
