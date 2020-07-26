@@ -22372,6 +22372,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Castella i Lleó"><marker>Castella-Lleó</marker></example>
             </rule>
         </rulegroup>
+        <rulegroup id="SEPARAT" name="paraules que cal separar" default="temp_off">
+            <!-- if added to spelling rule, we could make suggestions for the word -->
+            <antipattern>
+                <token/>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">[a-z]{3,4}</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="UNKNOWN" regexp="yes">[\d\.,ºª]+\p{L}{3,25}<exception regexp="yes">\d+(hrs|grs)</exception><exception case_sensitive="yes" regexp="yes">\d+[A-Z]+</exception></token>
+                </pattern>
+                <message>Probablement hi falta un espai.</message>
+                <suggestion><match no="1" regexp_match="(?iu)([\d\.,ºª]+)(\p{L}{3,})" regexp_replace="$1 $2"/></suggestion>
+                <example correction="2000 euros">Són <marker>2000euros</marker>.</example>
+                <example correction="5000 habitants">És un poble de <marker>5000habitants</marker>.</example>
+                <example correction="4º ESO">Estudiava <marker>4ºESO</marker>.</example>
+                <example>A les 5hrs</example>
+                <example>Fa 5cm.</example>
+                <example>360crbrokers.com</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">©[\d]+</token>
+                </pattern>
+                <message>Probablement hi falta un espai.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(©)(\d+)" regexp_replace="$1 $2"/></suggestion>
+                <example correction="© 2020"><marker>©2020</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MOTS_NO_SEPARATS" name="mots no separats: *súper heroi/*súper-heroi/superheroi">
             <rule>
                 <pattern>
