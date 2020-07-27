@@ -54839,16 +54839,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <!--
     <category id="PUNCTUATION" name="puntuació" type="grammar">
         <rulegroup id="PER_FAVOR" name="per favor(,)" default="temp_off">
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token min="0" max="2" postag="_PUNCT"/>
+                    <token min="0" max="2" postag="_PUNCT.*" postag_regexp="yes"/>
                     <marker>
                         <token>per</token>
-                        <token regexp="yes">favor|cierto</token>
+                        <token regexp="yes">favor|cert</token>
                     </marker>
                     <token postag="V.M.*|RN" postag_regexp="yes"/>
                 </pattern>
@@ -54857,12 +54856,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Per favor,">¡<marker>Per favor</marker> vés-te'n ara mateix!</example>
                 <example correction="Per favor,"><marker>Per favor</marker> introduïu la contrasenya.</example>
                 <example correction="Per favor,">¡<marker>Per favor</marker> no te'n vagis ara!</example>
-                <example correction="Per favor,"><marker>Per favor</marker> no doneu a ningú aquesta contrasenya.</example>
+                <example correction="Per cert,"><marker>Per cert</marker> no doneu a ningú aquesta contrasenya.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token min="0" max="2" postag="_PUNCT"/>
+                    <token min="0" max="2" postag="_PUNCT.*" postag_regexp="yes"/>
                     <marker>
                         <token>si</token>
                         <token regexp="yes">us|et|li|els</token>
@@ -54879,5 +54878,4 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    -->
 </rules>
