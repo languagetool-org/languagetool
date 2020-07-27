@@ -661,6 +661,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Neonazis", Arrays.asList("Neo-Nazis"));
     s.put("neonazi", Arrays.asList("neo-Nazi"));
     s.put("neonazis", Arrays.asList("neo-Nazis"));
+    s.put("fiveteen", Arrays.asList("fifteen"));
+    s.put("Fiveteen", Arrays.asList("Fifteen"));
 
     return s;
   }
