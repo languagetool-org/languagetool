@@ -1180,21 +1180,79 @@ title="Easy editing stylesheet" ?>
       <example correction="Não tenhas"><marker>Tu não tenhas</marker> atenção, não…</example>
       <example correction="dizes">“O teu carro é maneiro.” — <marker>tu dizes</marker>.</example>
     </rule>
-    <rule>
-      <pattern>
-          <token regexp='yes'>vocês?</token>
-          <token postag="R.+" postag_regexp='yes' min='0' max='2'/>
-          <token postag="V...3.+" postag_regexp='yes'>
-            <exception postag="VMN0000"/></token>
-      </pattern>
-      <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/></suggestion>
-      <short>Tratamento inapropriado</short>
-      <example correction="Tenha"><marker>Você tenha</marker> mais atenção ao promenor.</example>
-      <example correction="Não tenha"><marker>Você não tenha</marker> atenção, não…</example>
-      <example correction="diz">“O teu carro é maneiro.” — <marker>você diz</marker>.</example>
-      <example>Encontrei o seu casaco depois de você ter saído da casa.</example>
-    </rule>
+<!-- JAUME + MARCOAGPINTO 2020-07-27 (2-JUL-2020+) Improved *START* -->
+<rule>
+          <pattern>
+              <token regexp='yes' case_sensitive="yes">vocês?</token>             
+              <token postag="V...3.+" postag_regexp='yes'>
+                  <exception postag="VMN0000"/></token>
+          </pattern>
+          <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
+          <suggestion><match no='2' include_skipped='all'/></suggestion>
+          <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0M$10">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCM$1000">senhor</match> <match no='2'/></suggestion>
+          <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0F$10">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCF$1000">senhor</match> <match no='2'/></suggestion>
+          <short>Tratamento inapropriado</short>
+          <example correction="diz|o senhor diz|a senhora diz">“O teu carro é maneiro.” — <marker>você diz</marker>.</example>
+          <example correction="dizem|os senhores dizem|as senhoras dizem">“O teu carro é maneiro.” — <marker>vocês dizem</marker>.</example>
+          <example>Espero que tenha um bom dia.</example>
+          <example>Encontrei o seu casaco depois de o senhor ter saído da casa.</example>
+      </rule>
+      <rule>
+          <pattern>
+              <token regexp='yes' case_sensitive="yes">Vocês?</token>
+              <token postag="V...3.+" postag_regexp='yes'>
+                  <exception postag="VMN0000"/></token>
+          </pattern>
+          <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
+          <suggestion><match no='2' regexp_match="^(.*)$" regexp_replace="$1" include_skipped='all' case_conversion="startupper"/></suggestion>
+          <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0M$10" case_conversion="startupper">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCM$1000">senhor</match> <match no='2'/></suggestion>
+          <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0F$10" case_conversion="startupper">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCF$1000">senhor</match> <match no='2'/></suggestion>
+          <short>Tratamento inapropriado</short>
+          <example correction="Tenha|O senhor tenha|A senhora tenha"><marker>Você tenha</marker> mais atenção ao promenor.</example>
+          <example correction="Tenham|Os senhores tenham|As senhoras tenham"><marker>Vocês tenham</marker> mais atenção ao promenor.</example>
+          <example>Espero que tenha um bom dia.</example>
+          <example>Encontrei o seu casaco depois de o senhor ter saído da casa.</example>
+      </rule>
+      
+      <rule>
+          <pattern>
+              <marker>
+                <token regexp='yes' case_sensitive="yes">vocês?</token>
+                <token postag="R.+" postag_regexp='yes' min="1" max="2"/>
+              </marker>
+              <token postag="V...3.+" postag_regexp='yes'>
+                  <exception postag="VMN0000"/></token>
+          </pattern>
+          <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
+          <suggestion><match no='2' include_skipped='all'/></suggestion>
+          <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0M$10">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCM$1000">senhor</match> <match no='2'/></suggestion>
+          <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0F$10">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCF$1000">senhor</match> <match no='2'/></suggestion>
+          <short>Tratamento inapropriado</short>
+          <example correction="sempre|o senhor sempre|a senhora sempre">“O teu carro é maneiro.” — <marker>você sempre</marker> diz.</example>
+          <example correction="sempre|os senhores sempre|as senhoras sempre">“O teu carro é maneiro.” — <marker>vocês sempre</marker> dizem.</example>
+          <example>Espero que tenha um bom dia.</example>
+          <example>Encontrei o seu casaco depois de o senhor ter saído da casa.</example>
+      </rule>
+      <rule>
+          <pattern>
+              <marker>
+                <token regexp='yes' case_sensitive="yes">Vocês?</token>
+                <token postag="R.+" postag_regexp='yes' min="1" max="2"/>
+              </marker>
+              <token postag="V...3.+" postag_regexp='yes'>
+                  <exception postag="VMN0000"/></token>
+          </pattern>
+          <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
+          <suggestion><match no='2' regexp_match="^(.*)$" regexp_replace="$1" include_skipped='all' case_conversion="startupper"/></suggestion>
+          <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0M$10" case_conversion="startupper">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCM$1000">senhor</match> <match no='2' include_skipped='all'/></suggestion>
+          <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0F$10" case_conversion="startupper">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCF$1000">senhor</match> <match no='2' include_skipped='all'/></suggestion>
+          <short>Tratamento inapropriado</short>
+          <example correction="Não|O senhor não|A senhora não"><marker>Você não</marker> tenha atenção, não…</example>
+          <example correction="Não|Os senhores não|As senhoras não"><marker>Vocês não</marker> tenham atenção, não…</example>
+          <example>Espero que tenha um bom dia.</example>
+          <example>Encontrei o seu casaco depois de o senhor ter saído da casa.</example>
+      </rule>
+<!-- JAUME + MARCOAGPINTO 2020-07-27 (2-JUL-2020+) Improved *END* -->
     <rule>
       <pattern>
           <token postag="V.+" postag_regexp='yes'/>
