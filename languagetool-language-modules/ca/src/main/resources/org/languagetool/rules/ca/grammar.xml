@@ -83,7 +83,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY sigles_apostrofen "(?-i)MI5|MI6|FM|FP|FBI|FMI|IEC|IES|IEA|NBA|NBC|SPD|FTP|F1|IAE|LSD|FDP|FMLN|IPC|IRA|IRPF|NPD|SME|SMI|SPLA|Spartak?|XML|UNICEF">
     <!ENTITY sigles_no_apostrofen "(?-i)SGAE|FNAC|ITV|Scala">
     <!ENTITY apostrofen_ela "Sporting|statu|scherzos?|ftalats?|snacks?|Stradivarius">
-    <!ENTITY unitats "aC|dC|AM|PM|MB|GB|TB|mm|cm|dm|m|km|d|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|K|pts|ptes|[£€$]|(mm|cm|dm|m|km)[23²³]">
+    <!ENTITY unitats "cc|aC|dC|AM|PM|MB|GB|TB|mm|cm|dm|m|km|d|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|K|pts|ptes|[£€$]|(mm|cm|dm|m|km)[23²³]">
     <!ENTITY unitats_SI "(da|h|k|M|G|T|P|E|Z|Y|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|cd|mol|Hz|N|Pa|J|W|Wh|C|V|Ω|S|F|T|Wb|H|rad|sr|lm|lx|Bq|Gy|Sv|kat|l|L)[²³23]?">
     <!ENTITY unitats_temps "segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|decenni|segle|mil·lenni|mil·lenari">
     <!ENTITY verbs_no_apostrofen "halar|ioditzar|iotitzar|iodurar|iodar|hackejar">
@@ -22373,7 +22373,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Castella i Lleó"><marker>Castella-Lleó</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="SEPARAT" name="paraules que cal separar" default="temp_off">
+        <rulegroup id="SEPARAT" name="paraules que cal separar">
             <!-- if added to spelling rule, we could make suggestions for the word -->
             <antipattern>
                 <token/>
@@ -22382,7 +22382,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token postag="UNKNOWN" regexp="yes">[\d\.,ºª]+\p{L}{3,25}<exception regexp="yes">\d+(hrs|grs)</exception><exception case_sensitive="yes" regexp="yes">\d+[A-Z]+</exception></token>
+                    <token postag="UNKNOWN" regexp="yes">[\d\.,ºª]+\p{L}{3,25}<exception regexp="yes">\d+(hrs|grs)</exception><exception case_sensitive="yes" regexp="yes">\d+[A-Z]+</exception><exception regexp="yes">0x..</exception></token>
                 </pattern>
                 <message>Probablement hi falta un espai.</message>
                 <suggestion><match no="1" regexp_match="(?iu)([\d\.,ºª]+)(\p{L}{3,})" regexp_replace="$1 $2"/></suggestion>
@@ -22392,6 +22392,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>A les 5hrs</example>
                 <example>Fa 5cm.</example>
                 <example>360crbrokers.com</example>
+                <example>32 caràcters usuals a 0xe0–0xff</example>
             </rule>
             <rule>
                 <pattern>
@@ -30450,6 +30451,58 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Arribarà a les 15.30 h.</example>
                 <example>Hi vivien 500 h. de diferents nacionalitats.</example>
                 <!-- <example>Hi vivien 15 h. Eren de diferents nacionalitats.</example>  It doesn't pass test because it needs sentence tokenization (?) -->
+            </rule>
+            <rule>
+                <pattern>
+                    <token>hrs</token>
+                    <token>.<exception postag="SENT_END"/></token>
+                </pattern>
+                <message>Per a indicar 'hores' s'utilitza el símbolo h, en minúscula i sense punt.</message>
+                <suggestion>h</suggestion>
+                <example correction="h">A les 5 <marker>hrs.</marker> de diumenge.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>hrs</token>
+                </pattern>
+                <message>Per a indicar 'hores' s'utilitza el símbolo h, en minúscula i sense punt.</message>
+                <suggestion>h</suggestion>
+                <example correction="h">A les 5 <marker>hrs</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+(hrs|hr|hs)</token>
+                    <token>.<exception postag="SENT_END"/></token>
+                </pattern>
+                <message>Per a indicar 'hores' s'utilitza el símbolo h, en minúscula i sense punt.</message>
+                <suggestion><match no="1" regexp_match="(\d+)h.*" regexp_replace="$1 h"/></suggestion>
+                <example correction="5 h">A les <marker>5hrs.</marker> del diumenge.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+(hrs|hr|hs)</token>
+                </pattern>
+                <message>Per a indicar 'hores' s'utilitza el símbolo h, en minúscula i sense punt.</message>
+                <suggestion><match no="1" regexp_match="(\d+)h.*" regexp_replace="$1 h"/></suggestion>
+                <example correction="5 h">A les <marker>5hs</marker>.</example>
+                <example correction="48 h">Al cap de <marker>48hrs</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+(grs|gr)</token>
+                    <token>.<exception postag="SENT_END"/></token>
+                </pattern>
+                <message>Per a indicar 'grams' s'utilitza el símbol g.</message>
+                <suggestion><match no="1" regexp_match="(\d+)g.*" regexp_replace="$1 g"/></suggestion>
+                <example correction="5 g">Pesa <marker>5grs.</marker> de més.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+(grs|gr)</token>
+                </pattern>
+                <message>Per a indicar 'grams' s'utilitza el símbol g.</message>
+                <suggestion><match no="1" regexp_match="(\d+)g.*" regexp_replace="$1 g"/></suggestion>
+                <example correction="5 g">Pesa <marker>5grs</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="PUNT_FINAL" name="falta el punt final en frases llargues">

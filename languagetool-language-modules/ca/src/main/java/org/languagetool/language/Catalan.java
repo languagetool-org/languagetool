@@ -153,6 +153,7 @@ public class Catalan extends Language {
       case "CONFUSIONS_ACCENT": return 20;
       case "DIACRITICS": return 20;
       case "PASSAT_PERIFRASTIC": return 20;
+      case "ORDINALS": return 20; // greater than SEPARAT
       case "ACCENTUATION_CHECK": return 10;
       case "HAVER_SENSE_HAC": return 10;
       case "CONCORDANCES_DET_NOM": return 5;
