@@ -386,20 +386,11 @@
     <rulegroup id="PP_D_V" name="Pronome + Pronome + Verbo">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-15  -->
         <antipattern>
-            <token postag="DA0MS0"/>
-            <token postag="NCMS000|AQ0[MC]S0" postag_regexp="yes"/>
-        </antipattern>
-        <antipattern>
-            <token postag="DA0FS0"/>
-            <token postag="NCFS000|AQ0[FC]S0" postag_regexp="yes"/>
-        </antipattern>
-        <antipattern>
-            <token postag="DA0MP0"/>
-            <token postag="NCMP000|AQ0[MC]P0" postag_regexp="yes"/>
-        </antipattern>
-        <antipattern>
-            <token postag="DA0FP0"/>
-            <token postag="NCFP000|AQ0[FC]P0" postag_regexp="yes"/>
+            <token regexp='yes'>em|entre|por</token>
+            <token regexp='yes'>&pronomes_retos;|mim|ti|si</token>
+            <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|[ao]s?|[nv]os</token>
+            <token postag='V.+|AQ0[CFM][SP]0|NC[CFM][SP]000|NP[CFM][SP][0GS]00' postag_regexp='yes'/>
+            <token negate="yes" regexp='yes'>nas?|nos?|em|pelos?|pelas?|como|tal|tais</token>
         </antipattern>
       <rule>
         <pattern>
