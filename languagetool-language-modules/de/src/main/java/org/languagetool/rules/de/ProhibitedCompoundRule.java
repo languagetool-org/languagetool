@@ -187,7 +187,9 @@ public class ProhibitedCompoundRule extends Rule {
           "Wettprogramm", // vs Welt
           "Wettprogramme", // vs Welt
           "Zählerwechsel",
-          "Zählerwechsels"
+          "Zählerwechsels",
+          "Verhandlungskreise",
+          "Verhandlungskreisen"
   ));
 
   // have per-class static list of these and reference that in instance
