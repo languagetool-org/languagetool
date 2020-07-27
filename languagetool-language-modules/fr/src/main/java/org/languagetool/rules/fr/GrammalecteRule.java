@@ -27,13 +27,11 @@ import org.languagetool.rules.RuleMatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.net.ssl.SSLHandshakeException;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -147,13 +145,6 @@ public class GrammalecteRule extends Rule {
       InputStream input = huc.getInputStream();
       List<RuleMatch> ruleMatches = parseJson(input);
       return toRuleMatchArray(ruleMatches);
-    } catch (SSLHandshakeException | SocketTimeoutException e) {
-      // "hard" errors that will probably not resolve themselves easily:
-      lastRequestError = System.currentTimeMillis();
-      // still fail silently, better to return partial results than an error
-      //throw e;
-      logger.warn("Warn: Failed to query Grammalecte server at " + serverUrl + ": " + e.getClass() + ": " + e.getMessage());
-      e.printStackTrace();
     } catch (Exception e) {
       lastRequestError = System.currentTimeMillis();
       // These are issue that can be request-specific, like wrong parameters. We don't throw an
@@ -206,7 +197,7 @@ public class GrammalecteRule extends Rule {
     return remoteMatches;
   }
 
-  class GrammalecteInternalRule extends Rule {
+  static class GrammalecteInternalRule extends Rule {
     private String id;
     private String desc;
 
