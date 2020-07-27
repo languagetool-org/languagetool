@@ -10560,6 +10560,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="zugutekommen">Sollten wir ihm etwas <marker>zugute kommen</marker> lassen?</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ZU_LASSEN" name="zulassen (zu lassen)">
+            <rule>
+                <pattern>
+                    <token postag="VER.+" postag_regexp="yes"/>
+                    <marker>
+                        <token>zulassen</token>
+                    </marker>
+                    <token>.</token>
+                </pattern>
+                <message>Fehlt hier ein Leerzeichen vor 'zu': <suggestion>zu lassen</suggestion>?</message>
+                <example correction="zu lassen">Es ist besser, das sein <marker>zulassen</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="ADDIS_ABEBA" name="Addis-Abeba (Addis Abeba)">
             <regexp case_sensitive='yes'>Addis-Abeba</regexp>
             <message>Die Hauptstadt von Äthiopien wird ohne Bindestrich geschrieben</message>
