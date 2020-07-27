@@ -234,9 +234,9 @@
             <example type="untouched">Not good style (use a digit 33). This thirty-three-year-old wine is good.</example>
             <example type="untouched">NN. The average 2-year-old should be able to do this.</example>
             <example type="untouched">NN. The average 7-year-old can do this easily.</example>
-            <example type="ambiguous" inputform="10-year-old[10-year-old]" outputform="10-year-old[10-year-old/JJ]">At this age, <marker>10-year-old</marker> children can...</example>
+            <example type="ambiguous" inputform="10-year-old[10-year-old/NN]" outputform="10-year-old[10-year-old/JJ,10-year-old/NN]">At this age, <marker>10-year-old</marker> children can...</example>
             <example type="ambiguous" inputform="x-month-old[x-month-old]" outputform="x-month-old[x-month-old/JJ]">The average <marker>x-month-old</marker> child can... where is is between 9 and 13.</example>
-            <example type="ambiguous" inputform="seven-year-old[seven-year-old]" outputform="seven-year-old[seven-year-old/JJ]">The average <marker>seven-year-old</marker> can is rusty.</example>
+            <example type="ambiguous" inputform="seven-year-old[seven-year-old/NN]" outputform="seven-year-old[seven-year-old/JJ,seven-year-old/NN]">The average <marker>seven-year-old</marker> can is rusty.</example>
         </rule>
         <rule><!-- singular noun -->
             <antipattern>
@@ -255,9 +255,8 @@
             <disambig action="add"><wd pos="NN"/></disambig>
             <example type="untouched">JJ. This 10-year-old child is a prodigy.</example>
             <example type="untouched">JJ. This 10-year-old can is rusty.</example>
-            <example type="ambiguous" inputform="10-year-old[10-year-old]" outputform="10-year-old[10-year-old/NN]">This <marker>10-year-old</marker> is a remarkable child.</example>
             <example type="ambiguous" inputform="x-year-old[x-year-old]" outputform="x-year-old[x-year-old/NN]">The average <marker>x-year-old</marker> can usually do this (where is is between 9 and 13).</example>
-            <example type="ambiguous" inputform="nineteen-year-old[nineteen-year-old]" outputform="nineteen-year-old[nineteen-year-old/NN]">What future is there for this disadvantaged <marker>nineteen-year-old</marker>'s child?</example>
+            <example type="ambiguous" inputform="nineteen-month-old[nineteen-month-old]" outputform="nineteen-month-old[nineteen-month-old/NN]">What future is there for this disadvantaged <marker>nineteen-month-old</marker>'s child?</example>
         </rule>
         <rule><!-- plural noun -->
             <antipattern>
@@ -273,7 +272,6 @@
             <example type="untouched">Incorrect grammar. These 30-year-olds wines are very good.</example>
             <example type="untouched">Incorrect grammar. Those 2-year-olds wine is also good.</example>
             <example type="untouched">Not good style (use a digit 33). These thirty-three-year-olds were all born in the USA.</example>
-            <example type="ambiguous" inputform="10-year-olds[10-year-olds]" outputform="10-year-olds[10-year-olds/NNS]">At this age, <marker>10-year-olds</marker> are able to think more abstractly and have a good command of reading and writing.</example>
             <example type="ambiguous" inputform="x-year-olds[x-year-olds]" outputform="x-year-olds[x-year-olds/NNS]">Let px be the proportion of <marker>x-year-olds</marker> who have some fixed attribute such as the season of birth.</example>
         </rule>
     </rulegroup>
@@ -1120,7 +1118,7 @@
         <example type="untouched">... but can <marker>oil</marker> be used instead of water?</example>
         <example type="untouched">Modal: ... and the can <marker>will</marker> be used repeatedly.</example>
         <example type="untouched">Please move your May bill to June.</example><!-- #3283 -->
-      <example type="ambiguous" inputform="open[open/JJ,open/NN:U,open/RP,open/VB,open/VBP]" outputform="open[open/VB]">You can <marker>open</marker> your books now.</example>
+      <example type="ambiguous" inputform="open[open/JJ,open/NN:U,open/VB,open/VBP]" outputform="open[open/VB]">You can <marker>open</marker> your books now.</example>
     </rule>
 
     <rule name="be + to + verb/... -&gt;be + to + verb" id="BE_TO_VB">
@@ -1820,7 +1818,6 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <antipattern>
         <token regexp="yes">I|you|we|they|he|s?he|it</token>
         <token>can</token>
-        <token chunk="B-VP">will</token>
       </antipattern>
       <pattern>
         <marker>
@@ -1831,6 +1828,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <disambig postag="NN"/>
       <example type="untouched">You <marker>can</marker> be happy without money.</example>
       <example type="untouched">MD ... but in any given moment of your life you <marker>can</marker> will only one definite thing and absolutely nothing...</example>
+      <example type="untouched">Doing all that you can is good enough.</example>
       <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> is dirty.</example>
       <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> was not dirty.</example>
       <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">This <marker>can</marker> will be used to demonstrate problem.</example>
