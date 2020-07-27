@@ -111,8 +111,10 @@ public class InterrogativeVerbFilter extends RuleFilter {
           List<AnalyzedTokenReadings> analyzedSuggestions = tagger.tag(suggestions);
           for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
             if (analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {
-              if (!replacements.contains(analyzedSuggestion.getToken() + atrPronoun.getToken())) {
-                replacements.add(analyzedSuggestion.getToken() + atrPronoun.getToken());
+              String completeSuggestion = analyzedSuggestion.getToken() + atrPronoun.getToken();
+              if (!replacements.contains(completeSuggestion) 
+                  && !completeSuggestion.endsWith("e-je")) { // exclude trompe-je
+                replacements.add(completeSuggestion);
               }
             }
           }
