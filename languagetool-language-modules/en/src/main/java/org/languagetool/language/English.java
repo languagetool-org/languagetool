@@ -345,6 +345,8 @@ public class English extends Language implements AutoCloseable {
       case "VBZ_VBD":                   return -1;  // prefer other more specific rules (e.g. IS_WAS)
       case "SUPERLATIVE_THAN":          return -1;  // prefer other more specific rules
       case "UNLIKELY_OPENING_PUNCTUATION": return -1; // prefer other more specific rules
+      case "METRIC_UNITS_EN_IMPERIAL":  return -1;  // prefer MILE_HYPHEN
+      case "METRIC_UNITS_EN_GB":        return -1;  // prefer MILE_HYPHEN
       case "PRP_RB_NO_VB":              return -2;  // prefer other more specific rules (with suggestions)
       case "PRP_VBG":                   return -2;  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
       case "PRP_VBZ":                   return -2;  // prefer other more specific rules (with suggestions)
