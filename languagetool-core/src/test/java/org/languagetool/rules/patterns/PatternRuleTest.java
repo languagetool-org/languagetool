@@ -508,21 +508,21 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       if (expectedNonEmptyCorrection) {
         if (!(rule.getMessage().contains("<suggestion>") || rule.getSuggestionsOutMsg().contains("<suggestion>")) && rule.getFilter() == null) {
           ruleErrors.addError(new PatternRuleTestFailure(rule,
-          "You specified a correction but your message has no suggestions."));
+          "You specified a correction, but your message has no suggestions."));
         }
       }
       List<String> realSuggestions = matches.get(0).getSuggestedReplacements();
       if (realSuggestions.isEmpty()) {
         boolean expectedEmptyCorrection = expectedCorrections.size() == 1 && expectedCorrections.get(0).length() == 0;
         if (!expectedEmptyCorrection) {
-          ruleErrors.addError(new PatternRuleTestFailure(rule, "Incorrect suggestions: "
-            + expectedCorrections + " != " + " <no suggestion> on input: " + sentence));
+          ruleErrors.addError(new PatternRuleTestFailure(rule, "Incorrect suggestions: Expected '"
+            + expectedCorrections + "', got  " + " <no suggestion> on input: '" + sentence + "'"));
         }
       } else {
         if (!expectedCorrections.equals(realSuggestions)) {
           ruleErrors.addError(new PatternRuleTestFailure(rule,
-            "Incorrect suggestions: " + String.join("|", expectedCorrections) + " != "
-              + String.join("|", realSuggestions) + " on input: " + sentence));
+            "Incorrect suggestions: Expected '" + String.join("|", expectedCorrections) + "', got: '"
+              + String.join("|", realSuggestions) + "' on input: '" + sentence + "'"));
         }
       }
     }
