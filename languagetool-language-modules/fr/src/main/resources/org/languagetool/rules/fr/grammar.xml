@@ -8809,6 +8809,21 @@ though, and has since been slightly modified)-->
         <example correction="trois fois par semaine">Je joue au Softball <marker>trois fois au semaine</marker>.</example>
       </rule>
       <!-- End of additions -->
+      <rule id="COMME_ME_LE_DIRE" name="comme me le dire accord" default="temp_off">
+          <pattern>
+              <token>comme</token>
+              <token>me</token>
+              <token>le</token>
+              <marker>
+                  <token postag="V ind.*" postag_regexp="yes" inflected="yes">
+                      dire
+                      <exception postag=".*3 s" postag_regexp="yes"/>
+                  </token>
+              </marker>
+          </pattern>
+          <message>L'accord avec le sujet semble incorrect. Vouliez-vous dire <suggestion><match no="4" postag_regexp="yes" postag="(V ind.*)[123] [sp]" postag_replace="$13 s"/></suggestion> ?</message>
+          <example correction="disait">Comme me le <marker>disais</marker> Michelle.</example>
+      </rule>
       <rulegroup id="NOMBRE_MONDIAL" name="Nombre suivi de mondial, régional, local" default="temp_off">
           <rule>
               <antipattern>
@@ -8835,7 +8850,7 @@ though, and has since been slightly modified)-->
                   </marker>
                   <token regexp="yes">mondial|régional|local</token>
               </pattern>
-              <message>Omission possible. Vouliez-vous dire <suggestion>\2ᵉ</suggestion> <suggestion>numéro \2</suggestion>?</message>
+              <message>Omission possible. Vouliez-vous dire <suggestion>\2er</suggestion> <suggestion>numéro \2</suggestion>?</message>
               <example correction="1er|numéro 1">Elle s'est ainsi classée <marker>1</marker> mondial.</example>
           </rule>
       </rulegroup>
