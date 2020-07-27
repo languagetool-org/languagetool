@@ -21,12 +21,10 @@ package org.languagetool.rules.fr;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -35,7 +33,6 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.language.French;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.synthesis.FrenchSynthesizer;
 import org.languagetool.tagging.fr.FrenchTagger;
 
 /*
@@ -47,7 +44,7 @@ public class InterrogativeVerbFilter extends RuleFilter {
 
   // private static final Pattern PronounSubject = Pattern.compile("R pers suj
   // ([123] [sp])");
-  private static final FrenchSynthesizer synth = new FrenchSynthesizer(new French());
+  //private static final FrenchSynthesizer synth = new FrenchSynthesizer(new French());
   private static final FrenchTagger tagger = new FrenchTagger();
 
   private MorfologikFrenchSpellerRule morfologikRule;
@@ -62,7 +59,7 @@ public class InterrogativeVerbFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
 
-    Set<String> replacements = new HashSet<>();
+    List<String> replacements = new ArrayList<>();
     String pronounFrom = getRequired("PronounFrom", arguments);
     String verbFrom = getRequired("VerbFrom", arguments);
     String desiredPostag = null;
@@ -79,7 +76,7 @@ public class InterrogativeVerbFilter extends RuleFilter {
             "ConfusionCheckFilter: Index out of bounds in " + match.getRule().getFullId() + ", VerbFrom: " + posVerb);
       }
 
-      AnalyzedTokenReadings atrVerb = patternTokens[posVerb - 1];
+      //AnalyzedTokenReadings atrVerb = patternTokens[posVerb - 1];
       AnalyzedTokenReadings atrPronoun = patternTokens[posPronoun - 1];
       if (atrPronoun.matchesPosTagRegex(".* 1 s")) {
         desiredPostag = "V .*(ind|cond).* 1 s";
@@ -100,39 +97,26 @@ public class InterrogativeVerbFilter extends RuleFilter {
         desiredPostag = "V .*(ind|cond).* 3 p";
       }
       if (desiredPostag != null) {
-        if (atrVerb.matchesPosTagRegex("V .*")) {
-          for (AnalyzedToken at : atrVerb) {
-            if (at.getPOSTag().startsWith("V ")) {
-              String synthesized[] = synth.synthesize(at, desiredPostag, true);
-              if (synthesized != null) {
-                for (String s : synthesized) {
-                  replacements.add(s + atrPronoun.getToken());
-                }
-              }
-            }
-          }
+        AnalyzedTokenReadings[] auxPatternTokens = new AnalyzedTokenReadings[1];
+        if (patternTokens[posVerb - 1].isTagged()) {
+          auxPatternTokens[0] = new AnalyzedTokenReadings(
+              new AnalyzedToken(makeWrong(patternTokens[posVerb - 1].getToken()), null, null));
         } else {
-          // if there isn't a verb try to find one with the speller
-          AnalyzedTokenReadings[] auxPatternTokens = new AnalyzedTokenReadings[1];
-          if (patternTokens[posVerb - 1].isTagged()) {
-            auxPatternTokens[0] = new AnalyzedTokenReadings(
-                new AnalyzedToken(makeWrong(patternTokens[posVerb - 1].getToken()), null, null));
-          } else {
-            auxPatternTokens[0] = patternTokens[posVerb - 1];
-          }
-          AnalyzedSentence sentence = new AnalyzedSentence(auxPatternTokens);
-          RuleMatch[] matches = morfologikRule.match(sentence);
-          if (matches.length > 0) {
-            List<String> suggestions = matches[0].getSuggestedReplacements();
-            List<AnalyzedTokenReadings> analyzedSuggestions = tagger.tag(suggestions);
-            for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
-              if (analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {
+          auxPatternTokens[0] = patternTokens[posVerb - 1];
+        }
+        AnalyzedSentence sentence = new AnalyzedSentence(auxPatternTokens);
+        RuleMatch[] matches = morfologikRule.match(sentence);
+        if (matches.length > 0) {
+          List<String> suggestions = matches[0].getSuggestedReplacements();
+          List<AnalyzedTokenReadings> analyzedSuggestions = tagger.tag(suggestions);
+          for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
+            if (analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {
+              if (!replacements.contains(analyzedSuggestion.getToken() + atrPronoun.getToken())) {
                 replacements.add(analyzedSuggestion.getToken() + atrPronoun.getToken());
               }
             }
           }
         }
-
       }
     }
     String message = match.getMessage();
@@ -140,7 +124,7 @@ public class InterrogativeVerbFilter extends RuleFilter {
         message, match.getShortMessage());
     ruleMatch.setType(match.getType());
     if (!replacements.isEmpty()) {
-      ruleMatch.setSuggestedReplacements(new ArrayList<String>(replacements));
+      ruleMatch.setSuggestedReplacements(replacements);
     }
     return ruleMatch;
   }
@@ -150,48 +134,20 @@ public class InterrogativeVerbFilter extends RuleFilter {
    * suggestions from the speller when the original word is a correct word.
    */
   private String makeWrong(String s) {
-    if (s.contains("a")) {
-      return s.replace("a", "ä");
-    }
-    if (s.contains("e")) {
-      return s.replace("e", "ë");
-    }
-    if (s.contains("i")) {
-      return s.replace("i", "í");
-    }
-    if (s.contains("o")) {
-      return s.replace("o", "ö");
-    }
-    if (s.contains("u")) {
-      return s.replace("u", "ü");
-    }
-    if (s.contains("é")) {
-      return s.replace("é", "ë");
-    }
-    if (s.contains("à")) {
-      return s.replace("à", "ä");
-    }
-    if (s.contains("è")) {
-      return s.replace("è", "ë");
-    }
-    if (s.contains("ù")) {
-      return s.replace("ù", "ü");
-    }
-    if (s.contains("â")) {
-      return s.replace("â", "ä");
-    }
-    if (s.contains("ê")) {
-      return s.replace("ê", "ë");
-    }
-    if (s.contains("î")) {
-      return s.replace("î", "ï");
-    }
-    if (s.contains("ô")) {
-      return s.replace("ô", "ö");
-    }
-    if (s.contains("û")) {
-      return s.replace("û", "ü");
-    }
+    if (s.contains("a")) {return s.replace("a", "ä");}
+    if (s.contains("e")) {return s.replace("e", "ë");}
+    if (s.contains("i")) {return s.replace("i", "í");}
+    if (s.contains("o")) {return s.replace("o", "ö");}
+    if (s.contains("u")) {return s.replace("u", "ü");}
+    if (s.contains("é")) {return s.replace("é", "ë");}
+    if (s.contains("à")) {return s.replace("à", "ä");}
+    if (s.contains("è")) {return s.replace("è", "ë");}
+    if (s.contains("ù")) {return s.replace("ù", "ü");}
+    if (s.contains("â")) {return s.replace("â", "ä");}
+    if (s.contains("ê")) {return s.replace("ê", "ë");}
+    if (s.contains("î")) {return s.replace("î", "ï");}
+    if (s.contains("ô")) {return s.replace("ô", "ö");}
+    if (s.contains("û")) {return s.replace("û", "ü");}
     return s + "-";
   }
 }
