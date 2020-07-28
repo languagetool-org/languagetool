@@ -4914,7 +4914,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="это, собственно говоря">Да и <marker>это собственно говоря</marker>, пустяки.</example>
             </rule>
         </rulegroup>
-        
+               <rulegroup  id="Punct_nado_polagat" name="Вводное выражение «надо полагать»">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>надо</token>
+                        <token>полагать</token>
+                        <token><exception regexp="yes">&pnct;</exception></token>  
+                    </marker>
+                </pattern>
+                <message>Запятая нужна: <suggestion><match no="1"/> <match no="2" />, <match no="3"/></suggestion>.</message>
+                <short>Запятая</short>
+                <example>Да и это, надо полагать, пустяки.</example>
+                <example correction="надо полагать, пустяки">Да и это, <marker>надо полагать пустяки</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token><exception regexp="yes">&pnct;</exception><exception postag="SENT_START" /></token>
+                        <token>надо</token>
+                        <token>полагать</token>
+  
+                    </marker>
+                </pattern>
+                <message>Запятая нужна: <suggestion><match no="1"/>, <match no="2" /> <match no="3"/></suggestion>.</message>
+                <short>Запятая</short>
+                <example>Да и это, надо полагать, пустяки.</example>
+                <example correction="это, надо полагать">Да и <marker>это надо полагать</marker>, пустяки.</example>
+            </rule>
+        </rulegroup>
         
         <rulegroup  id="Punct_tochki_zrenija" name="Вводное выражение «с моей точки зрения»">
             <rule>
