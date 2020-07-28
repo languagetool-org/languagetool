@@ -83,6 +83,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         </rulegroup>
     -->
+
     <rulegroup id="BILSHE_WITH_TIME_NOUNS" name="Більш з числівниками та іменниками часу">
       <rule>
         <pattern>
@@ -614,7 +615,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         </rulegroup>
     -->
-    <rulegroup id="EUPHONY_CONJ_I_Y" name="Милозвучність">
+    <rulegroup id="EUPHONY_CONJ_I_Y" name="Милозвучність: і/й">
       <!-- TODO: і-/й- на початку слів лише для іти/йти, імовірність/ймовірність, імення/ймення, іменувати/йменуватися??? -->
 
       <!-- сполучники і/й -->
@@ -692,7 +693,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 
     <!-- сполучники зі/із/з -->
-    <rulegroup id="EUPHONY_PREP_Z_IZ_ZI" name="Милозвучність">
+    <rulegroup id="EUPHONY_PREP_Z_IZ_ZI" name="Милозвучність: з/зі/із">
       <rule>
         <pattern>
           <marker>
@@ -716,7 +717,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token regexp="yes">зі|із</token>
           </marker>
           <token regexp="yes">[^зсшщ].*
-            <exception regexp="yes">(мн|вс|ст).*|1[0-9][0-9](-[а-яіїєґ]{1,3})?</exception>
+            <exception regexp="yes">(мн|вс|ль[вн]).*|1[0-9][0-9](-[а-яіїєґ]{1,3})?</exception>
           </token>
         </pattern>
         <message>Після голосної та на початку речення перед приголосною (крім с, ш) вживаємо з: <suggestion>з</suggestion> \3</message>
@@ -724,8 +725,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="З"><marker>Із</marker> її приходом.</example>
         <example>3 її приходом</example>
         <example>Зі всієї.</example>
+        <example>Зі старшим.</example>
         <example>Зі мною.</example>
         <example>Зі 104 стрічками.</example>
+        <example>зі Львова</example>
       </rule>
       <!--
           <rule>
@@ -765,11 +768,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token regexp="yes">із|з</token>
           </marker>
-          <token regexp="yes">[зсшщ]ь?[ґйцкнгшщзхфвпрлджчсмтбqwrtpsdfghjklzxcvbnm].*|1[0-9][0-9](-[а-яіїєґ]{1,3})?
+          <token regexp="yes">[зсшщ]ь?[ґйцкнгшщзхфвпрлджчсмтбqwrtpsdfghjklzxcvbnm].*|ль[вн].*|1[0-9][0-9](-[а-яіїєґ]{1,3})?
             <exception regexp="yes">\p{Lu}\p{Lu}.*</exception>
           </token>
         </pattern>
-        <message>Перед сполученням приголосних із початковим свистячим або шиплячим пишемо зі: <suggestion>зі</suggestion> \2</message>
+        <message>Перед сполученням приголосних із початковим свистячим або шиплячим пишемо: <suggestion>зі</suggestion></message>
         <url>https://r2u.org.ua/pravopys/pravXXI/13.html</url>
         <example>Бере книжку зі стола.</example>
         <example>Висновок із цього.</example>
@@ -778,6 +781,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="зі">Бере книжку <marker>із</marker> стола.</example>
         <example correction="зі">Бере книжку <marker>з</marker> стола.</example>
         <example correction="Зі"><marker>З</marker> 104 інновацій.</example>
+        <example correction="зі"><marker>з</marker> Львова.</example>
       </rule>
     </rulegroup>
 
