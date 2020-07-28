@@ -209,7 +209,7 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("Карпати-2", "Карпати-2/[Карпати-2]noun:inanim:p:v_naz:ns:prop:geo|Карпати-2/[Карпати-2]noun:inanim:p:v_zna:ns:prop:geo", tokenizer, tagger);
     TestTools.myAssert("ТЕЦ-1", "ТЕЦ-1/[ТЕЦ-1]noun:inanim:f:v_dav:nv|ТЕЦ-1/[ТЕЦ-1]noun:inanim:f:v_mis:nv|ТЕЦ-1/[ТЕЦ-1]noun:inanim:f:v_naz:nv|ТЕЦ-1/[ТЕЦ-1]noun:inanim:f:v_oru:nv|ТЕЦ-1/[ТЕЦ-1]noun:inanim:f:v_rod:nv|ТЕЦ-1/[ТЕЦ-1]noun:inanim:f:v_zna:nv", tokenizer, tagger);
 
-    TestTools.myAssert("омега-3", "омега-3/[омега-3]noun:inanim:f:v_dav:nv|омега-3/[омега-3]noun:inanim:f:v_mis:nv|омега-3/[омега-3]noun:inanim:f:v_naz:nv|омега-3/[омега-3]noun:inanim:f:v_oru:nv|омега-3/[омега-3]noun:inanim:f:v_rod:nv|омега-3/[омега-3]noun:inanim:f:v_zna:nv|омега-3/[омега-3]noun:inanim:p:v_dav:nv|омега-3/[омега-3]noun:inanim:p:v_mis:nv|омега-3/[омега-3]noun:inanim:p:v_naz:nv|омега-3/[омега-3]noun:inanim:p:v_oru:nv|омега-3/[омега-3]noun:inanim:p:v_rod:nv|омега-3/[омега-3]noun:inanim:p:v_zna:nv", tokenizer, tagger);
+    TestTools.myAssert("омега-3", "омега-3/[омега-3]noninfl", tokenizer, tagger);
 
     assertNotTagged("Берлін-7");
   }

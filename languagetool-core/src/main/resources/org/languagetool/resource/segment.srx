@@ -5419,17 +5419,17 @@
 <!-- річка - р. Дніпро -->
 <rule break="no">
 <beforebreak>(?&lt;!\d[ \t\u00A0\u202F]*)\bр\.[ \t\u00A0\u202F]*</beforebreak>
-<afterbreak>[ \t\u00A0\u202F]*[А-ЯІЇЄҐA-Z]</afterbreak>
+<afterbreak>[ \t\u00A0\u202F]*(?!(На|Але|Так?)\s)[А-ЯІЇЄҐA-Z][^\s]</afterbreak>
 </rule>
 <!-- У травні 1949 р. Грушківський район -->
 <rule break="no">
 <beforebreak>[А-ЯІЇЄҐ][а-яіїєґ'’-]*([\s\u00A0\u202F]+[а-яіїєґ'’-]+)?[\s\u00A0\u202F](\d{4}[—–-])*\d{4}[\s\u00A0\u202F]*р\.[ \t\u00A0\u202F]*</beforebreak>
-<afterbreak>[ \t\u00A0\u202F]*[А-ЯІЇЄҐA-Z]</afterbreak>
+<afterbreak>[ \t\u00A0\u202F]*(?!(На|Але|Так?)\s)[А-ЯІЇЄҐA-Z][^\s]</afterbreak>
 </rule>
 <!-- 15 вересня 1995 р. Україною було підписно -->
 <rule break="no">
 <beforebreak>\d{1,2}[\s\u00A0\u202F]+[а-яіїєґ]+[\s\u00A0\u202F]\d{4}[\s\u00A0\u202F]*р\.[ \t\u00A0\u202F]*</beforebreak>
-<afterbreak>[ \t\u00A0\u202F]*[А-ЯІЇЄҐA-Z]</afterbreak>
+<afterbreak>[ \t\u00A0\u202F]*(?!(На|Але|Так?)\s)[А-ЯІЇЄҐA-Z][^\s]</afterbreak>
 </rule>
 <!-- Years: рр. -->
 <rule break="no">
@@ -5463,8 +5463,18 @@
 </rule>
 <rule break="no">
 <!-- unfortunately \b ignores \u0301 -->
-<beforebreak>\b(абз|арк|ауд|бл|буд|бульв|вул|держ|дод|дол|зав|зб|зв|зовн|екон|к|кв|канд|кн|напр|нац|обл|оп|пл|пол|поч|пп|пор|просп|розд|ст|стор|табл|[Тт]]ел|ч|част)\.[\s\u00A0\u202F]</beforebreak>
+<beforebreak>\b(абз|арк|ауд|бл|буд|бульв|вул|держ|дод|зав|зб|зв|зовн|екон|к|кв|канд|кн|напр|нац|обл|оп|пл|пол|поч|пп|пор|просп|розд|стор|табл|[Тт]]ел|ч|част)\.[\s\u00A0\u202F]</beforebreak>
 <afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<!-- unfortunately \b ignores \u0301 -->
+<beforebreak>\bст\.[\s\u00A0\u202F]</beforebreak>
+<afterbreak>[ \t\u00A0\u202F]*(?!([АВУОІЄ]|На|Але|Так?)\s)</afterbreak>
+</rule>
+<rule break="no">
+<!-- no break only for дол. США -->
+<beforebreak>\bдол\.[\s\u00A0\u202F]</beforebreak>
+<afterbreak>США</afterbreak>
 </rule>
 <!-- п. 10 від 11.10.1933 -->
 <rule break="no">
