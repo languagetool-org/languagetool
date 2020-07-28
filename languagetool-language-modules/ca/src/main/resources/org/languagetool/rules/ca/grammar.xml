@@ -54878,25 +54878,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Si us plau,"><marker>Si us plau</marker> no doneu a ningú aquesta contrasenya.</example>
             </rule>
         </rulegroup>
-        <rule id="GRACIES" name="gràcies (coma)" default="temp_off">
+        <rulegroup id="GRACIES" name="gràcies (coma)" default="temp_off">
             <antipattern>
                 <token>gràcies</token>
-                <token regexp="yes">que|a</token>
+                <token postag="RG|LOC_ADV|A..[FC][PN].|V.P..PF." postag_regexp="yes" min="0" max="4"/>
+                <token postag="_PUNCT.*|CC|CS|SP.*|LOC_ADV|LOC_PREP" postag_regexp="yes"/>
             </antipattern>
-            <antipattern>
-                <token>gràcies</token>
-                <token postag="_PUNCT.*" postag_regexp="yes"/>
-            </antipattern>
-            <pattern>
-                <token>gràcies<exception postag="SENT_END"/></token>
-            </pattern>
-            <message>Probablement hi falta una coma.</message>
-            <suggestion>\1,</suggestion>
-            <example correction="Gràcies,"><marker>Gràcies</marker> Joan.</example>
-            <example>Gràcies a Joan, ho hem aconseguit.</example>
-            <example>Gràcies</example>
-            <example>Gràcies!</example>
-            <example>Gràcies que ha vingut.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>gràcies<exception postag="SENT_END"/></token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">\p{Lu}.*</token>
+                </pattern>
+                <message>Probablement hi falta una coma.</message>
+                <suggestion>\1,</suggestion>
+                <suggestion>\1 a</suggestion>
+                <example correction="Gràcies,|Gràcies a"><marker>Gràcies</marker> Pedro.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>gràcies</token>
+                    <token min="0" regexp="yes">una?</token>
+                    <token regexp="yes">altra|altre</token>
+                    <token regexp="yes">vegada|volta|cop</token>
+                </antipattern>
+                <pattern>
+                    <token>gràcies<exception postag="SENT_END"/></token>
+                </pattern>
+                <message>Probablement hi falta una coma.</message>
+                <suggestion>\1,</suggestion>
+                <example correction="Gràcies,"><marker>Gràcies</marker> moltes gràcies.</example>
+                <example>Gràcies a ell, ho hem aconseguit.</example>
+                <example>Gràcies</example>
+                <example>Gracias!</example>
+                <example>Gràcies que has vingut.</example>
+                <example>Gràcies per la col·laboració.</example>
+                <example>Gràcies de tot.</example>
+                <example>Gràcies i ànim!</example>
+                <example>Gràcies també per participar.</example>
+                <example>Gràcies també a Joan.</example>
+                <example>Gràcies en especial al president.</example>
+                <example>Gràcies un altre cop.</example>
+                <example>Gràcies de nou.</example>
+                <example>Gràcies especials a tothom.</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
