@@ -22382,7 +22382,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token postag="UNKNOWN" regexp="yes">[\d\.,ºª]+\p{L}{3,25}<exception regexp="yes">\d+(hrs|grs)</exception><exception case_sensitive="yes" regexp="yes">\d+[A-Z]+</exception><exception regexp="yes">0x..</exception></token>
+                    <token postag="UNKNOWN" regexp="yes">[\d\.,ºª]+\p{L}{3,25}<exception regexp="yes">\d+(hrs|grs)</exception><exception case_sensitive="yes" regexp="yes">\d+[A-Z]+</exception><exception regexp="yes">0x..</exception><exception case_sensitive="yes" regexp="yes">.*\p{Ll}\p{Lu}.*</exception></token>
                 </pattern>
                 <message>Probablement hi falta un espai.</message>
                 <suggestion><match no="1" regexp_match="(?iu)([\d\.,ºª]+)(\p{L}{3,})" regexp_replace="$1 $2"/></suggestion>
@@ -22393,6 +22393,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Fa 5cm.</example>
                 <example>360crbrokers.com</example>
                 <example>32 caràcters usuals a 0xe0–0xff</example>
+                <example>2Ca + O2 → 2CaO</example>
             </rule>
             <rule>
                 <pattern>
@@ -29523,7 +29524,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">\d+[eè]?n(a|es)</token>
+                    <token regexp="yes">\d+[eèé]?n(a|es)</token>
                 </pattern>
                 <message>Per a indicar ordinals (fem.), useu <suggestion><match no="1" regexp_match="(\d+)[eè]?n(a|es)" regexp_replace="$1$2"/></suggestion>.</message>
                 <short>Error tipogràfic</short>
@@ -29535,7 +29536,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">\d+[eè]ns</token>
+                    <token regexp="yes">\d+[eèé]ns</token>
                 </pattern>
                 <message>Per a indicar ordinals (masc. pl.), useu <suggestion><match no="1" regexp_match="(.*)[eè]ns" regexp_replace="$1ns"/></suggestion>.</message>
                 <short>Error tipogràfic</short>
@@ -54840,7 +54841,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PUNCTUATION" name="puntuació" type="grammar">
-        <rulegroup id="PER_FAVOR" name="per favor(,)" default="temp_off">
+        <rulegroup id="PER_FAVOR" name="per favor(,)">
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -54877,5 +54878,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Si us plau,"><marker>Si us plau</marker> no doneu a ningú aquesta contrasenya.</example>
             </rule>
         </rulegroup>
+        <rule id="GRACIES" name="gràcies (coma)" default="temp_off">
+            <antipattern>
+                <token>gràcies</token>
+                <token regexp="yes">que|a</token>
+            </antipattern>
+            <antipattern>
+                <token>gràcies</token>
+                <token postag="_PUNCT.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token>gràcies<exception postag="SENT_END"/></token>
+            </pattern>
+            <message>Probablement hi falta una coma.</message>
+            <suggestion>\1,</suggestion>
+            <example correction="Gràcies,"><marker>Gràcies</marker> Joan.</example>
+            <example>Gràcies a Joan, ho hem aconseguit.</example>
+            <example>Gràcies</example>
+            <example>Gràcies!</example>
+            <example>Gràcies que ha vingut.</example>
+        </rule>
     </category>
 </rules>
