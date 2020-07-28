@@ -93,8 +93,28 @@ public class FindSuggestionsFilter extends RuleFilter {
     RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
         message, match.getShortMessage());
     ruleMatch.setType(match.getType());
-    if (!replacements.isEmpty()) {
-      ruleMatch.setSuggestedReplacements(replacements);
+    
+    List<String> definitiveReplacements = new ArrayList<>();
+    boolean replacementsUsed = false;
+    for (String s : match.getSuggestedReplacements()) {
+      if (s.contains("{suggestion}")) {
+        replacementsUsed = true;
+        for (String s2 : replacements) {
+          if (definitiveReplacements.size() >= MAX_SUGGESTIONS) {
+            break;
+          }
+          definitiveReplacements.add(s.replace("{suggestion}", s2));
+        }
+      } else {
+        definitiveReplacements.add(s);
+      }
+    }
+    if (!replacementsUsed) {
+      definitiveReplacements.addAll(replacements);
+    }
+    
+    if (!definitiveReplacements.isEmpty()) {
+      ruleMatch.setSuggestedReplacements(definitiveReplacements);
     }
     return ruleMatch;
   }
