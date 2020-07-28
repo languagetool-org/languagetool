@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.es;
+package org.languagetool.rules.ca;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,23 +30,23 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.Spanish;
+import org.languagetool.language.Catalan;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.tagging.es.SpanishTagger;
+import org.languagetool.tagging.ca.CatalanTagger;
 
 public class FindSuggestionsFilter extends RuleFilter {
  
-  private static final SpanishTagger tagger = new SpanishTagger();
-  private MorfologikSpanishSpellerRule morfologikRule;
+  private static final CatalanTagger tagger = new CatalanTagger(new Catalan());
+  private MorfologikCatalanSpellerRule morfologikRule;
   final private int MAX_SUGGESTIONS = 10;
   
   
 
   public FindSuggestionsFilter() throws IOException {
     ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE,
-        new Locale("es"));
-    morfologikRule = new MorfologikSpanishSpellerRule(messages, new Spanish(), null, Collections.emptyList());
+        new Locale("ca"));
+    morfologikRule = new MorfologikCatalanSpellerRule(messages, new Catalan(), null, Collections.emptyList());
   }
 
   @Override
@@ -130,10 +130,12 @@ public class FindSuggestionsFilter extends RuleFilter {
     if (s.contains("i")) { return s.replace("i", "ï"); }
     if (s.contains("o")) { return s.replace("o", "ö"); }
     if (s.contains("u")) { return s.replace("u", "ù"); }
-    if (s.contains("á")) { return s.replace("á", "ä"); }
+    if (s.contains("à")) { return s.replace("à", "ä"); }
     if (s.contains("é")) { return s.replace("é", "ë"); }
-    if (s.contains("í")) { return s.replace("í", "ï"); }
+    if (s.contains("è")) { return s.replace("è", "ë"); }
+    if (s.contains("í")) { return s.replace("í", "ì"); }
     if (s.contains("ó")) { return s.replace("ó", "ö"); }
+    if (s.contains("ò")) { return s.replace("ò", "ö"); }
     if (s.contains("ú")) { return s.replace("ú", "ù"); }
     return s + "-";
   }

@@ -150,6 +150,7 @@ public class Catalan extends Language {
       case "REPETEAD_ELEMENTS": return 40;
       case "CONCORDANCES_CASOS_PARTICULARS": return 30;
       case "GERUNDI_PERD_T": return 30;
+      case "CONFUSIONS": return 30;
       case "CONFUSIONS_ACCENT": return 20;
       case "DIACRITICS": return 20;
       case "PASSAT_PERIFRASTIC": return 20;

@@ -13544,6 +13544,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="DUBTA_DUBTE" name="dubta/dubte" default="temp_off">
+            <pattern>
+                <token regexp="yes" inflected="yes">posar|estar|romandre|continuar|seguir|ser</token>
+                <token min="0" max="4" postag_regexp="yes" postag="RG|LOC_ADV|_PUNCT.*"/>
+                <marker>
+                    <token>en</token>
+                    <token>dubta</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>en dubte</suggestion>?</message>
+            <example correction="en dubte">Ho va posar <marker>en dubta</marker>.</example>
+        </rule>
+        <rule id="MALTRACTAMENT" name="maltracte/maltractament" default="temp_off">
+            <pattern>
+                <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                <token min="0" postag="D..MS.|&pronom_feble;" postag_regexp="yes"/>
+                <marker>
+                    <token regexp="yes">maltracta|maltracte</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>maltractament</suggestion></message>
+            <example correction="maltractament">Era una situació de <marker>maltracte</marker>.</example>
+            <example correction="maltractament">En aquest <marker>maltracte</marker>.</example>
+        </rule>
+        <rule id="CALC" name="cal/calç" default="temp_off">
+            <antipattern>
+                <token regexp="yes">a|de|per|en</token>
+                <token>cal</token>
+                <token postag="_possible_nompropi"/>
+            </antipattern>
+            <pattern>
+                <token postag="D..FS.|SPS00|LOC_PREP" postag_regexp="yes"/><!--</token> postag="D..FS.|SPS00|LOC_PREP" regexp="yes"-->
+                <marker>
+                    <token>cal</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>calç</suggestion></message>
+            <example correction="calç">Ho pintarem amb <marker>cal</marker>.</example>
+            <example correction="calç">Ho pintarem amb aquesta <marker>cal</marker>.</example>
+            <example correction="calç">Ho embrutaren tot de <marker>cal</marker>.</example>
+            <example>Venim de cal Pere.</example>
+        </rule>
         <rule id="BACS" name="bacs/basc">
             <pattern>
                 <token>país</token>
@@ -17256,30 +17298,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="rossos"><marker>rosos</marker></example>
             <example>rossos</example>
         </rule>
-        <rule id="RENTA_RENDA" name="renta/renda">
+        <rulegroup id="RENTA_RENDA" name="renta/renda">
             <!-- podria anar en WrongWordInContext? -->
-            <pattern>
-                <marker>
-                    <token regexp="yes">rent(a|es)</token>
-                </marker>
-                <token inflected="yes" regexp="yes">pagar|cobrar|distribuir|parcial|total|percebre</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="rent(a|es)" regexp_replace="rend$1"/></suggestion> en lloc de <match no="1"/> (del v. 'rentar')?</message>
-            <example correction="renda">La <marker>renta</marker> pagada</example>
-            <example>renda pagada</example>
-        </rule>
-        <rule id="RENTA_RENDA_PER_CAPITA" name="*renta/renda per càpita">
-            <pattern>
-                <marker>
-                    <token regexp="yes">renta|rentes</token>
-                </marker>
-                <token>per</token>
-                <token regexp="yes">càpita|capita</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="rent(a|es)" regexp_replace="rend$1"/></suggestion> en lloc de "renta" (v. rentar)?</message>
-            <example correction="renda"><marker>renta</marker> per càpita.</example>
-            <example>renda per càpita</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">rent(a|es)</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">pagar|cobrar|distribuir|parcial|total|percebre</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)rent(a|es)" regexp_replace="rend$1"/></suggestion> en lloc de <match no="1"/> (del v. 'rentar')?</message>
+                <example correction="renda">La <marker>renta</marker> pagada</example>
+                <example>renda pagada</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">renta|rentes</token>
+                    </marker>
+                    <token>per</token>
+                    <token regexp="yes">càpita|capita</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)rent(a|es)" regexp_replace="rend$1"/></suggestion> en lloc de "renta" (v. rentar)?</message>
+                <example correction="renda"><marker>renta</marker> per càpita.</example>
+                <example>renda per càpita</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <token min="0" postag="D.*|PP...A.." postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">renta|rentes</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="3" regexp_match="(?iu)rent(a|es)" regexp_replace="rend$1"/></suggestion> en lloc de "renta" (v. rentar)?</message>
+                <example correction="renda">Fer la declaració de la <marker>renta</marker>.</example>
+                <example>No em rentes la camisa.</example>
+            </rule>
+        </rulegroup>
         <rule id="A_LLARG_DE" name="a llarg de">
             <pattern>
                 <token><exception>llarg</exception></token>
@@ -22382,7 +22438,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token postag="UNKNOWN" regexp="yes">[\d\.,ºª]+\p{L}{3,25}<exception regexp="yes">\d+(hrs|grs)</exception><exception case_sensitive="yes" regexp="yes">\d+[A-Z]+</exception><exception regexp="yes">0x..</exception><exception case_sensitive="yes" regexp="yes">.*\p{Ll}\p{Lu}.*</exception></token>
+                    <token postag="UNKNOWN" regexp="yes">[\d\.,ºª]+\p{L}{3,25}<exception regexp="yes">\d+(hrs|grs)</exception><exception case_sensitive="yes" regexp="yes">\d+[A-Z]+</exception><exception regexp="yes">0x..</exception><exception case_sensitive="yes" regexp="yes"
+                        >.*\p{Ll}\p{Lu}.*</exception></token>
                 </pattern>
                 <message>Probablement hi falta un espai.</message>
                 <suggestion><match no="1" regexp_match="(?iu)([\d\.,ºª]+)(\p{L}{3,})" regexp_replace="$1 $2"/></suggestion>
@@ -52112,27 +52169,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="no">/</token>
                 <token spacebefore="no">a</token>
             </antipattern>
+            <antipattern>
+                <token>de</token>
+                <token>mira</token>
+                <token>'m</token>
+                <token>i</token>
+                <token>no</token>
+                <token>em</token>
+                <token regexp="yes">toquis|toques</token>
+            </antipattern>
             <rule>
-                <antipattern>
-                    <token>de</token>
-                    <token>mira</token>
-                    <token>'m</token>
-                    <token>i</token>
-                    <token>no</token>
-                    <token>em</token>
-                    <token regexp="yes">toquis|toques</token>
-                </antipattern>
                 <pattern>
                     <token postag="SPS00"><exception postag="SPS00" negate_pos="yes"/></token>
-                    <token postag="V.[MSIG].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="V.[MSIG].*|_GV_|SENT_END|PARA_END|_perfet" postag_regexp="yes" negate_pos="yes"/></token>
+                    <marker>
+                        <token postag="V.[MSIG].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="V.[MSIG].*|_GV_|SENT_END|PARA_END|_perfet" postag_regexp="yes" negate_pos="yes"/></token>
+                    </marker>
                 </pattern>
+                <filter class="org.languagetool.rules.ca.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:NC.*|A.*|V.[PN].*"/>
                 <message>Combinació impossible: preposició + verb conjugat.</message>
-                <example correction="">de greuge i <marker>de maltracta</marker>.</example>
+                <example correction="maltractar|maltractat">de greuge i de <marker>maltracta</marker>.</example>
                 <!-- <example correction="">s'ha posat <marker>en dubta</marker> la naturalesa científica.</example> -->
-                <example correction="">Repintades <marker>amb cal</marker> cada any.</example>
-                <example correction="">Això no <marker>d'ha</marker> fet bé.</example>
-                <example correction="">Ens van tractar com <marker>a vens</marker></example>
-                <example correction="">Optà <marker>per refugiant</marker>-se a casa.</example>
+                <example correction="cap|cas|mal|cel|val|cat|cau|sal|coll|ca">Repintades amb <marker>cal</marker> cada any.</example>
+                <!--<example correction="">Això no d'<marker>ha</marker> fet bé.</example>-->
+                <example correction="béns|bens|ens|bons|gens|nens|tens|vent|vers|veus">Ens van tractar com a <marker>vens</marker></example>
+                <example correction="refugiat">Optà per <marker>refugiant</marker>-se a casa.</example>
                 <example>de greuge i de maltractament.</example>
                 <example>la de sobre ha d'arribar</example>
                 <example>per sobre comença a escalfar-se</example>
@@ -52148,13 +52208,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SPS00"><exception postag="RG.*|PI.*|NP.*" postag_regexp="yes"/></token>
-                    <token postag="P0.*|PP.*|DA.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception><exception postag="allow_saxon_genitive"/></token>
-                    <token postag="V.[MSIG].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="[NA].*" postag_regexp="yes"/></token>
+                    <token postag="&pronom_feble;|DA.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception postag="allow_saxon_genitive"/></token>
+                    <marker>
+                        <token postag="V.[MSIG].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="[NA].*" postag_regexp="yes"/></token>
+                    </marker>
                 </pattern>
+                <filter class="org.languagetool.rules.ca.FindSuggestionsFilter" args="WordFrom:3 DesiredPostag:NC.*|A.*|V.[PN].*"/>
                 <message>Combinació impossible: preposició + verb conjugat.</message>
-                <example correction="">Fer la declaració <marker>de la renta</marker>.</example>
-                <example correction="">Tornant <marker>del cole</marker>.</example>
-                <example correction="">donar part <marker>de la desgracia</marker></example>
+                <example correction="resta|santa|trenta|lenta|renda|manta|menta|recta|pantà|randa">Fer la declaració de la <marker>renta</marker>.</example>
+                <example correction="coll|cul|culte|col|cola|colp|cove|colze|cols|culs">Tornant del <marker>cole</marker>.</example>
+                <example correction="desgràcia|desgraciat|desgraciar">donar part de la <marker>desgracia</marker></example>
                 <example>Fer la declaració de la renda.</example>
                 <example>Segons m'han informat</example>
                 <example>El pa àzim o pa sense llevat s'elabora</example>
