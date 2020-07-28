@@ -75,6 +75,7 @@ public class FindSuggestionsFilter extends RuleFilter {
       RuleMatch[] matches = morfologikRule.match(sentence);
       if (matches.length > 0) {
         List<String> suggestions = matches[0].getSuggestedReplacements();
+        //TODO: do not tag capitalized words with tags for lower case
         List<AnalyzedTokenReadings> analyzedSuggestions = tagger.tag(suggestions);
         for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
           if (analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {

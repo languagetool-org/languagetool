@@ -9378,6 +9378,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="aquellos">En relación con <marker>aquéllos</marker>.</example>
         </rule>
     </category>
+    <category id="CONFUSIONS2" name="Confusiones (2)">
+        <rule id="CUIDAD_CIUDAD" name="*cuidad/ciudad" default="on">
+            <pattern>
+                <token postag="D..[CF]S." postag_regexp="yes"/>
+                <marker>
+                    <token>cuidad</token>
+                </marker>
+            </pattern>
+            <message>Posible confusión.</message>
+            <suggestion>ciudad</suggestion>
+            <example correction="ciudad">En mi <marker>cuidad</marker>.</example>
+            <example correction="ciudad">En la <marker>cuidad</marker>.</example>
+            <example correction="ciudad">En nuestra <marker>cuidad</marker>.</example>
+            <example correction="ciudad">En el centro de la <marker>cuidad</marker>.</example>
+        </rule>
+        <rule id="TARTA_TRATA" name="tarta/trata">
+            <!-- generalized in PRONOMBRE_SIN_VERBO[11], but 1 suggestion is missing in Morfologik-->
+            <pattern>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"><exception regexp="yes">la|las</exception></token>
+                <marker>
+                    <token regexp="yes">tartas?</token>
+                </marker>
+            </pattern>
+            <message>¿Quería decir <suggestion><match no="2" regexp_match="(?iu)tart" regexp_replace="trat"/></suggestion>?</message>
+            <example correction="trata">Se <marker>tarta</marker> de otro tema.</example>
+            <example>Tarta de frambuesa.</example>
+            <example>La tarta es muy buena.</example>
+            <example>Las tartas de manzana.</example>
+        </rule>
+    </category>
     <category id="CONFUSIONS" name="Confusiones">
         <rulegroup id="AYA_HAYA" name="*aya/haya">
             <rule>
@@ -9465,20 +9495,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="habérselo">Tenía que <marker>a vérselo</marker> dicho.</example>
             </rule>
         </rulegroup>
-        <rule id="TARTA_TRATA" name="tarta/trata">
-            <!-- TODO: generalize this kind of rule -->
-            <pattern>
-                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"><exception regexp="yes">la|las</exception></token>
-                <marker>
-                    <token regexp="yes">tartas?</token>
-                </marker>
-            </pattern>
-            <message>¿Quería decir <suggestion><match no="2" regexp_match="(?iu)tart" regexp_replace="trat"/></suggestion>?</message>
-            <example correction="trata">Se <marker>tarta</marker> de otro tema.</example>
-            <example>Tarta de frambuesa.</example>
-            <example>La tarta es muy buena.</example>
-            <example>Las tartas de manzana.</example>
-        </rule>
         <rulegroup id="PUDE_PUEDE" name="pude/puede">
             <rule>
                 <pattern>
@@ -9641,6 +9657,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Combinación imposible con verbo en imperativo.</message>
                 <example correction="sale|vale|daré|date|dañe|tale|cale|dalle|calé|salé">Le <marker>dale</marker></example>
                 <example correction="das|damos|dais|Das">Le <marker>daos</marker> esto.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="D..MS." postag_regexp="yes"/>
+                    <token postag="V.M.*" postag_regexp="yes"><exception postag="V.[IS].*|_GN_.*" postag_regexp="yes"/><exception regexp="yes" case_sensitive="yes">[A-Z]+</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:N.[MC][SN].*|A..[MC][SN]."/>
+                <message>Combinación imposible con verbo en imperativo.</message>
+                <suggestion>\1, \2</suggestion>
+                <suggestion>\1 {suggestion}</suggestion>
+                <example correction="este, dale|este vale|este cale|este dable|este dalle|este calé|este dele|este Dave|este palé|este yale">De <marker>este dale</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="D..FS." postag_regexp="yes"/>
+                    <token postag="V.M.*" postag_regexp="yes"><exception postag="V.[IS].*|_GN_.*" postag_regexp="yes"/><exception regexp="yes" case_sensitive="yes">[A-Z]+</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:N.[FC][SN].*|A..[FC][SN]."/>
+                <message>Combinación imposible con verbo en imperativo.</message>
+                <suggestion>\1, \2</suggestion>
+                <suggestion>\1 {suggestion}</suggestion>
+                <example correction="esta, danos|esta dañosa|esta Davos">De <marker>esta danos</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="D..MP." postag_regexp="yes"/>
+                    <token postag="V.M.*" postag_regexp="yes"><exception postag="V.[IS].*|_GN_.*" postag_regexp="yes"/><exception regexp="yes" case_sensitive="yes">[A-Z]+</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:N.[MC][PN].*|A..[MC][PN]."/>
+                <message>Combinación imposible con verbo en imperativo.</message>
+                <suggestion>\1, \2</suggestion>
+                <suggestion>\1 {suggestion}</suggestion>
+                <example correction="estos, dales|estos Gales|estos males|estos duales|estos vales|estos diales|estos dalles|estos deles|estos calés|estos Tales">De <marker>estos dales</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="D..FP." postag_regexp="yes"/>
+                    <token postag="V.M.*" postag_regexp="yes"><exception postag="V.[IS].*|_GN_.*" postag_regexp="yes"/><exception regexp="yes" case_sensitive="yes">[A-Z]+</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:N.[FC][PN].*|A..[FC][PN]."/>
+                <message>Combinación imposible con verbo en imperativo.</message>
+                <suggestion>\1, \2</suggestion>
+                <suggestion>\1 {suggestion}</suggestion>
+                <example correction="estas, danos|estas manos|estas panos">De <marker>estas danos</marker>.</example>
+                <example>De estas, danos cuatro.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SPELLING_ERROR_BETTER_SUGGESTIONS" name="error ortográfico (con sugerencias mejoradas)">
@@ -10278,20 +10339,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En el La 440 Hz.</example>
             </rule>
         </rulegroup>
-        <rule id="CUIDAD_CIUDAD" name="*cuidad/ciudad" default="on">
-            <pattern>
-                <token postag="D..[CF]S." postag_regexp="yes"/>
-                <marker>
-                    <token>cuidad</token>
-                </marker>
-            </pattern>
-            <message>Posible confusión.</message>
-            <suggestion>ciudad</suggestion>
-            <example correction="ciudad">En mi <marker>cuidad</marker>.</example>
-            <example correction="ciudad">En la <marker>cuidad</marker>.</example>
-            <example correction="ciudad">En nuestra <marker>cuidad</marker>.</example>
-            <example correction="ciudad">En el centro de la <marker>cuidad</marker>.</example>
-        </rule>
         <rulegroup id="MORTANDAD" name="mortandad/mortalidad" default="on">
             <url>https://www.fundeu.es/recomendacion/mortandad-y-mortalidad-no-son-sinonimos-727/</url>
             <rule>
