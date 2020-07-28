@@ -6401,28 +6401,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/></token>
-                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/></token>
+                    <token postag="SPS00|SP\+DA|LOC_PREP" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/></token>
+                    <token postag="V.[MSI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Construcción incorrecta.</message>
-                <suggestion>\1 <match no="2" postag="V.[SI].*" postag_regexp="yes" postag_replace="V.N0000"/></suggestion>
-                <example correction="a acabar">Miedo <marker>a acabara</marker>.</example>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:NC.*|A.*|V.[PN].*"/>
+                <message>Combinación imposible: preposición seguida de verbo conjugado.</message>
+                <suggestion>\1 {suggestion}</suggestion>
+                <example correction="al informe|al informal|al informar"><marker>al informa</marker>.</example>
+                <example correction="en informe|en informal|en informar"><marker>en informa</marker>.</example>
+                <example correction="con informe|con informal|con informar"><marker>con informa</marker>.</example>
+                <example correction="del informe|del informal|del informar"><marker>del informa</marker>.</example>
+                <example correction="en suelos|en suelas|en fueles|en seles|en suflés"><marker>en sueles</marker>.</example>
                 <example>Imprime, copia y hasta escanea.</example>
                 <example>El complemento de un conjunto A es el conjunto A∁.</example>
                 <example>Y por contra existe otra línia de pensamiento.</example>
             </rule>
-            <!--<rule>
-                <pattern>
-                    <token postag="SPS00"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/></token>
-                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+[ns]<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Construcción incorrecta.</message>
-                <suggestion>\2</suggestion>
-                <example correction="suelen">Los Azmari <marker>en suelen</marker> hacer esto.</example>
-                <example>Imprime, copia y hasta escanea.</example>
-                <example>El complemento de un conjunto A es el conjunto A∁.</example>
-                <example>Y por contra existe otra línia de pensamiento.</example>
-            </rule>-->
             <rule>
                 <!-- catch-all rule without suggestions-->
                 <pattern>
