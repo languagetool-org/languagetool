@@ -9594,7 +9594,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:N.MP.*|A..[MC]P.|V.[IS].*"/>
-                <message>Combinación imposible de artículo y verbo en imperativo.</message>
+                <message>Combinación imposible con verbo en imperativo.</message>
                 <example correction="Estaños|Estados|Escaños|Estamos|Estaño|Estancos|Cestaños|Estajos|Estands|Estañas">Los <marker>Estanos</marker> Unidos.</example>
             </rule>
             <rule>
@@ -9605,7 +9605,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:A..[MC]S.|V.[IS].*"/>
-                <message>Combinación imposible de artículo y verbo en imperativo.</message>
+                <message>Combinación imposible con verbo en imperativo.</message>
                 <example correction="ame|daré|date|amé|dañe|lame|mame|dome|jame|mamé">Lo <marker>dame</marker>.</example>
             </rule>
             <rule>
@@ -9616,7 +9616,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:N.FS.*|A..[FC]S.|V.[IS].*"/>
-                <message>Combinación imposible de artículo y verbo en imperativo.</message>
+                <message>Combinación imposible con verbo en imperativo.</message>
                 <example correction="dama|ame|daré|date|amé|dañe|lame|mame|dome|jame">La <marker>dame</marker>.</example>
             </rule>
             <rule>
@@ -9627,24 +9627,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:N.FP.*|A..[FC]P.|V.[IS].*"/>
-                <message>Combinación imposible de artículo y verbo en imperativo.</message>
+                <message>Combinación imposible con verbo en imperativo.</message>
                 <example correction="ame|daré|date|amé|dañe|lame|mame|dome|jame|mamé">Las <marker>dame</marker>.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"><exception postag="DA.*" postag_regexp="yes"></exception></token>
                     <marker>
-                        <token postag="V.M.*|UNKNOWN" postag_regexp="yes"><exception postag="V.[IS].*|_GN_.*" postag_regexp="yes"/><exception regexp="yes" case_sensitive="yes">[A-Z]+</exception></token>
+                        <token postag="V.M.*" postag_regexp="yes"><exception postag="V.[IS].*|_GN_.*" postag_regexp="yes"/><exception regexp="yes" case_sensitive="yes">[A-Z]+</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:V.[SI].*"/>
-                <message>Posible error ortográfico.</message>
+                <message>Combinación imposible con verbo en imperativo.</message>
                 <example correction="sale|vale|daré|date|dañe|tale|cale|dalle|calé|salé">Le <marker>dale</marker></example>
                 <example correction="das|damos|dais|Das">Le <marker>daos</marker> esto.</example>
-                <example correction="augura|auguró|auguro|augure|auguré">Te <marker>augúr</marker> un buen resultado.</example>
-                <example correction="encuentra|encuesta|encenta">¿Dónde se <marker>encuenta</marker>?</example>
             </rule>
-            <rule> <!-- TODO: suggestion for two words, ex. te cortés > de cortés / te cortes -->
+            <rule> <!-- TODO: suggestion for two words, ex. te cortés > de cortés / te cortes; merge to PRONOMBRE_SIN_VERBO -->
                 <pattern>
                     <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"><exception postag="DA.*" postag_regexp="yes"></exception></token>
                     <marker>
@@ -9654,6 +9652,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:V.[SI].*"/>
                 <message>Posible error ortográfico.</message>
                 <example correction="augura|auguró|auguro|augure|auguré">Te <marker>augur</marker> cosas interesantes.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SPELLING_ERROR_BETTER_SUGGESTIONS" name="error ortográfico (con sugerencias mejoradas)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"><exception postag="DA.*" postag_regexp="yes"></exception></token>
+                    <marker>
+                        <token postag="UNKNOWN" postag_regexp="yes"><exception regexp="yes" case_sensitive="yes">[A-Z]+</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:V.[SI].*"/>
+                <message>Posible error ortográfico.</message>
+                <example correction="augura|auguró|auguro|augure|auguré">Te <marker>augúr</marker> un buen resultado.</example>
+                <example correction="encuentra|encuesta|encenta">¿Dónde se <marker>encuenta</marker>?</example>
+                <example correction="quiere|quiera|quiero">Te <marker>quier</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="PRONOMBRE_SIN_VERBO" name="pronombre sin verbo">

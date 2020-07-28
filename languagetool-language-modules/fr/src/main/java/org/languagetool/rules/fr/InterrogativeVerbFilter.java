@@ -136,6 +136,7 @@ public class InterrogativeVerbFilter extends RuleFilter {
    * suggestions from the speller when the original word is a correct word.
    */
   private String makeWrong(String s) {
+    /* this doesn't work for some cases: ex. tarta / trata */
     if (s.contains("a")) {return s.replace("a", "ä");}
     if (s.contains("e")) {return s.replace("e", "ë");}
     if (s.contains("i")) {return s.replace("i", "í");}
