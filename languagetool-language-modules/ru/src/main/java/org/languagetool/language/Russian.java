@@ -107,7 +107,7 @@ public class Russian extends Language implements AutoCloseable {
 	    new SentenceWhitespaceRule(messages),
             new WhiteSpaceBeforeParagraphEnd(messages, this),  //    
             new WhiteSpaceAtBeginOfParagraph(messages),
-            new EmptyLineRule(messages, this),  //
+        //  new EmptyLineRule(messages, this),  // too picky rule 
             new LongSentenceRule(messages, userConfig),
             new LongParagraphRule(messages, this, userConfig),
             new ParagraphRepeatBeginningRule(messages, this),
