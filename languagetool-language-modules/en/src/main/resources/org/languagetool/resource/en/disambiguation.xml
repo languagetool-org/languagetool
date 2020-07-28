@@ -6463,6 +6463,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NN(:UN?)?" postag_regexp="yes"/><!-- Cannot use chunk: plan/E-NP-plural -->
             <token>to</token>
         </antipattern>
+        <antipattern><!-- #3349 Also featured were  -->
+            <token postag="RB"/>
+            <token postag="VBN"/>
+            <token regexp="yes">are|were</token>
+        </antipattern>
         <pattern>
             <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">be|have</exception></token>
             <token postag_regexp="yes" postag="PRP|NN.*"/>
@@ -6475,9 +6480,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig postag="VBD"/>
         <example type="ambiguous" inputform="had[have/VBD,have/VBN]" outputform="had[have/VBD]">He <marker>had</marker> a car.</example>
+        <example type="ambiguous" inputform="featured[feature/VBD,feature/VBN,featured/JJ]" outputform="featured[feature/VBD]">The videos <marker>featured</marker> many excellent examples of...</example>
         <example type="untouched">He has made a mistake.</example>
         <example type="untouched">Past participle adjective. The basic <marker>installed</marker> software is not sufficient.</example>
         <example type="untouched">His proposed plan to remove the...</example>
+        <example type="untouched">Also featured were two music videos ("Long...</example><!-- #3349 -->
     </rule>
 
     <rule id="JJ_VB" name="companies: verb to noun if preceded by adj">
