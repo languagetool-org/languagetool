@@ -307,7 +307,17 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "my order", // vs by
       "of you being her", // vs your
       "ad free",
-      "your call is" // vs you
+      "ad rates",
+      "your call is", // vs you
+      "on his butt",
+      "message us today",
+      "sent you the invite",
+      "appreciate you fowarding",
+      "appreciate you cooking",
+      "appreciate you sending",
+      "appreciate you talking",
+      "appreciate you taking",
+      "that now means"
     );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {

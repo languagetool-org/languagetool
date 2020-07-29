@@ -328,6 +328,11 @@ public class UpperCaseNgramRule extends Rule {
       token("it|him|her|them|me|us|that|this"),
       tokenRegex("[A-Z].+")
     ),
+    Arrays.asList( // It is called Ranked mode
+      csRegex("is|was|been|were|are"),
+      csRegex("calls?|called|calling|name[ds]?|naming"),
+      csRegex("[A-Z].+")
+    ),
     Arrays.asList( // What is Foreshadowing?
       tokenRegex("Who|What"),
       tokenRegex("is|are|was|were"),
