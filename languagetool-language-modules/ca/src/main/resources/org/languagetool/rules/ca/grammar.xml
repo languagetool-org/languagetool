@@ -26198,6 +26198,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En tingué prou amb això.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="PRONOMS_FEBLES_SOLTS2" name="Pronoms febles: suggeriments millorats" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">li|ens|us|els|les</token>
+                    <token postag="V.P..SM." postag_regexp="yes"/>
+                </pattern>
+                <message>Pronom feble solt.</message>
+                <suggestion>\1 ha \2</suggestion>
+                <suggestion>\1 he \2</suggestion>
+                <example correction="li ha agradat|li he agradat">No <marker>li agradat</marker> mai</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">m'|t'</token>
+                    <token postag="V.P..SM." postag_regexp="yes"/>
+                </pattern>
+                <message>Pronom feble solt.</message>
+                <suggestion>\1ha \2</suggestion>
+                <suggestion>\1he \2</suggestion>
+                <example correction="m'ha agradat|m'he agradat">No <marker>m'agradat</marker> mai</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PRONOMS_FEBLES_SOLTS" name="Comprova pronoms febles solts: *li cantar">
             <!-- pronom feble solt: caldria diferenciar dos casos: posposat i anteposat-->
             <antipattern>
@@ -26267,26 +26289,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Cal escriure <suggestion>d'en</suggestion>.</message>
                 <example correction="d'en">És <marker>de'n</marker> Pep.</example>
-            </rule>
-            <rule default="temp_off">
-                <pattern>
-                    <token regexp="yes">li|ens|us|els|les</token>
-                    <token postag="V.P..SM." postag_regexp="yes"/>
-                </pattern>
-                <message>Pronom feble solt.</message>
-                <suggestion>\1 ha \2</suggestion>
-                <suggestion>\1 he \2</suggestion>
-                <example correction="li ha agradat|li he agradat">No <marker>li agradat</marker> mai</example>
-            </rule>
-            <rule default="temp_off">
-                <pattern>
-                    <token regexp="yes">m'|t'</token>
-                    <token postag="V.P..SM." postag_regexp="yes"/>
-                </pattern>
-                <message>Pronom feble solt.</message>
-                <suggestion>\1ha \2</suggestion>
-                <suggestion>\1he \2</suggestion>
-                <example correction="m'ha agradat|m'he agradat">No <marker>m'agradat</marker> mai</example>
             </rule>
             <rule>
                 <pattern>
