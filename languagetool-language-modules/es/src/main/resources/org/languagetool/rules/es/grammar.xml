@@ -5995,6 +5995,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
+        <rulegroup id="TE_HAY" name="*te hay" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">me|te|le|les|nos|os</token>
+                    <marker>
+                        <token>hay</token>
+                    </marker>
+                    <token postag="V.P..SM" postag_regexp="yes"/>
+                </pattern>
+                <message>Combinación incorrecta de pronombre y verbo.</message>
+                <suggestion>ha</suggestion>
+                <example correction="ha">Te <marker>hay</marker> gustado.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">me|te|le|les|nos|os</token>
+                    <token>hay</token>
+                </pattern>
+                <message>Combinación incorrecta de pronombre y verbo.</message>
+                <suggestion>lo hay</suggestion>
+                <suggestion>los hay</suggestion>
+                <suggestion>la hay</suggestion>
+                <suggestion>las hay</suggestion>
+                <suggestion>no hay</suggestion>
+                <example correction="lo hay|los hay|la hay|las hay|no hay">De haberlos, <marker>nos hay</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MUY_MUCHO" name="mucho/muy (adverbio)">
             <rule>
                 <pattern>
@@ -9407,8 +9434,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="TE_NO" name="te no/no te (orden incorrecto)" default="temp_off">
             <pattern>
                 <marker>
-                   <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                   <token regexp="yes">no|ni</token>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token regexp="yes">no|ni</token>
                 </marker>
                 <token postag="V.[SI].*" postag_regexp="yes"/>
             </pattern>
