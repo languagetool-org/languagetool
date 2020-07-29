@@ -20188,6 +20188,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" regexp_match="(?iu).*(a|es)" regexp_replace="àcid$1" case_conversion="preserve"/></suggestion>
                 <example correction="àcida">Solució <marker>acida</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">agenci(a|es)<exception scope="previous">m'|t'|li|ens|us|vos</exception></token>
+                    </marker>
+                </pattern>
+                <message>Si és un nom, s'ha d'accentuar.</message>
+                <suggestion><match no="1" regexp_match="(?iu).*(a|es)" regexp_replace="agènci$1" case_conversion="preserve"/></suggestion>
+                <example correction="Agències"><marker>Agencies</marker> internacionals.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <marker>
