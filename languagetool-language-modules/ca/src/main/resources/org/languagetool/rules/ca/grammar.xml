@@ -54941,7 +54941,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Si us plau,"><marker>Si us plau</marker> no doneu a ningú aquesta contrasenya.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="GRACIES" name="gràcies (coma)" default="temp_off">
+        <rulegroup id="GRACIES" name="gràcies (coma)">
             <antipattern>
                 <token>gràcies</token>
                 <token postag="RG|LOC_ADV|A..[FC][PN].|V.P..PF." postag_regexp="yes" min="0" max="4"/>
@@ -54966,12 +54966,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">altra|altre</token>
                     <token regexp="yes">vegada|volta|cop</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="SPS00|LOC_PREP|PX.*|D..FP.|V.*" postag_regexp="yes"><exception>moltes</exception></token>
+                    <token>gràcies</token>
+                </antipattern>
+                <antipattern>
+                    <token>gràcies</token>
+                    <token postag="A..[FC][PN].|V.P..PF." postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
-                    <token>gràcies<exception postag="SENT_END"/></token>
+                    <marker>
+                        <token>gràcies<exception postag="SENT_END"/></token>
+                    </marker>
+                    <token postag="D.*|N.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Probablement hi falta una coma.</message>
                 <suggestion>\1,</suggestion>
                 <example correction="Gràcies,"><marker>Gràcies</marker> moltes gràcies.</example>
+                <example correction="gràcies,">Moltes <marker>gràcies</marker> moltes gràcies.</example>
                 <example>Gràcies a ell, ho hem aconseguit.</example>
                 <example>Gràcies</example>
                 <example>Gracias!</example>
@@ -54985,6 +54997,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Gràcies un altre cop.</example>
                 <example>Gràcies de nou.</example>
                 <example>Gràcies especials a tothom.</example>
+                <example>En acció de gràcies entonà un càntic.</example>
+                <example>han lloat i donat gràcies tants de cops</example>
+                <example>les gràcies atorgades davallen</example>
+                <example>Allò que posseeix totes les gràcies no és l'aparell fotogràfic</example>
+                <example>Gràcies infinites dono al meu Déu.</example>
+                <example>Gràcies infinites.</example>
+                <example>Gràcies us dono.</example>
             </rule>
         </rulegroup>
     </category>
