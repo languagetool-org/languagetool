@@ -32208,6 +32208,19 @@ though, and has since been slightly modified)-->
       <example><marker>savoir gré</marker></example>
       <example>Le contrat est négocié de gré à gré.</example>
     </rule>
+    <rule id="ETRE_DE_VERBE" name="être de + verbe inf">
+        <pattern>
+            <token postag="V etre.*" postag_regexp="yes"></token>
+            <token postag="P">de</token>
+            <token min="0" postag_regexp="yes" postag="R.*"></token>
+            <marker><token postag="V ppa.*" postag_regexp="yes"></token></marker>
+        </pattern>
+        <message>Vous devriez utiliser l'infinitif plutôt que le participe passé.</message>
+        <suggestion><match no="4" postag="V ppa.*" postag_regexp="yes" postag_replace="V inf"/></suggestion>
+        <example correction="désactiver">La solution est de le <marker>désactivé</marker></example>
+        <example correction="désactiver">La solution est de <marker>désactivé</marker> le moteur</example>
+        <example correction="désactiver">La solution, pour contourner le problème, est de <marker>désactivé</marker> le moteur.</example>
+    </rule>
     <rulegroup id="PIRE_ALLER" name="pire(-)aller">
       <rule>
         <pattern>
