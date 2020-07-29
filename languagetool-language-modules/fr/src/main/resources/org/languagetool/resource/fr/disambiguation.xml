@@ -2268,6 +2268,15 @@ RB => Règles Brutes
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
+    <rule>
+      <!-- Dollar price ("$1M") -->
+      <pattern>
+        <marker>
+          <token regexp="yes">[€$£¥¤]\d+[MK]</token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
   </rulegroup>
 
   <rule name="Ignore spelling of domain names" id="IGNORE_DOMAIN_NAMES">
@@ -2322,9 +2331,9 @@ RB => Règles Brutes
     <disambig action="ignore_spelling"/>
   </rule>
 
-    <rule name="Ignore spelling of underscores" id="IGNORE_SPELLING_OF_UNDERSCORES">
+    <rule name="Ignore spelling of punctuation characters" id="IGNORE_SPELLING_OF_PUNCTUATION">
     <pattern>
-        <token regexp="yes">[_]+</token>
+        <token regexp="yes">[_\^]+</token>
     </pattern>
     <disambig action="ignore_spelling"/>
   </rule>
