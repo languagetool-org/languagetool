@@ -135,14 +135,17 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                      !k.getReplacement().startsWith("inter ") &&
                      !k.getReplacement().startsWith("sub ") &&
                      !k.getReplacement().startsWith("auto ") &&
+                     !k.getReplacement().startsWith("sh ") &&
                      !k.getReplacement().startsWith("dis ") &&
                      !k.getReplacement().startsWith("mu ") &&
                      !k.getReplacement().endsWith(" able") &&
+                     !k.getReplacement().endsWith(" less") && // (e.g. permissionless)
                      !k.getReplacement().endsWith(" sly") && // uneccesary suggestion (e.g. for continuesly)
                      !k.getReplacement().endsWith(" OO") && // unecessary suggestion (e.g. for "HELLOOO")
                      !k.getReplacement().endsWith(" HHH") && // unecessary suggestion (e.g. for "OHHHH")
                      !k.getReplacement().endsWith(" ally") && // adverbs ending in "ally" that LT doesn't know (yet)
                      !k.getReplacement().endsWith(" ize") && // "advertize"
+                     !k.getReplacement().endsWith(" sh") &&
                      !k.getReplacement().endsWith(" en") && // "Antwerpen" suggests "Antwerp en"
                      !k.getReplacement().endsWith(" ed"))
         .collect(Collectors.toList());
@@ -339,6 +342,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("interweb", Arrays.asList("internet"));
     s.put("interwebs", Arrays.asList("internet"));
     s.put("srilanka", Arrays.asList("Sri Lanka"));
+    s.put("tiktok", Arrays.asList("TikTok"));
 
     s.put("afro-american", Arrays.asList("Afro-American"));
     s.put("oconnor", Arrays.asList("O'Connor"));
@@ -663,6 +667,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("neonazis", Arrays.asList("neo-Nazis"));
     s.put("fiveteen", Arrays.asList("fifteen"));
     s.put("Fiveteen", Arrays.asList("Fifteen"));
+    s.put("critism", Arrays.asList("criticism"));
+    s.put("Critism", Arrays.asList("Criticism"));
 
     return s;
   }
