@@ -20,33 +20,31 @@ package org.languagetool.rules.es;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.Spanish;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.tagging.es.SpanishTagger;
+import org.languagetool.tools.StringTools;
 
 public class FindSuggestionsFilter extends RuleFilter {
- 
-  private static final SpanishTagger tagger = new SpanishTagger();
-  private MorfologikSpanishSpellerRule morfologikRule;
+  
   final private int MAX_SUGGESTIONS = 10;
-  
-  
+  private static final String DICT_FILENAME = "/es/es-ES.dict";
+  private static MorfologikSpeller speller;
+  private static final SpanishTagger tagger = new SpanishTagger();
 
   public FindSuggestionsFilter() throws IOException {
-    ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE,
-        new Locale("es"));
-    morfologikRule = new MorfologikSpanishSpellerRule(messages, new Spanish(), null, Collections.emptyList());
+    // lazy init
+    if (speller == null) {
+      if (JLanguageTool.getDataBroker().resourceExists(DICT_FILENAME)) {
+         speller = new MorfologikSpeller(DICT_FILENAME);
+      } 
+    }
   }
 
   @Override
@@ -61,27 +59,30 @@ public class FindSuggestionsFilter extends RuleFilter {
       int posWord = Integer.parseInt(wordFrom);
       if (posWord < 1 || posWord > patternTokens.length) {
         throw new IllegalArgumentException("FindSuggestionsFilter: Index out of bounds in " + match.getRule().getFullId()
-            + ", PronounFrom: " + posWord);
+            + ", wordFrom: " + posWord);
       }
       AnalyzedTokenReadings atrWord = patternTokens[posWord - 1];
-
-      AnalyzedTokenReadings[] auxPatternTokens = new AnalyzedTokenReadings[1];
+      String wordToCheck = atrWord.getToken();
       if (atrWord.isTagged()) {
-        auxPatternTokens[0] = new AnalyzedTokenReadings(new AnalyzedToken(makeWrong(atrWord.getToken()), null, null));
-      } else {
-        auxPatternTokens[0] = atrWord;
+        wordToCheck = makeWrong(atrWord.getToken());
       }
-      AnalyzedSentence sentence = new AnalyzedSentence(auxPatternTokens);
-      RuleMatch[] matches = morfologikRule.match(sentence);
-      if (matches.length > 0) {
-        List<String> suggestions = matches[0].getSuggestedReplacements();
+      List<String> suggestions = new ArrayList<>();
+      synchronized (this) { 
+        suggestions = speller.getSpeller().findReplacements(wordToCheck);
+      }
+      if (suggestions.size() > 0) {
+        boolean isCapitalized = StringTools.isCapitalizedWord(wordToCheck);
         //TODO: do not tag capitalized words with tags for lower case
         List<AnalyzedTokenReadings> analyzedSuggestions = tagger.tag(suggestions);
         for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
           if (analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {
             if (!replacements.contains(analyzedSuggestion.getToken())
                 && !replacements.contains(analyzedSuggestion.getToken().toLowerCase())) {
-              replacements.add(analyzedSuggestion.getToken());  
+              if (isCapitalized) {
+                replacements.add(StringTools.uppercaseFirstChar(analyzedSuggestion.getToken()));
+              } else {
+                replacements.add(analyzedSuggestion.getToken());
+              }
             }
             if (replacements.size() >= MAX_SUGGESTIONS) {
               break;
