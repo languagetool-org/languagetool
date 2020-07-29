@@ -79,7 +79,8 @@ public class FindSuggestionsFilter extends RuleFilter {
         List<AnalyzedTokenReadings> analyzedSuggestions = tagger.tag(suggestions);
         for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
           if (analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {
-            if (!replacements.contains(analyzedSuggestion.getToken())) {
+            if (!replacements.contains(analyzedSuggestion.getToken())
+                && !replacements.contains(analyzedSuggestion.getToken().toLowerCase())) {
               replacements.add(analyzedSuggestion.getToken());  
             }
             if (replacements.size() >= MAX_SUGGESTIONS) {
