@@ -62,6 +62,7 @@ public class EnglishSRXSentenceTokenizerTest {
     testSplit("Let's meet at 5 p.m. in the main street.");
     testSplit("James comes from the U.K. where he worked as a programmer.");
     testSplit("Don't split strings like U.S.A. please.");
+    testSplit("Hello ( Hi! ) my name is Chris.");
     testSplit("Don't split strings like U. S. A. either.");
     testSplit("Don't split strings like U.S.A either.");
     testSplit("Don't split... ", "Well you know. ", "Here comes more text.");
