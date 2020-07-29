@@ -21043,6 +21043,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Sols és blanc, i sols és negre.</example>
                 <example>Només per vergonya, només per timidesa</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>no</token>
+                    <token><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+                    <token>no</token>
+                </pattern>
+                <message>Repetició probablement incorrecta.</message>
+                <suggestion>\1 \2</suggestion>
+                <suggestion>\2 \3</suggestion>
+                <suggestion>\1, \2 \3</suggestion>
+                <example correction="no això|això no|no, això no">Penso que <marker>no això no</marker> és així.</example>
+            </rule>
         </rulegroup>
         <rule id="REPETICIO_INFINITIU" name="infinitiu repetit">
             <pattern>
