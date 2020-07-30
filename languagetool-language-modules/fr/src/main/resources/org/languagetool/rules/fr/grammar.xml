@@ -8079,7 +8079,7 @@ though, and has since been slightly modified)-->
   </category>
   <category id="CAT_ELISION" name="Élision">
     <rulegroup id="PAS_D_ELISION" name="pas d'élision" default="temp_off">
-      <antipattern> <!-- There is no a clear solution for these words. Perhaps we need a picky rule --> 
+      <antipattern>
         <token regexp="yes">handicap.*|hollywood.*|henry</token>
       </antipattern>
       <rule>
@@ -8220,6 +8220,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">&elision_regexp;
           <exception inflected="yes" regexp="yes">&exceptions_ELISION1;</exception>
           <exception regexp="yes">&exceptions_ELISION2;</exception><!-- https://fr.wikipedia.org/wiki/La_Haye -->
+          <exception regexp="yes">&H_ASPIRE;</exception>
           <exception postag="UNKNOWN|Z.*" postag_regexp="yes" regexp="yes">h.+</exception><!-- no error for unknown words or proper names -->
       </token>
     </pattern>
