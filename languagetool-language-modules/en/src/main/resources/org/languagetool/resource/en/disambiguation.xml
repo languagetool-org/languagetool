@@ -4237,6 +4237,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag_regexp="yes" postag="JJ|VB[PD]"/>
             <token postag="SENT_END"/>
         </antipattern>
+        <antipattern><!-- #3371 much more reliable. -->
+            <token>much</token>
+            <token>more</token>
+            <token postag="JJ"/>
+        </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"/>
             <token postag="JJ.*|VBG" postag_regexp="yes"><exception postag="RB"/><exception regexp="yes">being|one</exception></token>
@@ -4267,6 +4272,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Verb: ... and because only three left.</example><!-- Premium #1423 -->
         <example type="untouched">Verb: ... which occurs occasionally if only three leave.</example><!-- Premium #1423 -->
         <example type="untouched">I still have a few left.</example><!-- #3256 -->
+        <example type="untouched">... that were so much more reliable.</example><!-- #3371 -->
     </rule>
 
     <rule name="those + VBN/NN + not a noun -> VBN" id="DT_plural_VBNNN_VBN">
