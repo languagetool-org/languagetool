@@ -361,7 +361,7 @@ public class JLanguageTool {
    *   <li>{@code /rules}</li>
    * </ul>
    *
-   * @return The currently set data broker which allows to obtain
+   * @return The currently set data broker which allows obtaining
    * resources from the mentioned directories above. If no
    * data broker was set, a new {@link DefaultResourceDataBroker} will
    * be instantiated and returned.
@@ -550,7 +550,7 @@ public class JLanguageTool {
   }
 
   /**
-   * Activate rules that depend on pretrained neural network models.
+   * Activate rules that depend on pre-trained neural network models.
    *
    * @param modelDir root dir of exported models
    * @since 4.4
@@ -954,8 +954,7 @@ public class JLanguageTool {
             // adjust rule match position
             // rules check all sentences batched, but should keep position adjustment logic out of rule
             int offset = matchOffset.get(sentence);
-            for (int j = 0; j < matches.size(); j++) {
-              RuleMatch match = matches.get(j);
+            for (RuleMatch match : matches) {
               int fromPos, toPos;
               if (annotatedText != null) {
                 fromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos() + offset, false);
@@ -1025,7 +1024,7 @@ public class JLanguageTool {
             InputSentence cacheKey = cacheKeys.get(i);
             String ruleKey = rule.getId();
             AnalyzedSentence sentence = analyzedSentences.get(i);
-            Map<String, List<RuleMatch>> cacheEntry = null;
+            Map<String, List<RuleMatch>> cacheEntry;
             try {
               cacheEntry = cache.getRemoteMatchesCache().get(cacheKey, HashMap::new);
             } catch (ExecutionException e) {
@@ -1157,9 +1156,7 @@ public class JLanguageTool {
         continue;
       }
       RuleMatch[] thisMatches = rule.match(analyzedSentence);
-      for (RuleMatch elem : thisMatches) {
-        sentenceMatches.add(elem);
-      }
+      Collections.addAll(sentenceMatches, thisMatches);
     }
     AnnotatedText text = new AnnotatedTextBuilder().addText(analyzedSentenceText).build();
     return applyCustomFilters(new SameRuleGroupFilter().filter(sentenceMatches), text);
