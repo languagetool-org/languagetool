@@ -13567,18 +13567,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Volíeu dir <suggestion>en dubte</suggestion>?</message>
             <example correction="en dubte">Ho va posar <marker>en dubta</marker>.</example>
         </rule>
-        <rule id="MALTRACTAMENT" name="maltracte/maltractament">
-            <pattern>
-                <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
-                <token min="0" postag="D..MS.|&pronom_feble;" postag_regexp="yes"/>
-                <marker>
-                    <token regexp="yes">maltracta|maltracte</token>
-                </marker>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>maltractament</suggestion></message>
-            <example correction="maltractament">Era una situació de <marker>maltracte</marker>.</example>
-            <example correction="maltractament">En aquest <marker>maltracte</marker>.</example>
-        </rule>
+        <rulegroup id="MALTRACTAMENT" name="maltracte/maltractament">
+            <rule>
+                <pattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <token min="0" max="2" postag="D..MS.|A..[MC][SN].|&pronom_feble;" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">maltracta|maltracte</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>maltractament</suggestion>?</message>
+                <example correction="maltractament">Era una situació de <marker>maltracte</marker>.</example>
+                <example correction="maltractament">En aquest <marker>maltracte</marker>.</example>
+                <example correction="maltractament">Entre el cruel <marker>maltracte</marker> rebut.</example>
+            </rule>
+        </rulegroup>
         <rule id="CALC" name="cal/calç" default="temp_off">
             <antipattern>
                 <token regexp="yes">a|de|per|en</token>
@@ -47677,6 +47680,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>\1</suggestion>
             <example correction="Tinguin"><marker>Tinguin vostès</marker> bon dia.</example>
         </rule>-->
+        <rule id="CITA_PREVIA" name="cita prèvia" default="temp_off">
+            <pattern>
+                <token inflected="yes">cita</token>
+                <token inflected="yes">prèvia</token>
+            </pattern>
+            <message>Expressió redundant. N'hi ha prou de dir <suggestion>\1</suggestion>.</message>
+            <suggestion>hora</suggestion>
+            <example correction="cita|hora">He demanat <marker>cita prèvia</marker> en la clínica.</example>
+        </rule>
         <rule id="DES_ENCA" name="des de ... ençà">
             <pattern>
                 <token skip="5">des<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
