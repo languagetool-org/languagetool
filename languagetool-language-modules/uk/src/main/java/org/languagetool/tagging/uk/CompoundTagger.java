@@ -332,7 +332,8 @@ class CompoundTagger {
 
     // майстер-класу
     
-    if( dashPrefixMatch ) {
+    if( dashPrefixMatch 
+        && ! ( leftWord.equalsIgnoreCase("міді") && LemmaHelper.hasLemma(rightAnalyzedTokens, Arrays.asList("бронза"))) ) {
       List<AnalyzedToken> newTokens = new ArrayList<>();
       if( leftWord.length() == 1 && leftWord.matches("[a-zA-Zα-ωΑ-Ω]") ) {
         List<AnalyzedToken> newTokensAdj = getNvPrefixLatWithAdjMatch(word, rightAnalyzedTokens, leftWord);

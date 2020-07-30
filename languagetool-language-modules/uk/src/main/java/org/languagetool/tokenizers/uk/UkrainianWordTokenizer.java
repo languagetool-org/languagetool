@@ -251,6 +251,10 @@ public class UkrainianWordTokenizer implements Tokenizer {
       text = text.replaceAll("с/г", "с" +NON_BREAKING_SLASH_SUBST + "г");
     }
 
+    if( text.indexOf("Л/ДНР") != -1 ) {
+      text = text.replaceAll("Л/ДНР", "Л" +NON_BREAKING_SLASH_SUBST + "ДНР");
+    }
+
     if( text.indexOf("р.") != -1 ) {
       Matcher matcher = YEAR_WITH_R.matcher(text);
       if( matcher.find() ) {
