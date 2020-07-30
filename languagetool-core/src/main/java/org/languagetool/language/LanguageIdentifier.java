@@ -69,7 +69,8 @@ public class LanguageIdentifier {
   private final int maxLength;
   private final UnicodeBasedLangIdentifier unicodeIdentifier = new UnicodeBasedLangIdentifier();
 
-  private FastText fastText;
+  //private FastText fastText;
+  private NGramLangIdentifier fastText;
 
   public LanguageIdentifier() {
     this(1000);
@@ -109,13 +110,14 @@ public class LanguageIdentifier {
 
   public void enableFasttext(File fasttextBinary, File fasttextModel) {
     if (fasttextBinary != null && fasttextModel != null) {
-      try {
-        fastText = new FastText(fasttextModel, fasttextBinary);
-        logger.info("Started fasttext process for language identification: Binary " + fasttextBinary + " with model @ " + fasttextModel);
-      } catch (IOException e) {
-        logger.error("Error while starting fasttext (binary: " + fasttextBinary + ", model: " + fasttextModel + ")", e);
-        throw new RuntimeException("Could not start fasttext process for language identification @ " + fasttextBinary + " with model @ " + fasttextModel, e);
-      }
+      //try {
+        //fastText = new FastText(fasttextModel, fasttextBinary);
+        fastText = new NGramLangIdentifier("/home/languagetool/ngram-lang-id", 30, true, false);
+      //  logger.info("Started fasttext process for language identification: Binary " + fasttextBinary + " with model @ " + fasttextModel);
+      //} catch (IOException e) {
+      //  logger.error("Error while starting fasttext (binary: " + fasttextBinary + ", model: " + fasttextModel + ")", e);
+      //  throw new RuntimeException("Could not start fasttext process for language identification @ " + fasttextBinary + " with model @ " + fasttextModel, e);
+      //}
     }
   }
 
@@ -238,7 +240,7 @@ public class LanguageIdentifier {
         //System.out.println("newScore  : " + newScore);
         result = new AbstractMap.SimpleImmutableEntry<>(result.getKey(), newScore);
       } catch (Exception e) {
-        fastText.destroy();
+        //fastText.destroy();
         fastText = null;
         logger.error("Fasttext disabled", e);
       }
