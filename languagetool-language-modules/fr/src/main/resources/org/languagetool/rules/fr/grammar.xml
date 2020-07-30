@@ -12810,17 +12810,19 @@ though, and has since been slightly modified)-->
     <rulegroup id="COND_FUTUR_AVOIR_AIMERAI" name="avoir + aimé, voulu, préféré, souhaité">
       <rule>
         <pattern>
-          <token postag="N.*|Z|R pers suj.*" postag_regexp="yes"></token>
+          <token postag="N.*|Z|R pers suj.*" postag_regexp="yes"/>
           <token min="0">n'</token>
-          <marker><token postag="V avoir ind futu.*" postag_regexp="yes"></token></marker>
+          <marker><token postag="V avoir ind futu.*" postag_regexp="yes">
+          </token></marker>
           <token min="0" max="1" regexp="yes">pas|rien</token>
           <token postag="V ppa.*" postag_regexp="yes" regexp="yes">aimé|voulu|préféré|souhaité</token>
-          <token min="0" max="1" postag="(R pers.*)" postag_regexp="yes"></token>
-          <token postag="V inf"></token>
+          <token min="0" max="1" postag="(R pers.*)" postag_regexp="yes"/>
+          <token postag="V inf"/>
         </pattern>
-        <message>Voulez-vous utiliser le conditionnel <suggestion>\3s</suggestion> au lieu du futur « \3 » pour exprimer un souhait ?</message>
+        <message>Voulez-vous utiliser le conditionnel au lieu du futur pour exprimer un souhait ?</message>
+        <suggestion><match no="3" postag="V avoir ind futu (.) (.)" postag_regexp="yes" postag_replace="V avoir con pres $1 $2"/></suggestion>
         <example correction="aurais">Bonjour, j’<marker>aurai</marker> aimé savoir si la soupe était chaude.</example>
-        <example correction="aurais">La directeur <marker>aurai</marker> aimé savoir si la soupe était chaude.</example>
+        <example correction="aurait">La directeur <marker>aura</marker> aimé savoir si la soupe était chaude.</example>
         <example >Il aurait aimé savoir si c'est bien ici.</example>
         <example >Il aura vendu sa voiture.</example>
         <example correction="aurais">Bonjour, je n'<marker>aurai</marker> pas aimé savoir si la soupe était chaude.</example>
@@ -12829,7 +12831,8 @@ though, and has since been slightly modified)-->
         <example >Il aurait aimé le savoir si c'est bien ici.</example>
         <example correction="aurais">Bonjour, je n'<marker>aurai</marker> pas aimé te connaitre.</example>
         <example >Il n'aurait pas aimé le savoir si c'est bien ici.</example>
-      </rule>
+        <example >J'aurai aimé que tu me le dises.</example>
+    </rule>
     </rulegroup>
     <rulegroup id="COND_VS_FUTUR" name="probable futur avant bientôt, demain, etc.">
       <rule>
