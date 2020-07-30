@@ -480,6 +480,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Prio", Arrays.asList("Priority"));
     s.put("prio", Arrays.asList("priority"));
     s.put("Ecommerce", Arrays.asList("E-Commerce"));
+    s.put("ezine", Arrays.asList("e-zine"));
+    s.put("Ezine", Arrays.asList("E-zine"));
+    s.put("ezines", Arrays.asList("e-zines"));
+    s.put("Ezines", Arrays.asList("E-zines"));
     s.put("ebook", Arrays.asList("e-book"));
     s.put("ebooks", Arrays.asList("e-books"));
     s.put("eBook", Arrays.asList("e-book"));
