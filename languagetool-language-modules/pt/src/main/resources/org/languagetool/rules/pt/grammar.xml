@@ -510,6 +510,15 @@ title="Easy editing stylesheet" ?>
 		  <token negate="yes" regexp='yes'>em|da|do|que</token>
       </antipattern>	
 <!-- MARCOAGPINTO 2020-07-30 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-07-31 (2-JUL-2020+) *START* -->
+<!-- "O desaparecimento de um equilíbrio, denominado catástrofe." -->
+      <antipattern>
+          <token postag='NC[CM]S000' postag_regexp='yes'/>
+		  <token min="0" max="1" regexp='no'>,</token>		  
+		  <token postag='VMP00SM' postag_regexp='no'/>
+          <token postag='NC[CFM]S000' postag_regexp='yes'/>
+      </antipattern>	
+<!-- MARCOAGPINTO 2020-07-31 (2-JUL-2020+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -546,6 +555,7 @@ title="Easy editing stylesheet" ?>
       <example>De acordo com uma fonte do Governo britânico ouvida pelo The Telegr…</example>
       <example>Deixe-me dirigir o seu novo Toyota.</example>
 	  <example type='correct'>Uma informação o mais simples e <marker>o mais rica</marker>.</example>
+	  <example type='correct'>O desaparecimento de um equilíbrio, <marker>denominado catástrofe</marker>.</example>
     </rule>
     <rule>
       <pattern>
