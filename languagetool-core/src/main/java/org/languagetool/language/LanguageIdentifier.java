@@ -70,9 +70,15 @@ public class LanguageIdentifier {
   private final UnicodeBasedLangIdentifier unicodeIdentifier = new UnicodeBasedLangIdentifier();
 
   private FastText fastText;
+  private NGramLangIdentifier ngram;
+  private boolean testMode = false;
 
   public LanguageIdentifier() {
     this(1000);
+  }
+
+  public void setTest(boolean testMode) {
+    this.testMode = testMode;
   }
 
   /**
@@ -108,13 +114,19 @@ public class LanguageIdentifier {
   }
 
   public void enableFasttext(File fasttextBinary, File fasttextModel) {
-    if (fasttextBinary != null && fasttextModel != null) {
-      try {
-        fastText = new FastText(fasttextModel, fasttextBinary);
-        logger.info("Started fasttext process for language identification: Binary " + fasttextBinary + " with model @ " + fasttextModel);
-      } catch (IOException e) {
-        logger.error("Error while starting fasttext (binary: " + fasttextBinary + ", model: " + fasttextModel + ")", e);
-        throw new RuntimeException("Could not start fasttext process for language identification @ " + fasttextBinary + " with model @ " + fasttextModel, e);
+    if (testMode) {
+      String ngramDir = "/home/languagetool/ngram-lang-id";
+      ngram = new NGramLangIdentifier(ngramDir, 30, true, false);
+      logger.info("Started ngram identifier with model @ " + ngramDir);
+    } else {
+      if (fasttextBinary != null && fasttextModel != null) {
+        try {
+          fastText = new FastText(fasttextModel, fasttextBinary);
+          logger.info("Started fasttext process for language identification: Binary " + fasttextBinary + " with model @ " + fasttextModel);
+        } catch (IOException e) {
+          logger.error("Error while starting fasttext (binary: " + fasttextBinary + ", model: " + fasttextModel + ")", e);
+          throw new RuntimeException("Could not start fasttext process for language identification @ " + fasttextBinary + " with model @ " + fasttextModel, e);
+        }
       }
     }
   }
@@ -198,7 +210,7 @@ public class LanguageIdentifier {
       additionalLangs.addAll(unicodeIdentifier.getAdditionalLangCodes(text));
     }
     Map.Entry<String,Double> result = null;
-    if (fastText != null) {
+    if (fastText != null || ngram != null) {
       try {
         // do *not* use TextObjectFactory because of https://github.com/languagetool-org/languagetool/issues/1278
         // (using it for optimaize is okay, assuming the same strong normalization was applied during training):
@@ -206,7 +218,12 @@ public class LanguageIdentifier {
         shortText = new RemoveEMailSignatureFilter().filter(shortText);
         shortText = new RemoveNonBreakingSpaces().filter(shortText);
         shortText = shortText.replaceAll("\uFEFF+", " ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
-        Map<String, Double> scores = fastText.runFasttext(shortText, additionalLangs);
+        Map<String, Double> scores;
+        if (fastText != null) {
+          scores = fastText.runFasttext(shortText, additionalLangs);
+        } else {
+          scores = ngram.runFasttext(shortText, additionalLangs);
+        }
         result = getHighestScoringResult(scores);
         if (result.getValue().floatValue() < THRESHOLD) {
           //System.out.println(text + " ->" + result.getValue().floatValue() + " " + result.getKey());
@@ -238,12 +255,12 @@ public class LanguageIdentifier {
         //System.out.println("newScore  : " + newScore);
         result = new AbstractMap.SimpleImmutableEntry<>(result.getKey(), newScore);
       } catch (Exception e) {
-        fastText.destroy();
+        //fastText.destroy();
         fastText = null;
         logger.error("Fasttext disabled", e);
       }
     }
-    if (fastText == null) { // no else, value can change in if clause
+    if (fastText == null && ngram == null) { // no else, value can change in if clause
       shortText = textObjectFactory.forText(shortText).toString();
       result = detectLanguageCode(shortText);
       if (additionalLangs.size() > 0) {

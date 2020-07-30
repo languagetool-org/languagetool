@@ -49,6 +49,7 @@ class LanguageDetectionMinLengthEval {
 
   private LanguageDetectionMinLengthEval() {
     languageIdentifier = new LanguageIdentifier();
+    languageIdentifier.setTest(true);
     //languageIdentifier = new CLD2Identifier();
     //languageIdentifier.enableFasttext(new File("/path/to/fasttext/binary"), new File("/path/to/fasttext/model"));
     // Daniel's paths:
