@@ -501,6 +501,15 @@ title="Easy editing stylesheet" ?>
 		  <token postag='NC[CF]P000|AQ0[CF]P0' postag_regexp='yes'/>
       </antipattern>	  
 <!-- MARCOAGPINTO 2020-07-21 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-07-30 (2-JUL-2020+) *START* -->
+<!-- "Uma informação o mais simples e o mais rica." -->
+      <antipattern>
+          <token postag='DA0MS0|PD0MS000|PP3MSA00' postag_regexp='yes'/>		  
+          <token postag='NC[CM]S000|NC[CM]N000|RG' postag_regexp='yes'/>
+          <token postag='AQ0[CF]S0|NC[CF]S000' postag_regexp='yes'/>
+		  <token negate="yes" regexp='yes'>em|da|do|que</token>
+      </antipattern>	
+<!-- MARCOAGPINTO 2020-07-30 (2-JUL-2020+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -536,6 +545,7 @@ title="Easy editing stylesheet" ?>
       <example>Tem consistência tipo água.</example><!-- informality -->
       <example>De acordo com uma fonte do Governo britânico ouvida pelo The Telegr…</example>
       <example>Deixe-me dirigir o seu novo Toyota.</example>
+	  <example type='correct'>Uma informação o mais simples e <marker>o mais rica</marker>.</example>
     </rule>
     <rule>
       <pattern>
