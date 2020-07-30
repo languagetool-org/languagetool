@@ -768,20 +768,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token regexp="yes">із|з</token>
           </marker>
-          <token regexp="yes">[зсшщ]ь?[ґйцкнгшщзхфвпрлджчсмтбqwrtpsdfghjklzxcvbnm].*|ль[вн].*|1[0-9][0-9](-[а-яіїєґ]{1,3})?
+          <token regexp="yes">[зсшщ]ь?[ґйцкнгшщзхфвпрлджчсмтбqwrtpsdfghjklzxcvbnm].*|1[0-9][0-9](-[а-яіїєґ]{1,3})?
             <exception regexp="yes">\p{Lu}\p{Lu}.*</exception>
           </token>
         </pattern>
         <message>Перед сполученням приголосних із початковим свистячим або шиплячим пишемо: <suggestion>зі</suggestion></message>
         <url>https://r2u.org.ua/pravopys/pravXXI/13.html</url>
+        <example correction="зі">Бере книжку <marker>із</marker> стола.</example>
+        <example correction="зі">Бере книжку <marker>з</marker> стола.</example>
+        <example correction="Зі"><marker>З</marker> 104 інновацій.</example>
         <example>Бере книжку зі стола.</example>
         <example>Висновок із цього.</example>
         <example>Балада зі знаком запитання.</example>
         <example>Організація з США підкуплена.</example>
-        <example correction="зі">Бере книжку <marker>із</marker> стола.</example>
-        <example correction="зі">Бере книжку <marker>з</marker> стола.</example>
-        <example correction="Зі"><marker>З</marker> 104 інновацій.</example>
-        <example correction="зі"><marker>з</marker> Львова.</example>
+        <example>з Львова</example>
       </rule>
     </rulegroup>
 
@@ -847,6 +847,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="би">Гуляв <marker>б</marker> усюди.</example>
         <example>Гуділи б голосно.</example>
       </rule>
+
       <rule>
         <antipattern>
           <token>би</token>
@@ -864,6 +865,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Тікав би звідси.</example>
         <example>Могло би бути.</example>
         <example>Стався би скандал.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">.*[баеєиіїоюя]</token>
+          <marker>
+            <token>би</token>
+          </marker>
+          <token regexp="yes">[бпдткґ].*|[бвгґджзйклмнпрстфхцчшщ]{2}.*</token>
+        </pattern>
+        <message>Згідно з чинним правописом, після голосної пишемо <suggestion>б</suggestion>. Однак «би» дозволяє уникати збігу приголосних б та б/п/д/т/к/ґ або двох приголосних.</message>
+        <example correction="б">Стався <marker>би</marker> скандал.</example>
+        <example correction="б">Могло <marker>би</marker> бути.</example>
       </rule>
     </rulegroup>
 
