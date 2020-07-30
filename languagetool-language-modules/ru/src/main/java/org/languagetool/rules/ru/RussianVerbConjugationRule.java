@@ -26,6 +26,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.Categories;
+import org.languagetool.rules.Example;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,6 +45,8 @@ public class RussianVerbConjugationRule extends Rule {
     public RussianVerbConjugationRule(ResourceBundle messages) {
         super(messages);
         super.setCategory(Categories.GRAMMAR.getCategory(messages));
+        addExamplePair(Example.wrong("<marker>Я идёт</marker>."),
+        Example.fixed("<marker>Я иду</marker>."));
     }
 
     @Override
