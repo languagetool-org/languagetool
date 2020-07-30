@@ -4104,8 +4104,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="N.*|.*_GN_.*"/>
     </rule>
     <rulegroup id="fer_nom" name="fer + nom/adj: elimina el participi">
-        <!-- fer amistat, costat, aliat, etc. -->
         <rule>
+            <!-- de fes -->
+            <pattern>
+                <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                <marker>
+                    <and>
+                        <token inflected="yes">fer</token>
+                        <token postag="NC.*|A.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.[^PN].*"/>
+        </rule>
+        <rule>
+            <!-- fer amistat, costat, aliat, etc. -->
             <pattern>
                 <token inflected="yes" regexp="yes">fer|donar<exception regexp="yes">dona|dones</exception></token>
                 <marker>

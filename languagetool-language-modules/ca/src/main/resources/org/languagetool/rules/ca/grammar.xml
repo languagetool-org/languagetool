@@ -13572,12 +13572,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token regexp="yes">a|de|per|en</token>
                 <token>cal</token>
-                <token postag="_possible_nompropi"/>
+                <token regexp="yes">\p{Lu}.*|Dr|doctor|metge</token>
+            </antipattern>
+            <antipattern>
+                <token>cal</token>
+                <token postag="NC[MC][SN].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>cal</token>
+                <token>que</token>
             </antipattern>
             <pattern>
                 <token postag="D..FS.|SPS00|LOC_PREP" postag_regexp="yes"/><!--</token> postag="D..FS.|SPS00|LOC_PREP" regexp="yes"-->
                 <marker>
-                    <token>cal</token>
+                    <token>cal<exception postag="NP.*|_possible_nompropi" postag_regexp="yes"></exception></token>
                 </marker>
             </pattern>
             <message>¿Volíeu dir <suggestion>calç</suggestion></message>
@@ -13585,6 +13593,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="calç">Ho pintarem amb aquesta <marker>cal</marker>.</example>
             <example correction="calç">Ho embrutaren tot de <marker>cal</marker>.</example>
             <example>Venim de cal Pere.</example>
+            <example>El petit de Cal Eril.</example>
+            <example>la visita a cal Dr. Ballabriga</example>
+            <example>La visita a cal metge.</example>
+            <example>Però aquesta cal que torni.</example>
         </rule>
         <rule id="BACS" name="bacs/basc">
             <pattern>
@@ -19105,14 +19117,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>gos de presa</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>presa</token>
+                    <token inflected="yes">de</token>
+                </antipattern>
                 <pattern>
                     <!-- calen més excepcions!! -->
-                    <token><exception inflected="yes" regexp="yes">mecanisme|salt|mena|programari|discurs|procés|aparell|gos|ocell|au|animal|topí|ansat</exception></token>
+                    <token><exception inflected="yes" regexp="yes">mecanisme|salt|mena|programari|discurs|procés|aparell|gos|ocell|au|animal|topí|ansat|bèstia</exception></token>
                     <token>de</token>
                     <marker>
                         <token>presa<exception postag="_possible_nompropi"/></token>
                     </marker>
-                    <token><exception>de</exception></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>pressa</suggestion> (=desig de fer una cosa ràpidament)?</message>
                 <short>Possible confusió</short>
@@ -52249,6 +52264,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Feia una cara de mira'm i no em toquis...</example>
                 <example>A és igual a B</example>
                 <example>¿A és igual a B?</example>
+                <example>De fes religioses.</example>
             </rule>
             <rule>
                 <pattern>
