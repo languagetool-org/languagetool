@@ -134,8 +134,6 @@ public class NGramLangIdentifier {
     else{
       this.scales = null;
     }
-
-
   }
 
   private List<Integer> encode(String text){
@@ -248,6 +246,7 @@ public class NGramLangIdentifier {
       }
     }
 
+    System.out.println("ngram result: " + result);
     return result;
   }
 }
