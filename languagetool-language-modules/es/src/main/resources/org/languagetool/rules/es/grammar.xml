@@ -1455,6 +1455,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>que</token>
                     <token>si</token>
                 </antipattern>
+                <antipattern>
+                    <token>que</token>
+                    <token regexp="yes">cómo|cuántos?|cuándo|quién|quiénes|cuál|cuáles</token>
+                </antipattern>
                 <pattern>
                     <token>¿</token>
                     <token min="0" max="2" postag="SPS00|CC" postag_regexp="yes"/>
@@ -1476,6 +1480,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--This can't be detected, but infrequent-->
                 <example>¡Que te diviertas!</example>
                 <example>¿A que no?</example>
+                <example>¿Que cuántos tengo?</example>
             </rule>
             <rule>
                 <pattern>
@@ -6312,6 +6317,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="por que|por la que|por la cual">La razón <marker>porque</marker> lo pienso.</example>
                 <example correction="por que|por el que|por el cual">El motivo <marker>porque</marker> nos fuimos.</example>
                 <example correction="por que|por los que|por los cuales">Los motivos <marker>porque</marker> nos fuimos.</example>
+                <!--No tenéis más razón porque seáis mayores.-->
             </rule>
         </rulegroup>
         <rulegroup id="PREP_VERB" name="Combinación imposible: preposición + verbo conjugado">
@@ -8261,7 +8267,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes" inflected="yes">ir|venir|entrar|volver|salir|estar|levantar</token>
+                <token regexp="yes" inflected="yes">ir|venir|entrar|volver|salir|estar|levantar|quedar|permanecer</token>
                 <token regexp="yes">a|en|de</token>
                 <token postag="DA.*" postag_regexp="yes" min="0"/>
                 <token regexp="yes">casa|cama</token>
@@ -8427,6 +8433,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Pero le era embarazoso ser vista por sus amigos.</example>
             <example>Unas veces me pone eufórica y otras nostálgica.</example>
             <example>Una patética caricatura de mi más profundo ser.</example>
+            <example>El embrague falla.</example>
             <!-- 
                 Ella fue al concierto acompañada de una amiga.
                 Soy cualquier cosa menos mentiroso. 
@@ -8541,6 +8548,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>avenida</token>
                 <token regexp="yes">\p{Lu}.*</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">hacer</token>
+                <token regexp="yes">polvo|añicos</token>
             </antipattern>
             <antipattern case_sensitive="yes">
                 <token>SA</token>
