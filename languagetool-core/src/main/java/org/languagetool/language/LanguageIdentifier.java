@@ -116,7 +116,7 @@ public class LanguageIdentifier {
   public void enableFasttext(File fasttextBinary, File fasttextModel) {
     if (testMode) {
       String ngramDir = "/home/languagetool/ngram-lang-id";
-      ngram = new NGramLangIdentifier(ngramDir, 30, true, false);
+      ngram = new NGramLangIdentifier(ngramDir, 100, true, false);
       logger.info("Started ngram identifier with model @ " + ngramDir);
     } else {
       if (fasttextBinary != null && fasttextModel != null) {
