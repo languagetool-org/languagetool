@@ -246,7 +246,7 @@ public class NGramLangIdentifier {
       }
     }
 
-    System.out.println("ngram result: " + result);
+    //System.out.println("ngram result: " + result);
     return result;
   }
 }

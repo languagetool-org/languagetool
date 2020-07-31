@@ -260,7 +260,7 @@ public class LanguageIdentifier {
         logger.error("Fasttext disabled", e);
       }
     }
-    if (fastText == null) { // no else, value can change in if clause
+    if (fastText == null && ngram == null) { // no else, value can change in if clause
       shortText = textObjectFactory.forText(shortText).toString();
       result = detectLanguageCode(shortText);
       if (additionalLangs.size() > 0) {
