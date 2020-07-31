@@ -188,6 +188,7 @@ public class ProhibitedCompoundRule extends Rule {
           "Wettprogramme", // vs Welt
           "Zählerwechsel",
           "Zählerwechsels",
+          "Nährstoffleitungen",  // vs ...leistungen
           "Verhandlungskreise",
           "Verhandlungskreisen"
   ));
