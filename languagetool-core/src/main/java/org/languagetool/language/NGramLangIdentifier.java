@@ -29,7 +29,7 @@ public class NGramLangIdentifier {
   private final boolean scaling;
 
   public NGramLangIdentifier(){
-    this("C:\\Users\\Robert\\Desktop\\RobertAIStuff\\language_identification\\data\\prod2", 30, false, false);
+    this("C:\\Users\\Robert\\Desktop\\RobertAIStuff\\language_identification\\data\\prod2", 100, false, false);
     //this("C:\\Users\\Robert\\Desktop\\RobertAIStuff\\language_identification\\data\\tm_30bpe_d2_ml30_n", 30, false);
   }
 
