@@ -1346,6 +1346,7 @@ public class JLanguageTool {
       if (i > 0) {
         aTokens.get(i).setWhitespaceBefore(aTokens.get(i - 1).getToken());
         aTokens.get(i).setStartPos(aTokens.get(i).getStartPos() + posFix);
+        aTokens.get(i).setPosFix(posFix);
       }
       if (!softHyphenTokens.isEmpty() && softHyphenTokens.get(i) != null) {
         // addReading() modifies a readings.token if last token is longer - need to use it first

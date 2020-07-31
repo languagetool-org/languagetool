@@ -320,7 +320,7 @@ public class ReadabilityRule extends TextLevelRule {
         startPos = -1;
         endPos = -1;
       }
-      pos += sentence.getText().length();
+      pos += sentence.getCorrectedTextLength();
     }
     double ASL = (double) nAllWords / (double) nAllSentences;
     double ASW = (double) nAllSyllables / (double) nAllWords;

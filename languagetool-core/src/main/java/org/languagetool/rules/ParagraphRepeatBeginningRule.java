@@ -83,7 +83,7 @@ public class ParagraphRepeatBeginningRule extends TextLevelRule {
       return 0;
     }
     if (lastTokens.length > nToken + 1 && isArticle(lastTokens[nToken]) && lastToken.equals(nextToken)) {
-      if(lastTokens.length <= nToken + 1 || nextTokens.length <= nToken + 1) {
+      if (lastTokens.length <= nToken + 1 || nextTokens.length <= nToken + 1) {
         return 0;
       }
       nToken++;
@@ -113,8 +113,8 @@ public class ParagraphRepeatBeginningRule extends TextLevelRule {
     int endPos = 0;
     AnalyzedSentence lastSentence = sentences.get(0);
     AnalyzedTokenReadings[] lastTokens = lastSentence.getTokensWithoutWhitespace();
-    AnalyzedSentence nextSentence = null;
-    AnalyzedTokenReadings[] nextTokens = null;
+    AnalyzedSentence nextSentence;
+    AnalyzedTokenReadings[] nextTokens;
     
     for (int n = 0; n < sentences.size() - 1; n++) {
       nextPos += sentences.get(n).getText().length();
@@ -147,4 +147,3 @@ public class ParagraphRepeatBeginningRule extends TextLevelRule {
   }
 
 }  
-  

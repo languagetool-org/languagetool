@@ -95,6 +95,10 @@ public class GenericUnpairedBracketsRuleTest {
     assertThat(match2.getEndLine(), is(2));
     assertThat(match2.getColumn(), is(4));
     assertThat(match2.getEndColumn(), is(5));
+
+    RuleMatch match3 = lt.check("Th\u00ADis »is a test.").get(0);
+    assertThat(match3.getFromPos(), is(6));
+    assertThat(match3.getToPos(), is(7));
   }
 
   private void setUpRule(Language language) {

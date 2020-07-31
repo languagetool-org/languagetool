@@ -46,6 +46,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
 
   private AnalyzedToken[] anTokReadings;
   private int startPos;
+  private int fixPos;
   private String token;
   private List<ChunkTag> chunkTags = Collections.emptyList();
   private boolean isSentEnd;
@@ -449,6 +450,16 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
 
   public void setStartPos(int position) {
     startPos = position;
+  }
+
+  /** @since 5.1 */
+  public void setPosFix(int fix) {
+    fixPos = fix;
+  }
+
+  /** @since 5.1 */
+  public int getPosFix() {
+    return fixPos;
   }
 
   public String getToken() {

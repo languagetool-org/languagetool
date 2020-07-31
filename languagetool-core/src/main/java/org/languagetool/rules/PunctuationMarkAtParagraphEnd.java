@@ -133,7 +133,7 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
         }
         lastPara = n;
       }
-      pos += sentence.getText().length();
+      pos += sentence.getCorrectedTextLength();
     }
     return toRuleMatchArray(ruleMatches);
   }

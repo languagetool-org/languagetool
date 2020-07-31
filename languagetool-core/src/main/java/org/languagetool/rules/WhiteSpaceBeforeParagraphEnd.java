@@ -85,7 +85,7 @@ public class WhiteSpaceBeforeParagraphEnd extends TextLevelRule {
           ruleMatches.add(ruleMatch);
         }
       }
-      pos += sentence.getText().length();
+      pos += sentence.getCorrectedTextLength();
     }
     return toRuleMatchArray(ruleMatches);
   }

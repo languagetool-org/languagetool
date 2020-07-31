@@ -157,9 +157,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
           }
         }
       }
-      for (AnalyzedTokenReadings readings : sentence.getTokens()) {
-        startPosBase += readings.getToken().length();
-      }
+      startPosBase += sentence.getCorrectedTextLength();
     }
     boolean isSymetric = false;
     //if the stack is odd and symmetric match only the symbol in the middle, e. g. ({"})

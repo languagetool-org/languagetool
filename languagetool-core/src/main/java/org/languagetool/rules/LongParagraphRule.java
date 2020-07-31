@@ -139,7 +139,7 @@ public class LongParagraphRule extends TextLevelRule {
         }
         wordCount = 0;
       }
-      pos += sentence.getText().length();
+      pos += sentence.getCorrectedTextLength();
     }
     if (wordCount > maxWords) {
       RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, msg);

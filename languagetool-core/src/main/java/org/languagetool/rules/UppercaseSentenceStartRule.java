@@ -182,8 +182,8 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
           ruleMatches.add(ruleMatch);
         }
       }
-      pos += sentence.getText().length();
-      // Plain text lists like this are not properly split into sentences, we 
+      pos += sentence.getCorrectedTextLength();
+      // Plain text lists like this are not properly split into sentences, we
       // work around that here so the items don't create an error when starting lowercase:
       // 1. item one
       // 2. item two

@@ -112,7 +112,7 @@ public class DuUpperLowerCaseRule extends TextLevelRule {
           }
         }
       }
-      pos += sentence.getText().length();
+      pos += sentence.getCorrectedTextLength();
     }
     return toRuleMatchArray(ruleMatches);
   }
