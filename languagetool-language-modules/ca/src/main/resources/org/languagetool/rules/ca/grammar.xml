@@ -46619,6 +46619,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="començàrem|donàrem principi|iniciàrem"><marker>donàrem començament</marker></example>
             <example>començar</example>
         </rule>
+        <rule id="DONAR_AVIS" name="donar avís">
+            <pattern>
+                <token inflected="yes">donar</token>
+                <token>avís</token>
+            </pattern>
+            <message>Val més utilitzar una altra expressió.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">avisar</match></suggestion>
+            <short>Expressió preferible</short>
+            <example correction="avisem">Els <marker>donem avís</marker> de tot</example>
+        </rule>
+        <rule id="DONAR_CONSTANCIA" name="donar constància">
+            <pattern>
+                <token inflected="yes">donar</token>
+                <token>constància</token>
+            </pattern>
+            <message>Val més utilitzar una altra expressió.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">deixar</match> constància</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> constar</suggestion>
+            <short>Expressió preferible</short>
+            <example correction="Deixarem constància|Farem constar"><marker>Donarem constància</marker> a l'autoritat competent.</example>
+        </rule>
         <rule id="PUNT_I_FINAL" name="punt i final">
             <pattern>
                 <token>punt</token>
