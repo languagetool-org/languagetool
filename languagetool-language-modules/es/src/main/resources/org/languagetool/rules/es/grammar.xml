@@ -5995,7 +5995,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
-        <rulegroup id="TE_HAY" name="*te hay" default="temp_off">
+        <rulegroup id="TE_HAY" name="*te hay">
             <rule>
                 <pattern>
                     <token regexp="yes">me|te|le|les|nos|os</token>
@@ -9403,6 +9403,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
+        <rule id="HAZMERREIR" name="hazmerreír" default="temp_off">
+            <pattern>
+                <token postag="D.*|SP\+DA" postag_regexp="yes"/>
+                <marker>
+                    <token>hazme</token>
+                    <token regexp="yes">reir|reír</token>
+                </marker>
+            </pattern>
+            <message>Como sustantivo se escribe junto.</message>
+            <suggestion>hazmerreír</suggestion>
+            <example correction="hazmerreír">Son el <marker>hazme reír</marker> del país.</example>
+        </rule>
         <rule id="CUIDAD_CIUDAD" name="*cuidad/ciudad" default="on">
             <pattern>
                 <token postag="D..[CF]S." postag_regexp="yes"/>
@@ -9431,7 +9443,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>La tarta es muy buena.</example>
             <example>Las tartas de manzana.</example>
         </rule>
-        <rule id="TE_NO" name="te no/no te (orden incorrecto)" default="temp_off">
+        <rule id="TE_NO" name="te no/no te (orden incorrecto)">
             <pattern>
                 <marker>
                     <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
