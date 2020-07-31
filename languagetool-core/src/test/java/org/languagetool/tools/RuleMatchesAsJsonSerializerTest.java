@@ -43,6 +43,17 @@ public class RuleMatchesAsJsonSerializerTest {
           1, 3, "My Message, use <suggestion>foo</suggestion> instead", "short message")
   );
 
+  private final List<RuleMatch> matches2;
+  {
+    FakeRule rule = new FakeRule();
+    rule.setTags(Arrays.asList("myTag"));
+    matches2 = Arrays.asList(
+              new RuleMatch(rule,
+              new JLanguageTool(Languages.getLanguageForShortCode("xx")).getAnalyzedSentence("This is an test sentence."),
+              1, 3, "My Message, use <suggestion>foo</suggestion> instead", "short message")
+      );
+  }
+
   public RuleMatchesAsJsonSerializerTest() throws IOException {
   }
 
@@ -65,10 +76,24 @@ public class RuleMatchesAsJsonSerializerTest {
     assertContains("\"addition\"", json);
     assertContains("\"short message\"", json);
     assertContains("\"sentence\":\"This is an test sentence.\"", json);
+    assertNotContains("tags", json);
+    assertNotContains("myTag", json);
+  }
+
+  @Test
+  public void testJsonWithTags() {
+    DetectedLanguage lang = new DetectedLanguage(Languages.getLanguageForShortCode("xx-XX"), Languages.getLanguageForShortCode("xx-XX")) ;
+    String json = serializer.ruleMatchesToJson(matches2, "This is an text.", 5, lang);
+    // Tags:
+    assertContains("\"tags\":[\"myTag\"]", json);
   }
 
   private void assertContains(String expectedSubstring, String json) {
     assertTrue("Did not find expected string '" + expectedSubstring + "' in JSON:\n" + json, json.contains(expectedSubstring));
+  }
+
+  private void assertNotContains(String unexpectedSubstring, String json) {
+    assertFalse("Found unexpected string '" + unexpectedSubstring + "' in JSON:\n" + json, json.contains(unexpectedSubstring));
   }
 
   @Test

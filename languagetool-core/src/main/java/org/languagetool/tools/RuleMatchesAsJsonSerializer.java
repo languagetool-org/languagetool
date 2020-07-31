@@ -273,6 +273,13 @@ public class RuleMatchesAsJsonSerializer {
       g.writeEndArray();
     }
     writeCategory(g, rule.getCategory());
+    if (rule.getTags().size() > 0) {
+      g.writeArrayFieldStart("tags");
+      for (String tag : rule.getTags()) {
+        g.writeString(tag);
+      }
+      g.writeEndArray();
+    }
     g.writeEndObject();
   }
 
