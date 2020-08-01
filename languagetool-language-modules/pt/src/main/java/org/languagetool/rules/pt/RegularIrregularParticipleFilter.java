@@ -53,7 +53,7 @@ public class RegularIrregularParticipleFilter extends RuleFilter {
       AnalyzedToken selectedAT = null;
       String desiredPostag = null;
       for (AnalyzedToken at : atr) {
-        if (at.getPOSTag().startsWith("VMP")) {
+        if (at.getPOSTag() != null && at.getPOSTag().startsWith("VMP")) {
           selectedAT = at;
           desiredPostag = at.getPOSTag();
         }
