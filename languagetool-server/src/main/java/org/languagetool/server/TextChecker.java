@@ -88,7 +88,6 @@ abstract class TextChecker {
   private long lastHiddenMatchesServerTimeout;
   // counter; mark as down if this reaches hidenMatchesServerFall
   private long hiddenMatchesServerFailures = 0;
-  private final LanguageIdentifier ngramIdentifier;
   private final LanguageIdentifier fastTestIdentifier;
   private final ExecutorService executorService;
   private final ResultCache cache;
@@ -97,6 +96,7 @@ abstract class TextChecker {
   private final Random random = new Random();
   private final Set<DatabasePingLogEntry> pings = new HashSet<>();
   private long pingsCleanDateMillis = System.currentTimeMillis();
+  private LanguageIdentifier ngramIdentifier = null;
   PipelinePool pipelinePool; // mocked in test -> package-private / not final
 
   TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
@@ -105,8 +105,10 @@ abstract class TextChecker {
     this.reqCounter = reqCounter;
     this.fastTestIdentifier = new LanguageIdentifier();
     this.fastTestIdentifier.enableFasttext(config.getFasttextBinary(), config.getFasttextModel());
-    this.ngramIdentifier = new LanguageIdentifier();
-    this.ngramIdentifier.enableNgrams(config.getNgramLangIdentDir());
+    if (config.getNgramLangIdentDir() != null) {
+      this.ngramIdentifier = new LanguageIdentifier();
+      this.ngramIdentifier.enableNgrams(config.getNgramLangIdentDir());
+    }
     this.executorService = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("lt-textchecker-thread-%d").build());
     this.cache = config.getCacheSize() > 0 ? new ResultCache(
       config.getCacheSize(), config.getCacheTTLSeconds(), TimeUnit.SECONDS) : null;
@@ -683,7 +685,7 @@ abstract class TextChecker {
     DetectedLanguage detected;
     String mode;
     long t1 = System.nanoTime();
-    if (testMode) {
+    if (testMode && ngramIdentifier != null) {
       detected = ngramIdentifier.detectLanguage(text, noopLangs, preferredLangs);
       mode = "ngram";
     } else {
