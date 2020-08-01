@@ -71,14 +71,9 @@ public class LanguageIdentifier {
 
   private FastText fastText;
   private NGramLangIdentifier ngram;
-  private boolean testMode = false;
 
   public LanguageIdentifier() {
     this(1000);
-  }
-
-  public void setTest(boolean testMode) {
-    this.testMode = testMode;
   }
 
   /**
@@ -114,24 +109,23 @@ public class LanguageIdentifier {
   }
 
   public void enableFasttext(File fasttextBinary, File fasttextModel) {
-    if (testMode) {
-      String ngramDir = "/home/languagetool/ngram-lang-id";  // FIXME
+    if (fasttextBinary != null && fasttextModel != null) {
       try {
-        ngram = new NGramLangIdentifier(ngramDir, 100, true, false);
-        logger.info("Loaded ngram data for language identification: " + ngramDir);
+        fastText = new FastText(fasttextModel, fasttextBinary);
+        logger.info("Started fasttext process for language identification: Binary " + fasttextBinary + " with model @ " + fasttextModel);
       } catch (IOException e) {
-        throw new RuntimeException("Could not load ngram data language identification from " + ngramDir, e);
+        throw new RuntimeException("Could not start fasttext process for language identification @ " + fasttextBinary + " with model @ " + fasttextModel, e);
       }
-      logger.info("Started ngram identifier with model @ " + ngramDir);
-    } else {
-      if (fasttextBinary != null && fasttextModel != null) {
-        try {
-          fastText = new FastText(fasttextModel, fasttextBinary);
-          logger.info("Started fasttext process for language identification: Binary " + fasttextBinary + " with model @ " + fasttextModel);
-        } catch (IOException e) {
-          throw new RuntimeException("Could not start fasttext process for language identification @ " + fasttextBinary + " with model @ " + fasttextModel, e);
-        }
-      }
+    }
+  }
+
+  public void enableNgrams() {
+    String ngramDir = "/home/languagetool/ngram-lang-id";  // FIXME
+    try {
+      ngram = new NGramLangIdentifier(ngramDir, 100, true, false);
+      logger.info("Loaded ngram data for language identification: " + ngramDir);
+    } catch (IOException e) {
+      throw new RuntimeException("Could not load ngram data language identification from " + ngramDir, e);
     }
   }
 
