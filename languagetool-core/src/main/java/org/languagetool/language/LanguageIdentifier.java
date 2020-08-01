@@ -115,8 +115,13 @@ public class LanguageIdentifier {
 
   public void enableFasttext(File fasttextBinary, File fasttextModel) {
     if (testMode) {
-      String ngramDir = "/home/languagetool/ngram-lang-id";
-      ngram = new NGramLangIdentifier(ngramDir, 100, true, false);
+      String ngramDir = "/home/languagetool/ngram-lang-id";  // FIXME
+      try {
+        ngram = new NGramLangIdentifier(ngramDir, 100, true, false);
+        logger.info("Loaded ngram data for language identification: " + ngramDir);
+      } catch (IOException e) {
+        throw new RuntimeException("Could not load ngram data language identification from " + ngramDir, e);
+      }
       logger.info("Started ngram identifier with model @ " + ngramDir);
     } else {
       if (fasttextBinary != null && fasttextModel != null) {
@@ -124,7 +129,6 @@ public class LanguageIdentifier {
           fastText = new FastText(fasttextModel, fasttextBinary);
           logger.info("Started fasttext process for language identification: Binary " + fasttextBinary + " with model @ " + fasttextModel);
         } catch (IOException e) {
-          logger.error("Error while starting fasttext (binary: " + fasttextBinary + ", model: " + fasttextModel + ")", e);
           throw new RuntimeException("Could not start fasttext process for language identification @ " + fasttextBinary + " with model @ " + fasttextModel, e);
         }
       }
@@ -222,7 +226,7 @@ public class LanguageIdentifier {
         if (fastText != null) {
           scores = fastText.runFasttext(shortText, additionalLangs);
         } else {
-          scores = ngram.runFasttext(shortText, additionalLangs);
+          scores = ngram.detectLanguages(shortText, additionalLangs);
         }
         result = getHighestScoringResult(scores);
         if (result.getValue().floatValue() < THRESHOLD) {

@@ -116,7 +116,7 @@ public class NGramLangIdentifier {
     }
   }
 
-  public Map<String, Double> runFasttext(String text, List<String> additionalLanguageCodes) {
+  public Map<String, Double> detectLanguages(String text, List<String> additionalLanguageCodes) {
     List<Integer> enc = this.encode(text);
     List<Double> vals = new ArrayList<>();
 
