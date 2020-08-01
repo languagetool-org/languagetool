@@ -106,7 +106,7 @@ abstract class TextChecker {
     this.fastTestIdentifier = new LanguageIdentifier();
     this.fastTestIdentifier.enableFasttext(config.getFasttextBinary(), config.getFasttextModel());
     this.ngramIdentifier = new LanguageIdentifier();
-    this.ngramIdentifier.enableNgrams();
+    this.ngramIdentifier.enableNgrams(config.getNgramLangIdentDir());
     this.executorService = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("lt-textchecker-thread-%d").build());
     this.cache = config.getCacheSize() > 0 ? new ResultCache(
       config.getCacheSize(), config.getCacheTTLSeconds(), TimeUnit.SECONDS) : null;

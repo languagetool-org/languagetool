@@ -19,6 +19,7 @@
 package org.languagetool.language;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -47,16 +48,16 @@ public class NGramLangIdentifier {
   private final boolean knp;
   private final boolean scaling;
 
-  public NGramLangIdentifier(String sourceFolder, int maxLength, boolean knSmoothing, boolean scaling) throws IOException {
+  public NGramLangIdentifier(File sourceFolder, int maxLength, boolean knSmoothing, boolean scaling) throws IOException {
     this.maxLength = maxLength;
     this.knp = knSmoothing;
     this.scaling = scaling;
-    String vocabPath = Paths.get(sourceFolder, "vocab.txt").toString();
-    String isoPath = Paths.get(sourceFolder, "iso_codes.tsv").toString();
-    String ugPath = Paths.get(sourceFolder, "/ug/").toString();
-    String sumsPathPre = Paths.get(sourceFolder, "/sums/pre/").toString();
-    String sumsPathPost = Paths.get(sourceFolder, "/sums/post/").toString();
-    String scalesPath = Paths.get(sourceFolder, "scales.txt").toString();
+    String vocabPath = Paths.get(sourceFolder.getAbsolutePath(), "vocab.txt").toString();
+    String isoPath = Paths.get(sourceFolder.getAbsolutePath(), "iso_codes.tsv").toString();
+    File ugPath = new File(sourceFolder.getAbsolutePath(), "/ug/");
+    File sumsPathPre = new File(sourceFolder.getAbsolutePath(), "/sums/pre/");
+    File sumsPathPost = new File(sourceFolder.getAbsolutePath(), "/sums/post/");
+    String scalesPath = Paths.get(sourceFolder.getAbsolutePath(), "scales.txt").toString();
 
     //Load language codes - Line format = {Language Name}\t{2-code or "NULL"}\t{3-code}
     this.codes = new ArrayList<>();
@@ -177,11 +178,11 @@ public class NGramLangIdentifier {
     return tm;
   }
 
-  private List<String> expectedFiles(String folderPath) {
+  private List<String> expectedFiles(File folderPath) {
     List<String> result = new ArrayList<>();
     for (int i = 0; i < this.codes.size(); i++) {
       String name = String.format("%02d.txt", i);
-      String fp = Paths.get(folderPath, name).toString();
+      String fp = Paths.get(folderPath.getAbsolutePath(), name).toString();
       result.add(fp);
     }
     return result;

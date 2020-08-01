@@ -110,6 +110,7 @@ public class HTTPServerConfig {
   protected String abTest = null;
   protected Pattern abTestClients = null;
   protected int abTestRollout = 100; // percentage [0,100]
+  protected File ngramLangIdentDir;
 
   private static final List<String> KNOWN_OPTION_KEYS = Arrays.asList("abTest", "abTestClients", "abTestRollout",
     "beolingusFile", "blockedReferrers", "cacheSize", "cacheTTLSeconds",
@@ -333,6 +334,14 @@ public class HTTPServerConfig {
         setAbTest(getOptionalProperty(props, "abTest", null));
         setAbTestClients(getOptionalProperty(props, "abTestClients", null));
         setAbTestRollout(Integer.parseInt(getOptionalProperty(props, "abTestRollout", "100")));
+        String ngramLangIdentDir = getOptionalProperty(props, "ngramLangIdentDir", null);
+        if (ngramLangIdentDir != null) {
+          File dir = new File(ngramLangIdentDir);
+          if (!dir.exists() || !dir.isDirectory()) {
+            throw new IllegalArgumentException("ngramLangIdentDir does not exist or is not a directory: " + ngramLangIdentDir);
+          }
+          setNgramLangIdentDir(dir);
+        }
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load properties from '" + file + "'", e);
@@ -1033,6 +1042,17 @@ public class HTTPServerConfig {
   @Experimental
   public int getAbTestRollout() {
     return abTestRollout;
+  }
+
+  /** @since 5.1 */
+  public void setNgramLangIdentDir(File ngramLangIdentDir) {
+    this.ngramLangIdentDir = ngramLangIdentDir;
+  }
+
+  /** @since 5.1 */
+  @Nullable
+  public File getNgramLangIdentDir() {
+    return ngramLangIdentDir;
   }
 
   /**
