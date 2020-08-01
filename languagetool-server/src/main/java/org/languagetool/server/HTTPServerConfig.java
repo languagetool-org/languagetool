@@ -123,6 +123,7 @@ public class HTTPServerConfig {
     "requestLimit", "requestLimitInBytes", "requestLimitPeriodInSeconds", "rulesFile", "secretTokenKey", "serverURL",
     "skipLoggingChecks", "skipLoggingRuleMatches", "timeoutRequestLimit", "trustXForwardForHeader", "warmUp", "word2vecModel",
     "keystore", "password", "maxTextLengthPremium", "maxTextLengthAnonymous", "maxTextLengthLoggedIn", "gracefulDatabaseFailure",
+    "ngramLangIdentDir",
     "redisPassword", "redisHost", "dbLogging", "premiumOnly");
 
   /**
