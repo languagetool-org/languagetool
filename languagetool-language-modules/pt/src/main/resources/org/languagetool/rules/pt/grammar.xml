@@ -699,6 +699,24 @@ title="Easy editing stylesheet" ?>
 		  <token postag='AQ0[CF]P0|NC[CF]P000' postag_regexp='yes'/>		  
       </antipattern>
 <!-- MARCOAGPINTO 2020-07-29 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-08-01 (2-JUL-2020+) *START* -->
+<!-- "Foram muitos os portugueses vítimas da seca." -->
+<!-- "O Rui comeu dois sanduíches de queijo." (INCORRECT "DOIS" MALE PLURAL) -->
+<!-- "Eu vi-os juntos várias vezes e em diversos lugares." -->
+      <antipattern>
+		<token negate="yes" regexp='no'>dos</token>
+		<token postag='NC[CM]P000' postag_regexp='yes'>
+		<exception postag_regexp='no' postag='Z0MP0'/></token>
+        <token postag='AQ0[CF]P0|NC[CF]P000' postag_regexp='yes'/>
+		<token regexp='yes'>até|com|das?|de|dos?|[.,]|e|em|nas?|nos?|por|que|desde|vezes</token>
+      </antipattern>
+      <antipattern>
+		<token postag='AQ0[CM]P0|NC[CM]P000' postag_regexp='yes'>
+		<exception postag_regexp='no' postag='Z0MP0'/></token>
+        <token postag='AQ0[CF]P0|NC[CF]P000' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'/>
+      </antipattern>	  
+<!-- MARCOAGPINTO 2020-08-01 (2-JUL-2020+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>de|&hifen;</token>
         <marker>
@@ -733,6 +751,9 @@ title="Easy editing stylesheet" ?>
 	  <example type='correct'>Foram os textos reformados e <marker>adaptados inúmeras</marker> vezes.</example>
 	  <example type='correct'>Foram os textos reformados e <marker>adaptado infinitas</marker> vezes.</example>
 	  <example type='correct'>Foram os textos reformados e <marker>adaptado inúmeras</marker> vezes.</example>
+	  <example type='correct'>Foram muitos os <marker>portugueses vítimas</marker> da seca.</example>
+	  <example type='correct'>Eu vi-os <marker>juntos várias</marker> vezes e em diversos lugares.</example>
+	  <example type='correct'>O Marco comeu <marker>duas sanduíches</marker> de queijo.</example> 
     </rule>
     <rule>
 <!-- MARCOAGPINTO 2020-05-16 *START* -->
