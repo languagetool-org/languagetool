@@ -71,14 +71,9 @@ public class LanguageIdentifier {
 
   private FastText fastText;
   private NGramLangIdentifier ngram;
-  private boolean testMode = false;
 
   public LanguageIdentifier() {
     this(1000);
-  }
-
-  public void setTest(boolean testMode) {
-    this.testMode = testMode;
   }
 
   /**
@@ -114,20 +109,23 @@ public class LanguageIdentifier {
   }
 
   public void enableFasttext(File fasttextBinary, File fasttextModel) {
-    if (testMode) {
-      String ngramDir = "/home/languagetool/ngram-lang-id";
-      ngram = new NGramLangIdentifier(ngramDir, 100, true, false);
-      logger.info("Started ngram identifier with model @ " + ngramDir);
-    } else {
-      if (fasttextBinary != null && fasttextModel != null) {
-        try {
-          fastText = new FastText(fasttextModel, fasttextBinary);
-          logger.info("Started fasttext process for language identification: Binary " + fasttextBinary + " with model @ " + fasttextModel);
-        } catch (IOException e) {
-          logger.error("Error while starting fasttext (binary: " + fasttextBinary + ", model: " + fasttextModel + ")", e);
-          throw new RuntimeException("Could not start fasttext process for language identification @ " + fasttextBinary + " with model @ " + fasttextModel, e);
-        }
+    if (fasttextBinary != null && fasttextModel != null) {
+      try {
+        fastText = new FastText(fasttextModel, fasttextBinary);
+        logger.info("Started fasttext process for language identification: Binary " + fasttextBinary + " with model @ " + fasttextModel);
+      } catch (IOException e) {
+        throw new RuntimeException("Could not start fasttext process for language identification @ " + fasttextBinary + " with model @ " + fasttextModel, e);
       }
+    }
+  }
+
+  public void enableNgrams(File ngramDir) {
+    try {
+      logger.info("Loading ngram data for language identification from " + ngramDir + "...");
+      ngram = new NGramLangIdentifier(ngramDir, 50, true, true);
+      logger.info("Loaded ngram data for language identification from " + ngramDir);
+    } catch (IOException e) {
+      throw new RuntimeException("Could not load ngram data language identification from " + ngramDir, e);
     }
   }
 
@@ -222,7 +220,7 @@ public class LanguageIdentifier {
         if (fastText != null) {
           scores = fastText.runFasttext(shortText, additionalLangs);
         } else {
-          scores = ngram.runFasttext(shortText, additionalLangs);
+          scores = ngram.detectLanguages(shortText, additionalLangs);
         }
         result = getHighestScoringResult(scores);
         if (result.getValue().floatValue() < THRESHOLD) {
