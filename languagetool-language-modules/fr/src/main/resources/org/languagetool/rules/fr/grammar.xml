@@ -18843,21 +18843,21 @@ though, and has since been slightly modified)-->
     <rulegroup id="BYTES" name="Anglicisme byte/octet">
       <rule name="byte sans espace">
         <pattern>
-          <token regexp="yes">\d+[TGMKtgmk]B</token>
+          <token regexp="yes">\d+[TGMKtgmk][Bb]</token>
         </pattern>
         <message>Les bytes anglais se traduisent par des octets en français.</message>
-        <suggestion><match no="1" regexp_match="(\d+)([TGMKtgmk])B" regexp_replace="$1 $2o" case_conversion="startupper"/></suggestion>
+        <suggestion><match no="1" regexp_match="(\d+)([TGMKtgmk])[Bb]" regexp_replace="$1 $2o" case_conversion="startupper"/></suggestion>
         <example correction="41 Mo">Ce fichier pèse <marker>41MB</marker>.</example>
       </rule>
       <rule name="byte avec espace">
         <pattern>
           <token regexp="yes">\d+</token>
-          <token regexp="yes">[TGMKtgmk]B</token>
+          <token regexp="yes">[TGMKtgmk][Bb]</token>
         </pattern>
         <message>Les bytes anglais se traduisent par des octets en français.</message>
-        <suggestion><match no="1"/> <match no="2" regexp_match="([TGMKtgmk])B" regexp_replace="$1o" case_conversion="startupper"/></suggestion>
+        <suggestion><match no="1"/> <match no="2" regexp_match="([TGMKtgmk])[Bb]" regexp_replace="$1o" case_conversion="startupper"/></suggestion>
         <example correction="41 Mo">Ce fichier pèse <marker>41 MB</marker>.</example>
-        <example correction="41 Mo">Ce fichier pèse <marker>41 MB</marker>.</example>
+        <example correction="41 Go">Ce fichier pèse <marker>41 Gb</marker>.</example>
       </rule>
     </rulegroup>
     <rule id="LEAD" name="lead" default="off" tags="picky"><!-- disabled because of low acceptance (< 1%) / picky -->
