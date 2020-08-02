@@ -5892,11 +5892,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="VM[^GN].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="[^V].*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <message>Possible error.</message>
-                <suggestion><match no="2"/> <match no="3" postag="V.N.*" postag_regexp="yes"/></suggestion>
+                <message>¿Volíeu dir <suggestion><match no="2"/> <match no="3" postag="V.N.*" postag_regexp="yes"/></suggestion>?</message>
                 <suggestion><match no="2"/> que <match no="3"/></suggestion>
                 <suggestion><match no="2"/>, <match no="3"/></suggestion>
                 <example correction="cal córrer|cal que corre|cal, corre">No <marker>cal corre</marker>.</example>
+                <example>No cal córrer.</example>
+                <example>Anem a cal Cego.</example>
+                <example>El model estàndard del Big Bang calent erra en l'objectiu</example>
+                <example>ésser tractat com cal donant llargues llistes</example>
+            </rule>
+            <rule id="CALDRE2" name="Comprova: «caldre» seguit de verb en infinitiu">
+                <!-- com l'anterior però amb verbs que també són noms -->
+                <pattern>
+                    <token><exception>com</exception></token>
+                    <marker>
+                        <token inflected="yes">caldre<exception postag="_GN_MS"/></token>
+                        <token regexp="yes" case_sensitive="yes">cerca|busca|menja</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2"/> \3r</suggestion>?</message>
+                <example correction="cal cercar">No <marker>cal cerca</marker> una altra solució.</example>
                 <example>No cal córrer.</example>
                 <example>Anem a cal Cego.</example>
                 <example>El model estàndard del Big Bang calent erra en l'objectiu</example>
