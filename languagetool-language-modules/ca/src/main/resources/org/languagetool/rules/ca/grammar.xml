@@ -16505,7 +16505,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes">conte|compte</token>
                 </marker>
                 <token inflected="yes">de</token>
-                <token postag="NP..G.*" postag_regexp="yes"/>
+                <token regexp="yes">Barcelona|Urgell</token>
+                <!--<token postag="NP..G.*" postag_regexp="yes"/>-->
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">comte</match></suggestion> (=títol nobiliari)?</message>
             <short>Possible confusió</short>
@@ -38862,6 +38863,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="DORADA" name="dorada/daurada">
+            <pattern>
+                <token inflected="yes">dorada</token>
+            </pattern>
+            <message>Correcte si equival a "orada" (nom d'un peix). Incorrecte si equival a l'adjectiu <suggestion><match no="1" regexp_match="(?iu)o" regexp_replace="au"/></suggestion></message>
+            <example correction="daurades">Eren <marker>dorades</marker>.</example>
+        </rule>
         <rule id="GANYAR" name="ganyar/guanyar">
             <pattern>
                 <token inflected="yes">ganyar</token>
