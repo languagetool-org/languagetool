@@ -9880,19 +9880,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1 \2 {suggestion}</suggestion>
                 <example correction="Nos lo confesó"><marker>Nos lo confeso</marker>.</example>
             </rule>
-            <!--<rule>
-                <pattern>
-                    <token regexp="yes">&pronombre_personal_atono;<exception postag="_GN_.*" postag_regexp="yes"/></token>
-                    <token/>
-                </pattern>
-                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:VMI.*"/>
-                <message>Si es un verbo, se escribe con tilde.</message>
-                <suggestion>\1 {suggestion}</suggestion>
-                <example correction="Lo confesó"><marker>Lo confeso</marker>.</example>
-                <example>En la secundaria</example>
-                <example>Ha perdido las primarias.</example>
-                la lapidaria>lapidaría ambiguous 
-            </rule>-->
             <rule>
                 <pattern>
                     <token regexp="yes">te|le<exception postag="_GN_.*" postag_regexp="yes"/></token>
@@ -9985,7 +9972,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">les|os|le<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
+                    <token regexp="yes">les|os|le|nos<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
                     <token postag="N.MP.*|A..[MC]P.|V.P..PM" postag_regexp="yes"/>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:V.[SI].*"/>
@@ -9995,10 +9982,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Los americanos"><marker>Les americanos</marker>.</example>
                 <example correction="los pasos|os paso|os pasó|os pases|os pasas|os pasás"><marker>os pasos</marker></example>
                 <example correction="los interesados|os interesamos"><marker>os interesados</marker></example>
+                <example correction="Los buenos"><marker>Nos buenos</marker> tiempos</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>te<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
+                    <token regexp="yes">te|me<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
                     <token/>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:V.[SI].*"/>
@@ -10026,28 +10014,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="N.FP.*|A..[FC]P.|V.P..PF" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">les|os|le<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
+                    <token regexp="yes">les|os|le|nos<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
                     <token postag="N.MP.*|A..[MC]P.|V.P..PM" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <!-- me|te|se|nos|os|le|les|lo|los|la|las -->
-                    <token regexp="yes">me|nos|os|le|les<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
+                    <token regexp="yes">nos|os|le|les<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
                     <token postag="A.*|NC.*" postag_regexp="yes"><exception postag="V.[IS].*|_GN_.*" postag_regexp="yes"/><exception regexp="yes" case_sensitive="yes">[A-Z]+</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:V.[SI].*"/>
                 <message>Posible error ortográfico.</message>
                 <suggestion>\1 {suggestion}</suggestion>
                 <example correction="Les acuchilló|Les acuchillo"><marker>Les cuchillo</marker>.</example>
+                <example>versiones anteriores de Mac OS</example>
+                <example>Con las/os niñas/os del Centro.</example>
+                <example>Lo bueno del caso.</example>
+                <example>Lo bonitas que son.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">me|nos|os<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
-                    <!--|lo|los|la|las|se -->
+                    <token>lo<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
+                    <token postag="NC.*" postag_regexp="yes"><exception postag="V.[IS].*|_GN_.*" postag_regexp="yes"/><exception regexp="yes" case_sensitive="yes">[A-Z]+</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:V.[SI].*"/>
+                <message>Posible error ortográfico.</message>
+                <suggestion>\1 {suggestion}</suggestion>
+                <example correction="Lo augura|Lo auguró|Lo auguro|Lo augure|Lo auguré"><marker>Lo augur</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- catch-all rule, no suggestions; exception: se -->
+                <antipattern>
+                    <token regexp="yes">lo|los|la|las|le|les</token>
+                    <token postag="[NA].*|V.P.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">lo|los|la|las</token>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes" min="1" max="4"/>
+                    <token postag="[NA].*|V.P.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">&pronombre_personal_atono;<exception postag="[NA].*|_possible_NP|LOC_ADV|_GN_.*" postag_regexp="yes"/><exception>se</exception></token>
                 </pattern>
                 <message>Posible confusión. Pronombre átono sin verbo.</message>
-                <example correction=""><marker>Nos</marker> buenos tiempos</example>
+                <example correction=""><marker>Nos</marker> ahora.</example>
                 <example>versiones anteriores de Mac OS</example>
                 <example>Con las/os niñas/os del Centro.</example>
+                <example>Lo bueno del caso.</example>
+                <example>Lo bonitas que son.</example>
+                <example>Los ahora capitanes.</example>
             </rule>
         </rulegroup>
         <rule id="MANTELO" name="mantelo/mantenlo">
