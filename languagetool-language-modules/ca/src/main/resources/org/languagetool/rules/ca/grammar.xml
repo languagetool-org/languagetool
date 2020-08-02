@@ -38863,12 +38863,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="BRUIXES_BRUGES" name="Bruixes/Bruges">
+            <antipattern>
+                <token postag="SENT_START|D..FP." postag_regexp="yes"/>
+                <token>Bruixes</token>
+            </antipattern>
+            <antipattern>
+                <token>Bruixes</token>
+                <token inflected="yes">de</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes">Bruixes</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>Bruges</suggestion> (ciutat belga)?</message>
+            <example correction="Bruges">Me'n vaig de viatge de <marker>Bruixes</marker>.</example>
+            <example>El Ball de les Bruixes de Viladrau.</example>
+            <example>Anem al restaurant Bruixes de Burriac.</example>
+            <example>Les Bruixes de Llers.</example>
+        </rule>
         <rule id="DORADA" name="dorada/daurada">
             <pattern>
                 <token inflected="yes">dorada</token>
             </pattern>
             <message>Correcte si equival a "orada" (nom d'un peix). Incorrecte si equival a l'adjectiu <suggestion><match no="1" regexp_match="(?iu)o" regexp_replace="au"/></suggestion></message>
             <example correction="daurades">Eren <marker>dorades</marker>.</example>
+        </rule>
+        <rule id="TAULADA" name="taulada/teulada" default="temp_off">
+            <pattern>
+                <token inflected="yes">taulada</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)au" regexp_replace="eu"/></suggestion>? Correcte en el sentit de 'persones que seuen al voltant d'una taula'.</message>
+            <example correction="teulada">No t'has de tirar pedres a la <marker>taulada</marker>.</example>
         </rule>
         <rule id="GANYAR" name="ganyar/guanyar">
             <pattern>
@@ -49472,6 +49497,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">fiançar</match></suggestion>
             <example correction="consolidà|refermà|afermà|fiançà"><marker>afiançà</marker></example>
             <example>es consolidà</example>
+        </rule>
+        <rule id="TANTEJAR" name="tantejar/temptejar">
+            <pattern>
+                <token inflected="yes">tantejar</token>
+            </pattern>
+            <message>En general és preferible usar el v. 'temptejar'. 'Tantejar' (fer ús del dret de tanteig) s'utilitza en dret civil.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">temptejar</match></suggestion>
+            <example correction="temptejava">Mentrestant <marker>tantejava</marker> el terreny.</example>
         </rule>
         <rule id="AFINCAR" name="afincar">
             <pattern>
