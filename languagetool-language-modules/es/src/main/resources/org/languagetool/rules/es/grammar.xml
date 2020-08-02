@@ -2414,17 +2414,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="como">Tales <marker>cómo</marker> estos.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CUAL" name="cual/cuál" default="on">
+        <rulegroup id="CUAL" name="cual/cuál">
             <rule>
                 <pattern>
-                    <token regexp="yes">el|la|los|las|del|al</token>
+                    <token regexp="yes">el|al|del|los|la|las|lo|tal</token>
                     <marker>
                         <token regexp="yes">cuál(es)?</token>
                     </marker>
                 </pattern>
-                <message>Como relativo se escribe sin tilde.</message>
+                <message>Si no es interrogativo, se escribe sin tilde.</message>
                 <suggestion><match no="2" regexp_match="(?iu)cuá(l.*)" regexp_replace="cua$1"/></suggestion>
                 <example correction="cual">hecho por el <marker>cuál</marker> se ha llegado a consolidar.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">el|al|del|los|la|las|lo|tal</token>
+                    <token regexp="yes">cual(es)?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">cual(es)?</token>
+                </pattern>
+                <message>Si es interrogativo, se escribe con tilde. Se escribe sin tilde (más raramente), si equivale a 'como, de la misma manera que'.</message>
+                <suggestion><match no="1" regexp_match="(?iu)cua(l.*)" regexp_replace="cuá$1"/></suggestion>
+                <example correction="cuál">Quiero saber <marker>cual</marker> es el significado de esta palabra.</example>
+                <example correction="cuál" type="triggers_error" reason="ambiguous">Cada cosa se muestra <marker>cual</marker> es.</example>
+                <example>Es algo de lo cual no me arrepiento.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FUTURO_SUBJ_IND" name="confusión cantareis/cantaréis, cantare/cantaré">
