@@ -371,6 +371,12 @@ public class English extends Language implements AutoCloseable {
       case "SENTENCE_FRAGMENT_SINGLE_WORDS": return -51;  // prefer other more important sentence start corrections.
       case "EN_REDUNDANCY_REPLACE":     return -510;  // style rules should always have the lowest priority.
       case "EN_PLAIN_ENGLISH_REPLACE":  return -511;  // style rules should always have the lowest priority.
+      case "THREE_NN":                  return -600;  // style rules should always have the lowest priority.
+      case "SENT_START_NUM":            return -600;  // style rules should always have the lowest priority.
+      case "PASSIVE_VOICE":             return -600;  // style rules should always have the lowest priority.
+      case "EG_NO_COMMA":               return -600;  // style rules should always have the lowest priority.
+      case "IE_NO_COMMA":               return -600;  // style rules should always have the lowest priority.
+      case "REASON_WHY":                return -600;  // style rules should always have the lowest priority.
       case LongSentenceRule.RULE_ID:    return -997;
       case LongParagraphRule.RULE_ID:   return -998;
     }
