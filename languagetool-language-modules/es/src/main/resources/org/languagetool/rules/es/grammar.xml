@@ -6183,7 +6183,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule id="Y_E" name="e ante palabras empezando por i">
                 <pattern>
                     <token>y<exception scope="previous">¿</exception></token>
-                    <token regexp="yes">h?[ií].*<exception regexp="yes">^h?ih?[aeouáéóú].*</exception><!--Números romanos--><exception regexp="yes">[ivxlcdm]+</exception></token>
+                    <token regexp="yes">h?[ií].*<exception regexp="yes">h?ih?[aeouáéóú].*</exception><!--Números romanos--><exception regexp="yes">[ivxlcdm]+</exception></token>
                 </pattern>
                 <message>Cuando precede a palabras que comienzan por «i-» (o «hi-»), la conjunción «y» se transforma en «e».</message>
                 <suggestion>e <match no="2"/></suggestion>
@@ -6193,13 +6193,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule id="E_Y" name="'y' ante palabras empezando por (h)ia" default="on">
                 <pattern>
                     <token>e</token>
-                    <token regexp="yes">^h?ih?[aeoáéó].*<exception>ia</exception></token>
+                    <token regexp="yes">h?ih?[aeoáéó].*<exception>ia</exception></token>
                 </pattern>
                 <message>Cuando precede a palabras que comienzan con diptongo, se usa la conjunción «y», no «e».</message>
                 <suggestion>y <match no="2"/></suggestion>
                 <example correction="y hielo">Agua <marker>e hielo</marker>.</example>
                 <example correction="y hierro">Agua <marker>e hierro</marker>.</example>
                 <example correction="y iones">Agua <marker>e iones</marker>.</example>
+            </rule>
+            <rule id="E_SINGLE_CHAR" name="carácter suelto 'e'" default="temp_off">
+                <antipattern>
+                    <token>e</token>
+                    <token regexp="yes">h?[ií].*</token>
+                </antipattern>
+                <pattern>
+                    <token case_sensitive="yes">e<exception postag="_enumeration"/></token>
+                </pattern>
+                <message>Asegúrese de que el carácter 'e' es correcto y no es un error de escritura.</message>
+                <suggestion>y</suggestion>
+                <suggestion>de</suggestion>
+                <suggestion>en</suggestion>
+                <suggestion>el</suggestion>
+                <example correction="y|de|en|el">Cerrar el archivo <marker>e</marker> ejecutar el programa.</example>
+                <example>Alemania e Italia.</example>
+                <example>Agua e iones.</example>
+                <example>La letra e.</example>
+                <example>El apartado e del artículo 4 de la Ley.</example>
             </rule>
             <rule id="O_U" name="cambio de o ante palabras empezando por o">
                 <pattern>
