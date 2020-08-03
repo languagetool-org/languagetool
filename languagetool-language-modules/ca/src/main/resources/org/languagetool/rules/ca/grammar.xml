@@ -16491,7 +16491,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <marker>
-                    <token regexp="yes" inflected="yes">sindicatura|tribunal|cambra</token>
+                    <token regexp="yes" inflected="yes">sindicatura|tribunal|cambra|jurat|censor|jurar</token>
                     <token>de</token>
                     <token>comptes</token>
                 </marker>
@@ -16503,7 +16503,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>contes</token>
                 </marker>
             </antipattern>
-            <antipattern>
+            <!--<antipattern>
                 <token>un</token>
                 <token>conte</token>
                 <token inflected="yes">de</token>
@@ -16513,14 +16513,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>contes</token>
                 <token inflected="yes">de</token>
                 <token postag="_possible_nompropi"><exception regexp="yes">Barcelona|Urgell</exception></token>
-            </antipattern>
+            </antipattern>-->
             <!--<exception regexp="yes">Canterbury|Calders|Pere|Quim|Rosa|Grimm|Riba|Andersen|Carner|Nadal|Enric|Valor|Perrault</exception>-->
             <pattern>
                 <marker>
                     <token inflected="yes" regexp="yes">conte|compte</token>
                 </marker>
                 <token inflected="yes">de</token>
-                <token regexp="yes">Barcelona|Urgell</token>
+                <token regexp="yes">Barcelona|Urgell|Besalú|Catalunya|Foix|Pallars|Valois|Flandes|Berga|Tolosa|Empúries|Osona|Provença|Gavaldà|Vermandois|Girona|Rosselló|Alvèrnia|Comenge|Cerdanya|Roergue|Poitiers</token>
                 <!--<token postag="NP..G.*" postag_regexp="yes"/>-->
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">comte</match></suggestion> (=títol nobiliari)?</message>
@@ -16534,6 +16534,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Un llibre de contes de Ricard Garcia.</example>
             <example>Un conte de Mercè Rodoreda.</example>
             <example>Un conte de Bel Garcia.</example>
+            <example>Censors Jurats de Comptes de Catalunya.</example>
         </rule>
         <rulegroup id="COMTAT" name="contat/*comptat/comtat d'Urgell">
             <rule>
@@ -16552,7 +16553,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">contats?|comptats?</token>
                     </marker>
-                    <token inflected="yes" regexp="yes">medieval|català</token>
+                    <token inflected="yes" regexp="yes">.*(medieval|català|francès|provençal|italià)</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)co.*tat(s?)" regexp_replace="comtat$1"/></suggestion>?</message>
                 <example correction="comtats">Els <marker>comptats</marker> medievals catalans.</example>
@@ -38887,6 +38888,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>Bruixes</token>
                 <token inflected="yes">de</token>
             </antipattern>
+            <antipattern>
+                <token>nit</token>
+                <token>de</token>
+                <token>Bruixes</token>
+            </antipattern>
             <pattern>
                 <token case_sensitive="yes">Bruixes</token>
             </pattern>
@@ -38903,12 +38909,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Correcte si equival a "orada" (nom d'un peix). Incorrecte si equival a l'adjectiu <suggestion><match no="1" regexp_match="(?iu)o" regexp_replace="au"/></suggestion></message>
             <example correction="daurades">Eren <marker>dorades</marker>.</example>
         </rule>
-        <rule id="TAULADA" name="taulada/teulada" default="temp_off">
+        <rule id="TAULADA" name="taulada/teulada">
+            <antipattern>
+                <token>taulada</token>
+                <token inflected="yes" skip="1">de</token>
+                <token regexp="yes" inflected="yes">persona|convidar|invitar|invitat|convidat</token>
+            </antipattern>
             <pattern>
                 <token inflected="yes">taulada</token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)au" regexp_replace="eu"/></suggestion>? Correcte en el sentit de 'persones que seuen al voltant d'una taula'.</message>
             <example correction="teulada">No t'has de tirar pedres a la <marker>taulada</marker>.</example>
+            <example>Una taulada de moltes persones.</example>
+            <example>La taulada dels invitats.</example>
         </rule>
         <rule id="GANYAR" name="ganyar/guanyar">
             <pattern>
