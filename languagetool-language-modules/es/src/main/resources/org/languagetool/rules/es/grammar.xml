@@ -2417,7 +2417,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="CUAL" name="cual/cuál">
             <rule>
                 <pattern>
-                    <token regexp="yes">el|al|del|los|la|las|lo|tal</token>
+                    <token regexp="yes">el|al|del|los|la|las|lo|tal|cada</token>
                     <marker>
                         <token regexp="yes">cuál(es)?</token>
                     </marker>
@@ -2426,10 +2426,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" regexp_match="(?iu)cuá(l.*)" regexp_replace="cua$1"/></suggestion>
                 <example correction="cual">hecho por el <marker>cuál</marker> se ha llegado a consolidar.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">ser</token>
+                    <marker>
+                        <token regexp="yes">cuál(es)?</token>
+                    </marker>
+                    <token><match no="0"/></token>
+                </pattern>
+                <message>Si no es interrogativo, se escribe sin tilde.</message>
+                <suggestion><match no="2" regexp_match="(?iu)cuá(l.*)" regexp_replace="cua$1"/></suggestion>
+                <example correction="cuales">Sean <marker>cuáles</marker> sean.</example>
+            </rule>
             <rule default="temp_off">
                 <antipattern>
-                    <token regexp="yes">el|al|del|los|la|las|lo|tal</token>
+                    <token regexp="yes">el|al|del|los|la|las|lo|tal|cada|sea|fuera|fuese|fuere</token>
                     <token regexp="yes">cual(es)?</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">ser</token>
+                    <token regexp="yes">cual(es)?</token>
+                    <token><match no="0"/></token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">cual(es)?</token>
@@ -2439,6 +2456,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="cuál">Quiero saber <marker>cual</marker> es el significado de esta palabra.</example>
                 <example correction="cuál" type="triggers_error" reason="ambiguous">Cada cosa se muestra <marker>cual</marker> es.</example>
                 <example>Es algo de lo cual no me arrepiento.</example>
+                <example>Cada cual que piense lo que quiera.</example>
+                <example>Sea cual sea la situación, no nos resignamos.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FUTURO_SUBJ_IND" name="confusión cantareis/cantaréis, cantare/cantaré">
@@ -3789,6 +3808,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
                 <token>estas</token>
             </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">quítame.*</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -3806,6 +3828,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Estas troncales son.</example>
                 <example>La acción de estas característica.</example>
                 <example>Estas siempre lo hacen.</example>
+                <example>Acabaron teniendo una bronca descomunal por un quítame allá estas pajas.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -10020,19 +10043,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">te|me<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
+                    <token>te<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
                     <token/>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:V.[SI].*"/>
                 <message>Posible confusión. Pronombre átono sin verbo.</message>
                 <suggestion>de \2</suggestion>
                 <suggestion>el \2</suggestion>
-                <suggestion>te {suggestion}</suggestion>
+                <suggestion>\1 {suggestion}</suggestion>
                 <!-- TODO: remove "te hay" -->
                 <example correction="de hoy|el hoy|te hay|te soy|te voy|te doy|te hollé|te holló|te hui">Es <marker>te hoy</marker>.</example>
                 <example correction="de augur|el augur|te augura|te auguró|te auguro|te augure|te auguré">Yo <marker>te augur</marker> buenos resultados.</example>
                 <example correction="de cortés|el cortés|te cortes|te corte|te cortas|te corten|te portes|te corres|te corté|te acortes">No <marker>te cortés</marker>.</example>
                 <example correction="De augur|El augur|Te augura|Te auguró|Te auguro|Te augure|Te auguré"><marker>Te augur</marker> cosas interesantes.</example>
+                <example>se te "compensará"</example>
+                <example>dale que te dale</example>
+                <example>Y él corre que te pillo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>me<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
+                    <token/>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:V.[SI].*"/>
+                <message>Posible confusión. Pronombre átono sin verbo.</message>
+                <suggestion>\1 {suggestion}</suggestion>
+                <example correction="Me augura|Me auguró|Me auguro|Me augure|Me auguré"><marker>Me augur</marker> cosas interesantes.</example>
                 <example>se te "compensará"</example>
                 <example>dale que te dale</example>
                 <example>Y él corre que te pillo.</example>
@@ -10065,15 +10101,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Lo bueno del caso.</example>
                 <example>Lo bonitas que son.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>lo</token>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes" min="1" max="4"/>
+                    <token postag="[NA].*|V.P.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token>lo<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
-                    <token postag="NC.*" postag_regexp="yes"><exception postag="V.[IS].*|_GN_.*" postag_regexp="yes"/><exception regexp="yes" case_sensitive="yes">[A-Z]+</exception></token>
+                    <token postag="NC.*" postag_regexp="yes"><exception postag="V.[MIS].*|_GN_.*|A.*|V.P.*" postag_regexp="yes"/><exception regexp="yes" case_sensitive="yes">[A-Z]+</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:V.[SI].*"/>
                 <message>Posible error ortográfico.</message>
                 <suggestion>\1 {suggestion}</suggestion>
                 <example correction="Lo augura|Lo auguró|Lo auguro|Lo augure|Lo auguré"><marker>Lo augur</marker>.</example>
+                <example>A lo largo de todo el año.</example>
             </rule>
             <rule default="temp_off">
                 <!-- catch-all rule, no suggestions; exception: se -->
