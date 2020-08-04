@@ -193,9 +193,13 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "no there wasn",
       "no there is no",
       "no there is not",
+      "no there's no",
+      "no there's not",
       "no there isn",
       "no there are no",
       "no there are not",
+      "no there're no",
+      "no there're not",
       "no there aren",
       "no there were no",
       "no there were not",
@@ -266,6 +270,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "news headlines",
       "news title",
       "news titles",
+      "news article",
+      "news articles",
       "news site",
       "news sites",
       "news website",
@@ -317,7 +323,16 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "appreciate you sending",
       "appreciate you talking",
       "appreciate you taking",
-      "that now means"
+      "that now means",
+      "fiscal school", // vs physical
+      "covid-19 cases", // vs causes
+      "corona cases", // vs causes
+      "your need can", // vs you
+      "know the customer", // vs now
+      "know what type", // vs now
+      "your pulled pork", // vs you
+      "dear management", // vs deer
+      "the go to" // vs to (caught by GO_TO_HYPHEN)
     );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
