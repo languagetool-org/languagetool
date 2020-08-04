@@ -4241,6 +4241,31 @@ MARCOAGPINTO 2020-02-18 -->
 	      <token postag='VMIF[12]S0|VMIF1[SP]0' postag_regexp='yes'/>		  
       </antipattern>
 <!-- MARCOAGPINTO 2020-07-22 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-08-02 (2-JUL-2020+) *START* -->
+<!-- "Ele e o seu irmão foram castrados." -->
+<!-- "Ele e a sua irmã foram castrados." -->
+      <antipattern>
+		<token regexp='yes'>ao|e|com|contra|da|de|do|como|nem|para|toda|sobre</token>
+		<token min="0" max="1" regexp='yes'>as?|os?</token>
+		<token regexp='yes'>seus?|suas?|teus?|tuas?|vossos?|vossas?|nossos?|nossas?</token>
+        <token postag='NC[CFM][SP]000' postag_regexp='yes'/>
+        <token postag='VMI[SM]3P0' postag_regexp='yes'/>
+      </antipattern>
+	  <!-- "A noiva e o noivo começaram a se questionar se deveriam." -->
+      <antipattern>
+		<token regexp='yes'>ao|e|com|contra|da|de|do|como|nem|para|toda|sobre</token>
+		<token regexp='yes'>as?|os?</token>
+        <token postag='NC[CFM][SP]000' postag_regexp='yes'/>
+        <token postag='VMI[SM]3P0' postag_regexp='yes'/>
+      </antipattern>	  
+	  <!-- "Grandes rios que correm a região escavaram grandes e profundos vales." -->
+      <antipattern>
+		<token postag='V.+|NP[FM]S000' postag_regexp='yes'/>
+		<token regexp='yes'>as?|os?</token>
+        <token postag='NC[CFM][SP]000' postag_regexp='yes'/>
+        <token postag='VMI[SM]3P0' postag_regexp='yes'/>
+      </antipattern>	  	  
+<!-- MARCOAGPINTO 2020-08-02 (2-JUL-2020+) *END* -->
       <pattern>
 <!-- MARCOAGPINTO 2020-05-09 *START* -->
 <!-- "As pessoas no meu trabalho infelizmente não falam Alemão, apenas português." -->	  
@@ -4266,6 +4291,9 @@ MARCOAGPINTO 2020-02-18 -->
       <example>O amor ou o ódio estão presentes.</example>
       <example>Outro governo preocupar-se-ia, talvez, com esta manifestação de ignorância.</example>
       <example>Dizem que ela e o marido não concordam em nada.</example>
+	  <example type='correct'>Ele e o <marker>seu irmão foram</marker> castrados.</example>
+	  <example type='correct'>Ele e a <marker>sua irmã foram</marker> castrados.</example>
+	  <example type='correct'>Grandes rios que correm <marker>a região escavaram</marker> grandes e profundos vales.</example>
     </rule>
   </rulegroup>
 
