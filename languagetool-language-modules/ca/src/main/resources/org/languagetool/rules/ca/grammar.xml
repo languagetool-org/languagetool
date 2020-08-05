@@ -12647,6 +12647,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rulegroup id="MATO" name="mató/va matar">
+            <rule>
+                <pattern>
+                    <token>va</token>
+                    <token>matar</token>
+                    <token>amb</token>
+                    <token>mel</token>
+                </pattern>
+                <message>Alerta amb la traducció automàtica!</message>
+                <suggestion>mató amb mel</suggestion>
+                <example correction="mató amb mel"><marker>va matar amb mel</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>mel</token>
+                    <token>i</token>
+                    <token>va</token>
+                    <token>matar</token>
+                </pattern>
+                <message>Alerta amb la traducció automàtica!</message>
+                <suggestion>mel i mató</suggestion>
+                <example correction="mel i mató"><marker>mel i va matar</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="SOLO" name="solo/sol">
             <pattern>
                 <token regexp="yes">un|el</token>
@@ -13589,6 +13613,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="maltractament">Era una situació de <marker>maltracte</marker>.</example>
                 <example correction="maltractament">En aquest <marker>maltracte</marker>.</example>
                 <example correction="maltractament">Entre el cruel <marker>maltracte</marker> rebut.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">em|et|es|la|ens|us|vos|els|les</token>
+                    <token>maltracte</token>
+                </antipattern>
+                <pattern>
+                    <token>maltracte</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>maltractament</suggestion>? És correcte com a forma valenciana del v. 'maltractar'.</message>
+                <example correction="maltractament">Va ser un <marker>maltracte</marker> insuportable.</example>
+                <example>No vull que et maltracte.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>mal<exception scope="previous">un</exception></token>
+                    <token>tracte</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>maltractament</suggestion>? És correcte si vol dir 'mal acord'.</message>
+                <example correction="maltractament">Va patir el <marker>mal tracte</marker> del seu marit.</example>
+                <example>Va ser un mal tracte per a totes les parts.</example>
             </rule>
         </rulegroup>
         <rule id="CALC" name="cal/calç">
@@ -26277,6 +26322,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PRONOMS_FEBLES" name="Pronoms febles" type="grammar">
+        <rulegroup id="ESTAR_HI_DISPOSAT" name="*n'estic disposat" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>n'</token>
+                        <token inflected="yes">estar</token>
+                    </marker>
+                    <token inflected="yes" postag="V.P.*" postag_regexp="yes">disposar</token>
+                </pattern>
+                <message>El pronom feble adequat és 'hi'.</message>
+                <suggestion>hi \2</suggestion>
+                <example correction="hi estava">Va dir que <marker>n'estava</marker> disposat.</example>
+                <example>Hi aniré en estar disposat.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">en</token>
+                        <token postag="VA.*" postag_regexp="yes"/>
+                    </marker>
+                    <token inflected="yes">estar</token>
+                    <token inflected="yes" postag="V.P.*" postag_regexp="yes">disposar</token>
+                </pattern>
+                <message>El pronom feble adequat és 'hi'.</message>
+                <suggestion>hi \2</suggestion>
+                <example correction="hi havia">Va dir que <marker>n'havia</marker> estat disposat.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TENIR_PROU_AMB" name="(en) té prou amb">
             <antipattern>
                 <marker>
@@ -31033,6 +31106,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="TRACTA_TRAFIC" name="*tracta/tràfic">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tracta</token>
+                    </marker>
+                    <token inflected="yes">de</token>
+                    <token postag="DA.*" postag_regexp="yes" min="0"/>
+                    <token regexp="yes" inflected="yes">blanc|nen|xiquet|jove|infant|dona|esclau|persona|immigrant|emigrant|migrant|home|ésser|humà</token>
+                </pattern>
+                <message>Expressió incorrecta</message>
+                <suggestion>tràfic</suggestion>
+                <example correction="tràfic">La <marker>tracta</marker> d'infants.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <token postag="DA.*" postag_regexp="yes" min="0"/>
+                    <marker>
+                        <token>tracta</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>tràfic</suggestion>?</message>
+                <example correction="tràfic">Va ser un cas horrible de <marker>tracta</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="ACAS" name="*acàs">
             <pattern>
                 <token>si</token>
