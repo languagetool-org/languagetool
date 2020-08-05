@@ -10897,6 +10897,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PUNCTUATION" name="Puntuación">
+        <rule id="MUCHO_NF" name="mucho + nombre femenino" default="temp_off">
+            <pattern>
+                <marker>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <token postag="D[^RN].*" postag_regexp="yes">mucho</token>
+                        <token postag="NCF.*" postag_regexp="yes" inflected="yes" regexp="yes">tía|señora|señorita|hermana<exception postag="N.CN.*|V.[IS].*" postag_regexp="yes"/></token>
+                    </unify>
+                </marker>
+            </pattern>
+            <message>Probablemente falta una coma o hay un error de concordancia.</message>
+            <suggestion>\1, \2</suggestion>
+            <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][SN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+            <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][PN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+            <example correction="mucho, tía|mucha tía|muchas tías">Cuídate <marker>mucho tía</marker>.</example>
+            <example correction="mucho, tías|mucha tía|muchas tías">Os quiero <marker>mucho tías</marker>.</example>
+        </rule>
         <rule id="POR_CIERTO" name="por cierto(,)">
             <pattern>
                 <token>por</token>

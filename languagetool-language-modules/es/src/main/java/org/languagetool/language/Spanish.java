@@ -174,6 +174,7 @@ public class Spanish extends Language implements AutoCloseable{
       case "LO_LOS": return 30;
       case "SE_CREO": return 25; // less than DIACRITICS_VERB_N_ADJ
       case "PRONOMBRE_SIN_VERBO": return 25; // inside CONFUSIONS, but less than other rules ?
+      case "MUCHO_NF": return 24; // greater than AGREEMENT_DET_NOUN
       case "AGREEMENT_DET_NOUN": return 20;
       //case "PRONOMBRE_SIN_VERBO": return 20;
       case "AGREEMENT_DET_ADJ": return 10;
