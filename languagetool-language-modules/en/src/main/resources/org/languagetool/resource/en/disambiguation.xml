@@ -8017,6 +8017,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag_regexp="yes" postag="VBP?"/><!-- chunker error: go/E-NP-singular -->
             <token postag_regexp="yes" postag="TO|RB"/>
         </antipattern>
+        <antipattern><!-- #3272 a convertible years ago -->
+            <token postag_regexp="yes" postag="DT|PRP\$"/>
+            <token postag_regexp="yes" postag="NN.*"/>
+            <token postag="NNS" regexp="yes">seconds|minutes|hours|days|weeks|months|years|decades|centuries</token>
+            <token regexp="yes">ago|after|before</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -8069,6 +8075,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Enron APACHE's ability to shape policies relating to its business by raising the profile...</example><!-- #3282 -->
         <example type="untouched">A few go to Brasília.</example><!-- #3330 -->
         <example type="untouched">A few go to happily Brasília.</example><!-- #3330 -->
+        <example type="untouched">I once had someone break into a convertible years ago.</example><!-- #3272 -->
+        <example type="untouched">I thought about buying her convertible days before this coronavirus crisis started.</example><!-- #3272 -->
     </rule>
 
     <rule id="DT_JJ_NNJJ_NN_VB_APOSTROPHE" name="determiner + adj + noun/adj + noun + verbn't => noun"><!-- #3108 -->
