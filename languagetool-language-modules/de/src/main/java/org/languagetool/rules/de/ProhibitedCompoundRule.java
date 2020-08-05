@@ -155,7 +155,7 @@ public class ProhibitedCompoundRule extends Rule {
           "Lagekosten",
           "hineinfeiern",
           "Maskenhersteller", // vs Marken
-          "Wabendesign",  // vs. Marken
+          "Wabendesign",
           "Maskenherstellers",
           "Maskenherstellern",
           "Firmenvokabular",
@@ -190,7 +190,24 @@ public class ProhibitedCompoundRule extends Rule {
           "Zählerwechsels",
           "Nährstoffleitungen",  // vs ...leistungen
           "Verhandlungskreise",
-          "Verhandlungskreisen"
+          "Verhandlungskreisen",
+          "Mietsuchenden",
+          "Mietsuchende",
+          "Mietsuchender",
+          "Autoboss",
+          "Autobossen",
+          "Testmonat",
+          "Testmonats",
+          "Testmonate",
+          "Naturseife",
+          "Naturseifen",
+          "Ankerkraut", // Firmenname (Lebensmittel)
+          "Ankerkrauts",
+          "Bewerbungstool",
+          "Bewerbungstools",
+          "Elektromarke",
+          "Elektromarken",
+          "Kurseinführung"
   ));
 
   // have per-class static list of these and reference that in instance
