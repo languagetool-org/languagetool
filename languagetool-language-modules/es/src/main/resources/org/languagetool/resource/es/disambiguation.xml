@@ -3088,9 +3088,16 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
-
-
-
+    <rule id="LO_MAL_QUE" name="lo + adj + que">
+        <pattern>
+            <token>lo</token>
+            <marker>
+                <token postag="A.*|V.P,*" postag_regexp="yes"/>
+            </marker>
+            <token>que</token>
+        </pattern>
+        <disambig action="filter" postag="A.*|V.P.*"/>
+    </rule>
     <rule id="not_adj_no_agreement2" name="not adjective if no agreement">
         <pattern>
             <marker>

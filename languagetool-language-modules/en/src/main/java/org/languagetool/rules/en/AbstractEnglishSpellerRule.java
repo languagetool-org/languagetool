@@ -136,6 +136,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                      !k.getReplacement().startsWith("sub ") &&
                      !k.getReplacement().startsWith("auto ") &&
                      !k.getReplacement().startsWith("sh ") &&
+                     !k.getReplacement().startsWith("ha ") &&
                      !k.getReplacement().startsWith("dis ") &&
                      !k.getReplacement().startsWith("mu ") &&
                      !k.getReplacement().endsWith(" able") &&
@@ -330,6 +331,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("shopify", Arrays.asList("Shopify"));
     s.put("fortnite", Arrays.asList("Fortnite"));
     s.put("magento", Arrays.asList("Magento"));
+    s.put("docusign", Arrays.asList("DocuSign"));
+    s.put("hubspot", Arrays.asList("HubSpot"));
 
     s.put("italia", Arrays.asList("Italy"));
     s.put("macboook", Arrays.asList("MacBook"));
@@ -370,6 +373,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("wix", Arrays.asList("Wix"));
     s.put("nazi", Arrays.asList("Nazi"));
     s.put("nazis", Arrays.asList("Nazis"));
+    s.put("iam", Arrays.asList("I am", "I'm"));
     return s;
   }
 
@@ -684,7 +688,13 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Copys", Arrays.asList("Copies"));
     s.put("copie", Arrays.asList("copy"));
     s.put("copys", Arrays.asList("copies"));
-
+    s.put("rideshare", Arrays.asList("ride-share"));
+    s.put("Rideshare", Arrays.asList("Ride-share"));
+    s.put("Rideshares", Arrays.asList("Ride-shares"));
+    s.put("bonafide", Arrays.asList("bona fide"));
+    s.put("Bonafide", Arrays.asList("Bona fide"));
+    s.put("dropoff", Arrays.asList("drop-off"));
+    s.put("Dropoff", Arrays.asList("Drop-off"));
 
     return s;
   }
