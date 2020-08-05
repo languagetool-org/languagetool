@@ -3586,6 +3586,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>lo que hago en mi día a día</example>
             </rule>
         </rulegroup>
+        <rulegroup id="TU_SIN_TILDE" name="tú > tu" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tú</token>
+                    </marker>
+                    <and>
+                        <token postag="V.{3}[13].*" postag_regexp="yes"><exception postag="AQ.*|SP.*" postag_regexp="yes"/><!--TODO: generalizar.--><exception regexp="yes">como|una|obra</exception></token>
+                        <token postag="NC.S000|A...S." postag_regexp="yes"/>
+                    </and>
+                </pattern>
+                <message>Si es un posesivo, se escribe sin tilde.</message>
+                <suggestion>tu</suggestion>
+                <example correction="tu">Se ajustan a <marker>tú</marker> pie como un calcetín.</example>
+                <example correction="tu">Aprobará <marker>tú</marker> envío de dinero.</example>
+                <example correction="tu">Cuando revisé <marker>tú</marker> caso, no encontré nada relevante.</example>
+                <example>Tú vienes</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TU_TILDE" name="tu / tú">
             <rule>
                 <antipattern>
@@ -8795,7 +8814,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>a</token>
                 <token inflected="yes">todo</token>
-                <token regexp="yes">él|ella|usted|nosotros|vosotros|ellos|ellas</token>
+                <token regexp="yes">él|ella|usted|nosotros|nosotras|vosotros|vosotras|ellos|ellas</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                <token regexp="yes">él|ella|usted|nosotros|nosotras|vosotros|vosotras|ellos|ellas</token>
             </antipattern>
             <rule id="PP_V_1" name="Concordancia 1ª persona">
                 <pattern>
@@ -8816,7 +8839,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Posible falta de concordancia de persona entre «\1» y «\2».</message>
                 <example correction=""><marker>Tú vengo</marker></example>
+                <example correction="">Que tu familia y <marker>tú estén</marker>.</example> <!-- ?? -->
                 <example>Tú vienes</example>
+                <example>Ellos con vosotros son solo ratas.</example>
+                <example>Que tu familia y tú estéis tranquilos.</example>
             </rule>
             <rule id="PP_V_3">
                 <pattern>
@@ -10899,14 +10925,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="PUNCTUATION" name="Puntuación">
         <rule id="MUCHO_NF" name="mucho + nombre femenino" default="temp_off">
             <pattern>
-                <marker>
-                    <unify negate="yes">
-                        <feature id="numero"/>
-                        <feature id="genero"/>
-                        <token postag="D[^RN].*" postag_regexp="yes">mucho</token>
-                        <token postag="NCF.*" postag_regexp="yes" inflected="yes" regexp="yes">tía|señora|señorita|hermana<exception postag="N.CN.*|V.[IS].*" postag_regexp="yes"/></token>
-                    </unify>
-                </marker>
+                <token>mucho</token>
+                <token regexp="yes">tías?|señoras?|señoritas?|hermanas?|amigas?</token>
             </pattern>
             <message>Probablemente falta una coma o hay un error de concordancia.</message>
             <suggestion>\1, \2</suggestion>
