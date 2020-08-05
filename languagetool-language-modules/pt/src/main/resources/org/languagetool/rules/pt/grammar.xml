@@ -4007,6 +4007,26 @@ MARCOAGPINTO 2020-02-18 -->
         <token postag='VMIP1P0' postag_regexp='no'/>
       </antipattern>	  
 <!-- MARCOAGPINTO 2020-08-02 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-08-05 (2-JUL-2020+) *START* -->
+<!-- "O sistema de datação pelos seus sucessores está na origem do sucesso do mesmo." -->
+<!-- "O sistema de datação pelas suas sucessoras está na origem do sucesso do mesmo." -->
+<!-- "Amar os nossos vizinhos é nossa obrigação." -->
+      <antipattern>
+		<token regexp='yes'>de|das?|dos?|em|por|pelas?|pelos?|sobre|nos?|como|todos?|para|partes?|com</token>
+		<token min="0" max="1" regexp='yes'>as?|os?</token>
+		<token regexp='yes'>seus?|suas?|teus?|tuas?|vossos?|vossas?|nossos?|nossas?|várias?|vários?|certas?|certos?|algum|alguns|algumas?|esses?|estas?|estes?|muitas?|muitos?|poucas?|poucos?|tal|tais</token>
+        <token postag='NC[CFM][SP]000|AQ0[CFM][SP]0' postag_regexp='yes'/>
+        <token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
+      </antipattern>	  
+	  <!-- "Amar os nossos vizinhos é nossa obrigação." -->
+      <antipattern>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token min="0" max="1" regexp='yes'>as?|os?</token>
+		<token regexp='yes'>seus?|suas?|teus?|tuas?|vossos?|vossas?|nossos?|nossas?|várias?|vários?|certas?|certos?|algum|alguns|algumas?|esses?|estas?|estes?|muitas?|muitos?|poucas?|poucos?|tal|tais</token>
+        <token postag='NC[CFM][SP]000|AQ0[CFM][SP]0' postag_regexp='yes'/>
+        <token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
+      </antipattern>	    
+<!-- MARCOAGPINTO 2020-08-05 (2-JUL-2020+) *END* -->
       <antipattern>
 		  <token postag='VMN0000' postag_regexp='no'/>
 		  <token postag='DA0[FM]P0' postag_regexp='yes'/>
@@ -4043,6 +4063,9 @@ MARCOAGPINTO 2020-02-18 -->
 	  <example type='correct'>Se elas são iguais em todos <marker>os pontos dizemos</marker> que o campo é homogéneo.</example>
 	  <example type='correct'>Se elas são iguais em todas <marker>as coordenadas dizemos</marker> que o campo é homogéneo.</example>
 	  <example type='correct'><marker>Transpondo os termos temos</marker> a solução.</example>
+	  <example type='correct'>Amar os <marker>nossos vizinhos é</marker> nossa obrigação.</example>
+      <example type='correct'>O sistema de datação pelos <marker>seus sucessores está</marker> na origem do sucesso do mesmo.</example>
+	  <example type='correct'>O sistema de datação pelas <marker>suas sucessoras está</marker> na origem do sucesso do mesmo.</example>
     </rule>
     <rule>
       <antipattern>
