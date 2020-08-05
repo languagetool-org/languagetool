@@ -207,6 +207,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "no this is not",
       "no that is not",
       "no we were not",
+      "no we're not",
+      "no they're not",
       "no all good",
       "no everything alright",
       "no everything good",
