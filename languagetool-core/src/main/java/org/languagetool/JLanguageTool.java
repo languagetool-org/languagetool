@@ -1728,8 +1728,8 @@ public class JLanguageTool {
         } catch (ErrorRateTooHighException e) {
           throw e;
         } catch (Exception e) {
-          throw new RuntimeException("Could not check sentence (language: " + language + "): <sentcontent>'"
-                  + StringUtils.abbreviate(analyzedSentence.toTextString(), 500) + "'</sentcontent>", e);
+          throw new RuntimeException("Could not check sentence (language: " + language + "): <sentcontent>"
+                  + StringUtils.abbreviate(analyzedSentence.toTextString(), 500) + "</sentcontent>", e);
         }
       }
       return ruleMatches;
