@@ -9488,6 +9488,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
+        <rulegroup id="CUALQUIERA" name="cual quiera -&gt; cualquiera" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">cual|cuales|cuál|cuáles</token>
+                    <token regexp="yes">quier|quiera</token>
+                </pattern>
+                <message>Se escribre junto.</message>
+                <suggestion><match no="1" regexp_match="(?iu)á" regexp_replace="a"/>\2</suggestion>
+                <example correction="cualquier">Esta instalación no la puede hacer <marker>cuál quier</marker> electricista.</example>
+                <example correction="cualquiera">Esta instalación no la puede hacer <marker>cual quiera</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">cual|cuales|cuál|cuáles</token>
+                    <token>quieras</token>
+                </pattern>
+                <message>Se escribre junto.</message>
+                <suggestion>cual\2</suggestion>
+                <example correction="cualquieras">Ellos no son unos <marker>cuales quieras</marker>.</example>
+            </rule> 
+        </rulegroup>
         <rule id="HAZMERREIR" name="hazmerreír">
             <pattern>
                 <token postag="D.*|SP\+DA" postag_regexp="yes"/>
@@ -10138,11 +10159,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token regexp="yes">&pronombre_personal_atono;<exception postag="[NA].*|_possible_NP|LOC_ADV|_GN_.*" postag_regexp="yes"/><exception>se</exception></token>
+                    <token postag="[RDP].*" postag_regexp="yes"/>
                 </pattern>
                 <message>Posible confusión. Pronombre átono sin verbo.</message>
                 <!-- TODO: give suggestions for these sentences -->
-                <example correction=""><marker>Nos</marker> ahora.</example>
-                <example correction=""><marker>Los</marker> ahora.</example>
+                <example correction=""><marker>Nos ahora</marker>.</example>
+                <example correction=""><marker>Los ahora</marker>.</example>
                 <example>versiones anteriores de Mac OS</example>
                 <example>Con las/os niñas/os del Centro.</example>
                 <example>Lo bueno del caso.</example>
