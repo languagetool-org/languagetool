@@ -18742,7 +18742,7 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_ANGLICISMES" name="Anglicismes (calques, emprunts directs, etc.)" type="style">
-    <rule  id="BECAUSE" name="Anglicisme : because">
+    <rule  id="BECAUSE" name="Anglicisme : because" default="off">
       <pattern>
         <token>because</token>
       </pattern>
@@ -18751,7 +18751,7 @@ though, and has since been slightly modified)-->
       <suggestion>à cause de</suggestion>
       <example correction="Parce que|À cause de"><marker>Because</marker> j'aime ça.</example>
     </rule>
-    <rulegroup id="SCREENSHOT" name="Anglicisme : screenshot">
+    <rulegroup id="SCREENSHOT" name="Anglicisme : screenshot" default="off">
       <rule>
         <pattern>
           <token regexp="yes">screenshots?</token>
@@ -18774,7 +18774,7 @@ though, and has since been slightly modified)-->
         <example correction="Captures d'écran"><marker>Screen shots</marker>, qui, j'en suis sûr, vous convaincront.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="SCREENCAST" name="Anglicisme : screencast">
+    <rulegroup id="SCREENCAST" name="Anglicisme : screencast" default="off">
       <rule>
         <pattern>
           <token regexp="yes">screencasts?</token>
@@ -18797,35 +18797,35 @@ though, and has since been slightly modified)-->
         <example correction="Captures vidéo"><marker>Screen casts</marker>, qui, j'en suis sûr, vous convaincront.</example>
       </rule>
     </rulegroup>
-    <rule id="TEMPLATE_ANGLICISME" name="Anglicisme : template">
+    <rule id="TEMPLATE_ANGLICISME" name="Anglicisme : template" default="off">
       <pattern>
         <token regexp="yes">templates?</token>
       </pattern>
       <message>« \1 » est un anglicisme. Vouliez-vous dire <suggestion><match no="1" regexp_match="template(s)?" regexp_replace="modèle$1"/></suggestion> (informatique, documents), <suggestion><match no="1" regexp_match="template(s)?" regexp_replace="patron$1"/></suggestion> (artisanat, art décoratif) ?</message>
       <example correction="modèles|patrons">Ici, utilisez plutôt ces <marker>templates</marker>.</example>
     </rule>
-    <rule id="ONLINE_ANGLICISME" name="Anglicisme : online">
+    <rule id="ONLINE_ANGLICISME" name="Anglicisme : online" default="off">
       <pattern>
         <token>online</token>
       </pattern>
       <message>« \1 » est un anglicisme. Vouliez-vous dire <suggestion>en ligne</suggestion> ?</message>
       <example correction="en ligne">Je l'ai pourtant vu <marker>online</marker> pas plus tard qu'hier.</example>
     </rule>
-    <rule id="WEBINAR_ANGLICISME" name="Anglicisme : webinar">
+    <rule id="WEBINAR_ANGLICISME" name="Anglicisme : webinar" default="off">
       <pattern>
         <token regexp="yes">webinars?</token>
       </pattern>
       <message>« \1 » est un anglicisme. Vouliez-vous dire <suggestion><match no="1" regexp_match="webinar(s)?" regexp_replace="webinaire$1"/></suggestion>, ou <suggestion><match no="1" regexp_match="webinar(s)?" regexp_replace="séminaire$1"/> web</suggestion> ?</message>
       <example correction="webinaire|séminaire web">Nous avons essayé de passer au format de <marker>webinar</marker> pour notre companie.</example>
     </rule>
-    <rule id="SLIDER_ANGLICISME" name="Anglicisme : slider">
+    <rule id="SLIDER_ANGLICISME" name="Anglicisme : slider" default="off">
       <pattern>
         <token regexp="yes" case_sensitive="yes">sliders?</token>
       </pattern>
       <message>« \1 » est un anglicisme. Vouliez-vous dire <suggestion><match no="1" regexp_match="slider(s)?" regexp_replace="curseur$1"/></suggestion> ?</message>
       <example correction="curseur">Déplacez le <marker>slider</marker> tout à gauche.</example>
     </rule>
-    <rule id="SLIDE_ANGLICISME" name="Anglicisme : slide">
+    <rule id="SLIDE_ANGLICISME" name="Anglicisme : slide" default="off">
       <antipattern>
         <token>Charleston</token>
         <token>slide</token>
@@ -18870,7 +18870,7 @@ though, and has since been slightly modified)-->
     <suggestion>commandement</suggestion>
     <example correction="commandement">Et qui est-ce qui assumera le <marker>lead</marker> de leur équipe ?</example>
     </rule>
-    <rule id="FAKE" name="fake">
+    <rule id="FAKE" name="fake" default="off">
       <antipattern>
         <token>fake</token>
         <token>news</token>
@@ -18882,7 +18882,7 @@ though, and has since been slightly modified)-->
       <suggestion>faux</suggestion>
       <example correction="faux">C'est un <marker>fake</marker> évident.</example>
     </rule>
-    <rule id="SHOP" name="shop">
+    <rule id="SHOP" name="shop" default="off">
       <pattern>
         <token regexp="yes">shops?</token>
       </pattern>
@@ -18891,7 +18891,7 @@ though, and has since been slightly modified)-->
       <example correction="magasin">Dans quel <marker>shop</marker> ils l'ont acheté ?</example>
       <example correction="magasins">J'ai fait quinze <marker>shops</marker> pour le trouver.</example>
     </rule>
-    <rulegroup id="COMMUNITY" name="community">
+    <rulegroup id="COMMUNITY" name="community" default="off">
       <rule>
         <pattern>
           <token>community</token>
@@ -18941,7 +18941,7 @@ though, and has since been slightly modified)-->
         <suggestion>appeler</suggestion>
       <example correction="appeler">Je te <marker>call</marker> dans l'après-midi.</example>
     </rule>
-    <rulegroup id="DASHBOARD" name="dashboard">
+    <rulegroup id="DASHBOARD" name="dashboard" default="off">
       <rule>
         <pattern>
           <token>dashboard</token>
@@ -18957,7 +18957,7 @@ though, and has since been slightly modified)-->
         <example correction="tableaux de bord">C'est marqué sur les <marker>dashboards</marker>, juste ici.</example>
       </rule>
     </rulegroup>
-    <rule id="FREE" name="free">
+    <rule id="FREE" name="free" default="off">
       <antipattern>
         <token>free</token>
         <token spacebefore="no">.</token>
@@ -18972,7 +18972,7 @@ though, and has since been slightly modified)-->
       <example correction="gratuit">C'est <marker>free</marker> pour les abonnés Free.</example>
       <example>Agnosticisme - Agnostique Sur le site atheisme.free.fr</example>
     </rule>
-    <rule id="MAP" name="map">
+    <rule id="MAP" name="map" default="off">
       <pattern>
         <token regexp="yes">maps?</token>
       </pattern>
@@ -18981,7 +18981,7 @@ though, and has since been slightly modified)-->
       <example correction="carte">Je t'envoie la <marker>map</marker> pour t'orienter.</example>
       <example correction="cartes">Tu peux trouver ça sur un peu toutes les <marker>maps</marker>.</example>
     </rule>
-    <rule id="GROUP" name="group">
+    <rule id="GROUP" name="group" default="off">
       <antipattern>
         <token>Blue</token>
         <token>Man</token>
@@ -18995,21 +18995,21 @@ though, and has since been slightly modified)-->
       <example correction="groupe">Je crée un <marker>group</marker> pour en dicuter.</example>
       <example correction="groupes">On a plusieurs <marker>groups</marker> pour en dicuter.</example>
     </rule>
-    <rule id="AFTER_SHAVE" name="after-shave → après-rasage">
+    <rule id="AFTER_SHAVE" name="after-shave → après-rasage" default="off">
       <pattern><token>after-shave</token></pattern>
       <message>« \1 » est un anglicisme. Employez <suggestion>après-rasage</suggestion>.</message>
       <url>http://www.academie-francaise.fr/after-shave</url>
       <example correction="après-rasage">Une lotion <marker>after-shave</marker>.</example>
     </rule>
     <!--The following rules were created by Hugo Voisard-->
-    <rule id="GAS" name="gas">
+    <rule id="GAS" name="gas" default="off">
       <pattern>
         <token>gas</token>
       </pattern>
       <message>« Gas » est un anglicisme. Employez <suggestion>gaz</suggestion>.</message>
       <example correction="gaz"><marker>gas</marker></example>
     </rule>
-    <rule id="MICROBRASSERIE" name="microbrasserie">
+    <rule id="MICROBRASSERIE" name="microbrasserie" default="off">
       <pattern>
         <token regexp="yes">microbrasseries?</token>
       </pattern>
@@ -19017,7 +19017,7 @@ though, and has since been slightly modified)-->
       <example correction="brasserie artisanale"><marker>microbrasserie</marker></example>
       <example correction="brasseries artisanales"><marker>microbrasseries</marker></example>
     </rule>
-    <rulegroup id="SECRETARIAL" name="secrétarial">
+    <rulegroup id="SECRETARIAL" name="secrétarial" default="off">
       <rule>
         <pattern>
           <token>secrétarial</token>
@@ -19033,7 +19033,7 @@ though, and has since been slightly modified)-->
         <example correction="de secrétaires"><marker>secrétariales</marker></example>
       </rule>
     </rulegroup>
-    <rule id="AVEC_COMME_RESULTAT" name="avec comme résultat">
+    <rule id="AVEC_COMME_RESULTAT" name="avec comme résultat" default="off">
       <pattern>
         <token>avec</token>
         <token>comme</token>
@@ -19042,7 +19042,7 @@ though, and has since been slightly modified)-->
       <message>« Avec comme résultat » est un anglicisme (as a result). Employez <suggestion>si bien que</suggestion>.</message>
       <example correction="si bien que"><marker>avec comme résultat</marker></example>
     </rule>
-    <rule id="BYTE" name="byte">
+    <rule id="BYTE" name="byte" default="off">
       <pattern>
         <token regexp="yes">bytes?</token>
       </pattern>
@@ -19050,7 +19050,7 @@ though, and has since been slightly modified)-->
       <example correction="octet"><marker>byte</marker></example>
         <example correction="octets"><marker>bytes</marker></example>
     </rule>
-    <rule id="MERE_NATURE" name="mère nature">
+    <rule id="MERE_NATURE" name="mère nature" default="off">
       <pattern>
         <token regexp="yes">mères?</token>
         <token>nature</token>
@@ -19090,7 +19090,7 @@ though, and has since been slightly modified)-->
       <message>« Gagner son point » est un anglicisme (to win one's point). Employez <suggestion>avoir gain de cause</suggestion>.</message>
       <example correction="avoir gain de cause"><marker>gagner son point</marker></example>
     </rule>
-    <rulegroup id="BEBE_DOLL" name="bébé doll">
+    <rulegroup id="BEBE_DOLL" name="bébé doll" default="off">
       <rule>
         <pattern>
           <token regexp="yes">bébés?</token>
@@ -19103,7 +19103,7 @@ though, and has since been slightly modified)-->
           <example correction="nuisettes"><marker>bébé-dolls</marker></example>
       </rule>
     </rulegroup>
-    <rule id="PLUME-FONTAINE" name="plume-fontaine">
+    <rule id="PLUME-FONTAINE" name="plume-fontaine" default="off">
         <pattern>
           <token regexp="yes">plumes?</token>
           <token regexp="yes" min="0">[-‑‐]</token>
@@ -19136,7 +19136,7 @@ though, and has since been slightly modified)-->
         <example><marker>maïs soufflé</marker></example>
       </rule>
     </rulegroup>
-    <rulegroup id="ROAST_BEEF" name="roast beef">
+    <rulegroup id="ROAST_BEEF" name="roast beef" default="off">
       <rule>
         <pattern>
           <token regexp="yes">roasts?</token>
@@ -19158,7 +19158,7 @@ though, and has since been slightly modified)-->
         <example><marker>rôti de bœuf</marker></example>
       </rule>
     </rulegroup>
-    <rule id="UNITE_MURALE" name="unité murale">
+    <rule id="UNITE_MURALE" name="unité murale" default="off">
       <pattern>
         <token regexp="yes">unités?</token>
         <token regexp="yes">murales?</token>
@@ -19166,7 +19166,7 @@ though, and has since been slightly modified)-->
       <message>« Unité murale » est un anglicisme. Employez <suggestion>meuble de rangement</suggestion>.</message>
       <example correction="meuble de rangement"><marker>unité murale</marker></example>
     </rule>
-    <rule id="OR_SOLIDE" name="or solide">
+    <rule id="OR_SOLIDE" name="or solide" default="off">
       <pattern>
         <token>or</token>
         <token regexp="yes">solides?</token>
@@ -19175,7 +19175,7 @@ though, and has since been slightly modified)-->
       <example correction="or massif"><marker>or solide</marker></example>
         <example correction="or massifs"><marker>or solides</marker></example>
     </rule>
-    <rule id="EXERCICE_DE_FEU" name="exercice de feu">
+    <rule id="EXERCICE_DE_FEU" name="exercice de feu" default="off">
       <pattern>
         <token regexp="yes">exercices?</token>
         <token>de</token>
@@ -19185,7 +19185,7 @@ though, and has since been slightly modified)-->
       <example correction="exercice d’évacuation"><marker>exercice de feu</marker></example>
         <example correction="exercices d’évacuation"><marker>exercices de feux</marker></example>
     </rule>
-    <rule id="RESISTANT_AU_FEU" name="résistant au feu">
+    <rule id="RESISTANT_AU_FEU" name="résistant au feu" default="off">
       <pattern>
         <token regexp="yes">résistante?s?</token>
         <token>au</token>
@@ -19196,7 +19196,7 @@ though, and has since been slightly modified)-->
       <example correction="ignifuges|réfractaires"><marker>résistants au feu</marker></example>
       <example><marker>ignifuge</marker></example>
     </rule>
-    <rulegroup id="PERE_LEGAL" name="père légal">
+    <rulegroup id="PERE_LEGAL" name="père légal" default="off">
       <rule>
         <pattern>
           <token>père</token>
@@ -19215,7 +19215,7 @@ though, and has since been slightly modified)-->
         <example correction="père juridiques"><marker>père légaux</marker></example>
       </rule>
     </rulegroup>
-    <rulegroup id="PRESSE_ETHNIQUE" name="presse ethnique">
+    <rulegroup id="PRESSE_ETHNIQUE" name="presse ethnique" default="temp_off">
       <rule>
         <pattern>
           <token>presse</token>
@@ -19243,7 +19243,7 @@ though, and has since been slightly modified)-->
       <example correction="douleurs physiques et morales"><marker>peines et souffrances</marker></example>
         <example correction="douleur physique et morale"><marker>peine et souffrance</marker></example>
     </rule>
-    <rule id="ENTITE_LEGALE" name="entité légale">
+    <rule id="ENTITE_LEGALE" name="entité légale" default="temp_off">
       <pattern>
         <token regexp="yes">entités?</token>
         <token regexp="yes">légales?</token>
@@ -19252,7 +19252,7 @@ though, and has since been slightly modified)-->
       <example correction="personne morale"><marker>entité légale</marker></example>
         <example correction="personnes morale"><marker>entités légales</marker></example>
     </rule>
-    <rule id="GROUPE_DINTERETS" name="groupe d’intérêts">
+    <rule id="GROUPE_DINTERETS" name="groupe d’intérêts" default="off">
       <pattern>
         <token regexp="yes">groupes?</token>
         <token inflected="yes">de</token>
@@ -19274,7 +19274,7 @@ though, and has since been slightly modified)-->
       <example correction="par hasard"><marker>par pure chance</marker></example>
     </rule>
     -->
-    <rule id="PLOGUE" name="plogue">
+    <rule id="PLOGUE" name="plogue" default="off">
       <pattern>
         <token regexp="yes">plogues?</token>
       </pattern>
@@ -19291,7 +19291,7 @@ though, and has since been slightly modified)-->
       <message>« Piment fort » est un anglicisme (hot pepper). Employez <suggestion>piment</suggestion>.</message>
       <example correction="piment"><marker>piment fort</marker></example>
     </rule>
-    <rule id="EN_DOUBLE_AVEUGLE" name="en double aveugle">
+    <rule id="EN_DOUBLE_AVEUGLE" name="en double aveugle" default="off">
       <pattern>
         <token>en</token>
         <token>double</token>
@@ -19300,7 +19300,7 @@ though, and has since been slightly modified)-->
       <message>« En double aveugle » est un anglicisme (double-blind). Employez <suggestion>en double anonymat</suggestion> (expérience).</message>
       <example correction="en double anonymat"><marker>en double aveugle</marker></example>
     </rule>
-    <rule id="POINT_AVEUGLE" name="point aveugle">
+    <rule id="POINT_AVEUGLE" name="point aveugle" default="off">
       <pattern>
         <token regexp="yes">points?</token>
         <token regexp="yes">aveugles?</token>
@@ -19309,7 +19309,7 @@ though, and has since been slightly modified)-->
       <example correction="angle mort"><marker>point aveugle</marker></example>
         <example correction="angles mort"><marker>points aveugle</marker></example>
     </rule>
-    <rule id="POLI_A_ONGLES" name="poli à ongles">
+    <rule id="POLI_A_ONGLES" name="poli à ongles" default="off">
       <pattern>
         <token regexp="yes">polie?s?</token>
         <token regexp="yes">[aà]</token>
@@ -19318,7 +19318,7 @@ though, and has since been slightly modified)-->
       <message>« Poli à ongles » est un anglicisme (nail polish). Employez <suggestion>vernis à ongles</suggestion>.</message>
       <example correction="vernis à ongles"><marker>poli à ongles</marker></example>
     </rule>
-    <rule id="POLI_A_CHAUSSURES" name="poli à chaussures">
+    <rule id="POLI_A_CHAUSSURES" name="poli à chaussures" default="off">
       <pattern>
         <token regexp="yes">polie?s?</token>
         <token regexp="yes">[aà]</token>
@@ -19336,7 +19336,7 @@ though, and has since been slightly modified)-->
       <message>« Piment doux » est un anglicisme (sweet pepper). Employez <suggestion>poivron</suggestion>.</message>
       <example correction="poivron"><marker>piment doux</marker></example>
     </rule>
-    <rule id="PINOTTE" name="pinotte/peanut">
+    <rule id="PINOTTE" name="pinotte/peanut" default="off">
       <pattern>
         <token regexp="yes">pinottes?|peanuts?</token>
       </pattern>
@@ -19359,7 +19359,7 @@ though, and has since been slightly modified)-->
       <example correction="je t’assure que|crois-moi, tu|il faut dire que tu"><marker>laisse-moi te dire que</marker></example>
       <example><marker>il faut dire que</marker></example>
     </rule>
-    <rule id="PAR_LA_PEAU_DES_DENTS" name="par la peau des dents">
+    <rule id="PAR_LA_PEAU_DES_DENTS" name="par la peau des dents" default="off">
       <pattern>
         <token>par</token>
         <token>la</token>
@@ -19384,7 +19384,7 @@ though, and has since been slightly modified)-->
       <example correction="s’opposer à|s’élever contre"><marker>s’objecter à</marker></example>
       <example><marker>s’opposer à</marker></example>
     </rule>
-    <rule id="ORDRE_DE_TOASTS" name="ordre de toasts">
+    <rule id="ORDRE_DE_TOASTS" name="ordre de toasts" default="off">
       <pattern>
         <token regexp="yes">ordres?</token>
         <token>de</token>
@@ -19393,7 +19393,7 @@ though, and has since been slightly modified)-->
       <message>« Ordre de toasts » est un anglicisme. Employez <suggestion>deux tartines grillées</suggestion>.</message>
       <example correction="deux tartines grillées"><marker>ordre de toasts</marker></example>
     </rule>
-    <rule id="PASSE_DAUTOBUS" name="passe d’autobus">
+    <rule id="PASSE_DAUTOBUS" name="passe d’autobus" default="off">
       <pattern>
         <token regexp="yes">passes?</token>
         <token inflected="yes">de</token>
@@ -19410,7 +19410,7 @@ though, and has since been slightly modified)-->
       <example correction="pacane"><marker>pécan</marker></example>
         <example correction="pacanes"><marker>pécans</marker></example>
     </rule>
-    <rule id="PASSE_DE_BUS" name="passe de bus">
+    <rule id="PASSE_DE_BUS" name="passe de bus" default="off">
       <pattern>
         <token regexp="yes">passes?</token>
         <token>de</token>
@@ -19419,7 +19419,7 @@ though, and has since been slightly modified)-->
       <message>« Passe de bus » est un anglicisme (bus pass). Employez <suggestion>carte d’autobus</suggestion>.</message>
       <example correction="carte d’autobus"><marker>passe de bus</marker></example>
     </rule>
-    <rule id="BUREAU_DINFORMATION" name="bureau d’information">
+    <rule id="BUREAU_DINFORMATION" name="bureau d’information" default="off">
       <pattern>
         <token regexp="yes">bureaux?</token>
         <token inflected="yes">de</token>
@@ -19428,7 +19428,7 @@ though, and has since been slightly modified)-->
       <message>« Bureau d’information » est un anglicisme (information desk). Employez <suggestion>bureau de renseignements</suggestion>.</message>
       <example correction="bureau de renseignements"><marker>bureau d’information</marker></example>
     </rule>
-    <rule id="MOPPE" name="mop(p)e">
+    <rule id="MOPPE" name="mop(p)e" default="off">
       <pattern>
         <token regexp="yes">mopp?es?|mops?</token>
       </pattern>
@@ -19437,7 +19437,7 @@ though, and has since been slightly modified)-->
         <example correction="balais à franges|serpillières"><marker>moppes</marker></example>
       <example><marker>serpillière</marker></example>
     </rule>
-    <rulegroup id="NON-APPLICABLE" name="non-applicable">
+    <rulegroup id="NON-APPLICABLE" name="non-applicable" default="off">
       <rule>
         <pattern>
           <token>non</token>
