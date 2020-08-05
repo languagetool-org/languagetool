@@ -5366,7 +5366,7 @@
 </rule>
 <rule break="no">
 <beforebreak>[.!?…][ \t\u00A0\u202F]+</beforebreak>
-<afterbreak>[ \t\u00A0\u202F]*[«"„“]\p{Ll}</afterbreak>
+<afterbreak>[ \t\u00A0\u202F]*([«"„“(]|[—–-][ \t\u00A0\u202F])\p{Ll}</afterbreak>
 </rule>
 <rule break="yes">
 <beforebreak>\n[ \t\u00A0\u202F]*</beforebreak>
@@ -5391,20 +5391,30 @@
 <beforebreak>\b\p{L}{1,2}\.</beforebreak>
 <afterbreak>\p{L}{1,2}\.</afterbreak>
 </rule>
-<!-- we don't allow lat and cyr in one rule as this leads to many false positives -->
-<rule break="no">
-<beforebreak>(^|[^°])\b[\u00A0\u202F]?[А-ЯІЇЄҐ]\.[\s\u00A0\u202F]?</beforebreak>
-<afterbreak>[А-ЯІЇЄҐ][а-яіїєґ'’ʼ]{2,}</afterbreak>
-</rule>
 <!-- latin capital char abbreviations A. B. C. -->
 <rule break="no">
 <beforebreak>\b[\u00A0\u202F]?[A-Z]\.[\s\u00A0\u202F]?</beforebreak>
-<afterbreak>[A-Z][a-z'-]</afterbreak>
+<afterbreak>[A-Z][a-zA-Z'’.-]</afterbreak>
 </rule>
 <!-- capital char abbreviations А. Б. В. -->
 <rule break="no">
-<beforebreak>(^|[\s\u00A0\u202F])[А-ЯІЇЄҐA-Z]\.[\s\u00A0\u202F]</beforebreak>
+<beforebreak>(^[\s\u00A0\u202F]*|\([\s\u00A0\u202F]*|[«„"])[А-ЯІЇЄҐA-Z]\.[\s\u00A0\u202F]*</beforebreak>
 <afterbreak></afterbreak>
+</rule>
+<!-- І. В. Коваль, Т. 2, C. 202 -->
+<rule break="no">
+<beforebreak>[\s\u00A0\u202F][А-ЯІЇЄҐ]\.[\s\u00A0\u202F]*</beforebreak>
+<afterbreak>([А-ЯІЇЄҐ]\.|[0-9])</afterbreak>
+</rule>
+<!-- Іван Ч. (1914 р. н.) -->
+<rule break="no">
+<beforebreak>[\s\u00A0\u202F][А-ЯІЇЄҐ]\.[\s\u00A0\u202F]*</beforebreak>
+<afterbreak>\([0-9]{4}</afterbreak>
+</rule>
+<!-- І. Коваль -->
+<rule break="no">   
+<beforebreak>[\s\u00A0\u202F.](?&lt;!Куан[\s\u00A0\u202F]+|°)[А-ЯІЇЄҐ]\.[\s\u00A0\u202F]*</beforebreak>
+<afterbreak>(?!Від|Але)[А-ЯІЇЄҐ][а-яіїєґА-ЯІЇЄҐ'’ʼ]{2}</afterbreak>
 </rule>
 <!-- Ів. Франко (але Ів Бутільє) -->
 <rule break="no">
