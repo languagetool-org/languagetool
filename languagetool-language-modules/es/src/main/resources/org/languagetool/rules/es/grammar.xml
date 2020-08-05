@@ -88,7 +88,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <phrases>
         <phrase id="_GN_SINGULAR">
             <token min="1" max="5" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes"
-                >&expresiones_tiempo;|&unidades_tiempo;|&dias_semana;|&meses_ano;|&estaciones_ano;|&partes_dia;|vez|&nombres_colectivos;|qué|cuál|cual|mismo|cuanto|cuánto|resto</exception><exception regexp="yes">.*%</exception></token>
+                >&expresiones_tiempo;|&unidades_tiempo;|&dias_semana;|&meses_ano;|&estaciones_ano;|&partes_dia;|vez|&nombres_colectivos;|qué|cuál|cual|mismo|cuanto|cuánto|resto|adjunto</exception><exception regexp="yes">.*%</exception></token>
         </phrase>
     </phrases>
     <category id="CASING" name="Mayúsculas y minúsculas" type="typographical">
@@ -1055,13 +1055,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- El termino. Avoids rule EL_TILDE -->
                 <pattern>
                     <marker>
-                        <token>el</token>
+                        <token regexp="yes">el|maldito|buen</token>
                         <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:(NC|AQ).* gendernumber_from:1"/>
                 <message>Si es adjetivo o nombre, se escribe con tilde.</message>
-                <suggestion>el {suggestion}</suggestion>
+                <suggestion>\1 {suggestion}</suggestion>
                 <example correction="El término"><marker>El termino</marker>.</example>
                 <example correction="El ejército"><marker>El ejercito</marker>.</example>
                 <example correction="el diálogo">En <marker>el dialogo</marker>.</example>
@@ -1754,7 +1754,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </and>
                     </marker>
                 </pattern>
-                <message>Si el verbo es en pasado, falta un acento.</message>
+                <message>Si el verbo es en pasado, falta un acento; o puede que falte una coma.</message>
                 <suggestion><match no="4" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0" case_conversion="alllower"/></suggestion>
                 <example correction="colaboró">La policía <marker>colaboro</marker> con el juez</example>
                 <example correction="habló">Juan <marker>hablo</marker> con ella.</example>
@@ -1768,6 +1768,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La enfermera promedio duerme menos de 5 horas por día.</example>
                 <example>El alfabeto paleo-hebraico proviene del fenicio.</example>
                 <example>El objeto modelo es cualquier representación esquemática de un objeto.</example>
+                <example>Su falda estilo cola.</example>
+                <example>Un gran gusto encontrarte aquí.</example>
+                <example>Adjunto facilito factura.</example>
+                <example>Adjunta facilito factura.</example>
             </rule>
         </rulegroup>
         <rule id="PROMEDIO" name="promedio/promedió">
