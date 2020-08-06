@@ -1635,8 +1635,14 @@ public class JLanguageTool {
           List<RuleMatch> adaptedMatches = new ArrayList<>();
           for (RuleMatch match : matches) {
             LineColumnRange range = getLineColumnRange(match);
-            int newFromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos(), false);
-            int newToPos = annotatedText.getOriginalTextPositionFor(match.getToPos() - 1, true) + 1;
+            int newFromPos;
+            int newToPos;
+            try {
+              newFromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos(), false);
+              newToPos = annotatedText.getOriginalTextPositionFor(match.getToPos() - 1, true) + 1;
+            } catch (RuntimeException e) {
+              throw new RuntimeException("Getting positions failed for match " + match, e);
+            }
             RuleMatch newMatch = new RuleMatch(match);
             newMatch.setOffsetPosition(newFromPos, newToPos);
             newMatch.setLine(range.from.line);
