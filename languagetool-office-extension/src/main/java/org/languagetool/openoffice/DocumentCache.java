@@ -185,7 +185,7 @@ public class DocumentCache {
   }
   
   /**
-   * size of document cache (number of all flat paragraphs)
+   * get Number of Text Paragraph from Number of Flat Paragraph
    */
   public int getNumberOfTextParagraph(int numberOfFlatParagraph) {
     return toTextMapping.get(numberOfFlatParagraph);

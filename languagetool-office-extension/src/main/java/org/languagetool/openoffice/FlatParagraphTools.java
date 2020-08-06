@@ -438,14 +438,12 @@ public class FlatParagraphTools {
       int nMarked = 0;
       while (tmpFlatPara != null && nMarked < changedParas.size()) {
         int nTextPara = docCache.getNumberOfTextParagraph(num);
-        if (nTextPara >= 0) {
-          if (changedParas.containsKey(nTextPara)) {
-            addMarksToOneParagraph(tmpFlatPara, changedParas.get(nTextPara), cursor, override);
-            nMarked++;
-          }
-          if (override && cursor != null) {
-            cursor.gotoNextParagraph(false);
-          }
+        if (changedParas.containsKey(num)) {
+          addMarksToOneParagraph(tmpFlatPara, changedParas.get(num), nTextPara < 0 ? null : cursor, override);
+          nMarked++;
+        }
+        if (override && cursor != null && nTextPara >= 0) {
+          cursor.gotoNextParagraph(false);
         }
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
         num++;
@@ -533,6 +531,40 @@ public class FlatParagraphTools {
       this.paragraphs = paragraphs;
       this.locales = locales;
       this.footnotePositions = footnotePositions;
+    }
+  }
+  
+  /**
+   * Change text of flat paragraph nPara 
+   * delete characters between nStart and nStart + nLen, insert newText at nStart
+   */
+  public void changeTextOfParagraph (int nPara, int nStart, int nLen, String newText) {
+    try {
+      XFlatParagraph xFlatPara = getLastFlatParagraph();
+      if (xFlatPara == null) {
+//        if (debugMode) {
+          MessageHandler.printToLogFile("changeTextOfParagraph: FlatParagraph == null");
+//        }
+        return;
+      }
+      XFlatParagraph tmpFlatPara = xFlatPara;
+      while (tmpFlatPara != null) {
+        xFlatPara = tmpFlatPara;
+        tmpFlatPara = xFlatParaIter.getParaBefore(tmpFlatPara);
+      }
+      int num = 0;
+      while (xFlatPara != null && num < nPara) {
+        xFlatPara = xFlatParaIter.getParaAfter(xFlatPara);
+        num++;
+      }
+      if (xFlatPara == null) {
+        MessageHandler.printToLogFile("changeTextOfParagraph: FlatParagraph == null; n = " + num + "; nPara = " + nPara);
+        return;
+      }
+      xFlatPara.changeText(nStart, nLen, newText, new PropertyValue[0]);
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      return;             // Return -1 as method failed
     }
   }
   
