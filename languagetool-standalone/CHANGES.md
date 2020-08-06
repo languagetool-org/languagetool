@@ -5,6 +5,7 @@
 #### German
   * Updated the German part-of-speech dictionary (https://github.com/languagetool-org/german-pos-dict)
     to version 1.2.2.
+  * Each pair of `ProhibitedCompoundRule` has its own ID now, so it can be separately turned on/off
 
 #### Russian
   * added and improved rules
