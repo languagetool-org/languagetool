@@ -19184,27 +19184,35 @@ though, and has since been slightly modified)-->
     <rule id="ETRE_A_DATE" name="être à date">
       <pattern>
         <token inflected="yes">être</token>
-        <token>à</token>
-        <token regexp="yes">dates?</token>
+        <marker>
+          <token>à</token>
+          <token regexp="yes">dates?</token>
+        </marker>
       </pattern>
-      <message>« Être à date » est un anglicisme. Employez <suggestion>être à jour</suggestion>.</message>
-      <example correction="être à jour"><marker>être à date</marker></example>
+      <message>« Être à date » est un anglicisme.</message>
+      <suggestion>à jour</suggestion>
+      <example correction="à jour">être <marker>à date</marker></example>
     </rule>
     <rule id="METTRE_A_DATE" name="mettre à date">
       <pattern>
         <token inflected="yes" skip="6">mettre</token>
-        <token>à</token>
-        <token regexp="yes">dates?</token>
+        <marker>
+          <token>à</token>
+          <token regexp="yes">dates?</token>
+        </marker>
       </pattern>
-      <message>« Mettre à date » est un anglicisme. Employez <suggestion>mettre à jour</suggestion>.</message>
-      <example correction="mettre à jour"><marker>mettre à date</marker></example>
+      <message>« Mettre à date » est un anglicisme.</message>
+      <suggestion>à jour</suggestion>
+      <example correction="à jour">mettre <marker>à date</marker></example>
     </rule>
     <rule id="CONTROLER_LA_SITUATION" name="contrôler la situation" default="off"> <!-- picky -->
       <pattern>
         <token inflected="yes" skip="1">contrôler</token>
         <token regexp="yes">situations?</token>
       </pattern>
-      <message>« Contrôler la situation » est un anglicisme. Employez <suggestion>avoir la situation en mains</suggestion>, <suggestion>tenir la situation en mains</suggestion>.</message>
+      <message>« Contrôler la situation » est un anglicisme.</message>
+      <suggestion><match no="1" postag="V(.*)" postag_regexp="yes" postag_replace="V avoir$1">avoir</match> la situation en mains</suggestion>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">tenir</match> la situation en mains</suggestion>
       <example correction="avoir la situation en mains|tenir la situation en mains"><marker>contrôler la situation</marker></example>
       <example><marker>avoir la situation en mains</marker></example>
     </rule>
@@ -19215,7 +19223,8 @@ though, and has since been slightly modified)-->
         </marker>
         <token regexp="yes">circulations?</token>
       </pattern>
-      <message>« Contrôler la circulation » est un anglicisme. Employez <suggestion>régler</suggestion> la circulation.</message>
+      <message>« Contrôler la circulation » est un anglicisme.</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">régler</match></suggestion>
       <example correction="régler"><marker>contrôler</marker> la circulation</example>
     </rule>
     <rule id="CONTROLER_UN_INCENDIE" name="contrôler un incendie">
@@ -19225,7 +19234,8 @@ though, and has since been slightly modified)-->
         </marker>
         <token regexp="yes">incendies?</token>
       </pattern>
-      <message>« Contrôler un incendie » est un anglicisme. Employez <suggestion>maîtriser</suggestion> un incendie.</message>
+      <message>« Contrôler un incendie » est un anglicisme.</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">maîtriser</match></suggestion>
       <example correction="maîtriser"><marker>contrôler</marker> un incendie</example>
     </rule>
     <rule id="COUPER_DES_POSTES" name="couper des postes">
@@ -19235,66 +19245,88 @@ though, and has since been slightly modified)-->
         </marker>
         <token regexp="yes">postes?</token>
       </pattern>
-      <message>« Couper des postes » est un anglicisme. Employez <suggestion>abolir</suggestion> des postes, <suggestion>supprimer</suggestion> des postes.</message>
+      <message>« Couper des postes » est un anglicisme.</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">abolir</match></suggestion>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">supprimer</match></suggestion>
       <example correction="abolir|supprimer"><marker>couper</marker> des postes</example>
       <example><marker>abolir des postes</marker></example>
     </rule>
     <rule id="COUPER_LA_LIGNE" name="couper la ligne">
       <pattern>
         <token inflected="yes" skip="1">couper</token>
+        <token postag="D.*" postag_regexp="yes"/>
         <token regexp="yes">lignes?</token>
       </pattern>
-      <message>« Couper la ligne » est un anglicisme. Employez <suggestion>couper la communication</suggestion>.</message>
+      <message>« Couper la ligne » est un anglicisme.</message>
+      <suggestion>\1 la communication</suggestion>
       <example correction="couper la communication"><marker>couper la ligne</marker></example>
     </rule>
     <rule id="COUPER_DES_DEPENSES" name="couper des dépenses">
       <pattern>
-        <token inflected="yes" skip="6">couper</token>
+        <marker>
+          <token inflected="yes" skip="6">couper</token>
+        </marker>
         <token regexp="yes">dépenses?</token>
       </pattern>
-      <message>« Couper des dépenses » est un anglicisme. Employez <suggestion>réduire des dépenses</suggestion>.</message>
-      <example correction="réduire des dépenses"><marker>couper des dépenses</marker></example>
+      <message>« Couper des dépenses » est un anglicisme.</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">réduire</match></suggestion>
+      <example correction="réduire"><marker>couper</marker>  des dépenses</example>
     </rule>
     <rule id="COUPER_DES_PRIX" name="couper des prix">
       <pattern>
-        <token inflected="yes" skip="2">couper</token>
+        <marker>
+          <token inflected="yes" skip="2">couper</token>
+        </marker>
         <token>prix</token>
       </pattern>
-      <message>« Couper des prix » est un anglicisme. Employez <suggestion>réduire des prix</suggestion>.</message>
-      <example correction="réduire des prix"><marker>couper des prix</marker></example>
+      <message>« Couper des prix » est un anglicisme.</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">réduire</match></suggestion>
+      <example correction="réduire"><marker>couper</marker> des prix</example>
       <example>il a coupé l'herbe au prix de base</example>
     </rule>
     <rule id="COMPLETER_DES_ETUDES" name="compléter des études">
       <pattern>
-        <token inflected="yes" skip="5">compléter</token>
+        <marker>
+          <token inflected="yes" skip="5">compléter</token>
+        </marker>
         <token regexp="yes">études?</token>
       </pattern>
-      <message>« Compléter des études » est un anglicisme. Employez <suggestion>faire des études</suggestion>.</message>
-      <example correction="faire des études"><marker>compléter des études</marker></example>
+      <message>« Compléter des études » est un anglicisme.</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">faire</match></suggestion>
+      <example correction="faire"><marker>compléter</marker> des études</example>
     </rule>
     <rule id="COMPLETER_UN_ACCORD" name="compléter un accord">
       <pattern>
-        <token inflected="yes" skip="5">compléter</token>
+        <marker>
+          <token inflected="yes" skip="5">compléter</token>
+        </marker>
         <token regexp="yes">accords?</token>
       </pattern>
-      <message>« Compléter un accord » est un anglicisme. Employez <suggestion>conclure un accord</suggestion>.</message>
-      <example correction="conclure un accord"><marker>compléter un accord</marker></example>
+      <message>« Compléter un accord » est un anglicisme.</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">conclure</match></suggestion>
+      <example correction="conclure"><marker>compléter</marker> un accord</example>
     </rule>
     <rule id="COMPLETER_UN_FORMULAIRE" name="compléter un formulaire">
       <pattern>
-        <token inflected="yes" skip="5">compléter</token>
+        <marker>
+          <token inflected="yes" skip="5">compléter</token>
+        </marker>
         <token regexp="yes">formulaires?</token>
       </pattern>
-      <message>« Compléter un formulaire » est un anglicisme. Employez <suggestion>remplir un formulaire</suggestion>.</message>
-      <example correction="remplir un formulaire"><marker>compléter un formulaire</marker></example>
+      <message>« Compléter un formulaire » est un anglicisme.</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">remplir</match></suggestion>
+      <example correction="remplir"><marker>compléter</marker> un formulaire</example>
     </rule>
     <rule id="COMPLETER_UN_PROJET" name="compléter un projet">
       <pattern>
-        <token inflected="yes" skip="5">compléter</token>
+        <marker>
+          <token inflected="yes" skip="5">compléter</token>
+        </marker>
         <token regexp="yes">projets?</token>
       </pattern>
-      <message>« Compléter un projet » est un anglicisme. Employez <suggestion>exécuter un projet</suggestion>.</message>
-      <example correction="exécuter un projet"><marker>compléter un projet</marker></example>
+      <message>« Compléter un projet » est un anglicisme.</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">exécuter</match></suggestion>
+      <example correction="exécuter"><marker>compléter</marker> un projet</example>
     </rule>
     <rule id="COMPLETER_UN_TRAVAIL" name="compléter un travail">
       <pattern>
@@ -19303,28 +19335,34 @@ though, and has since been slightly modified)-->
         </marker>
         <token regexp="yes">travail[xs]?</token>
       </pattern>
-      <message>« Compléter un travail » est un anglicisme..</message>
+      <message>« Compléter un travail » est un anglicisme.</message>
       <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">effectuer</match></suggestion>
-      <example correction="effectuer un travail"><marker>compléter un travail</marker></example>
-      <example correction="effectuant un travail"><marker>complétant un travail</marker></example>
+      <example correction="effectuer"><marker>compléter</marker> un travail</example>
+      <example correction="effectuant"><marker>complétant</marker> un travail</example>
     </rule>
     <rule id="COMPLETER_UNE_DECLARATION_DE_REVENUS" name="compléter une déclaration de revenus">
       <pattern>
-        <token inflected="yes" skip="5">compléter</token>
+        <marker>
+          <token inflected="yes" skip="5">compléter</token>
+        </marker>
         <token>déclaration</token>
         <token>de</token>
         <token regexp="yes">revenus?</token>
       </pattern>
-      <message>« Compléter une déclaration de revenus » est un anglicisme. Employez <suggestion>remplir une déclaration de revenus</suggestion>.</message>
-      <example correction="remplir une déclaration de revenus"><marker>compléter une déclaration de revenus</marker></example>
+      <message>« Compléter une déclaration de revenus » est un anglicisme.</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">remplir</match></suggestion>
+      <example correction="remplir"><marker>compléter</marker> une déclaration de revenus</example>
     </rule>
     <rule id="CIRER_DES_SKIS" name="cirer des skis">
       <pattern>
-        <token inflected="yes" skip="5">cirer</token>
+        <marker>
+          <token inflected="yes" skip="5">cirer</token>
+        </marker>
         <token regexp="yes">skis?</token>
       </pattern>
-      <message>« Cirer des skis » est un anglicisme. Employez <suggestion>farter des skis</suggestion>.</message>
-      <example correction="farter des skis"><marker>cirer des skis</marker></example>
+      <message>« Cirer des skis » est un anglicisme.</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">farter</match></suggestion>
+      <example correction="farter"><marker>cirer</marker> des skis</example>
     </rule>
      
   <!-- checked upto here -->
