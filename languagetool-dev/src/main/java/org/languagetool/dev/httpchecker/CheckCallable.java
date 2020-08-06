@@ -122,8 +122,11 @@ class CheckCallable implements Callable<File> {
             } catch (Exception e) {
               if (retry >= maxTries) {
                 printErr(threadName + " - POST to " + url + " failed: " + e.getMessage() +
-                  ", try " + retry + ", max tries " + maxTries + ", no retries left, throwing exception");
-                throw e;
+                  ", try " + retry + ", max tries " + maxTries + ", no retries left, writing fake error");
+                writeFakeError(mapper, fw, textToCheck, pseudoFileName, new ApiErrorException(e.getMessage()));
+                tempLines.clear();
+                startLine = i;
+                break;
               } else {
                 long sleepMillis = retrySleepMillis * retry;
                 printErr(threadName + " - POST to " + url + " failed: " + e.getMessage() +
