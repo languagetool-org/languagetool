@@ -33164,6 +33164,22 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_MARQUES_DE_COMMERCE" name="Marques de commerce">
+      <rule id="TikTok" name="TikTok en deux mots" default="temp_off">
+          <antipattern>
+              <token regexp="yes" skip="-1">Kesha|Ke$ha|clip|feat(uring)?|billboard|hit</token>
+              <token>tik</token>
+          </antipattern>
+          <antipattern>
+              <token skip="-1">tok</token>
+              <token regexp="yes">Kesha|Ke$ha|clip|feat(uring)?|billboard|hit</token>
+          </antipattern>
+          <pattern>
+              <token>tik</token>
+              <token>tok</token>
+          </pattern>
+          <message>Vouliez-vous dire <suggestion>TikTok</suggestion>?</message>
+          <example correction="TikTok">Je lui ai envoyé sur <marker>tik tok</marker>.</example>
+      </rule>
     <rule id="UBUNTU" name="Ubuntu-12.4 → Ubuntu-12.04">
       <pattern>
         <token regexp="yes">([klx]|ed)?ubuntu</token>
