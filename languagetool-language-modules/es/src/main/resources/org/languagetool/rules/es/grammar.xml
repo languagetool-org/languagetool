@@ -10202,8 +10202,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Me horroriza lo mal que se portan esos niños.</example>
                 <example>Y lo bien que lo hizo.</example>
             </rule>
-            <rule default="temp_off">
-                <!-- catch-all rule, no suggestions; exception: se -->
+            <!-- <rule default="off">
+                catch-all rule, no suggestions; exception: se
                 <antipattern>
                     <token regexp="yes">le|les</token>
                     <token postag="[NA].*|V.P.*" postag_regexp="yes"/>
@@ -10222,7 +10222,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="[RDP].*" postag_regexp="yes"/>
                 </pattern>
                 <message>Posible confusión. Pronombre átono sin verbo.</message>
-                <!-- TODO: give suggestions for these sentences -->
                 <example correction=""><marker>Nos ahora</marker>.</example>
                 <example correction=""><marker>Los ahora</marker>.</example>
                 <example>versiones anteriores de Mac OS</example>
@@ -10233,7 +10232,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>De los demás.</example>
                 <example>La del año pasado.</example>
                 <example>Lo que nos interesa.</example>
-            </rule>
+                </rule> -->
         </rulegroup>
         <rule id="MANTELO" name="mantelo/mantenlo">
             <pattern>
@@ -10993,6 +10992,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
                     <token postag="V....P." postag_regexp="yes"/>
                 </marker>
+            </antipattern>
+            <antipattern>
+                <token>no</token>
+                <token regexp="yes">importa|importaba</token>
             </antipattern>
             <rule>
                 <pattern>
