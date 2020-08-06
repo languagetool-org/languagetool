@@ -7067,6 +7067,18 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>all</token>
             <token postag="IN" /> 
         </antipattern>
+        <antipattern><!-- #3346 are having classes this week -->
+            <token chunk="I-VP" postag="VBG"/>
+            <token chunk="E-NP-plural" postag="NNS"/>
+            <token postag="DT"/>
+            <token regexp="yes">second|minute|hour|morning|afternoon|evening|night|day|week|month|year|decade|century</token>
+        </antipattern>
+        <antipattern><!-- #3346 have classes this week -->
+            <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
+            <token chunk="E-NP-plural" postag="NNS"/>
+            <token postag="DT"/>
+            <token regexp="yes">second|minute|hour|morning|afternoon|evening|night|day|week|month|year|decade|century</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -7110,6 +7122,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Tom has friends all over the world.</example><!-- #3320 -->
         <example type="untouched">I do crunches every day.</example><!-- #3320 -->
         <example type="untouched">We can have changes every week.</example><!-- #3320 -->
+        <example type="untouched">We are having classes this week.</example><!-- #3346 -->
+        <example type="untouched">We have classes this week.</example><!-- #3346 -->
+        <example type="untouched">We are taking classes this week, aren't we?</example><!-- #3346 -->
+        <example type="untouched">The technicians are giving lectures next month at the university.</example><!-- #3346 -->
+        <example type="untouched">The careless technicians were testing samples the night that the explosion occurred.</example><!-- #3346 -->
+        <example type="untouched">I had classes the week my cat died.</example><!-- #3346 -->
+        <example type="untouched">She has tests a month from now.</example><!-- #3346 -->
         <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> an event.</example>
     </rule>
 
