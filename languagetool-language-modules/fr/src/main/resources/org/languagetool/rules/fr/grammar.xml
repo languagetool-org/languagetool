@@ -18902,7 +18902,8 @@ though, and has since been slightly modified)-->
         <token regexp="yes">mon|ton|son|leur|nos|vos|leurs</token>
         <token regexp="yes">points?</token>
       </pattern>
-      <message>« Gagner son point » est un anglicisme (to win one's point). Employez <suggestion>avoir gain de cause</suggestion>.</message>
+      <message>« Gagner son point » est un anglicisme (to win one's point).</message>
+      <suggestion><match no="1" postag="V(.*)" postag_regexp="yes" postag_replace="V avoir$1">avoir</match> gain de cause</suggestion>
       <example correction="avoir gain de cause"><marker>gagner son point</marker></example>
     </rule>
     
@@ -18920,14 +18921,17 @@ though, and has since been slightly modified)-->
     <rule id="SOBJECTER_A" name="s’objecter à">
       <pattern>
         <token regexp="yes" skip="2">se|t'|te|s'|nous|vous|me|m'</token>
-        <token inflected="yes">objecter</token>
-        <token>à</token>
+        <marker>
+          <token inflected="yes">objecter</token>
+          <token>à</token>
+        </marker>
       </pattern>
-      <message>« objecter à » est un calque (to object). Employez <suggestion>s’opposer à</suggestion>, <suggestion>s’élever contre</suggestion>.</message>
-      <example correction="s’opposer à|s’élever contre"><marker>s’objecter à</marker></example>
+      <message>« objecter à » est un calque (to object).</message>
+      <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">opposer</match> à</suggestion>
+      <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">élever</match> contre</suggestion>
+      <example correction="opposer à|élever contre">s’<marker>objecter à</marker></example>
       <example><marker>s’opposer à</marker></example>
     </rule>
-    
     <rule id="REPAS_INFORMEL" name="repas informel">
       <pattern>
         <token regexp="yes">repas|dîners?|soupers?|déjeuners?|dégustations?</token>
@@ -18944,49 +18948,57 @@ though, and has since been slightly modified)-->
         <token>part</token>
         <token>de</token>
       </pattern>
-      <message>« Prendre la part de » est un anglicisme (to take somebody’s part). Employez <suggestion>prendre la défense de</suggestion>, <suggestion>prendre le parti de</suggestion>.</message>
+      <message>« Prendre la part de » est un anglicisme (to take somebody’s part).</message> 
+      <suggestion>\1 la défense de</suggestion>
+      <suggestion>\1 le parti de</suggestion>
       <example correction="prendre la défense de|prendre le parti de"><marker>prendre la part de</marker></example>
       <example><marker>prendre le parti de</marker></example>
     </rule>
     <rule id="IDENTIFIER_DES_CORRECTIFS" name="identifier des correctifs">
       <pattern>
-        <token inflected="yes" skip="1">identifier</token>
+        <marker>
+          <token inflected="yes" skip="1">identifier</token>
+        </marker>
         <token regexp="yes">correctifs?</token>
       </pattern>
-      <message>« Identifier des correctifs » est un anglicisme. Employez <suggestion>proposer des correctifs</suggestion>, <suggestion>suggérer des correctifs</suggestion>.</message>
-      <example correction="proposer des correctifs|suggérer des correctifs"><marker>identifier des correctifs</marker></example>
+      <message>« Identifier des correctifs » est un anglicisme.</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">proposer</match></suggestion>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">suggérer</match></suggestion>
+      <example correction="proposer|suggérer"><marker>identifier</marker> des correctifs</example>
       <example><marker>proposer des correctifs</marker></example>
     </rule>
     <rule id="IDENTIFIER_DES_DIFFERENCES" name="identifier des différences">
       <pattern>
-        <token inflected="yes" skip="1">identifier</token>
+        <marker>
+          <token inflected="yes" skip="1">identifier</token>
+        </marker>
         <token regexp="yes">différences?</token>
       </pattern>
-      <message>« Identifier des différences » est un anglicisme. Employez <suggestion>établir des différences</suggestion>.</message>
-      <example correction="établir des différences"><marker>identifier des différences</marker></example>
-    </rule>
-    <rule id="IDENTIFIER_DES_PRIORITES" name="identifier des priorités">
-      <pattern>
-        <token inflected="yes" skip="1">identifier</token>
-        <token regexp="yes">priorités?</token>
-      </pattern>
-      <message>« Identifier des priorités » est un anglicisme. Employez <suggestion>déterminer des priorités</suggestion>.</message>
-      <example correction="déterminer des priorités"><marker>identifier des priorités</marker></example>
+      <message>« Identifier des différences » est un anglicisme.</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">établir</match></suggestion>
+      <example correction="établir"><marker>identifier</marker> des différences</example>
     </rule>
     <rule id="IDENTIFIER_DES_OBJECTIFS" name="identifier des objectifs">
       <pattern>
-        <token inflected="yes" skip="2">identifier</token>
-        <token regexp="yes">objectifs?</token>
+        <marker>
+          <token inflected="yes" skip="2">identifier</token>
+        </marker>
+        <token regexp="yes">objectifs?|priorités?</token>
       </pattern>
-      <message>« Identifier des priorités » est un anglicisme. Employez <suggestion>déterminer des objectifs</suggestion>.</message>
-      <example correction="déterminer des objectifs"><marker>identifier des objectifs</marker></example>
+      <message>« Identifier des priorités » est un anglicisme.</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">déterminer</match></suggestion>
+      <example correction="déterminer"><marker>identifier</marker> des objectifs</example>
+      <example correction="déterminer"><marker>identifier</marker> des priorités</example>
     </rule>
     <rule id="PAVER_LA_VOIE" name="paver la voie">
       <pattern>
         <token inflected="yes" skip="1">paver</token>
         <token regexp="yes">voies?</token>
       </pattern>
-      <message>« Paver la voie » est un anglicisme (to pave the way). Employez <suggestion>ouvrir la voie</suggestion>, <suggestion>ouvrir la porte</suggestion>, <suggestion>préparer le terrain</suggestion>.</message>
+      <message>« Paver la voie » est un anglicisme (to pave the way).</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">ouvrir</match> la voie</suggestion>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">ouvrir</match> la porte</suggestion>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">préparer</match> le terrain</suggestion>
       <example correction="ouvrir la voie|ouvrir la porte|préparer le terrain"><marker>paver la voie</marker></example>
       <example><marker>ouvrir la voie</marker></example>
     </rule>
@@ -19012,30 +19024,38 @@ though, and has since been slightly modified)-->
     <rule id="OPERER_UN_COMMERCE" name="opérer un commerce">
       <pattern>
         <marker>
-          <token inflected="yes" skip="6">opérer</token>
+          <token inflected="yes" skip="3">opérer</token>
         </marker>
         <token regexp="yes">commerces?</token>
       </pattern>
-      <message>« Opérer un commerce » est un anglicisme (to operate). Employez <suggestion>exploiter</suggestion> un commerce.</message>
+      <message>« Opérer un commerce » est un anglicisme (to operate).</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">exploiter</match></suggestion>
       <example correction="exploiter"><marker>opérer</marker> un commerce</example>
     </rule>
     <rule id="OPERER_UNE_ENTREPRISE" name="opérer une entreprise">
       <pattern>
-        <token inflected="yes" skip="6">opérer</token>
+        <marker>
+          <token inflected="yes" skip="3">opérer</token>
+        </marker>
         <token regexp="yes">entreprises?</token>
       </pattern>
-      <message>« Opérer une entreprise » est un anglicisme (to operate). Employez <suggestion>diriger une entreprise</suggestion>.</message>
-      <example correction="diriger une entreprise"><marker>opérer une entreprise</marker></example>
+      <message>« Opérer une entreprise » est un anglicisme (to operate).</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">diriger</match></suggestion>
+      <example correction="diriger"><marker>opérer</marker> une entreprise</example>
     </rule>
     <rule id="OPERER_UNE_MACHINE" name="opérer une machine">
       <pattern>
         <marker>
-          <token inflected="yes" skip="6">opérer</token>
+          <token inflected="yes" skip="3">opérer</token>
         </marker>
         <token regexp="yes">machines?</token>
       </pattern>
-      <message>« Opérer un machine » est un anglicisme (to operate). Employez <suggestion>conduire</suggestion> une machine, <suggestion>faire fonctionner</suggestion> une machine, <suggestion>manœuvrer</suggestion> une machine.</message>
+      <message>« Opérer un machine » est un anglicisme (to operate).</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">conduire</match></suggestion>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">faire</match> fonctionner</suggestion>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">manœuvrer</match></suggestion>
       <example correction="conduire|faire fonctionner|manœuvrer"><marker>opérer</marker> une machine</example>
+      
       <example><marker>conduire une machine</marker></example>
     </rule>
     <rule id="EMETTRE_UN_COMMUNIQUE" name="émettre un communiqué">
@@ -19045,39 +19065,25 @@ though, and has since been slightly modified)-->
         </marker>
         <token regexp="yes">communiqués?</token>
       </pattern>
-      <message>« Émettre un communiqué » est un anglicisme (to issue a communique). Employez <suggestion>publier</suggestion> un communiqué, <suggestion>rendre public</suggestion> public un communiqué, <suggestion>lancer</suggestion> un communiqué.</message>
+      <message>« Émettre un communiqué » est un anglicisme (to issue a communique).</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">publier</match></suggestion>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">rendre</match> public</suggestion>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">lancer</match></suggestion>
       <example correction="publier|rendre public|lancer"><marker>émettre</marker> un communiqué</example>
       <example><marker>publier un communiqué</marker></example>
-    </rule>
-    <rule id="EMETTRE_UN_BREVET" name="émettre un brevet">
-      <pattern>
-        <marker>
-          <token inflected="yes" skip="1">émettre</token>
-        </marker>
-        <token regexp="yes">brevets?</token>
-      </pattern>
-      <message>« Émettre un brevet » est un anglicisme. Employez <suggestion>délivrer</suggestion> un brevet.</message>
-      <example correction="délivrer"><marker>émettre</marker> un brevet</example>
-    </rule>
-    <rule id="EMETTRE_UN_CERTIFICAT" name="émettre un certificat">
-      <pattern>
-        <marker>
-          <token inflected="yes" skip="1">émettre</token>
-        </marker>
-        <token regexp="yes">certificats?</token>
-      </pattern>
-      <message>« Émettre un certificat » est un anglicisme. Employez <suggestion>délivrer</suggestion> un certificat.</message>
-      <example correction="délivrer"><marker>émettre</marker> un certificat</example>
     </rule>
     <rule id="EMETTRE_UN_PASSEPORT" name="émettre un passeport">
       <pattern>
         <marker>
           <token inflected="yes" skip="1">émettre</token>
         </marker>
-        <token regexp="yes">passeports?</token>
+        <token regexp="yes">passeports?|certificats?|brevets?</token>
       </pattern>
-      <message>« Émettre un passeport » est un anglicisme. Employez <suggestion>délivrer</suggestion> un passeport.</message>
+      <message>« Émettre un passeport » est un anglicisme.</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">délivrer</match></suggestion>
       <example correction="délivrer"><marker>émettre</marker> un passeport</example>
+      <example correction="délivrer"><marker>émettre</marker> un certificat</example>
+      <example correction="délivrer"><marker>émettre</marker> un brevet</example>
     </rule>
     <rule id="EMETTRE_UN_RECU" name="émettre un reçu">
       <pattern>
@@ -19086,7 +19092,8 @@ though, and has since been slightly modified)-->
         </marker>
         <token regexp="yes">reçus?</token>
       </pattern>
-      <message>« Émettre un reçu » est un anglicisme. Employez <suggestion>donner</suggestion> un reçu.</message>
+      <message>« Émettre un reçu » est un anglicisme.</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donner</match></suggestion>
       <example correction="donner"><marker>émettre</marker> un reçu</example>
       <example><marker>délivrer un reçu</marker></example>
     </rule>
@@ -19097,7 +19104,8 @@ though, and has since been slightly modified)-->
         </marker>
         <token regexp="yes">rapports?</token>
       </pattern>
-      <message>« Émettre un rapport » est un anglicisme. Employez <suggestion>produire</suggestion> un rapport.</message>
+      <message>« Émettre un rapport » est un anglicisme.</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">produire</match></suggestion>
       <example correction="produire"><marker>émettre</marker> un rapport</example>
     </rule>
     <rule id="EMETTRE_UN_VERDICT" name="émettre un verdict">
@@ -19107,7 +19115,8 @@ though, and has since been slightly modified)-->
         </marker>
         <token regexp="yes">verdicts?</token>
       </pattern>
-      <message>« Émettre un verdict » est un anglicisme. Employez <suggestion>rendre</suggestion> un verdict.</message>
+      <message>« Émettre un verdict » est un anglicisme.</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">rendre</match></suggestion>
       <example correction="rendre"><marker>émettre</marker> un verdict</example>
     </rule>
     <rule id="DEDUCTION_A_LA_SOURCE" name="déduction à la source">
@@ -19133,11 +19142,12 @@ though, and has since been slightly modified)-->
     <rule id="ENDOSSER_UNE_CANDIDATURE" name="endosser une candidature">
       <pattern>
         <marker>
-          <token inflected="yes" skip="6">endosser</token>
+          <token inflected="yes" skip="3">endosser</token>
         </marker>
         <token regexp="yes">candidatures?</token>
       </pattern>
-      <message>« Endosser une candidature » est un anglicisme. Employez <suggestion>appuyer</suggestion> une candidature.</message>
+      <message>« Endosser une candidature » est un anglicisme.</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">appuyer</match></suggestion>
       <example correction="appuyer"><marker>endosser</marker> une candidature</example>
     </rule>
     <rule id="ENDOSSER_UNE_DECISION" name="endosser une décision">
@@ -19147,19 +19157,22 @@ though, and has since been slightly modified)-->
         </marker>
         <token regexp="yes">décisions?</token>
       </pattern>
-      <message>« Endosser une décision » est un anglicisme. Employez <suggestion>appuyer</suggestion> une décision, <suggestion>approuver</suggestion> une décision.</message>
+      <message>« Endosser une décision » est un anglicisme..</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">appuyer</match></suggestion>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">approuver</match></suggestion>
       <example correction="appuyer|approuver"><marker>endosser</marker> une décision</example>
       <example><marker>appuyer une décision</marker></example>
     </rule>
     <rule id="ENDOSSER_UNE_OPINION" name="endosser une opinion">
       <pattern>
         <marker>
-          <token inflected="yes" skip="6">endosser</token>
+          <token inflected="yes" skip="3">endosser</token>
         </marker>
         <token regexp="yes">opinions?</token>
       </pattern>
-      <message>« Endosser une opinion » est un anglicisme. Employez <suggestion>adhérer</suggestion> à une opinion.</message>
-      <example correction="adhérer"><marker>endosser</marker> une opinion</example>
+      <message>« Endosser une opinion » est un anglicisme.</message>
+      <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">adhérer</match> à</suggestion>
+      <example correction="adhérer à"><marker>endosser</marker> une opinion</example>
     </rule>
     <rule id="DEFRAYER_LES_DEPENSES_DE_QUELQUUN" name="défrayer les dépenses de [quelqu’un]">
       <pattern>
@@ -19178,8 +19191,9 @@ though, and has since been slightly modified)-->
         </marker>
         <token>cours<exception scope="previous">en</exception></token>
       </pattern>
-      <message>« Prendre un cours » est un anglicisme (to take a course). Employez <suggestion>suivre</suggestion> un cours, <suggestion>s’inscrire</suggestion> à un cours.</message>
-      <example correction="suivre|s’inscrire"><marker>prendre</marker> un cours</example>
+      <message>« Prendre un cours » est un anglicisme (to take a course). Employez <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">suivre</match></suggestion> un cours, 
+      <suggestion>(s'inscrire à)</suggestion> un cours.</message>
+      <example correction="suivre|(s'inscrire à)"><marker>prendre</marker> un cours</example>
       <example><marker>suivre</marker> un cours</example>
       <example>J’ai <marker>pris des passagers en cours</marker> de route.</example>
       <example>J’ai pris part à ce cours d’informatique.</example>
