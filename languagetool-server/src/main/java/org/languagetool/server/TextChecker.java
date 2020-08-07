@@ -490,7 +490,7 @@ abstract class TextChecker {
     }
 
     ServerMetricsCollector.getInstance().logCheck(
-      lang, computationTime, textSize, matchCount, mode, agent, ruleMatchCount);
+      lang, computationTime, textSize, matchCount, mode);
 
     if (!config.isSkipLoggingChecks()) {
       DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, textSize, matchCount,
