@@ -5251,6 +5251,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="microrracismo">Eran situaciones de <marker>micro-racismo</marker>.</example>
                 <example correction="microbiología">Era un estudio de <marker>micro biología</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>macro</token>
+                    <token min="0">-</token>
+                    <token postag="[NAV].*" postag_regexp="yes"/>
+                </pattern>
+                <message suppress_misspelled="yes">Se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="macro$1" case_conversion="alllower"/></suggestion>
+                <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="macror$1" case_conversion="alllower"/></suggestion>
+                <example correction="macroanálisis">Hizo un <marker>macro análisis</marker>.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>nacional<exception postag="_possible_NP"/></token>
@@ -10854,17 +10865,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Un, dos, etc.</example>
             </rule>
         </rulegroup>
-        <rule id="OROGRAFIA_DEL_TERRENO" name="redundancia: orografía del terreno">
-            <pattern>
-                <token>orografía</token>
-                <token>del</token>
-                <token>terreno</token>
-            </pattern>
-            <message>Redundancia.</message>
-            <suggestion>orografía</suggestion>
-            <url>http://www.fundeu.es/recomendacion/orografia-del-terreno-expresion-redundante-60/</url>
-            <example correction="orografía">La <marker>orografía del terreno</marker> complica las tareas de extinción.</example>
-        </rule>
+        <rulegroup id="OROGRAFIA_DEL_TERRENO" name="redundancia: orografía del terreno">
+            <rule>
+                <pattern>
+                    <token>orografía</token>
+                    <token>del</token>
+                    <token>terreno</token>
+                </pattern>
+                <message>Expresión redundante. Basta con decir <suggestion>orografía</suggestion>.</message>
+                <url>http://www.fundeu.es/recomendacion/orografia-del-terreno-expresion-redundante-60/</url>
+                <example correction="orografía">La <marker>orografía del terreno</marker> complica las tareas de extinción.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>orografía</token>
+                    <token>montañosa</token>
+                </pattern>
+                <message>Expresión poco recomendable.</message>
+                <suggestion>terreno montañoso</suggestion>
+                <url>http://www.fundeu.es/recomendacion/orografia-del-terreno-expresion-redundante-60/</url>
+                <example correction="terreno montañoso">La <marker>orografía montañosa</marker> complica las tareas de extinción.</example>
+            </rule>
+        </rulegroup>
         <!--ELLOS_ELLAS: El neutro en español se forma igual que el masculino (http://lema.rae.es/dpd/srv/search?id=Tr5x8MFOuD6DVTlDBg#21)-->
         <rulegroup id="ELLOS_ELLAS" name="Redundancias no sexistas incorrectas" default="off">
             <short>Redundancia. El neutro es suficiente.</short>
