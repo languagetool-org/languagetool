@@ -67,7 +67,7 @@ public class FindSuggestionsFilter extends RuleFilter {
         wordToCheck = makeWrong(atrWord.getToken());
       }
       List<String> suggestions = new ArrayList<>();
-      synchronized (this) { 
+      synchronized (speller) { 
         suggestions = speller.getSpeller().findReplacements(wordToCheck);
       }
       if (suggestions.size() > 0) {
