@@ -30,7 +30,7 @@ public class LongSentenceRuleTest extends org.languagetool.rules.LongSentenceRul
   public void testMatch() throws Exception {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
     
-    LongSentenceRule rule = new LongSentenceRule(TestTools.getMessages("de"), new UserConfig(), 6, true);
+    LongSentenceRule rule = new LongSentenceRule(TestTools.getMessages("de"), new UserConfig(), 6, true, false);
     
     assertNoMatch("Eins zwei drei vier fünf sechs.", rule, lt);
     //  Words after colon are treated like a separate sentence

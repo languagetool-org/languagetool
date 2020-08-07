@@ -34,13 +34,8 @@ import java.util.ResourceBundle;
  */
 public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
 
-  private static final boolean DEFAULT_ACTIVATION = false;
-
-  /**
-   * @param defaultActive allows default granularity
-   */
-  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords, boolean defaultActive) {
-    super(messages, userConfig, defaultWords);
+  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords, boolean defaultActive, boolean picky) {
+    super(messages, userConfig, defaultWords, defaultActive, picky);
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     addExamplePair(Example.wrong("<marker>Dies ist ein Bandwurmsatz, der immer weiter geht, obwohl das kein guter Stil ist, den man eigentlich berücksichtigen sollte, obwohl es auch andere Meinungen gibt, die aber in der Minderzahl sind, weil die meisten Autoren sich doch an die Stilvorgaben halten, wenn auch nicht alle, was aber letztendlich wiederum eine Sache des Geschmacks ist</marker>."),
@@ -59,22 +54,6 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
     }
   }
 
-  /**
-   * Creates a rule with default inactive
-   * @since 4.2
-   */
-  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords) {
-    this(messages, userConfig, defaultWords, DEFAULT_ACTIVATION);
-  }
-
-  /**
-   * Creates a rule with default values can be overwritten by configuration settings
-   * @since 4.2
-   */
-  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig) {
-    this(messages, userConfig, -1, DEFAULT_ACTIVATION);
-  }
-
   @Override
   public String getDescription() {
     return "Sehr langer Satz";
@@ -82,7 +61,8 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
 
   @Override
   public String getMessage() {
-    return "Der Satz hat an der markierten Stelle mehr als " + maxWords + " Wörter.";
+    return "Der Satz hat an der markierten Stelle mehr als " + maxWords + " Wörter. Kürzen Sie den Satz oder " +
+      "teilen Sie ihn in mehrere Sätze auf, um die Lesbarkeit zu verbessern.";
   }
 
   @Override
