@@ -5888,7 +5888,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token><exception>com</exception></token>
                     <marker>
-                        <token inflected="yes">caldre<exception postag="_GN_MS"/></token>
+                        <token inflected="yes">caldre<exception postag="_GN_MS"/><exception case_sensitive="yes">CAL</exception></token>
                         <token postag="VM[^GN].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="[^V].*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -13600,6 +13600,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Volíeu dir <suggestion>en dubte</suggestion>?</message>
             <example correction="en dubte">Ho va posar <marker>en dubta</marker>.</example>
         </rule>
+        <rulegroup id="PESA_PES" name="pesa/pes" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <token min="0" max="2" postag="[DA].*|&pronom_feble;" postag_regexp="yes"/>
+                    <marker>
+                        <token>pesa</token>
+                    </marker>
+                </pattern>
+                <message>Com a substantiu, cal dir <suggestion>pes</suggestion>. Correcte si és del v. 'pesar'.</message>
+                <suggestion>peça</suggestion>
+                <example correction="pes|peça">De la <marker>pesa</marker> es va em portar la protecció.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <token min="0" max="2" postag="[DA].*|&pronom_feble;" postag_regexp="yes"/>
+                    <marker>
+                        <token>peses</token>
+                    </marker>
+                </pattern>
+                <message>Com a substantiu, cal dir <suggestion>pesos</suggestion>. Correcte si és del v. 'pesar'.</message>
+                <suggestion>peces</suggestion>
+                <example correction="pesos|peces">De les <marker>peses</marker> es va em portar les fundes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D..FS." postag_regexp="yes"/>
+                    <marker>
+                        <token>pesa</token>
+                    </marker>
+                </pattern>
+                <message>Com a substantiu, cal dir <suggestion>pes</suggestion>. Correcte si és del v. 'pesar'.</message>
+                <suggestion>peça</suggestion>
+                <example correction="pes|peça">Una <marker>pesa</marker>.</example>
+                <example>La pesa en la balança</example> <!-- ambiguous-->
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D..FP." postag_regexp="yes"/>
+                    <marker>
+                        <token>peses</token>
+                    </marker>
+                </pattern>
+                <message>Com a substantiu, cal dir <suggestion>pesos</suggestion>. Correcte si és del v. 'pesar'.</message>
+                <suggestion>peces</suggestion>
+                <example correction="pesos|peces">Unes <marker>peses</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MALTRACTAMENT" name="maltracte/maltractament">
             <rule>
                 <pattern>
@@ -16565,7 +16614,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes">conte|compte</token>
                 </marker>
                 <token inflected="yes">de</token>
-                <token regexp="yes">Barcelona|Urgell|Besalú|Catalunya|Foix|Pallars|Valois|Flandes|Berga|Tolosa|Empúries|Osona|Provença|Gavaldà|Vermandois|Girona|Rosselló|Alvèrnia|Comenge|Cerdanya|Roergue|Poitiers</token>
+                <token regexp="yes">Barcelona|Urgell|Besalú|Catalunya|Foix|Pallars|Valois|Flandes|Berga|Tolosa|Empúries|Osona|Provença|Gavaldà|Vermandois|Girona|Rosselló|Alvèrnia|Comenge|Cerdanya|Roergue|Poitiers|Prades</token>
                 <!--<token postag="NP..G.*" postag_regexp="yes"/>-->
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">comte</match></suggestion> (=títol nobiliari)?</message>
@@ -24823,7 +24872,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>pe</token>
                         <token regexp="yes">ls?</token>
                     </marker>
-                    <token postag="_PUNCT.*|SPS00|RG" postag_regexp="yes"><exception regexp="yes">['"‘“«\[]|de|d'|\p{Lu}.+|damunt|fins</exception><exception postag="RG_anteposat|AQ.*|_GN_M." postag_regexp="yes"/></token>
+                    <token postag="_PUNCT.*|SPS00|RG" postag_regexp="yes"><exception regexp="yes">['"‘“«\[]|de|d'|\p{Lu}.+|damunt|fins|demés</exception><exception postag="RG_anteposat|AQ.*|_GN_M." postag_regexp="yes"/></token>
                 </pattern>
                 <message>Si és nom, cal accentuar-lo.</message>
                 <suggestion>pè<match no="2"/></suggestion>
@@ -26322,7 +26371,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PRONOMS_FEBLES" name="Pronoms febles" type="grammar">
-        <rulegroup id="ESTAR_HI_DISPOSAT" name="*n'estic disposat" default="temp_off">
+        <rulegroup id="ESTAR_HI_DISPOSAT" name="*n'estic disposat">
             <rule>
                 <pattern>
                     <marker>
@@ -27914,6 +27963,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Si vos pareix bé, ho farem.</example>
             </rule>
             <rule id="ES_VAM_VAIG" name="es vam/vaig">
+                <antipattern>
+                    <token regexp="yes">.*s</token>
+                    <token spacebefore="no">/</token>
+                    <token spacebefore="no">es</token>
+                </antipattern>
                 <antipattern>
                     <token regexp="yes">es|se|s'<exception postag="_possible_nompropi"/></token>
                     <token postag="VMIP2S.*" postag_regexp="yes" regexp="yes">.*es<exception postag="V...3.*" postag_regexp="yes"/></token>
@@ -32294,6 +32348,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>no m'agrada del tot</example>
         </rule>
         <rule id="AUTOIMMOLAR" name="autoimmolar">
+            <antipattern>
+                <token postag="V.P.*" postag_regexp="yes" regexp="yes" inflected="yes">auto(immolar|inculpar|infligir)<exception postag="_reflexiu"></exception></token>
+            </antipattern>
             <pattern>
                 <token inflected="yes" regexp="yes">auto(immolar|inculpar|suïcidar|infligir)</token>
             </pattern>
@@ -32302,6 +32359,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://esadir.cat/entrades/fitxa/node/autoimmolar-se</url>
             <example correction="immolà">s'<marker>autoimmolà</marker></example>
             <example correction="inculpà">s'<marker>autoinculpà</marker></example>
+            <example>Promou l'espoli fiscal autoinfligit.</example>
         </rule>
         <rule id="AUTOINFRINGIR" name="autoinfringir">
             <pattern>
@@ -39012,6 +39070,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>nit</token>
                 <token>de</token>
                 <token>Bruixes</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">bruixes</token>
+                <token inflected="yes">bruixot</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" inflected="yes">bruixot</token>
+                <token>bruixes</token>
             </antipattern>
             <pattern>
                 <token case_sensitive="yes">Bruixes</token>
