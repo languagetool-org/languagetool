@@ -3033,6 +3033,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag_regexp="yes" postag="VBP?"/><!-- chunker error: go/E-NP-singular -->
             <token postag_regexp="yes" postag="TO|RB"/>
         </antipattern>
+        <antipattern><!-- Premium #1564 the media want to know -->
+            <token chunk="B-NP-plural" postag="DT"/>
+            <token chunk="E-NP-plural" postag_regexp="yes" postag="NNS"/>
+            <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]"/>
+            <token>to</token>
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception><exception scope="previous">of</exception></token>
             <token postag="JJ"><exception postag="RB|NNPS?|NN:U|PRP" postag_regexp="yes"/></token>
@@ -3076,6 +3082,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="course[course/NN:UN,course/VB,course/VBP]" outputform="course[course/NN:UN]">Panovsky's notion of the dialectic makes history follow a predetermined <marker>course</marker>.</example>
         <example type="untouched">A few go to Brasília.</example><!-- #3330 -->
         <example type="untouched">A few go to happily Brasília.</example><!-- #3330 -->
+        <example type="untouched">The media want to know about their customers.</example><!-- Premium #1564 -->
     </rule>
 
     <rule name="determiner + adj/noun + preposition => noun" id="DT_JJNN_IN_NN">
@@ -4085,6 +4092,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>more</token>
             <token postag="JJ"/>
         </antipattern>
+        <antipattern><!-- Premium #1564 the media want to know -->
+            <token chunk="B-NP-plural" postag_regexp="yes" postag="DT|PRP\$"/>
+            <token chunk="E-NP-plural" postag_regexp="yes" postag="NNS"/>
+            <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]"/>
+            <token>to</token>
+        </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"/>
             <token postag="JJ.*|VBG" postag_regexp="yes"><exception postag="RB"/><exception regexp="yes">being|one</exception></token>
@@ -4134,6 +4147,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">A few go to happily Brasília.</example><!-- #3330 -->
         <example type="untouched">... known collectively as silicones, are much more stable.</example><!-- #3377 -->
         <example type="untouched">If Scott and you are intent on moving forward, we'll do as you see fit.</example><!-- #3377 -->
+        <example type="untouched">The media want to know about their customers.</example><!-- Premium #1564 -->
         <!-- Correct: The air filter's dirtier than the oil filter. -->
     </rule>
 
@@ -8050,6 +8064,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NNS" regexp="yes">seconds|minutes|hours|days|weeks|months|years|decades|centuries</token>
             <token regexp="yes">ago|after|before</token>
         </antipattern>
+        <antipattern><!-- Premium #1564 the media want to know -->
+            <token chunk="B-NP-plural" postag_regexp="yes" postag="DT|PRP\$"/>
+            <token chunk="E-NP-plural" postag_regexp="yes" postag="NNS"/>
+            <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]"/>
+            <token>to</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -8104,6 +8124,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">A few go to happily Brasília.</example><!-- #3330 -->
         <example type="untouched">I once had someone break into a convertible years ago.</example><!-- #3272 -->
         <example type="untouched">I thought about buying her convertible days before this coronavirus crisis started.</example><!-- #3272 -->
+        <example type="untouched">The media want to know about their customers.</example><!-- Premium #1564 -->
     </rule>
 
     <rule id="DT_JJ_NNJJ_NN_VB_APOSTROPHE" name="determiner + adj + noun/adj + noun + verbn't => noun"><!-- #3108 -->
