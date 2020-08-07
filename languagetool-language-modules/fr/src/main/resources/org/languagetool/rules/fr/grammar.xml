@@ -8220,7 +8220,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">&elision_regexp;
           <exception inflected="yes" regexp="yes">&exceptions_ELISION1;</exception>
           <exception regexp="yes">&exceptions_ELISION2;</exception><!-- https://fr.wikipedia.org/wiki/La_Haye -->
-          <exception regexp="yes">&H_ASPIRE;</exception>
+          <exception regexp="yes" inflected="yes">&H_ASPIRE;</exception>
           <exception postag="UNKNOWN|Z.*" postag_regexp="yes" regexp="yes">h.+</exception><!-- no error for unknown words or proper names -->
       </token>
     </pattern>
@@ -10816,7 +10816,7 @@ though, and has since been slightly modified)-->
         <and>
           <token negate="yes" postag="N f s" regexp="yes">
               [ahâeiouéèîœ].*
-              <exception regexp="yes">&H_ASPIRE;</exception>
+              <exception regexp="yes" inflected="yes" postag="N.*" postag_regexp="yes">&H_ASPIRE;</exception>
           </token>
           <token><exception postag="N m s"/></token>
         </and>
@@ -16139,7 +16139,7 @@ though, and has since been slightly modified)-->
         <and>
           <token regexp="yes">
               [aâeéèêioœuh].*
-              <exception regexp="yes">&H_ASPIRE;</exception>
+              <exception regexp="yes" inflected="yes">&H_ASPIRE;</exception>
           </token>
           <token postag="[NJ] m s" postag_regexp="yes"/>
         </and>
@@ -16817,7 +16817,7 @@ though, and has since been slightly modified)-->
             <token>j'</token>
             <token postag="V.* 1 s" postag_regexp="yes" regexp="yes">
                 [aâàeéèêioœuyh].*
-                <exception regexp="yes">&H_ASPIRE;</exception>
+                <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception>
             </token>
             <token regexp="yes">pas|jamais|guère</token>
           </marker>
@@ -16836,7 +16836,7 @@ though, and has since been slightly modified)-->
             <token regexp="yes">t['´‘’′]<exception scope="previous">ne</exception></token>
             <token postag="V.* 2 s" postag_regexp="yes" regexp="yes">
                 [aàâeéèêioœuyh].*
-                <exception regexp="yes">&H_ASPIRE;</exception>
+                <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception>
             </token>
             <token regexp="yes">pas|jamais|guère</token>
           </marker>
@@ -16854,7 +16854,7 @@ though, and has since been slightly modified)-->
           <marker>
             <token postag="V.*" postag_regexp="yes" regexp="yes">
                 [aàâeéêioœuyh].*
-                <exception regexp="yes">&H_ASPIRE;</exception>
+                <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception>
             </token>
             <token regexp="yes">pas|jamais|guère</token>
           </marker>
@@ -16877,8 +16877,8 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="Z.*|R pers suj.*" postag_regexp="yes"/>
           <marker>
-            <token postag="V.*" postag_regexp="yes" regexp="yes">
-                [^aàâeéêioœuyh].*|&H_ASPIRE;
+            <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">
+                [^aàâeéêioœuyh].*
             </token>
             <token regexp="yes">pas|jamais|guère</token>
           </marker>
@@ -16893,8 +16893,8 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="Z.*|R pers suj.*" postag_regexp="yes"/>
           <marker>
-            <token postag="R.* obj.*" postag_regexp="yes" regexp="yes">
-                [^aeiouyh].*[^']|&H_ASPIRE;'
+            <token postag="R.* obj.*" postag_regexp="yes" regexp="yes" inflected="yes">
+                [^aeiouyh].*[^']
             </token>
             <token postag="V.*" postag_regexp="yes"/>
             <token regexp="yes">pas|jamais|guère</token>
@@ -16912,7 +16912,7 @@ though, and has since been slightly modified)-->
           <token postag="Z.*|R pers suj.*" postag_regexp="yes"/>
           <marker>
             <token postag="R.* obj.*" postag_regexp="yes" regexp="yes">
-                [^aeiouyh].*'|&H_ASPIRE;'
+                [^aeiouyh].*'
             </token>
             <token postag="V.*" postag_regexp="yes"/>
             <token regexp="yes">pas|jamais|guère</token>
@@ -16930,7 +16930,7 @@ though, and has since been slightly modified)-->
           <marker>
             <token postag="R.* obj.*" postag_regexp="yes" regexp="yes">
                 [aeiouyh].*
-                <exception regexp="yes">&H_ASPIRE;</exception>
+                <exception regexp="yes" inflected="yes" postag="R.* obj.*" postag_regexp="yes">&H_ASPIRE;</exception>
             </token>
             <token postag="V.*" postag_regexp="yes"/>
             <token regexp="yes">pas|jamais|guère</token>
@@ -30123,7 +30123,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">qu|lorsqu|puisqu|presqu|jusqu|aujourd|entr</token>
         <token regexp="yes">
             [aàâeéêioôœuhy].*
-            <exception regexp="yes">&H_ASPIRE;</exception>
+            <exception regexp="yes" inflected="yes">&H_ASPIRE;</exception>
         </token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>\1’\2</suggestion> ?</message>
@@ -30136,7 +30136,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[mts]<exception scope="previous" regexp="yes">lettre|consonne|symbole|dimension|function|parametre|variable|voyelle|où|[\d-]+|.</exception></token>
           <token postag="V.*" postag_regexp="yes" regexp="yes">
               [aâeéèêioôuh].*
-              <exception regexp="yes">&H_ASPIRE;</exception>
+              <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception>
           </token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>\1’\2</suggestion> ?</message>
@@ -30154,7 +30154,7 @@ though, and has since been slightly modified)-->
             <token>n</token>
             <token postag="V.*" postag_regexp="yes" regexp="yes">
                 [aâeéèêioôuh].*
-                <exception regexp="yes">&H_ASPIRE;</exception>
+                <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception>
             </token>
           </marker>
           <token min="0" max="1" regexp="yes">presque|toujours|encore</token>
@@ -30173,7 +30173,7 @@ though, and has since been slightly modified)-->
           <token>l<exception regexp="yes" scope="previous">lettre|consonne|symbole|dimension|fonction|variable|où|[\d-]+|.</exception></token>
           <token regexp="yes">
               [aâeéèêioôuh].*
-              <exception regexp="yes">&H_ASPIRE;</exception>
+              <exception regexp="yes" inflected="yes">&H_ASPIRE;</exception>
           </token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>l’\2</suggestion> ?</message>
@@ -30187,7 +30187,7 @@ though, and has since been slightly modified)-->
           <token>d<exception scope="previous" regexp="yes">lettres?|consonnes?|symboles?|dimensions?|functions?|variables?|vitamines?|où|[\d-]+|.</exception></token>
           <token regexp="yes" postag="[^V].*" postag_regexp="yes">
               [aâeéèêioôuh].*
-              <exception regexp="yes">&H_ASPIRE;</exception>
+              <exception regexp="yes" inflected="yes" postag="[^V].*" postag_regexp="yes">&H_ASPIRE;</exception>
           </token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>d’\2</suggestion> ?</message>
@@ -30578,7 +30578,7 @@ though, and has since been slightly modified)-->
                 <token>que</token>
                 <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes"/>
                 <token postag="(R refl.*)|(R pers obj.*)" postag_regexp="yes" min="1" max="2"><exception regexp="yes">en|y</exception></token>
-                <token postag="V.*" postag_regexp="yes" regexp="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
+                <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
             </pattern>
             <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 \5 ne \6 \7 \3</suggestion> ?</message>
             <example correction="pour que je ne me fâche pas" type="incorrect">Il ne m'a rien dit <marker>pour pas que je me fâche</marker>.</example>
@@ -30592,7 +30592,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">qu[’´'‛′‘]</token>
                 <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes"/>
                 <token postag="(R refl.*)|(R pers obj.*)" postag_regexp="yes" min="1" max="2"><exception regexp="yes">en|y</exception></token>
-                <token postag="V.*" postag_regexp="yes" regexp="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
+                <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
             </pattern>
             <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4\5 ne \6 \7 \3</suggestion> ?</message>
             <example correction="pour qu'il ne se sente pas" type="incorrect">Je vais lui rendre visite <marker>pour pas qu'il se sente</marker> seul.</example>
@@ -30606,7 +30606,7 @@ though, and has since been slightly modified)-->
                 <token>que</token>
                 <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes"/>
                 <token postag="(R refl.*)|(R pers obj.*)" postag_regexp="yes" min="1" max="2"><exception regexp="yes">en|y</exception></token>
-                <token postag="V.*" postag_regexp="yes" regexp="yes">[aeéiouyh].*<exception regexp="yes">&H_ASPIRE;</exception></token>
+                <token postag="V.*" postag_regexp="yes" regexp="yes">[aeéiouyh].*<exception regexp="yes" inflected="yes">&H_ASPIRE;</exception></token>
             </pattern>
             <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 \5 ne \6\7 \3</suggestion> ?</message>
             <example correction="pour que je ne m'énerve pas" type="incorrect">Il ne m'a rien dit <marker>pour pas que je m'énerve</marker>.</example>
@@ -30620,7 +30620,10 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">qu[’´'‛′‘]</token>
                 <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes"/>
                 <token postag="(R refl.*)|(R pers obj.*)" postag_regexp="yes" min="1" max="2"><exception regexp="yes">en|y</exception></token>
-                <token postag="V.*" postag_regexp="yes" regexp="yes">[aeéiouyh].*<exception regexp="yes">&H_ASPIRE;</exception></token>
+                <token postag="V.*" postag_regexp="yes" regexp="yes">
+                    [aeéiouyh].*
+                    <exception regexp="yes" inflected="yes" postag_regexp="yes" postag="V.*">&H_ASPIRE;</exception>
+                </token>
             </pattern>
             <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4\5 ne \6\7 \3</suggestion> ?</message>
             <example correction="pour qu'il ne s'énerve pas" type="incorrect">Je vais le faire <marker>pour pas qu'il s'énerve</marker>.</example>
@@ -30633,7 +30636,7 @@ though, and has since been slightly modified)-->
                 <token>pas</token>
                 <token>que</token>
                 <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes"/>
-                <token postag="V.*" postag_regexp="yes" regexp="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
+                <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
             </pattern>
             <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 \5 ne \6 \3</suggestion> ?</message>
             <example correction="pour que je ne grossisse pas" type="incorrect">Je ne mange plus de chocolat <marker>pour pas que je grossisse</marker>.</example>
@@ -30646,7 +30649,7 @@ though, and has since been slightly modified)-->
                 <token>pas</token>
                 <token regexp="yes">qu[’´'‛′‘]</token>
                 <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes"/>
-                <token postag="V.*" postag_regexp="yes" regexp="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
+                <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
             </pattern>
             <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4\5 ne \6 \3</suggestion> ?</message>
             <example correction="pour qu'il ne grossisse pas" type="incorrect">Il ne mange plus de chocolat <marker>pour pas qu'il grossisse</marker>.</example>
@@ -30745,7 +30748,10 @@ though, and has since been slightly modified)-->
                 <token>pas</token>
                 <token>que</token>
                 <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes"><exception regexp="yes">(j[’´'‛′‘])|(c[’´'‛′‘])</exception></token>
-                <token postag="V.*" postag_regexp="yes" regexp="yes">[aeéiouyh].*<exception regexp="yes">&H_ASPIRE;</exception></token>
+                <token postag="V.*" postag_regexp="yes" regexp="yes">
+                    [aeéiouyh].*
+                    <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception>
+                </token>
             </pattern>
             <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 \5 n'\6 \3</suggestion> ?</message>
             <example correction="pour que nous n'oublions pas" type="incorrect">Il nous a appelé <marker>pour pas que nous oublions</marker> d'acheter un cadeau.</example>
@@ -30758,7 +30764,10 @@ though, and has since been slightly modified)-->
                 <token>pas</token>
                 <token regexp="yes">qu[’´'‛′‘]</token>
                 <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes"/>
-                <token postag="V.*" postag_regexp="yes" regexp="yes">[aeéiouyh].*<exception regexp="yes">&H_ASPIRE;</exception></token>
+                <token postag="V.*" postag_regexp="yes" regexp="yes">
+                    [aeéiouyh].*
+                    <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception>
+                </token>
             </pattern>
             <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4\5 n'\6 \3</suggestion> ?</message>
             <example correction="pour qu'elle n'oublie pas" type="incorrect">Je vais lui parler <marker>pour pas qu'elle oublie</marker> ton anniversaire.</example>
@@ -30771,7 +30780,10 @@ though, and has since been slightly modified)-->
                 <token>pas</token>
                 <token>que</token>
                 <token regexp="yes">(j[’´'‛′‘])</token>
-                <token postag="V.*" postag_regexp="yes" regexp="yes">[aeéiouyh].*<exception regexp="yes">&H_ASPIRE;</exception></token>
+                <token postag="V.*" postag_regexp="yes" regexp="yes">
+                    [aeéiouyh].*
+                    <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception>
+                </token>
             </pattern>
             <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 je n'\6 \3</suggestion> ?</message>
             <example correction="pour que je n'oublie pas" type="incorrect">Il nous a appelé <marker>pour pas que j'oublie</marker> d'acheter un cadeau.</example>
@@ -30787,7 +30799,7 @@ though, and has since been slightly modified)-->
                 <token postag="J.*" postag_regexp="yes" min="0"/>
                 <token postag="(N.*)|(Z.*)" postag_regexp="yes"/>
                 <token postag="(R refl.*)|(R pers obj.*)" postag_regexp="yes" min="1" max="2"><exception regexp="yes">en|y</exception></token>
-                <token postag="V.*" postag_regexp="yes" regexp="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
+                <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
             </pattern>
             <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 \5 \6 \7 ne \8 \9 \3</suggestion> ?</message>
             <example correction="pour que mon père ne se fâche pas" type="incorrect">Je ne sortirai pas ce soir <marker>pour pas que mon père se fâche</marker>.</example>
@@ -30803,7 +30815,10 @@ though, and has since been slightly modified)-->
                 <token postag="J.*" postag_regexp="yes" min="0"/>
                 <token postag="(N.*)|(Z.*)" postag_regexp="yes"/>
                 <token postag="(R refl.*)|(R pers obj.*)" postag_regexp="yes" min="1" max="2"><exception regexp="yes">en|y</exception></token>
-                <token postag="V.*" postag_regexp="yes" regexp="yes">[aeéiouyh].*<exception regexp="yes">&H_ASPIRE;</exception></token>
+                <token postag="V.*" postag_regexp="yes" regexp="yes">
+                    [aeéiouyh].*
+                    <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception>
+                </token>
             </pattern>
             <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 \5 \6 \7 ne \8\9 \3</suggestion> ?</message>
             <example correction="pour que mon père ne s'énerve pas" type="incorrect">Je ne sortirai pas ce soir <marker>pour pas que mon père s'énerve</marker>.</example>
@@ -30818,7 +30833,7 @@ though, and has since been slightly modified)-->
                 <token postag="(D.*)|(R dem.*)" postag_regexp="yes" min="0"/>
                 <token postag="J.*" postag_regexp="yes" min="0"/>
                 <token postag="(N.*)|(Z.*)" postag_regexp="yes"/>
-                <token postag="V.*" postag_regexp="yes" regexp="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
+                <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
             </pattern>
             <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 \5 \6 \7 ne \8 \3</suggestion> ?</message>
             <example correction="pour que mon père ne parte pas" type="incorrect">J'ai caché les clés de la voiture <marker>pour pas que mon père parte</marker>.</example>
@@ -30866,7 +30881,10 @@ though, and has since been slightly modified)-->
                 <token postag="(D.*)|(R dem.*)" postag_regexp="yes" min="0"/>
                 <token postag="J.*" postag_regexp="yes" min="0"/>
                 <token postag="(N.*)|(Z.*)" postag_regexp="yes"/>
-                <token postag="V.*" postag_regexp="yes" regexp="yes">[aeéiouyh].*<exception regexp="yes">&H_ASPIRE;</exception></token>
+                <token postag="V.*" postag_regexp="yes" regexp="yes">
+                    [aeéiouyh].*
+                    <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception>
+                </token>
             </pattern>
             <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 \5 \6 \7 n'\8 \3</suggestion> ?</message>
             <example correction="pour que mon frère n'aille pas" type="incorrect">Ma mère m'a appelé <marker>pour pas que mon frère aille</marker> tout seul.</example>
