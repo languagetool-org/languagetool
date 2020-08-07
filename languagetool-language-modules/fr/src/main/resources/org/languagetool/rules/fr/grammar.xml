@@ -18881,8 +18881,9 @@ though, and has since been slightly modified)-->
           <token regexp="yes">\d+[TGMKtgmk][Bb]</token>
         </pattern>
         <message>Les bytes anglais se traduisent par des octets en français.</message>
-        <suggestion><match no="1" regexp_match="(\d+)([TGMKtgmk])[Bb]" regexp_replace="$1 $2o" case_conversion="startupper"/></suggestion>
+        <suggestion><match no="1" regexp_match="(\d+)([TGMKtgmk])[Bb]" regexp_replace="$1"/> <match no="1" regexp_match="(\d+)([TGMKtgmk])[Bb]" regexp_replace="$2o" case_conversion="startupper"/></suggestion>
         <example correction="41 Mo">Ce fichier pèse <marker>41MB</marker>.</example>
+        <example correction="32 Go"><marker>32gb</marker></example>
       </rule>
       <rule name="byte avec espace">
         <pattern>
