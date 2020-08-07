@@ -52,12 +52,12 @@ public class AnglicismReplaceRuleTest {
     assertEquals(1, matches.length);
     assertEquals("groupe", matches[0].getSuggestedReplacements().get(0));
     
-    //matches = rule.match(langTool.getAnalyzedSentence("community manager"));
-    //assertEquals(2, matches.length);
-    //assertEquals("groupe", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(langTool.getAnalyzedSentence("community manager"));
+    assertEquals(1, matches.length);
+    assertEquals("animateur de communauté", matches[0].getSuggestedReplacements().get(0));
     
     // correct sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("Blue Man Group. The Gale Group"));
+    matches = rule.match(langTool.getAnalyzedSentence("Blue Man Group. The Gale Group. Google Maps"));
     assertEquals(0, matches.length);
     
  

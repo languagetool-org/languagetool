@@ -238,6 +238,14 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           }
           ruleMatch.setSuggestedReplacements(replacements);
           if (!isException(sentence.getText().substring(startPos, endPos))) {
+            //keep only the longest match
+            if (ruleMatches.size() > 0) {
+              RuleMatch lastRuleMatch = ruleMatches.get(ruleMatches.size() - 1);
+              if (lastRuleMatch.getFromPos() == ruleMatch.getFromPos()
+                  && lastRuleMatch.getToPos() < ruleMatch.getToPos()) {
+                ruleMatches.remove(ruleMatches.size() - 1);
+              }
+            }
             ruleMatches.add(ruleMatch);
           }
           break;

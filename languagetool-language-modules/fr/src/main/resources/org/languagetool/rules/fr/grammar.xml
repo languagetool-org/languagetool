@@ -19255,6 +19255,15 @@ though, and has since been slightly modified)-->
       <example><marker>abolir des postes</marker></example>
     </rule>
     <rule id="COUPER_LA_LIGNE" name="couper la ligne">
+      <antipattern>
+        <token regexp="yes">lignes?</token>
+        <token regexp="yes">téléphoniques?</token>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">lignes?</token>
+        <token>de</token>
+        <token>téléphone</token>
+      </antipattern>
       <pattern>
         <token inflected="yes" skip="1">couper</token>
         <token postag="D.*" postag_regexp="yes"/>
@@ -19290,7 +19299,7 @@ though, and has since been slightly modified)-->
     <rule id="COMPLETER_DES_ETUDES" name="compléter des études">
       <pattern>
         <marker>
-          <token inflected="yes" skip="5">compléter</token>
+          <token inflected="yes" skip="2">compléter<exception scope="next">par</exception></token>
         </marker>
         <token regexp="yes">études?</token>
       </pattern>
@@ -19301,7 +19310,7 @@ though, and has since been slightly modified)-->
     <rule id="COMPLETER_UN_ACCORD" name="compléter un accord">
       <pattern>
         <marker>
-          <token inflected="yes" skip="5">compléter</token>
+          <token inflected="yes" skip="2">compléter<exception scope="next">par</exception></token>
         </marker>
         <token regexp="yes">accords?</token>
       </pattern>
@@ -19312,7 +19321,7 @@ though, and has since been slightly modified)-->
     <rule id="COMPLETER_UN_FORMULAIRE" name="compléter un formulaire">
       <pattern>
         <marker>
-          <token inflected="yes" skip="5">compléter</token>
+          <token inflected="yes" skip="2">compléter<exception scope="next">par</exception></token>
         </marker>
         <token regexp="yes">formulaires?</token>
       </pattern>
@@ -19323,7 +19332,7 @@ though, and has since been slightly modified)-->
     <rule id="COMPLETER_UN_PROJET" name="compléter un projet">
       <pattern>
         <marker>
-          <token inflected="yes" skip="5">compléter</token>
+          <token inflected="yes" skip="2">compléter<exception scope="next">par</exception></token>
         </marker>
         <token regexp="yes">projets?</token>
       </pattern>
@@ -19334,19 +19343,21 @@ though, and has since been slightly modified)-->
     <rule id="COMPLETER_UN_TRAVAIL" name="compléter un travail">
       <pattern>
         <marker>
-          <token inflected="yes" skip="5">compléter</token>
+          <token inflected="yes" skip="2">compléter<exception scope="next">par</exception></token>
         </marker>
-        <token regexp="yes">travail[xs]?</token>
+        <token regexp="yes">travail|travaux</token>
       </pattern>
       <message>« Compléter un travail » est un anglicisme.</message>
       <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">effectuer</match></suggestion>
       <example correction="effectuer"><marker>compléter</marker> un travail</example>
       <example correction="effectuant"><marker>complétant</marker> un travail</example>
+      <example>Paul est dans l'incapacité la plus complète de se rendre à son travail ce matin.</example>
+      <example>et les revenus sont complétés par du travail</example>
     </rule>
     <rule id="COMPLETER_UNE_DECLARATION_DE_REVENUS" name="compléter une déclaration de revenus">
       <pattern>
         <marker>
-          <token inflected="yes" skip="5">compléter</token>
+          <token inflected="yes" skip="2">compléter<exception scope="next">par</exception></token>
         </marker>
         <token>déclaration</token>
         <token>de</token>
