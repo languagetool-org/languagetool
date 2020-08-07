@@ -3807,6 +3807,12 @@ MARCOAGPINTO 2020-02-18 -->
 		  <token regexp='yes'>com|como|em|muitas|muitos|nas?|nos?|para</token>
       </antipattern>	  
 <!-- MARCOAGPINTO 2020-07-12 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-08-07 (2-JUL-2020+) *START* -->
+<!-- "Entre eles há duas torres de escritórios." -->
+      <antipattern>
+		<token regexp='yes'>há|havia|haverá|houve|houvesse</token>
+      </antipattern>	  
+<!-- MARCOAGPINTO 2020-08-07 (2-JUL-2020+) *END* -->
       <pattern>
           <token regexp='yes'>el[ea]s|vocês</token>
           <token min="0" max="3" postag='R.+' postag_regexp='yes'>
@@ -3819,13 +3825,13 @@ MARCOAGPINTO 2020-02-18 -->
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\3P$2' postag_regexp='yes'/></suggestion>
       <example correction='elas passeiam'>Eles e <marker>elas passeamos</marker> na praia.</example>
       <example correction='Vocês não leram'><marker>Vocês não leu</marker> as notícias?</example>
-      <example>Um de vocês não leu as notícias.</example>
       <example type="correct">Eles e elas passeiam na praia.</example>
       <example type="correct">Eu e elas vamos ao parque</example>
       <example>Pobres e ricos preocupar-se-iam, talvez, com esta manifestação de ignorância.</example>
       <example>Vocês preocupar-se-iam, talvez, com esta manifestação de ignorância.</example>
       <example>Um de vocês não leu as notícias.</example>
       <example>Alguns colegas meus são noobs totais; eles não sabem nada de ciência da computação.</example>
+	  <example type='correct'>Entre eles <marker>há</marker> duas torres de escritórios.</example>
     </rule>
     <rule>
       <antipattern>
