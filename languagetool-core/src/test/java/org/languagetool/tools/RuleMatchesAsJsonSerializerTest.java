@@ -43,7 +43,7 @@ public class RuleMatchesAsJsonSerializerTest {
   private final List<RuleMatch> matches2;
   {
     FakeRule rule = new FakeRule();
-    rule.setTags(Arrays.asList(Tags.picky));
+    rule.setTags(Arrays.asList(Tag.picky));
     matches2 = Arrays.asList(
               new RuleMatch(rule,
               new JLanguageTool(Languages.getLanguageForShortCode("xx")).getAnalyzedSentence("This is an test sentence."),

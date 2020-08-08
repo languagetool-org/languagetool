@@ -890,7 +890,7 @@ public class JLanguageTool {
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
 
     if (mode != Mode.TEXTLEVEL_ONLY && level == Level.DEFAULT) {
-      allRules = allRules.stream().filter(rule -> !rule.hasTag(Tags.picky)).collect(Collectors.toList());
+      allRules = allRules.stream().filter(rule -> !rule.hasTag(Tag.picky)).collect(Collectors.toList());
     }
 
     List<RuleMatch> remoteMatches = new LinkedList<>();

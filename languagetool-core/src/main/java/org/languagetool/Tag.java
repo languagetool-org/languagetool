@@ -18,7 +18,7 @@
  */
 package org.languagetool;
 
-public enum Tags {
+public enum Tag {
 
   // use all-lowercase, as im XML:
   picky

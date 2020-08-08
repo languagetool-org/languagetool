@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Tags;
+import org.languagetool.Tag;
 import org.languagetool.UserConfig;
 
 /**
@@ -62,7 +62,7 @@ public class LongSentenceRule extends Rule {
     }
     setLocQualityIssueType(ITSIssueType.Style);
     if (picky) {
-      setTags(Collections.singletonList(Tags.picky));
+      setTags(Collections.singletonList(Tag.picky));
     }
   }
 
