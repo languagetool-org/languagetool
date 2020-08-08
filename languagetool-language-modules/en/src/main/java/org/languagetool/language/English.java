@@ -175,7 +175,7 @@ public class English extends Language implements AutoCloseable {
         new WhiteSpaceAtBeginOfParagraph(messages),
         new EmptyLineRule(messages, this),
         new LongSentenceRule(messages, userConfig, 33, true, true),
-        new LongParagraphRule(messages, this, userConfig),
+        new LongParagraphRule(messages, this, userConfig, true, Arrays.asList(Tag.picky)),
         new ParagraphRepeatBeginningRule(messages, this),
         new PunctuationMarkAtParagraphEnd(messages, this),
         new PunctuationMarkAtParagraphEnd2(messages, this),

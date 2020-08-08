@@ -158,7 +158,7 @@ public class German extends Language implements AutoCloseable {
             new GermanStyleRepeatedWordRule(messages, this, userConfig),
             new CompoundCoherencyRule(messages),
             new LongSentenceRule(messages, userConfig, 35, true, true),
-            new LongParagraphRule(messages, this, userConfig),
+            new LongParagraphRule(messages, this, userConfig, true, Arrays.asList(Tag.picky)),
             new GermanFillerWordsRule(messages, this, userConfig),
             new GermanParagraphRepeatBeginningRule(messages, this),
             new PunctuationMarkAtParagraphEnd(messages, this),
