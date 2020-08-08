@@ -118,16 +118,15 @@ public class LongParagraphRule extends TextLevelRule {
   @Override
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    String msg = getMessage();
     int pos = 0;
     int startPos = 0;
     int endPos = 0;
     int wordCount = 0;
-    for(int n = 0; n < sentences.size(); n++) {
+    for (int n = 0; n < sentences.size(); n++) {
       AnalyzedSentence sentence = sentences.get(n);
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-      for(AnalyzedTokenReadings token : tokens) {
-        if(!token.isWhitespace() && !token.isSentenceStart() && !token.isNonWord()) {
+      for (AnalyzedTokenReadings token : tokens) {
+        if (!token.isWhitespace() && !token.isSentenceStart() && !token.isNonWord()) {
           wordCount++;
           if(wordCount == 1) {
             startPos = token.getStartPos() + pos;
@@ -138,7 +137,7 @@ public class LongParagraphRule extends TextLevelRule {
       }
       if (Tools.isParagraphEnd(sentences, n, lang)) {
         if (wordCount > maxWords) {
-          RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg);
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, getMessage());
           ruleMatches.add(ruleMatch);
         }
         wordCount = 0;
@@ -146,7 +145,7 @@ public class LongParagraphRule extends TextLevelRule {
       pos += sentence.getCorrectedTextLength();
     }
     if (wordCount > maxWords) {
-      RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, msg);
+      RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, getMessage());
       ruleMatches.add(ruleMatch);
     }
     return toRuleMatchArray(ruleMatches);
