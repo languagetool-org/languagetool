@@ -62,7 +62,7 @@ public class LongSentenceRule extends Rule {
     }
     setLocQualityIssueType(ITSIssueType.Style);
     if (picky) {
-      setTags(Collections.singletonList(Tags.picky.name()));
+      setTags(Collections.singletonList(Tags.picky));
     }
   }
 

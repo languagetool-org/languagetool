@@ -19,10 +19,7 @@
 package org.languagetool.tools;
 
 import org.junit.Test;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.DetectedLanguage;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Languages;
+import org.languagetool.*;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -46,7 +43,7 @@ public class RuleMatchesAsJsonSerializerTest {
   private final List<RuleMatch> matches2;
   {
     FakeRule rule = new FakeRule();
-    rule.setTags(Arrays.asList("myTag"));
+    rule.setTags(Arrays.asList(Tags.picky));
     matches2 = Arrays.asList(
               new RuleMatch(rule,
               new JLanguageTool(Languages.getLanguageForShortCode("xx")).getAnalyzedSentence("This is an test sentence."),
@@ -77,7 +74,7 @@ public class RuleMatchesAsJsonSerializerTest {
     assertContains("\"short message\"", json);
     assertContains("\"sentence\":\"This is an test sentence.\"", json);
     assertNotContains("tags", json);
-    assertNotContains("myTag", json);
+    assertNotContains("picky", json);
   }
 
   @Test
@@ -85,7 +82,7 @@ public class RuleMatchesAsJsonSerializerTest {
     DetectedLanguage lang = new DetectedLanguage(Languages.getLanguageForShortCode("xx-XX"), Languages.getLanguageForShortCode("xx-XX")) ;
     String json = serializer.ruleMatchesToJson(matches2, "This is an text.", 5, lang);
     // Tags:
-    assertContains("\"tags\":[\"myTag\"]", json);
+    assertContains("\"tags\":[\"picky\"]", json);
   }
 
   private void assertContains(String expectedSubstring, String json) {
