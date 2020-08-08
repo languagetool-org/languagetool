@@ -88,6 +88,7 @@ public class ProhibitedCompoundRule extends Rule {
   private static LinguServices linguServices;
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<String> blacklistRegex = Arrays.asList(
+    "gra(ph|f)ik",  // Kunstgrafik
     "gra(ph|f)ie",  // Geographie
     "Gra(ph|f)it"   // Grafit/Graphit
   );
@@ -209,6 +210,17 @@ public class ProhibitedCompoundRule extends Rule {
           "Bewerbungstools",
           "Elektromarke",
           "Elektromarken",
+          "Ankerkraut",
+          "Testuser",
+          "Testangeboten",
+          "Testangebots",
+          "Testangebotes",
+          "verkeimt",
+          "verkeimte",
+          "verkeimter",
+          "verkeimtes",
+          "verkeimten",
+          "verkeimtem",
           "Kurseinführung"
   ));
 
