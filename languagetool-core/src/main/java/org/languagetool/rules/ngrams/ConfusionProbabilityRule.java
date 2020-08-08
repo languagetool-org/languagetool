@@ -162,7 +162,11 @@ public abstract class ConfusionProbabilityRule extends Rule {
                 continue;
               }
               if (!isLocalException(sentence, googleToken)) {
-                RuleMatch match = new RuleMatch(this, sentence, googleToken.startPos, googleToken.endPos, message);
+                String term1 = confusionPair.getTerms().get(0).getString();
+                String term2 = confusionPair.getTerms().get(1).getString();
+                String id = getId() + "_" + cleanId(term1) +  "_" + cleanId(term2);
+                String desc = getDescription(term1, term2);
+                RuleMatch match = new RuleMatch(new SpecificIdRule(id, desc, messages, lm, language), sentence, googleToken.startPos, googleToken.endPos, message);
                 match.setSuggestedReplacements(suggestions);
                 matches.add(match);
               }
@@ -173,6 +177,10 @@ public abstract class ConfusionProbabilityRule extends Rule {
       pos++;
     }
     return matches.toArray(new RuleMatch[0]);
+  }
+
+  private String cleanId(String id) {
+    return id.toUpperCase().replace("Ä", "AE").replace("Ü", "UE").replace("Ö", "OE");
   }
 
   private boolean isRealWord(String token) {
@@ -218,7 +226,11 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   @Override
   public String getDescription() {
-    return Tools.i18n(messages, "statistics_rule_description");
+    return null;  // the one from SpecificIdRule is used
+  }
+
+  private String getDescription(String word1, String word2) {
+    return Tools.i18n(messages, "statistics_rule_description", word1, word2);
   }
   
   protected String getMessage(ConfusionString textString, ConfusionString suggestion) {
@@ -320,5 +332,23 @@ public abstract class ConfusionProbabilityRule extends Rule {
       return Objects.hash(path, lang);
     }
   }
-  
+
+  static class SpecificIdRule extends ConfusionProbabilityRule {
+    private final String id;
+    private final String desc;
+    SpecificIdRule(String id, String desc, ResourceBundle messages, LanguageModel lm, Language lang) {
+      super(messages, lm, lang);
+      this.id = Objects.requireNonNull(id);
+      this.desc = desc;
+    }
+    @Override
+    public String getId() {
+      return id;
+    }
+    @Override
+    public String getDescription() {
+      return desc;
+    }
+  }
+
 }

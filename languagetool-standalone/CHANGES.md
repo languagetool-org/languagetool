@@ -10,6 +10,9 @@
 #### Russian
   * added and improved rules
 
+#### General
+  * Each pair of `ConfusionProbabilityRule` has its own ID now, so it can be separately turned on/off
+
 
 ## 5.0 (2020-06-27)
 
