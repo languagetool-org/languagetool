@@ -60,12 +60,6 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
   }
 
   @Override
-  public String getMessage() {
-    return "Der Satz hat an der markierten Stelle mehr als " + maxWords + " Wörter. Kürzen Sie den Satz oder " +
-      "teilen Sie ihn in mehrere Sätze auf, um die Lesbarkeit zu verbessern.";
-  }
-
-  @Override
   public String getId() {
     return "TOO_LONG_SENTENCE_DE";
   }
