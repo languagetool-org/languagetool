@@ -443,6 +443,10 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Wi", "Wie", rule, lt);
     assertFirstSuggestion("Verspäterung", "Verspätung", rule, lt);
     assertFirstSuggestion("groesste", "größte", rule, lt);
+    assertFirstSuggestion("tefonische", "telefonische", rule, lt);
+    assertFirstSuggestion("optimalisiert", "optimiert", rule, lt);
+    assertFirstSuggestion("introvertisches", "introvertiertes", rule, lt);
+    assertFirstSuggestion("Entercotte", "Entrecôte", rule, lt);
   }
 
   @Test
