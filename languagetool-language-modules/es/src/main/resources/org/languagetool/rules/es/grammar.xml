@@ -9953,6 +9953,106 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="quiere|quiera|quiero">Te <marker>quier</marker></example>
             </rule>
         </rulegroup>
+        <rulegroup name="pronombre enclítico separado" id="PRONOMBRE_ENCLITICO_SEPARADO" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.[MNG]...." postag_regexp="yes"/>
+                        <token>lo</token>
+                    </marker>
+                    <token postag="_PUNCT.*|SPS00" postag_regexp="yes"></token>
+                </pattern>
+                <message>Probablement se escribe junto.</message>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG]....)" postag_regexp="yes" postag_replace="$1.PP3MSA00"/></suggestion>
+                <example correction="cantándolo">Estaba <marker>cantando lo</marker> en la puerta.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.[MNG]...." postag_regexp="yes"/>
+                        <token>los</token>
+                    </marker>
+                    <token postag="_PUNCT.*|SPS00" postag_regexp="yes"></token>
+                </pattern>
+                <message>Probablement se escribe junto.</message>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG].*)" postag_regexp="yes" postag_replace="$1.PP3MPA00"/></suggestion>
+                <example correction="cantándolos">Estaba <marker>cantando los</marker> en la puerta.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.[MNG]...." postag_regexp="yes"/>
+                        <token>la</token>
+                    </marker>
+                    <token postag="_PUNCT.*|SPS00" postag_regexp="yes"></token>
+                </pattern>
+                <message>Probablement se escribe junto.</message>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG].*)" postag_regexp="yes" postag_replace="$1.PP3FSA00"/></suggestion>
+                <example correction="cantándola">Estaba <marker>cantando la</marker> en la puerta.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.[MNG]...." postag_regexp="yes"/>
+                        <token>las</token>
+                    </marker>
+                    <token postag="_PUNCT.*|SPS00" postag_regexp="yes"></token>
+                </pattern>
+                <message>Probablement se escribe junto.</message>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG].*)" postag_regexp="yes" postag_replace="$1.PP3FPA00"/></suggestion>
+                <example correction="cantándolas">Estaba <marker>cantando las</marker> en la puerta.</example>
+                <example correction="Tráelas"><marker>Trae las</marker> por la mañana.</example>
+            </rule>
+            <!-- dos pronombres -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.[MNG].....PP.*" postag_regexp="yes"/>
+                        <token>lo</token>
+                    </marker>
+                    <token postag="_PUNCT.*|SPS00" postag_regexp="yes"></token>
+                </pattern>
+                <message>Probablement se escribe junto.</message>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG]....).(PP.*)" postag_regexp="yes" postag_replace="$1.$2.PP3MSA00"/></suggestion>
+                <example correction="diciéndoselo">Estaba <marker>diciéndose lo</marker> en la puerta.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.[MNG].....PP.*" postag_regexp="yes"/>
+                        <token>los</token>
+                    </marker>
+                    <token postag="_PUNCT.*|SPS00" postag_regexp="yes"></token>
+                </pattern>
+                <message>Probablement se escribe junto.</message>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG].*).(PP.*)" postag_regexp="yes" postag_replace="$1.$2.PP3MPA00"/></suggestion>
+                <example correction="diciéndoselos">Estaba <marker>diciéndose los</marker> en la puerta.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.[MNG].....PP.*" postag_regexp="yes"/>
+                        <token>la</token>
+                    </marker>
+                    <token postag="_PUNCT.*|SPS00" postag_regexp="yes"></token>
+                </pattern>
+                <message>Probablement se escribe junto.</message>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG].*).(PP.*)" postag_regexp="yes" postag_replace="$1.$2.PP3FSA00"/></suggestion>
+                <example correction="diciéndosela">Estaba <marker>diciéndose la</marker> en la puerta.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.[MNG].....PP.*" postag_regexp="yes"/>
+                        <token>las</token>
+                    </marker>
+                    <token postag="_PUNCT.*|SPS00" postag_regexp="yes"></token>
+                </pattern>
+                <message>Probablement se escribe junto.</message>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG].*).(PP.*)" postag_regexp="yes" postag_replace="$1.$2.PP3FPA00"/></suggestion>
+                <example correction="diciéndoselas">Estaba <marker>diciéndose las</marker> en la puerta.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PRONOMBRE_SIN_VERBO" name="pronombre sin verbo">
             <antipattern>
                 <token regexp="yes">&pronombre_personal_atono;</token>
@@ -10846,9 +10946,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>etc</token>
                     <token>…</token>
                 </pattern>
-                <message>Redundancia.</message>
-                <suggestion>etc.</suggestion>
-                <suggestion>…</suggestion>
+                <message>Redundancia. Use <suggestion>etc.</suggestion> o <suggestion>…</suggestion></message>
                 <example correction="etc.|…">Tres, cuatro, cinco, <marker>etc…</marker></example>
                 <example>Un, dos, etc.</example>
             </rule>
@@ -10859,9 +10957,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>.</token>
                     <token>.</token>
                 </pattern>
-                <message>Redundància.</message>
-                <suggestion>etc.</suggestion>
-                <suggestion>…</suggestion>
+                <message>Redundancia. Use <suggestion>etc.</suggestion> o <suggestion>…</suggestion></message>
                 <example correction="etc.|…">Tres, cuatro, cinco, <marker>etc...</marker></example>
                 <example>Un, dos, etc.</example>
             </rule>
