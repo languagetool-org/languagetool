@@ -50906,7 +50906,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.ub.edu/cub/criteri.php?id=372</url>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">AADD|DDAA|AAVV|VVAA</token>
+                    <token regexp="yes">AADD|DDAA|VVAA</token>
                 </pattern>
                 <message>L'abreviatura de 'diversos autors' és <suggestion>d. a.</suggestion>. En les bibliografies es recomana no utilitzar-la.</message>
                 <example correction="D. a."><marker>DDAA</marker> (1990). La pesca de la truita. Editorial Peixatera.</example>
@@ -50915,7 +50915,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token>AA</token>
                     <token>.</token>
-                    <token regexp="yes">DD|VV</token>
+                    <token>DD</token>
                     <token>.</token>
                 </pattern>
                 <message>L'abreviatura de 'diversos autors' és <suggestion>d. a.</suggestion>. En les bibliografies es recomana no utilitzar-la.</message>
@@ -50930,6 +50930,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>L'abreviatura de 'diversos autors' és <suggestion>d. a.</suggestion>. En les bibliografies es recomana no utilitzar-la.</message>
                 <example correction="D. a."><marker>DD.AA.</marker> (1990). La pesca de la truita. Editorial Peixatera.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AV" name="abreviatura de: associació de veïns:">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>AAVV</token>
+                </pattern>
+                <message>L'abreviatura de 'associació de veïns' és <suggestion>AV</suggestion> tant en singular com en plural.</message>
+                <example correction="AV">Les <marker>AAVV</marker> no es van pronunciar.</example>
+            </rule>
+            <rule>
+                <pattern>
+                     <token>AA</token>
+                    <token>.</token>
+                    <token>VV</token>
+                    <token>.</token>
+                </pattern>
+                <message>L'abreviatura de 'associació de veïns' és <suggestion>AV</suggestion> tant en singular com en plural.</message>
+                <example correction="AV">Les <marker>AA.VV.</marker> no es van pronunciar.</example>
             </rule>
         </rulegroup>
         <rule id="I_O" name="i/o: fórmula innecèssaria">
