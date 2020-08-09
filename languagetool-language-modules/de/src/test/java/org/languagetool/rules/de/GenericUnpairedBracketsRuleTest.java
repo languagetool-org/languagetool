@@ -51,6 +51,12 @@ public class GenericUnpairedBracketsRuleTest {
     assertMatches("Die „Sätze zum Testen.", 1);
     assertMatches("Die «Sätze zum Testen.", 1);
     assertMatches("Die »Sätze zum Testen.", 1);
+    // these used to have wrong positions, causing "Could not map ... to original position":
+    lt.check("Im Kran\u00ADken\u00ADhaus. Auch)");
+    lt.check("Ein Kran\u00ADken\u00ADhaus. Auch)");
+    lt.check("Das Kran\u00ADken\u00ADhaus. Auch)");
+    lt.check("Kran\u00ADken\u00ADhaus. Auch)");
+    lt.check("Kran\u00ADken\u00ADhaus. (Auch");
   }
 
   private void assertMatches(String input, int expectedMatches) throws IOException {

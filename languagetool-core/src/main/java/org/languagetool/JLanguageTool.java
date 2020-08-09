@@ -1319,6 +1319,14 @@ public class JLanguageTool {
     }
   }
 
+  static class CleanToken {
+    private String origToken;
+    private String cleanToken;
+    CleanToken(String origToken, String cleanToken) {
+      this.origToken = origToken;
+      this.cleanToken = cleanToken;
+    }
+  }
   /**
    * Tokenizes the given {@code sentence} into words and analyzes it.
    * This is the same as {@link #getAnalyzedSentence(String)} but it does not run
@@ -1329,7 +1337,7 @@ public class JLanguageTool {
    */
   public AnalyzedSentence getRawAnalyzedSentence(String sentence) throws IOException {
     List<String> tokens = language.getWordTokenizer().tokenize(sentence);
-    Map<Integer, String> softHyphenTokens = replaceSoftHyphens(tokens);
+    Map<Integer, CleanToken> softHyphenTokens = replaceSoftHyphens(tokens);
 
     List<AnalyzedTokenReadings> aTokens = language.getTagger().tag(tokens);
     if (language.getChunker() != null) {
@@ -1359,12 +1367,12 @@ public class JLanguageTool {
       }
       if (!softHyphenTokens.isEmpty() && softHyphenTokens.get(i) != null) {
         // addReading() modifies a readings.token if last token is longer - need to use it first
-        posFix += softHyphenTokens.get(i).length() - aTokens.get(i).getToken().length();
-        AnalyzedToken newToken = language.getTagger().createToken(softHyphenTokens.get(i), null);
+        posFix += softHyphenTokens.get(i).origToken.length() - aTokens.get(i).getToken().length();
+        AnalyzedToken newToken = language.getTagger().createToken(softHyphenTokens.get(i).origToken, null);
         aTokens.get(i).addReading(newToken, "softHyphenTokens");
+        aTokens.get(i).setCleanToken(softHyphenTokens.get(i).cleanToken);
       }
     }
-
 
     // add additional tags
     int lastToken = toArrayCount - 1;
@@ -1384,16 +1392,17 @@ public class JLanguageTool {
     return new AnalyzedSentence(tokenArray);
   }
 
-  private Map<Integer, String> replaceSoftHyphens(List<String> tokens) {
+  private Map<Integer, CleanToken> replaceSoftHyphens(List<String> tokens) {
     Pattern ignoredCharacterRegex = language.getIgnoredCharactersRegex();
-    Map<Integer, String> ignoredCharsTokens = new HashMap<>();
+    Map<Integer, CleanToken> ignoredCharsTokens = new HashMap<>();
     if (ignoredCharacterRegex == null) {
       return ignoredCharsTokens;
     }
     for (int i = 0; i < tokens.size(); i++) {
       Matcher matcher = ignoredCharacterRegex.matcher(tokens.get(i));
       if (matcher.find()) {
-        ignoredCharsTokens.put(i, tokens.get(i));
+        String cleaned = matcher.replaceAll("");
+        ignoredCharsTokens.put(i, new CleanToken(tokens.get(i), cleaned));
         tokens.set(i, matcher.replaceAll(""));
       }
     }
