@@ -9644,6 +9644,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="HA_A" name="ha -> a" default="off">
+            <!-- Probably better than the confusion set rule -->
+            <antipattern>
+                <token>ha</token>
+                <token min="0" max="4" postag="RG|LOC_ADV|_PUNCT_CONT" postag_regexp="yes"/> 
+                <token postag="V.P..SM" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <!-- onomatopeya -->
+                <token>ha</token>
+                <token min="0">,</token>
+                <token>ha</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>ha</token>
+                </marker>
+                <!--<token postag="[DNAPR].*"/>-->
+            </pattern>
+            <message>Si no es del v. 'haber', se escribe sin hache.</message>
+            <suggestion>a</suggestion>
+            <example correction="A"><marker>Ha</marker> estos no me los creo.</example>
+            <example>Ha dicho que sí.</example>
+            <example>Ha claramente dicho que sí.</example>
+            <example>Ha, ha, ha: no me lo creo.</example>
+        </rule>
         <rulegroup id="AYA_HAYA" name="*aya/haya">
             <rule>
                 <pattern>
