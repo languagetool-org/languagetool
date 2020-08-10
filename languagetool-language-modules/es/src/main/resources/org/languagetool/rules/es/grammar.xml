@@ -7333,6 +7333,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="AGREEMENT_NOUNS" name="Concordancia en grupos nominales" type="inconsistency">
+        <rule id="AGREEMENT_DET_ABREV" name="concordancia determinante y abreviatura">
+            <pattern>
+                <marker>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <token postag="D[^RN].*" postag_regexp="yes"><exception postag="DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/></token>
+                        <token regexp="yes">[DS]r(a|es|as)?</token>
+                    </unify>
+                </marker>
+            </pattern>
+            <message>Error de concordancia.</message>
+            <suggestion suppress_misspelled="yes"><match no="1" postag="D..[MC][SN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+            <suggestion suppress_misspelled="yes"><match no="1" postag="D..[MC][PN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+            <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][SN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+            <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][PN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+            <example correction="El Sr|Los Sres|La Sra|Las Sras"><marker>Los Sra</marker>. García</example>
+        </rule>
         <rulegroup id="AGREEMENT_DET_NOUN" name="Concordancias determinante y sustantivo" default="on">
             <antipattern>
                 <token regexp="yes">el|un|los|unos</token>
@@ -11538,6 +11556,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Metropolitan Museum of Art</example>
                 <example>Vive en Tel Aviv.</example>
                 <example>de Google Doc</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[SD]r(a|as|es)?</token>
+                        <token spacebefore="yes">.</token>
+                    </marker>
+                </pattern>
+                <message>El punto debe ir junto a la abreviatura.</message>
+                <suggestion><match no="1" case_conversion="startupper"/>.</suggestion>
+                <example correction="Sr.">Vive con el <marker>Sr .</marker> García.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">[SD]r(a|as|es)?</token>
+                    </marker>
+                </pattern>
+                <message>Probablemente falta un punto después de la abreviatura.</message>
+                <suggestion><match no="1" case_conversion="startupper"/>.</suggestion>
+                <example correction="Sr.">Vive con el <marker>Sr</marker> García.</example>
             </rule>
         </rulegroup>
         <rule id="WRONG_DASH" name="Carácter de guión incorrecto (u+2500)">
