@@ -263,6 +263,9 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("проф.\u00A0Артюхов");
     assertEquals(Arrays.asList("проф.", "\u00A0", "Артюхов"), testList);
 
+    testList = w.tokenize("Ів. Франко");
+    assertEquals(Arrays.asList("Ів.", " ", "Франко"), testList);
+
     testList = w.tokenize("кутю\u00A0— щедру");
     assertEquals(Arrays.asList("кутю", "\u00A0", "—", " ", "щедру"), testList);
 

@@ -50,7 +50,17 @@ public class UkrainianSRXSentenceTokenizerTest {
     testSplit("Комендант преподобний С.\u00A0С. Мокітімі 2.");
     testSplit("Склад: акад. Вернадський, проф. Харченко, доц. Семеняк.");
     testSplit("Ів. Франко.");
+    testSplit("Алисов Н. В. , Хореев Б. С.");
+    testSplit("і Г.-К. Андерсена");
+    testSplit(" — К. : Наук. думка, 1990.");
+    testSplit("Маркс К. «Показова держава»");
+    
+    // latin I
+    testSplit("М. Л. Гончарука, I. О. Денисюка");
+    testSplit("I. I. Дорошенко");
 
+    testSplit("елементів множини A. Отже, нехай");
+    
     testSplit("Опергрупа приїхала в с. Лісове.");
     testSplit("300 р. до н. е.");
     testSplit("З 300 р. до н.е., і по цей день.");
@@ -60,7 +70,7 @@ public class UkrainianSRXSentenceTokenizerTest {
     testSplit("До Інституту ім. акад. Вернадського."); 
     testSplit("До вулиці гетьмана Скоропадського під'їжджає чорне авто."); 
     testSplit("До табору «Артек».");
-    testSplit("Спільні пральні й т. д.", "Перемогли!");
+//    testSplit("Спільні пральні й т. д.", "Перемогли!");
     testSplit("Спільні пральні й т. д. й т. п. ", "Перемогли!");
     testSplit("в Хоролі з п. Кушніренком договорилися");
     testSplit("і п. 10 від 23.1.33 р.");
@@ -69,11 +79,13 @@ public class UkrainianSRXSentenceTokenizerTest {
     testSplit("див. стор. 24.");
     testSplit("Від англ.\n  File.");
     testSplit("Від фр.  \nparachute.");
+    testSplit("фільму\nС. Ейзенштейна");
 
     testSplit("Від р. Дніпро.");
     testSplit("В 1941 р. Конрад Цузе побудував.");
     testSplit("Наприкінці 1254 р. Данило почав");
     testSplit("У травні 1949 р. Грушківський район");
+    testSplit("У травні 1949 р. \nГрушківський район");
     testSplit("Упродовж 2011–2014 р. Швейцарія надасть");
     testSplit("15 вересня 1995 р. Україною було підписано");
     testSplit("Але закінчилося аж у січні 2013 р. ", "Як бачимо");
@@ -104,6 +116,8 @@ public class UkrainianSRXSentenceTokenizerTest {
     testSplit("і «Р. Б. К.»");
     testSplit("У. Т: ");
     testSplit("Іван Ч. (1914 р. н.)");
+    testSplit("альбом “Сніжність” (2006 р.) – разом із Юрієм");
+    testSplit("СК “Слон” (2008 р.) ", "У минулому харків’янка");
   }
 
   @Test
@@ -130,14 +144,17 @@ public class UkrainianSRXSentenceTokenizerTest {
     //testSplit("Категорії А. ", "Від якої");
     testSplit("Лі Куан Ю. ", "Наприклад");
     testSplit("король Георг V. ", "А нині");
+    testSplit("цар Петро I. ", "Він ухвалив");
   }
 
   @Test
   public void testTokenizeWithSpecialChars() {
-    testSplit("відбув у тюрмах.\u202fНещодавно письменник");
-    testSplit("закрито бібліотеку української літератури.\u202f ", "Раніше відділ боротьби з екстремізмом...");
+    testSplit("– С.\u202f5-7.");
     // still no split for initials
+    testSplit("товариш С.\u202fОхримович.");
     testSplit("З особливим обуренням сприймав С.\u202f Шелухин легітимізацію");
+    testSplit("відбув у тюрмах.\u202f", "Нещодавно письменник");
+    testSplit("закрито бібліотеку української літератури.\u202f ", "Раніше відділ боротьби з екстремізмом...");
   }
 
   private void testSplit(final String... sentences) {
