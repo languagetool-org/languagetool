@@ -6520,6 +6520,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="se capture|te capture|de captura">Un ejemplo <marker>de capture</marker> de pantalla.</example>
                 <example>Un ejemplo de es.wikipedia.org.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SPS00"><exception postag="_possible_NP"/></token>
+                    <token>los</token>
+                    <token postag="V.[SI].*" postag_regexp="yes"><exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END|_possible_NP" postag_regexp="yes"/></token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:3 DesiredPostag:N.[MC][PN].*|A..[MC][PN].|V.P..PM"/>
+                <message>Construcción incorrecta.</message>
+                <suggestion>\1 \2 {suggestion}</suggestion>
+                <example correction="de los estados|de los estaños|de los estajos"><marker>de los estamos</marker> unidos.</example>
+                <example correction="de los Estados|de los Estaños|de los Estajos"><marker>de los Estamos</marker> Unidos.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SPS00"><exception postag="_possible_NP"/></token>
+                    <token>las</token>
+                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/></token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:3 DesiredPostag:N.[FC][PN].*|A..[FC][PN].|V.P..PF"/>
+                <message>Construcción incorrecta.</message>
+                <suggestion>\1 \2 {suggestion}</suggestion>
+                <example correction="De las casas|De las clases|De las bases|De las fases|De las cales|De las cáseas"><marker>De las cases</marker> sociales.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SPS00"><exception postag="_possible_NP"/></token>
+                    <token>la</token>
+                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/></token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:3 DesiredPostag:N.[FC][SN].*|A..[FC][SN].|V.P..SF"/>
+                <message>Construcción incorrecta.</message>
+                <suggestion>\1 \2 {suggestion}</suggestion>
+                <example correction="De la base|De la casa|De la clase|De la fase|De la Caspe|De la cásea"><marker>De la case</marker> social.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>de<exception postag="_possible_NP"/></token>
@@ -6602,6 +6636,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El complemento de un conjunto A es el conjunto A∁.</example>
                 <example>Y por contra existe otra línia de pensamiento.</example>
                 <example>Si actúa en contra es por otros motivos.</example>
+                <example>Las de corte bajo son sus señas.</example>
             </rule>
             <rule>
                 <!-- catch-all rule without suggestions-->
