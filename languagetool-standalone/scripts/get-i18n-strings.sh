@@ -7,5 +7,6 @@ if [ $# -eq 0 ]
     exit
 fi
 
+# for English: ../../languagetool-core/src/main/resources/org/languagetool/MessagesBundle.properties
 native2ascii -reverse ../../languagetool-language-modules/$1/src/main/resources/org/languagetool/MessagesBundle_$1.properties | \
-  sed 's/.*= //' | grep -v "^#" | awk ' {print;} { print ""; }'| sed 's/&//'
+  sed 's/.*= //' | grep -v "^#" | awk ' {print;} { print ""; }'| sed 's/&//' | sed 's/\\n/\n/g'
