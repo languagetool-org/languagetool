@@ -9990,17 +9990,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup name="pronombre enclítico separado" id="PRONOMBRE_ENCLITICO_SEPARADO" default="temp_off">
+            <antipattern>
+                <token regexp="yes">lo|los|la|las</token>
+                <token regexp="yes">de|del|que|cual|cuales</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">A</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">lo|los|la|ŀas</token>
+                <token postag="_QM_OPEN|RG|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
+                <token postag="[NA].*|V.P.*|PI.*" postag_regexp="yes"/>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
                         <token postag="V.[MNG]...." postag_regexp="yes"/>
                         <token>lo</token>
                     </marker>
-                    <token postag="_PUNCT.*|SPS00" postag_regexp="yes"></token>
                 </pattern>
                 <message>Probablement se escribe junto.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG]....)" postag_regexp="yes" postag_replace="$1.PP3MSA00"/></suggestion>
                 <example correction="cantándolo">Estaba <marker>cantando lo</marker> en la puerta.</example>
+                <example>mezcla lo «lírico, épico, trágico, cómico»</example>
             </rule>
             <rule>
                 <pattern>
@@ -10008,11 +10020,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="V.[MNG]...." postag_regexp="yes"/>
                         <token>los</token>
                     </marker>
-                    <token postag="_PUNCT.*|SPS00" postag_regexp="yes"></token>
                 </pattern>
                 <message>Probablement se escribe junto.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG].*)" postag_regexp="yes" postag_replace="$1.PP3MPA00"/></suggestion>
                 <example correction="cantándolos">Estaba <marker>cantando los</marker> en la puerta.</example>
+                <example>para ver los "caminos naturales"</example>
             </rule>
             <rule>
                 <pattern>
@@ -10020,11 +10032,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="V.[MNG]...." postag_regexp="yes"/>
                         <token>la</token>
                     </marker>
-                    <token postag="_PUNCT.*|SPS00" postag_regexp="yes"></token>
                 </pattern>
                 <message>Probablement se escribe junto.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG].*)" postag_regexp="yes" postag_replace="$1.PP3FSA00"/></suggestion>
                 <example correction="cantándola">Estaba <marker>cantando la</marker> en la puerta.</example>
+                <example>¡Que empiece la "traducción"!</example>
+                <example>ha sido acusado de ser la «música del diablo»</example>
             </rule>
             <rule>
                 <pattern>
@@ -10032,12 +10045,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="V.[MNG]...." postag_regexp="yes"/>
                         <token>las</token>
                     </marker>
-                    <token postag="_PUNCT.*|SPS00" postag_regexp="yes"></token>
                 </pattern>
                 <message>Probablement se escribe junto.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG].*)" postag_regexp="yes" postag_replace="$1.PP3FPA00"/></suggestion>
                 <example correction="cantándolas">Estaba <marker>cantando las</marker> en la puerta.</example>
                 <example correction="Tráelas"><marker>Trae las</marker> por la mañana.</example>
+                <example>imitando las de estilo gótico</example>
             </rule>
             <!-- dos pronombres -->
             <rule>
@@ -10046,7 +10059,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="V.[MNG].....PP.*" postag_regexp="yes"/>
                         <token>lo</token>
                     </marker>
-                    <token postag="_PUNCT.*|SPS00" postag_regexp="yes"></token>
                 </pattern>
                 <message>Probablement se escribe junto.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG]....).(PP.*)" postag_regexp="yes" postag_replace="$1.$2.PP3MSA00"/></suggestion>
@@ -10058,11 +10070,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="V.[MNG].....PP.*" postag_regexp="yes"/>
                         <token>los</token>
                     </marker>
-                    <token postag="_PUNCT.*|SPS00" postag_regexp="yes"></token>
                 </pattern>
                 <message>Probablement se escribe junto.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG].*).(PP.*)" postag_regexp="yes" postag_replace="$1.$2.PP3MPA00"/></suggestion>
                 <example correction="diciéndoselos">Estaba <marker>diciéndose los</marker> en la puerta.</example>
+                <example>Muéstreme los de manga corta, por favor.</example>
             </rule>
             <rule>
                 <pattern>
@@ -10070,11 +10082,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="V.[MNG].....PP.*" postag_regexp="yes"/>
                         <token>la</token>
                     </marker>
-                    <token postag="_PUNCT.*|SPS00" postag_regexp="yes"></token>
                 </pattern>
                 <message>Probablement se escribe junto.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG].*).(PP.*)" postag_regexp="yes" postag_replace="$1.$2.PP3FSA00"/></suggestion>
                 <example correction="diciéndosela">Estaba <marker>diciéndose la</marker> en la puerta.</example>
+                <example>armarse la de Dios es Cristo</example>
             </rule>
             <rule>
                 <pattern>
@@ -10082,7 +10094,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="V.[MNG].....PP.*" postag_regexp="yes"/>
                         <token>las</token>
                     </marker>
-                    <token postag="_PUNCT.*|SPS00" postag_regexp="yes"></token>
                 </pattern>
                 <message>Probablement se escribe junto.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG].*).(PP.*)" postag_regexp="yes" postag_replace="$1.$2.PP3FPA00"/></suggestion>
