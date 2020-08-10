@@ -84,11 +84,19 @@ public class MixedAlphabetsRuleTest {
     assertEquals("Вжито кириличну літеру замість латинської", matches[0].getMessage());
     assertEquals("I", matches[0].getSuggestedReplacements().get(0));
 
+    matches = rule.match(langTool.getAnalyzedSentence("сибірську колекцію Петра І.\n\n Всім")); // cyrillic І
+    assertEquals(1, matches.length);
+    assertEquals("Вжито кириличну літеру замість латинської", matches[0].getMessage());
+    assertEquals("I.", matches[0].getSuggestedReplacements().get(0));
+
     matches = rule.match(langTool.getAnalyzedSentence("Миколая І.")); // cyrillic І
     assertEquals(1, matches.length);
     assertEquals("Вжито кириличну літеру замість латинської", matches[0].getMessage());
     assertEquals("I.", matches[0].getSuggestedReplacements().get(0));
 
+    // ambiguous without semantics:
+    // російський хемік Александр І. Опарін (1894–1980)
+    
     matches = rule.match(langTool.getAnalyzedSentence("Ленін В. І."));
     assertEquals(0, matches.length);
 

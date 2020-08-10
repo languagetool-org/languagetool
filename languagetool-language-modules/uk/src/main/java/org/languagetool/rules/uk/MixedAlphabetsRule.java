@@ -111,10 +111,11 @@ public class MixedAlphabetsRule extends Rule {
         RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);
         ruleMatches.add(potentialRuleMatch);
       }
-      else if (i == tokens.length-1
+      else if (i <= tokens.length-1
           && "І.".equals(tokenString)
           && ( i > 1
               && ! "Тому".equals(tokens[i-1].getToken())
+              && ! "Франко".equals(tokens[i-1].getToken())
               && PosTagHelper.hasPosTag(tokens[i-1], Pattern.compile(".*fname(?!:abbr).*"))) ) {
         List<String> replacements = new ArrayList<>();
         replacements.add( toLatin(tokenString) );
