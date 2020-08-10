@@ -43,7 +43,10 @@ import java.util.regex.Pattern;
  */
 public abstract class ConfusionProbabilityRule extends Rule {
 
-  /** @since 3.1 */
+  /**
+   * @since 3.1
+   * @deprecated not used anymore, the id is now more specific (like {@code CONFUSION_RULE_TERM1_TERM2})
+   */
   public static final String RULE_ID = "CONFUSION_RULE";
   // probability is only used then at least these many of the occurrence lookups succeeded, 
   // i.e. returned a value > 0:

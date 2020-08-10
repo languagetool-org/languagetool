@@ -270,7 +270,6 @@ public class German extends Language implements AutoCloseable {
       // default is 0
       case "DE_AGREEMENT": return -1;  // prefer RECHT_MACHEN, MONTAGS, KONJUNKTION_DASS_DAS, DESWEITEREN, DIES_BEZUEGLICH and other
       case "COMMA_IN_FRONT_RELATIVE_CLAUSE": return -1; // prefer other rules (KONJUNKTION_DASS_DAS)
-      case "CONFUSION_RULE": return -1;  // probably less specific than the rules from grammar.xml
       case "MODALVERB_FLEKT_VERB": return -1;
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
       case "GERMAN_WORD_REPEAT_RULE": return -1; // prefer other more specific rules
@@ -287,6 +286,9 @@ public class German extends Language implements AutoCloseable {
       case "REDUNDANCY": return -15;
       case "GENDER_NEUTRALITY": return -15;
       case "TYPOGRAPHY": return -15;
+    }
+    if (id.startsWith("CONFUSION_RULE_")) {
+      return -1;
     }
     return super.getPriorityForId(id);
   }
