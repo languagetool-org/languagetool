@@ -14769,33 +14769,49 @@ though, and has since been slightly modified)-->
        <example>Sont-elles canadiennes ?</example>
       </rule>
     </rulegroup>
-    <rule id="NONVERB_PRON" name="verb non valide + pronom">
-      <antipattern>
-        <token postag="V .*" postag_regexp="yes"/>
-        <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-.+</token>
-        <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-.+</token>
-      </antipattern>
-      <pattern>
-        <marker>
-          <token><exception postag="V.* (ind|sub|imp|con).*" postag_regexp="yes"/></token> <!-- TODO: a different rule for imperative, and remove subjuntive -->
-          <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-.+</token>
-        </marker>
-      </pattern>
-      <filter class="org.languagetool.rules.fr.InterrogativeVerbFilter" args="PronounFrom:2 VerbFrom:1"/>
-      <message>« \1 » n’est pas un verbe valide.</message>
-      <example correction="partis-tu|parus-tu|pars-tu|paras-tu|pares-tu">Quand <marker>parts-tu</marker> ?</example>
-      <example correction="partis-tu|parus-tu|pars-tu|paras-tu|pares-tu">Quand <marker>pärts-tu</marker> ?</example>
-      <example correction="trompai-je|trompè-je|trompais-je|trempè-je">Me <marker>trompé-je</marker> ?</example> <!--TODO: fix trompe-je, allow trompé-je -->
-      <example>Mon enfant ne m’en veux pas.</example>
-      <example>Faites-le-moi.</example>
-      <example>Dépêche-toi !</example>
-      <example>Pourquoi demandes-tu ?</example>
-      <example> Que devrions-nous faire ?</example>
-      <example>s'exclama-t-il</example>
-      <example>Le soldat de garde se mit au garde-à-vous.</example>
-      <example>Tant de fiel entre-t-il dans les âmes ?</example>
-      <example>C'est mon petit chez-moi.</example>
-    </rule>
+    <rulegroup id="NONVERB_PRON" name="verb non valide + pronom">
+      <rule default="temp_off">
+        <pattern>
+          <marker>
+            <token postag="V.* 3 .*" postag_regexp="yes"/>
+            <token min="0">-</token>
+            <token>t</token>
+            <token regexp="yes">-(ils?|elles?|on)</token>
+          </marker>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\3\4</suggestion> ?</message>
+        <example correction="rencontrera-t-elle">Quelles péripéties <marker>rencontrera t-elle</marker> ?</example>
+        <example correction="parle-t-on">Où <marker>parle t-on</marker> l'anglais ?</example>
+        <example correction="valide-t-il">L'éloge ne <marker>valide - t-il</marker> pas l'habit ?</example>
+      </rule>
+       <rule>
+         <antipattern>
+           <token postag="V .*" postag_regexp="yes"/>
+           <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-.+</token>
+           <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-.+</token>
+         </antipattern>
+         <pattern>
+           <marker>
+             <token><exception postag="V.* (ind|sub|imp|con).*" postag_regexp="yes"/></token> <!-- TODO: a different rule for imperative, and remove subjuntive -->
+             <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-.+</token>
+           </marker>
+         </pattern>
+         <filter class="org.languagetool.rules.fr.InterrogativeVerbFilter" args="PronounFrom:2 VerbFrom:1"/>
+         <message>« \1 » n’est pas un verbe valide.</message>
+         <example correction="partis-tu|parus-tu|pars-tu|paras-tu|pares-tu">Quand <marker>parts-tu</marker> ?</example>
+         <example correction="partis-tu|parus-tu|pars-tu|paras-tu|pares-tu">Quand <marker>pärts-tu</marker> ?</example>
+         <example correction="trompai-je|trompè-je|trompais-je|trempè-je">Me <marker>trompé-je</marker> ?</example> <!--TODO: fix trompe-je, allow trompé-je -->
+         <example>Mon enfant ne m’en veux pas.</example>
+         <example>Faites-le-moi.</example>
+         <example>Dépêche-toi !</example>
+         <example>Pourquoi demandes-tu ?</example>
+         <example> Que devrions-nous faire ?</example>
+         <example>s'exclama-t-il</example>
+         <example>Le soldat de garde se mit au garde-à-vous.</example>
+         <example>Tant de fiel entre-t-il dans les âmes ?</example>
+         <example>C'est mon petit chez-moi.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ACCORD_NOM_VERBE" name="Accord" default="temp_off">
         <!-- TODO: more work -->
       <antipattern>
