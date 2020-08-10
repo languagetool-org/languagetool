@@ -47,9 +47,9 @@ public class LongParagraphRule extends TextLevelRule {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     this.lang = lang;
-    //if (!defaultActive) {
-    setDefaultOff();
-    //}
+    if (!defaultActive) {
+      setDefaultOff();
+    }
     if (defaultWords > 0) {
       this.maxWords = defaultWords;
     }
@@ -122,25 +122,31 @@ public class LongParagraphRule extends TextLevelRule {
     int startPos = 0;
     int endPos = 0;
     int wordCount = 0;
+    boolean paraHasLinebreaks = false;
     for (int n = 0; n < sentences.size(); n++) {
       AnalyzedSentence sentence = sentences.get(n);
+      boolean paragraphEnd = Tools.isParagraphEnd(sentences, n, lang);
+      if (!paragraphEnd && sentence.getText().contains("\n")) {
+        // e.g. text with manually added line breaks (e.g. issues on github with "- [ ]" syntax)
+        paraHasLinebreaks = true;
+      }
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
       for (AnalyzedTokenReadings token : tokens) {
         if (!token.isWhitespace() && !token.isSentenceStart() && !token.isNonWord()) {
           wordCount++;
-          if(wordCount == 1) {
+          if (wordCount == maxWords) {
             startPos = token.getStartPos() + pos;
-          } else if(wordCount == maxWords) {
             endPos = token.getEndPos() + pos;
           }
         }
       }
-      if (Tools.isParagraphEnd(sentences, n, lang)) {
-        if (wordCount > maxWords) {
+      if (paragraphEnd) {
+        if (wordCount > maxWords && !paraHasLinebreaks) {
           RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, getMessage());
           ruleMatches.add(ruleMatch);
         }
         wordCount = 0;
+        paraHasLinebreaks = false;
       }
       pos += sentence.getCorrectedTextLength();
     }

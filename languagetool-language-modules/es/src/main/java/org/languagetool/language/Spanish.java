@@ -189,6 +189,7 @@ public class Spanish extends Language implements AutoCloseable{
       case "MORFOLOGIK_RULE_ES": return -1;
       case "E_EL": return -10;
       case "EL_TILDE": return -10;
+      case "TOO_LONG_PARAGRAPH": return -15;
       case "PREP_VERB": return -20;
       case "SUBJUNTIVO_FUTURO": return -30;
       case "SUBJUNTIVO_PASADO": return -30;
