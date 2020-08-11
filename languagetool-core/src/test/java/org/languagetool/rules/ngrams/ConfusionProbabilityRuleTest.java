@@ -95,6 +95,10 @@ public class ConfusionProbabilityRuleTest {
     private FakeRule(LanguageModel languageModel, Language language, List<String> exceptions) {
       super(JLanguageTool.getMessageBundle(), languageModel, language, 3, exceptions);
     }
+    @Override
+    public String getDescription() {
+      return null;
+    }
   }
 
 }

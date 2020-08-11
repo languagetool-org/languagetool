@@ -111,7 +111,8 @@ public class Dutch extends Language {
             new DutchWrongWordInContextRule(messages),
             new WordCoherencyRule(messages),
             new SimpleReplaceRule(messages),
-            new LongSentenceRule(messages, userConfig, -1, true),
+            new LongSentenceRule(messages, userConfig, 35, true, true),
+            new LongParagraphRule(messages, this, userConfig, true, Arrays.asList(Tag.picky)),
             new PreferredWordRule(messages),
             new SpaceInCompoundRule(messages),
             new SentenceWhitespaceRule(messages)
@@ -138,6 +139,10 @@ public class Dutch extends Language {
     switch (id) {
       case SimpleReplaceRule.DUTCH_SIMPLE_REPLACE_RULE: return 1;
       case LongSentenceRule.RULE_ID: return -1;
+      case "KORT_1": return -5;
+      case "KORT_2": return -5;  //so that spelling errors are recognized first
+      case "EINDE_ZIN_ONVERWACHT": return -5;  //so that spelling errors are recognized first
+      case "TOO_LONG_PARAGRAPH": return -15;
     }
     return super.getPriorityForId(id);
   }

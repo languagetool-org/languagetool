@@ -120,6 +120,12 @@ public class GermanWrongWordInContextRuleTest {
     assertBad("Über eine Synapse wird das Neutron mit einer bestimmten Zelle verknüpft und nimmt mit der lokal zugeordneten postsynaptischen Membranregion eines Dendriten Signale auf.");
     assertEquals("Neutronen", rule.match(langTool.getAnalyzedSentence("Protonen und Neuronen sind Bausteine des Atomkerns"))[0].getSuggestedReplacements().get(0));
     assertEquals("Neurons", rule.match(langTool.getAnalyzedSentence("Das Axon des Neutrons ..."))[0].getSuggestedReplacements().get(0));
+    
+    // Wunde/Winde
+    assertGood("Das Seil läuft durch eine Winde.");
+    assertGood("Eine blutende Wunde");
+    assertBad("Es kamen Keime in die Winde.");
+    assertBad("Möglicherweise wehen die Wunde gerade nicht günstig.");
   }
 
   private void assertGood(String sentence) throws IOException {

@@ -48,6 +48,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   private int startPos;
   private int fixPos;
   private String token;
+  private String cleanToken;
   private List<ChunkTag> chunkTags = Collections.emptyList();
   private boolean isSentEnd;
   private boolean isParaEnd;
@@ -709,5 +710,21 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
         throw new UnsupportedOperationException();
       }
     };
+  }
+
+  /**
+   * @since 5.1
+   */
+  @Experimental
+  public void setCleanToken(String cleanToken) {
+    this.cleanToken = cleanToken;
+  }
+
+  /**
+   * @since 5.1
+   */
+  @Experimental
+  public String getCleanToken() {
+    return cleanToken != null ? cleanToken : token;
   }
 }

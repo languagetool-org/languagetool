@@ -163,4 +163,13 @@ public class Russian extends Language implements AutoCloseable {
   public LanguageMaintainedState getMaintainedState() {
     return LanguageMaintainedState.ActivelyMaintained;
   }
+
+  @Override
+  protected int getPriorityForId(String id) {
+    switch (id) {
+      case "TOO_LONG_PARAGRAPH": return -15;
+    }
+    return super.getPriorityForId(id);
+  }
+
 }

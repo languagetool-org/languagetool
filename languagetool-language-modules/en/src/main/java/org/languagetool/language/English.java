@@ -174,8 +174,8 @@ public class English extends Language implements AutoCloseable {
         new WhiteSpaceBeforeParagraphEnd(messages, this),
         new WhiteSpaceAtBeginOfParagraph(messages),
         new EmptyLineRule(messages, this),
-        new LongSentenceRule(messages, userConfig),
-        new LongParagraphRule(messages, this, userConfig),
+        new LongSentenceRule(messages, userConfig, 33, true, true),
+        new LongParagraphRule(messages, this, userConfig, true, Arrays.asList(Tag.picky)),
         new ParagraphRepeatBeginningRule(messages, this),
         new PunctuationMarkAtParagraphEnd(messages, this),
         new PunctuationMarkAtParagraphEnd2(messages, this),
@@ -366,13 +366,21 @@ public class English extends Language implements AutoCloseable {
       case "MORFOLOGIK_RULE_EN_NZ":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "TWO_CONNECTED_MODAL_VERBS": return -15;
-      case "CONFUSION_RULE":            return -20;
       case "SENTENCE_FRAGMENT":         return -50; // prefer other more important sentence start corrections.
       case "SENTENCE_FRAGMENT_SINGLE_WORDS": return -51;  // prefer other more important sentence start corrections.
       case "EN_REDUNDANCY_REPLACE":     return -510;  // style rules should always have the lowest priority.
       case "EN_PLAIN_ENGLISH_REPLACE":  return -511;  // style rules should always have the lowest priority.
+      case "THREE_NN":                  return -600;  // style rules should always have the lowest priority.
+      case "SENT_START_NUM":            return -600;  // style rules should always have the lowest priority.
+      case "PASSIVE_VOICE":             return -600;  // style rules should always have the lowest priority.
+      case "EG_NO_COMMA":               return -600;  // style rules should always have the lowest priority.
+      case "IE_NO_COMMA":               return -600;  // style rules should always have the lowest priority.
+      case "REASON_WHY":                return -600;  // style rules should always have the lowest priority.
       case LongSentenceRule.RULE_ID:    return -997;
       case LongParagraphRule.RULE_ID:   return -998;
+    }
+    if (id.startsWith("CONFUSION_RULE_")) {
+      return -20;
     }
     return super.getPriorityForId(id);
   }

@@ -200,7 +200,7 @@ public final class AnalyzedSentence {
     int len = 0;
     for (int i = 0; i < tokens.length; i++) {
       AnalyzedTokenReadings element = tokens[i];
-      len += element.getToken().length();
+      len += element.getCleanToken().length();
       if (i == tokens.length - 1) {  // only apply at end, so the position fix at every token doesn't add up
         len += element.getPosFix();
       }

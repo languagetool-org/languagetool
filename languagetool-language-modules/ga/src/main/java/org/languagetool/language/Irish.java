@@ -151,5 +151,14 @@ public class Irish extends Language implements AutoCloseable {
     if (languageModel != null) {
       languageModel.close();
     }
-  } 
+  }
+
+  @Override
+  protected int getPriorityForId(String id) {
+    switch (id) {
+      case "TOO_LONG_PARAGRAPH": return -15;
+    }
+    return super.getPriorityForId(id);
+  }
+
 }

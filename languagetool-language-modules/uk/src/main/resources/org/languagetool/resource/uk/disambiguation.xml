@@ -1619,6 +1619,20 @@
     <example type="untouched">Обдурила Петра Марка — не вийшла за нього.</example>
   </rule>
 
+  <rule name="Петра з іменами з числом" id="PETRA_FNAME_MASC_WITH_NUM">
+    <pattern case_sensitive="yes">
+      <marker>
+        <token regexp="yes">(Петр|Павл)[аіу]</token>
+      </marker>
+      <token regexp="yes">[IІ]+\.?</token>
+    </pattern>
+    <disambig action="remove" postag="noun:anim:f.*?:fname.*"/>
+    <example type="ambiguous" 
+        inputform="Петра[Петра/noun:anim:f:v_naz:prop:fname,Петро/noun:anim:m:v_rod:prop:fname,Петро/noun:anim:m:v_zna:prop:fname]" 
+        outputform="Петра[Петро/noun:anim:m:v_rod:prop:fname,Петро/noun:anim:m:v_zna:prop:fname]">Приїхали до <marker>Петра</marker> I.</example>
+    <example type="untouched">Обдурила Петра Марка — не вийшла за нього.</example>
+  </rule>
+
   <rule name="«пані» з іменами та прізвищами" id="PANI_NAME_FEM">
     <pattern>
       <token inflected="yes" regexp="yes">пані|міс|місіс|фрау|сеньора|сеньйоріта|мадам|маде?муазель|добродійка</token>

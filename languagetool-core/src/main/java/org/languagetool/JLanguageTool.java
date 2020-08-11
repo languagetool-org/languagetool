@@ -890,14 +890,16 @@ public class JLanguageTool {
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
 
     if (mode != Mode.TEXTLEVEL_ONLY && level == Level.DEFAULT) {
-      allRules = allRules.stream().filter(rule -> !rule.hasTag(Tags.picky)).collect(Collectors.toList());
+      allRules = allRules.stream().filter(rule -> !rule.hasTag(Tag.picky)).collect(Collectors.toList());
     }
 
     List<RuleMatch> remoteMatches = new LinkedList<>();
     List<FutureTask<RemoteRuleResult>> remoteRuleTasks = null;
     List<RemoteRule> remoteRules = new LinkedList<>();
-    Map<AnalyzedSentence, List<RuleMatch>> cachedResults = new HashMap<>();
-    Map<AnalyzedSentence, Integer> matchOffset = new HashMap<>();
+    // map by sentence index, as the same sentence can be repeated multiple times in a text
+    // -> need to distinguish offsets / matches
+    Map<Integer, List<RuleMatch>> cachedResults = new HashMap<>();
+    Map<Integer, Integer> matchOffset = new HashMap<>();
     if (remoteRulesThreadPool != null && mode != Mode.TEXTLEVEL_ONLY) {
       // trigger remote rules to run on whole text at once, at the start, then we wait for the results
       remoteRuleTasks = new LinkedList<>();
@@ -908,7 +910,7 @@ public class JLanguageTool {
     List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules,
       paraMode, annotatedText, listener, mode, level, remoteRulesThreadPool == null);
 
-    fetchRemoteRuleResults(mode, level, remoteMatches, remoteRuleTasks, remoteRules, cachedResults, matchOffset, annotatedText);
+    fetchRemoteRuleResults(mode, level, analyzedSentences, remoteMatches, remoteRuleTasks, remoteRules, cachedResults, matchOffset, annotatedText);
 
     ruleMatches.addAll(remoteMatches);
     ruleMatches = new SameRuleGroupFilter().filter(ruleMatches);
@@ -923,21 +925,25 @@ public class JLanguageTool {
     return ruleMatches;
   }
 
-  protected void fetchRemoteRuleResults(Mode mode, Level level, List<RuleMatch> remoteMatches,
+  protected void fetchRemoteRuleResults(Mode mode, Level level, List<AnalyzedSentence> analyzedSentences, List<RuleMatch> remoteMatches,
                                         List<FutureTask<RemoteRuleResult>> remoteRuleTasks, List<RemoteRule> remoteRules,
-                                        Map<AnalyzedSentence, List<RuleMatch>> cachedResults,
-                                        Map<AnalyzedSentence, Integer> matchOffset,
+                                        Map<Integer, List<RuleMatch>> cachedResults,
+                                        Map<Integer, Integer> matchOffset,
                                         AnnotatedText annotatedText) {
     if (remoteRuleTasks != null) {
       // fetch results from remote rules
-      for (int i = 0; i < remoteRuleTasks.size(); i++) {
-        FutureTask<RemoteRuleResult> task = remoteRuleTasks.get(i);
-        RemoteRule rule = remoteRules.get(i);
+      for (int taskIndex = 0; taskIndex < remoteRuleTasks.size(); taskIndex++) {
+        FutureTask<RemoteRuleResult> task = remoteRuleTasks.get(taskIndex);
+        RemoteRule rule = remoteRules.get(taskIndex);
         String ruleKey = rule.getId();
         try {
           RemoteRuleResult result = task.get(); // can wait without timeout here, implemented in RemoteRule and TextChecker
-          for (AnalyzedSentence sentence : result.matchedSentences()) {
+          for (int sentenceIndex = 0; sentenceIndex < analyzedSentences.size(); sentenceIndex++) {
+            AnalyzedSentence sentence = analyzedSentences.get(sentenceIndex);
             List<RuleMatch> matches = result.matchesForSentence(sentence);
+            if (matches == null) {
+              continue;
+            }
             if (cache != null && result.isSuccess()) {
               // store in cache
               InputSentence cacheKey = new InputSentence(
@@ -946,15 +952,17 @@ public class JLanguageTool {
               Map<String, List<RuleMatch>> cacheEntry = cache.getRemoteMatchesCache().get(cacheKey, HashMap::new);
               // TODO check if result is from fallback, don't cache?
               logger.info("Caching: Remote rule '{}'", ruleKey);
-              // clone so that we don't adjust match position for cache
-              cacheEntry.put(ruleKey, matches.stream().map(RuleMatch::new).collect(Collectors.toList()));
+              cacheEntry.put(ruleKey, matches);
             } else if (cache != null) {
               logger.info("Not caching, fallback results: Remote rule '{}'", ruleKey);
             }
             // adjust rule match position
             // rules check all sentences batched, but should keep position adjustment logic out of rule
-            int offset = matchOffset.get(sentence);
-            for (RuleMatch match : matches) {
+            int offset = matchOffset.get(sentenceIndex);
+            // clone matches before adjusting offsets
+            // match objects could be relevant to multiple (duplicate) sentences at different offsets
+            List<RuleMatch> adjustedMatches = matches.stream().map(RuleMatch::new).collect(Collectors.toList());
+            for (RuleMatch match : adjustedMatches) {
               int fromPos, toPos;
               if (annotatedText != null) {
                 fromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos() + offset, false);
@@ -965,16 +973,16 @@ public class JLanguageTool {
               }
               match.setOffsetPosition(fromPos, toPos);
             }
-            remoteMatches.addAll(matches);
+            remoteMatches.addAll(adjustedMatches);
           }
         } catch (InterruptedException | ExecutionException e) {
           logger.warn("Failed to fetch result from remote rule.", e);
         }
       }
 
-      for (AnalyzedSentence cachedSentence : cachedResults.keySet()) {
-        List<RuleMatch> cachedMatches = cachedResults.get(cachedSentence);
-        int sentenceOffset = matchOffset.get(cachedSentence);
+      for (Integer cachedSentenceIndex : cachedResults.keySet()) {
+        List<RuleMatch> cachedMatches = cachedResults.get(cachedSentenceIndex);
+        int sentenceOffset = matchOffset.get(cachedSentenceIndex);
         for (RuleMatch cachedMatch : cachedMatches) {
           // clone so that we don't adjust match position for cache
           RuleMatch match = new RuleMatch(cachedMatch);
@@ -1000,12 +1008,13 @@ public class JLanguageTool {
   protected void checkRemoteRules(@NotNull ExecutorService remoteRulesThreadPool,
                                   List<Rule> allRules, List<AnalyzedSentence> analyzedSentences, Mode mode, Level level,
                                   List<FutureTask<RemoteRuleResult>> remoteRuleTasks, List<RemoteRule> remoteRules,
-                                  Map<AnalyzedSentence, List<RuleMatch>> cachedResults, Map<AnalyzedSentence, Integer> matchOffset) {
+                                  Map<Integer, List<RuleMatch>> cachedResults, Map<Integer, Integer> matchOffset) {
     List<InputSentence> cacheKeys = new LinkedList<>();
     int offset = 0;
     // prepare keys for caching, offsets for adjusting match positions
-    for (AnalyzedSentence s : analyzedSentences) {
-      matchOffset.put(s, offset);
+    for (int i = 0; i < analyzedSentences.size(); i++) {
+      AnalyzedSentence s = analyzedSentences.get(i);
+      matchOffset.put(i, offset);
       offset += s.getText().length();
       InputSentence cacheKey = new InputSentence(s.getText(), language, motherTongue,
         disabledRules, disabledRuleCategories, enabledRules, enabledRuleCategories,
@@ -1019,11 +1028,11 @@ public class JLanguageTool {
         FutureTask<RemoteRuleResult> task;
         if (cache != null) {
           List<AnalyzedSentence> nonCachedSentences = new ArrayList<>();
-          for (int i = 0; i < analyzedSentences.size(); i++) {
+          for (int sentenceIndex = 0; sentenceIndex < analyzedSentences.size(); sentenceIndex++) {
             // filter out sentences with cached results
-            InputSentence cacheKey = cacheKeys.get(i);
+            InputSentence cacheKey = cacheKeys.get(sentenceIndex);
             String ruleKey = rule.getId();
-            AnalyzedSentence sentence = analyzedSentences.get(i);
+            AnalyzedSentence sentence = analyzedSentences.get(sentenceIndex);
             Map<String, List<RuleMatch>> cacheEntry;
             try {
               cacheEntry = cache.getRemoteMatchesCache().get(cacheKey, HashMap::new);
@@ -1040,8 +1049,8 @@ public class JLanguageTool {
               nonCachedSentences.add(sentence);
             } else {
               logger.info("Cached: Remote rule '{}'", ruleKey);
-              cachedResults.putIfAbsent(sentence, new LinkedList<>());
-              cachedResults.get(sentence).addAll(cachedMatches);
+              cachedResults.putIfAbsent(sentenceIndex, new LinkedList<>());
+              cachedResults.get(sentenceIndex).addAll(cachedMatches);
             }
           }
           task = rule.run(nonCachedSentences);
@@ -1310,6 +1319,14 @@ public class JLanguageTool {
     }
   }
 
+  static class CleanToken {
+    private String origToken;
+    private String cleanToken;
+    CleanToken(String origToken, String cleanToken) {
+      this.origToken = origToken;
+      this.cleanToken = cleanToken;
+    }
+  }
   /**
    * Tokenizes the given {@code sentence} into words and analyzes it.
    * This is the same as {@link #getAnalyzedSentence(String)} but it does not run
@@ -1320,7 +1337,7 @@ public class JLanguageTool {
    */
   public AnalyzedSentence getRawAnalyzedSentence(String sentence) throws IOException {
     List<String> tokens = language.getWordTokenizer().tokenize(sentence);
-    Map<Integer, String> softHyphenTokens = replaceSoftHyphens(tokens);
+    Map<Integer, CleanToken> softHyphenTokens = replaceSoftHyphens(tokens);
 
     List<AnalyzedTokenReadings> aTokens = language.getTagger().tag(tokens);
     if (language.getChunker() != null) {
@@ -1350,12 +1367,12 @@ public class JLanguageTool {
       }
       if (!softHyphenTokens.isEmpty() && softHyphenTokens.get(i) != null) {
         // addReading() modifies a readings.token if last token is longer - need to use it first
-        posFix += softHyphenTokens.get(i).length() - aTokens.get(i).getToken().length();
-        AnalyzedToken newToken = language.getTagger().createToken(softHyphenTokens.get(i), null);
+        posFix += softHyphenTokens.get(i).origToken.length() - aTokens.get(i).getToken().length();
+        AnalyzedToken newToken = language.getTagger().createToken(softHyphenTokens.get(i).origToken, null);
         aTokens.get(i).addReading(newToken, "softHyphenTokens");
+        aTokens.get(i).setCleanToken(softHyphenTokens.get(i).cleanToken);
       }
     }
-
 
     // add additional tags
     int lastToken = toArrayCount - 1;
@@ -1375,16 +1392,17 @@ public class JLanguageTool {
     return new AnalyzedSentence(tokenArray);
   }
 
-  private Map<Integer, String> replaceSoftHyphens(List<String> tokens) {
+  private Map<Integer, CleanToken> replaceSoftHyphens(List<String> tokens) {
     Pattern ignoredCharacterRegex = language.getIgnoredCharactersRegex();
-    Map<Integer, String> ignoredCharsTokens = new HashMap<>();
+    Map<Integer, CleanToken> ignoredCharsTokens = new HashMap<>();
     if (ignoredCharacterRegex == null) {
       return ignoredCharsTokens;
     }
     for (int i = 0; i < tokens.size(); i++) {
       Matcher matcher = ignoredCharacterRegex.matcher(tokens.get(i));
       if (matcher.find()) {
-        ignoredCharsTokens.put(i, tokens.get(i));
+        String cleaned = matcher.replaceAll("");
+        ignoredCharsTokens.put(i, new CleanToken(tokens.get(i), cleaned));
         tokens.set(i, matcher.replaceAll(""));
       }
     }
@@ -1626,8 +1644,14 @@ public class JLanguageTool {
           List<RuleMatch> adaptedMatches = new ArrayList<>();
           for (RuleMatch match : matches) {
             LineColumnRange range = getLineColumnRange(match);
-            int newFromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos(), false);
-            int newToPos = annotatedText.getOriginalTextPositionFor(match.getToPos() - 1, true) + 1;
+            int newFromPos;
+            int newToPos;
+            try {
+              newFromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos(), false);
+              newToPos = annotatedText.getOriginalTextPositionFor(match.getToPos() - 1, true) + 1;
+            } catch (RuntimeException e) {
+              throw new RuntimeException("Getting positions failed for match " + match, e);
+            }
             RuleMatch newMatch = new RuleMatch(match);
             newMatch.setOffsetPosition(newFromPos, newToPos);
             newMatch.setLine(range.from.line);
@@ -1719,8 +1743,8 @@ public class JLanguageTool {
         } catch (ErrorRateTooHighException e) {
           throw e;
         } catch (Exception e) {
-          throw new RuntimeException("Could not check sentence (language: " + language + "): <sentcontent>'"
-                  + StringUtils.abbreviate(analyzedSentence.toTextString(), 500) + "'</sentcontent>", e);
+          throw new RuntimeException("Could not check sentence (language: " + language + "): <sentcontent>"
+                  + StringUtils.abbreviate(analyzedSentence.toTextString(), 500) + "</sentcontent>", e);
         }
       }
       return ruleMatches;

@@ -963,7 +963,7 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <marker>
-                    <token>vino<exception scope="previous" postag="D..MS." postag_regexp="yes"/></token>
+                    <token>vino<exception scope="previous" postag="D..MS.|SPS00|LOC_PREP" postag_regexp="yes"/></token>
                 </marker>
                 <token postag="D.*" postag_regexp="yes"/>
             </pattern>
@@ -1085,7 +1085,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <token postag="NC.*" postag_regexp="yes"/>
                 <marker>
-                    <token inflected="yes" regexp="yes">modelo|base|pivote|prototipo</token>
+                    <token inflected="yes" regexp="yes">modelo|base|pivote|prototipo|estilo</token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="N.*"/>
@@ -1122,7 +1122,7 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes">binomio|relación|conexión|ratio|asociación|aleación</token>
+                <token inflected="yes" regexp="yes">binomio|relación|conexión|ratio|asociación|aleación|concordancia</token>
                 <marker>
                     <token postag="N.*" postag_regexp="yes"/>
                 </marker>
@@ -2506,7 +2506,7 @@ Copyright (C) 2011 Juan Martorell
     <rule id="modal_verb" name="modal verb">
         <pattern>
             <marker>
-                <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">querer|deber|poder|gustar</token>
+                <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">querer|deber|poder|gustar<exception>gusto</exception></token>
                 <token postag="V.N.*" postag_regexp="yes"/>
             </marker>
         </pattern>
@@ -2718,7 +2718,7 @@ Copyright (C) 2011 Juan Martorell
         <example inputform="una[unir/VMM03S0,unir/VMSP1S0,unir/VMSP3S0,uno/DI0FS0,uno/PI0FS000]" outputform="una[uno/DI0FS0]" type="ambiguous">Es <marker>una</marker> romántica ocasión.</example>
         <example type="untouched">Es una ocasión romántica.</example>
     </rule>
-    <!-- NSN : Nom + Nom/Prep + Nom/Adj = prep -->
+    <!-- NSN : Nom + Nom/Prep + Nom/Adj = prep
     <rule id="NSN" name="Nom + Nom/Prep + Nom/Adj">
         <pattern>
             <token postag="N.*" postag_regexp="yes"><exception postag="RN|CS" postag_regexp="yes"/></token>
@@ -2728,7 +2728,7 @@ Copyright (C) 2011 Juan Martorell
             <token postag="[NA].*" postag_regexp="yes"><exception postag="P.*" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="filter" postag="S.*"/>
-    </rule>
+    </rule> -->
     <!-- ANA : Adj + Nom/Adj + Adj = Nom -->
     <rule id="ANA" name="Adj + Nom/Adj + Adj">
         <pattern>
@@ -2810,6 +2810,13 @@ Copyright (C) 2011 Juan Martorell
     <!-- END: nominal groups -->
 
     <rulegroup id="PREPOSICIONES" name="preposiciones">
+        <rule>
+            <pattern>
+                <token postag="SPS00">en</token>
+                <token postag="NCCS000">contra</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
         <rule>
             <!-- ambiguous!! -->
             <pattern>
@@ -3081,9 +3088,16 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
-
-
-
+    <rule id="LO_MAL_QUE" name="lo + adj + que">
+        <pattern>
+            <token>lo</token>
+            <marker>
+                <token postag="A.*|V.P,*" postag_regexp="yes"/>
+            </marker>
+            <token>que</token>
+        </pattern>
+        <disambig action="filter" postag="A.*|V.P.*"/>
+    </rule>
     <rule id="not_adj_no_agreement2" name="not adjective if no agreement">
         <pattern>
             <marker>
@@ -3618,6 +3632,18 @@ Copyright (C) 2011 Juan Martorell
                 </marker>
                 <token>a</token>
                 <token>la</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_allow_repeat"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token>La</token>
+                <marker>
+                    <token regexp="yes">[Ll]a</token>
+                </marker>
+                <token regexp="yes">[Ll]and</token>
             </pattern>
             <disambig action="add">
                 <wd pos="_allow_repeat"/>

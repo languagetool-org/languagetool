@@ -43,6 +43,11 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
   private static final List<String> EXCEPTIONS = Arrays.asList(
     // Use all-lowercase, matches will be case-insensitive.
     // See https://github.com/languagetool-org/languagetool/issues/1516
+    "wir stark ausgelastet sind",
+    "wir entwickeln für",
+    "nutzen wir Google",
+    "vertreiben wir",
+    "wir auch nicht",
     ", dir bei",  // "froh, dir bei deiner Arbeit zu helfen"
     "fiel hinaus",
     "setz dir",  // "Setz dir doch bitte einen Termin am Donnerstag"

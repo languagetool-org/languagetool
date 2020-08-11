@@ -142,6 +142,7 @@ public class Galician extends Language {
       case "GL_SIMPLE_REPLACE":         return -11;
       case "GL_REDUNDANCY_REPLACE":     return -12;
       case "GL_WORDINESS_REPLACE":      return -13;
+      case "TOO_LONG_PARAGRAPH":        return -15;
       // case "GL_CLICHE_REPLACE":         return -17;
       // case "CHILDISH_LANGUAGE":         return -25;
       // case "ARCHAISMS":                 return -26;

@@ -58,7 +58,7 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
           }
           Set<String> formSet = new HashSet<>(Arrays.asList(forms));
           for (String form : formSet) {
-            if (!form.contains("ß")) {
+            if (!form.contains("ß") && form.length() > 0 && Character.isLowerCase(form.charAt(0))) {
               // skip these, it's too risky to introduce old spellings like "gewußt" from the synthesizer
               result.add(parts[0] + form);
             }

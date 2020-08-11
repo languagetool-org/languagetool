@@ -109,4 +109,11 @@ public class Polish extends Language {
     return LanguageMaintainedState.ActivelyMaintained;
   }
 
+  @Override
+  protected int getPriorityForId(String id) {
+    switch (id) {
+      case "ZDANIA_ZLOZONE": return -1;  //so that it does not override more important rules
+    }
+    return super.getPriorityForId(id);
+  }
 }

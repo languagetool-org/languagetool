@@ -26,7 +26,6 @@ import org.languagetool.language.GermanyGerman;
 import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
-import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,7 +39,10 @@ import static org.languagetool.tools.StringTools.*;
  */
 public class ProhibitedCompoundRule extends Rule {
 
-  /** @since 4.3 */
+  /**
+   * @since 4.3
+   * @deprecated each pair has its own id since LT 5.1
+   */
   public static final String RULE_ID = "DE_PROHIBITED_COMPOUNDS";
   // have objects static for better performance (rule gets initialized for every check)
   private static final List<Pair> lowercasePairs = Arrays.asList(
@@ -86,6 +88,7 @@ public class ProhibitedCompoundRule extends Rule {
   private static LinguServices linguServices;
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<String> blacklistRegex = Arrays.asList(
+    "gra(ph|f)ik",  // Kunstgrafik
     "gra(ph|f)ie",  // Geographie
     "Gra(ph|f)it"   // Grafit/Graphit
   );
@@ -155,7 +158,7 @@ public class ProhibitedCompoundRule extends Rule {
           "Lagekosten",
           "hineinfeiern",
           "Maskenhersteller", // vs Marken
-          "Wabendesign",  // vs. Marken
+          "Wabendesign",
           "Maskenherstellers",
           "Maskenherstellern",
           "Firmenvokabular",
@@ -190,7 +193,35 @@ public class ProhibitedCompoundRule extends Rule {
           "Zählerwechsels",
           "Nährstoffleitungen",  // vs ...leistungen
           "Verhandlungskreise",
-          "Verhandlungskreisen"
+          "Verhandlungskreisen",
+          "Mietsuchenden",
+          "Mietsuchende",
+          "Mietsuchender",
+          "Autoboss",
+          "Autobossen",
+          "Testmonat",
+          "Testmonats",
+          "Testmonate",
+          "Naturseife",
+          "Naturseifen",
+          "Ankerkraut", // Firmenname (Lebensmittel)
+          "Ankerkrauts",
+          "Bewerbungstool",
+          "Bewerbungstools",
+          "Elektromarke",
+          "Elektromarken",
+          "Ankerkraut",
+          "Testuser",
+          "Testangeboten",
+          "Testangebots",
+          "Testangebotes",
+          "verkeimt",
+          "verkeimte",
+          "verkeimter",
+          "verkeimtes",
+          "verkeimten",
+          "verkeimtem",
+          "Kurseinführung"
   ));
 
   // have per-class static list of these and reference that in instance
@@ -221,10 +252,10 @@ public class ProhibitedCompoundRule extends Rule {
 
   private static void addUpperCaseVariants(List<Pair> pairs) {
     for (Pair lcPair : lowercasePairs) {
-      if (StringTools.startsWithUppercase(lcPair.part1)) {
+      if (startsWithUppercase(lcPair.part1)) {
         throw new IllegalArgumentException("Use all-lowercase word in " + ProhibitedCompoundRule.class + ": " + lcPair.part1);
       }
-      if (StringTools.startsWithUppercase(lcPair.part2)) {
+      if (startsWithUppercase(lcPair.part2)) {
         throw new IllegalArgumentException("Use all-lowercase word in " + ProhibitedCompoundRule.class + ": " + lcPair.part2);
       }
       addAllCaseVariants(pairs, lcPair);
@@ -284,12 +315,15 @@ public class ProhibitedCompoundRule extends Rule {
   private Pair confusionPair = null; // specify single pair for evaluation
 
   public ProhibitedCompoundRule(ResourceBundle messages, LanguageModel lm, UserConfig userConfig) {
+    super(messages);
     this.lm = (BaseLanguageModel) Objects.requireNonNull(lm);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     this.ahoCorasickDoubleArrayTrie = prohibitedCompoundRuleSearcher;
     this.pairMap = prohibitedCompoundRulePairMap;
     linguServices = userConfig != null ? userConfig.getLinguServices() : null;
     spellerRule = linguServices == null ? new GermanSpellerRule(JLanguageTool.getMessageBundle(), german, null, null) : null;
+    addExamplePair(Example.wrong("Da steht eine <marker>Lehrzeile</marker> zu viel."),
+                   Example.fixed("Da steht eine <marker>Leerzeile</marker> zu viel."));
   }
 
   @Override
@@ -374,7 +408,8 @@ public class ProhibitedCompoundRule extends Rule {
         }
         int fromPos = readings.getStartPos() + partsStartPos;
         int toPos = fromPos + wordPart.length() + toPosCorrection;
-        RuleMatch match = new RuleMatch(this, sentence, fromPos, toPos, msg);
+        String id = getId() + "_" + cleanId(pair.part1) + "_" + cleanId(pair.part2);
+        RuleMatch match = new RuleMatch(new SpecificIdRule(id, pair.part1, pair.part2, messages, lm), sentence, fromPos, toPos, msg);
         match.setSuggestedReplacement(variant);
         ruleMatches.add(match);
         break;
@@ -382,6 +417,10 @@ public class ProhibitedCompoundRule extends Rule {
     }
     partsStartPos += wordPart.length() + 1;
     return partsStartPos;
+  }
+
+  private String cleanId(String id) {
+    return id.toUpperCase().replace("Ä", "AE").replace("Ü", "UE").replace("Ö", "OE");
   }
 
   /**
@@ -400,7 +439,7 @@ public class ProhibitedCompoundRule extends Rule {
       StringBuilder sb = new StringBuilder();
       int i = 0;
       for (String part : parts) {
-        sb.append(i == 0 ? part : StringTools.lowercaseFirstChar(part));
+        sb.append(i == 0 ? part : lowercaseFirstChar(part));
         i++;
       }
       return sb.toString();
@@ -424,5 +463,22 @@ public class ProhibitedCompoundRule extends Rule {
       return part1 + "/" + part2;
     }
   }
-  
+
+  static class SpecificIdRule extends ProhibitedCompoundRule {
+    private final String id;
+    private final String desc;
+    SpecificIdRule(String id, String part1, String part2, ResourceBundle messages, LanguageModel lm) {
+      super(messages, lm, null);
+      this.id = Objects.requireNonNull(id);
+      this.desc = "Markiert wahrscheinlich falsche Komposita mit Teilwort '" + uppercaseFirstChar(part1) + "' statt '" + uppercaseFirstChar(part2) + "' und umgekehrt";
+    }
+    @Override
+    public String getId() {
+      return id;
+    }
+    @Override
+    public String getDescription() {
+      return desc;
+    }
+  }
 }

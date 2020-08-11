@@ -107,11 +107,14 @@ public class French extends Language implements AutoCloseable {
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
+            new LongSentenceRule(messages, userConfig, 35, true, true),
+            new LongParagraphRule(messages, this, userConfig, true, Arrays.asList(Tag.picky)),
             // specific to French:
             new CompoundRule(messages),
             new QuestionWhitespaceStrictRule(messages, this),
             new QuestionWhitespaceRule(messages, this),
-            new SimpleReplaceRule(messages)
+            new SimpleReplaceRule(messages),
+            new AnglicismReplaceRule(messages)
     );
   }
 
@@ -178,6 +181,7 @@ public class French extends Language implements AutoCloseable {
       case "FRENCH_WHITESPACE_STRICT": return 1;  // default off, but if on, it should overwrite FRENCH_WHITESPACE 
       case "FRENCH_WHITESPACE": return 0;
       case "JE_SUI": return 1;  // needs higher priority than spell checker
+      case "TOO_LONG_PARAGRAPH": return -15;
       case "FR_SPELLING_RULE": return -100;
       case "ELISION": return -200; // should be lower in priority than spell checker
       case "NONVERB_PRON": return -200; // show the suggestion by the spell checker if exists

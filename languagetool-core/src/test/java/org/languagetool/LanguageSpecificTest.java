@@ -29,6 +29,7 @@ import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static junit.framework.Assert.fail;
 import static org.junit.Assert.*;
@@ -112,6 +113,7 @@ public class LanguageSpecificTest {
           assertIdUniqueness(idsToClassName, ruleClasses, language, rule);
           assertIdValidity(language, rule);
           assertTrue(rule.supportsLanguage(language));
+          rule.setTags(rule.getTags().stream().filter(k -> !k.equals(Tag.picky)).collect(Collectors.toList()));  // make sure "picky" rules also run
           testExamples(rule, lt);
         }
       }

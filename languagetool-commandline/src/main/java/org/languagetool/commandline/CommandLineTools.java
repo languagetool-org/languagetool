@@ -18,10 +18,7 @@
  */
 package org.languagetool.commandline;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.DetectedLanguage;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+import org.languagetool.*;
 import org.languagetool.bitext.BitextReader;
 import org.languagetool.bitext.StringPair;
 import org.languagetool.rules.Rule;
@@ -198,7 +195,7 @@ public final class CommandLineTools {
         System.out.println("More info: " + rule.getUrl());
       }
       if (rule instanceof AbstractPatternRule) {
-        List<String> tags = ((AbstractPatternRule) rule).getTags();
+        List<Tag> tags = rule.getTags();
         if (!tags.isEmpty()) {
           System.out.println("Tags: " + tags);
         }

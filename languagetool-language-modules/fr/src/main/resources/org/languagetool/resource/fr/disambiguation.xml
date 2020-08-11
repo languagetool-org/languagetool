@@ -2314,7 +2314,23 @@ RB => Règles Brutes
     </pattern>
     <disambig action="ignore_spelling"/>
   </rule>
-
+  
+  <rulegroup id="IMMUNIZE_ANGLICISMS" name="exceptions to anglicism rules">
+    <rule>
+      <pattern>
+        <token regexp="yes">guitar|Charleston</token>
+        <token regexp="yes">slides?</token>
+      </pattern>
+      <disambig action="immunize"></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token>fake</token>
+        <token>news</token>
+      </pattern>
+      <disambig action="immunize"></disambig>
+    </rule>
+  </rulegroup>
 
   <rule name="Ignore spelling of d'1" id="IGNORE_SPELLING_OF_D_UN">
     <pattern>
@@ -2350,7 +2366,7 @@ RB => Règles Brutes
   <rule name="Ignore number strings" id="IGNORE_NUMBERS">
     <pattern>
       <token regexp="yes">
-        [\dA-z\.\,éèëöïîôêàùûçœæÂÊÎÔÛÄËÏÖÜÙÀÆÇÉÈŒ—–—‒-]+°?\d[\dA-z\.\,éèëöïîôêàçœæùûÂÊÎÔÛÄËÏÖÜÙÀÆÇÉÈŒ—–—‒-]+
+        [\dA-z\.\,éèëöïîôêàùûçœæÂÊÎÔÛÄËÏÖÜÙÀÆÇÉÈŒ—–‒-⇐⇔βα→↓↑←]+°?\d[\dA-z\.\,éèëöïîôêàçœæùûÂÊÎÔÛÄËÏÖÜÙÀÆÇÉÈŒ—–—‒-⇐⇔βα→↓↑←]+
         <exception regexp="yes">[A-z\.\,éèëöïîôêàçœæùûÂÊÎÔÛÄËÏÖÜÙÀÆÇÉÈŒ]+\d[A-z\.\,éèëöïîôêàçœæùûÂÊÎÔÛÄËÏÖÜÀÙÆÇÉÈŒ]+</exception>
         <exception regexp="yes">\d+</exception>
         <exception regexp="yes" case_sensitive="yes">[A-Z\.\,ÂÊÎÔÛÄËÏÖÜÙÀÆÇÉÈŒ]+</exception>
