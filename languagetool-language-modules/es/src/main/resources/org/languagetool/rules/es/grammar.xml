@@ -3442,6 +3442,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Homero explica la historia de Paris.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="EL_NO_TILDE" name="él -> el" default="temp_off">
+            <antipattern>
+                <token>él</token>
+                <token postag="RG|LOC_ADV|_PUNCT_CONT" postag_regexp="yes" min="0" max="6"/>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                <token postag="V...3S." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V...3S." postag_regexp="yes"/>
+                <token>él</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V...3S." postag_regexp="yes" inflected="yes">haber</token>
+                <token postag="V.P..SM" postag_regexp="yes"/>
+                <token>él</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V...3S." postag_regexp="yes" inflected="yes">ir</token>
+                <token>a</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+                <token>él</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*|SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <marker>
+                        <token>él</token>
+                    </marker>
+                    <token postag="NC[MC][SN].*|A..[MC][SN].|_GN_MS" postag_regexp="yes"><exception postag="V...3S.|D.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>No se escribe con tilde si no es un pronombre.</message>
+                <suggestion>el</suggestion>
+                <example correction="El"><marker>Él</marker> coche lo he dejado en el taller.</example>
+                <example correction="el">Después de haber cantado, <marker>él</marker> pájaro se fue volando.</example>
+                <example correction="el">debe ser declarada por el Congreso con <marker>él</marker> voto de dos terceras partes</example>
+                <example correction="el">Se fue con <marker>él</marker> apuesto caballero.</example>
+                <example>Se fue con él un apuesto caballero.</example>
+                <example>Él vino ayer.</example>
+                <example>Él hoy también volverá tarde.</example>
+                <example>Él mañana.</example>
+                <example>Trajo con él varias cosas.</example>
+                <example>Mejor él que yo.</example>
+                <example>Él recientemente se convirtió al catolicismo.</example>
+                <example>¿Está él bien?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PRONOM_TILDE" name="Pronombres personales con o sin tilde">
             <short>El pronombre personal lleva tilde.</short>
             <rule id="EL_TILDE" name="el / él" default="on">
