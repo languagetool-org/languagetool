@@ -10104,8 +10104,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="quiere|quiera|quiero">Te <marker>quier</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup name="pronombre enclítico separado" id="PRONOMBRE_ENCLITICO_SEPARADO" default="temp_off">
-            <antipattern>
+        <rulegroup name="pronombre enclítico separado" id="PRONOMBRE_ENCLITICO_SEPARADO_" default="temp_off">
+            <!--<antipattern>
                 <token regexp="yes">lo|los|la|las</token>
                 <token regexp="yes">de|del|que|cual|cuales</token>
             </antipattern>
@@ -10114,12 +10114,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes">lo|los|la|las</token>
-                <token postag="_QM_OPEN|RG|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
-                <token postag="[NA].*|V.P.*|PI.*" postag_regexp="yes"/>
+                <token postag="_QM_OPEN|R.|LOC_ADV" postag_regexp="yes" min="0" max="6"/>
+                <token postag="[NA].*|V.*|PI.*|DN.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token regexp="yes">lo|los|la|las</token>
                 <token postag="_QM_OPEN"/>
+            </antipattern>-->
+            <antipattern>
+                <token regexp="yes">lo|los|la|las</token>
+                <token><exception regexp="yes">[,;\.]|a|ante|con|desde|durante|en|entre|hasta|mediante|por|según|sin|so|sobre|tras|versus</exception></token>
             </antipattern>
             <rule>
                 <pattern>
@@ -10132,6 +10136,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG]....)" postag_regexp="yes" postag_replace="$1.PP3MSA00"/></suggestion>
                 <example correction="cantándolo">Estaba <marker>cantando lo</marker> en la puerta.</example>
                 <example>mezcla lo «lírico, épico, trágico, cómico»</example>
+                <example>y para empezar lo comunican en el tablón de anuncios</example>
             </rule>
             <rule>
                 <pattern>
@@ -10144,6 +10149,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG].*)" postag_regexp="yes" postag_replace="$1.PP3MPA00"/></suggestion>
                 <example correction="cantándolos">Estaba <marker>cantando los</marker> en la puerta.</example>
                 <example>para ver los "caminos naturales"</example>
+                <example>quiero completar los 52 retos</example>
+                <example>dejando los no utilizados </example>
             </rule>
             <rule>
                 <pattern>
