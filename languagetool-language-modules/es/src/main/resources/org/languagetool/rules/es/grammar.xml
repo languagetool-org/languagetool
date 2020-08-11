@@ -3451,22 +3451,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token postag="V...3S." postag_regexp="yes"/>
-                <token>él</token>
+                <token skip="-1">él</token>
+                <token>?</token>
             </antipattern>
             <antipattern>
                 <token postag="V...3S." postag_regexp="yes" inflected="yes">haber</token>
                 <token postag="V.P..SM" postag_regexp="yes"/>
-                <token>él</token>
+                <token skip="-1">él</token>
+                <token>?</token>
             </antipattern>
             <antipattern>
                 <token postag="V...3S." postag_regexp="yes" inflected="yes">ir</token>
                 <token>a</token>
                 <token postag="V.N.*" postag_regexp="yes"/>
-                <token>él</token>
+                <token skip="-1">él</token>
+                <token>?</token>
             </antipattern>
             <rule>
                 <pattern>
-                    <token postag="SENT_START|_PUNCT.*|SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <!--<token postag="SENT_START|_PUNCT.*|SPS00|LOC_PREP|V...3S." postag_regexp="yes"/>-->
                     <marker>
                         <token>él</token>
                     </marker>
@@ -3478,6 +3481,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="el">Después de haber cantado, <marker>él</marker> pájaro se fue volando.</example>
                 <example correction="el">debe ser declarada por el Congreso con <marker>él</marker> voto de dos terceras partes</example>
                 <example correction="el">Se fue con <marker>él</marker> apuesto caballero.</example>
+                <example correction="el">Baila <marker>él</marker> tango.</example>
+                <example correction="el">Lo haremos como quiera <marker>él</marker> profesor.</example>
+                <example>¿Baila él tango?</example>
+                <example>Lo haremos como quiera él.</example>
                 <example>Se fue con él un apuesto caballero.</example>
                 <example>Él vino ayer.</example>
                 <example>Él hoy también volverá tarde.</example>
