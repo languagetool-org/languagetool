@@ -578,30 +578,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Hola">¡<marker>Ola</marker>, quien va!</example>
                 <example correction="Hola">¡<marker>Ola</marker>!</example>
             </rule>
-            <rule>
-                <antipattern>
-                    <token>ola</token>
-                    <token>de</token>
-                    <token regexp="yes" inflected="yes">calor|frío|lluvia|nevada|nieve|tormenta</token>
-                </antipattern>
-                <antipattern>
-                    <token>ola</token>
-                    <token postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"/>
-                </antipattern>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <token min="0" max="2" postag="_PUNCT.*" postag_regexp="yes"/>
-                    <marker>
-                        <token>ola</token>
-                    </marker>
-                </pattern>
-                <message>¿Quería decir <suggestion>hola,</suggestion> (saludo)?</message>
-                <example correction="Hola,"><marker>Ola</marker> Juan!</example>
-                <example correction="Hola,">¿<marker>Ola</marker> qué tal, Juan?</example>
-                <example correction="Hola,">"¿<marker>Ola</marker> quién es?"</example>
-                <example correction="Hola,">¡<marker>Ola</marker> quien va!</example>
-                <example>Ola de calor en la costa.</example>
-            </rule>
         </rulegroup>
         <rulegroup id="VALLA_VAYA" name="valla/vaya (ir)">
             <rule>
@@ -9759,6 +9735,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rulegroup id="OLA_HOLA" name="ola/hola">
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">decir</token>
+                    <marker>
+                        <token>ola</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>hola</suggestion> (saludo)?</message>
+                <example correction="hola">Le quise decir <marker>ola</marker>, pero ya se había ido.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>ola</token>
+                    <token>de</token>
+                    <token regexp="yes" inflected="yes">calor|frío|lluvia|nevada|nieve|tormenta</token>
+                </antipattern>
+                <antipattern>
+                    <token>ola</token>
+                    <token postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="2" postag="_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>ola</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>hola,</suggestion> (saludo)?</message>
+                <example correction="Hola,"><marker>Ola</marker> Juan!</example>
+                <example correction="Hola,">¿<marker>Ola</marker> qué tal, Juan?</example>
+                <example correction="Hola,">"¿<marker>Ola</marker> quién es?"</example>
+                <example correction="Hola,">¡<marker>Ola</marker> quien va!</example>
+                <example>Ola de calor en la costa.</example>
+            </rule>
+        </rulegroup>
         <rule id="HA_A" name="ha -> a" default="off">
             <!-- Probably better than the confusion set rule -->
             <antipattern>
@@ -10224,7 +10236,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Probablement se escribe junto.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG].*).(PP.*)" postag_regexp="yes" postag_replace="$1.$2.PP3FPA00"/></suggestion>
-                <example correction="diciéndoselas">Estaba <marker>diciéndose las</marker> en la puerta.</example>
+                <example correction="dándomelas">Estaba <marker>dándome las</marker> en la puerta.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRONOMBRE_SIN_VERBO" name="pronombre sin verbo">
