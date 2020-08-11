@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY context_TAXA "a?baixar|acceleració|acceptació|alcohol.*|anual|a?pujar|atur|augment|augmentar|bit|canvi|consum|convergència|conversió|creixement|dada|defunció|descomptar|descompte|desocupació|disminució|disminuir|duana|fecunditat|flux|impost|incidència|índex|interès|IPC|mensual|migració|mortalitat|mutació|natalitat|nupcialitat|reacció|recuperació|rendiment|renovació|reposició|retorn|supervivència|transferència|vacant|velocitat">
     <!ENTITY context_FALLAR "TSJ.*|recurs|judici|judicial|juí|sentència|veredicte|premi|tribunal|jutges?|jurat|favor|instruir|dispositiva|jutjar|jutjat|sentenciar">
     <!ENTITY context_FER_SE_AMB "premi|regne|soli|tron|càrrec|fitxa|fitxatge|oferta|superoferta|multinacional|servei|propietat|títol|triomf|victòria|alcaldia|presidència|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit|titularitat|Oscar|mallot">
+    <!ENTITY context_LLAMP "accident|arbre|bosc|campanar|catedral|cel|centella|coet|colpir|descarregar|descàrrega|electricitat|elèctric|encendre|esberlar|esquinçar|ferir|ferit|firmament|flama|fugir|fulgor|fulminar|incendi|latent|matar|mort|moto|parallamps|precipitar|provocar|rabent|rapidesa|roure|ràpid|soca|tempesta|tempestat|temple|terratrèmol|tro|velocitat|Zeus|àgil">
     <!ENTITY context_MUSICA "arranjador|orquestrador|orquestrar|saxòfon|saxofon|oboè|trompeta|trompa|trombó|timbala|timbal|percussió|compondre|interpretar|compositor|orquestra|director|banda|piano|corda|vent|fusta|peça|obra|simfonia|suite|obertura|òpera|metall|violí|flauta|clarinet|viola|violoncel|contrabaix|guitarra|intermezzo">
     <!ENTITY context_OSCAR "nominar|nominació|guanyar|guanyador|candidat|acadèmia|pel·lícula|film|director|actor|actriu|cine|cinema|Hollywood|premi|guardó|guardonar|premiar|guió|guionista|coguionista|cinematogràfic|obtenir|interpretació|reconeixement|carrera|dramàtic">
     <!ENTITY context_PERJUDICI "accedir|accés|acord|acordar|actuació|actualització|actualitzar|addicional|adjudicació|administració|administratiu|alienar|alteració|annex|apartar|aplicable|aprovació|aprovar|article|aspirant|assegurança|atorgar|autorització|avaria|benefici|cancel·lació|cancel·lar|captació|causant|causar|certificar|clàusula|col·legiar|comerç|compensació|compensar|competència|competent|compliment|comportar|comptabilitat|cònjuge|conseqüència|contenciós|contracte|contractar|contractual|control|convocar|convocatòria|correspondre|cost|creditor|dany|declinar|decret|delegació|demandant|departament|derivar|devolució|disciplinari|disposició|documentació|dret|econòmic|efectuar|elèctric|emissió|emprendre|enllaçar|enunciatiu|escaure|especialitat|estabilitat|establiment|establir|estatut|euro|exclusiu|execució|exercici|eximir|expedient|extingir|extracció|fallada|finca|funcionament|greu|horari|il·legítim|il·lícit|immoble|import|impugnar|imputable|incompliment|incomplir|incórrer|indemnització|indemnitzar|indirecte|inexacte|informació|infracció|infringir|ingrés|inspecció|instal·lació|interposar|interrupció|irreparable|jurídic|lamentar|legal|legislació|lesió|lesiu|llei|llicència|municipal|municipi|navegador|negligent|normatiu|notificació|notificar|obligació|obtenir|ocasionar|operatiu|oportú|ordenació|òrgan|organisme|pagament|pagar|patrimonial|pèrdua|petició|planejament|prestació|procediment|processal|produir|propietari|propietat|protecció|proveïdor|reclamació|reclamar|refondre|reglament|regular|reial|reparació|reparar|reposició|resolució|responsabilitat|responsable|retard|retribució|sanció|sectorial|seguretat|servei|sofrir|sòl|sol·licitar|subministrar|subvenció|suposar|suspensió|tabac|tercer|termini|titular|titularitat|tramitar|transferència|trànsit|treballador|tributari|urbanització|vulnerar">
@@ -16938,7 +16939,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="REAL_REIAL" name="real/reial">
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">casa|corona|família</token>
+                    <token inflected="yes" regexp="yes">casa|corona|família|audiència|cortesà</token>
                     <marker>
                         <token inflected="yes">real</token>
                     </marker>
@@ -24335,19 +24336,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Se li «sentia» tot.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
-                    <marker>
-                        <token regexp="yes">se|Se<exception postag=".*LOC_ADV.*|_possible_nompropi" postag_regexp="yes"/></token>
-                    </marker>
-                    <token postag="V.N.*|[NA].*" postag_regexp="yes"/>
-                    <token postag="&pronom_feble;" postag_regexp="yes" spacebefore="no"/>
-                </pattern>
-                <message>Si és del verb saber, s'accentua.</message>
-                <suggestion>sé</suggestion>
-                <suggestion>de</suggestion>
-                <example correction="sé|de">No <marker>se</marker> sumar-nos.</example>
-            </rule>
-            <rule>
                 <antipattern>
                     <token postag="V.N.*" postag_regexp="yes"/>
                     <token postag="&pronom_feble;" postag_regexp="yes" spacebefore="no"/>
@@ -24355,7 +24343,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <marker>
                         <token regexp="yes">se|Se<exception postag=".*LOC_ADV.*|_possible_nompropi" postag_regexp="yes"/></token>
-                        <token postag="V.N.*|[NA].*" postag_regexp="yes"/>
+                        <token postag="V.[NGP].*|[NA].*" postag_regexp="yes" regexp="yes">s.*|[c][ei].*</token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:V.[SI].3.*"/>
@@ -24363,8 +24351,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>sé \2</suggestion>
                 <suggestion>de \2</suggestion>
                 <suggestion>\1 {suggestion}</suggestion>
-                <example correction="sé matemàtiques|de matemàtiques">És professor <marker>se matemàtiques</marker>.</example>
                 <example correction="sé sumar|de sumar|se suma|se sumarà|se sumà|se sumara|se sumàs">No <marker>se sumar</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">se|Se<exception postag=".*LOC_ADV.*|_possible_nompropi" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="V.[NGP].*|[NA].*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si és del verb saber, s'accentua.</message>
+                <suggestion>sé</suggestion>
+                <suggestion>de</suggestion>
+                <example correction="sé|de">No <marker>se</marker> sumar-nos.</example>
+                <example correction="sé|de">És professor <marker>se</marker> matemàtiques.</example>
             </rule>
         </rulegroup>
         <rulegroup id="US" name="us/ús">
@@ -39086,6 +39086,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rulegroup id="RAIG_LLAMP" name="raig/llamp" default="temp_off">
+            <antipattern>
+                <token inflected="yes">raig</token>
+                <token regexp="yes">beta|alfa|gamma|x|ics|ultraviolats?|ultraviolet(a|es)|làsers?</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">raig</token>
+                <token inflected="yes">de</token>
+                <token postag="[NA].*" postag_regexp="yes"/>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="-1">&context_LLAMP;</token>
+                    <marker>
+                        <token inflected="yes">raig</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" postag="(N.*)" postag_regexp="yes" postag_replace="$1">llamp</match></suggestion> (=descàrrega elèctrica)?</message>
+                <example correction="llamp">Sembla que l'incendi va ser provocat per un <marker>raig</marker></example>
+                <example>Pel maig cada dia un raig.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes"  skip="-1">raig</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">&context_LLAMP;</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">llamp</match></suggestion> (=descàrrega elèctrica)?</message>
+                <example correction="llamps">Els <marker>raigs</marker> van provocar un incendi</example>
+                <example correction="llamps">Els <marker>rajos</marker> van provocar un incendi</example>
+                <example>Aquell raig d'aigua no va poder apagar l'incendi.</example>
+                <example>Pel maig cada dia un raig.</example>
+            </rule>
+        </rulegroup>
         <rule id="BRUIXES_BRUGES" name="Bruixes/Bruges">
             <antipattern>
                 <token postag="SENT_START|D..FP." postag_regexp="yes"/>
