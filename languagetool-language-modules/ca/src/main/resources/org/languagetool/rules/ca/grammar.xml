@@ -12648,31 +12648,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
-        <rulegroup id="VOLTA_TORNADA" name="volta/tornada" default="temp_off">
-            <rule>
-                <pattern>
-                    <token>volta</token>
-                    <token>a</token>
-                    <token>l</token>
-                    <token regexp="yes">cole|col·le</token>
-                </pattern>
-                <message>Alerta amb la traducció automàtica!</message>
-                <suggestion>tornada a escola</suggestion>
-                <suggestion>tornada al 'col·le'</suggestion>
-                <example correction="tornada a escola|tornada al 'col·le'">Enguany la <marker>volta al cole</marker> serà més barata.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="PX.*" postag_regexp="yes"/>
-                    <marker>
-                        <token>volta</token>
-                    </marker>
-                    <token>a</token>
-                </pattern>
-                <message>Possible error de traducció automàtica. ¿Volíeu dir <suggestion>tornada</suggestion>.</message>
-                <example correction="tornada">La seva <marker>volta</marker> al país no serà possible.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="MATO" name="mató/va matar">
             <rule>
                 <pattern>
@@ -31648,6 +31623,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tornada a escola">Ara comencen els anuncis de <marker>volta al cole</marker>.</example>
                 <example>Fem una volta a l'escola.</example>
                 <example>Fem una volta al col·legi.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PX.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>volta</token>
+                    </marker>
+                    <token>a</token>
+                </pattern>
+                <message>Possible error de traducció automàtica. ¿Volíeu dir <suggestion>tornada</suggestion>.</message>
+                <example correction="tornada">La seva <marker>volta</marker> al país no serà possible.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DACORD_A" name="*d'acord a/d'acord amb/segons">
