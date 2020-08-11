@@ -996,6 +996,10 @@ though, and has since been slightly modified)-->
         <example>C’est elle peut-être.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token regexp="yes">[êe]tre</token>
+          <token postag="V.* ppa.*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
           <token postag="SENT_START"/>
           <marker>
@@ -1005,6 +1009,7 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous écrire <suggestion>Peut-être</suggestion> ?</message>
         <example correction="Peut-être"><marker>Peut être</marker> viendra-t-il ?</example>
+        <example>Peut être résilié mensuellement.</example>
       </rule>
       <rule>
         <!--<antipattern>
