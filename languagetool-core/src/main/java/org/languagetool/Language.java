@@ -710,6 +710,9 @@ public abstract class Language {
    * @since 3.6
    */
   protected int getPriorityForId(String id) {
+    if (id.equalsIgnoreCase("STYLE")) {  // category
+      return -50;  // don't let style issues hide more important errors
+    }
     return 0;
   }
   

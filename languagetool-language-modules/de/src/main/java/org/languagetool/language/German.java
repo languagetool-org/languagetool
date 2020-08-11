@@ -283,7 +283,6 @@ public class German extends Language implements AutoCloseable {
       case "TOO_LONG_PARAGRAPH": return -15;
       // Category ids - make sure style issues don't hide overlapping "real" errors:
       case "COLLOQUIALISMS": return -15;
-      case "STYLE": return -15;
       case "REDUNDANCY": return -15;
       case "GENDER_NEUTRALITY": return -15;
       case "TYPOGRAPHY": return -15;
