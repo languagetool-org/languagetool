@@ -20,10 +20,7 @@ package org.languagetool.rules;
 
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import org.languagetool.*;
 import org.languagetool.tools.Tools;
@@ -60,7 +57,7 @@ public class LongParagraphRule extends TextLevelRule {
       }
     }
     setLocQualityIssueType(ITSIssueType.Style);
-    setTags(tags);
+    setTags(Arrays.asList(Tag.picky));
   }
 
   /** Note: will be off by default. */

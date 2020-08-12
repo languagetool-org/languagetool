@@ -24,7 +24,6 @@ import org.languagetool.TestTools;
 import org.languagetool.language.Demo;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -34,7 +33,7 @@ public class LongParagraphRuleTest {
   @Test
   public void testRule() throws IOException {
     Demo lang = new Demo();
-    LongParagraphRule rule = new LongParagraphRule(TestTools.getEnglishMessages(), lang, null, 6, true, Arrays.asList());
+    LongParagraphRule rule = new LongParagraphRule(TestTools.getEnglishMessages(), lang, null, 6);
     JLanguageTool lt = new JLanguageTool(lang);
     assertThat(rule.match(lt.analyzeText("This is a short paragraph.")).length, is(0));
     assertThat(rule.match(lt.analyzeText("This is a long paragraph by unit test standards.")).length, is(1));
