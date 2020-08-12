@@ -39113,7 +39113,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="RAIG_LLAMP" name="raig/llamp">
             <antipattern>
                 <token inflected="yes">raig</token>
-                <token regexp="yes">beta|alfa|gamma|x|ics|ultraviolats?|ultraviolet(a|es)|làsers?</token>
+                <token regexp="yes" inflected="yes">entrecreuar|solar|beta|alfa|gamma|x|ics|ultraviolat|ultraviolet(a|es)|làser|catòdic|infraroig|còsmic|directe|emergent|incident|paraxial|reflectir|refractar|corpuscular|f|verd|crepuscular</token>
             </antipattern>
             <antipattern>
                 <token inflected="yes">raig</token>
@@ -39124,17 +39124,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token inflected="yes" regexp="yes" skip="-1">&context_LLAMP;</token>
                     <marker>
-                        <token inflected="yes">raig</token>
+                        <token inflected="yes">raig<exception postag="_possible_nompropi"/></token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="2" postag="(N.*)" postag_regexp="yes" postag_replace="$1">llamp</match></suggestion> (=descàrrega elèctrica)?</message>
                 <example correction="llamp">Sembla que l'incendi va ser provocat per un <marker>raig</marker>.</example>
                 <example>Pel maig cada dia un raig.</example>
+                <example>Va ser provocat pels raigs x, els raigs f, els raigs verds, els raigs ics, els raigs ultraviolats, els raigs ultravioletes</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes"  skip="-1">raig</token>
+                        <token inflected="yes"  skip="-1">raig<exception postag="_possible_nompropi"/></token>
                     </marker>
                     <token inflected="yes" regexp="yes">&context_LLAMP;</token>
                 </pattern>
