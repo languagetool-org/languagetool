@@ -1697,6 +1697,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Él viene</example>
                 <example>Tanto él como yo.</example>
             </rule>
+            <rule default="temp_off"> <!-- same rule without the exception N-->
+                <pattern>
+                    <token regexp="yes">él|ella|usted<exception postag="SP.*" postag_regexp="yes" scope="previous"/></token>
+                    <token regexp="yes" min="0">["«“‘']</token>
+                    <marker>
+                        <and>
+                            <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V.{3}3.*|C.*|SP.*|V.G.*" postag_regexp="yes"/><exception postag="V.{3}3.*|AQ.*|[CR].*" postag_regexp="yes"/></token>
+                            <token inflected="yes" regexp="yes">.+ar</token>
+                        </and>
+                    </marker>
+                </pattern>
+                <message>Si el verbo es en pasado, falta un acento.</message>
+                <suggestion><match no="3" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0"/></suggestion>
+                <example correction="vengó|vino">Él <marker>vengo</marker></example>
+                <example correction="habló">Ella <marker>hablo</marker></example>
+                <example correction="habló">Usted <marker>hablo</marker></example>
+                <example correction="trabajó">Él <marker>trabajo</marker> varias horas.</example>
+                <example>Con ella hablo todos los días.</example>
+                <example>¿Qué estaba usted haciendo?</example>
+                <example>¿Tiene usted uno?</example>
+                <example>Él viene</example>
+                <example>Tanto él como yo.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>nos<exception postag="LOC_ADV"/></token>
@@ -3418,7 +3441,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Homero explica la historia de Paris.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="EL_NO_TILDE" name="él -> el" default="temp_off">
+        <rulegroup id="EL_NO_TILDE" name="él -> el">
             <antipattern>
                 <token>él</token>
                 <token postag="RG|LOC_ADV|_PUNCT_CONT" postag_regexp="yes" min="0" max="6"/>
@@ -3443,13 +3466,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token skip="-1">él</token>
                 <token>?</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">con|en|por</token>
+                <token>él</token>
+                <token regexp="yes">\p{Lu}.*</token>
+                <token postag="V...3S." postag_regexp="yes"/>
+            </antipattern>
             <rule>
                 <pattern>
                     <!--<token postag="SENT_START|_PUNCT.*|SPS00|LOC_PREP|V...3S." postag_regexp="yes"/>-->
                     <marker>
                         <token>él</token>
                     </marker>
-                    <token postag="NC[MC][SN].*|A..[MC][SN].|_GN_MS" postag_regexp="yes"><exception postag="V...3S.|D.*" postag_regexp="yes"/></token>
+                    <token postag="NC[MC][SN].*|A..[MC][SN].|_GN_MS" postag_regexp="yes"><exception postag="V...3S.|D.*" postag_regexp="yes"/><exception>mismo</exception></token>
                 </pattern>
                 <message>No se escribe con tilde si no es un pronombre.</message>
                 <suggestion>el</suggestion>
@@ -3459,6 +3488,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="el">Se fue con <marker>él</marker> apuesto caballero.</example>
                 <example correction="el">Baila <marker>él</marker> tango.</example>
                 <example correction="el">Lo haremos como quiera <marker>él</marker> profesor.</example>
+                <example>Por él Dios visita nuestro pueblo.</example>
                 <example>¿Baila él tango?</example>
                 <example>Lo haremos como quiera él.</example>
                 <example>Se fue con él un apuesto caballero.</example>
@@ -3469,6 +3499,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Mejor él que yo.</example>
                 <example>Él recientemente se convirtió al catolicismo.</example>
                 <example>¿Está él bien?</example>
+                <example>Decidió construirse él mismo uno.</example>
+                <example>Bien él bien yo vamos a asistir a la reunión.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRONOM_TILDE" name="Pronombres personales con o sin tilde">
@@ -8642,6 +8674,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Unas veces me pone eufórica y otras nostálgica.</example>
             <example>Una patética caricatura de mi más profundo ser.</example>
             <example>El embrague falla.</example>
+            <example>Según la ley, la confesión bajo tortura no es válida.</example>
             <!-- 
                 Ella fue al concierto acompañada de una amiga.
                 Soy cualquier cosa menos mentiroso. 
@@ -10135,7 +10168,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>-->
             <antipattern>
                 <token regexp="yes">lo|los|la|las</token>
-                <token><exception regexp="yes">[,;\.]|a|ante|con|desde|durante|en|entre|hasta|mediante|por|según|sin|so|sobre|tras|versus</exception></token>
+                <token><exception regexp="yes" case_sensitive="yes">[,;\.]|a|ante|con|desde|durante|en|entre|hasta|mediante|por|según|sin|so|sobre|tras|versus</exception></token>
             </antipattern>
             <rule>
                 <pattern>
@@ -10176,6 +10209,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="cantándola">Estaba <marker>cantando la</marker> en la puerta.</example>
                 <example>¡Que empiece la "traducción"!</example>
                 <example>ha sido acusado de ser la «música del diablo»</example>
+                <example>Desde Bailén parte la A-44.</example>
             </rule>
             <rule>
                 <pattern>
@@ -11617,7 +11651,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="no" regexp="yes">\.|…</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">&apostrophe;|of|the|theater|theatre|museum|dance|project|google|and</token>
+                <token regexp="yes">&apostrophe;|of|the|theater|theatre|museum|dance|project|google|and|american</token>
                 <token>art</token>
             </antipattern>
             <antipattern>
@@ -11654,6 +11688,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Google</token>
                     <token>Doc</token>
                 </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token><exception postag="SENT_START"/></token>
+                    <token>Ed</token> <!-- generalize? -->
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
                         <token regexp="yes" postag="UNKNOWN">&abreviaturas;<exception regexp="yes">(?-i)dC|DJ|CF|AP|CT|AG|GR|CPT|DG|DOC</exception></token>
@@ -11663,6 +11701,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1"/>.</suggestion>
                 <example correction="núm.">Vive en el <marker>núm</marker> 25 de la calle.</example>
                 <example correction="Av.">Vive en la <marker>Av</marker> Centraol.</example>
+                <example correction="Mr."><marker>Mr</marker> Hill se fue ayer de viaje a Japón.</example>
                 <example>La vid del campo.</example>
                 <example>Fue en el año 453 dC, ¿verdad?</example>
                 <example>En la AP-7.</example>
@@ -11676,6 +11715,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Metropolitan Museum of Art</example>
                 <example>Vive en Tel Aviv.</example>
                 <example>de Google Doc</example>
+                <example>El autor Ed Morales lo afirma.</example>
             </rule>
             <rule>
                 <pattern>

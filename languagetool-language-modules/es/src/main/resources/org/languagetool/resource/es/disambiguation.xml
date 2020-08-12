@@ -1536,7 +1536,7 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
-    <rulegroup id="E_CONJ" name="e (conjunción">
+    <rulegroup id="E_CONJ" name="e (conjunción)">
         <rule>
             <pattern>
                 <marker>
@@ -1554,7 +1554,16 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="remove" postag="N.*"/>
         </rule>
     </rulegroup>
-
+    <rule id="BIEN_CC" name="bien (conjunción)">
+        <pattern>
+            <token postag="CC">bien</token>
+            <token postag="[NAP].*" postag_regexp="yes"/>
+            <token postag="CC">bien</token>
+            <token postag="[NAP].*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    
     <!--sobre (no preposición, nombre)-->
     <rule id="SOBRE" name="sobre (nombre)">
         <pattern>
@@ -2878,9 +2887,19 @@ Copyright (C) 2011 Juan Martorell
                 <marker>
                     <token postag="SPS00">bajo<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </marker>
-                <token regexp="yes">poder|dominio|dirección|presidencia|cuidado|atención|fianza|secreto</token>
+                <token regexp="yes">poder|dominio|dirección|presidencia|cuidado|atención|fianza|secreto|administración|principios|consideración|luz|tortura|condiciones</token>
             </pattern>
             <disambig action="filter" postag="SPS00"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N.*" postag_regexp="yes"><exception postag="RN|CS" postag_regexp="yes"/></token>
+                <marker>
+                    <token postag="S.*" postag_regexp="yes">bajo</token>
+                </marker>
+                <token postag="[NA].*" postag_regexp="yes"><exception postag="P.*|V.[IS].*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="filter" postag="S.*"/>
         </rule>
     </rulegroup>
 
