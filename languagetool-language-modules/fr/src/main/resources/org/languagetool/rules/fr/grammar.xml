@@ -14775,20 +14775,6 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="NONVERB_PRON" name="verb non valide + pronom">
-      <rule default="temp_off">
-        <pattern>
-          <marker>
-            <token postag="V.* 3 .*" postag_regexp="yes"/>
-            <token min="0">-</token>
-            <token>t</token>
-            <token regexp="yes">-(ils?|elles?|on)</token>
-          </marker>
-        </pattern>
-        <message>Voulez-vous dire <suggestion>\1-\3\4</suggestion> ?</message>
-        <example correction="rencontrera-t-elle">Quelles péripéties <marker>rencontrera t-elle</marker> ?</example>
-        <example correction="parle-t-on">Où <marker>parle t-on</marker> l'anglais ?</example>
-        <example correction="valide-t-il">L'éloge ne <marker>valide - t-il</marker> pas l'habit ?</example>
-      </rule>
        <rule>
          <antipattern>
            <token postag="V .*" postag_regexp="yes"/>
@@ -15592,6 +15578,20 @@ though, and has since been slightly modified)-->
           <token>part</token>
           <token/>
       </antipattern>
+      <rule name="trait d'union manquant">
+        <pattern>
+          <marker>
+            <token postag="V.* 3 .*" postag_regexp="yes"/>
+            <token min="0">-</token>
+            <token>t</token>
+            <token regexp="yes">-(ils?|elles?|on)</token>
+          </marker>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\3\4</suggestion> ?</message>
+        <example correction="rencontrera-t-elle">Quelles péripéties <marker>rencontrera t-elle</marker> ?</example>
+        <example correction="parle-t-on">Où <marker>parle t-on</marker> l'anglais ?</example>
+        <example correction="valide-t-il">L'éloge ne <marker>valide - t-il</marker> pas l'habit ?</example>
+      </rule>
       <rule name="première personne du singuler">
         <antipattern>
           <token postag="V .* 1 p" postag_regexp="yes"/>
