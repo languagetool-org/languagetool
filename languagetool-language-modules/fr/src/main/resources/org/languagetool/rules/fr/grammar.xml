@@ -16898,9 +16898,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="Z.*|R pers suj.*" postag_regexp="yes"/>
           <marker>
-            <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">
-                [^aàâeéêioœuyh].*
-            </token>
+            <token postag="V.*" postag_regexp="yes" regexp="yes">[^aàâeéêioœuyh].*</token>
             <token regexp="yes">pas|jamais|guère</token>
           </marker>
           <token negate="yes" regexp="yes">mal|moins</token>
@@ -16908,15 +16906,14 @@ though, and has since been slightly modified)-->
         <message>Formulation familière. Voulez-vous écrire <suggestion>ne \2 \3</suggestion> ?</message>
         <url>http://www.academie-francaise.fr/ne</url>
         <example correction="ne part pas">On <marker>part pas</marker> encore.</example>
+        <example correction="ne suis pas">Je <marker>suis pas</marker> timide.</example>
         <example>On ne part pas encore.</example>
       </rule>
       <rule>
         <pattern>
           <token postag="Z.*|R pers suj.*" postag_regexp="yes"/>
           <marker>
-            <token postag="R.* obj.*" postag_regexp="yes" regexp="yes" inflected="yes">
-                [^aeiouyh].*[^']
-            </token>
+            <token postag="R.* obj.*" postag_regexp="yes" regexp="yes">[^aeiouyh].*<exception regexp="yes">.*'</exception></token>
             <token postag="V.*" postag_regexp="yes"/>
             <token regexp="yes">pas|jamais|guère</token>
           </marker>
@@ -16943,6 +16940,7 @@ though, and has since been slightly modified)-->
         <message>Formulation familière. Voulez-vous écrire <suggestion>ne \2\3 \4</suggestion> ?</message>
         <url>http://www.academie-francaise.fr/ne</url>
         <example correction="ne m'attendais pas">Je <marker>m’attendais pas</marker> à ce</example>
+        <example correction="ne l'aurais pas">Je <marker>l’aurais pas</marker> enlevée</example>
         <example>Quel est le meilleur conseil qu'on t'ait jamais donné ?</example>
       </rule>
       <rule>
