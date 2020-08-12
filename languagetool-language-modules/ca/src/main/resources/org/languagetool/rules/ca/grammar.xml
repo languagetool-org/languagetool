@@ -31360,8 +31360,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>la</token>
                     <token>taula</token>
                 </pattern>
-                <message>Expressió incorrecta en el sentit de "diposar les coses per a menjar". Pot ser correcta en altres sentits.</message>
-                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">parar</match> taula</suggestion>
+                <message>En el sentit de 'diposar les coses per a menjar' cal dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">parar</match> taula</suggestion>. Pot ser correcta en altres sentits.</message>
                 <example correction="pararem taula">Ara <marker>posarem la taula</marker>.</example>
             </rule>
             <rule>
@@ -46333,20 +46332,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="No hi ha temps|No (tenir) temps"><marker>No dóna temps</marker>.</example>
             <example correction="No hi ha temps|No (tenir) temps"><marker>No em dóna temps</marker> de fer-ho.</example>
             </rule> -->
-        <rule id="EN_LLOGUER" name="en lloguer">
-            <pattern>
-                <token regexp="yes" inflected="yes" skip="1">pis|casa|oficina|planta|edifici|plaça|pàrquing|apartament|cotxe|vehicle|furgoneta</token>
-                <marker>
-                    <token>en</token>
-                    <token>lloguer</token>
-                </marker>
-            </pattern>
-            <message>Forma preferible.</message>
-            <suggestion>de lloguer</suggestion>
-            <suggestion>per a llogar</suggestion>
-            <suggestion>per llogar</suggestion>
-            <example correction="de lloguer|per a llogar|per llogar">Pis <marker>en lloguer</marker>.</example>
-        </rule>
+        <rulegroup id="EN_LLOGUER" name="en lloguer">
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes" skip="1">pis|casa|oficina|planta|edifici|plaça|pàrquing|apartament|cotxe|vehicle|furgoneta</token>
+                    <marker>
+                        <token>en</token>
+                        <token>lloguer</token>
+                    </marker>
+                </pattern>
+                <message>Forma preferible.</message>
+                <suggestion>de lloguer</suggestion>
+                <suggestion>per a llogar</suggestion>
+                <suggestion>per llogar</suggestion>
+                <example correction="de lloguer|per a llogar|per llogar">Pis <marker>en lloguer</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>en</token>
+                        <token>lloguer</token>
+                    </marker>
+                </pattern>
+                <message>Forma preferible.</message>
+                <suggestion>per a llogar</suggestion>
+                <suggestion>per llogar</suggestion>
+                <example correction="per a llogar|per llogar">Estava <marker>en lloguer</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CREUAR" name="creuar/encreuar/travessar/passar">
             <rule>
                 <pattern>
