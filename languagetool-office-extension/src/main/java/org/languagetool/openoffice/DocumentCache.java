@@ -150,6 +150,13 @@ public class DocumentCache {
   }
   
   /**
+   * set Locale of Flat Paragraph by Index
+   */
+  public void setFlatParagraphLocale(int n, Locale locale) {
+    locales.set(n, locale);
+  }
+  
+  /**
    * get Locale of Text Paragraph by Index
    */
   public Locale getTextParagraphLocale(int n) {

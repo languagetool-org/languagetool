@@ -453,7 +453,7 @@ public class MultiDocumentsHandler {
   /**
    * Get language from locale
    */
-  private Language getLanguage(Locale locale) {
+  public Language getLanguage(Locale locale) {
     try {
       if (locale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)) {
         return Languages.getLanguageForShortCode(locale.Variant);
@@ -1091,12 +1091,12 @@ public class MultiDocumentsHandler {
           if (ltDialog != null) {
             ltDialog.closeDialog();
           }
-          SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this);
+          SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
           MessageHandler.printToLogFile("Start Spell And Grammar Check Dialog");
           checkDialog.start();
 //        }
       } else if ("nextError".equals(sEvent)) {
-        SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this);
+        SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
         checkDialog.nextError();
       } else if ("remoteHint".equals(sEvent)) {
         if(getConfiguration().useOtherServer()) {

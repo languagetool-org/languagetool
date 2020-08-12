@@ -563,13 +563,20 @@ class SingleDocument {
             + chPara + "\nn:" + docCache.getTextParagraph(nPara));
       }
       docCache.setFlatParagraph(nPara, chPara);
-      sentencesCache.remove(nPara);
-      for(ResultCache cache : paragraphsCache) {
-        cache.remove(nPara);
-      }
+      removeResultCache(nPara);
       ignoredMatches.remove(nPara);
     }
     return nPara;
+  }
+  
+  /**
+   * remove all cached matches for one paragraph
+   */
+  public void removeResultCache(int nPara) {
+    sentencesCache.remove(nPara);
+    for(ResultCache cache : paragraphsCache) {
+      cache.remove(nPara);
+    }
   }
 
   /** 
