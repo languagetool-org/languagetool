@@ -19,6 +19,7 @@
 package org.languagetool.commandline;
 
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.CategoryId;
 
@@ -59,6 +60,7 @@ public class CommandLineOptions {
   private boolean xmlFiltering = false;
   private boolean lineByLine = false;
   private boolean enableTempOff = false;
+  private JLanguageTool.Level level = JLanguageTool.Level.DEFAULT;
   @Nullable
   private Language language = null;
   @Nullable
@@ -467,6 +469,16 @@ public class CommandLineOptions {
    */
   public void setBitextRuleFile(String bitextRuleFile) {
     this.bitextRuleFile = bitextRuleFile;
+  }
+
+  /** @since 5.1 */
+  public void setLevel(JLanguageTool.Level level) {
+    this.level = level;
+  }
+
+  /** @since 5.1 */
+  public JLanguageTool.Level getLevel() {
+    return this.level;
   }
 
 }

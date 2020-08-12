@@ -18,6 +18,7 @@
  */
 package org.languagetool.commandline;
 
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
@@ -50,6 +51,13 @@ class CommandLineParser {
         options.setLineByLine(true);
       } else if (args[i].equals("--enable-temp-off")) {
         options.setEnableTempOff(true);
+      } else if (args[i].equals("--level")) {
+        String level = args[++i];
+        try {
+          options.setLevel(JLanguageTool.Level.valueOf(level));
+        } catch (IllegalArgumentException e) {
+          throw new IllegalArgumentException("Unknown level '" + level + "' - currently, only 'PICKY' is supported");
+        }
       } else if (args[i].equals("-t") || args[i].equals("--taggeronly")) {
         options.setTaggerOnly(true);
         if (options.isListUnknown()) {
@@ -237,7 +245,8 @@ class CommandLineParser {
             + "  --fasttextbinary FILE    fasttext executable (optional), see https://fasttext.cc/docs/en/support.html\n"
             + "  --xmlfilter              remove XML/HTML elements from input before checking (deprecated)\n"
             + "  --line-by-line           work on file line by line (for development, e.g. inside an IDE)\n"
-            + "  --enable-temp-off        enable all temp_off rules (for testing and development)"
+            + "  --enable-temp-off        enable all temp_off rules (for testing and development)\n"
+            + "  --level level            enable the given level (currently only 'PICKY')"
     );
   }
 

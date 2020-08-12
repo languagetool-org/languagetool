@@ -20,10 +20,7 @@ package org.languagetool.commandline;
 
 import org.apache.commons.io.ByteOrderMark;
 import org.apache.commons.io.input.BOMInputStream;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.MultiThreadedJLanguageTool;
+import org.languagetool.*;
 import org.languagetool.bitext.TabBitextReader;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.English;
@@ -192,7 +189,7 @@ class Main {
       } else if (profileRules) {
         CommandLineTools.profileRulesOnText(text, lt);
       } else if (!options.isTaggerOnly()) {
-        CommandLineTools.checkText(text, lt, options.isXmlFormat(), options.isJsonFormat(), 0, options.isListUnknown());
+        CommandLineTools.checkText(text, lt, options.isXmlFormat(), options.isJsonFormat(), 0, options.getLevel(), options.isListUnknown());
       } else {
         CommandLineTools.tagText(text, lt);
       }
@@ -202,7 +199,7 @@ class Main {
     }
   }
 
-  private void runOnFileLineByLine(String filename, String encoding) throws IOException {
+  private void runOnFileLineByLine(String filename, String encoding, JLanguageTool.Level level) throws IOException {
     System.err.println("Warning: running in line by line mode. Cross-paragraph checks will not work.\n");
     if (options.isVerbose()) {
       lt.setOutput(System.err);
@@ -226,7 +223,7 @@ class Main {
     }
     int lineOffset = 0;
     int tmpLineOffset = 0;
-    handleLine(ApiPrintMode.START_API, 0, new StringBuilder());
+    handleLine(ApiPrintMode.START_API, 0, new StringBuilder(), level);
     StringBuilder sb = new StringBuilder();
     for (int ruleIndex = 0; !rules.isEmpty() && ruleIndex < runCount; ruleIndex++) {
       currentRule = rules.get(ruleIndex);
@@ -255,7 +252,7 @@ class Main {
           tmpLineOffset++;
 
           if (isBreakPoint(line)) {
-            handleLine(ApiPrintMode.CONTINUE_API, lineOffset, sb);
+            handleLine(ApiPrintMode.CONTINUE_API, lineOffset, sb, level);
             if (profileRules) {
               lt.sentenceTokenize(sb.toString()).size();
             }
@@ -269,12 +266,12 @@ class Main {
             lt.sentenceTokenize(sb.toString()).size();
           }
         }
-        handleLine(ApiPrintMode.END_API, tmpLineOffset - 1, sb);
+        handleLine(ApiPrintMode.END_API, tmpLineOffset - 1, sb, level);
       }
     }
   }
 
-  private void handleLine(ApiPrintMode mode, int lineOffset, StringBuilder sb) throws IOException {
+  private void handleLine(ApiPrintMode mode, int lineOffset, StringBuilder sb, JLanguageTool.Level level) throws IOException {
     int matches = 0;
     String s = filterXML(sb.toString());
     if (options.isApplySuggestions()) {
@@ -283,7 +280,7 @@ class Main {
       Tools.profileRulesOnLine(s, lt, currentRule);
     } else if (!options.isTaggerOnly()) {
       CommandLineTools.checkText(s, lt, options.isXmlFormat(), options.isJsonFormat(), -1, 
-          lineOffset, matches, mode, options.isListUnknown(), Collections.emptyList());
+          lineOffset, matches, mode, options.isListUnknown(), level, Collections.emptyList());
     } else {
       CommandLineTools.tagText(s, lt);
     }
@@ -313,7 +310,7 @@ class Main {
     return "-".equals(filename);
   }
 
-  private void runRecursive(String filename, String encoding, boolean xmlFiltering) {
+  private void runRecursive(String filename, String encoding, boolean xmlFiltering, JLanguageTool.Level level) {
     File dir = new File(filename);
     File[] files = dir.listFiles();
     if (files == null) {
@@ -322,10 +319,10 @@ class Main {
     for (File file : files) {
       try {
         if (file.isDirectory()) {
-          runRecursive(file.getAbsolutePath(), encoding, xmlFiltering);
+          runRecursive(file.getAbsolutePath(), encoding, xmlFiltering, level);
         } else {
           if (options.isLineByLine()) {
-            runOnFileLineByLine(file.getAbsolutePath(), encoding);
+            runOnFileLineByLine(file.getAbsolutePath(), encoding, level);
           } else {
             runOnFile(file.getAbsolutePath(), encoding, xmlFiltering);
           }
@@ -459,10 +456,10 @@ class Main {
       prg.setBitextMode(options.getMotherTongue(), options.getDisabledRules(), options.getEnabledRules(), bitextRuleFile);
     }
     if (options.isRecursive()) {
-      prg.runRecursive(options.getFilename(), options.getEncoding(), options.isXmlFiltering());
+      prg.runRecursive(options.getFilename(), options.getEncoding(), options.isXmlFiltering(), options.getLevel());
     } else {
       if (options.isLineByLine()) {
-        prg.runOnFileLineByLine(options.getFilename(), options.getEncoding());
+        prg.runOnFileLineByLine(options.getFilename(), options.getEncoding(), options.getLevel());
       } else {
         prg.runOnFile(options.getFilename(), options.getEncoding(), options.isXmlFiltering());
       }
