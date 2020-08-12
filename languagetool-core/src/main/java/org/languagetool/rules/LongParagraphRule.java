@@ -40,7 +40,7 @@ public class LongParagraphRule extends TextLevelRule {
 
   private int maxWords = DEFAULT_MAX_WORDS;
 
-  public LongParagraphRule(ResourceBundle messages, Language lang, UserConfig userConfig, int defaultWords, boolean defaultActive, List<Tag> tags) {
+  public LongParagraphRule(ResourceBundle messages, Language lang, UserConfig userConfig, int defaultWords, boolean defaultActive) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     this.lang = lang;
@@ -62,16 +62,12 @@ public class LongParagraphRule extends TextLevelRule {
 
   /** Note: will be off by default. */
   public LongParagraphRule(ResourceBundle messages, Language lang, UserConfig userConfig, int defaultWords) {
-    this(messages, lang, userConfig, defaultWords, DEFAULT_ACTIVATION, Collections.emptyList());
+    this(messages, lang, userConfig, defaultWords, DEFAULT_ACTIVATION);
   }
 
   /** Note: will be off by default. */
   public LongParagraphRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
-    this(messages, lang, userConfig, -1, DEFAULT_ACTIVATION, Collections.emptyList());
-  }
-
-  public LongParagraphRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean defaultActive, List<Tag> tags) {
-    this(messages, lang, userConfig, DEFAULT_MAX_WORDS, defaultActive, tags);
+    this(messages, lang, userConfig, -1, DEFAULT_ACTIVATION);
   }
 
   @Override
