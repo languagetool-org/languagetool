@@ -34,8 +34,7 @@ class DateFilterHelper {
 
   @SuppressWarnings("ControlFlowStatementWithoutBraces")
   protected int getDayOfWeek(String dayStr) {
-    // quickfix for special characters like soft hyphens
-    String day = StringTools.trimSpecialCharacters(dayStr).toLowerCase();
+    String day = StringTools.trimSpecialCharacters(dayStr).toLowerCase();  // quickfix for special characters like soft hyphens
     if (day.startsWith("sonnabend")) return Calendar.SATURDAY;
     if (day.startsWith("so")) return Calendar.SUNDAY;
     if (day.startsWith("mo")) return Calendar.MONDAY;
