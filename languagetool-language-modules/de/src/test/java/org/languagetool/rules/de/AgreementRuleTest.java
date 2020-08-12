@@ -220,6 +220,7 @@ public class AgreementRuleTest {
     assertGood("Gleichzeitig wünscht sich Ihr frostresistenter Mitbewohner einige Grad weniger im eigenen Zimmer?");
     assertGood("Ein Trainer, der zum einen Fußballspiele sehr gut lesen und analysieren kann");
     assertGood("Eine Massengrenze, bis zu der Lithium nachgewiesen werden kann.");
+    assertGood("Bei uns im Krankenhaus betrifft das Operationssäle.");
 
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");

@@ -828,6 +828,11 @@ public class AgreementRule extends Rule {
     Arrays.asList( // Wir trinken ein kühles Blondes
       token("kühles"),
       token("Blondes")
+    ),
+    Arrays.asList( // "Bei uns im Krankenhaus betrifft das Operationssäle."
+      new PatternTokenBuilder().token("betreffen").matchInflectedForms().build(),
+      csToken("das"),
+      posRegex("SUB:AKK:PLU:.*")
     )
   );
 
