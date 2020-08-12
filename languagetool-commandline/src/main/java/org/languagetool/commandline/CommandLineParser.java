@@ -236,7 +236,7 @@ class CommandLineParser {
             + "  --fasttextmodel FILE     fasttext language detection model (optional), see https://fasttext.cc/docs/en/language-identification.html\n"
             + "  --fasttextbinary FILE    fasttext executable (optional), see https://fasttext.cc/docs/en/support.html\n"
             + "  --xmlfilter              remove XML/HTML elements from input before checking (deprecated)\n"
-            + "  --line-by-line           work on file line by line (for development, e.g. inside an IDE)"
+            + "  --line-by-line           work on file line by line (for development, e.g. inside an IDE)\n"
             + "  --enable-temp-off        enable all temp_off rules (for testing and development)"
     );
   }
