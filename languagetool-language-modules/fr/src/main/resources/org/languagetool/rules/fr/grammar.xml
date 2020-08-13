@@ -15718,9 +15718,9 @@ though, and has since been slightly modified)-->
         </antipattern>
         <antipattern>
           <token>tu</token>
-          <token min="0" max="1"/>
+          <token min="0" max="2"/>
           <token postag="V .* 2 s" postag_regexp="yes"/>
-          <token postag="R pers suj 2 s"/>
+          <!--<token postag="R pers suj 2 s"/>-->
         </antipattern>
         <pattern>
           <token postag="V .* 2 s" postag_regexp="yes">
@@ -15732,6 +15732,8 @@ though, and has since been slightly modified)-->
         <example correction="manges-tu">Que <marker>manges tu</marker> ?</example>
         <example>Que manges-tu ?</example>
         <example>Si tu en veux tu progresseras vite.</example>
+        <example>Quand tu t'en iras tu me manqueras.</example>
+        <example>Sur quelle fesse tu veux ton bisou ?</example>
       </rule>
       <rule name="troisième personne du singuler, verbe ne finissant pas par -d ou -t">
         <antipattern>
@@ -15775,7 +15777,7 @@ though, and has since been slightly modified)-->
               <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
               <exception postag="P"/>
             </token>
-            <token postag="R pers suj 3 [mfe] s" postag_regexp="yes"><exception regexp="yes">-.*</exception></token>
+            <token postag="R pers suj 3 [mfe] s" postag_regexp="yes"><exception regexp="yes" case_sensitive="yes">-.*|Elle|Lui</exception></token>
           </marker>
           <token>
             <exception>y</exception>
@@ -15794,6 +15796,9 @@ though, and has since been slightly modified)-->
         <example>En moyenne on observe chaque année deux à trois tempêtes dépassant les dans le Finistère.</example>
         <example>Et c'est elle, la déesse qui prend soin des chevaux.</example>
         <example>il vit qu'entre elle et lui</example>
+        <example>En 1859, George Sand publie Elle et Lui.</example>
+        <example>Depuis le commencement du monde il n'aurait pas encore existé un seul roi.</example>
+        <example>Un homme sans faute il n'y en a pas.</example>
       </rule>
       <rule name="troisième personne du singuler, verbe finissant par -d ou -t">
         <antipattern>
@@ -15824,7 +15829,13 @@ though, and has since been slightly modified)-->
           <token regexp="yes">il|elle|on</token>
           <token min="0" max="1"/>
           <token postag="V .* 3 s" postag_regexp="yes"/>
-          <token postag="R pers suj 3 s"/>
+          <!--<token postag="R pers suj 3 s"/>-->
+        </antipattern>
+        <antipattern>
+          <token>soit</token>
+          <token regexp="yes" skip="5">il|elle|on</token>
+          <token>soit</token>
+          <token regexp="yes">il|elle|on</token>
         </antipattern>
         <pattern>
           <marker>
@@ -15845,6 +15856,8 @@ though, and has since been slightly modified)-->
         <example correction="abandonnait-il">Qu'<marker>abandonnait il</marker> ?</example>
         <example>En outre, c’est elle qui aux côtés de François Mitterrand signe le traité de Maastricht prévoyant l’euro.</example>
         <example>On dit qu'en fait il n'avait rien à voir avec ça.</example>
+        <example>Soit il viendra, soit il m'appellera.</example>
+        <example>Une fois atteint il ne reste plus qu'à descendre.</example>
       </rule>
       <rule name="première personne du pluriel">
         <antipattern>
@@ -15860,6 +15873,11 @@ though, and has since been slightly modified)-->
           <token postag="V .* 1 p" postag_regexp="yes"/>
           <token regexp="yes">nous-mêmes?</token>
         </antipattern>
+        <antipattern>
+          <token postag="V.* imp .*" postag_regexp="yes"/>
+          <token>nous</token>
+          <token postag="V.* inf" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
           <marker>
             <token postag="V .* 1 p" postag_regexp="yes">
@@ -15867,7 +15885,6 @@ though, and has since been slightly modified)-->
             </token>
             <token postag="R pers suj 1 p"><exception regexp="yes">-.*</exception></token>
           </marker>
-          <token><exception regexp="yes">(re)?(asse?oir|laver)</exception></token>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
         <example correction="mangeons-nous">Que <marker>mangeons nous</marker> ?</example>
@@ -15875,6 +15892,7 @@ though, and has since been slightly modified)-->
         <example>Que mangeons-nous ?</example>
         <example>Allons nous asseoir ici.</example>
         <example>Nous ne pouvons nous en passer.</example>
+        <example>Allons nous balader sur la plage après le repas.</example>
       </rule>
       <rule name="deuxième personne du pluriel">
         <antipattern>
@@ -15888,6 +15906,17 @@ though, and has since been slightly modified)-->
         <antipattern>
           <token postag="V .* 2 p" postag_regexp="yes"/>
           <token regexp="yes">vous-mêmes?</token>
+        </antipattern>
+        <antipattern>
+          <token skip="1">vous</token>
+          <token postag="V .* 2 p" postag_regexp="yes"/>
+          <token>vous</token>
+          <token postag="V .* 2 p" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+          <token postag="V .* 2 p" postag_regexp="yes"/>
+          <token>vous</token>
+          <token postag="V.* inf" postag_regexp="yes"/>
         </antipattern>
         <pattern>
           <marker>
@@ -15905,6 +15934,8 @@ though, and has since been slightly modified)-->
         <example>Veuillez vous rendre à l’accueil.</example>
         <example>Sachez vous éloigner.</example>
         <example>Vous pouvez vous asseoir.</example>
+        <example>Si vous vous dépêchez vous pouvez encore attraper votre train.</example>
+        <example>Vous ne pouvez vous promener nu dans cet hôtel.</example>
       </rule>
       <rule name="correction du tiret d'inversion">
         <pattern>
