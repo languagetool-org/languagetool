@@ -27890,6 +27890,48 @@ Andere Projekte</example>
                 <example correction="Würde">Das ist unter meiner <marker>würde</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="EIGEN_SUBST" name="'eigen (Eigen)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" skip="-1">nennen<exception scope="next" postag="PKT"></exception></token>
+                    <token postag="PRO:POS:.+" postag_regexp="yes"></token>
+                    <marker><token>eigen</token></marker>
+                </pattern>
+                <message>In der Wendung 'etwas sein Eigen nennen' wird <suggestion>Eigen</suggestion> großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="Eigen">Sie nannte ein großes Vermögen ihr <marker>eigen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="PRO:POS:.+" postag_regexp="yes"></token>
+                    <marker><token>eigen</token></marker>
+                    <token inflected="yes">nennen</token>
+                </pattern>
+                <message>In der Wendung 'etwas sein Eigen nennen' wird <suggestion>Eigen</suggestion> großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="Eigen">Sie hat ein großes Vermögen ihr <marker>eigen</marker> genannt.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" skip="-1">machen<exception scope="next" postag="PKT"></exception></token>
+                    <token>zu</token>
+                    <marker><token>Eigen</token></marker>
+                </pattern>
+                <message>In der Wendung 'sich etwas zu eigen machen' wird <suggestion><match no="3" case_conversion="startlower"/></suggestion> kleingeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="eigen">Sie machte sich diese Sache zu <marker>Eigen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>zu</token>
+                    <marker><token>Eigen</token></marker>
+                    <token inflected="yes">machen</token>
+                </pattern>
+                <message>In der Wendung 'sich etwas zu eigen machen' wird <suggestion><match no="2" case_conversion="startlower"/></suggestion> kleingeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="eigen">Sie hat sich diese Sache zu <marker>Eigen</marker> gemacht.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="RECHT_SUBST" name="'recht (Recht)'">
             <rule>
                 <pattern case_sensitive="yes">
