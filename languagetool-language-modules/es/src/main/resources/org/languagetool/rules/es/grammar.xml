@@ -3472,13 +3472,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">\p{Lu}.*</token>
                 <token postag="V...3S." postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token postag="_possible_NP">Él</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <!--<token postag="SENT_START|_PUNCT.*|SPS00|LOC_PREP|V...3S." postag_regexp="yes"/>-->
                     <marker>
                         <token>él</token>
                     </marker>
-                    <token postag="NC[MC][SN].*|A..[MC][SN].|_GN_MS" postag_regexp="yes"><exception postag="V...3S.|D.*" postag_regexp="yes"/><exception>mismo</exception></token>
+                    <token postag="NC[MC][SN].*|A..[MC][SN].|_GN_MS" postag_regexp="yes"><exception postag="V...3S.|D.*" postag_regexp="yes"/><exception regexp="yes">solo|solito|justo|mismo</exception></token>
                 </pattern>
                 <message>No se escribe con tilde si no es un pronombre.</message>
                 <suggestion>el</suggestion>
@@ -3488,6 +3491,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="el">Se fue con <marker>él</marker> apuesto caballero.</example>
                 <example correction="el">Baila <marker>él</marker> tango.</example>
                 <example correction="el">Lo haremos como quiera <marker>él</marker> profesor.</example>
+                <example correction="el" type="triggers_error" reason="bad style">Ignoro si es <marker>él</marker> español o argentino.</example>
                 <example>Por él Dios visita nuestro pueblo.</example>
                 <example>¿Baila él tango?</example>
                 <example>Lo haremos como quiera él.</example>
@@ -3501,6 +3505,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Está él bien?</example>
                 <example>Decidió construirse él mismo uno.</example>
                 <example>Bien él bien yo vamos a asistir a la reunión.</example>
+                <example>Me encontré con él justo cuando salía del colegio.</example>
+                <example>Para Él vivo.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRONOM_TILDE" name="Pronombres personales con o sin tilde">
@@ -3616,9 +3622,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Andaba el 32º a casi 25 minutos del líder.</example>
                 <example>Editan también el Sport y El Mundo Deportivo.</example>
                 <example>El mal nunca triunfa y el bien tampoco.</example>
-                <example>El paso a paso.</example>
-                <example>que ayuden en el día a día</example>
-                <!-- used in LatAm -->
+                <example>El paso a paso.</example> <!-- used in LatAm -->
+                <example>que ayuden en el día a día</example> 
+                <example>Y en el sin fin de requisitos.</example>
+                <example>Principios en materia criminal como el Non bis in idem.</example>
             </rule>
             <rule id="MI_TILDE" name="mi/mí">
                 <antipattern>
@@ -6759,25 +6766,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="surtió efecto">No <marker>surgió efecto</marker>.</example>
             <example>No surtió efecto.</example>
         </rule>
-        <!-- EN_BASE_A En base a -> con base en (o basado en) (o sobre la base de) (http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_039.htm)-->
-        <rule id="EN_BASE_A" name="en base a">
-            <pattern>
-                <token>en</token>
-                <token>base</token>
-                <token>a</token>
-            </pattern>
-            <message>Es preferible usar otra expresión.</message>
-            <suggestion>basándonos en</suggestion>
-            <suggestion>basándose en</suggestion>
-            <suggestion>con base en</suggestion>
-            <suggestion>sobre la base de</suggestion>
-            <suggestion>en relación con</suggestion>
-            <suggestion>según</suggestion>
-            <suggestion>por</suggestion>
-            <url>http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_039.htm</url>
-            <example correction="basándonos en|basándose en|con base en|sobre la base de|en relación con|según|por">Se puede regresar a la zona <marker>en base a</marker> lo expuesto por las autoridades.</example>
-            <example>Se ha reducido la cadencia de los trenes basándose en la estadistica elaborada.</example>
-        </rule>
+        <rulegroup id="EN_BASE_A" name="en base a">
+            <url>https://www.rae.es/dpd/base#3</url>
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <token>base</token>
+                    <token>a</token>
+                </pattern>
+                <message>Es preferible usar otra expresión.</message>
+                <suggestion>con base en</suggestion> 
+                <suggestion>basándonos en</suggestion>
+                <suggestion>basándose en</suggestion> 
+                <suggestion>a base de</suggestion>
+                <suggestion>sobre la base de</suggestion>
+                <suggestion>en relación con</suggestion>
+                <suggestion>según</suggestion>
+                <suggestion>por</suggestion>
+                <url>http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_039.htm</url>
+                <example correction="con base en|basándonos en|basándose en|a base de|sobre la base de|en relación con|según|por">Se puede regresar a la zona <marker>en base a</marker> lo expuesto por las autoridades.</example>
+                <example>Se ha reducido la cadencia de los trenes basándose en la estadistica elaborada.</example>
+            </rule>
         <rule id="EN_BASE_AL" name="en base al">
             <pattern>
                 <token>en</token>
@@ -6795,7 +6804,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_039.htm</url>
             <example correction="basándonos en el|basándose en el|con base en el|sobre la base del|en relación con el|según el|por el">Se puede regresar a la zona <marker>en base al</marker> documento.</example>
         </rule>
-        <!-- DE_GRATIS (http://lema.rae.es/dpd/srv/search?key=gratis)-->
+        </rulegroup>
         <rule id="DE_GRATIS" name="«de gratis» (gratis)">
             <pattern case_sensitive="no">
                 <token>de</token>
@@ -9389,14 +9398,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="En medio"><marker>Enmedio</marker> de la plaza.</example>
             <example>Moraleja de Enmedio.</example>
         </rule>
-        <rule id="APESAR" name="a pesar">
-            <pattern>
-                <token>apesar</token>
-            </pattern>
-            <message>Se escribe separado.</message>
-            <suggestion>a pesar</suggestion>
-            <example correction="A pesar"><marker>Apesar</marker> de todo, lo comprendo.</example>
-        </rule>
         <rulegroup id="ABREVIATURA_NUMERO" name="abreviatura de número">
             <rule>
                 <pattern>
@@ -9700,6 +9701,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Quería decir <suggestion>a través</suggestion>?</message>
             <example correction="a través">Trata los datos obtenidos <marker>través</marker> de las cookies.</example>
             <example correction="a través">Se fue campo <marker>través</marker>.</example>
+        </rule>
+        <rule id="APESAR" name="a pesar">
+            <pattern>
+                <token>apesar</token>
+            </pattern>
+            <message>Se escribe separado.</message>
+            <suggestion>a pesar</suggestion>
+            <example correction="A pesar"><marker>Apesar</marker> de todo, lo comprendo.</example>
         </rule>
         <rule id="GOOGLE_DOC" name="Google Doc/Docs">
             <pattern>
