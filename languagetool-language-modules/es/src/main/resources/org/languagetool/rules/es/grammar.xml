@@ -1675,7 +1675,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Podía ser considerado per se digno de atención.</example>
                 <example>Se lo pregunto a él.</example>
             </rule>
-            <rule>
+            <!--<rule>
                 <pattern>
                     <token regexp="yes">él|ella|usted<exception postag="SP.*" postag_regexp="yes" scope="previous"/></token>
                     <token regexp="yes" min="0">["«“‘']</token>
@@ -1696,8 +1696,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Tiene usted uno?</example>
                 <example>Él viene</example>
                 <example>Tanto él como yo.</example>
-            </rule>
-            <rule default="temp_off"> <!-- same rule without the exception N-->
+            </rule>-->
+            <rule> <!-- same rule without the exception N-->
+                <antipattern>
+                    <token postag="V...3S." postag_regexp="yes"/>
+                    <token regexp="yes" skip="-1">él|ella|usted</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V...3S." postag_regexp="yes" inflected="yes">haber</token>
+                    <token postag="V.P..SM" postag_regexp="yes"/>
+                    <token regexp="yes" skip="-1">él|ella|usted</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V...3S." postag_regexp="yes" inflected="yes">ir</token>
+                    <token>a</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                    <token regexp="yes" skip="-1">él|ella|usted</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.M.3S." postag_regexp="yes"/>
+                    <token>usted</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">no|ni|tampoco|nunca</token>
+                    <token postag="V.SP3S." postag_regexp="yes"/>
+                    <token>usted</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">él|ella|usted<exception postag="SP.*" postag_regexp="yes" scope="previous"/></token>
                     <token regexp="yes" min="0">["«“‘']</token>
@@ -1719,6 +1746,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Tiene usted uno?</example>
                 <example>Él viene</example>
                 <example>Tanto él como yo.</example>
+                <example>¿Tiene usted empleo?</example>
+                <example>¿Tiene usted cambio?</example>
+                <example>No haga usted caso de sus caprichos.</example>
+                <example>Haga usted caso de las advertencias.</example>
             </rule>
             <rule>
                 <pattern>
