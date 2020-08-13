@@ -17308,17 +17308,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Pel que fa a traves institucionals</example>
             <example>Vivien a Traves.</example>
         </rule>
-        <rule id="BULLINT_BULLENT" name="bullint/bullent">
-            <pattern>
-                <token regexp="yes">aigua|oli|llet|sang|lava</token>
-                <marker>
-                    <token>bullint</token>
-                </marker>
-            </pattern>
-            <message>Probablement cal dir <suggestion>bullent</suggestion>.</message>
-            <example correction="bullent">En aigua <marker>bullint</marker></example>
-            <example>En oli bullent.</example>
-        </rule>
+        <rulegroup id="BULLINT_BULLENT" name="bullint/bullent">
+            <rule>
+                <pattern>
+                    <token regexp="yes">aigua|llet</token>
+                    <marker>
+                        <token>bullint</token>
+                    </marker>
+                </pattern>
+                <message>Probablement cal dir <suggestion>bullent</suggestion>.</message>
+                <example correction="bullent">En aigua <marker>bullint</marker></example>
+                <example>En oli bullent.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">oli|sang|lava</token>
+                    <marker>
+                        <token>bullint</token>
+                    </marker>
+                </pattern>
+                <message>Probablement cal dir <suggestion>bullent</suggestion>.</message>
+                <suggestion>roent</suggestion>
+                <example correction="bullent|roent">En oli <marker>bullint</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="NA" name="na (sense nom): per na altra banda">
             <rule>
                 <pattern>
