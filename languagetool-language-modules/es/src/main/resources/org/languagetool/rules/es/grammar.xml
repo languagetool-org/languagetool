@@ -9686,6 +9686,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
+        <rule id="A_TRAVES" name="través/a través" default="temp_off">
+            <antipattern>
+                <token regexp="yes">a|al|de|del|el</token>
+                <token>través</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>través</token>
+                </marker>
+                <!--<token regexp="yes">de|del</token>-->
+            </pattern>
+            <message>¿Quería decir <suggestion>a través</suggestion>?</message>
+            <example correction="a través">Trata los datos obtenidos <marker>través</marker> de las cookies.</example>
+            <example correction="a través">Se fue campo <marker>través</marker>.</example>
+        </rule>
         <rule id="GOOGLE_DOC" name="Google Doc/Docs">
             <pattern>
                 <token>Google</token>
