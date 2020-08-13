@@ -10357,6 +10357,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>no deixen participar a menors d'edat</example>
             <!-- ambigu:  però el 1976 fou traspassada la seva participació a l'INI;-->
         </rule>
+        <rule id="BASAR_EN" name="basar *amb/en" default="temp_off">
+            <pattern>
+                <token inflected="yes" regexp="yes">basar|centrar|participar</token>
+                <token min="0" max="3" postag="RG|LOC_ADV|&pronom_feble;" postag_regexp="yes"/>
+                <marker>
+                    <token>amb</token>
+                </marker>
+            </pattern>
+            <message>Amb el v. '<match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="V.N.*"/>' probablemnt cal fer servir la preposició <suggestion>en</suggestion>.</message>
+            <example correction="en">Estava basat <marker>amb</marker> xarxes neuronals.</example>
+        </rule>
         <rule id="DELEGAR_EN" name="delegar *(en)">
             <pattern>
                 <token inflected="yes">delegar</token>
