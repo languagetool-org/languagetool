@@ -190,7 +190,7 @@ public class RuleMatchesAsJsonSerializer {
 
   private String cleanSuggestion(String s) {
     if (lang != null) {
-      return s.replace("<suggestion>", lang.getOpeningQuote()).replace("</suggestion>", lang.getClosingQuote());
+      return lang.toAdvancedTypography(s.replaceAll("<suggestion>", lang.getOpeningQuote()).replaceAll("</suggestion>", lang.getClosingQuote()));
     } else {
       return s.replace("<suggestion>", "\"").replace("</suggestion>", "\"");
     }

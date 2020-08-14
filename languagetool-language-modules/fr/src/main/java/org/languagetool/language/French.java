@@ -38,10 +38,15 @@ import org.languagetool.tokenizers.fr.FrenchWordTokenizer;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class French extends Language implements AutoCloseable {
 
   private LanguageModel languageModel;
+  
+  private static final Pattern APOSTROPHE = Pattern.compile("(\\p{L})'([\\p{L}\u202f\u00a0 !\\?,\\.;:])",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   @Override
   public SentenceTokenizer createDefaultSentenceTokenizer() {
@@ -143,13 +148,65 @@ public class French extends Language implements AutoCloseable {
   }
 
   /** @since 5.1 */
+  @Override
   public String getOpeningQuote() {
     return "« ";
   }
 
   /** @since 5.1 */
+  @Override
   public String getClosingQuote() {
     return " »";
+  }
+  
+  @Override
+  public String toAdvancedTypography (String input) {
+    String output = input;
+    
+    // Apostrophe and closing single quote
+    Matcher matcher = APOSTROPHE.matcher(output);
+    output = matcher.replaceAll("$1’$2");
+    
+    // single quotes
+    if (output.startsWith("'")) { 
+      output = output.replaceFirst("'", "‘");
+    }
+    output = output.replaceAll(" '", " ‘");
+    if (output.endsWith("'")) { 
+      output = output.substring(0, output.length() - 1 ) + "’";
+    }
+
+    // guillemets
+    if (output.startsWith("\"")) { 
+      output = output.replaceFirst("\"", "«");
+    }
+    if (output.endsWith("\"")) { 
+      output = output.substring(0, output.length() - 1 ) + "»";
+    }
+    output = output.replaceAll(" \"", " «");
+    output = output.replaceAll("\"([\\u202f\\u00a0 !\\?,\\.;:])", "»$1");
+       
+    
+    // non-breaking (thin) space 
+    // according to https://fr.wikipedia.org/wiki/Espace_ins%C3%A9cable#En_France
+    output = output.replaceAll(";", "\u202f;");
+    output = output.replaceAll("!", "\u202f!");
+    output = output.replaceAll("\\?", "\u202f?");
+    
+    output = output.replaceAll(":", "\u00a0:");
+    output = output.replaceAll("»", "\u00a0»");
+    output = output.replaceAll("«", "«\u00a0");
+    
+    //remove duplicate spaces
+    output = output.replaceAll("\u00a0\u00a0", "\u00a0");
+    output = output.replaceAll("\u202f\u202f", "\u202f");
+    output = output.replaceAll("  ", " ");
+    output = output.replaceAll("\u00a0 ", "\u00a0");
+    output = output.replaceAll(" \u00a0", "\u00a0");
+    output = output.replaceAll(" \u202f", "\u202f");
+    output = output.replaceAll("\u202f ", "\u202f");
+    
+    return output;
   }
 
   /**

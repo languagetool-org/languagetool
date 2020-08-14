@@ -1350,10 +1350,14 @@ class SingleDocument {
     SingleProofreadingError aError = new SingleProofreadingError();
     aError.nErrorType = TextMarkupType.PROOFREADING;
     // the API currently has no support for formatting text in comments
-    aError.aFullComment = ruleMatch.getMessage()
+    String msg = ruleMatch.getMessage()
         .replaceAll("<suggestion>", docLanguage == null ? "\"" : docLanguage.getOpeningQuote())
         .replaceAll("</suggestion>", docLanguage == null ? "\"" : docLanguage.getClosingQuote())
         .replaceAll("([\r]*\n)", " ");
+    if (docLanguage != null) {
+      msg = docLanguage.toAdvancedTypography(msg);
+    }
+    aError.aFullComment = msg;
     // not all rules have short comments
     if (!StringTools.isEmpty(ruleMatch.getShortMessage())) {
       aError.aShortComment = ruleMatch.getShortMessage();

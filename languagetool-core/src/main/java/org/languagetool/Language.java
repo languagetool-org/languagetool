@@ -763,6 +763,11 @@ public abstract class Language {
   public String getClosingQuote() {
     return "\"";
   }
+  
+  /** @since 5.1 */
+  public String toAdvancedTypography(String s) {
+    return s;
+  }
 
   /**
    * Considers languages as equal if their language code, including the country and variant codes are equal.
