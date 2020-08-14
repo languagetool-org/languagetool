@@ -2766,7 +2766,18 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">They are fine.</example>
       <example type="ambiguous" inputform="playing[play/VBG,playing/JJ,playing/NN:UN]" outputform="playing[play/VBG]">They were <marker>playing</marker> ball.</example>
     </rule>
+
     <rule id="BE_VBGNN_VBG" name="be + vbg/nn => vbg">
+        <antipattern><!-- #3444 are hearing aids -->
+            <token regexp="yes">are|were</token>
+            <token chunk="B-NP-plural" postag_regexp="yes" postag="JJ|NN(:UN?)?"/>
+            <token chunk="E-NP-plural" postag="NNS"/>
+        </antipattern>
+        <antipattern><!-- #3444 www.lexico.com/definition/smelling_salts -->
+            <token regexp="yes">are|were</token>
+            <token>smelling</token><!-- smelling/I-VP -->
+            <token chunk="E-NP-plural" postag="NNS">salts</token>
+        </antipattern>
         <pattern>
           <token inflected="yes">be<exception>being</exception><exception case_sensitive="yes">AM</exception></token>
           <marker>
@@ -2780,8 +2791,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">He is brave.</example>
         <example type="untouched">It's emaciating.</example>
         <example type="untouched">AM broadcasting (radio broadcasting using amplitude modulation)...</example>
+        <example type="untouched">These are hearing aids.</example><!-- #3444 -->
+        <example type="untouched">They are smelling salts, don't you know?</example><!-- #3444 -->
         <example type="ambiguous" inputform="going[go/VBG,going/NN:UN]" outputform="going[go/VBG]">It's <marker>going</marker> to be a killer feature!</example>
     </rule>
+
     <rule name="be + better => .R" id='BE_BETTER'>
       <pattern>
         <token inflected="yes">be</token>
