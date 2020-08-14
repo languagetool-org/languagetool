@@ -36,7 +36,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
   private static final String SPELLING_FILE = "/fr/hunspell/spelling.txt";
 
   private static final Pattern PARTICULA_INICIAL = Pattern.compile(
-      "^(non|en|a|le|la|les|pour|de|du|des|un|une|mon|ma|mes|ton|ta|tes|son|sa|ses|leur|leurs) (..+)$",
+      "^(non|en|a|le|la|les|pour|de|du|des|un|une|mon|ma|mes|ton|ta|tes|son|sa|ses|leur|leurs|ce|cet) (..+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern PREFIX_AMB_ESPAI = Pattern.compile(
       "^(auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans) (..+)$",
