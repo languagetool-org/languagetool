@@ -832,7 +832,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0">-</token>
                 <token regexp="yes">v[uú]</token>
             </pattern>
-            <message>Error ortogràfic.</message>
+            <message>Error ortográfico.</message>
             <suggestion>déjà vu</suggestion>
             <example correction="déjà vu"><marker>dejà-vu</marker>.</example>
             <example>Un déjà vu.</example>
@@ -913,13 +913,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="AFRENTAR_DIFICULTADES" name="afrentar dificultades o problemas (afrontar)">
             <pattern>
-                <token inflected="yes" skip="1">afrentar</token>
+                <marker>
+                    <token inflected="yes" skip="1">afrentar</token>
+                </marker>
                 <token inflected="yes" regexp="yes">dificultad|problema|vicisitud</token>
             </pattern>
-            <message>La forma correcta es usando el verbo «afrontar»: <suggestion><match no="1" postag="(.*)" postag_replace="$1">afrontar</match> <match include_skipped="following" no="1"/> <match no="2"/></suggestion>"</message>
+            <message>Confusión entre «afrontar» y «afrentar».</message>
+            <suggestion><match no="1" postag="(.*)" postag_replace="$1">afrontar</match></suggestion>
             <url>http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_050.htm</url>
-            <short>Confusión entre «afrontar» y «afrentar»</short>
-            <example correction="afrontar muchos problemas">Tuvo que <marker>afrentar muchos problemas</marker> con la mudanza.</example>
+            <example correction="afrontar">Tuvo que <marker>afrentar</marker> muchos problemas con la mudanza.</example>
             <example>Afrontaron muchas dificultades en la travesía.</example>
         </rule>
         <rule id="DESTORNILLAR_RISA" name="destornillarse de risa (desternillarse)">
@@ -5476,7 +5478,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>a</token>
                 <token>alrededor</token>
             </pattern>
-            <message>Expresión preferible sin la preposción 'a'.</message>
+            <message>Expresión preferible sin la preposición 'a'.</message>
             <suggestion>alrededor</suggestion>
             <suggestion>al rededor</suggestion>
             <suggestion>en rededor</suggestion>
@@ -5814,7 +5816,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token>Tomas<exception scope="previous" regexp="yes">[¿¡"]</exception><exception scope="previous" postag="SENT_START"/></token>
             </pattern>
-            <message>Si es un nombre de persona, se escribe <suggestion>Tomás</suggestion>?</message>
+            <message>Si es un nombre de persona, se escribe <suggestion>Tomás</suggestion>.</message>
             <example correction="Tomás">Voy a ver a <marker>Tomas</marker>.</example>
             <example>¿Tomas una copa conmigo?</example>
             <example>Tomas el mando.</example>
@@ -5993,7 +5995,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="V.P..SM" postag_regexp="yes"/>
                 </pattern>
-                <message>si es del v. 'haber', se escribe con hache.</message>
+                <message>Si es del v. 'haber', se escribe con hache.</message>
                 <suggestion>han</suggestion>
                 <example correction="han">Ellos <marker>an</marker> llegado tarde.</example>
                 <example correction="han">Ellos <marker>an</marker> muchas veces llegado tarde.</example>
@@ -6084,8 +6086,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes">ir<exception inflected="yes" regexp="yes">ver|ser</exception></token>
                 <token postag="V[ASM]N0000" postag_regexp="yes"/>
             </pattern>
-            <message>La construcción «ir» mas infinitivo exige la presencia de la preposición «a»: <suggestion>\1 a \2</suggestion>.</message>
-            <short>La construcción «ir» mas infinitivo exige la presencia de la preposición «a»</short>
+            <message>La construcción «ir» seguida de infinitivo exige la preposición «a».</message>
+            <suggestion>\1 a \2</suggestion>
             <example correction="Voy a hablar"><marker>Voy hablar</marker> con ella.</example>
         </rule>
         <rulegroup id="ECHO_HECHO" name="*echo/hecho">
@@ -6207,7 +6209,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>haber</token>
                     <token regexp="yes">qu[eé]</token>
                 </pattern>
-                <message>Verifique que no quiso decir <suggestion>a ver qué</suggestion>.</message>
+                <message>¿Quería decir <suggestion>a ver qué</suggestion>?</message>
                 <example correction="a ver qué">Mirad esto, <marker>haber que</marker> opináis.</example>
                 <example>Tiene en su haber el Campeonato del Mundo.</example>
             </rule>
@@ -6219,7 +6221,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>si</token>
                     </marker>
                 </pattern>
-                <message>Verifique que no quiso decir <suggestion>a ver si</suggestion>.</message>
+                <message>¿Quería decir <suggestion>a ver si</suggestion>?</message>
                 <example correction="A ver si"><marker>Haber si</marker> puedes arreglar esto.</example>
                 <example>No va a haber si se ha acabado.</example>
             </rule>
@@ -7215,7 +7217,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token regexp="yes">.+<exception postag="V.P.+|PP3.*|UNKNOWN" postag_regexp="yes"/></token>
             </pattern>
-            <message>El v. 'haber' se conjuga en plural para la tercera persona sólo si va seguido de un participio.</message>
+            <message>El v. 'haber' se conjuga en plural para la tercera persona solo si va seguido de un participio.</message>
             <suggestion><match no="1" postag="V(.{3})3P(.)" postag_regexp="yes" postag_replace="V$13S$2"/></suggestion>
             <short>Verbo haber en plural sin participio.</short>
             <example correction="Hubo"><marker>Hubieron</marker> varios disparos</example>
@@ -7427,7 +7429,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>si</token>
                 <token>quiera</token>
             </pattern>
-            <message>Como adverbio o conjunción se escribre junto.</message>
+            <message>Como adverbio o conjunción se escribe junto.</message>
             <suggestion>siquiera</suggestion>
             <example correction="siquiera">Imagino que ni <marker>si quiera</marker> está de acuerdo.</example>
             <example>La que sí quiera, puede venir.</example>
@@ -8284,7 +8286,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="DN.*" postag_regexp="yes"/>
                     <token postag="NCMP000"><exception postag=".*[FC][PN].*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>concordancia gramatical</message>
+                <message>Error de concordancia.</message>
                 <suggestion>los</suggestion>
                 <example correction="los">Cumplir dos de <marker>las</marker> tres preceptos.</example>
                 <example>De las 16 restantes.</example>
@@ -8298,7 +8300,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="DN.*" postag_regexp="yes"/>
                     <token postag="NCFP000"/>
                 </pattern>
-                <message>concordancia gramatical</message>
+                <message>Error de concordancia.</message>
                 <suggestion>las</suggestion>
                 <example correction="las">Cumplir dos de <marker>los</marker> tres preguntas.</example>
                 <example correction="las">Puede dar <marker>los</marker> cinco ideas nuevas.</example>
@@ -8373,7 +8375,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="D..FS." postag_regexp="yes"/>
                     </unify>
                 </pattern>
-                <message>Esta expresión debe concordar en ǵenero y número.</message>
+                <message>Esta expresión debe concordar en género y número.</message>
                 <suggestion><match no="3" postag_regexp="yes" postag="(V.P.*|AQ.*)" postag_replace="V.P..SF|A..FS."/></suggestion>
                 <example correction="hecha">Se da por <marker>hecho</marker> la profundización de la crisis.</example>
                 <example correction="supuesta">Se da por <marker>supuesto</marker> la profundización de la crisis.</example>
@@ -9367,7 +9369,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0">-</token>
                     <token>time</token>
                 </pattern>
-                <message>Anglicismo inecesario.</message>
+                <message>Anglicismo innecesario.</message>
                 <suggestion>a tiempo completo</suggestion>
                 <suggestion>de tiempo completo</suggestion>
                 <suggestion>con dedicación exclusiva</suggestion>
@@ -9593,14 +9595,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>de</token>
                 <token>multitudes</token>
             </pattern>
-            <message>Se prefiere la expresion <suggestion>olor de multitudes</suggestion>.</message>
+            <message>Se prefiere la expresión <suggestion>olor de multitudes</suggestion>.</message>
             <url>http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_014.htm</url>
             <short>Expresión incorrecta.</short>
             <example correction="olor de multitudes">Entraron en <marker>loor de multitudes</marker></example>
             <example>Entraron en olor de multiitudes</example>
         </rule>
-        <!-- EN_RELACION_A: La forma preferida es: en relación con o con relación a-->
-        <rule id="EN_RELACION_A" name="en relación a">
+        <rule id="EN_RELACION_A" name="en relación a -> en relación con">
             <pattern case_sensitive="no">
                 <marker>
                     <token>en</token>
@@ -9795,7 +9796,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">cual|cuales|cuál|cuáles</token>
                     <token regexp="yes">quier|quiera</token>
                 </pattern>
-                <message>Se escribre junto.</message>
+                <message>Se escribe junto.</message>
                 <suggestion><match no="1" regexp_match="(?iu)á" regexp_replace="a"/>\2</suggestion>
                 <example correction="cualquier">Esta instalación no la puede hacer <marker>cuál quier</marker> electricista.</example>
                 <example correction="cualquiera">Esta instalación no la puede hacer <marker>cual quiera</marker>.</example>
@@ -9805,7 +9806,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">cual|cuales|cuál|cuáles</token>
                     <token>quieras</token>
                 </pattern>
-                <message>Se escribre junto.</message>
+                <message>Se escribe junto.</message>
                 <suggestion>cual\2</suggestion>
                 <example correction="cualquieras">Ellos no son unos <marker>cuales quieras</marker>.</example>
             </rule> 
@@ -10273,7 +10274,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>lo</token>
                     </marker>
                 </pattern>
-                <message>Probablement se escribe junto.</message>
+                <message>Probablemente se escribe junto.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG]....)" postag_regexp="yes" postag_replace="$1.PP3MSA00"/></suggestion>
                 <example correction="cantándolo">Estaba <marker>cantando lo</marker> en la puerta.</example>
                 <example>mezcla lo «lírico, épico, trágico, cómico»</example>
@@ -10286,7 +10287,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>los</token>
                     </marker>
                 </pattern>
-                <message>Probablement se escribe junto.</message>
+                <message>Probablemente se escribe junto.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG].*)" postag_regexp="yes" postag_replace="$1.PP3MPA00"/></suggestion>
                 <example correction="cantándolos">Estaba <marker>cantando los</marker> en la puerta.</example>
                 <example>para ver los "caminos naturales"</example>
@@ -10300,7 +10301,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>la</token>
                     </marker>
                 </pattern>
-                <message>Probablement se escribe junto.</message>
+                <message>Probablemente se escribe junto.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG].*)" postag_regexp="yes" postag_replace="$1.PP3FSA00"/></suggestion>
                 <example correction="cantándola">Estaba <marker>cantando la</marker> en la puerta.</example>
                 <example>¡Que empiece la "traducción"!</example>
@@ -10314,7 +10315,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>las</token>
                     </marker>
                 </pattern>
-                <message>Probablement se escribe junto.</message>
+                <message>Probablemente se escribe junto.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG].*)" postag_regexp="yes" postag_replace="$1.PP3FPA00"/></suggestion>
                 <example correction="cantándolas">Estaba <marker>cantando las</marker> en la puerta.</example>
                 <example correction="Tráelas"><marker>Trae las</marker> por la mañana.</example>
@@ -10329,7 +10330,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>lo</token>
                     </marker>
                 </pattern>
-                <message>Probablement se escribe junto.</message>
+                <message>Probablemente se escribe junto.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG]....).(PP.*)" postag_regexp="yes" postag_replace="$1.$2.PP3MSA00"/></suggestion>
                 <example correction="diciéndoselo">Estaba <marker>diciéndose lo</marker> en la puerta.</example>
             </rule>
@@ -10340,7 +10341,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>los</token>
                     </marker>
                 </pattern>
-                <message>Probablement se escribe junto.</message>
+                <message>Probablemente se escribe junto.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG].*).(PP.*)" postag_regexp="yes" postag_replace="$1.$2.PP3MPA00"/></suggestion>
                 <example correction="diciéndoselos">Estaba <marker>diciéndose los</marker> en la puerta.</example>
                 <example>Muéstreme los de manga corta, por favor.</example>
@@ -10352,7 +10353,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>la</token>
                     </marker>
                 </pattern>
-                <message>Probablement se escribe junto.</message>
+                <message>Probablemente se escribe junto.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG].*).(PP.*)" postag_regexp="yes" postag_replace="$1.$2.PP3FSA00"/></suggestion>
                 <example correction="diciéndosela">Estaba <marker>diciéndose la</marker> en la puerta.</example>
                 <example>armarse la de Dios es Cristo</example>
@@ -10364,7 +10365,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>las</token>
                     </marker>
                 </pattern>
-                <message>Probablement se escribe junto.</message>
+                <message>Probablemente se escribe junto.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[MNG].*).(PP.*)" postag_regexp="yes" postag_replace="$1.$2.PP3FPA00"/></suggestion>
                 <example correction="dándomelas">Estaba <marker>dándome las</marker> en la puerta.</example>
             </rule>
@@ -10841,7 +10842,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>sin</token>
                 <token>embrago</token>
             </pattern>
-            <message>Confusión</message>
+            <message>Confusión.</message>
             <suggestion>sin embargo</suggestion>
             <example correction="Sin embargo"><marker>Sin embrago</marker>, me gusta.</example>
         </rule>
@@ -11835,13 +11836,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Sr.">Vive con el <marker>Sr</marker> García.</example>
             </rule>
         </rulegroup>
-        <rule id="WRONG_DASH" name="Carácter de guión incorrecto (u+2500)">
+        <rule id="WRONG_DASH" name="Carácter de guion incorrecto (u+2500)">
             <pattern case_sensitive="no">
                 <marker>
                     <token regexp="yes">.*─.*</token>
                 </marker>
             </pattern>
-            <message>Carácter de guión incorrecto.</message>
+            <message>Carácter de guion incorrecto.</message>
             <suggestion><match no="1" regexp_match="(.*)─(.*)" regexp_replace="$1—$2"/></suggestion>
             <example correction="—dijo">Es él <marker>─dijo</marker>.</example>
         </rule>
@@ -12446,7 +12447,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" regexp="yes">[-/]|de|del</token>
                     <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048]) <exception regexp="yes">[13579][26]00|[2468][048]00</exception> </token>
                 </pattern>
-                <message>El mes de febrero solo tiene <suggestion>28</suggestion> días, porque el año \5 no es bisiexto.</message>
+                <message>El mes de febrero solo tiene <suggestion>28</suggestion> días, porque el año \5 no es bisiesto.</message>
                 <example correction="28">El <marker>29</marker> de febrero de 1900.</example>
                 <example correction="28">El <marker>29</marker>/febrero/1900.</example>
                 <example correction="28">El <marker>29</marker>/02/1900.</example>
