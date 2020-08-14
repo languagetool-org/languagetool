@@ -62,6 +62,17 @@ public class ChineseSentenceTokenizerTest {
               "在加上使用者空間的應用程式之後，", "成為Linux作業系統。");
   }
 
+  @Test
+  public void testTokenizeWithSpaces() {
+    testSplit("的", " ", "诗的。");
+    testSplit("的", "  ", "诗的。");
+    testSplit("的", "\n", "诗的。");
+    testSplit("的", "\n\n", "诗的。");
+    testSplit("的", "\n \n", "诗的。");
+    testSplit("的", "\n \n");
+    testSplit(" ", "的", " ");
+  }
+
   private void testSplit(final String... sentences) {
     TestTools.testSplit(sentences, stokenizer);
   }
