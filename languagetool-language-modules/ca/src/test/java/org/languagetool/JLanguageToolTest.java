@@ -31,7 +31,8 @@ public class JLanguageToolTest {
   
   @Test
   public void testCleanOverlappingErrors() throws IOException {
-    JLanguageTool tool = new JLanguageTool(new Catalan());
+    Language lang = new Catalan();
+    JLanguageTool tool = new JLanguageTool(lang);
     List<RuleMatch> matches = tool.check("prosper");
     assertEquals(1, matches.size());
     assertEquals("CA_SIMPLE_REPLACE_BALEARIC", matches.get(0).getRule().getId());
@@ -39,6 +40,11 @@ public class JLanguageToolTest {
     matches = tool.check("Potser siga el millor");
     assertEquals(1, matches.size());
     assertEquals("POTSER_SIGUI", matches.get(0).getRule().getId());
+    
+    assertEquals(lang.toAdvancedTypography("És l'\"hora\"!"), "És l’«hora»!");
+    assertEquals(lang.toAdvancedTypography("És l''hora'!"), "És l’‘hora’!");
+    assertEquals(lang.toAdvancedTypography("És l'«hora»!"), "És l’«hora»!");
+    assertEquals(lang.toAdvancedTypography("És l''hora'."), "És l’‘hora’.");
   }
 
 }
