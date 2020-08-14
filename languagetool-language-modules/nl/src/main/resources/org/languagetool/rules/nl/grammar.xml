@@ -13489,16 +13489,22 @@ onwaarschijnlijk
 			<rule>
 				<antipattern><token regexp="yes">keizer|fort|villa</token><token>Augustus</token></antipattern>
 				<!-- <antipattern><token>April</token><token regexp="yes"></token></antipattern> voor eigennaam April-->
+				<antipattern>
+					<token postag="SENT_START"/>
+					<token min="0" regexp="yes">&apostrof;|&quote;</token>
+					<token regexp="yes" case_sensitive="yes">(Maan|Dins|Woens|Donder|Zater|Zon)dag|Januari|Februari|Maart|April|Mei|Juni|Juli|Augustus|September</token>
+				</antipattern>
 				<pattern>
-					<token negate_pos="yes" postag="SENT_START"/>
 					<marker>
 						<token regexp="yes" case_sensitive="yes">(Maan|Dins|Woens|Donder|Zater|Zon)dag|Januari|Februari|Maart|April|Mei|Juni|Juli|Augustus|September</token>
 					</marker>
 				</pattern>
-				<message>De dagen van de week en maanden horen met kleine letters: <suggestion><match no="2" case_conversion="alllower"/></suggestion>.</message>
+				<message>De dagen van de week en maanden horen met kleine letters: <suggestion><match no="1" case_conversion="alllower"/></suggestion>.</message>
 				<short>Geen hoofdletter</short>
 				<example correction="maandag">Ik heb de pest aan de <marker>Maandag</marker>.</example>
 				<example><marker>Maandag</marker> is een rotdag.</example>
+				<example>"<marker>Maandag</marker> is een rotdag."</example>
+				<example>'<marker>Maandag</marker> is een rotdag.'</example>
 			</rule>
 		</rulegroup>
 		
@@ -28777,6 +28783,8 @@ steenwijk;Steenwijk
 			<rule>
 				<antipattern><token>ter</token><token>zake</token><token>kundig</token></antipattern>
 				<antipattern><token>ter</token><token>zake</token><token>van</token></antipattern>
+				<antipattern><token>ter</token><token>zake</token><token inflected="yes">komen</token></antipattern>
+				<antipattern><token inflected="yes">komen</token><token>ter</token><token>zake</token></antipattern>
 				<pattern>
 					<token>ter</token><token>zake</token>
 				</pattern>
@@ -30829,7 +30837,7 @@ steenwijk;Steenwijk
 			</rule>
 			<rule>
 				<pattern>
-					<token regexp="yes">(giga|mega|super|ultra|über)...*<exception regexp="yes">^(giga|mega)(überhaupt|pixels?|-annum|ster|stal|stallen|ampère|becquerel|bit|byte|calorie|candela|coulomb|farad|gram|gray|henry|hertz|joule|katal|kelvin|liter|lumen|lux|meter|mol|newton|ohm|parsec|pascal|seconde|siemens|sievert|tesla|volt|voltampère|watt|wattuur|weber)|^super(computer.*|macht.*|latief|latieven|held|helden.*|markt.*|visie|nova.*)|superieure?n?|superior.*|ultraviolet|Superman|ultrasoon|ultrasone|megafoon|megaloma.*|superster|ultraviolet.*|Megane?|superfoods?|supervisors?|superbe?|superso(on|ne)|ultrageluid|supersets?|megapixel.*|übermensch.*</exception><exception postag="UNKNOWN"/></token>
+					<token regexp="yes">(giga|mega|super|ultra|über)...*<exception regexp="yes">^(giga|mega)(pixels?|-annum|ster|stal|stallen|ampère|becquerel|bit|byte|calorie|candela|coulomb|farad|gram|gray|henry|hertz|joule|katal|kelvin|liter|lumen|lux|meter|mol|newton|ohm|parsec|pascal|seconde|siemens|sievert|tesla|volt|voltampère|watt|wattuur|weber)|^super(computer.*|macht.*|latief|latieven|held|helden.*|markt.*|visie|nova.*)|superieure?n?|superior.*|ultraviolet|Superman|ultrasoon|ultrasone|megafoon|megaloma.*|superster|ultraviolet.*|Megane?|superfoods?|supervisors?|superbe?|superso(on|ne)|ultrageluid|supersets?|megapixel.*|übermensch.*|überhaupt</exception><exception postag="UNKNOWN"/></token>
 				</pattern>
 				<message>Dit lijkt wat overdreven. Is <suggestion><match no="1" regexp_match="^(giga|mega|super|ultra|über)-?" regexp_replace=""/></suggestion> niet genoeg?</message>
 				<example correction="slim">Ze is <marker>superslim</marker>.</example>
