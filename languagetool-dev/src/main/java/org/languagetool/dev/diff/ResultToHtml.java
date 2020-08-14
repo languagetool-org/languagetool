@@ -164,18 +164,14 @@ public class ResultToHtml {
     print("<br>");
   }
   
-  private void printRulesInCategory(Map<String, Integer> rulesInCategory) {
+  private void printRulesInCategory(Map<String, Integer> rulesInCategory) throws IOException {
     if (rulesInCategory.size() > 0) {
       Map<String, Integer> sorted = rulesInCategory.entrySet().stream()
           .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
           .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-      sorted.forEach((k, v) -> {
-        try {
-          print("<a href='#" + k + "'>" + k + " (" + v + ")</a><br>");
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      });
+      for (Map.Entry<String, Integer> entry : sorted.entrySet()) {
+        print("<a href='#" + entry.getKey() + "'>" + entry.getKey() + " (" + entry.getValue() + ")</a><br>");
+      }
     }
   }
 
