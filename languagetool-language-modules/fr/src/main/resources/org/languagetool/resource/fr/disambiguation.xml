@@ -139,7 +139,6 @@ RB => Règles Brutes
     </pattern>
     <disambig action="replace"><wd lemma="prefix" pos="A"/></disambig>
   </rule>
-  
   <rule name="nom" id="NOM">
     <pattern>
       <token postag="SENT_START"/>
@@ -258,6 +257,20 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="D f s"/>
   </rule>
+  
+  <rule id="A_PRIORI" name="a priori (noun/loc adverbial)">
+    <pattern>
+      <token regexp="yes">ce|cet|un|le</token>
+      <marker>
+        <token>a</token>
+        <token>priori</token>
+      </marker>
+    </pattern>
+    <disambig action="replace">
+      <wd lemma="a priori" pos="N m s"/>
+      <wd lemma="a priori" pos="J m s"/>
+    </disambig>
+  </rule>
 
   <!-- So that word "faute" (etc) as in "des faute", "une fautes" is marked as
  a noun and not a verb, otherwise we don't find the incorrect
@@ -295,18 +308,17 @@ RB => Règles Brutes
           <token postag="N.*" postag_regexp="yes"><exception regexp="yes">est|multiples|si|petite?s?|mauvais|pires?</exception><exception inflected="yes">bon</exception><exception postag="K"/></token>
         </marker>
       </pattern>
-      <!-- TODO: better to remove only verb (but not infinitive, participle, gerund)-->
-      <disambig action="filter" postag="N.*"/>
+      <disambig action="remove" postag="V.* (imp|sub|ind) .*"/>
     </rule>
     <rule>
       <!-- "du monde", but du/dû lire-->
       <pattern>
-        <token regexp="yes">du</token>
+        <token regexp="yes">du|de|d'</token>
         <marker>
           <token postag="N.*" postag_regexp="yes"><exception regexp="yes">est|multiples|si|petite?s?|mauvais|pires?</exception><exception inflected="yes">bon</exception><exception postag="K|V.* inf" postag_regexp="yes"/></token>
         </marker>
       </pattern>
-      <disambig action="filter" postag="N.*"/>
+      <disambig action="remove" postag="V.* (imp|sub|ind) .*"/>
     </rule>
   </rulegroup>
   <rulegroup name="été (nom)" id="ETE">
@@ -1330,6 +1342,16 @@ RB => Règles Brutes
       <token postag="V (sub|ind|con).*" postag_regexp="yes"><exception>fait</exception><exception postag="N.*" postag_regexp="yes"/></token>
     </pattern>
     <disambig action="remove" postag="P"></disambig>
+  </rule>
+  
+  <rule id="du_dessous" name="dessous (not preposition)">
+    <pattern>
+      <token postag="P.*" postag_regexp="yes"/>
+      <marker>
+        <token>dessous</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="P"/>
   </rule>
   <rule id="entre" name="entre-t-il, entre (not preposition)">
     <pattern>
