@@ -239,21 +239,24 @@ public class RuleMatchDiffFinder {
 
   private Map<String, List<RuleMatchDiff>> groupDiffs(List<RuleMatchDiff> diffs) {
     Map<String, List<RuleMatchDiff>> keyToDiffs = new TreeMap<>();
+    String key = "";
     String prevKey = "";
     List<RuleMatchDiff> l = new ArrayList<>();
     for (RuleMatchDiff diff : diffs) {
-      String key;
       if (diff.getOldMatch() != null) {
         key = cleanSource(diff.getOldMatch().getRuleSource()) + " / " + diff.getOldMatch().getFullRuleId();
       } else {
         key = cleanSource(diff.getNewMatch().getRuleSource()) + " / " + diff.getNewMatch().getFullRuleId();
       }
-      if (!key.equals(prevKey)) {
+      if (!key.equals(prevKey) && l.size() > 0) {
         keyToDiffs.put(prevKey, l);
         l = new ArrayList<>();
       }
       l.add(diff);
       prevKey = key;
+    }
+    if (l.size() > 0) {
+      keyToDiffs.put(prevKey, l);
     }
     return keyToDiffs;
   }
