@@ -61,7 +61,8 @@ public class FrenchSentenceTokenizerTest {
     testSplit("Google Inc. est une entreprise américaine");
     testSplit("Le discours de E. Philippe devrait nous éclairer (un peu, beaucoup, ...?) sur ce qui nous attend.");
     testSplit("Le discours de E. Philippe devrait nous éclairer (un peu, beaucoup, ...?) sur ce qui nous attend.");
-
+    testSplit("Op. cit., op. cit.");
+    
     testSplit("Le discours de E. Philippe devrait nous éclairer (un peu, beaucoup, …?) sur ce qui nous attend.");
     // TODO:
     //testSplit("Le discours de E. Philippe devrait nous éclairer (un peu, beaucoup, … ?) sur ce qui nous attend.");
