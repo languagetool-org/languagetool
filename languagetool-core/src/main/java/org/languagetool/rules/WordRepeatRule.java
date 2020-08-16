@@ -97,6 +97,10 @@ public class WordRepeatRule extends Rule {
     return ruleMatch;
   }
 
+  protected boolean wordRepetitionOf(String word, AnalyzedTokenReadings[] tokens, int position) {
+    return position > 0 && tokens[position - 1].getToken().equals(word) && tokens[position].getToken().equals(word);
+  }
+
   // avoid "..." etc. to be matched:
   private boolean isWord(String token) {
     boolean isWord = true;

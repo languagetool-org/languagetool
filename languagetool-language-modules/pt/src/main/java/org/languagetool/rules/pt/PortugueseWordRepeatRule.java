@@ -76,17 +76,13 @@ public class PortugueseWordRepeatRule extends WordRepeatRule {
     if (isGenus(tokens[position - 1]) && isSpecies(tokens[position])) {
       return true;   // e.g. Vulpes vulpes
     }
-    if (isHiphenated(tokens, position) && isPronoun(tokens[position])) {
+    if (isHyphenated(tokens, position) && isPronoun(tokens[position])) {
       return true;   // e.g. "Coloquem-na na sala."
     }
     return false;
   }
 
-  private boolean wordRepetitionOf(String word, AnalyzedTokenReadings[] tokens, int position) {
-    return position > 0 && tokens[position - 1].getToken().equals(word) && tokens[position].getToken().equals(word);
-  }
-
-  private boolean isHiphenated(AnalyzedTokenReadings[] tokens, int position) {
+  private boolean isHyphenated(AnalyzedTokenReadings[] tokens, int position) {
     return tokens[position - 2].getToken().equals("-") && !(tokens[position - 1].isWhitespaceBefore());
   }
 

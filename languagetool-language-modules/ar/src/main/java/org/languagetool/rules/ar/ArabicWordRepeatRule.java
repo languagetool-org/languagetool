@@ -52,8 +52,4 @@ public class ArabicWordRepeatRule extends WordRepeatRule {
     return false;
   }
 
-  private boolean wordRepetitionOf(String word, AnalyzedTokenReadings[] tokens, int position) {
-    return position > 0 && tokens[position - 1].getToken().equals(word) && tokens[position].getToken().equals(word);
-  }
-
 }
