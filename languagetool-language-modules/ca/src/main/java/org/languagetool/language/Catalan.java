@@ -153,7 +153,7 @@ public class Catalan extends Language {
     if (output.startsWith("'")) { 
       output = output.replaceFirst("'", "‘");
     }
-    output = output.replaceAll("(['’ ])'", "$1‘");
+    output = output.replaceAll("(['’ «\"])'", "$1‘");
     if (output.endsWith("'")) { 
       output = output.substring(0, output.length() - 1 ) + "’";
     }

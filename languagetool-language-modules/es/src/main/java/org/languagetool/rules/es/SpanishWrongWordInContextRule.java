@@ -54,7 +54,7 @@ public class SpanishWrongWordInContextRule extends WrongWordInContextRule {
   
   @Override
   protected String getMessageString() {
-    return "¿Quería decir <suggestion>$SUGGESTION</suggestion> en vez de '$WRONGWORD'?";
+    return "¿Quería decir <suggestion>$SUGGESTION</suggestion> en vez de \"$WRONGWORD\"?";
   }
   
   @Override
@@ -64,7 +64,7 @@ public class SpanishWrongWordInContextRule extends WrongWordInContextRule {
   
   @Override
   protected String getLongMessageString() {
-    return "¿Quería decir <suggestion>$SUGGESTION</suggestion> (= $EXPLANATION_SUGGESTION) en vez de '$WRONGWORD' (= $EXPLANATION_WRONGWORD)?";
+    return "¿Quería decir <suggestion>$SUGGESTION</suggestion> ($EXPLANATION_SUGGESTION) en vez de \"$WRONGWORD\" ($EXPLANATION_WRONGWORD)?";
   }
 
 }

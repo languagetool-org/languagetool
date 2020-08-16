@@ -162,7 +162,7 @@ public class Spanish extends Language implements AutoCloseable{
     if (output.startsWith("'")) { 
       output = output.replaceFirst("'", "‘");
     }
-    output = output.replaceAll(" '", " ‘");
+    output = output.replaceAll("(['’ «\"])'", "$1‘");
     if (output.endsWith("'")) { 
       output = output.substring(0, output.length() - 1 ) + "’";
     }

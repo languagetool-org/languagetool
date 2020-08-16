@@ -57,7 +57,7 @@ public class CatalanWrongWordInContextDiacriticsRule extends WrongWordInContextR
   
   @Override
   protected String getMessageString() {
-    return "¿Volíeu dir <suggestion>$SUGGESTION</suggestion> en lloc de '$WRONGWORD'?";
+    return "¿Volíeu dir <suggestion>$SUGGESTION</suggestion> en lloc de \"$WRONGWORD\"?";
   }
   
   @Override
@@ -67,7 +67,7 @@ public class CatalanWrongWordInContextDiacriticsRule extends WrongWordInContextR
   
   @Override
   protected String getLongMessageString() {
-    return "¿Volíeu dir <suggestion>$SUGGESTION</suggestion> (= $EXPLANATION_SUGGESTION) en lloc de '$WRONGWORD' (= $EXPLANATION_WRONGWORD)?";
+    return "¿Volíeu dir <suggestion>$SUGGESTION</suggestion> ($EXPLANATION_SUGGESTION) en lloc de \"$WRONGWORD\" ($EXPLANATION_WRONGWORD)?";
   }
 
 }
