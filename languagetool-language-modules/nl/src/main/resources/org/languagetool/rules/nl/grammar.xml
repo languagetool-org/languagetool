@@ -1894,7 +1894,7 @@ regexp case-insensitive maken : (?i)
 				<example correction="boordranden">Het woord <marker>bordranden</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
-
+<!-- beide correct, en betekenis gelijk
 		<rulegroup id="POORTSCAN_PORTSCAN" name="waarschuwing bij gebruik portscan i.p.v. poortscan">
 			<rule>
 				<pattern>
@@ -1904,7 +1904,7 @@ regexp case-insensitive maken : (?i)
 				<example correction="poortscan">Het woord <marker>portscan</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
-
+		-->
 		<rulegroup id="KOORNIS_KORNIS" name="waarschuwing bij gebruik kornis i.p.v. koornis">
 			<rule>
                 <antipattern><token>tussen</token><token>kornis</token><token>en</token><token>voetpad</token></antipattern>
@@ -2990,8 +2990,8 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>verleit</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>verlijd</suggestion>?</message>
-				<example correction="verlijd">Het woord <marker>verleit</marker> kan een vergissing zijn.</example>
+				<message>Bedoelt u wellicht <suggestion>verlijd</suggestion> of <suggestion>verleid</suggestion> (overgehaald)?</message>
+				<example correction="verlijd|verleid">Het woord <marker>verleit</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
 
@@ -3019,7 +3019,7 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="SCHIJT_SCHEID" name="waarschuwing bij gebruik scheid i.p.v. schijt">
 			<rule>
 				<pattern><marker><token skip="1">scheid</token></marker><token>aan</token></pattern>
-				<message>Bedoelt u wellicht <suggestion>schijt</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>schijt</suggestion> (poep)?</message>
 				<example correction="schijt">Het woord <marker>scheid</marker> aan kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -4464,6 +4464,7 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 
 		<rulegroup id="SUPERSOON_SUPERZOON" name="waarschuwing bij gebruik supersoon i.p.v. superzoon">
+			<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes" skip="-1">.*(vlieg|geluid).*</token><token postag="SENT_END"/></antipattern>
 			<rule>
                 <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(vliegtuig|snelheid).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
@@ -4732,7 +4733,7 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="MOEDERSONDE_MOEDERZONDE" name="waarschuwing bij gebruik moedersonde i.p.v. moederzonde">
 			<rule>
 				<pattern><token>moedersonde</token></pattern>
-				<message>Bedoelt u wellicht <suggestion>moederzonde</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>moederzonde</suggestion> (wandaad), of toch een meetapparaat??</message>
 				<example correction="moederzonde">Het woord <marker>moedersonde</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -4813,7 +4814,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>sippende</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>zippende</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>zippende</suggestion> (samenpersende), of toch treurige?</message>
 				<example correction="zippende">Het woord <marker>sippende</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -5544,7 +5545,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>safen</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>saven</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>saven</suggestion> (veiligstellen)?</message>
 				<example correction="saven">Het woord <marker>safen</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -6085,7 +6086,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>mailform</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>mailvorm</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>mailvorm</suggestion> (als e-mail) of toch een mailformulier?</message>
 				<example correction="mailvorm">Het woord <marker>mailform</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -34883,7 +34884,7 @@ steenwijk;Steenwijk
 					<token>mannen</token>
 					<token>onder</token>
 					<token>elkaar</token>
-					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer</exception><exception postag_regexp="yes" postag="VRZ|BNW.*"/></token>
+					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer</exception><exception postag_regexp="yes" postag="VRZ|BNW.*|WKW.*"/></token>
 				</pattern>
 				<message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 				<url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
