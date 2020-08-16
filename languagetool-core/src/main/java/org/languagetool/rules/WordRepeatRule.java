@@ -49,6 +49,19 @@ public class WordRepeatRule extends Rule {
    * @return this implementation always returns false
    */
   public boolean ignore(AnalyzedTokenReadings[] tokens, int position) {
+    if (wordRepetitionOf("Phi", tokens, position)) {
+      return true;   // "Phi Phi Islands"
+    } else if (wordRepetitionOf("Li", tokens, position)) {
+      return true;   // "Li Li", Chinese name
+    } else if (wordRepetitionOf("Xiao", tokens, position)) {
+      return true;   // "Xiao Xiao", name
+    } else if (wordRepetitionOf("Duran", tokens, position)) {
+      return true;   // "Duran Duran"
+    } else if (wordRepetitionOf("Wagga", tokens, position)) {
+      return true;   // "Wagga Wagga"
+    } else if (wordRepetitionOf("Pago", tokens, position)) {
+      return true;   // "Pago Pago"
+    }
     return false;
   }
 

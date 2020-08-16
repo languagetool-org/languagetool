@@ -43,7 +43,7 @@ public class SpanishWordRepeatRule extends WordRepeatRule {
     if (position > 0 && (tokens[position].hasPosTag("_allow_repeat") || tokens[position-1].hasPosTag("_allow_repeat"))) {
       return true;
     }
-    return false;
+    return super.ignore(tokens, position);
   }
 
 }

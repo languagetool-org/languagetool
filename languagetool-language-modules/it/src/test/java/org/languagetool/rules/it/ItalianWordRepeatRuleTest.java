@@ -36,6 +36,7 @@ public class ItalianWordRepeatRuleTest {
     ItalianWordRepeatRule rule = new ItalianWordRepeatRule(TestTools.getEnglishMessages(), lang);
     JLanguageTool lt = new JLanguageTool(lang);
     assertThat(rule.match(lt.getAnalyzedSentence("Mi è sembrato così così")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Duran Duran")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Mi mi è sembrato così")).length, is(1));
   }
 

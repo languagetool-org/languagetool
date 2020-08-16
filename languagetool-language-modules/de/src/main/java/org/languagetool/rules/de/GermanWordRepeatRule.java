@@ -142,7 +142,7 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       return true;
     }
 
-    return false;
+    return super.ignore(tokens, position);
   }
 
   @Override

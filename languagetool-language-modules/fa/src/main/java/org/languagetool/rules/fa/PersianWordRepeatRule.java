@@ -63,7 +63,7 @@ public class PersianWordRepeatRule extends WordRepeatRule {
     if (wordRepetitionOf("کل", tokens, position)) {
       return true;   // "با من کل کل نکن"
     }
-    return false;
+    return super.ignore(tokens, position);
   }
 
 }

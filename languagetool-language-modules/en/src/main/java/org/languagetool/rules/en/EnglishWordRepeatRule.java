@@ -122,8 +122,6 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true; // Walla Walla is a city in Washington State
     } else if (repetitionOf("sri", tokens, position)) {
       return true; // Sri Sri (name)
-    } else if (repetitionOf("xiao", tokens, position)) {
-      return true; // Xiao Xiao (name)
     } else if (repetitionOf("hey", tokens, position)) {
       return true;
     } else if (repetitionOf("hah", tokens, position)) {
@@ -202,26 +200,14 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;
     } else if (repetitionOf("choo", tokens, position)) {
       return true;
-    } else if (repetitionOf("Phi", tokens, position)) {
-      return true;   // "Phi Phi Islands"
-    } else if (repetitionOf("Bora", tokens, position)) {
-      return true;   // "Bora Bora"
     } else if (repetitionOf("tuk", tokens, position)) {
       return true;
     } else if (repetitionOf("yadda", tokens, position)) {
       return true;   // "yadda yadda"
-    } else if (repetitionOf("Pago", tokens, position)) {
-      return true;   // "Pago Pago"
-    } else if (repetitionOf("Wagga", tokens, position)) {
-      return true;   // "Wagga Wagga"
-    } else if (repetitionOf("Duran", tokens, position)) {
-      return true;   // "Duran Duran"
     } else if (repetitionOf("sapiens", tokens, position)) {
       return true;   // "Homo sapiens sapiens"
     } else if (repetitionOf("tse", tokens, position)) {
       return true;   // "tse tse"
-    } else if (repetitionOf("Li", tokens, position)) {
-      return true;   // "Li Li", Chinese name
     } else if (repetitionOf("no", tokens, position)) {
       return true;   // "no no"
     } else if (tokens[position].getToken().endsWith("ay")) {
@@ -239,7 +225,7 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
         || (tokens[position - 1].getToken().equals("Will") && tokens[position].getToken().equals("will")) // Will will ...
         || (tokens[1].getToken().equals("Will") && tokens[2].getToken().equals("Will")); // "Will Will" SENT_START
     }
-    return false;
+    return super.ignore(tokens, position);
   }
 
   private boolean posIsIn(AnalyzedTokenReadings[] tokens, int position, String... posTags) {

@@ -64,9 +64,6 @@ public class PortugueseWordRepeatRule extends WordRepeatRule {
     if (wordRepetitionOf("se", tokens, position)) {
       return true;   // "se se"
     }
-    if (wordRepetitionOf("Duran", tokens, position)) {
-      return true;   // "Duran Duran"
-    }
     if (wordRepetitionOf("sapiens", tokens, position)) {
       return true;   // "Homo sapiens sapiens"
     }
@@ -79,7 +76,7 @@ public class PortugueseWordRepeatRule extends WordRepeatRule {
     if (isHyphenated(tokens, position) && isPronoun(tokens[position])) {
       return true;   // e.g. "Coloquem-na na sala."
     }
-    return false;
+    return super.ignore(tokens, position);
   }
 
   private boolean isHyphenated(AnalyzedTokenReadings[] tokens, int position) {

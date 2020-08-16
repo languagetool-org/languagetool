@@ -49,7 +49,7 @@ public class ArabicWordRepeatRule extends WordRepeatRule {
     if (wordRepetitionOf("رويدا", tokens, position)) {
       return true;
     }
-    return false;
+    return super.ignore(tokens, position);
   }
 
 }

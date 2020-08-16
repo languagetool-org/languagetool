@@ -46,16 +46,7 @@ public class ItalianWordRepeatRule extends WordRepeatRule {
     if (wordRepetitionOf("così", tokens, position)) {
       return true;   // "Mi è sembrato così così."
     }
-    if (wordRepetitionOf("Pago", tokens, position)) {
-      return true;   // "Pago Pago"
-    }
-    if (wordRepetitionOf("Wagga", tokens, position)) {
-      return true;   // "Wagga Wagga"
-    }
-    if (wordRepetitionOf("Duran", tokens, position)) {
-      return true;   // "Duran Duran"
-    }
-    return false;
+    return super.ignore(tokens, position);
   }
 
 }
