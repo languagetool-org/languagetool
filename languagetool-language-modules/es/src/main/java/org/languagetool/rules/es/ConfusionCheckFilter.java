@@ -45,6 +45,9 @@ public class ConfusionCheckFilter extends RuleFilter {
     String replacement = null;
     String postag = getRequired("postag", arguments);
     String form = getRequired("form", arguments).toLowerCase();
+    /*if (form.equals("interprete")) {
+      form = form + "";
+    }*/
     String gendernumber_from = getOptional("gendernumber_from", arguments);
     if (gendernumber_from != null) {
       int i = Integer.parseInt(gendernumber_from);
@@ -53,10 +56,10 @@ public class ConfusionCheckFilter extends RuleFilter {
             "ConfusionCheckFilter: Index out of bounds in " + match.getRule().getFullId() + ", value: " + i);
       }
       AnalyzedTokenReadings atr = patternTokens[i - 1];
-      if (atr.matchesPosTagRegex(".+MS.*")) { desiredGenderNumberPattern = MS;}
-      if (atr.matchesPosTagRegex(".+MP.*")) { desiredGenderNumberPattern = MP;}
-      if (atr.matchesPosTagRegex(".+FS.*")) { desiredGenderNumberPattern = FS;}
-      if (atr.matchesPosTagRegex(".+FP.*")) { desiredGenderNumberPattern = FP;}
+      if (atr.matchesPosTagRegex("[NA].+MS.*|V.P..SM")) { desiredGenderNumberPattern = MS;}
+      if (atr.matchesPosTagRegex("[NA].+MP.*|V.P..PM")) { desiredGenderNumberPattern = MP;}
+      if (atr.matchesPosTagRegex("[NA].+FS.*|V.P..SF")) { desiredGenderNumberPattern = FS;}
+      if (atr.matchesPosTagRegex("[NA].+FP.*|V.P..PF")) { desiredGenderNumberPattern = FP;}
     }
     
     if (relevantWords.containsKey(form)) {
