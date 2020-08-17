@@ -221,6 +221,7 @@ public class ProhibitedCompoundRule extends Rule {
           "verkeimtes",
           "verkeimten",
           "verkeimtem",
+          "Flugscham", // vs. Flugschau
           "Kurseinführung"
   ));
 
