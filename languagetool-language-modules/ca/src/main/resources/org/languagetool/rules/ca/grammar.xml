@@ -31230,6 +31230,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="POSAR_DE_VOLTA" name="*posar de volta i mitja/deixar com un drap brut">
+            <pattern>
+                <token inflected="yes">posar</token>
+                <token>de</token>
+                <token>volta</token>
+                <token>i</token>
+                <token>mitja</token>
+            </pattern>
+            <message>Aquesta expressió és un castellanisme.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">deixar</match> com un drap brut</suggestion>
+            <example correction="deixat com un drap brut">L'ha <marker>posat de volta i mitja</marker>.</example>
+        </rule>
         <rulegroup id="TRACTA_TRAFIC" name="*tracta/tràfic">
             <rule>
                 <pattern>
