@@ -52,7 +52,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   public static final String RULE_ID = "GERMAN_SPELLER_RULE";
 
-  private static Logger logger = LoggerFactory.getLogger(GermanSpellerRule.class);
+  private static final Logger logger = LoggerFactory.getLogger(GermanSpellerRule.class);
 
   private static final int MAX_EDIT_DISTANCE = 2;
 

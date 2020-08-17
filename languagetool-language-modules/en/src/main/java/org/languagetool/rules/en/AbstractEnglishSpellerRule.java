@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
-  //private static Logger logger = LoggerFactory.getLogger(AbstractEnglishSpellerRule.class);
+  //private static final Logger logger = LoggerFactory.getLogger(AbstractEnglishSpellerRule.class);
   //private static final EnglishSynthesizer synthesizer = (EnglishSynthesizer) Languages.getLanguageForShortCode("en").getSynthesizer();
 
   private final BeoLingusTranslator translator;

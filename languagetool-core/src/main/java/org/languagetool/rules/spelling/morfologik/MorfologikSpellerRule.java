@@ -57,7 +57,7 @@ import org.slf4j.LoggerFactory;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
-  private static Logger logger = LoggerFactory.getLogger(MorfologikSpellerRule.class);
+  private static final Logger logger = LoggerFactory.getLogger(MorfologikSpellerRule.class);
 
   protected MorfologikMultiSpeller speller1;
   protected MorfologikMultiSpeller speller2;

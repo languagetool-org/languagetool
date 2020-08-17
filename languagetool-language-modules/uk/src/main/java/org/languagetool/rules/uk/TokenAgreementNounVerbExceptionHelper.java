@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
  * @since 3.6
  */
 public final class TokenAgreementNounVerbExceptionHelper {
-  private static Logger logger = LoggerFactory.getLogger(TokenAgreementNounVerbExceptionHelper.class);
+  private static final Logger logger = LoggerFactory.getLogger(TokenAgreementNounVerbExceptionHelper.class);
 
   private static final Set<String> MASC_FEM_SET = extendSet(ExtraDictionaryLoader.loadSet("/uk/masc_fem.txt"), "екс-");
 

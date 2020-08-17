@@ -61,7 +61,7 @@ public class HunspellRule extends SpellingCheckRule {
   protected Hunspell hunspell = null;
 
   private static final ConcurrentLinkedQueue<String> activeChecks = new ConcurrentLinkedQueue<>();
-  private static Logger logger = LoggerFactory.getLogger(HunspellRule.class);
+  private static final Logger logger = LoggerFactory.getLogger(HunspellRule.class);
   private static final String NON_ALPHABETIC = "[^\\p{L}]";
 
   private final boolean monitorRules;

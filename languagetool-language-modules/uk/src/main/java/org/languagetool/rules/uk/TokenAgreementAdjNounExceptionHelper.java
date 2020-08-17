@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
  * @since 3.6
  */
 final class TokenAgreementAdjNounExceptionHelper {
-  private static Logger logger = LoggerFactory.getLogger(TokenAgreementAdjNounExceptionHelper.class);
+  private static final Logger logger = LoggerFactory.getLogger(TokenAgreementAdjNounExceptionHelper.class);
 
   private static final Pattern NUMBER_V_NAZ = Pattern.compile("number|numr:p:v_naz|noun.*?:p:v_naz:&numr.*");
   // including latin 'a' and 'i' so the rules don't trip on them in Ukrainian sentences

@@ -53,7 +53,7 @@ import org.slf4j.LoggerFactory;
 public class TokenAgreementAdjNounRule extends Rule {
   static final List<String> FAKE_FEM_LIST = Arrays.asList("ступінь", "степінь", "продаж", "собака", "дріб", "ярмарок", "нежить", "рукопис", "накип", "насип", "путь");
 
-  private static Logger logger = LoggerFactory.getLogger(TokenAgreementAdjNounRule.class);
+  private static final Logger logger = LoggerFactory.getLogger(TokenAgreementAdjNounRule.class);
 
   static final Pattern ADJ_INFLECTION_PATTERN = Pattern.compile(":([mfnp]):(v_...)(:r(in)?anim)?");
   static final Pattern NOUN_INFLECTION_PATTERN = Pattern.compile("((?:[iu]n)?anim):([mfnps]):(v_...)");
