@@ -4306,7 +4306,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rulegroup id="BILSHE_TOGO" name="Більше того">
+    <rulegroup id="bilshe_togo" name="Більше того">
       <rule>
         <pattern>
           <marker>
@@ -4339,7 +4339,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">&punct_std;</token>
         </pattern>
         <message>Правильно: <suggestion>(і) не більше</suggestion></message>
-        <example correction="(і) не більше">Піар, статусність і <marker>не більше того</marker>.</example>
+        <suggestion>(і) не більш</suggestion>
+        <example correction="(і) не більше|(і) не більш">Піар, статусність і <marker>не більше того</marker>.</example>
         <example>не більше того глечика</example>
       </rule>
     </rulegroup>
@@ -5215,6 +5216,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <suggestion>ладом</suggestion>
       <example correction="на манір|на кшталт|на штиб|на взір|на штиль|кшталтом|штибом|способом|робом|ладом">уніфікували <marker>на манер</marker> інших елементів.</example>
       <example correction="на манір|на кшталт|на штиб|на взір|на штиль|кшталтом|штибом|способом|робом|ладом">уніфікували <marker>на німецький манер</marker>.</example>
+    </rule>
+
+    <rule id="v_netverezomu_vyglyadi" name="У нетверезому вигляді">
+      <pattern>
+        <token regexp="yes">[ву]</token>
+        <token>нетверезому</token>
+        <token regexp="yes">вигляді|виді</token>
+      </pattern>
+      <message>Правильно: <suggestion>нетверезим</suggestion></message>
+      <suggestion>напідпитку</suggestion>
+      <example correction="нетверезим|напідпитку"><marker>у нетверезому вигляді</marker>.</example>
     </rule>
 
     <rule id="A_ADZHE" name="А адже">
