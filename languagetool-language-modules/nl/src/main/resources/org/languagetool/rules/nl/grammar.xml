@@ -1364,7 +1364,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>portjes</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>poortjes</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>poortjes</suggestion> (deurtjes), of toch drankjes?</message>
 				<example correction="poortjes">Het woord <marker>portjes</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -2698,7 +2698,7 @@ regexp case-insensitive maken : (?i)
 
 		<rulegroup id="ONTWIJDEN_ONTWEIDEN" name="waarschuwing bij gebruik ontweiden i.p.v. ontwijden">
 			<rule>
-                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(hert|darm|ingewanden|orgaa?n|wild).*</token><token postag="SENT_END"/></antipattern>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(hert|darm|ingewanden|orgaa?n|wild|slacht|vil).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					   <token>ontweiden</token>
 				</pattern>
@@ -3468,6 +3468,8 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 
 		<rulegroup id="MARGES_MARSJES" name="waarschuwing bij gebruik marsjes i.p.v. marges">
+			<antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">.*(snoep|twix).*</token><token postag="SENT_END"/></antipattern>
+			
 			<rule>
 				<pattern>
 					   <token>marsjes</token>
@@ -4160,7 +4162,7 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					   <token>sipper</token>
 				</pattern>
-				<message>Bedoelt u wellicht <suggestion>zipper</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion>zipper</suggestion> (inpakker, rits), of toch treuriger?</message>
 				<example correction="zipper">Het woord <marker>sipper</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
@@ -4711,7 +4713,7 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="LEISEN_LEIZEN" name="waarschuwing bij gebruik leisen i.p.v. leizen">
 			<rule>
 				<pattern>
-					   <token>leisen</token>
+					   <token case_sensitive="yes">leisen</token>
 				</pattern>
 				<message>Bedoelt u wellicht <suggestion>leizen</suggestion> (lange lui) of toch gezang?</message>
 				<example correction="leizen">Het woord <marker>leisen</marker> kan een vergissing zijn.</example>
@@ -6136,7 +6138,7 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="FELLERS_VELLERS" name="waarschuwing bij gebruik fellers i.p.v. vellers">
 			<rule>
 				<pattern>
-					   <token>fellers</token>
+					   <token case_sensitive="yes">fellers</token>
 				</pattern>
 				<message>Bedoelt u wellicht <suggestion>vellers</suggestion>?</message>
 				<example correction="vellers">Het woord <marker>fellers</marker> kan een vergissing zijn.</example>
@@ -11016,6 +11018,7 @@ onwaarschijnlijk
 		<rulegroup id="ZE_DE" name="zede → ze de">
 			<!-- 2017-06-22 TaalTik -->
 			<rule>
+				<antipattern><token postag="BNW.*" postag_regexp="yes"/><token>zede</token></antipattern>
 				<pattern>
 					<marker>
 						<token>zede</token>
@@ -17293,7 +17296,7 @@ steenwijk;Steenwijk
 		<rulegroup id="AAN_HET_HARD" name="Aan het hard → aan het hart">
 			<rule>
                 <antipattern><token>aan</token><token>het</token><token>hard</token><token>werkende</token></antipattern>
-				<antipattern><token>hard</token><token regexp="yes">schieten|inschieten</token></antipattern>
+				<antipattern><token>hard</token><token regexp="yes">aanpakken|schieten|inschieten</token></antipattern>
 				<!-- 2014-08-26 TaalTik -->
 				<pattern>
 					<token>aan</token>
