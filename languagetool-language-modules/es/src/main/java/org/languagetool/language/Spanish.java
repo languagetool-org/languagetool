@@ -43,7 +43,7 @@ public class Spanish extends Language implements AutoCloseable{
 
   private LanguageModel languageModel;
   
-  private static final Pattern APOSTROPHE = Pattern.compile("(\\p{L})'([\\p{L}\u202f\u00a0 !\\?,\\.;:])",
+  private static final Pattern APOSTROPHE = Pattern.compile("(\\p{L})'([\\p{L}\u202f\u00a0 !\\?,\\.;:\\)])",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   @Override
@@ -162,7 +162,7 @@ public class Spanish extends Language implements AutoCloseable{
     if (output.startsWith("'")) { 
       output = output.replaceFirst("'", "‘");
     }
-    output = output.replaceAll("(['’ «\"])'", "$1‘");
+    output = output.replaceAll("(['’ «\"\\(])'", "$1‘");
     if (output.endsWith("'")) { 
       output = output.substring(0, output.length() - 1 ) + "’";
     }
@@ -174,8 +174,8 @@ public class Spanish extends Language implements AutoCloseable{
     if (output.endsWith("\"")) { 
       output = output.substring(0, output.length() - 1 ) + "»";
     }
-    output = output.replaceAll(" \"", " «");
-    output = output.replaceAll("\"([\\u202f\\u00a0 !\\?,\\.;:])", "»$1");   
+    output = output.replaceAll("([ \\(])\"", "$1«");
+    output = output.replaceAll("\"([\\u202f\\u00a0 !\\?,\\.;:\\)])", "»$1");   
     
     return output;
   }
