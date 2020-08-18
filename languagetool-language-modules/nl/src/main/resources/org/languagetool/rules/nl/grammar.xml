@@ -31489,6 +31489,26 @@ steenwijk;Steenwijk
 				<example><marker>Hij was</marker> meer dan een koning.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="HUN_HEBBEN" name="hun hebben" default="temp_off">
+			<rule>
+				<antipattern><token>hebben</token><token>en</token><token>houden</token></antipattern>
+				<antipattern>
+					<token postag="SENT_START"/>
+						<token>hun</token>
+						<token postag="ZNW.*" postag_regexp="yes"/>
+						<token postag="WKW:.*" postag_regexp="yes"/>
+				</antipattern>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token>hun</token>
+						<token postag="WKW:.*:INF.*" postag_regexp="yes"/>
+					</marker>
+				</pattern>
+				<message>Juist is <suggestion>Zij \3</suggestion> of <suggestion>Ze \3</suggestion></message>
+				<example correction="Zij houden|Ze houden"><marker>Hun houden</marker> van een thuis.</example>
+			</rule>
+		</rulegroup>
 		<!--
 		<rulegroup id="LOOPT_JIJ" name="loopt jij">
 			<rule>
