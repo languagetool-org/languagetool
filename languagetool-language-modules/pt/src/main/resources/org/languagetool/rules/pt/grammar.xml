@@ -9329,6 +9329,30 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="têm">Uns <marker>tem</marker> sorte no jogo.</example>
     </rule>
 
+    <rulegroup id='TIRAR_FOTOGRAFIA' name="Fotografar" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-08-18     -->
+	 <rule>
+      <pattern>
+          <token inflected='yes'>tirar</token>
+		  <token min="0" regexp='yes'>umas?</token>
+		  <token regexp='yes'>fotografia|foto</token>
+		  <token regexp='no'>ao</token>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fotografar</match> o</suggestion></message>
+      <example correction="fotografar o">Vamos <marker>tirar uma fotografia ao</marker> Rui.</example>
+	 </rule>
+	 <rule>
+      <pattern>
+          <token inflected='yes'>tirar</token>
+		  <token min="0" regexp='yes'>umas?</token>
+		  <token regexp='yes'>fotografia|foto</token>
+		  <token regexp='no'>à</token>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fotografar</match> a</suggestion></message>
+      <example correction="fotografar a">Vamos <marker>tirar uma fotografia à</marker> Ana.</example>	  
+	 </rule>
+    </rulegroup>
+
     <!-- TOMARÁ LUGAR terá lugar -->
     <rule id='TOMARÁ_LUGAR' name="Terá lugar">
       <pattern>
