@@ -517,6 +517,18 @@ title="Easy editing stylesheet" ?>
           <token postag='NC[CFM]S000' postag_regexp='yes'/>
       </antipattern>	
 <!-- MARCOAGPINTO 2020-07-31 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-08-18 (2-JUL-2020+) *START* -->
+<!-- "Uma máquina a motor mais pesada que o ar." -->
+<!-- "Uma máquina a gasolina mais pesada que o ar." -->
+<!-- "A entrar no Império tão grande quantidade de escravos africanos." -->
+      <antipattern>
+		<token postag='V.+|NC[CFM]S000|AQ0[CFM]S0|CS|I|PT0CN000|RG' postag_regexp='yes'/>
+		<token regexp='yes'>a|ao|no|do|se|de|muito|pouco|cada|para|grande|pequeno|maior|menor</token>
+		<token postag='AQ0[CFM]S0|NC[CFM]S000' postag_regexp='yes'/>
+		<token postag='NC[CM]S000|NC[CM]N000|RG' postag_regexp='yes'/>
+		<token postag='NC[CF]S000|AQ0[CF]S0|VMP00SF' postag_regexp='yes'/>
+      </antipattern>	  
+<!-- MARCOAGPINTO 2020-08-18 (2-JUL-2020+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -554,6 +566,9 @@ title="Easy editing stylesheet" ?>
       <example>Deixe-me dirigir o seu novo Toyota.</example>
 	  <example type='correct'>Uma informação o mais simples e <marker>o mais rica</marker>.</example>
 	  <example type='correct'>O desaparecimento de um equilíbrio, <marker>denominado catástrofe</marker>.</example>
+	  <example type='correct'>Uma máquina a <marker>motor mais pesada</marker> que o ar.</example>
+	  <example type='correct'>Uma máquina a <marker>gasolina mais pesada</marker> que o ar.</example>
+	  <example type='correct'>A entrar no <marker>Império tão grande quantidade</marker> de escravos africanos.</example>
     </rule>
     <rule>
       <pattern>
