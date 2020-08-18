@@ -10833,7 +10833,7 @@ onwaarschijnlijk
 			<!-- 2014-08-23 TaalTik -->
 			<rule>
 				<pattern case_sensitive="yes">
-					<token regexp="yes">(?iu)de|diat|het</token>
+					<token regexp="yes" case_sensitive="no">de|dit|het</token>
 					<token>gene</token>
 				</pattern>
 				<message>Juist is <suggestion><match no="1"/><match no="2"/></suggestion>.</message>
@@ -12131,6 +12131,7 @@ onwaarschijnlijk
 				<example correction="e.o.">Ik houd van Haarlem <marker>eo</marker> sinds mijn jeugd.</example>
 			</rule>
 			<rule>
+				<antipattern><token>eo</token><token>:</token></antipattern><!-- language -->
 				<pattern>
 					<token>de</token>
 					<marker>
@@ -16442,10 +16443,18 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="LANG_HL" name="Lang woord in hoofdletters">
 			<rule>
+				<!-- newspapers do this for places all the time -->
 				<antipattern>
 					<token postag="SENT_START"/>
 					<token regexp="yes" case_sensitive="yes">[A-Z]{5,79}</token>
                     <token regexp="yes">-|‒|―|—|⸺|⸻|﹘</token>
+				</antipattern>
+				<antipattern>
+					<token postag="SENT_START"/>
+					<token regexp="yes" case_sensitive="yes">[A-Z]{5,79}</token>
+                    <token regexp="yes">(</token>
+					<token regexp="yes">[A-Z]+</token>
+                    <token regexp="yes">)</token>
 				</antipattern>
 				<pattern case_sensitive="yes">
 					<marker>
@@ -35607,6 +35616,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="DAR" name="Dar → daar">
 			<rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">mannelijk|wesp</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					<token>dar</token>
 				</pattern>
