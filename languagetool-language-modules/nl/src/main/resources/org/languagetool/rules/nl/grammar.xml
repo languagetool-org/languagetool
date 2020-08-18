@@ -10832,8 +10832,8 @@ onwaarschijnlijk
 		<rulegroup id="DE_GENE" name="die gene → diegene">
 			<!-- 2014-08-23 TaalTik -->
 			<rule>
-				<pattern case_sensitive="yes">
-					<token regexp="yes" case_sensitive="no">de|dit|het</token>
+				<pattern>
+					<token regexp="yes">de|dit|het</token>
 					<token>gene</token>
 				</pattern>
 				<message>Juist is <suggestion><match no="1"/><match no="2"/></suggestion>.</message>
@@ -16439,55 +16439,6 @@ steenwijk;Steenwijk
 				<message>Typefout, wellicht <suggestion>Ede</suggestion>, <suggestion>eed</suggestion> of <suggestion>de</suggestion></message>
 				<example correction="Ede|eed|de">Hij woont in <marker>ede</marker>.</example>
 				<example>Hij staat onder <marker>ede</marker>.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="LANG_HL" name="Lang woord in hoofdletters">
-			<rule>
-				<!-- newspapers do this for places all the time -->
-				<antipattern>
-					<token postag="SENT_START"/>
-					<token regexp="yes" case_sensitive="yes">[A-Z]{5,79}</token>
-                    <token regexp="yes">-|‒|―|—|⸺|⸻|﹘</token>
-				</antipattern>
-				<antipattern>
-					<token postag="SENT_START"/>
-					<token regexp="yes" case_sensitive="yes">[A-Z]{5,79}</token>
-                    <token regexp="yes">(</token>
-					<token regexp="yes">[A-Z]+</token>
-                    <token regexp="yes">)</token>
-				</antipattern>
-				<pattern case_sensitive="yes">
-					<marker>
-                        <token regexp="yes" case_sensitive="yes">[A-Z]{5,79}<exception postag_regexp="yes" postag="ENM.*"/></token>
-					</marker>
-				</pattern>
-				<message>Het helemaal in hoofdletters schrijven van woorden met meer dan 4 letters wordt afgeraden; schrijf liever <suggestion><match no="1" case_conversion="alllower"/></suggestion>.</message>
-				<short>Lelijk</short>
-				<example correction="altijd">Das echt <marker>ALTIJD</marker>.</example>
-			</rule>
-            <!--
-			<rule>
-				<pattern case_sensitive="yes">
-					<marker>
-                        <token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ENM.*">[A-Z]{5,79}</token>
-					</marker>
-				</pattern>
-				<message>Het helemaal in hoofdletters schrijven van woorden met meer dan 4 letters wordt afgeraden; schrijf liever <suggestion><match no="1" case_conversion="alllower"/></suggestion>.</message>
-				<short>Lelijk</short>
-				<example correction="altijd">Das echt <marker>ALTIJD</marker>.</example>
-			</rule>
-            -->
-			<rule>
-				<pattern case_sensitive="yes">
-					<token postag="SENT_START"/>
-					<marker>
-						<token regexp="yes" case_sensitive="yes">[A-Z]{5,79}<exception regexp="yes">[0-9a-f]{6}</exception></token>
-						<!-- uitzondering voor hex kleuren tbv Wikipedia check -->
-					</marker>
-				</pattern>
-				<message>Het helemaal in hoofdletters schrijven van woorden met meer dan 4 letters wordt afgeraden<suggestion><match no="2" case_conversion="alllower"/></suggestion>.</message>
-				<short>Lelijk</short>
-				<example correction="altijd"><marker>ALTIJD</marker> is vreemd.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="AMERIKAAN" name="amerikaan of Amerikaan">
@@ -39996,7 +39947,6 @@ steenwijk;Steenwijk
 				<message>Schrijf liever: <suggestion><match no="2" regexp_match="introducés$" regexp_replace="introducees"/></suggestion> Of laat \1 achterwege.</message>
 				<example correction="introducees">We spreken de <marker>vrouwelijke introducés</marker>.</example>
 			</rule>
-		
 		</rulegroup>
 		
 		<rulegroup id="SEKSE_LIJK" name="Overbodig gebruik van mannelijk of vrouwelijk">
