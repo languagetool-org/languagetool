@@ -36,6 +36,7 @@ public class ConfusionCheckFilter extends RuleFilter {
   private static final Pattern FS = Pattern.compile("NC[FC][SN]000|A..[FC][SN].|V.P..SF");
   private static final Pattern MP = Pattern.compile("NC[MC][PN]000|A..[MC][PN].|V.P..PM");
   private static final Pattern FP = Pattern.compile("NC[FC][PN]000|A..[FC][PN].|V.P..PF");
+  private static final Pattern CP = Pattern.compile("NC[MFC][PN]000|A..[MFC][PN].|V.P..P.");
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
@@ -45,7 +46,7 @@ public class ConfusionCheckFilter extends RuleFilter {
     String replacement = null;
     String postag = getRequired("postag", arguments);
     String form = getRequired("form", arguments).toLowerCase();
-    /*if (form.equals("interprete")) {
+    /*if (form.equals("titulo")) {
       form = form + "";
     }*/
     String gendernumber_from = getOptional("gendernumber_from", arguments);
@@ -56,10 +57,11 @@ public class ConfusionCheckFilter extends RuleFilter {
             "ConfusionCheckFilter: Index out of bounds in " + match.getRule().getFullId() + ", value: " + i);
       }
       AnalyzedTokenReadings atr = patternTokens[i - 1];
-      if (atr.matchesPosTagRegex("[NA].+MS.*|V.P..SM")) { desiredGenderNumberPattern = MS;}
-      if (atr.matchesPosTagRegex("[NA].+MP.*|V.P..PM")) { desiredGenderNumberPattern = MP;}
-      if (atr.matchesPosTagRegex("[NA].+FS.*|V.P..SF")) { desiredGenderNumberPattern = FS;}
-      if (atr.matchesPosTagRegex("[NA].+FP.*|V.P..PF")) { desiredGenderNumberPattern = FP;}
+      if (atr.matchesPosTagRegex("[NAPD].+MS.*|V.P..SM")) { desiredGenderNumberPattern = MS;}
+      else if (atr.matchesPosTagRegex("[NAPD].+MP.*|V.P..PM")) { desiredGenderNumberPattern = MP;}
+      else if (atr.matchesPosTagRegex("[NAPD].+FS.*|V.P..SF")) { desiredGenderNumberPattern = FS;}
+      else if (atr.matchesPosTagRegex("[NAPD].+FP.*|V.P..PF")) { desiredGenderNumberPattern = FP;}
+      else if (atr.matchesPosTagRegex("[NAPD].+CP.*|V.P..P.")) { desiredGenderNumberPattern = CP;}
     }
     
     if (relevantWords.containsKey(form)) {
@@ -69,8 +71,11 @@ public class ConfusionCheckFilter extends RuleFilter {
           if (!m.matches()) {
             return null;
           }
+          replacement = relevantWords.get(form).getToken();
+        } else if (gendernumber_from == null) {
+          // there is no desired gender number defined
+          replacement = relevantWords.get(form).getToken();
         }
-        replacement = relevantWords.get(form).getToken(); 
       }
     }
     if (replacement != null) {

@@ -1076,6 +1076,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="fábricas">Salía de esas <marker>fabricas</marker> a un precio bajo.</example>
                 <example correction="filósofo">Fue un <marker>filosofo</marker> estrambótico</example>
                 <example correction="título">¿Por qué le pondría ese <marker>titulo</marker>?</example>
+                <example>una diatonica y no una tremolo</example>
+                <example>Este opera desde el domingo pasado.</example>
                 <example>¿Por qué decimos esto?</example>
                 <example>La enmienda n.º 4 duplica gran parte.</example>
                 <example>¿Dónde está tu mama, niño?</example>
@@ -1084,19 +1086,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Su abuela lo crio.</example>
                 <example>Para gente que no la practica.</example>
                 <!-- tu>tú-->
-            </rule>
-            <rule default="temp_off">
-                <!-- destacado interprete de -->
-                <pattern>
-                    <token postag="AQ.*|V.P.*" postag_regexp="yes"><exception regexp="yes">el|lo|la</exception><exception postag="PP.*" postag_regexp="yes"/></token>
-                    <marker>
-                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
-                    </marker>
-                </pattern>
-                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:NC.* gendernumber_from:1"/>
-                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
-                <suggestion>{suggestion}</suggestion>
-                <example correction="intérprete">Un destacado <marker>interprete</marker> de música clásica.</example>
             </rule>
             <rule>
                 <!-- La fabrica produjo -->
@@ -1338,6 +1327,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="lío">Tengo un poco <marker>lio</marker> con todo esto.</example>
                 <example correction="lío">Tengo <marker>lio</marker> con todo esto.</example>
                 <example>Se lio con esto.</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- destacado interprete de (only adjectives usually before the noun -->
+                <pattern>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">nuevo|gran|destacado|mismo|apreciable<exception regexp="yes">el|lo|la</exception><exception postag="PP.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:NC.* gendernumber_from:1"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="intérprete">Un destacado <marker>interprete</marker> de música clásica.</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- destacado interprete de (only adjectives usually before the noun -->
+                <pattern>
+                    <token postag="AQ..P.|V.P..P." postag_regexp="yes"><exception regexp="yes">el|lo|la</exception><exception postag="PP.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:NC.* gendernumber_from:1"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="órdenes">Excepcionales <marker>ordenes</marker> del general.</example>
             </rule>
         </rulegroup>
         <rule id="DIACRITICS_CONDICIONAL" name="secundaria/secundaría">
