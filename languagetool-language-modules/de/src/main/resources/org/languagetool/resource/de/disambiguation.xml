@@ -1846,7 +1846,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Chief" id="CHIEF"><!-- common job titles -->
       <pattern case_sensitive="yes">
         <token>Chief</token>
-        <token regexp="yes">Executive|Growth|Product|Technology|Technical|Digital|Design|Data|Operating|Financial|Sales|Business|Administrative|Analytics|Brand(ing)?|Information|Investment|Learning|Petty|People|Customer|Communications?|Creative|Support|Commercial|Procurement|Privacy|Project|Research|Risk|Strategy|Sales|Security|Visionary</token>
+        <token regexp="yes">Executive|Growth|Product|Technology|Technical|Digital|Design|Data|Operating|Operations?|Financial|Sales|Business|Administrative|Analytics|Brand(ing)?|Information|Investment|Learning|Petty|People|Customer|Communications?|Creative|Support|Commercial|Procurement|Privacy|Project|Research|Risk|Strategy|Sales|Security|Visionary</token>
         <token regexp="yes">Officers?</token>
       </pattern>
       <disambig action="ignore_spelling"/>
@@ -3960,6 +3960,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern case_sensitive="yes">
             <token>İlkay</token>
             <token regexp="yes">Gündoğans?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="IP_V_6" name="Ignore spelling of 'IPv6'">
+        <pattern>
+            <token case_sensitive="yes">IPv</token>
+            <token regexp="yes" spacebefore="no">4|6</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
