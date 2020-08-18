@@ -334,6 +334,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "know what type", // vs now
       "your pulled pork", // vs you
       "dear management", // vs deer
+      "way worse", // vs was
+      "way to much", // different error
       "the go to" // vs to (caught by GO_TO_HYPHEN)
     );
     
