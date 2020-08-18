@@ -165,6 +165,7 @@ class ConfusionRuleEvaluator {
     for (Long factor : factors) {
       RuleEvalValues evalValues = this.evalValues.get(factor);
       float precision = (float)evalValues.truePositives / (evalValues.truePositives + evalValues.falsePositives);
+      float specificity = (float)evalValues.trueNegatives / (evalValues.trueNegatives + evalValues.falsePositives);
       float recall = (float) evalValues.truePositives / (evalValues.truePositives + evalValues.falseNegatives);
       String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
       String spaces = StringUtils.repeat(" ", 82-Long.toString(factor).length());
@@ -180,9 +181,9 @@ class ConfusionRuleEvaluator {
         }
       }
       float fMeasureBeta = 0.5f;
-      String summary = String.format(ENGLISH, "%s%s%s; %d; %s # p=%.3f, r=%.3f, f%.1f=%.3f, %d+%d, %dgrams, %s",
+      String summary = String.format(ENGLISH, "%s%s%s; %d; %s # p=%.3f, r=%.3f, f%.1f=%.3f, s=%.3f, %d+%d, %dgrams, %s",
               word1, delimiter, word2, factor, spaces, precision, recall, fMeasureBeta, FMeasure.getFMeasure(precision, recall, fMeasureBeta),
-              allTokenSentences.size(), allHomophoneSentences.size(), rule.getNGrams(), date);
+              specificity, allTokenSentences.size(), allHomophoneSentences.size(), rule.getNGrams(), date);
       results.put(factor, new RuleEvalResult(summary, precision, recall));
       if (verbose) {
         System.out.println();
