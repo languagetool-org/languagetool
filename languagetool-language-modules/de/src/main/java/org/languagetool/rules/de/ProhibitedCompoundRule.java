@@ -88,6 +88,10 @@ public class ProhibitedCompoundRule extends Rule {
   private static LinguServices linguServices;
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<String> blacklistRegex = Arrays.asList(
+    "gra(ph|f)ische?",  // kosmografisch etc.
+    "gra(ph|f)ische[rsnm]",  // kosmografischen etc.
+    "gra(ph|f)s?$",  // Elektrokardiograph
+    "gra(ph|f)en",  // Elektrokardiographen
     "gra(ph|f)ik",  // Kunstgrafik
     "gra(ph|f)ie",  // Geographie
     "Gra(ph|f)it"   // Grafit/Graphit

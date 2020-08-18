@@ -73,6 +73,9 @@ public class ProhibitedCompoundRuleTest {
     assertMatches("Viel Wohnungs-Lehrstand.", "Wohnungs-Lehrstand");
     assertMatches("Viel Xliseihfleerstand.", 0);
     assertMatches("Viel Xliseihflehrstand.", 0);  // no correct spelling, so not suggested
+    assertMatches("Ein kosmografischer Test", 0);
+    assertMatches("Ein Elektrokardiograph", 0);
+    assertMatches("Die Elektrokardiographen", 0);
 
     assertMatches("Den Lehrzeile-Test einfügen.", "Lehrzeile");
     assertMatches("Die Test-Lehrzeile einfügen.", "Lehrzeile");
