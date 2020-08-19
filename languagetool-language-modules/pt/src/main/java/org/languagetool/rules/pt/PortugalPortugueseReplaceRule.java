@@ -75,7 +75,7 @@ public class PortugalPortugueseReplaceRule extends AbstractSimpleReplaceRule {
   
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return tokenStr + " é uma expressão brasileira, em Português de Portugal utiliza-se: "
+    return "'" + tokenStr + "' é uma expressão brasileira, em Português de Portugal utiliza-se: "
         + String.join(", ", replacements) + ".";
   }
 

@@ -72,7 +72,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   
   @Override
   public String getMessage(String tokenStr,List<String> replacements) {
-    if (replacements.size()>0) {
+    if (replacements.size() > 0) {
       return "Vouliez-vous dire « " + replacements.get(0) + " » ?";
     } else {
       return getShort();

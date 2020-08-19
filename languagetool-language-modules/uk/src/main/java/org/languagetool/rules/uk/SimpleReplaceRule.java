@@ -77,7 +77,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return tokenStr + " - помилкове слово, виправлення: "
+    return "«" + tokenStr + "» - помилкове слово, виправлення: "
         + String.join(", ", replacements) + ".";
   }
 

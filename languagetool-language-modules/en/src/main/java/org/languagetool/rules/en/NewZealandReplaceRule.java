@@ -70,8 +70,7 @@ public class NewZealandReplaceRule extends AbstractSimpleReplaceRule {
   
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return tokenStr + " is a non-standard expression, in New Zealand English it is more common to use: "
-        + String.join(", ", replacements) + ".";
+    return "'" + tokenStr + "' is a non-standard expression. Consider using expressions more common to New Zealand English.";
   }
 
   @Override
