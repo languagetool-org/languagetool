@@ -1658,6 +1658,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¡Como yo pensaba, estaban equivocados!</example>
             </rule>
         </rulegroup>
+        <rulegroup id="QUIEN" name="quien/quién..." default="temp_off">
+            <url>https://www.rae.es/dpd/qui%C3%A9n</url>
+            <rule>
+                <pattern>
+                    <token>no</token>
+                    <token inflected="yes">saber</token>
+                    <marker>
+                        <token regexp="yes">quien|quienes</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe con tilde si equivale a 'qué persona'.</message>
+                <suggestion><match no="3" regexp_match="(?iu)quien" regexp_replace="quién"/></suggestion>    
+                <example correction="quién">Yo no sé <marker>quien</marker> lo hizo.</example>
+                <example correction="quiénes">No sabía <marker>quienes</marker> lo hicieron.</example>
+                <example>Yo no soy quien lo ha dicho.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>según</token>
+                    <marker>
+                        <token regexp="yes">quien|quienes</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe con tilde si equivale a 'qué persona'.</message>
+                <suggestion><match no="2" regexp_match="(?iu)quien" regexp_replace="quién"/></suggestion>    
+                <example correction="quién">Según <marker>quien</marker> lo diga, le creemos o no.</example>
+                <example correction="quiénes">Según <marker>quienes</marker> sean, lo haremos o no.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">depender|independientemente</token>
+                    <token>de</token>
+                    <marker>
+                        <token regexp="yes">quien|quienes</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe con tilde si equivale a 'qué persona'.</message>
+                <suggestion><match no="3" regexp_match="(?iu)quien" regexp_replace="quién"/></suggestion>    
+                <example correction="quién">Dependía de <marker>quien</marker> lo dijera.</example>
+                <example correction="quiénes">Independientemente de <marker>quienes</marker> sean, los denunciaremos.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QUE_TAL" name="que/qué tal">
             <antipattern>
                 <token>tal</token>
@@ -10783,7 +10825,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token inflected="yes">ano</token>
                     </marker>
                 </pattern>
-                <message>¿Quería decir <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">año</match></suggestion> (=período de doce meses)?</message>
+                <message>¿Quería decir <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">año</match></suggestion> (período de doce meses)?</message>
                 <example correction="año">En el <marker>ano</marker> 1920.</example>
                 <example correction="año">En el <marker>ano</marker> ochenta.</example>
                 <example correction="años">En los <marker>anos</marker> ochenta.</example>
@@ -10814,7 +10856,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>ano</token>
                     </marker>
                 </pattern>
-                <message>¿Quería decir <suggestion>año</suggestion> (=período de doce meses)?</message>
+                <message>¿Quería decir <suggestion>año</suggestion> (período de doce meses)?</message>
                 <example correction="año">Gana 3.000.000 € al <marker>ano</marker>.</example>
             </rule>
             <rule>
@@ -10824,7 +10866,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token inflected="yes">numeral</token>
                 </pattern>
-                <message>¿Quería decir <suggestion>año</suggestion> (=período de doce meses)?</message>
+                <message>¿Quería decir <suggestion>año</suggestion> (período de doce meses)?</message>
                 <example correction="año">Esto -<marker>ano</marker> 2000- era importante.</example>
                 <example correction="año">Saldrán por el <marker>ano</marker> 2050.</example>
                 <example correction="año">Se hizo una colonoscopia el <marker>ano</marker> 2010.</example>
@@ -10836,7 +10878,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>ano</token>
                     </marker>
                 </pattern>
-                <message>¿Quería decir <suggestion>año</suggestion> (=período de doce meses)?</message>
+                <message>¿Quería decir <suggestion>año</suggestion> (período de doce meses)?</message>
                 <example correction="año">En octubre del <marker>ano</marker> pasado.</example>
                 <example correction="año">Tres veces al <marker>ano</marker>.</example>
                 <example correction="año">Todos los días del <marker>ano</marker>.</example>
@@ -10849,7 +10891,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>ano</token>
                     </marker>
                 </pattern>
-                <message>¿Quería decir <suggestion>año</suggestion> (=período de doce meses)?</message>
+                <message>¿Quería decir <suggestion>año</suggestion> (período de doce meses)?</message>
                 <example correction="año">Durante todo el <marker>ano</marker>.</example>
             </rule>
             <rule>
@@ -10859,7 +10901,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token>que</token>
                 </pattern>
-                <message>¿Quería decir <suggestion>año</suggestion> (=período de doce meses)?</message>
+                <message>¿Quería decir <suggestion>año</suggestion> (período de doce meses)?</message>
                 <example correction="año">Le operarán el intestino el <marker>ano</marker> que viene.</example>
             </rule>
             <rule>
@@ -10869,7 +10911,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="DN.*|A..[MC][SN].|V.P..SM" postag_regexp="yes"><exception regexp="yes" inflected="yes">&context_ano;</exception></token>
                 </pattern>
-                <message>¿Quería decir <suggestion>año</suggestion> (=período de doce meses)?</message>
+                <message>¿Quería decir <suggestion>año</suggestion> (período de doce meses)?</message>
                 <example correction="año">Le operaron el intestino el <marker>ano</marker> pasado.</example>
                 <example correction="año">Le operaron el intestino el <marker>ano</marker> 2010.</example>
                 <example>Sufro de cáncer ano rectal</example>
@@ -10881,7 +10923,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>ano</token>
                     </marker>
                 </pattern>
-                <message>¿Quería decir <suggestion>año</suggestion> (=período de doce meses)?</message>
+                <message>¿Quería decir <suggestion>año</suggestion> (período de doce meses)?</message>
                 <example correction="año">Le operaron del intestino el pasado <marker>ano</marker>.</example>
                 <example correction="año">Le operarán del intestino el próximo <marker>ano</marker>.</example>
             </rule>
