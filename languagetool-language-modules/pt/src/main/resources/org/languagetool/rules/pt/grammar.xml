@@ -9330,7 +9330,6 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="te dê">Talvez <marker>te de</marker> mais novidades.</example>
     </rule>
 
-
     <rule id='TEM_TÊM' name="Confusão: tem - têm">
     <!-- Created by Marco A.G. Pinto, Portuguese rule -->
       <pattern>
@@ -9345,13 +9344,13 @@ MARCOAGPINTO 2020-02-18 -->
     </rule>
 
     <rulegroup id='TIRAR_FOTOGRAFIA' name="Fotografar" default="temp_off">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-08-18     -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-08-18 + 2020-08-19    -->
 	 <rule>
       <pattern>
           <token inflected='yes'>tirar</token>
-		  <token min="0" regexp='yes'>umas?</token>
+		  <token min="0" max="1" regexp='yes'>umas?</token>
 		  <token regexp='yes'>fotografias?|fotos?</token>
-		  <token regexp='no'>ao</token>
+		  <token regexp='yes'>ao|do</token>
       </pattern>
       <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fotografar</match> o</suggestion></message>
       <example correction="fotografar o">Vamos <marker>tirar uma fotografia ao</marker> Rui.</example>
@@ -9359,12 +9358,32 @@ MARCOAGPINTO 2020-02-18 -->
 	 <rule>
       <pattern>
           <token inflected='yes'>tirar</token>
-		  <token min="0" regexp='yes'>umas?</token>
+		  <token min="0" max="1" regexp='yes'>umas?</token>
 		  <token regexp='yes'>fotografias?|fotos?</token>
-		  <token regexp='no'>à</token>
+		  <token regexp='yes'>aos|dos</token>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fotografar</match> os</suggestion></message>
+      <example correction="fotografar os">Vamos <marker>tirar uma fotografia aos</marker> barcos.</example>
+	 </rule>	 
+	 <rule>
+      <pattern>
+          <token inflected='yes'>tirar</token>
+		  <token min="0" max="1" regexp='yes'>umas?</token>
+		  <token regexp='yes'>fotografias?|fotos?</token>
+		  <token regexp='yes'>à|da</token>
       </pattern>
       <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fotografar</match> a</suggestion></message>
       <example correction="fotografar a">Vamos <marker>tirar uma fotografia à</marker> Ana.</example>	  
+	 </rule>
+	 <rule>
+      <pattern>
+          <token inflected='yes'>tirar</token>
+		  <token min="0" max="1" regexp='yes'>umas?</token>
+		  <token regexp='yes'>fotografias?|fotos?</token>
+		  <token regexp='yes'>às|das</token>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fotografar</match> as</suggestion></message>
+      <example correction="fotografar as">Vamos <marker>tirar uma fotografia às</marker> irmãs.</example>	  
 	 </rule>
     </rulegroup>
 
