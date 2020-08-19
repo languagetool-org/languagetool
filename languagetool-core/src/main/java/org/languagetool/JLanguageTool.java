@@ -889,7 +889,7 @@ public class JLanguageTool {
     unknownWords = new HashSet<>();
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
 
-    if (mode != Mode.TEXTLEVEL_ONLY && level == Level.DEFAULT) {
+    if (level == Level.DEFAULT) {
       allRules = allRules.stream().filter(rule -> !rule.hasTag(Tag.picky)).collect(Collectors.toList());
     }
 
