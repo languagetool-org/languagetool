@@ -118,7 +118,7 @@ public class LongParagraphRule extends TextLevelRule {
     for (int n = 0; n < sentences.size(); n++) {
       AnalyzedSentence sentence = sentences.get(n);
       boolean paragraphEnd = Tools.isParagraphEnd(sentences, n, lang);
-      if (!paragraphEnd && sentence.getText().contains("\n")) {
+      if (!paragraphEnd && sentence.getText().replaceFirst("^\n+", "").contains("\n")) {
         // e.g. text with manually added line breaks (e.g. issues on github with "- [ ]" syntax)
         paraHasLinebreaks = true;
       }
@@ -133,7 +133,7 @@ public class LongParagraphRule extends TextLevelRule {
         }
       }
       if (paragraphEnd) {
-        if (wordCount > maxWords && !paraHasLinebreaks) {
+        if (wordCount > maxWords + 5 && !paraHasLinebreaks) {  // + 5: don't show match almost at end of paragraph
           RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, getMessage());
           ruleMatches.add(ruleMatch);
         }
