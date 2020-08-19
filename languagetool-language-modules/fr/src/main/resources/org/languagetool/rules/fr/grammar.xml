@@ -9119,7 +9119,7 @@ though, and has since been slightly modified)-->
         <message>Cette expression s’écrit <suggestion>à peu près</suggestion>.</message>
         <example correction="à peu près">Il en faut <marker>a peu près</marker> douze.</example>
       </rule>
-    <rule id="CE_CEST" name="ce / c'est" default="temp_off">
+    <rulegroup id="CE_CEST" name="ce / c'est" default="temp_off">
       <antipattern>
         <token>ce</token>
         <token>.</token>
@@ -9130,16 +9130,32 @@ though, and has since been slightly modified)-->
         <token>ce</token>
         <token>…</token>
       </antipattern>
-      <pattern>
-        <marker>
-          <token case_sensitive="yes">ce</token>
-        </marker>
-        <token regexp="yes">[\.!?]</token>
-      </pattern>
-      <message>Vouliez-vous dire <suggestion>c'est</suggestion> ?</message>
-      <example correction="c'est">Qu'est-ce que <marker>ce</marker> ?</example>
-      <example>Le marquage CE.</example>
-    </rule>
+      <rule>
+        <pattern>
+          <token>que</token>
+          <marker>
+            <token case_sensitive="yes">ce</token>
+          </marker>
+          <token regexp="yes">[\.!?]</token>
+        </pattern>
+        <message>Vouliez-vous dire <suggestion>c'est</suggestion> ?</message>
+          <suggestion>cela</suggestion>
+        <suggestion>ceci</suggestion>
+        <example correction="c'est|cela|ceci">Qu'est-ce que <marker>ce</marker> ?</example>
+        <example>Le marquage CE.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token case_sensitive="yes">ce</token>
+          </marker>
+          <token regexp="yes">[\.!?]</token>
+        </pattern>
+        <message>Il semble qu'il manque un mot après "ce". Ou vouliez-vous écrire <suggestion>cela</suggestion> ou <suggestion>ceci</suggestion>?</message>
+        <example correction="cela|ceci">Comment gérer <marker>ce</marker>.</example>
+        <example>Le marquage CE.</example>
+      </rule>
+    </rulegroup>
       <rule id="CE_CET" name="ce / cet">
         <pattern>
           <marker>
