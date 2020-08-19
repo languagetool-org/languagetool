@@ -166,7 +166,7 @@ public final class CommandLineTools {
    * @param contextSize The size of contents displayed.
    * @since 1.0.1
    */
-  private static void printMatches(List<RuleMatch> ruleMatches,
+  public static void printMatches(List<RuleMatch> ruleMatches,
                                    int prevMatches, String contents, int contextSize, Language lang) {
     int i = 1;
     ContextTools contextTools = new ContextTools();
