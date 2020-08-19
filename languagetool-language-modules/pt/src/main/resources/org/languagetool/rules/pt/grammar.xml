@@ -2256,6 +2256,20 @@ title="Easy editing stylesheet" ?>
 		  <token regexp='yes'>pelas?|pelos?|às?|nas?|dos?|nos?</token>
       </antipattern>	  	  
 <!-- MARCOAGPINTO 2020-07-11 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-08-19 (2-JUL-2020+) *START* -->
+<!-- "Apenas testemunhos sem fim recebidos de todo o mundo." -->
+<!-- "Apenas testemunhos sem conta recebidos de todo o mundo." -->
+<!-- "Apenas testemunhas sem fim recebidas de todo o mundo." -->
+      <antipattern>
+	    <and>
+			<token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
+			<token negate_pos="yes" postag='V.+' postag_regexp='yes'/>
+		</and>	
+		<token regexp='yes'>sem|com|no|da|do|a</token>
+		<token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
+		<token postag='VMP00P[FM]|AQ0[CFM]P0' postag_regexp='yes'/>
+      </antipattern>	  
+<!-- MARCOAGPINTO 2020-08-19 (2-JUL-2020+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
@@ -2285,6 +2299,9 @@ title="Easy editing stylesheet" ?>
       <example>Lá fora estão zero graus.</example>
       <example>O escritor francês gostava de comer croissants na cama.</example>
       <example>Os entendimentos têm de ser o mais amplos possível para serem efectivos.</example>
+	  <example type='correct'>Apenas testemunhos sem <marker>fim recebidos</marker> de todo o mundo.</example>
+	  <example type='correct'>Apenas testemunhos sem <marker>conta recebidos</marker> de todo o mundo.</example>
+	 <example type='correct'>Apenas testemunhas sem <marker>fim recebidas</marker> de todo o mundo.</example>
     </rule>
     <rule>
       <antipattern>
