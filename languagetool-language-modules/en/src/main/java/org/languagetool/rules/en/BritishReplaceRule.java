@@ -70,8 +70,7 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
   
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return tokenStr + " is a common American expression, in British English it is more common to use: "
-        + String.join(", ", replacements) + ".";
+    return "'" + tokenStr + "' is a common American expression. Consider using expressions more common to British English.";
   }
 
   @Override
