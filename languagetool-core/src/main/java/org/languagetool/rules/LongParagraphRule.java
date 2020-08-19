@@ -65,9 +65,8 @@ public class LongParagraphRule extends TextLevelRule {
     this(messages, lang, userConfig, defaultWords, DEFAULT_ACTIVATION);
   }
 
-  /** Note: will be off by default. */
   public LongParagraphRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
-    this(messages, lang, userConfig, -1, DEFAULT_ACTIVATION);
+    this(messages, lang, userConfig, -1, true);
   }
 
   @Override
