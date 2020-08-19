@@ -2914,6 +2914,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>no</token>
             <token postag="VB[PZ]?" postag_regexp="yes" />
         </antipattern>
+        <antipattern><!-- #3456 the tell Joann we -->
+            <token postag="DT"/>
+            <token chunk="B-VP" postag="VBP"/>
+            <token postag="NNP"/>
+            <token regexp="yes">&subject_pronouns;</token>
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT|RB" postag_regexp="yes" /><exception regexp="yes">th[eo]se|each|that|much</exception></token>
             <marker>
@@ -2933,6 +2939,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">The <marker>dogs</marker> bark loudly.</example>
         <example type="ambiguous" inputform="couple[couple/NN,couple/VB,couple/VBP]" outputform="couple[couple/NN]">I can see a <marker>couple</marker> to the left of the tree.</example><!-- #2415 -->
         <example type="ambiguous" inputform="calls[call/NNS,call/VBZ]" outputform="calls[call/NNS]">Although some <marker>calls</marker> occasionally take more than 30 minutes, most calls are much shorter.</example><!-- #2592 -->
+        <example type="ambiguous" inputform="tell[tell/NN,tell/VB,tell/VBP]" outputform="tell[tell/NN]">You know the <marker>tell</marker> Joann saw in Megiddo was impressive.</example><!-- #3456 -->
         <example type="untouched">Anarcho-pacifism is a tendency that rejects violence.</example>
         <example type="untouched">... while some <marker>may</marker> not possess the earlier book.</example>
         <example type="untouched">... and some <marker>look</marker> not to earthly treasures, but to the riches of Heaven.</example>
@@ -2959,6 +2966,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">I no want to do that.</example><!-- #3252 -->
         <example type="untouched">Why you no answer the question?</example><!-- #3252 -->
         <example type="untouched">Incorrect grammar: It doesn't matter if the go a little further.</example><!-- #3252 -->
+        <example type="untouched">Incorrect grammar: ... and Enron about the tell Joann we had incurred.</example><!-- #3456 -->
     </rule>
 
     <rule name="each + verb/NN -&gt; NN" id="EACH_VB_NN">
