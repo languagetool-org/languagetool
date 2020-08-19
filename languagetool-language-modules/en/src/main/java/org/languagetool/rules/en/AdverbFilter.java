@@ -228,6 +228,14 @@ public class AdverbFilter extends RuleFilter {
     put("actually", "actual");
     put("particularly", "particular");
     put("gloomily", "gloomy");
+    put("nicely", "nice");
+    put("progressively", "progressive");
+    put("genuinely", "genuine");
+    put("characteristically", "characteristic");
+    put("deeply", "deep");
+    put("spiritually", "spiritual");
+    put("purely", "pure");
+    put("satisfyingly", "satisfying");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
