@@ -185,6 +185,7 @@ public class RuleMatchDiffFinder {
       fw.write("<br><br><i>Maybe replaced by new match:</i><br>");
       fw.write(replacedBy.getMessage());
       fw.write("  <br><span class='sentence'>" + replacedBy.getContext() + "</span>");
+      fw.write("  <br><span class='suggestions'>Suggestions: " + replacedBy.getSuggestions() + "</span>");
       fw.write("  <br><span class='id'>" + replacedBy.getFullRuleId() + "</span>");
     }
     fw.write("  </td>\n");
