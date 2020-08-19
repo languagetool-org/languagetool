@@ -8094,7 +8094,7 @@ though, and has since been slightly modified)-->
           <token>l'</token>
           <token postag=".* f .*" postag_regexp="yes"><exception regexp="yes">&elision_regexp_PAS_D_ELISION;</exception></token>
         </pattern>
-        <message>« \1\2 » ne s’élide pas.</message>
+        <message>Cette expression ne s’élide pas.</message>
         <suggestion>la \2</suggestion>
         <example correction="La femme"><marker>L'femme</marker>.</example>
       </rule>
@@ -8103,7 +8103,7 @@ though, and has since been slightly modified)-->
           <token>l'</token>
           <token postag=".* f .*" postag_regexp="yes" inflected="yes" regexp="yes">&exceptions_ELISION1;</token>
         </pattern>
-        <message>« \1\2 » ne s’élide pas.</message>
+        <message>Cette expression ne s’élide pas.</message>
         <suggestion>la \2</suggestion>
         <example correction="La hiérarchie"><marker>L'hiérarchie</marker>.</example>
         <example correction="la héroïne" type="triggers_error" reason="the word is in the exception list">l’opium et <marker>l’héroïne</marker></example>
@@ -8113,7 +8113,7 @@ though, and has since been slightly modified)-->
           <token>l'</token>
           <token postag=".* f .*" postag_regexp="yes" regexp="yes">&exceptions_ELISION2;</token>
         </pattern>
-        <message>« \1\2 » ne s’élide pas.</message>
+        <message>Cette expression ne s’élide pas.</message>
         <suggestion>la \2</suggestion>
         <example correction="La hausse"><marker>L'hausse</marker> des profits pétroliers.</example>
       </rule>
@@ -8127,7 +8127,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[dljmnst]'|jusqu'|qu'</token>
           <token/>
         </pattern>
-        <message>« \1\2 » ne s’élide pas.</message>
+        <message>Cette expression ne s’élide pas.</message>
         <suggestion><match no="1" regexp_match="'$" regexp_replace="e"/> \2</suggestion>
         <example correction="Je vais"><marker>J'vais</marker> partir.</example>
         <example>Il demandait d'« importer des experts du Zimbabwe ».</example>
@@ -8147,7 +8147,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[dljmnst]'|jusqu'|qu'</token>
           <token inflected="yes" regexp="yes">&exceptions_ELISION1;</token>
         </pattern>
-        <message>« \1\2 » ne s’élide pas.</message>
+        <message>Cette expression ne s’élide pas.</message>
         <suggestion><match no="1" regexp_match="'$" regexp_replace="e"/> \2</suggestion>
         <example correction="Le oui"><marker>L'oui</marker>.</example>
         <example correction="Le hibou"><marker>L'hibou</marker>.</example>
@@ -8165,7 +8165,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[dljmnst]'|jusqu'|qu'</token>
           <token regexp="yes">&exceptions_ELISION2;</token>
         </pattern>
-        <message>« \1\2 » ne s’élide pas.</message>
+        <message>Cette expression ne s’élide pas.</message>
         <suggestion><match no="1" regexp_match="'$" regexp_replace="e"/> \2</suggestion>
         <example correction="de Hallstatt"><marker>d'Hallstatt</marker></example>
         <example>Vous passez plus de temps ici qu'avec Mamie.</example>
@@ -8178,7 +8178,7 @@ though, and has since been slightly modified)-->
           </marker>
           <token>à</token>
         </pattern>
-        <message>« \1\2 » ne s’élide pas.</message>
+        <message>Cette expression ne s’élide pas.</message>
         <suggestion><match no="1" regexp_match="'$" regexp_replace="e"/> \2</suggestion>
         <example correction="De un"><marker>D'un</marker> à dix.</example>
       </rule>
@@ -30345,7 +30345,8 @@ though, and has since been slightly modified)-->
         <token spacebefore="no" regexp="yes">['´‘’′]</token>
         <token spacebefore="yes"/>
       </pattern>
-      <message>Il ne doit pas y avoir d’espace après l’apostrophe. Employez <suggestion>\1\2\3</suggestion>.</message>
+      <message>Il ne doit pas y avoir d’espace après l’apostrophe.</message>
+        <suggestion>\1\2\3</suggestion>
       <example correction="d’enfants">Ils ont beaucoup <marker>d’ enfants</marker>.</example>
       <example>Ils ont beaucoup d’enfants.</example>
       <example correction="d’œuvre">Un chef-<marker>d’ œuvre</marker></example>
