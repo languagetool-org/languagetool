@@ -35,11 +35,9 @@ import org.languagetool.tools.StringTools;
 /**
  * Checks LanguageTool messages, short messages and rule descriptions, using LanguageTool itself.
  */
-
 public class LTMessageChecker {
 
-  public static void main(String[] args)
-      throws IOException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+  public static void main(String[] args) throws Exception {
     if (args.length != 1) {
       System.out.println("Usage: " + LTMessageChecker.class.getSimpleName() + " <langCode> | ALL");
       System.exit(1);
@@ -55,7 +53,6 @@ public class LTMessageChecker {
     }
     float time = (float) ((System.currentTimeMillis() - start) / 1000.0);
     System.out.println("Total checking time: " + String.format("%.2f", time) + " seconds");
-
   }
 
   private void run(Language lang)
