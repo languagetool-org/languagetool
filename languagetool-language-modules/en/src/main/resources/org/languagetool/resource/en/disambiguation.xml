@@ -4662,6 +4662,20 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token>all</token>
                 <token>over</token>
             </antipattern>
+            <antipattern><!-- #3326 incorrect grammar: this mean its working? -->
+                <token regexp="yes">this|that</token>
+                <token postag_regexp="yes" postag="VB[PD]"/>
+                <token>its</token>
+                <token postag="VBG"/>
+                <token>?</token>
+            </antipattern>
+            <antipattern><!-- #3326 might using this work? -->
+                <token postag="MD"/>
+                <token postag="VBG"/>
+                <token postag="DT"/>
+                <token postag="VBP"/>
+                <token>?</token>
+            </antipattern>
             <pattern>
                 <token postag="DT|PRP\$" postag_regexp="yes">
                     <exception regexp="yes">th[eo]se|no|much</exception>
@@ -4695,6 +4709,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">Our windows were dirty, but this product is excellent; it has made many cleaner.</example><!-- #3257 -->
             <example type="untouched">... which were all first produced synthetically.</example><!-- #3352 -->
             <example type="untouched">I'm sore all over.</example><!-- #3376 -->
+            <example type="untouched">Does this mean its working?</example><!-- #3326 -->
+            <example type="untouched">.... but might using this work?</example><!-- #3326 word/E-NP-singular -->
             <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">How about we do this <marker>work</marker>?</example>
             <example type="ambiguous" inputform="business[business/JJ,business/NN:UN]" outputform="business[business/NN:UN]">My <marker>business</marker> is great!</example>
         </rule>
