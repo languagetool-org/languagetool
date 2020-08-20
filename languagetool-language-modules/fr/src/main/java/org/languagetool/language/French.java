@@ -190,6 +190,9 @@ public class French extends Language implements AutoCloseable {
     
     // non-breaking (thin) space 
     // according to https://fr.wikipedia.org/wiki/Espace_ins%C3%A9cable#En_France
+    output = output.replaceAll("\u00a0;", "\u202f;");
+    output = output.replaceAll("\u00a0!", "\u202f!");
+    output = output.replaceAll("\u00a0\\?", "\u202f?");
     output = output.replaceAll(";", "\u202f;");
     output = output.replaceAll("!", "\u202f!");
     output = output.replaceAll("\\?", "\u202f?");
