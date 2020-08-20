@@ -1950,15 +1950,27 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">n|min</token>
+                    <token>min</token>
                 </marker>
                 <token spacebefore="no">.</token>
                 <token regexp="yes">\d+</token>
             </pattern>
             <disambig action="add">
+                <wd pos="NCMN000"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>n</token>
+                </marker>
+                <token spacebefore="no">.</token>
+                <!--<token regexp="yes">\d+</token>-->
+            </pattern>
+            <disambig action="add">
                 <wd pos="NCCN000"/>
             </disambig>
-            <!-- nota o número -->
+            <!-- nota, número, nom -->
         </rule>
         <rule>
             <pattern>
@@ -1977,6 +1989,25 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token spacebefore="no">.<exception postag="SENT_END"/></token>
             </pattern>
             <disambig action="filter" postag="Y"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>loc</token>
+                </marker>
+                <token spacebefore="no">.</token>
+                <token regexp="yes">comparativa|adjectival|distributiva|preposicional|conjuncional|adverbial</token>
+            </pattern>
+            <disambig action="add"><wd lemma="locució" pos="NCFN000"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">v|adj|adv</token>
+                </marker>
+                <token spacebefore="no">.</token>
+            </pattern>
+            <disambig action="add"><wd lemma="cat_gramatical" pos="NCMN000"/></disambig>
         </rule>
     </rulegroup>
     <rule id="prefixos_amb_guionet" name="prefixos amb guionet: micro-, mini-">

@@ -43,7 +43,7 @@ public class Spanish extends Language implements AutoCloseable{
 
   private LanguageModel languageModel;
   
-  private static final Pattern APOSTROPHE = Pattern.compile("(\\p{L})'([\\p{L}\u202f\u00a0 !\\?,\\.;:\\)])",
+  private static final Pattern APOSTROPHE = Pattern.compile("([\\p{L}\\d-])'([\\p{L}\u202f\u00a0 !\\?,\\.;:\\)])",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   @Override
