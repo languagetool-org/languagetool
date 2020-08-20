@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.dev.checkLTmessages;
+package org.languagetool.dev.LTMessageChecker;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -36,15 +36,15 @@ import org.languagetool.tools.StringTools;
  * Checks LanguageTool messages, short messages and rule descriptions, using LanguageTool itself.
  */
 
-public class checkLTmessages {
+public class LTMessageChecker {
 
   public static void main(String[] args)
       throws IOException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
     if (args.length != 1) {
-      System.out.println("Usage: " + checkLTmessages.class.getSimpleName() + " <langCode> | ALL");
+      System.out.println("Usage: " + LTMessageChecker.class.getSimpleName() + " <langCode> | ALL");
       System.exit(1);
     }
-    checkLTmessages check = new checkLTmessages();
+    LTMessageChecker check = new LTMessageChecker();
     long start = System.currentTimeMillis();
     if (args[0].equalsIgnoreCase("all")) {
       for (Language lang : Languages.get()) {
