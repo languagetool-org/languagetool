@@ -73,9 +73,6 @@ public class checkLTmessages {
         // do nothing
       }
       String shortMessage = "";
-      // PatternRule pr = new PatternRule("", lang, null, "", "", "");
-      // pr.getShortMessage();
-
       try {
         Method m = r.getClass().getMethod("getShortMessage", null);
         shortMessage = (String) m.invoke(r);
