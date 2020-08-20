@@ -3262,6 +3262,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="RB"/>
             <token postag="VBD"/>
         </antipattern>
+        <antipattern><!-- #3310 will doing that help? -->
+            <token postag="MD"/>
+            <token postag="VBG"/>
+            <token postag="DT"/>
+            <token postag="VBP"/>
+            <token>?</token>
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|much</exception></token>
             <marker>
@@ -3277,6 +3284,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">[No full stop at the end of the sentence] … to gain a much better understanding</example>
       <example type="untouched">... compared with last year, this year's crops are much better.</example>
       <example type="untouched">... on the way to the Enron Broadband/BMC agreement since we last spoke.</example>
+      <example type="untouched">Will doing that help?</example><!-- #3310 help/E-NP-singular -->
+      <example type="untouched">... but might using this work?</example><!-- #3310 -->
     </rule>
 
     <rule name="verb + pronoun + inconsistent verb > noun" id="VB_PRP_NN">
