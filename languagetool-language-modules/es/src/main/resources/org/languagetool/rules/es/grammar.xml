@@ -152,7 +152,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Con Julio Manrique y Julio Iglesias.</example>
             </rule>
         </rulegroup>
-        <rule id="MIN_DIAS_SEMANA" name="Días de las semana en minúscula">
+        <rule id="MIN_DIAS_SEMANA" name="Días de la semana en minúscula">
             <antipattern>
                 <token regexp="yes">&dias_semana_may;</token>
                 <token regexp="yes">de(l)*</token>
@@ -716,7 +716,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://www.fundeu.es/recomendacion/hace-un-mes-o-un-mes-atras-pero-no-hace-un-mes-atras-1116/</url>
                 <example correction="Hace exactamente un mes|Exactamente un mes atrás"><marker>Hace exactamente un mes atrás</marker> no se conocía.</example>
             </rule>
-            <rule id="HACE_UN_MES_Y_MEDIO_ATRAS" name="*hace un mes atrás">
+            <rule>
                 <pattern>
                     <token>hace</token>
                     <token postag="D[NI].*" postag_regexp="yes"/>
@@ -3191,7 +3191,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La lista la numero secuencialmente.</example>
                 <example>Os numero por fecha de nacimiento.</example>
             </rule>
-            <rule id="ULTIMA" name="ultima/útlima">
+            <rule id="ULTIMA" name="ultima/última">
                 <antipattern>
                     <token regexp="yes">me|te|lo|le|nos|os|los|las|les|si|cuando|mientras|él|ella</token>
                     <token>ultima</token>
@@ -3390,7 +3390,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>además</suggestion>
                 <example correction="Además"><marker>Ademas</marker> de inglés, habla francés.</example>
             </rule>
-            <rule id="UNUSUAL_WITHOUT_ACCENT" name="palabras usualmente con accento">
+            <rule id="UNUSUAL_WITHOUT_ACCENT" name="palabras usualmente con tilde">
                 <pattern>
                     <marker>
                         <token regexp="yes">yacio|aliaria|convivio|desplego|heria|prometio|rodo|rogo|pario|pedia|servia</token>
@@ -4391,7 +4391,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="más">No hay <marker>mas</marker>.</example>
             <!-- archaic or formal <example>Me gusta, mas no lo quiero</example>-->
         </rule>
-        <rulegroup id="AUN" name="aún/anun">
+        <rulegroup id="AUN" name="aún/aun">
             <rule>
                 <pattern>
                     <marker>
@@ -5898,7 +5898,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Tomas el mando.</example>
             <example>¿Tomas café?</example>
         </rule>
-        <rulegroup id="SINGLE_CHARACTER" name="single lowercase character">
+        <rulegroup id="SINGLE_CHARACTER" name="carácter único en minúscula">
             <!-- copied and adapted from English rule -->
             <antipattern>
                 <!-- A series of single characters or digits -->
@@ -6966,9 +6966,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://lema.rae.es/dpd/srv/search?key=gratis</url>
             <example correction="gratis|de balde">El agua es <marker>de gratis</marker>.</example>
         </rule>
-        <rulegroup id="QUEISMO" name="queismo" type="grammar" default="on">
+        <rulegroup id="QUEISMO" name="queísmo" type="grammar" default="on">
             <url>https://www.rae.es/dpd/que%C3%ADsmo</url>
-            <rule name="Infinitivo tipo convencer + pron.pers + que">
+            <rule name="Infinitivo tipo convencer + pron. pers. + que">
                 <!-- removed: dudar, informar. 'Informar' is transitive in LatAm! -->
                 <pattern>
                     <token regexp="yes" inflected="yes" postag=".*\+P.*" postag_regexp="yes">alegrar|enterar|convencer|hartar|quejar|protestar</token>
@@ -7343,7 +7343,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>va a poder haber una alarma</example>
             </rule>
         </rulegroup>
-        <rulegroup name="haber + participio masc sg" id="HABER_PARTICIPO">
+        <rulegroup name="haber + participio masc. sg." id="HABER_PARTICIPO">
             <rule>
                 <antipattern>
                     <token postag="V...3S." postag_regexp="yes" inflected="yes">haber<exception scope="previous" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/><exception>ha</exception></token>
@@ -7477,7 +7477,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¡Qué cosa más mala!</example>
             </rule>
         </rulegroup>
-        <rule id="GROSSO_MODO" name="A grosso modo --&gt; grosso modo">
+        <rule id="GROSSO_MODO" name="a grosso modo → grosso modo">
             <pattern>
                 <token postag="SP.*" postag_regexp="yes"/>
                 <token regexp="yes">gross?o</token>
@@ -7489,7 +7489,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="grosso modo">Las cifras indican <marker>a grosso modo</marker> que la gestión es correcta.</example>
             <example>La Tierra se encuentra, dicho grosso modo, a ocho minutos-luz del Sol.</example>
         </rule>
-        <rule id="SIN_ENCAMBIO" name="Sin en cambio --&gt; Sin embargo, en cambio">
+        <rule id="SIN_ENCAMBIO" name="sin en cambio → sin embargo, en cambio">
             <pattern>
                 <token>sin</token>
                 <token>en</token>
@@ -7501,7 +7501,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="en cambio|sin embargo">Imagino que <marker>sin en cambio</marker> está de acuerdo.</example>
             <example>La Tierra se encuentra, en cambio, a ocho minutos-luz del Sol.</example>
         </rule>
-        <rule id="SI_QUIERA" name="Si quiera--&gt; Siquiera">
+        <rule id="SI_QUIERA" name="si quiera → siquiera">
             <pattern>
                 <token>si</token>
                 <token>quiera</token>
@@ -8340,7 +8340,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ni en la alta ni en la baja edad media.</example>
             <example>Ni en la alta ni en la baja.</example>
         </rule>
-        <rule id="AGREEMENT_DET_GN" name="concordnacia det + gn" default="off">
+        <rule id="AGREEMENT_DET_GN" name="concordancia det. + grupo nominal" default="off">
             <pattern>
                 <marker>
                     <unify negate="yes">
@@ -8383,14 +8383,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="las">Puede dar <marker>los</marker> cinco ideas nuevas.</example>
                 <example>¿Cuál de los dos eres?</example>
             </rule>
-            <rule id="ALGUNA_OTRO" name="'alguna otro' -&gt; 'alguna otra'">
+            <rule id="ALGUNA_OTRO" name="alguna otro → alguna otra">
                 <pattern>
                     <token>alguna</token>
                     <marker>
                         <token>otro</token>
                     </marker>
                 </pattern>
-                <message>concordancia gramatical</message>
+                <message>Error de concordancia.</message>
                 <suggestion>otra</suggestion>
                 <example correction="otra">Alguna <marker>otro</marker> error de ortografía</example>
             </rule>
@@ -8512,7 +8512,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="supuestos">Se da por <marker>supuesta</marker> los resultados.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TENER_PREVISTO_EL" name="concordancia: tener/estar previsto el">
+        <rulegroup id="TENER_PREVISTO_EL" name="concordancia: tener/estar previsto + det.">
             <url>https://www.fundeu.es/recomendacion/dar-por-hecho-femenino-plural/</url>
             <antipattern>
                 <!-- inverted subject-->
@@ -9867,7 +9867,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Quería decir <suggestion>Google Docs</suggestion>?</message>
             <example correction="Google Docs">Tengo un problema con <marker>Google Doc</marker>.</example>
         </rule>
-        <rulegroup id="CUALQUIERA" name="cual quiera -&gt; cualquiera">
+        <rulegroup id="CUALQUIERA" name="cual quiera → cualquiera">
             <rule>
                 <pattern>
                     <token regexp="yes">cual|cuales|cuál|cuáles</token>
@@ -11612,7 +11612,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Esas"><marker>Esas,</marker> se dividen en tres.</example>
             </rule>
         </rulegroup>
-        <rule id="YA_QUE" name="ya que que (con coma)">
+        <rule id="YA_QUE" name="ya que (con coma previa)">
             <!-- a lot of true positives expected -->
             <pattern>
                 <token><exception postag="SENT_START"/></token>
@@ -12084,7 +12084,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>P. ej. el campo.</example>
             <example>P. E. Berry</example>
         </rule>
-        <rulegroup id="SPACE_UNITIES" name="espacio en unidadess" default="on">
+        <rulegroup id="SPACE_UNITIES" name="espacio en unidades" default="on">
             <antipattern>
                 <token regexp="yes">los|años|in|the</token>
                 <token regexp="yes">\d*0s</token>
@@ -12220,7 +12220,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Frankfurt <marker>am</marker> Main</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ARROWS" name="Flechas: -&gt; (→)">
+        <rulegroup id="ARROWS" name="Flechas: →">
             <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-07 -->
             <rule>
                 <pattern>
