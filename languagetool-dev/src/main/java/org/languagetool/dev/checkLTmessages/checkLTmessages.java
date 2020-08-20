@@ -28,7 +28,6 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.commandline.CommandLineTools;
-import org.languagetool.dev.eval.SpellCheckEvaluation;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
@@ -42,7 +41,7 @@ public class checkLTmessages {
   public static void main(String[] args)
       throws IOException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
     if (args.length != 1) {
-      System.out.println("Usage: " + SpellCheckEvaluation.class.getSimpleName() + " <langCode> | ALL");
+      System.out.println("Usage: " + checkLTmessages.class.getSimpleName() + " <langCode> | ALL");
       System.exit(1);
     }
     checkLTmessages check = new checkLTmessages();
