@@ -8524,6 +8524,29 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
+    <rulegroup name="Proper noun: plc" id="PLC">
+        <rule>
+            <pattern>
+                <token case_sensitive="yes" regexp="yes">
+                    [A-Z].*
+                </token>
+                <marker>
+                    <token>plc</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="NNP"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="NNP" />
+                <marker>
+                    <token>plc</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="NNP"/></disambig>
+        </rule>
+    </rulegroup>
+
     <rule name="Proper noun: Encyclopædia X" id="ENCYCLOPÆDIA_X"><!-- The correct spelling uses a ligature: https://corporate.britannica.com/contact/; www.iranicaonline.org.-->
       <pattern case_sensitive="yes">
           <token>Encyclopædia</token>
