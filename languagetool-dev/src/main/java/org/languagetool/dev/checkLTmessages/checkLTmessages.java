@@ -61,8 +61,8 @@ public class checkLTmessages {
   private void run(Language lang)
       throws IOException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
-    JLanguageTool lt = new JLanguageTool(lang);
     long start = System.currentTimeMillis();
+    JLanguageTool lt = new JLanguageTool(lang);
     System.out.println("Checking language: " + lang.getName() + " (" + lang.getShortCodeWithCountryAndVariant() + ")");
     for (Rule r : lt.getAllRules()) {
       String message = "";
