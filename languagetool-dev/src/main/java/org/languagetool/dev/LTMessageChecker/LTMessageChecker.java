@@ -61,6 +61,7 @@ public class LTMessageChecker {
     long start = System.currentTimeMillis();
     JLanguageTool lt = new JLanguageTool(lang);
     System.out.println("Checking language: " + lang.getName() + " (" + lang.getShortCodeWithCountryAndVariant() + ")");
+    System.out.println("Version: " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
     for (Rule r : lt.getAllRules()) {
       String message = "";
       try {
