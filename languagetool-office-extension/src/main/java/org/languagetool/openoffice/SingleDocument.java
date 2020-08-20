@@ -1351,8 +1351,8 @@ class SingleDocument {
     aError.nErrorType = TextMarkupType.PROOFREADING;
     // the API currently has no support for formatting text in comments
     String msg = ruleMatch.getMessage()
-        .replaceAll("<suggestion>", docLanguage == null ? "\"" : docLanguage.getOpeningQuote())
-        .replaceAll("</suggestion>", docLanguage == null ? "\"" : docLanguage.getClosingQuote())
+        .replaceAll("<suggestion>", docLanguage == null ? "\"" : docLanguage.getOpeningDoubleQuote())
+        .replaceAll("</suggestion>", docLanguage == null ? "\"" : docLanguage.getClosingDoubleQuote())
         .replaceAll("([\r]*\n)", " ");
     if (docLanguage != null) {
       msg = docLanguage.toAdvancedTypography(msg);

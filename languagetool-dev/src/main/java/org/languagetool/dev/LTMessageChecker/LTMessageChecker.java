@@ -80,8 +80,8 @@ public class LTMessageChecker {
         // do nothing
       }
       if (!message.isEmpty()) {
-        message = message.replaceAll("<suggestion>", lang.getOpeningQuote()).replaceAll("</suggestion>",
-            lang.getClosingQuote());
+        message = message.replaceAll("<suggestion>", lang.getOpeningDoubleQuote()).replaceAll("</suggestion>",
+            lang.getClosingDoubleQuote());
         message = message.replaceAll("<[^>]+>", "");
         message = lang.toAdvancedTypography(message);
       }

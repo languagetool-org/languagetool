@@ -43,8 +43,6 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Support for English - use the sub classes {@link BritishEnglish}, {@link AmericanEnglish},
@@ -54,9 +52,6 @@ import java.util.regex.Pattern;
  */
 public class English extends Language implements AutoCloseable {
 
-  private static final Pattern APOSTROPHE = Pattern.compile("([\\p{L}\\d-])'([\\p{L}\u202f\u00a0 !\\?,\\.;:\\\"«'\\)])",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  
   private static final LoadingCache<String, List<Rule>> cache = CacheBuilder.newBuilder()
       .expireAfterWrite(30, TimeUnit.MINUTES)
       .build(new CacheLoader<String, List<Rule>>() {
@@ -239,35 +234,28 @@ public class English extends Language implements AutoCloseable {
     return motherTongue != null && ("de".equals(motherTongue.getShortCode()) || "fr".equals(motherTongue.getShortCode()));
   }
   
+  /** @since 5.1 */
   @Override
-  public String toAdvancedTypography (String input) {
-    String output = input;
-    
-    // Apostrophe and closing single quote
-    Matcher matcher = APOSTROPHE.matcher(output);
-    output = matcher.replaceAll("$1’$2");
-    
-    // single quotes
-    if (output.startsWith("'")) { 
-      output = output.replaceFirst("'", "‘");
-    }
-    if (output.endsWith("'")) { 
-      output = output.substring(0, output.length() - 1 ) + "’";
-    }
-    output = output.replaceAll("(['’ «\"\\(])'", "$1‘");
-    
+  public String getOpeningDoubleQuote() {
+    return "“";
+  }
 
-    // double quotation marks “ ”
-    if (output.startsWith("\"")) { 
-      output = output.replaceFirst("\"", "“");
-    }
-    if (output.endsWith("\"")) { 
-      output = output.substring(0, output.length() - 1 ) + "”";
-    }
-    output = output.replaceAll("(['’ \\(])\"", "$1“");
-    output = output.replaceAll("\"([\\u202f\\u00a0 !\\?,\\.;:\\)])", "”$1");   
-    
-    return output;
+  /** @since 5.1 */
+  @Override
+  public String getClosingDoubleQuote() {
+    return "”";
+  }
+  
+  /** @since 5.1 */
+  @Override
+  public String getOpeningSingleQuote() {
+    return "‘";
+  }
+
+  /** @since 5.1 */
+  @Override
+  public String getClosingSingleQuote() {
+    return "’";
   }
 
   /**

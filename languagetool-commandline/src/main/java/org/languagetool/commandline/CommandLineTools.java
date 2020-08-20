@@ -186,7 +186,7 @@ public final class CommandLineTools {
         output += " prio=" + priorityForId;
       }
       System.out.println(output);
-      String msg = lang.toAdvancedTypography(match.getMessage().replaceAll("<suggestion>", lang.getOpeningQuote()).replaceAll("</suggestion>", lang.getClosingQuote()));
+      String msg = lang.toAdvancedTypography(match.getMessage().replaceAll("<suggestion>", lang.getOpeningDoubleQuote()).replaceAll("</suggestion>", lang.getClosingDoubleQuote()));
       System.out.println("Message: " + msg);
       List<String> replacements = match.getSuggestedReplacements();
       if (!replacements.isEmpty()) {

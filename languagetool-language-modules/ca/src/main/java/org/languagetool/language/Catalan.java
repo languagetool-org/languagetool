@@ -34,15 +34,10 @@ import org.languagetool.tokenizers.ca.CatalanWordTokenizer;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Catalan extends Language {
 
   private static final Language DEFAULT_CATALAN = new Catalan();
-
-  private static final Pattern APOSTROPHE = Pattern.compile("([\\p{L}\\d-])'([\\p{L}\u202f\u00a0 !\\?,\\.;:\"«'\\)])",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   
   @Override
   public String getName() {
@@ -132,44 +127,27 @@ public class Catalan extends Language {
   }
   
   /** @since 5.1 */
-  public String getOpeningQuote() {
+  @Override
+  public String getOpeningDoubleQuote() {
     return "«";
   }
 
   /** @since 5.1 */
-  public String getClosingQuote() {
+  @Override
+  public String getClosingDoubleQuote() {
     return "»";
   }
   
+  /** @since 5.1 */
   @Override
-  public String toAdvancedTypography (String input) {
-    String output = input;
-    
-    // Apostrophe and closing single quote
-    Matcher matcher = APOSTROPHE.matcher(output);
-    output = matcher.replaceAll("$1’$2");
-    
-    // single quotes
-    if (output.startsWith("'")) { 
-      output = output.replaceFirst("'", "‘");
-    }
-    if (output.endsWith("'")) { 
-      output = output.substring(0, output.length() - 1 ) + "’";
-    }
-    output = output.replaceAll("(['’ «\"\\(])'", "$1‘");
-    
+  public String getOpeningSingleQuote() {
+    return "‘";
+  }
 
-    // guillemets
-    if (output.startsWith("\"")) { 
-      output = output.replaceFirst("\"", "«");
-    }
-    if (output.endsWith("\"")) { 
-      output = output.substring(0, output.length() - 1 ) + "»";
-    }
-    output = output.replaceAll("(['’ \\(])\"", "$1«");
-    output = output.replaceAll("\"([\\u202f\\u00a0 !\\?,\\.;:\\)])", "»$1");   
-    
-    return output;
+  /** @since 5.1 */
+  @Override
+  public String getClosingSingleQuote() {
+    return "’";
   }
 
   @Override

@@ -39,6 +39,7 @@ import org.languagetool.tokenizers.*;
 import java.io.*;
 import java.util.*;
 import java.util.function.Function;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -755,18 +756,57 @@ public abstract class Language {
   }
 
   /** @since 5.1 */
-  public String getOpeningQuote() {
+  public String getOpeningDoubleQuote() {
     return "\"";
   }
 
   /** @since 5.1 */
-  public String getClosingQuote() {
+  public String getClosingDoubleQuote() {
     return "\"";
   }
   
   /** @since 5.1 */
-  public String toAdvancedTypography(String s) {
-    return s;
+  public String getOpeningSingleQuote() {
+    return "'";
+  }
+
+  /** @since 5.1 */
+  public String getClosingSingleQuote() {
+    return "'";
+  }
+  
+  /** @since 5.1 */
+  public String toAdvancedTypography(String input) {
+    
+    String output = input;
+    final Pattern APOSTROPHE = Pattern.compile("([\\p{L}\\d-])'([\\p{L}«'\"])",
+        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    
+    // Apostrophe 
+    Matcher matcher = APOSTROPHE.matcher(output);
+    output = matcher.replaceAll("$1’$2");
+    
+    // single quotes
+    if (output.startsWith("'")) { 
+      output = output.replaceFirst("'", getOpeningSingleQuote());
+    }
+    if (output.endsWith("'")) { 
+      output = output.substring(0, output.length() - 1 ) + getClosingSingleQuote();
+    }
+    output = output.replaceAll("(['’ «\"\\(])'", "$1" + getOpeningSingleQuote());
+    output = output.replaceAll("'([\u202f\u00a0 !\\?,\\.;:\"\\)])", getClosingSingleQuote() + "$1");
+
+    // double quotes
+    if (output.startsWith("\"")) { 
+      output = output.replaceFirst("\"", getOpeningDoubleQuote());
+    }
+    if (output.endsWith("\"")) { 
+      output = output.substring(0, output.length() - 1 ) + getClosingDoubleQuote();
+    }
+    output = output.replaceAll("(['’ \\(])\"", "$1" + getOpeningDoubleQuote());
+    output = output.replaceAll("\"([\\u202f\\u00a0 !\\?,\\.;:\\)])", getClosingDoubleQuote() + "$1");   
+    
+    return output;
   }
 
   /**
