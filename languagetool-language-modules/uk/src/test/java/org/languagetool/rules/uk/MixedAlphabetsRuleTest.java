@@ -158,10 +158,18 @@ public class MixedAlphabetsRuleTest {
     assertEquals(1, matches.length);
     assertEquals("Вжито кириличну літеру замість латинської", matches[0].getMessage());
     assertEquals("0,6°C", matches[0].getSuggestedReplacements().get(0));
-
-
-
-    
   }
 
+  @Test
+  public void testCombiningChars() throws IOException {
+    final MixedAlphabetsRule rule = new MixedAlphabetsRule(TestTools.getMessages("uk"));
+    final JLanguageTool langTool = new JLanguageTool(new Ukrainian());
+
+    // й and ї are done via combining characters: и + U+0306, ї + U+308
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Білоруський - українці"));
+    assertEquals(2, matches.length);
+    assertEquals("Білоруський", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("українці", matches[1].getSuggestedReplacements().get(0));
+  }
+  
 }
