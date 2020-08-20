@@ -408,6 +408,7 @@ public class English extends Language implements AutoCloseable {
     RemoteRuleConfig theInsertionConfig = RemoteRuleConfig.getRelevantConfig(theInsertionID, configs);
     final String missingTheDescription = "This rule identifies whether the article 'the' is missing in a sentence.";
     final String missingWordDescription = "This rule identifies whether the articles 'a' or 'an' are missing in a sentence.";
+    final String variantsDescription = "Identifies confusion between if, of, off and a misspelling";
     final String delMessage = "This article might not be necessary here.";
     final String insMessage = "You might be missing an article here.";
     if (theInsertionConfig != null) {
@@ -441,6 +442,13 @@ public class English extends Language implements AutoCloseable {
         Rule confpairRule = new GRPCConfusionRule(messageBundle, confpairConfig, inputLogging);
         rules.add(confpairRule);
       }
+    }
+    String variantsID = "EN_VARIANTS_MODEL";
+    RemoteRuleConfig variantsConfig = RemoteRuleConfig.getRelevantConfig(variantsID, configs);
+    if (variantsConfig != null) {
+      Rule variantsRule = GRPCRule.create(variantsConfig, inputLogging, variantsID,
+                                          variantsDescription, Collections.emptyMap());
+      rules.add(variantsRule);
     }
     return rules;
   }
