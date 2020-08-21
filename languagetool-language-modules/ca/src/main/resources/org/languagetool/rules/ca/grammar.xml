@@ -31286,6 +31286,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">no|sense|ni|tampoc|mai</token>
+                    <token regexp="yes">donar|fotre</token>
+                    <token min="0" regexp="yes" max="3">ni|un</token>
+                    <token>pal</token>
+                    <token>a</token>
+                    <token>l'</token>
+                    <token>aigua</token>
+                </pattern>
+                <message>Aquesta expressió és un castellanisme.</message>
+                <suggestion>\1 fer-ne un brot</suggestion>
+                <suggestion>\1 fer-ne ni un brot</suggestion>
+                <example correction="Sense fer-ne un brot|Sense fer-ne ni un brot"><marker>Sense donar ni un pal a l'aigua</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">no|sense|ni|tampoc|mai</token>
+                    <token regexp="yes">donar|fotre</token>
+                    <token regexp="yes">mai|tampoc</token>
+                    <token min="0" regexp="yes" max="3">ni|un</token>
+                    <token>pal</token>
+                    <token>a</token>
+                    <token>l'</token>
+                    <token>aigua</token>
+                </pattern>
+                <message>Aquesta expressió és un castellanisme.</message>
+                <suggestion>\1 fer-ne \3 un brot</suggestion>
+                <suggestion>\1 fer-ne \3 ni un brot</suggestion>
+                <example correction="Sense fer-ne mai un brot|Sense fer-ne mai ni un brot"><marker>Sense fotre mai ni un pal a l'aigua</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">no|sense|ni|tampoc|mai</token>
                     <token regexp="yes" inflected="yes">donar|fotre</token>
                     <token min="0" regexp="yes" max="3">ni|un</token>
                     <token>pal</token>
