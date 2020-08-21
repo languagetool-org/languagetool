@@ -786,10 +786,17 @@ public abstract class Language {
       return input;
     }
     String output = input;
+    
+    // Ellipsis (for all languages?)
+    output = output.replaceAll("\\.\\.\\.", "…");
+    
+    // non-breaking space
+    output = output.replaceAll("\\b([a-zA-Z]\\.) ([a-zA-Z]\\.)", "$1\u00a0$2");
+    
+    // Apostrophe
     final Pattern APOSTROPHE = Pattern.compile("([\\p{L}\\d-])'([\\p{L}«])",
         Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     
-    // Apostrophe 
     Matcher matcher = APOSTROPHE.matcher(output);
     output = matcher.replaceAll("$1’$2");
     
