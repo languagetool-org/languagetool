@@ -1676,14 +1676,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="quiénes">No sabía <marker>quienes</marker> lo hicieron.</example>
                 <example>Yo no soy quien lo ha dicho.</example>
             </rule>
-            <rule>
+            <!--
+                The distinction quien/quién is almost irrelevant in these cases
+                <rule>
                 <pattern>
                     <token>según</token>
                     <marker>
                         <token regexp="yes">quien|quienes</token>
                     </marker>
+                    <token regexp="yes">[,\.\?!]</token>
                 </pattern>
-                <message>Se escribe con tilde si equivale a 'qué persona'.</message>
+                <message>Se escribe con tilde si equivale a 'qué persona'. Sin tilde si equivale a 'la persona que'.</message>
                 <suggestion><match no="2" regexp_match="(?iu)quien" regexp_replace="quién"/></suggestion>    
                 <example correction="quién">Según <marker>quien</marker> lo diga, le creemos o no.</example>
                 <example correction="quiénes">Según <marker>quienes</marker> sean, lo haremos o no.</example>
@@ -1696,11 +1699,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">quien|quienes</token>
                     </marker>
                 </pattern>
-                <message>Se escribe con tilde si equivale a 'qué persona'.</message>
+                <message>Se escribe con tilde si equivale a 'qué persona'. Sin tilde si equivale a 'la persona que'.</message>
                 <suggestion><match no="3" regexp_match="(?iu)quien" regexp_replace="quién"/></suggestion>    
                 <example correction="quién">Dependía de <marker>quien</marker> lo dijera.</example>
                 <example correction="quiénes">Independientemente de <marker>quienes</marker> sean, los denunciaremos.</example>
             </rule>
+             -->
         </rulegroup>
         <rulegroup id="QUE_TAL" name="que/qué tal">
             <antipattern>
