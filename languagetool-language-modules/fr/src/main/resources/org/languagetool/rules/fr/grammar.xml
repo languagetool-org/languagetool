@@ -16346,10 +16346,13 @@ though, and has since been slightly modified)-->
     <rule id="MA_VOYELLE" name="ma + voyelle">
       <pattern>
         <token regexp="yes">[mst]a</token>
-        <token regexp="yes">[àâaéèêeiîou].*<exception>onzième</exception></token>
+        <token regexp="yes">h?[àâaéèêeiîou].*<exception>onzième</exception><exception regexp="yes" inflected="yes">&H_ASPIRE;</exception></token>
       </pattern>
-      <message>Voulez-vous dire <suggestion>mon \2</suggestion> ?</message>
+      <message>Voulez-vous dire <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="on"/> \2</suggestion> ?</message>
       <example correction="mon amie">Voici <marker>ma amie</marker>.</example>
+      <example correction="ton amie">Voici <marker>ta amie</marker>.</example>
+      <example correction="son amie">Voici <marker>sa amie</marker>.</example>
+      <example correction="mon haleine">Je veux que <marker>ma haleine</marker> soit fraîche.</example>
       <example>Voici mon amie.</example>
       <example>C’est sa onzième fille.</example>
     </rule>
