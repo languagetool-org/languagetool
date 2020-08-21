@@ -342,6 +342,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup name="Elisioni" id="GR_04_002">
+            <antipattern>
+                <token>'</token>
+                <token spacebefore="no"/>
+                <token spacebefore="no">'</token>
+            </antipattern>
             <!-- togli togli di metti d' -->
             <rule>
                 <pattern>
@@ -355,9 +360,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token>e</token>
-                    <token>'</token>
+                    <token spacebefore="no">'</token>
                 </pattern>
-                <message>Si suggerisce di non usare l'apostrofo per scrivere il verbo essere: <suggestion>è</suggestion>.</message>
+                <message>Si suggerisce di non usare l'apostrofo per scrivere il verbo essere.</message>
+                <suggestion>è</suggestion>
                 <example correction="è">L'uva <marker>e'</marker> sul tavolo.</example>
             </rule>
             <!-- perche' -->
@@ -367,27 +373,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!--  token regexp="yes">perché|poiché|affinché|giacché|finché|altroché</token -->
                     <token regexp="yes">.*[àèéìòù]</token>
 <!-- PB011 - -->                    
-                    <token>'</token>
+                    <token spacebefore="no">'</token>
                 </pattern>
-                <message>Togliere l'apostrofo in quanto la parola è già accentata: <suggestion><match no="1"/></suggestion>.</message>
+                <message>Togliere l'apostrofo in quanto la parola è già accentata.</message>
+                <suggestion><match no="1"/></suggestion>
                 <example correction="perché">Ve lo dico solo <marker>perché'</marker> mi siete simpatici.</example>
             </rule>
             <!-- E' -->
             <rule>
                 <pattern case_sensitive="yes">
                     <token>E</token>
-                    <token>'</token>
+                    <token spacebefore="no">'</token>
                 </pattern>
-                <message>Si suggerisce di non usare l'apostrofo per il verbo essere: <suggestion>È</suggestion>.</message>
+                <message>Si suggerisce di non usare l'apostrofo per il verbo essere.</message>
+                <suggestion>È</suggestion>
                 <example correction="È"><marker>E'</marker> un peccato!</example>
             </rule>
             <!-- da' -->
             <rule>
                 <pattern>
                     <token>da</token>
-                    <token>'</token>
+                    <token spacebefore="no">'</token>
                 </pattern>
-                <message>Non utilizzare l'apostrofo per accentare: <suggestion>dà</suggestion>.</message>
+                <message>Non utilizzare l'apostrofo per accentare.</message>
+                <suggestion>dà</suggestion>
                 <example correction="dà">Mi <marker>da'</marker> una mano per favore?</example>
             </rule>
         </rulegroup>
@@ -1284,7 +1293,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">anguria|angurie</token>
                 </pattern>
-                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare al leggibilità: <suggestion>cocomero</suggestion>.</message>
+                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare la leggibilità: <suggestion>cocomero</suggestion>.</message>
                 <example correction="cocomero">Abbiamo mangiato un'<marker>anguria</marker>.</example>
                 <example>Abbiamo mangiato un <marker>cocomero</marker>.</example>
             </rule>
@@ -1293,7 +1302,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>asparagio</token>
                 </pattern>
-                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare al leggibilità: <suggestion>asparago</suggestion>.</message>
+                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare la leggibilità: <suggestion>asparago</suggestion>.</message>
                 <example correction="asparago">Ho colto un <marker>asparagio</marker>.</example>
             </rule>
             <!-- pedalino -->
@@ -1301,7 +1310,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">pedalino|pedalini</token>
                 </pattern>
-                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare al leggibilità: <suggestion>calza</suggestion>.</message>
+                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare la leggibilità: <suggestion>calza</suggestion>.</message>
                 <example correction="calza">Mauro portava un paio di <marker>pedalini</marker> bianchi.</example>
                 <example>Mauro portava un paio di <marker>calze</marker> bianche.</example>
             </rule>
@@ -1310,7 +1319,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">pomidoro|pomidori</token>
                 </pattern>
-                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare al leggibilità: <suggestion>pomodoro</suggestion>.</message>
+                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare la leggibilità: <suggestion>pomodoro</suggestion>.</message>
                 <example correction="pomodoro">Il <marker>pomidoro</marker> era maturo.</example>
             </rule>
         </rulegroup>
@@ -1409,7 +1418,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ad</token>
                     <token regexp="yes">[eiou].*<exception regexp="yes">esempio|es</exception></token>
                 </pattern>
-                <message>L'uso della d eufonica dovrebbe essere limitato ai casi di incontro della stessa vocale: <suggestion>a <match no="2"/></suggestion>.</message>
+                <message>L'uso della d eufonica dovrebbe essere limitato ai casi d'incontro della stessa vocale: <suggestion>a <match no="2"/></suggestion>.</message>
                 <example correction="a interpretare">Provo <marker>ad interpretare</marker> il tuo pensiero.</example>
                 <example>Io, <marker>ad esempio</marker>, non ci sono cascato.</example>
             </rule>
@@ -1419,7 +1428,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ed</token>
                     <token regexp="yes">[aiou].*</token>
                 </pattern>
-                <message>L'uso della 'd' eufonica dovrebbe essere limitato ai casi di incontro della stessa vocale: <suggestion>e <match no="2"/></suggestion>.</message>
+                <message>L'uso della 'd' eufonica dovrebbe essere limitato ai casi d'incontro della stessa vocale: <suggestion>e <match no="2"/></suggestion>.</message>
                 <example correction="e insisto">Ti dico <marker>ed insisto</marker> che è vero.</example>
             </rule>
             <!-- togli od -->
@@ -1428,7 +1437,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>od</token>
                     <token regexp="yes">[aieu].*</token>
                 </pattern>
-                <message>L'uso della 'd' eufonica dovrebbe essere limitato ai casi di incontro della stessa vocale: <suggestion>o <match no="2"/></suggestion>.</message>
+                <message>L'uso della 'd' eufonica dovrebbe essere limitato ai casi d'incontro della stessa vocale: <suggestion>o <match no="2"/></suggestion>.</message>
                 <example correction="o un">Si consiglia un farmaco blando <marker>od un</marker> omeopatico.</example>
             </rule>
 
