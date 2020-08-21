@@ -473,7 +473,7 @@ public class English extends Language implements AutoCloseable {
         rules.add(confpairRule);
       }
     }
-    String variantsID = "EN_VARIANTS_MODEL";
+    String variantsID = "AI_EN_VAR";
     RemoteRuleConfig variantsConfig = RemoteRuleConfig.getRelevantConfig(variantsID, configs);
     if (variantsConfig != null) {
       Rule variantsRule = GRPCRule.create(variantsConfig, inputLogging, variantsID,
