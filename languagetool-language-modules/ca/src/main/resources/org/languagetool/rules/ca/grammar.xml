@@ -31285,7 +31285,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="PAL_A_LAIGUA" name="*no donar pal a l'aigua/no fer-ne ni brot" default="temp_off">
             <rule>
                 <pattern>
-                    <token>no</token>
+                    <token regexp="yes">no|sense|ni|tampoc|mai</token>
                     <token regexp="yes" inflected="yes">donar|fotre</token>
                     <token min="0" regexp="yes" max="3">ni|un</token>
                     <token>pal</token>
@@ -31294,16 +31294,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>aigua</token>
                 </pattern>
                 <message>Aquesta expressió és un castellanisme.</message>
-                <suggestion>no en <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> un brot</suggestion>
-                <suggestion>no en <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> ni un brot</suggestion>
+                <suggestion>\1 en <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> un brot</suggestion>
+                <suggestion>\1 en <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> ni un brot</suggestion>
                 <example correction="No en feien un brot|No en feien ni un brot"><marker>No donaven ni un pal a l'aigua</marker>.</example>
                 <example correction="No en fas un brot|No en fas ni un brot"><marker>No fots ni un pal a l'aigua</marker>.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>no</token>
+                    <token regexp="yes">no|sense|ni|tampoc|mai</token>
                     <token regexp="yes" inflected="yes">donar|fotre</token>
-                    <token>mai</token>
+                    <token regexp="yes">mai|tampoc</token>
                     <token min="0" regexp="yes" max="3">ni|un</token>
                     <token>pal</token>
                     <token>a</token>
@@ -31311,8 +31311,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>aigua</token>
                 </pattern>
                 <message>Aquesta expressió és un castellanisme.</message>
-                <suggestion>no en <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> mai un brot</suggestion>
-                <suggestion>no en <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> mai ni un brot</suggestion>
+                <suggestion>\1 en <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> \3 un brot</suggestion>
+                <suggestion>\1 en <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> \3 ni un brot</suggestion>
                 <example correction="No en feien mai un brot|No en feien mai ni un brot"><marker>No donaven mai ni un pal a l'aigua</marker>.</example>
                 <example correction="No en fas mai un brot|No en fas mai ni un brot"><marker>No fots mai un pal a l'aigua</marker>.</example>
             </rule>

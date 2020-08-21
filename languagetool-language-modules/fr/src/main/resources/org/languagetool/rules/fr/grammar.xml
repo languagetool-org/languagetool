@@ -16345,17 +16345,20 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rule id="MA_VOYELLE" name="ma + voyelle">
       <pattern>
-        <token regexp="yes">[mst]a</token>
-        <token regexp="yes">h?[àâaéèêeiîou].*<exception>onzième</exception><exception regexp="yes" inflected="yes">&H_ASPIRE;</exception></token>
+        <marker>
+          <token regexp="yes">[mst]a</token>
+        </marker>
+        <token postag="[NJ] .*" postag_regexp="yes" regexp="yes">h?[àâaéèêeiîou].*<exception>onzième</exception><exception regexp="yes" inflected="yes">&H_ASPIRE;</exception></token>
       </pattern>
-      <message>Devant un substantif féminin commençant par une voyelle ou un h muet, la forme <suggestion><match no="1" regexp_match="([mst])(a)" regexp_replace="$1"/>on</suggestion> est utilisée pour des raisons d'euphonie.</message>
+      <message>Devant un substantif féminin commençant par une voyelle ou un h muet, la forme <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="on"/></suggestion> est utilisée pour des raisons d'euphonie.</message>
       <url>https://www.larousse.fr/dictionnaires/francais/mon/52143</url>
-      <example correction="mon amie">Voici <marker>ma amie</marker>.</example>
-      <example correction="ton amie">Voici <marker>ta amie</marker>.</example>
-      <example correction="son amie">Voici <marker>sa amie</marker>.</example>
-      <example correction="mon haleine">Je veux que <marker>ma haleine</marker> soit fraîche.</example>
+      <example correction="mon">Voici <marker>ma</marker> amie.</example>
+      <example correction="ton">Voici <marker>ta</marker> amie.</example>
+      <example correction="son">Voici <marker>sa</marker> amie.</example>
+      <example correction="mon">Je veux que <marker>ma</marker> haleine soit fraîche.</example>
       <example>Voici mon amie.</example>
       <example>C’est sa onzième fille.</example>
+      <example>Ma honte.</example>
     </rule>
     <rule id="VIEUX" name="vieux + voyelle">
       <pattern>
