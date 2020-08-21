@@ -776,10 +776,17 @@ public abstract class Language {
   }
   
   /** @since 5.1 */
+  public boolean isAdvancedTypographyEnabled() {
+    return false;
+  }
+  
+  /** @since 5.1 */
   public String toAdvancedTypography(String input) {
-    
+    if (!isAdvancedTypographyEnabled()) {
+      return input;
+    }
     String output = input;
-    final Pattern APOSTROPHE = Pattern.compile("([\\p{L}\\d-])'([\\p{L}«'\"])",
+    final Pattern APOSTROPHE = Pattern.compile("([\\p{L}\\d-])'([\\p{L}«])",
         Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     
     // Apostrophe 
@@ -793,7 +800,7 @@ public abstract class Language {
     if (output.endsWith("'")) { 
       output = output.substring(0, output.length() - 1 ) + getClosingSingleQuote();
     }
-    output = output.replaceAll("(['’ «\"\\(])'", "$1" + getOpeningSingleQuote());
+    output = output.replaceAll("([ «\"\\(])'", "$1" + getOpeningSingleQuote());
     output = output.replaceAll("'([\u202f\u00a0 !\\?,\\.;:\"\\)])", getClosingSingleQuote() + "$1");
 
     // double quotes
@@ -803,7 +810,7 @@ public abstract class Language {
     if (output.endsWith("\"")) { 
       output = output.substring(0, output.length() - 1 ) + getClosingDoubleQuote();
     }
-    output = output.replaceAll("(['’ \\(])\"", "$1" + getOpeningDoubleQuote());
+    output = output.replaceAll("([ \\(])\"", "$1" + getOpeningDoubleQuote());
     output = output.replaceAll("\"([\\u202f\\u00a0 !\\?,\\.;:\\)])", getClosingDoubleQuote() + "$1");   
     
     return output;

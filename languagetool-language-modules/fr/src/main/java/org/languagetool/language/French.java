@@ -166,9 +166,21 @@ public class French extends Language implements AutoCloseable {
     return "’";
   }
   
+  /** @since 5.1 */
+  @Override
+  public boolean isAdvancedTypographyEnabled() {
+    return true;
+  }
+  
   @Override
   public String toAdvancedTypography (String input) {
     String output = super.toAdvancedTypography(input);
+  
+    // special cases: apostrophe + quotation marks
+    String beforeApostrophe = "([cjnmtsldCJNMTSLD]|qu|jusqu|lorsqu|puisqu|quoiqu|Qu|Jusqu|Lorsqu|Puisqu|Quoiqu|QU|JUSQU|LORSQU|PUISQU|QUOIQU)";
+    output = output.replaceAll("(\\b"+beforeApostrophe+")'", "$1’");
+    output = output.replaceAll("(\\b"+beforeApostrophe+")’\"", "$1’" + getOpeningDoubleQuote());
+    output = output.replaceAll("(\\b"+beforeApostrophe+")’'", "$1’" + getOpeningSingleQuote());
     
     // non-breaking (thin) space 
     // according to https://fr.wikipedia.org/wiki/Espace_ins%C3%A9cable#En_France

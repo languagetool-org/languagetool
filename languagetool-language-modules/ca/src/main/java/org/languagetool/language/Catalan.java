@@ -149,6 +149,25 @@ public class Catalan extends Language {
   public String getClosingSingleQuote() {
     return "’";
   }
+  
+  /** @since 5.1 */
+  @Override
+  public boolean isAdvancedTypographyEnabled() {
+    return true;
+  }
+  
+  
+  @Override
+  public String toAdvancedTypography (String input) {
+    String output = super.toAdvancedTypography(input);
+    
+    // special cases: apostrophe + quotation marks
+    output = output.replaceAll("(\\b[lmnstdLMNSTD])'", "$1’");
+    output = output.replaceAll("(\\b[lmnstdLMNSTD])’\"", "$1’" + getOpeningDoubleQuote());
+    output = output.replaceAll("(\\b[lmnstdLMNSTD])’'", "$1’" + getOpeningSingleQuote());
+    
+    return output;
+  }
 
   @Override
   public LanguageMaintainedState getMaintainedState() {

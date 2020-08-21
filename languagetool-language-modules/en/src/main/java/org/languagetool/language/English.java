@@ -257,6 +257,12 @@ public class English extends Language implements AutoCloseable {
   public String getClosingSingleQuote() {
     return "’";
   }
+  
+  /** @since 5.1 */
+  @Override
+  public boolean isAdvancedTypographyEnabled() {
+    return true;
+  }
 
   /**
    * Closes the language model, if any. 

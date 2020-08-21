@@ -18,6 +18,8 @@
  */
 package org.languagetool.language;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -35,13 +37,19 @@ public class FrenchTest {
     assertThat(tokenizer.tokenize("Arrête de le cajoler… ça ne donnera rien.").size(), is(1));
     assertThat(tokenizer.tokenize("Il est possible de le contacter par tous les moyens (courrier, téléphone, mail...) à condition de vous présenter.").size(), is(1));
     
-    assertThat(lang.toAdvancedTypography("\"C'est\""), is("«\u00a0C’est\u00a0»"));
-    assertThat(lang.toAdvancedTypography("\"C'est\" "), is("«\u00a0C’est\u00a0» "));
-    assertThat(lang.toAdvancedTypography("'C'est'"), is("‘C’est’"));
-    assertThat(lang.toAdvancedTypography("Vouliez-vous dire 'C'est'?"), is("Vouliez-vous dire ‘C’est’\u202f?"));
-    assertThat(lang.toAdvancedTypography("Vouliez-vous dire \"C'est\"?"), is("Vouliez-vous dire «\u00a0C’est\u00a0»\u202f?"));
-    assertThat(lang.toAdvancedTypography("Confusion possible : \"a\" est une conjugaison du verbe avoir. Vouliez-vous dire « à »?"), 
-        is("Confusion possible\u00a0: «\u00a0a\u00a0» est une conjugaison du verbe avoir. Vouliez-vous dire «\u00a0à\u00a0»\u202f?"));
+  }
+  
+  @Test
+  public void testAdvancedTypography() {
+    Language lang = new French();
+    assertEquals(lang.toAdvancedTypography("\"C'est\""), "«\u00a0C’est\u00a0»");
+    assertEquals(lang.toAdvancedTypography("\"C'est\" "), "«\u00a0C’est\u00a0» ");
+    assertEquals(lang.toAdvancedTypography("'C'est'"), "‘C’est’");
+    assertEquals(lang.toAdvancedTypography("Vouliez-vous dire 'C'est'?"), "Vouliez-vous dire ‘C’est’\u202f?");
+    assertEquals(lang.toAdvancedTypography("Vouliez-vous dire \"C'est\"?"), "Vouliez-vous dire «\u00a0C’est\u00a0»\u202f?");
+    assertEquals(lang.toAdvancedTypography("Confusion possible : \"a\" est une conjugaison du verbe avoir. Vouliez-vous dire « à »?"), 
+        "Confusion possible\u00a0: «\u00a0a\u00a0» est une conjugaison du verbe avoir. Vouliez-vous dire «\u00a0à\u00a0»\u202f?");
+    assertEquals(lang.toAdvancedTypography("C'est l'\"homme\"."), "C’est l’« homme ».");
   }
 
 }

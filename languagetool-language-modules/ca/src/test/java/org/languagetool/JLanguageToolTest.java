@@ -40,11 +40,17 @@ public class JLanguageToolTest {
     matches = tool.check("Potser siga el millor");
     assertEquals(1, matches.size());
     assertEquals("POTSER_SIGUI", matches.get(0).getRule().getId());
-    
+  }
+  
+  @Test
+  public void testAdvancedTypography() throws IOException {
+    Language lang = new Catalan();
     assertEquals(lang.toAdvancedTypography("És l'\"hora\"!"), "És l’«hora»!");
     assertEquals(lang.toAdvancedTypography("És l''hora'!"), "És l’‘hora’!");
     assertEquals(lang.toAdvancedTypography("És l'«hora»!"), "És l’«hora»!");
     assertEquals(lang.toAdvancedTypography("És l''hora'."), "És l’‘hora’.");
+    assertEquals(lang.toAdvancedTypography("Cal evitar el \"'lo' neutre\"."), "Cal evitar el «‘lo’ neutre».");
+    assertEquals(lang.toAdvancedTypography("És \"molt 'important'\"."), "És «molt ‘important’».");
   }
-
+  
 }
