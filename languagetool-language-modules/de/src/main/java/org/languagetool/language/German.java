@@ -249,25 +249,25 @@ public class German extends Language implements AutoCloseable {
   /** @since 5.1 */
   @Override
   public String getOpeningDoubleQuote() {
-    return "“";
+    return "„";
   }
 
   /** @since 5.1 */
   @Override
   public String getClosingDoubleQuote() {
-    return "”";
+    return "“";
   }
   
   /** @since 5.1 */
   @Override
   public String getOpeningSingleQuote() {
-    return "‘";
+    return "‚";
   }
 
   /** @since 5.1 */
   @Override
   public String getClosingSingleQuote() {
-    return "’";
+    return "‘";
   }
   
   /** @since 5.1 */

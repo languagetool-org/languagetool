@@ -156,7 +156,6 @@ public class Catalan extends Language {
     return true;
   }
   
-  
   @Override
   public String toAdvancedTypography (String input) {
     String output = super.toAdvancedTypography(input);
