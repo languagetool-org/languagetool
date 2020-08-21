@@ -5986,6 +5986,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><match no="0"/></token>
             </antipattern>
             <rule>
+                <pattern>
+                    <token inflected="yes">haver</token>
+                    <token>de</token>
+                    <token>dit</token>
+                </pattern>
+                <message>Confusió.</message>
+                <suggestion>\1 de dir</suggestion>
+                <suggestion>\1 \3</suggestion>
+                <example correction="Hem de dir|Hem dit"><marker>Hem de dit</marker> de tornar.</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <marker>
                         <token>ens</token>
@@ -7291,7 +7302,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>més</token>
                     <token regexp="yes">tard|avant|endavant</token>
                 </pattern>
-                <message>Construcció dubtosa: gerundi de posterioritat.</message>
+                <message>Construcció dubtosa: gerundi de posterioritat. Proveu de reescriure la frase sense el gerundi.</message>
                 <example correction="">El lladre va atracar dues joieries, <marker>escapant-se més tard</marker> amb un cotxe robat.</example>
                 <example>Estan augmentant després d'un període d'estancament.</example>
                 <example>tònica predominant després del govern de l'UCD.</example>
@@ -7305,10 +7316,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="V.G.*" postag_regexp="yes"><exception postag="_GV_|_GN_.*|RG" postag_regexp="yes"/></token>
                         <token min="0">-se</token>
                         <token min="0">poc</token>
-                        <token postag="RG">després</token>
+                        <token postag="RG|LOC_PREP" postag_regexp="yes">després</token>
                     </marker>
                 </pattern>
-                <message>Construcció dubtosa: gerundi de posterioritat.</message>
+                <message>Construcció dubtosa: gerundi de posterioritat. Proveu de reescriure la frase sense el gerundi.</message>
                 <example correction="">El lladre va atracar dues joieries, <marker>fugint després</marker> amb un cotxe robat.</example>
                 <example>Estan augmentant després d'un període d'estancament.</example>
                 <example>tònica predominant després del govern de l'UCD.</example>
@@ -7325,7 +7336,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="D[IN].*" min="0" postag_regexp="yes"/>
                     <token regexp="yes" inflected="yes">&unitats_temps;|&expressions_durada;</token>
                 </pattern>
-                <message>Construcció dubtosa: gerundi de posterioritat.</message>
+                <message>Construcció dubtosa: gerundi de posterioritat. Proveu de reescriure la frase sense el gerundi.</message>
                 <example correction="">El lladre va atracar dues joieries, <marker>fugint al cap de poc</marker> amb un cotxe robat.</example>
                 <example correction="">El lladre va atracar dues joieries, <marker>escapant-se al cap d'una estona</marker> amb un cotxe robat.</example>
                 <example>Estan augmentant després d'un període d'estancament.</example>
@@ -7339,7 +7350,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">el</token>
                     <token regexp="yes">endemà|sendemà</token>
                 </pattern>
-                <message>Construcció dubtosa: gerundi de posterioritat.</message>
+                <message>Construcció dubtosa: gerundi de posterioritat. Proveu de reescriure la frase sense el gerundi.</message>
                 <example correction="">Es van presentar els estatuts, <marker>aprovant-se l’endemà</marker> mateix.</example>
             </rule>
             <rule>
@@ -7349,7 +7360,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" max="3" regexp="yes">a|el|l'|l|poc|més</token>
                     <token regexp="yes">endemà|sendemà|cap|després|tard|avant|endavant</token>
                 </pattern>
-                <message>Construcció dubtosa: gerundi de posterioritat.</message>
+                <message>Construcció dubtosa: gerundi de posterioritat. Proveu de reescriure la frase sense el gerundi.</message>
                 <example correction="">Es van presentar els estatuts, <marker>sent aprovats l'endemà</marker> mateix.</example>
                 <example correction="">Es van presentar els estatuts, <marker>sent aprovats al cap</marker> de poc.</example>
             </rule>
@@ -12661,6 +12672,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rulegroup id="TALLADA_DE_CABELLS" name="*tall de pèl/tallada de cabells">
+            <antipattern>
+                <token regexp="yes">tallada|tallades</token>
+                <token>de</token>
+                <token>cabells</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">tall|tallat|tallada</token>
+                    <token>de</token>
+                    <token regexp="yes">pèl|pèls|cabell|cabells</token>
+                </pattern>
+                <message>Possible error de traducció automàtica.</message>
+                <suggestion>tallada de cabells</suggestion>
+                <example correction="tallada de cabells">Em van fer un bon <marker>tallat de pèl</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">talls|tallats|tallades</token>
+                    <token>de</token>
+                    <token regexp="yes">pèl|pèls|cabell|cabells</token>
+                </pattern>
+                <message>Possible error de traducció automàtica.</message>
+                <suggestion>tallades de cabells</suggestion>
+                <example correction="tallades de cabells">Van fer unes bones <marker>tallades de cabell</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MATO" name="mató/va matar">
             <rule>
                 <pattern>
@@ -31244,6 +31282,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="PAL_A_LAIGUA" name="*no donar pal a l'aigua/no fer-ne ni brot" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>no</token>
+                    <token regexp="yes" inflected="yes">donar|fotre</token>
+                    <token min="0" regexp="yes" max="3">ni|un</token>
+                    <token>pal</token>
+                    <token>a</token>
+                    <token>l'</token>
+                    <token>aigua</token>
+                </pattern>
+                <message>Aquesta expressió és un castellanisme.</message>
+                <suggestion>no en <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> un brot</suggestion>
+                <suggestion>no en <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> ni un brot</suggestion>
+                <example correction="No en feien un brot|No en feien ni un brot"><marker>No donaven ni un pal a l'aigua</marker>.</example>
+                <example correction="No en fas un brot|No en fas ni un brot"><marker>No fots ni un pal a l'aigua</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>no</token>
+                    <token regexp="yes" inflected="yes">donar|fotre</token>
+                    <token>mai</token>
+                    <token min="0" regexp="yes" max="3">ni|un</token>
+                    <token>pal</token>
+                    <token>a</token>
+                    <token>l'</token>
+                    <token>aigua</token>
+                </pattern>
+                <message>Aquesta expressió és un castellanisme.</message>
+                <suggestion>no en <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> mai un brot</suggestion>
+                <suggestion>no en <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> mai ni un brot</suggestion>
+                <example correction="No en feien mai un brot|No en feien mai ni un brot"><marker>No donaven mai ni un pal a l'aigua</marker>.</example>
+                <example correction="No en fas mai un brot|No en fas mai ni un brot"><marker>No fots mai un pal a l'aigua</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rule id="PER_CAMES" name="*per cames/cames ajudeu-me" default="temp_off">
+            <pattern>
+                <token>per</token>
+                <token>cames</token>
+            </pattern>
+            <message>Aquesta expressió és un castellanisme.</message>
+            <suggestion>cames ajudeu-me</suggestion>
+            <suggestion>cames me valguen</suggestion>
+            <example correction="cames ajudeu-me|cames me valguen">Vam eixir d'allà <marker>per cames</marker>.</example>
+        </rule>
         <rule id="POSAR_DE_VOLTA" name="*posar de volta i mitja/deixar com un drap brut">
             <pattern>
                 <token inflected="yes">posar</token>
@@ -39193,6 +39276,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="ESQUE" name="esque/és que">
+            <pattern>
+                <token>esque</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>és que</suggestion>? "Esque" pot ser una forma valenciana del v. 'escar'.</message>
+            <example correction="És que"><marker>Esque</marker> no m'agrada.</example>
+        </rule>
+        <rule id="LAQUE" name="laque/la que">
+            <antipattern>
+                <token postag="P.*" postag_regexp="yes"/>
+                <token>laque</token>
+            </antipattern>
+            <pattern>
+                <token>laque</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>la que</suggestion>? "Laque" pot ser una forma valenciana del v. 'lacar'.</message>
+            <example correction="la que">Aquesta és <marker>laque</marker> m'agrada.</example>
+            <example>Quan la laque, veurà el resultat.</example>
+        </rule>
         <rulegroup id="RAIG_LLAMP" name="raig/llamp">
             <antipattern>
                 <token inflected="yes">raig</token>
@@ -42375,19 +42477,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="fonaments">Calia que posar els <marker>ciments</marker> de la casa.</example>
             <example>La imparable expansió de la rajola i el ciment</example>
         </rule>
-        <rule id="DAR" name="dar">
-            <pattern>
-                <token postag="V.[^P].*" postag_regexp="yes" inflected="yes">dar<exception inflected="yes">deure</exception><exception postag="(&lt;)?NP.*|_GN_.*" postag_regexp="yes"/></token>
-            </pattern>
-            <message>El v. 'dar' sol usar-se només en expressions fossilitzades.</message>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match></suggestion>
-            <example correction="donarem">Què li <marker>darem</marker>.</example>
-            <example>Li ho donaré.</example>
-            <example>Ara van mal dades</example>
-            <example>Tot està dat i beneït.</example>
-            <example>Se li deu això.</example>
-            <example>El dau està llançat.</example>
-        </rule>
+        <rulegroup id="DAR" name="dar">
+            <rule>
+                <pattern>
+                    <token postag="V.[^P].*" postag_regexp="yes">da<exception inflected="yes">deure</exception><exception postag="(&lt;)?NP.*|_GN_.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>de</suggestion>? El v. 'dar' sol usar-se només en expressions fossilitzades.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match></suggestion>
+                <example correction="de|dona|dóna">És <marker>da</marker> casa.</example>
+                <example>Leonardo da Vinci</example>
+                <example>Lula da Silva</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.[^P].*" postag_regexp="yes" inflected="yes">dar<exception inflected="yes">deure</exception><exception postag="(&lt;)?NP.*|_GN_.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>El v. 'dar' sol usar-se només en expressions fossilitzades.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match></suggestion>
+                <example correction="donarem">Què li <marker>darem</marker>.</example>
+                <example>Li ho donaré.</example>
+                <example>Ara van mal dades</example>
+                <example>Tot està dat i beneït.</example>
+                <example>Se li deu això.</example>
+                <example>El dau està llançat.</example>
+            </rule>
+        </rulegroup>
         <rule id="FADIGAR_FATIGAR" name="fadigar/fatigar">
             <pattern>
                 <token inflected="yes">fadigar</token>
