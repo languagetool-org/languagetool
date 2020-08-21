@@ -333,7 +333,7 @@ public class English extends Language implements AutoCloseable {
       case "CD_NN_APOSTROPHE_S":        return 1;   // prefer over CD_NN and LOWERCASE_NAME_APOSTROPHE_S
       case "IT_IF":                     return 1;   // needs higher prio than PRP_COMMA and IF_YOU_ANY
       case "FINE_TUNE_COMPOUNDS":       return 1;   // prefer over less specific rules
-      case "WHAT_IS_YOU":               return 1;   // prefer over HOW_DO_I_VB
+      case "WHAT_IS_YOU":               return 1;   // prefer over HOW_DO_I_VB, NON3PRS_VERB
       case "SUPPOSE_TO":                return 1;   // prefer over HOW_DO_I_VB
       case "PROFANITY":                 return 5;   // prefer over spell checker
       case "FOR_NOUN_SAKE":             return 6;   // prefer over PROFANITY (e.g. "for fuck sake")
