@@ -190,6 +190,7 @@ public final class CommandLineTools {
       System.out.println("Message: " + msg);
       List<String> replacements = match.getSuggestedReplacements();
       if (!replacements.isEmpty()) {
+        replacements = replacements.subList(0, Math.min(5, replacements.size()));
         System.out.println("Suggestion: " + String.join("; ", replacements));
       }
       System.out.println(contextTools.getPlainTextContext(match.getFromPos(), match.getToPos(), contents));
