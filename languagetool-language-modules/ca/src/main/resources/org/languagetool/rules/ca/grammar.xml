@@ -539,7 +539,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El meu nóvio.</example>
             </rule>
         </rulegroup>
-        <rule id="EXIGEIX_POSSESSIUS_U" name="Exigeix els possessius amb u (meua, teua,...)" default="off">
+        <rule id="EXIGEIX_POSSESSIUS_U" name="Exigeix els possessius amb u (meua, teua...)" default="off">
             <pattern>
                 <token regexp="yes">(me|te|se)v(a|es)</token>
             </pattern>
@@ -548,7 +548,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="meua">La <marker>meva</marker> amiga.</example>
             <example>La <marker>meua</marker> amiga.</example>
         </rule>
-        <rule id="EXIGEIX_POSSESSIUS_V" name="Exigeix els possessius amb v (meva, teva,...)" default="on">
+        <rule id="EXIGEIX_POSSESSIUS_V" name="Exigeix els possessius amb v (meva, teva...)" default="on">
             <pattern>
                 <token regexp="yes">(me|te|se)u(a|es)</token>
             </pattern>
@@ -3580,7 +3580,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     per un ideal d'emancipació comú-->
                 <!-- <example correction="comuna">Un cau de gent <marker>comú</marker>.</example> -->
             </rule>
-            <rule id="ESTRATEGA" name="estrateg -a, raposde -a, psiquiatre -a">
+            <rule id="ESTRATEGA" name="estrateg -a, rapsode -a, psiquiatre -a">
                 <antipattern>
                     <marker>
                         <token regexp="yes" skip="1">metgessa|filòsofa|poetessa|política|escriptora|traductora|escultora|pintora</token>
@@ -6278,7 +6278,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token postag="V.P.*" postag_regexp="yes"/>
             </pattern>
-            <message>Forma incorrecta del verb 'haver'.</message>
+            <message>Forma incorrecta del v. 'haver'.</message>
             <suggestion><match no="1" postag="VM(.+)." postag_regexp="yes" postag_replace="VA$1.">haver</match></suggestion>
             <short>Possible error ortogràfic.</short>
             <example correction="hagen|hagin">Quan ho <marker>heguin</marker> portat.</example>
@@ -13976,7 +13976,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>s'entén per dia serè aquell en el qual</example>
             <example>Estava molt serè aquell dia</example>
         </rule>
-        <rulegroup id="BASTISSIM" name="bastíssim/vastísim">
+        <rulegroup id="BASTISSIM" name="bastíssim/vastíssim">
             <rule>
                 <pattern>
                     <token regexp="yes" skip="1">&context_VASTISSIM;</token>
@@ -18126,7 +18126,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>ela</token>
                 </marker>
-                <token postag="NC.[SN].*" postag_regexp="yes"/>
+                <token postag="NC.[SN].*" postag_regexp="yes"><exception regexp="yes">minúscula|majúscula</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="2" postag="NC(.).*" postag_regexp="yes" postag_replace="DA0$1S0">el</match></suggestion>?</message>
             <short>Possible confusió</short>
@@ -18153,7 +18153,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Establí"><marker>Establi</marker> els seus principis.</example>
             <example>Que hi establís una relació.</example>
         </rule>
-        <rule id="CONSEGUENT_CONSEQUENT" name="conseguent/consequent">
+        <rule id="CONSEGUENT_CONSEQUENT" name="consegüent/conseqüent">
             <pattern>
                 <token>per</token>
                 <token>conseqüent</token>
@@ -18386,7 +18386,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Amb"><marker>Am</marker> àmplies vistes</example>
             <example>amb àmplies vistes</example>
         </rule>
-        <rule id="SAN_SANT" name="san_sant">
+        <rule id="SAN_SANT" name="san/sant">
             <pattern>
                 <marker>
                     <token>san<exception postag=".*NP.*" postag_regexp="yes"/></token>
@@ -21550,6 +21550,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="DE_EL_S_APOSTROFEN" name="apostrofació: de, el">
             <antipattern>
+                <token regexp="yes">sentit|significat|derivat</token>
+                <token>de</token>
+                <token postag="_cometes_obertura"/>
+            </antipattern>
+            <antipattern>
+                <token>en</token>
+                <token regexp="yes">comptes?|lloc</token>
+                <token>de</token>
+                <token postag="_cometes_obertura"/>
+            </antipattern>
+            <antipattern>
                 <marker>
                     <token postag="NP.*" postag_regexp="yes">de</token>
                 </marker>
@@ -22128,7 +22139,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>la Haia</example>
             </rule>
             <!-- statu|scherzo|ftalat|snack|Stradivarius: afegit a sigles_apostrofen -->
-            <rule id="LA_SCHOLA" name="Exigeix: la schola">
+            <rule id="LA_SCHOLA" name="Exigeix: la schola cantorum">
                 <pattern>
                     <token>l'</token>
                     <token regexp="yes">schola|ftiriasi</token>
@@ -22138,7 +22149,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="la schola"><marker>l'schola</marker> cantorum</example>
                 <example>la schola cantorum</example>
             </rule>
-            <rule id="DE_SCHOLA" name="Exigeix: de schola">
+            <rule id="DE_SCHOLA" name="Exigeix: de schola cantorum">
                 <antipattern case_sensitive="yes">
                     <marker>
                         <token regexp="yes">[Dd]'</token>
@@ -49538,7 +49549,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="girar">Mesurar angles o <marker>rotar</marker> objectes.</example>
             </rule>
         </rulegroup>
-        <rule id="DERRAMAR" name="derramar / vessar,escampar">
+        <rule id="DERRAMAR" name="derramar / vessar, escampar">
             <antipattern>
                 <marker>
                     <token postag="N.*" postag_regexp="yes" inflected="yes">derrama</token>
@@ -51125,7 +51136,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="AV">Les <marker>AA.VV.</marker> no es van pronunciar.</example>
             </rule>
         </rulegroup>
-        <rule id="I_O" name="i/o: fórmula innecèssaria">
+        <rule id="I_O" name="i/o: fórmula innecessària">
             <antipattern>
                 <token>/</token>
                 <token regexp="yes">[io]</token>
@@ -51860,7 +51871,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>estava content d'allò tan extraordinari</example>
             </rule>
         </rulegroup>
-        <rulegroup id="RELATIUS" name="Comprova les contruccions de relatiu: amb el que/amb el qual" default="on">
+        <rulegroup id="RELATIUS" name="Comprova les construccions de relatiu: amb el que/amb el qual" default="on">
             <url>http://esadir.cat/entrades/fitxa/node/Relatius_preposicio</url>
             <antipattern>
                 <marker>
