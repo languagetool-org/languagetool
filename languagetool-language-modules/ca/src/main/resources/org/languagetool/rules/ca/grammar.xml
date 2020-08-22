@@ -31630,7 +31630,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="escombraries">Era menjar <marker>escombraria</marker>.</example>
             <example>Em va dir que escombraria ell.</example>
         </rule>
-        <rulegroup name="SIGLES" id="sigles" default="temp_off">
+        <rulegroup name="plural de sigles" id="SIGLES" default="temp_off">
             <rule>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
@@ -31670,7 +31670,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token case_sensitive="yes" regexp="yes">.*\p{Ll}</token>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">EROS<exception postag="N,*" postag_regexp="yes"/></token>
+                        <token case_sensitive="yes">EROS<exception postag="N,*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>El plural de las sigles no es marca gràficament.</message>
@@ -39772,6 +39772,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="meses">En les <marker>taules</marker> electorals.</example>
             </rule>
         </rulegroup>
+        <rule id="ENRIC" name="enric/Enric">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">enrics?</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" case_conversion="startupper"/></suggestion> (nom de persona)? En minúscula és el nom d'una moneda històrica.</message>
+            <example correction="Enric">¿T'ha agradat, <marker>enric</marker>?</example>
+            <example>Ha vingut Enric a visitar-nos.</example>
+        </rule>
         <rule id="ESQUE" name="esque/és que">
             <pattern>
                 <token>esque</token>
@@ -46016,6 +46024,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Cal escriure <suggestion>bon matí</suggestion>.</message>
                 <example correction="bon matí">De <marker>bon de matí</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>l</token>
+                    <token>de</token>
+                    <token>matí</token>
+                </pattern>
+                <message>Construcció incorrecta.</message>
+                <suggestion>al matí</suggestion>
+                <suggestion>de matí</suggestion>
+                <suggestion>al dematí</suggestion>
+                <example correction="al matí|de matí|al dematí">Ens n'anirem <marker>al de matí</marker>.</example>
             </rule>
             <rule>
                 <pattern>
