@@ -31704,6 +31704,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="EUA">Van emigrar als <marker>EE.UU.</marker> l'any 1904.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="DE_MATI" name="al *de matí">
+            <rule>
+                <pattern>
+                    <token>bon</token>
+                    <token>de</token>
+                    <token>matí</token>
+                </pattern>
+                <message>Cal escriure <suggestion>bon matí</suggestion>.</message>
+                <example correction="bon matí">De <marker>bon de matí</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>l</token>
+                    <token>de</token>
+                    <token>matí</token>
+                </pattern>
+                <message>Construcció incorrecta.</message>
+                <suggestion>al matí</suggestion>
+                <suggestion>de matí</suggestion>
+                <suggestion>al dematí</suggestion>
+                <example correction="al matí|de matí|al dematí">Ens n'anirem <marker>al de matí</marker>.</example>
+            </rule> 
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="D[^R]0MS0" postag_regexp="yes"/>
+                    <token min="0" postag="A..[MC][SN]." postag_regexp="yes"/>
+                    <marker>
+                        <token>de</token>
+                        <token>matí</token>
+                    </marker>
+                </pattern>
+                <message>Construcció incorrecta.</message>
+                <suggestion>matí</suggestion>
+                <suggestion>dematí</suggestion>
+                <example correction="matí|dematí">al <marker>de matí</marker></example>
+                <example correction="matí|dematí">Un bonic <marker>de matí</marker></example>
+                <example correction="matí|dematí">Aquell <marker>de matí</marker></example>
+                <example correction="matí|dematí">Ha estat un preciós <marker>de matí</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PAL_A_LAIGUA" name="*no donar pal a l'aigua/no fer-ne ni brot">
             <rule>
                 <pattern>
@@ -46002,7 +46043,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>dematí</token>
                     </marker>
                 </pattern>
-                <message>En registres formals val més dir: <suggestion>matí</suggestion>.</message>
+                <message>En registres formals val més dir <suggestion>matí</suggestion>.</message>
                 <example correction="matí">al <marker>dematí</marker></example>
                 <example correction="matí">Un bon <marker>dematí</marker></example>
                 <example correction="matí">Aquell <marker>dematí</marker></example>
@@ -46013,30 +46054,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>bon</token>
                     <token>dematí</token>
                 </pattern>
-                <message>En registres formals val més dir: <suggestion>bon matí</suggestion>.</message>
+                <message>En registres formals val més dir <suggestion>bon matí</suggestion>.</message>
                 <example correction="bon matí">De <marker>bon dematí</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>bon</token>
-                    <token>de</token>
-                    <token>matí</token>
-                </pattern>
-                <message>Cal escriure <suggestion>bon matí</suggestion>.</message>
-                <example correction="bon matí">De <marker>bon de matí</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>a</token>
-                    <token>l</token>
-                    <token>de</token>
-                    <token>matí</token>
-                </pattern>
-                <message>Construcció incorrecta.</message>
-                <suggestion>al matí</suggestion>
-                <suggestion>de matí</suggestion>
-                <suggestion>al dematí</suggestion>
-                <example correction="al matí|de matí|al dematí">Ens n'anirem <marker>al de matí</marker>.</example>
             </rule>
             <rule>
                 <pattern>
