@@ -321,6 +321,13 @@ public class UkrainianDisambiguationRuleTest {
           + " В./[null]noninf:abbr  /[null]null Іпа/[null]null",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
+    TestTools.myAssert("С. Гокінґ", 
+        "/[null]SENT_START"
+        + " С./[С.]noun:anim:m:v_naz:prop:fname:abbr"
+        + "  /[null]null"
+        + " Гокінґ/[Гокінґ]noun:anim:m:v_naz:prop:lname:alt", 
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    
   }
 
   @Test

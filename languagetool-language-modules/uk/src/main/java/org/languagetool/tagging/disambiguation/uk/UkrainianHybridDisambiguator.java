@@ -236,6 +236,9 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
 
       if( inanimVklyReadings.size() > 0 && otherFound ) {
         for(AnalyzedToken analyzedToken: inanimVklyReadings) {
+          if( Arrays.asList("зоря").contains(analyzedToken.getLemma()) )
+            continue;
+
           tokens[i].removeReading(analyzedToken, "inanim_v_kly");
         }
       }
@@ -492,6 +495,8 @@ TODO:
       String lnamePosTag = lnameToken.getPOSTag();
       if( lnamePosTag == null || ! lnamePosTag.contains(LAST_NAME_TAG) )
         continue;
+      
+      lnamePosTag = lnamePosTag.replaceAll(":(alt|ua_\\d{4}|xp\\d)", "");
 
       String initialsToken = initialsReadings.getAnalyzedToken(0).getToken();
       AnalyzedToken newToken = new AnalyzedToken(initialsToken, lnamePosTag.replace(LAST_NAME_TAG, ":"+initialType+":abbr"), initialsToken);
