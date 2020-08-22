@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Old to new spelling data and similar formats loaded form CSV.
+ * Old to new spelling data and similar formats loaded from CSV.
  * @since 4.3
  */
 class SpellingData {
