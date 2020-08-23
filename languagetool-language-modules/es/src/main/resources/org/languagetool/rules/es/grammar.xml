@@ -4109,6 +4109,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Algunas como estas corriendo.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ESTAS_TILDE2" name="estas/estás" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>estas</token>
+                    </marker>
+                    <token regexp="yes">bien|mal</token>
+                </pattern>
+                <message>Si es del v. 'estar', se escribe con tilde.</message>
+                <suggestion>estás</suggestion>
+                <example correction="estás">Si tú <marker>estas</marker> bien soy feliz.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>tú</token>
+                    <marker>
+                        <token>estas</token>
+                    </marker>
+                    <token postag="RG|A.*|V.P.*" postag_regexp="yes"><exception postag="A..[FC][PN].*|V.P..PF" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Si es del v. 'estar', se escribe con tilde.</message>
+                <suggestion>estás</suggestion>
+                <example correction="estás">Si tú <marker>estas</marker> contento yo soy feliz.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ESTE_TILDE" name="*este/esté" default="on">
             <antipattern>
                 <token postag="SPS00"/>
@@ -6648,6 +6673,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>van</token>
                 <token regexp="yes" case_sensitive="yes">\p{Lu}.+</token>
+            </antipattern>
+            <antipattern>
+                <token>des</token>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no"/>
             </antipattern>
             <rule>
                 <pattern>
