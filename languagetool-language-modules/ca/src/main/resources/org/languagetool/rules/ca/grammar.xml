@@ -5812,6 +5812,66 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No hem de fer res</example>
             </rule>
         </rulegroup>
+        <rulegroup id="CALDRE" name="v. 'caldre' seguit d'infinitiu">
+            <rule>
+                <pattern>
+                    <token>si</token>
+                    <marker>
+                        <token inflected="yes">caldre<exception postag="_GN_MS"/><exception case_sensitive="yes">CAL</exception></token>
+                        <token postag="VM[^GN].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="[^V].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Potser hi falta una coma o un verb en infinitiu.</message>
+                <suggestion><match no="2"/>, <match no="3"/></suggestion>
+                <suggestion><match no="2"/> <match no="3" postag="V.N.*" postag_regexp="yes"/></suggestion>
+                <suggestion><match no="2"/> que <match no="3"/></suggestion>
+                <example correction="cal, menyspreeu|cal menysprear|cal que menyspreeu">Si <marker>cal menyspreeu</marker> el que dic.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception>com</exception></token>
+                    <marker>
+                        <token inflected="yes">caldre<exception postag="_GN_MS"/><exception case_sensitive="yes">CAL</exception></token>
+                        <token postag="VM[^GN].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="[^V].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2"/> <match no="3" postag="V.N.*" postag_regexp="yes"/></suggestion>? Potser hi falta una coma.</message>
+                <suggestion><match no="2"/> que <match no="3"/></suggestion>
+                <suggestion><match no="2"/>, <match no="3"/></suggestion>
+                <example correction="cal córrer|cal que corre|cal, corre">No <marker>cal corre</marker>.</example>
+                <example>No cal córrer.</example>
+                <example>Anem a cal Cego.</example>
+                <example>El model estàndard del Big Bang calent erra en l'objectiu</example>
+                <example>ésser tractat com cal donant llargues llistes</example>
+            </rule>
+            <rule>
+                <!-- com l'anterior però amb verbs que també són noms -->
+                <pattern>
+                    <token><exception>com</exception></token>
+                    <marker>
+                        <token inflected="yes">caldre<exception postag="_GN_MS"/></token>
+                        <token regexp="yes" case_sensitive="yes">cerca|busca|menja</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2"/> \3r</suggestion>?</message>
+                <example correction="cal cercar">No <marker>cal cerca</marker> una altra solució.</example>
+                <example>No cal córrer.</example>
+                <example>Anem a cal Cego.</example>
+                <example>El model estàndard del Big Bang calent erra en l'objectiu</example>
+                <example>ésser tractat com cal donant llargues llistes</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">caldre</token>
+                    <token regexp="yes">de|d'</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>La preposició 'de' és sobrera amb el v. 'caldre' seguit d'infinitiu.</message>
+                <suggestion><match no="1"/> <match no="3"/></suggestion>
+                <example correction="cal indicar">No <marker>cal d'indicar</marker> que</example>
+                <example>No cal indicar que</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PERIFRASIS" name="Perífrasis d'obligació i de dubte">
             <rule id="ACABAR_GERUNDI" name="*acabà fer/acabà fent">
                 <pattern>
@@ -5884,49 +5944,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>s'<match no="1" case_conversion="alllower"/> de</suggestion>
                 <example correction="caldrà|s'haurà de">Potser <marker>haurà que</marker> actualitzar</example>
                 <example correction="caldria|s'hauria de"><marker>Hauria que</marker> triar diputat.</example>
-            </rule>
-            <rule id="CALDRE" name="Comprova: «caldre» seguit de verb en infinitiu">
-                <pattern>
-                    <token><exception>com</exception></token>
-                    <marker>
-                        <token inflected="yes">caldre<exception postag="_GN_MS"/><exception case_sensitive="yes">CAL</exception></token>
-                        <token postag="VM[^GN].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="[^V].*" postag_regexp="yes"/></token>
-                    </marker>
-                </pattern>
-                <message>¿Volíeu dir <suggestion><match no="2"/> <match no="3" postag="V.N.*" postag_regexp="yes"/></suggestion>?</message>
-                <suggestion><match no="2"/> que <match no="3"/></suggestion>
-                <suggestion><match no="2"/>, <match no="3"/></suggestion>
-                <example correction="cal córrer|cal que corre|cal, corre">No <marker>cal corre</marker>.</example>
-                <example>No cal córrer.</example>
-                <example>Anem a cal Cego.</example>
-                <example>El model estàndard del Big Bang calent erra en l'objectiu</example>
-                <example>ésser tractat com cal donant llargues llistes</example>
-            </rule>
-            <rule id="CALDRE2" name="Comprova: «caldre» seguit de verb en infinitiu">
-                <!-- com l'anterior però amb verbs que també són noms -->
-                <pattern>
-                    <token><exception>com</exception></token>
-                    <marker>
-                        <token inflected="yes">caldre<exception postag="_GN_MS"/></token>
-                        <token regexp="yes" case_sensitive="yes">cerca|busca|menja</token>
-                    </marker>
-                </pattern>
-                <message>¿Volíeu dir <suggestion><match no="2"/> \3r</suggestion>?</message>
-                <example correction="cal cercar">No <marker>cal cerca</marker> una altra solució.</example>
-                <example>No cal córrer.</example>
-                <example>Anem a cal Cego.</example>
-                <example>El model estàndard del Big Bang calent erra en l'objectiu</example>
-                <example>ésser tractat com cal donant llargues llistes</example>
-            </rule>
-            <rule id="CALDRE_DE" name="Caldre (*de) + infinitiu">
-                <pattern>
-                    <token inflected="yes">caldre</token>
-                    <token regexp="yes">de|d'</token>
-                    <token postag="V.N.*" postag_regexp="yes"/>
-                </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1"/> <match no="3"/></suggestion>?</message>
-                <example correction="cal indicar">No <marker>cal d'indicar</marker> que</example>
-                <example>No cal indicar que</example>
             </rule>
             <rule id="DEURE" name="Comprova: «deure» seguit de verb en infinitiu">
                 <antipattern>
@@ -13689,7 +13706,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Com a substantiu, cal dir <suggestion>pes</suggestion>. Correcte si és del v. 'pesar'.</message>
                 <suggestion>peça</suggestion>
                 <example correction="pes|peça">Una <marker>pesa</marker>.</example>
-                <example>La pesa en la balança</example> <!-- ambiguous-->
+                <example>La pesa en la balança</example>
+                <!-- ambiguous-->
             </rule>
             <rule>
                 <pattern>
@@ -26584,7 +26602,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token regexp="yes">li|ens|us|els|les|ho<exception postag="_GN_.*" postag_regexp="yes"/></token>
-                    <token postag="V.P..SM." postag_regexp="yes"><exception postag="_possible_nompropi"></exception></token>
+                    <token postag="V.P..SM." postag_regexp="yes"><exception postag="_possible_nompropi"/></token>
                 </pattern>
                 <message>Pronom feble solt.</message>
                 <suggestion>\1 ha \2</suggestion>
@@ -29588,7 +29606,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" case_sensitive="yes">[ds]r(a|s|es)?</token>
             </pattern>
             <message>Aquesta abreviatura s'escriu amb majúscula inicial.</message>
-            <suggestion><match no="1" case_conversion="startupper"></match></suggestion>
+            <suggestion><match no="1" case_conversion="startupper"/></suggestion>
             <example correction="Sra">Ha vingut la <marker>sra</marker>. Garcia.</example>
         </rule>
         <rule id="BRAILLE" name="braille">
@@ -32569,7 +32587,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="AUTOIMMOLAR" name="autoimmolar">
             <antipattern>
-                <token postag="V.P.*" postag_regexp="yes" regexp="yes" inflected="yes">auto(immolar|inculpar|infligir)<exception postag="_reflexiu"></exception></token>
+                <token postag="V.P.*" postag_regexp="yes" regexp="yes" inflected="yes">auto(immolar|inculpar|infligir)<exception postag="_reflexiu"/></token>
             </antipattern>
             <pattern>
                 <token inflected="yes" regexp="yes">auto(immolar|inculpar|suïcidar|infligir)</token>
@@ -39351,7 +39369,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes"  skip="-1">raig<exception postag="_possible_nompropi"/></token>
+                        <token inflected="yes" skip="-1">raig<exception postag="_possible_nompropi"/></token>
                     </marker>
                     <token inflected="yes" regexp="yes">&context_LLAMP;</token>
                 </pattern>
@@ -41462,7 +41480,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token inflected="yes">cantera</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCF$1">pedrera</match></suggestion> (lloc d'on s'extrauen pedres) o <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCM$1">planter</match></suggestion> (lloc de formació)? "Cantera" és correcte en el sentit de 'pedra grossa' i 'ganes de cantar'.</message>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCF$1">pedrera</match></suggestion> (lloc d'on s'extrauen pedres) o <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCM$1">planter</match></suggestion> (lloc
+                de formació)? "Cantera" és correcte en el sentit de 'pedra grossa' i 'ganes de cantar'.</message>
             <example correction="pedrera|planter">És de la <marker>cantera</marker>.</example>
         </rule>
         <rule id="CONXA" name="conxa / closca">
@@ -51272,7 +51291,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                     <token>AA</token>
+                    <token>AA</token>
                     <token>.</token>
                     <token>VV</token>
                     <token>.</token>
