@@ -103,6 +103,15 @@ public class ContextTools {
   }
 
   /**
+   * Set the string used to mark the beginning and end of an error, e.g. {@code <span class="error">} and {@code </span>}
+   * @since 5.1
+   */
+  public void setErrorMarker(String start, String end) {
+    this.errorMarkerStart = start;
+    this.errorMarkerEnd = end;
+  }
+
+  /**
    * Set the string used to mark the beginning of an error, e.g. {@code <span class="error">}
    */
   public void setErrorMarkerStart(String errorMarkerStart) {

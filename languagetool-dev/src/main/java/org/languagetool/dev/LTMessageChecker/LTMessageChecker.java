@@ -27,9 +27,9 @@ import java.util.List;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.commandline.CommandLineTools;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tools.ContextTools;
 import org.languagetool.tools.StringTools;
 
 /**
@@ -60,6 +60,9 @@ public class LTMessageChecker {
 
     long start = System.currentTimeMillis();
     JLanguageTool lt = new JLanguageTool(lang);
+    ContextTools contextTools = new ContextTools();
+    contextTools.setErrorMarker("**", "**");
+    contextTools.setEscapeHtml(false);
     System.out.println("Checking language: " + lang.getName() + " (" + lang.getShortCodeWithCountryAndVariant() + ")");
     System.out.println("Version: " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
     for (Rule r : lt.getAllRules()) {
@@ -98,8 +101,11 @@ public class LTMessageChecker {
           }
           if (matchesToShow.size() > 0) {
             System.out.println("Source: " + r.getFullId());
-            // System.out.println("Text checked: " + textToCheck);
-            CommandLineTools.printMatches(matchesToShow, 0, textToCheck, 15, lang);
+            for (RuleMatch match : matchesToShow) {
+              System.out.println(match.getMessage().replace("<suggestion>", "'").replace("</suggestion>", "'"));
+              System.out.println(contextTools.getContext(match.getFromPos(), match.getToPos(), textToCheck));
+              System.out.println();
+            }
           }
         }
       }
