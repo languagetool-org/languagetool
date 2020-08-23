@@ -6309,7 +6309,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="HABER_AVER" name="Uso incorrecto de «haber» por «a ver»">
-            <short>Posible confusión del verbo «ver» con el verbo «haber»</short>
             <rule>
                 <pattern>
                     <token>haber</token>
@@ -6772,7 +6771,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SPS00"><exception postag="_possible_NP"/><exception>de</exception></token>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/><exception>de</exception></token>
                     <token>los</token>
                     <token postag="V.[SI].*" postag_regexp="yes"><exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END|_possible_NP" postag_regexp="yes"/></token>
                 </pattern>
@@ -6781,10 +6780,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1 \2 {suggestion}</suggestion>
                 <example correction="En los estados|En los estaños|En los estajos"><marker>En los estamos</marker> unidos.</example>
                 <example correction="En los Estados|En los Estaños|En los Estajos"><marker>En los Estamos</marker> Unidos.</example>
+                <example>Hasta los torturan.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SPS00"><exception postag="_possible_NP"/><exception>de</exception></token>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/><exception>de</exception></token>
                     <token>las</token>
                     <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/></token>
                 </pattern>
@@ -6795,7 +6795,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SPS00"><exception postag="_possible_NP"/><exception>de</exception></token>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/><exception>de</exception></token>
                     <token>la</token>
                     <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/></token>
                 </pattern>
