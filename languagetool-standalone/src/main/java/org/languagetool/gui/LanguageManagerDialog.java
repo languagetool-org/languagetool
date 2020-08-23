@@ -94,7 +94,7 @@ public class LanguageManagerDialog implements ActionListener {
     Container contentPane = dialog.getContentPane();
     contentPane.setLayout(new GridBagLayout());
 
-    list = new JList<>(ruleFiles.toArray(new File[ruleFiles.size()]));
+    list = new JList<>(ruleFiles.toArray(new File[0]));
     GridBagConstraints cons = new GridBagConstraints();
     cons.insets = new Insets(4, 4, 4, 4);
     cons.gridx = 0;
@@ -172,7 +172,7 @@ public class LanguageManagerDialog implements ActionListener {
       }
       if (!ruleFiles.contains(ruleFile)) {
         ruleFiles.add(ruleFile);
-        list.setListData(ruleFiles.toArray(new File[ruleFiles.size()]));
+        list.setListData(ruleFiles.toArray(new File[0]));
       } else {
         JOptionPane jop = new JOptionPane();
         JOptionPane.showMessageDialog(jop, messages.getString("guiDuplicate"),
@@ -181,7 +181,7 @@ public class LanguageManagerDialog implements ActionListener {
     } else if (e.getSource() == removeButton) {
       if (list.getSelectedIndex() != -1) {
         ruleFiles.remove(list.getSelectedIndex());
-        list.setListData(ruleFiles.toArray(new File[ruleFiles.size()]));
+        list.setListData(ruleFiles.toArray(new File[0]));
       }
     } else if (e.getSource() == closeButton) {
       dialog.setVisible(false);
