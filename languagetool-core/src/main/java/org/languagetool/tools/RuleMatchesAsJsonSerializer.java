@@ -92,8 +92,7 @@ public class RuleMatchesAsJsonSerializer {
     ContextTools contextTools = new ContextTools();
     contextTools.setEscapeHtml(false);
     contextTools.setContextSize(contextSize);
-    contextTools.setErrorMarkerStart(START_MARKER);
-    contextTools.setErrorMarkerEnd("");
+    contextTools.setErrorMarker(START_MARKER, "");
     StringWriter sw = new StringWriter();
     try {
       try (JsonGenerator g = factory.createGenerator(sw)) {

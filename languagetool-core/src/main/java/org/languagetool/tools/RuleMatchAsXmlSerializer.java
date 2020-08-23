@@ -91,8 +91,7 @@ public class RuleMatchAsXmlSerializer {
     contextTools.setEscapeHtml(false);
     contextTools.setContextSize(contextSize);
     String startMarker = "__languagetool_start_marker";
-    contextTools.setErrorMarkerStart(startMarker);
-    contextTools.setErrorMarkerEnd("");
+    contextTools.setErrorMarker(startMarker, "");
 
     for (RuleMatch match : ruleMatches) {
       String subId = "";

@@ -399,8 +399,7 @@ public class Searcher {
     ContextTools contextTools = new ContextTools();
     contextTools.setEscapeHtml(false);
     contextTools.setContextSize(contextSize);
-    contextTools.setErrorMarkerStart("**");
-    contextTools.setErrorMarkerEnd("**");
+    contextTools.setErrorMarker("**", "**");
     return contextTools;
   }
 
