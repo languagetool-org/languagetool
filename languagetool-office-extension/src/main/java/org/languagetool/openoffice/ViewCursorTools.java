@@ -148,6 +148,25 @@ public class ViewCursorTools {
    * Returns Paragraph number under ViewCursor 
    * Returns a negative value if it fails
    */
+  String getViewCursorParagraphText() {
+    try {
+      XParagraphCursor xParagraphCursor = getParagraphCursorFromViewCursor();
+      if (xParagraphCursor == null) {
+        return null;
+      }
+      xParagraphCursor.gotoStartOfParagraph(false);
+      xParagraphCursor.gotoEndOfParagraph(true);
+      return xParagraphCursor.getString();
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      return null;                          // Return null value as method failed
+    }
+  }
+  
+  /** 
+   * Returns Paragraph number under ViewCursor 
+   * Returns a negative value if it fails
+   */
   int getViewCursorParagraph() {
     try {
       XParagraphCursor xParagraphCursor = getParagraphCursorFromViewCursor();
