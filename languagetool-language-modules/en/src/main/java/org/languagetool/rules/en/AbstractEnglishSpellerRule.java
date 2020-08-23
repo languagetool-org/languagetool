@@ -707,6 +707,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("luvs", Arrays.asList("loves"));
     s.put("Luv", Arrays.asList("Love"));
     s.put("Luvs", Arrays.asList("Loves"));
+    s.put("islam", Arrays.asList("Islam"));
 
     return s;
   }
