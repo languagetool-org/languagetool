@@ -3137,6 +3137,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="UN_ALTRE_DISTRIBUTIVES" name="Concordança dubtosa en frases distributives «un...altre»">
+            <antipattern>
+                <token>un</token>
+                <token skip="10">que</token>
+                <token>i</token>
+                <token regexp="yes">l'|un</token>
+                <token>altre</token>
+                <token>que</token>
+            </antipattern>
+            <antipattern>
+                <token>una</token>
+                <token skip="10">que</token>
+                <token>i</token>
+                <token regexp="yes">l'|una</token>
+                <token>altra</token>
+                <token>que</token>
+            </antipattern>
             <rule>
                 <!-- Només detecta els casos pròxims. Hi ha falsos positius? -->
                 <pattern>
@@ -3150,6 +3166,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Entre <marker>un costat i l'altra</marker>.</example>
                 <example correction="">d’<marker>un costat i l’altra</marker> del riu</example>
                 <example>Entre un costat i l'altre.</example>
+                <example>Una que representarà una habitació d'un infant i una altra que simbolitzarà un vapor antic.</example>
             </rule>
             <rule>
                 <!-- Només detecta els casos pròxims. Hi ha falsos positius? -->
@@ -8706,11 +8723,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <!-- Tant de prop com de lluny -->
+                <antipattern>
+                    <token>com</token>
+                    <token>fins</token>
+                    <token>ara</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>tan</token>
                     </marker>
-                    <token postag="RG|LOC_ADV" postag_regexp="yes" skip="10"><exception regexp="yes">prompte|aviat|bé|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans|poc|sovint|freqüentment|mal|bon|ben</exception><exception scope="next">tan</exception></token>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes" skip="10"><exception regexp="yes">lluny|prop|prompte|aviat|bé|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans|poc|sovint|freqüentment|mal|bon|ben</exception><exception scope="next">tan</exception></token>
                     <token>com</token>
                     <token postag="RG|LOC_ADV" postag_regexp="yes"><exception regexp="yes">sempre|abans|llavors|aleshores|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans|poc|actualment|posteriorment|prèviament</exception></token>
                 </pattern>
@@ -8726,9 +8748,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tan clarament diferenciats com actualment.</example>
                 <example>Tan vívidament com aleshores</example>
                 <example>No era tan clar ni l'atmosfera tan diàfana com avui.</example>
+                <example>Mai no havíem arribat tan lluny com fins ara.</example>
             </rule>
             <rule>
                 <!--  coneixements tant científics com de les més variades disciplines-->
+                <antipattern>
+                    <token>tan</token>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <token inflected="yes">de</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>tan</token>
@@ -8742,6 +8770,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tant">coneixements <marker>tan</marker> científics com de sentit comú</example>
                 <example>coneixements tant científics com de sentit comú</example>
                 <example>No és tan sec com de dia.</example>
+                <example>Tan ple de d'expectatives com d'incerteses.</example>
             </rule>
             <!--  'tan' davant d'article/adj  -->
             <rule>
@@ -10643,18 +10672,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Quan D. S. mori, gairebé tota la fortuna irà</example>
             </rule>
         </rulegroup>
-        <rule id="AMB_O_SENSE" name="amb o sense">
-            <pattern>
-                <token>amb</token>
-                <token regexp="yes">o|i</token>
-                <token>sense</token>
-            </pattern>
-            <message>Cal dir 'amb ... <match no="2"/> sense'.</message>
+        <rulegroup id="AMB_O_SENSE" name="amb o sense">
             <!--<url>http://esadir.cat/gramatica/sintaxi/prepsense</url>-->
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=amb+o+sense&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12198&amp;idHit=12198&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27amb+sucre+o+sense%27+o+%27amb+o+sense+sucre%27%3F+%2F+Coordinaci%F3+de+les+preposicions+%27amb%27+i+%27sense%27+%2F+Nova+gram%E0tica&amp;tematica=&amp;tipusCerca=cerca.tot</url>
-            <example correction=""><marker>amb o sense</marker> rebaixa</example>
-            <example>amb rebaixa o sense</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>amb</token>
+                        <token regexp="yes">o|i</token>
+                        <token>sense</token>
+                        <token/>
+                    </marker>
+                    <token postag="_PUNCT.*|CC" postag_regexp="yes"/>
+                </pattern>
+                <message>L'ordre preferible, més natural, d'aquesta expressió és un altre.</message>
+                <suggestion>\1 \4 \2 \3</suggestion>
+                <example correction="Amb rebaixa o sense"><marker>Amb o sense rebaixa</marker>.</example>
+                <example>Amb rebaixa o sense</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>amb</token>
+                    <token regexp="yes">o|i</token>
+                    <token>sense</token>
+                </pattern>
+                <message>Normalment és preferible un ordre diferent: "amb ... <match no="2"/> sense".</message>
+                <example correction=""><marker>Amb o sense</marker> intervenció de les forces de seguretat.</example>
+            </rule>
+        </rulegroup>
         <rule id="EN_QUANT_A_QUANT_A" name="*en quant a/quant a">
             <pattern>
                 <token>en</token>
@@ -16932,13 +16977,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token spacebefore="yes">d<exception postag="_possible_nompropi|NP.*" postag_regexp="yes"/></token>
+                    <!--<token postag="N.*|A.*|V.P.*|D.*|P.*" postag_regexp="yes"/>-->
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|hosts?|ouija|el|els|&noms_lletres;|iure|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;|oro</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|V.[MSI].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>d'\2</suggestion>?</message>
+                <short>Possible confusió</short>
+                <example correction="d'altres">I <marker>d altres</marker>.</example>
+                <example>És de veritat.</example>
+                <example>Més amb B, C i D que amb les altres.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>d</token>
+                        <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|hosts?|ouija|el|els|&noms_lletres;|iure|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;|oro</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|V.[MSI].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>d'\3</suggestion>?</message>
+                <short>Possible confusió</short>
+                <example correction="D'església"><marker>D església</marker>.</example>
+                <example>La D representa el deuteri.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token spacebefore="yes">d<exception postag="_possible_nompropi|NP.*" postag_regexp="yes"/></token>
                     <token postag="N.*|A.*|V.P.*|D.*|P.*" postag_regexp="yes"/>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>de \2</suggestion>?</message>
-                <suggestion>d'\2</suggestion>
                 <short>Possible confusió</short>
-                <example correction="de veritat|d'veritat">És <marker>d veritat</marker>.</example>
-                <example correction="de altres|d'altres">I <marker>d altres</marker>.</example>
+                <example correction="de veritat">És <marker>d veritat</marker>.</example>
                 <example>És de veritat.</example>
                 <example>Més amb B, C i D que amb les altres.</example>
             </rule>
@@ -16951,9 +17019,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>de \3</suggestion>?</message>
-                <suggestion>d'\3</suggestion>
                 <short>Possible confusió</short>
-                <example correction="De església|D'església"><marker>D església</marker>.</example>
+                <example correction="De veritat"><marker>D veritat</marker>.</example>
                 <example>La D representa el deuteri.</example>
             </rule>
         </rulegroup>
@@ -36548,7 +36615,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">de|d'</token>
                     </marker>
                 </pattern>
-                <message>Expressió incorrecta quan equival a <suggestion>arran <match no="3"/></suggestion>.</message>
+                <message>Expressió incorrecta quan equival a "arran de".</message>
+                <suggestion>arran <match no="3"/></suggestion>
                 <example correction="arran de"><marker>arrel de</marker> la situació, ja no es parlen</example>
                 <example>una arrel de pi</example>
                 <example>l'arrel de quatre</example>
@@ -36569,7 +36637,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">de|d'</token>
                     </marker>
                 </pattern>
-                <message>Expressió incorrecta quan equival a <suggestion>arran <match no="4"/></suggestion>.</message>
+                <message>Expressió incorrecta quan equival a "arran de".</message>
+                <suggestion>arran <match no="4"/></suggestion>
                 <example correction="arran d'"><marker>a rel d'</marker>això</example>
                 <example>un rel de pi</example>
                 <example>la rel de quatre</example>
@@ -42184,15 +42253,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token regexp="yes">de|d'</token>
-                    <token regexp="yes">manera|ara</token>
+                    <token regexp="yes" min="0" max="2">una|altra</token>
+                    <token regexp="yes">manera|ara|forma</token>
                 </marker>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token>d'</token>
-                    <token>una</token>
-                    <token>manera</token>
-                </marker>
+                <token regexp="yes">de|d'</token>
+                <token>acord</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -42214,6 +42281,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es va lliurar de tot cor a la feina</example>
                 <example>Es lliurà d'una manera paral·lela a tasques de recerca.</example>
                 <example>Es lliuren de tant en tant a esclats d'alegria.</example>
+                <example>no es poden lliurar d’altra manera.</example>
+                <example>S’entendrà lliurada d’acord amb el que estableixen les condicions.</example>
             </rule>
             <rule>
                 <pattern>
@@ -42528,6 +42597,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>La imparable expansió de la rajola i el ciment</example>
         </rule>
         <rulegroup id="DAR" name="dar">
+            <antipattern>
+                <token regexp="yes">.*t</token>
+                <token spacebefore="no">/</token>
+                <token spacebefore="no">da</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="V.[^P].*" postag_regexp="yes">da<exception inflected="yes">deure</exception><exception postag="(&lt;)?NP.*|_GN_.*" postag_regexp="yes"/></token>
