@@ -87,7 +87,8 @@ public class LTMessageChecker {
         message = lang.toAdvancedTypography(message);
       }
       // don't require upper case sentence start in description (?)
-      String ruleDescription = StringTools.uppercaseFirstChar(r.getDescription());
+      // Advanced typography in rule description is not used in production. Here is used to avoid too many positives. 
+      String ruleDescription = lang.toAdvancedTypography(StringTools.uppercaseFirstChar(r.getDescription()));
       String textToCheck = message + "\n\n" + shortMessage + "\n\n" + ruleDescription;
       if (!textToCheck.isEmpty()) {
         List<RuleMatch> matches = lt.check(textToCheck);
