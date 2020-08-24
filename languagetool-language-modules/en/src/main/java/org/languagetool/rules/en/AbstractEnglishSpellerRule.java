@@ -138,6 +138,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                      !k.getReplacement().startsWith("sh ") &&
                      !k.getReplacement().startsWith("ha ") &&
                      !k.getReplacement().startsWith("dis ") &&
+                     !k.getReplacement().startsWith("mono ") &&
+                     !k.getReplacement().startsWith("mini ") &&
                      !k.getReplacement().startsWith("mu ") &&
                      !k.getReplacement().endsWith(" able") &&
                      !k.getReplacement().endsWith(" less") && // (e.g. permissionless)
@@ -249,6 +251,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("http", Arrays.asList("HTTP"));
     s.put("https", Arrays.asList("HTTPS"));
     s.put("asp", Arrays.asList("ASP"));
+    s.put("html", Arrays.asList("HTML"));
     s.put("rss", Arrays.asList("RSS"));
     s.put("ssd", Arrays.asList("SSD"));
     s.put("ssds", Arrays.asList("SSDs"));
