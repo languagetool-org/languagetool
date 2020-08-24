@@ -9882,6 +9882,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
+        <rule id="LAS_MILES" name="*las/los miles" default="temp_off">
+            <!-- done already by the rule AGREEMENT_DET_NOUN, but a specific message is needed -->
+            <pattern>
+                <token postag="D..FP." postag_regexp="yes"/>
+                <token>miles</token>
+            </pattern>
+            <message>Error de concordancia. "Miles" es una sustantivo masculino independientemente del sustantivo posterior (ej. Unos miles de personas).</message>
+            <suggestion><match no="1" postag="(D..)FP." postag_regexp="yes" postag_replace="$1MP0"/> miles</suggestion>
+            <url>https://www.fundeu.es/recomendacion/los-miles-de-personas-no-las-miles-de-personas-861/</url>
+            <example correction="los miles">De <marker>las miles</marker> de personas que vinieron.</example>
+        </rule>
         <rule id="A_TRAVES" name="través/a través">
             <antipattern>
                 <token regexp="yes">a|al|de|del|el</token>
