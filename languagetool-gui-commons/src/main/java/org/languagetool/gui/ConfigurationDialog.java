@@ -60,7 +60,7 @@ public class ConfigurationDialog implements ActionListener {
 
   private final ResourceBundle messages;
   private final Configuration original;
-  private Configuration config;
+  private final Configuration config;
   private final Frame owner;
   private final boolean insideOffice;
   private boolean configChanged = false;
@@ -71,7 +71,7 @@ public class ConfigurationDialog implements ActionListener {
   private JDialog dialog;
   private JCheckBox serverCheckbox;
   private JTextField serverPortField;
-  private JTree configTree[];
+  private JTree[] configTree;
   private JCheckBox serverSettingsCheckbox;
   private final List<JPanel> extraPanels = new ArrayList<>();
   private final List<Rule> configurableRules = new ArrayList<>();
@@ -187,10 +187,10 @@ public class ConfigurationDialog implements ActionListener {
       lang = Languages.getLanguageForLocale(Locale.getDefault());
     }
 
-    String specialTabNames[] = config.getSpecialTabNames();
+    String[] specialTabNames = config.getSpecialTabNames();
     int numConfigTrees = 2 + specialTabNames.length;
     configTree = new JTree[numConfigTrees];
-    JPanel checkBoxPanel[] = new JPanel[numConfigTrees];
+    JPanel[] checkBoxPanel = new JPanel[numConfigTrees];
     DefaultMutableTreeNode rootNode;
     GridBagConstraints cons;
 
@@ -960,13 +960,13 @@ public class ConfigurationDialog implements ActionListener {
     cons.anchor = GridBagConstraints.NORTHWEST;
     cons.fill = GridBagConstraints.NONE;
     cons.weightx = 0.0f;
-    List<String> profiles = new ArrayList<String>();
+    List<String> profiles = new ArrayList<>();
     String defaultOptions = messages.getString("guiDefaultOptions");
     String userOptions = messages.getString("guiUserProfile");
     profiles.add(userOptions);
     profiles.addAll(config.getDefinedProfiles());
     String currentProfile = config.getCurrentProfile();
-    JComboBox<String> profileBox = new JComboBox<>(profiles.toArray(new String[profiles.size()]));
+    JComboBox<String> profileBox = new JComboBox<>(profiles.toArray(new String[0]));
     if(currentProfile == null || currentProfile.isEmpty()) {
       profileBox.setSelectedItem(userOptions);
     } else {
@@ -976,7 +976,7 @@ public class ConfigurationDialog implements ActionListener {
       if (e.getStateChange() == ItemEvent.SELECTED) {
         if(profileChanged) {
           try {
-            List<String> saveProfiles = new ArrayList<String>(); 
+            List<String> saveProfiles = new ArrayList<>();
             saveProfiles.addAll(config.getDefinedProfiles());
             if(e.getItem().equals(userOptions)) {
               config.initOptions();
@@ -1005,7 +1005,7 @@ public class ConfigurationDialog implements ActionListener {
     
     JButton defaultButton = new JButton(defaultOptions);
     defaultButton.addActionListener(e -> {
-      List<String> saveProfiles = new ArrayList<String>(); 
+      List<String> saveProfiles = new ArrayList<>();
       saveProfiles.addAll(config.getDefinedProfiles());
       String saveCurrent = config.getCurrentProfile() == null ? null : config.getCurrentProfile();
       config.initOptions();
@@ -1021,7 +1021,7 @@ public class ConfigurationDialog implements ActionListener {
     deleteButton.setEnabled(!profileBox.getSelectedItem().equals(defaultOptions) 
         && !profileBox.getSelectedItem().equals(userOptions));
     deleteButton.addActionListener(e -> {
-      List<String> saveProfiles = new ArrayList<String>(); 
+      List<String> saveProfiles = new ArrayList<>();
       saveProfiles.addAll(config.getDefinedProfiles());
       config.initOptions();
       try {
@@ -1226,7 +1226,7 @@ public class ConfigurationDialog implements ActionListener {
       motherTongues.add(lang.getTranslatedName(messages));
       motherTongues.sort(null);
     }
-    return motherTongues.toArray(new String[motherTongues.size()]);
+    return motherTongues.toArray(new String[0]);
   }
 
   @Override
@@ -1289,18 +1289,18 @@ public class ConfigurationDialog implements ActionListener {
       if (hasCat) {
         int res = r1.getCategory().getName().compareTo(r2.getCategory().getName());
         if (res == 0) {
-          return r1.getDescription().compareToIgnoreCase(r2.getDescription());
+          return r1.getDescription() != null && r2.getDescription() != null ? r1.getDescription().compareToIgnoreCase(r2.getDescription()) : 0;
         }
         return res;
       }
-      return r1.getDescription().compareToIgnoreCase(r2.getDescription());
+      return r1.getDescription() != null && r2.getDescription() != null ? r1.getDescription().compareToIgnoreCase(r2.getDescription()) : 0;
     }
 
   }
 
-/* Panel to set Values for special rules like LongSentenceRule
- * @since 4.1
- */
+  /* Panel to set Values for special rules like LongSentenceRule
+   * @since 4.1
+   */
   private JPanel getSpecialRuleValuePanel() {
     JPanel panel = new JPanel();
     panel.setLayout(new GridBagLayout());
@@ -1310,28 +1310,27 @@ public class ConfigurationDialog implements ActionListener {
     cons.weightx = 0.0f;
     cons.anchor = GridBagConstraints.WEST;
     
-    List<JCheckBox> ruleCheckboxes = new ArrayList<JCheckBox>();
-    List<JLabel> ruleLabels = new ArrayList<JLabel>();
-    List<JTextField> ruleValueFields = new ArrayList<JTextField>();
+    List<JCheckBox> ruleCheckboxes = new ArrayList<>();
+    List<JLabel> ruleLabels = new ArrayList<>();
+    List<JTextField> ruleValueFields = new ArrayList<>();
 
-    for(int i = 0; i < configurableRules.size(); i++) {
-      Rule rule = configurableRules.get(i);
+    for (Rule rule : configurableRules) {
       JCheckBox ruleCheckbox = new JCheckBox(rule.getDescription());
       ruleCheckboxes.add(ruleCheckbox);
       ruleCheckbox.setSelected(getEnabledState(rule));
       cons.insets = new Insets(3, 0, 0, 0);
       panel.add(ruleCheckbox, cons);
-  
+
       cons.insets = new Insets(0, 24, 0, 0);
       cons.gridy++;
       JLabel ruleLabel = new JLabel(rule.getConfigureText());
       ruleLabels.add(ruleLabel);
       ruleLabel.setEnabled(ruleCheckbox.isSelected());
       panel.add(ruleLabel, cons);
-      
+
       cons.gridx++;
       int value = config.getConfigurableValue(rule.getId());
-      if(config.getConfigurableValue(rule.getId()) < 0) {
+      if (config.getConfigurableValue(rule.getId()) < 0) {
         value = rule.getDefaultValue();
       }
       JTextField ruleValueField = new JTextField(Integer.toString(value), 2);
@@ -1339,7 +1338,7 @@ public class ConfigurationDialog implements ActionListener {
       ruleValueField.setEnabled(ruleCheckbox.isSelected());
       ruleValueField.setMinimumSize(new Dimension(35, 25));  // without this the box is just a few pixels small, but why?
       panel.add(ruleValueField, cons);
-      
+
       ruleCheckbox.addActionListener(e -> {
         ruleValueField.setEnabled(ruleCheckbox.isSelected());
         ruleLabel.setEnabled(ruleCheckbox.isSelected());
@@ -1351,18 +1350,18 @@ public class ConfigurationDialog implements ActionListener {
           config.getDisabledRuleIds().add(rule.getId());
         }
       });
-  
+
       ruleValueField.getDocument().addDocumentListener(new DocumentListener() {
         @Override
         public void insertUpdate(DocumentEvent e) {
           changedUpdate(e);
         }
-  
+
         @Override
         public void removeUpdate(DocumentEvent e) {
           changedUpdate(e);
         }
-  
+
         @Override
         public void changedUpdate(DocumentEvent e) {
           try {
@@ -1424,9 +1423,9 @@ public class ConfigurationDialog implements ActionListener {
     }
   }
 
-/**  Panel to choose underline Colors  
- *   @since 4.2
- */
+  /**  Panel to choose underline Colors
+   *   @since 4.2
+   */
   JPanel getUnderlineColorPanel(List<Rule> rules) {
     JPanel panel = new JPanel();
 
@@ -1438,7 +1437,7 @@ public class ConfigurationDialog implements ActionListener {
     cons.fill = GridBagConstraints.NONE;
     cons.anchor = GridBagConstraints.NORTHWEST;
 
-    List<String> categories = new ArrayList<String>();
+    List<String> categories = new ArrayList<>();
     for (Rule rule : rules) {
       String category = rule.getCategory().getName();
       boolean contain = false;
@@ -1452,21 +1451,21 @@ public class ConfigurationDialog implements ActionListener {
         categories.add(category);
       }
     }
-    List<JLabel> categorieLabel = new ArrayList<JLabel>();
-    List<JLabel> underlineLabel = new ArrayList<JLabel>();
-    List<JButton> changeButton = new ArrayList<JButton>();
-    List<JButton> defaultButton = new ArrayList<JButton>();
-    List<JComboBox<String>> underlineType  = new ArrayList<JComboBox<String>>();
+    List<JLabel> categoryLabel = new ArrayList<>();
+    List<JLabel> underlineLabel = new ArrayList<>();
+    List<JButton> changeButton = new ArrayList<>();
+    List<JButton> defaultButton = new ArrayList<>();
+    List<JComboBox<String>> underlineType  = new ArrayList<>();
     for(int nCat = 0; nCat < categories.size(); nCat++) {
-      categorieLabel.add(new JLabel(categories.get(nCat) + " "));
+      categoryLabel.add(new JLabel(categories.get(nCat) + " "));
       underlineLabel.add(new JLabel(" \u2588\u2588\u2588 "));  // \u2587 is smaller
       underlineLabel.get(nCat).setForeground(config.getUnderlineColor(categories.get(nCat)));
       underlineLabel.get(nCat).setBackground(config.getUnderlineColor(categories.get(nCat)));
       JLabel uLabel = underlineLabel.get(nCat);
       String cLabel = categories.get(nCat);
-      panel.add(categorieLabel.get(nCat), cons);
+      panel.add(categoryLabel.get(nCat), cons);
 
-      underlineType.add(new JComboBox<String>(getUnderlineTypes()));
+      underlineType.add(new JComboBox<>(getUnderlineTypes()));
       JComboBox<String> uLineType = underlineType.get(nCat);
       if(insideOffice) {
         uLineType.setSelectedIndex(getUnderlineType(cLabel));
