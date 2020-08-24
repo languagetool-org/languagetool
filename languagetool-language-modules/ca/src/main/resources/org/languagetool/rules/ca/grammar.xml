@@ -16974,6 +16974,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="D" name="*d/de/d'">
+            <antipattern>
+                <token regexp="yes">\d+</token>
+                <token>d</token>
+                <token regexp="yes">\d+</token>
+                <token>h</token>
+            </antipattern>
+            <antipattern>
+                <token>la</token>
+                <token>d</token>
+                <token regexp="yes">[,io]|ni</token>
+                <token>la</token>
+                <token regexp="yes">[a-z]</token>
+            </antipattern>
+            <antipattern>
+                <token>la</token>
+                <token regexp="yes">[a-z]</token>
+                <token regexp="yes">[,io]|ni</token>
+                <token>la</token>
+                <token>d</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token spacebefore="yes">d<exception postag="_possible_nompropi|NP.*" postag_regexp="yes"/></token>
@@ -17002,26 +17022,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token spacebefore="yes">d<exception postag="_possible_nompropi|NP.*" postag_regexp="yes"/></token>
-                    <token postag="N.*|A.*|V.P.*|D.*|P.*" postag_regexp="yes"/>
+                    <token postag="N.*|A.*|V.P.*|D.*|P.*" postag_regexp="yes"><exception regexp="yes">el|els</exception></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>de \2</suggestion>?</message>
                 <short>Possible confusió</short>
                 <example correction="de veritat">És <marker>d veritat</marker>.</example>
                 <example>És de veritat.</example>
                 <example>Més amb B, C i D que amb les altres.</example>
+                <example>La t i la d soles es transcriuen com a to i do respectivament.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
                         <token>d</token>
-                        <token postag="N.*|A.*|V.P.*|D.*|P.*" postag_regexp="yes"/>
+                        <token postag="N.*|A.*|V.P.*|D.*|P.*" postag_regexp="yes"><exception regexp="yes">el|els</exception></token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>de \3</suggestion>?</message>
                 <short>Possible confusió</short>
                 <example correction="De veritat"><marker>D veritat</marker>.</example>
                 <example>La D representa el deuteri.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>d</token>
+                    <token case_sensitive="yes" regexp="yes">Els?</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>\1<match no="2" case_conversion="alllower"></match></suggestion>?</message>
+                <suggestion>d'\2</suggestion>
+                <example correction="del|d'El">Va eixir <marker>d El</marker> Quixot.</example>
             </rule>
         </rulegroup>
         <rule id="AVARCA" name="*avarca/abraça/comprèn">
@@ -23374,6 +23404,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no">a</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">D<exception postag="SENT_START"/></token>
+            </antipattern>
             <rule>
                 <antipattern>
                     <marker>
@@ -23384,7 +23417,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">de|d'</token>
+                    <token regexp="yes">de|d'|d</token>
                     <token regexp="yes" case_sensitive="yes">el|al<exception postag="_possible_nompropi"/></token>
                 </pattern>
                 <message>Cal escriure: <suggestion>del</suggestion>.</message>
@@ -23392,10 +23425,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="del"><marker>d'al</marker> voltant</example>
                 <example>l'article d'El Mundo</example>
                 <example>en la madrassa d'al-Ḥallāwāya</example>
+                <example>Va ser el dia D el mes passat.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">de|d'</token>
+                    <token regexp="yes">de|d'|d</token>
                     <token regexp="yes" case_sensitive="yes">els|als<exception postag="_possible_nompropi"/></token>
                 </pattern>
                 <message>Cal escriure: <suggestion>dels</suggestion>.</message>
