@@ -534,4 +534,12 @@ public final class StringTools {
     return Collections.unmodifiableList(l);
   }
 
+  /**
+   * Will turn a string into a typical rule ID, i.e. uppercase and
+   * "_" instead of spaces. Does NOT replace all non-ASCII characters.
+   * @since 5.1
+   */
+  public static String toId(String input) {
+    return input.toUpperCase().replace(" ", "_").replace("'", "_Q_");
+  }
 }

@@ -249,7 +249,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           RuleMatch ruleMatch;
           if (subRuleSpecificIds) {
             String desc = getDescription(crt + " / " + msgSuggestions.replace("<suggestion>", "").replace("</suggestion>", ""));
-            String id = getId() + "_" + crt.toUpperCase().replace(" ", "_");
+            String id = StringTools.toId(getId() + "_" + crt);
             ruleMatch = new RuleMatch(new SpecificIdRule(id, desc, messages), sentence, startPos, endPos, msg, getShort());
           } else {
             ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
