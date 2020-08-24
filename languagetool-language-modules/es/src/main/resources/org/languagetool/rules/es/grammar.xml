@@ -11283,6 +11283,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONTEXT" name="Errores según el contexto">
+        <rule id="ENSENAR" name="ensenar/enseñar" default="temp_off">
+            <pattern>
+                <token inflected="yes">ensenar</token>
+            </pattern>
+            <message>¿Quería decir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">enseñar</match></suggestion> (instruir, mostrar)? "Ensenar" es un verbo válido, menos frecuente, con otros sentidos.</message>
+            <example correction="enseñaba">Le <marker>ensenaba</marker> los resultados.</example>
+            <example correction="enseñó">Me <marker>ensenó</marker> cómo hacerlo.</example>
+        </rule>
         <rule id="COMPRAR_GRASTAR" name="*comprar/gastar en">
             <pattern>
                 <marker>
