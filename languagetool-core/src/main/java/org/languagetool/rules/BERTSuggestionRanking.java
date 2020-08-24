@@ -157,34 +157,20 @@ public class BERTSuggestionRanking extends RemoteRule {
       } else {
         List<List<Double>> results = model.batchScore(requests);
         // put curated at the top, then compare probabilities
-        Comparator<Pair<SuggestedReplacement, Double>> suggestionOrdering = (a, b) -> {
-          if (a.getKey().getType() != b.getKey().getType()) {
-            if (a.getKey().getType() == SuggestedReplacement.SuggestionType.Curated) {
-              return 1;
-            } else if (b.getKey().getType() == SuggestedReplacement.SuggestionType.Curated) {
-              return -1;
-            } else {
-              return a.getRight().compareTo(b.getRight());
-            }
-          } else {
-            return a.getRight().compareTo(b.getRight());
-          }
-        };
-        suggestionOrdering = suggestionOrdering.reversed();
-
         for (int i = 0; i < indices.size(); i++) {
           List<Double> scores = results.get(i);
+          String userWord = requests.get(i).text.substring(requests.get(i).start, requests.get(i).end);
           RemoteLanguageModel.Request req = requests.get(i);
           RuleMatch match = matches.get(indices.get(i).intValue());
           String error = req.text.substring(req.start, req.end);
           logger.info("Scored suggestions for '{}': {} -> {}", error, match.getSuggestedReplacements(), Streams
             .zip(match.getSuggestedReplacementObjects().stream(), scores.stream(), Pair::of)
-            .sorted(suggestionOrdering)
+            .sorted(new CuratedAndSameCaseComparator(userWord))
             .map(scored -> String.format("%s (%e)", scored.getLeft().getReplacement(), scored.getRight()))
             .collect(Collectors.toList()));
           List<SuggestedReplacement> ranked = Streams
             .zip(match.getSuggestedReplacementObjects().stream(), scores.stream(), Pair::of)
-            .sorted(suggestionOrdering)
+            .sorted(new CuratedAndSameCaseComparator(userWord))
             .map(Pair::getLeft)
             .collect(Collectors.toList());
           //logger.info("Reordered correction for '{}' from {} to {}", error, req.candidates, ranked);
@@ -215,4 +201,31 @@ public class BERTSuggestionRanking extends RemoteRule {
   public String getDescription() {
     return "Suggestion reordering based on the BERT model";
   }
+
+  private static class CuratedAndSameCaseComparator implements Comparator<Pair<SuggestedReplacement, Double>> {
+    private final String userWord;
+    CuratedAndSameCaseComparator(String userWord) {
+      this.userWord = userWord;
+    }
+    @Override
+    public int compare(Pair<SuggestedReplacement, Double> a, Pair<SuggestedReplacement, Double> b) {
+      //System.out.println(userWord + " -- " + b.getKey().getReplacement());
+      if (a.getKey().getReplacement().equalsIgnoreCase(userWord)) {
+        return -1;
+      } else if (b.getKey().getReplacement().equalsIgnoreCase(userWord)) {
+        return 1;
+      } else if (a.getKey().getType() != b.getKey().getType()) {
+        if (a.getKey().getType() == SuggestedReplacement.SuggestionType.Curated) {
+          return -1;
+        } else if (b.getKey().getType() == SuggestedReplacement.SuggestionType.Curated) {
+          return 1;
+        } else {
+          return b.getRight().compareTo(a.getRight());
+        }
+      } else {
+        return b.getRight().compareTo(a.getRight());
+      }
+    }
+  }
+
 }
