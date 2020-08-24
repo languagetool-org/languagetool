@@ -85,7 +85,7 @@ public class AnglicismReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getSuggestion() {
-    return "Cette expression est un anglicisme.";
+    return "Alternatives possibles pour cet anglicisme :";
   }
 
   @Override
