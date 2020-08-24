@@ -28871,6 +28871,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="TYPOGRAPHY_OPTIONS" name="B) Opcions de tipografia" type="typographical">
         <!-- TODO: separador de milers: coma o espai fi -->
+        <rulegroup id="CA_INITIAL_QUESTION_MARK" name="Signes de exclamació/interrogació sense parella" default="temp_off">
+            <antipattern>
+                <token skip="-1">¿<exception scope="next">¿</exception></token>
+                <token>?</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">¡<exception scope="next">¡</exception></token>
+                <token>!</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token skip="-1">¿</token>
+                    <marker>
+                        <token postag="SENT_END"><exception regexp="yes">!|\.</exception></token>
+                    </marker>
+                </pattern>
+                <message>Símbol d'interrogación sense parella.</message>
+                <suggestion>\2?</suggestion>
+                <example correction="ací?">¿Què és el que passa <marker>ací</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1">¿</token>
+                    <marker>
+                        <token postag="SENT_END" regexp="yes">!|\.</token>
+                    </marker>
+                </pattern>
+                <message>Símbol d'interrogación sense parella.</message>
+                <suggestion>?</suggestion>
+                <example correction="?">¿Què passa aquí<marker>.</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1">¡</token>
+                    <marker>
+                        <token postag="SENT_END"><exception regexp="yes">\?|\.</exception></token>
+                    </marker>
+                </pattern>
+                <message>Símbol d'exclamació sense parella.</message>
+                <suggestion>\2!</suggestion>
+                <example correction="bonic!">¡Que <marker>bonic</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1">¡</token>
+                    <marker>
+                        <token postag="SENT_END" regexp="yes">\?|\.</token>
+                    </marker>
+                </pattern>
+                <message>Símbol d'exclamació sense parella.</message>
+                <suggestion>!</suggestion>
+                <example correction="!">¡Que bonic<marker>.</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PUNT_EN_HORES" name="punt en les expressions d'hores" default="off">
             <!--<url>http://esadir.cat/entrades/fitxa/node/leshores</url>-->
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html;jsessionid=6E692BAB1070977E6DD710A6AAED2D07?action=Principal&amp;method=detall&amp;input_cercar=hores&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12804&amp;idHit=12804&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=2&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=Les+hores%3A+amb+lletres+o+amb+xifres%3F+%2F+Com+s%27escriuen+les+hores%3F&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>

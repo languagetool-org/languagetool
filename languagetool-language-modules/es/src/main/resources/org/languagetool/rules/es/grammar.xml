@@ -11713,6 +11713,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="TYPOGRAPHY" name="Tipografía" type="typographical">
+        <rulegroup id="ES_INITIAL_QUESTION_MARK" name="Signos de exclamación/interrogación desparejados" default="temp_off">
+            <antipattern>
+                <token skip="-1">¿<exception scope="next">¿</exception></token>
+                <token>?</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">¡<exception scope="next">¡</exception></token>
+                <token>!</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token skip="-1">¿</token>
+                    <marker>
+                        <token postag="SENT_END"><exception regexp="yes">!|\.</exception></token>
+                    </marker>
+                </pattern>
+                <message>Símbolo de interrogación desparejado.</message>
+                <suggestion>\2?</suggestion>
+                 <example correction="pasa?">¿Qué es lo que <marker>pasa</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1">¿</token>
+                    <marker>
+                        <token postag="SENT_END" regexp="yes">!|\.</token>
+                    </marker>
+                </pattern>
+                <message>Símbolo de interrogación desparejado.</message>
+                <suggestion>?</suggestion>
+                <example correction="?">¿Qué es lo que pasa aquí<marker>.</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1">¡</token>
+                    <marker>
+                        <token postag="SENT_END"><exception regexp="yes">\?|\.</exception></token>
+                    </marker>
+                </pattern>
+                <message>Símbolo de exclamación desparejado.</message>
+                <suggestion>\2!</suggestion>
+                <example correction="bonito!">¡Qué <marker>bonito</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1">¡</token>
+                    <marker>
+                        <token postag="SENT_END" regexp="yes">\?|\.</token>
+                    </marker>
+                </pattern>
+                <message>Símbolo de exclamación desparejado.</message>
+                <suggestion>!</suggestion>
+                <example correction="!">¡Qué bonito<marker>.</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="INCORRECT_SPACES" name="espacios sobrantes">
             <rule>
                 <antipattern>
