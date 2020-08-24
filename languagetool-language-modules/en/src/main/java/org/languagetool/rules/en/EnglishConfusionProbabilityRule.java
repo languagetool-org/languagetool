@@ -335,6 +335,13 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "your pulled pork", // vs you
       "dear management", // vs deer
       "way worse", // vs was
+      "way fewer", // vs was
+      "way closer", // vs was
+      "way in advance", // vs was
+      "way back when", // vs was
+      "way back at", // vs was
+      "that way", // vs was
+      "way back then", // vs was
       "way to much", // different error
       "the go to" // vs to (caught by GO_TO_HYPHEN)
     );

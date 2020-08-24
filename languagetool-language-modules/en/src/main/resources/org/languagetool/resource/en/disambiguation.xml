@@ -1172,17 +1172,33 @@
         <example type="untouched">But do not <marker>Peter's</marker> parents agree with you?</example>
         <example type="ambiguous" inputform="notice[notice/NN:UN,notice/VB,notice/VBP]" outputform="notice[notice/VB]">I did not <marker>notice</marker> what you said.</example>
     </rule>
-    <rule id="DOES_not" name="does + not = verb">
-        <pattern>
-            <marker>
-                <token postag="VBZ">does</token>
-                <token>not</token>
-                <token postag="VB"/>
-            </marker>
-        </pattern>
-        <disambig action="filterall"/>
-        <example type="ambiguous" inputform="does[do/VBZ,doe/NNS]" outputform="does[do/VBZ]">This <marker>does</marker> not happen.</example>
-    </rule>
+    <rulegroup id="DOES_not" name="does + not = verb">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="VBZ">does</token>
+                    <token>not</token>
+                    <token postag="VB"/>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+            <example type="ambiguous" inputform="does[do/VBZ,doe/NNS]" outputform="does[do/VBZ]">This <marker>does</marker> not happen.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="VBZ">does</token>
+                    <token>not</token>
+                    <token postag="RB">
+                        <exception postag="DT" />
+                    </token>
+                    <token postag="VB"/>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+            <example type="ambiguous" inputform="does[do/VBZ,doe/NNS]" outputform="does[do/VBZ]">This <marker>does</marker> not only happen once.</example>
+        </rule>
+    </rulegroup>
     <rule id="DONT_VBNN_VB" name="don't/didn't/doesn't + verb/noun -> VB">
       <pattern>
         <token regexp="yes">don|didn|doesn</token>

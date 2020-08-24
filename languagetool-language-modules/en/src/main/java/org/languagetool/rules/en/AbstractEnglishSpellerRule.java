@@ -139,8 +139,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                      !k.getReplacement().startsWith("ha ") &&
                      !k.getReplacement().startsWith("dis ") &&
                      !k.getReplacement().startsWith("mono ") &&
+                     !k.getReplacement().startsWith("ultra ") &&
                      !k.getReplacement().startsWith("mini ") &&
                      !k.getReplacement().startsWith("mu ") &&
+                     !k.getReplacement().startsWith("e ") &&
                      !k.getReplacement().endsWith(" able") &&
                      !k.getReplacement().endsWith(" less") && // (e.g. permissionless)
                      !k.getReplacement().endsWith(" sly") && // uneccesary suggestion (e.g. for continuesly)
@@ -711,6 +713,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Luv", Arrays.asList("Love"));
     s.put("Luvs", Arrays.asList("Loves"));
     s.put("islam", Arrays.asList("Islam"));
+    s.put("wud", Arrays.asList("what", "mud", "bud"));
+    s.put("Wud", Arrays.asList("What", "Mud", "Bud"));
+    s.put("fablet", Arrays.asList("phablet", "tablet"));
+    s.put("Fablet", Arrays.asList("Phablet", "Tablet"));
 
     return s;
   }
