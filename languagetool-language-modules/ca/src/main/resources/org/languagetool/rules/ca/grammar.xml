@@ -22850,6 +22850,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La selecció sub-21.</example>
                 <example>anti-Stokes.</example>
             </rule>
+            <rule id="PREFIXOS_SENSE_GUIONET_CO" name="prefixos sense guionet: co-">
+                <pattern>
+                    <token>co</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">\p{Ll}.+</token>
+                </pattern>
+                <message>S'escriu sense guionet.</message>
+                <suggestion suppress_misspelled="yes"><match no="3" regexp_match="(?iu)(.+)" regexp_replace="co$1" case_conversion="preserve"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="3" regexp_match="(?iu)(.+)" regexp_replace="cor$1" case_conversion="preserve"/></suggestion>
+                <url>http://www.iec.cat/llengua/documents/ortografia_catalana_versio_digital.pdf#page=128</url>
+                <example correction="corregent">És el <marker>co-regent</marker>.</example>
+                <example correction="codirectora">És la <marker>co-directora</marker> de la fundació.</example>
+            </rule>
             <rule id="EX_SENSE_GUIONET_NOMSADJECTIUS" name="prefixos sense guionet: *ex-president">
                 <pattern>
                     <token>ex</token>
