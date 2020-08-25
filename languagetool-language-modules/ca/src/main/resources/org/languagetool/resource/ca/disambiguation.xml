@@ -1998,7 +1998,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token spacebefore="no">.</token>
                 <token regexp="yes">comparativa|adjectival|distributiva|preposicional|conjuncional|adverbial</token>
             </pattern>
-            <disambig action="add"><wd lemma="locució" pos="NCFS000"/></disambig>
+            <disambig action="add">
+                <wd lemma="locució" pos="NCFS000"/>
+            </disambig>
         </rule>
         <rule>
             <pattern>
@@ -2007,7 +2009,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token spacebefore="no">.</token>
             </pattern>
-            <disambig action="add"><wd lemma="cat_gramatical" pos="NCMN000"/></disambig>
+            <disambig action="add">
+                <wd lemma="cat_gramatical" pos="NCMN000"/>
+            </disambig>
         </rule>
     </rulegroup>
     <rule id="prefixos_amb_guionet" name="prefixos amb guionet: micro-, mini-">
@@ -15617,19 +15621,34 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
     </rulegroup>
-    <rule id="expressio_guionet" name="expressió amb guionet">
-        <pattern>
-            <token regexp="yes" inflected="yes">traducció|interpretació|correció|corpus|paral·lel|diccionari|traductor|corrector|concordança</token>
-            <marker>
+    <rulegroup id="expressio_guionet" name="expressió amb guionet">
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes" skip="2">traducció|interpretació|correció|corpus|paral·lel|diccionari|traductor|corrector|concordança</token>
+                <marker>
+                    <token postag="N.*|A.*" postag_regexp="yes"/>
+                </marker>
+                <token spacebefore="no" regexp="yes">-|/|&gt;|&lt;</token>
+                <token postag="N.*|A.*" postag_regexp="yes" spacebefore="no"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="ignore_concordance"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">traducció|interpretació|correció|corpus|paral·lel|diccionari|traductor|corrector|concordança</token>
+                <marker>
+                    <token postag="N.*|A.*" postag_regexp="yes"/>
+                </marker>
+                <token>i</token>
                 <token postag="N.*|A.*" postag_regexp="yes"/>
-            </marker>
-            <token spacebefore="no" regexp="yes">-|/|&gt;|&lt;</token>
-            <token postag="N.*|A.*" postag_regexp="yes" spacebefore="no"/>
-        </pattern>
-        <disambig action="add">
-            <wd pos="ignore_concordance"/>
-        </disambig>
-    </rule>
+            </pattern>
+            <disambig action="add">
+                <wd pos="ignore_concordance"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rule id="seg" name="abreviatura: seg">
         <pattern>
             <token regexp="yes">\d+</token>
