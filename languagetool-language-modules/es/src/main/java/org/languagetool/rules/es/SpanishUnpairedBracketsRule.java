@@ -64,6 +64,10 @@ public class SpanishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     if (superException) {
       return false;
     }
+    
+    if (tokenStr.equals("’") && (tokens[i].hasPosTagStartingWith("N") || tokens[i].hasPosTagStartingWith("A"))  ) {
+      return false;
+    }
 
     //degrees, minutes, seconds...
     if (("\"".equals(tokenStr) || "'".equals(tokenStr))
