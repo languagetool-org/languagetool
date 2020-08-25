@@ -6018,8 +6018,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="husos">En otros <marker>usos</marker> horarios.</example>
         </rule>
         <rule id="PARTICIPIO_MS" name="haber + participio masc. sing" default="temp_off">
+            <antipattern>
+                <token regexp="yes">[\d\.,]+</token>
+                <token>ha</token> <!-- hectáreas -->
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">hay|había|hubo|habrá|habría|haya|hubiere|hubiera|hubiese</token>
+                <token postag="[NA].*|V.P..P." postag_regexp="yes"/>
+            </antipattern>
             <pattern>
-                <token inflected="yes">haber<exception>hay</exception></token>
+                <token inflected="yes">haber<exception regexp="yes">hay|habido</exception></token>
                 <marker>
                     <token postag="V.P...F|V.P..PM" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </marker>
@@ -6027,7 +6035,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Quería decir <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..SM"/></suggestion>?</message>
             <example correction="salpicado">El escándolo ha <marker>salpicada</marker> a todo el mundo.</example>
             <example correction="salpicado">El escándolo ha <marker>salpicadas</marker> a todo el mundo.</example>
+            <example correction="empadronado">Se han <marker>empadronados</marker> 40 personas más.</example>
             <example>Había determinadas posibilidades,</example>
+            <example>Espero que no haya malentendidos.</example>
+            <example>Existen unas 1.900.000 ha desarboladas.</example>
+            <example>Durante ese mismo curso había abiertos en la Comunidad 1.531 centros.</example>
+            <example>En el 2006 había empadronados en España 618.332 ciudadanos.</example>
         </rule>
         <rulegroup id="AE_COMIDO" name="Tiempos compuestos 'a' o 'e' + participio">
             <rule id="A_PARTICIPIO" name="a + participio">
@@ -10004,7 +10017,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>vemos</token>
                 </marker>
-                <token postag="V.P..SM" postag_regexp="yes"/>
+                <token postag="V.P..SM" postag_regexp="yes"><exception regexp="yes">representado|dibujado</exception></token>
             </pattern>
             <message>¿Quería decir <suggestion>hemos</suggestion></message>
             <example correction="hemos">Nos <marker>vemos</marker> visto obligados a hacerlo.</example>
@@ -11790,13 +11803,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="TYPOGRAPHY" name="Tipografía" type="typographical">
-        <rulegroup id="ES_INITIAL_QUESTION_MARK" name="Signos de exclamación/interrogación desparejados" default="temp_off">
+        <rulegroup id="ES_INITIAL_QUESTION_MARK" name="Signos de exclamación/interrogación desparejados">
             <antipattern>
                 <token skip="-1">¿<exception scope="next">¿</exception></token>
                 <token>?</token>
             </antipattern>
             <antipattern>
                 <token skip="-1">¡<exception scope="next">¡</exception></token>
+                <token>!</token>
+            </antipattern>
+            <antipattern>
+                <!-- TODO: generalize -->
+                <token>¿</token>
+                <token skip="-1">¿</token>
+                <token>?</token>
+                <token>?</token>
+            </antipattern>
+            <antipattern>
+                <token>¡</token>
+                <token skip="-1">¡</token>
+                <token>!</token>
+                <token>!</token>
+            </antipattern>
+            <antipattern>
+                <token>¿</token>
+                <token>¿</token>
+                <token skip="-1">¿</token>
+                <token>?</token>
+                <token>?</token>
+                <token>?</token>
+            </antipattern>
+            <antipattern>
+                <token>¡</token>
+                <token>¡</token>
+                <token skip="-1">¡</token>
+                <token>!</token>
+                <token>!</token>
                 <token>!</token>
             </antipattern>
             <rule>
