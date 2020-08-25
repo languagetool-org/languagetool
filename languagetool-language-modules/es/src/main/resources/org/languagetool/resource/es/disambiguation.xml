@@ -382,7 +382,8 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
     <rule id="ADVERB_BEFORE" name="adverb before adjective">
-        <pattern> <!--|todo-->
+        <pattern>
+            <!--|todo-->
             <token postag="RG" regexp="yes">todavía|mal|.+mente|muy|poco|muchísimo|poquísimo|tantísimo|tanto|tan|entonces|pronto|bastante|bien|aún|casi|harto|nada|incluso|ya|nunca|demasiado|medio|mejor|más|menos|no|solo|sólo|peor|quizás?|algo|siempre|también|tampoco|aun</token>
         </pattern>
         <disambig action="add">
@@ -1121,6 +1122,15 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="filter" postag="N.*"/>
         </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">acuerdo|directiva|decisión|estrategia</token>
+                <marker>
+                    <token>marco</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
     </rulegroup>
     <rulegroup id="causa_efecto" name="causa-efecto (noun not verb)">
         <rule>
@@ -1426,16 +1436,29 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="remove" postag="VMSF2S0"/>
     </rule>
-    <rule id="DEBER" name="deber (verb)">
-        <pattern>
-            <marker>
-                <token inflected="yes">deber</token>
-            </marker>
-            <token min="0">de</token>
-            <token postag="V.N.*" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="filter" postag="V.*"/>
-    </rule>
+    <rulegroup id="DEBER" name="deber (verb)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes">deber</token>
+                </marker>
+                <token postag="RG|LOC_ADV|_PUNCT_CONT|P.*" postag_regexp="yes" max="4"/>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes">deber</token>
+                </marker>
+                <token postag="RG|LOC_ADV|_PUNCT_CONT|P.*" postag_regexp="yes" max="4"/>
+                <token>de</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="V.*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="SOLER" name="soler (verb)">
         <antipattern>
             <token postag="DA0MS0"/>
@@ -1576,7 +1599,7 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filterall"/>
     </rule>
-    
+
     <!--sobre (no preposición, nombre)-->
     <rule id="SOBRE" name="sobre (nombre)">
         <pattern>
@@ -2834,6 +2857,17 @@ Copyright (C) 2011 Juan Martorell
     <rulegroup id="PREPOSICIONES" name="preposiciones">
         <rule>
             <pattern>
+                <marker>
+                    <token>respecto</token>
+                </marker>
+                <token regexp="yes">a|al|de|del</token>
+            </pattern>
+            <disambig action="replace">
+                <wd pos="LOC_PREP" lemma="respecto a"></wd>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <token postag="SPS00">en</token>
                 <token postag="NCCS000">contra</token>
             </pattern>
@@ -3191,8 +3225,8 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <marker>
                 <and>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes">fallas?|faltas?|tantos?|resultas?|uso|usas?|cuestas?|hablas?|cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|queda|quedas<exception postag="_GN_.*" postag_regexp="yes"
-                        /></token>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">fallas?|faltas?|tantos?|resultas?|uso|usas?|cuestas?|hablas?|cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|queda|quedas<exception postag="_GN_.*"
+                        postag_regexp="yes"/></token>
                     <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
@@ -3812,7 +3846,7 @@ Copyright (C) 2011 Juan Martorell
                 <token spacebefore="no">.</token>
                 <token regexp="yes">\d+</token>
             </pattern>
-            <disambig action="ignore_spelling"></disambig>
+            <disambig action="ignore_spelling"/>
         </rule>
         <rule>
             <pattern case_sensitive="yes">
@@ -3822,17 +3856,17 @@ Copyright (C) 2011 Juan Martorell
                 <token>+</token>
                 <!--<token regexp="yes">.|Alt|ALT|MAYÚS|Mayús|F[0-9]</token>-->
             </pattern>
-            <disambig action="ignore_spelling"></disambig>
+            <disambig action="ignore_spelling"/>
         </rule>
         <rule>
             <pattern case_sensitive="yes">
                 <token regexp="yes">Ctrl|CTRL|Alt|ALT|MAYÚS|Mayús</token>
                 <token min="0">+</token>
                 <marker>
-                <token regexp="yes">.|Alt|ALT|MAYÚS|Mayús|F[0-9]</token>
+                    <token regexp="yes">.|Alt|ALT|MAYÚS|Mayús|F[0-9]</token>
                 </marker>
             </pattern>
-            <disambig action="ignore_spelling"></disambig>
+            <disambig action="ignore_spelling"/>
         </rule>
         <rule>
             <pattern>
@@ -3842,7 +3876,9 @@ Copyright (C) 2011 Juan Martorell
                 <token spacebefore="no">.</token>
                 <token regexp="yes">comparativa|adjetival|distributiva|preposicional|conjuncional|adverbial</token>
             </pattern>
-            <disambig action="add"><wd lemma="locución" pos="NCFS000"/></disambig>
+            <disambig action="add">
+                <wd lemma="locución" pos="NCFS000"/>
+            </disambig>
         </rule>
     </rulegroup>
     <rulegroup id="IGNORE_SOME_ANGLICISMS" name="ignore some common anglicisms if they go with unknown words">
