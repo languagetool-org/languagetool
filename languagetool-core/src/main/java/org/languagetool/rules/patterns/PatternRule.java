@@ -211,10 +211,6 @@ public class PatternRule extends AbstractPatternRule {
 
   @Override
   public final RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    if (sentence.getTokensWithoutWhitespace()[1].getToken().equals("D")) {
-      int i=0;
-      i = i + 1;
-    }
     try {
       RuleMatcher matcher;
       if (patternTokens != null) {
