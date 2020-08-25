@@ -42396,6 +42396,72 @@ Andere Projekte</example>
             <!-- TODO: default="off"? An geraden Anführungszeichen ist ja nichts falsch, sie sind bloß hässlich. -->
             <rule>
                 <pattern>
+                    <token regexp="yes">[0-9]+</token>
+                    <marker>
+                        <token spacebefore="no">"</token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie statt des Ersatzzeichens ein typografisches Anführungszeichen („...“) oder das Sekunden-/Zollzeichen (″) verwenden?</message>
+                <suggestion>„</suggestion>
+                <suggestion>“</suggestion>
+                <suggestion>″</suggestion>
+                <example correction="„|“|″">Der Bildschirm ist 7<marker>"</marker> groß.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <!--<token regexp="yes">[\s,.;].*</token>-->
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>"</token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie ein typografisches Anführungszeichen verwenden?</message>
+                <suggestion>„</suggestion>
+                <example correction="„"><marker>"</marker>Hallo“, sagte er zur Begrüßung.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token spacebefore="yes">"</token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie ein typografisches Anführungszeichen verwenden?</message>
+                <suggestion>„</suggestion>
+                <example correction="„">Dann sagte er nur <marker>"</marker>Hallo“.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>"</token>
+                    </marker>
+                    <token regexp="yes">[,.;:].*</token>
+                </pattern>
+                <message>Möchten Sie ein typografisches Anführungszeichen verwenden?</message>
+                <suggestion>“</suggestion>
+                <example correction="“">„Hallo<marker>"</marker>, sagte er zur Begrüßung.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>"</token>
+                    </marker>
+                    <token spacebefore="yes"/>
+                </pattern>
+                <message>Möchten Sie ein typografisches Anführungszeichen verwenden?</message>
+                <suggestion>“</suggestion>
+                <example correction="“">Er sagte „Tschüssi<marker>"</marker> und ging.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_END">"</token>
+                </pattern>
+                <message>Möchten Sie ein typografisches Anführungszeichen verwenden?</message>
+                <suggestion>“</suggestion>
+                <example correction="“">Er sagte „Tschüssi<marker>"</marker></example>
+            </rule>
+
+            <rule>
+                <pattern>
                     <token regexp="yes">'|`|´|’|‘|′</token>
                     <token spacebefore="no"><match no="0"/></token>
                     <token spacebefore="no"><match no="0"/></token>
@@ -42415,14 +42481,6 @@ Andere Projekte</example>
                 <suggestion>″</suggestion>
                 <example correction="„|“|″">f<marker>''</marker> ist einfach zu berechnen.</example>
                 <example correction="„|“|″">f<marker>´´</marker> ist einfach zu berechnen.</example>
-            </rule>
-            <rule>
-                <regexp>"</regexp>
-                <message>Möchten Sie statt des Ersatzzeichens ein typografisches Anführungszeichen („...“) oder das Sekunden-/Zollzeichen (″) verwenden?</message>
-                <suggestion>„</suggestion>
-                <suggestion>“</suggestion>
-                <suggestion>″</suggestion>
-                <example correction="„|“|″">Der Bildschirm ist 7<marker>"</marker> groß.</example>
             </rule>
             <rule>
                 <regexp>'</regexp>
