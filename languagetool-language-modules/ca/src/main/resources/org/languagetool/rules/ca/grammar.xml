@@ -28885,13 +28885,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="TYPOGRAPHY_OPTIONS" name="B) Opcions de tipografia" type="typographical">
         <!-- TODO: separador de milers: coma o espai fi -->
-        <rulegroup id="CA_INITIAL_QUESTION_MARK" name="Signes de exclamació/interrogació sense parella" default="temp_off">
+        <rulegroup id="CA_INITIAL_QUESTION_MARK" name="Signes de exclamació/interrogació sense parella">
             <antipattern>
                 <token skip="-1">¿<exception scope="next">¿</exception></token>
                 <token>?</token>
             </antipattern>
             <antipattern>
                 <token skip="-1">¡<exception scope="next">¡</exception></token>
+                <token>!</token>
+            </antipattern>
+            <antipattern>
+                <!-- TODO: generalize -->
+                <token>¿</token>
+                <token skip="-1">¿</token>
+                <token>?</token>
+                <token>?</token>
+            </antipattern>
+            <antipattern>
+                <token>¡</token>
+                <token skip="-1">¡</token>
+                <token>!</token>
                 <token>!</token>
             </antipattern>
             <rule>
@@ -31469,7 +31482,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
-        <rulegroup id="PAL_A_LAIGUA" name="*no donar pal a l'aigua/no fer-ne ni brot" default="temp_off">
+        <rule id="EUA" name="sigles d'Estats Units d'Amèrica">
+            <pattern>
+                <token>EE</token>
+                <token>.</token>
+                <token>UU</token>
+                <token>.</token>
+            </pattern>
+            <message>Les sigles d'Estats Units d'Amèrica són <suggestion>EUA</suggestion>.</message>
+            <example correction="EUA">Van emigrar als <marker>EE. UU.</marker></example>
+            <example correction="EUA">Van emigrar als <marker>EE.UU.</marker></example>
+        </rule>
+        <rulegroup id="PAL_A_LAIGUA" name="*no donar pal a l'aigua/no fer-ne ni brot">
             <rule>
                 <pattern>
                     <token regexp="yes">no|sense|ni|tampoc|mai</token>
@@ -31535,7 +31559,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="No en fas mai un brot|No en fas mai ni un brot"><marker>No fots mai un pal a l'aigua</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="PER_CAMES" name="*per cames/cames ajudeu-me" default="temp_off">
+        <rule id="PER_CAMES" name="*per cames/cames ajudeu-me">
             <pattern>
                 <token>per</token>
                 <token>cames</token>

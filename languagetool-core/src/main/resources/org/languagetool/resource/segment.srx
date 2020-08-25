@@ -4571,6 +4571,14 @@
 <beforebreak>\b([\p{Lu}]{2}\.)+[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
+<rule break="no">
+<beforebreak>\bEE\.\s?</beforebreak>
+<afterbreak>UU</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>EE\.\s?UU\.\s?</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
 <!-- max min etc -->
 <rule break="no">
 <beforebreak>\b([Ee]tc|m[aáà]x|m[ií]n|aprox|\d+o)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
@@ -4705,7 +4713,7 @@
 </rule>
 <rule break="no">
 <beforebreak>EE\.\s?UU\.\s?</beforebreak>
-<afterbreak/>
+<afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- max min etc -->
 <rule break="no">
