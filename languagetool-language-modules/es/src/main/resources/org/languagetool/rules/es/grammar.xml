@@ -1356,6 +1356,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>{suggestion}</suggestion>
                 <example correction="órdenes">Excepcionales <marker>ordenes</marker> del general.</example>
             </rule>
+            <rule default="temp_off">
+                <!-- hasta la nausea--> 
+                <pattern>
+                    <token>hasta</token>
+                    <token regexp="yes">el|la|los|las|un|una|unos|unas</token>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\3 postag:NC.* gendernumber_from:2"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="náusea">Hasta la <marker>nausea</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="DIACRITICS_CONDICIONAL" name="secundaria/secundaría">
             <pattern>
@@ -1671,7 +1685,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Se escribe con tilde si equivale a 'qué persona'.</message>
-                <suggestion><match no="3" regexp_match="(?iu)quien" regexp_replace="quién"/></suggestion>    
+                <suggestion><match no="3" regexp_match="(?iu)quien" regexp_replace="quién"/></suggestion>
                 <example correction="quién">Yo no sé <marker>quien</marker> lo hizo.</example>
                 <example correction="quiénes">No sabía <marker>quienes</marker> lo hicieron.</example>
                 <example>Yo no soy quien lo ha dicho.</example>
@@ -1753,7 +1767,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Podía ser considerado per se digno de atención.</example>
                 <example>Se lo pregunto a él.</example>
             </rule>
-            <rule> <!-- rule without the exception N-->
+            <rule>
+                <!-- rule without the exception N-->
                 <antipattern>
                     <token postag="V...3S." postag_regexp="yes"/>
                     <token regexp="yes" skip="-1">él|ella|usted</token>
@@ -3143,7 +3158,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Página"><marker>Pagina</marker> 34.</example>
                 <example>Este libro lo pagina con el programa de edición.</example>
                 <example>Se pagina al final del diseño.</example>
-            </rule>
+            </rule> 
             <rule id="LIQUIDA" name="liquida/líquida">
                 <antipattern>
                     <token postag="P.*" postag_regexp="yes"/>
@@ -3734,8 +3749,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Andaba el 32º a casi 25 minutos del líder.</example>
                 <example>Editan también el Sport y El Mundo Deportivo.</example>
                 <example>El mal nunca triunfa y el bien tampoco.</example>
-                <example>El paso a paso.</example> <!-- used in LatAm -->
-                <example>que ayuden en el día a día</example> 
+                <example>El paso a paso.</example>
+                <!-- used in LatAm -->
+                <example>que ayuden en el día a día</example>
                 <example>Y en el sin fin de requisitos.</example>
                 <example>Principios en materia criminal como el Non bis in idem.</example>
             </rule>
@@ -6017,31 +6033,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="huso">En el <marker>uso</marker> horario de las Canarias.</example>
             <example correction="husos">En otros <marker>usos</marker> horarios.</example>
         </rule>
-        <rule id="PARTICIPIO_MS" name="haber + participio masc. sing" default="temp_off">
-            <antipattern>
-                <token regexp="yes">[\d\.,]+</token>
-                <token>ha</token> <!-- hectáreas -->
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">hay|había|hubo|habrá|habría|haya|hubiere|hubiera|hubiese</token>
-                <token postag="[NA].*|V.P..P." postag_regexp="yes"/>
-            </antipattern>
-            <pattern>
-                <token inflected="yes">haber<exception regexp="yes">hay|habido</exception></token>
-                <marker>
-                    <token postag="V.P...F|V.P..PM" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <message>¿Quería decir <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..SM"/></suggestion>?</message>
-            <example correction="salpicado">El escándolo ha <marker>salpicada</marker> a todo el mundo.</example>
-            <example correction="salpicado">El escándolo ha <marker>salpicadas</marker> a todo el mundo.</example>
-            <example correction="empadronado">Se han <marker>empadronados</marker> 40 personas más.</example>
-            <example>Había determinadas posibilidades,</example>
-            <example>Espero que no haya malentendidos.</example>
-            <example>Existen unas 1.900.000 ha desarboladas.</example>
-            <example>Durante ese mismo curso había abiertos en la Comunidad 1.531 centros.</example>
-            <example>En el 2006 había empadronados en España 618.332 ciudadanos.</example>
-        </rule>
         <rulegroup id="AE_COMIDO" name="Tiempos compuestos 'a' o 'e' + participio">
             <rule id="A_PARTICIPIO" name="a + participio">
                 <antipattern>
@@ -6984,9 +6975,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>a</token>
                 </pattern>
                 <message>Es preferible usar otra expresión.</message>
-                <suggestion>con base en</suggestion> 
+                <suggestion>con base en</suggestion>
                 <suggestion>basándonos en</suggestion>
-                <suggestion>basándose en</suggestion> 
+                <suggestion>basándose en</suggestion>
                 <suggestion>a base de</suggestion>
                 <suggestion>sobre la base de</suggestion>
                 <suggestion>en relación con</suggestion>
@@ -6996,23 +6987,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="con base en|basándonos en|basándose en|a base de|sobre la base de|en relación con|según|por">Se puede regresar a la zona <marker>en base a</marker> lo expuesto por las autoridades.</example>
                 <example>Se ha reducido la cadencia de los trenes basándose en la estadistica elaborada.</example>
             </rule>
-        <rule id="EN_BASE_AL" name="en base al">
-            <pattern>
-                <token>en</token>
-                <token>base</token>
-                <token>al</token>
-            </pattern>
-            <message>Es preferible usar otra expresión.</message>
-            <suggestion>basándonos en el</suggestion>
-            <suggestion>basándose en el</suggestion>
-            <suggestion>con base en el</suggestion>
-            <suggestion>sobre la base del</suggestion>
-            <suggestion>en relación con el</suggestion>
-            <suggestion>según el</suggestion>
-            <suggestion>por el</suggestion>
-            <url>http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_039.htm</url>
-            <example correction="basándonos en el|basándose en el|con base en el|sobre la base del|en relación con el|según el|por el">Se puede regresar a la zona <marker>en base al</marker> documento.</example>
-        </rule>
+            <rule id="EN_BASE_AL" name="en base al">
+                <pattern>
+                    <token>en</token>
+                    <token>base</token>
+                    <token>al</token>
+                </pattern>
+                <message>Es preferible usar otra expresión.</message>
+                <suggestion>basándonos en el</suggestion>
+                <suggestion>basándose en el</suggestion>
+                <suggestion>con base en el</suggestion>
+                <suggestion>sobre la base del</suggestion>
+                <suggestion>en relación con el</suggestion>
+                <suggestion>según el</suggestion>
+                <suggestion>por el</suggestion>
+                <url>http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_039.htm</url>
+                <example correction="basándonos en el|basándose en el|con base en el|sobre la base del|en relación con el|según el|por el">Se puede regresar a la zona <marker>en base al</marker> documento.</example>
+            </rule>
         </rulegroup>
         <rule id="DE_GRATIS" name="«de gratis» (gratis)">
             <pattern case_sensitive="no">
@@ -7402,7 +7393,78 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>va a poder haber una alarma</example>
             </rule>
         </rulegroup>
-        <rulegroup name="haber + participio masc. sg." id="HABER_PARTICIPO">
+        <rulegroup id="PARTICIPIO_MS" name="haber + participio masc. sing">
+            <rule>
+                <antipattern>
+                    <token regexp="yes">[\d\.,]+</token>
+                    <token>ha</token>
+
+                </antipattern>
+                <antipattern>
+                    <token>por</token>
+                    <token>ha</token>
+                    <!-- hectáreas -->
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">había|hubo|habrá|habría|haya|hubiere|hubiera|hubiese<exception scope="previous" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
+                    <token postag="[NA].*|V.P..P." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <!-- triggers rule HAYA_HALLA -->
+                    <token>se</token>
+                    <token>hayan</token>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes">haber<exception regexp="yes">hay|habido|haber</exception></token>
+                    <marker>
+                        <token postag="V.P...F|V.P..PM" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión. El participio que acompaña el v. 'haber' debe ser masculino singular.</message>
+                <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..SM"/></suggestion>
+                <example correction="salpicado">El escándolo ha <marker>salpicada</marker> a todo el mundo.</example>
+                <example correction="salpicado">El escándolo ha <marker>salpicadas</marker> a todo el mundo.</example>
+                <example correction="empadronado">Se han <marker>empadronados</marker> 40 personas más.</example>
+                <example>Había determinadas posibilidades,</example>
+                <example>Espero que no haya malentendidos.</example>
+                <example>Existen unas 1.900.000 ha desarboladas.</example>
+                <example>Durante ese mismo curso había abiertos en la Comunidad 1.531 centros.</example>
+                <example>En el 2006 había empadronados en España 618.332 ciudadanos.</example>
+                <example correction="clasificado">Se habían <marker>clasificados</marker> todos.</example>
+                <example correction="clasificado">Habían <marker>clasificados</marker> todos los documentos.</example>
+                <example correction="clasificado">Se había <marker>clasificados</marker> todos.</example>
+                <example correction="dispuesto">Ha <marker>dispuestos</marker> que sea así.</example>
+                <example correction="habilitado">Se han <marker>habilitados</marker> dos marquesinas metálicas.</example>
+                <example>Hay clasificados.</example>
+                <example>Había clasificados.</example>
+                <example>Me parece que no va a haber entrevistas.</example>
+                <example>Me parecía que no había salida a nuestro predicamento.</example>
+                <example>En la ventana había sentada una niña con cara pensativa.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="V...3S." postag_regexp="yes" inflected="yes" regexp="yes">poder|deber|soler|tener|ir<exception scope="previous" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
+                    <token min="0" regexp="yes">de|a|que</token>
+                    <token>haber</token>
+                    <token postag="V.P.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token>haber</token>
+                    <marker>
+                        <token postag="V.P..PM|V.P..F." postag_regexp="yes"><exception postag="V.P.*|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión. El participio que acompaña el v. 'haber' debe ser masculino singular.</message>
+                <suggestion><match no="2" postag="V.P..PM|V.P..F." postag_regexp="yes" postag_replace="V.P..SM"/></suggestion>
+                <example correction="cambiado">Los géneros pueden haber <marker>cambiados</marker>.</example>
+                <example correction="cambiado">Se puede haber <marker>cambiados</marker>.</example>
+                <example>No sabemos si va a haber clasificados.</example>
+                <example>Debe haber clasificados.</example>
+                <example>Suele haber clasificados.</example>
+                <example>Puede haber clasificados</example>
+            </rule>
+        </rulegroup>
+        <!--<rulegroup name="haber + participio masc. sg." id="HABER_PARTICIPIO">
             <rule>
                 <antipattern>
                     <token postag="V...3S." postag_regexp="yes" inflected="yes">haber<exception scope="previous" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/><exception>ha</exception></token>
@@ -7447,7 +7509,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Suele haber clasificados.</example>
                 <example>Puede haber clasificados</example>
             </rule>
-        </rulegroup>
+        </rulegroup>-->
         <rulegroup id="HABER_GERUNDIO" name="han *realizando/realizado">
             <antipattern>
                 <!-- triggers other rules-->
@@ -9194,7 +9256,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Posible falta de concordancia de persona entre «\1» y «\2».</message>
                 <example correction=""><marker>Tú vengo</marker></example>
-                <example correction="">Que tu familia y <marker>tú estén</marker>.</example> <!-- ?? -->
+                <example correction="">Que tu familia y <marker>tú estén</marker>.</example>
+                <!-- ?? -->
                 <example>Tú vienes</example>
                 <example>Ellos con vosotros son solo ratas.</example>
                 <example>Que tu familia y tú estéis tranquilos.</example>
@@ -9956,7 +10019,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Se escribe junto.</message>
                 <suggestion>cual\2</suggestion>
                 <example correction="cualquieras">Ellos no son unos <marker>cuales quieras</marker>.</example>
-            </rule> 
+            </rule>
         </rulegroup>
         <rule id="HAZMERREIR" name="hazmerreír">
             <pattern>
@@ -10017,7 +10080,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>vemos</token>
                 </marker>
-                <token postag="V.P..SM" postag_regexp="yes"><exception regexp="yes">representado|dibujado</exception></token>
+                <token postag="V.P..SM" postag_regexp="yes"><exception regexp="yes">representado|dibujado|pintado</exception></token>
             </pattern>
             <message>¿Quería decir <suggestion>hemos</suggestion></message>
             <example correction="hemos">Nos <marker>vemos</marker> visto obligados a hacerlo.</example>
@@ -10079,7 +10142,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- Probably better than the confusion set rule -->
             <antipattern>
                 <token>ha</token>
-                <token min="0" max="4" postag="RG|LOC_ADV|_PUNCT_CONT" postag_regexp="yes"/> 
+                <token min="0" max="4" postag="RG|LOC_ADV|_PUNCT_CONT" postag_regexp="yes"/>
                 <token postag="V.P..SM" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -11850,7 +11913,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Símbolo de interrogación desparejado.</message>
                 <suggestion>\2?</suggestion>
-                 <example correction="pasa?">¿Qué es lo que <marker>pasa</marker></example>
+                <example correction="pasa?">¿Qué es lo que <marker>pasa</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -12087,7 +12150,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern case_sensitive="yes">
                     <token><exception postag="SENT_START"/></token>
-                    <token regexp="yes">Ed|Art</token> <!-- generalize? -->
+                    <token regexp="yes">Ed|Art</token>
+                    <!-- generalize? -->
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
