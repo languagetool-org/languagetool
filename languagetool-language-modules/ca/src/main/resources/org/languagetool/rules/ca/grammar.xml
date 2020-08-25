@@ -9123,7 +9123,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>dins o fora</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DONCS_CAUSAL" name="*'doncs' causal">
+        <rulegroup id="DONCS_CAUSAL" name="'doncs' causal">
             <!-- La regla aprofita que és més probable que després del 'doncs' il·latiu hi hagi un verb
                 i darrere del 'doncs' causal un subjecte.
                 False alarm: que allò que no veuen, doncs simplement no existeix. -->
@@ -17003,7 +17003,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token spacebefore="yes">d<exception postag="_possible_nompropi|NP.*" postag_regexp="yes"/></token>
+                    <token spacebefore="yes" case_sensitive="yes">d</token>
                     <!--<token postag="N.*|A.*|V.P.*|D.*|P.*" postag_regexp="yes"/>-->
                     <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|hosts?|ouija|el|els|&noms_lletres;|iure|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;|oro</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|V.[MSI].*" postag_regexp="yes"/></token>
                 </pattern>
@@ -17012,6 +17012,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="d'altres">I <marker>d altres</marker>.</example>
                 <example>És de veritat.</example>
                 <example>Més amb B, C i D que amb les altres.</example>
+                <example>D</example>
             </rule>
             <rule>
                 <pattern>
@@ -17025,11 +17026,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Possible confusió</short>
                 <example correction="D'església"><marker>D església</marker>.</example>
                 <example>La D representa el deuteri.</example>
+                <example>D</example>
             </rule>
             <rule>
                 <pattern>
-                    <token spacebefore="yes">d<exception postag="_possible_nompropi|NP.*" postag_regexp="yes"/></token>
-                    <token postag="N.*|A.*|V.P.*|D.*|P.*" postag_regexp="yes"><exception regexp="yes">el|els</exception></token>
+                    <token spacebefore="yes" case_sensitive="yes">d</token>
+                    <token postag="N.*|A.*|V.P.*|D.*|P.*" postag_regexp="yes" regexp="yes">.+<exception regexp="yes">el|els</exception></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>de \2</suggestion>?</message>
                 <short>Possible confusió</short>
@@ -17037,19 +17039,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>És de veritat.</example>
                 <example>Més amb B, C i D que amb les altres.</example>
                 <example>La t i la d soles es transcriuen com a to i do respectivament.</example>
+                <example>D</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
                         <token>d</token>
-                        <token postag="N.*|A.*|V.P.*|D.*|P.*" postag_regexp="yes"><exception regexp="yes">el|els</exception></token>
+                        <token postag="N.*|A.*|V.P.*|D.*|P.*" postag_regexp="yes" regexp="yes">.+<exception regexp="yes">el|els</exception></token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>de \3</suggestion>?</message>
                 <short>Possible confusió</short>
                 <example correction="De veritat"><marker>D veritat</marker>.</example>
                 <example>La D representa el deuteri.</example>
+                <example>D</example>
             </rule>
             <rule>
                 <pattern>
