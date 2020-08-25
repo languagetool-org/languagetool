@@ -107,6 +107,10 @@ public class GermanTest extends LanguageSpecificTest {
           origWord = "meinten sie";
           suggWord = "meinten Sie";
         }
+        if (message.toLowerCase().contains("wollen sie")) {
+          origWord = "Wollen Sie";
+          suggWord = "Möchten Sie";
+        }
         if (origWord != null) {
           System.err.println("WARNING: Aus Gründen der Einheitlichkeit bitte '" + suggWord + "' nutzen statt '" + origWord + "' in der Regel " + patternRule.getFullId() + ", message: '" + message + "'");
         }
