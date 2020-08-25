@@ -29,7 +29,6 @@ import java.util.regex.Pattern;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.*;
 import org.languagetool.tools.StringTools;
