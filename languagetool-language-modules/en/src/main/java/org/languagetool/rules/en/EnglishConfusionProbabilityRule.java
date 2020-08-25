@@ -161,32 +161,63 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "then,", // vs than
       "then?", // vs than
       "no it doesn", // vs know
+      "no it does not", // vs know
       "no it isn",
+      "no it is not",
       "no it wasn",
+      "no it was not",
       "no it hasn",
+      "no it has not",
       "no it can't",
+      "no it cannot",
+      "no it can not",
       "no it won't",
+      "no it will not",
       "no it wouldn",
+      "no it would not",
       "no it couldn",
+      "no it could not",
       "no it shouldn",
+      "no it should not",
       "no that's not", // vs know
       "provided my country",
       "no i don't",
+      "no i do not",
       "no i can't",
+      "no i cannot",
+      "no i can not",
       "no i won't",
+      "no i will not",
       "no i wasn",
+      "no i was not",
       "no i haven",
+      "no i have not",
       "no i wouldn",
+      "no i would not",
       "no i couldn",
+      "no i could not",
       "no i shouldn",
+      "no i should not",
       "no you don't",
+      "no you do not",
       "no you can't",
+      "no you cannot",
+      "no you can not",
       "no you won't",
+      "no you will not",
       "no you weren",
+      "no you were not",
       "no you haven",
+      "no you have not",
       "no you wouldn",
+      "no you would not",
       "no you couldn",
+      "no you could not",
       "no you shouldn",
+      "no you should not",
+      "no they don",
+      "no they do not",
+      "no they weren",
       "no they were not",
       "no there was no",
       "no there was not",
@@ -207,13 +238,17 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "no this is not",
       "no that is not",
       "no we were not",
+      "no we are not",
       "no we're not",
       "no they're not",
+      "no they had not",
+      "no they hadn",
       "no all good",
       "no everything alright",
       "no everything good",
       "no everything fine",
       "no we don't",
+      "no dont",
       "for your recharge", // vs you
       "all you kids", // vs your
       "thanks for the patience", // vs patients
@@ -280,10 +315,26 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "news websites",
       "news channel",
       "news channels",
+      "news source",
+      "news sources",
       "news organization",
       "news organizations",
       "news organisation",
       "news organisations",
+      "news platform",
+      "news platforms",
+      "news data",
+      "the news cover",
+      "the news covers",
+      "news documentary",
+      "all the news check",
+      "all the news checked",
+      "all the news report",
+      "all the news reported",
+      "all the news mention",
+      "all the news mentioned",
+      "all the news are",
+      "news documentaries",
       "scene in a movie",
       "mr.bean", // vs been
       "mr. bean", // vs been
@@ -343,7 +394,15 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "that way", // vs was
       "way back then", // vs was
       "way to much", // different error
-      "the go to" // vs to (caught by GO_TO_HYPHEN)
+      "your to do", // vs you
+      "when your zoom", // vs you
+      "once your zoom", // vs you
+      "if your zoom", // vs you
+      "keep you day and night", // vs your
+      "your hunt for", // vs you
+      "if your bolt fits", // vs you
+      "the go to", // vs to (caught by GO_TO_HYPHEN)
+      "text my number" // vs by
     );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {

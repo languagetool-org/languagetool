@@ -288,7 +288,12 @@ public class English extends Language implements AutoCloseable {
       case "ABBREVIATION_PUNCTUATION":  return 2;
       case "FEDEX":                     return 2;   // higher prio than many verb rules (e.g. MD_BASEFORM)
       case "COVID_19":                  return 1;
+      case "OTHER_WISE_COMPOUND":       return 1;
+      case "LUV":                       return 1;   // higher prio than spell checker
+      case "DAT":                       return 1;   // higher prio than spell checker
       case "BESTEST":                   return 1;   // higher prio than spell checker
+      case "OFF_OF":                    return 1;   // higher prio than ADJECTIVE_ADVERB
+      case "SHELL_COMPOUNDS":           return 1;   // higher prio than HELL
       case "HANDS_ON_HYPHEN":           return 1;   // higher prio than A_NNS
       case "QUIET_QUITE":               return 1;   // higher prio than A_QUITE_WHILE
       case "A_OK":                      return 1;   // prefer over A_AN
@@ -349,6 +354,7 @@ public class English extends Language implements AutoCloseable {
       case "CHILDISH_LANGUAGE":         return 8;   // prefer over spell checker
       case "EN_DIACRITICS_REPLACE":     return 9;   // prefer over spell checker (like PHRASE_REPETITION)
       case "BLACK_SEA":                 return -1;  // less priority than SEA_COMPOUNDS
+      case "A_TO":                      return -1;  // less priority than other rules that offer suggestions
       case "MANY_NN":                   return -1;  // less priority than PUSH_UP_HYPHEN, SOME_FACULTY
       case "WE_BE":                     return -1;
       case "A_LOT_OF_NN":               return -1;
