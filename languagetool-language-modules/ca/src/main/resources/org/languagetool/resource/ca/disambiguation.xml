@@ -12845,24 +12845,25 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token><exception postag="NP..SP.*|&pronom_feble;" postag_regexp="yes" regexp="yes">[^'-].+</exception></token>
                 <marker>
                     <token postag="V.I[PI]3S0.?" postag_regexp="yes" inflected="yes" skip="1">fer<exception postag=".*LOC_ADV.*" postag_regexp="yes"/><exception scope="next" regexp="yes">,|que|en</exception><exception postag="V.[MSI].*|_GV_" postag_regexp="yes" scope="next"/></token>
+                    <token regexp="yes">molt|poc</token>
                 </marker>
-                <token regexp="yes">molt|poc</token>
-                <token><exception regexp="yes">difícil|fàcil</exception></token>
+                <token><exception postag="AQ.*|V.P.*" postag_regexp="yes"/></token>
             </pattern>
             <disambig action="add">
                 <wd pos="&lt;LOC_ADV&gt;"/>
+                <wd pos="&lt;/LOC_ADV&gt;"/>
             </disambig>
         </rule>
         <rule>
             <pattern>
-                <token><exception postag="&pronom_feble;" postag_regexp="yes" regexp="yes">[^'-].+</exception></token>
-                <token postag="V.I[PI]3S0.?" postag_regexp="yes" inflected="yes" skip="1">fer<exception scope="next" regexp="yes">,|que|en</exception><exception postag="V.[MSI].*|_GV_" postag_regexp="yes" scope="next"/></token>
+                <token>fins</token>
                 <marker>
-                    <token regexp="yes">molt|poc</token>
+                    <token postag="V.I[PI]3S0.?" postag_regexp="yes" inflected="yes" skip="1">fer<exception postag=".*LOC_ADV.*" postag_regexp="yes"/><exception scope="next" regexp="yes">,|que|en</exception><exception postag="V.[MSI].*|_GV_" postag_regexp="yes" scope="next"/></token>
+                    <token regexp="yes">poquet|poc|poquíssim</token>
                 </marker>
-                <token><exception regexp="yes">difícil|fàcil</exception></token>
             </pattern>
             <disambig action="add">
+                <wd pos="&lt;LOC_ADV&gt;"/>
                 <wd pos="&lt;/LOC_ADV&gt;"/>
             </disambig>
         </rule>
