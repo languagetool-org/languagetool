@@ -1086,15 +1086,21 @@ public class MultiDocumentsHandler {
       } else if ("deactivateRule".equals(sEvent)) {
         deactivateRule();
         resetDocument();
-      } else if ("checkDialog".equals(sEvent)) {
-//        if (OfficeTools.DEVELOP_MODE) {
-          if (ltDialog != null) {
-            ltDialog.closeDialog();
-          }
-          SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
+      } else if ("checkDialog".equals(sEvent) || "checkAgainDialog".equals(sEvent)) {
+        if (ltDialog != null) {
+          ltDialog.closeDialog();
+        }
+        SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
+        if ("checkAgainDialog".equals(sEvent)) {
+          DocumentCursorTools docCursor = new DocumentCursorTools(getCurrentDocument().getXComponent());
+          ViewCursorTools viewCursor = new ViewCursorTools(xContext);
+          checkDialog.setTextViewCursor(0, 0, viewCursor, docCursor);
+          resetCheck();
+        }
+        if (debugMode) {
           MessageHandler.printToLogFile("Start Spell And Grammar Check Dialog");
-          checkDialog.start();
-//        }
+        }
+        checkDialog.start();
       } else if ("nextError".equals(sEvent)) {
         SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
         checkDialog.nextError();
