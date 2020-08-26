@@ -529,6 +529,25 @@ title="Easy editing stylesheet" ?>
 		<token postag='NC[CF]S000|AQ0[CF]S0|VMP00SF' postag_regexp='yes'/>
       </antipattern>	  
 <!-- MARCOAGPINTO 2020-08-18 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-08-26 (2-JUL-2020+) *START* -->
+<!-- "Apenas testemunhos sem fim recebidos de todo o mundo." -->
+<!-- "Apenas testemunhos sem conta recebidos de todo o mundo." -->
+<!-- "Apenas testemunhas sem fim recebidas de todo o mundo." -->
+	  <!-- Male -->
+      <antipattern>
+		<token postag='NC[CM]P000|AQ0[CM]P0' postag_regexp='yes'/>
+		<token regexp='yes'>sem|com|no|na|da|do|a|mais|menos|bem|mal|num|numa</token>
+		<token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
+		<token postag='VMP00PM|AQ0[CM]P0' postag_regexp='yes'/>
+      </antipattern>
+	  <!-- Female -->
+      <antipattern>
+		<token postag='NC[CF]P000|AQ0[CF]P0' postag_regexp='yes'/>
+		<token regexp='yes'>sem|com|no|na|da|do|a|mais|menos|bem|mal|num|numa</token>
+		<token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
+		<token postag='VMP00PF|AQ0[CF]P0' postag_regexp='yes'/>
+      </antipattern>	  	  
+<!-- MARCOAGPINTO 2020-08-26 (2-JUL-2020+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -569,6 +588,9 @@ title="Easy editing stylesheet" ?>
 	  <example type='correct'>Uma máquina a <marker>motor mais pesada</marker> que o ar.</example>
 	  <example type='correct'>Uma máquina a <marker>gasolina mais pesada</marker> que o ar.</example>
 	  <example type='correct'>A entrar no <marker>Império tão grande quantidade</marker> de escravos africanos.</example>
+	  <example type='correct'>Apenas testemunhos sem <marker>fim recebidos</marker> de todo o mundo.</example>
+	  <example type='correct'>Apenas testemunhos sem <marker>conta recebidos</marker> de todo o mundo.</example>
+	  <example type='correct'>Apenas testemunhas sem <marker>fim recebidas</marker> de todo o mundo.</example>	  
     </rule>
     <rule>
       <pattern>
@@ -960,6 +982,25 @@ title="Easy editing stylesheet" ?>
 		  <token postag='NC[CF]P000|AQ0[CF]P0' postag_regexp='yes'/>
       </antipattern>	  
 <!-- MARCOAGPINTO 2020-07-21 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-08-26 (2-JUL-2020+) *START* -->
+<!-- "Apenas testemunhos sem fim recebidos de todo o mundo." -->
+<!-- "Apenas testemunhos sem conta recebidos de todo o mundo." -->
+<!-- "Apenas testemunhas sem fim recebidas de todo o mundo." -->
+	  <!-- Male -->
+      <antipattern>
+		<token postag='NC[CM]P000|AQ0[CM]P0' postag_regexp='yes'/>
+		<token regexp='yes'>sem|com|no|na|da|do|a|mais|menos|bem|mal|num|numa</token>
+		<token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
+		<token postag='VMP00PM|AQ0[CM]P0' postag_regexp='yes'/>
+      </antipattern>
+	  <!-- Female -->
+      <antipattern>
+		<token postag='NC[CF]P000|AQ0[CF]P0' postag_regexp='yes'/>
+		<token regexp='yes'>sem|com|no|na|da|do|a|mais|menos|bem|mal|num|numa</token>
+		<token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
+		<token postag='VMP00PF|AQ0[CF]P0' postag_regexp='yes'/>
+      </antipattern>	  	  
+<!-- MARCOAGPINTO 2020-08-26 (2-JUL-2020+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>o|e|de|&hifen;</token> <!-- MARCOAGPINTO 2019-12-31 -->
         <marker>
@@ -990,6 +1031,9 @@ title="Easy editing stylesheet" ?>
       <example>Nenhuma cidade na Europa é tão populosa quanto Tóquio.</example>
       <example>… da aprovação da Lei n.º54/2017, que procedeu à alteração…</example>
       <example>Isto foi publicado na revista Domingo.</example>
+	  <example type='correct'>Apenas testemunhos sem <marker>fim recebidos</marker> de todo o mundo.</example>
+	  <example type='correct'>Apenas testemunhos sem <marker>conta recebidos</marker> de todo o mundo.</example>
+	  <example type='correct'>Apenas testemunhas sem <marker>fim recebidas</marker> de todo o mundo.</example>
     </rule>
     <rule>
       <antipattern>
@@ -2265,7 +2309,7 @@ title="Easy editing stylesheet" ?>
 			<token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
 			<token negate_pos="yes" postag='V.+' postag_regexp='yes'/>
 		</and>	
-		<token regexp='yes'>sem|com|no|da|do|a</token>
+		<token regexp='yes'>sem|com|no|na|da|do|a|mais|menos|bem|mal|num|numa</token>
 		<token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
 		<token postag='VMP00P[FM]|AQ0[CFM]P0' postag_regexp='yes'/>
       </antipattern>	  
