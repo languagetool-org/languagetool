@@ -30605,15 +30605,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>col·laboració</example>
             </rule>
         </rulegroup>
-        <rule id="GUIO_INCORRECTE" name="Caràcter de guió incorrecte (u+2500)">
+        <rule id="GUIO_INCORRECTE" name="Caràcter de guió incorrecte (u+2500...)">
             <pattern case_sensitive="no">
                 <marker>
-                    <token regexp="yes">.*─.*</token>
+                    <token regexp="yes">.*[&#x2500;&#x3161;&#x2015;].*</token>
                 </marker>
             </pattern>
-            <message>Caràcter incorrecte.</message>
-            <suggestion><match no="1" regexp_match="(.*)─(.*)" regexp_replace="$1—$2"/></suggestion>
-            <example correction="—va">És ell <marker>─va</marker> dir.</example>
+            <message>Caràcter de guió incorrecte.</message>
+            <suggestion><match no="1" regexp_match="[&#x2500;&#x3161;&#x2015;]" regexp_replace="—"/></suggestion>
+            <example correction="—">És ell <marker>─</marker>va dir.</example>
+            <example correction="—">És ell <marker>ㅡ</marker>va dir.</example>
             <example>És ell -va dir.</example>
         </rule>
         <rule id="ELA_GEMINADA_2CHAR" name="Ela geminada: evita la codificació de dos caràcters">
@@ -30625,7 +30626,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Error de codificació.</message>
             <suggestion><match no="1" regexp_match="(?iu)(.+)ŀl(.+)" regexp_replace="$1l·l$2"/></suggestion>
             <url>https://ca.wikipedia.org/wiki/L%C2%B7L</url>
-            <short>Error de codificació</short>
             <example correction="sol·licitud">La <marker>soŀlicitud</marker>.</example>
             <example>la sol·licitud</example>
         </rule>
