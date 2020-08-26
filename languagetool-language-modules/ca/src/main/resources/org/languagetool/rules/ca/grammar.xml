@@ -17019,7 +17019,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"/>
                     <marker>
                         <token>d</token>
-                        <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|hosts?|ouija|el|els|&noms_lletres;|iure|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;|oro</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|V.[MSI].*" postag_regexp="yes"/></token>
+                        <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|hosts?|ouija|el|els|&noms_lletres;|iure|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;|oro</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|V.[MSI].*" postag_regexp="yes"
+                            /></token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>d'\3</suggestion>?</message>
@@ -17060,7 +17061,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>d</token>
                     <token case_sensitive="yes" regexp="yes">Els?</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>\1<match no="2" case_conversion="alllower"></match></suggestion>?</message>
+                <message>¿Volíeu dir <suggestion>\1<match no="2" case_conversion="alllower"/></suggestion>?</message>
                 <suggestion>d'\2</suggestion>
                 <example correction="del|d'El">Va eixir <marker>d El</marker> Quixot.</example>
             </rule>
@@ -31511,17 +31512,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
-        <rule id="EUA" name="sigles d'Estats Units d'Amèrica">
-            <pattern>
-                <token>EE</token>
-                <token>.</token>
-                <token>UU</token>
-                <token>.</token>
-            </pattern>
-            <message>Les sigles d'Estats Units d'Amèrica són <suggestion>EUA</suggestion>.</message>
-            <example correction="EUA">Van emigrar als <marker>EE. UU.</marker></example>
-            <example correction="EUA">Van emigrar als <marker>EE.UU.</marker></example>
-        </rule>
+        <rulegroup id="EUA" name="sigles d'Estats Units d'Amèrica">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>EE</token>
+                        <token>.</token>
+                        <token>UU</token>
+                    </marker>
+                    <token postag="SENT_END">.</token>
+                </pattern>
+                <message>Les sigles d'Estats Units d'Amèrica són <suggestion>EUA</suggestion>.</message>
+                <example correction="EUA">Van emigrar als <marker>EE. UU</marker>.</example>
+                <example correction="EUA">Van emigrar als <marker>EE.UU</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>EE</token>
+                    <token>.</token>
+                    <token>UU</token>
+                    <token>.</token>
+                </pattern>
+                <message>Les sigles d'Estats Units d'Amèrica són <suggestion>EUA</suggestion>.</message>
+                <example correction="EUA">Van emigrar als <marker>EE. UU.</marker> l'any passat.</example>
+                <example correction="EUA">Van emigrar als <marker>EE.UU.</marker> l'any 1904.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PAL_A_LAIGUA" name="*no donar pal a l'aigua/no fer-ne ni brot">
             <rule>
                 <pattern>
