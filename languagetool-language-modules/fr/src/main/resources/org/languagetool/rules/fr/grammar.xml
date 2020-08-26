@@ -13083,44 +13083,46 @@ though, and has since been slightly modified)-->
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 1 s" postag_regexp="yes"/></token></marker>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « je » et le verbe « \4 ».</message>
-        <example correction="">Je <marker>peut</marker>.</example>
-        <example correction="">Ma foi, à ce moment-là il se peut que j'<marker>eusses</marker> trébuché, oui.</example>
+        <suggestion><match no="4" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 1 s"/></suggestion>
+        <example correction="peux|puis">Je <marker>peut</marker>.</example>
+        <example correction="eusse|eussè|eussé">Ma foi, à ce moment-là il se peut que j'<marker>eusses</marker> trébuché, oui.</example>
+        <!-- TODO: remove interrogative forms -->
         <example>Je peux</example>
-        <example correction="">J’<marker>arrives</marker>.</example>
+        <example correction="arrive|arrivè">J’<marker>arrives</marker>.</example>
         <example>J’arrive</example>
-        <example correction="">Je ne <marker>travailles</marker> pas.</example>
+        <example correction="travaille|travaillè">Je ne <marker>travailles</marker> pas.</example>
         <example>Je ne travaille pas</example>
-        <example correction="">J’en <marker>ait</marker>.</example>
+        <example correction="aie">J’en <marker>ait</marker>.</example>
         <example>J’en ai</example>
-        <example correction="">Je t’<marker>attend</marker></example>
+        <example correction="attends">Je t’<marker>attend</marker></example>
         <example>Je t’attends</example>
-        <example correction="">Je ne te <marker>veut</marker> pas.</example>
+        <example correction="veux">Je ne te <marker>veut</marker> pas.</example>
         <example>Je ne te veux pas.</example>
-        <example correction="">Je te le <marker>répètes</marker>.</example>
+        <example correction="répète|répétè">Je te le <marker>répètes</marker>.</example>
         <example>Je te le <marker>répète</marker>.</example>
-        <example correction="">Je le lui <marker>donnes</marker>.</example>
+        <example correction="donne|donnè">Je le lui <marker>donnes</marker>.</example>
         <example>Je le lui donne.</example>
-        <example correction="">Je lui en <marker>veut</marker>.</example>
+        <example correction="veux">Je lui en <marker>veut</marker>.</example>
         <example>Je lui en veux.</example>
-        <example correction="">Je ne t’<marker>attend</marker> pas.</example>
+        <example correction="attends">Je ne t’<marker>attend</marker> pas.</example>
         <example>Je ne t’<marker>attends</marker> pas.</example>
-        <example correction="">Je n’y <marker>croit</marker> pas</example>
+        <example correction="crois">Je n’y <marker>croit</marker> pas</example>
         <example>Je n’y <marker>crois</marker> pas</example>
-        <example correction="">Je t’en <marker>parles</marker></example>
-        <example correction="">Je te l’<marker>avait</marker> donné.</example>
+        <example correction="parle|parlè">Je t’en <marker>parles</marker></example>
+        <example correction="avais">Je te l’<marker>avait</marker> donné.</example>
         <example>Je te l’<marker>avais</marker> donné.</example>
         <example>Je t’en <marker>parle</marker></example>
-        <example correction="">Je ne vous en <marker>parles</marker> pas.</example>
+        <example correction="parle|parlè">Je ne vous en <marker>parles</marker> pas.</example>
         <example>Je ne vous en <marker>parle</marker> pas.</example>
-        <example correction="">Je ne leur en <marker>veut</marker> pas.</example>
+        <example correction="veux">Je ne leur en <marker>veut</marker> pas.</example>
         <example>Je ne leur en <marker>veux</marker> pas.</example>
-        <example correction="">Je ne le lui <marker>achètes</marker> pas.</example>
+        <example correction="achetè|achète">Je ne le lui <marker>achètes</marker> pas.</example>
         <example>Je ne le lui <marker>achète</marker> pas.</example>
-        <example correction="">Je ne m’en <marker>souvient</marker> pas.</example>
+        <example correction="souviens">Je ne m’en <marker>souvient</marker> pas.</example>
         <example>Je ne m’en <marker>souviens</marker> pas.</example>
-        <example correction="">Je ne l’y <marker>ait</marker> pas vu.</example>
+        <example correction="aie">Je ne l’y <marker>ait</marker> pas vu.</example>
         <example>Je ne l’y <marker>ai</marker> pas vu.</example>
-        <example correction="">Je vous <marker>avez</marker> avertis de ne pas venir ici.</example>
+        <example correction="ai">Je vous <marker>avez</marker> avertis de ne pas venir ici.</example>
         <example>La lettre j s’écrivait également sans point suscrit.</example>
       </rule>
       <rule name="tu token + verbe">
@@ -13141,30 +13143,31 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \4 ».</message>
-        <example correction="">Tu <marker>travaillait</marker></example>
+        <suggestion><match no="4" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 2 s"/></suggestion>
+        <example correction="travaillais">Tu <marker>travaillait</marker></example>
         <example>Tu travaillais</example>
         <example>Si tu suis le sentier.</example>
-        <example correction="">Tu ne <marker>travaillait</marker> pas</example>
+        <example correction="travaillais">Tu ne <marker>travaillait</marker> pas</example>
         <example>Tu ne travaillais pas.</example>
-        <example correction="">Tu m’<marker>attendra</marker></example>
+        <example correction="attendras">Tu m’<marker>attendra</marker></example>
         <example>Tu m’<marker>attendras</marker></example>
-        <example correction="">Tu ne me <marker>rappelle</marker> pas</example>
+        <example correction="rappelles">Tu ne me <marker>rappelle</marker> pas</example>
         <example>Tu ne me <marker>rappelles</marker> pas</example>
-        <example correction="">Tu nous le <marker>prouve</marker>.</example>
+        <example correction="prouves">Tu nous le <marker>prouve</marker>.</example>
         <example>Tu nous le <marker>prouves</marker>.</example>
-        <example correction="">Tu lui en <marker>parle</marker>.</example>
+        <example correction="parles">Tu lui en <marker>parle</marker>.</example>
         <example>Tu lui en <marker>parles</marker>.</example>
-        <example correction="">Tu ne m’<marker>attendra</marker></example>
+        <example correction="attendras">Tu ne m’<marker>attendra</marker></example>
         <example>Tu ne m’<marker>attendras</marker></example>
-        <example correction="">Tu t’en <marker>souvient</marker></example>
+        <example correction="souviens">Tu t’en <marker>souvient</marker></example>
         <example>Tu t’en <marker>souviens</marker></example>
-        <example correction="">Tu n’y <marker>va</marker> pas</example>
+        <example correction="vas">Tu n’y <marker>va</marker> pas</example>
         <example>Tu n’y <marker>vas</marker> pas</example>
-        <example correction="">Tu ne me le <marker>prend</marker> pas.</example>
+        <example correction="prends">Tu ne me le <marker>prend</marker> pas.</example>
         <example>Tu ne me le <marker>prends</marker> pas.</example>
-        <example correction="">Tu me l’<marker>a</marker> offert.</example>
+        <example correction="as">Tu me l’<marker>a</marker> offert.</example>
         <example>Tu me l’as offert.</example>
-        <example correction="">Tu ne m’en <marker>parle</marker> pas</example>
+        <example correction="parles">Tu ne m’en <marker>parle</marker> pas</example>
         <example>Tu ne m’en <marker>parles</marker> pas</example>
         <example>Comment t'es-tu procuré cet argent ?</example>
         <example>Mais qu'as donc tu fait pendant tout ce temps !</example>
@@ -13186,7 +13189,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \2 ».</message>
-        <example correction="">Il <marker>travaillent</marker></example>
+        <suggestion><match no="2" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+        <example correction="travaille">Il <marker>travaillent</marker></example>
         <example>Qu'il s'est lui-même constitué tout au court de sa carrière.</example>
         <example>Il travaille</example>
         <example>Ce sont des histoires.</example>
@@ -13213,9 +13217,10 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \2 » et le verbe « \3 ».</message>
-        <example correction="">Ça <marker>fonctionnent</marker>.</example>
+        <suggestion><match no="3" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+        <example correction="fonctionne">Ça <marker>fonctionnent</marker>.</example>
         <example>Ça fonctionne.</example>
-        <example correction="">Et ça <marker>fonctionnent</marker>.</example>
+        <example correction="fonctionne">Et ça <marker>fonctionnent</marker>.</example>
         <example>Et ça fonctionne.</example>
         <example>Je ne trouve pas ça intéressant.</example>
         <example>Ça tu l'as mérité.</example>
@@ -13243,12 +13248,13 @@ though, and has since been slightly modified)-->
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 s" postag_regexp="yes"/></token></marker>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \3 ».</message>
-        <example correction="">Il ne <marker>travaillent</marker> pas</example>
+        <suggestion><match no="3" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+        <example correction="travaille">Il ne <marker>travaillent</marker> pas</example>
         <example>Il ne travaille pas</example>
-        <example correction="">Ça ne <marker>fonctionnent</marker> pas.</example>
+        <example correction="fonctionne">Ça ne <marker>fonctionnent</marker> pas.</example>
         <example>Ça ne fonctionne pas.</example>
         <example>Ce ne sont pas des histoires.</example>
-        <example correction="">Elle se <marker>demandent</marker>.</example>
+        <example correction="demande">Elle se <marker>demandent</marker>.</example>
         <example>Elle se demande.</example>
         <example>Il a converti cela en médailles.</example>
         <example>Dominique et elle les attendent.</example>
@@ -13267,9 +13273,10 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Vérifiez l’accord entre « \1 » et le verbe « \3 ».</message>
-        <example correction="">Ça ne <marker>fonctionnent</marker> pas.</example>
+        <suggestion><match no="3" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+        <example correction="fonctionne">Ça ne <marker>fonctionnent</marker> pas.</example>
         <example>Ça ne fonctionne pas.</example>
-        <example correction="">Personne ne <marker>peux</marker> me le dire.</example>
+        <example correction="peut">Personne ne <marker>peux</marker> me le dire.</example>
         <example>Personne ne <marker>peut</marker> me le dire.</example>
       </rule>
       <rule name="il/elle/on + 2 tokens + Verbe">
@@ -13284,10 +13291,11 @@ though, and has since been slightly modified)-->
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 s" postag_regexp="yes"/></token></marker>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \4 ».</message>
-        <example correction="">Il ne me <marker>veux</marker> pas.</example>
+        <suggestion><match no="4" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+        <example correction="veut">Il ne me <marker>veux</marker> pas.</example>
         <example>Il ne me <marker>veut</marker> pas.</example>
         <example>Pour cela nous en parlons à notre mère.</example>
-        <example correction="">Comme il n’<marker>avais</marker> plus de voiture, il prenait le bus.</example>
+        <example correction="avait">Comme il n’<marker>avais</marker> plus de voiture, il prenait le bus.</example>
         <example>Comme il n’avait plus de voiture, il prenait le bus.</example>
         <example>C'étaient toutes des choses faites main.</example>
         <example>Les polluants comme celui-ci viennent principalement de la combustion.</example>
@@ -13305,11 +13313,17 @@ though, and has since been slightly modified)-->
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 s|V.* inf" postag_regexp="yes"/></token></marker>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \3 ».</message>
-        <example correction="">Ça t’<marker>irais</marker> bien.</example>
+        <suggestion><match no="3" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+        <example correction="irait">Ça t’<marker>irais</marker> bien.</example>
         <example>Ça t’<marker>irait</marker> bien.</example>
         <example>Ne laisse pas ça t’arrêter.</example>
       </rule>
       <rule name="il/elle/on + 3 tokens + Verbe">
+        <antipattern>
+          <token inflected="yes" regexp="yes" skip="3">laisser|faire</token>
+          <token>se</token>
+          <token postag="V.* inf" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
             <exception scope="previous" postag="P"/>
@@ -13322,11 +13336,12 @@ though, and has since been slightly modified)-->
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 s|V .* ppr" postag_regexp="yes"/></token></marker>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \4 ».</message>
-        <example correction="">Cela ne t’<marker>aideras</marker> pas.</example>
+        <suggestion><match no="4" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+        <example correction="aidera">Cela ne t’<marker>aideras</marker> pas.</example>
         <example>Cela ne t’<marker>aidera</marker> pas.</example>
-        <example correction="">Elle m’en <marker>parlent</marker></example>
+        <example correction="parle">Elle m’en <marker>parlent</marker></example>
         <example>Elle m’en <marker>parle</marker></example>
-        <example correction="">Elle me l’<marker>avais</marker> donné.</example>
+        <example correction="avait">Elle me l’<marker>avais</marker> donné.</example>
         <example>Elle me l’avait donné.</example>
         <example>Ça ne t’intéresse pas.</example>
         <example>Ceci ne s’étant pas révélé suffisant, il recommença.</example>
@@ -13349,7 +13364,8 @@ though, and has since been slightly modified)-->
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 s" postag_regexp="yes"/></token></marker>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \5 ».</message>
-        <example correction="">Elle ne s’en <marker>souviens</marker> pas.</example>
+        <suggestion><match no="5" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+        <example correction="souvient">Elle ne s’en <marker>souviens</marker> pas.</example>
         <example>Elle ne s’en <marker>souvient</marker> pas.</example>
       </rule>
       <rule name="nous + Verbe">
@@ -13363,14 +13379,15 @@ though, and has since been slightly modified)-->
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 1 p" postag_regexp="yes"/></token></marker>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \3 ».</message>
-        <example correction="">Nous <marker>perds</marker></example>
+        <suggestion><match no="5" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 1 p"/></suggestion>
+        <example correction="perdons">Nous <marker>perds</marker></example>
         <example>Nous perdons</example>
         <example>Nous nous sommes perdus.</example>
-        <example correction="">Nous ne <marker>perds</marker> pas.</example>
+        <example correction="perdons">Nous ne <marker>perds</marker> pas.</example>
         <example>Nous ne perdons pas.</example>
         <example>Nous ne sommes pas perdus.</example>
-        <example correction="">Les erreurs que nous <marker>feront</marker>.</example>
-        <example correction="">Les erreurs que nous ne <marker>feront</marker> plus.</example>
+        <example correction="ferons">Les erreurs que nous <marker>feront</marker>.</example>
+        <example correction="ferons">Les erreurs que nous ne <marker>feront</marker> plus.</example>
         <example>Les cadeaux qu'ils nous feront.</example>
         <example>Les erreurs que nous ferons.</example>
         <example>Nous a-t-elle vues ?</example>
@@ -13384,9 +13401,10 @@ though, and has since been slightly modified)-->
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 1 p" postag_regexp="yes"/></token></marker>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \4 ».</message>
-        <example correction="">Nous vous <marker>attendez</marker></example>
+        <suggestion><match no="4" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 1 p"/></suggestion>
+        <example correction="attendons">Nous vous <marker>attendez</marker></example>
         <example>Nous vous attendons</example>
-        <example correction="">Nous ne vous <marker>attendez</marker> pas.</example>
+        <example correction="attendons">Nous ne vous <marker>attendez</marker> pas.</example>
         <example>Nous ne vous attendons pas.</example>
       </rule>
       <rule name="vous + Verbe">
@@ -13400,10 +13418,11 @@ though, and has since been slightly modified)-->
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 2 p" postag_regexp="yes"/></token></marker>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \3 ».</message>
-        <example correction="">Vous <marker>travaille</marker></example>
+        <suggestion><match no="3" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 2 p"/></suggestion>
+        <example correction="travaillez|travailliez">Vous <marker>travaille</marker></example>
         <example>Vous travaillez</example>
         <example>Est-ce que ça vous dérange si je fume ?</example>
-        <example correction="">Vous ne <marker>travaille</marker> pas.</example>
+        <example correction="travaillez|travailliez">Vous ne <marker>travaille</marker> pas.</example>
         <example>Vous ne travaillez pas.</example>
         <example>Écoutez ce que vous disent ces femmes.</example>
         <example>Écoutez ce que vous dit cette femme.</example>
@@ -13418,9 +13437,10 @@ though, and has since been slightly modified)-->
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 2 p" postag_regexp="yes"/></token></marker>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \4 ».</message>
-        <example correction="">Vous nous <marker>attendons</marker></example>
+        <suggestion><match no="4" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 2 p"/></suggestion>
+        <example correction="attendez">Vous nous <marker>attendons</marker></example>
         <example>Vous nous attendez</example>
-        <example correction="">Vous ne nous <marker>attendons</marker> pas.</example>
+        <example correction="attendez">Vous ne nous <marker>attendons</marker> pas.</example>
         <example>Vous ne nous attendez pas.</example>
         <example>Vous l'ai-je demandé ?</example>
       </rule>
@@ -13442,18 +13462,19 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \3 ».</message>
-        <example correction="">Ils <marker>travaille</marker>.</example>
+        <suggestion><match no="3" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+        <example correction="travaillent">Ils <marker>travaille</marker>.</example>
         <example>Ils travaillent.</example>
-        <example correction="">Ceux-ci <marker>fonctionne</marker>.</example>
+        <example correction="fonctionnent">Ceux-ci <marker>fonctionne</marker>.</example>
         <example>Ceux-ci fonctionnent.</example>
         <example>Ceux enseignés dans cette école</example>
         <example>À elles revient la maison.</example>
         <example>L’une d’elles est inutile.</example>
-        <example correction="">Ils ne <marker>travaille</marker> pas.</example>
+        <example correction="travaillent">Ils ne <marker>travaille</marker> pas.</example>
         <example>Ils ne travaillent pas.</example>
-        <example correction="">Ceux-ci ne <marker>fonctionne</marker> pas.</example>
+        <example correction="fonctionnent">Ceux-ci ne <marker>fonctionne</marker> pas.</example>
         <example>Ceux-ci ne fonctionnent pas.</example>
-        <example correction="">Ils vous <marker>étonnerons</marker> par leur efficacité.</example>
+        <example correction="étonneront">Ils vous <marker>étonnerons</marker> par leur efficacité.</example>
         <example>Ils vous étonneront par leur efficacité.</example>
         <example>Ceux-ci ayant été approuvés.</example>
         <example>Ils ont eux-mêmes été contaminés.</example>
@@ -13481,7 +13502,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \4 ».</message>
-        <example correction="">Ils ne nous <marker>attends</marker> pas</example>
+        <suggestion><match no="4" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+        <example correction="attendent">Ils ne nous <marker>attends</marker> pas</example>
         <example>Ils ne nous attendent pas</example>
         <!-- TODO: l'aide: det+noun / pron+verb <example correction="">Ceux-ci l’<marker>aide</marker>.</example> -->
         <example>Ceux-ci l’aident.</example>
@@ -13502,9 +13524,10 @@ though, and has since been slightly modified)-->
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 p" postag_regexp="yes"/></token></marker>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \4 ».</message>
-        <example correction="">Ils ne m’<marker>attends</marker> pas.</example>
+        <suggestion><match no="4" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+        <example correction="attendent">Ils ne m’<marker>attends</marker> pas.</example>
         <example>Ils ne m’<marker>attendent</marker> pas.</example>
-        <example correction="">Ils me l’<marker>avait</marker> donné.</example>
+        <example correction="avaient">Ils me l’<marker>avait</marker> donné.</example>
         <example>Ils me l’<marker>avaient</marker> donné.</example>
       </rule>
       <rule name="ils/elles + 4 tokens + Verbe">
@@ -13520,7 +13543,8 @@ though, and has since been slightly modified)-->
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 p" postag_regexp="yes"/></token></marker>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \5 ».</message>
-        <example correction="">Ils ne s’en <marker>souvient</marker> pas.</example>
+        <suggestion><match no="5" postag="(V .*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+        <example correction="souviennent">Ils ne s’en <marker>souvient</marker> pas.</example>
         <example><marker>Ils ne s’en souviennent</marker> pas.</example>
       </rule>
       <rule name="-ez à la place de -er">

@@ -1436,6 +1436,60 @@ RB => Règles Brutes
       <disambig action="filter" postag="V.* 3 p"/>
     </rule>
   </rulegroup>
+  
+  <rulegroup id="imperative" name="imperative">
+    <rule>
+      <pattern>
+        <token postag="SENT_START"/>
+        <token inflected="yes">ne</token>
+        <token min="0" max="1" regexp="yes">[lmt][e']|[nv]ous|les|la|leur|lui</token>
+        <marker>
+          <token postag_regexp="yes" postag="V.* (imp|ppr).*"/>
+        </marker>
+        <token regexp="yes">pas|plus|jamais|rien</token>
+      </pattern>
+      <disambig action="filter" postag="V.* (imp|ppr).*"></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="SENT_START"/>
+        <token inflected="yes">ne</token>
+        <!-- 2 token (not all combinations are possible) -->
+        <token postag="R pers obj.*" postag_regexp="yes" min="1" max="2"/>
+        <marker>
+          <token postag_regexp="yes" postag="V.* (imp|ppr).*"/>
+        </marker>
+        <token regexp="yes">pas|plus</token>
+      </pattern>
+      <disambig action="filter" postag="V.* (imp|ppr).*"></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="SENT_START"/>
+        <token>ne</token>
+        <!-- 3 token -->
+        <token regexp="yes">[mtl]'</token>
+        <token regexp="yes">y|en</token>
+        <marker>
+          <token postag_regexp="yes" postag="V.* (imp|ppr).*"/>
+        </marker>
+        <token regexp="yes">pas|plus</token>
+      </pattern>
+      <disambig action="filter" postag="V.* (imp|ppr).*"></disambig>
+    </rule>
+  </rulegroup>
+  
+  <rulegroup id="not_imperative" name="not imperative">
+    <rule>
+      <pattern>
+        <token postag="R pers.*" postag_regexp="yes"/>
+        <marker>
+          <token postag="V .*" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="V.* imp .*"/>
+    </rule>
+  </rulegroup>
 
   <rule name="RD : ambig J/N" id="RD-ADJ_NOM">
     <pattern>
