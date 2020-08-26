@@ -118,6 +118,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
       words.add("genetische");
       words.add("genetischen");
       words.add("genetisches");
+      words.add("premium");
       return words;
     }
   }
