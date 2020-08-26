@@ -39549,6 +39549,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rulegroup id="MESA_TAULA" name="mesa/taula" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">mesa</token>
+                    </marker>
+                    <token min="0" max="2" postag="DA.*|SPS00" postag_regexp="yes"/>
+                    <token regexp="yes" inflected="yes">debat|diàleg|negociació|partit|defensa|entitat|força|redó|rodó</token>
+                </pattern>
+                <message>En aquest context és més adequat dir <suggestion><match no="1" postag="(NCF.*)" postag_regexp="yes" postag_replace="$1">taula</match></suggestion>.</message>
+                <example correction="taula">En la <marker>mesa</marker> de diàleg.</example>
+                <example correction="taula">En la <marker>mesa</marker> redona d'avui.</example>
+                <example correction="Taula"><marker>Mesa</marker> per la Defensa del Riu.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">taula</token>
+                    </marker>
+                    <token min="0" max="2" postag="DA.*|SPS00" postag_regexp="yes"/>
+                    <token regexp="yes" inflected="yes">parlament|senat|electoral</token>
+                </pattern>
+                <message>En aquest context sol utilitzar-se la paraula <suggestion><match no="1" postag="(NCF.*)" postag_regexp="yes" postag_replace="$1">mesa</match></suggestion>.</message>
+                <example correction="mesa">En la <marker>taula</marker> del Senat.</example>
+                <example correction="meses">En les <marker>taules</marker> electorals.</example>
+            </rule>
+        </rulegroup>
         <rule id="ESQUE" name="esque/és que">
             <pattern>
                 <token>esque</token>

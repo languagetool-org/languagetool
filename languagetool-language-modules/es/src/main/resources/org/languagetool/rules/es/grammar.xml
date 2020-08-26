@@ -12342,15 +12342,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Sr.">Vive con el <marker>Sr</marker> García.</example>
             </rule>
         </rulegroup>
-        <rule id="WRONG_DASH" name="Carácter de guion incorrecto (u+2500)">
+        <rule id="WRONG_DASH" name="Carácter de guion incorrecto (u+2500...)">
             <pattern case_sensitive="no">
                 <marker>
-                    <token regexp="yes">.*─.*</token>
+                    <token regexp="yes">.*[&#x2500;&#x3161;&#x2015;].*</token>
                 </marker>
             </pattern>
             <message>Carácter de guion incorrecto.</message>
-            <suggestion><match no="1" regexp_match="(.*)─(.*)" regexp_replace="$1—$2"/></suggestion>
-            <example correction="—dijo">Es él <marker>─dijo</marker>.</example>
+            <suggestion><match no="1" regexp_match="[&#x2500;&#x3161;&#x2015;]" regexp_replace="—"/></suggestion>
+            <example correction="—">Es él <marker>─</marker>dijo.</example>
+            <example correction="—">Es él <marker>ㅡ</marker>dijo.</example>
         </rule>
         <rulegroup id="ABREV_HORA" name="abreviatura de horas, gramos" default="on">
             <rule>
