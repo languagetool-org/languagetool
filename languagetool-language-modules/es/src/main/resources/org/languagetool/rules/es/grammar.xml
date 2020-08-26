@@ -1356,7 +1356,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>{suggestion}</suggestion>
                 <example correction="órdenes">Excepcionales <marker>ordenes</marker> del general.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- hasta la nausea-->
                 <pattern>
                     <token>hasta</token>
@@ -4188,6 +4188,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ESTE_TILDE" name="*este/esté" default="on">
+            <!-- TODO: que este abierto -->
             <antipattern>
                 <token postag="SPS00"/>
                 <token>este</token>
@@ -4275,6 +4276,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>este</token>
                     <token max="3" min="1" postag="A..[MC][SN].|V.P..SM|NCMS.*|CC" postag_regexp="yes"/>
+                    <token min="0" max="2" postag_regexp="yes" postag="&pronombre_personal_atono_POS;"></token>
                     <token postag="V.[SI].*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
@@ -4283,7 +4285,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>este</token>
                     </marker>
                     <token min="0" postag="RG"/>
-                    <token postag="A...S." postag_regexp="yes"><exception postag="NCMS000|AO0MS0" postag_regexp="yes"/></token>
+                    <or>
+                        <token postag="A...S." postag_regexp="yes"><exception postag="NCMS000|AO0MS0" postag_regexp="yes"/></token>
+                        <token inflected="yes">abierto</token>
+                    </or>
                     <!--|V...3S.-->
                 </pattern>
                 <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
@@ -4292,6 +4297,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="esté">que <marker>este</marker> preciosa.</example>
                 <example correction="esté">Cuando tu cuenta <marker>este</marker> vacía.</example>
                 <example correction="esté">Cuando tu compra <marker>este</marker> lista.</example>
+                <example correction="esté">No importa que <marker>este</marker> abierto.</example>
+                <example>No importa que este abierto se haya suspendido.</example>
                 <example>se cree que este mismo papa estuvo interesado</example>
                 <example>Te miras al espejo, no te agrada lo que este refleja.</example>
             </rule>
@@ -8237,7 +8244,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="los más originales|lo más originado|lo más original">Son de <marker>lo más originales</marker>.</example>
                 <example>Son lo suficientemente seguros.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>lo</token>
                     <token regexp="yes">más|menos</token>
@@ -10048,13 +10055,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
-        <rule id="LAS_MILES" name="*las/los miles" default="temp_off">
+        <rule id="LAS_MILES" name="*las/los miles">
             <!-- done already by the rule AGREEMENT_DET_NOUN, but a specific message is needed -->
             <pattern>
                 <token postag="D..FP." postag_regexp="yes"/>
                 <token>miles</token>
             </pattern>
-            <message>Error de concordancia. "Miles" es una sustantivo masculino independientemente del sustantivo posterior (ej. Unos miles de personas).</message>
+            <message>Error de concordancia. "Miles" es una sustantivo masculino independientemente del sustantivo posterior (p. ej., unos miles de personas).</message>
             <suggestion><match no="1" postag="(D..)FP." postag_regexp="yes" postag_replace="$1MP0"/> miles</suggestion>
             <url>https://www.fundeu.es/recomendacion/los-miles-de-personas-no-las-miles-de-personas-861/</url>
             <example correction="los miles">De <marker>las miles</marker> de personas que vinieron.</example>
@@ -10165,7 +10172,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="VEMOS_HEMOS" name="vemos/hemos" default="temp_off">
+        <rule id="VEMOS_HEMOS" name="vemos/hemos">
             <pattern>
                 <marker>
                     <token>vemos</token>
@@ -11476,64 +11483,83 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONTEXT" name="Errores según el contexto">
-        <rule id="ENSENAR" name="ensenar/enseñar" default="temp_off">
+        <rule id="ENSENAR" name="ensenar/enseñar">
             <pattern>
-                <token inflected="yes">ensenar</token>
+                <token inflected="yes">ensenar<exception regexp="yes">ensenadas?</exception></token>
             </pattern>
-            <message>¿Quería decir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">enseñar</match></suggestion> (instruir, mostrar)? "Ensenar" es un verbo válido, menos frecuente, con otros sentidos.</message>
+            <message>¿Quería decir <suggestion><match no="1" regexp_match="(?iu)ensen" regexp_replace="enseñ"/></suggestion> (instruir, mostrar)? "Ensenar" es un verbo válido, menos frecuente, con otros sentidos.</message>
             <example correction="enseñaba">Le <marker>ensenaba</marker> los resultados.</example>
             <example correction="enseñó">Me <marker>ensenó</marker> cómo hacerlo.</example>
+            <example>La Plata-Ensenada</example>
+            <example>C/ Marqués de la Ensenada, 12.</example>
+            <example>en el centro de la ensenada</example>
+            <example>playas arenosas, ensenadas y bahías</example>
+            <!-- TODO: la lección ensenada por el maestro -->
         </rule>
-        <rule id="MONTANA" name="montana/montaña" default="temp_off">
-            <pattern>
+        <rule id="MONTANA" name="montana/montaña">
+            <antipattern>
+                <token inflected="yes" regexp="yes">área|región|zona</token>
                 <token regexp="yes">montanas?</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">montanas?<exception case_sensitive="yes">Montana</exception></token>
             </pattern>
             <message>¿Quería decir <suggestion><match no="1" regexp_match="(?iu)ana" regexp_replace="aña"/></suggestion>? "Montano" es un adjetivo que significa 'relativo al monte'.</message>
             <example correction="montaña">¿Subimos a la <marker>montana</marker>?</example>
+            <example correction="montañas">húmedas <marker>montanas</marker> por encima de los 3000 m.</example>
+            <example>En el estado americano de Montana.</example>
+            <example>En las zonas montanas.</example>
+            <example>Joe Montana en Helena de Troya.</example>
+            <!-- TODO: La Montana del Everest -->
         </rule>
-        <rule id="MONTANERO" name="montanero/montañero" default="temp_off">
+        <rule id="MONTANERO" name="montanero/montañero">
             <pattern>
                 <token regexp="yes">montaner[oa]s?</token>
             </pattern>
             <message>¿Quería decir <suggestion><match no="1" regexp_match="(?iu)ane" regexp_replace="añe"/></suggestion>? "Montanero", menos frecuente, significa 'guarda de monte'.</message>
             <example correction="montañero">Él es un <marker>montanero</marker> experimentado.</example>
         </rule>
-        <rule id="MONTANISMO" name="montanismo/montañismo" default="temp_off">
+        <rule id="MONTANISMO" name="montanismo/montañismo">
             <pattern>
                 <token regexp="yes">montanismos?</token>
             </pattern>
             <message>¿Quería decir <suggestion><match no="1" regexp_match="(?iu)ani" regexp_replace="añi"/></suggestion>? "Montanismo", menos frecuente, significa 'doctrina de Montano'.</message>
             <example correction="montañismo">Es un experto en <marker>montanismo</marker>.</example>
         </rule>
-        <rule id="MONTANISTA" name="montanista/montañista" default="temp_off">
+        <rule id="MONTANISTA" name="montanista/montañista">
             <pattern>
                 <token regexp="yes">montanistas?</token>
             </pattern>
             <message>¿Quería decir <suggestion><match no="1" regexp_match="(?iu)ani" regexp_replace="añi"/></suggestion>? "Montanista", menos frecuente, significa 'seguidor de la doctrina de Montano'.</message>
             <example correction="montañista">Es un experto <marker>montanista</marker>.</example>
         </rule>
-        <rule id="PANO" name="pano/paño" default="temp_off">
+        <rule id="PANO" name="pano/paño">
             <pattern>
                 <token regexp="yes">panos?</token>
             </pattern>
             <message>¿Quería decir <suggestion><match no="1" regexp_match="(?iu)ano" regexp_replace="año"/></suggestion>? "Pano", menos frecuente, es el nombre de un grupo de lenguas amerindias.</message>
             <example correction="paños">Todos los <marker>panos</marker> están tendidos.</example>
         </rule>
-        <rule id="ARANA" name="arana/araña" default="temp_off">
+        <rule id="ARANA" name="arana/araña">
             <pattern>
-                <token regexp="yes">aranas?</token>
+                <token regexp="yes">aranas?<exception case_sensitive="yes">Arana</exception></token>
             </pattern>
             <message>¿Quería decir <suggestion><match no="1" regexp_match="(?iu)ana" regexp_replace="aña"/></suggestion> (arácnido)? "Arana" es un sustantivo, menos frecuente, que significa 'embuste'.</message>
             <example correction="araña">He visto una <marker>arana</marker>.</example>
+            <example>Sabino Arana.</example>
+            <example>Eligió a Arana.</example>
+            <example>Arana dijo esto.</example>
+            <!-- TODO: Arana venenosa -->
         </rule>
-        <rule id="PINA" name="pina/piña" default="temp_off">
+        <rule id="PINA" name="pina/piña">
             <pattern>
-                <token regexp="yes">pinas?</token>
+                <token regexp="yes">pinas?<exception postag="NP.*" postag_regexp="yes"/></token>
             </pattern>
             <message>¿Quería decir <suggestion><match no="1" regexp_match="(?iu)ina" regexp_replace="iña"/></suggestion> (fruto)? "Pina" es un sustantivo menos frecuente.</message>
             <example correction="piña">Cómprame una <marker>pina</marker>.</example>
+            <example>Fue en Pina de Ebro.</example>
         </rule>
-        <rule id="PESTANA" name="pestana/pestaña" default="temp_off">
+        <rule id="PESTANA" name="pestana/pestaña">
             <pattern>
                 <token regexp="yes">pestanas?</token>
             </pattern>
@@ -12050,7 +12076,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token skip="-1">¿</token>
                     <marker>
-                        <token postag="SENT_END"><exception regexp="yes">!|\.</exception></token>
+                        <token postag="SENT_END"><exception regexp="yes">¿|!|\.</exception></token>
                     </marker>
                 </pattern>
                 <message>Símbolo de interrogación desparejado.</message>
@@ -12061,7 +12087,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token skip="-1">¿</token>
                     <marker>
-                        <token postag="SENT_END" regexp="yes">!|\.</token>
+                        <token postag="SENT_END" regexp="yes">¿|!|\.</token>
                     </marker>
                 </pattern>
                 <message>Símbolo de interrogación desparejado.</message>
@@ -12072,7 +12098,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token skip="-1">¡</token>
                     <marker>
-                        <token postag="SENT_END"><exception regexp="yes">\?|\.</exception></token>
+                        <token postag="SENT_END"><exception regexp="yes">¡|¿|\?|\.</exception></token>
                     </marker>
                 </pattern>
                 <message>Símbolo de exclamación desparejado.</message>
@@ -12083,7 +12109,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token skip="-1">¡</token>
                     <marker>
-                        <token postag="SENT_END" regexp="yes">\?|\.</token>
+                        <token postag="SENT_END" regexp="yes">¡|¿|\?|\.</token>
                     </marker>
                 </pattern>
                 <message>Símbolo de exclamación desparejado.</message>
