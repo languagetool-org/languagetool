@@ -131,7 +131,13 @@ class MessageHandler {
    * @param txt message to be shown
    */
   static void showMessage(String txt) {
-    printToLogFile(txt);
+    showMessage(txt, true);
+  }
+
+  static void showMessage(String txt, boolean toLogFile) {
+    if (toLogFile) {
+      printToLogFile(txt);
+    }
     DialogThread dt = new DialogThread(txt, false);
     dt.run();
   }

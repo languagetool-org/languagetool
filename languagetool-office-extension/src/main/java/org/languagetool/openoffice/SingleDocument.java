@@ -1520,18 +1520,30 @@ class SingleDocument {
   }
   
   /**
+   * remove all ignore once entries for paragraph y from queue and set the mark
+   */
+  public void removeIgnoredMatch(int y) {
+    removeIgnoredMatch(-1, y);
+  }
+  
+  /**
    * remove a ignore once entry for point x, y from queue and set the mark
+   * if x < 0 remove all ignore once entries for paragraph y
    */
   public void removeIgnoredMatch(int x, int y) {
 //    MessageHandler.printToLogFile("remove ignore match: x = " + x + ", y = " + y);
     if (ignoredMatches.containsKey(y)) {
-      Set<Integer> charNums = ignoredMatches.get(y);
-      if (charNums.contains(x)) {
-        if (charNums.size() < 2) {
-          ignoredMatches.remove(y);
-        } else {
-          charNums.remove(x);
-          ignoredMatches.put(y, charNums);
+      if (x < 0) {
+        ignoredMatches.remove(y);
+      } else {
+        Set<Integer> charNums = ignoredMatches.get(y);
+        if (charNums.contains(x)) {
+          if (charNums.size() < 2) {
+            ignoredMatches.remove(y);
+          } else {
+            charNums.remove(x);
+            ignoredMatches.put(y, charNums);
+          }
         }
       }
       if(numParasToCheck != 0) {
