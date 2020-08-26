@@ -291,6 +291,7 @@ public class English extends Language implements AutoCloseable {
       case "OTHER_WISE_COMPOUND":       return 1;
       case "LUV":                       return 1;   // higher prio than spell checker
       case "DAT":                       return 1;   // higher prio than spell checker
+      case "MAC_OS":                    return 1;   // higher prio than spell checker
       case "BESTEST":                   return 1;   // higher prio than spell checker
       case "OFF_OF":                    return 1;   // higher prio than ADJECTIVE_ADVERB
       case "SHELL_COMPOUNDS":           return 1;   // higher prio than HELL
