@@ -72,9 +72,9 @@ public class WhiteSpaceBeforeParagraphEnd extends TextLevelRule {
         int lb;
         int lw;
         for (lb = tokens.length - 1; lb > 0 && tokens[lb].isLinebreak(); lb--);
-        for (lw = lb; lw > 0 && tokens[lw].isWhitespace(); lw--);
+        for (lw = lb; lw > 0 && tokens[lw].isWhitespace() && !tokens[lw].getToken().equals("\u200B"); lw--);
         if(lw < lb) {
-          int fromPos = pos + tokens[lw].getStartPos();
+          int fromPos = tokens[lw].isWhitespace() ? pos + tokens[lw + 1].getStartPos() : pos + tokens[lw].getStartPos();
           int toPos = pos + tokens[lb].getEndPos();
           RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, messages.getString("whitespace_before_parapgraph_end_msg"));
           if (lw > 0 && !tokens[lw].isWhitespace()) {
