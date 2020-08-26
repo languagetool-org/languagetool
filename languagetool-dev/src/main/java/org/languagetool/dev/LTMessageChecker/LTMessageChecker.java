@@ -52,7 +52,11 @@ public class LTMessageChecker {
       check.run(Languages.getLanguageForShortCode(args[0]));
     }
     float time = (float) ((System.currentTimeMillis() - start) / 1000.0);
-    System.out.println("Total checking time: " + String.format("%.2f", time) + " seconds");
+    print("Total checking time: " + String.format("%.2f", time) + " seconds");
+  }
+
+  private static void print(String s) {
+    System.out.println("LTM: " + s);
   }
 
   private void run(Language lang)
@@ -63,8 +67,8 @@ public class LTMessageChecker {
     ContextTools contextTools = new ContextTools();
     contextTools.setErrorMarker("**", "**");
     contextTools.setEscapeHtml(false);
-    System.out.println("Checking language: " + lang.getName() + " (" + lang.getShortCodeWithCountryAndVariant() + ")");
-    System.out.println("Version: " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
+    print("Checking language: " + lang.getName() + " (" + lang.getShortCodeWithCountryAndVariant() + ")");
+    print("Version: " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
     for (Rule r : lt.getAllRules()) {
       String message = "";
       try {
@@ -87,7 +91,7 @@ public class LTMessageChecker {
         message = lang.toAdvancedTypography(message);
       }
       // don't require upper case sentence start in description (?)
-      // Advanced typography in rule description is not used in production. Here is used to avoid too many positives. 
+      // Advanced typography in rule description is not used in production. Here is used to avoid too many positives.
       String ruleDescription = lang.toAdvancedTypography(StringTools.uppercaseFirstChar(r.getDescription()));
       String textToCheck = message + "\n\n" + shortMessage + "\n\n" + ruleDescription;
       if (!textToCheck.isEmpty()) {
@@ -101,19 +105,19 @@ public class LTMessageChecker {
             }
           }
           if (matchesToShow.size() > 0) {
-            System.out.println("Source: " + r.getFullId());
+            print("Source: " + r.getFullId());
             for (RuleMatch match : matchesToShow) {
-              System.out.println(match.getMessage().replace("<suggestion>", "'").replace("</suggestion>", "'"));
-              System.out.println(contextTools.getContext(match.getFromPos(), match.getToPos(), textToCheck));
-              System.out.println();
+              print(match.getMessage().replace("<suggestion>", "'").replace("</suggestion>", "'"));
+              print(contextTools.getContext(match.getFromPos(), match.getToPos(), textToCheck));
+              print("");
             }
           }
         }
       }
     }
     float time = (float) ((System.currentTimeMillis() - start) / 1000.0);
-    System.out.println("Checked " + lang.getName() + " (" + lang.getShortCodeWithCountryAndVariant() + ") in "
+    print("Checked " + lang.getName() + " (" + lang.getShortCodeWithCountryAndVariant() + ") in "
         + String.format("%.2f", time) + " seconds");
   }
-  
+
 }
