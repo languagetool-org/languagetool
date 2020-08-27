@@ -190,6 +190,36 @@ public class Portuguese extends Language implements AutoCloseable {
     }
   }
 
+  /** @since 5.1 */
+  @Override
+  public String getOpeningDoubleQuote() {
+    return "“";
+  }
+
+  /** @since 5.1 */
+  @Override
+  public String getClosingDoubleQuote() {
+    return "”";
+  }
+  
+  /** @since 5.1 */
+  @Override
+  public String getOpeningSingleQuote() {
+    return "‘";
+  }
+
+  /** @since 5.1 */
+  @Override
+  public String getClosingSingleQuote() {
+    return "’";
+  }
+  
+  /** @since 5.1 */
+  @Override
+  public boolean isAdvancedTypographyEnabled() {
+    return true;
+  }
+  
   @Override
   protected int getPriorityForId(String id) {
     switch (id) {
