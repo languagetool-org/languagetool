@@ -20599,6 +20599,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Agències"><marker>Agencies</marker> internacionals.</example>
             </rule>
             <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">binari(a|es)</token>
+                    </marker>
+                </pattern>
+                <message>Si és adjectiu, s'ha d'accentuar. Correcte si és del v. '<match no="2" case_conversion="alllower" regexp_match="(?iu)(.*ar)i(a|es)" regexp_replace="$1"/>'.</message>
+                <suggestion><match no="2" regexp_match="(?iu)(.*)ari(a|es)" regexp_replace="$1àri$2" case_conversion="preserve"/></suggestion>
+                <example correction="binària">Codificació <marker>binaria</marker>.</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <marker>
                         <token regexp="yes">ultim(a|es)</token>
@@ -26017,8 +26027,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mes"><marker>més</marker> de novembre</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>més</token>
+                    <token postag="AQ.[MC][SN].*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
-                    <token regexp="yes">vegada|volta|cop|pic<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
+                    <token regexp="yes" inflected="yes">vegada|volta|cop|pic<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
                     <token>el</token>
                     <marker>
                         <token>més</token>
@@ -26029,10 +26043,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mes">Ho fan un cop el <marker>més</marker>.</example>
                 <example correction="mes">Una volta el <marker>més</marker> fan vacances.</example>
                 <example>Tal vegada el més bonic</example>
+                <example>Si apareixen alguna vegada el més probable és que siguin errors.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">vegada|volta|cop|pic<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
+                    <token regexp="yes" inflected="yes">vegada|volta|cop|pic<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
                     <token>a</token>
                     <token>l</token>
                     <marker>
