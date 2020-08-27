@@ -34459,17 +34459,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Va besar la mà de sant Josep.</example>
         </rule>
         <rulegroup id="IMESD" name="*I+D/R+D">
+            <url>http://esadir.cat/tipografia/abreviacions/sigles</url>
             <rule>
                 <pattern case_sensitive="yes">
                     <token>I</token>
-                    <token regexp="yes">[\+&amp;]</token>
+                    <token>+</token>
                     <token>D</token>
                 </pattern>
                 <message>Sigles de "recerca i desenvolupament".</message>
                 <suggestion>R+D</suggestion>
-                <url>http://esadir.cat/tipografia/abreviacions/sigles</url>
                 <example correction="R+D">La inversió en <marker>I+D</marker>.</example>
                 <example correction="R+D"><marker>I+D</marker></example>
+                <example>R+D</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[RI]</token>
+                    <token>&amp;</token>
+                    <token>D</token>
+                </pattern>
+                <message>Sigles de "recerca i desenvolupament".</message>
+                <suggestion>R+D</suggestion>
+                <example correction="R+D">La inversió en <marker>R &amp; D</marker>.</example>
+                <example correction="R+D"><marker>I &amp; D</marker></example>
                 <example>R+D</example>
             </rule>
             <rule>
@@ -34478,7 +34490,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Sigles de "recerca i desenvolupament".</message>
                 <suggestion>R+D</suggestion>
-                <url>http://esadir.cat/tipografia/abreviacions/sigles</url>
                 <example correction="R+D">La inversió en <marker>R&amp;D</marker>.</example>
                 <example correction="R+D">La inversió en <marker>I&amp;D</marker>.</example>
                 <example correction="R+D"><marker>I&amp;D</marker></example>
