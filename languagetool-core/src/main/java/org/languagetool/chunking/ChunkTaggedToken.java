@@ -43,11 +43,11 @@ public class ChunkTaggedToken {
     this.readings = readings;
   }
 
-  String getToken() {
+  public String getToken() {
     return token;
   }
 
-  List<ChunkTag> getChunkTags() {
+  public List<ChunkTag> getChunkTags() {
     return chunkTags;
   }
 
@@ -55,7 +55,7 @@ public class ChunkTaggedToken {
    * @return readings or {@code null}
    */
   @Nullable
-  AnalyzedTokenReadings getReadings() {
+  public AnalyzedTokenReadings getReadings() {
     return readings;
   }
 
