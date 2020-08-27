@@ -437,10 +437,10 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("serlo"));
         assertEquals("ser-lo", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("verlo"));
-        assertEquals("ser-lo", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("parlo", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("baró", matches[0].getSuggestedReplacements().get(1));
         matches = rule.match(langTool.getAnalyzedSentence("relajarme"));
-        assertEquals("relatar-me", matches[0].getSuggestedReplacements().get(0));
-        //assertEquals("relaxar-me", matches[0].getSuggestedReplacements().get(1)); next dict update!
+        assertEquals("relaxar-me", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("aborrirnos"));
         assertEquals("avorrir-nos", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("aborirnos"));
