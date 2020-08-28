@@ -14,6 +14,14 @@
   * Each pair of `ConfusionProbabilityRule` has its own ID now, so it can be separately turned on/off
 
 
+
+## 5.0.2 (2020-08-28)
+
+  * (languagetool-core only) merged https://github.com/languagetool-org/languagetool/pull/3491 and
+    https://github.com/languagetool-org/languagetool/pull/3487
+
+
+
 ## 5.0 (2020-06-27)
 
 #### Arabic
