@@ -2275,6 +2275,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Jo sóc molt dormilega.</example>
                 <example>Tant ETA com el PNB rebutjaren la Constitució espanyola.</example>
                 <example>M'agrada molt Txecoslovàquia.</example>
+                <example>Totes vora les costes gregues.</example>
                 <!-- <example>influí molt Assíria</example> -->
                 <!-- <example>ser admesos com a tals Alemanya, el Japó,</example> -->
             </rule>
@@ -18273,7 +18274,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">ceros?</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="cero(s?)" regexp_replace="zero$1"/></suggestion> (nombre) en lloc de "<match no="1"/>" (variant de "cérvol")?</message>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)cero(s?)" regexp_replace="zero$1"/></suggestion> (nombre) en lloc de "<match no="1"/>" (variant de "cérvol")?</message>
             <short>Possible confusió</short>
             <example correction="zero">Té un valor de <marker>cero</marker>.</example>
             <example>Té un valor de zero.</example>
@@ -22868,7 +22869,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0">-</token>
                     <token regexp="yes">\p{Ll}.+</token>
                 </pattern>
-                <message>S'escriu sense guionet.</message>
+                <message suppress_misspelled="yes">S'escriu sense guionet.</message>
                 <suggestion suppress_misspelled="yes"><match no="3" regexp_match="(?iu)(.+)" regexp_replace="co$1" case_conversion="preserve"/></suggestion>
                 <suggestion suppress_misspelled="yes"><match no="3" regexp_match="(?iu)(.+)" regexp_replace="cor$1" case_conversion="preserve"/></suggestion>
                 <url>http://www.iec.cat/llengua/documents/ortografia_catalana_versio_digital.pdf#page=128</url>
@@ -39605,7 +39606,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
-        <rulegroup id="MESA_TAULA" name="mesa/taula" default="temp_off">
+        <rulegroup id="MESA_TAULA" name="mesa/taula">
             <rule>
                 <pattern>
                     <marker>
@@ -52402,6 +52403,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>l'home al qual vaig trobar</example>
                 <example>provocar el contrari del que voldria</example>
                 <example>la realitat, fent-nos càrrec del que és</example>
+                <example>Queda pendent del que resolguin els jutjats.</example>
             </rule>
             <rule>
                 <pattern>
