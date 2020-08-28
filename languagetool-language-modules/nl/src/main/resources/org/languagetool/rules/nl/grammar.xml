@@ -100,7 +100,7 @@ regexp case-insensitive maken : (?i)
 	<category id="REDUNDANCY">
 	</category>
 	-->
-	<category id="PICKY" name="Regels die meer voor een pietje-precies zijn." default="off">
+	<category id="PICKY" name="Regels die meer voor een pietje-precies zijn." >
 		<rulegroup id="GETALLEN_0_20_OF_ROND" name="Getallen onder 20 en ronde getallen uitschrijven" tags="picky">
 			<rule>
 				<antipattern><token regexp="yes">[A-Z][a-z].*(straat|weg|plein|steeg|dreef|boulevard)|[€.,/-]|lid|artikel|jaar|jaren|figuur|sub|stap|tabel|ISO|groep'</token><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token/></antipattern>
@@ -8210,7 +8210,7 @@ onwaarschijnlijk
 		</rulegroup>
 	</category>
 	<category id="LEESBAARHEID" name="Leesbaarheid" type="style">
-		<rulegroup id="LANG_WOORD" name="Lang woord" default="off">
+		<rulegroup id="LANG_WOORD" name="Lang woord" tags="picky">
 			<rule>
 				<pattern>
 					<token regexp="yes">^\P{M}{20,29}$<exception postag="UNKNOWN"/></token>
@@ -17979,7 +17979,7 @@ steenwijk;Steenwijk
 				<example correction="imago|afbeelding">Het voortdurend kultiveren van het eigen <marker>image</marker> en de beperking daarop.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="MANAGEMENT" name="management → leiding" default="off">
+		<rulegroup id="MANAGEMENT" name="management → leiding" tags="picky">
 			<!-- 2014-08-20 TaalTik -->
 			<rule>
 				<pattern>
@@ -33460,7 +33460,7 @@ steenwijk;Steenwijk
 		<example type="incorrect">Dit is <marker>driedubbel</marker> verkeerd.</example>
 		</rule>
 		-->
-		<rulegroup id="WERKZAAMHEID" name="/">
+		<rulegroup id="WERKZAAMHEID" name="werkzaamheid" tags="picky">
 			<rule>
 				<!-- 2014-08-26 TaalTik
 				regel uit OWN-it-register
@@ -33476,7 +33476,7 @@ steenwijk;Steenwijk
 				<example correction="bezigheid">Zulke inkomsten worden dus behaald in de uitoefening van de <marker>beroepswerkzaamheid</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="BREUKSTREEP" name="/" default="off" tags="picky"> 
+		<rulegroup id="BREUKSTREEP" name="/" default="on" tags="picky"> 
 			<rule>
 				<!-- TODO: individuele gevallen zoeken; het is anders een wel heel algemene melding -->
 				<antipattern><token regexp="yes" skip="-1">http.*</token><token postag="SENT_END"/></antipattern>
