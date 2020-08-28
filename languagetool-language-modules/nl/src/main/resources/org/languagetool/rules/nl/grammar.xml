@@ -66,6 +66,8 @@ regexp case-insensitive maken : (?i)
 <!ENTITY quote '["“]'>
 
 <!ENTITY taaladvies "Er zijn taaladviezen over deze tekst. Raadpleeg www.onzetaal.nl en www.taalaadvies.net, of google de tekst met daar taaladvies aan toegevoegd.">
+<!ENTITY leenwoord_mess "Mogelijk kunt u beter een Nederlands woord gebruiken">
+<!ENTITY cliche_mess "Pas op voor clichés. Probeer het op een andere manier uit te drukken.">
 ]>
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lang="nl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 	<!--
@@ -17790,7 +17792,9 @@ steenwijk;Steenwijk
 				<pattern>
 					<token>goal</token>
 				</pattern>
-				<message>Engels. Suggesties: <suggestion>doel</suggestion>, <suggestion>doelpunt</suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion>doel</suggestion>
+				<suggestion>doelpunt</suggestion>
 				<example correction="doel|doelpunt">Hij miste het <marker>goal</marker>.</example>
 				<example>Je mist het <marker>doel</marker>.</example>
 				<example correction="doel|doelpunt">Helaas, geen <marker>goal</marker>.</example>
@@ -17802,7 +17806,9 @@ steenwijk;Steenwijk
 				<pattern>
 					<token>goals</token>
 				</pattern>
-				<message>Engels. Suggesties: <suggestion>doelen</suggestion>, <suggestion>doelpunten</suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion>doelen</suggestion>
+				<suggestion>doelpunten</suggestion>
 				<example correction="doelen|doelpunten">Hij miste de <marker>goals</marker>.</example>
 				<example>Je mist de <marker>doelen</marker>.</example>
 				<example correction="Doelen|Doelpunten"><marker>Goals</marker> kwamen nog van Joris en Brian.</example>
@@ -17818,7 +17824,10 @@ steenwijk;Steenwijk
 				<pattern>
 					<token>support</token>
 				</pattern>
-				<message>Gebruik liever <suggestion>steun</suggestion>, <suggestion>ondersteuning</suggestion> of <suggestion>hulp</suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion>steun</suggestion>
+				<suggestion>ondersteuning</suggestion>
+				<suggestion>hulp</suggestion>
 				<example correction="steun|ondersteuning|hulp">Ik wil graag <marker>support</marker>.</example>
 				<example>Je wil graag <marker>steun</marker>.</example>
 				<example correction="steun|ondersteuning|hulp">Zeer goede <marker>support</marker>.</example>
@@ -17832,7 +17841,9 @@ steenwijk;Steenwijk
 				<pattern>
 					<token inflected="yes">slogan</token>
 				</pattern>
-				<message>Gebruik liever <suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">slagzin</match></suggestion> of <suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">leus</match></suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">slagzin</match></suggestion>
+				<suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">leus</match></suggestion>
 				<example correction="slagzin|leus">Wat een slechte <marker>slogan</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -17858,7 +17869,9 @@ steenwijk;Steenwijk
 						<token>updaten</token>
 					</marker>
 				</pattern>
-				<message>Engels. Suggesties: <suggestion>opwaarderen</suggestion>, <suggestion>bijwerken</suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion>opwaarderen</suggestion>
+				<suggestion>bijwerken</suggestion>
 				<example correction="opwaarderen|bijwerken">Je moet niet <marker>updaten</marker>.</example>
 				<example>Je moet <marker>bijwerken</marker>.</example>
 				<example correction="opwaarderen|bijwerken">Dus maar effe <marker>updaten</marker> he.</example>
@@ -17872,7 +17885,9 @@ steenwijk;Steenwijk
 						<token>geüpdatet</token>
 					</marker>
 				</pattern>
-				<message>Engels. Suggesties: <suggestion>opgewaardeerd</suggestion>, <suggestion>bijgewerkt</suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion>opgewaardeerd</suggestion>
+				<suggestion>bijgewerkt</suggestion>
 				<example correction="opgewaardeerd|bijgewerkt">Je hebt het <marker>geüpdatet</marker>.</example>
 				<example>Je hebt <marker>bijgewerkt</marker>.</example>
 				<example correction="opgewaardeerd|bijgewerkt">Deze databank wordt elke werkdag <marker>geüpdatet</marker>.</example>
@@ -17887,14 +17902,14 @@ steenwijk;Steenwijk
 				<pattern>
 					<token inflected="yes">crashen</token>
 				</pattern>
-				<message>Engels. Suggesties: neerstorten, instorten, defect raken, botsen, vastlopen.</message>
-				<example type="incorrect">Je moet niet <marker>crashen</marker>.</example>
+				<message>&leenwoord_mess;</message>
+				<suggestion suppress_misspelled="yes"><match no="1" postag="WKW.*" postag_regexp="yes">neerstorten</match></suggestion>
+				<suggestion suppress_misspelled="yes"><match no="1" postag="WKW.*" postag_regexp="yes">instorten</match></suggestion>
+				<suggestion suppress_misspelled="yes"><match no="1" postag="WKW.*" postag_regexp="yes">botsen</match></suggestion>
+				<suggestion suppress_misspelled="yes"><match no="1" postag="WKW.*" postag_regexp="yes">vastlopen</match></suggestion>
+				<suggestion>defect <match no="1" postag="WKW.*" postag_regexp="yes">raken</match></suggestion>
+				<example correction="neerstorten|instorten|botsen|vastlopen|defect raken">Je moet niet <marker>crashen</marker>.</example>
 				<example>Je moet <marker>instorten</marker>.</example>
-				<example type="incorrect">De prijzen <marker>crashten</marker>.</example>
-				<example type="incorrect">Google <marker>crasht</marker> 80 procent.</example>
-				<example type="incorrect">Op 14 juli is de regering <marker>gecrasht</marker>.</example>
-				<example type="incorrect">Vergelijk het met Griekenland dat <marker>crashte</marker>.</example>
-				<example type="incorrect">De <marker>gecrashte</marker> pc was de "Beheerder" van het netwerk.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="CHECKEN" name="checken → controleren">
@@ -17904,13 +17919,12 @@ steenwijk;Steenwijk
 				<pattern>
 					<token inflected="yes">checken</token>
 				</pattern>
-				<message>Engels. Suggestie: 'nakijken', 'nagaan', 'controleren', 'controle'.</message>
-				<example type="incorrect">Je moet niet <marker>checken</marker>.</example>
+				<message>&leenwoord_mess;</message>
+				<suggestion suppress_misspelled="yes"><match no="1" postag="WKW.*" postag_regexp="yes">nakijken</match></suggestion>
+				<suggestion suppress_misspelled="yes"><match no="1" postag="WKW.*" postag_regexp="yes">controleren</match></suggestion>
+				<suggestion suppress_misspelled="yes"><match no="1" postag="ZNW.*" postag_regexp="yes">controle</match></suggestion>
+				<example correction="nakijken|controleren|controle|controles">Je moet niet <marker>checken</marker>.</example>
 				<example>Je moet <marker>controleren</marker>.</example>
-				<example type="incorrect">Nog eens <marker>checken</marker>.</example>
-				<example type="incorrect">Ik <marker>checkte</marker> de datum van de mail.</example>
-				<example type="incorrect">Je <marker>checkt</marker> dus beter eens vooraf.</example>
-				<example type="incorrect">Dat heb ik dus nog niet <marker>gecheckt</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="BULLSHIT" name="bullshit → onzin">
@@ -17919,7 +17933,9 @@ steenwijk;Steenwijk
 				<pattern>
 					<token>bullshit</token>
 				</pattern>
-				<message>Engelse volkstaal. Suggesties: <suggestion>onzin</suggestion>, <suggestion>lariekoek</suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion>onzin</suggestion>
+				<suggestion>lariekoek</suggestion>
 				<example correction="onzin|lariekoek">Dat is <marker>bullshit</marker>.</example>
 				<example correction="Onzin|Lariekoek"><marker>Bullshit</marker>, kereltje.</example>
 				<example correction="onzin|lariekoek">Dus beweren dat ze op sterven na dood is, is 100% <marker>bullshit</marker>.</example>
@@ -17933,7 +17949,8 @@ steenwijk;Steenwijk
 				<pattern>
 					<token inflected="yes">föhn</token>
 				</pattern>
-				<message>Duits. Suggesties: <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">haardroger</match></suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">haardroger</match></suggestion>
 				<example correction="haardroger">Gebruik de <marker>föhn</marker>.</example>
 				<example correction="haardroger">Droog de hond met een <marker>föhn</marker>.</example>
 				<example correction="haardrogers">Dat de sponsor oog heeft voor service bleek uit het speciale zijvakje voor de <marker>föhns</marker> en make-upartikelen.</example>
@@ -17954,7 +17971,9 @@ steenwijk;Steenwijk
 					</marker>
 					<token negate="yes">=</token> <!-- uitzondering voor Wikipedia : image= -->
 				</pattern>
-				<message>Engels. Suggesties: <suggestion>imago</suggestion> of <suggestion><match no="1" postag="(ZNW:EKV:HET)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_)" postag_replace="ZNW:EKV:DE_|$2|$3|$4">afbeelding</match></suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion>imago</suggestion>
+				<suggestion><match no="1" postag="(ZNW:EKV:HET)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_)" postag_replace="ZNW:EKV:DE_|$2|$3|$4">afbeelding</match></suggestion>
 				<example correction="imago|afbeelding">Het is mijn <marker>image</marker>.</example>
 				<example correction="imago|afbeelding">Hoe kunnen we het project gebruiken om het <marker>image</marker> van de gemeente te valoriseren?</example>
 				<example correction="imago|afbeelding">Het voortdurend kultiveren van het eigen <marker>image</marker> en de beperking daarop.</example>
@@ -17977,7 +17996,9 @@ steenwijk;Steenwijk
 				<pattern>
 					<token inflected="yes">commercial</token>
 				</pattern>
-				<message>Engels. Suggesties: <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">reclame</match></suggestion>, <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">reclameboodschap</match></suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">reclame</match></suggestion>
+				<suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">reclameboodschap</match></suggestion>
 				<example correction="reclame|reclameboodschap">Gebruik de <marker>commercial</marker>.</example>
 				<example>Gebruik de <marker>reclameboodschap</marker>.</example>
 				<example correction="reclame|reclameboodschap">Wat je nu moet maken van die <marker>commercial</marker>?</example>
@@ -17992,7 +18013,8 @@ steenwijk;Steenwijk
 				<pattern>
 					<token inflected="yes">break</token>
 				</pattern>
-				<message>Engels. Suggesties: <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">pauze</match></suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">pauze</match></suggestion>
 				<example correction="pauze">Gebruik de <marker>break</marker>.</example>
 				<example correction="pauzen|pauzes">Deze <marker>breaks</marker> duren met moeite 2 à 3 minuten.</example>
 				<example correction="pauze">Na een korte <marker>break</marker> hervatten we onze tocht om via de oude trambedding richting Begijnendijk te drijven.</example>
@@ -18008,7 +18030,8 @@ steenwijk;Steenwijk
 				<pattern>
 					<token regexp="yes">multiplechoice.{1,}</token>
 				</pattern>
-				<message>Engels. Suggesties: <suggestion><match no="1" regexp_match="multiplechoice(.*)" regexp_replace="meerkeuze$1"/></suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion><match no="1" regexp_match="multiplechoice(.*)" regexp_replace="meerkeuze$1"/></suggestion>
 				<example correction="meerkeuzevraag">Gebruik de <marker>multiplechoicevraag</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -18018,7 +18041,8 @@ steenwijk;Steenwijk
 				<pattern>
 					<token regexp="yes">babysit|babysitter</token>
 				</pattern>
-				<message>Engels. Suggesties: <suggestion>oppas</suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion>oppas</suggestion>
 				<example correction="oppas">Heb je geen <marker>babysit</marker>?</example>
 				<example correction="oppas">Bent u op zoek naar een <marker>babysit</marker>?</example>
 				<example correction="oppas">Tegen betaling kunt u een <marker>babysitter</marker> inhuren.</example>
@@ -18034,7 +18058,8 @@ steenwijk;Steenwijk
 				<pattern case_sensitive="yes">
 					<token inflected="yes" case_sensitive="yes">magazine</token>
 				</pattern>
-				<message>Leenwoord. Suggesties: <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">tijdschrift</match></suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">tijdschrift</match></suggestion>
 				<example correction="tijdschrift">Gebruik het <marker>magazine</marker>.</example>
 				<example correction="Tijdschrift"><marker>Magazine</marker> rond kerk en kroeg.</example>
 				<example correction="tijdschrift">En dit <marker>magazine</marker> is daar goed in".</example>
@@ -18048,7 +18073,8 @@ steenwijk;Steenwijk
 				<pattern case_sensitive="yes">
 					<token>design</token>
 				</pattern>
-				<message>Engels. Suggesties: <suggestion>ontwerp</suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion>ontwerp</suggestion>
 				<example correction="ontwerp">Oog voor <marker>design</marker>.</example>
 				<example correction="ontwerp">Zelfde kwaliteit, strakker <marker>design</marker>.</example>
 				<example correction="ontwerp">Modern, aantrekkelijk <marker>design</marker>.</example>
@@ -18064,7 +18090,8 @@ steenwijk;Steenwijk
 				<pattern>
 					<token inflected="yes">password</token>
 				</pattern>
-				<message>Engels. Suggesties: <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">wachtwoord</match></suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">wachtwoord</match></suggestion>
 				<example correction="wachtwoord">Gebruik het <marker>password</marker>.</example>
 				<example correction="wachtwoord">Ubuntu vraagt een <marker>password</marker> en de verbinding is gemaakt en werkt.</example>
 				<example correction="wachtwoord">Dit gaat dan meestal om mails voor <marker>password</marker> resets of om uitslagen goed te keuren.</example>
@@ -18079,7 +18106,8 @@ steenwijk;Steenwijk
 				<pattern>
 					<token inflected="yes">reporter</token>
 				</pattern>
-				<message>Engels. Suggesties: <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">verslaggever</match></suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">verslaggever</match></suggestion>
 				<example correction="verslaggever">Verder nog een <marker>reporter</marker>.</example>
 				<example correction="verslaggevers">Ze zijn aan de slag als <marker>reporters</marker>.</example>
 				<example correction="Verslaggevers"><marker>Reporters</marker> gebruiken in 64 procent van de gevallen informatie afkomstig van experts binnen bedrijven.</example>
@@ -18095,7 +18123,8 @@ steenwijk;Steenwijk
 				<pattern>
 					<token inflected="yes">eyecatcher</token>
 				</pattern>
-				<message>Engels. Suggesties: <suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">blikvanger</match></suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">blikvanger</match></suggestion>
 				<example correction="blikvanger">Gebruik de <marker>eyecatcher</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -18105,7 +18134,9 @@ steenwijk;Steenwijk
 				<pattern case_sensitive="yes">
 					<token inflected="yes">celebrity</token>
 				</pattern>
-				<message>Engels. Suggesties: <suggestion>beroemdheid</suggestion>, <suggestion>ster</suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion>beroemdheid</suggestion>
+				<suggestion>ster</suggestion>
 				<example correction="beroemdheid|ster">Gebruik de <marker>celebrity</marker>.</example>
 				<example>Gebruik de <marker>beroemdheid</marker>.</example>
 				<example correction="beroemdheid|ster">Elk decennium heeft zijn haarstijl en bijbehorende <marker>celebrity</marker>.</example>
@@ -18119,7 +18150,9 @@ steenwijk;Steenwijk
 				<pattern>
 					<token inflected="yes">meeting</token>
 				</pattern>
-				<message>Engels. Suggesties: <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">vergadering</match></suggestion> of <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">bijeenkomst</match></suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">vergadering</match></suggestion>
+				<suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">bijeenkomst</match></suggestion>
 				<example correction="vergadering|bijeenkomst">Gebruik de <marker>meeting</marker>.</example>
 				<example correction="vergadering|bijeenkomst">Het was een zeer geslaagde <marker>meeting</marker>.</example>
 				<example correction="vergaderingen|bijeenkomsten">"Ik ga niet kunnen volgen want ik heb een paar <marker>meetings</marker> gemist."</example>
@@ -18132,7 +18165,8 @@ steenwijk;Steenwijk
 				<pattern>
 					<token>feedback</token>
 				</pattern>
-				<message>Engels. Suggesties: <suggestion>terugkoppeling</suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion>terugkoppeling</suggestion>
 				<example correction="terugkoppeling">De student kan <marker>feedback</marker> ontvangen.</example>
 				<example correction="terugkoppeling">Zonder <marker>feedback</marker> is er geen zelfconceptverheldering.</example>
 				<example correction="terugkoppeling">Paar accounts aanmaken om positieve <marker>feedback</marker> te ontvangen.</example>
@@ -18146,7 +18180,9 @@ steenwijk;Steenwijk
 				<pattern>
 					<token>sale</token>
 				</pattern>
-				<message>Engels. Suggesties: <suggestion>verkoop</suggestion>, <suggestion>uitverkoop</suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion>verkoop</suggestion>
+				<suggestion>uitverkoop</suggestion>
 				<example correction="verkoop|uitverkoop">Gebruik de <marker>sale</marker>.</example>
 				<example correction="verkoop|uitverkoop">Geldt op alles, dus ook de <marker>sale</marker>.</example>
 				<example correction="verkoop|uitverkoop">Zo is er ineens heel veel <marker>sale</marker> in de winkels.</example>
@@ -18156,11 +18192,21 @@ steenwijk;Steenwijk
 		<rulegroup id="MATCH" name="match → wedstrijd, overeenkomst">
 			<rule>
 				<pattern>
-					<token regexp="yes">match.*</token>
+					<token>match</token>
 				</pattern>
-				<message>Engels. Beter zijn: 'overeenkomst', 'koppelaar', 'overeenkomst', 'wedstrijd' en hun vormen</message>
+				<message>&leenwoord_mess;.</message>
+				<suggestion>wedstrijd</suggestion>
+				<suggestion>kom overeen met</suggestion>
+				<example correction="wedstrijd|kom overeen met">De <marker>match</marker> is slecht.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="MATCH_COMPOUND" name="match → wedstrijd, overeenkomst">
+			<rule>
+				<pattern>
+					<token regexp="yes">match....+</token>
+				</pattern>
+				<message>&leenwoord_mess; met 'overeenkomst', 'koppelaar', 'overeenkomst', 'wedstrijd' en hun vormen</message>
 				<example type="incorrect">Gebruik de <marker>matchmaker</marker>.</example>
-				<example type="incorrect">Aantal <marker>matchen</marker>: één.</example>
 				<example type="incorrect">Dus ons eerste halve <marker>matchpuntje</marker>.</example>
 				<example type="incorrect">Bekijk het <marker>matchverslag</marker>.</example>
 				<example type="incorrect">De keepers waren de <marker>matchwinnaars</marker> vandaag.</example>
@@ -18172,11 +18218,10 @@ steenwijk;Steenwijk
 				<pattern>
 					<token inflected="yes">statement</token>
 				</pattern>
-				<message>Engels. Suggesties: 'verklaring', 'uitspraak', 'verklaring'.</message>
-				<example type="incorrect">Gebruik de <marker>statement</marker>.</example>
-				<example type="incorrect">Een heus <marker>statement</marker> was het.</example>
-				<example type="incorrect">Hij probeerde haar de drie <marker>statements</marker> te doen schrijven.</example>
-				<example type="incorrect">‘Een cynisch <marker>statement</marker>, van iemand die er niets van kent’, stelt Lauwers.</example>
+				<message>&leenwoord_mess;</message>
+				<suggestion><match no="1" postag="(ZNW:EKV:HET)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_)" postag_replace="ZNW:EKV:DE_|$2|$3|$4">verklaring</match></suggestion>
+				<suggestion><match no="1" postag="(ZNW:EKV:HET)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_)" postag_replace="ZNW:EKV:DE_|$2|$3|$4">uitspraak</match></suggestion>
+				<example correction="verklaring|uitspraak">Gebruik de <marker>statement</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="BODYGUARD" name="bodyguard → lijfwacht">
@@ -18185,44 +18230,31 @@ steenwijk;Steenwijk
 				<pattern>
 					<token inflected="yes">bodyguard</token>
 				</pattern>
-				<message>Engels. Suggesties: <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">lijfwacht</match></suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">lijfwacht</match></suggestion>
 				<example correction="lijfwachten">De vier <marker>bodyguards</marker> weten uiteindelijk terug naar de pizzeria te vluchten.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="TALKSHOW" name="talkshow → praatprogramma">
-			<!-- 2014-08-23 TaalTik -->
 			<rule>
 				<pattern>
-					<token>talkshow</token>
+					<token inflected="yes">talkshow</token>
 				</pattern>
-				<message>Engels. Suggesties: <suggestion>praatprogramma</suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion><match no="1" postag="(ZNW:EKV:DE_)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_)" postag_replace="ZNW:EKV:HET|$2|$3|$4">praatprogramma</match></suggestion>
 				<example correction="praatprogramma">Gebruik de <marker>talkshow</marker>.</example>
-				<example correction="praatprogramma">Het is een soort <marker>talkshow</marker>.</example>
-				<example correction="praatprogramma">Michele Santoro krijgt voor zijn wekelijkse <marker>talkshow</marker> 7,5 ton.</example>
-				<example correction="praatprogramma">Toen lanceerde ene Jerry Springer zijn eigen <marker>talkshow</marker>.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="TALKSHOWS" name="talkshows → praatprogramma's">
-			<!-- 2014-08-23 TaalTik -->
-			<rule>
-				<pattern>
-					<token>talkshows</token>
-				</pattern>
-				<message>Engels. Suggesties: <suggestion>praatprogramma's</suggestion>.</message>
-				<example correction="praatprogramma's">Gebruik de <marker>talkshows</marker>.</example>
-				<example>Gebruik het <marker>praatprogramma's</marker>.</example>
-				<example correction="praatprogramma's">De programmatie wordt uitgebreid met 2 extra <marker>talkshows</marker> en een nieuws op klokvaste uren.</example>
-				<example correction="praatprogramma's">Hij dook ook geregeld op in <marker>talkshows</marker> en spelprogramma's op televisie.</example>
-				<example correction="praatprogramma's">En het gaat dan enkel om een gewone werkweek zonder <marker>talkshows</marker> waarvoor hij het land moet rondvliegen.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="AIRCO" name="airconditioning → luchtbehandeling">
 			<!-- 2014-08-22 TaalTik -->
 			<rule>
 				<pattern>
-					<token>airconditioning</token>
+					<token inflected="yes">airconditioning</token>
 				</pattern>
-				<message>Leenwoord. Suggesties: <suggestion>luchtverfrisser</suggestion>, <suggestion>luchtbehandeling</suggestion>, <suggestion>klimaatregeling</suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">luchtverfrisser</match></suggestion>
+				<suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">luchtbehandeling</match></suggestion>
+				<suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">klimaatregeling</match></suggestion>
 				<example correction="luchtverfrisser|luchtbehandeling|klimaatregeling">Gebruik de <marker>airconditioning</marker>.</example>
 				<example correction="luchtverfrisser|luchtbehandeling|klimaatregeling">Er is <marker>airconditioning</marker>.</example>
 				<example correction="Luchtverfrisser|Luchtbehandeling|Klimaatregeling"><marker>Airconditioning</marker> zorgt niet alleen voor koelte op warme dagen.</example>
@@ -18234,7 +18266,8 @@ steenwijk;Steenwijk
 				<pattern>
 					<token inflected="yes">weekend</token>
 				</pattern>
-				<message>Leenwoord. Suggesties: <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">weekeind</match></suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">weekeind</match></suggestion>
 				<example correction="weekeind">Een lang <marker>weekend</marker>.</example>
 				<example correction="Weekeindje"><marker>Weekendje</marker> weg met kind.</example>
 				<example correction="weekeindje">Romantisch <marker>weekendje</marker> weg.</example>
@@ -18249,7 +18282,9 @@ steenwijk;Steenwijk
 				<pattern>
 					<token>cruisecontrol</token>
 				</pattern>
-				<message>Leenwoord. Suggesties: <suggestion>snelheidsregeling</suggestion>, <suggestion>tempomaat</suggestion>.</message>
+				<message>&leenwoord_mess;</message>
+				<suggestion>snelheidsregeling</suggestion>
+				<suggestion>tempomaat</suggestion>
 				<example correction="snelheidsregeling|tempomaat">Gebruik de <marker>cruisecontrol</marker>.</example>
 				<example>Gebruik de <marker>snelheidsregeling</marker>.</example>
 				<example correction="snelheidsregeling|tempomaat">Op <marker>cruisecontrol</marker> tegen 120 km/h zat ik regelmatig aan de 8L .</example>
@@ -35685,7 +35720,7 @@ steenwijk;Steenwijk
 					<token>onder</token>
 					<token>de</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Dit is voor mij <marker>de Rolls-Royce onder de</marker> programma's.</example>
 			</rule>
 		</rulegroup>
@@ -35698,7 +35733,7 @@ steenwijk;Steenwijk
 					<token>gelopen</token>
 					<token>hobby</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Koken is eerder een <marker>uit de hand gelopen hobby</marker>.</example>
 				<example type="incorrect">Ze heeft een aquarium vol met vissen wat ondertussen een <marker>uit de hand gelopen hobby</marker> geworden is.</example>
 				<example type="incorrect">RegioDirk en Martine hebben hebben samen een <marker>uit de hand gelopen hobby</marker>.</example>
@@ -35715,7 +35750,7 @@ steenwijk;Steenwijk
 					<token>de</token>
 					<token>schandpaal</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Maar aan het eind nagelt ze niemand <marker>aan de schandpaal</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -35725,7 +35760,7 @@ steenwijk;Steenwijk
 					<token>spoor</token>
 					<token>bijster</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">De achtervolgers geraken zijn <marker>spoor bijster</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -35737,7 +35772,7 @@ steenwijk;Steenwijk
 					<token>of</token>
 					<token>banken</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Deels, steken wij ons Doel niet <marker>onder stoelen of banken</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -35747,7 +35782,7 @@ steenwijk;Steenwijk
 					<token>open</token>
 					<token>vizier</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Mooi stuk met een <marker>open vizier</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -35778,7 +35813,7 @@ steenwijk;Steenwijk
 					<token>bittere</token>
 					<token>pil</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Het was gisteren een <marker>bittere pil</marker> om slikken, maar we geven niet op hoor.</example>
 			</rule>
 		</rulegroup>
@@ -35787,7 +35822,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<token>bierkaai</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Terwijl ik deze brief schrijf besef ik maar al te goed dat ecologisch leven en mensen overtuigen vechten tegen de <marker>bierkaai</marker> is.</example>
 			</rule>
 		</rulegroup>
@@ -35834,7 +35869,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<token>lachspieren</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">De <marker>lachspieren</marker> worden danig op de proef gesteld.</example>
 			</rule>
 		</rulegroup>
@@ -35846,7 +35881,7 @@ steenwijk;Steenwijk
 					<token>het</token>
 					<token>woord</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Jacques voegt de <marker>daad bij het woord</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -35856,7 +35891,7 @@ steenwijk;Steenwijk
 					<token skip="10">knuppel</token>
 					<token>hoenderhok</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Bij ons gooide Jef de <marker>knuppel reeds op 15 km van het einde in het hoenderhok</marker> door er alleen van door te gaan.</example>
 			</rule>
 		</rulegroup>
@@ -35868,7 +35903,7 @@ steenwijk;Steenwijk
 					<token>niet</token>
 					<token>droog</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">De <marker>inkt van de wet was nog niet droog</marker>, of de leugens spoelden al aan op de laagwaterlijn.</example>
 			</rule>
 		</rulegroup>
@@ -35879,7 +35914,7 @@ steenwijk;Steenwijk
 					<token>voor</token>
 					<token regexp="yes">12|twaalf</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Want voor het Zuiden is het 5 na 12 en niet <marker>5 voor 12</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -35932,7 +35967,7 @@ steenwijk;Steenwijk
 					<token skip="6">appel</token>
 					<token skip="6" regexp="yes">.*(bijt|beet).*|.*beten</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Ik heb dan maar besloten om door de <marker>zure appel te bijten</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -35942,7 +35977,7 @@ steenwijk;Steenwijk
 					<token skip="6">mosterd</token>
 					<token>maaltijd</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Beetje <marker>mosterd na de maaltijd</marker>, maar PvdA is een bijzonder initiaalwoord.</example>
 			</rule>
 		</rulegroup>
@@ -35953,7 +35988,7 @@ steenwijk;Steenwijk
 					<token skip="2">zuur</token>
 					<token regexp="yes">zijn|waren</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Nu lijkt het er op dat de <marker>druiven afgelopen zaterdag erg zuur waren</marker> voor Katwijk.</example>
 			</rule>
 			<rule>
@@ -35962,7 +35997,7 @@ steenwijk;Steenwijk
 					<token skip="4" regexp="yes">zijn|waren</token>
 					<token>zuur</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">De <marker>druiven waren afgelopen zaterdag erg zuur</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -35973,7 +36008,7 @@ steenwijk;Steenwijk
 					<token>tegen</token>
 					<token regexp="yes">een|één</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Probeer eens één blaadje te eten, <marker>tien tegen een</marker> dat u het direct uitspuugt.</example>
 				<example>Er is geen correct voorbeeld van.</example>
 				<!-- possible examples 
@@ -36030,7 +36065,7 @@ steenwijk;Steenwijk
 					<token>hart</token>
 					<token>voor</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Hij heeft <marker>hart voor</marker> de zaak.</example>
 				<example>Er is geen correct voorbeeld van.</example>
 				<!-- possible examples 
@@ -36182,7 +36217,7 @@ steenwijk;Steenwijk
 					<token>het</token>
 					<token>vinkentouw</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Mark Rutte van de VVD zit <marker>op het vinkentouw</marker>.</example>
 				<example>Er is geen correct voorbeeld van.</example>
 				<!-- possible examples 
@@ -36197,7 +36232,7 @@ steenwijk;Steenwijk
 					<token>te</token>
 					<token>brokkelen</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Zolang die griezel iets in de Nederlandse <marker>melk heeft te brokkelen</marker>, stem ik met een hoofddoek.</example>
 				<example>Er is geen correct voorbeeld van.</example>
 				<!-- possible examples 
@@ -36214,7 +36249,7 @@ steenwijk;Steenwijk
 					<token>de</token>
 					<token>kan</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Heeft hij niet het <marker>onderste uit de kan</marker> kunnen halen?</example>
 			</rule>
 		</rulegroup>
@@ -36224,7 +36259,7 @@ steenwijk;Steenwijk
 					<token skip="6">kogel</token>
 					<token>kerk</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Na lange onderhandelingen is de <marker>kogel door de kerk</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -36248,7 +36283,7 @@ steenwijk;Steenwijk
 					<token>de</token>
 					<token>grond</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Weken voor de stoet, rijzen de heksen <marker>als paddenstoelen uit de grond</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -36260,7 +36295,7 @@ steenwijk;Steenwijk
 					<token>de</token>
 					<token>pols</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">We houden de <marker>vinger nauw aan de pols</marker> in elke fase van het traject.</example>
 			</rule>
 		</rulegroup>
@@ -36326,7 +36361,7 @@ steenwijk;Steenwijk
 					<token skip="3">maat</token>
 					<token>vol</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">De <marker>maat is niet alleen vol</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -36336,7 +36371,7 @@ steenwijk;Steenwijk
 					<token>zijn</token>
 					<token>biezen</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Hij pakte <marker>zijn biezen</marker>.</example>
 				<example>Er is geen correct voorbeeld van.</example>
 			</rule>
@@ -36348,7 +36383,7 @@ steenwijk;Steenwijk
 					<token>dezelfde</token>
 					<token>kant</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Hij kreeg de <marker>neuzen dezelfde kant</marker> op.</example>
 				<example>Er is geen correct voorbeeld van.</example>
 			</rule>
@@ -36382,7 +36417,7 @@ steenwijk;Steenwijk
 					<token skip="4">gemoederen</token>
 					<token>bezig</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Kooldioxide houdt de <marker>gemoederen bezig</marker>, zowel voor het klimaat op aarde als voor het klimaat in binnenruimten.</example>
 			</rule>
 		</rulegroup>
@@ -36394,7 +36429,7 @@ steenwijk;Steenwijk
 					<token>of</token>
 					<token>stoot</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Dat ging niet <marker>zonder slag of stoot</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -36431,7 +36466,7 @@ steenwijk;Steenwijk
 					<token>de</token>
 					<token>kinderschoenen</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">De inwendige ziekteleer stond toen nog <marker>in de kinderschoenen</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -36443,7 +36478,7 @@ steenwijk;Steenwijk
 					<token>heen</token>
 					<token inflected="yes">slaan</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Alle bekroningen ten spijt, blijft hij in de jaren 1970, 1980 als een rancuneuze drakendoder <marker>om zich heen slaan</marker>.</example>
 			</rule>
 			<rule>
@@ -36453,7 +36488,7 @@ steenwijk;Steenwijk
 					<token>zich</token>
 					<token>heen</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Maar ze <marker>slaat gevaarlijk om zich heen</marker> als je haar in een hokje duwt.</example>
 			</rule>
 		</rulegroup>
@@ -36465,7 +36500,7 @@ steenwijk;Steenwijk
 					<token>ban</token>
 					<token>van</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Chinezen zijn helemaal <marker>in de ban van</marker> een Zweedse stad waar alleen maar vrouwen wonen die het met elkaar doen.</example>
 			</rule>
 		</rulegroup>
@@ -36476,7 +36511,7 @@ steenwijk;Steenwijk
 					<token skip="6">steen</token>
 					<token>boven</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Armstrong denkt niet dat de autoriteiten de <marker>onderste steen boven</marker> willen.</example>
 			</rule>
 		</rulegroup>
@@ -36487,7 +36522,7 @@ steenwijk;Steenwijk
 					<token>licht</token>
 					<token inflected="yes">geven</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Ook de bank moet <marker>groen licht geven</marker>.</example>
 			</rule>
 			<rule>
@@ -36496,7 +36531,7 @@ steenwijk;Steenwijk
 					<token>groen</token>
 					<token>licht</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">De ministerraad <marker>geeft groen licht</marker> voor de aankoop van 477 pantservoertuigen van het type Scorpion.</example>
 			</rule>
 		</rulegroup>
@@ -36508,7 +36543,7 @@ steenwijk;Steenwijk
 					<token>de</token>
 					<token>ring</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Dan gooit hij de <marker>handdoek in de ring</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -36519,7 +36554,7 @@ steenwijk;Steenwijk
 					<token>veld</token>
 					<token inflected="yes">ruimen</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Hierdoor moeten steeds meer inheemse soorten vissen en amfibieën <marker>het veld ruimen</marker>.</example>
 			</rule>
 			<rule>
@@ -36528,7 +36563,7 @@ steenwijk;Steenwijk
 					<token>het</token>
 					<token>veld</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Hij heeft <marker>ruimt het veld</marker>.</example>
 				<example>Er is geen correct voorbeeld van.</example>
 			</rule>
@@ -36539,7 +36574,7 @@ steenwijk;Steenwijk
 					<token>stalen</token>
 					<token>zenuwen</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Je moet er wel <marker>stalen zenuwen</marker> voor hebben.</example>
 			</rule>
 		</rulegroup>
@@ -36550,7 +36585,7 @@ steenwijk;Steenwijk
 					<token>glad</token>
 					<token>ijs</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Door via Facebook zelf op zoek te gaan, begeeft de patiënt zich <marker>op glad ijs</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -36562,7 +36597,7 @@ steenwijk;Steenwijk
 					<token>stof</token>
 					<token inflected="yes">gaan</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Fallon moet <marker>door het stof gaan</marker>, onder meer door de herinnering aan Thatcher.</example>
 			</rule>
 			<rule>
@@ -36572,7 +36607,7 @@ steenwijk;Steenwijk
 					<token>het</token>
 					<token>stof</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Hij <marker>gaat door het stof</marker>.</example>
 				<example>Er is geen correct voorbeeld van.</example>
 			</rule>
@@ -36584,7 +36619,7 @@ steenwijk;Steenwijk
 					<token>schouders</token>
 					<token>eronder</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">In de economische situatie waarin het land zich bevindt, kan men twee zaken doen, ofwel de toestand bekijken met de triestige blik van een hush puppy en zeggen dat het eenmaal zo is, ofwel <marker>de schouders eronder</marker> zetten.</example>
 			</rule>
 			<rule>
@@ -36594,7 +36629,7 @@ steenwijk;Steenwijk
 					<token>er</token>
 					<token>onder</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Hij zet <marker>de schouders er onder</marker>.</example>
 				<example>Er is geen correct voorbeeld van.</example>
 			</rule>
@@ -36606,7 +36641,7 @@ steenwijk;Steenwijk
 					<token>van</token>
 					<token>onvermogen</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Met een dergelijke attitude geef je je eigen organisatie een beschamend <marker>brevet van onvermogen</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -36616,7 +36651,7 @@ steenwijk;Steenwijk
 					<token>laatste</token>
 					<token regexp="yes">stuiptrekking|stuiptrekkingen</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Hij is reeds lang aan zijn <marker>laatste stuiptrekkingen</marker> bezig.</example>
 			</rule>
 		</rulegroup>
@@ -36627,7 +36662,7 @@ steenwijk;Steenwijk
 					<token>hoge</token>
 					<token>poten</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">De volgende dag krijg ik een brief van van der Smissen <marker>op hoge poten</marker> dat er nog geen contact geweest is met mij en dat ik heb aangegeven om nog gehoord te worden.</example>
 			</rule>
 		</rulegroup>
@@ -36637,7 +36672,7 @@ steenwijk;Steenwijk
 					<token>achterste</token>
 					<token>benen</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Ongetwijfeld zullen bankiers en economen op hun <marker>achterste benen</marker> staan en claimen dat deze structuurveranderingen simpelweg niet kunnen.</example>
 			</rule>
 		</rulegroup>
@@ -36646,7 +36681,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<token>tierelier</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Prachtig het werkt als een <marker>tierelier</marker> en ik heb al veel voorkeur stations vast gelegd met een ster.</example>
 			</rule>
 		</rulegroup>
@@ -36656,7 +36691,7 @@ steenwijk;Steenwijk
 					<token>gevoelige</token>
 					<token>snaar</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Het intermezzo over hoe ontkenning onderdeel uitmaakt van het rouwproces raakte ongetwijfeld een <marker>gevoelige snaar</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -36704,7 +36739,7 @@ steenwijk;Steenwijk
 					<token>kool</token>
 					<token inflected="yes">groeien</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Hij is <marker>als kool gegroeid</marker>.</example>
 				<example>Er is geen correct voorbeeld van.</example>
 			</rule>
@@ -36714,7 +36749,7 @@ steenwijk;Steenwijk
 					<token>als</token>
 					<token>kool</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Internationaal <marker>groeit deze applicatie als kool</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -36723,7 +36758,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<token inflected="yes">communiceren</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect"><marker>Communiceren</marker> met stakeholders.</example>
 			</rule>
 		</rulegroup>
@@ -36733,7 +36768,7 @@ steenwijk;Steenwijk
 					<token>schril</token>
 					<token>contrast</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Een inclusief maatschappelijk project dat in <marker>schril contrast</marker> staat met het nieuwe rechtse bewind van uitsluiting en collectieve verarming.</example>
 			</rule>
 		</rulegroup>
@@ -36745,7 +36780,7 @@ steenwijk;Steenwijk
 					<token>de</token>
 					<token>rug</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Ik klaag u aan omdat u het volk al eerder een <marker>dolk in de rug</marker> heeft gestoken.</example>
 			</rule>
 		</rulegroup>
@@ -36757,7 +36792,7 @@ steenwijk;Steenwijk
 					<token>de</token>
 					<token>vingers</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Een politiewoordvoerder weet niet of ze van de politie een <marker>tik op de vingers</marker> hebben gehad voor hun gedrag.</example>
 			</rule>
 		</rulegroup>
@@ -36769,7 +36804,7 @@ steenwijk;Steenwijk
 					<token>de</token>
 					<token>knip</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">We hielden teveel de <marker>hand op de knip</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -36780,7 +36815,7 @@ steenwijk;Steenwijk
 					<token skip="3">zeilen</token>
 					<token inflected="yes">bijzetten</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect"><marker>Alle zeilen moest ik bijzetten</marker> om niets van mijn onzekerheid te laten zien.</example>
 			</rule>
 			<rule>
@@ -36790,7 +36825,7 @@ steenwijk;Steenwijk
 					<token skip="3">zeilen</token>
 					<token>bij</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">En meteen <marker>zetten wij weer alle zeilen bij</marker>: tennisballen alom, backhand met spin, deuce en van die zaken.</example>
 			</rule>
 		</rulegroup>
@@ -36802,7 +36837,7 @@ steenwijk;Steenwijk
 					<token>de</token>
 					<token regexp="yes">rug|zeilen</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Panama heeft de <marker>wind in de zeilen</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -36813,7 +36848,7 @@ steenwijk;Steenwijk
 					<token skip="2">tot</token>
 					<token>succes</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">De <marker>sleutel tot economisch succes</marker> is innovatie.</example>
 			</rule>
 		</rulegroup>
@@ -36825,7 +36860,7 @@ steenwijk;Steenwijk
 					<token>de</token>
 					<token>zon</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Vlekken verdwijnen dan als <marker>sneeuw voor de zon</marker>!</example>
 			</rule>
 		</rulegroup>
@@ -36835,7 +36870,7 @@ steenwijk;Steenwijk
 					<token>donkere</token>
 					<token>wolken</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect"><marker>Donkere wolken</marker> blijven echter dreigen.</example>
 			</rule>
 		</rulegroup>
@@ -36845,7 +36880,7 @@ steenwijk;Steenwijk
 					<token>de</token>
 					<token>noodklok</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Italië luidde eerder al <marker>de noodklok</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -36857,7 +36892,7 @@ steenwijk;Steenwijk
 					<token>het</token>
 					<token>oog</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">En dat is Gatz een <marker>doorn in het oog</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -36868,7 +36903,7 @@ steenwijk;Steenwijk
 					<token>hollands</token>
 					<token>glorie</token>
 				</pattern>
-				<message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
+				<message>&cliche_mess;</message>
 				<example type="incorrect">Het was <marker>Hollands glorie</marker>.</example>
 			</rule>
 		</rulegroup>
