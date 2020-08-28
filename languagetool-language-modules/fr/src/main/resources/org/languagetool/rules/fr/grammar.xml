@@ -9137,7 +9137,7 @@ though, and has since been slightly modified)-->
         <message>Cette expression s’écrit <suggestion>à peu près</suggestion>.</message>
         <example correction="à peu près">Il en faut <marker>a peu près</marker> douze.</example>
       </rule>
-    <rulegroup id="CE_CEST" name="ce / c'est" default="temp_off">
+    <rulegroup id="CE_CEST" name="ce / c'est">
       <antipattern>
         <token>ce</token>
         <token>.</token>
@@ -9157,7 +9157,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[\.!?]</token>
         </pattern>
         <message>Vouliez-vous dire <suggestion>c'est</suggestion> ?</message>
-          <suggestion>cela</suggestion>
+        <suggestion>cela</suggestion>
         <suggestion>ceci</suggestion>
         <example correction="c'est|cela|ceci">Qu'est-ce que <marker>ce</marker> ?</example>
         <example>Le marquage CE.</example>
@@ -12993,7 +12993,7 @@ though, and has since been slightly modified)-->
         <example correction="arroser">Il est en train d’<marker>arrosé</marker> le jardin.</example>
       </rule>
     </rulegroup>
-      <rule id="COND_FUTUR_AVOIR_AIMERAI" name="avoir + aimé, voulu, préféré, souhaité" default="temp_off">
+      <rule id="COND_FUTUR_AVOIR_AIMERAI_" name="avoir + aimé, voulu, préféré, souhaité" default="temp_off">
           <antipattern>
               <token>que</token>
               <token regexp="yes">l'?|le</token>
@@ -31348,7 +31348,7 @@ though, and has since been slightly modified)-->
       <example correction="CEE"><marker>CÉE</marker></example>
     </rule>
     <rulegroup id="PAS_DE_TRAIT_UNION" name="en-bas → en bas (etc.)">
-      <rule default="temp_off">
+      <rule>
         <!-- if the word exists in the dictionary without hyphen suggest the change-->
         <pattern>
           <token regexp="yes">(géo-|nord-|sud-|néo-|méga-|ultra-|pro-|inter-|micro-|macro-|sous-|haut-|auto-|ré-|pré-|super-|vice-|hyper-|proto-|grand-|pseudo-).+</token>
@@ -32672,7 +32672,7 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
-      <rulegroup id="POUR_PAS_QUE" name="familier : pour (ne) pas que..." default="temp_off">
+      <rulegroup id="POUR_PAS_QUE_" name="familier : pour (ne) pas que..." default="temp_off">
         <rule>
             <!-- 1. R.* que ne !V.* -->
             <pattern>
@@ -34456,7 +34456,7 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_MARQUES_DE_COMMERCE" name="Marques de commerce">
-      <rule id="TikTok" name="TikTok en deux mots" default="temp_off">
+      <rule id="TikTok" name="TikTok en deux mots">
           <antipattern>
               <token regexp="yes" skip="-1">Kesha|Ke$ha|clip|feat(uring)?|billboard|hit</token>
               <token>tik</token>
