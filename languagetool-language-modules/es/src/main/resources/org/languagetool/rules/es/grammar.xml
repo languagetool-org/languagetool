@@ -1862,7 +1862,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <phraseref idref="_GN_SINGULAR"/>
-                    <token regexp="yes" min="0">["«“‘']</token>
+                    <token postag="_QM_OPEN|R.*|LOC_ADV" postag_regexp="yes" min="0" max="4"/> 
                     <marker>
                         <and>
                             <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V...3.*|C.*|SP.*|V.G.*|[ANCR].*" postag_regexp="yes"/></token>
@@ -1875,6 +1875,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="colaboró">La policía <marker>colaboro</marker> con el juez</example>
                 <example correction="habló">Juan <marker>hablo</marker> con ella.</example>
                 <example correction="tomó">Mary <marker>tomo</marker> la píldora</example>
+                <example correction="enseñó">Jesús nunca <marker>enseño</marker> esto.</example>
                 <example>Siempre colaboro con la policía.</example>
                 <example>El jueves hablo con él.</example>
                 <example>Mañana hablo con ella.</example>
@@ -2624,7 +2625,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">cual(es)?</token>
                 </antipattern>
                 <antipattern>
-                    <token inflected="yes">ser</token>
+                    <token inflected="yes">ser<exception inflected="yes">saber</exception></token>
                     <token regexp="yes">cual(es)?</token>
                     <token inflected="yes">ser</token>
                 </antipattern>
@@ -2640,6 +2641,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" regexp_match="(?iu)cua(l.*)" regexp_replace="cuá$1"/></suggestion>
                 <example correction="cuál">Quiero saber <marker>cual</marker> es el significado de esta palabra.</example>
                 <example correction="cuál" type="triggers_error" reason="ambiguous">Cada cosa se muestra <marker>cual</marker> es.</example>
+                <example correction="cuál">No sé <marker>cual</marker> es la clave del éxito,</example>
                 <example>Es algo de lo cual no me arrepiento.</example>
                 <example>Cada cual que piense lo que quiera.</example>
                 <example>Sea cual sea la situación, no nos resignamos.</example>
@@ -3743,6 +3745,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="él">¿Por qué <marker>el</marker> no vino con nosotros?</example>
                 <example correction="él">Esto queda entre <marker>el</marker> y yo.</example>
                 <example correction="él">Vivimos en <marker>el</marker> pero hay que saber respetar al resto.</example>
+                <example correction="él">El que dice permanecer en <marker>el</marker> debe andar como él anduvo</example>
                 <example>Me gusta el que tienes.</example>
                 <example>El E y el Y.</example>
                 <example>El bien conocido cantautor.</example>
@@ -4016,6 +4019,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token max="3" min="1" postag="A..[FC][SN].|V.P..SF|NCFS.*|CC" postag_regexp="yes"/>
                     <token postag="V.[SI].*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token>esta</token>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="A..FS." postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>esta</token>
@@ -4031,6 +4040,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="está">Tu cuenta <marker>esta</marker> vacía.</example>
                 <example correction="está">¿Tom <marker>esta</marker> todavía despierto?</example>
                 <example correction="Está"><marker>Esta</marker> cien por cien seguro.</example>
+                <example correction="está">Aún no <marker>esta</marker> muy claro.</example>
                 <example>Esta preciosa y antigua casa</example>
                 <!-- "y" needs disambiguation -->
                 <example>Esta preciosa casa es muy antiga.</example>
@@ -4043,6 +4053,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La conversación que he tenido esta misma mañana.</example>
                 <example>Esta mañana temprano.</example>
                 <example>Ya que esta afecta a todos.</example>
+                <example>Otra revista, esta mucho más moderna, con cierto renombre es Gigamesh</example>
             </rule>
             <rule>
                 <pattern>
