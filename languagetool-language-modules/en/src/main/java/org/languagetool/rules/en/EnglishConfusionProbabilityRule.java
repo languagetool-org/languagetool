@@ -22,10 +22,14 @@ import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
 import org.languagetool.rules.Example;
+import org.languagetool.rules.patterns.PatternToken;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
 
 /**
  * @since 2.7
@@ -404,13 +408,22 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "the go to", // vs to (caught by GO_TO_HYPHEN)
       "text my number" // vs by
     );
-    
+
+  private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(
+      // "Meltzer taught Crim for Section 5 last year." (taught/thought)
+      posRegex("NNP|UNKNOWN"),
+      token("taught"),
+      posRegex("NNP|UNKNOWN")
+    )
+  );
+
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     this(messages, languageModel, language, 3);
   }
 
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams) {
-    super(messages, languageModel, language, grams, EXCEPTIONS);
+    super(messages, languageModel, language, grams, EXCEPTIONS, ANTI_PATTERNS);
     addExamplePair(Example.wrong("Don't forget to put on the <marker>breaks</marker>."),
                    Example.fixed("Don't forget to put on the <marker>brakes</marker>."));
   }
