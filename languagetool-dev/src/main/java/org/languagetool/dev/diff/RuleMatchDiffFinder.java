@@ -68,6 +68,7 @@ public class RuleMatchDiffFinder {
                                addedMatch.getColumn() + addedMatch.getCoveredText().length() > match.getColumn();
             if (overlaps) {
               replacedBy = addedMatch;
+              diff.setReplaces(match);
               break;
             }
           }
@@ -122,7 +123,7 @@ public class RuleMatchDiffFinder {
       }
       if (oldMatch != null && newMatch != null) {
         printRuleIdCol(fw, oldMatch, newMatch);
-        printMessage(fw, oldMatch, newMatch, diff.getReplacedBy());
+        printMessage(fw, oldMatch, newMatch, diff.getReplaces(), diff.getReplacedBy());
         if (oldMatch.getSuggestions().equals(newMatch.getSuggestions())) {
           fw.write("  <td>" + oldMatch.getSuggestions() + "</td>\n");
         } else {
@@ -135,7 +136,7 @@ public class RuleMatchDiffFinder {
       } else {
         LightRuleMatch match = diff.getOldMatch() != null ? diff.getOldMatch() : diff.getNewMatch();
         printRuleIdCol(fw, null, match);
-        printMessage(fw, match, null, diff.getReplacedBy());
+        printMessage(fw, match, null, diff.getReplaces(), diff.getReplacedBy());
         fw.write("  <td>" + match.getSuggestions() + "</td>\n");
         fw.write("</tr>\n");
       }
@@ -167,7 +168,8 @@ public class RuleMatchDiffFinder {
     fw.write(" </td>\n");
   }
 
-  private void printMessage(FileWriter fw, LightRuleMatch oldMatch, LightRuleMatch newMatch, LightRuleMatch replacedBy) throws IOException {
+  private void printMessage(FileWriter fw, LightRuleMatch oldMatch, LightRuleMatch newMatch,
+                            LightRuleMatch replaces, LightRuleMatch replacedBy) throws IOException {
     fw.write("  <td>");
     if (newMatch == null) {
       fw.write(oldMatch.getMessage());
@@ -181,6 +183,13 @@ public class RuleMatchDiffFinder {
         "<tt>new:</tt> " + showTrimSpace(newMatch.getMessage()));
     }
     fw.write("  <br><span class='sentence'>" + oldMatch.getContext() + "</span>");
+    if (replaces != null) {
+      fw.write("<br><br><i>Maybe replaces old match:</i><br>");
+      fw.write(replaces.getMessage());
+      fw.write("  <br><span class='sentence'>" + replaces.getContext() + "</span>");
+      fw.write("  <br><span class='suggestions'>Suggestions: " + replaces.getSuggestions() + "</span>");
+      fw.write("  <br><span class='id'>" + replaces.getFullRuleId() + "</span>");
+    }
     if (replacedBy != null) {
       fw.write("<br><br><i>Maybe replaced by new match:</i><br>");
       fw.write(replacedBy.getMessage());

@@ -26,6 +26,7 @@ class RuleMatchDiff {
   private final LightRuleMatch oldMatch;
   private final LightRuleMatch newMatch;
   private final LightRuleMatch replacedBy;  // the added match that a removed match (maybe) was replaced by
+  private LightRuleMatch replaces;    // the removed match that this match (maybe) replaces
 
   enum Status {
     ADDED, REMOVED, MODIFIED
@@ -66,8 +67,16 @@ class RuleMatchDiff {
     return newMatch;
   }
 
-  public LightRuleMatch getReplacedBy() {
+  LightRuleMatch getReplacedBy() {
     return replacedBy;
+  }
+
+  void setReplaces(LightRuleMatch oldMatch) {
+    replaces = oldMatch;
+  }
+
+  LightRuleMatch getReplaces() {
+    return replaces;
   }
 
   @Override
