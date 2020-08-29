@@ -39,7 +39,7 @@ public class VerbPrefixes {
     "dabei", "dafür", "dagegen", "daher", "dahin", "dahinter", "daneben", "daran", "darauf", "darein", "darüber", "darunter",
     "hinter", "dran", "drauf", "drein", "drüber", "drunter",
     "davon", "davor", "dazu", "dazwischen",
-    "durch", "über", "unter", "um", "wider", "wieder", "rüber",
+    "durch", "über", "unter", "um", "wider", "wieder", "rüber", "aneinander",
     // not listed in source above (deutschegrammatik20.de):
     "umher", "ent", "frei", "ver", "zer", "gegen"
   );
