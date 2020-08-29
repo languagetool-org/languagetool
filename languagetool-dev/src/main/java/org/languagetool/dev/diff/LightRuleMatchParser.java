@@ -180,7 +180,7 @@ class LightRuleMatchParser {
   private String getContextWithSpan(String context, int startMarkerPos, int maxEnd) {
     context = context.substring(0, startMarkerPos) +
       "<span class='marker'>" +
-      context.substring(startMarkerPos, maxEnd) +
+      context.substring(startMarkerPos, maxEnd).replace(" ", "&nbsp;") +
       "</span>" +
       context.substring(maxEnd);
     return context;

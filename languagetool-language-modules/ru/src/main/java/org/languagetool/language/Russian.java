@@ -90,6 +90,36 @@ public class Russian extends Language implements AutoCloseable {
             new Contributor("Yakov Reztsov", "http://myooo.ru/content/view/83/43/")
     };
   }
+  
+  /** @since 5.1 */
+  @Override
+  public String getOpeningDoubleQuote() {
+    return "«";
+  }
+
+  /** @since 5.1 */
+  @Override
+  public String getClosingDoubleQuote() {
+    return "»";
+  }
+  
+  /** @since 5.1 */
+  @Override
+  public String getOpeningSingleQuote() {
+    return "‘";
+  }
+
+  /** @since 5.1 */
+  @Override
+  public String getClosingSingleQuote() {
+    return "’";
+  }
+  
+  /** @since 5.1 */
+  @Override
+  public boolean isAdvancedTypographyEnabled() {
+    return true;
+  }
 
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {

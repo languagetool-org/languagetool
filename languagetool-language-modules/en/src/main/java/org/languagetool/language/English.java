@@ -289,6 +289,7 @@ public class English extends Language implements AutoCloseable {
       case "FEDEX":                     return 2;   // higher prio than many verb rules (e.g. MD_BASEFORM)
       case "COVID_19":                  return 1;
       case "OTHER_WISE_COMPOUND":       return 1;
+      case "ON_EXCEL":                  return 1;
       case "LUV":                       return 1;   // higher prio than spell checker
       case "DAT":                       return 1;   // higher prio than spell checker
       case "MAC_OS":                    return 1;   // higher prio than spell checker
@@ -349,7 +350,7 @@ public class English extends Language implements AutoCloseable {
       case "FINE_TUNE_COMPOUNDS":       return 1;   // prefer over less specific rules
       case "WHAT_IS_YOU":               return 1;   // prefer over HOW_DO_I_VB, NON3PRS_VERB
       case "SUPPOSE_TO":                return 1;   // prefer over HOW_DO_I_VB
-      case "PROFANITY":                 return 5;   // prefer over spell checker
+      case "PROFANITY":                 return 1;   // prefer over spell checker (less prio than EN_COMPOUNDS)
       case "FOR_NOUN_SAKE":             return 6;   // prefer over PROFANITY (e.g. "for fuck sake")
       case "RUDE_SARCASTIC":            return 6;   // prefer over spell checker
       case "CHILDISH_LANGUAGE":         return 8;   // prefer over spell checker

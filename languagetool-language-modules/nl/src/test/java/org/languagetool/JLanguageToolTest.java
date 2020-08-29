@@ -44,4 +44,10 @@ public class JLanguageToolTest {
     assertEquals(3, tool.check("I can give you more a detailed description.").size());
   }
   
+  @Test
+  public void testAdvancedTypography() throws IOException {
+    Language lang = new Dutch();
+    assertEquals(lang.toAdvancedTypography("\"Fatima zei 'Hallo' tegen me.\""), "“Fatima zei ‘Hallo’ tegen me.”");
+    assertEquals(lang.toAdvancedTypography("Bedoelt u wellicht \"vivo's\"?"), "Bedoelt u wellicht “vivo’s”?");
+  }
 }

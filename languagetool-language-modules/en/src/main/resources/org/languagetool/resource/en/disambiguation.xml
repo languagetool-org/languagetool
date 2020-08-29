@@ -11843,6 +11843,20 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule id="STOCK_SYMBOLS_SPELLING" name="Ignore spelling of stock symbols">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">\$[A-Z]{2,5}</token>
+        </pattern>
+        <disambig action="ignore_spelling" />
+    </rule>
+
+    <rule id="STOCK_SYMBOLS_NNP" name="NNP for stock symbols">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">\$[A-Z]{2,5}</token>
+        </pattern>
+        <disambig postag="NNP" />
+    </rule>
+
     <rulegroup id="ADVERB_E_EN" name="Adverb: e'en"><!-- www.lexico.com/definition/e'en --><!-- Cannot add a word that contains a quote in multiwords.txt. -->
         <rule><!-- POS -->
             <pattern>

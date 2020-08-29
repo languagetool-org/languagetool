@@ -137,6 +137,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                      !k.getReplacement().startsWith("sub ") &&
                      !k.getReplacement().startsWith("auto ") &&
                      !k.getReplacement().startsWith("sh ") &&
+                     !k.getReplacement().startsWith("li ") &&
                      !k.getReplacement().startsWith("ha ") &&
                      !k.getReplacement().startsWith("dis ") &&
                      !k.getReplacement().startsWith("mono ") &&
@@ -247,124 +248,19 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   protected Map<String, List<String>> getTopSuggestionsIgnoreCase() {
     Map<String, List<String>> s = new HashMap<>();
-    s.put("fb", Arrays.asList("FB"));
-    s.put("xml", Arrays.asList("XML"));
-    s.put("php", Arrays.asList("PHP"));
-    s.put("json", Arrays.asList("JSON", "Jason"));
-    s.put("http", Arrays.asList("HTTP"));
-    s.put("https", Arrays.asList("HTTPS"));
-    s.put("asp", Arrays.asList("ASP"));
-    s.put("html", Arrays.asList("HTML"));
-    s.put("rss", Arrays.asList("RSS"));
-    s.put("ssd", Arrays.asList("SSD"));
-    s.put("ssds", Arrays.asList("SSDs"));
-    s.put("hdds", Arrays.asList("HDDs"));
-    s.put("isp", Arrays.asList("ISP"));
-    s.put("isps", Arrays.asList("ISPs"));
-    s.put("suv", Arrays.asList("SUV"));
-    s.put("suvs", Arrays.asList("SUVs"));
-    s.put("gif", Arrays.asList("GIF"));
-    s.put("gifs", Arrays.asList("GIFs"));
-    s.put("atm", Arrays.asList("ATM"));
-    s.put("atms", Arrays.asList("ATMs"));
-    s.put("png", Arrays.asList("PNG"));
-    s.put("pngs", Arrays.asList("PNGs"));
-    s.put("csv", Arrays.asList("CSV"));
-    s.put("csvs", Arrays.asList("CSVs"));
-    s.put("pdf", Arrays.asList("PDF"));
-    s.put("pdfs", Arrays.asList("PDFs"));
-    s.put("jpeg", Arrays.asList("JPEG"));
-    s.put("jpegs", Arrays.asList("JPEGs"));
-    s.put("jpg", Arrays.asList("JPG"));
-    s.put("jpgs", Arrays.asList("JPGs"));
-    s.put("bmp", Arrays.asList("BMP"));
+    s.put("json", Arrays.asList("Jason"));
     s.put("bmps", Arrays.asList("BMPs"));
-    s.put("docx", Arrays.asList("DOCX"));
-    s.put("xlsx", Arrays.asList("XLSX"));
-    s.put("btw", Arrays.asList("BTW"));
-    s.put("idk", Arrays.asList("IDK"));
-    s.put("ai", Arrays.asList("AI"));
-    s.put("ip", Arrays.asList("IP"));
-    s.put("rfc", Arrays.asList("RFC"));
-    s.put("ppt", Arrays.asList("PPT"));
     s.put("ppts", Arrays.asList("PPTs"));
-    s.put("pptx", Arrays.asList("PPTX"));
-    s.put("vpn", Arrays.asList("VPN"));
-    s.put("psn", Arrays.asList("PSN"));
-    s.put("usd", Arrays.asList("USD"));
-    s.put("tv", Arrays.asList("TV"));
-    s.put("eur", Arrays.asList("EUR"));
-    s.put("tbh", Arrays.asList("TBH"));
-    s.put("tbd", Arrays.asList("TBD"));
-    s.put("tba", Arrays.asList("TBA"));
-    s.put("omg", Arrays.asList("OMG"));
-    s.put("lol", Arrays.asList("LOL"));
-    s.put("lmao", Arrays.asList("LMAO"));
-    s.put("wtf", Arrays.asList("WTF"));
-    s.put("fyi", Arrays.asList("FYI"));
-    s.put("url", Arrays.asList("URL"));
-    s.put("urls", Arrays.asList("URLs"));
-    s.put("usb", Arrays.asList("USB"));
-    s.put("bbq", Arrays.asList("BBQ"));
-    s.put("bbqs", Arrays.asList("BBQs"));
-    s.put("ngo", Arrays.asList("NGO"));
-    s.put("ngos", Arrays.asList("NGOs"));
-    s.put("js", Arrays.asList("JS"));
-    s.put("css", Arrays.asList("CSS"));
-    s.put("roi", Arrays.asList("ROI"));
-    s.put("pov", Arrays.asList("POV"));
-    s.put("ctrl", Arrays.asList("Ctrl"));
-    s.put("vip", Arrays.asList("VIP"));
-    s.put("vips", Arrays.asList("VIPs"));
-    s.put("leds", Arrays.asList("LEDs"));
-    s.put("hugo", Arrays.asList("Hugo"));
-    s.put("lola", Arrays.asList("Lola"));
-    s.put("imho", Arrays.asList("IMHO"));
-    s.put("imo", Arrays.asList("IMO"));
-    s.put("lte", Arrays.asList("LTE"));
-    s.put("dc", Arrays.asList("DC"));
-    s.put("ac", Arrays.asList("AC"));
-    s.put("cdn", Arrays.asList("CDN"));
-    s.put("gta", Arrays.asList("GTA"));
-    s.put("sap", Arrays.asList("SAP"));
-    s.put("pc", Arrays.asList("PC"));
-    s.put("nsfw", Arrays.asList("NSFW"));
-    s.put("seo", Arrays.asList("SEO"));
-    s.put("vc", Arrays.asList("VC"));
-    s.put("vcs", Arrays.asList("VCs"));
-    s.put("voip", Arrays.asList("VoIP"));
-    s.put("django", Arrays.asList("Django"));
-    s.put("saas", Arrays.asList("SaaS"));
-    s.put("paas", Arrays.asList("PaaS"));
-    s.put("shopify", Arrays.asList("Shopify"));
-    s.put("fortnite", Arrays.asList("Fortnite"));
-    s.put("magento", Arrays.asList("Magento"));
-    s.put("docusign", Arrays.asList("DocuSign"));
-    s.put("hubspot", Arrays.asList("HubSpot"));
-    s.put("api", Arrays.asList("API"));
-    s.put("apis", Arrays.asList("APIs"));
 
     s.put("italia", Arrays.asList("Italy"));
-    s.put("macboook", Arrays.asList("MacBook"));
-    s.put("macboooks", Arrays.asList("MacBooks"));
-    s.put("paypal", Arrays.asList("PayPal"));
     s.put("copenhague", Arrays.asList("Copenhagen"));
-    s.put("youtube", Arrays.asList("YouTube"));
-    s.put("whatsapp", Arrays.asList("WhatsApp"));
-    s.put("webex", Arrays.asList("WebEx"));
-    s.put("jira", Arrays.asList("Jira"));
     s.put("applepay", Arrays.asList("Apple Pay"));
     s.put("&&", Arrays.asList("&"));
     s.put("wensday", Arrays.asList("Wednesday"));
-    s.put("linkedin", Arrays.asList("LinkedIn"));
-    s.put("ebay", Arrays.asList("eBay"));
-    s.put("admob", Arrays.asList("AdMob"));
     s.put("interweb", Arrays.asList("internet"));
     s.put("interwebs", Arrays.asList("internet"));
     s.put("srilanka", Arrays.asList("Sri Lanka"));
-    s.put("tiktok", Arrays.asList("TikTok"));
 
-    s.put("afro-american", Arrays.asList("Afro-American"));
     s.put("oconnor", Arrays.asList("O'Connor"));
     s.put("oconor", Arrays.asList("O'Conor"));
     s.put("obrien", Arrays.asList("O'Brien"));
@@ -380,9 +276,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("esports", Arrays.asList("e-sports"));
     s.put("g-mail", Arrays.asList("Gmail"));
     s.put("playstation", Arrays.asList("PlayStation"));
-    s.put("wix", Arrays.asList("Wix"));
-    s.put("nazi", Arrays.asList("Nazi"));
-    s.put("nazis", Arrays.asList("Nazis"));
     s.put("iam", Arrays.asList("I am", "I'm"));
     return s;
   }
@@ -718,6 +611,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Wud", Arrays.asList("What", "Mud", "Bud"));
     s.put("fablet", Arrays.asList("phablet", "tablet"));
     s.put("Fablet", Arrays.asList("Phablet", "Tablet"));
+    s.put("companys", Arrays.asList("companies", "company's", "company"));
+    s.put("Companys", Arrays.asList("Companies", "Company's", "Company"));
 
     return s;
   }
