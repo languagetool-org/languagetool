@@ -125,6 +125,11 @@ public class GermanWordRepeatRule extends WordRepeatRule {
         tokens[position - 1].getToken().equals("sie") && tokens[position].getToken().equals("Sie")) {
       return true;
     }
+    // "Ihre verbotenen Waren waren bisher nicht aufgeflogen"
+    if (position != 2 && tokens[position - 1].getToken().equals("Waren") && tokens[position].getToken().equals("waren") ||
+        tokens[position - 1].getToken().equals("waren") && tokens[position].getToken().equals("Waren")) {
+      return true;
+    }
     if (position > 2 && tokens[position - 1].getToken().equals("sie") && tokens[position].getToken().equals("sie")) {
       if (tokens[position - 2].hasPosTag("KON:UNT")) {
         // "Sie tut das, damit sie sie nicht fortschickt"
