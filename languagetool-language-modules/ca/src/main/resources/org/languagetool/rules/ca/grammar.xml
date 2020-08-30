@@ -46177,14 +46177,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
-        <rule id="SIRI" name="siri/sirià">
-            <pattern>
-                <token inflected="yes">siri</token>
-            </pattern>
-            <message>Per a referir-se a la Síria moderna, és més habitual dir <suggestion><match no="1" postag="([AN].*)" postag_regexp="yes" postag_replace="$1">sirià</match></suggestion>.</message>
-            <!--<suggestion><match no="([AN].*)" postag_regexp="yes" postag_replace="$1">siríac</match></suggestion>-->
-            <example correction="sirià">El president <marker>siri</marker> no va fer declaracions.</example>
-        </rule>
+        <rulegroup id="SIRI" name="siri/sirià" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token><exception postag="[AN].*" postag_regexp="yes"/></token>
+                    <token case_sensitive="yes" regexp="yes">Siri|Síria</token>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes">siri</token>
+                </pattern>
+                <message>Per a referir-se a la Síria moderna, és més habitual dir <suggestion><match no="1" postag="([AN].*)" postag_regexp="yes" postag_replace="$1">sirià</match></suggestion>.</message>
+                <!--<suggestion><match no="([AN].*)" postag_regexp="yes" postag_replace="$1">siríac</match></suggestion>-->
+                <example correction="sirià">El president <marker>siri</marker> no va fer declaracions.</example>
+                <example correction="Sirià">El Govern <marker>Siri</marker> no va fer declaracions.</example>
+                <example>Vaig preguntar a Siri quin temps faria demà.</example>
+                <example>El govern de Síria no es va pronunciar.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">República|Àrab</token>
+                    <marker>
+                    <token>Síria</token>
+                    </marker>
+                </pattern>
+                <message>Per a referir-se a la Síria moderna, com a ajdectiu és més habitual dir <suggestion>Siriana</suggestion>.</message>
+                <example correction="Siriana">La República <marker>Síria</marker> no va fer declaracions.</example>
+                <example correction="Siriana">La República Àrab <marker>Síria</marker> no va fer declaracions.</example>
+            </rule>
+        </rulegroup>
         <rule id="FLAC_FAVOR" name="flac favor/mal servei">
             <pattern>
                 <token>flac</token>
