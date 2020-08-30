@@ -141,6 +141,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                      !k.getReplacement().startsWith("ha ") &&
                      !k.getReplacement().startsWith("dis ") &&
                      !k.getReplacement().startsWith("mono ") &&
+                     !k.getReplacement().startsWith("trans ") &&
                      !k.getReplacement().startsWith("ultra ") &&
                      !k.getReplacement().startsWith("mini ") &&
                      !k.getReplacement().startsWith("mu ") &&
@@ -615,6 +616,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Companys", Arrays.asList("Companies", "Company's", "Company"));
     s.put("partys", Arrays.asList("parties", "party's", "party"));
     s.put("Partys", Arrays.asList("Parties", "Party's", "Party"));
+    s.put("unencode", Arrays.asList("decode"));
+    s.put("unencodes", Arrays.asList("decodes"));
+    s.put("unencoded", Arrays.asList("decoded"));
+    s.put("unencoding", Arrays.asList("decoding"));
 
     return s;
   }
