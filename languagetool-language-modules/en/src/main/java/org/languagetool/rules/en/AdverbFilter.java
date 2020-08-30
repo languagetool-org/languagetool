@@ -175,6 +175,7 @@ public class AdverbFilter extends RuleFilter {
     put("mildly", "mild");
     put("secretly", "secret");
     put("especially", "especial");
+    put("specially", "special");
     put("previously", "previous");
     put("whitely", "white");
     put("traditionally", "traditional");
@@ -236,6 +237,9 @@ public class AdverbFilter extends RuleFilter {
     put("spiritually", "spiritual");
     put("purely", "pure");
     put("satisfyingly", "satisfying");
+    put("indolently", "indolent");
+    put("obliquely", "oblique");
+    put("preferably", "preferable");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
