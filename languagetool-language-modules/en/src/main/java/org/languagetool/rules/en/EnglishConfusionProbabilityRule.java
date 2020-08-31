@@ -30,6 +30,7 @@ import java.util.ResourceBundle;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
 
 /**
  * @since 2.7
@@ -110,7 +111,6 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "let me know",
       "this way the",
       "save you money",
-      "way better",
       "so your plan",
       "the news man",
       "created us equally",
@@ -127,18 +127,6 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "he proofs",
       "he needs",
       "1 thing",
-      "way easier",
-      "way faster",
-      "way harder",
-      "way quicker",
-      "way more",
-      "way less",
-      "way outside",
-      "way before",
-      "way smaller",
-      "way bigger",
-      "way longer",
-      "way shorter",
       "I now don't",
       "once your return is",
       "can we text",
@@ -389,15 +377,13 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "know what type", // vs now
       "your pulled pork", // vs you
       "dear management", // vs deer
-      "way worse", // vs was
-      "way fewer", // vs was
-      "way closer", // vs was
       "way in advance", // vs was
-      "way back when", // vs was
-      "way back at", // vs was
       "that way", // vs was
+      "way back when", // vs was
       "way back then", // vs was
-      "way to much", // different error
+      "way much more", // vs was
+      "the other way",
+      "way to much", // different error (already caught)
       "your to do", // vs you
       "when your zoom", // vs you
       "once your zoom", // vs you
@@ -412,9 +398,27 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
       // "Meltzer taught Crim for Section 5 last year." (taught/thought)
+      // "Sami threw Layla down and started to beat her.""	(threw/through)
       posRegex("NNP|UNKNOWN"),
-      token("taught"),
+      tokenRegex("taught|threw"),
       posRegex("NNP|UNKNOWN")
+    ),
+    Arrays.asList(
+      // "Were you never taught to say your prayers?" (taught/thought)
+      token("taught"),
+      token("to"),
+      tokenRegex("say|do|make|be|become|treat")
+    ),
+    Arrays.asList(
+      // "way easier" (was/way)
+      token("way"),
+      posRegex("JJR")
+    ),
+    Arrays.asList(
+      // "way back at" (was/way)
+      token("way"),
+      token("back"),
+      posRegex("IN")
     )
   );
 
