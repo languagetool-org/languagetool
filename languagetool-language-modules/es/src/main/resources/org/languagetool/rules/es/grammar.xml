@@ -577,15 +577,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <marker>
-                    <token>como</token>
-                    <token regexp="yes">estas|estás|esta|está</token>
-                    </marker>   
+                        <token>como</token>
+                        <token regexp="yes">estas|estás|esta|está</token>
+                    </marker>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
                     <token>?</token>
                 </pattern>
                 <message>Posible error ortográfico.</message>
-                <suggestion>cómo <match no="2" regexp_match="(?iu)esta" regexp_replace="está"></match></suggestion>
+                <suggestion>cómo <match no="2" regexp_match="(?iu)esta" regexp_replace="está"/></suggestion>
                 <example correction="cómo estás">Hola amigo <marker>como estas</marker>?</example>
                 <example correction="cómo está">Hola amigo <marker>como esta</marker>?</example>
+                <example correction="cómo está">Hola amigo <marker>como esta</marker> hoy?</example>
                 <example>¿Quieres manzanas verdes como estas?</example>
                 <example>¿Quieres manzanas verdes, como estas?</example>
                 <example>¿Te gustan las naranjas como estas?</example>
