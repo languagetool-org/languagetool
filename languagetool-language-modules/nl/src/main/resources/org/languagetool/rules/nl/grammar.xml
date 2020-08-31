@@ -13448,7 +13448,7 @@ onwaarschijnlijk
 		</rulegroup>
 	</category>
 	<category id="OPTIONAL_FORMS" name="niet-noodzakelijke correcte spellingvarianten" type="style">
-		<rulegroup id="NADRUKTEKENS" name= "optionele accenten">
+		<rulegroup id="NADRUKTEKENS" name= "optionele accenten" tags="picky">
 			<rule>
 				<pattern>
 					<token regexp="yes">.*(áá|áé|áí|áú|éé|éí|éú|íé|íí|óé|óí|óó|óú|úí|úú|((^|[^aeiou])[áéíóú]([^aeiou]|$))).*<exception regexp="yes">hé|á|^één.{3,}|.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge).*</exception><exception postag="ENM:.*|UNKNOWN" postag_regexp="yes"/></token>
@@ -13464,9 +13464,16 @@ onwaarschijnlijk
 				<example type="incorrect">Hij is <marker>éénzaam</marker>.</example>
 			</rule>
 		</rulegroup>
-<!--
-		Op zich correcte regel, maar geeft ook wat false positives op mini-zinnen. Verder vinden gebruikers het niet zo zinvolle melding.
-		<rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken">
+		<rulegroup id="NADRUKTEKENS_EEN" name= "optionele accenten">
+			<rule>
+				<pattern>
+					<token regexp="yes">^één.{3,}</token>
+				</pattern>
+				<message>Hier zijn de tekens absoluut onnodig voor de uitspraak.</message>
+				<example type="incorrect">Hij is <marker>éénzaam</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken" tags="picky">
 			<rule>
 				<antipattern><token regexp="yes">^(btw|ex|tv)-</token></antipattern>
 				<antipattern><token regexp="yes">-(btw|ex|tv)$</token></antipattern>
@@ -13480,13 +13487,10 @@ onwaarschijnlijk
 				<example type="incorrect">De <marker>muziek-industrie</marker> is overspannen.</example>
 				<example type="correct">De <marker>muziekindustrie</marker> is overspannen.</example>
 				<example type="correct">Het <marker>auto-onderdeel</marker> is kapot.</example>
-				<example type="correct">De <marker>btw-aanslag</marker> was foutief.</example>
 			</rule>
 		</rulegroup>
-		-->
 	</category>
 	<category id="CASING" name="Hoofdlettergebruik">
-		
 		<rulegroup id="WEEKDAGEN_MAANDEN" name="Hoofdletters bij dagen en maanden" type="misspelling">
 			<rule>
 				<antipattern><token regexp="yes">keizer|fort|villa</token><token>Augustus</token></antipattern>
@@ -13510,7 +13514,7 @@ onwaarschijnlijk
 			</rule>
 		</rulegroup>
 		
-		<rulegroup id="EIGENNAMEN_PLAATSEN" name="Hoofdletters bij plaatsnamen">
+		<rulegroup id="EIGENNAMEN_PLAATSEN" name="Hoofdletters bij plaatsnamen" type="misspelling">
 
 		<rule>
 			<antipattern case_sensitive="yes"><token>Aan</token><token>de</token><token>Rijksweg</token></antipattern>
@@ -15409,7 +15413,7 @@ onwaarschijnlijk
 			</rule>
 		</rulegroup>
 		
-		<rulegroup id="ABRAHAM" name="Abraham / abraham">
+		<rulegroup id="ABRAHAM" name="Abraham / abraham" type="misspelling">
 			<rule>
                 <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes" case_sensitive="yes">.*(sara|50|jarig|pop).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
@@ -15422,7 +15426,7 @@ onwaarschijnlijk
 				<example correction="Abraham">Ik weet waar <marker>abraham</marker> de mosterd haalt.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="SARA" name="Sara / sara">
+		<rulegroup id="SARA" name="Sara / sara" type="misspelling">
 			<rule>
                 <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes" case_sensitive="yes">.*(abraham|50|jarig|pop).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
@@ -16213,7 +16217,7 @@ staatsbosbeheer;Staatsbosbeheer
 steendorp;Steendorp
 steenwijk;Steenwijk
 -->
-		<rulegroup id="NIEUW_ZEELAND" name="nieuw zeelander → Nieuw-Zeelander">
+		<rulegroup id="NIEUW_ZEELAND" name="nieuw zeelander → Nieuw-Zeelander" type="misspelling">
 			<!-- 2014-08-21 TaalTik regel komt vaak op, maar terecht, vooral bij afkortingen met een onterechte hoofdletter. -->
 			<rule>
 				<pattern>
@@ -16246,7 +16250,7 @@ steenwijk;Steenwijk
 				<example correction="deed">2018 <marker>Deed</marker> het goed.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="HOOFDLETTERS_OVERBODIG" name="Woorden die ook klein geschreven mogen worden.">
+		<rulegroup id="HOOFDLETTERS_OVERBODIG" name="Woorden die ook klein geschreven mogen worden." type="misspelling">
 			<rule>
 				<pattern>
 					<token case_sensitive="yes" regexp="yes">BTW|LED|CV|CD|DVD|TV|IC</token>
@@ -16350,7 +16354,7 @@ steenwijk;Steenwijk
 				<example correction="ic-patronen">Lithografie of het ‘printen’ van <marker>IC-patronen</marker> op siliciumschijfjes (wafers) is één van de meest cruciale processen bij de fabricage van chips.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="KOMMA_HOOFDLETTER" name=", Hoofdletter">
+		<rulegroup id="KOMMA_HOOFDLETTER" name=", Hoofdletter" type="misspelling">
 			<!-- 2014-08-21 TaalTik regel komt vaak op, maar terecht, vooral bij afkortingen met een onterechte hoofdletter. -->
 			<rule>
 				<antipattern><token regexp="yes">[,;]</token><token postag_regexp="yes" postag="ENM.*|VLG:BHL|UNKNOWN"></token></antipattern>
@@ -16379,8 +16383,8 @@ steenwijk;Steenwijk
 				<example>Dit is een <marker>concept</marker>.</example>
 			</rule>
 		</rulegroup>
-		<!-- uitgeschakeld vanwege te veel false positives
-		<rulegroup id="HOOFDL_OVERB" name="Hoofdletters overbodig">
+		<!-- too many normal words are also names ...
+		<rulegroup id="HOOFDL_OVERB" name="Hoofdletters overbodig" default="temp_off">
 			<antipattern case_sensitive="yes"><token>de</token><token regexp="yes">Rijn|SS</token></antipattern>
 			<antipattern case_sensitive="yes"><token postag="SENT_START"/><token>"</token></antipattern>
 			<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token>"</token><token/></antipattern>
@@ -16393,10 +16397,7 @@ steenwijk;Steenwijk
 					<token case_sensitive="yes" regexp="yes">[a-z].*|[.?!]</token>
 				</pattern>
 				<message>Er is misschien geen hoofdletter nodig: <suggestion><match no="2" case_conversion="startlower"/></suggestion> (behalve bij een naam, taal of uitzonderlijk respect).</message>
-				<example correction="bisdom">Een cursus bij een van de broeders in het <marker>Bisdom</marker>.</example>
 				<example type="correct">Het gaat in het <marker>Vlaams</marker>.</example>
-				<example type="correct">Hij komt in de <marker>Europese</marker> organisaties.</example>
-				<example>"De man loopt."</example>
 			</rule>
 			<rule>
 				<antipattern case_sensitive="yes"><token>de</token><token regexp="yes">Rijn|SS</token></antipattern>
@@ -16414,7 +16415,7 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 		-->
-		<rulegroup id="PAMPUS" name="Pampus of pampus">
+		<rulegroup id="PAMPUS" name="Pampus of pampus" type="misspelling">
 			<!-- 2014-08-23 TaalTik -->
 			<rule>
 				<pattern case_sensitive="yes">
@@ -16429,7 +16430,7 @@ steenwijk;Steenwijk
 				<example>Hij ligt voor <marker>dummy</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="EDE" name="Ede of ede">
+		<rulegroup id="EDE" name="Ede of ede" type="misspelling">
 			<!-- 2014-08-19 TaalTik: spacebefore toegevoegd om de www.ede.nl te verwijderen -->
 			<rule>
 				<pattern case_sensitive="yes">
@@ -16443,7 +16444,7 @@ steenwijk;Steenwijk
 				<example>Hij staat onder <marker>ede</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="AMERIKAAN" name="amerikaan of Amerikaan">
+		<rulegroup id="AMERIKAAN" name="amerikaan of Amerikaan" type="misspelling">
 			<rule>
 				<!-- 2014-08-23 TaalTik -->
 				<pattern case_sensitive="yes">
@@ -16479,7 +16480,7 @@ steenwijk;Steenwijk
 				<example>Het is heel leuk voor de <marker>Amerikanen</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="KERSTMAN" name="een kerstman, de Kerstman">
+		<rulegroup id="KERSTMAN" name="een kerstman, de Kerstman" type="misspelling">
 			<rule>
 				<antipattern><token regexp="yes" skip="2">een|geen</token><token regexp="yes">god|sinterklaas|kerstman</token></antipattern>
 				<antipattern><token postag="SENT_START" skip="-1">goden</token><token skip="-1" postag="SENT_END"/></antipattern>
@@ -16492,7 +16493,7 @@ steenwijk;Steenwijk
 				<example correction="Kerstman">Hij was die dag <marker>kerstman</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="EIGENNAMEN_HOOFDLETTER" name="Namen van organisatie met spatie">
+		<rulegroup id="EIGENNAMEN_HOOFDLETTER" name="Namen van organisatie met spatie" type="misspelling">
 			<rule>
 				<antipattern case_sensitive="yes"><token regexp="yes">Tweede|Eerste</token><token regexp="yes">Kamer.*</token></antipattern>
 				<antipattern case_sensitive="yes"><token>centrale</token><token>banken</token></antipattern>
@@ -17242,7 +17243,7 @@ steenwijk;Steenwijk
 				<example correction="IJslander">Fieke overtuigt als koppige protagoniste, met een enorme toewijding aan de robuuste <marker>ijslander</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="BRAVE_H" name="Brave Hendrik">
+		<rulegroup id="BRAVE_H" name="Brave Hendrik" type="misspelling">
 			<rule>
 				<!-- 2014-08-18 TaalTik ; Brave Hendrik komt ook vaak voor als eigennaam. Melding daarop aangepast; url toegevoegd -->
 				<pattern case_sensitive="yes">
@@ -17255,7 +17256,7 @@ steenwijk;Steenwijk
 				<example>Hij is een <marker>brave hendrik</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="AAN_HET_HARD" name="Aan het hard → aan het hart">
+		<rulegroup id="AAN_HET_HARD" name="Aan het hard → aan het hart" type="misspelling">
 			<rule>
                 <antipattern><token>aan</token><token>het</token><token>hard</token><token>werkende</token></antipattern>
 				<antipattern><token>hard</token><token regexp="yes">aanpakken|schieten|inschieten</token></antipattern>
@@ -21592,7 +21593,7 @@ steenwijk;Steenwijk
 				<example type="incorrect">Dit tweede verhaal <marker>compliceert</marker> de dingen.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="CONCEPT" name="concept">
+		<rulegroup id="CONCEPT" name="concept" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes">concept</token>
@@ -21622,7 +21623,7 @@ steenwijk;Steenwijk
 				<example correction="Ontwerpen|Schetsen"><marker>Concipiëren</marker> van reclametechnieken die ernaar streven de individuele consument te benaderen (direct marketing) door middel van geadresseerde reclame (direct mailing), telefonische koopvoorstellen, enz.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="CONCREET" name="concreet">
+		<rulegroup id="CONCREET" name="concreet" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes">concreet</token>
@@ -21638,19 +21639,18 @@ steenwijk;Steenwijk
 				<example correction="praktisch|duidelijk">Ze doen zelfs een <marker>concreet</marker> voorstel.</example>
 			</rule>
 		</rulegroup>
-		<!--
-		<rule id="CONDITIE" name="conditie">
-		<pattern>
-		<token inflected="yes">conditie</token>
-		</pattern>
-		<message>
-		Als je een voorwaarde bedoelt, schrijf dan ook <suggestion>voorwaarde</suggestion>.
-		</message>
-		<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-		<example correction="voorwaarde">QQ <marker>conditie</marker> QQQ.</example>
-		<example>QQ <marker>voorwaarde</marker>.</example>
+
+		<rule id="CONDITIE" name="conditie" tags="picky">
+			<antipattern><token regexp="yes">goede|prima|uitstekende|slechte</token></antipattern>
+			<pattern>
+				<token inflected="yes">conditie</token>
+			</pattern>
+			<message>Als je een voorwaarde bedoelt, schrijf dan ook <suggestion><match no="1" postag_regexp="yes" postag="ZNW.*">voorwaarde</match></suggestion>.</message>
+			<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+			<example correction="voorwaarde">QQ <marker>conditie</marker> QQQ.</example>
+			<example>QQ <marker>voorwaarde</marker>.</example>
 		</rule>
-		-->
+
 		<rulegroup id="CONFIGURATIE" name="configuratie">
 			<rule>
 				<pattern>
@@ -26760,7 +26760,7 @@ steenwijk;Steenwijk
 				<example>QQ <marker>dit komt door</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="OP_BASIS_VAN" name="op basis van">
+		<rulegroup id="OP_BASIS_VAN" name="op basis van" tags="picky">
 			<rule>
 				<pattern>
 					<token>op</token><token>basis</token><token>van</token>
@@ -30388,18 +30388,22 @@ steenwijk;Steenwijk
 					<token>voor</token>
 				</pattern>
 				<message>De tekst wordt vlotter als u deze herschrijft met 'ervoor zorgen'.</message>
+				<suggestion><match no="2" postag_regexp="yes" postag="WKW.*">zorgen</match> \3</suggestion>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-				<example type="incorrect">Ze bleven <marker>zorg dragen voor</marker> de parochie tot in 1992.</example>
+				<example correction="zorgen voor">Ze bleven <marker>zorg dragen voor</marker> de parochie tot in 1992.</example>
 			</rule>
 			<rule>
 				<pattern>
-					<token inflected="yes" skip="3">dragen</token>
-					<token>zorg</token>
-					<token>voor</token>
+					<marker>
+						<token inflected="yes" skip="3">dragen</token>
+						<token>zorg</token>
+						<token>voor</token>
+					</marker>
 				</pattern>
 				<message>De tekst wordt vlotter als u deze herschrijft met 'ervoor zorgen'.</message>
+				<suggestion><match no="1" postag_regexp="yes" postag="WKW.*" include_skipped="all">zorgen</match> \3</suggestion>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-				<example type="incorrect">Ik <marker>draag zorg voor</marker> mijn kledij.</example>
+				<example correction="zorg weer voor">Ik <marker>draag weer zorg voor</marker> mijn kledij.</example>
 			</rule>
 			<rule>
 				<pattern>
@@ -30408,8 +30412,9 @@ steenwijk;Steenwijk
 					<token inflected="yes" skip="3">dragen</token>
 				</pattern>
 				<message>De tekst wordt vlotter als u deze herschrijft met 'ervoor zorgen'.</message>
+				<suggestion><match no="2" include_skipped="all"/> <match no="3" postag_regexp="yes" postag="WKW.*">zorgen</match></suggestion>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-				<example type="incorrect">We moeten daar dan goed <marker>zorg voor dragen</marker>.</example>
+				<example correction="voor hem zorgen">We moeten daar dan goed <marker>zorg voor hem dragen</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="ZORGVULDIG" name="zorgvuldig">
