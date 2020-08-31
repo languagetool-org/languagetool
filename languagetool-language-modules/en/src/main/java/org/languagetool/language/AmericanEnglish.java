@@ -24,9 +24,8 @@ import org.languagetool.GlobalConfig;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.rules.BERTSuggestionRanking;
-import org.languagetool.rules.RemoteRuleConfig;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.en.AmericanReplaceRule;
 import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
 import org.languagetool.rules.en.UnitConversionRuleUS;
 import org.languagetool.rules.spelling.SymSpellRule;
@@ -52,6 +51,7 @@ public class AmericanEnglish extends English {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
+    rules.add(new AmericanReplaceRule(messages));
     rules.add(new UnitConversionRuleUS(messages));
     return rules;
   }
