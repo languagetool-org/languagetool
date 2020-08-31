@@ -18272,7 +18272,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CERO" name="cero/zero">
             <pattern>
-                <token regexp="yes">ceros?</token>
+                <token regexp="yes">ceros?<exception postag="NP.*" postag_regexp="yes"/></token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)cero(s?)" regexp_replace="zero$1"/></suggestion> (nombre) en lloc de "<match no="1"/>" (variant de "cérvol")?</message>
             <short>Possible confusió</short>
@@ -46177,7 +46177,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
-        <rulegroup id="SIRI" name="siri/sirià" default="temp_off">
+        <rulegroup id="SIRI" name="siri/sirià">
             <rule>
                 <antipattern>
                     <token><exception postag="[AN].*" postag_regexp="yes"/></token>
