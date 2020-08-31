@@ -7947,16 +7947,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&getrennt;.</short>
             <example correction="Check24">Er hat seine Versicherung über <marker>Check 24</marker> abgeschlossen.</example>
         </rule>
-        <rule id="MERCEDES_BENZ" name="Mercedes Benz (Mercedes-Benz)">
-            <pattern case_sensitive="no">
-                <token>Mercedes</token>
-                <token>Benz</token>
-            </pattern>
-            <message>Die Automarke wird mit einem Bindestrich geschrieben<suggestion><match no="1" case_conversion="startupper" />-Benz</suggestion>.</message>
-            <url>https://de.wikipedia.org/wiki/Mercedes-Benz</url>
-            <short>&getrennt;.</short>
-            <example correction="Mercedes-Benz"><marker>Mercedes Benz</marker> ist ein deutscher Autohersteller.</example>
-        </rule>
+        <rulegroup id="MERCEDES_BENZ" name="Mercedes Benz (Mercedes-Benz)">
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>Mercedes</token>
+                    <token>Benz</token>
+                </pattern>
+                <message>Die Automarke wird mit einem Bindestrich geschrieben <suggestion><match no="1" case_conversion="startupper" />-Benz</suggestion>.</message>
+                <url>https://de.wikipedia.org/wiki/Mercedes-Benz</url>
+                <short>&getrennt;.</short>
+                <example correction="Mercedes-Benz"><marker>Mercedes Benz</marker> ist ein deutscher Autohersteller.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="no">
+                    <token>Mercedes</token>
+                    <token>AMG</token>
+                </pattern>
+                <message>Die Automarke wird mit einem Bindestrich geschrieben <suggestion><match no="1" case_conversion="startupper" />-AMG</suggestion>.</message>
+                <url>https://en.wikipedia.org/wiki/Mercedes-AMG</url>
+                <short>&getrennt;.</short>
+                <example correction="Mercedes-AMG"><marker>Mercedes AMG</marker> ist eine Tochtergesellschaft der Daimler AG.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="COVID_19" name="COVID-19">
             <rule>
                 <pattern>
@@ -9493,6 +9505,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="ALLER_COMPOUND" name="aller bestes (allerbestes)" default="temp_off">
+            <pattern>
+                <token>aller</token>
+                <token regexp="yes">frühestens|orts|beste[sr]?|größte[sr]?|höchste[sr]?|letzte[sr]?|liebste[sr]?|erste[sr]?|meiste[s]?|mindeste[sr]?|nächste[sr]?|neue?ste[sr]?|nötigste[sr]?|notwendigste[sr]?|schlimmste[sr]?|schönste[sr]?|schnellste[sr]?|späteste[rs]?|spätestens|wichtigste[rs]?</token>
+            </pattern>
+            <message>Das Wort <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
+            <example correction="allerschönste">Das Haus war das <marker>aller schönste</marker> im ganzen Ort.</example>
+        </rule>
         <rulegroup id="RUNDUM_SORGLOS_PAKET" name="Rundum-sorglos-Paket">
             <url>https://www.duden.de/rechtschreibung/Rundum_sorglos_Paket</url>
             <rule>
