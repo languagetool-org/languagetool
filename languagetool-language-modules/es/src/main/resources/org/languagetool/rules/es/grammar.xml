@@ -564,24 +564,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule default="temp_off">
                 <antipattern>
-                    <token postag="NC[FC][SN].*|_GN_FP" postag_regexp="yes"/>
+                    <token postag="NC[FC][PN].*|_GN_FP" postag_regexp="yes"/>
                     <token min="0">,</token>
                     <token>como</token>
                     <token>estas</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="NC[FC][SN].*|_GN_FS" postag_regexp="yes"/>
+                    <token min="0">,</token>
+                    <token>como</token>
+                    <token>esta</token>
+                </antipattern>
                 <pattern>
                     <marker>
                     <token>como</token>
-                    <token regexp="yes">estas|estás</token>
+                    <token regexp="yes">estas|estás|esta|está</token>
                     </marker>   
                     <token>?</token>
                 </pattern>
                 <message>Posible error ortográfico.</message>
-                <suggestion>cómo estás</suggestion>
+                <suggestion>cómo <match no="2" regexp_match="(?iu)esta" regexp_replace="está"></match></suggestion>
                 <example correction="cómo estás">Hola amigo <marker>como estas</marker>?</example>
+                <example correction="cómo está">Hola amigo <marker>como esta</marker>?</example>
                 <example>¿Quieres manzanas verdes como estas?</example>
                 <example>¿Quieres manzanas verdes, como estas?</example>
                 <example>¿Te gustan las naranjas como estas?</example>
+                <example>¿Quieres una manzana como esta?</example>
                 <!-- infrequent and unnatural -->
             </rule>
             <rule>
