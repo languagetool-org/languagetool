@@ -6042,6 +6042,21 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="JJ" />
             <token postag="VBP?" postag_regexp="yes" />
         </antipattern>
+        <antipattern><!-- #3309 How would targeting work? -->
+            <token postag="WRB"/>
+            <token postag="MD"/>
+            <token postag="VBG"/>
+            <token skip="-1" postag_regexp="yes" postag="VBP?"/>
+            <token>?</token>
+        </antipattern>
+        <antipattern><!-- #3309 take your money and issue you a receipt -->
+            <token postag_regexp="yes" postag="VBP?"/>
+            <token>your</token><!-- The incorrect tagging seems to occur only with your/you -->
+            <token chunk="I-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token chunk="I-NP-singular">and</token>
+            <token chunk="E-NP-singular" postag_regexp="yes" postag="VBP?"/>
+            <token>you</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -6167,6 +6182,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">There are a lot of people and many work in the health department.</example><!-- #3270 -->
         <example type="untouched">If my thinking is wrong please let me know.</example><!-- #3322 -->
         <example type="untouched">...the electrons, which are much lighter than ions and move faster.</example><!-- #3351 -->
+        <example type="untouched">How would targeting work?</example><!-- #3309 -->
+        <example type="untouched">Why might targeting work with this example?</example><!-- #3309 -->
+        <example type="untouched">That person will take your money and issue you a receipt.</example><!-- #3309 -->
+        <example type="untouched">I can take her money and issue you a receipt, if that is convenient.</example><!-- #3309 -->
 <!-- Refer to the counter example        <example type="untouched">If any professional want to know the new practices of their field...</example>Premium #1564 -->
         <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
         <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
