@@ -562,6 +562,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Hola, ¿cómo están ustedes?</example>
                 <example>Hola, ¿cómo están todos?</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="NC[FC][SN].*|_GN_FP" postag_regexp="yes"/>
+                    <token min="0">,</token>
+                    <token>como</token>
+                    <token>estas</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                    <token>como</token>
+                    <token regexp="yes">estas|estás</token>
+                    </marker>   
+                    <token>?</token>
+                </pattern>
+                <message>Posible error ortográfico.</message>
+                <suggestion>cómo estás</suggestion>
+                <example correction="cómo estás">Hola amigo <marker>como estas</marker>?</example>
+                <example>¿Quieres manzanas verdes como estas?</example>
+                <example>¿Quieres manzanas verdes, como estas?</example>
+                <example>¿Te gustan las naranjas como estas?</example>
+                <!-- infrequent and unnatural -->
+            </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -1862,7 +1884,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <phraseref idref="_GN_SINGULAR"/>
-                    <token postag="_QM_OPEN|R.*|LOC_ADV" postag_regexp="yes" min="0" max="4"/> 
+                    <token postag="_QM_OPEN|R.*|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
                     <marker>
                         <and>
                             <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V...3.*|C.*|SP.*|V.G.*|[ANCR].*" postag_regexp="yes"/></token>
@@ -4302,7 +4324,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>este</token>
                     <token max="3" min="1" postag="A..[MC][SN].|V.P..SM|NCMS.*|CC" postag_regexp="yes"/>
-                    <token min="0" max="2" postag_regexp="yes" postag="&pronombre_personal_atono_POS;"></token>
+                    <token min="0" max="2" postag_regexp="yes" postag="&pronombre_personal_atono_POS;"/>
                     <token postag="V.[SI].*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
@@ -10471,7 +10493,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="V.*" postag_regexp="yes" regexp="yes">.+lo</token>
             </antipattern>
             <antipattern>
-                <token postag="SENT_START|_PUNCT.*|CC" postag_regexp="yes"></token>
+                <token postag="SENT_START|_PUNCT.*|CC" postag_regexp="yes"/>
                 <token regexp="yes">con|por|en</token>
                 <token>esto</token>
                 <token regexp="yes">apoyo|deseo|cierro|cuento|pienso|recuerdo</token>
@@ -11829,6 +11851,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PUNCTUATION" name="Puntuación">
+        <rulegroup id="MISSING_COMMA" name="falta de coma" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token><exception postag="SENT_START|_PUNCT.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token>cómo</token>
+                    <token inflected="yes" regexp="yes">estar|ser</token>
+                    <token>?</token>
+                </pattern>
+                <message>Probablemente falta una coma</message>
+                <suggestion>\1,</suggestion>
+                <example correction="amigo,">Hola <marker>amigo</marker> cómo estás?</example>
+                <example>¿Cómo estás?</example>
+                <example>Hola, ¿amigo, cómo estás?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>hola</token>
+                    </marker>
+                    <token><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Probablemente falta una coma</message>
+                <suggestion>\3,</suggestion>
+                <example correction="Hola,">¡<marker>Hola</marker> amigo.</example>
+            </rule>
+        </rulegroup>
         <rule id="MUCHO_NF" name="mucho + nombre femenino">
             <pattern>
                 <token regexp="yes">mucho|muchísimo</token>
