@@ -31539,6 +31539,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="ESCOMBRARIA" name="escombraria" default="temp_off">
+            <pattern>
+                <token>escombraria</token>
+            </pattern>
+            <message>Com a substantiu, només existeix en plural. Correcte si és una forma del v. 'escombrar'.</message>
+            <suggestion>escombraries</suggestion>
+            <example correction="escombraries">Era menjar <marker>escombraria</marker>.</example>
+        </rule>
         <rulegroup id="EUA" name="sigles dels Estats Units d'Amèrica">
             <rule>
                 <pattern>
@@ -46177,6 +46185,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="MENJAR_PORQUERIA" name="menjar escombraries/porqueria">
+            <pattern>
+                <token inflected="yes" regexp="yes">mejar|televisió|contracte|feina|faena</token>
+                <marker>
+                    <token>escombraries</token>
+                </marker>
+            </pattern>
+            <message>En sentit figurat, és preferible dir <suggestion>porqueria</suggestion>.</message>
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=comida+basura&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=8722&amp;idHit=8722&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=televisi%F3+escombraria%2C+televisi%F3+escombraries+o+televisi%F3+porqueria%3F+%2F+Com+es+diu+telebasura%2C+comida+basura%2C+trabajo+basura%2C+contrato+basura+en+catal%E0%3F&amp;tematica=Comunicaci%F3.+Audiovisuals&amp;tipusCerca=cerca.fitxes</url>
+            <example correction="porqueria">No m'agrada la televisió <marker>escombraries</marker>.</example>
+        </rule>
         <rulegroup id="SIRI" name="siri/sirià">
             <rule>
                 <antipattern>
@@ -46197,7 +46216,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token regexp="yes">República|Àrab</token>
                     <marker>
-                    <token>Síria</token>
+                        <token>Síria</token>
                     </marker>
                 </pattern>
                 <message>Per a referir-se a la Síria moderna, com a adjectiu és més habitual dir <suggestion>Siriana</suggestion>.</message>
