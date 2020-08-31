@@ -3421,6 +3421,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="noms_aposicio" name="noms en aposició">
         <rule>
             <pattern>
+                <token inflected="yes" regexp="yes">mejar|televisió|contracte|feina|faena</token>
+                <marker>
+                    <token regexp="yes">escombraria|escombraries|porqueria</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CN0"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token>estat<exception scope="previous" inflected="yes" postag="V...3S.." postag_regexp="yes">haver</exception></token>
                 <marker>
                     <token regexp="yes">membre|nació</token>
