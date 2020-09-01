@@ -31539,13 +31539,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
-        <rule id="ESCOMBRARIA" name="escombraria" default="temp_off">
-            <pattern>
+        <rule id="ESCOMBRARIA" name="escombraria">
+            <antipattern>
                 <token>escombraria</token>
+                <token regexp="yes">tothom|el|la|les|les|l'</token>
+            </antipattern>
+            <pattern>
+                <token>escombraria<exception scope="previous" regexp="yes">que|jo|ell|ella|qui|ho|m'|t'|s'|ens|us|vos|li|els</exception></token>
             </pattern>
             <message>Com a substantiu, només existeix en plural. Correcte si és una forma del v. 'escombrar'.</message>
             <suggestion>escombraries</suggestion>
             <example correction="escombraries">Era menjar <marker>escombraria</marker>.</example>
+            <example>Em va dir que escombraria ell.</example>
         </rule>
         <rulegroup id="EUA" name="sigles dels Estats Units d'Amèrica">
             <rule>
@@ -46187,7 +46192,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
         <rule id="MENJAR_PORQUERIA" name="menjar escombraries/porqueria">
             <pattern>
-                <token inflected="yes" regexp="yes">mejar|televisió|contracte|feina|faena</token>
+                <token inflected="yes" regexp="yes">mejar|televisió|contracte|feina|faena|acció|llibre|hipoteca|bo</token>
                 <marker>
                     <token>escombraries</token>
                 </marker>
