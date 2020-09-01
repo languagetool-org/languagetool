@@ -466,9 +466,9 @@ public class UpperCaseNgramRule extends Rule {
           && !nextIsOneOfThenUppercase(tokens, i, Arrays.asList("of"))
           && !tokenStr.matches("I")
           && !exceptions.contains(tokenStr)
-          && !isMisspelled(StringTools.lowercaseFirstChar(tokenStr))    // e.g. "German" is correct, "german" isn't
           && !trieMatches(sentence.getText(), token)
           && !maybeTitle(tokens, i)
+          && !isMisspelled(StringTools.lowercaseFirstChar(tokenStr))    // e.g. "German" is correct, "german" isn't
       ) {
         if (i + 1 < tokens.length) {
           List<String> ucList = Arrays.asList(tokens[i - 1].getToken(), tokenStr, tokens[i + 1].getToken());
@@ -493,7 +493,9 @@ public class UpperCaseNgramRule extends Rule {
   }
   
   boolean isMisspelled(String word) throws IOException {
-    return (linguServices == null ? spellerRule.isMisspelled(word) : !linguServices.isCorrectSpell(word, lang));
+    synchronized (spellerRule) {
+      return linguServices == null ? spellerRule.isMisspelled(word) : !linguServices.isCorrectSpell(word, lang);
+    }
   }
 
   // a very rough guess whether the word at the given position might be part of a title
