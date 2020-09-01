@@ -9505,7 +9505,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="ALLER_COMPOUND" name="aller bestes (allerbestes)" default="temp_off">
+        <rule id="ALLER_COMPOUNDS" name="aller bestes (allerbestes)" default="temp_off">
             <pattern>
                 <token>aller</token>
                 <token regexp="yes">frühestens|orts|beste[sr]?|größte[sr]?|höchste[sr]?|letzte[sr]?|liebste[sr]?|erste[sr]?|meiste[s]?|mindeste[sr]?|nächste[sr]?|neue?ste[sr]?|nötigste[sr]?|notwendigste[sr]?|schlimmste[sr]?|schönste[sr]?|schnellste[sr]?|späteste[rs]?|spätestens|wichtigste[rs]?</token>
@@ -33894,6 +33894,34 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="CREME_BRULEE" name="Crème brûlée" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Crème</token>
+                <token regexp="yes">br[uû]lées?</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">[kc]r[éèêe]m[éèêe]</token>
+                <token regexp="yes">br[úùuû]l[éeèê]e?s?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Crème brûlée<match no="2" regexp_match=".+?(s?)$" regexp_replace="$1" /></suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/Cr%C3%A8me_br%C3%BBl%C3%A9e</url>
+            <example correction="Crème brûlées">Er aß viele <marker>Creme brulees</marker> bis ihm schlecht wurde.</example>
+        </rule>
+        <rule id="MOUSSE_AU_CHOCOLAT" name="Mousse au Chocolat" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Mousse</token>
+                <token>au</token>
+                <token>Chocolat</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">M(ou|uo|u|o)ss[éèêe]|M(ou|uo)ss</token>
+                <token regexp="yes" min="0">o|a[uo]</token>
+                <token regexp="yes">S?cho[ck]ola[td]e?s?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Mousse au Chocolat</suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/Mousse_au_Chocolat</url>
+            <example correction="Mousse au Chocolat">Als Dessert gab es <marker>Mousse au Chokolat</marker>.</example>
+        </rule>
         <rulegroup id="MITGLIEDERINNEN" name="Mitgliederinnen">
             <url>https://www.duden.de/sprachwissen/sprachratgeber/%E2%80%9ELiebe-Mit%C2%ADglieder%C2%ADinnen-und-Mit%C2%ADglieder%E2%80%9C-%E2%80%93-Personen%C2%AD%C2%ADbezeich%C2%ADnungen</url>
             <rule>
@@ -34943,6 +34971,10 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rulegroup id="BEST_OF" name="'Best-of'">
+            <antipattern>
+                <token>of</token>
+                <token regexp="yes" case_sensitive="yes">[A-Z].+|the</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token case_sensitive="yes">Best</token>
@@ -34951,6 +34983,7 @@ Andere Projekte</example>
                 <message>Meinten Sie das Nomen <suggestion>Best-<match no="2" case_conversion="alllower" /></suggestion> (= Auswahl des Besten)?</message>
                 <url>https://www.duden.de/rechtschreibung/Best_of</url>
                 <example correction="Best-of">Sein <marker>Best Of</marker> machte bereits mehrere Millionen Umsatz.</example>
+                <example>Best of the Best.</example>
             </rule>
             <rule>
                 <pattern>
@@ -35278,7 +35311,7 @@ Andere Projekte</example>
         </rulegroup>
         <rule id="SEHR_GEEHRTER_NAME" name="Sehr geehrter (Name) -> Herr/Frau (Name)">
             <antipattern>
-                <token regexp="yes">Herr(e?n)?|Hr|Fr|Frau(en)?|Damen?|Kunden?|Kundin|Kundinnen|Sponsor(en)?|Redaktion|Mandant([ei]n)?|Mitarbeiter(innen)?|Angestellter?|Anwender|(Fahr|Reise|Flug)?(gast|gäste)|Nutzer(in)?|User|Interessent(en|in)?|Kollegen?|Kollegin(nen)?|Gastgeber|Professor(en|in)?|Lehrer(innen)?|Klient(en)?|Partner(in)?|Vertreter(in)?|Fachschaft|Eltern|Familien?|.+beratung|.+manager|.*beirat|.*partner|Support|Präsident|Miss|Händler|Kommiliton.+|X{1,}|Eheleute|Teilnehmer(innen)?|Prof|Investor(en|in)?|Kundenbetreuung</token>
+                <token regexp="yes">Herr(e?n)?|Hr|Fr|Frau(en)?|Damen?|Kunden?|Kundin|Kundinnen|Sponsor(en)?|Redaktion|Mandant([ei]n)?|Mitarbeiter(innen)?|Angestellter?|Anwender|(Fahr|Reise|Flug)?(gast|gäste)|Nutzer(in)?|User|Interessent(en|in)?|Kollegen?|Kollegin(nen)?|Gastgeber|Professor(en|in)?|Lehrer(innen)?|Klient(en)?|Partner(in)?|Vertreter(in)?|Fachschaft|Eltern|Familien?|.+beratung|.+manager|.*beirat|.*partner|Support|Präsident|Miss|Händler|Kommiliton.+|X{1,}|Eheleute|Teilnehmer(innen)?|Prof|Investor(en|in)?|Kundenbetreuung|.*eigentümer(innen)?|Verbraucher|Geschäftsleitung|.*service</token>
             </antipattern>
             <pattern>
                 <token>Sehr</token>

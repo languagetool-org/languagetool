@@ -88,7 +88,8 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "hole dich auch ab", // vs dir
     "würdest du dich vorstellen", // vs dir
     "daten wir über", // "welche Daten wir über unsere Nutzer erfassen"
-    "anders seht" // falls ihr das anders seht (weht)
+    "anders seht", // falls ihr das anders seht (weht)
+    "wir ja." // vs wie
   );
 
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
