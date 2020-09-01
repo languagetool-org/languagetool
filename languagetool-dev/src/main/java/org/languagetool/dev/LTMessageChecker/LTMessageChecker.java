@@ -68,7 +68,7 @@ public class LTMessageChecker {
     contextTools.setErrorMarker("**", "**");
     contextTools.setEscapeHtml(false);
     print("Checking language: " + lang.getName() + " (" + lang.getShortCodeWithCountryAndVariant() + ")");
-    print("Version: " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
+    print("Version: " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ", " + JLanguageTool.GIT_SHORT_ID + ")");
     for (Rule r : lt.getAllRules()) {
       String message = "";
       try {
