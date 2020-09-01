@@ -177,7 +177,6 @@ public abstract class ConfusionProbabilityRule extends Rule {
                 continue;
               }
               if (!isLocalException(sentence, googleToken)) {
-                System.out.println("MATCH " + googleToken);
                 String term1 = confusionPair.getTerms().get(0).getString();
                 String term2 = confusionPair.getTerms().get(1).getString();
                 String id = getId() + "_" + cleanId(term1) +  "_" + cleanId(term2);
