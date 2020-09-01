@@ -6787,6 +6787,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="por que|por los que|por los cuales">Los motivos <marker>porque</marker> nos fuimos.</example>
                 <!--No tenéis más razón porque seáis mayores.-->
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">el|un|algún</token>
+                    <token>porqué</token>
+                </antipattern>
+                <pattern>
+                    <token>porqué</token>
+                </pattern>
+                <message>Solo se escribe con tilde si es un sustantivo que significa 'causa, razón o motivo'.</message>
+                <suggestion>porque</suggestion>
+                <example correction="porque">No vino <marker>porqué</marker> no pudo.</example>
+                <example>Quiero saber el porqué.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PREP_VERB" name="Combinación imposible: preposición + verbo conjugado">
             <antipattern>
