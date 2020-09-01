@@ -562,7 +562,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Hola, ¿cómo están ustedes?</example>
                 <example>Hola, ¿cómo están todos?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="NC[FC][PN].*|_GN_FP" postag_regexp="yes"/>
                     <token min="0">,</token>
@@ -11861,7 +11861,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PUNCTUATION" name="Puntuación">
-        <rulegroup id="MISSING_COMMA" name="falta de coma" default="temp_off">
+        <rulegroup id="MISSING_COMMA" name="falta de coma">
             <rule>
                 <pattern>
                     <marker>
@@ -11884,11 +11884,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>hola</token>
                     </marker>
-                    <token><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+                    <token><exception postag="_PUNCT.*" postag_regexp="yes"/><exception>a</exception></token>
                 </pattern>
                 <message>Probablemente falta una coma</message>
                 <suggestion>\3,</suggestion>
                 <example correction="Hola,">¡<marker>Hola</marker> amigo.</example>
+                <example>¡Hola a todos!</example>
             </rule>
         </rulegroup>
         <rule id="MUCHO_NF" name="mucho + nombre femenino">
