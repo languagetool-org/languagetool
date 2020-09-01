@@ -18,6 +18,8 @@
  */
 package org.languagetool.dev.diff;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.*;
 import java.util.*;
 
@@ -29,7 +31,7 @@ import java.util.*;
 public class RuleMatchDiffFinder {
   
   List<RuleMatchDiff> getDiffs(List<LightRuleMatch> l1, List<LightRuleMatch> l2) {
-    System.out.println("Comparing result 1 (" + l1.size() + " matches) to result 2 (" + l2.size() + " matches)");
+    System.out.println("Comparing result 1 (" + l1.size() + " matches) to result 2 (" + l2.size() + " matches), step 1");
     //debugList("List 1", l1);
     //debugList("List 2", l2);
     List<RuleMatchDiff> result = new ArrayList<>();
@@ -49,26 +51,33 @@ public class RuleMatchDiffFinder {
         result.add(RuleMatchDiff.added(match));
       }
     }
+    System.out.println("Comparing result 1 (" + l1.size() + " matches) to result 2 (" + l2.size() + " matches), step 2");
+    Map<String, List<RuleMatchDiff>> addedToMatch = getAddedMatchesMap(result);
     Map<MatchKey, LightRuleMatch> newMatches = getMatchMap(l2);
     for (LightRuleMatch match : l1) {
       MatchKey key = new MatchKey(match.getLine(), match.getColumn(), match.getRuleId(), match.getTitle(), match.getCoveredText());
       LightRuleMatch newMatch = newMatches.get(key);
       if (newMatch == null) {
         // removed
+        String lookupKey = cleanSpan(match.getContext()) + "_" + match.getTitle();
+        List<RuleMatchDiff> addedMatches = addedToMatch.get(lookupKey);
         LightRuleMatch replacedBy = null;
-        for (RuleMatchDiff diff : result) {
-          LightRuleMatch addedMatch = diff.getNewMatch();
-          if (diff.getStatus() == RuleMatchDiff.Status.ADDED &&
-              cleanSpan(match.getContext()).equals(cleanSpan(addedMatch.getContext()))) {
-            // full overlap:
-            //boolean overlaps = addedMatch.getColumn() <= match.getColumn() &&
-            //                   addedMatch.getColumn() + addedMatch.getCoveredText().length() >= match.getColumn() + match.getCoveredText().length();
-            // partial overlap:
-            boolean overlaps = addedMatch.getColumn() < match.getColumn() + match.getCoveredText().length() &&
-                               addedMatch.getColumn() + addedMatch.getCoveredText().length() > match.getColumn();
-            if (overlaps) {
-              replacedBy = addedMatch;
-              diff.setReplaces(match);
+        if (addedMatches != null) {
+          for (RuleMatchDiff addedMatch : addedMatches) {
+            LightRuleMatch tmp = addedMatch.getNewMatch();
+            boolean overlaps = tmp.getColumn() < match.getColumn() + match.getCoveredText().length() &&
+                               tmp.getColumn() + tmp.getCoveredText().length() > match.getColumn();
+            if (overlaps && !tmp.getFullRuleId().equals(match.getFullRuleId())) {
+              /*System.out.println(tmp + "\noverlaps\n" + match);
+              System.out.println("tmp " + tmp.getTitle());
+              System.out.println("match " + match.getTitle());
+              System.out.println("  " + tmp.getColumn() + " < " + match.getColumn() +" + "+ match.getCoveredText().length()  + " &&");
+              System.out.println("  " + tmp.getColumn() + " + " + tmp.getCoveredText().length() +" >  "+ match.getColumn());
+              System.out.println("   old covered: " + match.getCoveredText());
+              System.out.println("   new covered: " + tmp.getCoveredText());
+              System.out.println("");*/
+              replacedBy = addedMatch.getNewMatch();
+              addedMatch.setReplaces(match);
               break;
             }
           }
@@ -79,8 +88,27 @@ public class RuleMatchDiffFinder {
     return result;
   }
 
+  @NotNull
+  private Map<String, List<RuleMatchDiff>> getAddedMatchesMap(List<RuleMatchDiff> result) {
+    Map<String, List<RuleMatchDiff>> addedToMatch = new HashMap<>();
+    for (RuleMatchDiff diff : result) {
+      if (diff.getStatus() == RuleMatchDiff.Status.ADDED) {
+        String key = cleanSpan(diff.getNewMatch().getContext()) + "_" + diff.getNewMatch().getTitle();
+        List<RuleMatchDiff> val = addedToMatch.get(key);
+        if (val == null) {
+          List<RuleMatchDiff> diffs = new ArrayList<>();
+          diffs.add(diff);
+          addedToMatch.put(key, diffs);
+        } else {
+          val.add(diff);
+        }
+      }
+    }
+    return addedToMatch;
+  }
+
   private String cleanSpan(String s) {
-    return s.replaceFirst("<span.*?>", "").replaceFirst("</span>", "");
+    return s.replaceFirst("<span class='marker'>", "").replaceFirst("</span>", "");
   }
 
   private void debugList(String title, List<LightRuleMatch> l1) {
