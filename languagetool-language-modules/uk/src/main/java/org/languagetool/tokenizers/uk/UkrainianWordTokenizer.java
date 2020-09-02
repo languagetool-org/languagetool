@@ -97,7 +97,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern ABBR_DOT_TYS_PATTERN1 = Pattern.compile("([0-9IІ][\\h\\v]+)(тис|арт)\\.");
   private static final Pattern ABBR_DOT_TYS_PATTERN2 = Pattern.compile("(тис|арт)\\.([\\h\\v]+[а-яіїєґ0-9])");
   private static final Pattern ABBR_DOT_LAT_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'\u0301-]лат)\\.([\\h\\v]+[a-zA-Z])");
-  private static final Pattern ABBR_DOT_PROF_PATTERN = Pattern.compile("([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Аа]рх|вул|о|р|ім|упоряд|Ів|Дж)\\.([\\h\\v]+[А-ЯІЇЄҐ])");
+  private static final Pattern ABBR_DOT_PROF_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\\u0301-])([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Аа]рх|тов|вул|о|р|ім|упоряд|Ів|Дж)\\.([\\h\\v]+[А-ЯІЇЄҐа-яіїєґ])");
   private static final Pattern ABBR_DOT_GUB_PATTERN = Pattern.compile("(.[А-ЯІЇЄҐ][а-яіїєґ'-]+[\\h\\v]+губ)\\.");
 
   // tokenize initials with dot before last name, e.g. "А.", "Ковальчук"
@@ -128,7 +128,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern ABBR_DOT_NON_ENDING_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\u0301-])(абз|амер|англ|акад(ем)?|арк|ауд|бл(?:изьк)?|буд|в(?!\\.+)|вип|вірм|грец(?:ьк)"
       + "|держ|див|дод|дол|досл|доц|доп|екон|ел|жін|зав|заст|зах|зб|зв|зовн|ім|івр|ісп|іст|італ"
       + "|к|каб|каф|канд|кв|[1-9]-кімн|кімн|кл|кн|коеф|мал|моб|н|напр|нац|оп|оф|п|пен|перекл|перен|пл|пол|пов|пор|поч|пп|прибл|пров|пром|просп"
-      + "|[Рр]ед|[Рр]еж|розд|рт|рум|с|[Сс]вв?|скор|соц|співавт|ст|стор|сх|табл|[тТ]ел|техн|укр|філол|фр|франц|ч|чайн|част|ц|яп)\\.(?!\\.+[\\h\\v]*$)");
+      + "|[Рр]ед|[Рр]еж|розд|рт|рум|с|[Сс]вв?|скор|соц|співавт|ст|стор|сх|табл|тт|[тТ]ел|техн|укр|філол|фр|франц|ч|чайн|част|ц|яп)\\.(?!\\.+[\\h\\v]*$)");
   private static final Pattern ABBR_DOT_NON_ENDING_PATTERN_2 = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]м)\\.([\\h\\v]*[А-ЯІЇЄҐ])");
   // скорочення що можуть бути в кінці речення
   private static final Pattern ABBR_DOT_ENDING_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'\u0301-]((та|й|і) ін|(та|й|і) под|інш|атм|відс|гр|е|коп|обл|р|рр|руб|ст|стол|стор|чол|шт))\\.");
