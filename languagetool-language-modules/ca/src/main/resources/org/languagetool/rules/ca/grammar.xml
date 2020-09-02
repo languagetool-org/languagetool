@@ -17,6 +17,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
+    <!ENTITY apostrophe "['’´]">
     <!ENTITY common_english_nouns_feminine "Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation|Conference">
     <!ENTITY common_english_nouns_masculine "Club|TM|UD|UE|SD|Team|Day|Center|Centre|Hilton">
     <!ENTITY adjectius_TE_INFUSIO "descafeïnat|mòlt|jove|conegut|preparat|empaquetat|xin[èé]s|amargant|sud-americà|instantani|lleuger|indi|roquer|dolç|fals|bord|tradicional|gal·l[éè]s|pudent|salvatge|àrab|angl[éè]s|fosc|negre|verd|vermell|blanc|gelat|fred|calent|turc">
@@ -13699,6 +13700,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="HI_HA_VIA" name="hi ha via">
+            <pattern>
+                <token>hi</token>
+                <token>ha</token>
+                <token>via</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>hi havia</suggestion>?</message>
+            <example correction="hi havia">No <marker>hi ha via</marker> solució.</example>
+        </rule>
         <rule id="AMB_EM" name="*amb/em quedo">
             <pattern>
                 <marker>
@@ -31541,6 +31551,72 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="VOLUNTARI_ARIA" name="voluntari/ària" default="temp_off">
+            <!-- other terminations? -->
+            <rule>
+                <pattern>
+                    <token postag="[AN].*" postag_regexp="yes" regexp="yes">.*ari</token>
+                    <token spacebefore="no">/</token>
+                    <token spacebefore="no">a</token>
+                </pattern>
+                <message>La forma femenina s'escriu amb accent.</message>
+                <suggestion>\1/ària</suggestion>
+                <example correction="voluntari/ària">Nom del <marker>voluntari/a</marker>:</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="[AN].*" postag_regexp="yes" regexp="yes">.*oci</token>
+                    <token spacebefore="no">/</token>
+                    <token spacebefore="no">a</token>
+                </pattern>
+                <message suppress_misspelled="yes">La forma femenina s'escriu amb accent.</message>
+                <suggestion>\1/<match no="1" postag_regexp="yes" postag="([AN]).*MS.*" postag_replace="$1.*FS.*"/></suggestion>
+                <example correction="soci/sòcia">Nom del <marker>soci/a</marker>:</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PLENAR_OMPLIR" name="*plenar/omplir" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">em|et|el</token>
+                    <token>plena</token>
+                </pattern>
+                <message>El v. "plenar" no existeix. Feu servir "omplir".</message>
+                <suggestion><match no="1" regexp_match="e(.*)" regexp_replace="$1'"/>omple</suggestion>
+                <suggestion><match no="1" regexp_match="e(.*)" regexp_replace="$1'"/>ompli</suggestion>
+                <example correction="t'omple|t'ompli">Això <marker>et plena</marker> la panxa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">li|els|ens|vos|les|ho|hi</token>
+                    <token>plena</token>
+                </pattern>
+                <message>El v. "plenar" no existeix. Feu servir "omplir".</message>
+                <suggestion>\1 omple</suggestion>
+                <suggestion>\1 ompli</suggestion>
+                <example correction="li omple|li ompli">Això <marker>li plena</marker> la panxa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">em|et|el</token>
+                    <token>plenes</token>
+                </pattern>
+                <message>El v. "plenar" no existeix. Feu servir "omplir".</message>
+                <suggestion><match no="1" regexp_match="e(.*)" regexp_replace="$1'"/>omples</suggestion>
+                <suggestion><match no="1" regexp_match="e(.*)" regexp_replace="$1'"/>omplis</suggestion>
+                <example correction="m'omples|m'omplis">Amb això <marker>em plenes</marker> la panxa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">li|els|ens|vos|ho|hi</token>
+                    <token>plenes</token>
+                </pattern>
+                <message>El v. "plenar" no existeix. Feu servir "omplir".</message>
+                <suggestion>\1 omples</suggestion>
+                <suggestion>\1 omplis</suggestion>
+                <example correction="ens omples|ens omplis">Amb això <marker>ens plenes</marker> la panxa.</example>
+                <!-- ambiguous: les plenes -->
+            </rule>
+        </rulegroup>
         <rule id="ESCOMBRARIA" name="escombraria">
             <antipattern>
                 <token>escombraria</token>
@@ -31554,6 +31630,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="escombraries">Era menjar <marker>escombraria</marker>.</example>
             <example>Em va dir que escombraria ell.</example>
         </rule>
+        <rulegroup name="SIGLES" id="sigles" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token spacebefore="no">s</token>
+                </pattern>
+                <message>El plural de las sigles no es marca gràficament.</message>
+                <suggestion>\1</suggestion>
+                <example correction="ONG">Les <marker>ONG´s</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
+                    <token spacebefore="no">'s</token>
+                </pattern>
+                <message>El plural de las sigles no es marca gràficament.</message>
+                <suggestion>\1</suggestion>
+                <example correction="ONG">Les <marker>ONG's</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[A-Z][A-Z]+s<exception postag="N,*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>El plural de las sigles no es marca gràficament.</message>
+                <suggestion><match no="1" regexp_match="(.+)s" regexp_replace="$1"/></suggestion>
+                <example correction="ONG">Les <marker>ONGs</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">(ERTO|ONG|UTE|UCI|MIR)S<exception postag="N,*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>El plural de las sigles no es marca gràficament.</message>
+                <suggestion><match no="1" regexp_match="(.+)S" regexp_replace="$1"/></suggestion>
+                <example correction="ONG">Les <marker>ONGS</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">.*\p{Ll}</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">EROS<exception postag="N,*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>El plural de las sigles no es marca gràficament.</message>
+                <suggestion><match no="2" regexp_match="(.+)S" regexp_replace="$1"/></suggestion>
+                <example correction="ERO">Els <marker>EROS</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="EUA" name="sigles dels Estats Units d'Amèrica">
             <rule>
                 <pattern>
@@ -44501,6 +44625,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>disgust</suggestion>
                 <suggestion>malestar</suggestion>
                 <example correction="malcontentament|insatisfacció|disgust|malestar">Hi ha <marker>malcontent</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>gran</token>
+                    <token>content</token>
+                </pattern>
+                <message>"Content" és un adjectiu. Com a substantiu val més utilitzar altres paraules.</message>
+                <suggestion>gran goig</suggestion>
+                <suggestion>molt de goig</suggestion>
+                <suggestion>molta satisfacció</suggestion>
+                <example correction="gran goig|molt de goig|molta satisfacció">Va ser un <marker>gran content</marker> per a tothom!</example>
             </rule>
         </rulegroup>
         <rule id="DISPAR" name="dispar (adj. no subst.)">
