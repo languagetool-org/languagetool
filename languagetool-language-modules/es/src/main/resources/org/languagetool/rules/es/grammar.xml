@@ -3449,7 +3449,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">le|les|lo|los|la|las|me|te|nos|os</token>
-                    <token>validas?</token>
+                    <token regexp="yes">validas?</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">validas?</token>
@@ -3567,7 +3567,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>seria<exception postag="_GN_FS"/></token>
                     </marker>
-                    <token postag="[AD].*" postag_regexp="yes"/>
+                    <token postag="[AD].*|V.P.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Si es del v. 'ser', se escribe con tilde. Correcto como adjetivo.</message>
                 <suggestion>sería</suggestion>
@@ -3585,7 +3585,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>serias<exception postag="_GN_FP"/></token>
                     </marker>
-                    <token postag="[AD].*" postag_regexp="yes"/>
+                    <token postag="[AD].*|V.P.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Si es del v. 'ser', se escribe con tilde. Correcto como adjetivo.</message>
                 <suggestion>serías</suggestion>
@@ -3618,7 +3618,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>serias<exception postag="_GN_FP"/></token>
                     </marker>
                     <token postag="RG|LOC_ADV" postag_regexp="yes" min="1" max="3"/>
-                    <token postag="A.*" postag_regexp="yes"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Si es del v. 'ser', se escribe con tilde. Correcto como adjetivo.</message>
                 <suggestion>serías</suggestion>
@@ -3635,7 +3635,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Si es del v. 'ser', se escribe con tilde</message>
                 <suggestion>sería</suggestion>
-                <example correction="sería válida">Esta razón <marker>seria</marker> valida.</example>
+                <example correction="sería">Esta razón <marker>seria</marker> valida.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>una</token>
+                    <token>persona</token>
+                    <token>seria</token>
+                </antipattern>
+                <antipattern>
+                    <token>poco</token>
+                    <token>seria</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>seria</token>
+                    </marker>
+                    <token postag="A.*|V.P.*|D.*|RG" postag_regexp="yes"/>
+                </pattern>
+                <message>Si es del v. 'ser', se escribe con tilde</message>
+                <suggestion>sería</suggestion>
+                <example correction="sería">Esta observación <marker>seria</marker> correcta.</example>
+                <example correction="sería">Una sola persona <marker>seria</marker> mejor.</example>
+                <example correction="sería">Una sola persona <marker>seria</marker> lo mejor.</example>
+                <example>Es una persona seria la que buscamos.</example>
+                <example>Es una persona seria lo que buscamos.</example>
+                <example>Se puso seria otra vez.</example>
+                <example>Estaba seria a menudo.</example>
+                <example>Estaba seria frecuentemente.</example>
+                <example>con una poco seria tercera persona omnisciente</example>
             </rule>
         </rulegroup>
         <rulegroup id="PARIS" name="Paris/París" default="on">
