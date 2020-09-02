@@ -4071,6 +4071,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule default="temp_off">
                 <antipattern>
+                    <token postag="C.|PR.*" postag_regexp="yes"/>
                     <token>esta</token>
                     <token>fuera</token>
                     <token postag="D..FS.|A..[FC]S." postag_regexp="yes"/>
@@ -4086,7 +4087,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>está</suggestion>
                 <example correction="está">Esta crítica <marker>esta</marker> completamente fuera de lugar.</example>
                 <example correction="está">La crítica que haces <marker>esta</marker> fuera de lugar.</example>
-                <example>>Aunque esta fuera la mejor.</example>
+                <example correction="Está"><marker>Esta</marker> fuera la mejor.</example>
+                <example>Aunque esta fuera la mejor.</example>
             </rule>
             <rule>
                 <!-- está + adjetivo-->
