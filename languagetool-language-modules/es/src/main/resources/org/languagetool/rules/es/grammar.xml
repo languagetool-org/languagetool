@@ -3981,7 +3981,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>esta</token>
             </antipattern>
             <antipattern>
-                <token postag="V.[SIGN].*|V.P..SF" postag_regexp="yes"/>
+                <token postag="V.[SIGN].*|V.P..SF" postag_regexp="yes"><exception scope="previous">que</exception></token>
                 <token>esta</token>
             </antipattern>
             <antipattern>
@@ -4005,6 +4005,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Está"><marker>Esta</marker> agotado.</example>
                 <example correction="está">Los mismos principios de que <marker>esta</marker> provista tal rama.</example>
                 <example correction="está">La persona no <marker>esta</marker> dispuesta a renunciar.</example>
+                <example correction="está">Lo que haces <marker>esta</marker> completamente garantizado.</example> 
                 <example>Esta revista es antigua.</example>
                 <example>Esta comida es buena.</example>
                 <example>Al ser esta superada.</example>
@@ -4067,6 +4068,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>es esta una de las mejores</example>
                 <example>por ser esta la casa matriz</example>
                 <example>No ha sido esta la vía elegida.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>esta</token>
+                    <token>fuera</token>
+                    <token postag="D..FS.|A..[FC]S." postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>esta</token>
+                    </marker>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"><exception regexp="yes">fuera|dentro|arriba|abajo|cerca|lejos|cerquísima|lejísimo</exception></token>
+                    <token regexp="yes">fuera|dentro|arriba|abajo|cerca|lejos|cerquísima|lejísimos?</token>
+                </pattern>
+                <message>Si es del v. 'estar', se escribe con tilde.</message>
+                <suggestion>está</suggestion>
+                <example correction="está">Esta crítica <marker>esta</marker> completamente fuera de lugar.</example>
+                <example correction="está">La crítica que haces <marker>esta</marker> fuera de lugar.</example>
+                <example>>Aunque esta fuera la mejor.</example>
             </rule>
             <rule>
                 <!-- está + adjetivo-->
