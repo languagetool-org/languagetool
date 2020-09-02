@@ -37,6 +37,7 @@ public class LightRuleMatchParserTest {
       "Suggestion: a\n" +
       "This is an test. \n" +
       "        ^^       \n" +
+      "Tags: [picky, fake]\n" +
       "Time: 10ms for 1 sentences (0.7 sentences/sec)\n";
     List<LightRuleMatch> matches = parser.parseOutput(new StringReader(s));
     assertThat(matches.size(), is(1));
@@ -51,6 +52,7 @@ public class LightRuleMatchParserTest {
     assertNull(match.getRuleSource());
     assertThat(match.getContext(), is("This is <span class='marker'>an</span> test. "));
     assertNull(match.getTitle());
+    //assertThat(match.getTags().toString(), is("[picky, fake]"));  // not supported yet
   }
 
   @Test

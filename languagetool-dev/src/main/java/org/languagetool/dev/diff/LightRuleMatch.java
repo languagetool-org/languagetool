@@ -20,10 +20,11 @@ package org.languagetool.dev.diff;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Objects;
 
 class LightRuleMatch {
-  
+
   enum Status {
     temp_off, on
   }
@@ -38,9 +39,10 @@ class LightRuleMatch {
   private final String ruleSource;  // e.g. grammar.xml
   private final String title;
   private final Status status;
+  private final List<String> tags;
 
   LightRuleMatch(int line, int column, String ruleId, String message, String context, String coveredText,
-                 String suggestions, String ruleSource, String title, Status status) {
+                 String suggestions, String ruleSource, String title, Status status, List<String> tags) {
     this.line = line;
     this.column = column;
     this.fullRuleId = Objects.requireNonNull(ruleId);
@@ -51,6 +53,7 @@ class LightRuleMatch {
     this.ruleSource = ruleSource;
     this.title = title;
     this.status = Objects.requireNonNull(status);
+    this.tags = Objects.requireNonNull(tags);
   }
 
   int getLine() {
@@ -101,7 +104,11 @@ class LightRuleMatch {
   Status getStatus() {
     return status;
   }
-  
+
+  List<String> getTags() {
+    return tags;
+  }
+
   @Override
   public String toString() {
     return line + "/" + column +

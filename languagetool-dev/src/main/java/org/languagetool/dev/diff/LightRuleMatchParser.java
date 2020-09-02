@@ -110,7 +110,14 @@ class LightRuleMatchParser {
     if (rule.get("tempOff") != null && rule.get("tempOff").asBoolean()) {
       status = LightRuleMatch.Status.temp_off;
     }
-    return new LightRuleMatch(0, offset, fullRuleId, message, context, coveredText, suggestions, ruleSource, title, status);
+    JsonNode jsonTags = rule.get("tags");
+    List<String> tags = new ArrayList<>();
+    if (jsonTags != null) {
+      for (JsonNode tag : jsonTags) {
+        tags.add(tag.asText());
+      }
+    }
+    return new LightRuleMatch(0, offset, fullRuleId, message, context, coveredText, suggestions, ruleSource, title, status, tags);
   }
 
   List<LightRuleMatch> parseOutput(Reader reader) {
@@ -162,7 +169,8 @@ class LightRuleMatchParser {
           coveredText = "???";
         }
         String cleanId = ruleId.replace("[off]", "").replace("[temp_off]", "");
-        result.add(makeMatch(lineNum, columnNum, ruleId, cleanId, message, suggestion, context, coveredText, title, source));
+        List<String> tags = new ArrayList<>();  // not supported yet...
+        result.add(makeMatch(lineNum, columnNum, ruleId, cleanId, message, suggestion, context, coveredText, title, source, tags));
         lineNum = -1;
         columnNum = -1;
         ruleId = null;
@@ -187,9 +195,9 @@ class LightRuleMatchParser {
   }
 
   private LightRuleMatch makeMatch(int line, int column, String ruleId, String cleanId, String message, String suggestions,
-                                   String context, String coveredText, String title, String source) {
+                                   String context, String coveredText, String title, String source, List<String> tags) {
     LightRuleMatch.Status s = ruleId.contains("[temp_off]") ? LightRuleMatch.Status.temp_off : LightRuleMatch.Status.on;
-    return new LightRuleMatch(line, column, cleanId, message, context, coveredText, suggestions, source, title, s);
+    return new LightRuleMatch(line, column, cleanId, message, context, coveredText, suggestions, source, title, s, tags);
   }
   
 }

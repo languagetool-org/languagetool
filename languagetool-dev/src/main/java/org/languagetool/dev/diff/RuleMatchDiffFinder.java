@@ -193,6 +193,12 @@ public class RuleMatchDiffFinder {
     if (oldMatch != null && newMatch.getStatus() != oldMatch.getStatus()) {
       fw.write("  <br><span class='status'>[" + oldMatch.getStatus() + " => " + newMatch.getStatus() + "]</span>");
     }
+    if (newMatch.getTags().size() > 0) {
+      fw.write("  <br><span class='status'>" + newMatch.getTags() + "</span>");
+    }
+    if (oldMatch != null && newMatch.getTags() != oldMatch.getTags()) {
+      fw.write("  <br><span class='status'>" + oldMatch.getTags() + " => " + newMatch.getTags() + "</span>");
+    }
     fw.write(" </td>\n");
   }
 
