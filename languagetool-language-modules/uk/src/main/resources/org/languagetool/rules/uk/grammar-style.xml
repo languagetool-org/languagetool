@@ -509,8 +509,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token>в</token>
           </marker>
-          <token regexp="yes">2.*|[бгґджзйклмнпрстхчцшщqwrpsghkjlzxcbnm]ь?[вфvfw].*
+          <token regexp="yes">2.*|[бгґджзйклмнпрстхчцшщqwrpsghkjlzcxbnm]ь?[вфvfw].*
             <exception postag_regexp="yes" postag=".*:abbr"/>
+            <exception case_sensitive="yes" regexp="yes">[XVIХІ]+</exception>
           </token>
         </pattern>
         <message>Перед словами, що починаються на в, ф або збігом приголосних із в, ф пишемо у: <suggestion>у</suggestion> \2</message>
@@ -520,6 +521,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="у">парад <marker>в</marker> зворотному напрямку</example>
         <example correction="у">таких ознак <marker>в</marker> двійнятах</example>
         <example>В МВС.</example>
+        <example>в XV столітті.</example>
       </rule>
 
       <rule>
@@ -533,6 +535,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token regexp="yes">[8вфvfw].*
             <exception postag_regexp="yes" postag=".*:abbr"/>
+            <exception case_sensitive="yes" regexp="yes">[XVIХІ]+</exception>
           </token>
         </pattern>
         <message>Перед словами, що починаються на в, ф або збігом приголосних із в, ф пишемо у: <suggestion>у</suggestion> \3</message>
@@ -545,7 +548,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>перевагу в швидкості</example>
         <example>сингулярності в квантовій</example>
         <example>В МВС.</example>
+        <example>в V столітті.</example>
       </rule>
+
       <!--
           <rule>
           <pattern>

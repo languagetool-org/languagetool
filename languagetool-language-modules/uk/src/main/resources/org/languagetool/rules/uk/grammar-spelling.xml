@@ -1201,6 +1201,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="чимдуж"><marker>чим дуж</marker>.</example>
     </rule>
 
+    <rule id="ne_syla" name="Не сила">
+      <pattern>
+        <marker>
+          <token>не</token>
+          <token>сила</token>
+        </marker>
+        <token postag_regexp="yes" postag="verb.*?inf.*"/>
+      </pattern>
+      <message><suggestion>несила</suggestion> перед іфінітивом пишеться разом</message>
+      <example correction="несила">і <marker>не сила</marker> терпіти</example>
+    </rule>
+
     <rule id="v_odnochas" name="В одночас">
       <pattern>
         <token>в</token>
@@ -1215,7 +1227,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token regexp="yes">Джексона-Веніка|Колесніченка-Ківалова|Молотова-Ріббентропа</token>
       </pattern>
-      <message>Два прізвища пишуться через тире</message>
+      <message>Два прізвища пишуться через (довге) тире</message>
       <suggestion><match no="1" regexp_match="(.*?)-(.*?)" regexp_replace="$1 — $2"/></suggestion>
       <example correction="Джексона — Веніка">поправка <marker>Джексона-Веніка</marker>.</example>
     </rule>
@@ -1270,18 +1282,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
   </category>
 
-  <category id="TYPOGRAPHY" name="Typography" type="typographical">
-    <rulegroup id="DASH" name="Риска">
+  <category id="TYPOGRAPHY" name="Типографія" type="typographical">
+    <!-- short dash is replaced with '-' in tagger, so we have to use Java rule to catch it -->
+    <!-- 
+    <rulegroup id="long_dash" name="Риска">
       <rule>
         <pattern>
           <token regexp="yes">[а-яіїєґ']+[—–][а-яіїєґ']+</token>
         </pattern>
-        <message>Риска всередині слова. Всередині слова вживайте дефіс: <suggestion><match no="1" regexp_match="(.*)[—–](.*)" regexp_replace="$1-$2"/></suggestion>, між словами виокремлюйте риску пробілами: <suggestion><match no="1" regexp_match="(.*)[—–](.*)" regexp_replace="$1 — $2"/></suggestion></message>
+        <message>Риска всередині слова. Всередині слова вживайте дефіс, між словами виокремлюйте риску пробілами.</message>
+        <suggestion><match no="1" regexp_match="(.*)[—–](.*)" regexp_replace="$1-$2"/></suggestion>
+        <suggestion><match no="1" regexp_match="(.*)[—–](.*)" regexp_replace="$1 — $2"/></suggestion>
         <example correction="січень-лютий|січень — лютий"><marker>січень—лютий</marker></example>
-        <example correction="яскраво-рожевий|яскраво — рожевий"><marker>яскраво–рожевий</marker></example>
+        <example correction="яскраво-рожевий|яскраво — рожевий"><marker>яскраво–рожевий</marker>.</example>
         <example correction="Вовка-Волкова|Вовка — Волкова"><marker>Вовка—Волкова</marker></example>
       </rule>
     </rulegroup>
+    -->
 
     <rulegroup id="word_with_long_dash" name="Слова з довгим тире без пробілу">
       <rule>
