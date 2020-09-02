@@ -6713,6 +6713,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="RB"/>
             <token postag_regexp="yes" postag="VBP?"/>
         </antipattern>
+        <antipattern><!-- #3329 had something you wanted to -->
+            <token inflected="yes" regexp="yes">be|have</token>
+            <token postag_regexp="yes" postag="NN:UN?"/>
+            <token regexp="yes">&subject_pronouns;</token>
+            <token postag="VBD"/>
+            <token postag_regexp="yes" postag="TO|IN"/>
+        </antipattern>
         <antipattern>
             <token inflected="yes">be</token>
             <token>bit</token>
@@ -6754,6 +6761,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Because your proposed strategic concept has merit please let all members of the team know.</example><!-- #3322 -->
         <example type="untouched">The questions about who the fat technicians really are must not let us become distracted from the...</example><!-- #3364 -->
         <example type="untouched">Information about who these people were can invariably let us imagine their lives.</example><!-- #3364 -->
+        <example type="untouched">Tom said you had something you wanted to tell me.</example><!-- #3329 -->
+        <example type="untouched">Are you sure this is something you wanted to tell me?</example><!-- #3329 -->
+        <example type="untouched">That was wine I wanted for the cooking.</example><!-- #3329 -->
 <!--        <example type="untouched">She was <marker>pleased</marker> with her new car.</example> Adjective. Compare with the 'considered' example. Refer to https://en.wikipedia.org/wiki/English_passive_voice#Stative_and_adjectival_uses -->
         <example type="ambiguous" inputform="made[make/VBD,make/VBN]" outputform="made[make/VBN]">He has <marker>made</marker> a mistake.</example>
         <example type="ambiguous" outputform="liked[like/VBN]" inputform="liked[like/VBD,like/VBN]">Have you <marker>liked</marker> Dutch jazz music?</example>
