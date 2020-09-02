@@ -7053,6 +7053,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token>her</token>
                 <token postag="VBP"/>
             </antipattern>
+            <antipattern><!-- Its set to English (incorrect grammar) -->
+                <token postag="CC|SENT_START|PCT" postag_regexp="yes" />
+                <token>its</token>
+                <token postag="VB[NG]" postag_regexp="yes" />
+                <token postag="IN|TO" postag_regexp="yes" />
+            </antipattern>
             <pattern>
                 <token postag="PRP$"/>
                 <marker>
@@ -7071,6 +7077,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">The very fact that you suddenly thought about her <marker>makes</marker> it obvious that you like her.</example><!-- #2520 -->
             <example type="untouched">Awesome, had her <marker>make</marker> it bigger for the hood.</example><!-- #2605 -->
             <example type="untouched">He, that is, the manager, had her <marker>make</marker> it bigger for the test.</example><!-- #2605 -->
+            <example type="untouched">Incorrect grammar: Its set to British.</example>
             <example type="ambiguous" inputform="minds[mind/NNS,mind/VBZ]" outputform="minds[mind/NNS]">They should make up their <marker>minds</marker>!</example>
             <example type="ambiguous" inputform="will[will/MD,will/NN:UN,will/VB,will/VBP]" outputform="will[will/NN:UN]">Don't do anything against my <marker>will</marker>.</example>
             <example type="ambiguous" inputform="books[book/NNS,book/VBZ]" outputform="books[book/NNS]">Her <marker>books</marker>, which are delightful, are some of my favourites.</example><!-- #2506 -->
