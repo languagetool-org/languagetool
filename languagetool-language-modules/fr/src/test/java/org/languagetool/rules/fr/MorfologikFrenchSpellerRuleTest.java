@@ -155,6 +155,8 @@ public class MorfologikFrenchSpellerRuleTest {
     assertSuggestion(rule, langTool, "voulezvous", "voulez-vous");
     assertSuggestion(rule, langTool, "ecoutemoi", "écoute-moi");
     assertSuggestion(rule, langTool, "etaistu", "était", "étés");
+    assertSuggestion(rule, langTool, "mappelle", "m'appelle", "appelle");
+    // TODO:assertSuggestion(rule, langTool, "mapelle", "m'appelle");
 
     // don't split prefixes 
     matches = rule.match(langTool.getAnalyzedSentence("macrodiscipline"));
