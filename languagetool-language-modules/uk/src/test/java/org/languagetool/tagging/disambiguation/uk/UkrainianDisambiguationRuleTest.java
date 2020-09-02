@@ -80,6 +80,42 @@ public class UkrainianDisambiguationRuleTest {
   }
 
   @Test
+  public void testDisambiguatorRetagFemNames() throws IOException {
+//    німкеня Бахман була 
+//    княгиня Кочубей перебудувала
+//    пані Грибан слухала
+//    Олександр П’ятниця метнув
+//    пані Сіроштан оприлюднила
+//    леді Черчилль передала
+//    поляк Дура швидко скоротив
+//    Анхель Ді Марія яскраво проявив
+    // TODO:
+    // ведучого ВВС Стівена Сакура принести
+    // суд зобов’язав Олега Гаркота відшкодувати потерпілому
+    // як не вмів Чіпріан Маріка реалізовувати моменти
+    // TODO: non-v_naz
+    
+    TestTools.myAssert("леді Черчилль була",
+        "/[null]SENT_START"
+        + " леді/[леді]noun:anim:f:v_dav:nv|леді/[леді]noun:anim:f:v_kly:nv|леді/[леді]noun:anim:f:v_mis:nv|леді/[леді]noun:anim:f:v_naz:nv|леді/[леді]noun:anim:f:v_oru:nv|леді/[леді]noun:anim:f:v_rod:nv|леді/[леді]noun:anim:f:v_zna:nv|леді/[леді]noun:anim:p:v_dav:nv|леді/[леді]noun:anim:p:v_kly:nv|леді/[леді]noun:anim:p:v_mis:nv|леді/[леді]noun:anim:p:v_naz:nv|леді/[леді]noun:anim:p:v_oru:nv|леді/[леді]noun:anim:p:v_rod:nv|леді/[леді]noun:anim:p:v_zna:nv"
+        + "  /[null]null"
+        + " Черчилль/[Черчилль]noun:anim:f:v_naz:prop:lname"
+        + "  /[null]null"
+        + " була/[бути]verb:imperf:past:f",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    TestTools.myAssert("Олег П'ятниця метнув",
+        "/[null]SENT_START"
+        + " Олег/[Олег]noun:anim:m:v_naz:prop:fname"
+        + "  /[null]null"
+        + " П'ятниця/[П'ятниця]noun:anim:m:v_naz:prop:lname"
+        + "  /[null]null"
+        + " метнув/[метнути]verb:perf:past:m",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+  }
+  
+  
+  @Test
   public void testDisambiguatorRemoveVmis() throws IOException {
     TestTools.myAssert("У Зв'язку",
         "/[null]SENT_START У/[у]prep  /[null]null "
