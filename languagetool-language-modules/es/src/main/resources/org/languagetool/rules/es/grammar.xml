@@ -6680,7 +6680,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>porque</token>
                     </marker>
                 </pattern>
-                <message>Como sustantivo (=causa, motivo), se escribe <suggestion>porqué</suggestion>.</message>
+                <message>Como sustantivo ('causa, motivo'), se escribe <suggestion>porqué</suggestion>.</message>
                 <example correction="porqué">Quiero saber el <marker>porque</marker>.</example>
                 <example>Lo haré porque quiero.</example>
                 <example>Es nuestro porque lo compramos nosotros.</example>
@@ -6692,7 +6692,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>qués</token>
                     </marker>
                 </pattern>
-                <message>Como sustantivo (=causas, motivos), se escribe <suggestion>porqués</suggestion>.</message>
+                <message>Como sustantivo ('causas, motivos'), se escribe <suggestion>porqués</suggestion>.</message>
                 <example correction="porqués">Quería saber los <marker>por qués</marker>.</example>
             </rule>
             <rule>
@@ -6704,7 +6704,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <!-- qué (?) -->
                     </marker>
                 </pattern>
-                <message>Como sustantivo (=causa, motivo), se escribe <suggestion>porqué</suggestion>.</message>
+                <message>Como sustantivo ('causa, motivo'), se escribe <suggestion>porqué</suggestion>.</message>
                 <example correction="porqué">Quiero saber el <marker>por que</marker>.</example>
                 <example>Lo haré porque quiero.</example>
                 <example>Quiero saber por qué.</example>
@@ -6717,7 +6717,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">porque|porqué</token>
                     </marker>
                 </pattern>
-                <message>Si significa "por qué razón", se escribe <suggestion>por qué</suggestion></message>
+                <message>Si significa 'por qué razón', se escribe <suggestion>por qué</suggestion></message>
                 <example correction="Por qué">¿<marker>Porque</marker> no viniste?</example>
                 <example correction="por qué">¿Y <marker>porqué</marker> no viniste?</example>
                 <example type="triggers_error" reason="unusual structure">¿Porque no lo hice vas a estar odiándome toda la vida?</example>
@@ -6749,15 +6749,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>porque</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" inflected="yes">saber|preguntar|pedir|explicar|contar|decir<exception postag=".*PP...A..|_GN_.*" postag_regexp="yes"/></token>
+                    <token regexp="yes" inflected="yes">saber|preguntar|pedir|explicar|contar|decir|comprender|entender<exception postag=".*PP...A..|_GN_.*" postag_regexp="yes"/></token>
+                    <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
                     <marker>
                         <token regexp="yes">porque|porqué</token>
                     </marker>
                 </pattern>
-                <message>Probablemente hay que escribir <suggestion>por qué</suggestion> (=por qué motivo).</message>
+                <message>Probablemente hay que escribir <suggestion>por qué</suggestion> ('por qué motivo').</message>
                 <example correction="por qué">No se sabe <marker>porque</marker> no ha venido</example>
                 <example correction="por qué">Dime <marker>porque</marker> lo has hecho.</example>
                 <example correction="por qué">¿Podrías decirme <marker>porque</marker> lo has hecho?</example>
+                <example correction="por qué">No puedo comprender <marker>porqué</marker> él dijo eso</example>
+                <example correction="por qué">No estoy diciendo que entienda completamente <marker>porqué</marker> ha surgido este nuevo esfuerzo.</example>
                 <example>Lo sé porque lo he hecho muchas veces.</example>
                 <example>Se explicaría porque era inventado.</example>
                 <example>Lo dices porque tienes miedo.</example>
@@ -6767,15 +6770,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">saber|preguntar|pedir|explicar|contar|decir</token>
+                    <token regexp="yes" inflected="yes">saber|preguntar|pedir|explicar|contar|decir|comprender|entender</token>
+                    <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
                     <marker>
                         <token>por</token>
                         <token>que</token>
                     </marker>
                 </pattern>
-                <message>Probablemente hay que escribir <suggestion>por qué</suggestion> (=por qué motivo).</message>
+                <message>Probablemente hay que escribir <suggestion>por qué</suggestion> ('por qué motivo').</message>
                 <example correction="por qué">No se sabe <marker>por que</marker> no ha venido</example>
                 <example correction="por qué">Dime <marker>por que</marker> lo has hecho.</example>
+                <example correction="por qué">No estoy diciendo que entienda completamente <marker>por que</marker> ha surgido este nuevo esfuerzo.</example>
             </rule>
             <rule>
                 <pattern>
@@ -6793,7 +6798,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="por que|por los que|por los cuales">Los motivos <marker>porque</marker> nos fuimos.</example>
                 <!--No tenéis más razón porque seáis mayores.-->
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes">el|un|algún</token>
                     <token>porqué</token>
@@ -6801,10 +6806,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>porqué</token>
                 </pattern>
-                <message>Solo se escribe con tilde si es un sustantivo que significa 'causa, razón o motivo'.</message>
+                <message>¿Quería decir <suggestion>por qué</suggestion> ('por qué motivo') o <suggestion>porque</suggestion> ('por razón de que')?</message>
                 <suggestion>porque</suggestion>
-                <example correction="porque">No vino <marker>porqué</marker> no pudo.</example>
+                <example correction="por qué|porque">No vino <marker>porqué</marker> no pudo.</example>
+                <example correction="por qué|porque">No puedo comprender <marker>porqué</marker> no vino.</example>
                 <example>Quiero saber el porqué.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">he|hete</token>
+                    <token regexp="yes">aquí|ahí</token>
+                    <marker>
+                        <token>porqué</token>
+                    </marker>
+                </pattern>
+                <message>Probablemente hay que escribir <suggestion>por qué</suggestion> ('por qué motivo').</message>
+                <example correction="por qué">He aquí <marker>porqué</marker> no ha venido</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">he|hete</token>
+                    <token regexp="yes">aquí|ahí</token>
+                    <marker>
+                        <token>por</token>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Probablemente hay que escribir <suggestion>por qué</suggestion> ('por qué motivo').</message>
+                <example correction="por qué">He aquí <marker>por que</marker> no ha venido</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>no</token>
+                    <token inflected="yes">tener</token>
+                    <marker>
+                        <token regexp="yes">porque|porqué</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>La expresión correcta es "no tener por qué".</message>
+                <suggestion>por qué</suggestion>
+                <example correction="por qué">No tienes <marker>porque</marker> preocuparte.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>no</token>
+                    <token inflected="yes">tener</token>
+                    <marker>
+                        <token>por</token>
+                        <token>que</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>La expresión correcta es "no tener por qué".</message>
+                <suggestion>por qué</suggestion>
+                <example correction="por qué">No tienes <marker>por que</marker> preocuparte.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PREP_VERB" name="Combinación imposible: preposición + verbo conjugado">
