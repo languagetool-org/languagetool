@@ -168,7 +168,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
     if (matcher.matches()) {
       String newSuggestion = matcher.group(suggestionPosition);
       AnalyzedTokenReadings newatr = tagger.tag(Arrays.asList(newSuggestion)).get(0);
-      if (!newatr.hasPosTag("VMIP1S0B") && matchPostagRegexp(newatr, postagPattern)) {
+      if (matchPostagRegexp(newatr, postagPattern)) {
         return matcher.group(1) + separator + matcher.group(2);
       }
       if (recursive) {
