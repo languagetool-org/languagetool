@@ -3442,6 +3442,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Le ha valido un buen premio.</example>
                 <example>Yo le valido la prueba.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">validas?</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">le|les|lo|los|la|las|me|te|nos|os</token>
+                    <token>validas?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">validas?</token>
+                </pattern>
+                <message>Si es adjetivo, se escribe con tilde.</message>
+                <suggestion><match no="1" regexp_match="(?i)(v)a(.*)" regexp_replace="$1á$2"/></suggestion>
+                <example correction="válidas">Son <marker>validas</marker>.</example>
+                <example>Cuando les validas la cuenta.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token regexp="yes">le|les|lo|los|la|las|os|te|me</token>
@@ -3608,6 +3625,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Serías">¿<marker>Serias</marker> tan amable de recordarme qué pasó?</example>
                 <example>Son personas serias las que vienen aquí.</example>
                 <example>Se pusieron serias otra vez.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>seria</token>
+                    </marker>
+                    <token regexp="yes">v[áa]lid[ao]s?</token>
+                </pattern>
+                <message>Si es del v. 'ser', se escribe con tilde</message>
+                <suggestion>sería</suggestion>
+                <example correction="sería válida">Esta razón <marker>seria</marker> valida.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PARIS" name="Paris/París" default="on">
@@ -10249,15 +10277,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
-        <rule id="SERIA_VALIDA" default="temp_off">
-            <pattern>
-                <token>seria</token>
-                <token>valida</token>
-            </pattern>
-            <message>Si es del v. 'ser', se escribe con tilde. Si es el adj. 'válido', se escribe con tilde.</message>
-            <suggestion>sería válida</suggestion>
-            <example correction="sería válida">Esta razón <marker>sería válida</marker>.</example>
-        </rule>
         <rule id="LAS_MILES" name="*las/los miles">
             <!-- done already by the rule AGREEMENT_DET_NOUN, but a specific message is needed -->
             <pattern>
