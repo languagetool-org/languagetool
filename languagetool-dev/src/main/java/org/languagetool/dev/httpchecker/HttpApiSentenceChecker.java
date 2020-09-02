@@ -166,7 +166,13 @@ class HttpApiSentenceChecker {
       for (File threadFile : threadFiles) {
         List<String> lines = Files.readAllLines(threadFile.toPath());
         for (String line : lines) {
-          JsonNode node = mapper.readTree(line);
+          JsonNode node;
+          try {
+            node = mapper.readTree(line);
+          } catch (Exception e) {
+            System.err.println("ERROR: Could not parse line from " + threadFile + ": " + line);
+            throw e;
+          }
           JsonNode date = node.get("software").get("buildDate");
           if (date.isNull() && !line.contains(CheckCallable.FAIL_MESSAGE)) {
             System.err.println("WARNING: 'null' buildDate in " + threadFile + " with " + lines.size() + " lines, line: " + StringUtils.abbreviate(line, 500));
