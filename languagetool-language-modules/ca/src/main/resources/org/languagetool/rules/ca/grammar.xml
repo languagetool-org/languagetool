@@ -56376,6 +56376,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Si us plau,"><marker>Si us plau</marker> no doneu a ningú aquesta contrasenya.</example>
             </rule>
         </rulegroup>
+        <rule id="HOLA" name="hola (coma)" default="temp_off">
+            <pattern>
+                <token postag="SENT_START"/>
+                <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
+                <marker>
+                    <token>hola</token>
+                </marker>
+                <token><exception postag="_PUNCT.*" postag_regexp="yes"/><exception>a</exception></token>
+            </pattern>
+            <message>Les vocatius darrere de "hola" s'escriuen entre comes (ex. Hola, Joan!)</message>
+            <suggestion>\3,</suggestion>
+            <example correction="Hola,">¡<marker>Hola</marker> Joan.</example>
+            <example>Hola a tothom.</example>
+        </rule>
         <rulegroup id="GRACIES" name="gràcies (coma)">
             <antipattern>
                 <token>gràcies</token>
