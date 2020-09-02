@@ -3657,7 +3657,6 @@ regexp case-insensitive maken : (?i)
 				<example correction="zuiden">Het woord <marker>suiden</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
-<!--
 		<rulegroup id="SONDE_ZONDE" name="waarschuwing bij gebruik sonde i.p.v. zonde">
 			<rule>
 				<pattern>
@@ -3667,7 +3666,6 @@ regexp case-insensitive maken : (?i)
 				<example correction="zonde">Het woord <marker>sonde</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
-		-->
 		<!--
 		<rulegroup id="SET_ZET" name="waarschuwing bij gebruik set i.p.v. zet">
 			<antipattern><token>en</token><token>set</token></antipattern>
@@ -4579,15 +4577,6 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		-->
-		<rulegroup id="SONDETJE_ZONDETJE" name="waarschuwing bij gebruik sondetje i.p.v. zondetje">
-			<rule>
-				<pattern>
-					   <token>sondetje</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>zondetje</suggestion>?</message>
-				<example correction="zondetje">Het woord <marker>sondetje</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
 
 		<!--
 		<rulegroup id="SOLDEREN_ZOLDEREN" name="waarschuwing bij gebruik solderen i.p.v. zolderen">
@@ -4770,16 +4759,6 @@ regexp case-insensitive maken : (?i)
 				</pattern>
 				<message>Bedoelt u wellicht <suggestion>zippende</suggestion> (samenpersende), of toch treurige?</message>
 				<example correction="zippende">Het woord <marker>sippende</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
-
-		<rulegroup id="SONDETJES_ZONDETJES" name="waarschuwing bij gebruik sondetjes i.p.v. zondetjes">
-			<rule>
-				<pattern>
-					   <token>sondetjes</token>
-				</pattern>
-				<message>Bedoelt u wellicht <suggestion>zondetjes</suggestion>?</message>
-				<example correction="zondetjes">Het woord <marker>sondetjes</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
 
@@ -12429,12 +12408,12 @@ onwaarschijnlijk
 		<rulegroup id="VREEMD_VRZ_HIJ" name="vang">
 			<rule>
 				<pattern>
-					<token postag="VRZ"><exception regexp="yes">tot|naar|voor|sinds|vóór</exception></token>
+					<token postag="VRZ"><exception regexp="yes">tot|naar|voor|sinds|vóór|gezien</exception></token>
 					<token postag_regexp="yes" postag="VNW:PER.*ACT"><exception postag_regexp="yes" postag="VNW:PER.*PSF"/></token>
 				</pattern>
-				<message>Hier staat iets zeer vreemds.</message>
+				<message>Het woord '\2' staat hier wat vreemd. Kijk dit nog eens na s.v.p.</message>
 				<short>Vreemd!</short>
-				<example type="incorrect"><marker>aan hij</marker></example>
+				<example correction="">Geef het <marker>aan hij</marker>.</example>
 			</rule>
 		</rulegroup>
 
