@@ -68,6 +68,7 @@ regexp case-insensitive maken : (?i)
 <!ENTITY taaladvies "Er zijn taaladviezen over deze tekst. Raadpleeg www.onzetaal.nl en www.taalaadvies.net, of google de tekst met daar taaladvies aan toegevoegd.">
 <!ENTITY leenwoord_mess "Mogelijk kunt u beter een Nederlands woord gebruiken">
 <!ENTITY cliche_mess "Pas op voor clichés. Probeer het op een andere manier uit te drukken.">
+<!ENTITY vaag_mess "Pas op met vage taal. Probeer precieser te zijn.">
 ]>
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lang="nl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 	<!--
@@ -30760,12 +30761,12 @@ steenwijk;Steenwijk
 				<example type="incorrect"><marker>Er mist</marker> een moertje.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="VAAG" name="vage taal">
+		<rulegroup id="VAAG" name="vage taal" tags="picky">
 			<rule>
 				<pattern>
 					<token>dingen</token>
 				</pattern>
-				<message>'<match no="1"/>' is wel erg vaag.</message>
+				<message>&vaag_mess;</message>
 				<example type="incorrect">Deze <marker>dingen</marker> doen het niet!</example>
 			</rule>
 			<rule>
@@ -30773,7 +30774,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<token>alles</token>
 				</pattern>
-				<message>'<match no="1"/>' is wel wat vaag.</message>
+				<message>&vaag_mess;</message>
 				<example type="incorrect">Hier <marker>alles</marker> ok.</example>
 			</rule>
 			<rule>
@@ -30781,21 +30782,21 @@ steenwijk;Steenwijk
 				<pattern>
 					<token>ooit</token>
 				</pattern>
-				<message>Woorden als '<match no="1"/>' kunnen een tekst vaag maken.</message>
+				<message>&vaag_mess;</message>
 				<example type="incorrect">Ik ga <marker>ooit</marker>.</example>
 			</rule>
 			<rule>
 				<pattern>
 					<token>wellicht</token>
 				</pattern>
-				<message>'<match no="1"/>' maakt de tekst vaag. Wees precies of laat het weg.</message>
+				<message>&vaag_mess;</message>
 				<example correction="">Deze zin is <marker>wellicht</marker> wel vaag hoor!</example>
 			</rule>
 			<rule>
 				<pattern>
 					<token>men</token>
 				</pattern>
-				<message>In plaats van '<match no="1"/>' kunt u beter aangeven wie precies.</message>
+				<message>&vaag_mess;</message>
 				<example type="incorrect"><marker>Men</marker> is niemand.</example>
 			</rule>
 		</rulegroup>
@@ -37554,46 +37555,32 @@ steenwijk;Steenwijk
 		</rulegroup>
 	</category>
 
-	<category id="UNEXPECTED" name="Ongebruikelijke constructies">
-		<rulegroup id="DE_ONVERWACHT" name="Onverwachte woorden na 'de'">
+	<category id="UNEXPECTED" name="Ongebruikelijke constructies" >
+		<rulegroup id="DE_ONVERWACHT" name="Onverwachte woorden na 'de'" >
 			<!-- antipatronen: eventueel nuttig voor analyse van reeksen met meer tags -->
 			<antipattern><token>de</token><token postag="ZNW:EKV"/></antipattern>
 			<antipattern><token>de</token><token postag="ZNW:EKV:DE_"/></antipattern>
-			<antipattern><token>de</token><token postag="ZNW:MRV:DE_"/></antipattern>
-			<antipattern><token>de</token><token postag="ZNW:MRV:VRK:DE_"/></antipattern>
-			<antipattern><token>de</token><token postag="BNW:STL:VRB"/></antipattern>
-			<antipattern><token>de</token><token postag="BNW:VGR:VRB"/></antipattern>
-			<antipattern><token>de</token><token postag="BNW:OVR:VRB"/></antipattern>
+			<antipattern><token>de</token><token postag=".*MRV.*" postag_regexp="yes"/></antipattern>
+			<antipattern><token>de</token><token postag="BNW:.*:(ONV|VRB)" postag_regexp="yes"/></antipattern>
 			<antipattern><token>de</token><token postag="GET:RNG"/></antipattern>
 			<antipattern><token>de</token><token postag="WKW:VTD:VRB"/></antipattern>
 			<antipattern><token>de</token><token postag="WKW:ODW:VRB"/></antipattern>
 			<antipattern><token>de</token><token postag="BNW:STF"/></antipattern>
-			<antipattern><token>de</token><token postag="GET:MRV"/></antipattern>
-			<antipattern><token>de</token><token postag="BNW:STL:ONV"/></antipattern>
-			<antipattern><token>de</token><token postag="BNW:VGR:ONV"/></antipattern>
-			<antipattern><token>de</token><token postag="BNW:OVR:ONV"/></antipattern>
 			<antipattern><token>de</token><token postag="VRZ"/></antipattern>
 			<antipattern><token>de</token><token postag="BYW"/></antipattern>
+			<antipattern><token>de</token><token postag="BYW:JES"/></antipattern>
 			<antipattern><token>de</token><token postag="VNW:OBP"/></antipattern>
-			<antipattern><token>de</token><token postag="WKW:VTD:MRV:DE_"/></antipattern>
 			<antipattern><token>de</token><token postag_regexp="yes" postag="ENM:PER:LST.*"/></antipattern>
 			<antipattern><token>de</token><token postag="DVS"/></antipattern>
-			<antipattern><token>de</token><token postag="WKW:ODW:MRV:DE_"/></antipattern>
-			<antipattern><token>de</token><token postag="BNW:STL:MRV:DE_"/></antipattern>
 			<antipattern><token>de</token><token postag="GET:EKV"/></antipattern>
 			<antipattern><token>de</token><token postag="BNW:ALR:VRB"/></antipattern>
-			<antipattern><token>de</token><token postag="GET:NMR:MRV:DE_"/></antipattern>
-			<antipattern><token>de</token><token postag="VNW:PER:1EP:MRV:BEZ"/></antipattern>
 			<antipattern><token>de</token><token postag="WKW:ODW:ONV"/></antipattern>
 			<antipattern><token>de</token><token postag="VNW:RFX"/></antipattern>
 			<antipattern><token>de</token><token postag="VGW"/></antipattern>
 			<antipattern><token>de</token><token postag="VNW:PER:3EP:EKV:PSF"/></antipattern>
 			<antipattern><token>de</token><token postag="WKW:VTD:ONV"/></antipattern>
-			<antipattern><token>de</token><token postag="WKW:VTD:ZNW:MRV:DE_"/></antipattern>
-
 			<antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET:EKV|GET:MRV"/></antipattern>
 			<antipattern><token>de</token><token>wat</token><token postag_regexp="yes" postag="BNW:(STL|VGR):(VRB|ONV)"/></antipattern>
-
 			<antipattern><token>de</token><token>facto</token></antipattern>
 			<antipattern><token>op</token><token>de</token><token>been</token></antipattern>
 			<antipattern><token>in</token><token>de</token><token>war</token></antipattern>
@@ -37607,14 +37594,15 @@ steenwijk;Steenwijk
 			<antipattern><token>de</token><token>condition</token><token>humaine</token></antipattern>
 			<antipattern><token>de</token><token>intensive</token><token>care</token></antipattern>
 			<antipattern><token>de</token><token>fine</token><token>fleur</token></antipattern>
-			<antipattern><token>de</token><token regexp="yes">mij|hem|haar|hen|jullie|ons|hun|meesten|meest|meeste|weinig|weinigen?|nogal</token></antipattern>
+			<antipattern><token>de</token><token>,</token><token>,</token></antipattern>
+			<antipattern><token>de</token><token regexp="yes">mij|hem|haar|hen|jullie|ons|hun|meesten|meest|meeste|weinig|weinigen?|nogal|zoveelste|het|ter|zelf|enigzins</token></antipattern>
+			<antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET.*"/></antipattern>
+			
 			<antipattern><token>de</token><token postag="AHL:OPN"/></antipattern>
 			<!-- eigennamen -->
 			<antipattern case_sensitive="yes"><token>de</token><token regexp="yes">^[A-Z][a-z].*</token><token regexp="yes">^[A-Z][a-z].*</token></antipattern>
 			
-			
 			<antipattern><token>de</token><token postag="UNKNOWN"/></antipattern>
-			
 			<rule>
 				<!-- de surplus die -->
 				<pattern>
@@ -37633,7 +37621,7 @@ steenwijk;Steenwijk
 					<token/>
 				</pattern>
 				<message>Het woord na 'de' is onverwacht. Kijk eens goed of er geen spatie te veel staat, 'de' 'te' of 'het' moet zijn, of nog iets anders. </message>
-				<example type="incorrect"><marker>de het</marker></example>
+				<example type="incorrect"><marker>de loopt</marker></example>
 				<example>Bij de overheadpass zijn beide handen aan de bal.</example> <!-- false alarm 15-12-2019 -->
 				<example>Bij de opgestane Jezus.</example> <!-- false alarm-->
 				<example>Bij de kartuizers.</example> <!-- false alarm-->
