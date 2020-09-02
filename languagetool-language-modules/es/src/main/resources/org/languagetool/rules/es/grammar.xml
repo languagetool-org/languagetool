@@ -12084,7 +12084,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Hola,">¡<marker>Hola</marker> amigo.</example>
                 <example>¡Hola a todos!</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
@@ -12092,12 +12092,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">buenos|buenas</token>
                         <token regexp="yes">días|tardes|noches</token>
                     </marker>
-                    <token><exception postag="_PUNCT.*" postag_regexp="yes"/><exception>a</exception></token>
+                    <token><exception postag="_PUNCT.*" postag_regexp="yes"/><exception regexp="yes">a|de|del|por|para</exception><exception inflected="yes">tener</exception></token>
                 </pattern>
                 <message>Los vocativos después de "<match no="3" case_conversion="alllower"/> \4" se escriben entre comas (ej. "<match no="3" case_conversion="startupper"/> \4, Ana.").</message>
                 <suggestion>\3 \4,</suggestion>
                 <example correction="Buenos días,">¡<marker>Buenos días</marker> amigo.</example>
                 <example>¡Buenas tardes a todos!</example>
+                <example>Buenos días tenga usted.</example>
             </rule>
         </rulegroup>
         <rule id="MUCHO_NF" name="mucho + nombre femenino">

@@ -56390,6 +56390,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Hola a tothom.</example>
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">dia|vespre|vesprada|tarda|nit</token>
+                    <token regexp="yes">de|per|pe</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
@@ -56397,7 +56401,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">bon|bona</token>
                         <token regexp="yes">dia|vespre|vesprada|tarda|nit</token>
                     </marker>
-                    <token><exception postag="_PUNCT.*" postag_regexp="yes"/><exception>a</exception></token>
+                    <token><exception postag="_PUNCT.*" postag_regexp="yes"/><exception>a</exception><exception inflected="yes">tenir</exception></token>
                 </pattern>
                 <message>Els vocatius darrere de "<match no="3" case_conversion="alllower"/> \4" s'escriuen entre comes (ex. "<match no="3" case_conversion="alllower"/> \4, Joan!").</message>
                 <suggestion>bon dia,</suggestion>
