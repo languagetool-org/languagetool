@@ -16,11 +16,9 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
 package org.languagetool.rules.pt;
 
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
@@ -38,7 +36,7 @@ import org.languagetool.rules.Category.Location;
  */
 public class PortugueseReadabilityRule extends ReadabilityRule {
   
-  boolean tooEasyTest;
+  private final boolean tooEasyTest;
 
   public PortugueseReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean tooEasyTest) {
     this (messages, lang, userConfig, tooEasyTest, -1, false);
@@ -106,10 +104,9 @@ public class PortugueseReadabilityRule extends ReadabilityRule {
   }
   
   @Override
-  protected String getMessage(int level, int FRE, int ASL, int ASW) {
+  protected String getMessage(int level, int fre, int asl, int asw) {
     String simple;
     String few;
-
     if (tooEasyTest) {
       simple = "fácil";
       few = "poucas";
@@ -117,7 +114,7 @@ public class PortugueseReadabilityRule extends ReadabilityRule {
       simple = "difícil";
       few = "muitas";
     }
-    return "Legibilidade {FRE: " + FRE +", ASL: " + ASL + ", ASW: " + ASW + "}: O texto deste parágrafo é " + simple + printMessageLevel(level) + ". Tem "
+    return "Legibilidade {FRE: " + fre +", ASL: " + asl + ", ASW: " + asw + "}: O texto deste parágrafo é " + simple + printMessageLevel(level) + ". Tem "
         + few + " palavras por frase e " + few + " sílabas por palavra.";
   }
 
@@ -126,17 +123,17 @@ public class PortugueseReadabilityRule extends ReadabilityRule {
     return "Nível de legibilidade 0 (muito difícil) a 6 (muito fácil):";
   }
 
+  /* Equation for readability
+   * FRE = Flesch-Reading-Ease
+   * ASL = Average Sentence Length
+   * ASW = Average Number of Syllables per Word
+   * English:    FRE= 206,835 - ( 1,015 * ASL ) - ( 84,6 * ASW )
+   * Portuguese: FRE= 206,840 - ( 1.020 * ASL ) - ( 60.0 * ASW )
+   * http://ridi.ibict.br/bitstream/123456789/273/1/EnyIS2007.pdf
+   */
   @Override
-          /* Equation for readability
-           * FRE = Flesch-Reading-Ease
-           * ASL = Average Sentence Length
-           * ASW = Average Number of Syllables per Word
-           * English:    FRE= 206,835 - ( 1,015 * ASL ) - ( 84,6 * ASW )
-           * Portuguese: FRE= 206,840 - ( 1.020 * ASL ) - ( 60.0 * ASW )
-           * http://ridi.ibict.br/bitstream/123456789/273/1/EnyIS2007.pdf
-           */
-  protected double getFleschReadingEase(double ASL, double ASW) {
-    return 206.84 - (1.02 * ASL) - ( 60.0 * ASW );  //  Portuguese
+  protected double getFleschReadingEase(double asl, double asw) {
+    return 206.84 - (1.02 * asl) - ( 60.0 * asw);  //  Portuguese
   }
   
   private static boolean isVowel(char c) {
