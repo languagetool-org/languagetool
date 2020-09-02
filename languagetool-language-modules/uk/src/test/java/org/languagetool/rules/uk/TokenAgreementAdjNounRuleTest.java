@@ -736,6 +736,8 @@ public class TokenAgreementAdjNounRuleTest {
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("на довгих місяця")).length);
 
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("продукту, а просунути український фільми")).length);
+    
     // plural
     
     // adj:.:p + multiple nouns
@@ -750,7 +752,7 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("називає й традиційні корупцію, «відкати», хабарі");
     assertEmptyMatch("державні Ощадбанк, «Укргазбанк»");
     assertEmptyMatch("коринфський з іонійським ордери");
-    assertEmptyMatch("можуть зробити доступнішими фосфор чи калій");
+//    assertEmptyMatch("можуть зробити доступнішими фосфор чи калій");
     assertEmptyMatch("зв'язаних ченця з черницею");
     assertEmptyMatch("на зарубаних матір з двома синами");
     assertEmptyMatch("повоєнні Австрія з Фінляндією");

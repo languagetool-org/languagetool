@@ -33,7 +33,6 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.WordTagger;
 import org.languagetool.tagging.uk.PosTagHelper;
-import org.languagetool.tools.StringTools;
 
 /**
  *
@@ -78,13 +77,13 @@ public class MissingHyphenRule extends Rule {
       AnalyzedTokenReadings tokenReadings = tokens[i];
       AnalyzedTokenReadings nextTokenReadings = tokens[i + 1];
       
-//      boolean isCapitalized = Character.isUpperCase(tokenReadings.getToken().charAt(0));
-      boolean isCapitalized = StringTools.isCapitalizedWord(tokenReadings.getToken());
 
       if( PosTagHelper.hasPosTagStart(nextTokenReadings, "noun")
           && ! PosTagHelper.hasPosTagPart(nextTokenReadings, "&pron")
           //    && ! PosTagHelper.hasPosTag(nextTokenReadings, Pattern.compile("^(?!noun).*"))
           && ALL_LOWER.matcher(nextTokenReadings.getToken()).matches() ) {
+
+        boolean isCapitalized = LemmaHelper.isCapitalized(tokenReadings.getCleanToken());
 
         String extraTag = getPrefixExtraTag(tokenReadings, isCapitalized);
         if ( extraTag != null
@@ -93,7 +92,7 @@ public class MissingHyphenRule extends Rule {
 
           // всі медіа країни
           if( "медіа".equalsIgnoreCase(tokenReadings.getToken()) 
-              && nextTokenReadings.getToken().matches("країни|півострова"))
+              && nextTokenReadings.getCleanToken().matches("країни|півострова"))
             continue;
           
           String suggested;

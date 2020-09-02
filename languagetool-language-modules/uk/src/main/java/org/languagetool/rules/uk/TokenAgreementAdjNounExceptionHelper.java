@@ -13,7 +13,6 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.uk.InflectionHelper.Inflection;
 import org.languagetool.tagging.uk.IPOSTag;
 import org.languagetool.tagging.uk.PosTagHelper;
-import org.languagetool.tools.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,9 +24,10 @@ final class TokenAgreementAdjNounExceptionHelper {
 
   private static final Pattern NUMBER_V_NAZ = Pattern.compile("number|numr:p:v_naz|noun.*?:p:v_naz:&numr.*");
   // including latin 'a' and 'i' so the rules don't trip on them in Ukrainian sentences
-  static final List<String> CONJ_FOR_PLURAL_WITH_COMMA = Arrays.asList("і", "й", "та", "чи", "або", "ані", "також", "плюс", "то", "a", "i", ",");
-  static final List<String> CONJ_FOR_PLURAL = Arrays.asList("і", "й", "та", "чи", "або", "ані", "також", "то", "a", "i");
-  static final Pattern CONJ_FOR_PLULAR_PATTERN = Pattern.compile(StringUtils.join(CONJ_FOR_PLURAL, "|"));
+  static final List<String> CONJ_FOR_PLURAL_WITH_COMMA = Arrays.asList("і", "а", "й", "та", "чи", "або", "ані", "також", "плюс", "то", "a", "i", ",");
+  static final List<String> CONJ_FOR_PLURAL = Arrays.asList("і", "а", "й", "та", "чи", "або", "ані", "також", "то", "a", "i");
+  static final Pattern CONJ_FOR_PLURAL_PATTERN = Pattern.compile(StringUtils.join(CONJ_FOR_PLURAL, "|"));
+  static final Pattern CONJ_FOR_PLURAL_WITH_COMMA_PATTERN = Pattern.compile(StringUtils.join(CONJ_FOR_PLURAL_WITH_COMMA, "|"));
   private static final Pattern DOVYE_TROYE = Pattern.compile(".*[2-4]|.*[2-4][\u2013\u2014-].*[2-4]|два|обидва|двоє|три|троє|чотири|один[\u2013\u2014-]два|два[\u2013\u2014-]три|три[\u2013\u2014-]чотири|двоє[\u2013\u2014-]троє|троє[\u2013\u2014-]четверо");
   private static final Pattern VERB_NOT_INSERT_PATTERN = Pattern.compile("verb(?!.*insert)");
 
@@ -44,8 +44,8 @@ final class TokenAgreementAdjNounExceptionHelper {
 
 
     if( i > 1
-        && StringTools.isCapitalizedWord(tokens[i-1].getToken())
-        && StringTools.isCapitalizedWord(tokens[i-2].getToken())
+        && LemmaHelper.isCapitalized(tokens[i-1].getCleanToken())
+        && LemmaHelper.isCapitalized(tokens[i-2].getCleanToken())
         && (LemmaHelper.hasLemma(tokens[i-1], "вітчизняний") || LemmaHelper.hasLemma(tokens[i-1], "житомирський"))
         && LemmaHelper.hasLemma(tokens[i-2], "великий")
         && ! LemmaHelper.hasLemma(tokens[i], "війна") ) {
@@ -551,10 +551,10 @@ final class TokenAgreementAdjNounExceptionHelper {
 
     // 1-3-й класи
     // на сьомому–восьмому поверхах
-    if( (adjAnalyzedTokenReadings.getToken().matches("[0-9]+[\u2014\u2013-][0-9]+[\u2013-][а-яіїєґ]{1,3}")
-        || (adjAnalyzedTokenReadings.getToken().matches(".*[а-яїієґ][\u2014\u2013-].*")
+    if( (adjAnalyzedTokenReadings.getCleanToken().matches("[0-9]+[\u2014\u2013-][0-9]+[\u2013-][а-яіїєґ]{1,3}")
+        || (adjAnalyzedTokenReadings.getCleanToken().matches(".*[а-яїієґ][\u2014\u2013-].*")
             && PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "&numr"))) 
-        && PosTagHelper.hasPosTag(slaveTokenReadings, ".*:p:.*")
+        && PosTagHelper.hasPosTagPart(slaveTokenReadings, ":p:")
         && hasOverlapIgnoreGender(masterInflections, slaveInflections) ) {
       logException();
       return true;
@@ -562,9 +562,9 @@ final class TokenAgreementAdjNounExceptionHelper {
     // восьмого – дев’ятого класів
     if( i > 2 
         && Arrays.asList("\u2013", "\u2014").contains(tokens[i-2].getToken())
-        && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, ".*num.*")
-        && PosTagHelper.hasPosTag(tokens[i-3], ".*num.*")
-        && PosTagHelper.hasPosTag(slaveTokenReadings, ".*:p:.*")
+        && PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "num")
+        && PosTagHelper.hasPosTagPart(tokens[i-3], "num")
+        && PosTagHelper.hasPosTagPart(slaveTokenReadings, ":p:")
         && hasOverlapIgnoreGender(InflectionHelper.getAdjInflections(tokens[i-3].getReadings()), slaveInflections)
         && hasOverlapIgnoreGender(masterInflections, slaveInflections) ) {
       logException();
@@ -726,7 +726,7 @@ final class TokenAgreementAdjNounExceptionHelper {
           if( genderMatches(masterInflections, slaveInflections, "v_oru", "v_naz") ) {
             // не можуть бути толерантними ізраїльтяни
             if( PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf")
-                || TokenAgreementNounVerbRule.inflectionsOverlap(tokens[verbPos].getReadings(), tokens[i].getReadings()) ) {
+                || VerbInflectionHelper.inflectionsOverlap(tokens[verbPos].getReadings(), tokens[i].getReadings()) ) {
                   logException();
                   return true;
             }
@@ -754,7 +754,7 @@ final class TokenAgreementAdjNounExceptionHelper {
       if( PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj.*v_oru.*") ) {
         // визнали справедливою наставники обох команд
         if( PosTagHelper.hasPosTag(slaveTokenReadings, "noun.*v_naz.*")
-              && TokenAgreementNounVerbRule.inflectionsOverlap(tokens[verbPos].getReadings(), tokens[i].getReadings()) ) {
+              && VerbInflectionHelper.inflectionsOverlap(tokens[verbPos].getReadings(), tokens[i].getReadings()) ) {
           logException();
           return true;
         }
@@ -1006,6 +1006,8 @@ final class TokenAgreementAdjNounExceptionHelper {
     for(int i=pos; i>pos-depth && i>=1; i--) {
 
       if( CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[i].getToken().toLowerCase()) ) {
+        if( TokenAgreementNounVerbExceptionHelper.isNonPluralA(tokens, i) )
+          return false;
 
         if( i < 2
             || ( (! tokens[i-1].hasPosTag("number") || ! PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile("adj.*?&numr.*"))) // 1, 2 та 3-й 
@@ -1053,7 +1055,7 @@ final class TokenAgreementAdjNounExceptionHelper {
 
         if( i==tokens.length-1
             || (! PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile("(noun|adj|num|adv(?!p)).*"))
-                && ! StringTools.isCapitalizedWord(tokens[i+1].getToken())
+                && ! LemmaHelper.isCapitalized(tokens[i+1].getCleanToken())
                 && ! tokens[i+1].getToken().matches("[\"«“„]") ) )
           return false;
 
@@ -1061,7 +1063,7 @@ final class TokenAgreementAdjNounExceptionHelper {
       }
 
       if( ! PosTagHelper.hasPosTag(tokens[i], Pattern.compile("(noun|adj|prep|adv(?!p)|number:latin).*"))
-            && ! StringTools.isCapitalizedWord(tokens[i].getToken()) )  // for unknown last names: згадувані Костянтин Скоркін та Олена Заславська
+            && ! LemmaHelper.isCapitalized(tokens[i].getCleanToken()) )  // for unknown last names: згадувані Костянтин Скоркін та Олена Заславська
         return false;
     }
 
