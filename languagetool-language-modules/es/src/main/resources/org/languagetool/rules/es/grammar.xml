@@ -12018,14 +12018,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"/>
                     <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
                     <marker>
-                        <token>hola</token>
+                        <token regexp="yes">hola|felicidades</token>
                     </marker>
                     <token><exception postag="_PUNCT.*" postag_regexp="yes"/><exception>a</exception></token>
                 </pattern>
-                <message>Los vocativos después de "hola" se escriben entre comas (ej. Hola, Ana.)</message>
+                <message>Los vocativos después de "<match no="3" case_conversion="alllower"/>" se escriben entre comas (ej. "<match no="3" case_conversion="startupper"/>, Ana.").</message>
                 <suggestion>\3,</suggestion>
                 <example correction="Hola,">¡<marker>Hola</marker> amigo.</example>
                 <example>¡Hola a todos!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">buenos|buenas</token>
+                        <token regexp="yes">días|tardes|noches</token>
+                    </marker>
+                    <token><exception postag="_PUNCT.*" postag_regexp="yes"/><exception>a</exception></token>
+                </pattern>
+                <message>Los vocativos después de "<match no="3" case_conversion="alllower"/> \4" se escriben entre comas (ej. "<match no="3" case_conversion="startupper"/> \4, Ana.").</message>
+                <suggestion>\3 \4,</suggestion>
+                <example correction="Buenos días,">¡<marker>Buenos días</marker> amigo.</example>
+                <example>¡Buenas tardes a todos!</example>
             </rule>
         </rulegroup>
         <rule id="MUCHO_NF" name="mucho + nombre femenino">
