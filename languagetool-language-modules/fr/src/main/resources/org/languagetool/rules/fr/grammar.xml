@@ -861,6 +861,11 @@ though, and has since been slightly modified)-->
       <example>Il trouva de la nourriture çà et là.</example>
     </rule>
     <rule id="QUAND_QUANT" name="Quand au lieu de quant">
+        <antipattern>
+        <token regexp="yes">[«‹»›„“‟”’"❝❞❮❯⹂〝〞〟＂‚‘‛❛❜❟]</token>
+        <token>quand</token>
+        <token regexp="yes">[«‹»›„“‟”’"❝❞❮❯⹂〝〞〟＂‚‘‛❛❜❟]</token>
+        </antipattern>
       <pattern>
         <marker>
           <token>quand
@@ -875,6 +880,7 @@ though, and has since been slightly modified)-->
       <example>De quand à quand tu travailles ?</example>
       <example>Tu reviens quand à Paris ?</example>
       <example>Tu restes jusqu’à quand à la maison ?</example>
+        <example>Voulez-vous écrire « quand » ?</example>
     </rule>
     <rule id="QUANT_QUAND" name="Quant au lieu de quand">
       <pattern>
@@ -30029,7 +30035,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token regexp="yes">hellos?</token>
       </pattern>
-      <message>« Hello » est un anglicisme. Employez <suggestion>salut</suggestion>, <suggestion>allô</suggestion>. Prenez note qu’« allô » n’est admis que comme salutation pour le téléphone.</message>
+      <message>« Hello » est considéré comme un anglicisme. Vous pouvez employer <suggestion>salut</suggestion>, <suggestion>allô</suggestion>. Prenez note qu’« allô » n’est valable que comme salutation pour le téléphone.</message>
       <example correction="Salut|Allô"><marker>Hello</marker>.</example>
       <example><marker>allô</marker>.</example>
     </rule>
@@ -30037,8 +30043,9 @@ though, and has since been slightly modified)-->
       <pattern>
         <token regexp="yes">hoods?</token>
       </pattern>
-      <message>« Hood » est un anglicisme. Employez <suggestion>capot</suggestion> (automobile).</message>
-      <example correction="capot"><marker>hood</marker>.</example>
+      <message>« Hood » est un anglicisme. Employez <suggestion>capot</suggestion> (automobile), ou <suggestion>quartier</suggestion> (argot).</message>
+      <example correction="capot|quartier"><marker>hood</marker>.</example>
+      <example correction="capot|quartier">Il vient de mon <marker>hood</marker>.</example>
     </rule>
     <rule id="HOLD" name="hold">
       <pattern>
