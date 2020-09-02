@@ -17574,11 +17574,10 @@ steenwijk;Steenwijk
 		
 		<rulegroup id="SPATIE_NA" name="spatie na ; of :">
 			<rule>
-				<antipattern> <!-- smiley -->
-					<token regexp="yes">[:;]</token>
-					<token spacebefore="no" regexp="yes">[)p]</token>
-					<token spacebefore="yes"/>
-				</antipattern>
+				<!-- smileys -->
+				<antipattern><token spacebefore="no">:</token><token spacebefore="no">NL</token><token spacebefore="no">:</token></antipattern>
+				<antipattern><token regexp="yes">[:;]</token><token spacebefore="no" regexp="yes">[D)(p-]</token></antipattern>
+				<antipattern><token>;</token><token spacebefore="no" regexp="yes">[D)p-]</token></antipattern>
 				<antipattern> <!-- e.g. 15:00 -->
 					<token regexp="yes">[0-9]{1,2}</token>
 					<token spacebefore="no">:</token>
@@ -17592,13 +17591,13 @@ steenwijk;Steenwijk
 					<token regexp="yes">[:;]</token>
 					<token spacebefore="no"/>
 				</pattern>
-				<message>Na '\1' hoort een spatie: <suggestion>\1 \2</suggestion></message>
+				<message>Na een puntkomma of een dubbelepunt hoort een spatie: <suggestion>\1 \2</suggestion></message>
 				<example correction=": ik">Er waren er twee<marker>:ik</marker> en hij.</example>
 				<example>Om <marker>08:10</marker> gaat de wekker.</example>
 				<example>De code voor een spatie is niet <marker>&amp;nbsp;</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="SPATIE_VOOR_BELETSELTEKEN" name="spatie voor beletselteken">
+		<rulegroup id="SPATIE_VOOR_BELETSELTEKEN" name="spatie voor beletselteken" tags="picky">
 			<rule>
 				<!-- common in some sources -->
 				<antipattern><token>[</token><token spacebefore="no">…</token><token spacebefore="no">]</token></antipattern>
@@ -20626,7 +20625,7 @@ steenwijk;Steenwijk
 				<example correction="aan de andere kant">Enerzijds stedelijk, <marker>anderzijds</marker> domestiek.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="ANIMO" name="animo">
+		<rulegroup id="ANIMO" name="animo" tags="picky">
 			<rule>
 				<pattern>
 					<token>animo</token>
