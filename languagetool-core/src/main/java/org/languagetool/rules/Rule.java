@@ -474,9 +474,8 @@ public abstract class Rule {
    * @since 5.1
    */
   public void addTags(List<String> tags) {
-    //System.out.println(getFullId() + " =>" + tags);
     for (String tag : tags) {
-      if (!this.tags.contains(tag)) {
+      if (this.tags.stream().noneMatch(k -> k.name().equals(tag))) {
         this.tags.add(Tag.valueOf(tag));
       }
     }
