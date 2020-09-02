@@ -192,5 +192,35 @@ public class Ukrainian extends Language {
   public List<String> getDefaultDisabledRulesForVariant() {
     return Arrays.asList("piv_before_iotized_1992", "piv_with_proper_noun_1992");
   }
+  
+  /** @since 5.1 */
+  @Override
+  public String getOpeningDoubleQuote() {
+    return "«";
+  }
+
+  /** @since 5.1 */
+  @Override
+  public String getClosingDoubleQuote() {
+    return "»";
+  }
+  
+  /** @since 5.1 */
+  @Override
+  public String getOpeningSingleQuote() {
+    return "‘";
+  }
+
+  /** @since 5.1 */
+  @Override
+  public String getClosingSingleQuote() {
+    return "’";
+  }
+  
+  /** @since 5.1 */
+  @Override
+  public boolean isAdvancedTypographyEnabled() {
+    return false;  //DISABLED!
+  }
 
 }
