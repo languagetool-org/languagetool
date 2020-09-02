@@ -42,7 +42,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
       "^(auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans) (..+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
-  private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([clntsm])(h?[aeiouàéèíòóú].*)$",
+  private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([clnts])(h?[aeiouàéèíòóú].*)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_INICI_VERBS_M = Pattern.compile("^(m)(h?[aeiouàéèíòóú].*)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
@@ -56,7 +56,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   //private static final Pattern MOVE_TO_SECOND_POS = Pattern.compile("^(.+'[nt])$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern VERB_INDSUBJ = Pattern.compile("V .*(ind|sub).*");
-  private static final Pattern VERB_INDSUBJ_M = Pattern.compile("V .* [123] s.*|V .*[23] p.*");
+  private static final Pattern VERB_INDSUBJ_M = Pattern.compile("V .* [123] s|V .* [23] p");
   private static final Pattern NOM_SING = Pattern.compile("[NJ] .* s|V .inf|V .*ppa.* s");
   private static final Pattern NOM_PLURAL = Pattern.compile("[NJ] .* p|V .*ppa.* p");
   //private static final Pattern VERB_INFGERIMP = Pattern.compile("V.[NGM].*");
@@ -174,13 +174,21 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
       if (recursive) {
         List<String> moresugg = this.speller1.getSuggestions(newSuggestion);
         if (moresugg.size() > 0) {
-          String newWord;
-          if (suggestionPosition == 1) {
-            newWord = moresugg.get(0).toLowerCase() + matcher.group(2);
-          } else {
-            newWord = matcher.group(1) + moresugg.get(0).toLowerCase();
+          for (int i=0; i<moresugg.size(); i++) {
+            String newWord;
+            if (suggestionPosition == 1) {
+              newWord = moresugg.get(i).toLowerCase() + matcher.group(2);
+            } else {
+              newWord = matcher.group(1) + moresugg.get(i).toLowerCase();
+            }
+            String sugg = findSuggestion(suggestion, newWord, wordPattern, postagPattern, suggestionPosition, separator, false);
+            if (!sugg.isEmpty()) {
+              return sugg;
+            }
+            if (i>3) {
+              break;
+            }
           }
-          return findSuggestion(suggestion, newWord, wordPattern, postagPattern, suggestionPosition, separator, false);
         }
       }
     }

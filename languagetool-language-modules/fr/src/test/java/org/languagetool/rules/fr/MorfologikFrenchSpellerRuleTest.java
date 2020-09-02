@@ -122,7 +122,7 @@ public class MorfologikFrenchSpellerRuleTest {
     
     matches = rule.match(langTool.getAnalyzedSentence("language"));
     assertEquals(1, matches.length);
-    assertEquals("l'engagé", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("l'engage", matches[0].getSuggestedReplacements().get(0));
     assertEquals("langage", matches[0].getSuggestedReplacements().get(1));
     
     assertSuggestion(rule, langTool, "qu’il sagissait", "ils agissait", "il s'agissait"); // see #3068 TODO: change order
@@ -147,16 +147,16 @@ public class MorfologikFrenchSpellerRuleTest {
     assertSuggestion(rule, langTool, "wordpress", "WordPress");
     assertSuggestion(rule, langTool, "Etais-tu", "Étés", "Étais"); //TODO: suggest only verbs
     assertSuggestion(rule, langTool, "etais-tu", "étés", "étais"); //TODO: suggest only verbs
-    assertSuggestion(rule, langTool, "depeche-toi", "dépêche"); 
+    assertSuggestion(rule, langTool, "depeche-toi", "d'empêché", "dépêche"); 
     assertSuggestion(rule, langTool, "etiez-vous", "étiez");
     assertSuggestion(rule, langTool, "preferes-tu", "préférés", "préfères"); //TODO
     assertSuggestion(rule, langTool, "Playstation", "PlayStation"); 
     assertSuggestion(rule, langTool, "étaistu", "étais-tu");
     assertSuggestion(rule, langTool, "voulezvous", "voulez-vous");
     assertSuggestion(rule, langTool, "ecoutemoi", "écoute-moi");
-    assertSuggestion(rule, langTool, "etaistu", "était", "étés");
+    assertSuggestion(rule, langTool, "etaistu", "étais-tu", "était");
     assertSuggestion(rule, langTool, "mappelle", "m'appelle", "appelle");
-    // TODO:assertSuggestion(rule, langTool, "mapelle", "m'appelle");
+    assertSuggestion(rule, langTool, "mapelle", "ma pelle", "m'appelle");
 
     // don't split prefixes 
     matches = rule.match(langTool.getAnalyzedSentence("macrodiscipline"));
