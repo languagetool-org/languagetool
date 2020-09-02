@@ -325,8 +325,8 @@ class CompoundTagger {
         && ! PosTagHelper.hasPosTagPart(leftAnalyzedTokens, "numr") )
       return null;
 
-    if( ! leftWord.equalsIgnoreCase(rightWord) && PosTagHelper.hasPosTag(rightAnalyzedTokens, "(part|conj).*|.*?:&pron.*") 
-        && ! (PosTagHelper.hasPosTag(leftAnalyzedTokens, "numr.*") && PosTagHelper.hasPosTag(rightAnalyzedTokens, "numr.*")) )
+    if( ! leftWord.equalsIgnoreCase(rightWord) && PosTagHelper.hasPosTag(rightAnalyzedTokens, Pattern.compile("(part|conj).*|.*?:&pron.*")) 
+        && ! (PosTagHelper.hasPosTagStart(leftAnalyzedTokens, "numr") && PosTagHelper.hasPosTagStart(rightAnalyzedTokens, "numr")) )
       return null;
 
 
@@ -581,7 +581,7 @@ class CompoundTagger {
     List<TaggedWord> secondWdList = tagEitherCase(parts[1]);
     
     // try full match - only adj for now - nouns are complicated
-    if( PosTagHelper.startsWithPosTag(secondWdList, "adj") ) {
+    if( PosTagHelper.hasPosTagStart2(secondWdList, "adj") ) {
       List<AnalyzedToken> secondAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(parts[1], secondWdList);
 
       List<AnalyzedToken> tagMatchSecondAndThird = tagMatch(word, secondAnalyzedTokens, rightAnalyzedTokens);
@@ -1247,7 +1247,7 @@ class CompoundTagger {
       String extraTag = "";
 
       List<TaggedWord> taggedWords = wordTagger.tag(leftWord);
-      if( ! PosTagHelper.startsWithPosTag(taggedWords, "numr") )
+      if( ! PosTagHelper.hasPosTagStart2(taggedWords, "numr") )
         return null;
 
       // двох-трьохметровий - bad
