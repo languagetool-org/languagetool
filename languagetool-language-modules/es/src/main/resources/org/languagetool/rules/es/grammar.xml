@@ -581,10 +581,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>como</token>
                     <token>esta</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="V.N.*" postag_regexp="yes" skip="3"/>
+                    <token>como</token>
+                    <token regexp="yes">está|están</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>como</token>
-                        <token regexp="yes">estas|estás|esta|está</token>
+                        <token regexp="yes">estas|estás|esta|está|están</token>
                     </marker>
                     <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
                     <token>?</token>
@@ -594,11 +599,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="cómo estás">Hola amigo <marker>como estas</marker>?</example>
                 <example correction="cómo está">Hola amigo <marker>como esta</marker>?</example>
                 <example correction="cómo está">Hola amigo <marker>como esta</marker> hoy?</example>
+                <example correction="cómo están">Hola, amigos <marker>como están</marker> hoy?</example>
                 <example>¿Quieres manzanas verdes como estas?</example>
                 <example>¿Quieres manzanas verdes, como estas?</example>
                 <example>¿Te gustan las naranjas como estas?</example>
                 <example>¿Quieres una manzana como esta?</example>
                 <!-- infrequent and unnatural -->
+                <example>¿No se puede dejar como está?</example>
+                <example>¿No se pueden dejar ahora como están?</example>
             </rule>
             <rule>
                 <pattern>
@@ -1875,7 +1883,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" min="0">["«“‘']</token>
                     <marker>
                         <and>
-                            <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V.{3}3.*|C.*|SP.*|V.G.*" postag_regexp="yes"/><exception postag="V.{3}3.*|AQ.*|[CR].*" postag_regexp="yes"/></token>
+                            <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V.{3}3.*|C.*|SP.*|V.G.*" postag_regexp="yes"/><exception postag="V.{3}3.*|[CR].*" postag_regexp="yes"/></token>
                             <token inflected="yes" regexp="yes">.+ar</token>
                         </and>
                     </marker>
@@ -1886,6 +1894,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="habló">Ella <marker>hablo</marker></example>
                 <example correction="habló">Usted <marker>hablo</marker></example>
                 <example correction="trabajó">Él <marker>trabajo</marker> varias horas.</example>
+                <example correction="limpió">Él <marker>limpio</marker> la herida.</example>
                 <example>Con ella hablo todos los días.</example>
                 <example>¿Qué estaba usted haciendo?</example>
                 <example>¿Tiene usted uno?</example>
@@ -1925,7 +1934,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="_QM_OPEN|R.*|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
                     <marker>
                         <and>
-                            <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V...3.*|C.*|SP.*|V.G.*|[ANCR].*" postag_regexp="yes"/></token>
+                            <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V...3.*|C.*|SP.*|V.G.*|[ANCR].|_possible_NP*" postag_regexp="yes"/></token>
                             <token inflected="yes" regexp="yes">.+ar<exception inflected="yes" regexp="yes">.+ir</exception></token>
                         </and>
                     </marker>
@@ -3762,10 +3771,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <!--<token postag="SENT_START|_PUNCT.*|SPS00|LOC_PREP|V...3S." postag_regexp="yes"/>-->
+                    <!-- TODO: él primero: ambiguous -->
                     <marker>
                         <token>él</token>
                     </marker>
-                    <token postag="NC[MC][SN].*|A..[MC][SN].|_GN_MS" postag_regexp="yes"><exception postag="V...3S.|D.*" postag_regexp="yes"/><exception regexp="yes">solo|solito|justo|mismo</exception></token>
+                    <token postag="NC[MC][SN].*|A..[MC][SN].|_GN_MS" postag_regexp="yes"><exception postag="V...3S.|D.*" postag_regexp="yes"/><exception regexp="yes">primero|solo|solito|justo|mismo</exception></token>
                 </pattern>
                 <message>No se escribe con tilde si no es un pronombre.</message>
                 <suggestion>el</suggestion>
@@ -3952,6 +3962,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="TU_SIN_TILDE" name="tú > tu">
             <rule>
+                <antipattern>
+                    <token>tú</token>
+                    <token>ve</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>tú</token>
@@ -4131,7 +4145,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="C.|PR.*" postag_regexp="yes" skip="6"/>
                     <token>esta</token>
                     <token>fuera</token>
-                    <token postag="D..FS.|A..[FC]S." postag_regexp="yes"/>
+                    <token postag="D...S.|A...S." postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -4146,6 +4160,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="está">La crítica que haces <marker>esta</marker> fuera de lugar.</example>
                 <example correction="Está"><marker>Esta</marker> fuera la mejor.</example>
                 <example>Aunque esta fuera la mejor.</example>
+                <example>Le daba igual que esta fuera el esperanto u otra lengua.</example>
             </rule>
             <rule>
                 <!-- está + adjetivo-->
@@ -9597,6 +9612,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Personas como yo seguirán comiendo chocolate.</example>
             </rule>
             <rule id="PP_V_2" name="Concordancia 2ª persona">
+                <antipattern>
+                    <token>tú</token>
+                    <token postag="VMM02S0"/>
+                </antipattern>
                 <pattern case_sensitive="no">
                     <token postag="PP2(.{2}N|CN0|MP0).*" postag_regexp="yes"><exception postag="SP*" postag_regexp="yes" scope="previous"/></token>
                     <token postag="V.{3}[13].*" postag_regexp="yes"><exception postag="AQ.*|SP.*" postag_regexp="yes"/><!--TODO: generalizar.--><exception regexp="yes">como|una|obra</exception></token>
@@ -9608,6 +9627,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tú vienes</example>
                 <example>Ellos con vosotros son solo ratas.</example>
                 <example>Que tu familia y tú estéis tranquilos.</example>
+                <example>Tú ve allá.</example>
             </rule>
             <rule id="PP_V_3">
                 <pattern>
@@ -12058,7 +12078,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token><exception postag="SENT_START|_PUNCT.*" postag_regexp="yes"/></token>
+                        <token><exception postag="SENT_START|_PUNCT.*|V.*" postag_regexp="yes"/></token>
                     </marker>
                     <token>cómo</token>
                     <token inflected="yes" regexp="yes">estar|ser</token>
@@ -12069,8 +12089,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="amigo,">Hola <marker>amigo</marker> cómo estás?</example>
                 <example>¿Cómo estás?</example>
                 <example>Hola, ¿amigo, cómo estás?</example>
+                <example>¿Recordaste cómo era?</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>saludos</token>
+                    <token postag="A..[MC][PN].|V.P..PM" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
@@ -12084,6 +12109,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Hola,">¡<marker>Hola</marker> amigo.</example>
                 <example>¡Hola a todos!</example>
                 <example>Felicidades por la victoria.</example>
+                <example>Saludos cordiales.</example>
             </rule>
             <rule>
                 <pattern>

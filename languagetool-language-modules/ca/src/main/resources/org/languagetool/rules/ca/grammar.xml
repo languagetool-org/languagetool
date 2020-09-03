@@ -56376,6 +56376,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Si us plau,"><marker>Si us plau</marker> no doneu a ningú aquesta contrasenya.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>salutacions</token>
+                    <token postag="A..[FC][PN].|V.P..PF." postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
@@ -56391,6 +56395,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Hola per tercera vegada!</example>
                 <example>Felicitats per la bona actuació.</example>
                 <example>Enhorabona i gràcies per tot.</example>
+                <example>Salutacions cordials.</example>
             </rule>
             <rule>
                 <pattern>
