@@ -197,7 +197,7 @@ class HttpApiSentenceChecker {
     Options options = new Options();
     options.addRequiredOption(null, "input", true, "Plain text input file");
     options.addRequiredOption(null, "lang", true, "Language code, e.g. en-US");
-    options.addRequiredOption(null, "threads", true, "Number of threads");
+    options.addRequiredOption(null, "threads", true, "Number of threads (NOTE: changing this will change output due to the way input is split)");
     options.addRequiredOption(null, "output", true, "Output file");
     options.addOption(null, "token", true, "Secret token to skip server's limits");
     options.addOption(null, "url", true, "Base URL, defaults to https://api.languagetool.org");
