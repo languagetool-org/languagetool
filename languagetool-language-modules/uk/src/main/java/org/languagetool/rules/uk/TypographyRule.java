@@ -66,6 +66,7 @@ public class TypographyRule extends Rule {
         replacements.add( shortDashToken.replaceAll("[\u2013\u2014]", "-") );
         replacements.add( shortDashToken.replaceAll("[\u2013\u2014]", " \u2014 ") );
 
+        // Правопис 2019 § 161. ТИРЕ (—), пп. 12-15
         String msg = "Риска всередині слова. Всередині слова вживайте дефіс, між словами виокремлюйте риску пробілами.";
         RuleMatch potentialRuleMatch = createRuleMatch(tokens[i], replacements, msg, sentence);
         ruleMatches.add(potentialRuleMatch);
@@ -76,6 +77,7 @@ public class TypographyRule extends Rule {
   }
 
   private static final Pattern SHORT_DASH_WORD = Pattern.compile("[а-яіїєґ']{2,}([\u2013\u2014][а-яіїєґ']{2,})+", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern BAD_LATIN = Pattern.compile("[ХІXIV]+[\u2013\u2014][ХІXIV]+");
   private String shortDashToken(AnalyzedTokenReadings tokenReadings) {
     List<AnalyzedToken> readings = tokenReadings.getReadings();
     if( readings.size() == 0 || tokenReadings.getToken() == null )
@@ -85,6 +87,7 @@ public class TypographyRule extends Rule {
     return lastReadingToken != null 
         && (lastReadingToken.indexOf('\u2013') > 0 || lastReadingToken.indexOf('\u2014') > 0)
         && SHORT_DASH_WORD.matcher(lastReadingToken).matches()
+        && ! BAD_LATIN.matcher(lastReadingToken).matches()
       ? lastReadingToken
       : null;
   }

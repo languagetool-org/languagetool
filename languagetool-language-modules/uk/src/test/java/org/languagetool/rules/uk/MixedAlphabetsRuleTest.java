@@ -99,6 +99,9 @@ public class MixedAlphabetsRuleTest {
     assertEquals("Вжито кириличну літеру замість латинської", matches[0].getMessage());
     assertEquals("I", matches[0].getSuggestedReplacements().get(0));
 
+    matches = rule.match(langTool.getAnalyzedSentence("ЗА І ПРОТИ")); // cyrillic І
+    assertEquals(0, matches.length);
+
     // ambiguous without semantics:
     // російський хемік Александр І. Опарін (1894–1980)
     

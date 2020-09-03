@@ -332,6 +332,13 @@ public class TokenAgreementPrepNounRuleTest {
   }
 
   @Test
+  public void testWithAdv() throws IOException {
+    RuleMatch[] match = ruleMatch("гречка у двічі дешевша ніж");
+    assertEquals(1, match.length);
+    assertTrue(match[0].getMessage().contains("Можливо, прийменник і прислівник"));
+  }
+  
+  @Test
   public void testIsCapitalized() {
     assertFalse(LemmaHelper.isCapitalized("боснія"));
     assertTrue(LemmaHelper.isCapitalized("Боснія"));

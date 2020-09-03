@@ -87,13 +87,7 @@ public class MixedAlphabetsRule extends Rule {
         ruleMatches.add(potentialRuleMatch);
       }
       else if ("І".equals(tokenString)
-          && ( (i > 1
-              && (LemmaHelper.isCapitalized(tokens[i-1].getCleanToken())
-                || LemmaHelper.hasLemma(tokens[i-1], Arrays.asList("в", "у"))))
-              || (i < tokens.length - 1
-                && Arrays.asList("ст.", "тис.").contains(tokens[i+1].getToken()))
-              || (i > 1 && i < tokens.length - 1
-                && Arrays.asList("квартал", "півріччя", "тисячоліття", "половина").contains(tokens[i+1].getToken())) ) ) {
+          && likelyBadLatinI(tokens, i) ) {
         List<String> replacements = new ArrayList<>();
         replacements.add( toLatin(tokenString) );
 
@@ -184,6 +178,17 @@ public class MixedAlphabetsRule extends Rule {
     }
     
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private boolean likelyBadLatinI(AnalyzedTokenReadings[] tokens, int i) {
+    return i > 1
+        && ((LemmaHelper.isCapitalized(tokens[i-1].getCleanToken())
+          || (PosTagHelper.hasPosTagStart(tokens[i-1], "prep")
+              && i < tokens.length - 1 && ! LemmaHelper.isAllUppercaseUk(tokens[i+1].getToken())) )
+        ||
+        i < tokens.length - 1 && Arrays.asList("ст.", "тис.").contains(tokens[i+1].getToken())
+        || 
+        i < tokens.length - 1 && Arrays.asList("квартал", "півріччя", "тисячоліття", "половина").contains(tokens[i+1].getToken()));
   }
 
   private String adjustForInvalidSuffix(String tokenString) {

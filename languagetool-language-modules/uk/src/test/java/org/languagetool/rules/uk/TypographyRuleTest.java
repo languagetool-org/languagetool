@@ -41,6 +41,8 @@ public class TypographyRuleTest {
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("А\u2013Т")).length);
 
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("ХХ\u2013ХХІ")).length);
+    
     //incorrect sentences:
     // TODO: does not work when word is the last in the sentence: "яскраво\u2013рожевий"
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("яскраво\u2013рожевий."));
