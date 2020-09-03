@@ -31551,7 +31551,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
-        <rulegroup id="VOLUNTARI_ARIA" name="voluntari/ària" default="temp_off">
+        <rulegroup id="VOLUNTARI_ARIA" name="voluntari/ària">
             <!-- other terminations? -->
             <rule>
                 <pattern>
@@ -31574,7 +31574,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="soci/sòcia">Nom del <marker>soci/a</marker>:</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PLENAR_OMPLIR" name="*plenar/omplir" default="temp_off">
+        <rulegroup id="PLENAR_OMPLIR" name="*plenar/omplir">
             <rule>
                 <pattern>
                     <token regexp="yes">em|et|el</token>
@@ -31630,7 +31630,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="escombraries">Era menjar <marker>escombraria</marker>.</example>
             <example>Em va dir que escombraria ell.</example>
         </rule>
-        <rulegroup name="plural de sigles" id="SIGLES" default="temp_off">
+        <rulegroup name="plural de sigles" id="SIGLES">
             <rule>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
@@ -31652,7 +31652,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">[A-Z][A-Z]+s<exception postag="N,*" postag_regexp="yes"/></token>
+                    <token regexp="yes" case_sensitive="yes">[A-Z][A-Z]+s<exception postag="[DN],*" postag_regexp="yes"/><exception>ELs</exception></token>
                 </pattern>
                 <message>El plural de las sigles no es marca gràficament.</message>
                 <suggestion><match no="1" regexp_match="(.+)s" regexp_replace="$1"/></suggestion>
@@ -31727,7 +31727,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>al dematí</suggestion>
                 <example correction="al matí|de matí|al dematí">Ens n'anirem <marker>al de matí</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="D[^R]0MS0" postag_regexp="yes"/>
                     <token min="0" postag="A..[MC][SN]." postag_regexp="yes"/>
@@ -56375,25 +56375,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Si et plau,">¡<marker>Si et plau</marker> no te'n vagis ara!</example>
                 <example correction="Si us plau,"><marker>Si us plau</marker> no doneu a ningú aquesta contrasenya.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
                     <marker>
-                        <token regexp="yes">hola|felicitats</token>
+                        <token regexp="yes">hola|felicitats|enhorabona|salutacions</token>
                     </marker>
-                    <token><exception postag="_PUNCT.*" postag_regexp="yes"/><exception>a</exception></token>
+                    <token postag="[ANV].*|_possible_nompropi" postag_regexp="yes"><exception postag="_PUNCT.*|SPS00|C.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Els vocatius darrere de "\3" s'escriuen entre comes (ex. "\3, Joan!").</message>
                 <suggestion>\3,</suggestion>
                 <example correction="Hola,"><marker>Hola</marker> Joan.</example>
                 <example>Hola a tothom.</example>
+                <example>Hola per tercera vegada!</example>
+                <example>Felicitats per la bona actuació.</example>
+                <example>Enhorabona i gràcies per tot.</example>
             </rule>
-            <rule default="temp_off">
-                <antipattern>
-                    <token regexp="yes">dia|vespre|vesprada|tarda|nit</token>
-                    <token regexp="yes">de|per|pe</token>
-                </antipattern>
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
@@ -56401,12 +56400,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">bon|bona</token>
                         <token regexp="yes">dia|vespre|vesprada|tarda|nit</token>
                     </marker>
-                    <token><exception postag="_PUNCT.*" postag_regexp="yes"/><exception>a</exception><exception inflected="yes">tenir</exception></token>
+                    <token postag="[ANV].*|_possible_nompropi" postag_regexp="yes"><exception postag="_PUNCT.*|SPS00|C.*" postag_regexp="yes"/><exception inflected="yes">tenir</exception></token>
                 </pattern>
                 <message>Els vocatius darrere de "<match no="3" case_conversion="alllower"/> \4" s'escriuen entre comes (ex. "<match no="3" case_conversion="alllower"/> \4, Joan!").</message>
                 <suggestion>bon dia,</suggestion>
                 <example correction="Bon dia,"><marker>Bon dia</marker> Joan.</example>
                 <example>Hola a tothom.</example>
+                <example>Bon dia pel matí!</example>
+                <example>Bon dia i enhorabona</example>
+                <example>Bon dia i bona hora.</example>
+                <example>Bona nit tingueu.</example>
+                <example>Bona nit i tapa't.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GRACIES" name="gràcies (coma)">
