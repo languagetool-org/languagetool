@@ -514,16 +514,17 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>saudades?</token>
           <token regexp='yes'>suas?|vossas</token>
       </antipattern>
-<!-- MARCOAGPINTO 2020-08-31 (2-JUL-2020+) *START* -->
+<!-- MARCOAGPINTO 2020-08-31 + 2020-09-03 (2-JUL-2020+) *START* -->
 <!-- "Isso cheira a paixão assolapada, meu menino!" -->
+<!-- "Isso é muito feio no desporto, meus senhores!" -->
       <antipattern>
-	      <token postag='AQ0[CFM]S0' postag_regexp='yes'/>
+	      <token postag='AQ0[CFM][SP]0|NC[CFM][SP]000' postag_regexp='yes'/>
 		  <token>,</token>
           <token postag='DP.+' postag_regexp='yes'/>
-		  <token postag='NC[CFM]S000' postag_regexp='yes'/>
+		  <token postag='AQ0[CFM][SP]0|NC[CFM][SP]000' postag_regexp='yes'/>
 		  <token regexp='yes'>[.]|,|!|[?]</token>
       </antipattern>	  	  
-<!-- MARCOAGPINTO 2020-08-31 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-08-31 + 2020-09-03 (2-JUL-2020+) *END* -->
       <pattern>
           <token>
             <exception regexp="yes">[ao]s?|es[st][ae]s?|uma?s?|uns|por|de|em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</exception></token>
@@ -543,6 +544,7 @@ title="Easy editing stylesheet" ?>
       <example>Isto é uma característica tipicamente sua.</example>
       <example>Sentimos muita saudade sua.</example>
 	  <example type='correct'>Isso cheira a paixão assolapada, <marker>meu</marker> menino!</example>
+	  <example type='correct'>Isso é muito feio no desporto, <marker>meus</marker> senhores!</example>
     </rule>
     <rule>
       <antipattern>
