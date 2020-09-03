@@ -80,6 +80,7 @@ regexp case-insensitive maken : (?i)
 	</category>
 	-->
 	<category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
+		
 		<rulegroup id="BE" name="be kan van alles zijn...">
 			<antipattern><token>.</token><token spacebefore="no">be</token></antipattern>
 			<antipattern><token>to</token><token>be</token></antipattern>
@@ -12299,17 +12300,17 @@ onwaarschijnlijk
 				<example correction="zgn.">Door juist inzaaien van deze <marker>zgn</marker> vette kruidachtigen weer een kans om te bloeien en zich te vermeerderen.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="T" name="t → het, 't aio">
+		<rulegroup id="T" name="t → het">
 			<rule>
+				<antipattern><token spacebefore="yes">t</token><token spacebefore="no">.</token></antipattern>
+				<antipattern><token>.</token><token spacebefore="no">t</token></antipattern>
 				<pattern>
-					<token><exception spacebefore="no" regexp="yes">[a-z]</exception></token>
-					<marker>
-						<token spacebefore="yes" case_sensitive="yes">t</token>
-					</marker>
-					<token><exception spacebefore="no" regexp="yes">[a-z]</exception></token>
+					<token spacebefore="yes" case_sensitive="yes">t</token>
 				</pattern>
 				<message>Schrijf liever <suggestion>het</suggestion> of eventueel <suggestion>'t</suggestion>.</message>
 				<example correction="het|'t">Hij is <marker>t</marker> niet.</example>
+				<example>Het is n.v.<marker>t</marker>. dit keer.</example>
+				<example>Het is <marker>t</marker>.o.v. alles.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="A_I_O" name="a.i.o. → aio">
@@ -13471,6 +13472,19 @@ onwaarschijnlijk
 		</rulegroup>
 	</category>
 	<category id="CASING" name="Hoofdlettergebruik">
+		<rulegroup id="AN" name="an/An" type="misspelling">
+			<rule>
+				<antipattern><token>an</token><token>sich</token></antipattern>
+				<antipattern><token>zin</token><token>an</token></antipattern><!-- detected elsewhere -->
+				<pattern>
+						<token case_sensitive="yes">an</token>
+				</pattern>
+				<message>De naam <suggestion>An</suggestion> hoort met een hoofdletter, of u bedoelt <suggestion>aan</suggestion> of <suggestion>van</suggestion>.</message>
+				<short>Geen hoofdletter</short>
+				<example correction="An|aan|van">Ik zie <marker>an</marker> dagelijks.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="WEEKDAGEN_MAANDEN" name="Hoofdletters bij dagen en maanden" type="misspelling">
 			<rule>
 				<antipattern><token regexp="yes">keizer|fort|villa</token><token>Augustus</token></antipattern>
@@ -17798,7 +17812,7 @@ steenwijk;Steenwijk
 				<example correction="doelen|doelpunten">Van een fanatieke jacht op meer <marker>goals</marker> was geen sprake.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="SUPPORT" name="support → ondersteuning">
+		<rulegroup id="SUPPORT" name="support → ondersteuning" tags="picky">
 			<!-- 2014-08-21 TaalTik -->
 			<rule>
 				<pattern>
@@ -20014,7 +20028,7 @@ steenwijk;Steenwijk
 				<example correction="te sluiten">En bijgevolg op deze <marker>aan te gane</marker> eigen schulden WEL een rentevergoeding moeten betalen.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="AANVANGEN" name="aanvangen">
+		<rulegroup id="AANVANGEN" name="aanvangen" tags="picky">
 			<rule>
 				<antipattern><token regexp="yes">aanvang|aangevangen</token></antipattern>
 				<pattern>
@@ -21630,7 +21644,7 @@ steenwijk;Steenwijk
 			<example>QQ <marker>voorwaarde</marker>.</example>
 		</rule>
 
-		<rulegroup id="CONFIGURATIE" name="configuratie">
+		<rulegroup id="CONFIGURATIE" name="configuratie" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes">configuratie</token>
@@ -21643,7 +21657,7 @@ steenwijk;Steenwijk
 				<example correction="samenstelling">Al denk ik ook aan de <marker>configuratie</marker> met telenet, draadloos dan?</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="CONFLICTSITUATIE" name="conflictsituatie">
+		<rulegroup id="CONFLICTSITUATIE" name="conflictsituatie" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes">conflictsituatie</token>
@@ -21655,7 +21669,7 @@ steenwijk;Steenwijk
 				<example correction="ruzie|conflict">Zijn alle ouders echt welkom op onze school of is de drempel zo hoog dat slechts enkele ouders de stap durven zetten, en dan nog enkel in <marker>conflictsitua­ties</marker> of om een gunst te verkrijgen?</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="CONSENSUS" name="consensus">
+		<rulegroup id="CONSENSUS" name="consensus" tags="picky">
 			<rule>
 				<pattern>
 					<token>consensus</token>
@@ -22874,7 +22888,7 @@ steenwijk;Steenwijk
 				<example correction="Onmisbaar|Nodig|Noodzakelijk"><marker>Essentieel</marker> is dat ze geen bestemming hebben.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="EVALUATIE" name="evaluatie">
+		<rulegroup id="EVALUATIE" name="evaluatie" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes">evaluatie</token>
@@ -23671,7 +23685,7 @@ steenwijk;Steenwijk
 				<example correction="ruzies|conflicten">Voor alle <marker>geschillen</marker> in verband met deze overeenkomst is enkel de rechtbank van Kortrijk bevoegd.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="GESTRUCTUREERD" name="gestructureerd">
+		<rulegroup id="GESTRUCTUREERD" name="gestructureerd" tags="picky">
 			<rule>
 				<pattern>
 					<token>gestructureerd</token>
@@ -24982,7 +24996,7 @@ steenwijk;Steenwijk
 				<example type="incorrect">Misschien omdat ik er geen <marker>issue</marker> van maak.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="ITEM" name="item">
+		<rulegroup id="ITEM" name="item" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes">item</token>
@@ -25551,7 +25565,7 @@ steenwijk;Steenwijk
 				<example type="incorrect">Als ze dat niet doen, dreigen die landen ermee een akkoord over verdere <marker>liberalisering</marker> van de wereldhandel onmogelijk te maken.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="LICENTIE" name="licentie">
+		<rulegroup id="LICENTIE" name="licentie" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes">licentie</token>
@@ -27657,19 +27671,14 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="REFLECTEREN" name="reflecteren">
 			<rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes" skip="-1">.*(licht|geluid).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
 					<token inflected="yes">reflecteren</token>
 				</pattern>
-				<message>De tekst wordt vlotter als u deze herschrijft met <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">reageren</match></suggestion> of <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">weerkaatsen</match></suggestion>.</message>
+				<message>De tekst wordt vlotter als u deze herschrijft met <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">reageren</match></suggestion>, <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">overdenken</match></suggestion> of <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">weerkaatsen</match></suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-				<example correction="reageert|weerkaatst">Waarde 2 <marker>reflecteert</marker> het beste.</example>
-				<example correction="Reageren|Weerkaatsen"><marker>Reflecteren</marker> op eigen ervaringen.</example>
-				<example correction="reageren|weerkaatsen">Ook daarvoor is <marker>reflecteren</marker> nodig.</example>
-				<example correction="gereageerd|weerkaatst">Zijn geloof is reeds <marker>gereflecteerd</marker>.</example>
-				<example correction="reagerende|weerkaatsende">10 <marker>reflecterende</marker> strips voor fiets spaken.</example>
-				<example correction="reageerde|weerkaatste">De energie <marker>reflecteerde</marker> zich dan ook 'moeiteloos' op het publiek.</example>
-				<example correction="Reagerend|Weerkaatsend"><marker>Reflecterend</marker> geeft hij toe dat hij op zijn 36 jaar best ver staat.</example>
-				<example correction="Reagerende|Weerkaatsende"><marker>Reflecterende</marker> panelen achter de radiator beperken het warmteverlies met 70%.</example>
+				<example correction="reageert|overdenkt|weerkaatst">Waarde 2 <marker>reflecteert</marker> het beste.</example>
+				<example correction="Reageren|Overdenken|Weerkaatsen"><marker>Reflecteren</marker> op eigen ervaringen.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="REGARDEREN" name="regarderen">
@@ -31629,6 +31638,15 @@ steenwijk;Steenwijk
 	</category>
 	<category id="WOORDGROEPEN" name="Woordgroepen" type="misspelling">
 
+		<rulegroup id="AN_ZICH" name="an zich/an sich" type="misspelling">
+			<rule>
+				<pattern><token>an</token><token>zich</token></pattern>
+				<message>U bedoet vast <suggestion>\1 sich</suggestion>.</message>
+				<short>Geen hoofdletter</short>
+				<example correction="An sich"><marker>An zich</marker> klopt het niet.</example>
+			</rule>
+		</rulegroup>
+		
 		<rulegroup id="SOCIAL_MEDIA_DINGES" name="social media training / socialmediatraining">
 			<rule>
 				<antipattern><token regexp="yes">social|sociale</token><token>media</token><token regexp="yes">[.!?,;:"]</token></antipattern>
@@ -37681,7 +37699,7 @@ steenwijk;Steenwijk
 	
 	<category id="SEKSE_ZAKEN" name="stimuleren sekseneutraal schrijven" type="style">
 		
-		<rulegroup id="SEKSE_VOLGORDE" name="misschien volgorde omdraaien">
+		<rulegroup id="SEKSE_VOLGORDE" name="misschien volgorde omdraaien" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes" regexp="yes">heer|man|jongen</token><token regexp="yes">en|of</token><token inflected="yes" regexp="yes">dame|vrouw|meisje</token>
@@ -39988,7 +40006,7 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 		
-		<rulegroup id="SEKSE_LIJK" name="Overbodig gebruik van mannelijk of vrouwelijk">
+		<rulegroup id="SEKSE_LIJK" name="Overbodig gebruik van mannelijk of vrouwelijk" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes" regexp="yes">mannelijk|vrouwelijk</token>
