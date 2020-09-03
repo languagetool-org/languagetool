@@ -8281,10 +8281,6 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rule id="EL_AVEC" name="Élision qu'avec, d'avec">
-        <antipattern>
-        <token/>
-        <token regexp="yes">[A-ZÂÊÎÔÛÄËÏÖÜÀÆÇÉÈŒ].*</token>
-        </antipattern>
       <pattern>
         <token regexp="yes">que|de</token>
         <token>avec</token>
@@ -8294,10 +8290,6 @@ though, and has since been slightly modified)-->
       <example correction="d'avec">Les barrières qui séparaient les juifs <marker>de avec</marker> les chrétiens.</example>
     </rule>
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
-        <antipattern>
-        <token/>
-        <token regexp="yes">[A-ZÂÊÎÔÛÄËÏÖÜÀÆÇÉÈŒ].*</token>
-        </antipattern>
       <rule>
         <pattern>
           <token>presque</token>
@@ -8318,10 +8310,6 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="EL_QUELQUE" name="Élision de quelque">
-        <antipattern>
-        <token/>
-        <token regexp="yes">[A-ZÂÊÎÔÛÄËÏÖÜÀÆÇÉÈŒ].*</token>
-        </antipattern>
       <rule>
         <pattern>
           <token>quelque</token>
@@ -8342,10 +8330,6 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rule id="ELISION" name="Élision de le, la…">
-        <antipattern>
-        <token/>
-        <token regexp="yes">[A-ZÂÊÎÔÛÄËÏÖÜÀÆÇÉÈŒ].*</token>
-        </antipattern>
         <antipattern>
         <token>la</token>
         <token>une</token>
@@ -8377,6 +8361,7 @@ though, and has since been slightly modified)-->
           <exception regexp="yes">&exceptions_ELISION2;</exception><!-- https://fr.wikipedia.org/wiki/La_Haye -->
           <exception regexp="yes" inflected="yes">&H_ASPIRE;</exception>
           <exception postag="UNKNOWN|Z.*" postag_regexp="yes"/><!-- no error for unknown words or proper names -->
+          <exception regexp="yes" case_sensitive="yes">[A-ZÂÊÎÔÛÄËÏÖÜÀÆÇÉÈŒ].*</exception>
       </token>
     </pattern>
     <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
@@ -8419,10 +8404,6 @@ though, and has since been slightly modified)-->
       <example>Selon Dirk Hoke, directeur général de Airbus Defence and Space, l'achat de F-35...</example>
     </rule>
     <rule id="EL_SI" name="Élision de si">
-        <antipattern>
-        <token/>
-        <token regexp="yes">[A-ZÂÊÎÔÛÄËÏÖÜÀÆÇÉÈŒ].*</token>
-        </antipattern>
       <pattern>
         <token>si</token>
         <token regexp="yes">ils?</token>
@@ -26866,7 +26847,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token regexp="yes">coach|coaches|coachs</token>
       </pattern>
-      <message>« Coach » est un anglicisme. Employez <suggestion>entraîneur</suggestion> (sport), <suggestion>accompagnateur</suggestion> (entreprise, etc.), (un) <suggestion>coupé</suggestion> (automobile à deux portes et quatre places).</message>
+      <message>« Coach » est considéré comme un anglicisme. En voici des alternatives : <suggestion>entraîneur</suggestion> (sport), <suggestion>accompagnateur</suggestion> (entreprise, etc.), (un) <suggestion>coupé</suggestion> (automobile à deux portes et quatre places).</message>
       <example correction="entraîneur|accompagnateur|coupé"><marker>coach</marker></example>
       <example><marker>entraîneur</marker></example>
     </rule>
@@ -27022,7 +27003,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token regexp="yes">looks?</token>
       </pattern>
-      <message>« Look » est un anglicisme.</message>
+      <message>« Look » est un considéré comme un anglicisme. En voici quelques alternatives :</message>
       <suggestion>allure</suggestion>
       <suggestion>apparence</suggestion>
       <suggestion>style</suggestion>
@@ -29794,7 +29775,7 @@ though, and has since been slightly modified)-->
       <example correction="livre électronique|livrel">Les <marker>ebooks</marker> sont difficiles à lire.</example>
       <example>Les <marker>livres électroniques</marker> sont difficiles à lire.</example>
     </rule>
-    <rule id="BUG" name="bug">
+    <rule id="BUG" name="bug" default="off">
       <antipattern>
         <token>Bugs</token>
         <token regexp="yes">Bunny|Moran</token>
@@ -29951,15 +29932,14 @@ though, and has since been slightly modified)-->
       <pattern>
         <token regexp="yes">e-commerces?</token>
       </pattern>
-      <message>« E-commerce » est un anglicisme.</message>
-      <suggestion>commerce électronique</suggestion>
+      <message>« E-commerce » est considéré comme un anglicisme. En voici des équivalents :</message>
       <suggestion>commerce électronique</suggestion>
       <suggestion>commerce en ligne</suggestion>
-      <suggestion>cybercommerce</suggestion>
       <suggestion>commerce virtuel</suggestion>
       <suggestion>commerce Internet</suggestion>
       <suggestion>commerce sur Internet</suggestion>
-      <example correction="commerce électronique|commerce en ligne|cybercommerce|commerce virtuel|commerce Internet|commerce sur Internet"><marker>e-commerce</marker></example>
+      <suggestion>cybercommerce</suggestion>
+      <example correction="commerce électronique|commerce en ligne|commerce virtuel|commerce Internet|commerce sur Internet|cybercommerce"><marker>e-commerce</marker></example>
       <example><marker>commerce électronique</marker></example>
     </rule>
     <rule id="MERCHANDISING" name="merchandising">
@@ -31191,13 +31171,13 @@ though, and has since been slightly modified)-->
       <message>« \1 » est un anglicisme. Employez <suggestion><match no="1" regexp_match="(form)(s)?" regexp_replace="questionnaire$2"/></suggestion>, <suggestion><match no="1" regexp_match="(form)(s)?" regexp_replace="formulaire$2"/></suggestion>, <suggestion><match no="1" regexp_match="(form)(s)?" regexp_replace="forme$2"/></suggestion>, <suggestion>mouler</suggestion>.</message>
       <example correction="questionnaire|formulaire|forme|mouler">Je lui ai donné cette <marker>form</marker> a remplir</example>
     </rule>
-    <rule id="TEAM" name="team">
+    <rule id="TEAM" name="team" tags="picky">
       <pattern>
         <token>team</token>
       </pattern>
-      <message>« \1 » est un anglicisme.</message>
+      <message>« \1 » est considéré comme un anglicisme. En voici l'équivalent :</message>
       <suggestion>équipe</suggestion>
-      <example correction="équipe">IL fait partie de la <marker>team</marker> Castor</example>
+      <example correction="équipe">Il fait partie de la <marker>team</marker> Castor</example>
     </rule>
     <rule id="LINK" name="link">
       <pattern>
