@@ -110,8 +110,8 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
       for(String gen: new String[] {"f", "m"}) {
         
         List<String> prefix = gen.equals("f") 
-            ? Arrays.asList("пані", "місіс", "міс", "леді", "княгиня", "німкеня")
-                : Arrays.asList("пан", "містер", "князь", "німець", "поляк");
+            ? Arrays.asList("пані", "місіс", "місис", "міс", "леді", "княгиня", "німкеня")
+                : Arrays.asList("пан", "містер", "м-р", "сер", "князь", "німець", "поляк");
 
         String animPropTagPrefix = "noun:anim:"+gen+":v_naz:prop";
         

@@ -79,6 +79,25 @@
     <example type="untouched">І все</example>
   </rule>
 
+  <rule name="Кирилічна цифра I" id="сyrillic_digit_I_3">
+    <pattern>
+      <token postag_regexp="yes" postag="prep.*"/>
+      <marker>
+        <token case_sensitive="yes">І
+          <exception scope="next" regexp="yes">\.|[А-ЯІЇЄҐ'-]+</exception>
+        </token>
+      </marker>
+    </pattern>
+    <disambig postag="number:latin:bad" />
+    <example type="ambiguous"
+        inputform="І[і/conj:coord,і/part]"
+        outputform="І[і/number:latin:bad]">у <marker>І</marker> кварталі</example>
+    <example type="untouched">НАЦІЯ І НАРОД</example>
+    <example type="untouched">І все</example>
+    <example type="untouched">коли ми з І.</example>
+    <example type="untouched">ЗА І ПРОТИ</example>
+  </rule>
+
   <rule name="Паралельні погані форми -ій" id="parallel_bad_forms_iy">
     <pattern>
       <marker>
