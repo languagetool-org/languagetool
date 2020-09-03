@@ -103,6 +103,53 @@ USA
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Possible Typo" type="misspelling">
+        <rulegroup id="THEE" name="thee (the)" default="temp_off">
+            <antipattern><!-- https://en.wikipedia.org/wiki/Megan_Thee_Stallion -->
+                <token regexp="yes">Megh?an</token>
+                <token>Thee</token>
+            </antipattern>
+            <antipattern><!-- https://en.wikipedia.org/wiki/Fare_Thee_Well -->
+                <token>fare</token>
+                <token>thee</token>
+                <token>well</token>
+            </antipattern>
+            <antipattern><!-- https://en.wikipedia.org/wiki/America_(My_Country,_%27Tis_of_Thee) -->
+                <token>tis</token>
+                <token>of</token>
+                <token>thee</token>
+            </antipattern>
+            <antipattern>
+                <token>thee</token>
+                <token postag="MD|CC|IN|PRP.*|W.*|PCT" postag_regexp="yes" /><!-- word types uncommon after the article "the" -->
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[Tt]hee</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <token postag="NNP?S" postag_regexp="yes" />
+                </pattern>
+                <message>The word "thee" doesn't exist in American English. Did you mean <suggestion>the</suggestion> or <suggestion>three</suggestion>?</message>
+                <example correction="the|three">She is <marker>thee</marker> miles away.</example>
+                <example>My Country, 'Tis of Thee!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[Tt]hee</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <token postag="NNP|NN|NN:UN?" postag_regexp="yes" />
+                </pattern>
+                <message>The word "thee" doesn't exist in American English. Did you mean <suggestion>the</suggestion>?</message>
+                <example correction="the">She is <marker>thee</marker> best of all.</example>
+                <example correction="the">She is <marker>thee</marker> mother of those children.</example>
+                <example>Megan Thee Stallion is an American pop singer.</example>
+            </rule>
+        </rulegroup>
         <rule id="STREET_LIGHTS_COMPOUND" name="street light (streetlight)">
             <pattern>
                 <token>street</token>
