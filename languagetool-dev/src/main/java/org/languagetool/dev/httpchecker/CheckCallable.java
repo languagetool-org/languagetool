@@ -81,7 +81,10 @@ class CheckCallable implements Callable<File> {
     List<String> tempLines = new ArrayList<>();
     ObjectMapper mapper = new ObjectMapper(new JsonFactory());
     int startLine = 0;
-    File outFile = new File(System.getProperty("java.io.tmpdir"), HttpApiSentenceChecker.class.getSimpleName() + "-result-" + count + ".json");
+    // use a filename with a very low chance of being used by someone else (unless this very code runs in parallel):
+    String baseUrlCode = String.valueOf(baseUrl.hashCode()).substring(0, 5);
+    String filename = HttpApiSentenceChecker.class.getSimpleName() + "-result-" + langCode + "-" + baseUrlCode + "-" + count + ".json";
+    File outFile = new File(System.getProperty("java.io.tmpdir"), filename);
     try (FileWriter fw = new FileWriter(outFile)) {
       for (int i = 0; i < allLines.size(); i++) {
         String line = allLines.get(i);
@@ -140,6 +143,7 @@ class CheckCallable implements Callable<File> {
       }
     }
     printOut(threadName + " - Done.");
+    printOut(threadName + " - Output written to " + outFile.getName());
     return outFile;
   }
 

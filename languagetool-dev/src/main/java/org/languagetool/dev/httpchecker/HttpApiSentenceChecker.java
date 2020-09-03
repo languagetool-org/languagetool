@@ -28,7 +28,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.tools.StringTools;
 
 import java.io.*;
 import java.nio.file.Files;
