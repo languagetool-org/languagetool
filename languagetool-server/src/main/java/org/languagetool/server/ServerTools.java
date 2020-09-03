@@ -29,11 +29,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.regex.Pattern;
 
 /**
  * @since 3.4
  */
 final class ServerTools {
+
+  private final static Pattern sentContentPattern = Pattern.compile("<sentcontent>.*</sentcontent>", Pattern.DOTALL);
 
   private ServerTools() {
   }
@@ -199,7 +202,7 @@ final class ServerTools {
    */
   public static String cleanUserTextFromMessage(String s, Map<String, String> params) {
     if (params.getOrDefault("inputLogging", "").equals("no")) {
-      return s.replaceAll("<sentcontent>.*?</sentcontent>", "<< content removed >>");
+      return sentContentPattern.matcher(s).replaceAll("<< content removed >>");
     }
     return s;
   }
