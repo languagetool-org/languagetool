@@ -22,7 +22,6 @@ import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -45,11 +44,11 @@ public class AmericanReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public AmericanReplaceRule(ResourceBundle messages) throws IOException {
+  public AmericanReplaceRule(ResourceBundle messages) {
     super(messages);
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
-    addExamplePair(Example.wrong("We can produce <marker>curtains</marker> of any size or shape from a choice of over 500 different fabrics."),
-                   Example.fixed("We can produce <marker>drapes</marker> of any size or shape from a choice of over 500 different fabrics."));
+    addExamplePair(Example.wrong("Are baked <marker>crisps</marker> healthy?"),
+                   Example.fixed("Are baked <marker>chips</marker> healthy?"));
   }
 
   @Override
