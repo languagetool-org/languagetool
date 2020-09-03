@@ -802,6 +802,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <suggestion>, \2</suggestion>
         <example correction=", приміром">от <marker>приміром</marker>, подумав.</example>
       </rule>
+
+      <rule>
+        <pattern>
+          <token negate="yes" regexp="yes">&punct_std;
+            <exception postag="SENT_START"/>
+          </token>
+          <marker>
+            <token>наприклад
+              <exception postag="SENT_END"/>
+              <exception scope="next" postag="SENT_END">.</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Перед «наприклад» ставимо кому, окрім випадків, коли це слово стоїть у кінці уточнювального звороту («реальні речі, берці наприклад»)</message>
+        <suggestion>, \2</suggestion>
+        <example correction=", наприклад">от <marker>наприклад</marker>, подумав.</example>
+        <example>реальні речі, берці наприклад</example>
+      </rule>
     </rulegroup>
 
     <!-- 
@@ -1487,10 +1505,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token>на</token>
             <token regexp="yes">ймення|прізвище|ім'я</token>
           </marker>
+          <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐA-Z].*</token>
         </pattern>
         <message>Відсутня ліва кома</message>
         <suggestion>, \2 \3</suggestion>
         <example correction=", на ймення">вчений <marker>на ймення</marker> Фред.</example>
+        <example>не заслуговує на ім'я людини</example>
       </rule>
     </rulegroup>
 
