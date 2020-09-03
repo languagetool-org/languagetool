@@ -1089,12 +1089,23 @@
     </rule>
 
     <rule name="best as adjective" id="BEST_JJS"> <!-- very crude -->
+      <antipattern>
+        <token regexp="yes">thee?</token>
+        <token>best</token>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">thee?</token>
+        <token postag="JJ" />
+        <token>best</token>
+      </antipattern>
       <pattern>
         <token>best</token>
         <token postag="IN"/>
       </pattern>
       <disambig postag="JJS"/>
       <example type="untouched">I best my opponents.</example>
+      <example type="untouched">He brought out the best in people.</example>
+      <example type="untouched">He brought out the very best in people.</example>
       <example type="ambiguous" inputform="best[best/NN:U,best/VB,best/VBP,good/JJS,well/JJS,well/RBS]" outputform="best[good/JJS]">It's <marker>best</marker> for him.</example>
     </rule>
 
@@ -5623,6 +5634,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">&object_pronouns;</token>
             <token postag="NN:UN"/>
         </antipattern>
+        <antipattern>
+            <token>thee</token>
+            <token postag="NN.*" postag_regexp="yes" />
+        </antipattern>
+        <antipattern><!--She is thee mother -->
+            <token>thee</token>
+            <token postag="JJ.*" postag_regexp="yes" />
+            <token postag="NN.*" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <token postag="PRP">
                 <exception postag="RB|PRP\$" postag_regexp="yes"/>
@@ -5646,6 +5666,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Incorrect grammar. If <marker>you account is</marker> a lie, you can go to prison.</example>
         <example type="untouched">Incorrect grammar. If <marker>you account stopped</marker> working, tell the IT department.</example>
         <example type="untouched">Incorrect grammar. I have added that to <marker>me list</marker>.</example>
+        <example type="untouched">Incorrect grammar. She is thee <marker>mother</marker> of them.</example>
         <example type="untouched">Spacing the plants three feet apart allows them room to grow.</example><!-- #2919 -->
         <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/VBP]">Yes, actually we <marker>claim</marker> that this is true.</example>
         <example type="ambiguous" inputform="conference[conference/NN:UN,conference/VB,conference/VBP]" outputform="conference[conference/VBP]">When you <marker>conference</marker> with the manager…</example><!-- conference/E-NP-singular -->
