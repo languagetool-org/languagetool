@@ -3442,7 +3442,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Le ha valido un buen premio.</example>
                 <example>Yo le valido la prueba.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes">validas?</token>
                     <token postag="D.*" postag_regexp="yes"/>
@@ -3626,7 +3626,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Son personas serias las que vienen aquí.</example>
                 <example>Se pusieron serias otra vez.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>seria</token>
@@ -3637,7 +3637,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>sería</suggestion>
                 <example correction="sería">Esta razón <marker>seria</marker> valida.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>una</token>
                     <token>persona</token>
@@ -4126,7 +4126,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>por ser esta la casa matriz</example>
                 <example>No ha sido esta la vía elegida.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="C.|PR.*" postag_regexp="yes" skip="6"/>
                     <token>esta</token>
@@ -6905,20 +6905,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--No tenéis más razón porque seáis mayores.-->
             </rule>
             <rule>
-                <antipattern>
-                    <token regexp="yes">el|un|algún</token>
-                    <token>porqué</token>
-                </antipattern>
-                <pattern>
-                    <token>porqué</token>
-                </pattern>
-                <message>¿Quería decir <suggestion>por qué</suggestion> ('por qué motivo') o <suggestion>porque</suggestion> ('por razón de que')?</message>
-                <suggestion>porque</suggestion>
-                <example correction="por qué|porque">No vino <marker>porqué</marker> no pudo.</example>
-                <example correction="por qué|porque">No puedo comprender <marker>porqué</marker> no vino.</example>
-                <example>Quiero saber el porqué.</example>
-            </rule>
-            <rule default="temp_off">
                 <pattern>
                     <token regexp="yes">he|hete</token>
                     <token regexp="yes">aquí|ahí</token>
@@ -6929,7 +6915,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Probablemente hay que escribir <suggestion>por qué</suggestion> ('por qué motivo').</message>
                 <example correction="por qué">He aquí <marker>porqué</marker> no ha venido</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">he|hete</token>
                     <token regexp="yes">aquí|ahí</token>
@@ -6941,7 +6927,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Probablemente hay que escribir <suggestion>por qué</suggestion> ('por qué motivo').</message>
                 <example correction="por qué">He aquí <marker>por que</marker> no ha venido</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>no</token>
                     <token inflected="yes">tener</token>
@@ -6954,7 +6940,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>por qué</suggestion>
                 <example correction="por qué">No tienes <marker>porque</marker> preocuparte.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>no</token>
                     <token inflected="yes">tener</token>
@@ -6967,6 +6953,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>La expresión correcta es "no tener por qué".</message>
                 <suggestion>por qué</suggestion>
                 <example correction="por qué">No tienes <marker>por que</marker> preocuparte.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">el|un|algún</token>
+                    <token>porqué</token>
+                </antipattern>
+                <pattern>
+                    <token>porqué</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>por qué</suggestion> ('por qué motivo') o <suggestion>porque</suggestion> ('por razón de que')?</message>
+                <suggestion>porque</suggestion>
+                <example correction="por qué|porque">No vino <marker>porqué</marker> no pudo.</example>
+                <example correction="por qué|porque">No puedo comprender <marker>porqué</marker> no vino.</example>
+                <example>Quiero saber el porqué.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PREP_VERB" name="Combinación imposible: preposición + verbo conjugado">
@@ -12075,16 +12075,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"/>
                     <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
                     <marker>
-                        <token regexp="yes">hola|felicidades</token>
+                        <token regexp="yes">hola|felicidades|saludos</token>
                     </marker>
-                    <token><exception postag="_PUNCT.*" postag_regexp="yes"/><exception>a</exception></token>
+                    <token postag="[ANV].*|_possible_NP" postag_regexp="yes"><exception postag="_PUNCT.*|SPS00|C.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Los vocativos después de "<match no="3" case_conversion="alllower"/>" se escriben entre comas (ej. "<match no="3" case_conversion="startupper"/>, Ana.").</message>
                 <suggestion>\3,</suggestion>
                 <example correction="Hola,">¡<marker>Hola</marker> amigo.</example>
                 <example>¡Hola a todos!</example>
+                <example>Felicidades por la victoria.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
@@ -12092,13 +12093,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">buenos|buenas</token>
                         <token regexp="yes">días|tardes|noches</token>
                     </marker>
-                    <token><exception postag="_PUNCT.*" postag_regexp="yes"/><exception regexp="yes">a|de|del|por|para</exception><exception inflected="yes">tener</exception></token>
+                    <token postag="[ANV].*|_possible_NP" postag_regexp="yes"><exception postag="_PUNCT.*|SPS00|C.*" postag_regexp="yes"/><exception inflected="yes">tener</exception></token>
                 </pattern>
                 <message>Los vocativos después de "<match no="3" case_conversion="alllower"/> \4" se escriben entre comas (ej. "<match no="3" case_conversion="startupper"/> \4, Ana.").</message>
                 <suggestion>\3 \4,</suggestion>
                 <example correction="Buenos días,">¡<marker>Buenos días</marker> amigo.</example>
                 <example>¡Buenas tardes a todos!</example>
                 <example>Buenos días tenga usted.</example>
+                <example>Buenas noches y adiós.</example>
             </rule>
         </rulegroup>
         <rule id="MUCHO_NF" name="mucho + nombre femenino">
