@@ -8354,14 +8354,19 @@ though, and has since been slightly modified)-->
         <token>la</token>
         <token>une</token>
       </antipattern>
+        <antipattern>
+        <token regexp="yes">[dljmnst]e|la|jusque|que</token>
+        <token regexp="yes" case_sensitive="yes" negate_pos="yes" postag="Z.*" postag_regexp="yes">
+            [A-ZÂÊÎÔÛÄËÏÖÜÀÆÇÉÈŒ].*
+        </token>
+        </antipattern>
       <pattern>
         <token regexp="yes">[dljmnst]e|la|jusque|que</token>
         <token regexp="yes">&elision_regexp;
           <exception inflected="yes" regexp="yes">&exceptions_ELISION1;</exception>
           <exception regexp="yes">&exceptions_ELISION2;</exception><!-- https://fr.wikipedia.org/wiki/La_Haye -->
           <exception regexp="yes" inflected="yes">&H_ASPIRE;</exception>
-          <exception postag="UNKNOWN|Z.*" postag_regexp="yes"/><!-- no error for unknown words or proper names -->
-          <exception regexp="yes" case_sensitive="yes">[A-ZÂÊÎÔÛÄËÏÖÜÀÆÇÉÈŒ].*</exception>
+          <exception postag="UNKNOWN|Z.*" postag_regexp="yes">h.+</exception><!-- no error for unknown words or proper names -->
       </token>
     </pattern>
     <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
@@ -8369,6 +8374,9 @@ though, and has since been slightly modified)-->
       <example correction="L’île"><marker>La île</marker> est encore loin.</example>
       <example correction="l’œuf">Prenez <marker>le œuf</marker>.</example>
       <example correction="d’un">Jamais plus <marker>de un</marker> homme en danger.</example>
+      <example correction="d’Alice">Je suis le petit ami <marker>de Alice</marker>.</example>
+      <example>Acteur principal de Autant En Emporte Le Vent.</example>
+      <example>Je suis le petit ami d'Alice.</example>
       <example>Il se heurte contre le bas-côté</example>
       <example>Il connait l’histoire de A à Z.</example>
       <example>Il a appris ça en un jour.</example>
@@ -8401,7 +8409,7 @@ though, and has since been slightly modified)-->
       <example correction="L’hydrocarbure"><marker>Le hydrocarbure</marker>.</example>
       <example>De un à dix.</example>
       <example>Il se met à écouter de la house vers 17 ans.</example>
-      <example>Selon Dirk Hoke, directeur général de Airbus Defence and Space, l'achat de F-35...</example>
+      <example correction="d’Airbus">Selon Dirk Hoke, directeur général <marker>de Airbus</marker> Defence and Space, l'achat de F-35...</example>
     </rule>
     <rule id="EL_SI" name="Élision de si">
       <pattern>
