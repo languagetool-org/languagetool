@@ -520,6 +520,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Уровень воды в озере понизился.</example>
             </rule>                    
         </rulegroup>
+       
         <rulegroup id="gerojsky_geroichesky" name="Логические ошибки: «геройский» или «героический»">
             <rule> 
                 <pattern>
@@ -2194,6 +2195,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Логическая ошибка</short>
                 <example correction="скрытая проводка">В комнате выполнена <marker>скрытная проводка</marker>.</example>
                
+            </rule>
+            <rule id="ZASEDANIJE_ZAJEDANIJE" name="Логические ошибки: «заседание» или «заедание»">
+                <pattern>
+                    <token inflected="yes">заедание</token>
+                    <token inflected="no">суда</token>
+                </pattern>
+                <message>Имелось в виду: <suggestion><match no="1" regexp_match="([зЗ])аедани(.*)" regexp_replace="$1аседани$2" /> <match no="2" /></suggestion>?</message>
+                <short>Логическая ошибка</short>
+                <example correction="Заседание суда"><marker>Заедание суда</marker> перенесено на завтра.</example>
             </rule>
             <rule>      
                 <pattern>
