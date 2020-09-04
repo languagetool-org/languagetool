@@ -138,13 +138,13 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // https://github.com/languagetool-org/languagetool/issues/1515
       SENT_START,
-      regex("▶︎|▶|▶️|→|\\*|•|-|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|☛|%|◆|▪|☞|❤|/|_|✒︎"),
+      regex("▶︎|▶|▶️|→|\\*|•|-|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|☛|%|◆|▪|☞|❤|/|_|✒︎|☑️"),
       regex(".*")
     ),
     Arrays.asList(
-      // ignore uppercase word at beginning after a character that is not a letter or number (needed to ignore emojies or bullet points at the beginning of sentence)
+      // ignore uppercase word at beginning after a character that is not a letter or number (needed to ignore emojies or bullet points at the beginning of a sentence)
       SENT_START,
-      regex("^[^A-Za-z0-9ÄÖÜäöüàÀß]$"),
+      regex("^[^A-Za-z0-9ÄÖÜäöüàÀß]{1,2}$"),
       csRegex("[A-ZÖÜÄ].*")
     ),
     Arrays.asList(

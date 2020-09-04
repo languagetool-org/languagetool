@@ -4920,6 +4920,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rulegroup id="VEREINT_VEREINIGT" name="Vereinigten Nationen (Vereinten Nationen)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">vereinigten?</token>
+                    <token>nationen</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="(?i)vereinigte" regexp_replace="Vereinte" /> Nationen</suggestion> (UNO)?</message>
+                <url>https://de.wikipedia.org/wiki/Vereinte_Nationen</url>
+                <example correction="Vereinten Nationen">Die Organisation der <marker>Vereinigten Nationen</marker> sind ein zwischenstaatlicher Zusammenschluss von 193 Staaten.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SCHUSS_SCHLUSS" name="Schuss (Schluss)">
             <rule>
                 <pattern>
@@ -7958,7 +7969,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&getrennt;.</short>
                 <example correction="Mercedes-Benz"><marker>Mercedes Benz</marker> ist ein deutscher Autohersteller.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern case_sensitive="no">
                     <token>Mercedes</token>
                     <token>AMG</token>
@@ -9505,10 +9516,92 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="ALLER_COMPOUNDS" name="aller bestes (allerbestes)" default="temp_off">
+        <rulegroup id="ADD_ON" name="Add-on" default="temp_off">
+            <url>https://www.duden.de/suchen/dudenonline/Add-on</url>
+            <antipattern><!-- Needs extra rule -->
+                <token>Google</token>
+                <token>Chrome</token>
+            </antipattern>
+            <antipattern><!-- Needs extra rule -->
+                <token>Mozilla</token>
+                <token>Firefox</token>
+            </antipattern>
+            <antipattern><!-- Needs extra rule -->
+                <token>Microsoft</token>
+                <token regexp="yes">Word|Edge</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Browser|Chrome|Firefox|Safari|Edge|Opera|Word|Audio|Grafik|Java|WordPress|LanguageTool</token>
+                    <token>Add</token>
+                    <token regexp="yes">ons?</token>
+                </pattern>
+                <message>Dieses Nomen wird mit Bindestrichen geschrieben.</message>
+                <suggestion><match no="1" case_conversion="startupper" />-Add-<match no="3" case_conversion="alllower" /></suggestion>
+                <example correction="Browser-Add-on">Er hat das <marker>Browser Add on</marker> von LanguageTool installiert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Addons?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Add-<match no="1" regexp_match="(?i)add" regexp_replace="" case_conversion="alllower" /></suggestion> (= Erweiterung, Zubehörteil)?</message>
+                <example correction="Add-on">Er hat das <marker>AddOn</marker> von LanguageTool im Browser installiert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Add</token>
+                    <token regexp="yes">ons?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Add-<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Add-on">Er hat das <marker>Add on</marker> von LanguageTool im Browser installiert.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PLUG_IN" name="Plug-in" default="temp_off">
+            <url>https://www.duden.de/suchen/dudenonline/Plug-in</url>
+            <antipattern><!-- Needs extra rule -->
+                <token>Google</token>
+                <token>Chrome</token>
+            </antipattern>
+            <antipattern><!-- Needs extra rule -->
+                <token>Mozilla</token>
+                <token>Firefox</token>
+            </antipattern>
+            <antipattern><!-- Needs extra rule -->
+                <token>Microsoft</token>
+                <token regexp="yes">Word|Edge</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Browser|Chrome|Firefox|Safari|Edge|Opera|Word|Audio|Grafik|Java|WordPress</token>
+                    <token>Plug</token>
+                    <token regexp="yes">ins?</token>
+                </pattern>
+                <message>Dieses Nomen wird mit Bindestrichen geschrieben.</message>
+                <suggestion><match no="1" case_conversion="startupper" />-Plug-<match no="3" case_conversion="alllower" /></suggestion>
+                <example correction="Browser-Plug-in">Er hat das <marker>Browser Plug in</marker> von LanguageTool installiert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Browser|Chrome|Firefox|Safari|Edge|Opera|Word|Audio|Grafik|Java|WordPress</token>
+                    <token regexp="yes">Plugins?</token>
+                </pattern>
+                <message>Dieses Nomen wird mit Bindestrichen geschrieben.</message>
+                <suggestion><match no="1" case_conversion="startupper" />-<match no="2" case_conversion="startupper" /></suggestion>
+                <example correction="Browser-Plugin">Er hat das <marker>Browser Plugin</marker> von LanguageTool installiert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Plug</token>
+                    <token regexp="yes">ins?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Plug-<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Plug-in">Er hat das <marker>Plug in</marker> installiert.</example>
+            </rule>
+        </rulegroup>
+        <rule id="ALLER_COMPOUNDS" name="aller bestes (allerbestes)">
             <pattern>
                 <token>aller</token>
-                <token regexp="yes">frühestens|orts|beste[sr]?|größte[sr]?|höchste[sr]?|letzte[sr]?|liebste[sr]?|erste[sr]?|meiste[s]?|mindeste[sr]?|nächste[sr]?|neue?ste[sr]?|nötigste[sr]?|notwendigste[sr]?|schlimmste[sr]?|schönste[sr]?|schnellste[sr]?|späteste[rs]?|spätestens|wichtigste[rs]?</token>
+                <token regexp="yes">frühestens|orts|beste[sr]?|größte[sr]?|grösste[sr]?|höchste[sr]?|letzte[sr]?|liebste[sr]?|erste[sr]?|meiste[s]?|mindeste[sr]?|nächste[sr]?|neue?ste[sr]?|nötigste[sr]?|notwendigste[sr]?|schlimmste[sr]?|schönste[sr]?|schnellste[sr]?|späteste[rs]?|spätestens|wichtigste[rs]?</token>
             </pattern>
             <message>Das Wort <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
             <example correction="allerschönste">Das Haus war das <marker>aller schönste</marker> im ganzen Ort.</example>
@@ -9613,6 +9706,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="FEST_COMPOUNDS" name="fest genommen (festgenommen)">
+            <antipattern>
+                <token />
+                <token />
+                <token case_sensitive="yes">Fest</token>
+            </antipattern>
             <pattern>
                 <token>fest</token>
                 <token min="0">zu</token>
@@ -9620,6 +9718,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Das Verb <suggestion>fest<match no="2" case_conversion="alllower" /><match no="3" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
             <example correction="festgenommen">Der Dieb wurde auf der Flucht von der Polizei <marker>fest genommen</marker>.</example>
+            <example>Und das Fest nahm seinen Lauf.</example>
         </rule>
         <rulegroup id="NO_GO" name="No-Go">
             <rule>
@@ -15503,7 +15602,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="WELTWEIT_DER_WELT" name="weltweit ... der Welt">
             <pattern>
                 <token skip="-1">weltweit
-                    <exception scope="next" regexp="yes">,|und</exception>
+                    <exception scope="next" regexp="yes">,|und|&amp;</exception>
                 </token>
                 <marker>
                     <token>der</token>
@@ -26049,36 +26148,51 @@ Andere Projekte</example>
           http://www.duden.de/rechtschreibung/deutsch
           Großgeschrieben werden ferner Sprachbezeichnungen nach einer Präposition
           http://www.duden.de/sprachwissen/sprachratgeber/gross-und-kleinschreibung-1 -->
-        <rule id="AUF_ENGLISCH" name="'auf englisch (Englisch)'">
+        <rulegroup id="AUF_ENGLISCH" name="'auf englisch (Englisch)'">
             <antipattern>
                 <token regexp="yes">in|auf|[mds]ein|euer</token>
                 <token regexp="yes" case_sensitive="yes">&sprachadj1;</token>
                 <token postag_regexp="yes" postag="PA[12]:.+"/>
                 <token postag_regexp="yes" postag="SUB:.+"/>
             </antipattern>
-            <pattern>
-                <token regexp="yes">in|auf|korrekte[ms]|richtige[ms]|[mds]ein|euer</token>
-                <marker>
-                    <token regexp="yes" case_sensitive="yes">&sprachadj1;</token>
-                </marker>
-            </pattern>
-            <message>Meinten Sie \1 <suggestion><match no="2" case_conversion="startupper"/></suggestion> (im Sinne von 'in \2er Sprache')? Nach einer Präposition werden Sprachbezeichnungen großgeschrieben.</message>
-            <url>https://www.duden.de/rechtschreibung/englisch_England_Sprache</url>
-            <example correction="Englisch">Er schreibt den Text auf <marker>englisch</marker>.</example>
-            <example correction="Englisch">Auf korrektes <marker>englisch</marker> Englisch legt er großen Wert.</example>
-            <example correction="Englisch">Ist das korrektes <marker>englisch</marker>?</example>
-            <example>Er schreibt den Text auf <marker>englischem</marker> Boden.</example>
-            <example>Nach einem erfolgreichen Angriff auf <marker>türkisch</marker> besetztes Territorium.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">in|auf|zu|korrekte[ms]|akzentfrei(e[snm])?|richtige[ms]|[mds]ein|euer</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">&sprachadj1;</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie \1 <suggestion><match no="2" case_conversion="startupper"/></suggestion> (im Sinne von 'in \2er Sprache')? Nach einer Präposition werden Sprachbezeichnungen großgeschrieben.</message>
+                <url>https://www.duden.de/rechtschreibung/englisch_England_Sprache</url>
+                <example correction="Englisch">Er schreibt den Text auf <marker>englisch</marker>.</example>
+                <example correction="Englisch">Auf korrektes <marker>englisch</marker> Englisch legt er großen Wert.</example>
+                <example correction="Englisch">Ist das korrektes <marker>englisch</marker>?</example>
+                <example>Er schreibt den Text auf <marker>englischem</marker> Boden.</example>
+                <example>Nach einem erfolgreichen Angriff auf <marker>türkisch</marker> besetztes Territorium.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>auf</token>
+                    <token>gut</token>
+                    <marker>
+                        <token case_sensitive="yes">deutsch</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="3" case_conversion="startupper"/></suggestion> (im Sinne von 'in \3er Sprache')? Nach einer Präposition werden Sprachbezeichnungen großgeschrieben.</message>
+                <url>https://www.duden.de/rechtschreibung/deutsch</url>
+                <example correction="Deutsch">Ich habe ihr auf gut <marker>deutsch</marker> gesagt, dass sie ihre Schnauze halten soll.</example>
+            </rule>
+        </rulegroup>
         <rule id="KEIN_WORT_ENGLISCH" name="'kein Wort englisch (Englisch)'">
             <pattern>
                 <token>kein</token>
+                <token min="0">einziges</token>
                 <token>Wort</token>
                 <marker>
                     <token regexp="yes" case_sensitive="yes">&sprachadj1;</token>
                 </marker>
             </pattern>
-            <message>Meinten Sie <suggestion><match no="3" case_conversion="startupper"/></suggestion> ('der \3en Sprache')?</message>
+            <message>Meinten Sie <suggestion><match no="4" case_conversion="startupper"/></suggestion> ('der \3en Sprache')?</message>
             <example correction="Englisch">Er spricht kein Wort <marker>englisch</marker>.</example>
         </rule>
         <rule id="IHR_ENGLISCH_IST" name="'ihr englisch (Englisch) ist'">
@@ -26105,19 +26219,38 @@ Andere Projekte</example>
             <example correction="Aussage">Nach <marker>aussage</marker> seiner Mutter ist er krank.</example>
         </rule>
         <rulegroup id="KANN_ENGLISCH" name="'ich kann kein englisch (Englisch)'">
+            <url>https://www.duden.de/rechtschreibung/Deutsch</url>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes" regexp="yes">können|sprechen|reden|schreiben|verstehen</token>
-                    <token min="0">kein</token>
+                    <token inflected="yes" regexp="yes">können|sprechen|reden|schreiben|verstehen|übersetzen|akzentfrei|unterrichten|lernen|entziffern|kommunizieren|korrigieren</token>
+                    <token min="0">noch</token>
+                    <token min="0" regexp="yes">kein|kaum|(gar)?nicht|oft|meistens</token>
                     <marker>
                         <token regexp="yes">&sprachadj1;</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion><match no="3" case_conversion="startupper"/></suggestion> (im Sinne von '\3e Sprache')?</message>
-                <url>https://www.duden.de/rechtschreibung/Deutsch</url>
+                <message>Meinten Sie <suggestion><match no="4" case_conversion="startupper"/></suggestion> (im Sinne von '\3e Sprache')?</message>
                 <example correction="Englisch">Er spricht <marker>englisch</marker>.</example>
                 <example correction="Englisch">Er spricht kein <marker>englisch</marker>.</example>
                 <example>Er kann kein <marker>Englisch</marker>.</example>
+                <example correction="Deutsch">Er unterrichtet <marker>deutsch</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">&sprachadj1;</token>
+                    </marker>
+                    <token min="0">
+                        <exception postag="PKT|KON.*" postag_regexp="yes" />
+                    </token>
+                    <token inflected="yes" regexp="yes">können|sprechen|reden|schreiben|verstehen|übersetzen|unterrichten|lernen|beibringen|entziffern|kommunizieren|korrigieren</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" case_conversion="startupper"/></suggestion> (im Sinne von '\3e Sprache')?</message>
+                <url>https://www.duden.de/rechtschreibung/Deutsch</url>
+                <example correction="Englisch">Er kann <marker>englisch</marker> sprechen.</example>
+                <example correction="Französisch">Können wir <marker>französisch</marker> reden?</example>
+                <example correction="Deutsch">Ich versuche <marker>deutsch</marker> zu lernen.</example>
+                <example correction="Italienisch">Am Anfang des Gesprächs versucht der Däne <marker>italienisch</marker> zu sprechen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GROSSSCHREIBUNG_MEHRTEILIGE_NAMEN" name="Mehrteilige Namen 'französische (Französische) Revolution etc.'">
@@ -35156,7 +35289,7 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token>e</token>
-                    <token regexp="yes">autos?|mobilität|ladestation(en)?|ladepunkte?n?|motor(s|en)?|bikes?|mobil[es]?|mobility|roller[sn]?|zigaretten?|scooter[sn]?|shishas?|fahrrads?|fahrräder|gitarren?|herds?|heizung(en)?|motorrads?|motorräder|tretroller|bus(se)?|pkws?|lkws?|maschinen?|sport|shishas?|schischas?</token>
+                    <token regexp="yes">autos?|mobilität|ladestation(en)?|ladepunkte?n?|motor(s|en)?|bikes?|mobil[es]?|mobility|roller[sn]?|zigaretten?|scooter[sn]?|shishas?|fahrrads?|fahrräder|gitarren?|herds?|heizung(en)?|motorrads?|motorräder|tretroller|bus(se)?|pkws?|lkws?|maschinen?|sport|shishas?|schischas?|fahrzeugs?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>E-<match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="E-Autos">Die <marker>E Autos</marker> sind oft umweltschonender als Autos mit Verbrenner.</example>
