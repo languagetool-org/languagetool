@@ -196,7 +196,7 @@ public class RuleMatchDiffFinder {
     if (newMatch.getTags().size() > 0) {
       fw.write("  <br><span class='status'>" + newMatch.getTags() + "</span>");
     }
-    if (oldMatch != null && newMatch.getTags() != oldMatch.getTags()) {
+    if (oldMatch != null && !newMatch.getTags().equals(oldMatch.getTags())) {
       fw.write("  <br><span class='status'>" + oldMatch.getTags() + " => " + newMatch.getTags() + "</span>");
     }
     fw.write(" </td>\n");
