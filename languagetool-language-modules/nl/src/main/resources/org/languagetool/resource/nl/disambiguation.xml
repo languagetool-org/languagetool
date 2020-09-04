@@ -237,7 +237,17 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<rule name="AFKO_SAMENSTELLING" id="AFKO_SAMENSTELLING"><pattern><token postag="DVS"/><token regexp="yes">en|of</token></pattern><disambig action="ignore_spelling"/></rule>
 
 	<!-- disabling error report for longer string of unknown words (foreign quotes) ;--> 
- 	<rule name="FOREIGN" id="SOME_UNKNOWN_WORDS"><pattern><marker><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/></marker></pattern><disambig action="ignore_spelling"/></rule>
+ 	<rule name="FOREIGN" id="SOME_UNKNOWN_WORDS">
+		<pattern>
+			<marker>
+				<token postag="UNKNOWN|FOREIGN" postag_regexp="yes" regexp="yes">.*[a-z][a-z].*</token>
+				<token postag="UNKNOWN|FOREIGN" postag_regexp="yes" regexp="yes">.*[a-z][a-z].*</token>
+				<token postag="UNKNOWN|FOREIGN" postag_regexp="yes" regexp="yes">.*[a-z][a-z].*</token>
+				<token postag="UNKNOWN|FOREIGN" postag_regexp="yes" regexp="yes">.*[a-z][a-z].*</token>
+			</marker>
+		</pattern>
+		<disambig action="ignore_spelling"/>
+	</rule>
 
 	<!-- INTERPUNCTIE -->
 	<rule name="punctuation" id="KOMMA">
