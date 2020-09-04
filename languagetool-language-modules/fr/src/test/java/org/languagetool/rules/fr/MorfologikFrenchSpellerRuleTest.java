@@ -120,11 +120,6 @@ public class MorfologikFrenchSpellerRuleTest {
     assertEquals(1, matches.length);
     assertEquals("d'hommes", matches[0].getSuggestedReplacements().get(0));
     
-    matches = rule.match(langTool.getAnalyzedSentence("language"));
-    assertEquals(1, matches.length);
-    assertEquals("l'engage", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("langage", matches[0].getSuggestedReplacements().get(1));
-    
     assertSuggestion(rule, langTool, "qu’il sagissait", "ils agissait", "il s'agissait"); // see #3068 TODO: change order
     assertSuggestion(rule, langTool, "bonne sante", "bonnes ante", "bonne santé"); // see #3068 TODO: change order
     //assertSuggestion(rule, langTool, "et ca", "CA", "cA"); // see #2900
@@ -146,19 +141,27 @@ public class MorfologikFrenchSpellerRuleTest {
     assertSuggestion(rule, langTool, "Wordpress", "WordPress");
     assertSuggestion(rule, langTool, "wordpress", "WordPress");
     assertSuggestion(rule, langTool, "Etais-tu", "Étés", "Étais"); //TODO: suggest only verbs
-    assertSuggestion(rule, langTool, "etais-tu", "étés", "étais"); //TODO: suggest only verbs
-    assertSuggestion(rule, langTool, "depeche-toi", "d'empêché", "dépêche"); 
+    assertSuggestion(rule, langTool, "etais-tu", "étés", "étais"); //TODO: suggest only verbs 
+    assertSuggestion(rule, langTool, "depechetoi", "dépêche-toi", "dépêcherai");
     assertSuggestion(rule, langTool, "etiez-vous", "étiez");
     assertSuggestion(rule, langTool, "preferes-tu", "préférés", "préfères"); //TODO
     assertSuggestion(rule, langTool, "Playstation", "PlayStation"); 
     assertSuggestion(rule, langTool, "étaistu", "étais-tu");
+    assertSuggestion(rule, langTool, "etaistu", "étais-tu", "était");
     assertSuggestion(rule, langTool, "voulezvous", "voulez-vous");
     assertSuggestion(rule, langTool, "ecoutemoi", "écoute-moi");
-    assertSuggestion(rule, langTool, "etaistu", "étais-tu", "était");
-    assertSuggestion(rule, langTool, "mappelle", "m'appelle", "appelle");
+    assertSuggestion(rule, langTool, "mappelle", "m'appelle", "mappe-le");
     assertSuggestion(rule, langTool, "mapelle", "ma pelle", "m'appelle");
     assertSuggestion(rule, langTool, "camara", "caméra", "Samara");
-
+    assertSuggestion(rule, langTool, "allonsy", "allons-y");
+    assertSuggestion(rule, langTool, "àllonsy", "allons-y");
+    assertSuggestion(rule, langTool, "buvezen", "buvez-en");
+    assertSuggestion(rule, langTool, "avaisje", "avais-je");
+    assertSuggestion(rule, langTool, "damazon", "d'Amazon", "d'amazone", "d'Amazone");
+    
+    assertSuggestion(rule, langTool, "language", "l'engage", "l'engagé", "l'aiguage", "langage");
+    assertSuggestion(rule, langTool, "depeche-toi", "d'empêché", "d'évêché", "dépêche");
+    
     // don't split prefixes 
     matches = rule.match(langTool.getAnalyzedSentence("macrodiscipline"));
     assertEquals(1, matches.length);

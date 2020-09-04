@@ -42,28 +42,53 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
       "^(auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans) (..+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
-  private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([lnts])(h?[aeiouàéèíòóú].*)$",
+  private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([lnts])(h?[aeiouàéèíòóú].*[^è])$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern APOSTROF_INICI_VERBS_M = Pattern.compile("^(m)(h?[aeiouàéèíòóú].*)$",
+  private static final Pattern APOSTROF_INICI_VERBS_M = Pattern.compile("^(m)(h?[aeiouàéèíòóú].*[^è])$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern APOSTROF_INICI_VERBS_C = Pattern.compile("^(c)(h?[eiéèê].*)$",
+  private static final Pattern APOSTROF_INICI_VERBS_C = Pattern.compile("^(c)([eiéèê].*)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_INICI_NOM_SING = Pattern.compile("^([ld])(h?[aeiouàéèíòóú]...+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_INICI_NOM_PLURAL = Pattern.compile("^(d)(h?[aeiouàéèíòóú].+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  
-  private static final Pattern GUIONET_FINAL = Pattern.compile(
-      "^([\\p{L}]+)[’']?(ce|elle|elles|en|il|ils|je|la|le|les|leur|lui|moi|nous|on|toi|tu|vous)$", //|vs|y
+
+  //je, tu, il, elle, ce, on, nous, vous, ils
+  private static final Pattern HYPHEN_ON = Pattern.compile("^([\\p{L}]+[^aeiou])[’']?(il|elle|ce|on)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern HYPHEN_JE = Pattern.compile("^([\\p{L}]+[^e])[’']?(je)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern HYPHEN_TU = Pattern.compile("^([\\p{L}]+)[’']?(tu)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern HYPHEN_NOUS = Pattern.compile("^([\\p{L}]+)[’']?(nous)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern HYPHEN_VOUS = Pattern.compile("^([\\p{L}]+)[’']?(vous)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern HYPHEN_ILS = Pattern.compile("^([\\p{L}]+)[’']?(ils|elles)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  
+  private static final Pattern IMPERATIVE_HYPHEN = Pattern.compile(
+      "^([\\p{L}]+)[’']?(moi|toi|le|la|lui|nous|vous|les|leur|y|en)$", //|vs|y
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  
   //private static final Pattern MOVE_TO_SECOND_POS = Pattern.compile("^(.+'[nt])$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern VERB_INDSUBJ = Pattern.compile("V .*(ind|sub).*");
+  private static final Pattern VERB_IMP = Pattern.compile("V.* imp .*");
   private static final Pattern VERB_INDSUBJ_M = Pattern.compile("V .* [123] s|V .* [23] p");
   private static final Pattern VERB_INDSUBJ_C = Pattern.compile("V .* 3 s");
-  private static final Pattern NOM_SING = Pattern.compile("[NJ] .* s|V .inf|V .*ppa.* s");
-  private static final Pattern NOM_PLURAL = Pattern.compile("[NJ] .* p|V .*ppa.* p");
+  private static final Pattern NOM_SING = Pattern.compile("[NJZ] .* (s|sp)|V .inf|V .*ppa.* s");
+  private static final Pattern NOM_PLURAL = Pattern.compile("[NJZ] .* (p|sp)|V .*ppa.* p");
   //private static final Pattern VERB_INFGERIMP = Pattern.compile("V.[NGM].*");
   //private static final Pattern VERB_INF = Pattern.compile("V.N.*");
+  
+  private static final Pattern VERB_1S = Pattern.compile("V .*(ind).* 1 s");
+  private static final Pattern VERB_2S = Pattern.compile("V .*(ind).* 2 s");
+  private static final Pattern VERB_3S = Pattern.compile("V .*(ind).* 3 s");
+  private static final Pattern VERB_1P = Pattern.compile("V .*(ind).* 1 p");
+  private static final Pattern VERB_2P = Pattern.compile("V .*(ind).* 2 p");
+  private static final Pattern VERB_3P = Pattern.compile("V .*(ind).* 3 p");
+  
+  
   private FrenchTagger tagger;
 
   public MorfologikFrenchSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
@@ -148,32 +173,40 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
     /*
      * if (word.length() < 5) { return Collections.emptyList(); }
      */
-    String suggestion = "";
-    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS, VERB_INDSUBJ, 2, "'", true);
-    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS_M, VERB_INDSUBJ_M, 2, "'", true);
-    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS_C, VERB_INDSUBJ_C, 2, "'", true);
-    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_SING, NOM_SING, 2, "'", true);
-    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_PLURAL, NOM_PLURAL, 2, "'", true);
-    //suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL, VERB_INFGERIMP, 1, "'", true);
-    //suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL_S, VERB_INF, 1, "'", true);
-    suggestion = findSuggestion(suggestion, word, GUIONET_FINAL, VERB_INDSUBJ, 1, "-", true);
-    if (!suggestion.isEmpty()) {
-      return Collections.singletonList(suggestion);
+    List<String> newSuggestions = new ArrayList<>();
+    newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_VERBS, VERB_INDSUBJ, 2, "'", true));
+    newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_VERBS_M, VERB_INDSUBJ_M, 2, "'", true));
+    newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_VERBS_C, VERB_INDSUBJ_C, 2, "'", true));
+    newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_NOM_SING, NOM_SING, 2, "'", true));
+    newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_NOM_PLURAL, NOM_PLURAL, 2, "'", true));
+    //newSuggestions.addAll(findSuggestion(word, APOSTROF_FINAL, VERB_INFGERIMP, 1, "'", true);
+    //newSuggestions.addAll(findSuggestion(word, APOSTROF_FINAL_S, VERB_INF, 1, "'", true);
+    newSuggestions.addAll(findSuggestion(word, IMPERATIVE_HYPHEN, VERB_IMP, 1, "-", true));
+    //newSuggestions.addAll(findSuggestion(word, GUIONET_FINAL, VERB_INDSUBJ, 1, "-", true);
+    
+    newSuggestions.addAll(findSuggestion(word, HYPHEN_JE, VERB_1S, 1, "-", true));
+    newSuggestions.addAll(findSuggestion(word, HYPHEN_TU, VERB_2S, 1, "-", true));
+    newSuggestions.addAll(findSuggestion(word, HYPHEN_ON, VERB_3S, 1, "-", true));
+    newSuggestions.addAll(findSuggestion(word, HYPHEN_NOUS, VERB_1P, 1, "-", true));
+    newSuggestions.addAll(findSuggestion(word, HYPHEN_VOUS, VERB_2P, 1, "-", true));
+    newSuggestions.addAll(findSuggestion(word, HYPHEN_ILS, VERB_3P, 1, "-", true));
+    
+    if (!newSuggestions.isEmpty()) {
+      return newSuggestions;
     }
     return Collections.emptyList();
   }
 
-  private String findSuggestion(String suggestion, String word, Pattern wordPattern, Pattern postagPattern,
+  private List<String> findSuggestion(String word, Pattern wordPattern, Pattern postagPattern,
       int suggestionPosition, String separator, boolean recursive) throws IOException {
-    if (!suggestion.isEmpty()) {
-      return suggestion;
-    }
+    List<String> newSuggestions = new ArrayList<>();
     Matcher matcher = wordPattern.matcher(word);
     if (matcher.matches()) {
       String newSuggestion = matcher.group(suggestionPosition);
       AnalyzedTokenReadings newatr = tagger.tag(Arrays.asList(newSuggestion)).get(0);
       if (matchPostagRegexp(newatr, postagPattern)) {
-        return matcher.group(1) + separator + matcher.group(2);
+        newSuggestions.add(matcher.group(1) + separator + matcher.group(2));
+        return newSuggestions;
       }
       if (recursive) {
         List<String> moresugg = this.speller1.getSuggestions(newSuggestion);
@@ -183,20 +216,23 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
             if (suggestionPosition == 1) {
               newWord = moresugg.get(i).toLowerCase() + matcher.group(2);
             } else {
-              newWord = matcher.group(1) + moresugg.get(i).toLowerCase();
+              newWord = matcher.group(1) + moresugg.get(i);
             }
-            String sugg = findSuggestion(suggestion, newWord, wordPattern, postagPattern, suggestionPosition, separator, false);
-            if (!sugg.isEmpty()) {
-              return sugg;
+            List<String> newSugg = findSuggestion(newWord, wordPattern, postagPattern, suggestionPosition, separator, false);
+            if (!newSugg.isEmpty()) {
+              newSuggestions.addAll(newSugg);
             }
-            if (i>3) {
+            if (i>5) {
               break;
             }
           }
         }
       }
     }
-    return "";
+    if (!newSuggestions.isEmpty()) {
+      return newSuggestions;
+    }
+    return Collections.emptyList();
   }
 
   /**
