@@ -140,7 +140,7 @@ public class Russian extends Language implements AutoCloseable {
         //  new EmptyLineRule(messages, this),  // too picky rule 
             new LongSentenceRule(messages, userConfig),
             new LongParagraphRule(messages, this, userConfig),
-            new ParagraphRepeatBeginningRule(messages, this),
+        //    new ParagraphRepeatBeginningRule(messages, this),   //temp disable rule, issue #3509
             new RussianFillerWordsRule(messages, this, userConfig),
         //  new PunctuationMarkAtParagraphEnd(messages, this),
             new PunctuationMarkAtParagraphEnd2(messages, this),  //
