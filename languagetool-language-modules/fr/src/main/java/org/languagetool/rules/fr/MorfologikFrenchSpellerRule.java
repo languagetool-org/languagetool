@@ -42,9 +42,11 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
       "^(auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans) (..+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
-  private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([clnts])(h?[aeiouàéèíòóú].*)$",
+  private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([lnts])(h?[aeiouàéèíòóú].*)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_INICI_VERBS_M = Pattern.compile("^(m)(h?[aeiouàéèíòóú].*)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern APOSTROF_INICI_VERBS_C = Pattern.compile("^(c)(h?[eiéèê].*)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_INICI_NOM_SING = Pattern.compile("^([ld])(h?[aeiouàéèíòóú]...+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
@@ -52,11 +54,12 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   
   private static final Pattern GUIONET_FINAL = Pattern.compile(
-      "^([\\p{L}]+)[’']?(ce|elle|elles|en|il|ils|je|la|le|les|leur|lui|moi|nous|on|toi|tu|vous|vs|y)$",
+      "^([\\p{L}]+)[’']?(ce|elle|elles|en|il|ils|je|la|le|les|leur|lui|moi|nous|on|toi|tu|vous)$", //|vs|y
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   //private static final Pattern MOVE_TO_SECOND_POS = Pattern.compile("^(.+'[nt])$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern VERB_INDSUBJ = Pattern.compile("V .*(ind|sub).*");
   private static final Pattern VERB_INDSUBJ_M = Pattern.compile("V .* [123] s|V .* [23] p");
+  private static final Pattern VERB_INDSUBJ_C = Pattern.compile("V .* 3 s");
   private static final Pattern NOM_SING = Pattern.compile("[NJ] .* s|V .inf|V .*ppa.* s");
   private static final Pattern NOM_PLURAL = Pattern.compile("[NJ] .* p|V .*ppa.* p");
   //private static final Pattern VERB_INFGERIMP = Pattern.compile("V.[NGM].*");
@@ -148,6 +151,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
     String suggestion = "";
     suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS, VERB_INDSUBJ, 2, "'", true);
     suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS_M, VERB_INDSUBJ_M, 2, "'", true);
+    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS_C, VERB_INDSUBJ_C, 2, "'", true);
     suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_SING, NOM_SING, 2, "'", true);
     suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_PLURAL, NOM_PLURAL, 2, "'", true);
     //suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL, VERB_INFGERIMP, 1, "'", true);
