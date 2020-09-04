@@ -3465,6 +3465,13 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
+    <rule name="ARCHITECT" id="ARCHITECT"><!-- common job titles -->
+      <pattern case_sensitive="yes">
+        <token regexp="yes">Frontend|Backend|Software|Hardware</token>
+        <token regexp="yes">Architects?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="Director of XXX" id="DIRECTOR_OF"><!-- common job title -->
       <pattern case_sensitive="yes">
         <token>Director</token>
@@ -3966,8 +3973,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule id="IP_V_6" name="Ignore spelling of 'IPv6'">
         <pattern>
-            <token case_sensitive="yes">IPv</token>
-            <token regexp="yes" spacebefore="no">4|6</token>
+            <token case_sensitive="yes">IPv[46]</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
