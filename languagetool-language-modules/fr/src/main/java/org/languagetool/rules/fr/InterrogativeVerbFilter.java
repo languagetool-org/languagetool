@@ -36,8 +36,8 @@ import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.tagging.fr.FrenchTagger;
 
 /*
- * Get appropriate suggestions for French verbs in interrogative form
- * e.g. prérères-tu
+ * Get appropriate suggestions for French verbs in interrogative form (prérères-tu)
+ * and imperative (dépêche-toi)
  */
 
 public class InterrogativeVerbFilter extends RuleFilter {
@@ -78,22 +78,35 @@ public class InterrogativeVerbFilter extends RuleFilter {
 
       //AnalyzedTokenReadings atrVerb = patternTokens[posVerb - 1];
       AnalyzedTokenReadings atrPronoun = patternTokens[posPronoun - 1];
-      if (atrPronoun.matchesPosTagRegex(".* 1 s")) {
+      
+      // vous
+      if (atrPronoun.matchesPosTagRegex("R pers obj 2 p")) {
+        desiredPostag = "V.* (imp) [23] [sp]|V .*(ind|cond).* 2 p";
+      }
+      // nous
+      else if (atrPronoun.matchesPosTagRegex("R pers obj 1 p")) {
+        desiredPostag = "V.* (imp) .*|V .*(ind|cond).* 1 p";
+      }
+      // moi, toi, le, la, lui, nous, vous, les, leur
+      else if (atrPronoun.matchesPosTagRegex("R pers obj.*")) {
+        desiredPostag = "V.* (imp) .*";
+      }
+      else if (atrPronoun.matchesPosTagRegex(".* 1 s")) {
         desiredPostag = "V .*(ind|cond).* 1 s";
       }
-      if (atrPronoun.matchesPosTagRegex(".* 2 s")) {
+      else if (atrPronoun.matchesPosTagRegex(".* 2 s")) {
         desiredPostag = "V .*(ind|cond).* 2 s";
       }
-      if (atrPronoun.matchesPosTagRegex(".* 3( [mf])? s")) {
+      else if (atrPronoun.matchesPosTagRegex(".* 3( [mf])? s")) {
         desiredPostag = "V .*(ind|cond).* 3 s";
       }
-      if (atrPronoun.matchesPosTagRegex(".* 1 p")) {
+      else if (atrPronoun.matchesPosTagRegex(".* 1 p")) {
         desiredPostag = "V .*(ind|cond).* 1 p";
       }
-      if (atrPronoun.matchesPosTagRegex(".* 2 p")) {
+      else if (atrPronoun.matchesPosTagRegex(".* 2 p")) {
         desiredPostag = "V .*(ind|cond).* 2 p";
       }
-      if (atrPronoun.matchesPosTagRegex(".* 3( [mf])? p")) {
+      else if (atrPronoun.matchesPosTagRegex(".* 3( [mf])? p")) {
         desiredPostag = "V .*(ind|cond).* 3 p";
       }
       if (desiredPostag != null) {

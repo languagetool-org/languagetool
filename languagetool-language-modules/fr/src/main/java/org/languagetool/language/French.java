@@ -237,9 +237,9 @@ public class French extends Language implements AutoCloseable {
       case "FRENCH_WHITESPACE": return 0;
       case "JE_SUI": return 1;  // needs higher priority than spell checker
       case "TOO_LONG_PARAGRAPH": return -15;
+      case "NONVERB_PRON": return -50; // better suggestions than the speller rule
       case "FR_SPELLING_RULE": return -100;
       case "ELISION": return -200; // should be lower in priority than spell checker
-      case "NONVERB_PRON": return -200; // show the suggestion by the spell checker if exists
       case "UPPERCASE_SENTENCE_START": return -300;
     }
     if (id.startsWith("grammalecte_")) {

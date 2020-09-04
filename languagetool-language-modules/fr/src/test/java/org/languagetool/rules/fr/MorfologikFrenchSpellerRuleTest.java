@@ -159,6 +159,7 @@ public class MorfologikFrenchSpellerRuleTest {
     assertSuggestion(rule, langTool, "avaisje", "avais-je");
     assertSuggestion(rule, langTool, "damazon", "d'Amazon", "d'amazone", "d'Amazone");
     
+    // to improve
     assertSuggestion(rule, langTool, "language", "l'engage", "l'engagé", "l'aiguage", "langage");
     assertSuggestion(rule, langTool, "depeche-toi", "d'empêché", "d'évêché", "dépêche");
     
