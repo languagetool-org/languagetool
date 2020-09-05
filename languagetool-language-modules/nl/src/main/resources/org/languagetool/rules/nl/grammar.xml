@@ -32969,26 +32969,13 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="VERAS" name="verassen i.p.v. verrassen">
 			<rule>
-				<!--
-				2014-08-22 TaalTik
-				regel werkt goed; zou verhuisd kunnen worden naar wrongwordsincontext, maar niet aanpassen wat goed werkt.
-				-->
+				<antipattern><token skip="-1" postag="SENT_START"/><token skip="-1" regexp="yes">.*(feest|verjaar).*</token><token postag="SENT_END"/></antipattern>
 				<pattern>
-					<token skip="-1" postag="SENT_START"><exception scope="next" regexp="yes">kist|overschot|resten|oven|begra.*</exception></token>
-					<marker>
-						<token skip="-1" regexp="yes">verassen|verast|veraste|verassend|veras|verassing.*<exception scope="next" regexp="yes">kist|overschot|resten|oven|begra.*</exception></token>
-					</marker>
-					<token postag="SENT_END"><exception scope="current" regexp="yes">kist|overschot|resten|oven|begra.*</exception></token>
+					<token regexp="yes">.*veras.*</token>
 				</pattern>
-				<message>Wanneer u 'verwonderen' bedoelt, is juist: 'verrassen'</message>
-				<example type="incorrect">Toch een <marker>verassing</marker>.</example>
-				<example type="incorrect">Laat u door ons <marker>verassen</marker>.</example>
-				<example type="incorrect">Ja, best lekker en <marker>verassend</marker>.</example>
-				<example type="incorrect"><marker>Verassend</marker> toch, dat dat niet zo is?!</example>
-				<example type="incorrect">En uit die hoek blijven <marker>verassingen</marker> komen.</example>
-				<example type="incorrect">Ik geloof dat hij helemaal niet <marker>verast</marker> wil worden.</example>
-				<example type="incorrect">Alle aanwezige kindjes kregen ook een klein <marker>verassingspakketje</marker> mee naar huis.</example>
-				<example type="incorrect">Deze <marker>verassingspaketten</marker> worden door de sociale dienst van het OCMW, aan de minder- bedeelden van de gemeente Holsbeek bezorgd.</example>
+				<message>Wanneer u 'verwonderen' bedoelt, dan is een dubbele r op zijn plaats.'</message>
+				<suggestion><match no="1" regexp_match="veras" regexp_replace="verras"/></suggestion>
+				<example correction="verrassing">Toch een <marker>verassing</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="VERKEERD_IN_STAAT" name="Verkeerd in goede staat / verkeert in goede staat">
