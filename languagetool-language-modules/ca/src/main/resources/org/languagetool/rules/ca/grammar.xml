@@ -1964,12 +1964,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="DA.*" postag_regexp="yes"/>
                         <token regexp="yes">seus?</token>
                     </marker>
-                    <token regexp="yes">amiga|amigues|enemiga|enemigues</token>
+                    <token regexp="yes">amiga|amigues|enemiga|enemigues|frontera|fronteres</token>
                 </pattern>
                 <message>Possible error de concordança.</message>
                 <suggestion><match no="3" postag_regexp="yes" postag=".*(F[SP]).*" postag_replace="DA.$1.">el</match> <match no="3" postag_regexp="yes" postag=".*(F[SP]).*" postag_replace="PX.$1.*">seu</match></suggestion>
                 <example correction="La seua|La seva"><marker>La seu</marker> amiga de la feina.</example>
                 <example correction="Les seues|Les seves"><marker>Les seus</marker> amigues de la feina.</example>
+                <example correction="Les seues fronteres|Les seves fronteres"><marker>Les seus</marker> fronteres.</example>
             </rule>
             <rule>
                 <!-- det + possessiu + adj + nom-->
@@ -56340,6 +56341,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="PUNCTUATION" name="puntuació" type="grammar">
         <rulegroup id="MISSING_COMMA" name="coma en vocatius">
+            <antipattern>
+                <token regexp="yes">salutacions|felicitats|felicitacions|dia|vespre|vesprada|tarda|nit</token>
+                <token min="0" regexp="yes">una?</token>
+                <token regexp="yes">altra|altre</token>
+                <token regexp="yes">vegada|volta|col?p|pic</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -56445,7 +56452,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>gràcies</token>
                     <token min="0" regexp="yes">una?</token>
                     <token regexp="yes">altra|altre</token>
-                    <token regexp="yes">vegada|volta|cop</token>
+                    <token regexp="yes">vegada|volta|col?p|pic</token>
                 </antipattern>
                 <antipattern>
                     <token postag="SPS00|LOC_PREP|PX.*|D..FP.|V.*" postag_regexp="yes"><exception>moltes</exception></token>
