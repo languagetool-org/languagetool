@@ -11706,7 +11706,7 @@ onwaarschijnlijk
 				<example correction="terbeschikkingstelling">Er moet ook een fiche opgemaakt worden voor het jaar waarin de <marker>ter beschikking stelling</marker> gebeurt.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="XXX_DING" name="KLM vliegtuig → KLM-vliegtuig">
+		<rulegroup id="XXX_DING" name="KLM vliegtuig → KLM-vliegtuig" type="misspelling">
 			<!-- 2014-08-20 TaalTik -->
 			<antipattern><token>niet</token><token>meer</token></antipattern>
 			<antipattern><token/><token regexp="yes">kost|weer|stelt|was|niet|uitvoeren|zo</token></antipattern>
@@ -12358,7 +12358,7 @@ onwaarschijnlijk
 		</rulegroup>
 	</category>
 	<category id="BELEDIGEND" name="Beledigend" type="register" >
-		<rulegroup id="ONGEPAST" name="Mogelijk ongepast taalgebruik">
+		<rulegroup id="ONGEPAST" name="Mogelijk ongepast taalgebruik" tags="picky">
 			<!-- 2014-08-20 TaalTik uitzondering cellulitis, godvrucht, Honolulu, aardkloot, stefanus toegevoegd -->
 			<rule>
 				<pattern>
@@ -16239,7 +16239,7 @@ steenwijk;Steenwijk
 				<example correction="deed">2018 <marker>Deed</marker> het goed.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="HOOFDLETTERS_OVERBODIG" name="Woorden die ook klein geschreven mogen worden." type="misspelling">
+		<rulegroup id="HOOFDLETTERS_OVERBODIG" name="Woorden die ook klein geschreven mogen worden." type="misspelling" tags="picky">
 			<rule>
 				<pattern>
 					<token case_sensitive="yes" regexp="yes">BTW|LED|CV|CD|DVD|TV|IC</token>
@@ -17623,7 +17623,7 @@ steenwijk;Steenwijk
 				<example correction="verder …">Zo gaat het <marker>verder…</marker></example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="KOMMA_HOEWEL" name=", hoewel">
+		<rulegroup id="KOMMA_HOEWEL" name=", hoewel" default="temp_off">
 			<rule>
 				<antipattern><token>(</token><token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token></antipattern>
 				<antipattern><token skip="2">,</token><token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token></antipattern>
@@ -17746,7 +17746,7 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 		
-		<rulegroup id="KOMMA_ONTBR" name="Komma vergeten?">
+		<rulegroup id="KOMMA_ONTBR" name="Komma vergeten?" default="temp_off">
 			<!-- 2014-08-20 TaalTik -->
 			<rule>
 				<antipattern><token inflected="yes" regexp="yes">worden|zijn</token><token postag="WKW:TGW:3EP"/></antipattern>
@@ -18447,22 +18447,15 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="HET_ZNW_DE" name="het man / de man" >
+		<rulegroup id="HET_ZNW_DE" name="het man / de man" default="temp_off">
 			<rule>
-				<antipattern><token regexp="yes">en|of|dat</token><token>het</token></antipattern>
-				<antipattern><token>het</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
-				<antipattern><token>het</token><token regexp="yes">een|één</token><token>van</token></antipattern>
-				<antipattern><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><token>het</token></antipattern>
 				<pattern>
-					<marker>
-						<token>het</token>
-					</marker>
-					<token postag="ZNW:EKV:DE_"><exception postag_regexp="yes" postag="ZNW:EKV|ZNW.*HET|WKW.*|VRZ|BNW.*|BYW"/><exception regexp="yes">mijn|hen</exception></token>
-					<token><exception postag_regexp="yes" postag="ENM.*|WKW.*"/></token>
+					<token>het</token>
+					<token postag="ZNW:EKV:DE_"><exception regexp="yes">mijn|hen</exception></token>
 				</pattern>
-				<message>\2 is een 'de'-woord: misschien met er toch <suggestion>de</suggestion> staan. Of misschien staat er een spatie te veel.</message>
-				<example correction="de">Ik zie <marker>het</marker> hond.</example>
-				<example>Niet als <marker>het</marker> firma Janssen betreft.</example>
+				<message>\2 is een 'de'-woord.</message>
+				<suggestion>de \2</suggestion>
+				<example correction="de bepaling">Ik zie <marker>het bepaling</marker>.</example>
 			</rule>
 		</rulegroup>
 
@@ -18684,7 +18677,7 @@ steenwijk;Steenwijk
 				<example correction="19 h 30 min ## s">Om <marker>19h30</marker> stappen we op.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="_4_CIJFERS" name="geen punt in getal met 4 cijfers">
+		<rulegroup id="_4_CIJFERS" name="geen punt in getal met 4 cijfers" tags="picky">
 			<rule>
 				<antipattern><token regexp="yes">[+-/*]</token><token regexp="yes">[1-9]</token><token spacebefore="no">.</token><token regexp="yes" spacebefore="no">[0-9]{3}</token></antipattern>
 				<antipattern><token regexp="yes">[1-9]</token><token spacebefore="no">.</token><token regexp="yes" spacebefore="no">[0-9]{3}</token><token regexp="yes">[+-/*]</token></antipattern>
@@ -18743,7 +18736,7 @@ steenwijk;Steenwijk
 				<example correction="die|dat">De porseleinen plaat zit vast in een slede <marker>welke</marker> tussen twee geleiders beweegt.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="ENKEL" name="Enkel → alleen">
+		<rulegroup id="ENKEL" name="Enkel → alleen" tags="picky">
 			<!-- 2014-09-08 TaalTik -->
 			<rule>
 				<antipattern><token regexp="yes">de|een</token><token>enkel</token><token postag_regexp="yes" postag="WKW.*"/></antipattern>
@@ -19931,7 +19924,7 @@ steenwijk;Steenwijk
 				<example correction="over">U hebt een vraag <marker>aangaande</marker> het plaatsen van orders?</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="AANGEZIEN" name="aangezien">
+		<rulegroup id="AANGEZIEN" name="aangezien" tags="picky">
 			<rule>
 				<pattern>
 					<token>aangezien</token>
@@ -20203,7 +20196,7 @@ steenwijk;Steenwijk
 				<example correction="goedkeuring|aanvaarding">De <marker>acceptatie</marker> van de wissel is een formeel engagement.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="ACCOMMODATIE" name="accommodatie">
+		<rulegroup id="ACCOMMODATIE" name="accommodatie" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes">accommodatie</token>
@@ -20486,7 +20479,7 @@ steenwijk;Steenwijk
 				<example correction="Behalve"><marker>Afgezien van</marker> hun talent en hun passie lijken ze alles tegen te hebben om door te breken in de conservatieve balletwereld.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="AFRONDEN" name="afronden">
+		<rulegroup id="AFRONDEN" name="afronden" tags="picky">
 			<antipattern><token regexp="yes" inflected="yes" skip="10">rekening|berekening|getal</token><token inflected="yes">afronden</token></antipattern>
 			<antipattern><token inflected="yes" skip="10">afronden</token><token regexp="yes" inflected="yes">berekening|getal</token></antipattern>
 			<rule>
@@ -21047,7 +21040,7 @@ steenwijk;Steenwijk
 		<example>QQ <marker>over</marker>.</example>
 		</rule>
 		-->
-		<rulegroup id="BETREKKING_HEBBEN_OP" name="betrekking hebben op">
+		<rulegroup id="BETREKKING_HEBBEN_OP" name="betrekking hebben op" tags="picky">
 			<rule>
 				<pattern>
 					<token>betrekking</token><token inflected="yes">hebben</token><token>op</token>
@@ -21179,7 +21172,7 @@ steenwijk;Steenwijk
 				<example correction="Hierbij"><marker>Bij dezen</marker> een woordje over het gebruik van formele woorden, dewelke thans nog vaak voorkomen, zeker in schriftelijk taalgebruik.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="BIJDRAGE_LEVEREN" name="bijdrage leveren">
+		<rulegroup id="BIJDRAGE_LEVEREN" name="bijdrage leveren" tags="picky">
 			<rule>
 				<pattern>
 					<token skip="3">bijdrage</token><token inflected="yes">leveren</token>
@@ -21381,7 +21374,7 @@ steenwijk;Steenwijk
 				<example>QQ <marker>tankstation</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="CAPACITEIT" name="capaciteit">
+		<rulegroup id="CAPACITEIT" name="capaciteit" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes">capaciteit</token>
@@ -21703,7 +21696,7 @@ steenwijk;Steenwijk
 				<example type="incorrect"><marker>Consolidatie</marker> is iets voor later.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="CONSTATEREN" name="constateren">
+		<rulegroup id="CONSTATEREN" name="constateren" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes">constateren</token>
@@ -22625,7 +22618,7 @@ steenwijk;Steenwijk
 				<example correction="leerzaam">De voetafdruk is vooral <marker>educatief</marker> een sterk instrument.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="EEN_AANTAL" name="een aantal">
+		<rulegroup id="EEN_AANTAL" name="een aantal" tags="picky">
 			<rule>
 				<pattern>
 					<token>een</token><token>aantal</token>
@@ -22839,7 +22832,7 @@ steenwijk;Steenwijk
 				<example type="incorrect">Luidens de inlichtingen zou deze bepaling <marker>ertoe strekken</marker> de pensioenaanspraken van de aangestelde personen veilig te stellen.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="ERVARING" name="...ervaring">
+		<rulegroup id="ERVARING" name="...ervaring" tags="picky">
 			<rule>
 				<pattern>
 					<token regexp="yes">...*ervaring</token>
@@ -22897,7 +22890,7 @@ steenwijk;Steenwijk
 				<example correction="besprekingen|beoordelingen">De <marker>evaluaties</marker> waren over de hele lijn positief.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="EVALUEREN" name="evalueren">
+		<rulegroup id="EVALUEREN" name="evalueren" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes">evalueren</token>
@@ -23121,7 +23114,7 @@ steenwijk;Steenwijk
 				<example>QQ <marker>buiten de muren van</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="EXTREEM" name="extreem">
+		<rulegroup id="EXTREEM" name="extreem" tags="picky">
 			<rule>
 				<pattern>
 					<token>extreem</token>
@@ -24027,7 +24020,7 @@ steenwijk;Steenwijk
 				<example type="incorrect">Tot op de dag van vandaag blijft hij ons <marker>hiertoe</marker> inspireren.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="HOEWEL" name="hoewel">
+		<rulegroup id="HOEWEL" name="hoewel" tags="picky">
 			<rule>
 				<pattern>
 					<token>hoewel</token>
@@ -24167,7 +24160,7 @@ steenwijk;Steenwijk
 				<example correction="invloed|effect">Ze zijn verraderlijk en vaak is hun <marker>impact</marker> subtiel.”</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="IMPLEMENTATIE" name="implementatie">
+		<rulegroup id="IMPLEMENTATIE" name="implementatie" tags="picky">
 			<rule>
 				<pattern>
 					<token>implementatie</token>
@@ -24182,7 +24175,7 @@ steenwijk;Steenwijk
 				<example correction="uitvoering|invoering|toepassing">Daar werd de <marker>implementatie</marker> van de Vogel- en Habitatrichtlijn in de nationale wetgeving herzien.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="IMPLEMENTEREN" name="implementeren">
+		<rulegroup id="IMPLEMENTEREN" name="implementeren" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes">implementeren</token>
@@ -24370,7 +24363,7 @@ steenwijk;Steenwijk
 		</rule>
 		</rulegroup>
 		-->
-		<rulegroup id="IN_DE_GELEGENHEID_ZIJN" name="in de gelegenheid zijn">
+		<rulegroup id="IN_DE_GELEGENHEID_ZIJN" name="in de gelegenheid zijn" tags="picky">
 			<rule>
 				<pattern>
 					<token>in</token><token>de</token><token>gelegenheid</token><token>zijn</token>
@@ -24487,7 +24480,7 @@ steenwijk;Steenwijk
 				<example type="incorrect">De angst bestaat, dat juni voor onaangename verrassingen kan gaan zorgen <marker>in de zin van</marker> noodweer.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="INDICATIE" name="indicatie">
+		<rulegroup id="INDICATIE" name="indicatie" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes">indicatie</token>
@@ -24498,7 +24491,7 @@ steenwijk;Steenwijk
 				<example correction="aanwijzingen">Het waren <marker>indicaties</marker> van de oorlogseconomie.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="INDIEN" name="indien">
+		<rulegroup id="INDIEN" name="indien" tags="picky">
 			<rule>
 				<pattern>
 					<token>indien</token>
@@ -24663,7 +24656,7 @@ steenwijk;Steenwijk
 				<example correction="hierna|hieronder">Wanneer <marker>in het navolgende</marker> getracht wordt een weg aan te geven, gebeurt dit goed.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="INHOUDELIJK" name="inhoudelijk">
+		<rulegroup id="INHOUDELIJK" name="inhoudelijk" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes">inhoudelijk</token>
@@ -24676,7 +24669,7 @@ steenwijk;Steenwijk
 				<example type="incorrect">Ze krijgt ook <marker>inhoudelijk</marker> een ruimere invulling.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="INITIATIEF" name="initiatief">
+		<rulegroup id="INITIATIEF" name="initiatief" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes">initiatief</token>
@@ -25212,7 +25205,7 @@ steenwijk;Steenwijk
 				<example type="incorrect">Een <marker>kwalijke</marker> evolutie.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="KWALITATIEF" name="kwalitatief">
+		<rulegroup id="KWALITATIEF" name="kwalitatief" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes">kwalitatief</token>
@@ -25233,7 +25226,7 @@ steenwijk;Steenwijk
 				<example type="incorrect">Uiteraard kun je ook hier <marker>kwantificeren</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="KWANTITATIEF" name="kwantitatief">
+		<rulegroup id="KWANTITATIEF" name="kwantitatief" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes">kwantitatief</token>
@@ -27406,7 +27399,7 @@ steenwijk;Steenwijk
 				<example type="incorrect">Het verleden is nog <marker>prominent</marker> aanwezig.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="QUA" name="qua">
+		<rulegroup id="QUA" name="qua" tags="picky">
 			<rule>
 				<pattern>
 					<token>qua</token>
@@ -28118,7 +28111,7 @@ steenwijk;Steenwijk
 				<example correction="terugboeking">Als gevolg van <marker>stornering</marker> komt het bedrag niet aan.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="STRATEGIE" name="strategie">
+		<rulegroup id="STRATEGIE" name="strategie" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes">strategie</token>
@@ -28333,7 +28326,7 @@ steenwijk;Steenwijk
 				<example correction="Hier|Hierin|Hierbij|In dit geval|In dit opzicht"><marker>Te dezen</marker> werd de voorlopige tenuitvoerlegging gevorderd en is zij door de wet toegestaan.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="TEGEMOET_ZIEN" name="tegemoet zien">
+		<rulegroup id="TEGEMOET_ZIEN" name="tegemoet zien" tags="picky">
 			<rule>
 				<pattern>
 					<token>tegemoet</token>
@@ -29962,7 +29955,7 @@ steenwijk;Steenwijk
 				<example correction="Weer|Opnieuw"><marker>Wederom</marker> voor drie rondes.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="WAT_BETREFT" name="wat betreft">
+		<rulegroup id="WAT_BETREFT" name="wat betreft" tags="picky">
 			<rule>
 				<antipattern><token>wat</token><token regexp="yes">mij|hem|u</token><token>betreft</token></antipattern>
 				<pattern>
@@ -31581,7 +31574,7 @@ steenwijk;Steenwijk
 				<message>Mogelijke fout: \2 hoort bij 'gij' of 'ge'</message>
 				<example type="incorrect">Toen je naar de deur <marker>liept</marker>, ging het mis."></example>
 			</rule>
-		</rulegroup>		
+		</rulegroup>
 		<!--
 		<rule id="WORDT_BESCHULDIGT_VAN" name="beschuldigt → beschuldigd">
 		<antipattern>
@@ -31748,7 +31741,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<token regexp="yes">lange|korte</token>
 					<token>termijn</token>
-					<token postag ="ZNW.*"  postag_regexp="yes"/>
+					<token postag ="ZNW.*" postag_regexp="yes"><exception postag_regexp="yes" postag="BNW.*VRB"/></token>
 				</pattern>
 				<message>U bedoelt mogelijk: <suggestion>\1\2\3</suggestion>.</message>
 				<example correction="langetermijngeheugen">QQ <marker>lange termijn geheugen</marker> QQQ.</example>
@@ -33048,16 +33041,6 @@ steenwijk;Steenwijk
 				<example correction="onder|tegen|op">Ik krijg het <marker>aan</marker> deze voorwaarden.</example>
 			</rule>
 		</rulegroup>	 
-		<rulegroup id="VRIJ" name="Bijvoeglijk met ~vrij">
-			<rule>
-				<pattern>
-					<token regexp="yes">....*(vrije|vrij)$</token>
-				</pattern>
-				<message>Bij zeldzame combinaties is het beter om te omschrijven.</message>
-				<url>https://taaladvies.net/taal/advies/vraag/862/vrij/</url>
-				<example type="incorrect"><marker>Babyvrij</marker> is gekunsteld.</example>
-			</rule>
-		</rulegroup>	 
 		<rulegroup id="FOUTE_WOORDGROEPEN" name="Foute woordgroepen">
 			<rule>
 				<pattern>
@@ -33241,7 +33224,7 @@ steenwijk;Steenwijk
 				<example correction="Geachte heer"><marker>Geachte mijnheer</marker>, ik begin deze brief.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="ONTKEN_2" name="dubbele ontkenning">
+		<rulegroup id="ONTKEN_2" name="dubbele ontkenning" tags="picky">
 			<rule>
 				<pattern>
 					<token regexp="yes" skip="5">evenmin|nimmer|niet|nooit|geen|nergens|niet-.+<exception scope="next" regexp="yes">;|,|en|of</exception></token>
@@ -33336,7 +33319,7 @@ steenwijk;Steenwijk
 		<example>Weet je niet hoe <marker>duur die auto wel niet is</marker>?</example>
 		</rule>
 		-->
-		<rulegroup id="KAN_KUN" name="kan vs kun">
+		<rulegroup id="KAN_KUN" name="kan vs kun" tags="picky">
 			<antipattern>
 				<token postag="SENT_START"/>
 				<token regexp="yes">wat|wie</token>
@@ -34458,7 +34441,7 @@ steenwijk;Steenwijk
 				<example correction="Ja, hoor"><marker>Ja hoor</marker>!</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="EN_EN_EN" name="En... en ... en ...">
+		<rulegroup id="EN_EN_EN" name="En... en ... en ..." tags="picky">
 			<!-- bron: Onze Taal via Woordpost 2014-08-27 -->
 			<rule>
 				<pattern>
@@ -35504,7 +35487,7 @@ steenwijk;Steenwijk
 				<example correction="taak is volbracht">Mijn <marker>taak is voldaan</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="KORT_1" name="Zin van 1 woord">
+		<rulegroup id="KORT_1" name="Zin van 1 woord" tags="picky">
 			<rule>
 				<antipattern><token regexp="yes">^.{1,4}$</token><token>.</token></antipattern>
 				<pattern>
@@ -35518,7 +35501,7 @@ steenwijk;Steenwijk
 				<example type="incorrect"><marker>Hierzo.</marker></example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="KORT_2" name="Zinnen van 2 woorden">
+		<rulegroup id="KORT_2" name="Zinnen van 2 woorden" tags="picky">
 			<rule>
 				<antipattern><token>Hoofdstuk</token><token regexp="yes">[0-9]*</token></antipattern>
 				<antipattern><token>Tot</token><token>ziens</token></antipattern>
@@ -37363,7 +37346,8 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="JOU_JOUW" name="jou of jouw">
 			<rule>
-				<antipattern><token>jou</token><token postag_regexp="yes" postag="BNW.*e"/><token postag=".*ZNW.*" postag_regexp="yes"/></antipattern>
+				<antipattern><token>jou</token><token postag_regexp="yes" postag="BNW.*"/><token postag=".*ZNW.*" postag_regexp="yes"/></antipattern>
+				<antipattern><token>jou</token><token postag_regexp="yes" postag="BYW.*"/></antipattern>
 				<pattern>
 					<token negate="yes" regexp="yes">volgens|die</token>
 					<marker>
