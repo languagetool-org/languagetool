@@ -1878,6 +1878,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.SP3S." postag_regexp="yes"/>
                     <token>usted</token>
                 </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">estar|ser|parecer</token>
+                    <token regexp="yes">él|ella|usted</token>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">él|ella|usted</token>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <token postag="V...3S." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>él</token>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <token>y</token>
+                    <token>ella</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">él|ella|usted<exception postag="SP.*" postag_regexp="yes" scope="previous"/></token>
                     <token regexp="yes" min="0">["«“‘']</token>
@@ -1905,6 +1921,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No haga usted caso de sus caprichos.</example>
                 <example>Haga usted caso de las advertencias.</example>
                 <example>Ha causado usted daño en la casa.</example>
+                <example>Sé que está usted contento por eso.</example>
+                <example>él sereno y ella madre de 8 hijos</example>
             </rule>
             <rule>
                 <pattern>
@@ -1934,7 +1952,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="_QM_OPEN|R.*|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
                     <marker>
                         <and>
-                            <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V...3.*|C.*|SP.*|V.G.*|[ANCR].|_possible_NP*" postag_regexp="yes"/></token>
+                            <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V...3.*|C.*|SP.*|V.G.*|[ANCR].*|_possible_NP" postag_regexp="yes"/></token>
                             <token inflected="yes" regexp="yes">.+ar<exception inflected="yes" regexp="yes">.+ir</exception></token>
                         </and>
                     </marker>
@@ -1945,6 +1963,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="habló">Juan <marker>hablo</marker> con ella.</example>
                 <example correction="tomó">Mary <marker>tomo</marker> la píldora</example>
                 <example correction="enseñó">Jesús nunca <marker>enseño</marker> esto.</example>
+                <example>Deja más espacio entre caracteres.</example>
+                <example>El estudio más profundo y la práctica más intensa.</example>
+                <example>Teorema segundo de Tales.</example>
+                <example>Un hombre tan honesto como John.</example>
                 <example>Siempre colaboro con la policía.</example>
                 <example>El jueves hablo con él.</example>
                 <example>Mañana hablo con ella.</example>
@@ -1959,6 +1981,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Adjunto facilito factura.</example>
                 <example>Adjunta facilito factura.</example>
                 <example>Cada mañana cruzo las vías férreas.</example>
+                <example>Un examen más profundo y detallado-</example>
+                <example>Total envío:</example>
             </rule>
         </rulegroup>
         <rule id="PROMEDIO" name="promedio/promedió">
@@ -12075,6 +12099,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="PUNCTUATION" name="Puntuación">
         <rulegroup id="MISSING_COMMA" name="falta de coma">
             <url>https://www.fundeu.es/recomendacion/vocativos-entre-comas/</url>
+            <antipattern>
+                <token>otra</token>
+                <token>vez</token>
+            </antipattern>
+            <antipattern>
+                <token>una</token>
+                <token>vez</token>
+                <token>más</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -12115,6 +12148,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¡Hola a todos!</example>
                 <example>Felicidades por la victoria.</example>
                 <example>Saludos cordiales.</example>
+                <example>¡Enhorabuena una vez más, chicos!</example>
             </rule>
             <rule>
                 <pattern>
