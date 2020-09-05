@@ -18450,12 +18450,31 @@ steenwijk;Steenwijk
 		<rulegroup id="HET_ZNW_DE" name="het man / de man" default="temp_off">
 			<rule>
 				<pattern>
-					<token>het</token>
+					<marker>
+						<token regexp="yes">het|dit|dat</token>
+					</marker>
 					<token postag="ZNW:EKV:DE_"><exception regexp="yes">mijn|hen</exception></token>
 				</pattern>
 				<message>\2 is een 'de'-woord.</message>
-				<suggestion>de \2</suggestion>
-				<example correction="de bepaling">Ik zie <marker>het bepaling</marker>.</example>
+				<suggestion>de</suggestion>
+				<suggestion>die</suggestion>
+				<suggestion>deze</suggestion>
+				<example correction="de|die|deze">Ik zie <marker>het</marker> bepaling.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="DE_ZNW_HET" name="de kind/het kind" default="temp_off">
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">de|die|deze</token>
+					</marker>
+					<token postag_regexp="yes" postag="ZNW:.*:HET"/>
+				</pattern>
+				<message>\2 is een 'het'-woord.</message>
+				<suggestion>het</suggestion>
+				<suggestion>dit</suggestion>
+				<suggestion>dat</suggestion>
+				<example correction="het|dit|dat">Ik zie <marker>de</marker> kind.</example>
 			</rule>
 		</rulegroup>
 
@@ -18465,7 +18484,7 @@ steenwijk;Steenwijk
 				<antipattern><token postag="SENT_START" skip="-1"/><token>wegen</token></antipattern>
 				<antipattern><token>wikken</token><token>en</token><token>wegen</token></antipattern>
 				<pattern><token>wikken</token></pattern>
-				<message>Het woord 'wikken'staat meestal in 'wikken en wegen'. Maar het kan ook het meervoud van 'wikke' (plant) zijn en ook los worden gebrukt als 'afwegen'.</message>
+				<message>Het woord 'wikken'staat meestal in 'wikken en wegen'. Maar het kan ook het meervoud van 'wikke' (plant) zijn en ook los worden gebruikt als 'afwegen'.</message>
 				<example type="incorrect">Ik loop door de <marker>wikken</marker> heen.</example>
 			</rule>
 		</rulegroup>
