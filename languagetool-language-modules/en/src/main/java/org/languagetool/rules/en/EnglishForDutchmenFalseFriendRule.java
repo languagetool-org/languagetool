@@ -21,15 +21,14 @@ package org.languagetool.rules.en;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.rules.Example;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * False friends for German native speakers who write English text, based on ngrams.
- * @since 4.6
+ * False friends for Dutch native speakers who write English text, based on ngrams.
+ * @since 5.1
  */
 public class EnglishForDutchmenFalseFriendRule extends EnglishForL2SpeakersFalseFriendRule {
 
