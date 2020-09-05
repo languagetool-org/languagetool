@@ -37426,57 +37426,20 @@ steenwijk;Steenwijk
 				<example>Dit is :-)</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="GEDACHTESTREEPJE" name="- → —">
+
+		<rulegroup id="GEDACHTESTREEPJE" name="- → –" tags="picky">
 			<rule>
-				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token spacebefore="yes">-</token></antipattern><!-- bullet list -->
+				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token spacebefore="yes">-</token></antipattern>
 				<pattern>
 					<marker>
 						<token spacebefore="yes">-</token>
 					</marker>
 					<token spacebefore="yes"><exception regexp="yes">[0-9]*</exception></token>
 				</pattern>
-				<message>Als gedachtestreepje wordt een langer streepje geadviseerd: <suggestion>—</suggestion></message>
+				<message>Als gedachtestreepje wordt een iets langer streepje geadviseerd: <suggestion>–</suggestion></message>
 				<url>https://taaladvies.net/taal/advies/vraag/312/gedachtestreepje</url>
-				<short>—</short>
-				<example correction="—">Dit is geen <marker>-</marker> gedachtestreep.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token><exception postag="SENT_START"/></token>
-					<marker>
-						<token spacebefore="no">—</token>
-					</marker>
-					<token spacebefore="yes"/>
-				</pattern>
-				<message>Voor een gedachtestreepje hoort een spatie: <suggestion> —</suggestion></message>
-				<url>https://taaladvies.net/taal/advies/vraag/312/gedachtestreepje</url>
-				<short>—</short>
-				<example correction=" —">Dit is geen<marker>—</marker> gedachtestreep.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<marker>
-						<token spacebefore="yes">—</token>
-					</marker>
-					<token spacebefore="no"/>
-				</pattern>
-				<message>Na een gedachtestreepje hoort een spatie: <suggestion>— </suggestion></message>
-				<url>https://taaladvies.net/taal/advies/vraag/312/gedachtestreepje</url>
-				<short>—</short>
-				<example correction="— ">Dit is geen <marker>—</marker>gedachtestreep.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<marker>
-						<token spacebefore="no">—</token>
-					</marker>
-					<token spacebefore="no"/>
-				</pattern>
-				<message>Voor en na een gedachtestreepje hoort een spatie: <suggestion> — </suggestion></message>
-				<url>https://taaladvies.net/taal/advies/vraag/312/gedachtestreepje</url>
-				<short>—</short>
-				<example correction=" — ">Dit is geen<marker>—</marker>gedachtestreep.</example>
-				<example>Dit is een <marker>—</marker> gedachtestreep.</example>
+				<short>–</short>
+				<example correction="–">Dit is geen <marker>-</marker> gedachtestreep.</example>
 			</rule>
 		</rulegroup>
 
