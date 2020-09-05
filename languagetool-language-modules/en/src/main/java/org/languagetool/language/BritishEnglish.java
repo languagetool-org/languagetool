@@ -56,9 +56,9 @@ public class BritishEnglish extends English {
   }
 
   @Override
-  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
-    List<Rule> rules = new ArrayList<>(super.getRelevantLanguageModelCapableRules(messages, languageModel, globalConfig, userConfig, motherTongue, altLanguages));
-    rules.add(new MorfologikBritishSpellerRule(messages, this, globalConfig, userConfig, altLanguages, languageModel, motherTongue));
+  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel lm, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    List<Rule> rules = new ArrayList<>(super.getRelevantLanguageModelCapableRules(messages, lm, globalConfig, userConfig, motherTongue, altLanguages));
+    rules.add(new MorfologikBritishSpellerRule(messages, this, globalConfig, userConfig, altLanguages, lm, motherTongue));
     return rules;
   }
 

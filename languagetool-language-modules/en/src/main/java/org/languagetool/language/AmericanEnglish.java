@@ -57,12 +57,12 @@ public class AmericanEnglish extends English {
   }
 
   @Override
-  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
-    List<Rule> rules = new ArrayList<>(super.getRelevantLanguageModelCapableRules(messages, languageModel, globalConfig, userConfig, motherTongue, altLanguages));
+  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel lm, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    List<Rule> rules = new ArrayList<>(super.getRelevantLanguageModelCapableRules(messages, lm, globalConfig, userConfig, motherTongue, altLanguages));
     if (SuggestionsChanges.isRunningExperiment("SymSpell") || SuggestionsChanges.isRunningExperiment("SymSpell+NewSuggestionsOrderer")) {
-      rules.add(new SymSpellRule(messages, this, userConfig, altLanguages, languageModel));
+      rules.add(new SymSpellRule(messages, this, userConfig, altLanguages, lm));
     } else {
-      rules.add(new MorfologikAmericanSpellerRule(messages, this, globalConfig, userConfig, altLanguages, languageModel, motherTongue));
+      rules.add(new MorfologikAmericanSpellerRule(messages, this, globalConfig, userConfig, altLanguages, lm, motherTongue));
     }
     return rules;
   }

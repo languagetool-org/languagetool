@@ -210,18 +210,31 @@ public class English extends Language implements AutoCloseable {
   }
 
   @Override
-  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
-    if (languageModel != null && motherTongue != null && "fr".equals(motherTongue.getShortCode())) {
+  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel lm, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    if (lm != null && motherTongue != null && "fr".equals(motherTongue.getShortCode())) {
       return Arrays.asList(
-          new EnglishForFrenchFalseFriendRule(messages, languageModel, motherTongue, this)
+          new EnglishForFrenchFalseFriendRule(messages, lm, motherTongue, this)
       );
     }
-    if (languageModel != null && motherTongue != null && "de".equals(motherTongue.getShortCode())) {
+    if (lm != null && motherTongue != null && "de".equals(motherTongue.getShortCode())) {
       return Arrays.asList(
-          new EnglishForGermansFalseFriendRule(messages, languageModel, motherTongue, this)
+          new EnglishForGermansFalseFriendRule(messages, lm, motherTongue, this)
+      );
+    }
+    if (lm != null && motherTongue != null && "nl".equals(motherTongue.getShortCode())) {
+      return Arrays.asList(
+          new EnglishForDutchmenFalseFriendRule(messages, lm, motherTongue, this)
       );
     }
     return Arrays.asList();
+  }
+
+  @Override
+  public boolean hasNGramFalseFriendRule(Language motherTongue) {
+    return motherTongue != null && (
+      "de".equals(motherTongue.getShortCode()) ||
+      "fr".equals(motherTongue.getShortCode()) ||
+      "nl".equals(motherTongue.getShortCode()));
   }
 
   @Override
@@ -229,11 +242,6 @@ public class English extends Language implements AutoCloseable {
     return NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);
   }
 
-  @Override
-  public boolean hasNGramFalseFriendRule(Language motherTongue) {
-    return motherTongue != null && ("de".equals(motherTongue.getShortCode()) || "fr".equals(motherTongue.getShortCode()));
-  }
-  
   /** @since 5.1 */
   @Override
   public String getOpeningDoubleQuote() {
