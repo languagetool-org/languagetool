@@ -17275,6 +17275,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 	</category>
 	<category id="COLLOQUIALISMS" name="Informeel" type="style">
+
 		<rule id="MEKAAR" name="Mekaar/elkaar">
 			<pattern>
 				<token>mekaar</token>
@@ -17316,8 +17317,11 @@ steenwijk;Steenwijk
 				<pattern>
 					<token case_sensitive="yes">ie</token>
 				</pattern>
-				<message>Dit is spreektaal. Voor schrijftaal is <suggestion>hij</suggestion> beter.</message>
-				<example correction="hij">Daar komt <marker>ie</marker>.</example>
+				<message>Dit is spreektaal of een vergissing.</message>
+				<suggestion>hij</suggestion>
+				<suggestion>i.e.</suggestion>
+				<suggestion>IE</suggestion>
+				<example correction="hij|i.e.|IE">Daar komt <marker>ie</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="EEN_BOEL" name="een boel → veel">
@@ -34443,22 +34447,33 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 		<rulegroup id="KOMMA_HOOR" name=", hoor.">
+			<!-- bron: Onze Taal via Woordpost 2014-08-27 -->
 			<rule>
-				<!-- bron: Onze Taal via Woordpost 2014-08-27 -->
 				<pattern>
+					<token/>
+					<token/>
 					<marker>
-						<token/>
-						<token negate="yes">,</token>
+						<token><exception>,</exception></token>
+						<token>hoor</token>
+					</marker>
+					<token postag="SENT_END"/>
+				</pattern>
+				<message>Er werd een komma verwacht: <suggestion>\3, \4</suggestion>. Overigens vrij informeel taalgebruik.</message>
+				<example correction="u, hoor">Dank <marker>u hoor</marker>.</example>
+				<example correction="ja, hoor">En <marker>ja hoor</marker>!</example>
+				<example correction="ook, hoor">Ik <marker>ook hoor</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token><exception>,</exception></token>
 						<token>hoor</token>
 					</marker>
 					<token postag="SENT_END"/>
 				</pattern>
 				<message>Er werd een komma verwacht: <suggestion>\2, \3</suggestion>. Overigens vrij informeel taalgebruik.</message>
-				<example correction="Ja, hoor"><marker>"Ja hoor</marker>.</example>
-				<example correction="U, hoor"><marker>Dank U hoor</marker>.</example>
-				<example correction="Ja, hoor"><marker>En ja hoor</marker>!</example>
-				<example correction="ja, hoor">En<marker>, ja hoor</marker>!</example>
-				<example correction="Ook, hoor"><marker>Ik ook hoor</marker>.</example>
+				<example correction="Ja, hoor"><marker>Ja hoor</marker>!</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="EN_EN_EN" name="En... en ... en ...">
