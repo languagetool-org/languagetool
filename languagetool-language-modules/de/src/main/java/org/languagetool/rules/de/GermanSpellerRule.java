@@ -68,6 +68,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
     put("inbetracht", "in Betracht");
+    put("überwhatsapp", "über WhatsApp");
+    put("überzoom", "über Zoom");
+    put("überweißt", "überweist");
+    put("übergoogle", "über Google");
     put("einlogen", "einloggen");
     put("Kruks", "Krux");
     put("Filterbubble", "Filterblase");
