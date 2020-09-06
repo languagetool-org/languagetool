@@ -94,6 +94,18 @@ USA
 <rules lang="en-GB" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category id="AMERICAN_ENGLISH" name="American English phrases" type="locale-violation">
+        <rule id="DRIVERS_LICENSE" name="driver's licence/driving licence" default="temp_off">
+            <pattern>
+                <token>driver</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>s</token>
+                <token regexp="yes">licences?</token>
+            </pattern>
+            <message>This term is chiefly North American English. Consider a replacement.</message>
+            <suggestion>driving \4</suggestion>
+            <url>https://www.lexico.com/definition/driving_licence</url>
+            <example correction="driving licence">I've got a full, clean <marker>driver's licence</marker>.</example>
+        </rule>
         <rule id="EGGPLANT" name="eggplant/aubergine">
             <pattern>
                 <token regexp="yes">eggplants?</token>
