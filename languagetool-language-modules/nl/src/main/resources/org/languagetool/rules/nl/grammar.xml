@@ -18449,6 +18449,8 @@ steenwijk;Steenwijk
 
 		<rulegroup id="HET_ZNW_DE" name="het man / de man" default="temp_off">
 			<rule>
+				<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="BNW.*"/></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
 				<pattern>
 					<marker>
 						<token regexp="yes">het|dit|dat</token>
@@ -30813,7 +30815,7 @@ steenwijk;Steenwijk
 				<example type="incorrect"><marker>Men</marker> is niemand.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="OVERDRIJVING" name="mogelijke overdrijving">
+		<rulegroup id="OVERDRIJVING" name="mogelijke overdrijving" tags="picky">
 			<rule>
 				<pattern>
 					<token inflected="yes">gigantisch</token>
@@ -33245,6 +33247,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="ONTKEN_2" name="dubbele ontkenning" tags="picky">
 			<rule>
+				<antipattern><token>nooit</token><token>ofte</token><token>nimmer</token></antipattern>
 				<pattern>
 					<token regexp="yes" skip="5">evenmin|nimmer|niet|nooit|geen|nergens|niet-.+<exception scope="next" regexp="yes">;|,|en|of</exception></token>
 					<token regexp="yes">evenmin|nimmer|niet|nooit|geen|nergens|niet-.+</token>
