@@ -43680,16 +43680,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="FALLAR" name="fallar">
             <antipattern>
-                <marker>
                     <token>la</token>
                     <token>falla</token>
-                </marker>
             </antipattern>
             <antipattern>
-                <marker>
                     <token>les</token>
                     <token>falles</token>
-                </marker>
+            </antipattern>
+            <antipattern>
+                <token>procés</token>
+                <token regexp="yes">diagnòstic|analític</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -43709,6 +43709,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">decidir</match></suggestion>
                 <example correction="dictaminar|dictar|pronunciar|sentenciar|adjudicar|concedir|atorgar|decidir">Diu que vol <marker>fallar</marker> sentència avui.</example>
                 <example>Possibles fallades en el procés.</example>
+                <example>Alguna cosa ha fallat en el procés diagnòstic.</example>
             </rule>
             <rule>
                 <pattern>
