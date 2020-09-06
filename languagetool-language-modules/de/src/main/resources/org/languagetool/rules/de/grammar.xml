@@ -4920,7 +4920,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
-        <rulegroup id="VEREINT_VEREINIGT" name="Vereinigten Nationen (Vereinten Nationen)" default="temp_off">
+        <rulegroup id="VEREINT_VEREINIGT" name="Vereinigten Nationen (Vereinten Nationen)">
             <rule>
                 <pattern>
                     <token regexp="yes">vereinigten?</token>
@@ -9516,7 +9516,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rulegroup id="ADD_ON" name="Add-on" default="temp_off">
+        <rulegroup id="ADD_ON" name="Add-on">
             <url>https://www.duden.de/suchen/dudenonline/Add-on</url>
             <antipattern><!-- Needs extra rule -->
                 <token>Google</token>
@@ -9556,7 +9556,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Add-on">Er hat das <marker>Add on</marker> von LanguageTool im Browser installiert.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PLUG_IN" name="Plug-in" default="temp_off">
+        <rulegroup id="PLUG_IN" name="Plug-in">
             <url>https://www.duden.de/suchen/dudenonline/Plug-in</url>
             <antipattern><!-- Needs extra rule -->
                 <token>Google</token>
@@ -26156,6 +26156,17 @@ Andere Projekte</example>
                 <token postag_regexp="yes" postag="SUB:.+"/>
             </antipattern>
             <rule>
+                <antipattern>
+                    <token>ab</token>
+                    <token regexp="yes">und|&amp;</token>
+                    <token>zu</token>
+                </antipattern>
+                <antipattern>
+                    <token>zu</token>
+                    <token regexp="yes">&sprachadj1;</token>
+                    <token postag="ADJ:.*" postag_regexp="yes" />
+                    <token postag="SUB:.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token regexp="yes">in|auf|zu|korrekte[ms]|akzentfrei(e[snm])?|richtige[ms]|[mds]ein|euer</token>
                     <marker>
@@ -26169,8 +26180,10 @@ Andere Projekte</example>
                 <example correction="Englisch">Ist das korrektes <marker>englisch</marker>?</example>
                 <example>Er schreibt den Text auf <marker>englischem</marker> Boden.</example>
                 <example>Nach einem erfolgreichen Angriff auf <marker>türkisch</marker> besetztes Territorium.</example>
+                <example>Meine Frau und ich gehen gerne ab und zu chinesisch essen.</example>
+                <example>Sein Lehrer Elsner bestärkte Chopin in der Hinwendung zu polnisch nationaler Musik, namentlich zu den polnischen Volkstänzen und -liedern.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>auf</token>
                     <token>gut</token>
