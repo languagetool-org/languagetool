@@ -20,7 +20,6 @@ package org.languagetool.rules.patterns;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.ShortDescriptionProvider;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -28,10 +27,11 @@ import javax.xml.parsers.*;
 import java.io.*;
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Loads {@link PatternRule}s from a false friends XML file.
- * 
+ *
  * @author Daniel Naber
  */
 public class FalseFriendRuleLoader extends DefaultHandler {
@@ -76,23 +76,18 @@ public class FalseFriendRuleLoader extends DefaultHandler {
     List<AbstractPatternRule> rules = handler.getRules();
     // Add suggestions to each rule:
     MessageFormat msgFormat = new MessageFormat(falseFriendSugg);
-    ShortDescriptionProvider descProvider = new ShortDescriptionProvider();
     for (AbstractPatternRule rule : rules) {
       List<String> suggestions = handler.getSuggestionMap().get(rule.getId());
       if (suggestions != null) {
-        List<String> formattedSuggestions = new ArrayList<>();
-        for (String suggestion : suggestions) {
-          String desc = descProvider.getShortDescription(suggestion, textLanguage);
-          if (desc != null) {
-            formattedSuggestions.add("<suggestion>" + suggestion + "</suggestion> (" + desc + ")");
-          } else {
-            formattedSuggestions.add("<suggestion>" + suggestion + "</suggestion>");
-          }
-        }
-        rule.setMessage(rule.getMessage() + " " + msgFormat.format(formattedSuggestions.toArray()));
+        String[] msg = { formatSuggestions(suggestions) };
+        rule.setMessage(rule.getMessage() + " " + msgFormat.format(msg));
       }
     }
     return rules;
+  }
+
+  private String formatSuggestions(List<String> l) {
+    return l.stream().map(o -> "<suggestion>" + o + "</suggestion>").collect(Collectors.joining(", "));
   }
 
 }
