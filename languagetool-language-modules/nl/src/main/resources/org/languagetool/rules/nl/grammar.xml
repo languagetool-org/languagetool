@@ -16232,11 +16232,22 @@ steenwijk;Steenwijk
 					<token postag="SENT_START"/>
 					<token regexp="yes">[0-9]+</token>
 					<marker>
-						<token case_sensitive="yes" regexp="yes">[A-Z][a-z].*<exception postag_regexp="yes" postag="ENM.*|VLG:BHL"/></token>
+						<token case_sensitive="yes" regexp="yes" postag_regexp="yes" postag=".*MRV.*">[A-Z][a-z].*<exception postag_regexp="yes" postag="ENM.*|VLG:BHL"/></token>
 					</marker>
 				</pattern>
-				<message>Na een getal krijgt het eerste gewone woord van de zin geen hoofdletters: <suggestion><match no="3" case_conversion="alllower"/></suggestion></message>
-				<example correction="deed">2018 <marker>Deed</marker> het goed.</example>
+				<message>Na een getal (dat deel is van de zin) krijgt het eerste gewone woord van de zin geen hoofdletters: <suggestion><match no="3" case_conversion="alllower"/></suggestion></message>
+				<example correction="auto's">10 <marker>Auto's</marker> reden weg.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<token regexp="yes">[0-9]{4}</token>
+					<marker>
+						<token case_sensitive="yes" regexp="yes" postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP">[A-Z][a-z].*<exception postag_regexp="yes" postag="ENM.*|VLG:BHL"/></token>
+					</marker>
+				</pattern>
+				<message>Na een getal (dat deel is van de zin) krijgt het eerste gewone woord van de zin geen hoofdletters: <suggestion><match no="3" case_conversion="alllower"/></suggestion></message>
+				<example correction="maakte">2020 <marker>Maakte</marker> het erg bont.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="HOOFDLETTERS_OVERBODIG" name="Woorden die ook klein geschreven mogen worden." type="misspelling" tags="picky">
@@ -37438,11 +37449,11 @@ steenwijk;Steenwijk
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token spacebefore="yes">-</token></antipattern>
 				<pattern>
 					<marker>
-						<token spacebefore="yes">-</token>
+						<token spacebefore="yes" regexp="yes">[-—]</token>
 					</marker>
 					<token spacebefore="yes"><exception regexp="yes">[0-9]*</exception></token>
 				</pattern>
-				<message>Als gedachtestreepje wordt een iets langer streepje geadviseerd: <suggestion>–</suggestion></message>
+				<message>Als gedachtestreepje wordt een ander streepje geadviseerd: <suggestion>–</suggestion></message>
 				<url>https://taaladvies.net/taal/advies/vraag/312/gedachtestreepje</url>
 				<short>–</short>
 				<example correction="–">Dit is geen <marker>-</marker> gedachtestreep.</example>
