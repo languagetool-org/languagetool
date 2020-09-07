@@ -221,6 +221,11 @@ public class English extends Language implements AutoCloseable {
           new EnglishForGermansFalseFriendRule(messages, lm, motherTongue, this)
       );
     }
+    if (lm != null && motherTongue != null && "es".equals(motherTongue.getShortCode())) {
+      return Arrays.asList(
+          new EnglishForSpaniardsFalseFriendRule(messages, lm, motherTongue, this)
+      );
+    }
     if (lm != null && motherTongue != null && "nl".equals(motherTongue.getShortCode())) {
       return Arrays.asList(
           new EnglishForDutchmenFalseFriendRule(messages, lm, motherTongue, this)
@@ -234,6 +239,7 @@ public class English extends Language implements AutoCloseable {
     return motherTongue != null && (
       "de".equals(motherTongue.getShortCode()) ||
       "fr".equals(motherTongue.getShortCode()) ||
+      "es".equals(motherTongue.getShortCode()) ||
       "nl".equals(motherTongue.getShortCode()));
   }
 
