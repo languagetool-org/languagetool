@@ -21,6 +21,7 @@ package org.languagetool.rules.en;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.rules.Example;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,9 +35,8 @@ public class EnglishForDutchmenFalseFriendRule extends EnglishForL2SpeakersFalse
 
   public EnglishForDutchmenFalseFriendRule(ResourceBundle messages, LanguageModel languageModel, Language motherTongue, Language language)  {
     super(messages, languageModel, motherTongue, language);
-    // TODO: Hint: "barracks" (English) betekent "kazerne" (Dutch). Bedoelde u 'huts'?
-    //addExamplePair(Example.wrong("My <marker>handy</marker> is broken."),
-    //               Example.fixed("My <marker>phone</marker> is broken."));
+    addExamplePair(Example.wrong("The <marker>want</marker> should be painted green."),
+                   Example.fixed("The <marker>wall</marker> should be painted green."));
   }
 
   @Override
