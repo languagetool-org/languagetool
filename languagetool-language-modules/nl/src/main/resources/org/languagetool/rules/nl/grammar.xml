@@ -18458,8 +18458,27 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" default="temp_off">
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">het|dit|dat</token>
+						<token postag_regexp="yes" postag="ZNW:.*:DE_"><exception regexp="yes">mijn|hen</exception></token>
+						<token postag_regexp="yes" postag="ZNW:.*HET"/>
+					</marker>
+				</pattern>
+				<message>\2 is een 'de'-woord, maar \3 een het-woord. Het kan dus zijn dat u een spatie te veel hebt gezet.</message>
+				<suggestion>\1 \2\3</suggestion>
+				<example correction="het bepalingengedoe">Ik zie <marker>het bepalingen gedoe</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="HET_ZNW_DE" name="het man / de man" default="temp_off">
 			<rule>
+				<antipattern><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><token>het</token></antipattern>
+				<antipattern><token>het</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
+				<antipattern><token>het</token><token postag_regexp="yes" postag="BNW.*ONV"/><token postag_regexp="yes" postag="BNW.*ONV"/></antipattern>
+				<antipattern><token>het</token><token case_sensitive="yes">[A-Z].*</token><token case_sensitive="yes">[A-Z].*</token></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token regexp="yes">zij|kan|regent|niet</token></antipattern>
 				<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="BNW.*"/></antipattern>
 				<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
 				<pattern>
@@ -18477,11 +18496,12 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="DE_ZNW_HET" name="de kind/het kind" default="temp_off">
 			<rule>
+				<antipattern><token regexp="yes">de|die|deze</token><token postag_regexp="yes" postag=".*VRB"/><token postag_regexp="yes" postag="ZNW:.*DE_"/></antipattern>
 				<pattern>
 					<marker>
 						<token regexp="yes">de|die|deze</token>
 					</marker>
-					<token postag_regexp="yes" postag="ZNW:.*:HET"/>
+					<token postag_regexp="yes" postag="ZNW:.*:HET"><exception regexp="yes">weer|meer|niet|ruim</exception><exception postag_regexp="yes" postag="ZNW:EKV|ZNW:.*DE_"/></token>
 				</pattern>
 				<message>\2 is een 'het'-woord.</message>
 				<suggestion>het</suggestion>
