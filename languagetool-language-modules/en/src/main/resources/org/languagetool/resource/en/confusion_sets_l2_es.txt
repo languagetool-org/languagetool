@@ -3,44 +3,45 @@
 # "good" precision values, so not all pairs from false-friends.xml made it here.
 # If you extend this, also extend false-friends.xml and word_definitions.txt to get the full message for users:
 #   “$word1” ($L2) means “$word2” ($L1). Did you maybe mean “$word3” ($word3_description)?
-accommodation -> adaptation; 100;                                              # p=0.971, r=0.482, f0.5=0.807, s=0.985, 928+967, 3grams, 2020-09-07
-accommodation -> arrangement; 100000;                                          # p=0.982, r=0.310, f0.5=0.685, s=0.995, 928+860, 3grams, 2020-09-07
+# Note: minimum precision currently is 0.9, i.e. we accept more false alarms here than for the regular confusion pairs
+accommodation -> adaptation; 2;                                                # p=0.909, r=0.730, f0.5=0.866, s=0.923, 928+967, 3grams, 2020-09-07
+accommodation -> arrangement; 100;                                             # p=0.908, r=0.640, f0.5=0.837, s=0.940, 928+860, 3grams, 2020-09-07
 #actual -> current
-actually -> currently; 10;                                                     # p=0.978, r=0.328, f0.5=0.701, s=0.993, 978+935, 3grams, 2020-09-07
-adept -> follower; 1000;                                                       # p=0.973, r=0.731, f0.5=0.913, s=0.981, 988+950, 3grams, 2020-09-07
-adept -> admirer; 10;                                                          # p=0.958, r=0.931, f0.5=0.952, s=0.959, 988+992, 3grams, 2020-09-07
-alternatively -> alternately; 100;                                             # p=0.957, r=0.430, f0.5=0.769, s=0.981, 988+990, 3grams, 2020-09-07
+actually -> currently; 1;                                                      # p=0.949, r=0.518, f0.5=0.813, s=0.973, 978+935, 3grams, 2020-09-07
+adept -> follower; 5;                                                          # p=0.916, r=0.924, f0.5=0.918, s=0.919, 988+950, 3grams, 2020-09-07
+adept -> admirer; 2;                                                           # p=0.904, r=0.972, f0.5=0.917, s=0.897, 988+992, 3grams, 2020-09-07
+alternatively -> alternately; 1;                                               # p=0.900, r=0.619, f0.5=0.825, s=0.931, 988+990, 3grams, 2020-09-07
 billet -> ticket; 1000000;                                                     # p=0.982, r=0.519, f0.5=0.833, s=0.980, 402+827, 3grams, 2020-09-07
 #billion -> trillion (US), billion (BE)
 #carpet -> folder' (brochure, leaflet), 'briefcase'
-cartoon -> cardboard; 100;                                                     # p=0.988, r=0.746, f0.5=0.927, s=0.990, 869+955, 3grams, 2020-09-07
+cartoon -> cardboard; 5;                                                       # p=0.912, r=0.814, f0.5=0.890, s=0.914, 869+955, 3grams, 2020-09-07
 #compositor -> composer
-comprehensive -> understandable; 100;                                          # p=0.954, r=0.595, f0.5=0.851, s=0.972, 922+913, 3grams, 2020-09-07
-consequent -> consistent; 100;                                                 # p=0.954, r=0.885, f0.5=0.939, s=0.961, 990+914, 3grams, 2020-09-07
-consequently -> consistently; 10;                                              # p=0.976, r=0.805, f0.5=0.936, s=0.981, 994+974, 3grams, 2020-09-07
-cymbal -> decoy; 1000000;                                                      # p=0.950, r=0.157, f0.5=0.473, s=0.988, 584+851, 3grams, 2020-09-07
-eventually -> possibly; 10;                                                    # p=0.952, r=0.561, f0.5=0.836, s=0.972, 976+953, 3grams, 2020-09-07
+comprehensive -> understandable; 1;                                            # p=0.926, r=0.769, f0.5=0.890, s=0.939, 922+913, 3grams, 2020-09-07
+understandable -> comprehensive; 10000;                                        # p=0.946, r=0.610, f0.5=0.852, s=0.965, 913+922, 3grams, 2020-09-07
+consequently -> consistently; 1;                                               # p=0.954, r=0.894, f0.5=0.941, s=0.958, 994+974, 3grams, 2020-09-07
+cymbal -> decoy; 1000;                                                         # p=0.926, r=0.381, f0.5=0.720, s=0.955, 584+851, 3grams, 2020-09-07
+eventually -> possibly; 5;                                                     # p=0.931, r=0.609, f0.5=0.842, s=0.956, 976+953, 3grams, 2020-09-07
 #exponent -> example
-fabric -> factory; 100000;                                                     # p=0.964, r=0.239, f0.5=0.600, s=0.990, 827+900, 3grams, 2020-09-07
+fabric -> factory; 100;                                                        # p=0.910, r=0.517, f0.5=0.790, s=0.944, 827+900, 3grams, 2020-09-07
 #fabrication -> manufacturing
 #figure -> 'shape', 'figure'
-form -> shape; 10;                                                             # p=0.969, r=0.259, f0.5=0.626, s=0.991, 765+854, 3grams, 2020-09-07
-notice -> news; 1000;                                                          # p=0.966, r=0.439, f0.5=0.779, s=0.989, 948+656, 3grams, 2020-09-07
+form -> shape; 2;                                                              # p=0.962, r=0.413, f0.5=0.760, s=0.982, 765+854, 3grams, 2020-09-07
+notice -> news; 5;                                                             # p=0.902, r=0.630, f0.5=0.830, s=0.953, 948+656, 3grams, 2020-09-07
 #obscure -> dark, obscure
 physicist -> physician; 100;                                                   # p=0.661, r=0.420, f0.5=0.593, s=0.787, 934+923, 3grams, 2020-09-07 quite low precision...
 #present -> present tense, currently
-preservative -> condom; 10;                                                    # p=0.962, r=0.658, f0.5=0.881, s=0.974, 538+538, 3grams, 2020-09-07
-prevent -> alert; 10;                                                          # p=0.997, r=0.787, f0.5=0.946, s=0.998, 978+881, 3grams, 2020-09-07
+preservative -> condom; 2;                                                     # p=0.928, r=0.771, f0.5=0.892, s=0.941, 538+538, 3grams, 2020-09-07
+prevent -> alert; 1;                                                           # p=0.989, r=0.852, f0.5=0.959, s=0.992, 978+881, 3grams, 2020-09-07
 #prospect/NN.* -> brochure', 'leaflet
 #real -> royal', 'real' (occurring in reality), 'actual' (taking place in reality, literal, real)?
-realize -> produce; 10;                                                        # p=0.958, r=0.857, f0.5=0.936, s=0.966, 992+904, 3grams, 2020-09-07
-regular -> stable; 10;                                                         # p=0.954, r=0.622, f0.5=0.862, s=0.943, 473+897, 3grams, 2020-09-07
-regular -> steady; 10;                                                         # p=0.995, r=0.595, f0.5=0.877, s=0.994, 472+926, 3grams, 2020-09-07
-regular -> mediocre; 10;                                                       # p=1.000, r=0.119, f0.5=0.404, s=1.000, 482+988, 3grams, 2020-09-07
-rentable -> profitable; 10000000;                                              # p=0.982, r=0.959, f0.5=0.977, s=0.667, 51+973, 3grams, 2020-09-07
+realize -> produce; 1;                                                         # p=0.939, r=0.948, f0.5=0.941, s=0.944, 992+904, 3grams, 2020-09-07
+regular -> stable; 1;                                                          # p=0.914, r=0.750, f0.5=0.876, s=0.867, 473+897, 3grams, 2020-09-07
+regular -> steady; 1;                                                          # p=0.961, r=0.711, f0.5=0.897, s=0.943, 472+926, 3grams, 2020-09-07
+regular -> mediocre; 1;                                                        # p=0.926, r=0.202, f0.5=0.540, s=0.967, 482+988, 3grams, 2020-09-07
+rentable -> profitable; 1;                                                     # p=0.978, r=0.984, f0.5=0.979, s=0.569, 51+973, 3grams, 2020-09-07
 #rentable -> viable; 10;                                                       # p=0.983, r=0.957, f0.5=0.978, s=0.686, 51+966, 3grams, 2020-09-07
-rent -> pension; 10;                                                           # p=0.990, r=0.705, f0.5=0.916, s=0.994, 941+834, 3grams, 2020-09-07
+rent -> pension; 1;                                                            # p=0.965, r=0.769, f0.5=0.918, s=0.976, 941+834, 3grams, 2020-09-07
 #salad -> lettuce
 #scholar -> schoolchild
-sensible -> sensitive; 10000;                                                  # p=0.955, r=0.541, f0.5=0.829, s=0.977, 956+872, 3grams, 2020-09-07
+sensible -> sensitive; 1000;                                                   # p=0.915, r=0.607, f0.5=0.831, s=0.949, 956+872, 3grams, 2020-09-07
 #smoking -> tuxedo (US), dinner jacket (UK)
