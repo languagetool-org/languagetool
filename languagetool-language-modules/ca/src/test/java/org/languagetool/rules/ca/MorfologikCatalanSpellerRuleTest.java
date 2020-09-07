@@ -490,6 +490,10 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("bél.lica")); 
         assertEquals("bèl·lica", matches[0].getSuggestedReplacements().get(0));
         
+        matches = rule.match(langTool.getAnalyzedSentence("mercar")); 
+        // update dictionary assertEquals("mercat", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Marvel", matches[0].getSuggestedReplacements().get(0)); // comes from global spelling
+        
         //majúscules
         matches = rule.match(langTool.getAnalyzedSentence("De PH 4")); 
         assertEquals("pH", matches[0].getSuggestedReplacements().get(0));
