@@ -106,6 +106,7 @@ public class GermanSpellerRuleTest {
     assertTrue(rule.isProhibited("Varietees")); // expanded entry in prohibited.txt
     assertTrue(rule.isProhibited("Feuerwerksartigel")); // entry with ".*" at line start in prohibited.txt
     assertTrue(rule.isProhibited("Feuerwerksartigeln")); // entry with ".*" at line start in prohibited.txt
+    assertTrue(rule.isProhibited("Feuerwerksartigels")); // entry with ".*" at line start in prohibited.txt
   }
 
   @Test

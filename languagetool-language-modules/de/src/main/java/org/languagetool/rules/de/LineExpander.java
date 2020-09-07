@@ -36,9 +36,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class LineExpander implements org.languagetool.rules.LineExpander {
 
-  private final static Synthesizer synthesizer = Objects.requireNonNull(new GermanyGerman().getSynthesizer());
+  private static final Synthesizer synthesizer = Objects.requireNonNull(new GermanyGerman().getSynthesizer());
 
-  private final static LoadingCache<String, List<String>> cache = CacheBuilder.newBuilder()
+  private static final LoadingCache<String, List<String>> cache = CacheBuilder.newBuilder()
     .expireAfterAccess(10, TimeUnit.MINUTES)
     .build(new CacheLoader<String, List<String>>() {
       @Override
@@ -85,12 +85,12 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
   }
 
   private boolean isLineWithFlag(String line) {
-    int idx = line.indexOf("/");
+    int idx = line.indexOf('/');
     return !line.startsWith("#") && idx > 0 && line.charAt(idx-1) != '\\';
   }
 
   private boolean isLineWithVerbPrefix(String line) {
-    int idx = line.indexOf("_");
+    int idx = line.indexOf('_');
     return !line.startsWith("#") && idx > 0 && line.charAt(idx-1) != '\\';
   }
 
