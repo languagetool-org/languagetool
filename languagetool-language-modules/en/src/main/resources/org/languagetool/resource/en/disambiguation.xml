@@ -1256,6 +1256,8 @@
         </pattern>
         <disambig action="replace"><wd lemma="have" pos="VB"/></disambig>
     </rule>
+
+
     <rulegroup name="well + past participle -&gt; well + adjective" id="WELL_VBN">
         <rule>
             <pattern>
@@ -1266,7 +1268,16 @@
             </pattern>
             <disambig><match no="1" postag_regexp="yes" postag="RB"/></disambig>
         </rule>
-        <rule>
+        <!-- 
+        commented out because:
+        * He has well defined the specification ("defined" is only tagged as JJ)
+        * Deputy Foreign Minister Le Hoai Trung affirmed that Vietnam has well performed tasks in the capacity ("performed" is tagged as JJ)
+        * Well done! ("done" is incorrectly only tagged as JJ)
+        * The well had been turned off ("had" is incorrectly only tagged as JJ)
+
+        TODO: needs more work
+        -->
+        <!-- <rule>
             <pattern>
                 <token>well</token>
                 <marker>
@@ -1274,7 +1285,7 @@
                 </marker>
             </pattern>
             <disambig postag="JJ"/>
-        </rule>
+        </rule> -->
     </rulegroup>
     <rule name="verb + well => well = RB" id="WELL_VB_RB">
       <pattern>
@@ -8088,6 +8099,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
 
         <rule id="BEST_RBS" name="best + verb = rb"> <!-- a bit more greedy -->
+          <antipattern><!-- needed for HE_THE[3] to work -->
+            <token regexp="yes">int|fort</token>
+            <token>he</token>
+            <token postag="JJ.*" postag_regexp="yes" />
+          </antipattern>
           <pattern>
             <marker>
             <and>
