@@ -439,6 +439,9 @@ public class English extends Language implements AutoCloseable {
     if (id.startsWith("CONFUSION_RULE_")) {
       return -20;
     }
+    if (id.matches("EN_FOR_[A-Z]+_SPEAKERS_FALSE_FRIENDS.*")) {
+      return -20;
+    }
     return super.getPriorityForId(id);
   }
 
