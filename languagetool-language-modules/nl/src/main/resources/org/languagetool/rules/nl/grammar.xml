@@ -76,9 +76,22 @@ regexp case-insensitive maken : (?i)
 	</category>
 	<category id="GENDER_NEUTRALITY">
 	</category>
-	<category id="GRAMMAR" name="Grammaticaregels.">
-	</category>
 	-->
+	<category id="GRAMMAR" name="Grammaticaregels.">
+		<rulegroup id="AFTE" name="afte lopen/af te lopen">
+			<rule>
+				<pattern>
+					<marker>
+					   <token>afte</token>
+				   </marker>
+				   <token postag="WKW:TGW:INF"/>
+				</pattern>
+				<message>U bedoelt vast <suggestion>af te</suggestion> en geen 'aft'.</message>
+				<example correction="af te">Het hoeft nog niet <marker>afte</marker> lopen.</example>
+			</rule>
+		</rulegroup>
+	</category>
+
 	<category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
 		
 		<rulegroup id="BE" name="be kan van alles zijn...">
@@ -40010,7 +40023,7 @@ steenwijk;Steenwijk
 				<example correction="">We spreken de <marker>mannelijke</marker> bestuurder.</example>
 			</rule>
 		</rulegroup>
-		
+
 	</category>
 
 </rules>
