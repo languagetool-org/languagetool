@@ -10147,10 +10147,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="LANGUAGE_TOOL" name="Language Tool (LanguageTool)">
             <pattern case_sensitive="yes">
-                <token>Language</token>
-                <token regexp="yes">Tools?</token>
+                <token regexp="yes">Lan?gu?age</token>
+                <token regexp="yes">[Tt]ools?</token>
             </pattern>
-            <message>Meinten Sie <suggestion>\1\2</suggestion>, die Software zur Textprüfung?</message>
+            <message>Meinten Sie <suggestion>Language<match no="2" case_conversion="startupper" /></suggestion>, die Software zur Textprüfung?</message>
+            <url>https://en.wikipedia.org/wiki/LanguageTool</url>
             <example correction="LanguageTool">Sie testet <marker>Language Tool</marker>.</example>
         </rule>
         <!-- German rule contributed by forum user Ordoviz, 2018-11-01 -->
@@ -26249,7 +26250,7 @@ Andere Projekte</example>
                 <example>Er kann kein <marker>Englisch</marker>.</example>
                 <example correction="Deutsch">Er unterrichtet <marker>deutsch</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern case_sensitive="yes">
                     <marker>
                         <token regexp="yes">&sprachadj1;</token>
