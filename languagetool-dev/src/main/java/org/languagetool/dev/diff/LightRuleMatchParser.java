@@ -153,8 +153,8 @@ class LightRuleMatchParser {
         context = line;
       } else if (coverMatcher.matches() && line.contains("^")) {
         String cover = coverMatcher.group(1);
-        int startMarkerPos = cover.indexOf("^");
-        int endMarkerPos = cover.lastIndexOf("^") + 1;
+        int startMarkerPos = cover.indexOf('^');
+        int endMarkerPos = cover.lastIndexOf('^') + 1;
         String coveredText;
         String origContext = context;
         try {

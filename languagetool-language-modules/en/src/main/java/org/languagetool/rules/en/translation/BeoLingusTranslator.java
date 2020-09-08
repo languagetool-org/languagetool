@@ -152,8 +152,8 @@ public class BeoLingusTranslator implements Translator {
     int mergeListPos = 0;
     boolean merging = false;
     for (String item : list) {
-      int openPos = item.indexOf("{");
-      int closePos = item.indexOf("}");
+      int openPos = item.indexOf('{');
+      int closePos = item.indexOf('}');
       if (merging) {
         mergedList.set(mergeListPos-1, mergedList.get(mergeListPos-1) + "; " + item);
         mergeListPos--;
