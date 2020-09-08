@@ -10465,7 +10465,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="no te">Si <marker>te no</marker> mienten, vendrán mañana.</example>
         </rule>
     </category>
-    <category id="CONFUSIONS" name="Confusiones">
+    <category id="CONFUSIONS" name="Confusiones"> 
+        <rulegroup name="rebelar/revelar" id="REBELAR_REVELAR" default="off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">revelar</token>
+                    </marker>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token>contra</token>
+                </pattern>
+                <message>¿Quería decir <suggestion><match no="1" regexp_match="(?iu)revel" regexp_replace="rebel"/></suggestion> (sublevar) en vez de "revelar" (desvelar, descubrir)?</message>
+                <example correction="rebeló">Se <marker>reveló</marker> contra el rey.</example>
+                <example correction="rebelarse">Tuvo que <marker>revelarse</marker> contra el rey.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">rebelar</token>
+                    </marker>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token>que</token>
+                </pattern>
+                <message>¿Quería decir <suggestion><match no="1" regexp_match="(?iu)rebel" regexp_replace="revel"/></suggestion> (descubrir, desvelar) en vez de "rebelar (sublevar)?</message>
+                <example correction="reveló">Se <marker>rebeló</marker> que era mentira.</example>
+                <example correction="revelar">Hay que <marker>rebelar</marker> que no es verdad.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">rebelar</token>
+                    </marker>
+                    <token skip="5"/>
+                    <token postag="N.*|PI.*" postag_regexp="yes" inflected="yes" regexp="yes">conspiración|final|alineación|incertidumbre|detalle|contenido|motivo|nada|nombre|plan|causa|origen|verdad|yo|secreto|misterio|propósito|intención|proyecto</token>
+                </pattern>
+                <message>¿Quería decir <suggestion><match no="1" regexp_match="(?iu)rebel" regexp_replace="revel"/></suggestion> (descubrir, desvelar) en vez de "rebelar (sublevar)?</message>
+                <example correction="reveló">Se <marker>rebeló</marker> el misterio.</example>
+                <example correction="revelar">Hay que <marker>rebelar</marker> la verdad.</example>
+            </rule>
+        </rulegroup>
         <rule id="VEMOS_HEMOS" name="vemos/hemos">
             <pattern>
                 <marker>
