@@ -242,6 +242,11 @@ public class AdverbFilter extends RuleFilter {
     put("preferably", "preferable");
     put("oddly", "odd");
     put("professionally", "professional");
+    put("indispensably", "indispensable");
+    put("dispensably", "dispensable");
+    put("consistently", "consistent");
+    put("truly", "true");
+    put("commonly", "common");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
