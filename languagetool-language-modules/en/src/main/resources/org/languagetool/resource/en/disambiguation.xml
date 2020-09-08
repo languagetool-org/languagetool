@@ -2846,6 +2846,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>deserving</token>
             <token>of</token>
         </antipattern>
+        <antipattern><!-- #3539 training is training given to -->
+            <token postag_regexp="yes" postag="NN:UN?"/>
+            <token regexp="yes">is|was</token>
+            <token postag="VBG"><match no="0"/></token><!-- Not really VBG -->
+            <token postag="VBN"/>
+            <token>to</token>
+        </antipattern>
         <pattern>
           <token inflected="yes">be<exception>being</exception><exception case_sensitive="yes">AM</exception></token>
           <marker>
@@ -2869,6 +2876,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">This is pleasing to the gods.</example><!-- #3445 -->
         <example type="untouched">The book is pleasing to me.</example><!-- #3445 -->
         <example type="untouched">Your books are pleasing to all of us.</example><!-- #3445 -->
+        <example type="untouched">Military training is training given to soldiers.</example><!-- #3539 -->
         <example type="ambiguous" inputform="going[go/VBG,going/NN:UN]" outputform="going[go/VBG]">It's <marker>going</marker> to be a killer feature!</example>
         <example type="ambiguous" inputform="smelling[smell/VBG,smelling/JJ,smelling/NN:UN]" outputform="smelling[smell/VBG]">The perfumery technicians are <marker>smelling</marker> salts.</example>
         <example type="ambiguous" inputform="expecting[expect/VBG,expecting/JJ,expecting/NN:UN]" outputform="expecting[expect/VBG]">... much data which Mike is <marker>expecting</marker> to use.</example>
