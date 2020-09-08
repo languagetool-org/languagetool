@@ -5129,7 +5129,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
        <example type="ambiguous" inputform="samples[sample/NNS,sample/VBZ]" outputform="samples[sample/VBZ]">... and more than one <marker>samples</marker> the data. The results of the analyses are then compared...</example>
        <example type="ambiguous" inputform="flies[fly/NNS,fly/VBZ]" outputform="flies[fly/VBZ]">I made many model aircraft, and more than one <marker>flies</marker>!</example>
     </rule>
+
     <rule name="PRP + MD/NN -&gt; MD" id="PRP_MD">
+        <antipattern><!--  #3264 we can based on -->
+            <token regexp="yes">&subject_pronouns;</token>
+            <token postag="MD"/>
+            <token>based</token>
+            <token>on</token>
+        </antipattern>
         <pattern>
             <token postag="PRP"><exception postag="PRP$"/></token>
             <marker>
@@ -5144,8 +5151,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig><match no="2" postag="MD" postag_regexp="yes"/></disambig>
         <example type="untouched">We need paid family and sick leave.</example>
         <example type="untouched">... and her will featured regularly in the lawyers' debates.</example>
+        <example type="untouched">We are making the most economical decisions we can based on the bids available.</example><!-- #3264 -->
         <example type="ambiguous" inputform="might[might/MD,might/NN:U]" outputform="might[might/MD]">... and we <marker>might</marker> do this soon.</example>
     </rule>
+
     <rule name="PDT/DT -&gt; DT" id="PDT_DT">
         <pattern>
             <marker>
