@@ -17649,7 +17649,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
-				<antipattern><token>als</token><token regexp="yes">ik|jij|je|hij|zij|ze|men|wij|we|iemand</token><token>maar</token></antipattern>
+				<antipattern><token regexp="yes">als|wanneer|indien</token><token regexp="yes">ge|ik|jij|je|hij|zij|ze|men|wij|we|iemand</token><token>maar</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="WKW.*"/><token>maar</token></antipattern>
 				<antipattern><token skip="2">,</token><token>maar</token></antipattern>
 				<antipattern><token>maar</token><token>al</token><token>te</token><token postag="BNW:STL:ONV"/></antipattern>
@@ -17668,14 +17668,14 @@ steenwijk;Steenwijk
 				<antipattern><token>maar</token><token regexp="yes">^[0-9]+$</token></antipattern>
 				<antipattern><token>maar</token><token regexp="yes">eens|liefst|even|deels|half|door|verder</token></antipattern>
 				<antipattern><token>blijven</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
-				<antipattern><token>dat</token><token regexp="yes">hij|ik|je|jij|we|wij</token><token>maar</token></antipattern>
+				<antipattern><token>dat</token><token regexp="yes">ge|hij|ik|je|jij|we|wij</token><token>maar</token></antipattern>
 				<antipattern><token>het</token><token regexp="yes">je|zich|me</token><token>maar</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="WKW:.*"/><token>alleen</token><token>maar</token></antipattern>
 				<antipattern><token inflected="yes">kunnen</token><token>maar</token><token>beter</token></antipattern>
 				<antipattern><token>ook</token><token>maar</token><token regexp="yes">een|één|eens|niet|genoeg</token></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP"/><token>maar</token></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP"/><token>mij</token><token>maar</token></antipattern>
-				<antipattern><token regexp="yes">je|ik|hij|zij|u</token><token regexp="yes">je|me|zich|u</token><token>maar</token></antipattern>
+				<antipattern><token regexp="yes">ge|je|ik|hij|zij|u</token><token regexp="yes">je|me|zich|u</token><token>maar</token></antipattern>
 				<antipattern><token regexp="yes">altijd|steeds|zelf|eerst|we|mezelf|nog|dan|alleen|enkel|zo|nu|nou|\.|-|,|\(|toch|ook|van|toe|het|dat|dit|die|er|je|hij|zij|wij|zeg|hem|haar|hen|weinig|echter</token><token>maar</token></antipattern>
 				
 				<pattern>
@@ -18460,16 +18460,20 @@ steenwijk;Steenwijk
 
 		<rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" default="temp_off">
 			<rule>
+				<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="BNW.*"/><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag=".*MRV.*"/><token postag_regexp="yes" postag="BNW.*ONV"/></antipattern>
+				<antipattern><token>dat</token><token postag="ZNW.*" postag_regexp="yes"/><token postag="ZNW.*" postag_regexp="yes"/><token postag="WKW.*" postag_regexp="yes"/></antipattern>
 				<pattern>
+					<token regexp="yes">het|dit|dat</token>
 					<marker>
-						<token regexp="yes">het|dit|dat</token>
-						<token postag_regexp="yes" postag="ZNW:.*:DE_"><exception regexp="yes">mijn|hen</exception></token>
+						<token postag_regexp="yes" postag="ZNW:.*:DE_"><exception regexp="yes">mijn|hen|kan</exception></token>
 						<token postag_regexp="yes" postag="ZNW:.*HET"/>
 					</marker>
 				</pattern>
+				<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\2 word2:\3"/>
 				<message>\2 is een 'de'-woord, maar \3 een het-woord. Het kan dus zijn dat u een spatie te veel hebt gezet.</message>
-				<suggestion>\1 \2\3</suggestion>
-				<example correction="het bepalingengedoe">Ik zie <marker>het bepalingen gedoe</marker>.</example>
+				<suggestion>\2\3</suggestion>
+				<example correction="bepalingengedoe">Ik zie het <marker>bepalingen gedoe</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="HET_ZNW_DE" name="het man / de man" default="temp_off">
@@ -18478,14 +18482,13 @@ steenwijk;Steenwijk
 				<antipattern><token>het</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
 				<antipattern><token>het</token><token postag_regexp="yes" postag="BNW.*ONV"/><token postag_regexp="yes" postag="BNW.*ONV"/></antipattern>
 				<antipattern><token>het</token><token regexp="yes" case_sensitive="yes">[A-Z].*</token><token regexp="yes" case_sensitive="yes">[A-Z].*</token></antipattern>
-				<antipattern><token regexp="yes">het|dit|dat</token><token regexp="yes">zij|kan|regent|niet</token></antipattern>
 				<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="BNW.*"/></antipattern>
 				<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
 				<pattern>
 					<marker>
 						<token regexp="yes">het|dit|dat</token>
 					</marker>
-					<token postag="ZNW:EKV:DE_"><exception regexp="yes">mijn|hen</exception></token>
+					<token postag="ZNW:EKV:DE_"><exception regexp="yes">zij|mijn|hen|regent|niet</exception></token>
 				</pattern>
 				<message>\2 is een 'de'-woord.</message>
 				<suggestion>de</suggestion>
