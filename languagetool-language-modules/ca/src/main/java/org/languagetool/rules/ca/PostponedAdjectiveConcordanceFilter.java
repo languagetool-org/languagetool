@@ -109,12 +109,6 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
-    
-    if (match.getSentence().getText().contains("més metalls")) {
-      int i = 0;
-      i++;
-    }
-     
 
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     int i = patternTokenPos;
