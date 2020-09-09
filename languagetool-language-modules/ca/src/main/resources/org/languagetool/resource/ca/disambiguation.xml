@@ -9031,10 +9031,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filterall"/>
         </rule>
+        <rule id="quelcom" name="quelcom">
+            <pattern>
+                <token postag="PI0CS000">quelcom</token>
+                <token postag="AQ0[MC]S0" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
         <rule id="aa3" name="aa1">
             <pattern>
                 <marker>
-                    <token postag="RG_anteposat"><exception regexp="yes">molt|poc|tant|tan|força|massa|tot|també</exception><exception postag="N.*" postag_regexp="yes"/></token>
+                    <token postag="RG_anteposat"><exception regexp="yes">molt|poc|tant|tan|força|massa|tot|també|quelcom</exception><exception postag="N.*" postag_regexp="yes"/></token>
                 </marker>
                 <token postag="AQ.*|V.P.*" postag_regexp="yes"><exception postag="V.[NMIS].*|_GV_" postag_regexp="yes"/></token>
             </pattern>
@@ -9167,7 +9174,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token postag="N.*|_GN_.*|RG.*|V.[SI].*|PI.*|_PUNCT.*" postag_regexp="yes"/>
                 <marker>
-                    <token postag="RG_anteposat"><exception postag="NC.*" postag_regexp="yes">força</exception></token>
+                    <token postag="RG_anteposat"><exception postag="NC.*" postag_regexp="yes">força</exception><exception>quelcom</exception></token>
                 </marker>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="N.[MC][SN].*" postag_regexp="yes"/></token>
                 <!-- <exception postag="V.[^P].*" postag_regexp="yes"/> -->

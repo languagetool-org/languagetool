@@ -1410,6 +1410,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token/>
             </antipattern>
             <antipattern>
+                <token postag="DN.*" postag_regexp="yes"/>
+                <token regexp="yes">vegada|volta|pic|cop|colp|vegades|voltes|pics|cops|colps</token>
+                <token>més</token>
+                <token/>
+            </antipattern>
+            <antipattern>
+                <token postag="NC.*" postag_regexp="yes"/>  <!-- milions, milers, multituds, gavadal...-->
+                <token>de</token>
+                <token regexp="yes">vegada|volta|pic|cop|colp|vegades|voltes|pics|cops|colps</token>
+                <token>més</token>
+                <token/>
+            </antipattern>
+            <antipattern>
                 <token postag="D[ID].FS.|AO.FS." postag_regexp="yes"/>
                 <token regexp="yes">vegada|volta</token>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
@@ -1487,7 +1500,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/><exception regexp="yes">primer|junts|juntes|plegats|plegades</exception><exception regexp="yes">\p{Lu}.*</exception><exception scope="previous" postag="_loc_meitat"/></token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes">
+                    <exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/>
+                    <exception regexp="yes">primer|junts|juntes|plegats|plegades</exception>
+                    <exception regexp="yes">\p{Lu}.*</exception>
+                    <exception scope="previous" postag="_loc_meitat"/>
+                </token>
             </pattern>
             <filter class="org.languagetool.rules.ca.PostponedAdjectiveConcordanceFilter" args="key:value"/>
             <message>Reviseu la concordança de «\1» amb els noms precedents.</message>
@@ -1504,8 +1522,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">En un restaurant solemnement <marker>decorada</marker></example>
             <example correction="">¿Quin és el més <marker>calorosa</marker> de totes les estacions?</example>
             <example correction="">Amb la bobina i la placa electrònica <marker>muntats</marker> en una caixa</example>
-            
-            
             <example correction="">amb alguns motllurats de guixeria <marker>retallades</marker></example>
             <example correction="">amb alguns motllurats de guixeria <marker>retallat</marker></example>
             <example correction="">amb dos conjunts <marker>territorial</marker> diferents entre si</example>
@@ -1547,7 +1563,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Era un home força <marker>misteriosa</marker>.</example>
             <example correction="">La casa <marker>destrossat</marker>.</example>
             
-            <example correction="" type="triggers_error" reason="ambiguous">És en alguns casos <marker>documentat</marker>.</example>
+            <example>És en alguns casos <marker>documentat</marker>.</example> <!-- ambiguous -->
             
             <example>França <marker>mateix</marker> ho necessita.</example>
             <example>una combinació de dos o més metalls obtinguda generalment</example>
@@ -1710,7 +1726,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Vivien a la casa paterna, mig confosos entre els criats.</example>
             <example>És per primera vegada documentat en el segle XIX.</example>
             <example>Era altres vegades estacionat darrere.</example>
-            
+            <example>Mil milions de vegades més cruel.</example>
+            <example>L'antic testament ensenya als cristians quelcom crucial sobre eclesiologia.</example>
             
             <!-- TODO: 
                 Els costats superior i laterals.
@@ -1723,19 +1740,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 
                 policia i justícia són més usualment femenins, encara que poden ser masculins
                 -->
-            <!-- 
-                Ella fue al concierto acompañada de una amiga.
-                Soy cualquier cosa menos mentiroso. 
-                 siempre esperan el autobús formados en fila. 
-                 Él se unió a los partisanos muy joven.
-                Él se giró hacia sus acusadores enfadado.
-                No puedo hacer el trabajo sola.
-                han aprendido esta lengua solos,
-                A menos que tomes una decisión rápido,
-                Escribí la composición apurado,
-                Mis parlantes son un juguete comparados con los tuyos.
-                 producidos por la aceleración y desaceleración lineal y angular repetitivas.
-                -->
+
         </rule>
         <rulegroup id="CONCORDANCES_NUMERALS" name="concordances en numerals">
             <!-- noms, adjectius en singular  -->
