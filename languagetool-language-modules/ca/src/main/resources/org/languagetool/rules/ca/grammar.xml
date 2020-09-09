@@ -17,6 +17,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
+    <!ENTITY denominacio "element|paraula|mot|terme|expressió|vocable|nom|tipus|denominació">
     <!ENTITY apostrophe "['’´]">
     <!ENTITY common_english_nouns_feminine "Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation|Conference">
     <!ENTITY common_english_nouns_masculine "Club|TM|UD|UE|SD|Team|Day|Center|Centre|Hilton">
@@ -1265,6 +1266,393 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONCORDANCES_NOUNS" name="Z) Concordances en grups nominals" type="grammar">
+        <rule id="AGREEMENT_POSTPONED_ADJ" name="concordança d'adjectiu posposat a substantius" default="temp_off">
+            <antipattern>
+                <token>per</token>
+                <token>molt</token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>la</token>
+                <token regexp="yes">meitat|mitat</token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="D[NI].*|AO.*" postag_regexp="yes"/>
+                <token regexp="yes" inflected="yes">vez|&unitats_temps;</token>
+                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">mig</token>
+                <token regexp="yes" inflected="yes">vegada|volta|col?p|pic|&unitats_temps;</token>
+                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">degut|junt|just|juntament</token>
+                <token regexp="yes">a|amb</token>
+            </antipattern>
+            <antipattern>
+                <token>just</token>
+                <token regexp="yes">en|anbasn|després|quan</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">segur|menor|major</token>
+                <token>que</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">atès|atés|atesa|atesos|ateses|donat|donats|donada|donades</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">més|menys</token>
+                <token regexp="yes">gran|alt|baix|petit|menut</token>
+                <token>que</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">.*%</token>
+                <token regexp="yes">més|menys</token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="RG|LOC_ADV|NP..G.*" postag_regexp="yes"/>
+                <token>mateix</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">tret|llevat</token>
+                <token regexp="yes">de|d'|que</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">esquerra|dreta</token>
+                <token regexp="yes">[\-/]</token>
+                <token regexp="yes">esquerra|dreta</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">&denominacio;</token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">anar|venir|entrar|tornar|eixir|sortir|estar|alçar|aixecar|quedar|romandre|ser</token>
+                <token regexp="yes">a|en|de</token>
+                <token postag="DA.*" postag_regexp="yes" min="0"/>
+                <token regexp="yes">casa|llit</token>
+                <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token postag="D.*" postag_regexp="yes" min="0"/>
+                <token postag="NP..G.*" postag_regexp="yes" min="1" max="3"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <!--<antipattern>
+                <token regexp="yes">satèl·lit|clau|líder|bomba|membre</token>
+            </antipattern>-->
+            <antipattern>
+                <token inflected="yes" skip="2" regexp="yes">passar|portar|dur|fer</token>
+                <token inflected="yes" regexp="yes">&unitats_temps;&parts_dia;</token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">la|seua|seva</token>
+                <token>majoria</token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="4">donar</token>
+                <token>per</token>
+                <token postag="V.P.*|AQ.*" postag_regexp="yes" inflected="yes" regexp="yes">fer|bo|vàlid|descomptar|suposar</token>
+                <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">.*metre</token>
+                <token regexp="yes">més|menys</token>
+                <token regexp="yes" inflected="yes">alt|baixt</token>
+            </antipattern>
+            <antipattern>
+                <token>tan</token>
+                <token>ràpid</token>
+            </antipattern>
+            <antipattern>
+                <token postag="NP.*" postag_regexp="yes"/>
+                <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="NC[MC][PN]000|A..[MC][PN].|V.P..SM" postag_regexp="yes"/>
+                <token postag="A..[MC][SN].*|V.P..SM|PX.MS.*" postag_regexp="yes"/>
+                <token regexp="yes">,|i|o|ni</token>
+                <token postag="A..[MC][SN].*|V.P..SM|PX.MS.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="NC[MC][PN]000|A..[MC][PN].|V.P..SM" postag_regexp="yes"/>
+                <token postag="A..[MC][PN].*|V.P..PM|PX.MP.*" postag_regexp="yes"/>
+                <token regexp="yes">,|i|o|ni</token>
+                <token postag="A..[MC][PN].*|V.P..PM|PX.MP.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="NC[FC][PN]000|A..[FC][PN].|V.P..SF" postag_regexp="yes"/>
+                <token postag="A..[FC][SN].*|V.P..SF|PX.FS.*" postag_regexp="yes"/>
+                <token regexp="yes">,|i|o|ni</token>
+                <token postag="A..[FC][SN].*|V.P..SF|PX.FS.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="NC[FC][PN]000|A..[FC][PN].|V.P..SF" postag_regexp="yes"/>
+                <token postag="A..[FC][PN].*|V.P..PF|PX.FP.*" postag_regexp="yes"/>
+                <token regexp="yes">,|i|o|ni</token>
+                <token postag="A..[FC][PN].*|V.P..PF|PX.FP.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">unes|a|de</token>
+                <token skip="6" regexp="yes">vegades|voltes</token>
+                <token>altres</token>
+                <token/>
+            </antipattern>
+            <antipattern>
+                <token postag="D[ID].FS.|AO.FS." postag_regexp="yes"/>
+                <token regexp="yes">vegada|volta</token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="D[ID].MS.|AO.MS." postag_regexp="yes"/>
+                <token regexp="yes">colp|cop|pic</token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">altre</token>
+                <token inflected="yes" regexp="yes">vegada|volta|colp|cop|pic</token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">per|la|el</token>
+                <token postag="AO.*" postag_regexp="yes"/>
+                <token inflected="yes" regexp="yes">vegada|volta|colp|cop|pic</token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/><exception regexp="yes">primer|junts|juntes|plegats|plegades</exception><exception regexp="yes">\p{Lu}.*</exception></token>
+            </pattern>
+            <filter class="org.languagetool.rules.ca.PostponedAdjectiveConcordanceFilter" args="key:value"/>
+            <message>Reviseu la concordança de «\1» amb els noms precedents.</message>
+            <example correction="">La casa del poble <marker>blanques</marker>.</example>
+            <example correction="">Anàlisis <marker>clínica</marker>.</example>
+            <example correction="">Aquestes són les cadires <marker>blancs</marker>.</example>
+            <example correction="">Són cases <marker>vermells</marker>.</example>
+            <example correction="">La casa del poble <marker>blanques</marker>.</example>
+            <example correction="">La casa del poble <marker>blancs</marker>.</example>
+            <example correction="">La casa de poble <marker>blanques</marker>.</example>
+            <example correction="">La casa de poble <marker>blancs</marker>.</example>
+            <example correction="">Un lloro pot imitar la parla <marker>humà</marker>.</example>
+            <example correction="">En un restaurant <marker>luxosa</marker></example>
+            <example correction="">En un restaurant solemnement <marker>decorada</marker></example>
+            <example correction="">¿Quin és el més <marker>calorosa</marker> de totes les estacions?</example>
+            <example correction="">Amb la bobina i la placa electrònica <marker>muntats</marker> en una caixa</example>
+            
+            
+            <example correction="">amb alguns motllurats de guixeria <marker>retallades</marker></example>
+            <example correction="">amb alguns motllurats de guixeria <marker>retallat</marker></example>
+            <example correction="">amb dos conjunts <marker>territorial</marker> diferents entre si</example>
+            <example correction="">amb rigor i honor <marker>barrejades</marker></example>
+            <example correction="">amb una alineació impròpiament <marker>habituals</marker></example>
+            <example correction="">amb una alineació molt poc <marker>habituals</marker></example>
+            <example correction="">amb una alineació poc <marker>habituals</marker></example>
+            <example correction="">Aquella va ser la seva peça <marker>mestre</marker>.</example>
+            <example correction="">El rei ha trobat l'excusa i l'explicació <marker>adequat</marker>.</example>
+            <example correction="">El rei ha trobat l'excusa i l'explicació <marker>adequats</marker>.</example>
+            <example correction="">El rei ha trobat l'excusa <marker>perfecte</marker>.</example>
+            <example correction="">En efecte, hi ha consideracions llavors força <marker>comuns</marker>.</example>
+            <example correction="">En una molècula de glucosa i una de fructosa <marker>units</marker>.</example>
+            <example correction="">Era un home força <marker>misteriosos</marker></example>
+            <example correction="">Eren uns fets cada volta més <marker>inexplicable</marker>.</example>
+            <example correction="">Especialment en matèria de policia i justícia <marker>autonòmics</marker></example>
+            <example correction="">fets moltes vegades <marker>inexplicable</marker></example>
+            <example correction="">hi ha hagut una certa recuperació (3,2%), efecte en part de la descongestió madrilenya cap a les províncies <marker>limítrofs</marker> de Toledo i Guadalajara.</example>
+            <example correction="">la llengua i la cultura <marker>catalans</marker>.</example>
+            <example correction="">La massa, el radi i la lluminositat <marker>llistades</marker> per ell.</example>
+            <example correction="">La massa, el radi i la lluminositat <marker>llistat</marker> per ell.</example>
+            <example correction="">La petició de tramitar el cas per lesions <marker>dolosa</marker>.</example>
+            <example correction="">Les perspectives de futur <marker>immediata</marker>.</example>
+            <example correction="">Les perspectives de futur <marker>immediats</marker>.</example>
+            <example correction="">pantalons <marker>curt</marker> o llargs</example>
+            <example correction="">per mitjà de gàmetes haploides <marker>obtingudes</marker> per meiosi</example>
+            <example correction="">recull de llegendes i cançons populars en part <marker>inventats</marker> per ell</example>
+            <example correction="">Son molt <marker>boniques</marker></example>
+            <example correction="">sota les grans persianes de color verd <marker>recalcada</marker></example>
+            <example correction="">sota les grans persianes de color verd <marker>recalcat</marker></example>
+            <example correction="">sota les grans persianes de color verd <marker>recalcats</marker></example>
+            <example correction="">Són unes corbes de llum <marker>complexos</marker>.</example>
+            <example correction="">Tesis <marker>doctoral</marker></example>
+            <example correction="">Un punt de densitat i gravetat <marker>infinits</marker>.</example>
+            <example correction="">Unes explotacions ramaderes <marker>porcina</marker>.</example>
+            <example correction="">vaig posar mans a l'obra: a dins de casa <marker>mateix</marker> vaig cavar un sot per enterrar</example>
+            <example correction="">és tan ple d'urgències, tan ple de desitjós <marker>materials</marker></example>
+            <example correction="">Índex de desenvolupament humà i qualitat de vida <marker>elevades</marker>.</example>
+            
+            <example>França <marker>mateix</marker> ho necessita.</example>
+            <example>-Així, ¿viatges sola? -va dir</example>
+            <example>-Maleït ximple! -va exclamar Tom</example>
+            <example>a confondre en un mateix amor amics i enemics</example>
+            <example>a França mateix</example>
+            <example>a la infermeria, d'allò més interessat</example>
+            <example>al camí va trobar una branca de roure sòlida</example>
+            <example>al capdamunt de les Costes d'en Quintanes, sota mateix del Turó</example>
+            <example>amb alguns motllurats de guixeria classicitzant</example>
+            <example>amb alguns motllurats de guixeria classicitzants</example>
+            <example>amb alguns motllurats de guixeria retallada</example>
+            <example>amb alguns motllurats de guixeria retallats</example>
+            <example>amb la terra repartida entre diversos propietaris, bé que encara poc poblada</example>
+            <example>amb la veu i el posat cada cop més agressius</example>
+            <example>Amb un termini d'execució de nou mesos aproximadament.</example>
+            <example>amb una expressió de dolor i de por barrejats.</example>
+            <example>amb una taula de logaritmes davant meu.</example>
+            <example>aquest text, el més antic de l'obra fins ara conegut</example>
+            <example>aquestes activitats avui residuals donada ja la manca de territori</example>
+            <example>Batalla entre asteques i espanyols coneguda com la Nit Trista.</example>
+            <example>Bernabé i Saule, un colp acomplerta la seva missió a Jerusalem</example>
+            <example>Bernabé i Saule, un cop acomplerta la seva missió a Jerusalem</example>
+            <example>Bernabé i Saule, una vegada acomplert el seu viatge a Jerusalem</example>
+            <example>Bernabé i Saule, una volta acomplert el seu viatge a Jerusalem</example>
+            <example>Cada polinomi en forma expandida</example>
+            <example>Com més petita és l'obertura de diafragma, més grans són la profunditat de camp i la profunditat</example>
+            <example>constitueix l'única comunitat autònoma amb menys aturats</example>
+            <example>Copa del món femenina.</example>
+            <example>de la captura i l'assassinat recents</example>
+            <example>De la literatura i la cultura catalanes.</example>
+            <example>Del segle XVIII però reconstruïda recentment</example>
+            <example>des de la tradicional divisió en dos regnes establida per Linnaeus</example>
+            <example>despres de la revolta contra el poder pontifici iniciada a Bolonya</example>
+            <example>donar estocades sense ordre ni concert mal dirigides</example>
+            <example>durant tot l'any, i del sud-est, més notoris a la primavera</example>
+            <example>edificacions superposades d'època romana republicanes i imperials</example>
+            <example>El 1640 una junta de nobles reunida a Lisboa</example>
+            <example>El 1967 una partida de liberals rebel al govern</example>
+            <example>El \"treball\" en qüestió, normalment associat a un lloc de treball pagat</example>
+            <example>El castell està totalment en ruïnes i completament cobert de vegetació.</example>
+            <example>el Moviment per l’Autodeterminació cors</example>
+            <example>el personatge canvià físicament: més alt i prim que el seu germà</example>
+            <example>El programari baixa el cost i millora la qualitat dels serveis.</example>
+            <example>el record, i absolutament fascinats</example>
+            <example>El rei ha trobat l'excusa i l'explicació adequada.</example>
+            <example>El rei ha trobat l'excusa i l'explicació adequades.</example>
+            <example>El riu passa engorjat en aquest sector </example>
+            <example>El tabaquisme és l'addicció al tabac provocada per components.</example>
+            <example>el text de més àmplia i persistent influència</example>
+            <example>el text de més àmplia influència</example>
+            <example>Ell i jo som una altra vegada partidaris del rei</example> 
+            <example>Els períodes clàssic i medieval.</example>
+            <example>En efecte, hi ha consideracions racistes, llavors força comunes</example>
+            <example>En l'actualitat està del tot despoblada de residència permanent.</example>
+            <example>En l'eix esquerra-dreta.</example>
+            <example>En un entorn de prova segur</example>
+            <example>En una molècula de glucosa i una de fructosa unides.</example>
+            <example>Entitat oficial de crèdit a mitjà i llarg termini constituïda l'any 1920</example>
+            <example>era la defensa i seguretat mútues</example>
+            <example>Era poderós, força estrabul·lat</example>
+            <example>Era un home força misteriós</example>
+            <example>eren quatre vegades més alts</example>
+            <example>eren uns fets cada volta més inexplicables</example>
+            <example>Es fa segons regles de lectura constants i regulars.</example>
+            <example>es movien mitjançant filferros, tot projectant ombres</example>
+            <example>Especialment en matèria de policia i finançament autonòmics</example>
+            <example>Especialment en matèria de policia i justícia autonòmiques</example>
+            <example>Fou un dels primers barris de barraques sorgit després del 1939</example>
+            <example>han estat tant elogiades per la crítica teatral, com polèmiques</example>
+            <example>he passat una nit i un dia sencers a la deriva</example>
+            <example>i el premi a la investigació mèdica atorgat per la Funadació</example>
+            <example>i ronda amagat pels carrers</example>
+            <example>I sí, la crisi serà llarga, molt llarga, potser eterna.</example>
+            <example>instruments de càlcul basats en boles anomenats yupana.</example>
+            <example>ja que sovint causa baixes entre els gossos i ovelles</example>
+            <example>l'endeutament que generà fou força elevat</example>
+            <example>l'experiència sensitiva i la raó, degudament combinades.</example>
+            <example>l'obra de Boeci amb espontaneïtat i vigor notables</example>
+            <example>L'olor dels teus perfums, més agradable que tots els bàlsams.</example>
+            <example>L'origen de l'àbac està literalment perdut en el temps.</example>
+            <example>L'origen ha esdevingut literalment perdut en el temps.</example>
+            <example>L'URL introduït</example>
+            <example>la captura i l'assassinat recents</example> <!--desambiguar "la captura"-->
+            <example>la denominació valencià per a la llengua pròpia</example>
+            <example>La indústria, tradicionalment dedicada al tèxtil i ara molt diversificada,</example>
+            <example>La massa, el radi i la lluminositat llistada per ell.</example>
+            <example>La massa, el radi i la lluminositat llistats per ell.</example>
+            <example>la meitat mascles i la meitat femelles</example>
+            <example>La meua filla viu amb mi la major part del temps</example>
+            <example>La part superior esquerra</example>
+            <example>La raó sol allunyar-se dels extrems</example>
+            <example>la revolta contra el poder pontifici iniciada a Bolonya</example> <!-- desambiguar "la revolta-->
+            <example>la tècnica i l'art cinematogràfic.</example>
+            <example>la tècnica i l'art cinematogràfica.</example>
+            <example>la tècnica i l'art cinematogràfics.</example>
+            <example>la tècnica i l'art cinematogràfiques.</example>
+            <example>la vista en el magnífic ocell de potes i bec vermells</example>
+            <example>les causes per primera vegada explicades</example>
+            <example>Les meitats dreta i esquerra de la mandíbula.</example>
+            <example>Les perspectives de futur immediat.</example>
+            <example>Les perspectives de futur immediates.</example>
+            <example>Les perspectives i el futur immediats.</example>
+            <example>no arriben als 300 mm de pluja anuals</example>
+            <example>no s'atorguen drets de visita tret que ho consenta el progenitor</example>
+            <example>oficialment la comarca[2] del Moianès, molt reivindicada</example>
+            <example>p. ex., l'ADN polimerasa forma polímers d'ADN</example>
+            <example>per a dur a terme tota la lectura i escriptura requerides</example>
+            <example>per les causes explicades fa molt difícil</example>
+            <example>podrien també esdevenir correlacionades</example> 
+            <example>Quan un satèl·lit baixa a 180 km</example>
+            <example>que criï sense variació, per molt lleugers que fossin</example>
+            <example>que en l'actualitat viu a la ciutat de Santa Cruz</example>
+            <example>que seria en pocs anys força hegemònica a Catalunya</example>
+            <example>Setmanari il·lustrat d'art, literatura i actualitats fundat a Barcelona</example>
+            <example>Som els més antisistema</example>
+            <example>sota les grans persianes de color verd recalcades</example>
+            <example>Són de barba i cabellera blanques</example>
+            <example>Són força desconegudes</example>
+            <example>són pràcticament dos graus més baixes</example>
+            <example>són submarines i la nostra gent viu al fons del mar.</example>
+            <example>tenen en canvi altres parts de llur estructura certament molt anormals:</example>
+            <example>tenen moltes més dificultats</example>
+            <example>Tesis doctorals</example>
+            <example>trobarien un dels nanos mort de fred</example>
+            <example>un a baix i un altre a dalt identificat amb el símbol</example>
+            <example>un a baix i un altre a dalt identificats amb el símbol</example>
+            <example>un caràcter fix, per molt extraordinària que sigui la manera</example>
+            <example>un dibuix de colors vius d'un noi ben plantat i una noia preciosa drets</example>
+            <example>un Do dues octaves més alt que l'anterior</example>
+            <example>Un punt de densitat i gravetat infinites.</example>
+            <example>un tram més tou, amb morfologia i color diferents.</example>
+            <example>Una casa cinquanta vegades més gran.</example>
+            <example>una organització paramilitar de protecció civil típicament catalana</example>
+            <example>una quantitat copiosa de llavors olioses</example>
+            <example>va reaccionar, la molt astuta, així</example>
+            <example>Va veure una cara rosada i arrugada, una boca sense dents oberta</example>
+            <example>Zeus, força cansat de tot</example>
+            <example>És força amarg</example>
+            <example>És un informe sobre la cultura japonesa realitzat per encàrrec de l'exèrcit d'Estats Units.</example>
+            <example>és unes 20 vegades més gran que l'espermatozou.</example>
+            <example>és unes quantes vegades més gran que l'espermatozou.</example>
+            <example>és unes vint vegades més gran que l'espermatozou.</example>
+            <example>Índex de desenvolupament humà i qualitat de vida elevada</example>
+            <example>Índex de desenvolupament humà i qualitat de vida elevat</example>
+            <example>Índex de desenvolupament humà i qualitat de vida elevats</example>
+            <example>Vivien a la casa paterna, mig confosos entre els criats.</example>
+            <!-- TODO: 
+                Els costats superior i laterals.
+                ambiguous: té una manera de jugar aquestes gires tan femenina
+                -->
+            <!-- 
+                Ella fue al concierto acompañada de una amiga.
+                Soy cualquier cosa menos mentiroso. 
+                 siempre esperan el autobús formados en fila. 
+                 Él se unió a los partisanos muy joven.
+                Él se giró hacia sus acusadores enfadado.
+                No puedo hacer el trabajo sola.
+                han aprendido esta lengua solos,
+                A menos que tomes una decisión rápido,
+                Escribí la composición apurado,
+                Mis parlantes son un juguete comparados con los tuyos.
+                 producidos por la aceleración y desaceleración lineal y angular repetitivas.
+                -->
+        </rule>
         <rulegroup id="CONCORDANCES_NUMERALS" name="concordances en numerals">
             <!-- noms, adjectius en singular  -->
             <rule>
