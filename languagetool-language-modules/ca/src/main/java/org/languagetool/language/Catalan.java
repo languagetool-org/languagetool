@@ -184,6 +184,7 @@ public class Catalan extends Language {
       case "CONCORDANCES_CASOS_PARTICULARS": return 30;
       case "GERUNDI_PERD_T": return 30;
       case "CONFUSIONS": return 30;
+      case "CA_SIMPLE_REPLACE": return 30; // greater than CA_SIMPLE_REPLACE_VERBS
       case "INCORRECT_WORDS_IN_CONTEXT": return 30; // similar to CONFUSIONS
       case "CONFUSIONS_ACCENT": return 20;
       case "DIACRITICS": return 20;
