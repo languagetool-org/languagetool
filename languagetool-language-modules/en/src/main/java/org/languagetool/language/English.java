@@ -237,6 +237,8 @@ public class English extends Language implements AutoCloseable {
   @Override
   public boolean hasNGramFalseFriendRule(Language motherTongue) {
     return motherTongue != null && (
+      // Note: extend EnglishForL2SpeakersFalseFriendRuleTest.testMessageDetailData()
+      // if you add a language here
       "de".equals(motherTongue.getShortCode()) ||
       "fr".equals(motherTongue.getShortCode()) ||
       "es".equals(motherTongue.getShortCode()) ||
