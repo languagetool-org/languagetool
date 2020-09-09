@@ -11924,7 +11924,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes">traduir|èmfasi|consistir|basar|insistir|fonamentar|coincidir|radicar|raure|diferenciar|diferir|estar|fixar|centrar|trobar|resultar|assemblar|confiar|convenir|influir|recaure<exception postag="_GN_.*" postag_regexp="yes"
+                    <token inflected="yes" regexp="yes">traduir|èmfasi|consistir|basar|insistir|fonamentar|coincidir|radicar|raure|diferenciar|diferir|estar|fixar|centrar|trobar|resultar|assemblar|confiar|convenir|influir|recaure|consistent<exception postag="_GN_.*" postag_regexp="yes"
                         >estat</exception></token>
                     <token min="0" max="4" postag="RG|_PUNCT_CONT|.*LOC_ADV.*|&pronom_feble;" postag_regexp="yes"/>
                     <marker>
@@ -46390,6 +46390,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="ELEGIR" name="escollir/triar/elegir">
+            <pattern>
+                <marker>
+                    <token regexp="yes" inflected="yes">triar|escollir</token>
+                </marker>
+                <token min="0" max="2" regexp="yes">com|a</token>
+                <token regexp="yes" inflected="yes">diputat|senador|regidor|president</token>
+            </pattern>
+            <message>En aquest sentit és més precís utilitzar el v. 'elegir'.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">elegir</match></suggestion>
+            <example correction="elegit">Va ser <marker>escollit</marker> diputat.</example>
+            <example correction="elegit">Va ser <marker>escollit</marker> com a diputat.</example>
+        </rule>
         <rule id="MENJAR_PORQUERIA" name="menjar escombraries/porqueria">
             <pattern>
                 <token inflected="yes" regexp="yes">mejar|televisió|contracte|feina|faena|acció|llibre|hipoteca|bo</token>
