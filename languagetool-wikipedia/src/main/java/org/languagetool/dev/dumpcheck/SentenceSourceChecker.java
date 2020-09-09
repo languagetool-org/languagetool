@@ -70,10 +70,11 @@ public class SentenceSourceChecker {
         addDisabledRules(languageCode, disabledRuleIds, disabledRules);
       }
     }
+    String motherTongue = commandLine.getOptionValue('m');
     int maxArticles = Integer.parseInt(commandLine.getOptionValue("max-sentences", "0"));
     int maxErrors = Integer.parseInt(commandLine.getOptionValue("max-errors", "0"));
     int contextSize = Integer.parseInt(commandLine.getOptionValue("context-size", "50"));
-    prg.run(propFile, disabledRuleIds, languageCode, maxArticles,
+    prg.run(propFile, disabledRuleIds, languageCode, motherTongue, maxArticles,
       maxErrors, contextSize,
       commandLine);
   }
@@ -90,6 +91,8 @@ public class SentenceSourceChecker {
     Options options = new Options();
     options.addOption(Option.builder("l").longOpt("language").argName("code").hasArg()
             .desc("language code like 'en' or 'de'").required().build());
+    options.addOption(Option.builder("m").longOpt("mother-tongue").argName("code").hasArg()
+            .desc("language code like 'en' or 'de'").build());
     options.addOption(Option.builder("d").longOpt("db-properties").argName("file").hasArg()
             .desc("A file to set database access properties. If not set, the output will be written to STDOUT. " +
                   "The file needs to set the properties dbUrl ('jdbc:...'), dbUser, and dbPassword. " +
@@ -138,7 +141,7 @@ public class SentenceSourceChecker {
     throw new IllegalStateException();
   }
 
-  private void run(File propFile, Set<String> disabledRules, String langCode,
+  private void run(File propFile, Set<String> disabledRules, String langCode, String motherTongueCode,
                    int maxSentences, int maxErrors, int contextSize,
                    CommandLine options) throws IOException {
     long startTime = System.currentTimeMillis();
@@ -153,7 +156,8 @@ public class SentenceSourceChecker {
     String ruleSource = options.hasOption("rulesource") ? options.getOptionValue("rulesource") : null;
     int sentencesToSkip = options.hasOption("skip") ? Integer.parseInt(options.getOptionValue("skip")) : 0;
     Language lang = Languages.getLanguageForShortCode(langCode);
-    MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(lang);
+    Language motherTongue = motherTongueCode != null ? Languages.getLanguageForShortCode(motherTongueCode) : null;
+    MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(lang, motherTongue);
     lt.setCleanOverlappingMatches(false);
     if (languageModelDir != null) {
       lt.activateLanguageModelRules(languageModelDir);
