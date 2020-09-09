@@ -1295,7 +1295,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token>just</token>
-                <token regexp="yes">en|anbasn|després|quan</token>
+                <token regexp="yes">en|abans|després|quan</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">segur|menor|major</token>
@@ -1430,8 +1430,64 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes" regexp="yes">vegada|volta|colp|cop|pic</token>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token>en</token>
+                <token regexp="yes">tot|qualsevol</token>
+                <token>cas</token>
+                <token min="0" postag="RG"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">de|per</token>
+                <token>una</token>
+                <token regexp="yes" skip="-1">banda|part</token>
+                <token regexp="yes">de|per</token>
+                <token>l'</token>
+                <token>altra</token>
+                <token min="0" postag="RG"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>bo</token>
+                <token>i</token>
+                <token postag="V.G.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>mascle</token>
+                <token regexp="yes">i|o</token>
+                <token>femella</token>
+            </antipattern>
+            <antipattern>
+                <token>un</token>
+                <token postag="SPS00"/>
+                <token>l'</token>
+                <token>altre</token>
+                <token min="0" postag="RG"/>
+                <token postag="AQ.MP.|V.P..PM." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>una</token>
+                <token postag="SPS00"/>
+                <token>l'</token>
+                <token>altra</token>
+                <token min="0" postag="RG"/>
+                <token postag="AQ.FP.|V.P..PF.|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>de</token>
+                <token>fet</token>
+                <token min="0" postag="RG"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>en</token>
+                <token postag="D[DI].*|A.*" postag_regexp="yes"/>
+                <token regexp="yes">cas|casos|grau|mesura</token>
+                <token min="0" postag="RG"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/><exception regexp="yes">primer|junts|juntes|plegats|plegades</exception><exception regexp="yes">\p{Lu}.*</exception></token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/><exception regexp="yes">primer|junts|juntes|plegats|plegades</exception><exception regexp="yes">\p{Lu}.*</exception><exception scope="previous" postag="_loc_meitat"/></token>
             </pattern>
             <filter class="org.languagetool.rules.ca.PostponedAdjectiveConcordanceFilter" args="key:value"/>
             <message>Reviseu la concordança de «\1» amb els noms precedents.</message>
@@ -1488,8 +1544,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">vaig posar mans a l'obra: a dins de casa <marker>mateix</marker> vaig cavar un sot per enterrar</example>
             <example correction="">és tan ple d'urgències, tan ple de desitjós <marker>materials</marker></example>
             <example correction="">Índex de desenvolupament humà i qualitat de vida <marker>elevades</marker>.</example>
+            <example correction="">Era un home força <marker>misteriosa</marker>.</example>
+            <example correction="">La casa <marker>destrossat</marker>.</example>
+            
+            <example correction="" type="triggers_error" reason="ambiguous">És en alguns casos <marker>documentat</marker>.</example>
             
             <example>França <marker>mateix</marker> ho necessita.</example>
+            <example>una combinació de dos o més metalls obtinguda generalment</example>
+            <example>És en tot cas poc honesta.</example>
+            <example>Han estat de fet exterminades.</example>
+            <example>Fer una torre o fortificació bo i al·legant que això era legítim.</example>
+            <example>D'una banda estava tranquil, de l'altra més neguitós.</example>
+            <example>amb la mirada de cadascun dels homes clavada en la de l'adversari</example>
+            <example>es van posar en camí proveïts de presents</example>
+            <example>confondre en un mateix amor amics i enemics</example>
+            <example>Les formigues mascle i femella.</example>
+            <example>Va esdevenir en pocs anys força hegemònica.</example>
+            <example>amb un rendiment del 5,62%, més alta que el 5,44%</example>
+            <example>un a baix i un altre a dalt identificada amb el símbol</example> <!-- ?? -->
+            <example>Es van somriure l'una a l'altra encara dretes, suades i panteixants.</example>
             <example>-Així, ¿viatges sola? -va dir</example>
             <example>-Maleït ximple! -va exclamar Tom</example>
             <example>a confondre en un mateix amor amics i enemics</example>
@@ -1527,7 +1600,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>edificacions superposades d'època romana republicanes i imperials</example>
             <example>El 1640 una junta de nobles reunida a Lisboa</example>
             <example>El 1967 una partida de liberals rebel al govern</example>
-            <example>El \"treball\" en qüestió, normalment associat a un lloc de treball pagat</example>
+            <example>El "treball" en qüestió, normalment associat a un lloc de treball pagat</example>
             <example>El castell està totalment en ruïnes i completament cobert de vegetació.</example>
             <example>el Moviment per l’Autodeterminació cors</example>
             <example>el personatge canvià físicament: més alt i prim que el seu germà</example>
@@ -1635,9 +1708,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Índex de desenvolupament humà i qualitat de vida elevat</example>
             <example>Índex de desenvolupament humà i qualitat de vida elevats</example>
             <example>Vivien a la casa paterna, mig confosos entre els criats.</example>
+            <example>És per primera vegada documentat en el segle XIX.</example>
+            <example>Era altres vegades estacionat darrere.</example>
+            
+            
             <!-- TODO: 
                 Els costats superior i laterals.
                 ambiguous: té una manera de jugar aquestes gires tan femenina
+                missing comma: d'una banda tossut i, de l'altra, del tot inepte
+                
+                En efecte, hi ha consideracions racistes, llavors força comuns
+                En efecte, hi ha consideracions, llavors força comuns
+                Índex de desenvolupament humà i qualitat de vida elevat
+                
+                policia i justícia són més usualment femenins, encara que poden ser masculins
                 -->
             <!-- 
                 Ella fue al concierto acompañada de una amiga.

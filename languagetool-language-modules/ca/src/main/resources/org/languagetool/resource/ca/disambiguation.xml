@@ -717,6 +717,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="replace" postag="AO0MS0"/>
         </rule>
     </rulegroup>
+    <rule id="dos_o_mes" name="dos o més">
+        <pattern>
+            <marker>
+                <token postag="DN.*" postag_regexp="yes"></token>
+            </marker>
+            <token>o</token>
+            <token>més</token>
+            <token postag="N..P.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="DN.*"></disambig>
+    </rule>
     <rule id="des_de" name="des de/que">
         <pattern>
             <marker>
@@ -1190,6 +1201,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="replace">
                 <wd lemma="en va" pos="LOC_ADV"/>
                 <wd lemma="en va" pos="LOC_ADV"/>
+            </disambig>
+        </rule>
+        <rule id="al_principi" name="al principi (locució adverbial)">
+            <pattern>
+                <marker>
+                    <token>a</token>
+                    <token>l</token>
+                    <token regexp="yes">principi|començament</token>
+                </marker>
+                <token postag="A..F..|A..MS.|V.P...F.|V.P..SM." postag_regexp="yes"/>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="al principi" pos="LOC_ADV"/>
+                <wd lemma="al principi" pos="LOC_ADV"/>
+                <wd lemma="al principi" pos="LOC_ADV"/>
             </disambig>
         </rule>
         <rule id="de_primera" name="de primera (locució adverbial)">

@@ -66,8 +66,8 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern DET_MP = Pattern.compile("D[NDA0IP]0MP0");
   private static final Pattern DET_FP = Pattern.compile("D[NDA0IP]0FP0");
 
-  private static final Pattern GN_MS = Pattern.compile("N.[MC][SN].*|A..[MC][SN].*|V.P..SM.?|PX.MS.*|D[NDA0I]0MS0");
-  private static final Pattern GN_FS = Pattern.compile("N.[FC][SN].*|A..[FC][SN].*|V.P..SF.?|PX.FS.*|D[NDA0I]0FS0");
+  private static final Pattern GN_MS = Pattern.compile("N.[MC][SN].*|A..[MC][SN].*|V.P..SM.?|PX.MS.*|D[NDA0I]0MS0|PI0MS000");
+  private static final Pattern GN_FS = Pattern.compile("N.[FC][SN].*|A..[FC][SN].*|V.P..SF.?|PX.FS.*|D[NDA0I]0FS0|PI0FS000");
   private static final Pattern GN_MP = Pattern.compile("N.[MC][PN].*|A..[MC][PN].*|V.P..PM.?|PX.MP.*|D[NDA0I]0MP0");
   private static final Pattern GN_FP = Pattern.compile("N.[FC][PN].*|A..[FC][PN].*|V.P..PF.?|PX.FP.*|D[NDA0I]0FP0");
   private static final Pattern GN_CP = Pattern.compile("N.[FMC][PN].*|A..[FMC][PN].*|D[NDA0I]0[FM]P0");
@@ -93,21 +93,14 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern PUNTUACIO = Pattern.compile("_PUNCT.*");
   private static final Pattern LOC_ADV = Pattern.compile(".*LOC_ADV.*");
   private static final Pattern ADVERBIS_ACCEPTATS = Pattern.compile("RG_anteposat");
-  private static final Pattern CONCORDA = Pattern.compile("_GN_.*|ignore_concordance|AQ.CN.");
-  private static final Pattern UPPERCASE = Pattern.compile("\\p{Lu}[\\p{Ll}\u00B7]*");
-  private static final Pattern COORDINACIO = Pattern.compile(",|i|o");
   private static final Pattern COORDINACIO_IONI = Pattern.compile("i|o|ni");
-  private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAIDP].*|SPS.*|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*|PX.*");
+  private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAIDP].*|SPS.*|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*|PX.*|PI0.S000");
   private static final Pattern KEEP_COUNT2 = Pattern.compile(",|i|o|ni"); // |\\d+%?|%
   private static final Pattern STOP_COUNT = Pattern.compile(";");
   private static final Pattern PREPOSICIONS = Pattern.compile("SPS.*");
   private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("de|d'|en|sobre|a|entre|per|pe|amb|sense|contra");
   private static final Pattern VERB = Pattern.compile("V.[^P].*|_GV_");
   private static final Pattern GV = Pattern.compile("_GV_");
-  private static final Pattern EXCEPCIONS_PREVIA = Pattern.compile("termes?|paraul(a|es)|mots?|vocables?|expressi(ó|ons)|noms?|tipus|denominaci(ó|ons)");
-  private static final Pattern EXCEPCIONS_PREVIA_POSTAG = Pattern.compile("_loc_meitat");
-  private static final Pattern TOPONIM = Pattern.compile("NP..G..");
-  private static final Pattern ORDINAL = Pattern.compile("AO.*");
 
   boolean adverbAppeared = false;
   boolean conjunctionAppeared = false;
@@ -116,6 +109,12 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
+    
+    if (match.getSentence().getText().contains("més metalls")) {
+      int i = 0;
+      i++;
+    }
+     
 
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     int i = patternTokenPos;
@@ -129,23 +128,6 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     Pattern substPattern = null;
     Pattern gnPattern = null;
     Pattern adjPattern = null;
-
-    // exception: noun (or adj) plural + two or more adjectives
-    /*if (i < tokens.length - 2) {
-      Matcher pCoordina = COORDINACIO.matcher(nextToken);
-      if (pCoordina.matches()) {
-        if (((matchPostagRegexp(tokens[i - 1], NOM_MP) || matchPostagRegexp(tokens[i - 1], ADJECTIU_MP))
-            && matchPostagRegexp(tokens[i], ADJECTIU_MS) && matchPostagRegexp(tokens[i + 2], ADJECTIU_MS))
-            || ((matchPostagRegexp(tokens[i - 1], NOM_MP) || matchPostagRegexp(tokens[i - 1], ADJECTIU_MP))
-                && matchPostagRegexp(tokens[i], ADJECTIU_MP) && matchPostagRegexp(tokens[i + 2], ADJECTIU_MP))
-            || ((matchPostagRegexp(tokens[i - 1], NOM_FP) || matchPostagRegexp(tokens[i - 1], ADJECTIU_FP))
-                && matchPostagRegexp(tokens[i], ADJECTIU_FS) && matchPostagRegexp(tokens[i + 2], ADJECTIU_FS))
-            || ((matchPostagRegexp(tokens[i - 1], NOM_FP) || matchPostagRegexp(tokens[i - 1], ADJECTIU_FP))
-                && matchPostagRegexp(tokens[i], ADJECTIU_FP) && matchPostagRegexp(tokens[i + 2], ADJECTIU_FP))) {
-          return null;
-        }
-      }
-    }*/
 
     /* Count all nouns and determiners before the adjectives */
     // Takes care of acceptable combinations.
@@ -235,27 +217,14 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
           cDFP[level]++;
         }
       }
-      if (i - j > 0) {
+      if (i - j - 1 > 0) {
         if (matchRegexp(tokens[i - j].getToken(), PREPOSICIO_CANVI_NIVELL)
             && !matchRegexp(tokens[i - j - 1].getToken(), COORDINACIO_IONI)
             && !matchPostagRegexp(tokens[i - j + 1], ADVERBI)) {
           level++;
         }
       }
-      if (level > 0 && matchRegexp(tokens[i - j].getToken(), COORDINACIO_IONI)) {
-        int k = 1;
-        while (k < 4 && i - j - k > 0
-            && (matchPostagRegexp(tokens[i - j - k], KEEP_COUNT)
-                || matchRegexp(tokens[i - j - k].getToken(), KEEP_COUNT2)
-                || matchPostagRegexp(tokens[i - j - k], ADVERBIS_ACCEPTATS))
-            && (!matchRegexp(tokens[i - j - k].getToken(), STOP_COUNT))) {
-          if (matchPostagRegexp(tokens[i - j - k], PREPOSICIONS)) {
-            j = j + k;
-            break;
-          }
-          k++;
-        }
-      }
+      j = updateJValue(tokens, i, j, level);
       updateApparitions(tokens[i - j]);
       j++;
     }
@@ -372,6 +341,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
            * matchPostagRegexp(tokens[i - j], substPattern)) { return null; // there is a
            * previous agreeing noun }
            */
+        j = updateJValue(tokens, i, j, 0);
         updateApparitions(tokens[i - j]);
         j++;
       }
@@ -388,6 +358,32 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
 
     return match;
 
+  }
+
+  private int updateJValue(AnalyzedTokenReadings[] tokens, int i, int j, int level) {
+    if (level > 0 && matchRegexp(tokens[i - j].getToken(), COORDINACIO_IONI)) {
+      int k = 1;
+      while (k < 4 && i - j - k > 0
+          && (matchPostagRegexp(tokens[i - j - k], KEEP_COUNT)
+              || matchRegexp(tokens[i - j - k].getToken(), KEEP_COUNT2)
+              || matchPostagRegexp(tokens[i - j - k], ADVERBIS_ACCEPTATS))
+          && (!matchRegexp(tokens[i - j - k].getToken(), STOP_COUNT))) {
+        if (matchPostagRegexp(tokens[i - j - k], PREPOSICIONS)) {
+          j = j + k;
+          break;
+        }
+        k++;
+      }
+    }
+    // dos o més
+    if (matchRegexp(tokens[i - j].getToken(), COORDINACIO_IONI)) {
+      if (i - j - 1 > 0 && i - j + 1 < tokens.length) {
+        if (matchPostagRegexp(tokens[i - j - 1], DET) && tokens[i - j + 1].getToken().equals("més")) {
+          j = j + 1;
+        }
+      }
+    }
+    return j;
   }
 
   private boolean keepCounting(AnalyzedTokenReadings aTr) {
