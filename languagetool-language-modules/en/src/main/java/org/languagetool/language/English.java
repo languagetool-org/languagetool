@@ -441,7 +441,7 @@ public class English extends Language implements AutoCloseable {
       return -20;
     }
     if (id.matches("EN_FOR_[A-Z]+_SPEAKERS_FALSE_FRIENDS.*")) {
-      return -20;
+      return -21;
     }
     return super.getPriorityForId(id);
   }
