@@ -288,8 +288,6 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "[t]he", // vs the
       "the role at", // vs add
       "same false alarm", // vs some
-      "why is he relevant", // vs the
-      "why is he famous", // vs the
       "then that would", // vs than
       "was he part of", // vs the
       "is he right now", // vs the
@@ -393,7 +391,13 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "your hunt for", // vs you
       "if your bolt fits", // vs you
       "the go to", // vs to (caught by GO_TO_HYPHEN)
-      "text my number" // vs by
+      "text my number", // vs by
+      "why was he", // vs the
+      "what was he", // vs the
+      "why is he", // vs the
+      "what is he", // vs the
+      "is he happy", // vs the
+      "he kind of" // vs the
     );
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
