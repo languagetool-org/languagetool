@@ -9241,6 +9241,25 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="a">O Rui perfilha <marker>da</marker> doutrina de Buda.</example>
     </rule>
 
+    <rule id='PERSISTEM_AO_LONGO_DE_TEMPO' name="Persistem + há + Tempo">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-09 (2-JUL-2020+)   -->
+      <pattern>
+	      <and>
+			<token inflected='yes'>persistir</token>
+			<token postag='VMIP3P0' postag_regexp='no'/>			
+		  </and>	
+		  <marker>
+			<token>ao</token>
+			<token>longo</token>
+			<token>de</token>
+			<token min="0" max="1" postag='DI0[FM]P0|AQ0[CFM]P0' postag_regexp='yes'/>
+			<token regexp='yes'>segundos|minutos|horas|dias|semanas|meses|anos|décadas|séculos|milénios</token>
+		  </marker>
+      </pattern>
+      <message>Substitua por <suggestion>há \5 \6</suggestion>.</message>
+      <example correction="há décadas">Devemos melhorar as deficiências que persistem <marker>ao longo de décadas</marker>.</example>
+    </rule>
+
     <!-- PIOR EDUCADO mais mal-educado -->
     <rule id='PIOR_EDUCADO' name="Mais mal-educado">
       <pattern>
