@@ -247,6 +247,10 @@ public class AdverbFilter extends RuleFilter {
     put("consistently", "consistent");
     put("truly", "true");
     put("commonly", "common");
+    put("safely", "safe");
+    put("evolutionarily", "evolutionary");
+    put("internally", "internal");
+    put("magically", "magical");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

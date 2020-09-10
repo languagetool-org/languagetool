@@ -9050,6 +9050,18 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="ignore_spelling"></disambig>
     </rule>
 
+    <rule id="IGNORE_SPELLING_OF_Y_DE" name="Ignore spelling of names containing 'y de'">
+        <pattern case_sensitive="yes">
+            <token postag="NN.*|UNKNOWN" postag_regexp="yes" regexp="yes">[A-Z].+</token>
+            <marker>
+                <token>y</token>
+                <token>de</token>
+            </marker>
+            <token postag="NNP|UNKNOWN" postag_regexp="yes" regexp="yes">[A-Z].+</token>
+        </pattern>
+        <disambig action="ignore_spelling"></disambig>
+    </rule>
+
     <rule id="IGNORE_SPELLING_OF_DEL" name="Ignore spelling of names containing 'del/du/di'">
         <pattern case_sensitive="yes">
             <token postag="NN.*|UNKNOWN" postag_regexp="yes" regexp="yes">[A-Z].+</token>

@@ -312,6 +312,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Countys", Arrays.asList("Counties", "County's", "County"));
     s.put("familys", Arrays.asList("families", "family's", "family"));
     s.put("Familys", Arrays.asList("Families", "Family's", "Family"));
+    s.put("dem", Arrays.asList("them"));
+    s.put("Dem", Arrays.asList("Them"));
     s.put("infact", Arrays.asList("in fact"));
     s.put("Infact", Arrays.asList("In fact"));
     s.put("ad-hoc", Arrays.asList("ad hoc"));
