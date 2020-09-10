@@ -26,6 +26,7 @@ import java.util.Objects;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.chunking.ChunkTag;
 
 /**
  * @since 2.3
@@ -119,10 +120,15 @@ public abstract class AbstractPatternRulePerformer {
         unifier.addNeutralElement(tokens[tokenNo]);
       }
     }
-    if (matcher.getPatternToken().getChunkTag() != null) {
-      thisMatched &=
-          tokens[tokenNo].getChunkTags().contains(matcher.getPatternToken().getChunkTag())
-          ^ matcher.getPatternToken().getNegation();
+    ChunkTag chunkTag = matcher.getPatternToken().getChunkTag();
+    if (chunkTag != null) {
+      if (chunkTag.isRegexp()) {
+        thisMatched &= tokens[tokenNo].getChunkTags().stream().anyMatch(k -> k.getChunkTag().matches(chunkTag.getChunkTag()))
+                        ^ matcher.getPatternToken().getNegation();
+      } else {
+        thisMatched &= tokens[tokenNo].getChunkTags().contains(chunkTag)
+                        ^ matcher.getPatternToken().getNegation();
+      }
     }
     if (matcher.getPatternToken().hasAndGroup()) {
       for (PatternToken e : matcher.getPatternToken().getAndGroup()) {

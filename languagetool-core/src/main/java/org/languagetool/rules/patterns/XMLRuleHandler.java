@@ -60,6 +60,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected static final String ON = "on";
   protected static final String POSTAG = "postag";
   protected static final String CHUNKTAG = "chunk";
+  protected static final String CHUNKTAG_REGEXP = "chunk_re";
   protected static final String POSTAG_REGEXP = "postag_regexp";
   protected static final String REGEXP = "regexp";
   protected static final String NEGATE = "negate";
@@ -457,7 +458,7 @@ public class XMLRuleHandler extends DefaultHandler {
     resetException();
   }
 
-  protected void setToken(Attributes attrs) {
+  protected void setToken(Attributes attrs) throws SAXException {
     inToken = true;
 
     if (lastPhrase) {
@@ -483,8 +484,13 @@ public class XMLRuleHandler extends DefaultHandler {
       posRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));
       posNegation = YES.equals(attrs.getValue(NEGATE_POS));
     }
+    if (attrs.getValue(CHUNKTAG) != null && attrs.getValue(CHUNKTAG_REGEXP) != null) {
+      throw new SAXException("You cannot set both 'chunk' and 'chunk_re' for " + id);
+    }
     if (attrs.getValue(CHUNKTAG) != null) {
       chunkTag = new ChunkTag(attrs.getValue(CHUNKTAG));
+    } else if (attrs.getValue(CHUNKTAG_REGEXP) != null) {
+      chunkTag = new ChunkTag(attrs.getValue(CHUNKTAG_REGEXP), true);
     }
     regExpression = YES.equals(attrs.getValue(REGEXP));
 

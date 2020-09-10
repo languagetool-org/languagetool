@@ -261,6 +261,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>This is <marker>foo bar</marker>.</example>
             <example correction="foo bar">This is <marker>foo chunkbar</marker>.</example>
         </rule>
+        <rule id="DEMO_CHUNK_REGEX_RULE" name="Rule with regex chunk attribute">
+            <pattern case_sensitive="no">
+                <token>foo</token>
+                <token chunk_re="B-(XXX|NP)-singular"/>
+            </pattern>
+            <message>Did you mean <suggestion>foo bar</suggestion>?</message>
+            <example>This is <marker>foo bar</marker>.</example>
+            <example correction="foo bar">This is <marker>foo chunkbar</marker>.</example>
+        </rule>
         <rule id="API_OUTPUT_TEST_RULE" name="Find 'foo bar'">
             <pattern case_sensitive="no">
                 <token>ach</token>

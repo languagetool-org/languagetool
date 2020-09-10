@@ -12,6 +12,7 @@
 
 #### General
   * Each pair of `ConfusionProbabilityRule` has its own ID now, so it can be separately turned on/off
+  * New XML attribute `chunk_re` for `<token>`, which specifies a chunk as a regular expression
 
 
 
