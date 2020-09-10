@@ -111,10 +111,10 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       AnalyzedTokenReadings[] patternTokens) throws IOException {
 
     
-    if (match.getSentence().getText().contains("DTF")) {
+    /*if (match.getSentence().getText().contains("DTF")) {
       int kk=0;
       kk++;
-    }
+    }*/
     
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     int i = patternTokenPos;
