@@ -94,11 +94,11 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern LOC_ADV = Pattern.compile(".*LOC_ADV.*");
   private static final Pattern ADVERBIS_ACCEPTATS = Pattern.compile("RG_anteposat");
   private static final Pattern COORDINACIO_IONI = Pattern.compile("i|o|ni");
-  private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAIDP].*|SPS.*|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*|PX.*|PI0.S000");
+  private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAIDP].*|SPS.*|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*|PX.*|PI0.S000|UNKNOWN");
   private static final Pattern KEEP_COUNT2 = Pattern.compile(",|i|o|ni"); // |\\d+%?|%
   private static final Pattern STOP_COUNT = Pattern.compile(";");
   private static final Pattern PREPOSICIONS = Pattern.compile("SPS.*");
-  private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("de|d'|en|sobre|a|entre|per|pe|amb|sense|contra");
+  private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("de|d'|en|sobre|a|entre|per|pe|amb|sense|contra|com");
   private static final Pattern VERB = Pattern.compile("V.[^P].*|_GV_");
   private static final Pattern GV = Pattern.compile("_GV_");
 
@@ -110,6 +110,12 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
 
+    
+    if (match.getSentence().getText().contains("DTF")) {
+      int kk=0;
+      kk++;
+    }
+    
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     int i = patternTokenPos;
     //String nextToken = "";
@@ -381,6 +387,12 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   }
 
   private boolean keepCounting(AnalyzedTokenReadings aTr) {
+    if (matchRegexp(aTr.getToken(), PREPOSICIO_CANVI_NIVELL)) {
+      return true;
+    }
+    if (aTr.getToken().equals(".")) { //it is not sentence end, but abbreviation
+      return true;
+    }
     // stop searching if there is some of these combinations:
     // adverb+comma, adverb+conjunction, comma+conjunction,
     // punctuation+punctuation
@@ -400,6 +412,9 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   }
 
   private void updateApparitions(AnalyzedTokenReadings aTr) {
+    if (aTr.getToken().equals("com")) {
+      return;
+    }
     if (matchPostagRegexp(aTr, NOM) || matchPostagRegexp(aTr, ADJECTIU)) {
       initializeApparitions();
       return;
@@ -415,13 +430,14 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private boolean matchPostagRegexp(AnalyzedTokenReadings aToken, Pattern pattern) {
     boolean matches = false;
     for (AnalyzedToken analyzedToken : aToken) {
-      final String posTag = analyzedToken.getPOSTag();
-      if (posTag != null) {
-        final Matcher m = pattern.matcher(posTag);
-        if (m.matches()) {
-          matches = true;
-          break;
-        }
+      String posTag = analyzedToken.getPOSTag();
+      if (posTag == null) {
+        posTag = "UNKNOWN";
+      }
+      final Matcher m = pattern.matcher(posTag);
+      if (m.matches()) {
+        matches = true;
+        break;
       }
     }
     return matches;
