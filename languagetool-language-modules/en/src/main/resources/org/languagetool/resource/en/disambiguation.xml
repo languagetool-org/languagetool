@@ -4135,6 +4135,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="B-VP" postag="VB"/>
             <token>to</token>
         </antipattern>
+        <antipattern><!-- #3546 both support ARM -->
+            <token postag="DT"/>
+            <token postag_regexp="yes" postag="VBP"/>
+            <token chunk="E-NP-singular" postag="NNP"/>
+        </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$">
                 <exception postag_regexp="yes" postag="WDT|RB"/></token>
@@ -4160,6 +4165,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Please cut short your vacation and return.</example><!-- #3215 -->
         <example type="untouched">Some state want to go slow.</example><!-- Premium #1564 -->
         <example type="untouched">What will losing the war mean to us?</example><!-- #3527 -->
+        <example type="untouched">This would both support ARM and allow us to make a...</example><!-- #3546 -->
         <example type="ambiguous" inputform="exact[exact/JJ,exact/VB,exact/VBP]" outputform="exact[exact/JJ]">I stand corrected - this is the <marker>exact</marker> same issue as the old thread.</example>
     </rule>
 
