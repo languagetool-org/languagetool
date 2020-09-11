@@ -257,9 +257,9 @@ class AutomaticConfusionRuleEvaluator {
     eval.run(lines, new File(args[3]));
   }
 
-  class TooFewExamples extends RuntimeException {
-    private String word;
-    private int exampleCount;
+  static class TooFewExamples extends RuntimeException {
+    private final String word;
+    private final int exampleCount;
     TooFewExamples(String word, int exampleCount) {
       this.word = word;
       this.exampleCount = exampleCount;
