@@ -33015,6 +33015,19 @@ Andere Projekte</example>
                 <example correction="Nähe">Er wurde aus nächster <marker>nähe</marker> erschossen.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="GRUENDE" name="gründe (Gründe)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker><token regexp="yes">gründe|Grüne</token></marker>
+                    <token min="0">dafür</token>
+                    <token>,</token>
+                    <token postag="KON:UNT|ADV:INR " postag_regexp="yes"></token>
+                </pattern>
+                <message>&subanfang;<suggestion>Gründe</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Gründe">Was sind die <marker>gründe</marker> dafür, dass du das getan hast?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GROSS_KLEIN_EINHEITEN" name="Einheiten 'KB (kB), KWh (kWh)'">
             <rule>
                 <pattern case_sensitive="yes">
