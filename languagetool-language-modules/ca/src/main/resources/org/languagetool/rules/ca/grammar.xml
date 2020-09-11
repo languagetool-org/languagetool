@@ -18053,6 +18053,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="em|ens"><marker>en</marker> va saber molt greu</example>
             <example>em sap greu</example>
         </rule>
+        <rule id="EN_CENTRO" name="*en/em centro" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>en</token>
+                </marker>
+                <token regexp="yes">centro|centre|fix|fixo</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>em</suggestion>?</message>
+            <example correction="Em"><marker>En</marker> centro en la primera qüestió.</example>
+        </rule>
         <rule id="PER_MITJA_DE" name="per *mitja/mitjà de">
             <pattern>
                 <token>per</token>
@@ -32151,7 +32161,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>tan \3 com sigui possible</suggestion>
                 <suggestion>tan \3 com siga possible</suggestion>
                 <suggestion><match no="3" postag="AQ.C(.)." postag_regexp="yes" postag_replace="DA.M$1.">el</match> \2 \3 <match no="3" postag="AQ..(.)." postag_regexp="yes" postag_replace="AQ0C$10">possible</match></suggestion>
-                <example correction="Tan semblants com sigui possible|Tan semblants com siga possible|Els més semblants possibles"><marker>El més semblants possibles</marker>.</example>    
+                <example correction="Tan semblants com sigui possible|Tan semblants com siga possible|Els més semblants possibles"><marker>El més semblants possibles</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -32164,7 +32174,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>tan \3 com sigui possible</suggestion>
                 <suggestion>tan \3 com siga possible</suggestion>
                 <suggestion><match no="3" postag="AQ.(..)." postag_regexp="yes" postag_replace="DA.$1.">el</match> \2 \3 <match no="3" postag="AQ..(.)." postag_regexp="yes" postag_replace="AQ0C$10">possible</match></suggestion>
-                <example correction="Tan senzilles com sigui possible|Tan senzilles com siga possible|Les més senzilles possibles"><marker>El més senzilles possibles</marker>.</example>    
+                <example correction="Tan senzilles com sigui possible|Tan senzilles com siga possible|Les més senzilles possibles"><marker>El més senzilles possibles</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="VOLUNTARI_ARIA" name="voluntari/ària">
@@ -40401,7 +40411,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
-            (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+            (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom --><rule id="ENTRAMENT" name="entrament/entrenament">
+                <pattern>
+                    <token regexp="yes">entraments?</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)entra" regexp_replace="entrena"/></suggestion>? "Entrament" és un sinònim antic de "entrada".</message>
+                <example correction="entrenament">Avui no hi ha <marker>entrament</marker>.</example>
+            </rule>
         <rulegroup id="MESA_TAULA" name="mesa/taula">
             <rule>
                 <pattern>
