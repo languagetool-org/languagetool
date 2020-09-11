@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings({"resource", "CallToPrintStackTrace"})
 class AutomaticConfusionRuleEvaluator {
   
-  private static final int MAX_EXAMPLES = 1000;
+  private static final int MAX_EXAMPLES = 2000;
   private static final int MIN_EXAMPLES = 50;
   private static final List<Long> EVAL_FACTORS = Arrays.asList(10L, 100L, 1_000L, 10_000L, 100_000L, 1_000_000L, 10_000_000L);
   private static final float MIN_PRECISION = 0.95f;

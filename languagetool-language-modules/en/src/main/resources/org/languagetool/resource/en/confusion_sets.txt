@@ -17,6 +17,7 @@
 #     is the number of sentences used for evaluation.
 #   f0.1: f-measure with a beta of 0.1 (see https://en.wikipedia.org/wiki/F1_score)
 #   FA/10k: estimated false alarms per 10k tokens of real text (based on Google ngram data, i.e. books)
+#   fp = false positives, fn = false negatives, tp = true positives, tn = true negatives
 # Order is relevant for ambiguous cases like 'know' ('no' or 'now') where the match
 # is used whose pair comes first in this file.
 # Run ConfusionSetLoaderTest.testConfusionSetSpelling after adding words to spell check all entries.
@@ -492,7 +493,8 @@ nays;neighs;10000                                    # p=0.991, r=0.465, 205+21,
 near; neat; 100000                                   # p=1.000, r=0.784, 1074, 3grams, 2015-08-12
 new; news; 1000000                                   # p=0.997, r=0.542, 1814, 3grams, 2015-08-12
 nit; not; 100000000                                  # p=0.998, r=0.945, 983, 3grams, 2015-08-12
-no; now; 1000000                                     # p=0.996, r=0.559, 1919, 3grams, 2015-08-12
+no -> now; 1000000;                                  # p=1.000, r=0.213, f0.5=0.575, s=1.000, 1955+1978, 3grams, 2020-09-11, fp=0, fn=1557, tp=421, tn=1955
+now -> no; 10000000;                                 # p=0.984, r=0.223, f0.5=0.584, s=0.996, 1978+1955, 3grams, 2020-09-11, fp=7, fn=1520, tp=435, tn=1971 -- actually fewer false alarms, eval data is bad/ambiguous
 none;nun;1000000                                     # p=0.999, r=0.844, 997+86, 3grams, 2015-12-10
 on -> no; 1000000000;                                # p=0.923, r=0.054, f0.5=0.218, s=0.998, 538+223, 3grams, 2020-09-07
 no -> on; 1000000000;                                # p=1.000, r=0.273, f0.5=0.653, s=1.000, 223+538, 3grams, 2020-09-07

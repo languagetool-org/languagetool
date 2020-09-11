@@ -181,9 +181,11 @@ class ConfusionRuleEvaluator {
         }
       }
       float fMeasureBeta = 0.5f;
-      String summary = String.format(ENGLISH, "%s%s%s; %d; %s # p=%.3f, r=%.3f, f%.1f=%.3f, s=%.3f, %d+%d, %dgrams, %s",
+      String summary = String.format(ENGLISH, "%s%s%s; %d; %s # p=%.3f, r=%.3f, f%.1f=%.3f, s=%.3f, %d+%d, %dgrams, %s, " +
+                      "fp=%d, fn=%d, tp=%d, tn=%d",
               word1, delimiter, word2, factor, spaces, precision, recall, fMeasureBeta, FMeasure.getFMeasure(precision, recall, fMeasureBeta),
-              specificity, allTokenSentences.size(), allHomophoneSentences.size(), rule.getNGrams(), date);
+              specificity, allTokenSentences.size(), allHomophoneSentences.size(), rule.getNGrams(), date,
+              evalValues.falsePositives, evalValues.falseNegatives, evalValues.truePositives, evalValues.trueNegatives);
       results.put(factor, new RuleEvalResult(summary, precision, recall));
       if (verbose) {
         System.out.println();
