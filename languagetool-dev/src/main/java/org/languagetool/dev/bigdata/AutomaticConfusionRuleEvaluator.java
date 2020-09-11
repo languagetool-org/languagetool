@@ -145,7 +145,7 @@ class AutomaticConfusionRuleEvaluator {
       System.out.println("Skipping, evalNewsSets=false and pair not known yet");
       return;
     }
-    System.out.println("Working on: " + part1 + " / " + part2 + " from line: " + line + " (" + lineCount + " of " + totalLines + ")");
+    System.out.println("Working on: '" + part1 + "' / '" + part2 + "' from line: " + line + " (" + lineCount + " of " + totalLines + ")");
     try {
       File sentencesFile = writeExampleSentencesToTempFile(new String[]{part1, part2});
       List<String> input = Arrays.asList(sentencesFile.getAbsolutePath());
@@ -228,7 +228,8 @@ class AutomaticConfusionRuleEvaluator {
     long searchTime = t2 - t1;
     long iterateTime = t3 - t2;
     System.out.println("Found " + count + " examples for " + word +
-            " (" + searchTime + "ms, " + iterateTime + "ms), case insensitive=" + caseInsensitive + ", totalHits: " + topDocs.totalHits);
+            " (" + searchTime + "ms, " + iterateTime + "ms), case insensitive=" + caseInsensitive +
+            ", totalHits: " + topDocs.totalHits + " for term '" + term + "'");
     return count;
   }
 
