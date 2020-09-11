@@ -37,6 +37,8 @@ import org.languagetool.tools.StringTools;
  */
 public class LTMessageChecker {
 
+  private static final boolean SPELLCHECK_ONLY = false;
+
   public static void main(String[] args) throws Exception {
     if (args.length != 1) {
       System.out.println("Usage: " + LTMessageChecker.class.getSimpleName() + " <langCode> | ALL");
@@ -69,6 +71,14 @@ public class LTMessageChecker {
     contextTools.setEscapeHtml(false);
     print("Checking language: " + lang.getName() + " (" + lang.getShortCodeWithCountryAndVariant() + ")");
     print("Version: " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ", " + JLanguageTool.GIT_SHORT_ID + ")");
+    if (SPELLCHECK_ONLY) {
+      print("NOTE: Running spell check only");
+      for (Rule r : lt.getAllRules()) {
+        if (!r.isDictionaryBasedSpellingRule()) {
+          lt.disableRule(r.getId());
+        }
+      }
+    }
     for (Rule r : lt.getAllRules()) {
       String message = "";
       try {
