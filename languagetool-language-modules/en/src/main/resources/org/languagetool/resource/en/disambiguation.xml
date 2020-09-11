@@ -3167,6 +3167,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VBZ"/>
             <token postag_regexp="yes" postag="RB|WP|WRB"/>
         </antipattern>
+        <antipattern><!-- #3276 www.lexico.com/definition/few -->
+            <token>a</token>
+            <token>few</token>
+            <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]?"/>
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception><exception scope="previous">of</exception></token>
             <token postag="JJ"><exception postag="RB|NNPS?|NN:U|PRP" postag_regexp="yes"/></token>
@@ -3212,6 +3217,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">About a third are women.</example><!-- #3293 -->
         <example type="untouched">The first dog bites, but the second barks happily.</example><!-- #3293 -->
         <example type="untouched">I like your examples; I think your third shows why we must be careful.</example><!-- #3293 -->
+        <example type="untouched">I told you that a few affect my rules!</example><!-- #3276 -->
 <!-- Refer to the counter examples        <example type="untouched">If any professional want to know the new practices of their field it is only a click away.</example>Premium #1564 -->
         <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">Today, the black <marker>dogs</marker> barks loudly.</example>
         <example type="ambiguous" inputform="will[will/MD,will/NN:UN,will/VB,will/VBP]" outputform="will[will/NN:UN]">Undoubtedly, the general <marker>will</marker> is an important notion in Rousseau.</example>
@@ -4310,6 +4316,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="B-VP" postag="VB"/>
             <token>to</token>
         </antipattern>
+        <antipattern><!-- #3276 www.lexico.com/definition/few -->
+            <token>a</token>
+            <token>few</token>
+            <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]?"/>
+        </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"/>
             <token postag="JJ.*|VBG" postag_regexp="yes"><exception postag="RB"/><exception regexp="yes">being|one</exception></token>
@@ -4364,6 +4375,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">... party are typically even more stable, as long as their...</example><!-- #3302 -->
         <example type="untouched">What will losing the war mean to us?</example><!-- #3527 -->
         <example type="untouched">What might winning the next war mean to the enemy?</example><!-- #3527 -->
+        <example type="untouched">I told you that a few affect my rules!</example><!-- #3276 -->
         <example type="ambiguous" inputform="nose[nose/NN,nose/VB,nose/VBP]" outputform="nose[nose/NN]">The elephant swings its long <marker>nose</marker>.</example>
         <example type="ambiguous" inputform="stone[stone/JJ,stone/NN:UN,stone/NNS,stone/VB,stone/VBP]" outputform="stone[stone/NN:UN,stone/NNS]">A rolling <marker>stone</marker> gathers no moss.</example>
         <example type="ambiguous" inputform="make[make/NN:UN,make/VB,make/VBP]" outputform="make[make/NN:UN]">No, I mean like <marker>make</marker> or brand name, in which case no further actions are necessary.</example>
