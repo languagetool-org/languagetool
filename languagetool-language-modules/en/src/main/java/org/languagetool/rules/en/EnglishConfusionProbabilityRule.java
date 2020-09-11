@@ -402,6 +402,12 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      // "from ... to ..." (to/the)
+      posRegex("NNP|UNKNOWN"),
+      tokenRegex("to"),
+      posRegex("NNP|UNKNOWN")
+    ),
+    Arrays.asList(
       // "Meltzer taught Crim for Section 5 last year." (taught/thought)
       // "Sami threw Layla down and started to beat her.""	(threw/through)
       posRegex("NNP|UNKNOWN"),
