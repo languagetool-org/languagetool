@@ -1425,7 +1425,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token postag="D[DNI].*" postag_regexp="yes"/>
-                <token regexp="yes" inflected="yes">vegada|volta|pic|cop|colp|vegades|voltes|pics|cops|colps</token>
+                <token regexp="yes">vegada|volta|pic|cop|colp|vegades|voltes|pics|cops|colps</token>
                 <token min="0">més</token>
                 <token/>
             </antipattern>
@@ -32139,19 +32139,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
-        <rule id="EL_MES_SENZILLA" name="*el més senzilla possible" default="temp_off">
-            <pattern>
-                <token>el</token>
-                <token>més</token>
-                <token postag="AQ.*" postag_regexp="yes"><exception postag="AQ.[MC][SN]." postag_regexp="yes"/></token>
-                <token regexp="yes">possibles?</token>
-            </pattern>
-            <message>Error de concordança.</message>
-            <suggestion>tan \3 com sigui possible</suggestion>
-            <suggestion>tan \3 com siga possible</suggestion>
-            <suggestion><match no="3" postag="AQ.(..)." postag_regexp="yes" postag_replace="DA.$1.">el</match> \2 \3 <match no="3" postag="AQ..(.)." postag_regexp="yes" postag_replace="AQ0C$10">possible</match></suggestion>
-            <example correction="Tan senzilles com sigui possible|Tan senzilles com siga possible|Les més senzilles possibles"><marker>El més senzilles possibles</marker>.</example>
-        </rule>
+        <rulegroup id="EL_MES_SENZILLA_POSSIBLE" name="*el més senzilla possible">
+            <rule>
+                <pattern>
+                    <token>el</token>
+                    <token>més</token>
+                    <token postag="AQ.C.*" postag_regexp="yes"><exception postag="AQ.[MC][SN]." postag_regexp="yes"/></token>
+                    <token regexp="yes">possibles?</token>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion>tan \3 com sigui possible</suggestion>
+                <suggestion>tan \3 com siga possible</suggestion>
+                <suggestion><match no="3" postag="AQ.C(.)." postag_regexp="yes" postag_replace="DA.M$1.">el</match> \2 \3 <match no="3" postag="AQ..(.)." postag_regexp="yes" postag_replace="AQ0C$10">possible</match></suggestion>
+                <example correction="Tan semblants com sigui possible|Tan semblants com siga possible|Els més semblants possibles"><marker>El més semblants possibles</marker>.</example>    
+            </rule>
+            <rule>
+                <pattern>
+                    <token>el</token>
+                    <token>més</token>
+                    <token postag="AQ.[MF].*" postag_regexp="yes"><exception postag="AQ.[MC][SN]." postag_regexp="yes"/></token>
+                    <token regexp="yes">possibles?</token>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion>tan \3 com sigui possible</suggestion>
+                <suggestion>tan \3 com siga possible</suggestion>
+                <suggestion><match no="3" postag="AQ.(..)." postag_regexp="yes" postag_replace="DA.$1.">el</match> \2 \3 <match no="3" postag="AQ..(.)." postag_regexp="yes" postag_replace="AQ0C$10">possible</match></suggestion>
+                <example correction="Tan senzilles com sigui possible|Tan senzilles com siga possible|Les més senzilles possibles"><marker>El més senzilles possibles</marker>.</example>    
+            </rule>
+        </rulegroup>
         <rulegroup id="VOLUNTARI_ARIA" name="voluntari/ària">
             <!-- other terminations? -->
             <rule>
