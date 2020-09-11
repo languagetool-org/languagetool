@@ -46,7 +46,15 @@ class AutomaticConfusionRuleEvaluator {
   
   private static final int MAX_EXAMPLES = 2000;
   private static final int MIN_EXAMPLES = 50;
-  private static final List<Long> EVAL_FACTORS = Arrays.asList(10L, 100L, 1_000L, 10_000L, 100_000L, 1_000_000L, 10_000_000L);
+  private static final long EVAL_FACTORS_MIN = 10;
+  private static final long EVAL_FACTORS_MAX = 10_000_000L;
+  //private static final long EVAL_FACTORS_MAX = 1_000_000_000L;
+  private static final List<Long> EVAL_FACTORS = new ArrayList<>();
+  static {
+    for (long i = EVAL_FACTORS_MIN; i < EVAL_FACTORS_MAX; i *= 10) {
+      EVAL_FACTORS.add(i);
+    }
+  }
   private static final float MIN_PRECISION = 0.95f;
   private static final float MIN_RECALL = 0.1f;
 
