@@ -90,7 +90,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern ADJECTIU_P = Pattern.compile("A...[PN].*|V.P..P..?|PX..P.*");
   private static final Pattern ADVERBI = Pattern.compile("R.|.*LOC_ADV.*");
   private static final Pattern CONJUNCIO = Pattern.compile("C.|.*LOC_CONJ.*");
-  private static final Pattern PUNTUACIO = Pattern.compile("_PUNCT.*");
+  private static final Pattern PUNTUACIO = Pattern.compile("_PUNCT");
   private static final Pattern LOC_ADV = Pattern.compile(".*LOC_ADV.*");
   private static final Pattern ADVERBIS_ACCEPTATS = Pattern.compile("RG_anteposat");
   private static final Pattern COORDINACIO_IONI = Pattern.compile("i|o|ni");
@@ -111,7 +111,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       AnalyzedTokenReadings[] patternTokens) throws IOException {
 
     
-    /*if (match.getSentence().getText().contains("DTF")) {
+    /*if (match.getSentence().getText().contains(" la fúria")) {
       int kk=0;
       kk++;
     }*/
@@ -361,7 +361,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   }
 
   private int updateJValue(AnalyzedTokenReadings[] tokens, int i, int j, int level) {
-    if (level > 0 && matchRegexp(tokens[i - j].getToken(), COORDINACIO_IONI)) {
+   /* if (level > 0 && matchRegexp(tokens[i - j].getToken(), COORDINACIO_IONI)) {
       int k = 1;
       while (k < 4 && i - j - k > 0
           && (matchPostagRegexp(tokens[i - j - k], KEEP_COUNT)
@@ -374,7 +374,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
         }
         k++;
       }
-    }
+    }*/
     // dos o més
     if (matchRegexp(tokens[i - j].getToken(), COORDINACIO_IONI)) {
       if (i - j - 1 > 0 && i - j + 1 < tokens.length) {
@@ -421,7 +421,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     }
     adverbAppeared |= matchPostagRegexp(aTr, ADVERBI);
     conjunctionAppeared |= matchPostagRegexp(aTr, CONJUNCIO);
-    punctuationAppeared |= matchPostagRegexp(aTr, PUNTUACIO);
+    punctuationAppeared |= (matchPostagRegexp(aTr, PUNTUACIO) || aTr.getToken().equals(","));
   }
 
   /**
