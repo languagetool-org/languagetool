@@ -6925,6 +6925,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token skip="-1" postag_regexp="yes" postag="VB|RB"/>
             <token>?</token>
         </antipattern>
+        <antipattern><!-- #3387 Please forward executed version -->
+            <token>Please</token>
+            <token postag_regexp="yes" postag="VBP?"/>
+            <token postag="VBN"/>
+            <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+        </antipattern>
         <pattern>
             <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">be|have</exception></token>
             <token postag_regexp="yes" postag="PRP|NN.*"/>
@@ -6944,6 +6950,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Also featured were two music videos ("Long...</example><!-- #3349 -->
         <example type="untouched">How can elected officials rage about deficits?</example><!-- #3263 -->
         <example type="untouched">Will elected officials actually do anything about the problem?</example><!-- #3263 -->
+        <example type="untouched">Please forward executed version.</example><!-- #3387 -->
     </rule>
 
     <rule id="JJ_VB" name="companies: verb to noun if preceded by adj">
