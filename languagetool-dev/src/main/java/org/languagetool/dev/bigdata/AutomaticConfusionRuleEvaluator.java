@@ -204,7 +204,9 @@ class AutomaticConfusionRuleEvaluator {
     Term term = new Term(fieldName, caseInsensitive ? word.toLowerCase() : word);
     long t1 = System.currentTimeMillis();
     //TopDocs topDocs = searcher.search(new TermQuery(term), caseInsensitive ? Integer.MAX_VALUE : MAX_EXAMPLES);
-    TopDocs topDocs = searcher.search(new TermQuery(term), MAX_EXAMPLES*10);  // search more, as we filter further down
+    TopDocs topDocs = searcher.search(new TermQuery(term),
+            MAX_EXAMPLES*10,  // search more, as we filter further down
+            Sort.RELEVANCE);  // RELEVANCE prefers short docs (and thus colloquial style), INDEXORDER isn't random between sources :-( (like Wikipedia vs. Tatoeba)
     long t2 = System.currentTimeMillis();
     int count = 0;
     Set<String> foundSentences = new HashSet<>();
