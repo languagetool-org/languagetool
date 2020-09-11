@@ -9517,13 +9517,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
         <rule id="AU_PAIR" name="Au Pair (Au-pair)" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>au</token>
+                <token>pair</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token postag="SENT_START" />
+                <token>Au</token>
+                <token>pair</token>
+            </antipattern>
             <pattern>
                 <token>au</token>
                 <token regexp="yes">pairs?</token>
             </pattern>
-            <message>Meinten Sie <suggestion>Au-<match no="2" case_conversion="alllower" /></suggestion>?</message>
+            <message>Meinten Sie das Nomen <suggestion>Au-<match no="2" case_conversion="alllower" /></suggestion>?</message>
             <url>https://de.wikipedia.org/wiki/Au-pair</url>
             <example correction="Au-pair">Sie war 2010 als <marker>Au Pair</marker> für einige Zeit in Kanada.</example>
+            <example>In Paris nahm Tom au pair, also für Kost und Logis, aber ohne Lohn, eine Stelle als Hauslehrer an.</example>
         </rule>
         <rulegroup id="ADD_ON" name="Add-on">
             <url>https://www.duden.de/suchen/dudenonline/Add-on</url>
@@ -9926,7 +9936,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.duden.de/rechtschreibung/Homeoffice</url>
             <example correction="Homeoffice|Home-Office">Wegen der Corona-Pandemie mussten alle Mitarbeiter aus dem <marker>Home Office</marker> arbeiten.</example>
         </rule>
-         <rule id="FUGEN_S_ZUSAMMENSCHREIBUNG" name="Wirtschafts Weisen (Wirtschschaftsweisen)" default="temp_off">
+         <rule id="FUGEN_S_ZUSAMMENSCHREIBUNG_" name="Wirtschafts Weisen (Wirtschschaftsweisen)" default="temp_off">
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN" regexp="yes">[A-ZÜÄÖ][a-zäöüß]{2,}(ung|schaft|sicht|heit|keit|ion|tät)s</token>
                 <token postag=".*SUB.*" postag_regexp="yes" regexp="yes">
@@ -9942,6 +9952,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Wirtschaftsweisen|Wirtschafts-Weisen">Die <marker>Wirtschafts Weisen</marker>.</example>
             <example>DRSC – Deutsches Rechnungslegungs Standards Committee</example>
             <example>Wenn die Auswirkungen des Deutschtums Probleme bereiten.</example>
+            <example>Denn als Goslings Charakter bei seinem Job als Pianist in einer Bar entsprechende Festtagslieder anstimmen soll, zeigt er sich wenig angetan.</example>
         </rule>
         <rule id="NAECHSTMOEGLICH" name="nächst möglich (nächstmöglich)">
             <pattern>
@@ -35849,6 +35860,7 @@ Andere Projekte</example>
             <example>Die Dame, die <marker>offenbar</marker> gestürzt war, schrie laut.</example>
             <example>Es ist die Temperatur, die <marker>ein</marker> gleich großer schwarzer Körper haben müsste, um dieselbe Strahlungsleistung abzugeben.</example>
             <example>Falls das wider Erwarten doch nichts für Dich ist, ...</example>
+            <example>Wie ist das werte Befinden?</example>
         </rule>
         <rule id="BEI_ANDEREN_SUB" name="'bei anderen' + ohne Dativ plural">
             <pattern>

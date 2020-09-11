@@ -663,8 +663,12 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
       csRegex("[A-ZÄÜÖ].+"),
-      new PatternTokenBuilder().token("*").setIsWhiteSpaceBefore(false).build(),
+      new PatternTokenBuilder().tokenRegex("\\*|:").setIsWhiteSpaceBefore(false).build(),
       csToken("innen")
+    ),
+    Arrays.asList( // Am So 14:00 (should be "So." but that's a different error)
+      csRegex("am|jeden"),
+      csToken("So")
     )
   );
 
@@ -776,6 +780,9 @@ public class CaseRule extends Rule {
     "Rutsch",
     "Spar",
     "Merz",
+    "Minderjährige",
+    "Minderjähriger",
+    "Minderjährigen",
     "Scheinselbstständige",
     "Bundestagsabgeordneter",
     "Bundestagsabgeordneten",
@@ -915,6 +922,9 @@ public class CaseRule extends Rule {
     "Selbstständige",
     "Selbstständigen",
     "Selbstständiger",
+    "Selbständige",
+    "Selbständigen",
+    "Selbständiger",
     "Genaueres",
     "Äußersten",
     "Dienstreisender",
