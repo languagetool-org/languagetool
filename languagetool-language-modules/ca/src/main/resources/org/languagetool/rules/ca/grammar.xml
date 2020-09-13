@@ -1296,6 +1296,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
+                <token regexp="yes" inflected="yes">&dies_setmana;|&mesos_any;|dia</token>
+                <token min="0" max="4" postag="RG|LOC_ADV|AO.*|CC" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">degut|junt|just|juntament</token>
                 <token regexp="yes">a|amb</token>
             </antipattern>
@@ -1312,8 +1317,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes">més|menys</token>
-                <token regexp="yes">gran|alt|baix|petit|menut</token>
-                <token>que</token>
+                <token regexp="yes">gran|alt|baix|petit|menut|ràpid|lent</token>
+                <token regexp="yes">que|de|d'</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">vegada|volta|pic|cop|colp|vegades|voltes|pics|cops|colps</token>
+                <token regexp="yes">més|menys</token>
+                <token regexp="yes">gran|alt|baix|petit|menut|ràpid|lent</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">.*%|.*°C</token>
@@ -1444,7 +1454,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token postag="D[DNI].*" postag_regexp="yes"/>
                 <token regexp="yes">vegada|volta|pic|cop|colp|vegades|voltes|pics|cops|colps</token>
-                <token min="0">més</token>
+                <token min="0" regexp="yes">més|menys</token>
                 <token/>
             </antipattern>
             <antipattern>
@@ -1572,19 +1582,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>-->
             <antipattern>
-                <token regexp="yes">passat|entrat</token>
+                <token regexp="yes">passat|entrat|vist</token>
                 <token postag="D[AID].MS." postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes">passada|entrada</token>
+                <token regexp="yes">passada|entrada|vista</token>
                 <token postag="D[AID].FS." postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes">passats|entrats</token>
+                <token regexp="yes">passats|entrats|vists|vistos</token>
                 <token postag="D[AID].MP." postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes">passades|entrades</token>
+                <token regexp="yes">passades|entrades|vistes</token>
                 <token postag="D[AID].FP." postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -1605,10 +1615,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">nominatiu|acusatiu|genitiu|datiu</token>
             </antipattern>
             <antipattern>
+                <token>categories</token>
+                <token regexp="yes" skip="1">aleví|benjamí|sènior|júnior|mini</token>
+                <token regexp="yes">aleví|benjamí|sènior|júnior|mini</token>
+            </antipattern>
+            <antipattern>
                 <!-- TODO: altres combinacions -->
                 <token skip="5">una</token>
                 <token>i</token>
                 <token skip="5">una</token>
+                <token postag="AQ.[FC]P.|V.P..PF." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <!--triggers rule SON -->
+                <token>son</token>
+                <token min="0" postag="RG"/>
                 <token postag="AQ.[FC]P.|V.P..PF." postag_regexp="yes"/>
             </antipattern>
             <pattern>
@@ -1660,7 +1681,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">pantalons <marker>curt</marker> o llargs</example>
             <example correction="">per mitjà de gàmetes haploides <marker>obtingudes</marker> per meiosi</example>
             <example correction="">recull de llegendes i cançons populars en part <marker>inventats</marker> per ell</example>
-            <example correction="">Son molt <marker>boniques</marker></example>
+            <!--<example correction="">Son molt <marker>boniques</marker></example>-->
             <example correction="">sota les grans persianes de color verd <marker>recalcada</marker></example>
             <example correction="">sota les grans persianes de color verd <marker>recalcat</marker></example>
             <example correction="">sota les grans persianes de color verd <marker>recalcats</marker></example>
@@ -1871,6 +1892,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Mil milions de vegades més cruel.</example>
             <example>L'antic testament ensenya als cristians quelcom crucial sobre eclesiologia.</example>
             <example>Quan un puja, l'altre baixa, cosa que provoca una major propulsió.</example>
+            <example>Aquest dimecres tècnics de la Generalitat comencen a reunir-se.</example>
+            <example>La població està cada dia més i més ben informada.</example>
+            <example>Tant les estructures lingüístiques com el vocabulari necessaris.</example>
 
             <!-- TODO: 
                 Els costats superior i laterals.
@@ -19202,6 +19226,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Curs de fotografia amb lliurament de premis </example>
             <example>Lliurament i avaluació</example>
         </rule>
+        <rule id="LLIUREMENT_LLIURAMENT" name="lliurement/lliurament" default="temp_off">
+            <pattern>
+                <token postag="D[^R].MS." postag_regexp="yes"/>
+                <marker>
+                    <token>lliurement</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>lliurament</suggestion> (acció de lliurar) en lloc de "lliurement" (amb llibertat)?</message>
+            <example correction="lliurament">Han assistit al <marker>lliurement</marker> del guardó.</example>
+        </rule>
         <rule id="EM_VIST" name="em vist">
             <!-- La regla general no troba error perquè s'interpreta que 'vist' és del verb vestir: jo em vist = jo em vestisc -->
             <pattern>
@@ -32222,6 +32256,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="VAJA_QUIN" name="*vaja/quin" default="temp_off">
+            <pattern>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                <marker>
+                    <token>vaja</token>
+                </marker>
+                <token postag="NC.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Si és un adjectiu exclamatiu, cal dir <suggestion><match no="3" postag="NC(..).*" postag_regexp="yes" postag_replace="DE0$10">quin</match></suggestion>.</message>
+            <example correction="Quina"><marker>Vaja</marker> cridòria!</example>
+        </rule>
         <rulegroup id="EL_MES_SENZILLA_POSSIBLE" name="*el més senzilla possible">
             <rule>
                 <pattern>

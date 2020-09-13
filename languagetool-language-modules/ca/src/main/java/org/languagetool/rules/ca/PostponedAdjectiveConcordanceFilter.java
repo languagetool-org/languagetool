@@ -111,7 +111,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       AnalyzedTokenReadings[] patternTokens) throws IOException {
 
     
-    /*if (match.getSentence().getText().contains(" la fúria")) {
+    /*if (match.getSentence().getText().contains("vocabulari necessaris")) {
       int kk=0;
       kk++;
     }*/
@@ -219,6 +219,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       }
       if (i - j - 1 > 0) {
         if (matchRegexp(tokens[i - j].getToken(), PREPOSICIO_CANVI_NIVELL)
+            && !matchPostagRegexp(tokens[i - j], CONJUNCIO) // "com" com a conjunció
             && !matchRegexp(tokens[i - j - 1].getToken(), COORDINACIO_IONI)
             && !matchPostagRegexp(tokens[i - j + 1], ADVERBI)) {
           level++;
@@ -412,6 +413,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   }
 
   private void updateApparitions(AnalyzedTokenReadings aTr) {
+    conjunctionAppeared |= matchPostagRegexp(aTr, CONJUNCIO);
     if (aTr.getToken().equals("com")) {
       return;
     }
@@ -420,7 +422,6 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       return;
     }
     adverbAppeared |= matchPostagRegexp(aTr, ADVERBI);
-    conjunctionAppeared |= matchPostagRegexp(aTr, CONJUNCIO);
     punctuationAppeared |= (matchPostagRegexp(aTr, PUNTUACIO) || aTr.getToken().equals(","));
   }
 
