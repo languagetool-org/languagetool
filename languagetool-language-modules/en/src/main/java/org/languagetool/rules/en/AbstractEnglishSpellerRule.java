@@ -312,6 +312,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Countys", Arrays.asList("Counties", "County's", "County"));
     s.put("familys", Arrays.asList("families", "family's", "family"));
     s.put("Familys", Arrays.asList("Families", "Family's", "Family"));
+    s.put("dieing", Arrays.asList("dying"));
+    s.put("Dieing", Arrays.asList("Dying"));
+    s.put("Familys", Arrays.asList("Families", "Family's", "Family"));
     s.put("dem", Arrays.asList("them"));
     s.put("Dem", Arrays.asList("Them"));
     s.put("infact", Arrays.asList("in fact"));
@@ -544,7 +547,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("watchs", Arrays.asList("watches"));
     s.put("wifes", Arrays.asList("wives", "wife's"));
     s.put("womans", Arrays.asList("women", "woman's"));
+    s.put("Womans", Arrays.asList("Women", "Woman's"));
     s.put("womens", Arrays.asList("women's"));
+    s.put("Womens", Arrays.asList("Women's"));
+    s.put("deauthorized", Arrays.asList("unauthorized"));
     // AtD irregular plurals - END
     // "tippy-top" is an often used word by Donald Trump
     s.put("tippy-top", Arrays.asList("tip-top", "top most"));
