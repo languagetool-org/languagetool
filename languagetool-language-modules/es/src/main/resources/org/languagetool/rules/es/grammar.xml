@@ -9112,6 +9112,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Tienen <marker>previsto</marker> los dioses hacerme una visita?</example>
             </rule>
         </rulegroup>
+        <rule id="AGREEMENT_QUEDAR_VP" name="concordancia: quedar + participio + el" default="temp_off">
+            <pattern>
+                <token inflected="yes">quedar</token>
+                <unify negate="yes">
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <marker>
+                        <token postag="V.P.*" postag_regexp="yes"/>
+                        <token postag="D.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+            </pattern>
+            <message>Esta expresión debe concordar en género y número.</message>
+            <example correction="hecho">De esta forma queda <marker>garantizado</marker> la comercialización.</example>
+        </rule>
         <rulegroup id="BUENAS_TARDES" name="concordancia: buenas tardes">
             <!-- this rule is necessary because "tardes" can be noun/verb-->
             <rule>
@@ -9319,6 +9334,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token postag="AQ.[FC][SN].|V.P..SF" postag_regexp="yes"/>
+                <token postag="CC"/>
+                <token postag="RG" regexp="yes">.+mente</token>
+            </antipattern>
+            <antipattern>
+                <token>igual</token>
+                <token>que</token>
+            </antipattern>
             <pattern>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/> <exception regexp="yes">primero|juntos|juntas|dado|dada|dados|dadas|incluso</exception><exception regexp="yes">\p{Lu}.*</exception></token>
             </pattern>
@@ -9339,6 +9363,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">con la bobina y la placa electrónica <marker>montados</marker> en una caja</example>
             <example correction="">Y tocando con una rapidez <marker>increíbles</marker>.</example>
             <example correction="">Por eso, los tipos más <marker>característico</marker> son el bifaz y los centrípetos.</example>
+            <example correction="">Uno de los aspectos migratorios más <marker>criticado</marker></example>
             <example>con la bobina y la placa electrónica montadas en una caja única</example>
             <example>El contacto con la cultura y la historia japonesas.</example>
             <example>en un restaurante lujosa y solemnemente decorado</example>
@@ -9430,6 +9455,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Estos toman como referencia parejas de círculos máximos.</example>
             <example>Aparecen en otras obras literarias bajo el apodo de Ji Dian.</example>
             <example>Se dan los ciervos, gamos, corzos, muflones y la cabra montés.</example>
+            <example>a los antiguos habitantes de todo el archipiélago, entroncados étnica y culturalmente</example>
+            <example>Y por tanto ser eyectados por las perturbaciones.</example>
+            <example>Durante todo el año casi seguidas unas de otras.</example>
+            <example>Le gustan las vacaciones igual que a mucha otra gente.</example>
+            <example>De esta forma queda garantizado la comercialización.</example>
             <!-- 
                 Ella fue al concierto acompañada de una amiga.
                 Soy cualquier cosa menos mentiroso. 
