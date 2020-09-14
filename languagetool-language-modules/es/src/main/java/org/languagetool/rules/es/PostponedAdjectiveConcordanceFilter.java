@@ -86,13 +86,13 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern ADJECTIU_P = Pattern.compile("A...[PN].*|V.P..P..?|PX..P.*");
   private static final Pattern ADVERBI = Pattern.compile("R.|.*LOC_ADV.*");
   private static final Pattern CONJUNCIO = Pattern.compile("C.|.*LOC_CONJ.*");
-  private static final Pattern PUNTUACIO = Pattern.compile("_PUNCT.*");
+  private static final Pattern PUNTUACIO = Pattern.compile("_PUNCT");
   private static final Pattern LOC_ADV = Pattern.compile(".*LOC_ADV.*");
   private static final Pattern ADVERBIS_ACCEPTATS = Pattern.compile("RG_before");
   //private static final Pattern COORDINACIO = Pattern.compile(",|y|e|o|u");
   private static final Pattern COORDINACIO_IONI = Pattern.compile("y|e|o|u|ni");
-  private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAIDP].*|SPS.*|SP\\+DA|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*|PX.*");
-  private static final Pattern KEEP_COUNT2 = Pattern.compile(",|y|o|ni"); // |\\d+%?|%
+  private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAIDP].*|SPS.*|SP\\+DA|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*|PX.*|UNKNOWN");
+  private static final Pattern KEEP_COUNT2 = Pattern.compile(",|y|o|ni|u"); // |\\d+%?|%
   private static final Pattern STOP_COUNT = Pattern.compile(";|lo");
   private static final Pattern PREPOSICIONS = Pattern.compile("SPS.*");
   private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("de|del|en|sobre|a|entre|por|con|sin|contra");
@@ -119,23 +119,6 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     Pattern substPattern = null;
     Pattern gnPattern = null;
     Pattern adjPattern = null;
-
-    // exception: noun (or adj) plural + two or more adjectives
-    /*if (i < tokens.length - 2) {
-      Matcher pCoordina = COORDINACIO.matcher(nextToken);
-      if (pCoordina.matches()) {
-        if (((matchPostagRegexp(tokens[i - 1], NOM_MP) || matchPostagRegexp(tokens[i - 1], ADJECTIU_MP))
-            && matchPostagRegexp(tokens[i], ADJECTIU_MS) && matchPostagRegexp(tokens[i + 2], ADJECTIU_MS))
-            || ((matchPostagRegexp(tokens[i - 1], NOM_MP) || matchPostagRegexp(tokens[i - 1], ADJECTIU_MP))
-                && matchPostagRegexp(tokens[i], ADJECTIU_MP) && matchPostagRegexp(tokens[i + 2], ADJECTIU_MP))
-            || ((matchPostagRegexp(tokens[i - 1], NOM_FP) || matchPostagRegexp(tokens[i - 1], ADJECTIU_FP))
-                && matchPostagRegexp(tokens[i], ADJECTIU_FS) && matchPostagRegexp(tokens[i + 2], ADJECTIU_FS))
-            || ((matchPostagRegexp(tokens[i - 1], NOM_FP) || matchPostagRegexp(tokens[i - 1], ADJECTIU_FP))
-                && matchPostagRegexp(tokens[i], ADJECTIU_FP) && matchPostagRegexp(tokens[i + 2], ADJECTIU_FP))) {
-          return null;
-        }
-      }
-    }*/
 
     /* Count all nouns and determiners before the adjectives */
     // Takes care of acceptable combinations.
@@ -406,7 +389,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     }
     adverbAppeared |= matchPostagRegexp(aTr, ADVERBI);
     conjunctionAppeared |= matchPostagRegexp(aTr, CONJUNCIO);
-    punctuationAppeared |= matchPostagRegexp(aTr, PUNTUACIO);
+    punctuationAppeared |= (matchPostagRegexp(aTr, PUNTUACIO) || aTr.getToken().equals(","));
   }
 
   /**
@@ -415,13 +398,14 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private boolean matchPostagRegexp(AnalyzedTokenReadings aToken, Pattern pattern) {
     boolean matches = false;
     for (AnalyzedToken analyzedToken : aToken) {
-      final String posTag = analyzedToken.getPOSTag();
-      if (posTag != null) {
-        final Matcher m = pattern.matcher(posTag);
-        if (m.matches()) {
-          matches = true;
-          break;
-        }
+      String posTag = analyzedToken.getPOSTag();
+      if (posTag == null) {
+        posTag = "UNKNOWN";
+      }
+      final Matcher m = pattern.matcher(posTag);
+      if (m.matches()) {
+        matches = true;
+        break;
       }
     }
     return matches;

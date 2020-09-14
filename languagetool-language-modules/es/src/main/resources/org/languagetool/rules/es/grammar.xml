@@ -2503,6 +2503,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>con un marco de unidad amplio pero que tiene características muy fuertes</example>
             </rule>
         </rulegroup>
+        <rule id="VARIA" name="varia/varía" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>varia</token>
+                </marker>
+            </pattern>
+            <message>Si es del v. 'varias', lleva tilde. Puede ser, más raramente, un adjetivo sin tilde.</message>
+            <suggestion>varía</suggestion>
+            <example correction="varía">Actualmente el IVA <marker>varia</marker> entre un 15 y un 21%.</example>
+        </rule>
         <rulegroup id="TENIA" name="tenia/tenía" default="on">
             <rule>
                 <pattern>
@@ -9117,6 +9127,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ_" name="concordancia de adjetivo pospuesto a sustantivos" default="temp_off">
             <antipattern>
+                <!-- invariable adjectives -->
+                <token>estándar</token>
+            </antipattern>
+            <antipattern>
+                <token/>
+                <token spacebefore="no" regexp="yes">-|\+</token>
+                <token spacebefore="no"/>
+            </antipattern>
+            <antipattern>
                 <token>por</token>
                 <token>muy</token>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
@@ -9133,6 +9152,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
+                <token>veces</token>
+                <token regexp="yes">consecutivas|seguidas</token>
+                <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="NC.*" postag_regexp="yes"/>
+                <!-- millones, multitud...-->
+                <token>de</token>
+                <token postag="DA.*" postag_regexp="yes" min="0"/>
+                <token regexp="yes" inflected="yes">vez|&unidades_tiempo;</token>
+                <token min="0" postag="RG"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="3" regexp="yes">pasar|llevar|durante</token>
+                <token inflected="yes" regexp="yes">&unidades_tiempo;&partes_dia;|tiempo</token>
+                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token inflected="yes">medio</token>
                 <token regexp="yes" inflected="yes">vez|&unidades_tiempo;</token>
                 <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
@@ -9141,6 +9181,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token regexp="yes">debido|junto|justo</token>
                 <token regexp="yes">a|al</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">producto|objeto|fruto</token>
+                <token regexp="yes">de|del</token>
             </antipattern>
             <antipattern>
                 <token>justo</token>
@@ -9170,14 +9214,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">izquierda|derecha</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes" inflected="yes">&denominacion;</token>
+                <token regexp="yes" inflected="yes">&denominacion;|denominar|llamar</token>
+                <token min="0" max="4" postag="_QM_OPEN" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token regexp="yes" inflected="yes">ir|venir|entrar|volver|salir|estar|levantar|quedar|permanecer</token>
-                <token regexp="yes">a|en|de</token>
+                <token regexp="yes">a|en|de|al|del</token>
                 <token postag="DA.*" postag_regexp="yes" min="0"/>
-                <token regexp="yes">casa|cama</token>
+                <token regexp="yes">casa|cama|concierto|cine|teatro</token>
                 <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
@@ -9259,6 +9304,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="V.[MI]..P." postag_regexp="yes" skip="10"/>
                 <token regexp="yes">solos|solas</token>
             </antipattern>
+            <antipattern>
+                <token>el</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/> <exception regexp="yes">primero|juntos|juntas|dado|dada|dados|dadas|incluso</exception><exception regexp="yes">\p{Lu}.*</exception></token>
             </pattern>
@@ -9277,6 +9328,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">en un restaurante solemnemente <marker>decorada</marker></example>
             <example correction="">¿Cuál es el más <marker>calurosa</marker> de todas las estaciones?</example>
             <example correction="">con la bobina y la placa electrónica <marker>montados</marker> en una caja</example>
+            <example correction="">Y tocando con una rapidez <marker>increíbles</marker>.</example>
+            <example correction="">Por eso, los tipos más <marker>característico</marker> son el bifaz y los centrípetos.</example>
             <example>con la bobina y la placa electrónica montadas en una caja única</example>
             <example>El contacto con la cultura y la historia japonesas.</example>
             <example>en un restaurante lujosa y solemnemente decorado</example>
@@ -9352,6 +9405,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Según la ley, la confesión bajo tortura no es válida.</example>
             <example>No puedo hacer el trabajo sola.</example>
             <example>Han aprendido esta lengua solos,</example>
+            <example>Que busca políticas de integración.</example>
+            <example>Están en general menos interesadas en el juego.</example>
+            <example>Son en parte covalentes y en parte iónicas.</example>
+            <example>Habrían permanecido durante millones de años separadas.</example>
+            <example>Fue al concierto acompañada de una amiga.</example>
+            <example>Un lenguaje multipropósito de programación estructurado.</example>
+            <example>Por lo que pasan mucho tiempo erguidos en el campo.</example>
+            <example>Liberar la parte baja de la memoria mediante emuladores.</example>
+            <example>Las letras iniciales, medias o finales de cada verso u oración leídas en sentido vertical.</example>
+            <example>No deben dificultar el ser vistos por los jueces.</example>
+            <example>Se hace con ramitas de sauce asadas al horno.</example>
+            <example>Rompiemdo el tratado de no agresión firmado dos años antes.</example>
+            <example>Es por ocho veces consecutivas campeona de África.</example>
+            <example>Estos toman como referencia parejas de círculos máximos.</example>
+            <example>Aparecen en otras obras literarias bajo el apodo de Ji Dian.</example>
+            <example>Se dan los ciervos, gamos, corzos, muflones y la cabra montés.</example>
             <!-- 
                 Ella fue al concierto acompañada de una amiga.
                 Soy cualquier cosa menos mentiroso. 

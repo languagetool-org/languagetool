@@ -1326,6 +1326,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">gran|alt|baix|petit|menut|ràpid|lent</token>
             </antipattern>
             <antipattern>
+                <token regexp="yes">vegada|volta|pic|cop|colp|vegades|voltes|pics|cops|colps</token>
+                <token regexp="yes">consecutives|seguides|consecutius|seguits</token>
+                <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">.*%|.*°C</token>
                 <token regexp="yes" min="0">més|menys</token>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
@@ -1345,7 +1351,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes" inflected="yes">&denominacio;|denominar|anomenar</token>
-                <token min="0" max="4" postag="RG|LOC_ADV|_cometes_obertura" postag_regexp="yes"/>
+                <token min="0" postag="_cometes_obertura" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -1378,7 +1384,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">satèl·lit|clau|líder|bomba|membre</token>
             </antipattern>-->
             <antipattern>
-                <token inflected="yes" skip="2" regexp="yes">passar|portar|dur|fer</token>
+                <token inflected="yes" skip="2" regexp="yes">passar|portar|dur|fer|durant</token>
                 <token inflected="yes" regexp="yes">&unitats_temps;&parts_dia;|temps</token>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
@@ -1697,6 +1703,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">John va convèncer els seus amics d'ajudar a la família <marker>pobre</marker>.</example>
             <example correction="">és important tenir dots <marker>comunicatives</marker>.</example>
             <example correction="">en el creixement i la llibertat <marker>econòmiques</marker></example>
+            <example correction="">Els tipus més <marker>característic</marker>.</example>
             <example correction="" type="triggers_error">Treure del material la forma i la textura <marker>desitjades</marker>.</example>
             <example>És en alguns casos <marker>documentat</marker>.</example>
             <!-- ambiguous -->
@@ -23582,7 +23589,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule id="PREFIXOS_SENSE_GUIONET_CO" name="prefixos sense guionet: co-">
                 <pattern>
-                    <token>co</token>
+                    <token>co<exception case_sensitive="yes">CO</exception></token>
                     <token min="0">-</token>
                     <token regexp="yes">\p{Ll}.+</token>
                 </pattern>
@@ -41621,7 +41628,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>"Cint" és un arcaisme. ¿Volíeu dir una altra cosa?</message>
                 <suggestion>vint</suggestion>
                 <suggestion>cinc</suggestion>
-                <example correction="vint|cinc">N'hi ha <marker>cint</marker>.</example>
+                <suggestion>cent</suggestion>
+                <example correction="vint|cinc|cent">N'hi ha <marker>cint</marker>.</example>
             </rule>
             <rule>
                 <antipattern>
