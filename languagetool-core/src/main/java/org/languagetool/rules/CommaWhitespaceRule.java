@@ -152,7 +152,7 @@ public class CommaWhitespaceRule extends Rule {
   }
 
   private boolean isFileExtension(AnalyzedTokenReadings[] tokens, int i) {
-    return i < tokens.length && tokens[i].getToken().matches("(?i)[a-z]{3,4}|ai|mp3");
+    return i < tokens.length && tokens[i].getToken().matches("(?i)[a-z]{3,4}|ai|mp[34]");
   }
 
   private static boolean isWhitespaceToken(AnalyzedTokenReadings token) {
