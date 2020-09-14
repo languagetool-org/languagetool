@@ -397,7 +397,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "why is he", // vs the
       "what is he", // vs the
       "is he happy", // vs the
-      "he kind of" // vs the
+      "he kind of", // vs the
+      "same seems to" // vs some
     );
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(

@@ -251,6 +251,11 @@ public class AdverbFilter extends RuleFilter {
     put("evolutionarily", "evolutionary");
     put("internally", "internal");
     put("magically", "magical");
+    put("annually", "annual");
+    put("brightly", "bright");
+    put("officially", "official");
+    put("inofficially", "inofficial");
+    put("perfectly", "perfect");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
