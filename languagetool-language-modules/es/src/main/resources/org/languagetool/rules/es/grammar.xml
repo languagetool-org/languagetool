@@ -232,6 +232,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
+        <rule id="RESTABLECER" name="reestablecer/restablecer">
+            <!-- TODO: rule is unnecessary when the dictionary is updated -->
+            <pattern>
+                <token inflected="yes">reestablecer</token>
+            </pattern>
+            <message>Error ortográfico.</message>
+            <suggestion><match no="1" regexp_match="(?iu)rees" regexp_replace="res"/></suggestion>
+            <example correction="restablecieron">Y entonces <marker>reestablecieron</marker> la calma.</example>
+        </rule>
         <rule id="SAO_PAULO" name="São Paulo">
             <pattern>
                 <token>Sao</token>
