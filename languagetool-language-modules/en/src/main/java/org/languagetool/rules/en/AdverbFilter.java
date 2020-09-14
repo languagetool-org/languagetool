@@ -35,7 +35,7 @@ import java.util.Map;
  */
 public class AdverbFilter extends RuleFilter {
 
-  private Map<String,String> adverb2Adj = new HashMap<String, String>() {{
+  private final Map<String,String> adverb2Adj = new HashMap<String, String>() {{
     // irregular ones:
     put("well", "good");
     put("fast", "fast");
@@ -53,10 +53,7 @@ public class AdverbFilter extends RuleFilter {
     put("angrily", "angry");
     put("happily", "happy");
     put("luckily", "lucky");
-    put("probably", "probable");
     put("terribly", "terrible");
-    put("gently", "gentle");
-    put("basically", "basic");
     put("tragically", "tragic");
     put("economically", "economic");
     put("greatly", "great");
@@ -105,11 +102,8 @@ public class AdverbFilter extends RuleFilter {
     put("decreasingly", "decreasing");
     put("considerably", "considerable");
     put("effectively", "effective");
-    put("suddenly", "sudden");
     put("fairly", "fair");
     put("briefly", "brief");
-    put("slightly", "slight");
-    put("merely", "mere");
     put("exceedingly", "exceeding");
     put("physically", "physical");
     put("enthusiastically", "enthusiastic");
@@ -143,9 +137,7 @@ public class AdverbFilter extends RuleFilter {
     put("continuously", "continuous");
     put("sadly", "sad");
     put("eventually", "eventual");
-    put("steadily", "steady");
     put("possibly", "possible");
-    put("deliciously", "delicious");
     put("visually", "visual");
     put("predominantly", "predominant");
     put("quietly", "quiet");
