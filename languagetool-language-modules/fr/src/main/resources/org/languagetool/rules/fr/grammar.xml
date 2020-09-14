@@ -1575,6 +1575,11 @@ though, and has since been slightly modified)-->
           <token>a</token>
           <token regexp="yes">.|-t-.*</token>
       </antipattern>
+      <antipattern>
+          <token regexp="yes">«|"</token>
+          <token>à</token>
+          <token regexp="yes">»|"</token>
+      </antipattern>
       <rule>
         <antipattern>
           <token regexp="yes">\.|\/</token>
@@ -1875,6 +1880,11 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="OU" name="'Ou' au lieux de 'où'">
+        <antipattern>
+            <token regexp="yes">«|"</token>
+            <token>ou</token>
+            <token regexp="yes">»|"</token>
+        </antipattern>
       <rule>
         <antipattern>
           <token inflected="yes">être<exception>être</exception></token>
@@ -9027,8 +9037,8 @@ though, and has since been slightly modified)-->
                             <token>ya</token>
                         </marker>
                 </pattern>
-                <message>Cette formulation est considérée familière. Vouliez-vous dire <suggestion>y a</suggestion> ?</message>
-                <example correction="Y a"><marker>Ya</marker> douze personnes.</example>
+                <message>Cette formulation est considérée familière. Vouliez-vous dire <suggestion>Il y a</suggestion> ?</message>
+                <example correction="Il y a"><marker>Ya</marker> douze personnes.</example>
             </rule>
         </rulegroup>
       <rule id="COMME_ME_LE_DIRE" name="comme me le dire accord">
