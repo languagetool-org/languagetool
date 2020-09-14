@@ -1848,6 +1848,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="vocative_inanim" name="Кличний для неістот">
       <antipattern>
+        <token>,</token>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+          <token postag_regexp="yes" postag="adj:.:v_kly.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:inanim:.:v_kly.*"/>
+        </unify>
+        <token>!</token>
+      </antipattern>
+      <antipattern>
         <token postag_regexp="yes" postag="verb.*?:impr:.*"/>
         <token>,</token>
         <unify>
@@ -1898,6 +1908,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>прощавай, стара імперіє</example>
       <example>ой, хато ти моя</example>
       <example>агов тумане</example>
+      <example>Вітання, спільното!</example>
     </rule>
 
     <rule id="pry_bazhanni" name="При бажанні">

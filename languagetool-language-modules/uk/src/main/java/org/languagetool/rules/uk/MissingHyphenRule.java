@@ -81,17 +81,17 @@ public class MissingHyphenRule extends Rule {
       if( PosTagHelper.hasPosTagStart(nextTokenReadings, "noun")
           && ! PosTagHelper.hasPosTagPart(nextTokenReadings, "&pron")
           //    && ! PosTagHelper.hasPosTag(nextTokenReadings, Pattern.compile("^(?!noun).*"))
-          && ALL_LOWER.matcher(nextTokenReadings.getToken()).matches() ) {
+          && ALL_LOWER.matcher(nextTokenReadings.getCleanToken()).matches() ) {
 
         boolean isCapitalized = LemmaHelper.isCapitalized(tokenReadings.getCleanToken());
 
         String extraTag = getPrefixExtraTag(tokenReadings, isCapitalized);
         if ( extraTag != null
-            || (tokenReadings.getToken().toLowerCase().equals("тайм")
+            || (tokenReadings.getCleanToken().toLowerCase().equals("тайм")
                 && LemmaHelper.hasLemma(nextTokenReadings, "аут")) ) {
 
           // всі медіа країни
-          if( "медіа".equalsIgnoreCase(tokenReadings.getToken()) 
+          if( "медіа".equalsIgnoreCase(tokenReadings.getCleanToken()) 
               && nextTokenReadings.getCleanToken().matches("країни|півострова"))
             continue;
           

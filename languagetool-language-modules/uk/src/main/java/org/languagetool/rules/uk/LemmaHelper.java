@@ -15,6 +15,7 @@ import org.languagetool.tagging.uk.PosTagHelper;
  * @since 3.6
  */
 public abstract class LemmaHelper {
+  private static final String IGNORE_CHARS = "\u00AD\u0301";
   public static final Set<String> CITY_AVENU = new HashSet<>(Arrays.asList("сіті", "ситі", "стріт", "стрит", "рівер", "ривер", "авеню", "штрасе", "штрассе", "сьоркл", "сквер"));
   public static final List<String> MONTH_LEMMAS = Arrays.asList("січень", "лютий", "березень", "квітень", "травень", "червень", "липень", 
       "серпень", "вересень", "жовтень", "листопад", "грудень");
@@ -140,11 +141,11 @@ public abstract class LemmaHelper {
 
     for(int i = pos; i < tokens.length && i > 0; i += step) {
       if( (posTag == null || PosTagHelper.hasPosTagPart(tokens[i], posTag)) 
-          && (token == null || token.matcher(tokens[i].getToken()).matches()) )
+          && (token == null || token.matcher(tokens[i].getCleanToken()).matches()) )
         return i;
 
       if( ! PosTagHelper.hasPosTag(tokens[i], posTagsToIgnore)
-          && ! QUOTES.matcher(tokens[i].getToken()).matches() )
+          && ! QUOTES.matcher(tokens[i].getCleanToken()).matches() )
         break;
     }
 
@@ -220,6 +221,10 @@ public abstract class LemmaHelper {
     int sz = word.length();
     for (int i = 1; i < sz; i++) {
         char ch = word.charAt(i);
+        
+        if( IGNORE_CHARS.indexOf(ch) >= 0 )
+          continue;
+
         boolean dash = ch == '-' || ch == '\u2013';
         if( dash ) {
           if( i == sz-2 && Character.isDigit(word.charAt(i+1)) )
@@ -254,8 +259,8 @@ public abstract class LemmaHelper {
   }
 
   public static boolean isInitial(AnalyzedTokenReadings analyzedTokenReadings) {
-    return analyzedTokenReadings.getToken().endsWith(".")
-        && analyzedTokenReadings.getToken().matches("[А-ЯІЇЄҐA-Z]\\.");
+    return analyzedTokenReadings.getCleanToken().endsWith(".")
+        && analyzedTokenReadings.getCleanToken().matches("[А-ЯІЇЄҐA-Z]\\.");
   }
 
 }
