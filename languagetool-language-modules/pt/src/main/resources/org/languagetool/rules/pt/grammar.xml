@@ -548,6 +548,20 @@ title="Easy editing stylesheet" ?>
 		<token postag='VMP00PF|AQ0[CF]P0' postag_regexp='yes'/>
       </antipattern>	  	  
 <!-- MARCOAGPINTO 2020-08-26 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-09-14 (2-JUL-2020+) *START* -->
+<!-- "Não devia ser necessário petições para legalizar a profissão." -->
+      <antipattern>
+		  <token postag='V.+|NC[CM]S000|CS|I|RG|VMP00SM' postag_regexp='yes'/>
+	      <token postag='AQ0[CM]S0|NC[CF]S000' postag_regexp='yes'/>
+		  <token postag='NC[CF]P000' postag_regexp='yes'/>
+	  </antipattern>	  	  	  
+	  <!-- "Suspeita-se que tenham, em escalas de tempo, levado quantidades significativas de água." -->
+      <antipattern>	  
+		  <token regexp='yes'>[,]|de|e</token>
+	      <token postag='AQ0[CM]S0|NC[CF]S000' postag_regexp='yes'/>
+		  <token postag='NC[CF]P000' postag_regexp='yes'/>
+	  </antipattern>	  	  
+<!-- MARCOAGPINTO 2020-09-14 (2-JUL-2020+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -590,7 +604,9 @@ title="Easy editing stylesheet" ?>
 	  <example type='correct'>A entrar no <marker>Império tão grande quantidade</marker> de escravos africanos.</example>
 	  <example type='correct'>Apenas testemunhos sem <marker>fim recebidos</marker> de todo o mundo.</example>
 	  <example type='correct'>Apenas testemunhos sem <marker>conta recebidos</marker> de todo o mundo.</example>
-	  <example type='correct'>Apenas testemunhas sem <marker>fim recebidas</marker> de todo o mundo.</example>	  
+	  <example type='correct'>Apenas testemunhas sem <marker>fim recebidas</marker> de todo o mundo.</example> 
+	  <example type='correct'>Não devia ser <marker>necessário petições</marker> para legalizar a profissão.</example>
+	  <example type='correct'>Suspeita-se que tenham, em escalas de tempo<marker>, levado quantidades</marker> significativas de água.</example>
     </rule>
     <rule>
       <pattern>
