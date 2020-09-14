@@ -450,6 +450,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("grandmum", Arrays.asList("grandma", "grandmother"));
     s.put("Grandmum", Arrays.asList("Grandma", "Grandmother"));
     s.put("Hongkong", Arrays.asList("Hong Kong"));
+    s.put("enlighting", Arrays.asList("enlightening"));
+    s.put("Enlighting", Arrays.asList("Enlightening"));
     // For non-US English
     s.put("center", Arrays.asList("centre"));
     s.put("ur", Arrays.asList("your", "you are"));

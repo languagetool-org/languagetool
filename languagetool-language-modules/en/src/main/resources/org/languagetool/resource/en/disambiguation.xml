@@ -4146,6 +4146,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag_regexp="yes" postag="VBP"/>
             <token chunk="E-NP-singular" postag="NNP"/>
         </antipattern>
+        <antipattern>
+            <token regexp="yes">many|several|few</token>
+            <token regexp="yes">more|less</token>
+            <token postag="VBP" />
+        </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$">
                 <exception postag_regexp="yes" postag="WDT|RB"/></token>
@@ -4171,6 +4176,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Please cut short your vacation and return.</example><!-- #3215 -->
         <example type="untouched">Some state want to go slow.</example><!-- Premium #1564 -->
         <example type="untouched">What will losing the war mean to us?</example><!-- #3527 -->
+        <example type="untouched">I’ve seen squats pass with it, and I’ve seen many more get red lights.</example>
         <example type="untouched">This would both support ARM and allow us to make a...</example><!-- #3546 -->
         <example type="ambiguous" inputform="exact[exact/JJ,exact/VB,exact/VBP]" outputform="exact[exact/JJ]">I stand corrected - this is the <marker>exact</marker> same issue as the old thread.</example>
     </rule>
@@ -6231,6 +6237,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>be</token>
             <token postag="VBN"/>
         </antipattern>
+        <antipattern><!-- But many just work -->
+            <token regexp="yes">many|few|several</token>
+            <token postag="RB" />
+            <token postag="VBP" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -6301,6 +6312,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Ambiguous: I'm getting ready to paint the top of it <marker>black</marker> and put a rose decal on it.</example><!-- #2407 -->
         <example type="untouched">You're welcome, Tina.</example><!-- #2421 -->
         <example type="untouched">It's welcome.</example><!-- #2421 -->
+        <example type="untouched">But many just work</example><!-- #2421 -->
         <example type="untouched">I had to unpair it and re-pair it and it work…</example>
         <example type="untouched">Incorrect grammar: He was hope to get it done.</example><!-- #2422 hope/E-NP-singular -->
         <example type="untouched">Incorrect grammar: I actually was hope to make more changes to the rule.</example>
