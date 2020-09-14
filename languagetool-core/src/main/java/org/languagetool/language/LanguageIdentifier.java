@@ -211,7 +211,7 @@ public class LanguageIdentifier {
         if (result.getValue().floatValue() < THRESHOLD) {
           //System.out.println(text + " ->" + result.getValue().floatValue() + " " + result.getKey());
           CommonWords commonWords = new CommonWords();
-          Map<Language, Integer> lang2Count = commonWords.getKnownWordsPerLanguage(text);
+          Map<Language, Integer> lang2Count = commonWords.getKnownWordsPerLanguage(shortText);
           //System.out.println("-> "+ lang2Count);
           for (Map.Entry<Language, Integer> entry : lang2Count.entrySet()) {
             String langCode = entry.getKey().getShortCode();
