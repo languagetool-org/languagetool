@@ -162,6 +162,9 @@ public class GermanTaggerTest {
 
     AnalyzedTokenReadings aToken15 = tagger.lookup("erzkatholisch");
     assertTrue(aToken15.getReadings().get(0).getPOSTag().equals("ADJ:PRD:GRU"));
+
+    AnalyzedTokenReadings aToken16 = tagger.lookup("unerbeten");
+    assertTrue(aToken16.getReadings().get(0).getPOSTag().equals("PA2:PRD:GRU:VER"));
   }
 
   // make sure we use the version of the POS data that was extended with post spelling reform data

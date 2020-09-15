@@ -42,7 +42,7 @@ import java.util.*;
  */
 public class GermanTagger extends BaseTagger {
 
-  private final static Synthesizer synthesizer = new GermanyGerman().getSynthesizer();
+  private static final Synthesizer synthesizer = new GermanyGerman().getSynthesizer();
 
   private static final List<String> allAdjGruTags = new ArrayList<>();
   static {
@@ -116,7 +116,7 @@ public class GermanTagger extends BaseTagger {
     List<TaggedWord> result = new ArrayList<>();
     for (TaggedWord tw : analyzedWordResults) {
       String lemma = tw.getLemma();
-      if (stem.length() > 0 && stem.charAt(stem.length() - 1) != '-' && tw.getPosTag().startsWith("SUB:")) {
+      if (stem.length() > 0 && stem.charAt(stem.length() - 1) != '-' && tw.getPosTag().startsWith("SUB")) {
         lemma = lemma.toLowerCase();
       }
       result.add(new TaggedWord(stem + lemma, tw.getPosTag()));
@@ -193,7 +193,7 @@ public class GermanTagger extends BaseTagger {
       // Gender star etc:
       String genderGap = "[*:_/]";
       if (idxPos+2 < sentenceTokens.size() && sentenceTokens.get(idxPos+1).matches(genderGap)) {
-        if (sentenceTokens.get(idxPos+2).matches("in|innen|r|e")) {  // "jede*r", "sein*e"
+        if (sentenceTokens.get(idxPos+2).matches("in(nen)?|r|e")) {  // "jede*r", "sein*e"
           taggerTokens = new ArrayList<>();
           taggerTokens.addAll(getWordTagger().tag(word));
           taggerTokens.addAll(getWordTagger().tag(word + sentenceTokens.get(idxPos+2)));
@@ -252,8 +252,8 @@ public class GermanTagger extends BaseTagger {
               readings.addAll(substantivatedFormsList);
             } else {
               if (StringUtils.startsWithAny(word, "bitter", "dunkel", "erz", "extra", "früh",
-                "gemein", "hyper", "lau", "mega", "minder", "stock", "super", "tod", "ultra", "ur")) {
-                String lastPart = RegExUtils.removePattern(word, "^(bitter|dunkel|erz|extra|früh|gemein|grund|hyper|lau|mega|minder|stock|super|tod|ultra|ur|voll)");
+                "gemein", "hyper", "lau", "mega", "minder", "stock", "super", "tod", "ultra", "un", "ur")) {
+                String lastPart = RegExUtils.removePattern(word, "^(bitter|dunkel|erz|extra|früh|gemein|grund|hyper|lau|mega|minder|stock|super|tod|ultra|u[nr]|voll)");
                 if (lastPart.length() > 1) {
                   String firstPart = StringUtils.removeEnd(word, lastPart);
                   List<TaggedWord> taggedWords = getWordTagger().tag(lastPart);
@@ -315,7 +315,7 @@ public class GermanTagger extends BaseTagger {
             }
           }
         }
-        if (readings.size() == 0) {
+        if (readings.isEmpty()) {
           readings.add(getNoInfoToken(word));
         }
       }
