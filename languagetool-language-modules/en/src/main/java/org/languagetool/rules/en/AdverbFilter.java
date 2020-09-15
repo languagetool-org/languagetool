@@ -248,6 +248,8 @@ public class AdverbFilter extends RuleFilter {
     put("officially", "official");
     put("inofficially", "inofficial");
     put("perfectly", "perfect");
+    put("overly", "over");
+    put("tropically", "tropical");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

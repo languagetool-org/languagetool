@@ -6245,7 +6245,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <antipattern><!-- #3574 many start earlier or -->
             <token regexp="yes">many|few|several</token>
             <token postag_regexp="yes" postag="VBP?"/>
-            <token postag_regexp="yes" postag="JJR|IN"/>
+            <token postag_regexp="yes" postag="JJR|IN|DT"/>
         </antipattern>
         <pattern>
             <marker>
@@ -6385,6 +6385,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">But activist groups for the environment and food safety question the product’s safety.</example><!-- #3524 -->
         <example type="untouched">So how many more need to be replaced and do I need both the bottom and top mattresses?</example><!-- #3565 -->
         <example type="untouched">But many start earlier or leave later.</example><!-- #3574 -->
+        <example type="untouched">I understand that many charge the same fee.</example>
         <example type="untouched">Did you know that many start earlier and leave later?</example><!-- #3574 -->
         <example type="untouched">It's shameful; few start at the right times and then they go home early.</example><!-- #3574 -->
 <!-- Refer to the counter example        <example type="untouched">If any professional want to know the new practices of their field...</example>Premium #1564 -->
@@ -12087,7 +12088,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
 
     <rule id="TILDE_SPELLING" name="Ignore spelling of '~'">
         <pattern>
-            <token regexp="yes">[~►◄]+</token>
+            <token regexp="yes">[~►◄%]+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

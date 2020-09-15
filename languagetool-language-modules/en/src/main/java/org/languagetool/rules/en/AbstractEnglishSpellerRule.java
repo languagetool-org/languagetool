@@ -132,6 +132,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                      !k.getReplacement().startsWith("co ") &&
                      !k.getReplacement().startsWith("non ") &&
                      !k.getReplacement().startsWith("con ") &&
+                     !k.getReplacement().startsWith("ins ") && // instable (ins table)
                      !k.getReplacement().startsWith("pre ") &&
                      !k.getReplacement().startsWith("inter ") &&
                      !k.getReplacement().startsWith("anti ") &&
@@ -285,6 +286,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   protected Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
     s.put("insite", Arrays.asList("insight"));
+    s.put("insites", Arrays.asList("insights"));
     s.put("thouraly", Arrays.asList("thoroughly"));
     s.put("heiaracky", Arrays.asList("hierarchy"));
     s.put("on-prem", Arrays.asList("on-premise"));
@@ -518,6 +520,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("memorandums", Arrays.asList("memoranda"));
     s.put("mooses", Arrays.asList("moose"));
     s.put("mosquitos", Arrays.asList("mosquitoes"));
+    s.put("moskitos", Arrays.asList("mosquitoes"));
+    s.put("moskito", Arrays.asList("mosquito"));
     s.put("neurosises", Arrays.asList("neuroses"));
     s.put("nucleuses", Arrays.asList("nuclei"));
     s.put("oasises", Arrays.asList("oases"));
