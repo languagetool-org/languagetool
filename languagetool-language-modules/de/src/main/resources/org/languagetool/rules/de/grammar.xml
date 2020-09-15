@@ -9516,7 +9516,67 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="AU_PAIR" name="Au Pair (Au-pair)" default="temp_off">
+        <rule id="MUST_HAVE" name="Must-have" default="temp_off">
+            <antipattern><!-- ignore English sentences -->
+                <token postag="UNKNOWN" regexp="yes">.*[a-z].*</token>
+                <token>must</token>
+                <token>have</token>
+            </antipattern>
+            <antipattern><!-- ignore English sentences -->
+                <token>must</token>
+                <token>have</token>
+                <token postag="UNKNOWN" regexp="yes">.*[a-z].*</token>
+            </antipattern>
+            <pattern>
+                <token>must</token>
+                <token regexp="yes">haves?</token>
+            </pattern>
+            <message>Das Nomen <suggestion>Must-<match no="2" case_conversion="alllower" /></suggestion> wird mit Bindestrich geschrieben.</message>
+            <url>https://www.duden.de/rechtschreibung/Must_have</url>
+            <example correction="Must-have">Dieses praktische Werkzeug ist ein <marker>Must Have</marker> für jeden.</example>
+        </rule>
+        <rule id="FUENF_PUNKTE_PLAN" name="5-Punkte-Plan" default="temp_off">
+            <pattern>
+                <token regexp="yes">zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|zwanzig|dreißig|dreissig|\d+</token>
+                <token>punkte</token>
+                <token regexp="yes">plans?</token>
+            </pattern>
+            <message>Das Nomen <suggestion><match no="1" case_conversion="startupper" />-<match no="2" case_conversion="startupper" />-<match no="3" case_conversion="startupper" /></suggestion> wird mit Bindestrichen geschrieben.</message>
+            <example correction="5-Punkte-Plan">Sie entwarfen einen <marker>5 Punkte Plan</marker>, um das Problem zu lösen.</example>
+        </rule>
+        <rulegroup id="FUENF_MINUTEN_TAKT" name="5-Minuten-Takt" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|zwanzig|dreißig|dreissig|\d+</token>
+                    <token regexp="yes">sekunden|minuten|stunden|tages|wochen|monats|jahres</token>
+                    <token regexp="yes">takt(e?s)?|intervall|rhythmus</token>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="1" case_conversion="startupper" />-<match no="2" case_conversion="startupper" />-<match no="3" case_conversion="startupper" /></suggestion> wird mit Bindestrichen geschrieben.</message>
+                <example correction="5-Minuten-Takt">Die S-Bahn fährt im <marker>5 Minuten Takt</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>im</token>
+                    <marker>
+                        <token regexp="yes">zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|zwanzig|dreißig|dreissig|\d+</token>
+                        <token regexp="yes">sekunden|minuten|stunden|tages|wochen|monats|jahres</token>
+                        <token>abstand</token>
+                    </marker>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="2" case_conversion="startupper" />-<match no="3" case_conversion="startupper" />-<match no="4" case_conversion="startupper" /></suggestion> wird mit Bindestrichen geschrieben.</message>
+                <example correction="5-Minuten-Abstand">Die S-Bahn fährt im <marker>5 Minuten Abstand</marker>.</example>
+                <example>Am besten mit 5 Minuten Abstand rodeln, sonst wird's drängelig.</example><!-- unsure -->
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|zwanzig|dreißig|dreissig|\d+</token>
+                    <token regexp="yes">(Minuten|Stunden)takt(e?s)?</token>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="1" case_conversion="startupper" />-<match no="2" case_conversion="startupper" /></suggestion> wird mit Bindestrichen geschrieben.</message>
+                <example correction="5-Minutentakt">Die S-Bahn fährt im <marker>5 Minutentakt</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rule id="AU_PAIR" name="Au Pair (Au-pair)">
             <antipattern case_sensitive="yes">
                 <token>au</token>
                 <token>pair</token>
@@ -9938,10 +9998,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
          <rule id="FUGEN_S_ZUSAMMENSCHREIBUNG_" name="Wirtschafts Weisen (Wirtschschaftsweisen)" default="temp_off">
             <pattern case_sensitive="yes">
-                <token postag="UNKNOWN" regexp="yes">[A-ZÜÄÖ][a-zäöüß]{2,}(ung|schaft|sicht|heit|keit|ion|tät)s</token>
+                <token postag="UNKNOWN" regexp="yes">
+                    [A-ZÜÄÖ][a-zäöüß]{2,}(ung|schaft|sicht|heit|keit|ion|tät)s
+                    <exception regexp="yes">Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
+                </token>
                 <token postag=".*SUB.*" postag_regexp="yes" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]+
-                    <exception>Standards</exception>
+                    <exception regexp="yes">Standards</exception>
                 </token>
             </pattern>
             <message>Dieses Wort wird in der Regel zusammengeschrieben.</message>
@@ -9953,6 +10016,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>DRSC – Deutsches Rechnungslegungs Standards Committee</example>
             <example>Wenn die Auswirkungen des Deutschtums Probleme bereiten.</example>
             <example>Denn als Goslings Charakter bei seinem Job als Pianist in einer Bar entsprechende Festtagslieder anstimmen soll, zeigt er sich wenig angetan.</example>
+            <example>Für weitere Fragen steht das International Relations Office zur Verfügung.</example>
+            <example>SNA – United Nations System of National Accounts (auch UNSNA)</example>
+            <example>Seinen Siegelring übergab er Perdikkas, der nach Hephaistions Tod sein engster Vertrauter gewesen war.</example>
+            <example>Adelungs Wörterbuch hatte einen großen Einfluss auf die deutsche Lexikographie, das genaue Ausmaß ist jedoch relativ wenig bekannt.</example>
         </rule>
         <rule id="NAECHSTMOEGLICH" name="nächst möglich (nächstmöglich)">
             <pattern>
