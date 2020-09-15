@@ -333,7 +333,7 @@ public class GermanTagger extends BaseTagger {
     for (String prefix : VerbPrefixes.get()) {
       if (word.startsWith(prefix)) {
         List<TaggedWord> tags = tag(word.replaceFirst("^" + prefix, ""));
-        if (tags.stream().anyMatch(k -> k.getPosTag() != null && k.getPosTag().startsWith("VER:"))) {
+        if (tags.stream().anyMatch(k -> k.getPosTag() != null && k.getPosTag().startsWith("VER"))) {
           return word.substring(prefix.length());
         }
       }
@@ -343,8 +343,8 @@ public class GermanTagger extends BaseTagger {
 
   boolean isWeiseException(String word) {
     if (word.endsWith("erweise")) {  // "idealerweise" etc.
-      List<TaggedWord> tags = tag(word.replaceFirst("erweise$", ""));
-      return tags.stream().anyMatch(k -> k.getPosTag() != null && k.getPosTag().startsWith("ADJ:"));
+      List<TaggedWord> tags = tag(StringUtils.removeEnd(word, "erweise"));
+      return tags.stream().anyMatch(k -> k.getPosTag() != null && k.getPosTag().startsWith("ADJ"));
     }
     return false;
   }
