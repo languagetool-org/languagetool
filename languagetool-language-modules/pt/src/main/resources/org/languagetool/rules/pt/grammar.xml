@@ -9159,6 +9159,32 @@ MARCOAGPINTO 2020-02-18 -->
       <message>Se o orador é do sexo masculino, utilize <suggestion>obrigado</suggestion>.</message>
       <example correction="obrigado">O meu muito <marker>obrigada</marker> por tudo.</example>
     </rule>
+	
+    <rulegroup id='OLA_OLÁ' name="Confusão: ola - olá">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-15 (2-JUL-2020+)   -->
+	  <rule>
+		<pattern>
+			<token postag='SENT_START'/>
+			<marker>
+				<token regexp='no'>ola</token>
+			</marker>
+			<token min="0" max="1" regexp='no'></token>
+			<token postag='NP[FM][SP]000|NC[CFM][SP]000|DP.+' postag_regexp='yes'/>
+		</pattern>
+		<message>Substitua por <suggestion>olá</suggestion>.</message>
+		<example correction="Olá"><marker>Ola</marker> Ana.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token inflected='yes'>dizer</token>
+			<marker>
+				<token regexp='no'>ola</token>
+			</marker>
+		</pattern>
+		<message>Substitua por <suggestion>olá</suggestion>.</message>
+		<example correction="olá">Vou dizer <marker>ola</marker> à Ana.</example>
+	  </rule>
+    </rulegroup>
 
     <rule id='ORA_DE_REFEIÇÃO' name="Hora de refeição">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
