@@ -10228,6 +10228,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="núm.|n.º|nro.">Diario de la República <marker>num.</marker> 18.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ABREVIATURA_PAGINA" name="abreviatura de página" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>pag</token>
+                    <token>.</token>
+                </pattern>
+                <message>Abreviatura de "página".</message>
+                <suggestion>pág.</suggestion>
+                <example correction="pág."> Está en la <marker>pag.</marker> 4.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>pag</token>
+                    </marker>
+                    <token><exception>.</exception></token>
+                </pattern>
+                <message>Abreviatura de "página".</message>
+                <suggestion>pág.</suggestion>
+                <example correction="pág."> Está en la <marker>pag</marker> 4.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ABREVIATURA_TELEFONO" name="abreviatura de teléfono">
             <antipattern>
                 <token>tel</token>
