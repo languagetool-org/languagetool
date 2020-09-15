@@ -1351,7 +1351,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes" inflected="yes">&denominacio;|denominar|anomenar</token>
-                <token min="0" postag="_cometes_obertura" postag_regexp="yes"/>
+                <token min="0" postag="_cometes_obertura"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -40561,6 +40561,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
+        <rule id="VENA_BENA" name="vena/bena" default="temp_off">
+            <pattern>
+           <token inflected="yes">posar</token>
+                <token regexp="yes">una|la</token>
+                <marker>
+                    <token>vena</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>bena</suggestion> (tira de teixit) en lloc de "vena" (vas sanguini)?</message>
+            <example correction="bena">¿Volies posar la <marker>vena</marker> abans que et ferissin, oi?</example>
+        </rule>
         <rule id="ENTRAMENT" name="entrament/entrenament">
             <pattern>
                 <token regexp="yes">entraments?</token>
