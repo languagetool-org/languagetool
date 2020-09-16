@@ -252,13 +252,15 @@ public class GermanTagger extends BaseTagger {
               readings.addAll(substantivatedFormsList);
             } else {
               if (StringUtils.startsWithAny(word, "bitter", "dunkel", "erz", "extra", "früh",
-                "gemein", "hyper", "lau", "mega", "minder", "stock", "super", "tod", "ultra", "ur")) {
-                String lastPart = RegExUtils.removePattern(word, "^(bitter|dunkel|erz|extra|früh|gemein|grund|hyper|lau|mega|minder|stock|super|tod|ultra|voll)");
-                if (lastPart.length() > 1) {
+                "gemein", "hyper", "lau", "mega", "minder", "stock", "super", "tod", "ultra", "un", "ur")) {
+                String lastPart = RegExUtils.removePattern(word, "^(bitter|dunkel|erz|extra|früh|gemein|grund|hyper|lau|mega|minder|stock|super|tod|ultra|u[nr]|voll)");
+                if (lastPart.length() > 3) {
                   String firstPart = StringUtils.removeEnd(word, lastPart);
                   List<TaggedWord> taggedWords = getWordTagger().tag(lastPart);
                   for (TaggedWord taggedWord : taggedWords) {
-                    readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart+taggedWord.getLemma()));
+                    if (!(firstPart.length() == 2 && taggedWord.getPosTag().startsWith("VER"))) {
+                      readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart+taggedWord.getLemma()));
+                    }
                   }
                 }
               }
