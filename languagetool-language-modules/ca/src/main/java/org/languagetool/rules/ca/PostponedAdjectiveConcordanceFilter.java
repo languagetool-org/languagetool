@@ -276,7 +276,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       // Adjective can't be singular
       if (cN[j] + cD[j] > 0) { // && level>1
         isPlural = isPlural && cD[j] > 1; // cN[j]>1
-        canBeP = canBeP || cN[j]>1 ;
+        canBeP = canBeP || cN[j]>1;
       }
       j++;
     }
@@ -370,9 +370,8 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       }
     }
 
- // The rule matches
-
-    // Syntehsize suggestions  
+    // The rule matches
+    // Synthesize suggestions  
     List<String> suggestions = new ArrayList<>();
     AnalyzedToken at = getAnalyzedToken(tokens[patternTokenPos], ADJECTIU_CS);
     if (at != null) {

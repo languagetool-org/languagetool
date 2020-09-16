@@ -126,7 +126,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     boolean canBeFS = false;
     boolean canBeMP = false;
     boolean canBeFP = false;
-    
+    boolean canBeP = false;
     /* Count all nouns and determiners before the adjectives */
     // Takes care of acceptable combinations.
     int maxLevels = 4;
@@ -285,6 +285,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       // Adjective can't be singular
       if (cN[j] + cD[j] > 0) { // && level>1
         isPlural = isPlural && cD[j] > 1; // cN[j]>1
+        canBeP = canBeP || cN[j]>1;
       }
       j++;
     }
@@ -378,8 +379,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     }
 
     // The rule matches
-
-    // Syntehsize suggestions  
+    // Synthesize suggestions  
     List<String> suggestions = new ArrayList<>();
     AnalyzedToken at = getAnalyzedToken(tokens[patternTokenPos], ADJECTIU_CS);
     if (at != null) {
@@ -391,32 +391,32 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
         suggestions.addAll(Arrays.asList(synth.synthesize(at,"A..CS.", true)));
       }  
     }
-    at = getAnalyzedToken(tokens[patternTokenPos], ADJECTIU);
     if (suggestions.isEmpty() && isPlural) {
-      
+      at = getAnalyzedToken(tokens[patternTokenPos], ADJECTIU_P);
       if (at != null) {
-        suggestions.addAll(Arrays.asList(synth.synthesize(at,"A...P.|V.P..P.", true)));
+        suggestions.addAll(Arrays.asList(synth.synthesize(at, "A...P.|V.P..P.|PX..P.*", true)));
       }  
     }
-    if (canBeMS && !isPlural) {
-      if (at != null) {
-        suggestions.addAll(Arrays.asList(synth.synthesize(at,"A..MS.|V.P..SM|PX.MS.*", true)));
-      } 
-    }
-    if (canBeFS && !isPlural) {
-      if (at != null) {
-        suggestions.addAll(Arrays.asList(synth.synthesize(at,"A..FS.|V.P..SF|PX.FS.*", true)));
-      } 
-    }
-    if (canBeMP) {
-      if (at != null) {
-        suggestions.addAll(Arrays.asList(synth.synthesize(at,"A..MP.|V.P..PM|PX.MP.*", true)));
-      } 
-    }
-    if (canBeFP) {
-      if (at != null) {
-        suggestions.addAll(Arrays.asList(synth.synthesize(at,"A..FP.|V.P..PF|PX.FP.*", true)));
-      } 
+    at = getAnalyzedToken(tokens[patternTokenPos], ADJECTIU);
+    if (at != null && suggestions.isEmpty()) {
+      if (canBeMS && !isPlural) {
+        suggestions.addAll(Arrays.asList(synth.synthesize(at, "A..MS.|V.P..SM|PX.MS.*", true)));
+      }
+      if (canBeFS && !isPlural) {
+        suggestions.addAll(Arrays.asList(synth.synthesize(at, "A..FS.|V.P..SF|PX.FS.*", true)));
+      }
+      if (canBeMP) {
+        suggestions.addAll(Arrays.asList(synth.synthesize(at, "A..MP.|V.P..PM|PX.MP.*", true)));
+      }
+      if (canBeFP) {
+        suggestions.addAll(Arrays.asList(synth.synthesize(at, "A..FP.|V.P..PF|PX.FP.*", true)));
+      }
+      if (canBeMS && (isPlural || canBeP)) {
+        suggestions.addAll(Arrays.asList(synth.synthesize(at, "A..MP.|V.P..PM|PX.MP.*", true)));
+      }
+      if (canBeFS && !canBeMS && (isPlural || canBeP)) {
+        suggestions.addAll(Arrays.asList(synth.synthesize(at, "A..FP.|V.P..PF|PX.FP.*", true)));
+      }
     }
     // avoid the original token as suggestion 
     if (suggestions.contains(tokens[patternTokenPos].getToken().toLowerCase())) {
