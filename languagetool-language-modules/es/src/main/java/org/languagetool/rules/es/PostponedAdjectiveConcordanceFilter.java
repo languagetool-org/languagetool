@@ -19,14 +19,19 @@
 package org.languagetool.rules.es;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.language.Spanish;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.synthesis.es.SpanishSynthesizer;
 
 /**
  * This rule checks if an adjective doesn't agree with the previous noun and at
@@ -98,6 +103,8 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("de|del|en|sobre|a|entre|por|con|sin|contra");
   private static final Pattern VERB = Pattern.compile("V.[^P].*|_GV_");
   private static final Pattern GV = Pattern.compile("_GV_");
+  
+  private static final SpanishSynthesizer synth = new SpanishSynthesizer(new Spanish());
 
   boolean adverbAppeared = false;
   boolean conjunctionAppeared = false;
@@ -108,18 +115,18 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       AnalyzedTokenReadings[] patternTokens) throws IOException {
 
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
-    int i = patternTokenPos;
-    //String nextToken = "";
-    /*if (i < tokens.length - 1) {
-      nextToken = tokens[i + 1].getToken();
-    }*/
+    int i = patternTokenPos;  
     int j;
     boolean isPlural = true;
     boolean isPrevNoun = false;
     Pattern substPattern = null;
     Pattern gnPattern = null;
     Pattern adjPattern = null;
-
+    boolean canBeMS = false;
+    boolean canBeFS = false;
+    boolean canBeMP = false;
+    boolean canBeFP = false;
+    
     /* Count all nouns and determiners before the adjectives */
     // Takes care of acceptable combinations.
     int maxLevels = 4;
@@ -148,32 +155,46 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
             && matchPostagRegexp(tokens[i - j - 1], DET))) {
           if (matchPostagRegexp(tokens[i - j], _GN_MS)) {
             cNMS[level]++;
+            canBeMS = true;
           }
           if (matchPostagRegexp(tokens[i - j], _GN_FS)) {
             cNFS[level]++;
+            canBeFS = true;
           }
           if (matchPostagRegexp(tokens[i - j], _GN_MP)) {
             cNMP[level]++;
+            canBeMP = true;
           }
           if (matchPostagRegexp(tokens[i - j], _GN_FP)) {
             cNFP[level]++;
+            canBeFP = true;
           }
         }
         if (!matchPostagRegexp(tokens[i - j], _GN_)) {
           if (matchPostagRegexp(tokens[i - j], NOM_MS)) {
             cNMS[level]++;
+            canBeMS = true;
           } else if (matchPostagRegexp(tokens[i - j], NOM_FS)) {
             cNFS[level]++;
+            canBeFS = true;
           } else if (matchPostagRegexp(tokens[i - j], NOM_MP)) {
             cNMP[level]++;
+            canBeMP = true;
           } else if (matchPostagRegexp(tokens[i - j], NOM_MN)) {
             cNMN[level]++;
+            canBeMS = true;
+            canBeMP = true;
           } else if (matchPostagRegexp(tokens[i - j], NOM_FP)) {
             cNFP[level]++;
+            canBeFP = true;
           } else if (matchPostagRegexp(tokens[i - j], NOM_CS)) {
             cNCS[level]++;
+            canBeMS = true;
+            canBeFS = true;
           } else if (matchPostagRegexp(tokens[i - j], NOM_CP)) {
             cNCP[level]++;
+            canBeFP = true;
+            canBeMP = true;
           }
         }
       }
@@ -189,23 +210,29 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       if (matchPostagRegexp(tokens[i - j], DET_CS)) {
         if (matchPostagRegexp(tokens[i - j + 1], NOM_MS)) {
           cDMS[level]++;
+          canBeMS = true;
         }
         if (matchPostagRegexp(tokens[i - j + 1], NOM_FS)) {
           cDFS[level]++;
+          canBeFS = true;
         }
       }
       if (!matchPostagRegexp(tokens[i - j], ADVERBI)) {
         if (matchPostagRegexp(tokens[i - j], DET_MS)) {
           cDMS[level]++;
+          canBeMS = true;
         }
         if (matchPostagRegexp(tokens[i - j], DET_FS)) {
           cDFS[level]++;
+          canBeFS = true;
         }
         if (matchPostagRegexp(tokens[i - j], DET_MP)) {
           cDMP[level]++;
+          canBeMP = true;
         }
         if (matchPostagRegexp(tokens[i - j], DET_FP)) {
           cDFP[level]++;
+          canBeFP = true;
         }
       }
       if (i - j > 0) {
@@ -352,13 +379,50 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
 
     // The rule matches
 
-    // TODO: add suggestions
-    // RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(),
-    // match.getFromPos(), match.getToPos(),
-    // match.getMessage(), match.getShortMessage());
-    // ruleMatch.setType(match.getType());
-    // ruleMatch.setSuggestedReplacement(suggestion);
-
+    // Syntehsize suggestions  
+    List<String> suggestions = new ArrayList<>();
+    AnalyzedToken at = getAnalyzedToken(tokens[patternTokenPos], ADJECTIU_CS);
+    if (at != null) {
+      suggestions.addAll(Arrays.asList(synth.synthesize(at,"A..CP.", true)));
+    }
+    if (suggestions.isEmpty()) {
+      at = getAnalyzedToken(tokens[patternTokenPos], ADJECTIU_CP);
+      if (at != null) {
+        suggestions.addAll(Arrays.asList(synth.synthesize(at,"A..CS.", true)));
+      }  
+    }
+    at = getAnalyzedToken(tokens[patternTokenPos], ADJECTIU);
+    if (suggestions.isEmpty() && isPlural) {
+      
+      if (at != null) {
+        suggestions.addAll(Arrays.asList(synth.synthesize(at,"A...P.|V.P..P.", true)));
+      }  
+    }
+    if (canBeMS && !isPlural) {
+      if (at != null) {
+        suggestions.addAll(Arrays.asList(synth.synthesize(at,"A..MS.|V.P..SM|PX.MS.*", true)));
+      } 
+    }
+    if (canBeFS && !isPlural) {
+      if (at != null) {
+        suggestions.addAll(Arrays.asList(synth.synthesize(at,"A..FS.|V.P..SF|PX.FS.*", true)));
+      } 
+    }
+    if (canBeMP) {
+      if (at != null) {
+        suggestions.addAll(Arrays.asList(synth.synthesize(at,"A..MP.|V.P..PM|PX.MP.*", true)));
+      } 
+    }
+    if (canBeFP) {
+      if (at != null) {
+        suggestions.addAll(Arrays.asList(synth.synthesize(at,"A..FP.|V.P..PF|PX.FP.*", true)));
+      } 
+    }
+    // avoid the original token as suggestion 
+    if (suggestions.contains(tokens[patternTokenPos].getToken().toLowerCase())) {
+      suggestions.remove(tokens[patternTokenPos].getToken().toLowerCase());
+    }
+    match.setSuggestedReplacements(suggestions);
     return match;
 
   }
@@ -418,5 +482,22 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     final Matcher m = pattern.matcher(s);
     return m.matches();
   }
+  
+  private AnalyzedToken getAnalyzedToken(AnalyzedTokenReadings aToken, Pattern pattern) {
+    for (AnalyzedToken analyzedToken : aToken) {
+      String posTag = analyzedToken.getPOSTag();
+      if (posTag == null) {
+        posTag = "UNKNOWN";
+      }
+      final Matcher m = pattern.matcher(posTag);
+      if (m.matches()) {
+        return analyzedToken;
+      }
+    }
+    return null;
+  }
+
+  
+
 
 }
