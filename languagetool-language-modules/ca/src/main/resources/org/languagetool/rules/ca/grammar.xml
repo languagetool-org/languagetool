@@ -23480,6 +23480,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Volíeu dir <suggestion>nou-\2</suggestion>?</message>
                 <example correction="nou-rics">Eren uns <marker>nous rics</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>best</token>
+                    <token regexp="yes">sellers?</token>
+                </pattern>
+                <message>Normalment s'escriu amb guionet.</message>
+                <suggestion>\1-\2</suggestion>
+                <example correction="best-sellers">Els grans <marker>best sellers</marker> de l'any.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="MOTS_SENSE_GUIONETS" name="mots sense guionets: *vist-i-plau,...">
             <!-- This rulegroup would be unnecessary if LibreOffice/OpenOffice tokenized the words containing hyphens like LanguageTool -->
@@ -40563,7 +40572,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <rule id="VENA_BENA" name="vena/bena" default="temp_off">
             <pattern>
-           <token inflected="yes">posar</token>
+                <token inflected="yes">posar</token>
                 <token regexp="yes">una|la</token>
                 <marker>
                     <token>vena</token>
