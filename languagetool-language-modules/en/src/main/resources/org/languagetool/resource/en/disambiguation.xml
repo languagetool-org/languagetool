@@ -2970,6 +2970,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NNP"/>
             <token regexp="yes">&subject_pronouns;</token>
         </antipattern>
+        <antipattern><!-- "I can no go to school" (needed for MD_NO_VB to work) -->
+            <token postag="MD" />
+            <token>no</token>
+            <token postag="VBP?" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT|RB" postag_regexp="yes" /><exception regexp="yes">th[eo]se|each|that|much</exception></token>
             <marker>
@@ -2991,6 +2996,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="calls[call/NNS,call/VBZ]" outputform="calls[call/NNS]">Although some <marker>calls</marker> occasionally take more than 30 minutes, most calls are much shorter.</example><!-- #2592 -->
         <example type="ambiguous" inputform="tell[tell/NN,tell/VB,tell/VBP]" outputform="tell[tell/NN]">You know the <marker>tell</marker> Joann saw in Megiddo was impressive.</example><!-- #3456 -->
         <example type="untouched">Anarcho-pacifism is a tendency that rejects violence.</example>
+        <example type="untouched">Incorrect grammar: I can no go to school</example><!-- needed for MD_NO_VB -->
         <example type="untouched">... while some <marker>may</marker> not possess the earlier book.</example>
         <example type="untouched">... and some <marker>look</marker> not to earthly treasures, but to the riches of Heaven.</example>
         <example type="untouched">When did he last <marker>talk</marker> to them?</example>
@@ -6529,6 +6535,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       </rule>
      </rulegroup>
      <rule name="Modal verb + plural noun/vbz + plural verb => NNS" id="MD_NNSVBZ_NNS">
+        <antipattern><!-- "needs" used as an adverb https://www.lexico.com/definition/needs -->
+            <token>must</token>
+            <token>needs</token>
+        </antipattern>
       <pattern>
         <token postag="MD"/>
         <marker>
@@ -6542,6 +6552,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       </pattern>
       <disambig postag="NNS"/>
       <example type="untouched">They should pass the waters.</example>
+      <example type="untouched">If it must needs be.</example>
       <example type="ambiguous" inputform="taxis[taxi/NNS,taxi/VBZ,taxis/NN]" outputform="taxis[taxi/NNS]">Would <marker>taxis</marker> be cheaper?</example>
       <example type="ambiguous" inputform="troops[troop/NNS,troop/VBZ]" outputform="troops[troop/NNS]">Confederate commanders would need it should <marker>troops</marker> pass that way in retreat.</example>
       <example type="ambiguous" inputform="pigs[pig/NNS,pig/VBZ]" outputform="pigs[pig/NNS]">… but might <marker>pigs</marker> fly?</example>
