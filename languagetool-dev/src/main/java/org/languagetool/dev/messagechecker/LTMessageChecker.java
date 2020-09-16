@@ -72,11 +72,18 @@ public class LTMessageChecker {
     print("Checking language: " + lang.getName() + " (" + lang.getShortCodeWithCountryAndVariant() + ")");
     print("Version: " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ", " + JLanguageTool.GIT_SHORT_ID + ")");
     if (SPELLCHECK_ONLY) {
+      int enabledRules = 0;
       print("NOTE: Running spell check only");
       for (Rule r : lt.getAllRules()) {
         if (!r.isDictionaryBasedSpellingRule()) {
           lt.disableRule(r.getId());
+        } else {
+          enabledRules++;
         }
+      }
+      if (enabledRules == 0) {
+        System.out.println("Error: No rule found to enable. Make sure to use a language code like 'en-US' (not just 'en') that supports spell checking.");
+        System.exit(1);
       }
     }
     for (Rule r : lt.getAllRules()) {
