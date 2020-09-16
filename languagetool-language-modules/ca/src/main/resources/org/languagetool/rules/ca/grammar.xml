@@ -1634,7 +1634,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <!--triggers rule SON -->
-                <token>son</token>
+                <token>son<exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
                 <token min="0" postag="RG"/>
                 <token postag="AQ.[FC]P.|V.P..PF." postag_regexp="yes"/>
             </antipattern>
@@ -1644,67 +1644,65 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <filter class="org.languagetool.rules.ca.PostponedAdjectiveConcordanceFilter" args="key:value"/>
             <message>Reviseu la concordança de «\1» amb els noms precedents.</message>
-            <example correction="">La casa del poble <marker>blanques</marker>.</example>
-            <example correction="">Anàlisis <marker>clínica</marker>.</example>
-            <example correction="">El tipus de cintes més <marker>estesa</marker>.</example>
-            <example correction="">El rebuig i la indignació <marker>motivades</marker> per aquesta actitud.</example>
-            <example correction="">Aquestes són les cadires <marker>blancs</marker>.</example>
-            <example correction="">Són cases <marker>vermells</marker>.</example>
-            <example correction="">La casa del poble <marker>blanques</marker>.</example>
-            <example correction="">La casa del poble <marker>blancs</marker>.</example>
-            <example correction="">La casa de poble <marker>blanques</marker>.</example>
-            <example correction="">La casa de poble <marker>blancs</marker>.</example>
-            <example correction="">Un lloro pot imitar la parla <marker>humà</marker>.</example>
-            <example correction="">En un restaurant <marker>luxosa</marker></example>
-            <example correction="">En un restaurant solemnement <marker>decorada</marker></example>
-            <example correction="">¿Quin és el més <marker>calorosa</marker> de totes les estacions?</example>
-            <example correction="">Amb la bobina i la placa electrònica <marker>muntats</marker> en una caixa</example>
-            <example correction="">amb alguns motllurats de guixeria <marker>retallades</marker></example>
-            <example correction="">amb alguns motllurats de guixeria <marker>retallat</marker></example>
-            <example correction="">amb dos conjunts <marker>territorial</marker> diferents entre si</example>
-            <example correction="">amb rigor i honor <marker>barrejades</marker></example>
-            <example correction="">amb una alineació impròpiament <marker>habituals</marker></example>
-            <example correction="">amb una alineació molt poc <marker>habituals</marker></example>
-            <example correction="">amb una alineació poc <marker>habituals</marker></example>
-            <example correction="">Aquella va ser la seva peça <marker>mestre</marker>.</example>
-            <example correction="">El rei ha trobat l'excusa i l'explicació <marker>adequat</marker>.</example>
-            <example correction="">El rei ha trobat l'excusa i l'explicació <marker>adequats</marker>.</example>
-            <example correction="">El rei ha trobat l'excusa <marker>perfecte</marker>.</example>
-            <example correction="">En efecte, hi ha consideracions llavors força <marker>comuns</marker>.</example>
-            <example correction="">En una molècula de glucosa i una de fructosa <marker>units</marker>.</example>
-            <example correction="">Era un home força <marker>misteriosos</marker></example>
-            <example correction="">Eren uns fets cada volta més <marker>inexplicable</marker>.</example>
+            <example correction="blanc|blanca">La casa del poble <marker>blanques</marker>.</example>
+            <example correction="clíniques">Anàlisis <marker>clínica</marker>.</example>
+            <example correction="estès|estés|esteses">El tipus de cintes més <marker>estesa</marker>.</example>
+            <example correction="motivats">El rebuig i la indignació <marker>motivades</marker> per aquesta actitud.</example>
+            <example correction="blanques">Aquestes són les cadires <marker>blancs</marker>.</example>
+            <example correction="vermelles">Són cases <marker>vermells</marker>.</example>
+            <example correction="blanc|blanca">La casa del poble <marker>blancs</marker>.</example>
+            <example correction="humana">Un lloro pot imitar la parla <marker>humà</marker>.</example>
+            <example correction="luxós">En un restaurant <marker>luxosa</marker></example>
+            <example correction="decorat">En un restaurant solemnement <marker>decorada</marker></example>
+            <example correction="calorós">¿Quin és el més <marker>calorosa</marker> de totes les estacions?</example>
+            <example correction="muntades">Amb la bobina i la placa electrònica <marker>muntats</marker> en una caixa</example>
+            <example correction="retallada|retallats">amb alguns motllurats de guixeria <marker>retallades</marker></example>
+            <example correction="retallada|retallats">amb alguns motllurats de guixeria <marker>retallat</marker></example>
+            <example correction="territorials">amb dos conjunts <marker>territorial</marker> diferents entre si</example>
+            <example correction="barrejat|barrejats">amb rigor i honor <marker>barrejades</marker></example>
+            <example correction="habitual">amb una alineació impròpiament <marker>habituals</marker></example>
+            <example correction="habitual">amb una alineació molt poc <marker>habituals</marker></example>
+            <example correction="habitual">amb una alineació poc <marker>habituals</marker></example>
+            <example correction="mestra">Aquella va ser la seva peça <marker>mestre</marker>.</example>
+            <example correction="adequades">El rei ha trobat l'excusa i l'explicació <marker>adequat</marker>.</example>
+            <example correction="adequades">El rei ha trobat l'excusa i l'explicació <marker>adequats</marker>.</example>
+            <example correction="perfecta">El rei ha trobat l'excusa <marker>perfecte</marker>.</example>
+            <example correction="comunes">En efecte, hi ha consideracions llavors força <marker>comuns</marker>.</example>
+            <example correction="unida">En una molècula de glucosa i una de fructosa <marker>units</marker>.</example>
+            <!-- TODO: unides -->
+            <example correction="misteriós">Era un home força <marker>misteriosos</marker></example>
+            <example correction="inexplicables">Eren uns fets cada volta més <marker>inexplicable</marker>.</example>
             <!--el vent al voltant de la galàxia cada vegada més fort-->
-            <example correction="">Especialment en matèria de policia i justícia <marker>autonòmics</marker></example>
-            <example correction="">fets moltes vegades <marker>inexplicable</marker></example>
-            <example correction="">hi ha hagut una certa recuperació (3,2%), efecte en part de la descongestió madrilenya cap a les províncies <marker>limítrofs</marker> de Toledo i Guadalajara.</example>
-            <example correction="">la llengua i la cultura <marker>catalans</marker>.</example>
-            <example correction="">La massa, el radi i la lluminositat <marker>llistades</marker> per ell.</example>
-            <example correction="">La massa, el radi i la lluminositat <marker>llistat</marker> per ell.</example>
-            <example correction="">La petició de tramitar el cas per lesions <marker>dolosa</marker>.</example>
-            <example correction="">Les perspectives de futur <marker>immediata</marker>.</example>
-            <example correction="">Les perspectives de futur <marker>immediats</marker>.</example>
-            <example correction="">pantalons <marker>curt</marker> o llargs</example>
-            <example correction="">per mitjà de gàmetes haploides <marker>obtingudes</marker> per meiosi</example>
-            <example correction="">recull de llegendes i cançons populars en part <marker>inventats</marker> per ell</example>
+            <example correction="autonòmica|autonòmiques">Especialment en matèria de policia i justícia <marker>autonòmics</marker></example>
+            <example correction="inexplicables">fets moltes vegades <marker>inexplicable</marker></example>
+            <example correction="limítrof|limítrofa|limítrofes">hi ha hagut una certa recuperació (3,2%), efecte en part de la descongestió madrilenya cap a les províncies <marker>limítrofs</marker> de Toledo i Guadalajara.</example>
+            <example correction="catalanes">la llengua i la cultura <marker>catalans</marker>.</example>
+            <example correction="llistats">La massa, el radi i la lluminositat <marker>llistades</marker> per ell.</example>
+            <example correction="llistats">La massa, el radi i la lluminositat <marker>llistat</marker> per ell.</example>
+            <example correction="dolós|doloses">La petició de tramitar el cas per lesions <marker>dolosa</marker>.</example>
+            <example correction="immediat|immediates">Les perspectives de futur <marker>immediata</marker>.</example>
+            <example correction="immediat|immediates">Les perspectives de futur <marker>immediats</marker>.</example>
+            <example correction="curts">pantalons <marker>curt</marker> o llargs</example>
+            <example correction="obtinguts|obtenguts">per mitjà de gàmetes haploides <marker>obtingudes</marker> per meiosi</example>
+            <example correction="inventat|inventades">recull de llegendes i cançons populars en part <marker>inventats</marker> per ell</example>
             <!--<example correction="">Son molt <marker>boniques</marker></example>-->
-            <example correction="">sota les grans persianes de color verd <marker>recalcada</marker></example>
-            <example correction="">sota les grans persianes de color verd <marker>recalcat</marker></example>
-            <example correction="">sota les grans persianes de color verd <marker>recalcats</marker></example>
-            <example correction="">Són unes corbes de llum <marker>complexos</marker>.</example>
-            <example correction="">Tesis <marker>doctoral</marker></example>
-            <example correction="">Un punt de densitat i gravetat <marker>infinits</marker>.</example>
-            <example correction="">Unes explotacions ramaderes <marker>porcina</marker>.</example>
-            <example correction="">vaig posar mans a l'obra: a dins de casa <marker>mateix</marker> vaig cavar un sot per enterrar</example>
-            <example correction="">és tan ple d'urgències, tan ple de desitjós <marker>materials</marker></example>
-            <example correction="">Índex de desenvolupament humà i qualitat de vida <marker>elevades</marker>.</example>
-            <example correction="">Era un home força <marker>misteriosa</marker>.</example>
-            <example correction="">La casa <marker>destrossat</marker>.</example>
-            <example correction="">John va convèncer els seus amics d'ajudar a la família <marker>pobre</marker>.</example>
-            <example correction="">és important tenir dots <marker>comunicatives</marker>.</example>
-            <example correction="">en el creixement i la llibertat <marker>econòmiques</marker></example>
-            <example correction="">Els tipus més <marker>característic</marker>.</example>
-            <example correction="" type="triggers_error">Treure del material la forma i la textura <marker>desitjades</marker>.</example>
+            <example correction="recalcades">sota les grans persianes de color verd <marker>recalcada</marker></example>
+            <example correction="recalcades">sota les grans persianes de color verd <marker>recalcat</marker></example>
+            <example correction="recalcades">sota les grans persianes de color verd <marker>recalcats</marker></example>
+            <example correction="complex|complexa|complexes">Són unes corbes de llum <marker>complexos</marker>.</example>
+            <example correction="doctorals">Tesis <marker>doctoral</marker></example>
+            <example correction="infinit|infinita">Un punt de densitat i gravetat <marker>infinits</marker>.</example>
+            <example correction="porcines">Unes explotacions ramaderes <marker>porcina</marker>.</example>
+            <example correction="mateixa">vaig posar mans a l'obra: a dins de casa <marker>mateix</marker> vaig cavar un sot per enterrar</example>
+            <example correction="material">és tan ple d'urgències, tan ple de desitjós <marker>materials</marker></example>
+            <example correction="elevat|elevada|elevats">Índex de desenvolupament humà i qualitat de vida <marker>elevades</marker>.</example>
+            <example correction="misteriós">Era un home força <marker>misteriosa</marker>.</example>
+            <example correction="destrossada">La casa <marker>destrossat</marker>.</example>
+            <example correction="pobra">John va convèncer els seus amics d'ajudar a la família <marker>pobre</marker>.</example>
+            <example correction="comunicatius">és important tenir dots <marker>comunicatives</marker>.</example>
+            <example correction="econòmics">en el creixement i la llibertat <marker>econòmiques</marker></example>
+            <example correction="característics">Els tipus més <marker>característic</marker>.</example>
+            <example correction="desitjats" type="triggers_error">Treure del material la forma i la textura <marker>desitjades</marker>.</example>
             <example>És en alguns casos <marker>documentat</marker>.</example>
             <!-- ambiguous -->
 
