@@ -10720,6 +10720,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>qualificar de</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ERIGIR_EN" name="erigir *com a/en" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="3">erigir</token>
+                    <marker>
+                        <token>com</token>
+                    </marker>
+                    <token><exception>a</exception></token>
+                </pattern>
+                <message>El v. 'erigir' regeix normalment la preposició <suggestion>en</suggestion>, no "com a", o va sense preposició.</message>
+                <example correction="en">El volien erigir <marker>com</marker> el cabdill.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="3">erigir</token>
+                    <marker>
+                        <token>com</token>
+                        <token>a</token>
+                    </marker>
+                </pattern>
+                <message>El v. 'erigir' regeix normalment la preposició <suggestion>en</suggestion>, no "com a", o va sense preposició.</message>
+                <suggestion>en</suggestion>
+                <example correction="en">El volien erigir <marker>com a</marker> cabdill.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="COM_A_COM" name="*com a / com">
             <rule>
                 <pattern>
