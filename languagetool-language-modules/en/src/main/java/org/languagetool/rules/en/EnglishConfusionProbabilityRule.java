@@ -427,10 +427,40 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       posRegex("JJR")
     ),
     Arrays.asList(
-      // "way back at" (was/way)
+      // "way much easier" (was/way)
       token("way"),
-      token("back"),
-      posRegex("IN")
+      token("much"),
+      posRegex("JJR")
+    ),
+    Arrays.asList(
+      // "way out of" (was/way)
+      token("way"),
+      token("out"),
+      tokenRegex("of|in|on")
+    ),
+    Arrays.asList(
+      // "way to long" (was/way)
+      token("way"),
+      token("to"),
+      posRegex("JJ")
+    ),
+    Arrays.asList(
+      // "He was there way before" (was/way)
+      token("way"),
+      tokenRegex("before|after|outside|inside|back")
+    ),
+    Arrays.asList(
+      // "In a logic way" (was/way)
+      token("in"),
+      tokenRegex("an?"),
+      posRegex("JJ"),
+      token("way")
+    ),
+    Arrays.asList(
+      // They "awarded" us a contract ...
+      posRegex("VB.*"),
+      tokenRegex("[\"”“]"),
+      token("us") // vs "is"
     )
   );
 

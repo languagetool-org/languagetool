@@ -7,8 +7,7 @@
     <!ENTITY apostrophe "['’`´‘]">
     <!ENTITY months "January|February|March|April|May|Ju(ne|ly)|August|September|October|November|December">
     <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Ju[ln]|Aug|Sept?|Oct|Nov|Dec">
-    <!ENTITY file_name_extensions "asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|dll|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rss|sh|shtml|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|yaml|yml|zip|zipx">
-    <!ENTITY subject_pronouns "I|you|he|she|it|we|they|one">
+    <!ENTITY file_name_extensions "ai|asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|docx?|dll|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpe?g|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|ods|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rar|rss|sh|shtml|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|yaml|yml|zip|zipx">    <!ENTITY subject_pronouns "I|you|he|she|it|we|they|one">
     <!ENTITY object_pronouns "me|you|him|her|it|us|them|one">
     <!ENTITY hispanic_nnp "Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Días|Di?os|Nacional|Villas|Cinco|Rancho|Cerro|Universidad|Copa|Academia|Plaza|Facultad|Torre|Camino|Club|Tapas|Palma|Águas">
     <!ENTITY plural_adjectival_nouns "angry|blind|deaf|destitute|dead|dying|elderly|faithful|homeless|injured|insane|jobless|old|poor|rich|sick|squeamish|wealthy|wicked|wounded|young"><!-- One-word terms only, only after the word 'the': www.oxfordlearnersdictionaries.com/definition/english/rich, www.englishgrammar.org/adjectives-nouns/ -->
@@ -2975,6 +2974,21 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>no</token>
             <token postag="VBP?" postag_regexp="yes" />
         </antipattern>
+        <antipattern><!-- "I have no gone to school" (needed for HAVE_NO_VB to work) -->
+            <token inflected="yes">have</token>
+            <token>no</token>
+            <token postag="VBN" />
+        </antipattern>
+        <antipattern><!-- "I did no go to school" (needed for DO_NO_VB to work) -->
+            <token inflected="yes">do</token>
+            <token>no</token>
+            <token postag="VBP?" postag_regexp="yes" />
+        </antipattern>
+        <antipattern><!-- "I did no go to school" (needed for DO_NO_VB to work) -->
+            <token inflected="yes">be</token>
+            <token>no</token>
+            <token postag="VB[NG]" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT|RB" postag_regexp="yes" /><exception regexp="yes">th[eo]se|each|that|much</exception></token>
             <marker>
@@ -2997,6 +3011,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="tell[tell/NN,tell/VB,tell/VBP]" outputform="tell[tell/NN]">You know the <marker>tell</marker> Joann saw in Megiddo was impressive.</example><!-- #3456 -->
         <example type="untouched">Anarcho-pacifism is a tendency that rejects violence.</example>
         <example type="untouched">Incorrect grammar: I can no go to school</example><!-- needed for MD_NO_VB -->
+        <example type="untouched">Incorrect grammar: I have no gone to school</example><!-- needed for HAVE_NO_VB -->
+        <example type="untouched">Incorrect grammar: I did no go to school</example><!-- needed for DO_NO_VB -->
+        <example type="untouched">Incorrect grammar: I am no coming to school</example><!-- needed for DO_NO_VB -->
         <example type="untouched">... while some <marker>may</marker> not possess the earlier book.</example>
         <example type="untouched">... and some <marker>look</marker> not to earthly treasures, but to the riches of Heaven.</example>
         <example type="untouched">When did he last <marker>talk</marker> to them?</example>
@@ -9220,7 +9237,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       </pattern>
       <disambig action="ignore_spelling"></disambig>
     </rule>
-
+    <rule name="Ignore spelling of file extensions" id="IGNORE_SPELLING_OF_FILE_EXTENSIONS">
+        <!-- A .txt file-->
+        <pattern>
+            <token spacebefore="yes">.</token>
+            <token spacebefore="no" regexp="yes">&file_name_extensions;</token>
+        </pattern>
+        <disambig action="ignore_spelling"></disambig>
+    </rule>
     <rule name="Proper noun: Ho Chi Minh" id="HO_CHI_MINH"><!-- www.lexico.com/en/definition/ho_chi_minh -->
         <pattern case_sensitive="yes">
             <token>Ho</token>
