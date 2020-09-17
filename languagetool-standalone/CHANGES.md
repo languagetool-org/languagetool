@@ -19,6 +19,13 @@
   * Each pair of `ConfusionProbabilityRule` has its own ID now, so it can be separately turned on/off
   * New XML attribute `chunk_re` for `<token>`, which specifies a chunk as a regular expression
 
+#### Ukrainian
+  * dictionary update
+  * many new punctuation rules
+  * many new styling rules
+  * tokenization and tagging improvements
+  * disambiguation improvements
+
 
 
 ## 5.0.2 (2020-08-28)
