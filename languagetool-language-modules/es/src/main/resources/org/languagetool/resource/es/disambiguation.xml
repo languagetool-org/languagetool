@@ -99,6 +99,22 @@ Copyright (C) 2011 Juan Martorell
                 <wd lemma="mapuche" pos="NCCN000"/>
             </disambig>
         </rule>
+        <rule>
+            <pattern>
+                <token>crió</token>
+            </pattern>
+            <disambig action="add">
+                <wd lemma="criar" pos="VMIS3S0"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>dió</token>
+            </pattern>
+            <disambig action="add">
+                <wd lemma="dar" pos="VMIS3S0"/>
+            </disambig>
+        </rule>
     </rulegroup>
 
 
@@ -1241,7 +1257,7 @@ Copyright (C) 2011 Juan Martorell
     <rule id="not_adj" name="not adj">
         <pattern>
             <and>
-                <token postag="A.*" postag_regexp="yes" regexp="yes">moscas?</token>
+                <token postag="A.*" postag_regexp="yes" regexp="yes">moscas?|líneas?</token>
                 <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
             </and>
         </pattern>
@@ -1595,7 +1611,7 @@ Copyright (C) 2011 Juan Martorell
             <wd lemma="pudrir"/>
         </disambig>
     </rule>
-    <rulegroup id="hacer_falta1" name="hacer falta (verb)">
+    <rulegroup id="hacer_falta" name="hacer falta (verb)">
         <rule>
             <pattern>
                 <marker>
@@ -1710,6 +1726,31 @@ Copyright (C) 2011 Juan Martorell
                 <marker>
                     <token postag="SPS00">a</token>
                     <token postag="NCMS000" regexp="yes">cabo|término</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GV_"/>
+                <wd pos="_GV_"/>
+            </disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="tener_en_cuenta" name="tener en cuenta (verb)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">tener</token>
+                    <token postag="SPS00">en</token>
+                    <token postag="NCFS000" regexp="yes">cuenta</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">tener</token>
+                <marker>
+                    <token postag="SPS00">en</token>
+                    <token postag="NCFS000" regexp="yes">cuenta</token>
                 </marker>
             </pattern>
             <disambig action="add">
@@ -2812,7 +2853,7 @@ Copyright (C) 2011 Juan Martorell
                 <feature id="genero"/>
                 <marker>
                     <token postag="DI.*" postag_regexp="yes" inflected="yes">todo</token>
-                    <token postag="DA.*" postag_regexp="yes"/>
+                    <token postag="D[AD].*" postag_regexp="yes"/>
                     <token postag="N.*|PI.*" postag_regexp="yes"/>
                 </marker>
             </unify>
@@ -3121,7 +3162,7 @@ Copyright (C) 2011 Juan Martorell
                 <!-- TODO: exceptions?-->
                 <token postag="SPS00"><exception postag="LOC_ADV"/><exception regexp="yes">bajo|para|hasta</exception></token>
             </pattern>
-            <disambig action="filter" postag="SPS00"/>
+            <disambig action="filter" postag="SPS00|_GV_"/>
             <example type="untouched">en mi contra.</example>
         </rule>
         <rule>
@@ -3132,7 +3173,7 @@ Copyright (C) 2011 Juan Martorell
                 <token postag="D.*" postag_regexp="yes"/>
                 <token postag="[DAN].*|PR.*" postag_regexp="yes"/>
             </pattern>
-            <disambig action="filter" postag="SPS00"/>
+            <disambig action="filter" postag="SPS00|_GV_"/>
         </rule>
         <rule>
             <pattern>
@@ -3141,7 +3182,7 @@ Copyright (C) 2011 Juan Martorell
                 </marker>
                 <token regexp="yes">licencia|poder|dominio|dirección|presidencia|cuidado|atención|fianza|secreto|administración|principios|consideración|luz|tortura|condiciones</token>
             </pattern>
-            <disambig action="filter" postag="SPS00"/>
+            <disambig action="filter" postag="SPS00|_GV_"/>
         </rule>
         <rule>
             <pattern>
@@ -3151,7 +3192,7 @@ Copyright (C) 2011 Juan Martorell
                 </marker>
                 <token postag="[NA].*" postag_regexp="yes"><exception postag="P.*|V.[IS].*" postag_regexp="yes"/></token>
             </pattern>
-            <disambig action="filter" postag="S.*"/>
+            <disambig action="filter" postag="S.*|_GV_"/>
         </rule>
     </rulegroup>
 
@@ -3435,7 +3476,7 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <marker>
                 <and>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes">fallas?|faltas?|tantos?|resultas?|uso|usas?|cuestas?|hablas?|cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|queda|quedas<exception postag="_GN_.*"
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">dejes?|buscas?|fallas?|faltas?|tantos?|resultas?|uso|usas?|cuestas?|hablas?|cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|queda|quedas<exception postag="_GN_.*"
                         postag_regexp="yes"/></token>
                     <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
@@ -3448,7 +3489,7 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <marker>
                 <and>
-                    <token postag="A.*" postag_regexp="yes" regexp="yes">fallas?|acepto|aceptas?|quedas?|quedo|duras?|duro<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[NMIS].*" postag_regexp="yes"/></token>
+                    <token postag="A.*" postag_regexp="yes" regexp="yes">vivas?|sumas?|tardas?|fallas?|acepto|aceptas?|quedas?|quedo|duras?|duro<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[NMIS].*" postag_regexp="yes"/></token>
                     <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
@@ -3502,7 +3543,10 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <!-- These words would require specific rules for agreement-->
             <marker>
-                <token postag="D.*" postag_regexp="yes" inflected="yes" regexp="yes">todo|ambos<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                <and>
+                    <token postag="D.*" postag_regexp="yes" inflected="yes" regexp="yes">todo|ambos<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="D.*" postag_regexp="yes" negate_pos="yes"/>
+                </and>
             </marker>
         </pattern>
         <disambig action="remove" postag="D.*"/>
@@ -3698,7 +3742,7 @@ Copyright (C) 2011 Juan Martorell
             <marker>
                 <and>
                     <token postag="A.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}+[\p{Ll}·]*</exception><exception regexp="yes">presentes?|antiguas?</exception></token>
-                    <token postag="V.*" postag_regexp="yes"><exception postag="_GV_|VM[IS]P1S0|V.G.*|VMM..V.*|V.+\+P.*" postag_regexp="yes"/></token>
+                    <token postag="V.*" postag_regexp="yes"><exception postag="V.P.*|_GV_|VM[IS]P1S0|V.G.*|VMM..V.*|V.+\+P.*" postag_regexp="yes"/></token>
                 </and>
             </marker>
         </pattern>

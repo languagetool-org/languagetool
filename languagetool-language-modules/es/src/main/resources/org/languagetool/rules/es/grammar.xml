@@ -9175,7 +9175,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>He tenido una buena tarde.</example>
             </rule>
         </rulegroup>
-        <rule id="AGREEMENT_POSTPONED_ADJ" name="concordancia de adjetivo pospuesto a sustantivos" default="temp_off">
+        <rule id="AGREEMENT_POSTPONED_ADJ_" name="concordancia de adjetivo pospuesto a sustantivos" default="temp_off">
             <antipattern>
                 <!-- invariable adjectives -->
                 <token>estándar</token>
@@ -9237,7 +9237,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token regexp="yes" inflected="yes">&dias_semana;</token>
                 <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">siguiente|pasar|anterior|próximo</exception></token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">siguiente|pasado|anterior|próximo</exception></token>
             </antipattern>
             <antipattern>
                 <token>en</token>
@@ -9246,8 +9246,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">señalar|determinar|excepcional|extraordinario</exception></token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">debido|junto|justo</token>
+                <token regexp="yes">debido|junto</token>
                 <token regexp="yes">a|al</token>
+            </antipattern>
+            <antipattern>
+                <token>justo</token>
+                <token regexp="yes">a|al|afuera|adentro|fuera|dentro</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">producto|objeto|fruto</token>
@@ -9286,12 +9290,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes" inflected="yes">ir|venir|entrar|volver|salir|estar|levantar|quedar|permanecer|pillar|coger</token>
+                <token regexp="yes" inflected="yes">ir|venir|entrar|volver|salir|estar|levantar|quedar|permanecer|pillar|coger|llegar|pasar</token>
                 <token regexp="yes">a|en|de|al|del</token>
                 <token postag="DA.*" postag_regexp="yes" min="0"/>
                 <token regexp="yes">casa|cama|concierto|cine|teatro</token>
                 <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes" skip="3">pasar|permanecer|estar|llevar</token>
+                <!--<token postag="D.*" postag_regexp="yes" min="0" max="3"/>-->
+                <token regexp="yes" inflected="yes">vacación|&dias_semana;|&meses_ano;|&partes_dia;|&unidades_tiempo;|&estaciones_ano;</token>
+                <!--<token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>-->
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>mes</token>
+                <token>de</token>
+                <token regexp="yes" inflected="yes">&meses_ano;</token>
+                <!--<token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>-->
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">pasado|siguiente|anterior|posterior|próximo</exception></token>
             </antipattern>
             <antipattern>
                 <token>a</token>
@@ -9300,12 +9318,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
+                <!-- colores? -->
                 <token regexp="yes">satélite|clave|líder|bomba|miembro</token>
-            </antipattern>
-            <antipattern>
-                <token inflected="yes" skip="2" regexp="yes">llevar|pasar</token>
-                <token inflected="yes" regexp="yes">&unidades_tiempo;&partes_dia;</token>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token regexp="yes">la|su</token>
@@ -9411,12 +9425,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="A..[MC][SN].*|V.P..SM|PX.MS.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
+                <token inflected="yes">ser</token>
+                <token>cualquier</token>
+                <token>cosa</token>
+                <token>menos</token>
+                <token/>
+            </antipattern>
+            <antipattern>
                 <token>una</token>
                 <token regexp="yes">manera|forma</token>
                 <token>de</token>
                 <token postag="V.N.*" postag_regexp="yes"/>
                 <token min="0" max="5" postag="RG|LOC_ADV|[DNA].*|V.P.*" postag_regexp="yes"><exception postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"/></token>
                 <token postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">pasado|entrado|visto|llegado</token>
+                <token postag="D[AID].MS." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">pasada|entrada|vista|llegada</token>
+                <token postag="D[AID].FS." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">pasados|entrados|vistos|llegados</token>
+                <token postag="D[AID].MP." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">pasadas|entradas|vistas|llegadas</token>
+                <token postag="D[AID].FP." postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/> <exception regexp="yes">primero|juntos|juntas|dado|dada|dados|dadas|incluso</exception><exception regexp="yes">\p{Lu}.*</exception></token>
@@ -9551,6 +9588,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Mitad nigeriano y mitad alemán.</example>
             <example>Ellos tienen una forma de procesar el mundo distinta.</example>
             <example>para no llevar a cabo políticas y medidas contra la pobreza</example>
+            <example>Chica busca chico.</example>
+            <example>Se tienen en cuenta indicadores como ese.</example>
+            <example>Llegué a casa sano y salvo.</example>
+            <example>Los alumnos de 4º de la ESO de Carmelitas premiados en el concurso europeo.</example>
+            <example>Durante el tiempo que su marido viva.</example>
+            <example>No quiero pasar todas las vacaciones encerrado en casa.</example>
+            <example>No quiero pasar el mes de julio encerrada en casa.</example>
+            <example>No dejes abiertas las ventanas.</example>
             <!-- 
                 Ella fue al concierto acompañada de una amiga.
                 Soy cualquier cosa menos mentiroso. 
@@ -10537,7 +10582,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://aplica.rae.es/orweb/cgi-bin/v.cgi?i=fGOCbZgElkdRTUPr</url>
             <rule>
                 <pattern>
-                    <token regexp="yes">dió|guió|lió|fió|frió|pió|rió|guión|ión|muón|vió|pión|prión</token>
+                    <token regexp="yes">dió|guió|lió|fió|frió|pió|rió|guión|ión|muón|vió|pión|prión|crió</token>
                 </pattern>
                 <message>Según las normas ortográficas actuales, los monosílabos no llevan tilde.</message>
                 <suggestion><match no="1" regexp_match="(?iu)(.*)ó(.*)" regexp_replace="$1o$2"/></suggestion>

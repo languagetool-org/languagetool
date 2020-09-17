@@ -1370,10 +1370,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" inflected="yes" skip="2">anar|venir|entrar|tornar|eixir|sortir|estar|alçar|aixecar|quedar|romandre|ser</token>
                 <token regexp="yes">a|en|de</token>
                 <token postag="DA.*" postag_regexp="yes" min="0"/>
-                <token regexp="yes">casa|llit</token>
+                <token regexp="yes">casa|llit|concert|teatre|vacances</token>
                 <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes" skip="4">passar|romandre|estar|ser</token>
+                <token regexp="yes" inflected="yes">vacança|vacació|&dies_setmana;|&mesos_any;|&parts_dia;|&unitats_temps;|&estacions;</token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>mes</token>
+                <token>de</token>
+                <token regexp="yes" inflected="yes">&mesos_any;</token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception inflected="yes">proppassat|propvinent|passat|següent|anterior|posterior|pròxim|proper</exception></token>
+            </antipattern>
+            
             <antipattern>
                 <token>a</token>
                 <token postag="D.*" postag_regexp="yes" min="0"/>
@@ -1588,19 +1600,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>-->
             <antipattern>
-                <token regexp="yes">passat|entrat|vist</token>
+                <token regexp="yes">passat|entrat|vist|arribat</token>
                 <token postag="D[AID].MS." postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes">passada|entrada|vista</token>
+                <token regexp="yes">passada|entrada|vista|arribada</token>
                 <token postag="D[AID].FS." postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes">passats|entrats|vists|vistos</token>
+                <token regexp="yes">passats|entrats|vists|vistos|arribats</token>
                 <token postag="D[AID].MP." postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes">passades|entrades|vistes</token>
+                <token regexp="yes">passades|entrades|vistes|arribades</token>
                 <token postag="D[AID].FP." postag_regexp="yes"/>
             </antipattern>
             <antipattern>

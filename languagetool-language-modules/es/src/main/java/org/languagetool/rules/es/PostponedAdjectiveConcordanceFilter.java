@@ -45,6 +45,8 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   /**
    * Patterns
    */
+  
+  private final int maxLevels = 4;
 
   private static final Pattern NOM = Pattern.compile("N.*");
   private static final Pattern NOM_MS = Pattern.compile("N.MS.*|PI0MS000");
@@ -133,7 +135,6 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     boolean canBeP = false;
     /* Count all nouns and determiners before the adjectives */
     // Takes care of acceptable combinations.
-    int maxLevels = 4;
     int[] cNt = new int[maxLevels];
     int[] cNMS = new int[maxLevels];
     int[] cNFS = new int[maxLevels];
