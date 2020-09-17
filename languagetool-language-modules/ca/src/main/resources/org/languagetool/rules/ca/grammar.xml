@@ -1296,7 +1296,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes" inflected="yes">&dies_setmana;|&mesos_any;|dia</token>
+                <token regexp="yes" inflected="yes">&dies_setmana;|&mesos_any;|dia|&parts_dia;</token>
                 <token min="0" max="4" postag="RG|LOC_ADV|AO.*|CC" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
@@ -10720,10 +10720,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>qualificar de</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ERIGIR_EN" name="erigir *com a/en" default="temp_off">
+        <rulegroup id="ERIGIR_EN" name="erigir *com a/en">
             <rule>
                 <pattern>
-                    <token inflected="yes" skip="3">erigir</token>
+                    <token inflected="yes" skip="3">erigir<exception postag="V.*" postag_regexp="yes" scope="next"/></token>
                     <marker>
                         <token>com</token>
                     </marker>
@@ -10734,7 +10734,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" skip="3">erigir</token>
+                    <token inflected="yes" skip="3">erigir<exception postag="V.*" postag_regexp="yes" scope="next"/></token>
                     <marker>
                         <token>com</token>
                         <token>a</token>
