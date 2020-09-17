@@ -1160,6 +1160,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rule id="vchenyi_stupin" name="Вчений ступінь">
+      <pattern>
+        <marker>
+          <token inflected='yes' regexp='yes'>[ву]чений</token>
+        </marker>
+        <token inflected='yes' regexp="yes">ступінь|степінь</token>
+      </pattern>
+      <message>Правильно: <suggestion>науковий</suggestion></message>
+      <example correction="науковий"><marker>вчений</marker> ступінь</example>
+    </rule>
+
     <rule id="zirka_vs_zorya" name="Зірка і зоря">
       <pattern>
         <token inflected="yes" regexp="yes">яскравий|гарячий|далекий|ранній|ранішній|вечірній|падучий|полярний|щасливий|((що|як)?най)?яскравіший|((що|як)?най)?гарячіший|атмосфера|енергія|змінний|карликовий|надновий|нейтронний|коливання|температура|спектр|формування|с?формувати</token>
@@ -1911,16 +1922,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Вітання, спільното!</example>
     </rule>
 
-    <rule id="pry_bazhanni" name="При бажанні">
-      <pattern>
-        <token>при</token>
-        <token>бажанні</token>
-      </pattern>
-      <message>На думку деяких мовознавців, слід вживати <suggestion>якщо є охота (бажання)</suggestion>, <suggestion>якщо (коли) маєш (маєте) бажання (охоту)</suggestion></message>
-      <example correction="Якщо є охота (бажання)|Якщо (коли) маєш (маєте) бажання (охоту)"><marker>При бажанні</marker> Блохін може залишитися в Динамо</example>
-      <example>Якщо Блохін має бажання він може залишитися в Динамо</example>
-    </rule>
-
     <rule id="u_znak_vdiachnosti" name="У знак вдячності">
       <pattern>
         <token regexp="yes">[ву]</token>
@@ -2142,26 +2143,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="торік|минулого року|того року"><marker>в минулому році</marker></example>
     </rule>
 
-    <rule id="na_protyazi" name="На протязі">
-      <pattern>
-        <marker>
-          <token>на</token>
-          <token>протязі</token>
-        </marker>
-        <token postag_regexp="yes" postag=".*?v_rod.*|adv.*|number.*"/>
-      </pattern>
-      <message>На позначення часового відрізка деякі мовознавці не рекомендують вживати «на протязі»</message>
-      <suggestion>упродовж</suggestion>
-      <suggestion>протягом</suggestion>
-      <url>https://r2u.org.ua/check/rules/na_protyazi</url>
-      <example correction="упродовж|протягом"><marker>на протязі</marker> року</example>
-      <example correction="упродовж|протягом"><marker>на протязі</marker> 10 хвилин</example>
-      <example correction="упродовж|протягом"><marker>на протязі</marker> XX століття</example>
-      <example correction="упродовж|протягом"><marker>на протязі</marker> майже 20 хв.</example>
-      <example>той стоїть на протязі</example>
-      <example>той стояв на протязі кілька хвилин.</example>
-    </rule>
-
     <rule id="vuhan" name="Вухань">
       <pattern>
         <token inflected="yes">Ухань</token>
@@ -2181,6 +2162,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="Коротко кажучи|(Одним) словом"><marker>Коротше кажучи</marker></example>
       <example>Коротко кажучи</example>
     </rule>
+
+
+    <!-- suggestions supported only by some (albeit popular) sources -->
 
     <rulegroup id="buty_pravym" name="Бути правим">
       <rule>
@@ -2248,6 +2232,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="проти">ліки <marker>від</marker> усяких хвороб</example>
       <example>ліки проти усяких хвороб</example>
     </rule>
+
+    <rule id="na_protyazi" name="На протязі">
+      <pattern>
+        <marker>
+          <token>на</token>
+          <token>протязі</token>
+        </marker>
+        <token postag_regexp="yes" postag=".*?v_rod.*|adv.*|number.*"/>
+      </pattern>
+      <message>На позначення часового відрізка деякі мовознавці не рекомендують вживати «на протязі»</message>
+      <suggestion>упродовж</suggestion>
+      <suggestion>протягом</suggestion>
+      <url>https://r2u.org.ua/check/rules/na_protyazi</url>
+      <example correction="упродовж|протягом"><marker>на протязі</marker> року</example>
+      <example correction="упродовж|протягом"><marker>на протязі</marker> 10 хвилин</example>
+      <example correction="упродовж|протягом"><marker>на протязі</marker> XX століття</example>
+      <example correction="упродовж|протягом"><marker>на протязі</marker> майже 20 хв.</example>
+      <example>той стоїть на протязі</example>
+      <example>той стояв на протязі кілька хвилин.</example>
+    </rule>
+
+    <rule id="pry_bazhanni" name="При бажанні">
+      <pattern>
+        <token>при</token>
+        <token>бажанні</token>
+      </pattern>
+      <message>На думку деяких мовознавців, слід вживати <suggestion>якщо є охота (бажання)</suggestion>, <suggestion>якщо (коли) маєш (маєте) бажання (охоту)</suggestion></message>
+      <example correction="Якщо є охота (бажання)|Якщо (коли) маєш (маєте) бажання (охоту)"><marker>При бажанні</marker> Блохін може залишитися в Динамо</example>
+      <example>Якщо Блохін має бажання він може залишитися в Динамо</example>
+    </rule>
+
+    <rulegroup id="vyglyadaty_vs_maty_vyglyad" name="Виглядати і мати вигляд">
+      <rule>
+        <pattern>
+         <token regexp='yes'>(не)?погано|(не)?добре|(не)?гарно|інакше|щасливо|смішно|чудово|страшно|розумно|краще|файно|кепсько</token>
+         <token inflected='yes'>виглядати</token>
+        </pattern>
+        <message>На думку деяких мовознавців, «виглядати» в цьому значенні вживати недоречно, але в загальній мовній практиці вживають обидва вислови.</message>
+        <suggestion>мати (який) вигляд (подобу, постать)</suggestion>
+        <example correction="мати (який) вигляд (подобу, постать)">Вона <marker>гарно виглядає</marker>.</example>
+        <example>Вона виглядає з вікна.</example>
+      </rule>
+      
+      <rule>
+        <pattern>
+          <token inflected='yes'>виглядати</token>
+          <token regexp='yes'>(не)?погано|(не)?добре|(не)?гарно|інакше|щасливо|смішно|чудово|страшно|розумно|краще|файно|кепсько</token>
+        </pattern>
+        <message>На думку деяких мовознавців, «виглядати» в цьому значенні вживати недоречно, але в загальній мовній практиці вживають обидва вислови.</message>
+        <suggestion>мати (який) вигляд (подобу, постать)</suggestion>
+       <example correction="мати (який) вигляд (подобу, постать)">Вона <marker>виглядає гарно</marker>.</example>
+        <example>Вона виглядає з вікна.</example>
+      </rule>
+    </rulegroup>
 
 <!--
     схоже, «відсутній» не має такого чіткого розділення
