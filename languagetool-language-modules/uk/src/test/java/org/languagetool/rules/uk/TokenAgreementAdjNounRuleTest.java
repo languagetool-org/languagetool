@@ -90,6 +90,9 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("перша ступінь")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("друга ступінь")).length);
 
+    assertHasError("Дата 14 березня була встановлена Верховної Радою 17 січня 2017 року");
+    assertHasError("фракцію у Верховні Раді й мати");
+    
     // не працює через іменник "французька" (мова)
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("французька політик")).length);
 
