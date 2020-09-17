@@ -89,7 +89,9 @@ public class EnglishTest extends LanguageSpecificTest {
           suggWord = "meter";
         }
         if (origWord != null) {
-          System.err.println("WARNING: Instead of '" + origWord + "' (en-GB) consider using '" + suggWord + "' (en-US) for rule " + patternRule.getFullId() + ", message: '" + message + "'");
+          System.err.println("WARNING: Instead of '" + origWord + "' (en-GB) consider using " +
+                  "words that work in all locales (or '" + suggWord + "' (en-US) if you can't find those) for rule " +
+                  patternRule.getFullId() + ", message: '" + message + "'");
         }
       }
     }
