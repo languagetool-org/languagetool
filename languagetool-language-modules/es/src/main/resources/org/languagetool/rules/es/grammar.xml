@@ -2504,6 +2504,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="VARIA" name="varia/varía">
+            <antipattern>
+                <token postag="NCFS000"/>
+                <token>varia</token>
+                <token postag="_PUNCT.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>varia</token>
@@ -2512,6 +2517,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Si es del v. 'variar', lleva tilde. Puede ser, más raramente, un adjetivo sin tilde.</message>
             <suggestion>varía</suggestion>
             <example correction="varía">Actualmente el IVA <marker>varia</marker> entre un 15 y un 21%.</example>
+            <example>Hojas simples de disposición varia, alternas, opuestas o en roseta basal, sin estípulas.</example>
         </rule>
         <rulegroup id="TENIA" name="tenia/tenía" default="on">
             <rule>
@@ -9111,12 +9117,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <feature id="numero"/>
                     <marker>
                         <token postag="V.P.*" postag_regexp="yes"/>
-                        <token postag="D.*" postag_regexp="yes"/>
+                        <token postag="DA.[MF][SP]." postag_regexp="yes"/>
                     </marker>
+                    <token><exception regexp="yes" inflected="yes">&dias_semana;|&meses_ano;|&partes_dia;|&unidades_tiempo;|arapo|trozo|triza|uno|otro|momento|tiempo</exception></token>
                 </unify>
             </pattern>
             <message>Esta expresión debe concordar en género y número.</message>
             <example correction="">De esta forma queda <marker>garantizado la</marker> comercialización.</example>
+            <example>los camiones que queden descargados el jueves</example>
+            <example>El hecho es que se quedó dormido esa mañana.</example>
+            <example>Ella se quedó sentada unos momentos más</example>
+            <example>quedó hecha un arapo</example>
+            <example>ambos quedan prendados el uno del otro</example>
+            <example>Queda abolido lo que era ceremonial.</example>
         </rule>
         <rulegroup id="BUENAS_TARDES" name="concordancia: buenas tardes">
             <!-- this rule is necessary because "tardes" can be noun/verb-->
@@ -11969,6 +11982,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="CONTEXT" name="Errores según el contexto">
         <rule id="MB" name="Mb/MB">
+            <antipattern case_sensitive="yes">
+                <token>Mb</token>
+                <token>/</token>
+                <token>s</token>
+            </antipattern>
             <pattern>
                 <token case_sensitive="yes">Mb</token>
             </pattern>
