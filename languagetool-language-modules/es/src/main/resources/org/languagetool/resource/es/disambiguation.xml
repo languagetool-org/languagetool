@@ -1693,6 +1693,31 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
+    <rulegroup id="llevar_a_cabo" name="llevar a cabo (verb)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">llevar</token>
+                    <token postag="SPS00">a</token>
+                    <token postag="NCMS000" regexp="yes">cabo|término</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">llevar</token>
+                <marker>
+                    <token postag="SPS00">a</token>
+                    <token postag="NCMS000" regexp="yes">cabo|término</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GV_"/>
+                <wd pos="_GV_"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="E_CONJ" name="e (conjunción)">
         <rule>
             <pattern>
@@ -3285,9 +3310,9 @@ Copyright (C) 2011 Juan Martorell
     </rulegroup>
     <rule id="verb_notnoun" name="verb not noun: queda">
         <pattern>
-            <token postag="V.*" postag_regexp="yes" regexp="yes">queda|descargue<exception postag="_GN_FS"/></token>
+            <token postag="V.*" postag_regexp="yes" regexp="yes">queda|descargue|salga<exception postag="_GN_FS"/></token>
         </pattern>
-        <disambig action="remove" postag="[AN].*"></disambig>
+        <disambig action="remove" postag="[AND].*"></disambig>
     </rule>  
     <rulegroup id="NomAdj" name="nom + adj">
         <rule>

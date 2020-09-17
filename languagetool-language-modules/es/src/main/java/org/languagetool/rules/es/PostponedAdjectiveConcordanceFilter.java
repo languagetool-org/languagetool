@@ -47,15 +47,15 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
    */
 
   private static final Pattern NOM = Pattern.compile("N.*");
-  private static final Pattern NOM_MS = Pattern.compile("N.MS.*");
-  private static final Pattern NOM_FS = Pattern.compile("N.FS.*");
+  private static final Pattern NOM_MS = Pattern.compile("N.MS.*|PI0MS000");
+  private static final Pattern NOM_FS = Pattern.compile("N.FS.*|PI0FS000");
   private static final Pattern NOM_MP = Pattern.compile("N.MP.*");
   private static final Pattern NOM_MN = Pattern.compile("N.MN.*");
   private static final Pattern NOM_FP = Pattern.compile("N.FP.*");
   private static final Pattern NOM_CS = Pattern.compile("N.CS.*");
   private static final Pattern NOM_CP = Pattern.compile("N.CP.*");
 
-  private static final Pattern NOM_DET = Pattern.compile("N.*|D[NDA0I].*");
+  private static final Pattern NOM_DET = Pattern.compile("N.*|D[NDA0I].*|PI0[MF]S000");
   private static final Pattern _GN_ = Pattern.compile("_GN_.*");
   private static final Pattern _GN_MS = Pattern.compile("_GN_MS");
   private static final Pattern _GN_FS = Pattern.compile("_GN_FS");
@@ -72,7 +72,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern DET_FP = Pattern.compile("D[NDA0IP]0FP0");
 
   private static final Pattern GN_MS = Pattern.compile("N.[MC][SN].*|A..[MC][SN].*|V.P..SM.?|PX.MS.*|D[NDA0I]0MS0|PI0MS000");
-  private static final Pattern GN_FS = Pattern.compile("N.[FC][SN].*|A..[FC][SN].*|V.P..SF.?|PX.FS.*|D[NDA0I]0FS0");
+  private static final Pattern GN_FS = Pattern.compile("N.[FC][SN].*|A..[FC][SN].*|V.P..SF.?|PX.FS.*|D[NDA0I]0FS0|PI0FS000");
   private static final Pattern GN_MP = Pattern.compile("N.[MC][PN].*|A..[MC][PN].*|V.P..PM.?|PX.MP.*|D[NDA0I]0MP0");
   private static final Pattern GN_FP = Pattern.compile("N.[FC][PN].*|A..[FC][PN].*|V.P..PF.?|PX.FP.*|D[NDA0I]0FP0");
   private static final Pattern GN_CP = Pattern.compile("N.[FMC][PN].*|A..[FMC][PN].*|D[NDA0I]0[FM]P0");
@@ -96,10 +96,10 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern ADVERBIS_ACCEPTATS = Pattern.compile("RG_before");
   //private static final Pattern COORDINACIO = Pattern.compile(",|y|e|o|u");
   private static final Pattern COORDINACIO_IONI = Pattern.compile("y|e|o|u|ni");
-  private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAIDP].*|SPS.*|SP\\+DA|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*|PX.*|UNKNOWN");
+  private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAIDP].*|SPS.*|SP\\+DA|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*|PX.*|PI0.S000|UNKNOWN");
   private static final Pattern KEEP_COUNT2 = Pattern.compile(",|y|o|ni|u"); // |\\d+%?|%
   private static final Pattern STOP_COUNT = Pattern.compile(";|lo");
-  private static final Pattern PREPOSICIONS = Pattern.compile("SPS.*");
+  private static final Pattern PREPOSICIONS = Pattern.compile("SP.*");
   private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("de|del|en|sobre|a|entre|por|con|sin|contra");
   private static final Pattern VERB = Pattern.compile("V.[^P].*|_GV_");
   private static final Pattern GV = Pattern.compile("_GV_");
@@ -114,6 +114,10 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
 
+    if (match.getSentence().getText().contains("Ven a uno de los")) {
+      int kk=0;
+      kk++;
+    }
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     int i = patternTokenPos;  
     int j;

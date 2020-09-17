@@ -9196,8 +9196,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token postag="D[NI].*|AO.*" postag_regexp="yes"/>
-                <token regexp="yes" inflected="yes">vez|&unidades_tiempo;</token>
+                <token>mitad</token>
+                <token skip="4"/>
+                <token>mitad</token>
+                <token/>
+            </antipattern>
+            <antipattern>
+                <token postag="D[NID].*|AO.*" postag_regexp="yes"/>
+                <token regexp="yes" inflected="yes">vez|&unidades_tiempo;|tiempo</token>
                 <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
@@ -9232,6 +9238,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" inflected="yes">&dias_semana;</token>
                 <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">siguiente|pasar|anterior|próximo</exception></token>
+            </antipattern>
+            <antipattern>
+                <token>en</token>
+                <token>ocasiones</token>
+                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">señalar|determinar|excepcional|extraordinario</exception></token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">debido|junto|justo</token>
@@ -9274,7 +9286,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes" inflected="yes">ir|venir|entrar|volver|salir|estar|levantar|quedar|permanecer</token>
+                <token regexp="yes" inflected="yes">ir|venir|entrar|volver|salir|estar|levantar|quedar|permanecer|pillar|coger</token>
                 <token regexp="yes">a|en|de|al|del</token>
                 <token postag="DA.*" postag_regexp="yes" min="0"/>
                 <token regexp="yes">casa|cama|concierto|cine|teatro</token>
@@ -9379,6 +9391,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>mas</token>
                 <token/>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">de|en</token>
+                <token min="0">una</token>
+                <token regexp="yes">manera|forma</token>
+                <token postag="AQ.[FC][SN].|V.P..SF." postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>de</token>
+                <token postag="DD0FS0"/>
+                <token regexp="yes">manera|forma</token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <!-- imposible to dtermine: pronoun / adv -->
+                <token>algo</token>
+                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token postag="A..[MC][SN].*|V.P..SM|PX.MS.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>una</token>
+                <token regexp="yes">manera|forma</token>
+                <token>de</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+                <token min="0" max="5" postag="RG|LOC_ADV|[DNA].*|V.P.*" postag_regexp="yes"><exception postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"/></token>
+                <token postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/> <exception regexp="yes">primero|juntos|juntas|dado|dada|dados|dadas|incluso</exception><exception regexp="yes">\p{Lu}.*</exception></token>
             </pattern>
@@ -9397,10 +9436,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="montadas">con la bobina y la placa electrónica <marker>montados</marker> en una caja</example>
             <example correction="increíble">Y tocando con una rapidez <marker>increíbles</marker>.</example>
             <example correction="característicos">Por eso, los tipos más <marker>característico</marker> son el bifaz y los centrípetos.</example>
-            <example correction="criticados">Uno de los aspectos migratorios más <marker>criticado</marker></example>
             <example correction="mezclado|mezclados">Con rigor y honor <marker>mezcladas</marker>.</example>
             <example correction="elevado|elevada|elevados">Índice de dessarrollo humano y calidad de vida <marker>elevadas</marker>.</example>
             <example correction="pasado">El domingo <marker>pasada</marker> hubo corrida de toros de lujo.</example>
+            <example correction="posibles">De todas las maneras <marker>posible</marker>.</example>
+            <example>Uno de los aspectos migratorios más <marker>criticado</marker></example>
             <example>con la bobina y la placa electrónica montadas en una caja única</example>
             <example>El contacto con la cultura y la historia japonesas.</example>
             <example>en un restaurante lujosa y solemnemente decorado</example>
@@ -9501,6 +9541,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Identifique y descargue listados de empresas.</example>
             <example>El domingo corrida de toros de lujo.</example>
             <example>Es un factor determinante de reserva ovárica.</example>
+            <example>Y son de forma fácil transportables.</example>
+            <example>Hasta que al pincharlos con un palillo este salga limpio.</example>
+            <example>Debía ceñirse necesariamente a otro, esta vez urbanístico.</example>
+            <example>Comer en varios lugares algo rico.</example>
+            <example>Ven a uno de los miembros ataviado con una mascarilla.</example>
+            <example>Ven a uno de los miembros de nuestra comitiva ataviado con una mascarilla.</example>
+            <example>Que hayas tenido bastante tiempo parada la impresora.</example>
+            <example>Mitad nigeriano y mitad alemán.</example>
+            <example>Ellos tienen una forma de procesar el mundo distinta.</example>
+            <example>para no llevar a cabo políticas y medidas contra la pobreza</example>
             <!-- 
                 Ella fue al concierto acompañada de una amiga.
                 Soy cualquier cosa menos mentiroso. 
@@ -12379,14 +12429,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token>saludos</token>
+                    <token regexp="yes">saludos|besos</token>
                     <token postag="A..[MC][PN].|V.P..PM" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
                     <marker>
-                        <token regexp="yes">hola|felicidades|saludos|enhorabuena</token>
+                        <token regexp="yes">hola|felicidades|saludos|enhorabuena|besos</token>
                     </marker>
                     <or>
                         <token postag="[ANVD].*|_possible_NP" postag_regexp="yes"><exception postag="_PUNCT.*|SPS00|C.*" postag_regexp="yes"/></token>
@@ -12408,8 +12458,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"/>
                     <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
                     <marker>
-                        <token regexp="yes">buenos|buenas</token>
-                        <token regexp="yes">días|tardes|noches</token>
+                        <token regexp="yes">buenos|buenas|felices</token>
+                        <token regexp="yes">días|tardes|noches|fiestas</token>
                     </marker>
                     <token postag="[ANV].*|_possible_NP" postag_regexp="yes"><exception postag="_PUNCT.*|SPS00|C.*" postag_regexp="yes"/><exception inflected="yes">tener</exception></token>
                 </pattern>
