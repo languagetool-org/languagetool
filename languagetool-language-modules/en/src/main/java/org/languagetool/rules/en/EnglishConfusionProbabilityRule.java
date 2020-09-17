@@ -461,6 +461,13 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       posRegex("VB.*"),
       tokenRegex("[\"”“]"),
       token("us") // vs "is"
+    ),
+    Arrays.asList(
+      // Clinton will pay us based on actuals.
+      posRegex("VB.*"),
+      token("us"), // vs "is"
+      tokenRegex("based|depending"),
+      token("on")
     )
   );
 
