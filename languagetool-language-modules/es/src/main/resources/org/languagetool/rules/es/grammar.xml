@@ -2544,6 +2544,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tenías" type="triggers_error" reason="rare">Las <marker>tenias</marker> son un gusano plateminto.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SALIO" name="salio salia/salió salía" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>salia</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'salir', lleva tilde. Puede ser, más raramente, un adjetivo sin tilde.</message>
+                <suggestion>salía</suggestion>
+                <example correction="salía">Se <marker>salia</marker> de la carretera.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>salio</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'salir', lleva tilde. Puede ser, más raramente, un adjetivo sin tilde.</message>
+                <suggestion>salió</suggestion>
+                <example correction="salió">Se <marker>salio</marker> de la carretera.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SERA" name="sera/será" default="on">
             <rule>
                 <pattern>
@@ -9207,6 +9229,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
+                <token regexp="yes" inflected="yes">&dias_semana;</token>
+                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">siguiente|pasar|anterior|próximo</exception></token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">debido|junto|justo</token>
                 <token regexp="yes">a|al</token>
             </antipattern>
@@ -9228,8 +9255,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>que</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">.*%</token>
-                <token regexp="yes">más|menos</token>
+                <token regexp="yes">.*%|.*°C</token>
+                <token regexp="yes" min="0">más|menos</token>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -9347,6 +9374,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>igual</token>
                 <token>que</token>
             </antipattern>
+            <antipattern>
+                <!-- triggers another rule -->
+                <token>mas</token>
+                <token/>
+            </antipattern>
             <pattern>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/> <exception regexp="yes">primero|juntos|juntas|dado|dada|dados|dadas|incluso</exception><exception regexp="yes">\p{Lu}.*</exception></token>
             </pattern>
@@ -9368,6 +9400,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="criticados">Uno de los aspectos migratorios más <marker>criticado</marker></example>
             <example correction="mezclado|mezclados">Con rigor y honor <marker>mezcladas</marker>.</example>
             <example correction="elevado|elevada|elevados">Índice de dessarrollo humano y calidad de vida <marker>elevadas</marker>.</example>
+            <example correction="pasado">El domingo <marker>pasada</marker> hubo corrida de toros de lujo.</example>
             <example>con la bobina y la placa electrónica montadas en una caja única</example>
             <example>El contacto con la cultura y la historia japonesas.</example>
             <example>en un restaurante lujosa y solemnemente decorado</example>
@@ -9464,6 +9497,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Durante todo el año casi seguidas unas de otras.</example>
             <example>Le gustan las vacaciones igual que a mucha otra gente.</example>
             <example>De esta forma queda garantizado la comercialización.</example>
+            <example>Lograría traer de vuelta incólumes a nuestros soldados.</example>
+            <example>Identifique y descargue listados de empresas.</example>
+            <example>El domingo corrida de toros de lujo.</example>
+            <example>Es un factor determinante de reserva ovárica.</example>
             <!-- 
                 Ella fue al concierto acompañada de una amiga.
                 Soy cualquier cosa menos mentiroso. 

@@ -29,6 +29,10 @@ Copyright (C) 2011 Juan Martorell
     <!ENTITY pronombre_personal_atono_POS "PP3..A.*|PP[123]C[SP][0D]00|P0[123].*">
     <!ENTITY denominacion "elemento|palabra|término|expresión|vocablo|nombre|tipo|denominación">
     <!ENTITY nombre_seguidode_nombrepropio "calle|copa|casa|abad|informe|señor|señora|estándar|tipo|dirección|imperio|profeta|balneario|proyecto|corriente|lago|monte|padre|premio|caso|carrera|concurso|cuadro|mesa|novela|obra|río|estilo|programa|orquesta|escuela|registro|finca|sonda|rosa|tema">
+    <!ENTITY dias_semana "lunes|martes|miércoles|jueves|viernes|sábado|domingo">
+    <!ENTITY partes_dia "madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche">
+    <!ENTITY meses_ano "enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre">
+    <!ENTITY estaciones_ano "primavera|verano|otoño|invierno">
 ]>
 
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -1664,6 +1668,31 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
+    <rulegroup id="traer_de_vuelta" name="traer de vuelta (verb)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">traer</token>
+                    <token postag="SPS00">de</token>
+                    <token postag="NCFS000">vuelta</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">traer</token>
+                <marker>
+                    <token postag="SPS00">de</token>
+                    <token postag="NCFS000">vuelta</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GV_"/>
+                <wd pos="_GV_"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="E_CONJ" name="e (conjunción)">
         <rule>
             <pattern>
@@ -3085,7 +3114,7 @@ Copyright (C) 2011 Juan Martorell
                 <marker>
                     <token postag="SPS00">bajo<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </marker>
-                <token regexp="yes">poder|dominio|dirección|presidencia|cuidado|atención|fianza|secreto|administración|principios|consideración|luz|tortura|condiciones</token>
+                <token regexp="yes">licencia|poder|dominio|dirección|presidencia|cuidado|atención|fianza|secreto|administración|principios|consideración|luz|tortura|condiciones</token>
             </pattern>
             <disambig action="filter" postag="SPS00"/>
         </rule>
@@ -3256,7 +3285,7 @@ Copyright (C) 2011 Juan Martorell
     </rulegroup>
     <rule id="verb_notnoun" name="verb not noun: queda">
         <pattern>
-            <token postag="V.*" postag_regexp="yes">queda<exception postag="_GN_FS"/></token>
+            <token postag="V.*" postag_regexp="yes" regexp="yes">queda|descargue<exception postag="_GN_FS"/></token>
         </pattern>
         <disambig action="remove" postag="[AN].*"></disambig>
     </rule>  
@@ -3548,7 +3577,7 @@ Copyright (C) 2011 Juan Martorell
     <rulegroup id="Nom_AdjNotAgrees" name="nombre + adjectivo que no ha concordado">
         <rule>
             <pattern>
-                <token postag="NC.*" postag_regexp="yes"><exception postag="V.*|A.*|complement.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&denominacion;</exception></token>
+                <token postag="NC.*" postag_regexp="yes"><exception postag="V.*|A.*|complement.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&denominacion;|&dias_semana;</exception></token>
                 <marker>
                     <and>
                         <token postag="N.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.+</exception></token>
