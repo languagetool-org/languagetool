@@ -7889,7 +7889,7 @@ though, and has since been slightly modified)-->
         <example correction="Veuillez"><marker>Veillez</marker>, s’il vous plaît me le faire savoir.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="INTERIEUR_INTERIEURE" name="intérieur (nom) et intérieure (adj)">
+    <rulegroup id="INTERIEUR_INTERIEURE" name="intérieur (nom) et intérieure (adjectif)">
       <rule>
         <pattern>
           <token regexp="yes">[ld]'</token>
@@ -9045,7 +9045,7 @@ though, and has since been slightly modified)-->
                             <token>ya</token>
                         </marker>
                 </pattern>
-                <message>Cette formulation est considérée familière. Vouliez-vous dire <suggestion>Il y a</suggestion> ?</message>
+                <message>Cette formulation est considérée familière. Vouliez-vous dire <suggestion>il y a</suggestion> ?</message>
                 <example correction="Il y a"><marker>Ya</marker> douze personnes.</example>
             </rule>
         </rulegroup>
@@ -15129,6 +15129,11 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="NONVERB_PRON" name="verb non valide + pronom">
+        <antipattern>
+            <token regexp="yes">«|"</token>
+            <token/>
+            <token regexp="yes">»|"</token>
+        </antipattern>
        <rule>
          <antipattern>
            <token postag="V .*" postag_regexp="yes"/>
