@@ -33130,6 +33130,81 @@ TODO Write better examples
       <example correction="cesta de vime">Ela tem uma <marker>sexta de vime</marker>.</example>
     </rule>
 
+    <rulegroup id='TER_PARTICIPIO-PASSADO' name='Ter + Particípio passado' default="temp_off">
+	<!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-16 (2-JUL-2020+)   -->
+	
+	  <!-- TENHO -->
+	  <rule>
+		<pattern>
+			<marker>
+				<token>tenho</token>
+				<token postag='VMP00SM' postag_regexp='no'/>
+			</marker>	
+			<token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas?|muitos?|com|que</token>
+		</pattern>
+		<message>Substitua por <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIP1S0'/></suggestion>.</message>
+		<example correction='pesquiso'>Eu <marker>tenho pesquisado</marker> o assunto há décadas.</example>
+		<example type='correct'>Eu <marker>pesquiso</marker> o assunto há décadas.</example>
+      </rule>
+
+	  <!-- TENS -->
+	  <rule>
+		<pattern>
+			<marker>
+				<token>tens</token>
+				<token postag='VMP00SM' postag_regexp='no'/>
+			</marker>	
+			<token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas?|muitos?|com|que</token>
+		</pattern>
+		<message>Substitua por <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIP2S0'/></suggestion>.</message>
+		<example correction='pesquisas'>Tu <marker>tens pesquisado</marker> o assunto há décadas.</example>
+		<example type='correct'>Tu <marker>pesquisas</marker> o assunto há décadas.</example>
+      </rule>
+
+	  <!-- TEM -->
+	  <rule>
+		<pattern>
+			<marker>
+				<token>tem</token>
+				<token postag='VMP00SM' postag_regexp='no'/>
+			</marker>	
+			<token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas?|muitos?|com|que</token>
+		</pattern>
+		<message>Substitua por <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIP3S0'/></suggestion>.</message>
+		<example correction='pesquisa'>O professor <marker>tem pesquisado</marker> o assunto há décadas.</example>
+		<example type='correct'>O professor <marker>pesquisa</marker> o assunto há décadas.</example>
+      </rule>
+	  
+	  <!-- TEMOS -->
+	  <rule>
+		<pattern>
+			<marker>
+				<token>temos</token>
+				<token postag='VMP00SM' postag_regexp='no'/>
+			</marker>	
+			<token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas?|muitos?|com|que</token>
+		</pattern>
+		<message>Substitua por <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIP1P0'/></suggestion>.</message>
+		<example correction='pesquisamo|pesquisamos'>Nós <marker>temos pesquisado</marker> o assunto há décadas.</example>
+		<example type='correct'>Nós <marker>pesquisamos</marker> o assunto há décadas.</example>
+      </rule>	  
+
+	  <!-- TÊM -->
+	  <rule>
+		<pattern>
+			<marker>
+				<token>têm</token>
+				<token postag='VMP00SM' postag_regexp='no'/>
+			</marker>	
+			<token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas?|muitos?|com|que</token>
+		</pattern>
+		<message>Substitua por <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIP3P0'/></suggestion>.</message>
+		<example correction='pesquisam'>Os senhores <marker>têm pesquisado</marker> o assunto há décadas.</example>
+		<example type='correct'>Os senhores <marker>pesquisam</marker> o assunto há décadas.</example>
+		<example type='correct'>Eles <marker>pesquisam</marker> o assunto há décadas.</example>
+      </rule>	  
+	</rulegroup>
+
     <rule id='UM_BAIXO-ASSINADO' name="Calinada: Um abaixo-assinado">
     <!-- Created by Marco A.G. Pinto, Portuguese rule -->
       <pattern>
