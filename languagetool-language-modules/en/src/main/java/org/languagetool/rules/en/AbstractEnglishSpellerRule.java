@@ -644,6 +644,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("unencoded", Arrays.asList("decoded"));
     s.put("unencoding", Arrays.asList("decoding"));
     s.put("cheq", Arrays.asList("check"));
+    s.put("southwest", Arrays.asList("south-west"));
+    s.put("southeast", Arrays.asList("south-east"));
+    s.put("northwest", Arrays.asList("north-west"));
+    s.put("northeast", Arrays.asList("north-east"));
 
     return s;
   }
