@@ -32785,9 +32785,9 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
-      <rulegroup id="POUR_PAS_QUE" name="familier : pour (ne) pas que..." default="off"><!-- To do: fix messages, test again -->
+      <rulegroup id="POUR_PAS_QUE" name="familier : pour (ne) pas que..." default="temp_off">
         <rule>
-            <!-- 1. R.* que ne !V.* -->
+            <!-- 1 = 1. R.* que ne !V.* -->
             <pattern>
                 <token>pour<exception scope="next">,</exception></token>
                 <token min="0">ne</token>
@@ -32797,11 +32797,11 @@ though, and has since been slightly modified)-->
                 <token postag="(R refl.*)|(R pers obj.*)" postag_regexp="yes" min="1" max="2"><exception regexp="yes">en|y</exception></token>
                 <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
             </pattern>
-            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 \5 ne \6 \7 \3</suggestion> ?</message>
+            <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 ne \6 \7 \3</suggestion> dans un contexte plus formel.</message>
             <example correction="pour que je ne me fâche pas" type="incorrect">Il ne m'a rien dit <marker>pour pas que je me fâche</marker>.</example>
         </rule>
         <rule>
-            <!-- 1a. R.* qu' ne !V.* -->
+            <!-- 2 = 1a. R.* qu' ne !V.* -->
             <pattern>
                 <token>pour<exception scope="next">,</exception></token>
                 <token min="0">ne</token>
@@ -32811,11 +32811,11 @@ though, and has since been slightly modified)-->
                 <token postag="(R refl.*)|(R pers obj.*)" postag_regexp="yes" min="1" max="2"><exception regexp="yes">en|y</exception></token>
                 <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
             </pattern>
-            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4\5 ne \6 \7 \3</suggestion> ?</message>
+            <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4\5 ne \6 \7 \3</suggestion> dans un contexte plus formel.</message>
             <example correction="pour qu'il ne se sente pas" type="incorrect">Je vais lui rendre visite <marker>pour pas qu'il se sente</marker> seul.</example>
         </rule>
         <rule>
-            <!-- 1b. R.* que ne !V.* V[aeéiouyh] -->
+            <!-- 3 = 1b. R.* que ne !V.* V[aeéiouyh] -->
             <pattern>
                 <token>pour<exception scope="next">,</exception></token>
                 <token min="0">ne</token>
@@ -32825,11 +32825,11 @@ though, and has since been slightly modified)-->
                 <token postag="(R refl.*)|(R pers obj.*)" postag_regexp="yes" min="1" max="2"><exception regexp="yes">en|y</exception></token>
                 <token postag="V.*" postag_regexp="yes" regexp="yes">[aeéiouyh].*<exception regexp="yes" inflected="yes">&H_ASPIRE;</exception></token>
             </pattern>
-            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 \5 ne \6\7 \3</suggestion> ?</message>
+            <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 ne \6\7 \3</suggestion> dans un contexte plus formel.</message>
             <example correction="pour que je ne m'énerve pas" type="incorrect">Il ne m'a rien dit <marker>pour pas que je m'énerve</marker>.</example>
         </rule>
         <rule>
-            <!-- 1c. R.* qu' ne !V.* V[aeéiouyh] -->
+            <!-- 4 = 1c. R.* qu' ne !V.* V[aeéiouyh] -->
             <pattern>
                 <token>pour<exception scope="next">,</exception></token>
                 <token min="0">ne</token>
@@ -32842,11 +32842,11 @@ though, and has since been slightly modified)-->
                     <exception regexp="yes" inflected="yes" postag_regexp="yes" postag="V.*">&H_ASPIRE;</exception>
                 </token>
             </pattern>
-            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4\5 ne \6\7 \3</suggestion> ?</message>
+            <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4\5 ne \6\7 \3</suggestion> dans un contexte plus formel.</message>
             <example correction="pour qu'il ne s'énerve pas" type="incorrect">Je vais le faire <marker>pour pas qu'il s'énerve</marker>.</example>
         </rule>
         <rule>
-            <!-- 2. R.* que ne V.* -->
+            <!-- 5 = 2. R.* que ne V.* -->
             <pattern>
                 <token>pour<exception scope="next">,</exception></token>
                 <token min="0">ne</token>
@@ -32855,11 +32855,11 @@ though, and has since been slightly modified)-->
                 <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes"/>
                 <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
             </pattern>
-            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 \5 ne \6 \3</suggestion> ?</message>
+            <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 ne \6 \3</suggestion> dans un contexte plus formel.</message>
             <example correction="pour que je ne grossisse pas" type="incorrect">Je ne mange plus de chocolat <marker>pour pas que je grossisse</marker>.</example>
         </rule>
         <rule>
-            <!-- 2a. R.* qu' ne V.* -->
+            <!-- 6 = 2a. R.* qu' ne V.* -->
             <pattern>
                 <token>pour<exception scope="next">,</exception></token>
                 <token min="0">ne</token>
@@ -32868,11 +32868,11 @@ though, and has since been slightly modified)-->
                 <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes"/>
                 <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
             </pattern>
-            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4\5 ne \6 \3</suggestion> ?</message>
+            <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4\5 ne \6 \3</suggestion> dans un contexte plus formel.</message>
             <example correction="pour qu'il ne grossisse pas" type="incorrect">Il ne mange plus de chocolat <marker>pour pas qu'il grossisse</marker>.</example>
         </rule>
         <rule>
-            <!-- 3. que R.* n'!V.* -->
+            <!-- 7 = 3. que R.* n'!V.* -->
             <pattern>
                 <token>pour<exception scope="next">,</exception></token>
                 <token min="0">ne</token>
@@ -32882,11 +32882,11 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">en|y</token>
                 <token postag="V.*" postag_regexp="yes"/>
             </pattern>
-            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 \5 n'\6 \7 \3</suggestion> ?</message>
+            <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 n'\6 \7 \3</suggestion> dans un contexte plus formel.</message>
             <example correction="pour que tu n'y ailles pas" type="incorrect">Je t'ai averti <marker>pour pas que tu y ailles</marker> seul.</example>
         </rule>
         <rule>
-            <!-- 3a. qu' R.* n'!V.* -->
+            <!-- 8 = 3a. qu' R.* n'!V.* -->
             <pattern>
                 <token>pour<exception scope="next">,</exception></token>
                 <token min="0">ne</token>
@@ -32896,11 +32896,11 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">en|y</token>
                 <token postag="V.*" postag_regexp="yes"/>
             </pattern>
-            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4\5 n'\6 \7 \3</suggestion> ?</message>
+            <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4\5 n'\6 \7 \3</suggestion> dans un contexte plus formel.</message>
             <example correction="pour qu'elle n'y aille pas" type="incorrect">Je vais lui parler <marker>pour pas qu'elle y aille</marker> seule.</example>
         </rule>
         <rule>
-            <!-- 3b. R.* n'!V.*: j'>je -->
+            <!-- 9 = 3b. R.* n'!V.*: j'>je -->
             <pattern>
                 <token>pour<exception scope="next">,</exception></token>
                 <token min="0">ne</token>
@@ -32910,11 +32910,11 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">en|y</token>
                 <token postag="V.*" postag_regexp="yes"/>
             </pattern>
-            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 je n'\6 \7 \3</suggestion> ?</message>
+            <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 je n'\6 \7 \3</suggestion> dans un contexte plus formel.</message>
             <example correction="pour que je n'y aille pas" type="incorrect">Je t'attends <marker>pour pas que j'y aille</marker> seule.</example>
         </rule>
         <rule>
-            <!-- 3c. R.* n'!V.*: c'>ce -->
+            <!-- 10 = 3c. R.* n'!V.*: c'>ce -->
             <pattern>
                 <token>pour<exception scope="next">,</exception></token>
                 <token min="0">ne</token>
@@ -32924,11 +32924,11 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">en|y</token>
                 <token postag="V.*" postag_regexp="yes"/>
             </pattern>
-            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 ce n'\6 \7 \3</suggestion> ?</message>
+            <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 ce n'\6 \7 \3</suggestion> dans un contexte plus formel.</message>
             <example correction="pour que ce n'en soit pas" type="incorrect">Il faut faire attention <marker>pour pas que c'en soit</marker> trop.</example>
         </rule>
         <rule>
-            <!-- 3d. que R.* ne s'en V.* -->
+            <!-- 11 = 3d. que R.* ne s'en V.* -->
             <pattern>
                 <token>pour<exception scope="next">,</exception></token>
                 <token min="0">ne</token>
@@ -32939,11 +32939,11 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">en|y</token>
                 <token postag="V.*" postag_regexp="yes"/>
             </pattern>
-            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 \5 ne \6\7 \8 \3</suggestion> ?</message>
+            <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 ne \6\7 \8 \3</suggestion> dans un contexte plus formel.</message>
             <example correction="pour que tu ne t'en ailles pas" type="incorrect">Je t'ai dit cela <marker>pour pas que tu t'en ailles</marker>.</example>
         </rule>
         <rule>
-            <!-- 3e. qu' R.* ne s'en V.* -->
+            <!-- 12 = 3e. qu' R.* ne s'en V.* -->
             <pattern>
                 <token>pour<exception scope="next">,</exception></token>
                 <token min="0">ne</token>
@@ -32954,11 +32954,11 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">en|y</token>
                 <token postag="V.*" postag_regexp="yes"/>
             </pattern>
-            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4\5 ne \6\7 \8 \3</suggestion> ?</message>
+            <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4\5 ne \6\7 \8 \3</suggestion> dans un contexte plus formel.</message>
             <example correction="pour qu'il ne s'en aille pas" type="incorrect">Je vais lui parler <marker>pour pas qu'il s'en aille</marker>.</example>
         </rule>
         <rule>
-            <!-- 4. que R.* n'V.* -->
+            <!-- 13 = 4. que R.* n'V.* -->
             <pattern>
                 <token>pour<exception scope="next">,</exception></token>
                 <token min="0">ne</token>
@@ -32970,11 +32970,11 @@ though, and has since been slightly modified)-->
                     <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception>
                 </token>
             </pattern>
-            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 \5 n'\6 \3</suggestion> ?</message>
+            <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 n'\6 \3</suggestion> dans un contexte plus formel.</message>
             <example correction="pour que nous n'oublions pas" type="incorrect">Il nous a appelé <marker>pour pas que nous oublions</marker> d'acheter un cadeau.</example>
         </rule>
         <rule>
-            <!-- 4a. R.* qu' n'V.* -->
+            <!-- 14 = 4a. R.* qu' n'V.* -->
             <pattern>
                 <token>pour<exception scope="next">,</exception></token>
                 <token min="0">ne</token>
@@ -32986,11 +32986,11 @@ though, and has since been slightly modified)-->
                     <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception>
                 </token>
             </pattern>
-            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4\5 n'\6 \3</suggestion> ?</message>
+            <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4\5 n'\6 \3</suggestion> dans un contexte plus formel.</message>
             <example correction="pour qu'elle n'oublie pas" type="incorrect">Je vais lui parler <marker>pour pas qu'elle oublie</marker> ton anniversaire.</example>
         </rule>
         <rule>
-            <!-- 4b. que R.* n'V.* j'>je -->
+            <!-- 15 = 4b. que R.* n'V.* j'>je -->
             <pattern>
                 <token>pour<exception scope="next">,</exception></token>
                 <token min="0">ne</token>
@@ -33002,11 +33002,11 @@ though, and has since been slightly modified)-->
                     <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception>
                 </token>
             </pattern>
-            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 je n'\6 \3</suggestion> ?</message>
+            <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 je n'\6 \3</suggestion> dans un contexte plus formel.</message>
             <example correction="pour que je n'oublie pas" type="incorrect">Il nous a appelé <marker>pour pas que j'oublie</marker> d'acheter un cadeau.</example>
         </rule>
         <rule>
-            <!-- 5. NZ que ne !V.* -->
+            <!-- 16 = 5. NZ que ne !V.* -->
             <pattern>
                 <token>pour<exception scope="next">,</exception></token>
                 <token min="0">ne</token>
@@ -33018,11 +33018,11 @@ though, and has since been slightly modified)-->
                 <token postag="(R refl.*)|(R pers obj.*)" postag_regexp="yes" min="1" max="2"><exception regexp="yes">en|y</exception></token>
                 <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
             </pattern>
-            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 \5 \6 \7 ne \8 \9 \3</suggestion> ?</message>
+            <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 \6 \7 ne \8 \9 \3</suggestion> dans un contexte plus formel.</message>
             <example correction="pour que mon père ne se fâche pas" type="incorrect">Je ne sortirai pas ce soir <marker>pour pas que mon père se fâche</marker>.</example>
         </rule>
         <rule>
-            <!-- 5a. NZ que ne !V.* V[aeéiouyh] -->
+            <!-- 17 = 5a. NZ que ne !V.* V[aeéiouyh] -->
             <pattern>
                 <token>pour<exception scope="next">,</exception></token>
                 <token min="0">ne</token>
@@ -33037,11 +33037,11 @@ though, and has since been slightly modified)-->
                     <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception>
                 </token>
             </pattern>
-            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 \5 \6 \7 ne \8\9 \3</suggestion> ?</message>
+            <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 \6 \7 ne \8\9 \3</suggestion> dans un contexte plus formel.</message>
             <example correction="pour que mon père ne s'énerve pas" type="incorrect">Je ne sortirai pas ce soir <marker>pour pas que mon père s'énerve</marker>.</example>
         </rule>
         <rule>
-            <!-- 6. NZ que ne V.* -->
+            <!-- 18 = 6. NZ que ne V.* -->
             <pattern>
                 <token>pour<exception scope="next">,</exception></token>
                 <token min="0">ne</token>
@@ -33052,11 +33052,11 @@ though, and has since been slightly modified)-->
                 <token postag="(N.*)|(Z.*)" postag_regexp="yes"/>
                 <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
             </pattern>
-            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 \5 \6 \7 ne \8 \3</suggestion> ?</message>
+            <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 \6 \7 ne \8 \3</suggestion> dans un contexte plus formel.</message>
             <example correction="pour que mon père ne parte pas" type="incorrect">J'ai caché les clés de la voiture <marker>pour pas que mon père parte</marker>.</example>
         </rule>
         <rule>
-            <!-- 7. NZ n'!V.* -->
+            <!-- 19 = 7. NZ n'!V.* -->
             <pattern>
                 <token>pour<exception scope="next">,</exception></token>
                 <token min="0">ne</token>
@@ -33068,11 +33068,11 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">en|y</token>
                 <token postag="V.*" postag_regexp="yes"/>
             </pattern>
-            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 \5 \6 \7 n'\8 \9 \3</suggestion> ?</message>
+            <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 \6 \7 n'\8 \9 \3</suggestion> dans un contexte plus formel.</message>
             <example correction="pour que mon frère n'en boive pas" type="incorrect">J'ai caché le bon vin <marker>pour pas que mon frère en boive</marker>.</example>
         </rule>
         <rule>
-            <!-- 7b. NZ ne s'en V.*-->
+            <!-- 20 = 7b. NZ ne s'en V.*-->
             <pattern>
                 <token>pour<exception scope="next">,</exception></token>
                 <token min="0">ne</token>
@@ -33085,11 +33085,11 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">en|y</token>
                 <token postag="V.*" postag_regexp="yes"/>
             </pattern>
-            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 \5 \6 \7 ne \8\9 \10 \3</suggestion> ?</message>
+            <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 \6 \7 ne \8\9 \10 \3</suggestion> dans un contexte plus formel.</message>
             <example correction="pour que mon frère ne s'en aille pas" type="incorrect">J'ai dit cela <marker>pour pas que mon frère s'en aille</marker>.</example>
         </rule>
         <rule>
-            <!-- 8. NZ n'V.* -->
+            <!-- 21 = 8. NZ n'V.* -->
             <pattern>
                 <token>pour<exception scope="next">,</exception></token>
                 <token min="0">ne</token>
@@ -33103,7 +33103,7 @@ though, and has since been slightly modified)-->
                     <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception>
                 </token>
             </pattern>
-            <message>Formulation familière. Voulez-vous écrire <suggestion>\1 \4 \5 \6 \7 n'\8 \3</suggestion> ?</message>
+            <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 \6 \7 n'\8 \3</suggestion> dans un contexte plus formel.</message>
             <example correction="pour que mon frère n'aille pas" type="incorrect">Ma mère m'a appelé <marker>pour pas que mon frère aille</marker> tout seul.</example>
         </rule>
       </rulegroup>
