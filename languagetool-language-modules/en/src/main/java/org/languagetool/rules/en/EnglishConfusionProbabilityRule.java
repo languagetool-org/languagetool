@@ -464,6 +464,12 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       token("us") // vs "is"
     ),
     Arrays.asList(
+      // Text us at (410) 4535
+      tokenRegex("message(s|d)?|text(s|ed)?"),
+      token("us"), // vs "is"
+      posRegex("PCT|IN|CC")
+    ),
+    Arrays.asList(
       // Clinton will pay us based on actuals.
       posRegex("VB.*"),
       token("us"), // vs "is"

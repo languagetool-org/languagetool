@@ -250,6 +250,10 @@ public class AdverbFilter extends RuleFilter {
     put("perfectly", "perfect");
     put("overly", "over");
     put("tropically", "tropical");
+    put("brilliantly", "brilliant");
+    put("exclusively", "exclusive");
+    put("commercially", "commercial");
+    put("mischievously", "mischievous");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
