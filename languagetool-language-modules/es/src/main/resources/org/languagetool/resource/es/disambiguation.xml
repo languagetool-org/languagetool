@@ -117,6 +117,51 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
 
+    <rulegroup id="LOC_PREP" name="locuciones preposicionales">
+        <rule id="pese_a" name="pese a">
+            <pattern>
+                <marker>
+                    <token>pese</token>
+                </marker>
+                <token regexp="yes">a|al</token>
+                <!-- TODO: excetpions? -->
+            </pattern>
+            <disambig action="replace">
+                <wd pos="LOC_PREP"/>
+            </disambig>
+        </rule>
+        <rule id="junto_a" name="junto a/con">
+            <antipattern>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <token>junto</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>junto</token>
+                    <token regexp="yes">a|con</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd pos="LOC_PREP"/>
+                <wd pos="LOC_PREP"/>
+            </disambig>
+        </rule>
+        <rule id="junto_al" name="junto al">
+            <antipattern>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <token>junto</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>junto</token>
+                </marker>
+                <token>al</token>
+            </pattern>
+            <disambig action="replace">
+                <wd pos="LOC_PREP"/>
+            </disambig>
+        </rule>
+    </rulegroup>
 
     <rulegroup id="LOC_ADV" name="locuciones adverbiales">
         <rule id="en_realidad" name="en realidad (locución adverbial)">
@@ -130,18 +175,6 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="replace">
                 <wd lemma="en realidad" pos="LOC_ADV"/>
                 <wd lemma="en realidad" pos="LOC_ADV"/>
-            </disambig>
-        </rule>
-        <rule id="pese_a" name="pese a">
-            <pattern>
-                <marker>
-                    <token>pese</token>
-                </marker>
-                <token regexp="yes">a|al</token>
-                <!-- TODO: excetpions? -->
-            </pattern>
-            <disambig action="replace">
-                <wd pos="LOC_PREP"/>
             </disambig>
         </rule>
         <rule id="por_tanto" name="por tanto">

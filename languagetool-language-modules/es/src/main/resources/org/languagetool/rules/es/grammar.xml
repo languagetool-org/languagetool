@@ -201,14 +201,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>de</token>
                 <token regexp="yes">Primavera|Verano|Otoño|Invierno</token>
             </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token min="0" max="4" postag="_PUNCT.*" postag_regexp="yes"/>
+                <token regexp="yes">Primavera|Verano|Otoño|Invierno</token>
+            </antipattern>
             <pattern case_sensitive="yes">
-                <token negate_pos="yes" postag="SENT_START"/>
                 <marker>
                     <token regexp="yes">Primavera|Verano|Otoño|Invierno<exception postag="NP.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <message>Las estaciones del año se escriben en minúsculas.</message>
-            <suggestion><match case_conversion="alllower" no="2"/></suggestion>
+            <suggestion><match case_conversion="alllower" no="1"/></suggestion>
             <url>http://www.rae.es/consultas/mayuscula-o-minuscula-en-los-meses-los-dias-de-la-semana-y-las-estaciones-del-ano</url>
             <example correction="verano" type="incorrect">Este <marker>Verano</marker> me voy de vacaciones.</example>
             <example type="correct">Ha sido el <marker>invierno</marker> más frío que recuerdo.</example>
@@ -218,6 +222,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Festival de Primavera</example>
             <example>Juegos Olímpicos de Verano</example>
             <example>Nos veremos en el Primavera Sound.</example>
+            <example>¿Primavera u otoño?</example>
         </rule>
         <rule id="HOMO" name="homo/Homo">
             <pattern>
@@ -4839,12 +4844,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>aun</token>
                     </marker>
-                    <token><exception>si</exception></token>
+                    <token><exception regexp="yes">si|cuando|así</exception></token>
                 </pattern>
                 <message>Se acentúan si equivale a "todavía".</message>
                 <suggestion>aún</suggestion>
                 <example correction="aún">Pensaba <marker>aun</marker> lo mismo.</example>
                 <example>No me importaría aun si ella no viene.</example>
+                <example>Como aun así no sabíamos cuánto era eso, le pedimos que nos mostrara los vasos.</example>
+                <example>Las flores florecen aun cuando nadie las mira.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SI" name="si/sí">
@@ -6472,7 +6479,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="HA_INFINITIVO" name="*ha/a + infinitivo">
             <antipattern>
-                <token regexp="yes">[0-9,\.]+<exception regexp="yes">19\d\d|20\d\d</exception></token>
+                <token regexp="yes">[0-9,\.]+<exception regexp="yes">19[0-9][0-9]|20[0-9][0-9]</exception></token>
                 <token>ha</token> <!-- hectáreas -->
             </antipattern>
             <pattern>
@@ -7042,7 +7049,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">el|un|algún</token>
+                    <token regexp="yes">el|un|algún|del|al</token>
                     <token>porqué</token>
                 </antipattern>
                 <pattern>
@@ -7053,6 +7060,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="por qué|porque">No vino <marker>porqué</marker> no pudo.</example>
                 <example correction="por qué|porque">No puedo comprender <marker>porqué</marker> no vino.</example>
                 <example>Quiero saber el porqué.</example>
+                <example>Aún no se sabe la razón del porqué no va.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PREP_VERB" name="Combinación imposible: preposición + verbo conjugado">
@@ -8033,6 +8041,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>si</token>
                 <token>no</token>
             </antipattern>
+            <antipattern>
+                <token skip="-1">no</token>
+                <token skip="2">sino</token>
+                <token postag="_QM_OPEN"/>
+            </antipattern>
             <rule>
                 <!-- TODO: This rule needs better disambiguation of nouns/verbs after "sino/si no"-->
                 <antipattern>
@@ -8053,6 +8066,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="sino">No lo hizo él <marker>si no</marker> su primo.</example>
                 <example correction="sino">No lo hizo él <marker>si no</marker> su hermano.</example>
                 <example>No iré si no para de llover.</example>
+                <example>La gente no dice cotidianamente «voy a evacuar el vientre» sino «voy a cagar» o «voy a ensuciar».</example>
             </rule>
             <rule>
                 <antipattern>
@@ -11593,6 +11607,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>se te "compensará"</example>
                 <example>dale que te dale</example>
                 <example>Y él corre que te pillo.</example>
+                <example>Me junto con él en el patio.</example>
             </rule>
             <rule>
                 <!-- These patterns cause an exception in the speller -->
@@ -13509,6 +13524,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category name="repeticiones" id="REPETITIONS">
         <rulegroup id="REPETEAD_ELEMENTS" name="elementos repetidos incorrectamente">
+            <antipattern>
+                <token regexp="yes">también|ya|aun|aún|>solo|sólo|solamente</token>
+                <token><match no="0"/></token>
+            </antipattern>
             <rule>
                 <antipattern>
                     <marker>
@@ -13558,7 +13577,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1 \2</suggestion>
                 <suggestion><match no="1" include_skipped="following"/> <match no="2"/></suggestion>
                 <example correction="yo no|no yo">Eso <marker>no yo no</marker> lo haría.</example>
-                <example>No solo no megusta, me repugna.</example>
+                <example>No solo no me gusta, me repugna.</example>
                 <example>No, no me gusta.</example>
                 <example>No y no: esta es mi respuesta.</example>
                 <example>No que no pudiese ser.</example>
