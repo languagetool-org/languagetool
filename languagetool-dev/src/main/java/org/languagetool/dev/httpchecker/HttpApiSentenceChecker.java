@@ -26,7 +26,6 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
@@ -67,16 +66,9 @@ class HttpApiSentenceChecker {
     long t1 = System.currentTimeMillis();
     int lines = countLines(input);
     System.out.println(input + " has " + lines + " lines");
-    List<File> inputFiles = new ArrayList<>();
-    try {
-      inputFiles = splitInput(lines, input, threadCount);
-      List<File> threadFiles = runOnFiles(inputFiles);
-      joinResults(threadFiles, output);
-    } finally {
-      for (File file : inputFiles) {
-        FileUtils.deleteQuietly(file);
-      }
-    }
+    List<String> inputTexts = splitInput(input, threadCount);
+    List<File> threadFiles = runOnTexts(inputTexts);
+    joinResults(threadFiles, output);
     long t2 = System.currentTimeMillis();
     Duration duration = Duration.of(t2 - t1, ChronoUnit.MILLIS);
     System.out.println("Runtime: " + formatDuration(duration) + " (h:mm:ss)");
@@ -99,60 +91,79 @@ class HttpApiSentenceChecker {
     return count;
   }
 
-  private List<File> splitInput(int lines, File input, int threadCount) throws IOException {
-    List<File> tempFiles = new ArrayList<>();
-    int batchSize = lines / threadCount;
+  private List<String> splitInput(File input, int threadCount) throws IOException {
+    List<String> texts = new ArrayList<>();
+    final int batchSize = 10;  // do not modify - this would change the results
     System.out.println("Working with " + threadCount + " threads, single batch size: " + batchSize + " lines");
-    int fileCount = 0;
-    int startLine = 0;
     int lineCount = 0;
-    File tempFile = getTempFile(fileCount);
-    tempFiles.add(tempFile);
-    FileWriter fw = new FileWriter(tempFile);
+    StringBuilder sb = new StringBuilder();
     try (Scanner sc = new Scanner(input)) {
       while (sc.hasNextLine()) {
         String line = sc.nextLine();
-        fw.write(line + "\n");
+        sb.append(line);
+        sb.append("\n");
         lineCount++;
         if (lineCount > 0 && lineCount % batchSize == 0) {
-          fileCount++;
-          fw.close();
-          File destFile = new File(tempFile.getParentFile(), HttpApiSentenceChecker.class.getSimpleName() + "-" + startLine + "-to-" + lineCount + ".json");
-          startLine = lineCount;
-          FileUtils.moveFile(tempFile, destFile);
-          tempFile = getTempFile(fileCount);
-          tempFiles.add(destFile);
-          fw = new FileWriter(tempFile);
+          texts.add(sb.toString());
+          sb = new StringBuilder();
         }
       }
     }
-    fw.close();
-    return tempFiles;
+    System.out.println(lineCount + " lines from " + input + " split into " + texts.size() + " text of " + batchSize + " lines each");
+    return texts;
   }
 
-  @NotNull
-  private File getTempFile(int fileCount) throws IOException {
-    return File.createTempFile(HttpApiSentenceChecker.class.getSimpleName() + "-split-input-" + fileCount + "-", ".txt");
-  }
-
-  private List<File> runOnFiles(List<File> files) throws InterruptedException, ExecutionException {
+  private List<File> runOnTexts(List<String> texts) throws InterruptedException, ExecutionException {
     List<File> resultFiles = new ArrayList<>();
     ExecutorService execService = new ForkJoinPool(threadCount, ForkJoinPool.defaultForkJoinWorkerThreadFactory, null, false);
     List<Callable<File>> callables = new ArrayList<>();
     int count = 0;
-    for (File file : files) {
-      if (file.length() == 0) {
-        continue;
+    int textsPerThread = texts.size() / threadCount;
+    System.out.println("textsPerThread: " + textsPerThread);
+    /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+    String date = sdf.format(new Date());
+    File dir = new File("/tmp/HttpApi-" + date);
+    dir.mkdir();*/
+    for (int i = 0; i < threadCount; i++) {
+      List<String> tmpTexts = new ArrayList<>();
+      for (int j = 0; j < textsPerThread; j++) {
+        // TODO: check?
+        if (texts.size() == 0) {
+          System.out.println("No more texts to be collected");
+          break;
+        }
+        tmpTexts.add(texts.remove(0));
       }
-      callables.add(new CheckCallable(count, baseUrl, token, file, langCode, user, password));
+      //debugTexts(tmpTexts, dir, i);
+      callables.add(new CheckCallable(count, baseUrl, token, tmpTexts, langCode, user, password));
+      System.out.println("Created thread " + count + " with " + tmpTexts.size() + " texts");
       count++;
     }
+    if (texts.size() > 0) {
+      System.out.println(texts.size() + " texts remaining, creating another thread for them");
+      callables.add(new CheckCallable(count, baseUrl, token, texts, langCode, user, password));
+      //debugTexts(texts, dir, 999);
+    } else {
+      System.out.println("No texts remaining");
+    }
+    System.out.println("Created " + callables.size() + " threads");
     List<Future<File>> futures = execService.invokeAll(callables);
     for (Future<File> future : futures) {
       resultFiles.add(future.get());
     }
     execService.shutdownNow();
     return resultFiles;
+  }
+
+  private void debugTexts(List<String> texts, File dir, int k) throws IOException {
+    int i = 0;
+    for (String text : texts) {
+      i++;
+      File file = new File(dir, i + "-" + k + ".txt");
+      try (FileWriter fw = new FileWriter(file)) {
+        fw.write(text);
+      }
+    }
   }
 
   private void joinResults(List<File> threadFiles, File output) throws IOException {
