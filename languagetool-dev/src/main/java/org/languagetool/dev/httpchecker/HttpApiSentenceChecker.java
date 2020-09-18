@@ -134,7 +134,6 @@ class HttpApiSentenceChecker {
         }
         tmpTexts.add(texts.remove(0));
       }
-      //debugTexts(tmpTexts, dir, i);
       callables.add(new CheckCallable(count, baseUrl, token, tmpTexts, langCode, user, password));
       System.out.println("Created thread " + count + " with " + tmpTexts.size() + " texts");
       count++;
@@ -142,7 +141,6 @@ class HttpApiSentenceChecker {
     if (texts.size() > 0) {
       System.out.println(texts.size() + " texts remaining, creating another thread for them");
       callables.add(new CheckCallable(count, baseUrl, token, texts, langCode, user, password));
-      //debugTexts(texts, dir, 999);
     } else {
       System.out.println("No texts remaining");
     }
@@ -153,17 +151,6 @@ class HttpApiSentenceChecker {
     }
     execService.shutdownNow();
     return resultFiles;
-  }
-
-  private void debugTexts(List<String> texts, File dir, int k) throws IOException {
-    int i = 0;
-    for (String text : texts) {
-      i++;
-      File file = new File(dir, i + "-" + k + ".txt");
-      try (FileWriter fw = new FileWriter(file)) {
-        fw.write(text);
-      }
-    }
   }
 
   private void joinResults(List<File> threadFiles, File output) throws IOException {

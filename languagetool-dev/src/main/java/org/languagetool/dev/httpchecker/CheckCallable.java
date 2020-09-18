@@ -84,8 +84,6 @@ class CheckCallable implements Callable<File> {
       int i = 0;
       for (String text : texts) {
         URL url = Tools.getUrl(baseUrl + "/v2/check");
-        //printOut("----------------");
-        //printOut("textToCheck: " + text);
         String postData = "language=" + langCode +
             "&text=" + URLEncoder.encode(text, "UTF-8") +
             "&level=picky" +
