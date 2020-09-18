@@ -37,6 +37,7 @@ public class ItalianSynthesizerTest {
     
     assertEquals("[richiedi]", Arrays.toString(synth.synthesize(dummyToken("richiedere"), "VER:impr+pres+2+s")));
     assertEquals("[esultata]", Arrays.toString(synth.synthesize(dummyToken("esultare"), "VER:part+past+s+f")));
+    assertEquals("[libri]", Arrays.toString(synth.synthesize(dummyToken("libro"), "NOUN-M:p")));
   }
 
   private AnalyzedToken dummyToken(String tokenStr) {
