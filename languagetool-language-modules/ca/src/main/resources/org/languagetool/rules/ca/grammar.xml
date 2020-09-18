@@ -57299,14 +57299,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"/>
                     <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
                     <marker>
-                        <token regexp="yes">bon|bona</token>
-                        <token regexp="yes">dia|vespre|vesprada|tarda|nit</token>
+                        <token regexp="yes">bon|bona|bones</token>
+                        <token regexp="yes">dia|vespre|vesprada|tarda|nit|nadal|festes</token>
                     </marker>
                     <token postag="[ANV].*|_possible_nompropi" postag_regexp="yes"><exception postag="_PUNCT.*|SPS00|C.*" postag_regexp="yes"/><exception inflected="yes">tenir</exception></token>
                 </pattern>
                 <message>Probablement falta una coma darrere de "<match no="3" case_conversion="alllower"/> \4" (ex. "<match no="3" case_conversion="startupper"/> \4, Joan!").</message>
-                <suggestion>bon dia,</suggestion>
+                <suggestion>\3 \4,</suggestion>
                 <example correction="Bon dia,"><marker>Bon dia</marker> Joan.</example>
+                <example correction="Bona nit,"><marker>Bona nit</marker> Clara.</example>
                 <example>Hola a tothom.</example>
                 <example>Bon dia pel matí!</example>
                 <example>Bon dia i enhorabona</example>
