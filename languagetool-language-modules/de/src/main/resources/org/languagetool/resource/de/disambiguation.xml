@@ -878,6 +878,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag=".+"/>
     </rule>
+    <rule name="EIN_AM_SATZENDE" id="EIN_AM_SATZENDE">
+        <pattern case_sensitive="yes">
+            <token/>
+            <marker>
+                <token>ein</token>
+            </marker>
+            <token postag="SENT_END" regexp="yes">[\!\.\?]</token>
+        </pattern>
+        <disambig postag="ZUS"></disambig>
+    </rule>
     <rule name="FIDEL" id="FIDEL">
         <pattern case_sensitive="yes">
             <marker>
@@ -2789,7 +2799,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="per se" id="PER_SE">
         <pattern>
             <token>per</token>
-            <token regexp="yes">procura|rectum|saldo|se|pedes</token>
+            <token regexp="yes">annum|procura|rectum|saldo|se|pedes</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
