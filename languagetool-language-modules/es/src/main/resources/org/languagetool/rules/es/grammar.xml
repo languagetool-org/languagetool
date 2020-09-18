@@ -2544,7 +2544,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tenías" type="triggers_error" reason="rare">Las <marker>tenias</marker> son un gusano plateminto.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SALIO" name="salio salia/salió salía" default="temp_off">
+        <rulegroup id="SALIO" name="salio salia/salió salía">
+            <antipattern>
+                <token>dinastía</token>
+                <token>salia</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -6467,6 +6471,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="HA_INFINITIVO" name="*ha/a + infinitivo">
+            <antipattern>
+                <token regexp="yes">[0-9,\.]+<exception regexp="yes">19\d\d|20\d\d</exception></token>
+                <token>ha</token> <!-- hectáreas -->
+            </antipattern>
             <pattern>
                 <marker>
                     <token>ha</token>
@@ -6480,6 +6488,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Lo ha claramente dicho.</example>
             <example>Ha de regarse sin falta.</example>
             <example>que alguien ha incluso incrementado</example>
+            <example>3.500 ha limpias en el bosque.</example>
         </rule>
         <rule id="AH_INF" name="ah + infinitivo (a)">
             <pattern case_sensitive="no">
@@ -9319,7 +9328,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <!-- colores? -->
-                <token regexp="yes">satélite|clave|líder|bomba|miembro</token>
+                <token regexp="yes">satélite|clave|líder|bomba|miembro|sido</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">la|su</token>
@@ -10741,7 +10750,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="SIDO" name="sido" default="temp_off">
+        <rule id="SIDO" name="sido">
             <pattern>
                 <token>sido<exception inflected="yes" scope="previous">haber</exception></token>
             </pattern>
