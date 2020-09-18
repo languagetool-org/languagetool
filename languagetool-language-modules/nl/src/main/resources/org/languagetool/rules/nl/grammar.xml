@@ -2301,6 +2301,7 @@ regexp case-insensitive maken : (?i)
 			<rule>
 				<antipattern><token>placht</token><token>te</token></antipattern>
 				<antipattern><token>placht</token><token regexp="yes">hij|zij|men</token><token>te</token></antipattern>
+				<antipattern><token skip="-1" regexp="yes">vroeger|verleden|toen</token><token>placht</token></antipattern>
 				<pattern><token>placht</token></pattern>
 				<message>Bedoelt u misschien <suggestion>plagt</suggestion> (gras steken)? Of toch 'was gewend'?</message>
 				<example correction="plagt">Het woord <marker>placht</marker> kan een vergissing zijn.</example>
@@ -2902,6 +2903,7 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		-->
+<!-- other way around has more probability
 		<rulegroup id="VERLIJDINGEN_VERLEIDINGEN" name="waarschuwing bij gebruik verleidingen i.p.v. verlijdingen">
 			<rule>
 				<pattern>
@@ -2911,7 +2913,7 @@ regexp case-insensitive maken : (?i)
 				<example correction="verlijdingen">Het woord <marker>verleidingen</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
-
+		-->
 		<rulegroup id="LIJDERTJE_LEIDERTJE" name="waarschuwing bij gebruik leidertje i.p.v. lijdertje">
 			<rule>
 				<pattern>
@@ -18348,6 +18350,7 @@ steenwijk;Steenwijk
 			<rule>
 				<antipattern><token>je</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
 				<antipattern><token>je</token><token postag_regexp="yes" postag="BNW.*"/><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
+				<antipattern><token regexp="yes">zal|zul</token><token>je</token></antipattern>
 				<pattern>
 					<token postag="SENT_START"/>
 					<marker>
@@ -33444,7 +33447,7 @@ steenwijk;Steenwijk
 			<rule>
 				<!-- TODO: false positives bestrijden -->
 				<pattern>
-					<token><exception regexp="yes">ik|het</exception></token>
+					<token><exception regexp="yes">ik|het|men|hij|zij|ze</exception></token>
 					<marker>
 						<token>zal</token>
 					</marker>
