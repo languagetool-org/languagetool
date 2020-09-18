@@ -399,6 +399,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "what is he", // vs the
       "is he happy", // vs the
       "he kind of", // vs the
+      "logged out", // vs our
+      "signed out", // vs our
       "same seems to" // vs some
     );
 
