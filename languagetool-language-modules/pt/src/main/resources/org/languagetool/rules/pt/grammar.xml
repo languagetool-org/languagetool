@@ -33130,7 +33130,7 @@ TODO Write better examples
       <example correction="cesta de vime">Ela tem uma <marker>sexta de vime</marker>.</example>
     </rule>
 
-    <rulegroup id='TER_PARTICIPIO-PASSADO' name='Ter + Particípio passado' default="temp_off">
+    <rulegroup id='TER_PARTICIPIO-PASSADO' name='Ter + Particípio passado'>
 	<!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-16 (2-JUL-2020+)   -->
 	
 	  <!-- TENHO -->
@@ -33138,9 +33138,12 @@ TODO Write better examples
 		<pattern>
 			<marker>
 				<token>tenho</token>
-				<token postag='VMP00SM' postag_regexp='no'/>
+				<and>
+					<token postag='VMP00SM' postag_regexp='no'/>
+					<token negate="yes" regexp='yes' inflected='yes'>vir|ver</token>
+				</and>
 			</marker>	
-			<token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas?|muitos?|com|que</token>
+			<token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas|muitos|com|que</token>
 		</pattern>
 		<message>Substitua por <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIP1S0'/></suggestion>.</message>
 		<example correction='pesquiso'>Eu <marker>tenho pesquisado</marker> o assunto há décadas.</example>
@@ -33152,9 +33155,12 @@ TODO Write better examples
 		<pattern>
 			<marker>
 				<token>tens</token>
-				<token postag='VMP00SM' postag_regexp='no'/>
+				<and>
+					<token postag='VMP00SM' postag_regexp='no'/>
+					<token negate="yes" regexp='yes' inflected='yes'>vir|ver</token>
+				</and>				
 			</marker>	
-			<token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas?|muitos?|com|que</token>
+			<token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas|muitos|com|que</token>
 		</pattern>
 		<message>Substitua por <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIP2S0'/></suggestion>.</message>
 		<example correction='pesquisas'>Tu <marker>tens pesquisado</marker> o assunto há décadas.</example>
@@ -33166,9 +33172,12 @@ TODO Write better examples
 		<pattern>
 			<marker>
 				<token>tem</token>
-				<token postag='VMP00SM' postag_regexp='no'/>
+				<and>
+					<token postag='VMP00SM' postag_regexp='no'/>
+					<token negate="yes" regexp='yes' inflected='yes'>vir|ver</token>
+				</and>				
 			</marker>	
-			<token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas?|muitos?|com|que</token>
+			<token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas|muitos|com|que</token>
 		</pattern>
 		<message>Substitua por <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIP3S0'/></suggestion>.</message>
 		<example correction='pesquisa'>O professor <marker>tem pesquisado</marker> o assunto há décadas.</example>
@@ -33180,9 +33189,12 @@ TODO Write better examples
 		<pattern>
 			<marker>
 				<token>temos</token>
-				<token postag='VMP00SM' postag_regexp='no'/>
+				<and>
+					<token postag='VMP00SM' postag_regexp='no'/>
+					<token negate="yes" regexp='yes' inflected='yes'>vir|ver</token>
+				</and>				
 			</marker>	
-			<token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas?|muitos?|com|que</token>
+			<token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas|muitos|com|que</token>
 		</pattern>
 		<message>Substitua por <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIP1P0'/></suggestion>.</message>
 		<example correction='pesquisamo|pesquisamos'>Nós <marker>temos pesquisado</marker> o assunto há décadas.</example>
@@ -33194,9 +33206,12 @@ TODO Write better examples
 		<pattern>
 			<marker>
 				<token>têm</token>
-				<token postag='VMP00SM' postag_regexp='no'/>
+				<and>
+					<token postag='VMP00SM' postag_regexp='no'/>
+					<token negate="yes" regexp='yes' inflected='yes'>vir|ver</token>
+				</and>				
 			</marker>	
-			<token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas?|muitos?|com|que</token>
+			<token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas|muitos|com|que</token>
 		</pattern>
 		<message>Substitua por <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIP3P0'/></suggestion>.</message>
 		<example correction='pesquisam'>Os senhores <marker>têm pesquisado</marker> o assunto há décadas.</example>
