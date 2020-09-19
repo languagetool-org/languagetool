@@ -1,0 +1,1195 @@
+﻿<!-- <?xml version="1.0" encoding="utf-8"?> -->
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+Dutch grammar, typo and style rules for LanguageTool
+Copyright (C) 2006-2019 (baarsrj@xs4all.nl)
+Copyright (C) 2018 Robin van der Vliet (info@robinvandervliet.com) (miniscule changes)
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+
+Contributions and ideas from:
+- taaladvies.net,
+- onzetaal.nl
+- Pander
+- TaalTik (taaltik.nl)
+- E. Sanders: Aarsrivalen, scheldkarbonades en terminale baden, uitgeverij Prometheus, met toestemming van de auteur.
+- Jan de Ridder (missende regels aan de hand van fouten op Wikipedia)
+- F. de Raat: Hoe bereidt je een paard, uitgeverij Nieuw Amsterdan (NRC), met toestemming van de auteur
+- M v d Wiel, concerning dyslexia
+- Computing power supplied by Kiss the Frog (NL)
+================================
+* full update of all rules at end of march 2018
+================================
+SPECIAL NOTICE:
+Every rule is within a rule group; this makes the structure a stricter tree; this is for easier processing programmatically.
+This is also useful for most multi word rules, because of 'inversion' of the sentence.
+================================
+-->
+<!-- definieer macro's voor datumregels -->
+<!DOCTYPE rules [
+<!ENTITY weekdays "maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag">
+<!ENTITY abbrevWeekdays "ma|di|wo|do|za|zo">
+<!ENTITY months "januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december">
+<!ENTITY abbrevMonths "jan|feb|(maa|mar|mrt)|apr|jun|jul|aug|sep|oct|nov|dec">
+
+
+<!-- definieer macro voor gespelde afkortingen als cd -->
+<!ENTITY gespeld "abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ov|ozb|p2p|pc|pcb|pdf|pk|pps|pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp">
+<!ENTITY apostrof "[`'‘’]">
+<!ENTITY quote "[&quot;“]">
+
+<!ENTITY taaladvies "Er zijn taaladviezen over deze tekst. Raadpleeg www.onzetaal.nl en www.taalaadvies.net, of google de tekst met daar taaladvies aan toegevoegd.">
+<!ENTITY leenwoord_mess "Mogelijk kunt u beter een Nederlands woord gebruiken.">
+<!ENTITY cliche_mess "Pas op voor clichés. Probeer het op een andere manier uit te drukken.">
+<!ENTITY vaag_mess "Pas op met vage taal. Probeer preciezer te zijn.">
+<!ENTITY vlotter_mess "De tekst wordt vlotter wanneer u deze herschrijft met">
+]>
+<rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lang="nl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
+
+	<category id="BE_NL" name="Verschil België en Nederland" type="style">
+		<rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
+			<rule>
+				<pattern>
+					<token>mazout</token>
+				</pattern>
+				<message>Standaardtaal in het hele taalgebied zijn <suggestion>stookolie</suggestion> en <suggestion>huisbrandolie</suggestion> gebruikelijk.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1886</url>
+				<example correction="stookolie|huisbrandolie">Ik stook met <marker>mazout</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>rijhuis</token>
+				</pattern>
+				<message>In Nederland is <suggestion>rijtjeshuis</suggestion> gebruikelijk. Daar zijn de huizen in een rij ook vaak gelijk.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1887/rijhuis_rijtjeshuis/</url>
+				<example correction="rijtjeshuis">Ik woon in een <marker>rijhuis</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>kraantjeswater</token>
+				</pattern>
+				<message>In Nederland is <suggestion>kraanwater</suggestion>, <suggestion>leidingwater</suggestion> en <suggestion>tapwater</suggestion> gebruikelijk.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1882/kraantjeswater_kraanwater/</url>
+				<example correction="kraanwater|leidingwater|tapwater">Ik drink graag <marker>kraantjeswater</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>terug</token>
+					<token postag="BNW:STL:ONV"><exception regexp="yes">naar|na|net|waar|waardoor</exception></token>
+				</pattern>
+				<message>In Nederland is <suggestion>weer \2</suggestion> of <suggestion>opnieuw \2</suggestion> gebruikelijk.</message>
+				<example correction="weer vrij|opnieuw vrij">Hij is <marker>terug vrij</marker>.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token>ei</token>
+					<token>zo</token>
+					<token>na</token>
+				</pattern>
+				<message>In Nederland zijn <suggestion>bijna</suggestion> en <suggestion>op het nippertje</suggestion> gebruikelijk.</message>
+				<example correction="bijna|op het nippertje">Hij duwde het gaspedaal in en reed seingever Carlos <marker>ei zo na</marker> omver.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token>wetens</token>
+					<token>en</token>
+					<token>willens</token>
+				</pattern>
+				<message>In Nederland is <suggestion>willens en wetens</suggestion> gebruikelijker. Of kies voor <suggestion>opzettelijk</suggestion>.</message>
+				<example correction="willens en wetens|opzettelijk">A <marker>wetens en willens</marker> B.</example>
+			</rule>			
+			<rule>
+				<pattern case_sensitive="yes">
+					<marker>
+						<token regexp="yes" skip="5">zich|hem|ons|hen|haar</token>
+					</marker>
+					<token inflected="yes">situeren</token>
+				</pattern>
+				<message>Bij situeren hoort geen 'zich'.</message>
+				<example type="incorrect">Hij kan <marker>zich</marker> niet situeren in de toekomst.</example>
+			</rule>		  
+			<rule>
+				<pattern case_sensitive="yes">
+					<token inflected="yes"  skip="5">situeren</token>
+					<marker>
+						<token regexp="yes">zich|hem|ons|hen|haar</token>
+					</marker>
+				</pattern>
+				<message>Bij situeren hoort geen 'zich'.</message>
+				<example type="incorrect">De verschillende factoren situeren <marker>zich</marker> op het biologische domein.</example>				
+			</rule>		  
+
+			<rule>
+				<pattern>
+					<marker>
+					<token>zo'n</token>
+					</marker>
+					<token postag_regexp="yes" postag="ZNW:.*MRV.*"><exception postag_regexp="yes" postag="ZNW:EKV.*"/></token>
+				</pattern>
+				<message>Beter is <suggestion>zulke</suggestion>.</message>
+				<example correction="zulke">Hij wist niets van <marker>zo'n</marker> auto's.</example>
+			</rule>			
+
+			<rule>
+				<pattern>
+					<token>van</token>
+					<token>zodra</token>
+				</pattern>
+				<message>Standaardtaal in het hele taalgebied is: <suggestion>\2</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/832</url>
+				<example correction="Zodra"><marker>Van zodra</marker> ze toevallig samenzijn, spreken ze over de gevallen die ze hebben onderzocht.</example>
+				<example correction="Zodra"><marker>Van zodra</marker> ze vertrokken zijn duik ik rillend van de kou terug mijn bed in…</example>
+				<example correction="zodra">Bij het minste zuchtje wind beweegt hij mee, maar <marker>van zodra</marker> de wind geweken is staat hij weer helemaal recht.</example>
+				<example correction="zodra">Ik stopte met studeren <marker>van zodra</marker> de kans zich voordeed."</example>
+				<example correction="zodra">U ontvangt de transfercode <marker>van zodra</marker> de betaling is uitgevoerd.</example>
+				<example correction="zodra">Neem de tut weg <marker>van zodra</marker> hij slaapt.</example>
+				<example correction="zodra">Mag pas <marker>van zodra</marker> je je definitieve rijbewijs hebt.</example>
+				<example correction="Zodra"><marker>Van zodra</marker> we op onze fiets zaten, viel er geen druppel meer uit de hemel.</example>
+				<example correction="Zodra"><marker>Van zodra</marker> uw lidgeld is ontvangen zal het account geactiveerd worden.</example>
+				<example correction="zodra">Schakel dan gewoon over <marker>van zodra</marker> je de andere nodig hebt.</example>
+				<example correction="zodra">De schalen geven een zeepsop af <marker>van zodra</marker> ze met water in contact komen.</example>
+				<example correction="zodra">Zeer mooi en licht gerecht <marker>van zodra</marker> de asperges betaalbaar zijn.</example>
+			</rule>			  
+			<rule>
+				<pattern>
+					<token>tweede</token>
+					<token postag="BNW:OVR:VRB"/>
+				</pattern>
+				<message>Standaardtaal in het hele taalgebied is: <suggestion>op een na \2</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/816</url>
+				<example correction="op een na grootste">Hij is de <marker>tweede grootste</marker> van de groep.</example>
+				<example correction="op een na belangrijkste">RSV is bij volwassen de <marker>tweede belangrijkste</marker> oorzaak van ernstige lageluchtweginfecties.</example>
+				<example correction="op een na beste">Ook de touwoefening was goed voor de <marker>tweede beste</marker> score van het lot.</example>
+				<example correction="op een na beste">Zij was de <marker>tweede beste</marker> van het ganse lot.</example>
+				<example correction="op een na grootste">Dat is de <marker>tweede grootste</marker> puntenstijging ooit.</example>
+				<example correction="op een na oudste">Het is de <marker>tweede oudste</marker> beschaving die ze gevonden hebben in de wereld.</example>
+				<example correction="op een na zonnigste">Tot vandaag was de lente van 1990 de <marker>tweede zonnigste</marker> met 644 uur en 13 minuten.</example>
+				<example correction="op een na voornaamste">Dit is de <marker>tweede voornaamste</marker> reden waarom de redacteur niet aan lezen toekomt.</example>
+				<example correction="op een na mooiste">Het <marker>tweede mooiste</marker> boek uit mijn leven kon ik lezen op een nog grotere afstand van moeder.</example>
+				<example correction="op een na langste">De reuzenhaai kan tot twaalf meter lang worden, wat hem de titel van <marker>tweede langste</marker> vis bezorgt.</example>
+				<example correction="op een na snelste">Niet ideaal, maar wel de <marker>tweede snelste</marker> vervoersoptie.</example>
+				<example correction="op een na goedkoopste">België is afwisselend met Duitsland het <marker>tweede goedkoopste</marker> land.</example>
+				<example correction="Op een na grootste"><marker>Tweede grootste</marker> exporteur van wapens ter wereld.</example>
+				<example correction="op een na rijkste">De fietsroute passeert de <marker>tweede rijkste</marker> gemeente van België.</example>
+				<example correction="op een na duurste">Het <marker>tweede duurste</marker> item van de avond was een portret.</example>
+			</rule>			  
+			<rule>
+				<pattern>
+					<marker>
+						<token skip="3">tegen</token>
+					</marker>
+					<token>snelheid</token>
+				</pattern>
+				<message>Standaardtaal is: <suggestion>met</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/780</url>
+				<example correction="met">Hij reed <marker>tegen</marker> een constante snelheid.</example> 
+				<example correction="met">Hij reed <marker>tegen</marker> een veel lagere snelheid .</example> 
+				<example correction="met">Die liet ze <marker>tegen</marker> een snelheid van 40 kilometer per uur tegen een betonblok botsen.</example>
+				<example correction="met">De strijd <marker>tegen</marker> overdreven en onaangepaste snelheid is dus van kapitaal belang.</example>
+				<example correction="met">Eenmaal u <marker>tegen</marker> een redelijke snelheid rijdt, kan u de deuren terug ontgrendelen.</example>
+				<example correction="met">Of alleen <marker>tegen</marker> een gezapige snelheid over de snelweg te zoeven met een praatprogramma op de radio.</example>
+				<example correction="met">Die liet ze <marker>tegen</marker> een snelheid van 40 kilometer per uur tegen een betonblok botsen.</example>
+				<example correction="met">Het gebeurt <marker>tegen</marker> hoge snelheid.</example>
+				<example correction="met">Maar dan wel <marker>tegen</marker> een snelheid van meer dan vijftig kilometer per uur.</example>
+				<example correction="met">En dan begon de sensatie : zo'n 30 m <marker>tegen</marker> vrij hoge snelheid.</example>
+				<example correction="met">Desondanks werd het tweede deel afgelegd <marker>tegen</marker> een gemiddelde snelheid van 29,3 km/h.</example>
+				<example correction="met">Vaak goed bedoelde saneringen vernietigen <marker>tegen</marker> hoge snelheid precies dit element van de geschiedenis.</example>
+			</rule>			  
+			<rule>
+				<pattern>
+					<marker>
+						<token>tas</token>
+					</marker>
+					<token regexp="yes">koffie|thee</token>
+				</pattern>
+				<message>Standaardtaal is: <suggestion>kop</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/770</url>
+				<example correction="kop">Geef mij maar een <marker>tas</marker> koffie.</example> 
+				<example correction="kop">Na een tweede <marker>tas</marker> thee gaat Johnny gaan slapen.</example>
+				<example correction="kop">Dat klonk alsof hij een kelner riep om een <marker>tas</marker> thee te bestellen.</example>
+				<example correction="kop">De pannenkoeken worden opgediend met één gratis <marker>tas</marker> koffie of chocolademelk.</example>
+				<example correction="kop">In de namiddag zaten we gezellig een <marker>tas</marker> koffie te drinken.</example>
+				<example correction="kop">Je kan dan nog wat napraten bij een <marker>tas</marker> koffie en wafel.</example>
+				<example correction="kop">Ik eet namelijk muesli ‘s ochtends en ik drink een <marker>tas</marker> koffie.</example>
+				<example correction="kop">De thuisafgevaardige zorgt voor de ontvangst met een <marker>tas</marker> koffie.</example>
+				<example correction="kop">In de ruime zaal konden we genieten van goede <marker>tas</marker> koffie of thee.</example>
+				<example correction="kop">Ik ga steigeren als een corrector mij probeert te verbieden het over een <marker>tas</marker> koffie te hebben.</example>
+			</rule>			  
+			<rule>
+				<pattern>
+					<token inflected="yes">tarmac</token>
+				</pattern>
+				<message>In Nederland is dit begrip onbekend; in het hele taalgebied zijn gebruikelijk: 'platform', 'startbaan' en 'landingsbaan'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/769</url>
+				<example type="incorrect">Het <marker>tarmac</marker> ligt er zwart bij.</example> 
+				<example type="incorrect">Niet in de vertrekhal, maar op het <marker>tarmac</marker>.</example>
+				<example type="incorrect">Weg met die grijze <marker>tarmac</marker>, ontdek alle natuurlopen!</example>
+				<example type="incorrect">Er staat een jet voor ons klaar op het <marker>tarmac</marker> en dat is het belangrijkste.</example>
+				<example type="incorrect">Op de luchthaven zijn vluchten geschrapt omdat activisten zichzelf hadden vastgeketend op het <marker>tarmac</marker>.</example>
+				<example type="incorrect">Daardoor belandde de neus van de Boeing op het <marker>tarmac</marker>.</example>
+				<example type="incorrect">Een snel ontbijtje zorgt ervoor dat ik niet met een lege maag op het <marker>tarmac</marker> arriveer.</example>
+				<example type="incorrect">Na de landing volgde de traditionele waterdoop op het <marker>tarmac</marker>.</example>
+				<example type="incorrect">Buiten, op de betonnen platen van het <marker>tarmac</marker>, gaat het er heel anders aan toe.</example>
+				<example type="incorrect">Togolese soldaten op het <marker>tarmac</marker> van de internationale luchthaven van Bamako.</example>
+				<example type="incorrect">Beneden zien we Dominique als dwergje op het <marker>tarmac</marker> lopen.</example>
+			</rule>			  
+			<rule>
+				<pattern>
+					<token inflected="yes">taalkader</token>
+				</pattern>
+				<message>In Nederland is dit begrip onbekend.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/764</url>
+				<example type="incorrect">Het <marker>taalkader</marker> functioneert niet.</example> 
+				<example type="incorrect">Dat is pas wanneer 90% van alle <marker>taalkaders</marker> is opgevuld, niet alleen bij de rechters, maar ook op de griffies.</example>
+				<example type="incorrect">De affaire speelt zich af met op de achtergrond een strijd over de <marker>taalkaders</marker>.</example>
+				<example type="incorrect">De heer Steens, Michel, is benoemd als bestuurssecretaris Franse <marker>taalkader</marker>.</example>
+			</rule>			  
+			<rule>
+				<pattern>
+					<token inflected="yes">tewerkstelling</token>
+				</pattern>
+				<message>In Nederland betekent dit geen <suggestion>werkgelegenheid</suggestion>, maar alleen 'werk geven'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/792</url>
+				<example correction="werkgelegenheid">De <marker>tewerkstelling</marker> loopt terug.</example> 
+				<example correction="werkgelegenheid">Idem voor de <marker>tewerkstelling</marker>.</example>
+				<example correction="Werkgelegenheid"><marker>Tewerkstelling</marker>, aangepast aan het individu.</example>
+				<example correction="werkgelegenheid">Ook de indi­recte <marker>tewerkstelling</marker> is zeer groot.</example>
+				<example correction="werkgelegenheid">Daarnaast geeft de studie ook zicht op het soort van <marker>tewerkstelling</marker>.</example>
+				<example correction="werkgelegenheid">Iedere <marker>tewerkstelling</marker> is een referentie voor een volgend werk.</example>
+				<example correction="Werkgelegenheid"><marker>Tewerkstelling</marker> is een belangrijke hefboom in de strijd tegen kinderarmoede.</example>
+				<example correction="werkgelegenheid">Daarom dacht ik dat u het had over <marker>tewerkstelling</marker>.</example>
+				<example correction="werkgelegenheid">Garanties op bijkomende <marker>tewerkstelling</marker> willen zij echter niet geven.</example>
+				<example correction="werkgelegenheid">Mobiele deeltijders en "plaats van <marker>tewerkstelling</marker>"</example>
+				<example correction="werkgelegenheid">Illegale <marker>tewerkstelling</marker> van jongeren is er dan ook gebruikelijk.</example>
+				<example correction="werkgelegenheid">Want de <marker>tewerkstelling</marker> in de industrie blijft dalen.</example>
+				<example correction="werkgelegenheid">De immobiliënmarkt heeft een grote impact op de <marker>tewerkstelling</marker>.</example>
+				<example correction="werkgelegenheid">Campusoverschrijdende <marker>tewerkstelling</marker> (vlot bereikbare locaties).</example>
+				<example correction="werkgelegenheid">Elke passagier creëert <marker>tewerkstelling</marker>.</example>
+				<example correction="werkgelegenheid">Plaats van <marker>tewerkstelling</marker> is regio Berchem – Borgerhout.</example>
+				<example correction="werkgelegenheid">Onmiddellijke <marker>tewerkstelling</marker> in een jong en dynamisch bedrijf.</example>
+				<example correction="werkgelegenheid">Ze bieden <marker>tewerkstelling</marker> aan een 20-tal medewerkers.</example>
+				<example correction="werkgelegenheid">Daar is de <marker>tewerkstelling</marker> de voorbije vijf jaar met 300 procent gestegen.</example>
+			</rule>			  
+			<rule>
+				<pattern>
+					<token inflected="yes">syndicaat</token>
+				</pattern>
+				<message>In Nederland betekent dit geen <suggestion>vakbond</suggestion>, maar 'combinatie van zakenlui'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/760</url>
+				<example correction="vakbond">Het <marker>syndicaat</marker> functioneert niet.</example> 
+				<example correction="vakbond">Voka is geen <marker>syndicaat</marker> en ik ben er dus ook niet gesyndiceerd.</example>
+				<example correction="vakbond">Het initiatief van de regering dreigt voor de <marker>syndicaten</marker> een pyrrusoverwinning te worden.</example>
+				<example correction="Vakbond">Het was ook opvallend hoe het Nationaal <marker>Syndicaat</marker> eens te meer zijn Socialist zijn bewezen heeft.</example>
+				<example correction="Vakbond"><marker>Syndicaten</marker> bestaan, helaas vinden academici het niet nodig zich aan te sluiten op enkele witte raven na.</example>
+				<example correction="Vakbond">Guido Herman, voorzitter van het <marker>Syndicaat</marker> der Foorreizigers, meent dat ofwel de Sinksenfoor verhuist naar de Scheldekaaien ook al is hierover verdeeldheid, ofwel dat de opstelling zoals vanouds gebeurt op de Gedempte Zuiderdokken.</example>
+				<example correction="vakbond">Lang, lang geleden mochten militairen niet aansluiten bij een <marker>syndicaat</marker> en nu dat wel kan, komen die kerels de instelling die zij vertegenwoordigen belachelijk maken en de werknemers wier belangen zij geacht worden te verdedigen, voorstellen als simpele idioten.</example>
+				<example correction="vakbond">Het <marker>syndicaat</marker> gaat zijn leden ook niet meer "actief" oproepen om uit de tarievenakkoorden te stappen.</example>
+				<example correction="Vakbond">Dit is de reden waarom we een sterk <marker>Syndicaat</marker> nodig hebben dat boven de overlegorganen moet uitsteken.</example>
+				<example correction="vakbond">Ik werk zelf ook gemiddeld iets van een 14-16 uur aan het vierde wereld <marker>syndicaat</marker>.</example>
+			</rule>			  
+			<rule>
+				<pattern>
+					<token inflected="yes">schoonbroer</token>
+				</pattern>
+				<message>In Nederland is <suggestion>zwager</suggestion> gebruikelijker.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/732</url>
+				<example correction="zwager">Mijn <marker>schoonbroer</marker> is maf.</example> 
+				<example correction="zwager">De afgezette premier zei dat ze geen voordeel haalde uit de promotie van haar <marker>schoonbroer</marker>.</example>
+				<example correction="zwager">Mijn <marker>schoonbroer</marker> had gelijk.</example>
+				<example correction="Zwager"><marker>Schoonbroer</marker> van D’Haeseleer Felix.</example>
+				<example correction="zwager">Ook al grillen mijn <marker>schoonbroers</marker> en bereiden 2 zussen de slaatjes voor.</example>
+				<example correction="zwager">Deze morgen is mijn <marker>schoonbroer</marker> overleden.</example>
+				<example correction="Zwager"><marker>Schoonbroer</marker> Nico en zus kwamen vanmorgen een nieuwe kachel plaatsen bij moeder.</example>
+				<example correction="zwager">De laatste in de rij was het afsterven van mijn <marker>schoonbroer</marker>.</example>
+				<example correction="zwager">Rechts <marker>schoonbroer</marker> van Marc, kampioen 2013 !</example>
+			</rule>			  
+			<rule>
+				<pattern>
+					<token inflected="yes">sanctioneren</token>
+				</pattern>
+				<message>In Nederland betekent dit niet 'straffen', maar alleen 'bekrachtigen'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/726</url>
+				<example type="incorrect">We <marker>sanctioneren</marker> hem.</example> 
+			</rule>			  
+			<rule>
+				<pattern>
+					<token inflected="yes">rondpunt</token>
+				</pattern>
+				<message>Dit is ongebruikelijk in Nederland. In het hele taalgebied is het een <suggestion>rotonde</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/721</url>
+				<example correction="rotonde">We rijden over een <marker>rondpunt</marker>.</example>
+				<example correction="rotonde">Heel bekend <marker>rondpunt</marker> in het midden der woestijn blijkt niet meer te zijn dan een band.</example>
+				<example correction="rotonde">Op het verkeersknooppunt van Hechtel herinnert een Shermantank op een <marker>rondpunt</marker> aan de Slag om Hechtel.</example>
+				<example correction="rotonde">Op het <marker>rondpunt</marker> komt met loeiende sirene plots een politiewagen aangeraasd.</example>
+				<example correction="rotonde">Genk, de uitvinder van het <marker>rondpunt</marker>.</example>
+				<example correction="rotonde">Op zijn hoogste punt zal een <marker>rondpuntje</marker> dienst doen als keerpunt.</example>
+				<example correction="rotonde">Op het <marker>rondpunt</marker> aan de Hondiuslaan prijkt sinds kort een standbeeld van een duffelcoat.</example>
+				<example correction="rotonde">Aan het eerste <marker>rondpunt</marker> (Cora) rechtdoor rijden.</example>
+				<example correction="rotonde">Dit is hetzelfde soort mensen als het soort dat zen Pinker niet opzet bij verlaten <marker>rondpunt</marker>.</example>
+				<example correction="rotonde">Daar stonden we op een <marker>rondpunt</marker> niet wetend welke weg in te slaan.</example>
+				<example correction="rotonde">Maar de situatie aan het <marker>rondpunt</marker> in Wommelgem is wel drastisch veranderd.</example>
+			</rule>			  
+			<rule>
+				<pattern>
+					<token inflected="yes">ronddragen</token>
+				</pattern>
+				<message>In de betekenis 'bezorgen' is dit ongebruikelijk in Nederland. In het hele taalgebied kunt u 'rondbrengen'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/719</url>
+				<example type="incorrect">En die herdershond heeft niets te maken met de Italiaanse colli die koeriersdiensten <marker>ronddragen</marker>.</example>
+				<example type="incorrect">Onze leerlingen van 5 Verzorging gaan vanmiddag zeep en zo <marker>ronddragen</marker> om die ontvangst te helpen slagen.</example>
+				<example type="incorrect">Dan is pakjes <marker>ronddragen</marker> toch geen brug te ver?</example>
+				<example type="incorrect">Communie <marker>rondgedragen</marker> naar de oude en de zieke mensen.</example>				
+				<example type="incorrect">Dan is pakjes <marker>ronddragen</marker> toch geen brug te ver?</example>
+				<example type="incorrect">Toen we daarmee begonnen zijn hebben we wat foldertjes laten <marker>ronddragen</marker>.</example>
+				<example type="incorrect">Dit kan dan gaan van het <marker>ronddragen</marker> van de krant of soep, tot het begeleiden van een kinderactiviteit.</example>
+				<example type="incorrect">Communie <marker>rondgedragen</marker> naar de oude en de zieke mensen.</example>
+				<example type="incorrect">En als het moet ga ik inderdaad met die voeten post <marker>ronddragen</marker> voor een laag loon.</example>
+			</rule>				
+			<rule>
+				<pattern>
+					<token inflected="yes">prognostikeren</token>
+				</pattern>
+				<message>Dit is ongebruikelijk in Nederland. In het hele taalgebied kunt u 'een prognose doen', 'voorzien' of 'voorspellen' gebruiken.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/680</url>
+				<example type="incorrect">We <marker>prognostikeren</marker> het.</example> 
+			</rule>				
+			<rule>
+				<pattern>
+					<token>plattekaas</token>
+				</pattern>
+				<message>Dit is ongebruikelijk in Nederland. Standaardtaal in heel het taalgebied is <suggestion>kwark</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/662</url>
+				<example correction="kwark">Het is <marker>plattekaas</marker>.</example> 
+				<example correction="kwark">Een radijs wordt in Gaasbeek met <marker>plattekaas</marker>, peper en zout genuttigd.</example>
+				<example correction="kwark">Het volwassenen pakket bevatte pistolets, koffiekoek, peperkoek en <marker>plattekaas</marker> uit het Pajottenland.</example>
+				<example correction="kwark">Meng de <marker>plattekaas</marker> met de mascarpone.</example>				
+				<example correction="Kwark"><marker>Plattekaas</marker> krijgt dan ook de absolute voorkeur.</example>
+				<example correction="kwark">Schenk de room met gelatine bij de opgeklopte room, voeg het mengsel van <marker>plattekaas</marker> en clementinesap toe.</example>
+				<example correction="kwark">Pers het sap uit de clementines en voeg het toe aan de <marker>plattekaas</marker>.</example>
+				<example correction="kwark">Geraakt het doosje <marker>plattekaas</marker>, kruidenkaas e.d. niet op tijd opgebruikt?</example>
+				<example correction="kwark">Eet liever een stukje kip, een banaan of een beetje <marker>plattekaas</marker> om je spieren te versterken.</example>
+				<example correction="kwark">Je kan er ook smullen van een lekkere boterham met <marker>plattekaas</marker> en /of hesp en natuurlijk past er bij deze schotels een lekkere wijn of een goed biertje.</example>
+			</rule>				
+			<rule>
+				<pattern>
+					<token regexp="yes">piloot....*</token>
+				</pattern>
+				<message>Dit is ongebruikelijk in Nederland. Standaardtaal in heel het taalgebied is 'proef-', 'model-' of 'test-'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/657</url>
+				<example type="incorrect">Het is een <marker>pilootaflevering</marker>.</example> 
+				<example type="incorrect">Het <marker>pilootproject</marker> bleek zo succesvol dat het intussen al op verschillende plaatsen in het land navolging kreeg.</example>				
+			</rule>				
+			<rule>
+				<pattern>
+					<token inflected="yes">ordewoord</token>
+				</pattern>
+				<message>Standaardtaal in heel het taalgebied zijn 'leus', 'devies', 'wachtwoord' en 'slogan'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/632</url>
+				<example type="incorrect">Het is een <marker>ordewoord</marker>.</example> 
+				<example type="incorrect">Drugsgebruikers worden in Denemarken opgejaagd, zero tolerance is het <marker>ordewoord</marker>.</example>
+				<example type="incorrect">De leden buigen zich over de basis van de partij, met confederalisme als <marker>ordewoord</marker>.</example>
+				<example type="incorrect">Vandaag worden tentoonstellingsmakers belangrijker dan conservatoren, terwijl het terugschroeven van de aankopen het <marker>ordewoord</marker> is geworden.</example>
+				<example type="incorrect">Dat is het <marker>ordewoord</marker> van Robert M.</example>
+				<example type="incorrect">In de voorbereidende fase waren zij het meest actief om de organisaties achter het <marker>ordewoord</marker> van de staking te krijgen.</example>
+				<example type="incorrect">Als de juiste <marker>ordewoorden</marker> eenmaal zijn binnengelopen op de ‘Sociale Media’, dan gaat voor hen de Hemel open.</example>
+			</rule>				
+			<rule>
+				<pattern>
+					<token>onevenwicht</token>
+				</pattern>
+				<message>Standaardtaal in heel het taalgebied is <suggestion>onevenwichtigheid</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/613</url>
+				<example correction="onevenwichtigheid">Het is <marker>onevenwicht</marker>.</example> 
+				<example correction="Onevenwichtigheid"><marker>Onevenwicht</marker> is er niet alleen aan de top, maar ook aan de basis van de politiek.</example>
+				<example correction="onevenwichtigheid">Voor bepaalde zuivelbedrijven kan er een <marker>onevenwicht</marker> zijn tussen de groei van de vraag en de groei van de melkproductie.</example>
+				<example correction="onevenwichtigheid">Dit is een <marker>onevenwicht</marker> dat al decennia meegaat.</example>
+				<example correction="onevenwichtigheid">Rutten verwijst naar uitspraken van Bill Keller die eerder het <marker>onevenwicht</marker> tussen vraag en aanbod van kwaliteitsjournalistiek hekelde.</example>
+				<example correction="onevenwichtigheid">Deze louter kwantitatieve benadering heeft aanleiding gegeven tot een <marker>onevenwicht</marker> in de leeftijdsopbouw van de krijgsmacht.</example>
+			</rule>				
+			<rule>
+				<pattern>
+					<marker>
+						<token>onder</token>
+					</marker>
+					<token>de</token>
+					<token>vorm</token>
+					<token>van</token>
+				</pattern>
+				<message>Standaardtaal in heel het taalgebied is <suggestion>in</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/606</url>
+				<example correction="In"><marker>Onder</marker> de vorm van damp bevat lucht steeds een bepaalde hoeveelheid water.</example>
+				<example correction="in">Ook Etienne was weer van de partij en de firma droeg zijn steentje bij <marker>onder</marker> de vorm van hulp aan de centrale.</example>
+				<example correction="in">Avondmaal <marker>onder</marker> de vorm van een 3-gangen-menu voor grote groepen.</example>
+				<example correction="in">Snoepjes, <marker>onder</marker> de vorm van droge hondenkoekjes , kunnen tussendoor gegeven worden.</example>
+				<example correction="in">De koopsommen worden betaald door de schuldenaars, meestal <marker>onder</marker> de vorm van een lening.</example>
+				<example correction="in">Daarbij reden allerlei kategorieën racewagens, <marker>onder</marker> de vorm van een tijdrit, om het snelst een km in rechte lijn.</example>
+			</rule>			  
+			<rule>
+				<pattern>
+					<token>omwille</token>
+					<token>van</token>
+				</pattern>
+				<message>Standaardtaal in heel het taalgebied zijn 'wegens', 'om', vanwege', 'door' om een oorzaak aan te geven.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/600</url>
+				<example type="incorrect">Aan een clochard die rechtoe-rechtaan bedelt geef ik niet eens een euro <marker>omwille van</marker> de reden dat die voor de rest niemand lastigvalt.</example>
+				<example type="incorrect">Als je je stemmentrekkers de duimen moet laten leggen <marker>omwille van</marker> het kader zit er iets mis met dat kartel.</example>
+				<example type="incorrect">De eerlijkheid gebiedt te zeggen dat in Australië de fietsers fietsen <marker>omwille van</marker> de sport.</example>
+				<example type="incorrect">De meeste hypotheekondernemingen leggen een minimum-bedrag op <marker>omwille van</marker> de kosten.</example>				
+				<example type="incorrect">Heeft u nood aan een binnentoilet <marker>omwille van</marker> verbouwingen?</example>
+			</rule>			  
+			<rule>
+				<pattern>
+					<token inflected="yes">omkadering</token>
+				</pattern>
+				<message>Met de betekenis van 'personeelsomvang' is dit woord onbekend in Nederland.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/599</url>
+				<example type="incorrect">De nodige <marker>omkadering</marker> en middelen worden voorzien om aan een actief veiligheidsbeleid te kunnen werken.</example>
+				<example type="incorrect">Alle stukjes van de puzzel moeten passen: opleiding, kennis van het terrein, niveau, uitrusting, <marker>omkadering</marker>, en de omstandigheden.</example>
+				<example type="incorrect">Van iedere 100 euro gingen er 44 naar het basisonderwijs, kinderverzorgsters, zorg, zorgcoördinatie en <marker>omkadering</marker>.</example>
+				<example type="incorrect"><marker>Omkadering</marker> en opvolging tijdens de inzet.</example>
+				<example type="incorrect">Inleveren op loon of <marker>omkadering</marker> is voor de vakbond onbespreekbaar.</example>
+				<example type="incorrect">Er is al meer dan genoeg <marker>omkadering</marker>.</example>
+			</rule>			  
+			<rule>
+				<pattern>
+					<token inflected="yes">navorser</token>
+				</pattern>
+				<message>Dit is geen Standaardtaal; 'onderzoeker' is gebruikelijk in het hele taalgebied.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/571</url>
+				<example type="incorrect">Een reglement van orde bepaalt de regelen volgens welke zij aan <marker>navorsers</marker> ter inzage kunnen verstrekt worden.</example>
+				<example type="incorrect">Krediet aan <marker>navorsers</marker> mag niet a priori afgewezen worden.</example>
+				<example type="incorrect">De loyaaliteit van de hoogleraren is niet meer bij haar jonge <marker>navorsers</marker>.</example>
+				<example type="incorrect">Als voormalig <marker>navorser</marker> werkte ze mee aan een boek over financiering.</example>
+				<example type="incorrect">Het Comité mag de <marker>navorser</marker> slechts één maal ondervragen.</example>
+				<example type="incorrect">De verhouding academici en <marker>navorsers</marker> tegenover studenten per studierichting is vastgelegd.</example>
+				<example type="incorrect">Het is aldus de taak van de <marker>navorser</marker> die reden te ontdekken.</example>
+			</rule>			  
+			<rule>
+				<pattern>
+					<token inflected="yes">milicien</token>
+				</pattern>
+				<message>In Nederland kent men dit woord niet; 'dienstplichtige' is bekend in het hele taalgebied.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/547</url>
+				<example type="incorrect"><marker>Milicien</marker> Sels verdedigde zijn sector vanuit één van de huizen die toen aan de overkant van de Kerkstraat stonden.</example>
+				<example type="incorrect">De meeste <marker>miliciens</marker> hadden waarschijnlijk een veel minder leuke tijd.</example>
+				<example type="incorrect">Het ligt politiek enorm moeilijk om <marker>miliciens</marker> in te zetten in een "vreemd" land.</example>
+				<example type="incorrect">Een vriend die als <marker>milicien</marker> in Brakel(lag toen aan de grens van het toenmalige DDR) raketinstallaties moest bewaken, kreeg drie kogels als hij van wacht was.</example>
+				<example type="incorrect">Was soldaat 2de klas – <marker>milicien</marker> 1914 Regiment 1ste Jagers te voet 3/2.</example>
+				<example type="incorrect">De varkensboer was een soldaat <marker>milicien</marker> uit de kazerne.</example>
+			</rule>			  
+			<rule>
+				<pattern>
+					<token inflected="yes">magazijnier</token>
+				</pattern>
+				<message>In Nederland kent men dit woord niet; 'magazijnbediende', 'magazijnchef' en 'magazijnmeester' zijn bekend in het hele taalgebied.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/515</url>
+				<example type="incorrect">Bij ons 2 <marker>magazijniers</marker> ontslagen, tot en met december iedereen 10/20% minder werken.</example>
+				<example type="incorrect">Joseph was <marker>magazijnier</marker>.</example>
+				<example type="incorrect">Een 47-jarige man uit Ham riskeert een half jaar cel voor de diefstal van werkmateriaal uit het bedrijf waar hij als <marker>magazijnier</marker> tewerkgesteld was.</example>
+				<example type="incorrect">Werk je als <marker>magazijnier</marker> of als chauffeur en wil je graag verdergroeien?</example>
+				<example type="incorrect">Hij kan gewoon zingen over de eerste sneeuw waar ik straks door moet in mijn Renault R5, op weg naar mijn klotejob als fucking <marker>magazijnier</marker>.</example>
+				<example type="incorrect">Begonnen als <marker>magazijnier</marker>, later verhuisd naar de grote leeszaal, daarna naar de bruikleenbalie en uiteindelijk naar catalografie.</example>
+			</rule>			  
+			<rule>
+				<pattern>
+					<token>luidop</token>
+				</pattern>
+				<message>In Nederland kent men dit woord niet; <suggestion>hardop</suggestion> is bekend in het hele taalgebied.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/507</url>
+				<example correction="hardop">Vandaag zegt partijvoorzitter Bart Somers exact wat Rudi Boudringhien hier in Ronse altijd consequent <marker>luidop</marker> is blijven zeggen.</example>
+				<example correction="hardop">Ze dromen <marker>luidop</marker> van de heerschappij in Rome.</example>
+				<example correction="hardop">"Dat zal ik nog moeten tonen aan moeder" vertelt ze <marker>luidop</marker>.</example>
+				<example correction="hardop">Er is een meerderheidspartij die reeds lange tijd <marker>luidop</marker> droomt van een attractiepark!</example>
+				<example correction="hardop">Alle bestelwagenchauffeurs gaven <marker>luidop</marker> te kennen dat mijn kapsalon wel goed moest draaien.</example>
+				<example correction="hardop">De professor probeerde de lachers op zijn hand te krijgen door <marker>luidop</marker> te vragen of dit ‘door de sigaretten kwam misschien’.</example>
+				<example correction="hardop">Zoiets als <marker>luidop</marker> boeren in een restaurant dat doe je ook niet.</example>
+				<example correction="hardop">Waar ik wel <marker>luidop</marker> van droom: een Belgische of wereldtitel in het veld.</example>
+			</rule>			  
+			<rule>
+				<pattern>
+					<token inflected="yes">lavabo</token>
+				</pattern>
+				<message>In Nederland kent men dit woord niet; 'wastafel' en 'wasbak' zijn bekend in het hele taalgebied.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/489</url>
+				<example type="incorrect">De badkamer is voorzien van een douche ,<marker>lavabo</marker> en toilet.</example>
+				<example type="incorrect">Reinig de <marker>lavabo</marker>, het bad, de douche en de gootsteen met de juiste schoonmaakmiddelen.</example>
+				<example type="incorrect">Slaapkamer met dubbel bed, badkamer met ligbad, <marker>lavabo</marker> en wc.</example>
+				<example type="incorrect">De twee Dirken zijn vandaag soloslapers elk in een piepklein kamertje met een piepkleine douche, een piepklein <marker>lavabootje</marker> en een piepklein bed.</example>
+				<example type="incorrect">We maken dan ook tijd vrij om ons te wassen aan de <marker>lavabo</marker> of onder de douche.</example>
+			</rule>			  
+			<rule>
+				<pattern>
+					<token>langsheen</token>
+				</pattern>
+				<message>Standaardtaal in heel het taalgebied is <suggestion>langs</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/485</url>
+				<example correction="langs">Het grootste probleem hierbij is de integratie van compacte golfgeleiders die toelaten om het licht <marker>langsheen</marker> scherpe bochten te leiden.</example>
+				<example correction="langs">Op 2 december schepen we in aan boord van het schip voor een rondreis <marker>langsheen</marker> het sultanaat Brunei, Vietnam en Thailand .</example>
+				<example correction="langs">Een ca. 40km lange fietstocht <marker>langsheen</marker> grotendeels vlakke wegen.</example>
+				<example correction="langs">Men bereikte een ideale luchtdoorstroming <marker>langsheen</marker> het hele vliegtuig.</example>
+				<example correction="langs">Voor de wandeling beklimt men de om op de hoogvlakte te komen en <marker>langsheen</marker> de bossen van Val Vert te wandelen.</example>
+			</rule>			 
+			<rule>
+				<pattern>
+					<token regexp="yes">(kinesist|kinesitherapeut)(e|en){0,1}</token>
+				</pattern>
+				<message>In Nederland kent men dit woord niet; 'fysiotherapeut' is bekend in Nederland.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/457</url>
+				<example type="incorrect">Milde symptomen worden behandeld door de <marker>kinesitherapeut</marker>.</example>
+				<example type="incorrect">Patiënten die herstellen krijgen therapie bij een <marker>kinesist</marker>.</example>
+				<example type="incorrect">Ook met de <marker>kinesitherapeuten</marker> had ik een heel goede band.’</example>
+				<example type="incorrect">En dat die <marker>kinesist</marker> maar gauw van dat lijstje verdwijnt.</example>				
+				<example type="incorrect">De <marker>kinesisten</marker> organiseren ook groepsgymnastiek.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token inflected="yes">jobstudent</token>
+				</pattern>
+				<message>In Nederland kent men dit woord niet; 'werkstudent' is bekend in het hele taalgebied.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/446</url>
+				<example type="incorrect">Indien de <marker>jobstudent</marker> met zijn fooien niet aan het minimum komt, dan moet de werkgever dit bedrag aanvullen.</example>
+				<example type="incorrect">In de zomervakantie gaan in België jongeren aan de slag als <marker>jobstudent</marker>.</example>
+				<example type="incorrect">Dat blijkt uit het jaarverslag, dat bepaalt dat er 11,9% meer <marker>jobstudenten</marker> actief waren dan het voorgaande jaar.</example>
+				<example type="incorrect">Je mag op 15-jarige leeftijd als <marker>jobstudent</marker> beginnen.</example>
+				<example type="incorrect">De eerste 50 gepresteerde dagen werken alle studenten als <marker>jobstudent</marker>.</example>
+				<example type="incorrect">Je mag als <marker>jobstudent</marker> werken als je minstens 15 jaar bent.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token inflected="yes">jeton</token>
+				</pattern>
+				<message>In Nederland kent men dit woord niet; 'muntje' of 'penning' is bekend in het hele taalgebied.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/443</url>
+				<example type="incorrect">U kan de timer instellen op bv 10 minuten voor 1 <marker>jeton</marker>.</example>
+				<example type="incorrect">Via het zogeheten jetonsysteem zullen <marker>jetons</marker> ter beschikking gesteld worden.</example>
+				<example type="incorrect">Voor 10 euro krijg je een proefglas en 6 <marker>jetons</marker>.</example>
+				<example type="incorrect">Je kan er ook <marker>jetons</marker> mee aankopen.</example>
+				<example type="incorrect">Bezoekers kunnen <marker>jetons</marker> kopen tegen 2 euro per stuk.</example>
+				<example type="incorrect">Daarnaast zien we <marker>jetons</marker> ook vaak als beloning, visitekaartje, ontvangstbewijs, winkelwagenmuntjes, toegangsbewijs, ...</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token inflected="yes">hoogdringend</token>
+				</pattern>
+				<message>In Nederland gebruikt men dit woord niet.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/394</url>
+				<example type="incorrect">Broodnodig en <marker>hoogdringend</marker>.</example>
+				<example type="incorrect">Daarmee dat het <marker>hoogdringend</marker> is dat religie de privesfeer niet langer buitentreedt.</example>
+				<example type="incorrect">"Hopelijk ziet men in dat de oplossing een <marker>hoogdringend</marker> karakter vertoont.</example>
+				<example type="incorrect">Het was de reden waarom de oppositie weigerde in te gaan op vragen om <marker>hoogdringende</marker> behandeling.</example>
+				<example type="incorrect">Voor <marker>hoogdringende</marker> zaken kan je terecht bij een huisartsen wachtdienst.</example>
+				<example type="incorrect">Wellicht dat daarvoor <marker>hoogdringende</marker> redenen zijn al is het de vraag.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<marker>
+						<token>in</token>
+					</marker>
+					<token>hoofde</token>
+					<token>van</token>
+				</pattern>
+				<message>Standaardtaal in het hele taalgebied is <suggestion>uit</suggestion> hoofde van.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/391</url>
+				<example correction="Uit"><marker>In</marker> hoofde van de Vlaamse regering vormt de beheersovereenkomst het instrument bij uitstek.</example>
+				<example correction="uit">Er staat <marker>in</marker> hoofde van een consument een wanbetaling geregistreerd</example>		  
+				<example correction="uit">De vergissing <marker>in</marker> hoofde van de sociale inspecteurs lijkt begrijpelijk.</example>
+				<example correction="uit">Als er geen schuldvorderingen <marker>in</marker> hoofde van de fiscus bestaan, worden de bedragen alsnog overgemaakt.</example>
+				<example correction="uit">Deze werkwijze wordt geapprecieerd <marker>in</marker> hoofde van de cliënt.</example>
+				<example correction="Uit"><marker>In</marker> hoofde van de Vlaamse regering en de voogdijminister vormt de beheersovereenkomst dan ook het instrument bij uitstek.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token inflected="yes">heirkracht</token>
+				</pattern>
+				<message>Standaardtaal in het hele taalgebied is 'overmacht'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/364</url>
+				<example type="incorrect">Ze hebben een <marker>heirkracht</marker>.</example>
+				<example type="incorrect">De koper draagt de volledige verantwoordelijkheid, zelfs bij <marker>heirkracht</marker>.</example>
+				<example type="incorrect">Sorry maar dit is pure <marker>heirkracht</marker>.</example>
+				<example type="incorrect">Indien het reisagentschap door <marker>heirkracht</marker> niet de hotelaccommodatie kan bezorgen, behoudt de cliënt het recht op een minstens evenwaardig vervangend hotel.</example>
+				<example type="incorrect">Daar het hier gaat om een geval van <marker>heirkracht</marker> rekenen wij erop dat alle andere clubs zich sportief opstellen en begrip opbrengen voor deze maatregel.</example>
+				<example type="incorrect">In elk geval, ik zal er zijn, behoudens <marker>heirkracht</marker>.</example>
+				<example type="incorrect">Louis Passy verklaarde er dat de oorlog geen <marker>heirkracht</marker> is.</example>
+				<example type="incorrect">Wat me vooral interesseert is hoe jullie met <marker>heirkrachten</marker> omgaan.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token inflected="yes">gelijkaardig</token>
+				</pattern>
+				<message>Standaardtaal voor het hele taalgebied is 'soortgelijk', 'gelijksoortig' of 'dergelijk'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/324</url>
+				<example type="incorrect"><marker>Gelijkaardige</marker> toepassing is de zweepslag waarbij met de rug van je handen in waaiervorm geslagen wordt.</example>
+				<example type="incorrect"><marker>Gelijkaardige</marker> vaststellingen heb ik talloze keren kunnen maken.</example>
+				<example type="incorrect">De renovatie wordt als ingrijpend beschouwd indien de kostprijs minstens 50 % van de waarde van een <marker>gelijkaardig</marker> nieuw gebouw vertegenwoordigt.</example>
+				<example type="incorrect">Het is een normaal proces van een regio die cultureel op een <marker>gelijkaardig</marker> niveau van de buurlanden is.</example>
+				<example type="incorrect">Je kan van leraren verwachten dat ze een <marker>gelijkaardig</marker> verhaal vertellen.</example>
+				<example type="incorrect">Voor de kinderen uit het lager onderwijs is er een <marker>gelijkaardig</marker> project, namelijk Sportsnack.</example>
+				<example type="incorrect">Ze kunnen hun resultaten spiegelen aan die van <marker>gelijkaardige</marker> scholen uit de peiling.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token regexp="yes">geleid|geleide</token>
+					<token regexp="yes">.*(bezoek|wandeling|tocht)</token>
+				</pattern>
+				<message>Standaardtaal voor het hele taalgebied is gebruikelijk: 'rondleiding' of herschrijf met 'met gids'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/321</url>
+				<example type="incorrect">We doen een <marker>geleid bezoek</marker>.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token>in</token>
+					<token>functie</token>
+					<token>van</token>
+				</pattern>
+				<message>Deze woordgroep is niet bekend in elke betekenis bekend in het hele taalgebied.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/296</url>
+				<example type="incorrect">We gaan <marker>in functie van</marker> het weer verder.</example>
+				<example type="incorrect">Bebouwing <marker>in functie van</marker> toerisme en recreatie is toegestaan.</example>
+				<example type="incorrect">Beperking <marker>in functie van</marker> het belastbaar inkomen.</example>
+				<example type="incorrect">Dit alles <marker>in functie van</marker> het behalen van topkwaliteit in combinatie met een mooi bord!</example>
+				<example type="incorrect">Artikel 63§2 bepaalt dat het aantal zetels een fractie moet zijn van 150, <marker>in functie van</marker> de bevolking van elke kieskring.</example>
+				<example type="incorrect"><marker>In functie van</marker> de toepassing zal de robuustheid variëren.</example>
+				<example type="incorrect"><marker>In functie van</marker> de uitstraling en de representativiteit van de zeehaven is een kwalitatieve inrichting van het gebied belangrijk.</example>
+				<example type="incorrect"><marker>In functie van</marker> de uitvoeringsplannen wordt eventueel een band met verticale stenen (streklaag of rollaag) gemetseld boven het kozijn.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token>farde</token>
+				</pattern>
+				<message>Standaardtaal in het hele taalgebied is <suggestion>map</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/285</url>
+				<example correction="map">We hebben het in de <marker>farde</marker> gestopt.</example>
+				<example correction="map">De blauwe <marker>farde</marker> heeft nog een tweede functie dus.</example>
+				<example correction="map">Ik heb dus zitten wijzen “een <marker>farde</marker> van die sigaretten daar”.</example>
+				<example correction="map">Maak indruk door informatie aan te bieden in een handige <marker>farde</marker>.</example>
+				<example correction="map">Hij houdt zijn kop nog steeds verborgen achter de blauwe <marker>farde</marker>.</example>
+				<example correction="map">Hij was de trotse bezitter van een <marker>farde</marker> met moppen.</example>
+				<example correction="map">Waardoor de <marker>farde</marker> van de maker ervan was blijven steken.</example>
+				<example correction="map">Gewoon even de <marker>farde</marker> van het 2de Regiment Legerartillerie opvragen.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token>familiale</token>
+					<token regexp="yes">verzekering|bijstand</token>
+				</pattern>
+				<message>Standaardtaal in het hele taalgebied is <suggestion>gezins\2</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/284</url>
+				<example correction="gezinsverzekering">De <marker>familiale verzekering</marker> vergoedt de schade aan uw auto niet.</example>
+				<example correction="Gezinsverzekering">Jaarlijks € 10 korting*** op de <marker>Familiale verzekering</marker>.</example>
+				<example correction="gezinsverzekering">Ik ben vrijwilliger en ik heb een <marker>familiale verzekering</marker>.</example>
+				<example correction="gezinsverzekering">Daarom raden wij de ouders aan een <marker>familiale verzekering</marker> af te sluiten.</example>
+				<example correction="gezinsverzekering">Wie is verzekerd door deze <marker>familiale verzekering</marker>?</example>
+				<example correction="Gezinsverzekering"><marker>Familiale verzekering</marker>, ook wel gezinspolis genoemd.</example>
+				<example correction="gezinsverzekering">Het valt dus onder de <marker>familiale verzekering</marker> met franchise van 250,00 euro.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token inflected="yes">extralegaal</token>
+				</pattern>
+				<message>Standaardtaal in het hele taalgebied is 'secundaire arbeidsvoorwaarden' standaard.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/280</url>
+				<example type="incorrect"><marker>Extralegale</marker> voordelen zijn voor vele werknemers een leuke kers op de taart.</example>
+				<example type="incorrect">Niet enkel het hoge loon was voor hen een doorn in het oog, ook de <marker>extralegale</marker> voordelen zijn een punt van discussie.</example>
+				<example type="incorrect">Niet alle <marker>extralegale</marker> voordelen zijn voor iedereen beschikbaar.</example>
+				<example type="incorrect">Door een verzekering geniet uw personeel van een belangrijk <marker>extralegaal</marker> voordeel.</example>
+				<example type="incorrect">De hospitalisatieverzekering en pensioensparen zijn de populairste <marker>extralegale</marker> voordelen.</example>
+				<example type="incorrect">Ik heb als <marker>extralegaal</marker> voordeel mijn abonnement van De Lijn.</example>
+				<example type="incorrect">Als productiebedrijf bieden we een aantrekkelijk salaris en een uitgebreid pakket van <marker>extralegale</marker> voordelen.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token>effectieven</token>
+				</pattern>
+				<message>Beter voor het hele taalgebied is: 'personeelsbestand' of 'personeelssterkte'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/248</url>
+				<example type="incorrect">We bekijken de <marker>effectieven</marker>.</example>
+				<example type="incorrect">Ook werd er in het collegebesluit melding gemaakt van het vorderen van "minimale <marker>effectieven</marker>".</example>
+				<example type="incorrect">Het aantal <marker>effectieven</marker> mag niet lager zijn dan twee en niet hoger dan vijfentwintig.</example>
+				<example type="incorrect">Bij gebrek aan <marker>effectieven</marker> kan de C Cie niet volledig de aflossing van de ULSTERS compagnie verzekeren.</example>
+				<example type="incorrect">De Navo en Afghanistan kwamen overeen om een aanwezigheid te bewaren, die maximaal 2.000 <marker>effectieven</marker> zou tellen.</example>
+				<example type="incorrect">Daar zullen we onze <marker>effectieven</marker> goed kunnen gebruiken op de lokale markten.</example>
+				<example type="incorrect">Ik heb dat gedeelte over <marker>effectieven</marker> nu al 3 keer gelezen.</example>
+				<example type="incorrect">De <marker>effectieven</marker> van een ploeg mogen niet in een lagere afdeling of in een ploeg van in dezelfde afdeling uitkomen.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token regexp="yes">editoriaal|editorialen</token>
+				</pattern>
+				<message>Beter voor het hele taalgebied is: 'hoofdartikel'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/237</url>
+				<example type="incorrect">We wachten op het <marker>editoriaal</marker>.</example>
+				<example type="incorrect">Ze vinden 43 <marker>editorialen</marker> met in 53% van de gevallen een negatieve opinie.</example>
+				<example type="incorrect">Het politieke <marker>editoriaal</marker> en het modemagazine hebben dezelfde functie.</example>
+				<example type="incorrect">In een bijbehorend <marker>editoriaal</marker> trekt de auteur de aandacht.</example>
+				<example type="incorrect">Leest u gerust dit <marker>editoriaal</marker> als een oproep om massaal aanwezig te zijn.</example>
+				<example type="incorrect">Gevolg: een volledig <marker>editoriaal</marker> en een extra artikel.</example>
+				<example type="incorrect">Wie de <marker>editorialen</marker> erop naleest, stelt vast dat er over het voorstel niet wordt gerept.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token inflected="yes">drukkingsmiddel</token>
+				</pattern>
+				<message>Standaardtaal in het hele taalgebied zijn 'pressiemiddel' en 'drukmiddel' standaard.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/229</url>
+				<example type="incorrect">We wachten op het <marker>drukkingsmiddel</marker>.</example>
+				<example type="incorrect">Naast dat <marker>drukkingsmiddel</marker> heeft de wisselbrief nog een tweede voordeel.</example>
+				<example type="incorrect">De pogrom in nazi-Duitsland was het ultieme <marker>drukkingsmiddel</marker> om de joden tot emigratie aan te zetten.</example>
+				<example type="incorrect">Religieuze <marker>drukkingsmiddelen</marker> werden op ruime schaal toegepast.</example>
+				<example type="incorrect">In dat geval is het een gestort bedrag, dit dient als <marker>drukkingsmiddel</marker> om de dienstverlener te verplichten.</example>
+				<example type="incorrect">Het is ook een <marker>drukkingsmiddel</marker> dat kan gebruikt worden in een diplomatieke context.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token inflected="yes">drukkingsgroep</token>
+				</pattern>
+				<message>Standaardtaal in het hele taalgebied zijn 'pressiegroep', 'belangengroep' en 'lobby' standaard.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/228</url>
+				<example type="incorrect"><marker>Drukkingsgroepen</marker> allerhande schreeuwden al snel om ter hardst het pure recuperatie door de privésector is.</example>
+				<example type="incorrect">Wie wil er terug naar journalistiek waarbij <marker>drukkingsgroepen</marker> de macht hebben en de pen vasthouden?</example>
+				<example type="incorrect">De federatie voert ook andere acties uit als <marker>drukkingsgroep</marker>.</example>
+				<example type="incorrect">Je moet dan ook niet verongelijkt doen dat er acties komen van <marker>drukkingsgroepen</marker>.</example>
+				<example type="incorrect">De <marker>drukkingsgroep</marker>, heeft maandag haar prijs voor politieke moed uitgereikt.</example>
+				<example type="incorrect">Alsof hun rechtse partijen niet dansen naar de pijpen van de financiële <marker>drukkingsgroepen</marker>.</example>
+				<example type="incorrect">Jammer dat de "sociale partners" verworden zijn tot wereldvreemde <marker>drukkingsgroepen</marker>.</example>
+				<example type="incorrect">Daar kunnen <marker>drukkingsgroepen</marker> meestal niet veel tegenover plaatsen.</example>
+				<example type="incorrect">Begrijpelijk dus dat nogal wat mensen liever aan politiek doen via een <marker>drukkingsgroep</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes">depannage</token>
+				</pattern>
+				<message>Standaardtaal in België is 'pechverhelping'. In Nederland is 'pechhulp' standaard.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/201</url>
+				<example type="incorrect"><marker>Depannage</marker> Rik werkt voor meerdere bijstandsverzekeringen.</example>
+				<example type="incorrect">U hoeft bij <marker>depannage</marker> niet dienen te wachten op wisselstukken.</example>
+				<example type="incorrect">Plaatsing, <marker>depannage</marker> en onderhoud van beveiligingsinstallaties.</example>
+				<example type="incorrect">Speciale prijzen voor <marker>depannage</marker> buitenland te verkrijgen op aanvraag via de contactpagina.</example>
+				<example type="incorrect">Wij beschikken over 2 <marker>depannage</marker> voertuigen.</example>
+				<example type="incorrect">Een gratis vervangwagen en <marker>depannage</marker> zit ook inbegrepen.</example>
+				<example type="incorrect">Wij voorzien een regionale 24/24 en 6/7 <marker>depannage</marker> dienst voor 6 personen.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes">catalogeren</token>
+				</pattern>
+				<message>Standaardtaal in hele taalgebied is het 'catalogiseren'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/161</url>
+				<example type="incorrect">Je zou ze kunnen <marker>catalogeren</marker> naar de materie, naar het aantal kralen, naar de functie.</example>
+				<example type="incorrect">Sommige sites kunnen onder de communicatieve sites <marker>gecatalogeerd</marker> worden.</example>
+				<example type="incorrect">Deze kaarten zijn <marker>gecatalogeerd</marker> en gedigitaliseerd en zijn online toegankelijk.</example>
+				<example type="incorrect">Ik getuige van de totstandkoming van een serie schilderijen die we al vrij snel <marker>catalogeerden</marker> als Hommage aan Luis Barragán.</example>
+				<example type="incorrect">De standaardtaal heeft als voordeel dat je dialecten kan herkennen en <marker>catalogeren</marker> onder die standaardtaal.</example>
+				<example type="incorrect">De wedstrijdleiding <marker>catalogeerde</marker> het incident als een zogenaamde ‘unsafe release’.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes">bouwwerf</token>
+				</pattern>
+				<message>Standaardtaal in hele taalgebied is het 'bouwplaats' of 'bouwterrein'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/141</url>
+				<example type="incorrect"><marker>Bouwwerven</marker> liggen stil omdat er geen geld meer is.</example>
+				<example type="incorrect">Maar Dewez is nogal slordig in het opvolgen van de <marker>bouwwerf</marker> van dit buitenverblijf.</example>
+				<example type="incorrect">Op 18 juni 2015 heeft de arbeidsinspectie een bliksemactie op <marker>bouwwerven</marker> gevoerd.</example>
+				<example type="incorrect">Daarginds torst een jochie van tien bakstenen op een <marker>bouwwerf</marker>.</example>
+				<example type="incorrect">Een ouder koppel reed er te pletter tegen een vrachtwagen die aan een <marker>bouwwerf</marker> aldaar stond.</example>
+				<example type="incorrect">Ik heb Maleis geleerd om <marker>bouwwerven</marker> te kunnen leiden.</example>
+				<example type="incorrect">Nu heb ik telefoon gekregen dat mijn teef gevonden was in een kelder op een <marker>bouwwerf</marker>.</example>
+				<example type="incorrect">De Russische president had ook kritiek op het feit dat er ‘maar’ 6 000 mensen aan het werk waren op de <marker>bouwwerven</marker>.</example>
+				<example type="incorrect">Ook op een <marker>bouwwerf</marker> in de Webstraat sloegen dieven toe.</example>
+				<example type="incorrect">Beperk het risico op uitglijden door een goede afwatering te voorzien op <marker>bouwwerven</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes">bloemsuiker</token>
+				</pattern>
+				<message>Standaardtaal in hele taalgebied is het 'poedersuiker'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/133</url>
+				<example type="incorrect">De <marker>bloemsuiker</marker> was nat.</example>
+				<example type="incorrect">Werk af met <marker>bloemsuiker</marker>.</example>
+				<example type="incorrect">Doe er ook de <marker>bloemsuiker</marker> bij en meng alles met de garde.</example>
+				<example type="incorrect">Strooi er wat <marker>bloemsuiker</marker> overheen.</example>
+				<example type="incorrect">Bestrooi met de <marker>bloemsuiker</marker>.</example>
+				<example type="incorrect">Dien op met wat <marker>bloemsuiker</marker>, of met een bolletje vanille-ijs.</example>
+				<example type="incorrect">Werk af met wat <marker>bloemsuiker</marker>.</example>
+				<example type="incorrect">Doe er daarna de <marker>bloemsuiker</marker> bij, maar deze keer schud of roer je dit zachtjes door elkaar gedurende 3 minuten.</example>
+				<example type="incorrect">Meng hiervoor wat <marker>bloemsuiker</marker> met een paar druppeltjes water en smeer of sprenkel het glazuur op de lauwe taart.</example>
+				<example type="incorrect">Bestooien met veel <marker>bloemsuiker</marker>.</example>
+				<example type="incorrect">Drie eitjes, 900 g <marker>bloemsuiker</marker> en 100 g biergist.</example>
+				<example type="incorrect">Werk verder af met <marker>bloemsuiker</marker> en chocoladepoeder.</example>
+				<example type="incorrect">Ze doen er meestel <marker>bloemsuiker</marker> en slagroom op.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes" regexp="yes">belastingsbrief|belastingbrief</token>
+				</pattern>
+				<message>Standaardtaal in hele taalgebied is het 'belastingformulier'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/97</url>
+				<example type="incorrect">De <marker>belastingbrief</marker> was lastig.</example>
+				<example type="incorrect">We helpen mensen hun <marker>belastingsbrief</marker> invullen.</example>
+				<example type="incorrect">De SSV invullen op de <marker>belastingbrief</marker> is interessant.</example>
+				<example type="incorrect">En een voorstel om de <marker>belastingbrief</marker> te vereenvoudigen.</example>
+				<example type="incorrect">Na het invullen van uw <marker>belastingsbrief</marker> wordt dan gekeken hoeveel belasting je effectief moet betalen.</example>
+				<example type="incorrect">Al meer dan een miljoen <marker>belastingbrieven</marker> zijn via tax-on-web ingediend.</example>
+				<example type="incorrect">Ok, dat is de <marker>belastingsbrief</marker> zelf.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes">bekomen<exception>bekwamen</exception></token>
+				</pattern>
+				<!-- TODO: bekomen kan ook 'bijkomen' betekenen; antipatterns toevoegen daarvoor! -->
+				<message>Standaardtaal in hele taalgebied is het 'verkrijgen'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/95</url>
+				<example type="incorrect">Hij <marker>bekwam</marker> een diploma.</example>
+				<example type="incorrect"><marker>Bekom</marker> voor hem het geduld.</example>
+				<example type="incorrect"><marker>Bekomt</marker> u geen genoegdoening, dan kunt u contact opnemen met de Stafhouder.</example>
+				<example type="incorrect"><marker>Bekomen</marker> korting bij contante betaling : 2 % of 50 EUR.</example>
+				<example type="incorrect">Als voldoende reden wordt beschouwd het ontslag dat gegeven is om het conventioneel brugpensioen te <marker>bekomen</marker>.</example>
+				<example type="incorrect">Daarna schakelden we een versnelling hoger waardoor we al snel een geruststellende ruststand konden <marker>bekomen</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes">vuilkar</token>
+				</pattern>
+				<message>Standaardtaal in België is 'vuilniskar'. In het hele taalgebied is het 'vuilniswagen' of 'vuilnisauto'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1657</url>
+				<example type="incorrect">Het ging direct in de <marker>vuilkar</marker>.</example>
+				<example type="incorrect">Ik ken iemand die filosofie heeft gedaan en dan heeft getekend om op de <marker>vuilkar</marker> te gaan staan.</example>
+				<example type="incorrect">Zodat we niet meer hoeven te betalen voor de <marker>vuilkar</marker> die door onze straat rijdt.</example>
+				<example type="incorrect">Ja, tot alles tot in elke <marker>vuilkar</marker> berekenbaar is geworden.</example>
+				<example type="incorrect">Vandaag gaan de mannen van de <marker>vuilkar</marker> nog rond om iedereen nieuwjaar te wensen.</example>
+				<example type="incorrect">Een gewoonte die al zo oud is als de <marker>vuilkar</marker> zelf.</example>
+				<example type="incorrect">De <marker>vuilkar</marker> is hier een heftruck.</example>
+				<example type="incorrect">Vorige: 40 kilometer per dag achter de <marker>vuilkar</marker>!</example>
+				<example type="incorrect">Ik denk dat ik persoonlijk nog liever bij de <marker>vuilkar</marker> zou werken.</example>
+				<example type="incorrect">Uit traditie, of omdat ze goed beseffen dat bij de <marker>vuilkar</marker> werken een zware job is.</example>
+				<example type="incorrect">Een snelle blik uit het raam vertelde me dat mijn wagen de <marker>vuilkar</marker> blokkeerde… rap mijn boeltje bijeen gepakt (werkgerief, fles water, iPod, Danio).</example>
+				<example type="incorrect">Mijn vrienden waren zonen van een visser, een huisschilder, de chauffeur van de <marker>vuilkar</marker>, een melkboer.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes">vuilbak</token>
+				</pattern>
+				<message>Standaardtaal is 'vuilnisbak'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1369</url>
+				<example type="incorrect">Het ging direct in de <marker>vuilbak</marker>.</example>
+				<example type="incorrect"><marker>Vuilbakken</marker> worden niet geledigd en het afval rondom blijft liggen.</example>
+				<example type="incorrect"><marker>Vuilbak</marker> is geen algemeen Nederlands.</example>
+				<example type="incorrect"><marker>Vuilbak</marker> is niet algemeen, dat wist ik nu eens niet.</example>
+				<example type="incorrect">Doordat deze <marker>vuilbakken</marker> nogal aanwezig zijn, zoemt er een leger van ongewenste gasten rond.</example>
+				<example type="incorrect">Op dit moment leef ik met de schuldgevoelens door iets in de verkeerde <marker>vuilbak</marker> te leggen.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes">vuilzak</token>
+				</pattern>
+				<message>Standaardtaal is 'vuilniszak'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1369</url>
+				<example type="incorrect">Het ging direct in de <marker>vuilzak</marker>.</example>
+				<example>Het ging direct in de <marker>vuilniszak</marker>.</example>
+				<example type="incorrect">De <marker>vuilzak</marker> in de container deponeren.</example>
+				<example type="incorrect">Dubbele houder om <marker>vuilzakken</marker> aan te hangen.</example>
+				<example type="incorrect">Inderdaad, dat belandt dan ook meteen in de <marker>vuilzak</marker> meestal.</example>
+				<example type="incorrect"><marker>Vuilzakken</marker> openschoppen lijkt me alleszins allesbehalve studentikoos.</example>
+				<example type="incorrect">Maar iemand die een <marker>vuilzak</marker> buitenzet kan je moeilijk een sluikstorter noemen he.</example>
+				<example type="incorrect">Voor al wie nog een voorraadje grijze <marker>vuilzakken</marker> heeft is de tijd aangebroken om kelder en zolder op te ruimen?</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp='yes'>.{5,}kost<exception regexp="yes">(lievelings|winter)kost</exception></token>
+				</pattern>
+				<message>Standaardtaal is <suggestion>\1en</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/474/</url>
+				<example correction='verbouwingskosten'>Ik maalde niet om de <marker>verbouwingskost</marker>.</example>
+				<example>Ik maal niet om de verbouwingskosten.</example>
+				<example correction="arbeidskosten">Onze <marker>arbeidskost</marker> is te hoog.</example>
+				<example correction="productiekosten">Even over de <marker>productiekost</marker>.</example>
+				<example correction="kapitaalkosten">Er is altijd een <marker>kapitaalkost</marker>.</example>
+				<example correction="servicekosten">De <marker>servicekost</marker> bedraagt 5,50 euro.</example>
+				<example correction="dossierkosten">De eenmalige <marker>dossierkost</marker> is € 30,65.</example>
+				<example correction="aankoopkosten">Ja, dit is een eenmalige <marker>aankoopkost</marker>.</example>
+				<example correction="leveringskosten">De <marker>leveringskost</marker> bedraagt 20,00 EUR.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp='yes'>droogkuis|nieuwkuis</token>
+				</pattern>
+				<message>Standaardtaal voor dit woord is <suggestion>stomerij</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/225/droogkuis_nieuwkuis_stomerij/</url>
+				<example correction='stomerij'>Dat hemd moet naar de <marker>droogkuis</marker>.</example>
+				<example>Dat hemd moet naar de stomerij.</example>
+				<example correction="stomerij">Retouches en <marker>nieuwkuis</marker>.</example>
+				<example correction="stomerij">Dan komt u bij de "<marker>droogkuis</marker>" terecht.</example>
+				<example correction="Stomerij"><marker>Droogkuis</marker> nodig want een beetje vergeeld.</example>
+				<example correction="stomerij">Bent u op zoek naar een prima leverancier om uw <marker>droogkuis</marker> te verzorgen?</example>
+				<example correction="stomerij">Dit is inderdaad iets wat niet kan, <marker>nieuwkuis</marker> kost al veel geld.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">barema|weddeschaal</token>
+				</pattern>
+				<message>Standaardtaal voor dit woord is <suggestion>loonschaal</suggestion> of <suggestion>salarisschaal</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/76</url>
+				<example correction="loonschaal|salarisschaal">Ik ken zijn <marker>barema</marker> niet.</example>
+				<example>Ik ken zijn <marker>loonschaal</marker> niet.</example>
+				<example correction="loonschaal|salarisschaal">Loon volgens <marker>barema</marker>.</example>
+				<example correction="loonschaal|salarisschaal">Dit brevet verleent hen toegang tot de hogere baremische <marker>weddeschaal</marker>.</example>
+				<example correction="loonschaal|salarisschaal">Bedienden worden bezoldigd volgens de <marker>weddeschaal</marker> overeenstemmend met de nieuwe betrokken categorie.</example>
+				<example correction="loonschaal|salarisschaal">Deze wordt vervangen door een nieuwe <marker>weddeschaal</marker> op basis van de beroepsloopbaan, zoals bepaald in artikel 3 van deze collectieve arbeidsovereenkomst.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes">baxter</token>
+				</pattern>
+				<message>Standaardtaal voor dit woord is 'infuus'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/78</url>
+				<example type="incorrect">Hij ligt aan de <marker>baxter</marker>.</example>
+				<example>Hij ligt aan het <marker>infuus</marker>.</example>
+				<example type="incorrect">De verpleegsters komen me verlossen van de <marker>baxter</marker>.</example>
+				<example type="incorrect">Die blauwe handen komen waarschijnlijk van de <marker>baxters</marker>.</example>
+				<example type="incorrect">Om de drie uur vullen ze de <marker>baxters</marker> bij.</example>
+				<example type="incorrect">Zo'n <marker>baxter</marker> kost 1.300 euro en ik heb er om de zes weken één nodig.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>zeker</token><token>en</token><token>vast</token>
+				</pattern>
+				<message>Standaardtaal is <suggestion>vast en zeker</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1452/zeker_en_vast_vast_en_zeker/</url>
+				<example correction="vast en zeker">Ik weet het <marker>zeker en vast</marker>.</example>
+				<example>Ik weet het <marker>vast en zeker</marker> niet.</example>
+				<example correction="Vast en zeker"><marker>Zeker en vast</marker>!</example>
+				<example correction="vast en zeker">Ja, <marker>zeker en vast</marker>.</example>
+				<example correction="vast en zeker">Dan heb je <marker>zeker en vast</marker> nood aan een EHBO-kit.</example>
+				<example correction="vast en zeker">Een timer is <marker>zeker en vast</marker> handig, alsook een kort programma.</example>
+				<example correction="vast en zeker">Doch er moet <marker>zeker en vast</marker> ook zorg voor gedragen worden.</example>
+				<example correction="vast en zeker">Hier komt de onderwaterfotograaf <marker>zeker en vast</marker> aan zijn trekken.</example>
+			</rule>
+			<!-- 2014-08-19 TaalTik : regel werkt goed , url toegevoegd -->
+			<rule>
+				<pattern>
+					<token>vanop</token>
+				</pattern>
+				<message>Standaardtaal is <suggestion>vanaf</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1401/</url>
+				<example correction="vanaf">Het uitzicht <marker>vanop</marker> de toren is mooi.</example>
+				<example correction="vanaf">Heel mooi <marker>vanop</marker> de boot.</example>
+				<example correction="Vanaf"><marker>Vanop</marker> R4, afrit Wondelgem.</example>
+				<example correction="vanaf">Vreemde beelden <marker>vanop</marker> de kampioenenviering van Chelsea.</example>
+				<example correction="vanaf">"Ik vertrek nooit meer <marker>vanop</marker> Brussels Airport"</example>
+				<example correction="vanaf">De vergezichten <marker>vanop</marker> de twee pieken zijn adembenemend.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">dampkap|omniumverzekering|zichtrekening|leefloon|wederbeleggingsvergoeding|toogpraat|applausvervanging|bibbergeld|bolwassing|dikoor|kazakdraaier|pistoolschilder|remgeld|plooifiets|wijsheidstand</token>
+				</pattern>
+				<message>Dit woord is alleen gebruikelijk in België.</message>
+				<example type="incorrect">De <marker>dampkap</marker> maakt lawaai.</example>
+				<example type="incorrect">Ik heb <marker>leefloon</marker>.</example>
+				<example type="incorrect"><marker>Toogpraat</marker> eerste klas.</example>
+				<example type="incorrect">Wat is een <marker>zichtrekening</marker>?</example>
+				<example type="incorrect">Het <marker>remgeld</marker> betaalt u dus zelf.</example>
+				<example type="incorrect">1/ heel goede <marker>omniumverzekering</marker>.</example>
+				<example type="incorrect">Arno kreeg zijn <marker>applausvervanging</marker>.</example>
+				<example type="incorrect">Mijn <marker>plooifiets</marker> is mijn werkpaard.</example>
+				<example type="incorrect"><marker>Omniumverzekering</marker> voor motorfietsen.</example>
+				<example type="incorrect">Dergelijke <marker>toogpraat</marker> is wraakroepend.</example>
+				<example type="incorrect">"De juiste <marker>dampkap</marker> kiezen is belangrijk.</example>
+			</rule>
+			<rule>
+				<!-- 2014-08-18 TaalTik: url toegevoegd; regel werkt perfect -->
+				<pattern>
+					<token>bij</token>
+					<token>bevel</token>
+				</pattern>
+				<message>Vervang door <suggestion>in opdracht</suggestion> of <suggestion>per order</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/117/bij_bevel_op_last_per_order_in_opdracht/</url>
+				<example correction="In opdracht|Per order"><marker>Bij bevel</marker> van de koning.</example>
+				<example><marker>In opdracht</marker> van de koning.</example>
+				<example correction="In opdracht|Per order"><marker>Bij bevel</marker> van de rechtbank van eerste aanleg moest de actie worden stopgezet.</example>
+				<example correction="in opdracht|per order">Kort daarop begon de afbraak, die <marker>bij bevel</marker> van 14 juli 1797 beperkt bleef tot de kerk.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">paswoord|password</token>
+				</pattern>
+				<message>In het hele taalgebied wordt <suggestion>wachtwoord</suggestion> correct gevonden.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1709/paswoord_password_wachtwoord/</url>
+				<example correction="wachtwoord">Ik ken zijn <marker>password</marker> niet.</example>
+				<example correction="Wachtwoord"><marker>Paswoord</marker> vergeten bij het online inschrijven?</example>
+				<example correction="wachtwoord">Als je het juiste <marker>paswoord</marker> intikt in de tekstbox opent een leeg scherm.</example>
+				<example correction="wachtwoord">Bij blijvende problemen vraag je best je <marker>paswoord</marker> opnieuw op.</example>
+				<example correction="wachtwoord">Je <marker>paswoord</marker> kan je wel aan je ouders geven.</example>
+				<example correction="wachtwoord">Weet iemand of dit een standaard <marker>paswoord</marker> is of zo?</example>
+				<example correction="wachtwoord">Vraag hiervoor zeker raad aan iemand want je moet je eerst laten registreren met een <marker>paswoord</marker>.</example>
+			</rule>
+			<rule>
+				<!-- 2014-08-23 TaalTik -->
+				<pattern>
+					<token>om</token>
+					<marker>
+						<token>ter</token>
+					</marker>
+					<or>
+						<token postag="BNW:OVR:ONV"/>
+						<token>meest</token>
+					</or>
+				</pattern>
+				<message>Standaardnederlands is \1 <suggestion>het</suggestion> \3.</message>
+				<example correction="het">Zij reden om <marker>ter</marker> hardst.</example>
+				<example correction="het">De zeven strofen van zijn lied zijn immers niet alleen om <marker>ter</marker> bloeddorstigst.</example>
+				<example correction="het">Ik heb geen zin in een wedstrijd "om <marker>ter</marker> verst pissen"</example>
+				<example correction="het">We nemen het op door om <marker>ter</marker> snelst een parcours af te leggen.</example>
+				<example correction="het">Ik woon regelmatig de gemeenteraad bij, waar ze over elkaar heen rollen 'om <marker>ter</marker> linkst'.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes">modaliteit</token>
+				</pattern>
+				<message>Standaardtaal voor dit woord is <suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">bepaling</match></suggestion>, <suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">voorwaarde</match></suggestion> of <suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">regeling</match></suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1701/modaliteiten_voorwaarden/</url>
+				<example correction="bepaling|voorwaarde|regeling">Het contract heeft een bijzondere <marker>modaliteit</marker>.</example>
+				<example correction="bepalingen|voorwaarden|regelingen">We lichten alle <marker>modaliteiten</marker> voor u toe.</example>
+				<example correction="bepaling|voorwaarde|regeling">In Nederland mikken we meer op de BV voor deze <marker>modaliteit</marker>.</example>
+				<example correction="bepalingen|voorwaarden|regelingen">De specifieke <marker>modaliteiten</marker> voor studenten met examencontract zijn terug te vinden op Toledo.</example>
+				<example correction="bepalingen|voorwaarden|regelingen">Algemene voorwaarden en <marker>modaliteiten</marker> voor de tegemoetkoming a) De aard en ernst van de handicap moeten de aanpassing rechtvaardigen.</example>
+				<example correction="bepalingen|voorwaarden|regelingen">Momenteel wordt nog overlegd met het gemeentebestuur over de <marker>modaliteiten</marker> van de exploitatie van het terrein.</example>
+			</rule>
+			<rule>
+				<!-- 2014-09-11 TaalTik -->
+				<antipattern><token>zetel</token></antipattern>
+				<pattern>
+					<token inflected="yes">zetelen</token>
+				</pattern>
+				<message>Standaardtaal voor dit woord is 'zitting nemen' of 'zitting hebben'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1693/zetelen_zitting_hebben/</url>
+				<example type="incorrect">Hij <marker>zetelt</marker> in de commissie.</example>
+				<example type="incorrect">Aan het bureel <marker>zetelen</marker> MM.</example>
+				<example type="incorrect">Van 1891 tot 1919 <marker>zetelde</marker> M. G.</example>
+				<example type="incorrect">Een vriendin <marker>zetelt</marker> in de schoolraad.</example>
+				<example type="incorrect">Maar de <marker>zetelende</marker> magistratuur heeft het er wél moeilijk mee.</example>
+				<example type="incorrect">Op woensdag <marker>zetelden</marker> de rechtbank voor de burgers van de stad.</example>
+			</rule>
+			<rule>
+				<!-- 2014-08-19 TaalTik: url toegevoegd, regel werkt perfect -->
+				<pattern>
+					<token inflected="yes">begoed</token>
+				</pattern>
+				<message>Standaardtaal voor dit woord is 'gegoed', 'welgesteld', 'bemiddeld', 'rijk' of 'vermogend'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/85/begoed_gegoed/</url>
+				<example type="incorrect">Hij is een <marker>begoed</marker> mens.</example>
+				<example>Hij is een <marker>gegoed</marker> mens.</example>
+				<example type="incorrect">Al snel kende het <marker>begoede</marker> deel van de wereldbevolking Minerva.</example>
+				<example type="incorrect">De reizigers huurden soms een herbergkamer, of indien meer <marker>begoed</marker>, een meerkamerappartement.</example>
+				<example type="incorrect">Ooit was het hebben van een eigen mening een voorrecht voor de <marker>begoeden</marker>.</example>
+				<example type="incorrect">Dit huwelijk was tegen de zin van de meer <marker>begoede</marker> molenaarsfamilie.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>begroting</token>
+					<token/>
+					<token>in</token>
+					<token>evenwicht</token>
+				</pattern>
+				<message>Standaardtaal is 'sluitende begroting'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/86/begroting_in_evenwicht/</url>
+				<example type="incorrect">De <marker>begroting is in evenwicht</marker>.</example>
+				<example>Het is een <marker>sluitende begroting</marker>.</example>
+				<example type="incorrect">Ik wil van u weten of deze <marker>begroting vandaag in evenwicht</marker> is.</example>
+				<example type="incorrect">Mogelijk moet de regering op zoek naar 500 miljoen extra om de <marker>begroting alsnog in evenwicht</marker> te brengen.</example>
+				<example type="incorrect">De eerste jaren zal het accent liggen op besparen, om de <marker>begroting onmiddellijk in evenwicht</marker> te krijgen.</example>
+				<example type="incorrect">Deze namiddag raakte bekend dat de wil dat de <marker>begroting 2012 in evenwicht</marker> is.</example>
+				<example type="incorrect">Ze staat onder druk van kredietverstrekkers die vinden dat de <marker>begroting terug in evenwicht</marker> moet.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>begroting</token>
+					<token>in</token>
+					<token>evenwicht</token>
+				</pattern>
+				<message>Standaardtaal is 'sluitende begroting'.</message>
+				<example type="incorrect">Gelukkig is de <marker>begroting in evenwicht</marker>.</example>
+				<example>Gelukkig is het een <marker>sluitende begroting</marker>.</example>
+				<example type="incorrect">Adieu, <marker>begroting in evenwicht</marker>.</example>
+				<example type="incorrect">"De regering is er trots op dat ze een <marker>begroting in evenwicht</marker> kan voorleggen.</example>
+				<example type="incorrect">Snelle verkoop van overheidsgebouwen om de <marker>begroting in evenwicht</marker> te krijgen?</example>
+				<example type="incorrect">Maar zulke besparingen helpen om de <marker>begroting in evenwicht</marker>.</example>
+				<example type="incorrect">Dat de minister kan deze <marker>begroting in evenwicht</marker> voorleggen.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>batig</token>
+					<token>gerangschikt</token>
+				</pattern>
+				<message>Standaardtaal is 'in aanmerking komen voor'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/77/batig_gerangschikt_zijn/</url>
+				<example type="incorrect">Hij is <marker>batig gerangschikt</marker> voor de functie.</example>
+				<example>Hij <marker>komt in aanmerking</marker> voor de functie.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>het</token><token>belt</token>
+				</pattern>
+				<message>Standaardtaal is <suggestion>de bel gaat</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/98/bellen_het_belt_de_bel_gaat/</url>
+				<example correction="De bel gaat"><marker>Het belt</marker>, doe eens open.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>te</token>
+					<token>allen</token>
+					<token>prijze</token>
+				</pattern>
+				<message>Standaardtaal is <suggestion>tot elke prijs</suggestion> of <suggestion>koste wat kost</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/tekst/77/vaste_combinaties_met_naamvallen_algemeen/</url>
+				<example correction="tot elke prijs|koste wat kost">Hij wil <marker>te allen prijze</marker> weg.</example>
+				<example>Hij wil <marker>koste wat kost</marker> weg.</example>
+				<example correction="tot elke prijs|koste wat kost">Ik wilde <marker>te allen prijze</marker> vermijden dat ik studenten tot de orde moest roepen.</example>
+				<example correction="tot elke prijs|koste wat kost">Feitelijke onbestuurbaarheid moet <marker>te allen prijze</marker> doorbroken worden.</example>
+				<example correction="tot elke prijs|koste wat kost">Ze willen België <marker>te allen prijze</marker> behouden.</example>
+				<example correction="tot elke prijs|koste wat kost">De draagkracht van de adoptieouders moet <marker>te allen prijze</marker> gerespecteerd worden.</example>
+				<example correction="tot elke prijs|koste wat kost">Ik voer een personage op dat als mens <marker>te allen prijze</marker> over het eigen leven wil kunnen beslissen.</example>
+				<example correction="tot elke prijs|koste wat kost">De overheid wil <marker>te allen prijze</marker> af van die financiële last.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>betalend</token>
+					<token>parkeren</token>
+				</pattern>
+				<message>Standaardtaal voor het hele taalgebied is <suggestion>betaald parkeren</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1712/betalend_betaald_parkeren/</url>
+				<example correction="betaald parkeren">Heel Antwerpen doet aan <marker>betalend parkeren</marker>.</example>
+				<example correction="betaald parkeren">Enkel <marker>betalend parkeren</marker> is mogelijk.</example>
+				<example correction="betaald parkeren">Tervuren is voor het <marker>betalend parkeren</marker> opgedeeld in twee verschillende zones.</example>
+				<example correction="betaald parkeren">Verschillende buslijnen stoppen dichtbij en je kan ook <marker>betalend parkeren</marker> bij de kabelbaan.</example>
+				<example correction="betaald parkeren">Enkel wie gedomicilieerd is in de zone voor <marker>betalend parkeren</marker> kan per adres gratis 2 bewonerskaarten krijgen.</example>
+				<example correction="betaald parkeren">De regels voor <marker>betalend parkeren</marker> in de stad Antwerpen worden vanaf 2016 aangepast.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>appelsien</token>
+				</pattern>
+				<message>Standaardtaal voor het hele taalgebied is <suggestion>sinaasappel</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1794/appelsien_sinaasappel/</url>
+				<example correction="sinaasappel">Ik lust die <marker>appelsien</marker> niet.</example>
+				<example correction="sinaasappel">Schil de <marker>appelsien</marker> met een dunschiller.</example>
+				<example correction="Sinaasappel"><marker>Appelsien</marker> en meloen zijn niet zo lekker.</example>
+				<example correction="sinaasappel">Eerlijk gezegd wist ik het verschil tussen een banaan en een <marker>appelsien</marker> eigenlijk niet zo goed op dat moment.</example>
+				<example correction="sinaasappel">Ik kreeg van hen wat chocolade en een <marker>appelsien</marker>.</example>
+				<example correction="sinaasappel">Die eerste bevoorrading was goed: water, sportdrank, banaan, <marker>appelsien</marker>, koekjes.</example>
+				<example correction="sinaasappel">Ook dat weten we ondertussen allemaal: de stukjes citroen of <marker>appelsien</marker> in je glas bevatten mogelijks een pak bacteriën.</example>
+			</rule>
+		</rulegroup>
+	</category>
+
+</rules>

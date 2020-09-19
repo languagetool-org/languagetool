@@ -1,0 +1,178 @@
+﻿<!-- <?xml version="1.0" encoding="utf-8"?> -->
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+Dutch grammar, typo and style rules for LanguageTool
+Copyright (C) 2006-2019 (baarsrj@xs4all.nl)
+Copyright (C) 2018 Robin van der Vliet (info@robinvandervliet.com) (miniscule changes)
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+
+Contributions and ideas from:
+- taaladvies.net,
+- onzetaal.nl
+- Pander
+- TaalTik (taaltik.nl)
+- E. Sanders: Aarsrivalen, scheldkarbonades en terminale baden, uitgeverij Prometheus, met toestemming van de auteur.
+- Jan de Ridder (missende regels aan de hand van fouten op Wikipedia)
+- F. de Raat: Hoe bereidt je een paard, uitgeverij Nieuw Amsterdan (NRC), met toestemming van de auteur
+- M v d Wiel, concerning dyslexia
+- Computing power supplied by Kiss the Frog (NL)
+================================
+* full update of all rules at end of march 2018
+================================
+SPECIAL NOTICE:
+Every rule is within a rule group; this makes the structure a stricter tree; this is for easier processing programmatically.
+This is also useful for most multi word rules, because of 'inversion' of the sentence.
+================================
+-->
+<!-- definieer macro's voor datumregels -->
+<!DOCTYPE rules [
+<!ENTITY weekdays "maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag">
+<!ENTITY abbrevWeekdays "ma|di|wo|do|za|zo">
+<!ENTITY months "januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december">
+<!ENTITY abbrevMonths "jan|feb|(maa|mar|mrt)|apr|jun|jul|aug|sep|oct|nov|dec">
+
+
+<!-- definieer macro voor gespelde afkortingen als cd -->
+<!ENTITY gespeld "abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ov|ozb|p2p|pc|pcb|pdf|pk|pps|pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp">
+<!ENTITY apostrof "[`'‘’]">
+<!ENTITY quote "[&quot;“]">
+
+<!ENTITY taaladvies "Er zijn taaladviezen over deze tekst. Raadpleeg www.onzetaal.nl en www.taalaadvies.net, of google de tekst met daar taaladvies aan toegevoegd.">
+<!ENTITY leenwoord_mess "Mogelijk kunt u beter een Nederlands woord gebruiken.">
+<!ENTITY cliche_mess "Pas op voor clichés. Probeer het op een andere manier uit te drukken.">
+<!ENTITY vaag_mess "Pas op met vage taal. Probeer preciezer te zijn.">
+<!ENTITY vlotter_mess "De tekst wordt vlotter wanneer u deze herschrijft met">
+]>
+<rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lang="nl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
+
+	<category id="BE_NL" name="Verschil België en Nederland" type="style">
+		<rulegroup id="ALLEEN_NL" name="Alleen bekend in Nederland">
+			<rule>
+				<pattern>
+					<token>willens</token>
+					<token>en</token>
+					<token>wetens</token>
+				</pattern>
+				<message>In Vlaanderen is <suggestion>wetens en willens</suggestion> gebruikelijker. Of kies voor <suggestion>opzettelijk</suggestion>.</message>
+				<example correction="wetens en willens|opzettelijk">A <marker>willens en wetens</marker> B.</example>
+			</rule>			
+			
+			<rule>
+				<pattern>
+					<token inflected="yes">zwager</token>
+				</pattern>
+				<message>In België is <suggestion>schoonbroer</suggestion> gebruikelijker.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/732</url>
+				<example correction="schoonbroer">Mijn <marker>zwager</marker> is maf.</example> 
+				<example correction="schoonbroer">Of de mijne, beste <marker>zwager</marker>.</example>
+				<example correction="schoonbroer">Mijn (schoon)zussen en <marker>zwagers</marker> komen dan eerst aan de beurt via mail.</example>
+				<example correction="schoonbroer">Toen ik bij mijn zus en <marker>zwager</marker> langsging, had ik natuurlijk mijn kodakske mee.</example>
+				<example correction="schoonbroer">De schoonzus verwees ook naar het donkere verleden van haar <marker>zwager</marker>.</example>
+				<example correction="schoonbroer">Ook hadden ze nog geschreven aan een <marker>zwager</marker> van haar man.</example>
+			</rule>			  
+			<rule>
+				<pattern>
+					<token inflected="yes">prognosticeren</token>
+				</pattern>
+				<message>Dit is ongebruikelijk in België. In het hele taalgebied kunt u 'een prognose doen', 'voorzien' of 'voorspellen' gebruiken.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/680</url>
+				<example type="incorrect">We <marker>prognosticeren</marker> het.</example> 
+				<example type="incorrect">De directie stelde bij op basis van de <marker>geprognosticeerde</marker> maandcijfers.</example>
+			</rule>				
+			<rule>
+				<pattern>
+					<token regexp="yes">pilot....*<exception regexp="yes">piloten....*</exception></token>
+				</pattern>
+				<message>Dit is ongebruikelijk in België. Standaardtaal in heel het taalgebied is 'proef-', 'model-' of 'test-'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/657</url>
+				<example type="incorrect">Het is een <marker>pilotaflevering</marker>.</example> 
+			</rule>				
+			<rule>
+				<pattern>
+					<token inflected="yes">bruidslijst</token>
+				</pattern>
+				<message>In België gebruikt men dit woord niet. Gangbaar in het hele taalgebied is: <suggestion>huwelijkslijst</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/401</url>
+				<example correction="huwelijkslijst">Het is een <marker>bruidslijst</marker>.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token inflected="yes">spoedeisend</token>
+				</pattern>
+				<message>In België gebruikt men dit woord niet.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/394</url>
+				<example type="incorrect">Het is <marker>spoedeisend</marker>.</example>
+				<example type="incorrect"><marker>Spoedeisende</marker> gevallen zijn er bijna niet geweest.</example>
+				<example type="incorrect">We waarschuwen de dochter van de oudjes en brengen de vrouw naar de <marker>spoedeisende</marker> hulp.</example>
+				<example type="incorrect">Indien de meerderheid van het college vóór de behandeling de zaak evenwel <marker>spoedeisend</marker> heeft verklaard, is de stem van de voorzitter beslissend.</example>
+				<example type="incorrect">Behalve in <marker>spoedeisende</marker> gevallen, worden de notulen van de vorige vergadering ten minste acht dagen voor de dag van de vergadering ter beschikking gesteld van de gemeenteraadsleden.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token inflected="yes">pechhulp</token>
+				</pattern>
+				<message>Standaardtaal in België is 'pechverhelping'.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/201</url>
+				<example type="incorrect">We wachten op de <marker>pechhulp</marker>.</example>
+				<example type="incorrect">De ANWB is niet meer de enige aanbieder op de markt voor <marker>pechhulp</marker>.</example>
+				<example type="incorrect">Neem ook onze <marker>pechhulp</marker> en u heeft aan één alarmnummer genoeg.</example>
+				<example type="incorrect">Ik weet alleen dat de accu volgens de garage en <marker>pechhulp</marker> goed laadt.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">bijstandsuitkering|beunhaas|bof|flappentap|gevarentoeslag|hartstikke|hotemetoot|kippig|koopgoot|lakspuiter|opgeprikt|opportunist|publiekswissel|rijstrook|schrobbering|spacewagon|verstandskies|vouwfiets</token>
+				</pattern>
+				<message>Dit is alleen gebruikelijk in Nederland.</message>
+				<example type="incorrect">Ik haalde het geld uit de <marker>flappentap</marker>.</example>
+				<example>Ik haal het geld uit de <marker>geldautomaat</marker>.</example>
+				<example type="incorrect">Fout, <marker>hartstikke</marker> fout.</example>
+				<example type="incorrect">Ik heb al eens <marker>bof</marker> gehad.</example>
+				<example type="incorrect">De eerste <marker>vouwfiets</marker> zonder ketting.</example>
+				<example type="incorrect">Rond 10.15 uur is de <marker>rijstrook</marker> vrijgegeven.</example>
+			</rule>
+					
+			<rule>
+				<pattern>
+					<token regexp="yes">(strand|muziek|eet|friet|koffie|hamburger|dans|bier|ballen|shoarma|pizza|hoeren|drank|strip|vis|top|patat|lunch|gok|snack|horeca|sushi|kebab|fastfood|knutsel|super|bar|thee|informatie|striptease|oliebollen|poffertjes|luxe|vreet|kut|homo|tapas|ontbijt|snoep|bagage|ijsco|salsa|fuif|jazz|trouw|verkoop|nok|camping|punt|bioscoop|crew|finish|jeugd|materiaal|uitgaans|hemel|kiosk|veld|boeren|doorwerk|verhuur|drink|etens)tent</token>
+				</pattern>
+				<message>'Tent' in de betekenis '(horeca)gelegenheid' is alleen gebruikelijk in Nederland.</message>
+				<example type="incorrect">Vanmiddag gaan we naar de <marker>drinktent</marker>.</example>
+			</rule>
+					
+			<rule>
+				<pattern>
+					<token inflected="yes">kliko</token>
+				</pattern>
+				<message>In België is dit woord onbekend; gebruik liever 'vuilnisbak'.</message>
+				<example type="incorrect">Ik gooide het in de <marker>kliko</marker>.</example>
+				<example type="incorrect">Hij is gelukkig niet rijp voor de <marker>kliko</marker>.</example>
+				<example type="incorrect">Dus geen vreemde spullen in de <marker>kliko</marker> verstoppen.</example>
+			</rule>
+			<rule>
+				<antipattern><token regexp="yes">de|een|geen</token><token>pint</token></antipattern>
+				<pattern>
+					<token inflected="yes" >pinnen<exception postag_regexp="yes" postag="ZNW:MRV:DE_|ZNW:MRV:1EP"/></token>
+				</pattern>
+				<message>Geld pinnen is alleen gebruikelijk in Nederland. Geld opnemen kan in NL en BE.</message>
+				<example type="incorrect">Ik <marker>pinde</marker> het geld.</example>
+				<example type="incorrect">Elke avond <marker>pinde</marker> ik.</example>
+				<example type="incorrect">Tegenwoordig <marker>pin</marker> ik nog.</example>
+				<example type="incorrect">Na het afrekenen nog even geld <marker>gepind</marker> en weer naar de bus.</example>
+				<example type="incorrect"><marker>Pin</marker> weigerde echter mee te werken.</example>
+			</rule>
+		</rulegroup>
+	</category>
+
+</rules>
