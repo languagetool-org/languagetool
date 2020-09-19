@@ -1657,6 +1657,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0" max="5" postag="RG|LOC_ADV|[DNA].*|V.P.*" postag_regexp="yes"><exception postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"/></token>
                 <token postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                <token>com</token>
+                <token inflected="yes">ser</token>
+            </antipattern>
             <pattern>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"> <exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/> <exception regexp="yes">primer|junts|juntes|plegats|plegades</exception> <exception regexp="yes">\p{Lu}.*</exception> <exception scope="previous"
                     postag="_loc_meitat"/> </token>
@@ -1919,6 +1924,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Aquest dimecres tècnics de la Generalitat comencen a reunir-se.</example>
             <example>La població està cada dia més i més ben informada.</example>
             <example>Tant les estructures lingüístiques com el vocabulari necessaris.</example>
+            <example>Queia a la calçada tan llarg com era.</example>
 
             <!-- TODO: 
                 Els costats superior i laterals.
@@ -2990,6 +2996,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">mateix</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">.*[º°]</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="A.*" postag_regexp="yes" regexp="yes">bon|bones</token>
@@ -3001,6 +3010,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Error de concordança</short>
                 <example correction="Bon amic|Bons amics"><marker>Bon amics</marker>.</example>
                 <example correction="bon costum|bons costums">Contrària a les <marker>bones costums</marker>.</example>
+                <example>S'ha de girar en total 360°.</example>
             </rule>
             <rule>
                 <pattern>
@@ -43794,7 +43804,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token inflected="yes">plànol</token>
                     </marker>
                     <token min="0" inflected="yes">de</token>
-                    <token inflected="yes" regexp="yes">seqüència|mediàtic|.*econòmic|.*social|.*polític|abstracte|personal|professional|vertical|horitzontal|perpendicular|oblic|teòric|pràctic|igualtat|superior|inferior|simbòlic</token>
+                    <token inflected="yes" regexp="yes">seqüència|mediàtic|.*econòmic|.*social|.*polític|abstracte|personal|professional|vertical|horitzontal|perpendicular|oblic|teòric|pràctic|igualtat|superior|inferior|simbòlic|.*acadèmic|.*filosòfic</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">pla</match></suggestion>? Exemples d'ús correcte de "plànol": un plànol de Xàtiva, un plànol del castell.</message>
                 <short>Possible confusió</short>
