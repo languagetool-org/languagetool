@@ -1535,12 +1535,31 @@ RB => Règles Brutes
     <!-- TODO: needs to be improved -->
     <rule>
       <pattern>
-      <marker>
-        <token>si</token>
-      </marker>
+       <marker>
+         <token>si</token>
+       </marker>
       <token postag="J.*" postag_regexp="yes"/>
       </pattern>
       <disambig postag="A"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="C sub">si</token>
+        </marker>
+        <token postag="R.*" postag_regexp="yes" min="1" max="4"/>
+        <token postag="V.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filter" postag="C sub"/>
+    </rule>
+    <!-- default: A (it seems the most usual) -->
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="A">si</token>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="A"/>
     </rule>
   </rulegroup>
    
@@ -1726,14 +1745,24 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="D f p"/>
   </rule>
-  <rule id="FAIT" name="fait">
-    <pattern>
-      <token regexp="yes">qui|il|elle|on|lui|[mtns]e</token>
-      <token min="0" max="1" regexp="yes">les?|la|[mts]e|[nv]ous|leur</token>
-      <marker><token>fait</token></marker>
-    </pattern>
-    <disambig postag="V ind pres 3 s"/>
-  </rule>
+  <rulegroup id="FAIT" name="fait">
+    <!-- TODO: "le fait" is ambiguous -->
+    <rule>
+       <pattern>
+         <token regexp="yes">qui|il|elle|on|lui|[mtns]e</token>
+         <token min="0" max="1" regexp="yes">les?|la|[mts]e|[nv]ous|leur</token>
+         <marker><token>fait</token></marker>
+       </pattern>
+       <disambig postag="V ind pres 3 s"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token>ce</token>
+        <marker><token>fait</token></marker>
+      </pattern>
+      <disambig postag="N m s"/>
+    </rule>
+  </rulegroup>
   <rule id="FORTE" name="forte">
     <pattern>
       <marker><token>forte</token></marker>

@@ -39,7 +39,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
       "^(non|en|a|le|la|les|pour|de|du|des|un|une|mon|ma|mes|ton|ta|tes|son|sa|ses|leur|leurs|ce|cet) (..+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern PREFIX_AMB_ESPAI = Pattern.compile(
-      "^(auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans) (..+)$",
+      "^(auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans|l|d) (..+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([lnts])(h?[aeiouàéèíòóú].*[^è])$",
