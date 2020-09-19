@@ -4187,7 +4187,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>esta</token>
                     </marker>
                     <token min="0">todo</token>
-                    <token regexp="yes">bien|mal|en|con|entre|aquí|ahí|allí|allá|el|la|lo|un|una|uno</token>
+                    <token regexp="yes">bien|mal|en|con|entre|aquí|ahí|allí|allá|el|la|lo|un|una|uno|junto</token>
                 </pattern>
                 <message>Si es del v. 'estar', se escribe con tilde.</message>
                 <suggestion>está</suggestion>
@@ -4197,6 +4197,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="está">Lo que <marker>esta</marker> aquí.</example>
                 <example correction="está">En un pequeño promontorio <marker>esta</marker> la Catedral.</example>
                 <example correction="está">Y <marker>esta</marker> todo bien.</example>
+                <example correction="está">En el mesón que <marker>esta</marker> junto al Prado.</example>
                 <example>Sustituye a esta en la jerarquía.</example>
                 <example>aunque esta en realidad no lo sea</example>
                 <example>Tras esta en 1954</example>
@@ -6477,26 +6478,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Les he invitado.</example>
             </rule>
         </rulegroup>
-        <rule id="HA_INFINITIVO" name="*ha/a + infinitivo">
-            <antipattern>
-                <token regexp="yes">[0-9,\.]+<exception regexp="yes">19[0-9][0-9]|20[0-9][0-9]</exception></token>
-                <token>ha</token> <!-- hectáreas -->
-            </antipattern>
-            <pattern>
-                <marker>
-                    <token>ha</token>
-                </marker>
-                <token postag="V.N.*|N.*|AQ.*" postag_regexp="yes"><exception postag="V.P.*" postag_regexp="yes"/><exception regexp="yes">de|menester|lugar</exception></token>
-            </pattern>
-            <message>Si es una preposición, se escribe <suggestion>a</suggestion>.</message>
-            <example correction="a">Lo ha vuelto <marker>ha</marker> hacer.</example>
-            <example correction="a">Volver <marker>ha</marker> casa.</example>
-            <example>Lo ha dicho.</example>
-            <example>Lo ha claramente dicho.</example>
-            <example>Ha de regarse sin falta.</example>
-            <example>que alguien ha incluso incrementado</example>
-            <example>3.500 ha limpias en el bosque.</example>
-        </rule>
         <rule id="AH_INF" name="ah + infinitivo (a)">
             <pattern case_sensitive="no">
                 <token>ah</token>
@@ -10764,16 +10745,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="SIDO" name="sido">
-            <pattern>
-                <token>sido<exception inflected="yes" scope="previous">haber</exception></token>
-            </pattern>
-            <message>¿Quería decir <suggestion>ha sido</suggestion>?</message>
-            <example correction="ha sido">Una protección similars <marker>sido</marker> argumentada.</example>
-            <example>Habían sido expulsados.</example>
-            <example>Habría sido excepcional.</example>
-            <example>Ha sido bonito.</example>
-        </rule>
+        <rulegroup id="SIDO" name="sido">
+            <antipattern>
+                <!-- other rules -->
+                <token regexp="yes">a|habiamos|habia|halla|aver|haver</token>
+                <token>sido</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes"
+                    >ha|haber|haberes|haberla|haberlas|haberle|haberles|haberlo|haberlos|haberme|habernos|haberos|haberse|haberte|habiendo|habremos|habrá|habrán|habrás|habré|habréis|habría|habríais|habríamos|habrían|habrías|habéis|había|habíais|habíamos|habían|habías|han|has|hay|haya|hayamos|hayan|hayas|hayáis|he|hemos|hube|hubiera|hubierais|hubieran|hubieras|hubiere|hubiereis|hubieren|hubieres|hubieron|hubiese|hubieseis|hubiesen|hubieses|hubimos|hubiste|hubisteis|hubiéramos|hubiéremos|hubiésemos|hubo|habiéndola|habiéndolas|habiéndole|habiéndoles|habiéndolo|habiéndolos|habiéndome|habiéndomela|habiéndomelas|habiéndomele|habiéndomeles|habiéndomelo|habiéndomelos|habiéndonos|habiéndonosla|habiéndonoslas|habiéndonosle|habiéndonosles|habiéndonoslo|habiéndonoslos|habiéndoos|habiéndoosla|habiéndooslas|habiéndoosle|habiéndoosles|habiéndooslo|habiéndooslos|habiéndose|habiéndosela|habiéndoselas|habiéndosele|habiéndoseles|habiéndoselo|habiéndoselos|habiéndoseme|habiéndosenos|habiéndoseos|habiéndosete|habiéndote|habiéndotela|habiéndotelas|habiéndotele|habiéndoteles|habiéndotelo|habiéndotelos|habiéndoteme|habiéndotenos</token>
+                <token>sido</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">haber</token>
+                <token postag="V.P..SM" postag_regexp="yes"/>
+                <token postag="CC"/>
+                <token>sido</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>ah</token>
+                    <token>sido<exception inflected="yes" scope="previous">haber</exception></token>
+                </pattern>
+                <message>¿Quería decir <suggestion>ha sido</suggestion>?</message>
+                <example correction="ha sido">Una protección similar <marker>ah sido</marker> argumentada.</example>
+                <example>Habían sido expulsados.</example>
+                <example>Habría sido excepcional.</example>
+                <example>Ha sido bonito.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>sido<exception inflected="yes" scope="previous">haber</exception><exception scope="previous" postag="UNKNOWN"/></token>
+                </pattern>
+                <message>¿Quería decir <suggestion>ha sido</suggestion>?</message>
+                <example correction="ha sido">Una protección similar <marker>sido</marker> argumentada.</example>
+                <example>Habían sido expulsados.</example>
+                <example>Habría sido excepcional.</example>
+                <example>Ha sido bonito.</example>
+                <example>Había muerto y sido sepultado en esta ciudad.</example>
+            </rule>
+        </rulegroup>
         <rulegroup name="rebelar/revelar" id="REBELAR_REVELAR">
             <rule>
                 <pattern>
@@ -10898,12 +10909,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ola de calor en la costa.</example>
             </rule>
         </rulegroup>
-        <rule id="HA_A" name="ha -> a" default="off">
+        <rule id="HA_A" name="ha -> a">
             <!-- Probably better than the confusion set rule -->
+            <antipattern>
+                <token regexp="yes">[0-9,\.]+<exception regexp="yes">19[0-9][0-9]|20[0-9][0-9]</exception></token>
+                <token>ha</token>
+                <!-- hectáreas -->
+            </antipattern>
             <antipattern>
                 <token>ha</token>
                 <token min="0" max="4" postag="RG|LOC_ADV|_PUNCT_CONT" postag_regexp="yes"/>
                 <token postag="V.P..SM" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>ha</token>
+                <token regexp="yes">de|menester|lugar</token>
             </antipattern>
             <antipattern>
                 <!-- onomatopeya -->
@@ -10923,6 +10943,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ha dicho que sí.</example>
             <example>Ha claramente dicho que sí.</example>
             <example>Ha, ha, ha: no me lo creo.</example>
+            <example correction="a">Lo ha vuelto <marker>ha</marker> hacer.</example>
+            <example correction="a">Volver <marker>ha</marker> casa.</example>
+            <example correction="a">Voy <marker>ha</marker> St. James.</example>
+            <example>Lo ha dicho.</example>
+            <example>Lo ha claramente dicho.</example>
+            <example>Ha de regarse sin falta.</example>
+            <example>que alguien ha incluso incrementado</example>
+            <example>3.500 ha limpias en el bosque.</example>
         </rule>
         <rulegroup id="AYA_HAYA" name="*aya/haya">
             <rule>
@@ -12156,7 +12184,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token case_sensitive="yes">Mb</token>
             </pattern>
-            <message>¿Quería decir <suggestion><match no="1" case_conversion="allupper"></match></suggestion> (megabytes)? "Mb", menos habitual, es la abreviatura de megabits.</message>
+            <message>¿Quería decir <suggestion><match no="1" case_conversion="allupper"/></suggestion> (megabytes)? "Mb", menos habitual, es la abreviatura de megabits.</message>
             <example correction="MB">Es de 64 <marker>Mb</marker>.</example>
         </rule>
         <rule id="ENSENAR" name="ensenar/enseñar">
