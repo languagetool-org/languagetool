@@ -47,6 +47,7 @@ public class LanguageSpecificTest {
 
   protected void runTests(Language lang, String onlyRunCode, String additionalValidationChars) throws IOException {
     new WordListValidatorTest(additionalValidationChars).testWordListValidity(lang);
+    testNoLineBreaksEtcInMessage(lang);
     testNoQuotesAroundSuggestion(lang);
     testJavaRules(onlyRunCode);
     //testExampleAvailable(onlyRunCode);
@@ -57,6 +58,24 @@ public class LanguageSpecificTest {
       new DisambiguationRuleTest().testDisambiguationRulesFromXML();
     } catch (Exception e) {
       throw new RuntimeException(e);
+    }
+  }
+
+  private void testNoLineBreaksEtcInMessage(Language lang) {
+    JLanguageTool lt = new JLanguageTool(lang);
+    for (Rule rule : lt.getAllRules()) {
+      if (lang.getShortCode().equals("en") && rule.getId().startsWith("EUPUB_")) {  // ignore, turned off anyway
+        continue;
+      }
+      if (rule instanceof AbstractPatternRule) {
+        String message = ((AbstractPatternRule) rule).getMessage();
+        if (message.contains("\n") || message.contains("\r")) {
+          System.err.println("*** WARNING: " + rule.getFullId() + " contains line break (\\n or \\r): " + message.replace("\n", "\\n").replace("\r", "\\r"));
+        }
+        if (message.contains("\t")) {
+          System.err.println("*** WARNING: " + rule.getFullId() + " contains tab (\\t): " + message.replace("\t", "\\t"));
+        }
+      }
     }
   }
 
