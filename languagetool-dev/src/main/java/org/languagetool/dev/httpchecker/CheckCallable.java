@@ -48,7 +48,6 @@ class CheckCallable implements Callable<File> {
   // This many sentences are aggregated into one request. Do NOT just increase, as the chance
   // of results getting mixed up increases then (the batchSize determines the filename, which is then used
   // as a title in MatchKey):
-  private final static int batchSize = 10;
   private final static int maxTries = 10;  // maximum tries for HTTP problems
   private final static int retrySleepMillis = 1000;
 
@@ -204,7 +203,7 @@ class CheckCallable implements Callable<File> {
       return "Pseudo rule to contain API error";
     }
     @Override
-    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    public RuleMatch[] match(AnalyzedSentence sentence) {
       return new RuleMatch[0];
     }
   }
