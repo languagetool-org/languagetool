@@ -80,6 +80,8 @@ class CheckCallable implements Callable<File> {
     String baseUrlCode = String.valueOf(baseUrl.hashCode()).substring(0, 5);
     String filename = HttpApiSentenceChecker.class.getSimpleName() + "-result-" + langCode + "-" + baseUrlCode + "-" + count + ".json";
     File outFile = new File(System.getProperty("java.io.tmpdir"), filename);
+    int totalLen = texts.stream().mapToInt(String::length).sum();
+    printOut(threadName + " - Going to post " + texts.size() + " texts with a total length of " + totalLen + " chars");
     try (FileWriter fw = new FileWriter(outFile)) {
       int i = 0;
       for (String text : texts) {
