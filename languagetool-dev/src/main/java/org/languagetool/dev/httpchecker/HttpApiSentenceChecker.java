@@ -120,10 +120,10 @@ class HttpApiSentenceChecker {
     int count = 0;
     int textsPerThread = texts.size() / threadCount;
     System.out.println("textsPerThread: " + textsPerThread);
-    /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-    String date = sdf.format(new Date());
-    File dir = new File("/tmp/HttpApi-" + date);
-    dir.mkdir();*/
+    // We shouldn't shuffle sentences (would lead to different results), but we can shuffle the batches
+    // in order to get a more or less uniform distribution (i.e. not one thread getting short texts,
+    // another one getting long texts):
+    Collections.shuffle(texts, new Random(123));
     for (int i = 0; i < threadCount; i++) {
       List<String> tmpTexts = new ArrayList<>();
       for (int j = 0; j < textsPerThread; j++) {
