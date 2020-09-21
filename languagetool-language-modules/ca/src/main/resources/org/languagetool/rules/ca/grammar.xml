@@ -26085,18 +26085,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule default="temp_off">
                 <!-- more greedy -->
+                <antipattern>
+                    <token>mon</token>
+                    <token min="0" postag="A..[MC][SN].*|V.P..SM.?" postag_regexp="yes"/>
+                    <token postag="NC[MC][SN]000" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>mon</token>
                     </marker>
-                    <token><exception postag="(A.|N).[MC]S.*|V.P.*SM.?" postag_regexp="yes"/></token>
                 </pattern>
                 <message>S'escriu amb accent diacrític, excepte si és un possessiu (el meu).</message>
                 <suggestion>món</suggestion>
                 <example correction="món">Des que el món és <marker>mon</marker>.</example>
                 <example correction="Món"><marker>Mon</marker> del motor.</example>
+                <example correction="Món"><marker>Mon</marker> laboral.</example>
                 <example correction="món">Volia córrer <marker>mon</marker>.</example>
                 <example>Escrivia cartes a mon recordat pare.</example>
+                <example>Mon pare se'n va de viatge.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MA" name="ma/mà">
