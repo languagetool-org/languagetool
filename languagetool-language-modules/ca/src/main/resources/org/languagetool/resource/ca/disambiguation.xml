@@ -9281,12 +9281,28 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="A.*|V.P.*|PX.*|_GN_.*"></disambig>
             </rule> -->
+        <rule id="aa17" name="característiques molt particulars">
+            <pattern>
+                <unify>
+                    <feature id="nombre"/>
+                    <feature id="genere"/>
+                    <marker>
+                        <token postag="NC.*|_GN_.*" postag_regexp="yes"><exception postag="D.*|V[SA].*|RG" postag_regexp="yes"></exception><exception regexp="yes">serè|coma</exception></token>
+                        <unify-ignore>
+                            <token postag="RG_anteposat"/>
+                        </unify-ignore>
+                        <token postag="AQ.*|V.P.*" postag_regexp="yes"><exception>seré</exception></token>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
         <rule id="aa11" name="aa1">
             <!-- ampliar a LOC_ADV
             Però han de concordar??: que seria en pocs anys força hegemònica a Catalunya.
             Aquesta regla permet errors: "una alineació poc habitual"-->
             <pattern>
-                <token postag="N.*|_GN_.*|RG.*|V.[SI].*|PI.*|_PUNCT.*" postag_regexp="yes"/>
+                <token postag="RG.*|V.[SI].*|PI.*|_PUNCT.*" postag_regexp="yes"/>
                 <marker>
                     <token postag="RG_anteposat"><exception postag="NC.*" postag_regexp="yes">força</exception><exception>quelcom</exception></token>
                 </marker>
