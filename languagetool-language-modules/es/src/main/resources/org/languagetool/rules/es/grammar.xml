@@ -9397,20 +9397,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes">pasado|entrado|visto|llegado</token>
+                <token regexp="yes">pasado|entrado|visto|llegado|transcurrido</token>
+                <token min="0" max="2" regexp="yes">más|menos|de</token>
                 <token postag="D[AID].MS." postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes">pasada|entrada|vista|llegada</token>
+                <token regexp="yes">pasada|entrada|vista|llegada|transcurrida</token>
+                <token min="0" max="2" regexp="yes">más|menos|de</token>
                 <token postag="D[AID].FS." postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes">pasados|entrados|vistos|llegados</token>
-                <token postag="D[AID].MP." postag_regexp="yes"/>
+                <token regexp="yes">pasados|entrados|vistos|llegados|transcurridos</token>
+                <token min="0" max="2" regexp="yes">más|menos|de</token>
+                <token postag="D[AID].MP.|DN.[MC][PN]." postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes">pasadas|entradas|vistas|llegadas</token>
-                <token postag="D[AID].FP." postag_regexp="yes"/>
+                <token regexp="yes">pasadas|entradas|vistas|llegadas|transcurridas</token>
+                <token min="0" max="2" regexp="yes">más|menos|de</token>
+                <token postag="D[AID].FP.|DN.[FC][PN]." postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/> <exception regexp="yes">primero|juntos|juntas|dado|dada|dados|dadas|incluso</exception><exception regexp="yes">\p{Lu}.*</exception></token>
@@ -9554,6 +9558,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>No quiero pasar el mes de julio encerrada en casa.</example>
             <example>No dejes abiertas las ventanas.</example>
             <example>Dando a su clima características muy definitorias.</example>
+            <example>Abandonaron el país transcurridas diez semanas.</example>
+            <example>Abandonaron el país transcurridos más de diez meses.</example>
             <!-- 
                 Ella fue al concierto acompañada de una amiga.
                 Soy cualquier cosa menos mentiroso. 
