@@ -9521,6 +9521,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rulegroup id="POP_UP" name="Pop-up" default="temp_off">
+            <url>https://de.wikipedia.org/wiki/Pop-up</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Pop-?up</token>
+                    <token regexp="yes">Blocker[sn]?|Radweg(en|s)?|Fenster[sn]?|Zelt(e|es|en)?|Verkaufs?|Restaurants?|Buch(es|s)?|Büchern?|Stores?|Menüs?|Campings?|Campingplatz(es)?|Campingplätze|Freizeitpark(e?s?)|Camps?</token>
+                </pattern>
+                <message>Das Nomen <suggestion>Pop-up-<match no="2" case_conversion="startupper" /></suggestion> wird zusammengeschrieben und "Pop-up" mit Bindestrich getrennt.</message>
+                <example correction="Pop-up-Radweg">Ein <marker>Popup Radweg</marker> ist ein kurzfristig eingerichteter Radweg, der in einer akuten Gefahren- oder Krisensituation schnell für mehr Platz und Sicherheit im Radverkehr sorgen soll.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">Pop([Uu]|\-U)p-(Blocker[sn]?|Radweg(en|s)?|Fenster[sn]?|Zelt(e|es|en)?|Verkaufs?|Restaurants?|Buch(es|s)?|Büchern?)</token>
+                </pattern>
+                <message>Das Nomen <suggestion>Pop-up-<match no="1" regexp_match="(?i)pop-?up-" regexp_replace="" /></suggestion> wird zusammengeschrieben und "Pop-up" wird mit Bindestrich getrennt.</message>
+                <example correction="Pop-up-Radweg">Ein <marker>Popup-Radweg</marker> ist ein kurzfristig eingerichteter Radweg, der in einer akuten Gefahren- oder Krisensituation schnell für mehr Platz und Sicherheit im Radverkehr sorgen soll.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Pop</token>
+                    <token regexp="yes">ups?</token>
+                </pattern>
+                <message>Das Nomen <suggestion>Pop-<match no="2" case_conversion="alllower" /></suggestion> wird mit Bindestrich getrennt.</message>
+                <example correction="Pop-up">Ein <marker>Pop Up</marker> öffnete sich und zeigte Werbung.</example>
+            </rule>
+        </rulegroup>
         <rule id="MUST_HAVE" name="Must-have">
             <antipattern><!-- ignore English sentences -->
                 <token postag="UNKNOWN" regexp="yes">.*[a-z].*</token>
