@@ -32,7 +32,6 @@ import java.util.stream.Collectors;
 
 public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
 
-  private String dictFilename;
   private static final String SPELLING_FILE = "/fr/hunspell/spelling.txt";
 
   private static final Pattern PARTICULA_INICIAL = Pattern.compile(
@@ -87,9 +86,9 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
   private static final Pattern VERB_1P = Pattern.compile("V .*(ind).* 1 p");
   private static final Pattern VERB_2P = Pattern.compile("V .*(ind).* 2 p");
   private static final Pattern VERB_3P = Pattern.compile("V .*(ind).* 3 p");
-  
-  
-  private FrenchTagger tagger;
+
+  private final String dictFilename;
+  private final FrenchTagger tagger;
 
   public MorfologikFrenchSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
       List<Language> altLanguages) throws IOException {
@@ -198,7 +197,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
   }
 
   private List<String> findSuggestion(String word, Pattern wordPattern, Pattern postagPattern,
-      int suggestionPosition, String separator, boolean recursive) throws IOException {
+      int suggestionPosition, String separator, boolean recursive) {
     List<String> newSuggestions = new ArrayList<>();
     Matcher matcher = wordPattern.matcher(word);
     if (matcher.matches()) {
@@ -209,14 +208,14 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
         return newSuggestions;
       }
       if (recursive) {
-        List<String> moresugg = this.speller1.getSuggestions(newSuggestion);
-        if (moresugg.size() > 0) {
-          for (int i=0; i<moresugg.size(); i++) {
+        List<String> moreSugg = this.speller1.getSuggestions(newSuggestion);
+        if (moreSugg.size() > 0) {
+          for (int i=0; i<moreSugg.size(); i++) {
             String newWord;
             if (suggestionPosition == 1) {
-              newWord = moresugg.get(i).toLowerCase() + matcher.group(2);
+              newWord = moreSugg.get(i).toLowerCase() + matcher.group(2);
             } else {
-              newWord = matcher.group(1) + moresugg.get(i);
+              newWord = matcher.group(1) + moreSugg.get(i);
             }
             List<String> newSugg = findSuggestion(newWord, wordPattern, postagPattern, suggestionPosition, separator, false);
             if (!newSugg.isEmpty()) {
