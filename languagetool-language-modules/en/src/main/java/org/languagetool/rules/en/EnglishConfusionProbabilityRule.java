@@ -414,7 +414,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "are they cold", // vs could
       "were they cold", // vs could
       "are we cold", // vs could
-      "were we cold" // vs could
+      "were we cold", // vs could
+      "us three" // vs is
     );
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
@@ -480,7 +481,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
     ),
     Arrays.asList(
       // Text us at (410) 4535
-      tokenRegex("message(s|d)?|text(s|ed)?"),
+      tokenRegex("message(s|d)?|text(s|ed)?|DM"),
       token("us"), // vs "is"
       posRegex("PCT|IN|CC")
     ),
