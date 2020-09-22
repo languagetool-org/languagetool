@@ -1997,7 +1997,6 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="filter" postag="RG"/>
         </rule>
         <rule>
-            <!-- mig home mig dona -->
             <pattern>
                 <marker>
                     <token postag="RG">medio</token>
@@ -2019,8 +2018,17 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
 
-    <rulegroup id="adv_adj" name="adverbi + adjectiu">
-        <rule id="aa0" name="ser justo la clave">
+    <rulegroup id="justo" name="justo (adv)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="RG">justo</token>
+                </marker>
+                <token regexp="yes">afuera|adentro|fuera|dentro|aquí|allí|ahí|allá</token>
+            </pattern>
+            <disambig action="filter" postag="RG.*"/>
+        </rule>
+        <rule>
             <pattern>
                 <token inflected="yes">ser</token>
                 <marker>
@@ -2030,6 +2038,11 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="filter" postag="RG.*"/>
         </rule>
+    </rulegroup>
+
+
+    <rulegroup id="adv_adj" name="adverbi + adjectiu">
+
         <rule id="aa1" name="aa1">
             <pattern>
                 <token>más</token>
@@ -3886,7 +3899,7 @@ Copyright (C) 2011 Juan Martorell
             <token><exception postag="RG_before|LOC_ADV|_GV_|SPS00|CC|UNKNOWN|V.[SI].*|_PUNCT.*|&pronombre_personal_atono_POS;" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|estar|parecer|considerar</exception></token>
             <marker>
                 <and>
-                    <token postag="A.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}+[\p{Ll}·]*</exception><exception regexp="yes">presentes?|antiguas?</exception></token>
+                    <token postag="A.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}+[\p{Ll}·]*</exception><exception regexp="yes">presentes?|antiguas?|llenas</exception></token>
                     <token postag="V.*" postag_regexp="yes"><exception postag="V.P.*|_GV_|VM[IS]P1S0|V.G.*|VMM..V.*|V.+\+P.*" postag_regexp="yes"/></token>
                 </and>
             </marker>
