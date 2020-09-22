@@ -38,7 +38,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
           Pattern.compile("(?i)\\d{1,2}?[a-z']*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
   private static final Pattern PUNCTUATION = Pattern.compile("[\\p{Punct}…–—]");
   private static final Pattern PUNCTUATION_NO_DOT =
-          Pattern.compile("[ldmnstLDMNST]'|[–—\\p{Punct}&&[^\\.]]");
+          Pattern.compile("[ldmnstLDMNST]'|[–—\\p{Punct}&&[^.]]");
   // "[ldmnst]'" allows dealing with apostrophed words in Catalan (i.e. l'«home) 
 
   private final List<String> startSymbols;
@@ -159,20 +159,20 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       }
       startPosBase += sentence.getCorrectedTextLength();
     }
-    boolean isSymetric = false;
+    boolean isSymmetric = false;
     //if the stack is odd and symmetric match only the symbol in the middle, e. g. ({"})
     int ssSize = symbolStack.size();
     if (ssSize > 2 && ssSize % 2 == 1) {
-      isSymetric = true;
+      isSymmetric = true;
       for (int i = 0; i < ssSize / 2; i++) {
         if (startSymbols.indexOf(symbolStack.get(i).getSymbol()) != endSymbols
             .indexOf(symbolStack.get(ssSize - 1).getSymbol())) {
-          isSymetric = false;
+          isSymmetric = false;
           break;
         }
       }
     }
-    if (isSymetric) {
+    if (isSymmetric) {
       RuleMatch rMatch = createMatch(ruleMatches, ruleMatchStack, symbolStack.get(ssSize / 2).getStartPos(),
           symbolStack.get(ssSize / 2).getSymbol(), symbolStack.get(ssSize / 2).getSentence(), sentences);
       if (rMatch != null) {
