@@ -90,7 +90,7 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("перша ступінь")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("друга ступінь")).length);
 
-    assertHasError("Дата 14 березня була встановлена Верховної Радою 17 січня 2017 року");
+    assertHasError("встановлена Верховної Радою 17 січня 2017 року");
     assertHasError("фракцію у Верховні Раді й мати");
     
     // не працює через іменник "французька" (мова)
@@ -102,6 +102,27 @@ public class TokenAgreementAdjNounRuleTest {
         matches0[0].getMessage().contains("[ч.р.: родовий, знахідний]"));
     assertEquals(Arrays.asList("російських винищувачів", "російського винищувача"), matches0[0].getSuggestedReplacements());
 
+    assertEmptyMatch("Засвідчувана досить часто наукою «гнучкість» — один із коренів\n" + 
+        "паранаукових явищ на кшталт «нової хронології» Фоменка.");
+
+    // skip adv after adjp
+    assertEmptyMatch("прикрита швидко рука");
+    assertHasError("прикрита швидко руку");
+    assertEmptyMatch("надана як раз");
+    assertEmptyMatch("прикрита отруйливо гарячим");
+    assertEmptyMatch("після короткого резюме справи");
+    assertEmptyMatch("білий як полотно");
+    assertHasError("відкинутий набагато років назад"); // should be "на багато"
+    assertEmptyMatch("розділеного вже чверть століття");
+    assertEmptyMatch("розділеного третину століття");
+    assertEmptyMatch("заклопотані чимало людей");
+    assertEmptyMatch("заклопотані дуже обмаль людей");
+//    assertEmptyMatch("З усіх опитаних майже половина відверто");
+    assertEmptyMatch("заданою відносно спостерігача");
+    assertEmptyMatch("опублікований увечері понеділка");
+    
+    assertEmptyMatch("зареєстровані зокрема БЮТівець Микола Булатецький та самовисуванець");
+    
     // from real examples
     
     // і-и
