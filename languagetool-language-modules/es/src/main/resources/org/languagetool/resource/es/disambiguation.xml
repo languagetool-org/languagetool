@@ -2091,22 +2091,6 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="filter" postag="A.*|V.P.*|_GN_.*"/>
         </rule>
-        <!--<rule id="aa17" name="características muy particulares">
-            <pattern>
-                <unify>
-                    <feature id="numero"/>
-                    <feature id="genero"/>
-                    <marker>
-                        <token postag="NC.*|_GN_.*" postag_regexp="yes"><exception postag="D.*|V[SA].*" postag_regexp="yes"></exception></token>
-                        <unify-ignore>
-                            <token postag="RG_before"/>
-                        </unify-ignore>
-                        <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
-                    </marker>
-                </unify>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>-->
         <rule id="aa11" name="aa1">
             <pattern>
                 <token postag="RG.*|V.[SI].*|PI.*|_PUNCT.*" postag_regexp="yes"/>
@@ -2178,6 +2162,23 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="filter" postag="A.*|_GN_.*"/>
         </rule>
+        <rule id="aa17" name="los peor pagados">
+            <pattern>
+                <unify>
+                    <feature id="numero"/>
+                    <feature id="genero"/>
+                    <marker>
+                        <token postag="DA.*" postag_regexp="yes"/>
+                        <unify-ignore>
+                            <token postag="RG_before|RG" postag_regexp="yes" regexp="yes">peor|mejor</token>
+                        </unify-ignore>
+                        <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        
     </rulegroup>
 
 
@@ -3688,6 +3689,24 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
+    
+    
+    <rule id="aa18" name="características muy particulares">
+        <pattern>
+            <unify>
+                <feature id="numero"/>
+                <feature id="genero"/>
+                <marker>
+                    <token postag="NC.*" postag_regexp="yes"><exception postag="D.*|V[SA].*|V.[MSI].*|_GN_.*" postag_regexp="yes"/></token>
+                    <unify-ignore>
+                        <token postag="RG_before"/>
+                    </unify-ignore>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
+                </marker>
+            </unify>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
 
     <rulegroup id="Nom_AdjNotAgrees" name="nombre + adjectivo que no ha concordado">
         <rule>
