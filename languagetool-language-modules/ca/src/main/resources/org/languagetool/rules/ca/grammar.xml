@@ -42470,6 +42470,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Amb molta atenció vam escoltar el so que sortia de la guitarra.</example>
                 <example>L'acte conscient d'escoltar un so.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>paraula</token>
+                    <token>de</token>
+                    <token min="0">l</token>
+                    <token regexp="yes">Déu|Senyor</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">escoltar</token>
+                    </marker>
+                    <token min="0" max="2" postag="DA.*|RG.*" postag_regexp="yes"/>
+                    <token regexp="yes">paraula|mot|verb|adjectiu|nom|substantiu</token>
+                </pattern>
+                <message>Probablement cal usar el verb 'sentir'.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match></suggestion>
+                <example correction="sentit">No havia <marker>escoltat</marker> mai la paraula llomello.</example>
+                <example>Escoltem ara la paraula de Déu.</example>
+            </rule>
         </rulegroup>
         <rule id="TOTA_VEGADA_QUE" name="tota vegada que">
             <pattern>
