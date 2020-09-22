@@ -1579,9 +1579,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <token postag="MD"/>
         <token postag_regexp="yes" postag="VBP?"/>
       </antipattern>
+      <antipattern><!-- A grand jury found him guilty-->
+        <token regexp="yes">an?|one|1</token>
+        <token postag="JJ" min="0" />
+        <token regexp="yes">jury|committee|class</token>
+      </antipattern>
       <pattern>
         <marker>
-            <token regexp="yes">jury|committee|class<exception scope="previous" regexp="yes">a|one</exception></token>
+            <token regexp="yes">jury|committee|class<exception scope="previous" regexp="yes">a|one|1</exception></token>
         </marker>
         <token postag="VBP">
             <exception postag="VBZ"/>
