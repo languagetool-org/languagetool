@@ -469,60 +469,11 @@ public class English extends Language implements AutoCloseable {
   public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages, boolean inputLogging) throws IOException {
     List<Rule> rules = new ArrayList<>(super.getRelevantRemoteRules(
       messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages, inputLogging));
-    String theInsertionID = "AI_THE_INS_RULE";
-    RemoteRuleConfig theInsertionConfig = RemoteRuleConfig.getRelevantConfig(theInsertionID, configs);
-    final String missingTheDescription = "This rule identifies whether the article 'the' is missing in a sentence.";
-    final String missingWordDescription = "This rule identifies whether the articles 'a' or 'an' are missing in a sentence.";
-    final String variantsDescription = "Identifies confusion between if, of, off and a misspelling";
-    final String hydraDescription = "This rule identifies whether an article is missing in a sentence.";
-    final String delMessage = "This article might not be necessary here.";
-    final String insMessage = "You might be missing an article here.";
-    if (theInsertionConfig != null) {
-      Map<String, String> theInsertionMessages = new HashMap<>();
-      theInsertionMessages.put("THE_INS", delMessage);
-      theInsertionMessages.put("INS_THE", insMessage);
-      Rule theInsertionRule = GRPCRule.create(theInsertionConfig, inputLogging, theInsertionID,
-                                              missingTheDescription, theInsertionMessages);
-      rules.add(theInsertionRule);
-    }
-    String missingTheID = "AI_MISSING_THE";
-    RemoteRuleConfig missingTheConfig = RemoteRuleConfig.getRelevantConfig(missingTheID, configs);
-    if (missingTheConfig != null) {
-      Map<String, String> missingTheMessages = new HashMap<>();
-      missingTheMessages.put("MISSING_THE", insMessage);
-      Rule missingTheRule = GRPCRule.create(missingTheConfig, inputLogging, missingTheID,
-                                            missingTheDescription, missingTheMessages);
-      rules.add(missingTheRule);
-    }
-    String missingWordID = "AI_MISSING_WORD";
-    RemoteRuleConfig missingWordConfig = RemoteRuleConfig.getRelevantConfig(missingWordID, configs);
-    if (missingWordConfig != null) {
-      Rule missingWordRule = GRPCRule.create(missingWordConfig, inputLogging, missingWordID, missingWordDescription,
-                                             Collections.emptyMap());// provided by server
-      rules.add(missingWordRule);
-    }
-    List<String> confpairRules = Arrays.asList("AI_CONFPAIRS_EN_GPT2", "AI_CONFPAIRS_EN_GPT2_L", "AI_CONFPAIRS_EN_GPT2_XL");
-    for (String confpairID : confpairRules) {
-      RemoteRuleConfig confpairConfig = RemoteRuleConfig.getRelevantConfig(confpairID, configs);
-      if (confpairConfig != null) {
-        Rule confpairRule = new GRPCConfusionRule(messageBundle, confpairConfig, inputLogging);
-        rules.add(confpairRule);
-      }
-    }
-    String variantsID = "AI_EN_VAR";
-    RemoteRuleConfig variantsConfig = RemoteRuleConfig.getRelevantConfig(variantsID, configs);
-    if (variantsConfig != null) {
-      Rule variantsRule = GRPCRule.create(variantsConfig, inputLogging, variantsID,
-                                          variantsDescription, Collections.emptyMap());
-      rules.add(variantsRule);
-    }
-    String hydraID = "AI_HYDRA_LEO";
-    RemoteRuleConfig hydraConfig = RemoteRuleConfig.getRelevantConfig(hydraID, configs);
-    if (hydraConfig != null) {
-      Rule hydraRule = GRPCRule.create(hydraConfig, inputLogging, hydraID,
-                                          hydraDescription, Collections.emptyMap());
-      rules.add(hydraRule);
-    }
+
+    // matches should be based on automatically created rules with descriptions provided by remote server
+    rules.addAll(GRPCRule.createAll(configs, inputLogging,
+      "INTERNAL - dynamically loaded rule supported by remote server"));
+
     return rules;
   }
 }

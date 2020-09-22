@@ -71,7 +71,7 @@ public abstract class GRPCRule extends RemoteRule {
   private static final Logger logger = LoggerFactory.getLogger(GRPCRule.class);
 
   public static String cleanID(String id) {
-    return id.replaceAll("[^a-zA-Z_]", "_");
+    return id.replaceAll("[^a-zA-Z_]", "_").toUpperCase();
   }
   /**
    * Internal rule to create rule matches with IDs based on Match Sub-IDs
@@ -303,5 +303,12 @@ public abstract class GRPCRule extends RemoteRule {
         return description;
       }
     };
+  }
+
+  public static List<GRPCRule> createAll(List<RemoteRuleConfig> configs, boolean inputLogging, String defaultDescription) {
+    return configs.stream()
+      .filter(cfg -> cfg.getRuleId().startsWith("AI_"))
+      .map(cfg -> create(cfg, inputLogging, cfg.getRuleId(), defaultDescription, Collections.emptyMap()))
+      .collect(Collectors.toList());
   }
 }
