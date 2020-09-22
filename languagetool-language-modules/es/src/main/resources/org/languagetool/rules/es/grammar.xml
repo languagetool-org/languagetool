@@ -10756,10 +10756,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">tener</token>
                     <token>que</token>
                     <marker>
-                        <token postag="V.*" postag_regexp="yes"><exception postag="V.N.*|V.M..V.*" postag_regexp="yes"></exception></token>
+                        <token postag="V.*" postag_regexp="yes"><exception postag="V.N.*|V.M..V.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <message>¿Quería decir <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="V.N...."></match></suggestion>?</message>
+                <message>¿Quería decir <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="V.N...."/></suggestion>?</message>
                 <example correction="considerar">Tiene que <marker>considera</marker> el mejor.</example>
                 <example correction="crear|creer">Tiene que <marker>cree</marker> que es posible.</example>
                 <example>¿Qué tiene que cree que es el mejor?</example>
@@ -10952,6 +10952,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>ha</token>
             </antipattern>
             <antipattern>
+                <!-- onomatopeya -->
+                <token>¡</token>
+                <token>ha</token>
+                <token postag="_PUNCT.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>ha</token>
+                <token>!</token>
+            </antipattern>
+            <antipattern>
                 <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
                 <token>ha</token>
             </antipattern>
@@ -10982,6 +10992,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Este año ha llovido bastante.</example>
             <example>¿Ha usted reservado un cuarto de hotel?</example>
             <example>Años ha de aquello.</example>
+            <example>¡Ha, y ahora de pronto es "mi" idea!</example>
         </rule>
         <rulegroup id="AYA_HAYA" name="*aya/haya">
             <rule>
