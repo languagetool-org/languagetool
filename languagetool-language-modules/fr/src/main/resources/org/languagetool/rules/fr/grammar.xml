@@ -9593,11 +9593,10 @@ though, and has since been slightly modified)-->
       <example correction="chaque fois">Tu n'as pas à te présenter à <marker>chaque foi</marker>.</example>
     </rule>
     <rulegroup id="ACCORD_NOMBRE" name="Accord en nombre">
-        <antipattern>
-            <token>nombre</token>
+      <antipattern>
+            <token postag="K"/>
             <token>mille</token>
-            <token>invariable</token>
-        </antipattern>
+      </antipattern>
       <antipattern>
         <token inflected="yes" regexp="yes">nommer|traité</token>
         <token regexp="yes">\p{Lu}.*</token>
@@ -9609,9 +9608,9 @@ though, and has since been slightly modified)-->
       <antipattern>
         <token regexp="yes" inflected="yes">rapport|relation|rencontre|interprète|traduction|cycle|association</token>
         <token min="0" postag="J .*" postag_regexp="yes"/>
-        <token postag="N.*" postag_regexp="yes"></token>
+        <token postag="N.*" postag_regexp="yes"/>
         <token spacebefore="no">-</token>
-        <token spacebefore="no"></token>
+        <token spacebefore="no"/>
       </antipattern>
       <antipattern>
         <token>-</token> <!-- probably enumeration -->
@@ -9741,10 +9740,26 @@ though, and has since been slightly modified)-->
           <token>séparation</token>
           <token regexp="yes">filles?|garçons?|hommes?|femmes?|blancs?|noirs?</token>
         </antipattern>
+        <antipattern><!-- n + 1 puissances -->
+            <token regexp="yes">[a-z]</token>
+            <token regexp="yes">\+|-</token>
+            <token regexp="yes">[0-9]</token>
+        </antipattern>
+        <antipattern><!-- les machines de type 1 utilisées -->
+            <token>de</token>
+            <token regexp="yes">type|classe|catégorie</token>
+            <token>1</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">[01]<exception regexp="yes" scope="previous">,|et|ou|que</exception></token>
+          <token regexp="yes">[1]
+              <exception regexp="yes" scope="previous">,|et|ou|que|numéros|day|nationale|provinciale</exception>
+              <exception scope="previous" postag="K"/>
+          </token>
           <marker>
-            <token postag="[JN] . p" postag_regexp="yes"><exception postag="[JN] . sp?" postag_regexp="yes"/></token>
+            <token postag="[JN] . p" postag_regexp="yes">
+                <exception postag="[JN] . sp?" postag_regexp="yes"/>
+                <exception>Corinthiens</exception>
+            </token>
           </marker>
         </pattern>
         <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre.</message>
@@ -9755,6 +9770,16 @@ though, and has since been slightly modified)-->
         <example>Ils sont âgés de 4 et 1 ans.</example>
         <example>1 fois.</example>
         <example>L'école acta une séparation filles garçons.</example>
+        <example>J'ai lu cela dans 1 Corinthiens.</example>
+        <example>Tu ne dois jamais écrire deux 1 consécutifs.</example>
+        <example>C'est donc n+1 puissances plus grand.</example>
+        <example>C'est donc n + 1 puissances plus grand.</example>
+        <example>C'est donc n-1 puissances plus grand.</example>
+        <example>C'est donc n - 1 puissances plus grand.</example>
+        <example>Voici deux numéros 1 mondiaux.</example>
+        <example>C'est produit par Day 1 Studios.</example>
+        <example>Les résultats de l'équipe nationale 1 messieurs sont décevants.</example>
+        <example>Les machines de type 1 achetées chez nous sont plus chères.</example>
       </rule>
       <rule name="nombre pluriel suivi du singulier">
         <antipattern>
