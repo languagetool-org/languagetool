@@ -33142,12 +33142,13 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">(\-)?[0-9]{1,}</token>
                     <marker>
-                        <token regexp="yes">KB|ki[bB]</token>
+                        <token regexp="yes">[Kk]b|ki[bB]</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion><match regexp_match="(KB|ki[bB])" regexp_replace="kB" case_conversion="startlower" no="2"/></suggestion> (=1000 Byte) oder <suggestion>KiB</suggestion> (=1024 Byte)?</message>
+                <message>Meinten Sie <suggestion>KB</suggestion> (=1000 Byte) oder <suggestion>KiB</suggestion> (=1024 Byte)?</message>
                 <short>&prgk;.</short>
-                <example correction="kB|KiB">Die Datei ist 500 <marker>KB</marker> groß.</example>
+                <example correction="KB|KiB">Die Datei ist 500 <marker>Kb</marker> groß.</example>
+                <example>Die Datei hat 500 KB.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
