@@ -7,6 +7,11 @@
     to version 1.2.2.
   * Each pair of `ProhibitedCompoundRule` has its own ID now, so it can be separately turned on/off
 
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
+
 #### Russian
   * added and improved rules
 
