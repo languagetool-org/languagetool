@@ -330,7 +330,10 @@ public class ProhibitedCompoundRule extends Rule {
           "Stadtrads",
           "Seniorenrad",
           "Seniorenrads",
-          "versiegelbaren"
+          "versiegelbaren",
+          "Bodenplane",
+          "Schwimmschuhe",
+          "Familienstrand"
   ));
 
   // have per-class static list of these and reference that in instance
