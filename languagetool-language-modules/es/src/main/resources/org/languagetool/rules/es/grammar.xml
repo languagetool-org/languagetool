@@ -9188,9 +9188,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token/>
-                <token spacebefore="no" regexp="yes">-|\+</token>
+                <token spacebefore="no" regexp="yes">-|\+|/</token>
                 <token spacebefore="no"/>
             </antipattern>
+            <antipattern>
+                    <token inflected="yes" regexp="yes">binomio|relación|conexión|ratio|asociación|aleación|concordancia|tradución|interpretación|correción|corpus|paralelo|diccionario|traducotr|corrector|concordancia|par|figura</token>
+                        <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <token regexp="yes">[/yoeu-]</token>
+                    <token/>
+                </antipattern>
             <antipattern>
                 <token>por</token>
                 <token>muy</token>
@@ -9634,6 +9640,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Estudio matemáticas.</example>
             <example>Trescientas cajas de cartón llenas de ropa vieja preparadas para ser enviadas.</example>
             <example>Lleva una semana en la cama enfermo.</example>
+            <example>La traducción español/inglés.</example>
             <!-- 
                 La eternidad dura harto.
                 Ella fue al concierto acompañada de una amiga.
