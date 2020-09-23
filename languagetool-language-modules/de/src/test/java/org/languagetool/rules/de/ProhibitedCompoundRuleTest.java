@@ -90,6 +90,7 @@ public class ProhibitedCompoundRuleTest {
     assertThat(rule.removeHyphensAndAdaptCase("Marathon-Läuse-Test"), is("Marathonläusetest"));
     assertThat(rule.removeHyphensAndAdaptCase("Marathon-läuse-test"), is("Marathonläusetest"));
     assertThat(rule.removeHyphensAndAdaptCase("viele-Läuse-Test"), is("vieleläusetest"));
+    assertNull(rule.removeHyphensAndAdaptCase("S-Bahn"));
   }
 
   void assertMatches(String input, int expectedMatches) throws IOException {

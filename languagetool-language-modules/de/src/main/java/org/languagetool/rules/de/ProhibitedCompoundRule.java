@@ -510,7 +510,7 @@ public class ProhibitedCompoundRule extends Rule {
       long wordCount = lm.getCount(wordPart);
       long variantCount = lm.getCount(variant);
       //float factor = variantCount / (float)Math.max(wordCount, 1);
-      //System.out.println("word: " + word + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
+      //System.out.println("word: " + wordPart + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
       if (variantCount > 0 && wordCount == 0 && !blacklist.contains(wordPart) && !isMisspelled(variant) && blacklistRegex.stream().noneMatch(k -> wordPart.matches(".*" + k + ".*"))) {
         String msg;
         if (pair.part1Desc != null && pair.part2Desc != null) {
@@ -551,6 +551,10 @@ public class ProhibitedCompoundRule extends Rule {
       StringBuilder sb = new StringBuilder();
       int i = 0;
       for (String part : parts) {
+        if (part.length() <= 1) {
+          // don't: S-Bahn -> Sbahn
+          return null;
+        }
         sb.append(i == 0 ? part : lowercaseFirstChar(part));
         i++;
       }
