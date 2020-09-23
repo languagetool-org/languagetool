@@ -5880,7 +5880,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="cuentacuentos">El <marker>cuenta cuentos</marker> lo hizo muy bien.</example>
                 <example>Siempre nos cuenta cuentos bonitos.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">super|súper</token>
                     <token min="0">-</token>
@@ -5889,6 +5889,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message suppress_misspelled="yes">Se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="super$1" case_conversion="alllower"/></suggestion>
                 <example correction="superrápida">Hay una forma de hacerlo <marker>super rápida</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>hidro</token>
+                    <token min="0">-</token>
+                    <token postag="[ANV].*" postag_regexp="yes"/>
+                </pattern>
+                <message suppress_misspelled="yes">Se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="hidro$1" case_conversion="alllower"/></suggestion>
+                <example correction="hidroalcohólico">No tenían gel <marker>hidro alcohólico</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUTO_NO_SEPARADO" name="prefijo auto- no separado">
