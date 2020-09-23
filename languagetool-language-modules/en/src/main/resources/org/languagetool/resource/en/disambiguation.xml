@@ -1581,7 +1581,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       </antipattern>
       <antipattern><!-- A grand jury found him guilty-->
         <token regexp="yes">an?|one|1</token>
-        <token postag="JJ" min="0" />
+        <token postag="JJ.*|NN.*" postag_regexp="yes" />
+        <token regexp="yes">jury|committee|class</token>
+      </antipattern>
+      <antipattern><!-- A very grand jury found him guilty-->
+        <token regexp="yes">an?|one|1</token>
+        <token postag="JJ.*" postag_regexp="yes" />
+        <token postag="JJ.*|NN.*" postag_regexp="yes" />
         <token regexp="yes">jury|committee|class</token>
       </antipattern>
       <pattern>
@@ -1601,6 +1607,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">The jury will be instructed to...</example>
       <example type="untouched">Class will finish by 10:00.</example>
       <example type="untouched">They class people.</example>
+      <example type="untouched">A grand jury found him guilty.</example>
       <example type="ambiguous" inputform="committee[committee/NN]" outputform="committee[committee/NNS]">The <marker>committee</marker> are all present.</example>
     </rule>
     <rule name="his (noun/prep) + noun -&gt; his (prep)" id="HIS_NN_PRP">
