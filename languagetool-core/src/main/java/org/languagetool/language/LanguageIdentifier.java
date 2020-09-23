@@ -122,7 +122,7 @@ public class LanguageIdentifier {
   public void enableNgrams(File ngramDir) {
     try {
       logger.info("Loading ngram data for language identification from " + ngramDir + "...");
-      ngram = new NGramLangIdentifier(ngramDir, 50, true, true);
+      ngram = new NGramLangIdentifier(ngramDir, 50, true, false);
       logger.info("Loaded ngram data for language identification from " + ngramDir);
     } catch (IOException e) {
       throw new RuntimeException("Could not load ngram data language identification from " + ngramDir, e);
