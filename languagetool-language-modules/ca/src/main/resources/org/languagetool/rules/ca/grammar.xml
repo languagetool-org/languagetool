@@ -40619,6 +40619,68 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
+        <rulegroup id="PROJECTAR" name="projectar (anglicisme)" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="(V.I.*)" postag_regexp="yes" inflected="yes">projectar</token>
+                    </marker>
+                    <token>que</token>
+                </pattern>
+                <message>El v. 'projectar' amb el sentit de 'preveure' és un calc de l'anglès no recomanable.</message>
+                <suggestion><match no="1" postag="(V.I.*)" postag_regexp="yes" postag_replace="$1">preveure</match></suggestion>
+                <suggestion><match no="1" postag="(V.I.*)" postag_regexp="yes" postag_replace="$1">calcular</match></suggestion>
+                <suggestion><match no="1" postag="(V.I.*)" postag_regexp="yes" postag_replace="$1">predir</match></suggestion>
+                <suggestion><match no="1" postag="(V.I.*)" postag_regexp="yes" postag_replace="$1">pronosticar</match></suggestion>
+                <suggestion><match no="1" postag="(V.I.*)" postag_regexp="yes" postag_replace="$1">esperar</match></suggestion>
+                <example correction="preveu|calcula|prediu|pronostica|espera">Es <marker>projecta</marker> que es crearan 20.000 llocs de treball.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="(V.I.*)" postag_regexp="yes" inflected="yes" skip="2">projectar</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">benefici|creixement|pèrdua|augment|decreiximent|disminució|pujada|baixada|ingrés|despesa</token>
+                </pattern>
+                <message>El v. 'projectar' amb el sentit de 'preveure' és un calc de l'anglès no recomanable.</message>
+                <suggestion><match no="1" postag="(V.I.*)" postag_regexp="yes" postag_replace="$1">preveure</match></suggestion>
+                <suggestion><match no="1" postag="(V.I.*)" postag_regexp="yes" postag_replace="$1">calcular</match></suggestion>
+                <suggestion><match no="1" postag="(V.I.*)" postag_regexp="yes" postag_replace="$1">predir</match></suggestion>
+                <suggestion><match no="1" postag="(V.I.*)" postag_regexp="yes" postag_replace="$1">pronosticar</match></suggestion>
+                <suggestion><match no="1" postag="(V.I.*)" postag_regexp="yes" postag_replace="$1">esperar</match></suggestion>
+                <example correction="preveuen|calculen|prediuen|pronostiquen|esperen">Es <marker>projecten</marker> beneficis de mil milions.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="(V.[^I].*)" postag_regexp="yes" inflected="yes">projectar</token>
+                    </marker>
+                    <token>que</token>
+                </pattern>
+                <message>El v. 'projectar' amb el sentit de 'preveure' és un calc de l'anglès no recomanable.</message>
+                <suggestion><match no="1" postag="(V.[^I].*)" postag_regexp="yes" postag_replace="$1">preveure</match></suggestion>
+                <suggestion><match no="1" postag="(V.[^I].*)" postag_regexp="yes" postag_replace="$1">calcular</match></suggestion>
+                <suggestion><match no="1" postag="(V.[^I].*)" postag_regexp="yes" postag_replace="$1">predir</match></suggestion>
+                <suggestion><match no="1" postag="(V.[^I].*)" postag_regexp="yes" postag_replace="$1">pronosticar</match></suggestion>
+                <suggestion><match no="1" postag="(V.[^I].*)" postag_regexp="yes" postag_replace="$1">esperar</match></suggestion>
+                <example correction="prevegi|calculi|predigui|pronostiqui|esperi">Això fa que es <marker>projecti</marker> que es crearan 20.000 llocs de treball.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="(V.[^I].*)" postag_regexp="yes" inflected="yes" skip="2">projectar</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">benefici|creixement|pèrdua|augment|decreiximent|disminució|pujada|baixada|ingrés|despesa</token>
+                </pattern>
+                <message>El v. 'projectar' amb el sentit de 'preveure' és un calc de l'anglès no recomanable.</message>
+                <suggestion><match no="1" postag="(V.[^I].*)" postag_regexp="yes" postag_replace="$1">preveure</match></suggestion>
+                <suggestion><match no="1" postag="(V.[^I].*)" postag_regexp="yes" postag_replace="$1">calcular</match></suggestion>
+                <suggestion><match no="1" postag="(V.[^I].*)" postag_regexp="yes" postag_replace="$1">predir</match></suggestion>
+                <suggestion><match no="1" postag="(V.[^I].*)" postag_regexp="yes" postag_replace="$1">pronosticar</match></suggestion>
+                <suggestion><match no="1" postag="(V.[^I].*)" postag_regexp="yes" postag_replace="$1">esperar</match></suggestion>
+                <example correction="preveiessin|calculessin|prediguessin|pronostiquessin|esperessin">Si es <marker>projectessin</marker> beneficis de mil milions.</example>
+            </rule>
+        </rulegroup>
         <rule id="VENA_BENA" name="vena/bena">
             <pattern>
                 <token inflected="yes">posar</token>
