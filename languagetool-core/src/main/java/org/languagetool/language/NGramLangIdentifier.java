@@ -234,12 +234,10 @@ public class NGramLangIdentifier {
     Map<String, Integer> tmS = this.bigramSumsPre.get(tmI);
     Map<String, Integer> tmSd = this.bigramSumsPost.get(tmI);
 
-
-
     int xaCnt = tmS.getOrDefault("" + b, 0);
     int axCnt = tmSd.getOrDefault("" + a, 0);
     int bigramsTotal = tm.size();
-    int unigramCnt = tm.getOrDefault("0_" + a, 1);
+    int unigramCnt = tmU.getOrDefault("0_" + a, 1);
     int bigramCnt = tm.getOrDefault(a + "_" + b, 1);
 
     double d = 0.75;
