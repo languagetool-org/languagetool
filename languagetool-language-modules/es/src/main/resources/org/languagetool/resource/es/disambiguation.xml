@@ -1262,7 +1262,7 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes">binomio|relación|conexión|ratio|asociación|aleación|concordancia|tradución|interpretación|correción|corpus|paralelo|diccionario|traducotr|corrector|concordancia|par|figura</token>
+                <token inflected="yes" regexp="yes">binomio|relación|conexión|ratio|asociación|aleación|concordancia|tradución|interpretación|correción|corpus|paralelo|diccionario|traductor|corrector|par|figura|pareja</token>
                 <marker>
                     <token postag="N.*" postag_regexp="yes"/>
                 </marker>
@@ -1399,6 +1399,16 @@ Copyright (C) 2011 Juan Martorell
     </rulegroup>
 
     <rulegroup id="ADVERBS" name="adverbios">
+        <rule>
+            <pattern>
+                <token>más</token>
+                <marker>
+                    <token postag="RG">tarde</token>
+                </marker>
+                <token postag="A.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="RG.*"/>
+        </rule>
         <rule>
             <pattern>
                 <token>demasiado<exception scope="previous" regexp="yes">ha|has</exception></token>
@@ -2426,7 +2436,7 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <and>
-                    <token postag="V.N.*" postag_regexp="yes"><exception postag="D..[MC]S.|DA.[MC].." postag_regexp="yes" scope="previous"/></token>
+                    <token postag="V.N.*" postag_regexp="yes"><exception postag="D..[MC]S.|DA.[MC]..|SP\+DA" postag_regexp="yes" scope="previous"/></token>
                     <!--|AQ0MS0-->
                     <token postag="N.*" postag_regexp="yes"><exception>ser</exception></token>
                 </and>
@@ -3157,7 +3167,7 @@ Copyright (C) 2011 Juan Martorell
                 <marker>
                     <and>
                         <token postag="N.*" postag_regexp="yes"/>
-                        <token postag="A.*" postag_regexp="yes"><exception inflected="yes">nuevo</exception></token>
+                        <token postag="AQ.*" postag_regexp="yes"><exception inflected="yes">nuevo</exception></token>
                         <token negate_pos="yes" postag="V.*" postag_regexp="yes"/>
                     </and>
                 </marker>
@@ -3619,7 +3629,7 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <marker>
                 <and>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes">crías?|busco|dejes?|buscas?|fallas?|faltas?|tantos?|resultas?|uso|usas?|cuestas?|hablas?|cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|queda|quedas<exception
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">dejas?|crías?|busco|dejes?|buscas?|fallas?|faltas?|tantos?|resultas?|uso|usas?|cuestas?|hablas?|cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|queda|quedas<exception
                         postag="_GN_.*" postag_regexp="yes"/></token>
                     <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
@@ -3651,6 +3661,16 @@ Copyright (C) 2011 Juan Martorell
             </marker>
         </pattern>
         <disambig action="remove" postag="A.*"/>
+    </rule>
+    <rule id="verb_notnoun2" name="verb IP1S not noun">
+        <pattern>
+            <token postag="SENT_START|_PUNCT.*|C.*" postag_regexp="yes"/>
+            <marker>
+                <token postag="VMIP1S0"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+            </marker>
+            <token postag="NC.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="[AN].*"/>
     </rule>
 
     <rulegroup id="imperative" name="imperative verb">
