@@ -8081,6 +8081,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="AGREEMENT_NOUNS" name="Concordancia en grupos nominales" type="inconsistency">
+        <rulegroup id="AGREEMENT_DET_DET" name="concordancias det. + det." default="temp_off">
+            <rule>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <token postag="DI.*" postag_regexp="yes" inflected="yes">alguno</token>
+                        <token inflected="yes">otro</token>
+                    </unify>
+                </pattern>
+                <message>Error de concordancia.</message>
+                <suggestion>algún otro</suggestion>
+                <suggestion>alguna otra</suggestion>
+                <suggestion>algunos otros</suggestion>
+                <suggestion>algunas otras</suggestion>
+                <example correction="algún otro|alguna otra|algunos otros|algunas otras">Tengo <marker>algún otra</marker> sugerencia.</example>
+            </rule>
+        </rulegroup>
         <rule id="AGREEMENT_DET_ABREV" name="concordancia determinante y abreviatura">
             <pattern>
                 <marker>
