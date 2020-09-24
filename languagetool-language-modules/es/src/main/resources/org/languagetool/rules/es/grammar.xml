@@ -5890,7 +5890,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="super$1" case_conversion="alllower"/></suggestion>
                 <example correction="superrápida">Hay una forma de hacerlo <marker>super rápida</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>hidro</token>
                     <token min="0">-</token>
@@ -8081,7 +8081,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="AGREEMENT_NOUNS" name="Concordancia en grupos nominales" type="inconsistency">
-        <rulegroup id="AGREEMENT_DET_DET" name="concordancias det. + det." default="temp_off">
+        <rulegroup id="AGREEMENT_DET_DET" name="concordancias det. + det.">
             <rule>
                 <pattern>
                     <unify negate="yes">
@@ -8097,6 +8097,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>algunos otros</suggestion>
                 <suggestion>algunas otras</suggestion>
                 <example correction="algún otro|alguna otra|algunos otros|algunas otras">Tengo <marker>algún otra</marker> sugerencia.</example>
+                <example correction="Algún otro|Alguna otra|Algunos otros|Algunas otras"><marker>Alguna otro</marker> error de ortografía</example>
             </rule>
         </rulegroup>
         <rule id="AGREEMENT_DET_ABREV" name="concordancia determinante y abreviatura">
@@ -8934,18 +8935,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="las">Puede dar <marker>los</marker> cinco ideas nuevas.</example>
                 <example>¿Cuál de los dos eres?</example>
             </rule>
-            <rule id="ALGUNA_OTRO" name="alguna otro → alguna otra">
-                <pattern>
-                    <token>alguna</token>
-                    <marker>
-                        <token>otro</token>
-                    </marker>
-                </pattern>
-                <message>Error de concordancia.</message>
-                <suggestion>otra</suggestion>
-                <example correction="otra">Alguna <marker>otro</marker> error de ortografía</example>
-            </rule>
-            <!-- CADA_UNA_DE_LOS Concordancia (Concordancia M/F) -->
             <rule id="CADA_UNA_DE_LOS" name="Concordancia «Cada una de los»">
                 <pattern case_sensitive="no">
                     <token postag="SENT_START"/>
@@ -8960,7 +8949,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>Cada una de los</marker> caballeros está ocupado.</example>
                 <example>Cada uno de los caballeros está ocupado.</example>
             </rule>
-            <!-- CADA_UNO_DE_LAS Concordancia (Concordancia F/M) -->
             <rule id="CADA_UNO_DE_LAS" name="Concordancia «Cada una de las»">
                 <pattern case_sensitive="no">
                     <token postag="SENT_START"/>
@@ -10816,6 +10804,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rulegroup id="TAL_TAN" name="tal/tan" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tal</token>
+                    </marker>
+                    <token regexp="yes">mal|bien</token>
+                </pattern>
+                <message>Posible confusión. ¿Quería decir <suggestion>tan</suggestion>?</message>
+                <example correction="tan">Tampoco está <marker>tal</marker> mal</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tal</token>
+                    </marker>
+                    <token postag="A.*|V.*" postag_regexp="yes"/>
+                    <token>que</token>
+                </pattern>
+                <message>Posible confusión. ¿Quería decir <suggestion>tan</suggestion>?</message>
+                <example correction="tan">Está <marker>tal</marker> bueno que me lo comería todo.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TENER_QUE_INFINITIVO" name="tener que + infinitivo">
             <antipattern>
                 <token skip="3">qué</token>

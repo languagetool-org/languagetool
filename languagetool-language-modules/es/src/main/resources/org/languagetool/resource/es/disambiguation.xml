@@ -1986,7 +1986,27 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
 
-    <rulegroup id="medio_adv" name="medio  (adv) + adj: medio viva medio muerta">
+    <rulegroup id="medio_adv" name="medio (adv) + adj: medio viva medio muerta">
+        <rule>
+            <pattern>
+                <token postag="DN.[MC].." postag_regexp="yes"/>
+                <token>y</token>
+                <marker>
+                    <token>medio</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="DN0MP0"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">uno|un</token>
+                <token>y</token>
+                <marker>
+                    <token>medio</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="DN0MP0"/>
+        </rule>
         <rule>
             <pattern>
                 <marker>
@@ -3316,7 +3336,7 @@ Copyright (C) 2011 Juan Martorell
                 <marker>
                     <token postag="SPS00">bajo<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </marker>
-                <token regexp="yes">amenazas?|licencia|poder|dominio|dirección|presidencia|cuidado|atención|fianza|secreto|administración|principios|consideración|luz|tortura|condiciones</token>
+                <token regexp="yes">amenazas?|acusación|acusaciones|jurisdicción|circunstancias|licencia|poder|dominio|dirección|presidencia|cuidado|atención|fianza|secreto|administración|principios|consideración|luz|tortura|condiciones</token>
             </pattern>
             <disambig action="filter" postag="SPS00|_GV_"/>
         </rule>
@@ -3629,8 +3649,9 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <marker>
                 <and>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes">dejas?|crías?|busco|dejes?|buscas?|fallas?|faltas?|tantos?|resultas?|uso|usas?|cuestas?|hablas?|cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|queda|quedas<exception
-                        postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes"
+                        >dejas?|crías?|busco|dejes?|buscas?|fallas?|faltas?|tantos?|resultas?|uso|usas?|cuestas?|hablas?|cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|queda|quedas<exception postag="_GN_.*" postag_regexp="yes"
+                        /></token>
                     <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
@@ -3666,7 +3687,7 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <token postag="SENT_START|_PUNCT.*|C.*" postag_regexp="yes"/>
             <marker>
-                <token postag="VMIP1S0"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                <token postag="VMIP1S0"><exception postag="_GN_.*" postag_regexp="yes"/><exception>frío</exception></token>
             </marker>
             <token postag="NC.*" postag_regexp="yes"/>
         </pattern>
