@@ -12738,6 +12738,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Buenos días tenga usted.</example>
                 <example>Buenas noches y adiós.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="A.*" postag_regexp="yes" inflected="yes" regexp="yes">guapo|guapetón</token>
+                    </unify>
+                </pattern>
+                <message>Probablemente falta una coma</message>
+                <suggestion>\1, \2</suggestion>
+                <example correction="fiestas, guapo">Felices <marker>fiestas guapo</marker>.</example>
+                <example correction="besos, guapa">¡Muchos <marker>besos guapa</marker>!</example>
+            </rule>
         </rulegroup>
         <rule id="MUCHO_NF" name="mucho + nombre femenino">
             <pattern>
