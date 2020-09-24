@@ -2,6 +2,9 @@
 
 ## 5.1-SNAPSHOT (release planned for 2020-09-25)
 
+#### English
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.88 - 2020-09-01)
+
 #### German
   * Updated the German part-of-speech dictionary (https://github.com/languagetool-org/german-pos-dict)
     to version 1.2.2.
