@@ -57389,6 +57389,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Bona nit tingueu.</example>
                 <example>Bona nit i tapa't.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="nombre"/>
+                        <feature id="genere"/>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="A.*" postag_regexp="yes" inflected="yes" regexp="yes">guapo|preciós</token>
+                    </unify>
+                </pattern>
+                <message>Probablement hi falta una coma.</message>
+                <suggestion>\1, \2</suggestion>
+                <example correction="besos, guapo">Molts <marker>besos guapo</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="GRACIES" name="gràcies (coma)">
             <antipattern>
