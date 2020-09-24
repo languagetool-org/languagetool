@@ -5203,6 +5203,68 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Estats Units havia estat ric en recursos naturals.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AGREEMENT_AGRADAR" name="concordança: agradar" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="&pronom_feble;" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V.[MSI].3S.." postag_regexp="yes" inflected="yes" regexp="yes">agradar|encantar|encisar</token>
+                    </marker>
+                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="D...P.|A...P.|NC.P..." postag_regexp="yes"/>
+                </pattern>
+                <message>Possible error de concordança.</message>
+                <suggestion><match no="2" postag="(V...3)S(..)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
+                <example correction="agraden">M'<marker>agrada</marker> les pomes.</example>
+                <example correction="agradaven">Li <marker>agradava</marker> molt més les madures.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="&pronom_feble;" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V.[MSI].3P.." postag_regexp="yes" inflected="yes" regexp="yes">agradar|encantar|encisar</token>
+                    </marker>
+                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="D...S.|A...S.|NC.S..." postag_regexp="yes"/>
+                </pattern>
+                <message>Possible error de concordança.</message>
+                <suggestion><match no="2" postag="(V...3)P(..)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
+                <example correction="agrada|agrade">M'<marker>agraden</marker> la paella.</example>
+                <example correction="agradava">M'<marker>agradaven</marker> molt més la verda.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="&pronom_feble;" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V.[MSI].3S.." postag_regexp="yes" inflected="yes" regexp="yes">haver|anar</token>
+                    </marker>
+                    <token min="0" regexp="yes">de|a|d'</token>
+                    <token postag="V.[PN].*" postag_regexp="yes" inflected="yes" regexp="yes">agradar|encantar|encisar</token>
+                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="D...P.|A...P.|NC.P..." postag_regexp="yes"/>
+                </pattern>
+                <message>Possible error de concordança.</message>
+                <suggestion><match no="2" postag="(V...3)S(..)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
+                <example correction="van|varen">Em <marker>va</marker> agradar les pomes.</example>
+                <example correction="han">Li <marker>ha</marker> d'agradar molt més les verdes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="&pronom_feble;" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V.[MSI].3P.." postag_regexp="yes" inflected="yes" regexp="yes">haver|anar</token>
+                    </marker>
+                    <token min="0" regexp="yes">de|a|d'</token>
+                    <token postag="V.[PN].*" postag_regexp="yes" inflected="yes" regexp="yes">agradar|encantar|encisar</token>
+                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="D...S.|A...S.|NC.S..." postag_regexp="yes"/>
+                </pattern>
+                <message>Possible error de concordança.</message>
+                <suggestion><match no="2" postag="(V...3)P(..)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
+                <example correction="ha">M'<marker>han</marker> encisat la poma.</example>
+                <example correction="va">Ens <marker>van</marker> agradar molt més la verda.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CONCORDANCES_ATRIBUT" name="Concordances de subjecte i atribut en frases copulatives">
             <antipattern>
                 <marker>

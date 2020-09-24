@@ -10230,6 +10230,68 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La avioneta será costosa</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AGREEMENT_GUSTAR" name="concordancia: gustar" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">me|te|se|le|nos|os|les</token>
+                    <marker>
+                        <token postag="V.[MSI].3S." postag_regexp="yes" inflected="yes" regexp="yes">gustar|agradar|encantar</token>
+                    </marker>
+                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="D...P.|A...P.|NC.P..." postag_regexp="yes"/>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion><match no="2" postag="(V...3)S(.)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
+                <example correction="gustan">Me <marker>gusta</marker> las manzanas.</example>
+                <example correction="gustaban">Me <marker>gustaba</marker> mucho más las verdes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">me|te|se|le|nos|os|les</token>
+                    <marker>
+                        <token postag="V.[MSI].3P." postag_regexp="yes" inflected="yes" regexp="yes">gustar|agradar|encantar</token>
+                    </marker>
+                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="D...S.|A...S.|NC.S..." postag_regexp="yes"/>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion><match no="2" postag="(V...3)P(.)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
+                <example correction="gusta">Me <marker>gustan</marker> la manzana.</example>
+                <example correction="gustaba">Me <marker>gustaban</marker> mucho más la verde.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">me|te|se|le|nos|os|les</token>
+                    <marker>
+                        <token postag="V.[MSI].3S." postag_regexp="yes" inflected="yes" regexp="yes">tener|haber|ir</token>
+                    </marker>
+                    <token min="0" regexp="yes">de|que|a</token>
+                    <token postag="V.[PN].*" postag_regexp="yes" inflected="yes" regexp="yes">gustar|agradar|encantar</token>
+                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="D...P.|A...P.|NC.P..." postag_regexp="yes"/>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion><match no="2" postag="(V...3)S(.)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
+                <example correction="han">Me <marker>ha</marker> gustado las manzanas.</example>
+                <example correction="tenían">Le <marker>tenía</marker> que gustar mucho más las verdes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">me|te|se|le|nos|os|les</token>
+                    <marker>
+                        <token postag="V.[MSI].3P." postag_regexp="yes" inflected="yes" regexp="yes">tener|haber|ir</token>
+                    </marker>
+                    <token min="0" regexp="yes">de|que|a</token>
+                    <token postag="V.[PN].*" postag_regexp="yes" inflected="yes" regexp="yes">gustar|agradar|encantar</token>
+                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="D...S.|A...S.|NC.S..." postag_regexp="yes"/>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion><match no="2" postag="(V...3)P(.)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
+                <example correction="ha">Me <marker>han</marker> gustado la manzana.</example>
+                <example correction="tenía">Le <marker>tenían</marker> que gustar mucho más la verde.</example>
+            </rule>
+        </rulegroup>
     </category>
     <category id="ESTILO" name="Estilo" type="style">
         <rulegroup id="MAMA" name="mama/mamá">
