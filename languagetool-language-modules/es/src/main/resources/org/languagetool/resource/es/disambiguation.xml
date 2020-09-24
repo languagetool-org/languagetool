@@ -161,6 +161,37 @@ Copyright (C) 2011 Juan Martorell
                 <wd pos="LOC_PREP"/>
             </disambig>
         </rule>
+        <rule id="acerca_de" name="acerca de">
+            <antipattern>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <token regexp="yes">acerca|aparte</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">acerca|aparte</token>
+                    <token>de</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd pos="LOC_PREP"/>
+                <wd pos="LOC_PREP"/>
+            </disambig>
+        </rule>
+        <rule id="acerca_del" name="acerca del">
+            <antipattern>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <token regexp="yes">acerca|aparte</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">acerca|aparte</token>
+                </marker>
+                <token>del</token>
+            </pattern>
+            <disambig action="replace">
+                <wd pos="LOC_PREP"/>
+            </disambig>
+        </rule>
     </rulegroup>
 
     <rulegroup id="LOC_ADV" name="locuciones adverbiales">

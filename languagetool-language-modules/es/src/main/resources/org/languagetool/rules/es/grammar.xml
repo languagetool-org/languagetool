@@ -49,7 +49,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY unidades_tiempo "segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio">
 <!ENTITY expresiones_tiempo "ahora|hoy|ayer|antaño|hogaño|temporada|curso"> <!-- to add manually when needed: mañana-->
 <!ENTITY nombres_colectivos "mayoría|par|gente|grupo|parte|familia|docena|centena|millar">
-<!ENTITY common_english_nouns_feminine "Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation|Conference">
+<!ENTITY common_english_nouns_feminine "Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation|Conference|Tool|Union">
 <!ENTITY common_english_nouns_masculine "Club|TM|UD|UE|SD|Team|Day|Center|Centre|Hilton|Group">
 <!ENTITY context_ano "anal|culo|cáncer|rectal|estómago|intestino|defecación|defecar|digestivo|sistema|tracto|hez|mierda|excremento|orificio|excretar|cagar">
 <!ENTITY denominacion "elemento|palabra|término|expresión|vocablo|nombre|tipo|denominación">
@@ -2205,6 +2205,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>se</token>
                     <token regexp="yes">me|te|le|les|lo|los|nos|os</token>
                 </antipattern>
+                <antipattern>
+                    <!-- triggers another rule -->
+                    <token>se</token>
+                    <token>de</token>
+                    <token>cuenta</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>se<exception postag="_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
@@ -2253,6 +2259,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El objetivo per se no importa.</example>
                 <example>aquel en que se “expresa” Rimbaud</example>
                 <example>Eso no se ve tan difícil.</example>
+                <example>Es necesario que se aparte de este caso.</example>
+                <example>Este se acerca de manera peligrosa.</example>
             </rule>
             <rule>
                 <pattern>
@@ -4946,7 +4954,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.[SI].*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">hecho|base|propósito</token>
+                    <token regexp="yes">hecho|base|propósito|acerca</token>
                     <token>de</token>
                     <token>si</token>
                 </antipattern>
@@ -8199,12 +8207,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes">al|del|el</token>
-                <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*<exception case_sensitive="yes" regexp="yes">&common_english_nouns_masculine;</exception></token>
+                <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*|\d+<exception case_sensitive="yes" regexp="yes">&common_english_nouns_masculine;</exception></token>
                 <token case_sensitive="yes" regexp="yes">&common_english_nouns_masculine;</token>
             </antipattern>
             <antipattern>
                 <token>la</token>
-                <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*<exception case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</exception></token>
+                <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*|\d+<exception case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</exception></token>
                 <token case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</token>
             </antipattern>
             <!--exceptions with other suggestions-->
@@ -8648,12 +8656,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes">al|del|el</token>
-                <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*<exception case_sensitive="yes" regexp="yes">&common_english_nouns_masculine;</exception></token>
+                <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*|\d+<exception case_sensitive="yes" regexp="yes">&common_english_nouns_masculine;</exception></token>
                 <token case_sensitive="yes" regexp="yes">&common_english_nouns_masculine;</token>
             </antipattern>
             <antipattern>
                 <token>la</token>
-                <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*<exception case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</exception></token>
+                <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*|\d+<exception case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</exception></token>
                 <token case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</token>
             </antipattern>
             <antipattern>
