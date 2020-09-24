@@ -90,7 +90,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern BRACE_IN_WORD_PATTERN = Pattern.compile("([а-яіїєґ'])\\(([а-яіїєґ']+)\\)", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   // abbreviation dot
-  private static final Pattern ABBR_DOT_VO_PATTERN1 = Pattern.compile("(в)\\.([\\h\\v]*о)\\.");
+  private static final Pattern ABBR_DOT_VO_PATTERN1 = Pattern.compile("([вВу])\\.([\\h\\v]*о)\\.");
   private static final Pattern ABBR_DOT_VO_PATTERN2 = Pattern.compile("(к)\\.([\\h\\v]*с)\\.");
   private static final Pattern ABBR_DOT_VO_PATTERN3 = Pattern.compile("(ч|ст)\\.([\\h\\v]*л)\\.");
 //  private static final Pattern ABBR_DOT_VO_PATTERN4 = Pattern.compile("(р)\\.([\\s\u00A0\u202F]*х)\\.");
@@ -344,7 +344,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
     }
 
     if( text.contains(SOFT_HYPHEN_WRAP) ) {
-      text = text.replace(SOFT_HYPHEN_WRAP, SOFT_HYPHEN_WRAP_SUBST);
+      text = text.replaceAll("(?<!\\s)"+SOFT_HYPHEN_WRAP, SOFT_HYPHEN_WRAP_SUBST);
     }
 
     if( text.indexOf('\'') >= 0 ) {
