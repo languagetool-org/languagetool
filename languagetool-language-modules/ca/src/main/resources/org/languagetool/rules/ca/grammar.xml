@@ -40619,11 +40619,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
-        <rulegroup id="PROJECTAR" name="projectar (anglicisme)" default="temp_off">
+        <rulegroup id="PROJECTAR" name="projectar (anglicisme)">
+            <antipattern>
+                <token regexp="yes">projectes?</token>
+                <token>que</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="(V.I.*)" postag_regexp="yes" inflected="yes">projectar</token>
+                        <token postag="(V.I.*)" postag_regexp="yes" inflected="yes">projectar<exception postag="_GN.*" postag_regexp="yes"/></token>
                     </marker>
                     <token>que</token>
                 </pattern>
@@ -40634,11 +40638,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="(V.I.*)" postag_regexp="yes" postag_replace="$1">pronosticar</match></suggestion>
                 <suggestion><match no="1" postag="(V.I.*)" postag_regexp="yes" postag_replace="$1">esperar</match></suggestion>
                 <example correction="preveu|calcula|prediu|pronostica|espera">Es <marker>projecta</marker> que es crearan 20.000 llocs de treball.</example>
+                <example>I no pas altres projectes que omplissin de facilitats.</example>
+                <example>projectes que significaven una relativa independència</example>
+                <example>Publicà el projecte que s'havia elaborat.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="(V.I.*)" postag_regexp="yes" inflected="yes" skip="2">projectar</token>
+                        <token postag="(V.I.*)" postag_regexp="yes" inflected="yes" skip="2">projectar<exception postag="_GN.*" postag_regexp="yes"/></token>
                     </marker>
                     <token inflected="yes" regexp="yes">benefici|creixement|pèrdua|augment|decreiximent|disminució|pujada|baixada|ingrés|despesa</token>
                 </pattern>
@@ -40653,7 +40660,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="(V.[^I].*)" postag_regexp="yes" inflected="yes">projectar</token>
+                        <token postag="(V.[^I].*)" postag_regexp="yes" inflected="yes">projectar<exception postag="_GN.*" postag_regexp="yes"/></token>
                     </marker>
                     <token>que</token>
                 </pattern>
@@ -40664,11 +40671,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="(V.[^I].*)" postag_regexp="yes" postag_replace="$1">pronosticar</match></suggestion>
                 <suggestion><match no="1" postag="(V.[^I].*)" postag_regexp="yes" postag_replace="$1">esperar</match></suggestion>
                 <example correction="prevegi|calculi|predigui|pronostiqui|esperi">Això fa que es <marker>projecti</marker> que es crearan 20.000 llocs de treball.</example>
+                <example>per les urbanitzacions projectades que he citat més amunt</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="(V.[^I].*)" postag_regexp="yes" inflected="yes" skip="2">projectar</token>
+                        <token postag="(V.[^I].*)" postag_regexp="yes" inflected="yes" skip="2">projectar<exception postag="_GN.*" postag_regexp="yes"/></token>
                     </marker>
                     <token inflected="yes" regexp="yes">benefici|creixement|pèrdua|augment|decreiximent|disminució|pujada|baixada|ingrés|despesa</token>
                 </pattern>
@@ -42532,7 +42540,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Amb molta atenció vam escoltar el so que sortia de la guitarra.</example>
                 <example>L'acte conscient d'escoltar un so.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>paraula</token>
                     <token>de</token>
