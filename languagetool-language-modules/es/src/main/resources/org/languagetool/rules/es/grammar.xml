@@ -10804,6 +10804,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rulegroup id="TAL_TAN" name="tal/an" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tal</token>
+                    </marker>
+                    <token regexp="yes">mal|bien</token>
+                </pattern>
+                <message>Posible confusión. ¿Quería decir <suggestion>tan</suggestion></message>
+                <example correction="tan">Tampoco está <marker>tal</marker> mal</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tal</token>
+                    </marker>
+                    <token postag="A.*|V.*" postag_regexp="yes"/>
+                    <token>que</token>
+                </pattern>
+                <message>Posible confusión. ¿Quería decir <suggestion>tan</suggestion></message>
+                <example correction="tan">Está <marker>tal</marker> bueno que me lo comería todo.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TENER_QUE_INFINITIVO" name="tener que + infinitivo">
             <antipattern>
                 <token skip="3">qué</token>
