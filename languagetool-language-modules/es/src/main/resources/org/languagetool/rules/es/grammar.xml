@@ -9202,11 +9202,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="no"/>
             </antipattern>
             <antipattern>
-                    <token inflected="yes" regexp="yes">binomio|relación|conexión|ratio|asociación|aleación|concordancia|tradución|interpretación|correción|corpus|paralelo|diccionario|traductor|corrector|par|figura|pareja</token>
-                        <token postag="A.*|V.P.*" postag_regexp="yes"/>
-                    <token regexp="yes">[/yoeu-]</token>
-                    <token/>
-                </antipattern>
+                <token inflected="yes" regexp="yes">binomio|relación|conexión|ratio|asociación|aleación|concordancia|tradución|interpretación|correción|corpus|paralelo|diccionario|traductor|corrector|par|figura|pareja</token>
+                <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                <token regexp="yes">[/yoeu-]</token>
+                <token/>
+            </antipattern>
             <antipattern>
                 <token>por</token>
                 <token>muy</token>
@@ -9269,6 +9269,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes">debido|junto|directo|conforme</token>
+                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token regexp="yes">a|al</token>
             </antipattern>
             <antipattern>
@@ -9365,7 +9366,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" inflected="yes">alto|bajo</token>
             </antipattern>
             <antipattern>
-                <token postag="RG_before"/> <!--tan|muy|bastante|demasiado-->
+                <token postag="RG_before"/>
+                <!--tan|muy|bastante|demasiado-->
                 <token>rápido</token>
             </antipattern>
             <antipattern>
@@ -9409,11 +9411,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token/>
             </antipattern>
             <antipattern>
-                <token postag="V.[MI]..S." postag_regexp="yes" skip="10"/>
+                <token postag="V.[MIS]..S." postag_regexp="yes" skip="10"/>
                 <token regexp="yes">solo|sola</token>
             </antipattern>
             <antipattern>
-                <token postag="V.[MI]..P." postag_regexp="yes" skip="10"/>
+                <token postag="V.[MIS]..P." postag_regexp="yes" skip="10"/>
                 <token regexp="yes">solos|solas</token>
             </antipattern>
             <antipattern>
@@ -9446,7 +9448,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token>de</token>
-                <token postag="DD0FS0"/>
+                <token regexp="yes">esa|esta|alguna</token>
+                <token regexp="yes">manera|forma</token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>en</token>
+                <token regexp="yes">cierta|alguna</token>
                 <token regexp="yes">manera|forma</token>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
@@ -9501,6 +9509,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token inflected="yes">hacer</token>
                 <token regexp="yes">arapos|trozos|trizas|cenizas</token>
+            </antipattern>
+            <antipattern>
+                <token postag="DN.*" postag_regexp="yes"/>
+                <token/>
+                <token regexp="yes">mínimo|máximo</token>
             </antipattern>
             <pattern>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/> <exception regexp="yes">primero|juntos|juntas|dado|dada|dados|dadas|incluso</exception><exception regexp="yes">\p{Lu}.*</exception></token>
@@ -9677,7 +9690,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Apareció en la fiesta hecho un fantoche.</example>
             <example>Se pondrá en marcha con una prueba piloto.</example>
             <example>Me desperté en mi cama totalmente desorientado.</example>
-                
+            <example>Él no pensó en qué era bueno para su esposa.</example>
+            <example>15 estudiantes máximo por clase.</example>
+            <example>Trabajando se hace todo más difícil.</example>
+            <example>Reserva algo de dinero por si acaso enfermas.</example>
+            <example>los trabajos más bajos generalmente bajo el rubro de servicio</example>
+            <example>No os internéis en la jungla solos.</example>
             <!-- 
                 La eternidad dura harto.
                 Ella fue al concierto acompañada de una amiga.
@@ -12688,7 +12706,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes">estar|ser</token>
                     <token>?</token>
                 </pattern>
-                <message>Probablemente falta una coma</message>
+                <message>Probablemente falta una coma.</message>
                 <suggestion>\1,</suggestion>
                 <example correction="amigo,">Hola <marker>amigo</marker> cómo estás?</example>
                 <example>¿Cómo estás?</example>
@@ -12747,7 +12765,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="A.*" postag_regexp="yes" inflected="yes" regexp="yes">guapo|guapetón</token>
                     </unify>
                 </pattern>
-                <message>Probablemente falta una coma</message>
+                <message>Probablemente falta una coma.</message>
                 <suggestion>\1, \2</suggestion>
                 <example correction="fiestas, guapo">Felices <marker>fiestas guapo</marker>.</example>
                 <example correction="besos, guapa">¡Muchos <marker>besos guapa</marker>!</example>

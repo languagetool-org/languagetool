@@ -78,7 +78,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern GN_MP = Pattern.compile("N.[MC][PN].*|A..[MC][PN].*|V.P..PM.?|PX.MP.*|D[NDA0I]0MP0");
   private static final Pattern GN_FP = Pattern.compile("N.[FC][PN].*|A..[FC][PN].*|V.P..PF.?|PX.FP.*|D[NDA0I]0FP0");
   private static final Pattern GN_CP = Pattern.compile("N.[FMC][PN].*|A..[FMC][PN].*|D[NDA0I]0[FM]P0");
-  private static final Pattern GN_CS = Pattern.compile("N.[FMC][SN].*|A..[FMC][SN].*|D[NDA0I]0[FM]S0");
+  private static final Pattern GN_CS = Pattern.compile("N.[FMC][SN].*|A..[FMC][SN].*|D[NDA0I]0[FM]S0||PI0[MFC]S000");
 
   private static final Pattern ADJECTIU = Pattern.compile("AQ.*|V.P.*|PX.*|.*LOC_ADJ.*");
   private static final Pattern ADJECTIU_MS = Pattern.compile("A..[MC][SN].*|V.P..SM.?|PX.MS.*");
@@ -116,10 +116,10 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
 
-    if (match.getSentence().getText().contains("Ven a uno de los")) {
+    /*if (match.getSentence().getText().contains("todo más difícil")) {
       int kk=0;
       kk++;
-    }
+    }*/
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     int i = patternTokenPos;  
     int j;
