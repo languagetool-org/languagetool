@@ -98,8 +98,8 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern ADVERBIS_ACCEPTATS = Pattern.compile("RG_before");
   //private static final Pattern COORDINACIO = Pattern.compile(",|y|e|o|u");
   private static final Pattern COORDINACIO_IONI = Pattern.compile("y|e|o|u|ni");
-  private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAIDP].*|SPS.*|SP\\+DA|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*|PX.*|PI0.S000|UNKNOWN");
-  private static final Pattern KEEP_COUNT2 = Pattern.compile(",|y|o|ni|u"); // |\\d+%?|%
+  private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAIDP].*|SPS.*|SP\\+DA|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*|PX.*|PI0.S000|UNKNOWN|V.N.*");
+  private static final Pattern KEEP_COUNT2 = Pattern.compile(",|y|e|o|ni|u"); // |\\d+%?|%
   private static final Pattern STOP_COUNT = Pattern.compile(";|lo");
   private static final Pattern PREPOSICIONS = Pattern.compile("SP.*");
   private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("de|del|en|sobre|a|entre|por|con|sin|contra");

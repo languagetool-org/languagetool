@@ -1196,8 +1196,28 @@ Copyright (C) 2011 Juan Martorell
             <wd pos="NPCNSP0"/>
         </disambig>
     </rule>
+    <rule id="s_ese" name="ese">
+        <pattern>
+            <marker>
+                <token>s</token>
+            </marker>
+            <token regexp="yes">larga|corta|sonora|sorda|impura|marcada</token>
+        </pattern>
+        <disambig action="replace">
+            <wd lemma="ese" pos="NCFS000"/>
+        </disambig>
+    </rule>
 
     <rulegroup id="nombre_aposicion" name="nombre en aposición">
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">evento|escuela|planta|centro|proyecto|propuesta|piso|apartamento|casa|prueba|capítulo|vivienda</token>
+                <marker>
+                    <token>piloto</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CN0"/>
+        </rule>
         <rule>
             <pattern>
                 <token inflected="yes">presentación</token>
@@ -1821,10 +1841,35 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
-                <token postag="V.*" postag_regexp="yes" inflected="yes">tener</token>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" skip="2">tener</token>
                 <marker>
                     <token postag="SPS00">en</token>
                     <token postag="NCFS000">cuenta</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GV_"/>
+                <wd pos="_GV_"/>
+            </disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="poner_en_marcha" name="poner en marcha (verb)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">poner</token>
+                    <token postag="SPS00">en</token>
+                    <token postag="NCFS000" regexp="yes">marcha|práctica</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" skip="2">poner</token>
+                <marker>
+                    <token postag="SPS00">en</token>
+                    <token postag="NCFS000" regexp="yes">marcha|práctica</token>
                 </marker>
             </pattern>
             <disambig action="add">
@@ -2043,7 +2088,7 @@ Copyright (C) 2011 Juan Martorell
                 <marker>
                     <token postag="RG">medio</token>
                 </marker>
-                <token postag="AQ0FS00|AQ0FP00|AQ0MP00" postag_regexp="yes"/>
+                <token postag="AQ0FS0|AQ0FP0|AQ0MP0|V.P...F|V.P..PM" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="RG"/>
         </rule>
@@ -2062,7 +2107,7 @@ Copyright (C) 2011 Juan Martorell
                 <marker>
                     <token postag="RG">medio</token>
                 </marker>
-                <token skip="1"/>
+                <token skip="2"/>
                 <token>medio</token>
             </pattern>
             <disambig action="filter" postag="RG"/>
@@ -2070,7 +2115,7 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <token>medio</token>
-                <token skip="1"/>
+                <token skip="2"/>
                 <marker>
                     <token postag="RG">medio</token>
                 </marker>
@@ -3630,8 +3675,8 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <marker>
                 <and>
-                    <token postag="A.*" postag_regexp="yes" regexp="yes">computador(a|es|as)?|mal|solo|mejor|parejas?|jugador(a|es|as)?|matemáticas<exception postag="_GN_.*" postag_regexp="yes"/></token>
-                    <token postag="N.*|RG" postag_regexp="yes"/>
+                    <token postag="A.*" postag_regexp="yes" regexp="yes">venerando|computador(a|es|as)?|mal|solo|mejor|parejas?|jugador(a|es|as)?|matemáticas<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="N.*|RG|V.G.*" postag_regexp="yes"/>
                 </and>
             </marker>
         </pattern>
@@ -3690,30 +3735,42 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="remove" postag="N.*"/>
     </rule>
 
-    <rule id="not_adj_but_verb0" name="not adjective but verb">
-        <pattern>
-            <marker>
-                <and>
-                    <token postag="A.*" postag_regexp="yes" regexp="yes">sumas?|tardas?|fallas?|acepto|aceptas?|quedas?|quedo|duras?|duro<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[NMIS].*" postag_regexp="yes"/></token>
-                    <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
-                </and>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="A.*"/>
-    </rule>
-
-    <rule id="not_adj_but_verb" name="not adjective but verb">
-        <pattern>
-            <marker>
-                <and>
-                    <token postag="A.*" postag_regexp="yes" regexp="yes">vivas?|custodias?|sanas?|aceptas?|acepto|infectas?|faltas?|falto|precisas?|preciso|tardo|tardas?|cortas?|cojo|coja|cojas|quedo|queda|quedas|despierto|despiertas?|paso|pasas|pasa<exception postag="_GN_.*" postag_regexp="yes"
-                        /><exception scope="previous" postag="V.[NMIS].*|RG_before" postag_regexp="yes"/></token>
-                    <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
-                </and>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="A.*"/>
-    </rule>
+    <rulegroup id="not_adj_but_verb" name="not adjective but verb">
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="A.*" postag_regexp="yes" regexp="yes">sumas?|tardas?|fallas?|acepto|aceptas?|quedas?|quedo|duras?|duro<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[NMIS].*" postag_regexp="yes"/></token>
+                        <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="A.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="A.*" postag_regexp="yes" regexp="yes">vivas?|custodias?|sanas?|aceptas?|acepto|infectas?|faltas?|falto|precisas?|preciso|tardo|tardas?|cortas?|cojo|coja|cojas|quedo|queda|quedas|despierto|despiertas?<exception postag="_GN_.*" postag_regexp="yes"/><exception
+                            scope="previous" postag="V.[NMIS].*|RG_before" postag_regexp="yes"/></token>
+                        <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="[AN].*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="A.*" postag_regexp="yes" regexp="yes">paso|pasas|pasa<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[NMIS].*|RG_before" postag_regexp="yes"/></token>
+                        <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="A.*"/>
+        </rule>
+    </rulegroup>
     <rule id="verb_notnoun2" name="verb IP1S not noun">
         <pattern>
             <token postag="SENT_START|_PUNCT.*|C.*" postag_regexp="yes"/>

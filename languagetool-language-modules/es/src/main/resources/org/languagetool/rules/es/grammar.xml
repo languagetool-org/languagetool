@@ -56,6 +56,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY wrong_as_pron_verb "a|amplia|continua|dió|esta|estan|este|esten|frió|hacia|hecha|rió|tenia|tenias|venia|venias|vera">
 <!ENTITY wrong_as_pron_verb2 "de|e">
 <!-- also: de, e-->
+<!ENTITY colors_invariable "burdeos|naranja|rosa|violeta|añil|carmesí">
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
@@ -9181,8 +9182,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token postag="_PUNCT.*|CC" postag_regexp="yes"/>
                 <token>en</token>
-                <token regexp="yes">cualquier|todo</token>
-                <token>caso</token>
+                <token regexp="yes">cualquier|todo|algún|algunos|todos</token>
+                <token min="0">los</token>
+                <token regexp="yes">caso|casos</token>
                 <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
@@ -9314,10 +9316,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes" inflected="yes" skip="3">cruzar|llevar|ir|venir|entrar|volver|salir|estar|levantar|quedar|permanecer|pillar|coger|llegar|pasar|reposar|descansar</token>
+                <token regexp="yes" inflected="yes" skip="3">despertar|cruzar|llevar|ir|venir|entrar|volver|salir|estar|levantar|quedar|permanecer|pillar|coger|llegar|pasar|reposar|descansar</token>
                 <token min="0" regexp="yes">a|en|de|al|del</token>
                 <token postag="D[ADP].*" postag_regexp="yes" min="0"/>
-                <token regexp="yes" inflected="yes">casa|cama|concierto|cine|teatro|fiesta|esquina|calle|carretera|avenida</token>
+                <token regexp="yes" inflected="yes">meta|casa|cama|concierto|cine|teatro|fiesta|esquina|calle|carretera|avenida</token>
                 <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
@@ -9342,8 +9344,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <!-- colores? -->
-                <token regexp="yes">satélite|clave|líder|bomba|miembro|sido</token>
+                <!-- adjetivos invariables -->
+                <token regexp="yes">gourmet|satélite|clave|líder|bomba|miembro|sido|&colors_invariable;</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">la|su</token>
@@ -9363,7 +9365,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" inflected="yes">alto|bajo</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">tan|muy|bastante</token>
+                <token postag="RG_before"/> <!--tan|muy|bastante|demasiado-->
                 <token>rápido</token>
             </antipattern>
             <antipattern>
@@ -9432,7 +9434,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <!-- trigger other rules -->
                 <token regexp="yes">mas|tenia|tenias</token>
-                <token/>
+                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token regexp="yes">de|en</token>
@@ -9476,22 +9479,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes">pasado|entrado|visto|llegado|transcurrido|incluido</token>
+                <token regexp="yes">pasado|entrado|visto|llegado|transcurrido|incluido|hecho</token>
                 <token min="0" max="2" regexp="yes">más|menos|de</token>
                 <token postag="D[AID].MS." postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes">pasada|entrada|vista|llegada|transcurrida|incluida</token>
+                <token regexp="yes">pasada|entrada|vista|llegada|transcurrida|incluida|hecha</token>
                 <token min="0" max="2" regexp="yes">más|menos|de</token>
                 <token postag="D[AID].FS." postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes">pasados|entrados|vistos|llegados|transcurridos|incluidos</token>
+                <token regexp="yes">pasados|entrados|vistos|llegados|transcurridos|incluidos|hechos</token>
                 <token min="0" max="2" regexp="yes">más|menos|de</token>
                 <token postag="D[AID].MP.|DN.[MC][PN]." postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes">pasadas|entradas|vistas|llegadas|transcurridas|incluidas</token>
+                <token regexp="yes">pasadas|entradas|vistas|llegadas|transcurridas|incluidas|hechas</token>
                 <token min="0" max="2" regexp="yes">más|menos|de</token>
                 <token postag="D[AID].FP.|DN.[FC][PN]." postag_regexp="yes"/>
             </antipattern>
@@ -9666,6 +9669,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Volvieron pasada la medianoche borrachos.</example>
             <example>Keith deja claras sus intenciones.</example>
             <example>Algunos grupos de soldados que cruzaban las esquinas despreocupados.</example>
+            <example>Hace referencia a la frontera política, ideológica, y en algunos casos también física.</example>
+            <example>Nuestro departamento de Cálculo e Ingeniería compuesto por nuestros ingenieros.</example>
+            <example>Entrega productos.</example>
+            <example>la conjura para matar al Dictador descubierta seis meses antes</example>
+            <example>Había tomado la curva demasiado rápido.</example>
+            <example>Apareció en la fiesta hecho un fantoche.</example>
+            <example>Se pondrá en marcha con una prueba piloto.</example>
+            <example>Me desperté en mi cama totalmente desorientado.</example>
+                
             <!-- 
                 La eternidad dura harto.
                 Ella fue al concierto acompañada de una amiga.
@@ -10828,11 +10840,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>tal</token>
                     </marker>
-                    <token postag="A.*|V.*" postag_regexp="yes"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
                     <token>que</token>
                 </pattern>
                 <message>Posible confusión. ¿Quería decir <suggestion>tan</suggestion>?</message>
                 <example correction="tan">Está <marker>tal</marker> bueno que me lo comería todo.</example>
+                <example>Debemos actuar de tal forma que luego no nos arrepintamos.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TENER_QUE_INFINITIVO" name="tener que + infinitivo">
