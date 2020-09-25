@@ -29086,6 +29086,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="CONFUSIONS_PRONOMS_FEBLES" name="confusions amb pronoms febles">
+            <rule id="CONDICIONS" name="condiciones/condicions" default="temp_off">
+                <pattern>
+                    <token postag="[DA]..FP." postag_regexp="yes"/>
+                    <marker>
+                        <token>condiciones</token>
+                    </marker>
+                    <token postag="_PUNCT.*|SP.*|LOC_PREP" postag_regexp="yes"/>
+                </pattern>
+                <message>Possible confusió. ¿Volíeu dir <suggestion>condicions</suggestion></message>
+                <example correction="condicions">Les pèssimes <marker>condiciones</marker> en què treballava.</example>
+            </rule>
             <rule id="ESTRICAMENT" name="estricament/estrictament">
                 <pattern>
                     <token>estricament</token>
