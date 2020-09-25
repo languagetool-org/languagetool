@@ -9500,6 +9500,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </unify>
             </antipattern>
             <antipattern>
+                <token regexp="yes">ser|estar|tener|hacer</token>
+                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token postag="A.*|V.P.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">pasado|entrado|visto|llegado|transcurrido|incluido|hecho</token>
                 <token min="0" max="2" regexp="yes">más|menos|de</token>
                 <token postag="D[AID].MS." postag_regexp="yes"/>
@@ -9698,7 +9703,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Hace referencia a la frontera política, ideológica, y en algunos casos también física.</example>
             <example>Nuestro departamento de Cálculo e Ingeniería compuesto por nuestros ingenieros.</example>
             <example>Entrega productos.</example>
-            <example>la conjura para matar al Dictador descubierta seis meses antes</example>
             <example>Había tomado la curva demasiado rápido.</example>
             <example>Apareció en la fiesta hecho un fantoche.</example>
             <example>Se pondrá en marcha con una prueba piloto.</example>
@@ -9709,8 +9713,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Reserva algo de dinero por si acaso enfermas.</example>
             <example>los trabajos más bajos generalmente bajo el rubro de servicio</example>
             <example>No os internéis en la jungla solos.</example>
+            <!-- with infinitive -->
             <example>Su sola aspiración es la de hacerse a su vez explotadores.</example>
+            <example>la conjura para matar al Dictador descubierta seis meses antes</example>
             <example>No ha superado las pruebas necesarias para ser considerada aceptable</example>
+            <example>Están agrupados los datos en categorías para hacer un poco más fácil la búsqueda.</example>
+            <example>Tengo hueco para ser un poco más creativa.</example>
             <!-- 
                 La eternidad dura harto.
                 Ella fue al concierto acompañada de una amiga.
@@ -9833,6 +9841,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern case_sensitive="yes">
                 <token>SA</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">producto|objeto</token>
+                <token regexp="yes">de|del</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <!-- <token><exception postag="SENT_START"/><exception regexp="yes" spacebefore="yes">[¿¡"«»—–:\-]</exception></token> -->
@@ -9850,6 +9862,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="V.P.*SM.?" postag_regexp="yes"/> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes"/></suggestion>
                 <suggestion><match no="1" postag="V.P.*PM.?" postag_regexp="yes"/> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes"/></suggestion>
                 <example correction="deformado cuchillo|deformados cuchillos">Con <marker>deformados cuchillo</marker>.</example>
+                <example>Son acuerdos consensuados producto de la negociación.</example>
             </rule>
             <rule>
                 <antipattern>
