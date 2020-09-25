@@ -24298,8 +24298,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0">-</token>
                     <token>fi</token>
                 </pattern>
-                <message>S'escriu junt.</message>
-                <suggestion>wifi</suggestion>
+                <message>Normalment s'escriu junt i en minúscules.</message>
+                <suggestion><match no="1" regexp_match="(?iu)wi" regexp_replace="wifi" case_conversion="alllower"/></suggestion>
                 <example correction="wifi">Allà no arriba el <marker>wi-fi</marker>.</example>
             </rule>
         </rulegroup>
@@ -32448,6 +32448,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="A_ULLS_VEIENTS" name="*a ulls vista -> a ulls veients">
+            <pattern>
+                <token>a</token>
+                <token>ulls</token>
+                <token regexp="yes">vista|vists|vistos|vistes</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>a ulls veients</suggestion>
+            <suggestion>a la vista</suggestion>
+            <example correction="a ulls veients|a la vista">La noia progressa <marker>a ulls vista</marker>.</example>
+        </rule>
         <rule id="VAJA_QUIN" name="*vaja/quin">
             <pattern>
                 <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
