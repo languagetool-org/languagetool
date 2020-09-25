@@ -5219,6 +5219,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="agradaven">Li <marker>agradava</marker> molt més les madures.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="V.[MSI].3P.." postag_regexp="yes" inflected="yes" regexp="yes">agradar|encantar|encisar</token>
+                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token skip="3" postag="D...S.|A...S.|NC.S..." postag_regexp="yes"/>
+                    <token regexp="yes">i|o|ni</token>
+                    <token skip="3" postag="[DAN].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">el</token>
+                    <token skip="3" inflected="yes">un</token>
+                    <token inflected="yes">altre</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.[MSI].3P.." postag_regexp="yes" inflected="yes" regexp="yes">agradar|encantar|encisar</token>
+                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token skip="2" postag="D.*" postag_regexp="yes"/>
+                    <token inflected="yes">de</token>
+                    <token postag="NC.P.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="&pronom_feble;" postag_regexp="yes"/>
                     <marker>
@@ -5231,6 +5250,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="(V...3)P(..)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
                 <example correction="agrada|agrade">M'<marker>agraden</marker> la paella.</example>
                 <example correction="agradava">M'<marker>agradaven</marker> molt més la verda.</example>
+                <example>El so i el ritme de la teva traducció m'agraden molt.</example>
+                <example>M'agraden la música i els esports.</example>
+                <example>Tom i Maria no s'agraden l'un a l'altre.</example>
+                <example>No m'agraden aquesta mena de bromes.</example>
+                <example>Algunes cançons que li agradaven molt a un.</example>
+                <example>Em van agradar bastant moltes de les coses.</example>
+                <example>M'agraden el de xocolata i el de maduixa.</example>
             </rule>
             <rule>
                 <pattern>
@@ -5249,6 +5275,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="han">Li <marker>ha</marker> d'agradar molt més les verdes.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="V.[PN].*" postag_regexp="yes" inflected="yes" regexp="yes">agradar|encantar|encisar</token>
+                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token skip="3" postag="D...S.|A...S.|NC.S..." postag_regexp="yes"/>
+                    <token regexp="yes">i|o|ni</token>
+                    <token skip="3" postag="[DAN].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">el</token>
+                    <token skip="3" inflected="yes">un</token>
+                    <token inflected="yes">altre</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.[PN].*" postag_regexp="yes" inflected="yes" regexp="yes">agradar|encantar|encisar</token>
+                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token skip="2" postag="D.*" postag_regexp="yes"/>
+                    <token inflected="yes">de</token>
+                    <token postag="NC.P.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="&pronom_feble;" postag_regexp="yes"/>
                     <marker>
@@ -5263,6 +5308,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="(V...3)P(..)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
                 <example correction="ha">M'<marker>han</marker> encisat la poma.</example>
                 <example correction="va">Ens <marker>van</marker> agradar molt més la verda.</example>
+                <example>M'han agradat molt els de vainilla.</example>
+                <example>Em van agradar el de pinya i el de préssec.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_ATRIBUT" name="Concordances de subjecte i atribut en frases copulatives">
