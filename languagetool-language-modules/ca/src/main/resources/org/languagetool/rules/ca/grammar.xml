@@ -6758,6 +6758,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>després que deu presos van arribar a morir de fam</example>
             </rule>
         </rulegroup>
+        <rule id="TENIR_PARTICIPI" name="tenir *repartir/repartit" default="temp_off">
+            <pattern>
+                <token inflected="yes">tenir</token>
+                <marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <message>Possible confusió.</message>
+            <suggestion><match no="2" postag="(V.N.*)" postag_regexp="yes" postag_replace="V.P..SM."/></suggestion>
+            <example correction="repartit">Ho teníem <marker>repartir</marker> per tota la zona.</example>
+        </rule>
         <rulegroup id="HAVER_PARTICIPI_HAVER_IMPERSONAL" name="Comprova: «haver» + participi / «haver-hi» impersonal">
             <antipattern>
                 <marker>
@@ -8277,6 +8288,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Als mateixos Estats Units</example>
                 <example>Aquests Estats Units són els que m'agraden.</example>
                 <example>Dels actuals Estats Units.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LA_MONCLOA" name="Moncloa/la Moncloa">
+            <antipattern>
+                <token>la</token>
+                <token regexp="yes">Moncloa|Zarzuela</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token regexp="yes">Moncloa|Zarzuela</token>
+                    </marker>
+                </pattern>
+                <message>Normalment s'escriu amb article.</message>
+                <suggestion>La \2</suggestion>
+                <example correction="La Moncloa"><marker>Moncloa</marker> informa de la reunió.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="SENT_START"/></token>
+                    <marker>
+                        <token regexp="yes">Moncloa|Zarzuela</token>
+                    </marker>
+                </pattern>
+                <message>Normalment s'escriu amb article.</message>
+                <suggestion><match no="2" regexp_match="(Moncloa|Zarzuela)" regexp_replace="la $1" case_conversion="startlower"/></suggestion>
+                <example correction="la Moncloa">Reunió en <marker>Moncloa</marker> entre el president i el líder de l'oposició.</example>
             </rule>
         </rulegroup>
         <rule id="CALS" name="Comprova: cals + nom">
@@ -18226,47 +18265,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Prohibit aparcar</example>
             <example>L'edifici, manat construir en el segle XIX.</example>
         </rule>
-        <rule id="EN_SAP_GREU" name="*en/em/ens sap greu">
-            <pattern>
-                <marker>
-                    <token skip="1">en</token>
-                </marker>
-                <token inflected="yes" skip="1">saber</token>
-                <token>greu</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>em</suggestion>?</message>
-            <suggestion>ens</suggestion>
-            <example correction="em|ens"><marker>en</marker> va saber molt greu</example>
-            <example>em sap greu</example>
-        </rule>
-        <rule id="EN_CENTRO" name="*en/em centro">
-            <antipattern>
-                <token skip="7" inflected="yes" regexp="yes">convertir|transformar|constituir|erigir|conversió|transformació|constitució</token>
-                <token>en</token>
-                <token>centre</token>
-            </antipattern>
-            <antipattern>
-                <token>en</token>
-                <token>centre</token>
-                <token postag="A..[MC][SN]." postag_regexp="yes"/>
-            </antipattern>
-            <antipattern>
-                <token>en</token>
-                <token>centre</token>
-                <token inflected="yes">de</token>
-                <token><exception regexp="yes">manera|forma</exception></token>
-            </antipattern>
-            <pattern>
-                <marker>
+        <rulegroup id="EN_EM" name="en -> em">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="1">en</token>
+                    </marker>
+                    <token inflected="yes" skip="1">saber</token>
+                    <token>greu</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>em</suggestion>?</message>
+                <suggestion>ens</suggestion>
+                <example correction="em|ens"><marker>en</marker> va saber molt greu</example>
+                <example>em sap greu</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="7" inflected="yes" regexp="yes">convertir|transformar|constituir|erigir|conversió|transformació|constitució</token>
                     <token>en</token>
-                </marker>
-                <token regexp="yes">centro|centre|fixo|fixe</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>em</suggestion>?</message>
-            <example correction="Em"><marker>En</marker> centro en la primera qüestió.</example>
-            <example correction="Em"><marker>En</marker> centre de manera particular en la primera qüestió.</example>
-            <example>Convertida, amb Mallorca, en centre i refugi dels pirates.</example>
-        </rule>
+                    <token>centre</token>
+                </antipattern>
+                <antipattern>
+                    <token>en</token>
+                    <token>centre</token>
+                    <token postag="A..[MC][SN]." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>en</token>
+                    <token>centre</token>
+                    <token inflected="yes">de</token>
+                    <token><exception regexp="yes">manera|forma</exception></token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>en</token>
+                    </marker>
+                    <token regexp="yes">centro|centre|fixo|fixe</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>em</suggestion>?</message>
+                <example correction="Em"><marker>En</marker> centro en la primera qüestió.</example>
+                <example correction="Em"><marker>En</marker> centre de manera particular en la primera qüestió.</example>
+                <example>Convertida, amb Mallorca, en centre i refugi dels pirates.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>en</token>
+                    </marker>
+                    <token>vaig</token>
+                    <token regexp="yes">encaminar|dirigir|adreçar|&verbs_reflexius;</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>em</suggestion>?</message>
+                <example correction="em">I <marker>en</marker> vaig encaminar cap allà.</example>
+                <example correction="em">Llavors <marker>en</marker> vaig abalançar damunt d'ell.</example>
+            </rule>
+        </rulegroup>
         <rule id="PER_MITJA_DE" name="per *mitja/mitjà de">
             <pattern>
                 <token>per</token>
@@ -24250,6 +24303,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="nacional$1" case_conversion="alllower"/></suggestion>
                 <example correction="nacionalpopulista">És un govern <marker>nacional-populista</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>wi</token>
+                    <token min="0">-</token>
+                    <token>fi</token>
+                </pattern>
+                <message>Normalment s'escriu junt i en minúscules.</message>
+                <suggestion><match no="1" regexp_match="(?iu)wi" regexp_replace="wifi" case_conversion="alllower"/></suggestion>
+                <example correction="wifi">Allà no arriba el <marker>wi-fi</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="CONTRACCIONS" name="contraccions">
             <antipattern>
@@ -27627,6 +27690,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1he \2</suggestion>
                 <example correction="m'ha agradat|m'he agradat">No <marker>m'agradat</marker> mai</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[stm]'</token>
+                    <token regexp="yes">en|em|el|et|els|ens</token>
+                </pattern>
+                <message>Apostrofació incorrecta.</message>
+                <suggestion><match no="1" regexp_match="'" regexp_replace=""/>e'<match no="2" regexp_match="(?iu)e" regexp_replace=""/></suggestion>
+                <example correction="Se'n"><marker>S'en</marker> va aviat.</example>
+                <example correction="Te'l"><marker>T'el</marker> donaré demà.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">-[stm]</token>
+                    <token regexp="yes">'(en|em|el|et|els|ens)</token>
+                </pattern>
+                <message>Apostrofació incorrecta.</message>
+                <suggestion>\1e'<match no="2" regexp_match="(?iu)'e" regexp_replace=""/></suggestion>
+                <example correction="-se'n">Va voler anar<marker>-s'en</marker> aviat.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">-</token>
+                    <token regexp="yes">[stm]'(en|em|el|et|els|ens)</token>
+                </pattern>
+                <message>Apostrofació incorrecta.</message>
+                <suggestion>-<match no="2" regexp_match="(?iu)'e" regexp_replace="e'"/></suggestion>
+                <example correction="-te'l">Menja<marker>-t'el</marker>.</example>
+                <example correction="-te'ls">Menja<marker>-t'els</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PRONOMS_FEBLES_SOLTS" name="Comprova pronoms febles solts: *li cantar">
             <!-- pronom feble solt: caldria diferenciar dos casos: posposat i anteposat-->
@@ -29048,6 +29140,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="CONFUSIONS_PRONOMS_FEBLES" name="confusions amb pronoms febles">
+            <rule id="CONDICIONS" name="condiciones/condicions" default="temp_off">
+                <pattern>
+                    <token postag="[DA]..FP." postag_regexp="yes"/>
+                    <marker>
+                        <token>condiciones</token>
+                    </marker>
+                    <token postag="_PUNCT.*|SP.*|LOC_PREP" postag_regexp="yes"/>
+                </pattern>
+                <message>Possible confusió. ¿Volíeu dir <suggestion>condicions</suggestion></message>
+                <example correction="condicions">Les pèssimes <marker>condiciones</marker> en què treballava.</example>
+            </rule>
             <rule id="ESTRICAMENT" name="estricament/estrictament">
                 <pattern>
                     <token>estricament</token>
@@ -32385,6 +32488,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="A_ULLS_VEIENTS" name="*a ulls vista -> a ulls veients">
+            <pattern>
+                <token>a</token>
+                <token>ulls</token>
+                <token regexp="yes">vista|vists|vistos|vistes</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>a ulls veients</suggestion>
+            <suggestion>a la vista</suggestion>
+            <example correction="a ulls veients|a la vista">La noia progressa <marker>a ulls vista</marker>.</example>
+        </rule>
         <rule id="VAJA_QUIN" name="*vaja/quin">
             <pattern>
                 <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
@@ -34399,6 +34513,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="finançaments"><marker>finaçiacions</marker></example>
         </rule>
         <rulegroup id="ANGLICISMES" name="anglicismes innecessaris">
+            <rule id="VENTURE_CAPITAL" name="venture capital">
+                <pattern>
+                    <token>venture</token>
+                    <token>capital</token>
+                </pattern>
+                <message>Anglicisme innecessari.</message>
+                <suggestion>capital de risc</suggestion>
+                <example correction="capital de risc">Era de <marker>venture capital</marker>.</example>
+            </rule>
             <rule id="HOME_CINEMA" name="home cinema">
                 <pattern>
                     <token>home</token>
