@@ -10286,6 +10286,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="gustaban">Me <marker>gustaba</marker> mucho más las verdes.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="V.[MSI].3P." postag_regexp="yes" inflected="yes" regexp="yes">gustar|agradar|encantar</token>
+                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token skip="3" postag="D...S.|A...S.|NC.S..." postag_regexp="yes"/>
+                    <token regexp="yes">y|e|ni|o|u</token>
+                    <token skip="3" postag="[DAN].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">el</token>
+                    <token skip="3" inflected="yes">uno</token>
+                    <token inflected="yes">otro</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.[MSI].3P." postag_regexp="yes" inflected="yes" regexp="yes">gustar|agradar|encantar</token>
+                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token skip="2" postag="D.*" postag_regexp="yes"/>
+                    <token>de</token>
+                    <token postag="NC.P.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">me|te|se|le|nos|os|les</token>
                     <marker>
@@ -10298,6 +10317,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="(V...3)P(.)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
                 <example correction="gusta">Me <marker>gustan</marker> la manzana.</example>
                 <example correction="gustaba">Me <marker>gustaban</marker> mucho más la verde.</example>
+                <example>Me gustan la lluvia y la nieve. </example>
+                <example>Me gustan tanto los gatos.</example>
+                <example>Me gustan bastante esas historias.</example>
+                <example>El sonido y el ritmo de tu traducción me gustan mucho.</example>
+                <example>Me gustan la música y los deportes.</example>
+                <example>Tom y María no se agradan el uno al otro.</example>
+                <example>No me gustan esa clase de bromas.</example>
+                <example>Algunas canciones que le gustaban mucho a uno.</example>
+                <example>Me gustaron bastante muchas de las cosas.</example>
+                <example>Me gustan el de chocolate y el de fresa.</example>
             </rule>
             <rule>
                 <pattern>
@@ -10316,6 +10345,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tenían">Le <marker>tenía</marker> que gustar mucho más las verdes.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="V.[PN].*" postag_regexp="yes" inflected="yes" regexp="yes">gustar|agradar|encantar</token>
+                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token skip="3" postag="D...S.|A...S.|NC.S..." postag_regexp="yes"/>
+                    <token regexp="yes">y|e|ni|o|u</token>
+                    <token skip="3" postag="[DAN].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">el</token>
+                    <token skip="3" inflected="yes">uno</token>
+                    <token inflected="yes">otro</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.[PN].*" postag_regexp="yes" inflected="yes" regexp="yes">gustar|agradar|encantar</token>
+                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token skip="2" postag="D.*" postag_regexp="yes"/>
+                    <token>de</token>
+                    <token postag="NC.P.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">me|te|se|le|nos|os|les</token>
                     <marker>
@@ -10330,6 +10378,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="(V...3)P(.)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
                 <example correction="ha">Me <marker>han</marker> gustado la manzana.</example>
                 <example correction="tenía">Le <marker>tenían</marker> que gustar mucho más la verde.</example>
+                <example>Me han gustado la manzana y la pera.</example>
+                <example>Me han gustado el de manzana y el de pera.</example>
             </rule>
         </rulegroup>
     </category>

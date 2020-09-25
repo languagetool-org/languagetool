@@ -117,6 +117,67 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
 
+    <rulegroup id="PUNCT" name="puntuación">
+        <rule>
+            <pattern>
+                <token regexp="yes">[.;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;\-]</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_PUNCT"/>
+            </disambig>
+        </rule>
+        <rule id="PUNCT1" name="signos que no interrumpen el sintagma">
+            <pattern>
+                <token regexp="yes">[,'"‘’“”«»¡¿]</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_PUNCT_CONT"/>
+            </disambig>
+        </rule>
+        <rule id="PUNCT_OPEN" name="comillas apertura">
+            <pattern>
+                <marker>
+                    <token regexp="yes" spacebefore="yes">['"]</token>
+                </marker>
+                <token spacebefore="no"><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_QM_OPEN"/>
+            </disambig>
+        </rule>
+        <rule id="QM_OPEN" name="comillas apertura">
+            <pattern>
+                <marker>
+                    <token regexp="yes" spacebefore="yes">[“‘«'"]</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_QM_OPEN"/>
+            </disambig>
+        </rule>
+        <rule id="QM_CLOSE" name="comillas de cierre">
+            <pattern>
+                <marker>
+                    <token regexp="yes" spacebefore="no">['"’”»]</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_QM_CLOSE"/>
+            </disambig>
+        </rule>
+        <rule id="ELLIPSIS" name="puntos suspensivos">
+            <pattern>
+                <token>.</token>
+                <token>.</token>
+                <token>.</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_ellipsis"/>
+                <wd pos="_ellipsis"/>
+                <wd pos="_ellipsis"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="LOC_PREP" name="locuciones preposicionales">
         <rule id="pese_a" name="pese a">
             <pattern>
@@ -1452,6 +1513,16 @@ Copyright (C) 2011 Juan Martorell
     <rulegroup id="ADVERBS" name="adverbios">
         <rule>
             <pattern>
+                <token postag="V.[MSI].*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="RG.*" postag_regexp="yes"/>
+                </marker>
+                <token postag="D...P.|_PUNCT.*|SP.*" postag_regexp="yes"/> 
+            </pattern>
+            <disambig action="remove" postag="DI0[MC]S0|NCMS000"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token>más</token>
                 <marker>
                     <token postag="RG">tarde</token>
@@ -1956,70 +2027,6 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filterall"/>
     </rule>
-
-
-    <rulegroup id="PUNCT" name="puntuación">
-        <rule>
-            <pattern>
-                <token regexp="yes">[.;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;\-]</token>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_PUNCT"/>
-            </disambig>
-        </rule>
-        <rule id="PUNCT1" name="signos que no interrumpen el sintagma">
-            <pattern>
-                <token regexp="yes">[,'"‘’“”«»¡¿]</token>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_PUNCT_CONT"/>
-            </disambig>
-        </rule>
-        <rule id="PUNCT_OPEN" name="comillas apertura">
-            <pattern>
-                <marker>
-                    <token regexp="yes" spacebefore="yes">['"]</token>
-                </marker>
-                <token spacebefore="no"><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_QM_OPEN"/>
-            </disambig>
-        </rule>
-        <rule id="QM_OPEN" name="comillas apertura">
-            <pattern>
-                <marker>
-                    <token regexp="yes" spacebefore="yes">[“‘«'"]</token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_QM_OPEN"/>
-            </disambig>
-        </rule>
-        <rule id="QM_CLOSE" name="comillas de cierre">
-            <pattern>
-                <marker>
-                    <token regexp="yes" spacebefore="no">['"’”»]</token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_QM_CLOSE"/>
-            </disambig>
-        </rule>
-        <rule id="ELLIPSIS" name="puntos suspensivos">
-            <pattern>
-                <token>.</token>
-                <token>.</token>
-                <token>.</token>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_ellipsis"/>
-                <wd pos="_ellipsis"/>
-                <wd pos="_ellipsis"/>
-            </disambig>
-        </rule>
-    </rulegroup>
-
     <rule id="dance" name="dance (english)">
         <pattern>
             <token regexp="yes" inflected="yes">música|canción|ritmo|baile|lista|estilo|carácter</token>
