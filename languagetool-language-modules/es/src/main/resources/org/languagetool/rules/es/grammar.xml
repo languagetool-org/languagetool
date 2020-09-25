@@ -9488,6 +9488,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
+                <token>ser</token>
+                <unify>
+                    <feature id="numero"/>
+                    <feature id="genero"/>
+                    <token postag="V.P.*" postag_regexp="yes"/>
+                    <unify-ignore>
+                        <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    </unify-ignore>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                </unify>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">pasado|entrado|visto|llegado|transcurrido|incluido|hecho</token>
                 <token min="0" max="2" regexp="yes">más|menos|de</token>
                 <token postag="D[AID].MS." postag_regexp="yes"/>
@@ -9697,6 +9709,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Reserva algo de dinero por si acaso enfermas.</example>
             <example>los trabajos más bajos generalmente bajo el rubro de servicio</example>
             <example>No os internéis en la jungla solos.</example>
+            <example>Su sola aspiración es la de hacerse a su vez explotadores.</example>
+            <example>No ha superado las pruebas necesarias para ser considerada aceptable</example>
             <!-- 
                 La eternidad dura harto.
                 Ella fue al concierto acompañada de una amiga.
