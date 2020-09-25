@@ -6758,6 +6758,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>després que deu presos van arribar a morir de fam</example>
             </rule>
         </rulegroup>
+        <rule id="TENIR_PARTICIPI" name="tenir *repartir/repartit" default="temp_off">
+            <pattern>
+                <token inflected="yes">tenir</token>
+                <marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <message>Possible confusió.</message>
+            <suggestion><match no="2" postag="(V.N.*)" postag_regexp="yes" postag_replace="V.P..SM."/></suggestion>
+            <example correction="repartit">Ho teníem <marker>repartir</marker> per tota la zona.</example>
+        </rule>
         <rulegroup id="HAVER_PARTICIPI_HAVER_IMPERSONAL" name="Comprova: «haver» + participi / «haver-hi» impersonal">
             <antipattern>
                 <marker>
@@ -27679,6 +27690,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1he \2</suggestion>
                 <example correction="m'ha agradat|m'he agradat">No <marker>m'agradat</marker> mai</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[stm]'</token>
+                    <token regexp="yes">en|em|el|et|els|ens</token>
+                </pattern>
+                <message>Apostrofació incorrecta.</message>
+                <suggestion><match no="1" regexp_match="'" regexp_replace=""/>e'<match no="2" regexp_match="(?iu)e" regexp_replace=""/></suggestion>
+                <example correction="Se'n"><marker>S'en</marker> va aviat.</example>
+                <example correction="Te'l"><marker>T'el</marker> donaré demà.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">-[stm]</token>
+                    <token regexp="yes">'(en|em|el|et|els|ens)</token>
+                </pattern>
+                <message>Apostrofació incorrecta.</message>
+                <suggestion>\1e'<match no="2" regexp_match="(?iu)'e" regexp_replace=""/></suggestion>
+                <example correction="-se'n">Va voler anar<marker>-s'en</marker> aviat.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">-</token>
+                    <token regexp="yes">[stm]'(en|em|el|et|els|ens)</token>
+                </pattern>
+                <message>Apostrofació incorrecta.</message>
+                <suggestion>-<match no="2" regexp_match="(?iu)'e" regexp_replace="e'"/></suggestion>
+                <example correction="-te'l">Menja<marker>-t'el</marker>.</example>
+                <example correction="-te'ls">Menja<marker>-t'els</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PRONOMS_FEBLES_SOLTS" name="Comprova pronoms febles solts: *li cantar">
             <!-- pronom feble solt: caldria diferenciar dos casos: posposat i anteposat-->
@@ -34473,6 +34513,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="finançaments"><marker>finaçiacions</marker></example>
         </rule>
         <rulegroup id="ANGLICISMES" name="anglicismes innecessaris">
+            <rule id="VENTURE_CAPITAL" name="venture capital">
+                <pattern>
+                    <token>venture</token>
+                    <token>capital</token>
+                </pattern>
+                <message>Anglicisme innecessari.</message>
+                <suggestion>capital de risc</suggestion>
+                <example correction="capital de risc">Era de <marker>venture capital</marker>.</example>
+            </rule>
             <rule id="HOME_CINEMA" name="home cinema">
                 <pattern>
                     <token>home</token>
