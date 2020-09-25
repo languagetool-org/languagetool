@@ -8279,6 +8279,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Dels actuals Estats Units.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="LA_MONCLOA" name="Moncloa/la Moncloa">
+            <antipattern>
+                <token>la</token>
+                <token regexp="yes">Moncloa|Zarzuela</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token regexp="yes">Moncloa|Zarzuela</token>
+                    </marker>
+                </pattern>
+                <message>Normalment s'escriu amb article.</message>
+                <suggestion>La \2</suggestion>
+                <example correction="La Moncloa"><marker>Moncloa</marker> informa de la reunió.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="SENT_START"/></token>
+                    <marker>
+                        <token regexp="yes">Moncloa|Zarzuela</token>
+                    </marker>
+                </pattern>
+                <message>Normalment s'escriu amb article.</message>
+                <suggestion><match no="2" regexp_match="(Moncloa|Zarzuela)" regexp_replace="la $1" case_conversion="startlower"/></suggestion>
+                <example correction="la Moncloa">Reunió en <marker>Moncloa</marker> entre el president i el líder de l'oposició.</example>
+            </rule>
+        </rulegroup>
         <rule id="CALS" name="Comprova: cals + nom">
             <pattern>
                 <marker>
