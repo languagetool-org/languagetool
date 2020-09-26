@@ -125,14 +125,16 @@ public class ParagraphRepeatBeginningRule extends TextLevelRule {
         endPos = numCharEqualBeginning(lastTokens, nextTokens);
         if (endPos > 0) {
           int startPos = lastPos + lastTokens[1].getStartPos();
-          String msg = messages.getString("repetition_paragraph_beginning_last_msg");
-          RuleMatch ruleMatch = new RuleMatch(this, lastSentence, startPos, lastPos+endPos, msg);
-          ruleMatches.add(ruleMatch);
-          
-          startPos = nextPos + nextTokens[1].getStartPos();
-          msg = messages.getString("repetition_paragraph_beginning_last_msg");
-          ruleMatch = new RuleMatch(this, nextSentence, startPos, nextPos+endPos, msg);
-          ruleMatches.add(ruleMatch);
+          if (startPos < lastPos+endPos) {
+            String msg = messages.getString("repetition_paragraph_beginning_last_msg");
+            RuleMatch ruleMatch = new RuleMatch(this, lastSentence, startPos, lastPos+endPos, msg);
+            ruleMatches.add(ruleMatch);
+            
+            startPos = nextPos + nextTokens[1].getStartPos();
+            msg = messages.getString("repetition_paragraph_beginning_last_msg");
+            ruleMatch = new RuleMatch(this, nextSentence, startPos, nextPos+endPos, msg);
+            ruleMatches.add(ruleMatch);
+          }
         }
         lastSentence = nextSentence;
         lastTokens = nextTokens;
