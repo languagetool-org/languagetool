@@ -953,6 +953,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Gewebtrauma", "Gewebetrauma");
     put("aufgehangen", "aufgehängt");
     put("Ehrenamtpauschale", "Ehrenamtspauschale");
+    put("Essenzubereitung", "Essenszubereitung");
     put("[gG]eborgsamkeit", "Geborgenheit");
     put("gekommt", "gekommen");
     put("hinweißen", "hinweisen");
@@ -962,6 +963,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Werksresett", "Werksreset");
     put("wiederfahren", "widerfahren");
     put("wiederspiegelten", "widerspiegelten");
+    put("weicheinlich", "wahrscheinlich");
+    put("schnäpchen", "Schnäppchen");
+    put("Hinduist", "Hindu");
+    put("Hinduisten", "Hindus");
+    put("Konzeptierung", "Konzipierung");
+    put("Phyton", "Python");
+    put("nochnichtmals?", "noch nicht einmal");
+    put("Refelektion", "Reflexion");
+    put("Refelektionen", "Reflexionen");
+    put("[sS]chanse", "Chance");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
