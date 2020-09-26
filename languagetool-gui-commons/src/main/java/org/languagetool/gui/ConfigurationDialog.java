@@ -788,6 +788,14 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     portPanel.add(noSynonymsAsSuggestionsBox, cons);
     
+    JCheckBox saveCacheBox = new JCheckBox(Tools.getLabel(messages.getString("guiSaveCacheToFile")));
+    saveCacheBox.setSelected(config.saveLoCache());
+    saveCacheBox.addItemListener(e -> {
+      config.setSaveLoCache(saveCacheBox.isSelected());
+    });
+    cons.gridy++;
+    portPanel.add(saveCacheBox, cons);
+    
   }
   
   private int showRemoteServerHint(Component component, boolean otherServer) {

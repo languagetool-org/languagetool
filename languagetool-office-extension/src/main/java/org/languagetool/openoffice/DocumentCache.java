@@ -18,6 +18,7 @@
  */
 package org.languagetool.openoffice;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,13 +31,15 @@ import com.sun.star.lang.Locale;
  * @since 5.0
  * @author Fred Kruse
  */
-public class DocumentCache {
+public class DocumentCache implements Serializable {
   
+  private static final long serialVersionUID = 1L;
+
   private static boolean debugMode;         //  should be false except for testing
 
   private List<String> paragraphs = null;            //  stores the flat paragraphs of document
   private List<Integer> headings = null;             //  stores the paragraphs formated as headings; is used to subdivide the document in chapters
-  private List<Locale> locales = null;               //  stores the language of the paragraphs;
+  private List<SerialLocale> locales = null;               //  stores the language of the paragraphs;
   private List<int[]> footnotes = null;              //  stores the footnotes of the paragraphs;
   private List<Integer> toTextMapping = new ArrayList<>();  //Mapping from FlatParagraph to DocumentCursor
   private List<Integer> toParaMapping = new ArrayList<>();  //Mapping from DocumentCursor to FlatParagraph
@@ -64,7 +67,10 @@ public class DocumentCache {
       MessageHandler.printToLogFile("paragraphs == null - ParagraphCache not initialised");
       return;
     }
-    locales = paragraphContainer.locales;
+    locales = new ArrayList<SerialLocale>();
+    for (Locale locale :  paragraphContainer.locales) {
+      locales.add(new SerialLocale(locale)) ;
+    }
     footnotes = paragraphContainer.footnotePositions;
     
     if (debugMode) {
@@ -153,7 +159,7 @@ public class DocumentCache {
    * set Locale of Flat Paragraph by Index
    */
   public void setFlatParagraphLocale(int n, Locale locale) {
-    locales.set(n, locale);
+    locales.set(n, (SerialLocale) locale);
   }
   
   /**
@@ -331,5 +337,14 @@ public class DocumentCache {
     return pos;
   }
 
+  class SerialLocale extends Locale implements Serializable {
+     private static final long serialVersionUID = 1L;
+     
+     SerialLocale(Locale locale) {
+       this.Country = locale.Country;
+       this.Language = locale.Language;
+       this.Variant = locale.Variant;
+     }
+  }
 
 }

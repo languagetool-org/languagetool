@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2017 Fred Kruse
+ * Copyright (C) 2011 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -256,13 +256,16 @@ public class MultiDocumentsHandler {
   /**
    *  Set a document as closed
    */
-  void setContextOfClosedDoc(XComponent context) {
+  private void setContextOfClosedDoc(XComponent context) {
     goneContext = context;
     boolean found = false;
     for (SingleDocument document : documents) {
       if (context.equals(document.getXComponent())) {
         found = true;
         document.dispose();
+        if (config.saveLoCache()) {
+          document.writeCaches();
+        }
       }
     }
     if (!found) {
@@ -1089,6 +1092,9 @@ public class MultiDocumentsHandler {
       } else if ("checkDialog".equals(sEvent) || "checkAgainDialog".equals(sEvent)) {
         if (ltDialog != null) {
           ltDialog.closeDialog();
+        }
+        if(docLanguage == null) {
+          docLanguage = getLanguage();
         }
         SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
         if ("checkAgainDialog".equals(sEvent)) {

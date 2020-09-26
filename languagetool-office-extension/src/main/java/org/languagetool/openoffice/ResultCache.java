@@ -18,6 +18,7 @@
  */
 package org.languagetool.openoffice;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.sun.star.beans.PropertyState;
+import com.sun.star.beans.PropertyValue;
 import com.sun.star.linguistic2.SingleProofreadingError;
 
 /**
@@ -34,8 +37,9 @@ import com.sun.star.linguistic2.SingleProofreadingError;
  * @author Fred Kruse
  * @since 4.3
  */
-class ResultCache {
+class ResultCache implements Serializable {
 
+  private static final long serialVersionUID = 1L;
   private Map<Integer, CacheSentenceEntries> entries;
 
   ResultCache() {
@@ -267,6 +271,17 @@ class ResultCache {
   }
 
   /**
+   * get number of matches
+   */
+  int getNumberOfMatches() {
+    int number = 0;
+    for(int n : entries.keySet()) {
+      number += entries.get(n).getNumberOfMatches();
+    }
+    return number;
+  }
+
+  /**
    * get an error from a position within a paragraph
    * if there are more than one error at the position return the one which begins at second
    * if there are more than one that begins at the same position return the one with the smallest size
@@ -293,7 +308,9 @@ class ResultCache {
     return error;
   }
 
-  static class CacheSentenceEntries {
+  static class CacheSentenceEntries implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     private Map<Integer, CacheEntry> sentenceEntry;
 
     CacheSentenceEntries() {
@@ -321,12 +338,24 @@ class ResultCache {
       return sentenceEntry.size();
     }
 
+    int getNumberOfMatches() {
+      int number = 0;
+      for(int n : sentenceEntry.keySet()) {
+        number += sentenceEntry.get(n).errorArray.length;
+      }
+      return number;
+    }
+    
     SingleProofreadingError[] getErrorArray(int startOfSentencePosition) {
       CacheEntry entry = sentenceEntry.get(startOfSentencePosition);
       if (entry == null) {
         return null;
       }
-      return entry.errorArray;
+      SingleProofreadingError[] eArray = new SingleProofreadingError[entry.errorArray.length];
+      for (int i = 0; i < entry.errorArray.length; i++) {
+        eArray[i] = entry.errorArray[i].toSingleProofreadingError();
+      }
+      return eArray;
     }
     
     int getNextSentencePosition(int startOfSentencePosition) {
@@ -337,14 +366,90 @@ class ResultCache {
       return entry.nextSentencePosition;
     }
     
-    private static class CacheEntry {
+    private class CacheEntry implements Serializable {
+      private static final long serialVersionUID = 1L;
       final int nextSentencePosition;
-      final SingleProofreadingError[] errorArray;
+      final SerialProofreadingError[] errorArray;
 
-      CacheEntry(int nextSentencePosition, SingleProofreadingError[] errorArray) {
+      CacheEntry(int nextSentencePosition, SingleProofreadingError[] sErrorArray) {
         this.nextSentencePosition = nextSentencePosition;
-        this.errorArray = errorArray;
+        this.errorArray = new SerialProofreadingError[sErrorArray.length];
+        for (int i = 0; i < sErrorArray.length; i++) {
+          this.errorArray[i] = new SerialProofreadingError(sErrorArray[i]);
+        }
       }
+    }
+    
+    class SerialProofreadingError implements Serializable {
+
+      private static final long serialVersionUID = 1L;
+      int nErrorStart;
+      int nErrorLength;
+      int nErrorType;
+      String aFullComment;
+      String aRuleIdentifier;
+      String aShortComment;
+      String[] aSuggestions;
+      SerialPropertyValue[] aProperties = null;
+      
+      SerialProofreadingError(SingleProofreadingError error) {
+        nErrorStart = error.nErrorStart;
+        nErrorLength = error.nErrorLength;
+        nErrorType = error.nErrorType;
+        aFullComment = error.aFullComment;
+        aRuleIdentifier = error.aRuleIdentifier;
+        aShortComment = error.aShortComment;
+        aSuggestions = error.aSuggestions;
+        if (error.aProperties != null) {
+          aProperties = new SerialPropertyValue[error.aProperties.length];
+          for (int i = 0; i < error.aProperties.length; i++) {
+            aProperties[i] = new SerialPropertyValue(error.aProperties[i]);
+          }
+        }
+      }
+      
+      SingleProofreadingError toSingleProofreadingError () {
+        SingleProofreadingError error = new SingleProofreadingError();
+        error.nErrorStart = nErrorStart;
+        error.nErrorLength = nErrorLength;
+        error.nErrorType = nErrorType;
+        error.aFullComment = aFullComment;
+        error.aRuleIdentifier = aRuleIdentifier;
+        error.aShortComment = aShortComment;
+        error.aSuggestions = aSuggestions;
+        if (aProperties != null) {
+          error.aProperties = new PropertyValue[aProperties.length];
+          for (int i = 0; i < aProperties.length; i++) {
+            error.aProperties[i] = aProperties[i].toPropertyValue();
+          }
+        } else {
+          error.aProperties = null;
+        }
+        return error;
+      }
+      
+    }
+    
+    class SerialPropertyValue implements Serializable {
+
+      private static final long serialVersionUID = 1L;
+      String name;
+      Object value;
+      
+      SerialPropertyValue(PropertyValue properties) {
+        name = properties.Name;
+        value = properties.Value;
+      }
+      
+      PropertyValue toPropertyValue() {
+        PropertyValue properties = new PropertyValue();
+        properties.Name = name;
+        properties.Value = value;
+        properties.Handle = -1;
+        properties.State = PropertyState.DIRECT_VALUE;
+        return properties;
+      }
+      
     }
 
   }

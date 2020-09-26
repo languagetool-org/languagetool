@@ -96,6 +96,7 @@ class SingleDocument {
   private ResultCache sentencesCache;             //  Cache for matches of sentences rules
   private List<ResultCache> paragraphsCache;      //  Cache for matches of text rules
   private ResultCache singleParaCache;            //  Cache for matches of text rules for single paragraphs
+  private CacheIO cacheIO;
   private int resetFrom = 0;                      //  Reset from paragraph
   private int resetTo = 0;                        //  Reset to paragraph
   private int numParasReset = 1;                  //  Number of paragraphs to reset
@@ -137,6 +138,9 @@ class SingleDocument {
     }
     resetCache();
     ignoredMatches = new HashMap<>();
+    if (config != null && config.saveLoCache() && xComponent != null) {
+      readCaches();
+    }
   }
   
   /**  get the result for a check of a single document 
@@ -193,7 +197,11 @@ class SingleDocument {
       if (debugMode > 1) {
         MessageHandler.printToLogFile("... Check Sentence: numCurPara: " + paraNum 
             + "; startPos: " + paRes.nStartOfSentencePosition + "; Paragraph: " + paraText 
-            + ", sErrors: " + (sErrors == null ? 0 : sErrors.length) + OfficeTools.LOG_LINE_BREAK);
+            + ", sErrors: " + (sErrors == null ? "null" : sErrors.length) + OfficeTools.LOG_LINE_BREAK);
+        if (sErrors != null && sErrors.length > 0) {
+          MessageHandler.printToLogFile(".-> sErrors[0]: nStart = " + sErrors[0].nErrorStart + ", nEnd = " + sErrors[0].nErrorStart
+              + ", errorID = " + (sErrors[0].aRuleIdentifier == null ? "null" : sErrors[0].aRuleIdentifier));
+        }
       }
       String text = null;
       if(sErrors == null) {
@@ -387,6 +395,27 @@ class SingleDocument {
    */
   void resetDocument() {
     mDocHandler.resetDocument();
+  }
+  
+  /**
+   * read caches from file
+   */
+  void readCaches() {
+    cacheIO = new CacheIO(xComponent);
+    boolean cacheExist = cacheIO.readAllCaches();
+    if (cacheExist) {
+      docCache = cacheIO.getDocumentCache();
+      sentencesCache = cacheIO.getSentencesCache();
+      paragraphsCache = cacheIO.getParagraphsCache();
+    }
+    cacheIO.resetAllCache();
+  }
+  
+  /**
+   * write caches to file
+   */
+  void writeCaches() {
+    cacheIO.saveCaches(docCache, sentencesCache, paragraphsCache);
   }
   
 /** Reset all caches of the document
@@ -1371,6 +1400,7 @@ class SingleDocument {
     allSuggestions = ruleMatch.getSuggestedReplacements().toArray(new String[numSuggestions]);
     //  Filter: remove suggestions for override dot at the end of sentences
     //  needed because of error in dialog
+    /*  since LT 5.2: Filter is commented out because of default use of LT dialog
     if (lastChar == '.' && (ruleMatch.getToPos() + startIndex) == sentencesLength) {
       int i = 0;
       while (i < numSuggestions && i < OfficeTools.MAX_SUGGESTIONS
@@ -1382,6 +1412,7 @@ class SingleDocument {
       allSuggestions = new String[0];
       }
     }
+    */
     //  End of Filter
     if (numSuggestions > OfficeTools.MAX_SUGGESTIONS) {
       aError.aSuggestions = Arrays.copyOfRange(allSuggestions, 0, OfficeTools.MAX_SUGGESTIONS);
@@ -1412,6 +1443,10 @@ class SingleDocument {
       nDim++;
     }
     if(nDim > 0) {
+      //  HINT: Because of result cache handling:
+      //  handle should always be -1
+      //  property state should always be PropertyState.DIRECT_VALUE
+      //  otherwise result cache handling has to be adapted
       PropertyValue[] propertyValues = new PropertyValue[nDim];
       int n = 0;
       if(url != null) {
