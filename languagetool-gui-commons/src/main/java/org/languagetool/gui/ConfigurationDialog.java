@@ -1189,7 +1189,7 @@ public class ConfigurationDialog implements ActionListener {
     });
     panel.add(ngramDirButton, cons);
     JButton helpButton = new JButton(messages.getString("guiNgramHelp"));
-    helpButton.addActionListener(e -> Tools.openURL("http://wiki.languagetool.org/finding-errors-using-n-gram-data"));
+    helpButton.addActionListener(e -> Tools.openURL("https://dev.languagetool.org/finding-errors-using-n-gram-data"));
     panel.add(helpButton, cons);
     return panel;
   }

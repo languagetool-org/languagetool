@@ -49,7 +49,7 @@ public class EnglishConfusionProbabilityRuleTest {
   public void testRule() throws IOException {
     File indexDir = new File("/data/google-ngram-index");
     if (!indexDir.exists()) {
-      throw new RuntimeException("ngram data not found at " + indexDir + ", get it at http://wiki.languagetool.org/finding-errors-using-big-data");
+      throw new RuntimeException("ngram data not found at " + indexDir + ", get it at https://dev.languagetool.org/finding-errors-using-n-gram-data");
     }
     rule = new EnglishConfusionProbabilityRule(TestTools.getEnglishMessages(), new LuceneLanguageModel(indexDir), english);
     

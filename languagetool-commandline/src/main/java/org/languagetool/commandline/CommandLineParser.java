@@ -196,10 +196,6 @@ class CommandLineParser {
     printUsage(System.out);
   }
 
-  /*
-   * NOTE: please keep http://wiki.languagetool.org/command-line-options
-   * up-to-date if you add an option
-   */
   void printUsage(PrintStream stream) {
     stream.println("Usage: java -jar languagetool-commandline.jar [OPTION]... FILE\n"
             + " FILE                      plain text file to be checked\n"
@@ -237,7 +233,7 @@ class CommandLineParser {
             + "  --languagemodel DIR      a directory with e.g. 'en' sub directory (i.e. a language code) that contains\n"
             + "                           '1grams'...'3grams' sub directories with Lucene indexes with\n"
             + "                           ngram occurrence counts; activates the confusion rule if supported;\n"
-            + "                           see http://wiki.languagetool.org/finding-errors-using-n-gram-data\n"
+            + "                           see https://dev.languagetool.org/finding-errors-using-n-gram-data\n"
             + "  --word2vecmodel DIR      a directory with e.g. 'en' sub directory (i.e. a language code) that contains\n"
             + "                           final_embeddings.txt and dictionary.txt; activates neural network based rules\n"
             + "  --neuralnetworkmodel DIR a base directory for various saved neural network models (deprecated)\n"

@@ -216,7 +216,7 @@ public final class Languages {
         Collections.sort(codes);
         throw new IllegalArgumentException("'" + langCode + "' is not a language code known to LanguageTool." +
                 " Supported language codes are: " + String.join(", ", codes) + ". The list of languages is read from " + PROPERTIES_PATH +
-                " in the Java classpath. See http://wiki.languagetool.org/java-api for details.");
+                " in the Java classpath. See https://dev.languagetool.org/java-api for details.");
       }
     }
     return language;

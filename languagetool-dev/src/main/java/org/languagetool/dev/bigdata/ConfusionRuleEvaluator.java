@@ -264,7 +264,7 @@ class ConfusionRuleEvaluator {
               + " <token> <homophoneToken> <langCode> <languageModelTopDir> <wikipediaXml|tatoebaFile|plainTextFile|dir>...");
       System.err.println("   <languageModelTopDir> is a directory with sub-directories like 'en' which then again contain '1grams',");
       System.err.println("                      '2grams', and '3grams' sub directories with Lucene indexes");
-      System.err.println("                      See http://wiki.languagetool.org/finding-errors-using-n-gram-data");
+      System.err.println("                      See https://dev.languagetool.org/finding-errors-using-n-gram-data");
       System.err.println("   <wikipediaXml|tatoebaFile|plainTextFile|dir> either a Wikipedia XML dump, or a Tatoeba file, or");
       System.err.println("                      a plain text file with one sentence per line, or a directory with");
       System.err.println("                      example sentences (where <word>.txt contains only the sentences for <word>).");
