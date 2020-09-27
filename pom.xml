@@ -7,7 +7,7 @@
     <artifactId>oss-parent</artifactId>
     <version>7</version>
   </parent>
-  
+
   <scm>
     <connection>scm:git:git@github.com:languagetool-org/languagetool.git</connection>
     <developerConnection>scm:git:git@github.com:languagetool-org/languagetool.git</developerConnection>
@@ -33,18 +33,18 @@
       <jackson.version>2.11.2</jackson.version>
       <lucene.version>5.5.5</lucene.version>
   </properties>
-  
+
   <build>
-      
+
       <extensions>
-		  <!-- needed to deploy to https://repository-languagetool.forge.cloudbees.com/snapshot/ -->
+      <!-- needed to deploy to https://repository-languagetool.forge.cloudbees.com/snapshot/ -->
           <extension>
               <groupId>org.apache.maven.wagon</groupId>
               <artifactId>wagon-webdav</artifactId>
               <version>1.0-beta-2</version>
           </extension>
       </extensions>
-      
+
       <pluginManagement>
           <plugins>
 
@@ -70,7 +70,7 @@
                       </execution>
                   </executions>
               </plugin>
-              
+
               <plugin>
                   <groupId>pl.project13.maven</groupId>
                   <artifactId>git-commit-id-plugin</artifactId>
@@ -89,7 +89,7 @@
                       <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
                   </configuration>
               </plugin>
-              
+
               <plugin>
                   <artifactId>maven-compiler-plugin</artifactId>
                   <version>3.8.1</version>
@@ -164,7 +164,7 @@
             <artifactId>maven-gpg-plugin</artifactId>
             <version>1.6</version>
             <configuration>
-              <useAgent>true</useAgent>  
+              <useAgent>true</useAgent>
             </configuration>
             <executions>
               <execution>
@@ -180,7 +180,7 @@
       </build>
     </profile>
   </profiles>
-    
+
   <modules>
     <module>languagetool-core</module>
     <module>languagetool-language-modules/en</module>
