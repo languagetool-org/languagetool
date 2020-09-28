@@ -33120,6 +33120,71 @@ TODO Write better examples
       <example correction="ónus da prova">O <marker>anos da prova</marker> é nosso.</example>
     </rule>
 
+    <rulegroup id='PARA-POR_TER_PARTICIPIO-PASSADO' name='Para/Por + Ter + Particípio passado' default="temp_off">
+	<!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-28 (2-JUL-2020+)   -->
+
+	  <!-- EU/ELE -> POR TER ESTADO -->
+	  <rule>
+		<pattern>
+			<token regexp='yes'>para|por</token>
+			<token min="0" max="1" regexp='yes'>eu|ele</token>
+			<marker>				
+				<token regexp='no'>ter</token>
+				<token postag='VMP00SM' postag_regexp='no'/>
+			</marker>	
+		</pattern>
+		<message>Substitua por <suggestion><match no='4' postag='VMP00SM' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>.</message>
+		<example correction='estar'>Isso por <marker>ter estado</marker> a ler o artigo.</example>
+		<example type='correct'>Isso por <marker>estar</marker> a ler o artigo.</example>
+      </rule>
+
+	  <!-- TU -> POR TERES ESTADO -->
+	  <rule>
+		<pattern>
+			<token regexp='yes'>para|por</token>
+			<token min="0" max="1" regexp='no'>tu</token>
+			<marker>				
+				<token regexp='no'>teres</token>
+				<token postag='VMP00SM' postag_regexp='no'/>
+			</marker>	
+		</pattern>
+		<message>Substitua por <suggestion><match no='4' postag='VMP00SM' postag_regexp="yes" postag_replace='VMN02S0'/></suggestion>.</message>
+		<example correction='estares'>Isso por <marker>teres estado</marker> a ler o artigo.</example>
+		<example type='correct'>Isso por <marker>estares</marker> a ler o artigo.</example>
+      </rule>
+
+	  <!-- NÓS -> POR TERMOS ESTADO -->
+	  <rule>
+		<pattern>
+			<token regexp='yes'>para|por</token>
+			<token min="0" max="1" regexp='no'>nós</token>
+			<marker>				
+				<token regexp='no'>termos</token>
+				<token postag='VMP00SM' postag_regexp='no'/>
+			</marker>	
+		</pattern>
+		<message>Substitua por <suggestion><match no='4' postag='VMP00SM' postag_regexp="yes" postag_replace='VMN01P0'/></suggestion>.</message>
+		<example correction='estarmos'>Isso por <marker>termos estado</marker> a ler o artigo.</example>
+		<example type='correct'>Isso por <marker>estarmos</marker> a ler o artigo.</example>
+      </rule>
+
+	  <!-- VÓS/VOCÊS/ELES -> POR TEREM ESTADO -->
+	  <rule>
+		<pattern>
+			<token regexp='yes'>para|por</token>
+			<token min="0" max="1" regexp='yes'>vós|vocês|eles</token>
+			<marker>				
+				<token regexp='no'>terem</token>
+				<token postag='VMP00SM' postag_regexp='no'/>
+			</marker>	
+		</pattern>
+		<message>Substitua por <suggestion><match no='4' postag='VMP00SM' postag_regexp="yes" postag_replace='VMN03P0'/></suggestion>.</message>
+		<example correction='estarem'>Isso por <marker>terem estado</marker> a ler o artigo.</example>
+		<example type='correct'>Isso por <marker>estarem</marker> a ler o artigo.</example>
+      </rule>
+
+	</rulegroup>
+
     <rule id='SEXTA_DE_VIME' name="Calinada: Sexta de vime">
     <!-- Created by Marco A.G.Pinto -->
       <pattern>
