@@ -61,6 +61,7 @@ public class LinguisticServices extends LinguServices {
   public LinguisticServices(XComponentContext xContext, boolean noSynonymsAsSuggestions) {
     if (xContext != null) {
       XLinguServiceManager mxLinguSvcMgr = GetLinguSvcMgr(xContext);
+      setLtAsGrammarService(mxLinguSvcMgr);
       thesaurus = GetThesaurus(mxLinguSvcMgr);
       spellChecker = GetSpellChecker(mxLinguSvcMgr);
       hyphenator = GetHyphenator(mxLinguSvcMgr);
@@ -293,6 +294,31 @@ public class LinguisticServices extends LinguServices {
       // If anything goes wrong, give the user a stack trace
       printMessage(t);
       return 1;
+    }
+  }
+  
+  public void setLtAsGrammarService(XLinguServiceManager mxLinguSvcMgr) {
+    Locale[] locales = MultiDocumentsHandler.getLocales();
+    for (Locale locale : locales) {
+      String[] serviceNames = mxLinguSvcMgr.getAvailableServices("com.sun.star.linguistic2.Proofreader", locale);
+      for (String service : serviceNames) {
+        if (!service.equals(OfficeTools.LT_SERVICE_NAME)) {
+          String[] configuredServices = new String[1];
+          configuredServices[0] = OfficeTools.LT_SERVICE_NAME;
+          mxLinguSvcMgr.setConfiguredServices("com.sun.star.linguistic2.Proofreader", locale, configuredServices);
+          MessageHandler.printToLogFile("LT set as configured Service for Language: " + locale.Language + "-" + locale.Country 
+              + (locale.Variant.isEmpty() ? "" : "-" + locale.Variant));
+          MessageHandler.printToLogFile("Other available Service: " + service + ", " + locale.Language + "-" + locale.Country + "-" + locale.Variant);
+        }
+      }
+    }
+    for (Locale locale : locales) {
+      String[] serviceNames = mxLinguSvcMgr.getConfiguredServices("com.sun.star.linguistic2.Proofreader", locale);
+      for (String service : serviceNames) {
+        if (!service.equals(OfficeTools.LT_SERVICE_NAME)) {
+          MessageHandler.printToLogFile("Configured Service: " + service + ", " + locale.Language + "-" + locale.Country + "-" + locale.Variant);
+        }
+      }
     }
   }
 

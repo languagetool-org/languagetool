@@ -102,9 +102,6 @@ public class CacheIO implements Serializable {
   }
   
   private void saveAllCaches() {
-    if (cachePath == null) {
-      return;
-    }
     try {
       GZIPOutputStream fileOut = new GZIPOutputStream(new FileOutputStream(cachePath));
       ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -128,18 +125,20 @@ public class CacheIO implements Serializable {
   }
   
   public void saveCaches(DocumentCache docCache, ResultCache sentencesCache, List<ResultCache> paragraphsCache) {
-    try {
-      if (docCache.size() >= MIN_PARAGRAPHS_TO_SAVE_CACHE) {
-        allCaches = new AllCaches(docCache, sentencesCache, paragraphsCache);
-        saveAllCaches();
-      } else {
-        File file = new File( cachePath );
-        if (file.exists() && !file.isDirectory()) {
-          file.delete();
+    if (cachePath != null) {
+      try {
+        if (docCache.size() >= MIN_PARAGRAPHS_TO_SAVE_CACHE) {
+          allCaches = new AllCaches(docCache, sentencesCache, paragraphsCache);
+          saveAllCaches();
+        } else {
+          File file = new File( cachePath );
+          if (file.exists() && !file.isDirectory()) {
+            file.delete();
+          }
         }
+      } catch (Throwable t) {
+        MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       }
-    } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
     }
   }
   

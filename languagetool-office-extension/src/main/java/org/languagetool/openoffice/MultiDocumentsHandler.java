@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
@@ -975,7 +974,7 @@ public class MultiDocumentsHandler {
   /**
    * @return An array of Locales supported by LT
    */
-  public final Locale[] getLocales() {
+  public final static Locale[] getLocales() {
     try {
       List<Locale> locales = new ArrayList<>();
       for (Language lang : Languages.get()) {
