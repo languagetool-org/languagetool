@@ -1441,7 +1441,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
 			<token>a
 				<exception negate_pos='yes' postag_regexp='yes' postag='D.+'/>
-				<exception scope="previous" regexp="no">ou</exception> <!-- MARCOAGPINTO 2020-02-20 "Pode haver falhas devido a erros ou a lacunas no software." -->
+				<exception scope="previous" regexp="yes">ou|daí</exception> <!-- MARCOAGPINTO 2020-02-20 + 2020-09-28 "Pode haver falhas devido a erros ou a lacunas no software." "Daí a duas semanas temos a festa."-->
 			</token>
 			<token postag='(?:[NZ].|A..)FP.+' postag_regexp='yes'>
 				<exception postag_regexp='yes' postag='(?:[NZ]..|A...)[NS].+'/></token>
@@ -1451,6 +1451,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>a <match no='3' postag='(A...|[NZ]..).(.+)' postag_replace='$1S$2' postag_regexp='yes'/></suggestion>
       <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
       <example correction="as proteções|a proteção">...financiamento de projetos para <marker>a proteções</marker> da floresta…</example>
+	  <example type='correct'>Daí <marker>a duas</marker> semanas temos a festa.</example>
     </rule>
   </rulegroup>
 
