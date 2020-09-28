@@ -7285,7 +7285,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token postag="RG.*" postag_regexp="yes"/>
                 </marker>
-                <token postag="SP.*|_PUNCT.*|D...P." postag_regexp="yes"><exception inflected="yes">de</exception></token>
+                <token postag="RG.*|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
+                <token postag="SP.*|_PUNCT.*|D...P.|CC" postag_regexp="yes"><exception inflected="yes">de</exception></token>
+            </pattern>
+            <disambig action="remove" postag="DI0[MC]S0"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+                <token min="0" postag="V.[NP].*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="RG.*" postag_regexp="yes"/>
+                </marker>
+                <token postag="RG.*|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
+                <token regexp="yes">\p{Lu}.*</token>
             </pattern>
             <disambig action="remove" postag="DI0[MC]S0"/>
         </rule>

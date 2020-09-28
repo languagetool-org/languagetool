@@ -5203,14 +5203,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Estats Units havia estat ric en recursos naturals.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AGREEMENT_AGRADAR" name="concordança: agradar" default="temp_off">
+        <rulegroup id="AGREEMENT_AGRADAR" name="concordança: agradar">
             <rule>
                 <pattern>
                     <token postag="&pronom_feble;" postag_regexp="yes"/>
                     <marker>
                         <token postag="V.[MSI].3S.." postag_regexp="yes" inflected="yes" regexp="yes">agradar|encantar|encisar</token>
                     </marker>
-                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"><exception>com</exception></token>
                     <token postag="D...P.|A...P.|NC.P..." postag_regexp="yes"/>
                 </pattern>
                 <message>Possible error de concordança.</message>
@@ -5243,7 +5243,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="V.[MSI].3P.." postag_regexp="yes" inflected="yes" regexp="yes">agradar|encantar|encisar</token>
                     </marker>
-                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"><exception>com</exception></token>
                     <token postag="D...S.|A...S.|NC.S..." postag_regexp="yes"/>
                 </pattern>
                 <message>Possible error de concordança.</message>
@@ -5257,6 +5257,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Algunes cançons que li agradaven molt a un.</example>
                 <example>Em van agradar bastant moltes de les coses.</example>
                 <example>M'agraden el de xocolata i el de maduixa.</example>
+                <example>Li agradaven molt més les lletres que el dret.</example>
+                <example>A mi sí que m'agraden molt i els faria una bona queixalada.</example>
+                <example>Fan activitats que els agraden com teatre, música...</example>
             </rule>
             <rule>
                 <pattern>
@@ -5266,7 +5269,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token min="0" regexp="yes">de|a|d'</token>
                     <token postag="V.[PN].*" postag_regexp="yes" inflected="yes" regexp="yes">agradar|encantar|encisar</token>
-                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"><exception>com</exception></token>
                     <token postag="D...P.|A...P.|NC.P..." postag_regexp="yes"/>
                 </pattern>
                 <message>Possible error de concordança.</message>
@@ -5301,7 +5304,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token min="0" regexp="yes">de|a|d'</token>
                     <token postag="V.[PN].*" postag_regexp="yes" inflected="yes" regexp="yes">agradar|encantar|encisar</token>
-                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
+                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"><exception>com</exception></token>
                     <token postag="D...S.|A...S.|NC.S..." postag_regexp="yes"/>
                 </pattern>
                 <message>Possible error de concordança.</message>
@@ -6805,16 +6808,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>després que deu presos van arribar a morir de fam</example>
             </rule>
         </rulegroup>
-        <rule id="TENIR_PARTICIPI" name="tenir *repartir/repartit" default="temp_off">
+        <rule id="TENIR_PARTICIPI" name="tenir *repartir/repartit">
             <pattern>
-                <token inflected="yes">tenir</token>
+                <token inflected="yes">tenir<exception scope="previous">que</exception></token>
                 <marker>
-                    <token postag="V.N.*" postag_regexp="yes"/>
+                    <token postag="V.N.*" postag_regexp="yes" regexp="yes">.*ir<exception postag="[NA].*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <message>Possible confusió.</message>
             <suggestion><match no="2" postag="(V.N.*)" postag_regexp="yes" postag_replace="V.P..SM."/></suggestion>
             <example correction="repartit">Ho teníem <marker>repartir</marker> per tota la zona.</example>
+            <example>Tenia poder per a invocar esperits.</example>
+            <example>No tenen auxiliar.</example>
+            <example>La revelar la importància que tenia posseir l'autoritat.</example>
+            <example>Saben molt bé quines conseqüències té pactar amb el PP.</example>
+            <example>Li farà veure els avantatges que té anar tan ben protegida.</example>
+            <example>La importància que té conèixer el nostre patrimoni.</example>
         </rule>
         <rulegroup id="HAVER_PARTICIPI_HAVER_IMPERSONAL" name="Comprova: «haver» + participi / «haver-hi» impersonal">
             <antipattern>
@@ -18354,7 +18363,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Em"><marker>En</marker> centre de manera particular en la primera qüestió.</example>
                 <example>Convertida, amb Mallorca, en centre i refugi dels pirates.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>en</token>
@@ -29187,7 +29196,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="CONFUSIONS_PRONOMS_FEBLES" name="confusions amb pronoms febles">
-            <rule id="CONDICIONS" name="condiciones/condicions" default="temp_off">
+            <rule id="CONDICIONS" name="condiciones/condicions">
                 <pattern>
                     <token postag="[DA]..FP." postag_regexp="yes"/>
                     <marker>
@@ -57621,18 +57630,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Bona nit tingueu.</example>
                 <example>Bona nit i tapa't.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
+                    <token postag="_PUNCT.*|SENT_START" postag_regexp="yes" skip="2"/>
                     <unify negate="yes">
                         <feature id="nombre"/>
                         <feature id="genere"/>
-                        <token postag="N.*" postag_regexp="yes"/>
-                        <token postag="A.*" postag_regexp="yes" inflected="yes" regexp="yes">guapo|preciós</token>
+                        <marker>
+                            <token postag="N.*" postag_regexp="yes"/>
+                            <token postag="A.*" postag_regexp="yes" inflected="yes" regexp="yes">guapo|preciós</token>
+                        </marker>
                     </unify>
                 </pattern>
                 <message>Probablement hi falta una coma.</message>
-                <suggestion>\1, \2</suggestion>
+                <suggestion>\2, \3</suggestion>
                 <example correction="besos, guapo">Molts <marker>besos guapo</marker>.</example>
+                <example>Un fons de pantalla preciós.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GRACIES" name="gràcies (coma)">
