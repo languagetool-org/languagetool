@@ -14566,6 +14566,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="ESTATS_UNITS" name="Estats *Untis/Units">
+            <pattern>
+                <token>Estats</token>
+                <token>Untis</token>
+            </pattern>
+            <message>Possible confusió.</message>
+            <suggestion>Estats Units</suggestion>
+            <example correction="Estats Units">El president dels <marker>Estats Untis</marker>.</example>
+        </rule>
         <rule id="HI_HA_VIA" name="hi ha via">
             <pattern>
                 <token>hi</token>
@@ -33209,6 +33218,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="malgrat això|a pesar d'això">I <marker>pese a això</marker>, es va acabar.</example>
             </rule>
         </rulegroup>
+        <rule id="BASAT_EN" name="basat en (anglicisme)" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">basat|basada|basats|basades</token>
+                    <token regexp="yes">en|a</token>
+                </marker>
+                <token min="0" postag="DA.*" postag_regexp="yes"/> 
+                <token postag="NP..G.." postag_regexp="yes"/>
+            </pattern>
+            <message>Amb el sentit de 'radicat a', aquesta expressió és un calc de l'anglès .</message>
+            <suggestion><match no="1" regexp_match="(?iu)basa" regexp_replace="radica"/> \2</suggestion>
+            <suggestion><match no="1" regexp_match="(?iu)basa[td]" regexp_replace="establert"/> \2</suggestion>
+            <suggestion><match no="1" regexp_match="(?iu)basa" regexp_replace="establi"/> \2</suggestion>
+            <suggestion>amb seu a</suggestion>
+            <suggestion>a</suggestion>
+            <example correction="radicat a|establert a|establit a|amb seu a|a">Un empresari <marker>basat a</marker> Berlín.</example>
+        </rule>
         <rule id="ROI" name="*retorn de la inversió">
             <pattern>
                 <marker>
