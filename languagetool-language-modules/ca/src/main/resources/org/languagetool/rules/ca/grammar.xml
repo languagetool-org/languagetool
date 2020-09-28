@@ -32281,7 +32281,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="5 g">Pesa <marker>5grs</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="PUNT_FINAL" name="falta el punt final en frases llargues">
+        <rulegroup id="PUNT_FINAL" name="falta el punt final en frases llargues">
             <antipattern>
                 <marker>
                     <token regexp="yes">[.!?]</token>
@@ -32289,22 +32289,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_END" regexp="yes">['"’”»)\]]</token>
                 </marker>
             </antipattern>
-            <pattern>
+            <antipattern>
                 <token postag="SENT_START"/>
-                <token regexp="yes">\p{Lu}.*</token>
-                <token min="20" skip="-1"/>
-                <marker>
-                    <token postag="SENT_END"><exception regexp="yes">[.!?:…]</exception></token>
-                </marker>
-            </pattern>
-            <message>Si no és un títol, falta un punt al final de la frase.</message>
-            <!--<suggestion>\22.</suggestion>-->
-            <example correction="">Aquesta és una frase llarga que no té punt al final i per tant és segur que hi ha un <marker>error</marker></example>
-            <example correction="">Aquesta és una frase llarga, molt llarga, llarguíssima, que no té punt al final i per tant és segur que hi ha un <marker>error</marker></example>
-            <example>Aquesta frase és curta, podria ser un títol</example>
-            <example>«Aquesta frase, a més de ser llarga, sí que acaba amb punt, encara que el punt va abans de les cometes de tancament.»</example>
-            <example>aquesta frase, a part del fet de ser llarga, no comença amb majúsucula i, per tant, no compleix els requisits per a ser marcada com a errònia</example>
-        </rule>
+                <token postag="_PUNCT.*" postag_regexp="yes" min="0" max="3"/> 
+                <token regexp="yes" skip="-1">\p{Ll}.*</token>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token skip="19"/>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token skip="-1"/>
+                    <marker>
+                        <token postag="SENT_END" regexp="yes">[,;]</token>
+                    </marker>
+                </pattern>
+                <message>Probablement falta un punt al final de la frase.</message>
+                <suggestion>.</suggestion>
+                <example correction=".">Aquesta és una frase llarga que no té punt al final i per tant és segur que hi ha un error<marker>,</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token skip="-1"/>
+                    <marker>
+                        <token postag="SENT_END"><exception regexp="yes">[.!?:…]</exception></token>
+                    </marker>
+                </pattern>
+                <message>Si no és un títol, falta un punt al final de la frase.</message>
+                <suggestion>\4.</suggestion>
+                <example correction="error.">Aquesta és una frase llarga que no té punt al final i per tant és segur que hi ha un <marker>error</marker></example>
+                <example correction="error.">Aquesta és una frase llarga, molt llarga, llarguíssima, que no té punt al final i per tant és segur que hi ha un <marker>error</marker></example>
+                <example>Aquesta frase és curta, podria ser un títol</example>
+                <example>«Aquesta frase, a més de ser llarga, sí que acaba amb punt, encara que el punt va abans de les cometes de tancament.»</example>
+                <example>aquesta frase, a part del fet de ser llarga, no comença amb majúsucula i, per tant, no compleix els requisits per a ser marcada com a errònia</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ESPAIS_QUE_FALTEN_PUNTUACIO" name="espais que falten en alguns signes de puntuació">
             <antipattern>
                 <marker>
