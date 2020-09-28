@@ -1402,7 +1402,7 @@ Copyright (C) 2011 Juan Martorell
     <rule id="not_adj" name="not adj">
         <pattern>
             <and>
-                <token postag="A.*" postag_regexp="yes" regexp="yes">moscas?|líneas?</token>
+                <token postag="A.*" postag_regexp="yes" regexp="yes">moscas?|líneas?|manera</token>
                 <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
             </and>
         </pattern>
@@ -1513,14 +1513,27 @@ Copyright (C) 2011 Juan Martorell
     <rulegroup id="ADVERBS" name="adverbios">
         <rule>
             <pattern>
-                <token postag="V.[MSI].*" postag_regexp="yes"/>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
                 <token min="0" postag="V.[NP].*" postag_regexp="yes"/>
                 <marker>
                     <token postag="RG.*" postag_regexp="yes"/>
                 </marker>
-                <token postag="D...P.|_PUNCT.*|SP.*" postag_regexp="yes"/> 
+                <token postag="RG.*|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
+                <token postag="SP.*|_PUNCT.*|D...P.|CC" postag_regexp="yes"><exception regexp="yes">de|del</exception></token>
             </pattern>
-            <disambig action="remove" postag="DI0[MC]S0|NCMS000"/>
+            <disambig action="remove" postag="DI0[MC]S0"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+                <token min="0" postag="V.[NP].*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="RG.*" postag_regexp="yes"/>
+                </marker>
+                <token postag="RG.*|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
+                <token regexp="yes">\p{Lu}.*</token>
+            </pattern>
+            <disambig action="remove" postag="DI0[MC]S0"/>
         </rule>
         <rule>
             <pattern>
@@ -1977,6 +1990,17 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="CONFORME_CS" name="conforme (conjunción)">
+        <pattern>
+            <marker>
+                <token postag="CS">conforme</token>
+            </marker>
+            <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+            <token postag="V.[MSI].*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="CS"/>
+    </rule>
+    
 
     <!--sobre (no preposición, nombre)-->
     <rule id="SOBRE" name="sobre (nombre)">
@@ -3430,7 +3454,7 @@ Copyright (C) 2011 Juan Martorell
                 <marker>
                     <token postag="SPS00">bajo<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </marker>
-                <token regexp="yes">amenazas?|acusación|acusaciones|jurisdicción|circunstancias|licencia|poder|dominio|dirección|presidencia|cuidado|atención|fianza|secreto|administración|principios|consideración|luz|tortura|condiciones</token>
+                <token regexp="yes">demanda|amenazas?|acusación|acusaciones|jurisdicción|circunstancias|licencia|poder|dominio|dirección|presidencia|cuidado|atención|fianza|secreto|administración|principios|consideración|luz|tortura|condiciones</token>
             </pattern>
             <disambig action="filter" postag="SPS00|_GV_"/>
         </rule>
@@ -3651,7 +3675,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <marker>
                     <token postag="N.[MC][SN0].*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/><exception>seré</exception></token>
-                    <token postag="A..[MC][SN0].*|V.P..SM|PX.[MC][SN0].*" postag_regexp="yes"><exception postag="AO.*|RG" postag_regexp="yes"/></token>
+                    <token postag="A..[MC][SN0].*|V.P..SM|PX.[MC][SN0].*" postag_regexp="yes"><exception postag="AO.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <disambig action="add">

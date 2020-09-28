@@ -9725,12 +9725,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Reserva algo de dinero por si acaso enfermas.</example>
             <example>los trabajos más bajos generalmente bajo el rubro de servicio</example>
             <example>No os internéis en la jungla solos.</example>
+            <example>Que resulte claro a los legisladores conforme avancemos.</example>
             <!-- with infinitive -->
             <example>Su sola aspiración es la de hacerse a su vez explotadores.</example>
             <example>la conjura para matar al Dictador descubierta seis meses antes</example>
             <example>No ha superado las pruebas necesarias para ser considerada aceptable</example>
             <example>Están agrupados los datos en categorías para hacer un poco más fácil la búsqueda.</example>
             <example>Tengo hueco para ser un poco más creativa.</example>
+            <example>Giro claro en la gráfica acompañado de ganancia.</example>
             <!-- 
                 La eternidad dura harto.
                 Ella fue al concierto acompañada de una amiga.
@@ -10270,7 +10272,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La avioneta será costosa</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AGREEMENT_GUSTAR" name="concordancia: gustar" default="temp_off">
+        <rulegroup id="AGREEMENT_GUSTAR" name="concordancia: gustar">
+            <antipattern>
+                <token inflected="yes" regexp="yes">gustar|agradar|encantar</token>
+                <token>mas</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">me|te|se|le|nos|os|les</token>
@@ -10379,8 +10385,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ha">Me <marker>han</marker> gustado la manzana.</example>
                 <example correction="tenía">Le <marker>tenían</marker> que gustar mucho más la verde.</example>
                 <example>Me han gustado la manzana y la pera.</example>
+                <example>Me han gustado mucho más la manzana y la pera.</example>
                 <example>Me han gustado el de manzana y el de pera.</example>
                 <example>Me han gustado mucho los batidos.</example>
+                <example>Me han gustado mucho más los batidos.</example>
             </rule>
         </rulegroup>
     </category>
@@ -10995,7 +11003,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rulegroup id="TAL_TAN" name="tal/tan" default="temp_off">
+        <rulegroup id="TAL_TAN" name="tal/tan">
             <rule>
                 <pattern>
                     <marker>
@@ -11012,7 +11020,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>tal</token>
                     </marker>
                     <token postag="A.*|V.P.*" postag_regexp="yes"/>
-                    <token>que</token>
+                    <token regexp="yes">que|como</token>
                 </pattern>
                 <message>Posible confusión. ¿Quería decir <suggestion>tan</suggestion>?</message>
                 <example correction="tan">Está <marker>tal</marker> bueno que me lo comería todo.</example>
@@ -12909,7 +12917,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Buenos días tenga usted.</example>
                 <example>Buenas noches y adiós.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <unify negate="yes">
                         <feature id="numero"/>
@@ -12922,6 +12930,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1, \2</suggestion>
                 <example correction="fiestas, guapo">Felices <marker>fiestas guapo</marker>.</example>
                 <example correction="besos, guapa">¡Muchos <marker>besos guapa</marker>!</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="2"/>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <marker>
+                            <token postag="N.*" postag_regexp="yes"/>
+                            <token postag="A.*" postag_regexp="yes" inflected="yes">precioso</token>
+                        </marker>
+                    </unify>
+                </pattern>
+                <message>Probablemente falta una coma.</message>
+                <suggestion>\2, \3</suggestion>
+                <example correction="besos, preciosa">¡Muchos <marker>besos preciosa</marker>!</example>
+                <example>Una hoja de cálculo preciosa.</example>
             </rule>
         </rulegroup>
         <rule id="MUCHO_NF" name="mucho + nombre femenino">
