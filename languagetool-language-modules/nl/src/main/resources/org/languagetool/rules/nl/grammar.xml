@@ -16351,6 +16351,20 @@ steenwijk;Steenwijk
 		<example>900 <marker>is</marker> een goed begin.</example>
 		</rule>
 		-->
+		<rulegroup id="PUNT_GEEN_HL" name="Geen spatie en hoofdletter na punt" default="temp_off">
+			<rule>
+				<pattern>
+					<token spacebefore="yes" regexp="yes" case_sensitive="yes">.*[a-z]$</token>
+					<token spacebefore="no">.</token>
+					<marker>
+						<token spacebefore="no" regexp="yes" case_sensitive="yes">[a-zA-Z].*<exception postag="UNKNOWN"/><exception regexp="yes">dat|doc</exception></token>
+					</marker>
+				</pattern>
+				<message>Zet een spatie en een hoofdletter bij een zinsovergang.</message>
+				<suggestion> <match no="3" case_conversion="startupper"/></suggestion>
+				<example correction=" En">Dit is een zin.<marker>en</marker> dit ook.</example>
+			</rule>
+		</rulegroup>
 		
 		<rulegroup id="SPATIES_OM" name="Geen spaties voor nadruk">
 			<rule>
