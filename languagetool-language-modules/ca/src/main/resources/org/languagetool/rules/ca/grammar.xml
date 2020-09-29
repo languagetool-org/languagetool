@@ -32814,6 +32814,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" regexp_match="(.+)S" regexp_replace="$1"/></suggestion>
                 <example correction="ERO">Els <marker>EROS</marker></example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="D..FP." postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">tics|tic<exception case_sensitive="yes">TIC</exception></token>
+                    </marker>
+                </pattern>
+                <message>Sigles de "tecnologies de la informació i de la comunicació".</message>
+                <suggestion>TIC</suggestion>
+                <example correction="TIC">El futur de les <marker>tics</marker>.</example>
+                <example correction="TIC">El futur de les <marker>tic</marker>.</example>
+                <example correction="TIC">El futur de les <marker>Tic</marker>.</example>
+                <example correction="TIC">El futur de les <marker>Tics</marker>.</example>
+                <example correction="TIC">El futur de les <marker>TICS</marker>.</example>
+                <example correction="TIC">El futur de les <marker>TICs</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="EUA" name="sigles dels Estats Units d'Amèrica">
             <rule>

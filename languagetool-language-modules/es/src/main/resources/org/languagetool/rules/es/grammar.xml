@@ -5231,6 +5231,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://www.fundeu.es/recomendacion/los-ere-los-eres-pero-no-los-eres-ni-los-eres/</url>
                 <example correction="ERE">los <marker>ERES</marker></example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="D..FP." postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">tics|tic<exception case_sensitive="yes">TIC</exception></token>
+                    </marker>
+                </pattern>
+                <message>Siglas de "tecnologías de la información y de la comunicación".</message>
+                <suggestion>TIC</suggestion>
+                <url>https://www.fundeu.es/recomendacion/las-tic-mejor-que-las-tics-o-las-tics/</url>
+                <example correction="TIC">El desarrollo de las <marker>tics</marker>.</example>
+                <example correction="TIC">El desarrollo de las <marker>tic</marker>.</example>
+                <example correction="TIC">El desarrollo de las <marker>Tic</marker>.</example>
+                <example correction="TIC">El desarrollo de las <marker>Tics</marker>.</example>
+                <example correction="TIC">El desarrollo de las <marker>TICS</marker>.</example>
+                <example correction="TIC">El desarrollo de las <marker>TICs</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ABBREVIATION" name="abreviaturas">
             <url>https://www.rae.es/dpd/ayuda/abreviaturas</url>
