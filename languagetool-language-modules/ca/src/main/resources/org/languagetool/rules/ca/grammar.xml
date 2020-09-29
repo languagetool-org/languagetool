@@ -14567,6 +14567,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rulegroup id="TAL_TAN" name="tal/tan">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tal</token>
+                    </marker>
+                    <token regexp="yes">malament|bé|ben|bo|dolent</token>
+                </pattern>
+                <message>Possible confusió. ¿Volíeu dir <suggestion>tan</suggestion>?</message>
+                <example correction="tan">Tampoc no està <marker>tal</marker> malament</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tal</token>
+                    </marker>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <token regexp="yes">que|com</token>
+                </pattern>
+                <message>Possible confusió. ¿Volíeu dir <suggestion>tan</suggestion>?</message>
+                <example correction="tan">És <marker>tal</marker> exquisit que m'ho menjaria tot.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>tal</token>
+                    </marker>
+                    <token postag="RG_anteposat"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Possible confusió. ¿Volíeu dir <suggestion>tan</suggestion>?</message>
+                <example correction="tan">És <marker>tal</marker> extraordinàriament bo.</example>
+            </rule>
+        </rulegroup>
         <rule id="ESTATS_UNITS" name="Estats *Untis/Units">
             <pattern>
                 <token>Estats</token>
