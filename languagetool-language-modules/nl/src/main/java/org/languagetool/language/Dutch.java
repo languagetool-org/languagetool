@@ -39,7 +39,14 @@ import java.util.*;
 
 public class Dutch extends Language {
 
+  private static final Language NETHERLANDS_DUTCH = new NetherlandsDutch();
+
   private LanguageModel languageModel;
+
+  @Override
+  public Language getDefaultLanguageVariant() {
+    return NETHERLANDS_DUTCH;
+  }
 
   @Override
   public String getName() {
