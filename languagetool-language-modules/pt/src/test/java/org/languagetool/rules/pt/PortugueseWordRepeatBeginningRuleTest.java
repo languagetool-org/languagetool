@@ -20,6 +20,7 @@ package org.languagetool.rules.pt;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.Portuguese;
 
 import java.io.IOException;
@@ -35,6 +36,7 @@ public class PortugueseWordRepeatBeginningRuleTest {
   @Test
   public void testRule() throws IOException {
     JLanguageTool lt = new JLanguageTool(new Portuguese());
+    TestTools.disableAllRulesExcept(lt, "PORTUGUESE_WORD_REPEAT_BEGINNING_RULE");
     // correct sentences:
     assertEquals(0, lt.check("Este exemplo está correto. Este exemplo também está.").size());
     assertEquals(0, lt.check("2011: Setembro já passou. 2011: Outubro também já passou. 2011: Novembro já se foi.").size());
