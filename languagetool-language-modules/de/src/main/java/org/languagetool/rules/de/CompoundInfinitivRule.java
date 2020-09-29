@@ -146,7 +146,7 @@ public class CompoundInfinitivRule extends Rule {
     } else if (linguServices != null) {
       return !linguServices.isCorrectSpell(word, lang);
     }
-    return true;
+    throw new IllegalStateException("LinguServices or Speller must be not null to check spelling in CompoundInfinitivRule");
   }
 
   private boolean isRelevant(AnalyzedTokenReadings token) {
