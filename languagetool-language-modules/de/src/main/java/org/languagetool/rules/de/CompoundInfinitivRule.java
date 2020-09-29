@@ -146,7 +146,7 @@ public class CompoundInfinitivRule extends Rule {
     } else if (linguServices != null) {
       return !linguServices.isCorrectSpell(word, lang);
     }
-    return false;
+    return true;
   }
 
   private boolean isRelevant(AnalyzedTokenReadings token) {
