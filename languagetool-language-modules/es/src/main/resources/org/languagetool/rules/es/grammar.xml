@@ -3220,7 +3220,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Si es pasado, se escribe con tilde.</message>
                 <suggestion><match no="2" postag="VMSP[13]S0" postag_regexp="yes" postag_replace="VMIS1S0"/></suggestion>
-                <example correction="analicé">Cuando ayer lo <marker>analice</marker>, no vi nada estraño.</example>
+                <example correction="analicé">Cuando ayer lo <marker>analice</marker>, no vi nada extraño.</example>
                 <example>No dejes que el ayer ocupe demasiado de hoy.</example>
                 <example>Depende de la cantidad de pasado que lleve consigo.</example>
                 <example>No puede ser que, después del debate de ayer, no tome posición.</example>
@@ -5797,6 +5797,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message suppress_misspelled="yes">Se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="ex$1" case_conversion="alllower"/></suggestion>
                 <example correction="excolonias">Las <marker>ex-colonias</marker> británicas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>vice</token>
+                    <token min="0">-</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </pattern>
+                <message suppress_misspelled="yes">Se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="vice$1" case_conversion="alllower"/></suggestion>
+                <example correction="vicepresidente">El <marker>vice presidente</marker> no acudió.</example>
             </rule>
             <rule>
                 <pattern>
@@ -12777,7 +12787,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>etc</token>
                     <token>…</token>
                 </pattern>
-                <message>Redundancia. Use <suggestion>etc.</suggestion> o <suggestion>…</suggestion></message>
+                <message>Redundancia. Use <suggestion>etc.</suggestion> o <suggestion>…</suggestion>.</message>
                 <example correction="etc.|…">Tres, cuatro, cinco, <marker>etc…</marker></example>
                 <example>Un, dos, etc.</example>
             </rule>
@@ -12788,7 +12798,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>.</token>
                     <token>.</token>
                 </pattern>
-                <message>Redundancia. Use <suggestion>etc.</suggestion> o <suggestion>…</suggestion></message>
+                <message>Redundancia. Use <suggestion>etc.</suggestion> o <suggestion>…</suggestion>.</message>
                 <example correction="etc.|…">Tres, cuatro, cinco, <marker>etc...</marker></example>
                 <example>Un, dos, etc.</example>
             </rule>
