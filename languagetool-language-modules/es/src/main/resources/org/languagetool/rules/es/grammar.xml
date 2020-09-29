@@ -8122,7 +8122,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="AGRREMENT_NUMBER" name="concordancia del número" default="temp_off">
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">grupo|conjunto|decena|centena|centenar|mil|millón</token>
+                    <token regexp="yes" inflected="yes">conjunto|decena|centena|centenar|mil|millón|billón</token>
                     <token>de</token>
                     <marker>
                         <token postag="NC.S.*" postag_regexp="yes"/>
@@ -8132,6 +8132,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" postag="(NC.)S(.*)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
                 <example correction="personas">Son miles de <marker>persona</marker>.</example>
                 <example correction="personalidades">Decenas de <marker>personalidad</marker> firman un manifiesto.</example>
+                <example correction="euros">Puede costar billones de <marker>euro</marker>.</example>
+                <example>Forma parte de un grupo de teatro.</example>
             </rule>
         </rulegroup> 
         <rulegroup id="AGREEMENT_DET_DET" name="concordancias det. + det.">
