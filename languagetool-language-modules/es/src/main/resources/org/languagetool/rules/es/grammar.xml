@@ -8119,6 +8119,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="AGREEMENT_NOUNS" name="Concordancia en grupos nominales" type="inconsistency">
+        <rulegroup id="AGRREMENT_NUMBER" name="concordancia del número" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">grupo|conjunto|decena|centena|centenar|mil|millón</token>
+                    <token>de</token>
+                    <marker>
+                        <token postag="NC.S.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Posible error de concordancia</message>
+                <suggestion><match no="3" postag="(NC.)S(.*)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
+                <example correction="personas">Son miles de <marker>persona</marker>.</example>
+                <example correction="personalidades">Decenas de <marker>personalidad</marker> firman un manifiesto.</example>
+            </rule>
+        </rulegroup> 
         <rulegroup id="AGREEMENT_DET_DET" name="concordancias det. + det.">
             <rule>
                 <pattern>

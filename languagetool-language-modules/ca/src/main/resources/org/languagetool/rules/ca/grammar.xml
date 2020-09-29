@@ -4709,11 +4709,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="CONCORDANCES_NOMS_COLLECTIUS" name="concordances en noms col·lectius">
             <antipattern>
-                <marker>
-                    <token regexp="yes">parella?</token>
-                    <token regexp="yes">de|d'</token>
-                    <token regexp="yes">fet|mitjana|ball|engegada|interlletratge</token>
-                </marker>
+                <token regexp="yes">parella?</token>
+                <token regexp="yes">de|d'</token>
+                <token regexp="yes">fet|mitjana|ball|engegada|interlletratge</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -4727,7 +4725,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Hi falta un nom en plural.</message>
                 <example correction="">un parell d'<marker>estufa</marker> de butà</example>
                 <example>un parell d'estufes de butà</example>
-                <example>un grup de teatre</example>
                 <example>un parell d'engegada alt</example>
                 <example>Són parella de fet.</example>
                 <example>Eren una parella de mitjana edat.</example>
@@ -4736,11 +4733,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">plantilla|grup|colla|col·lectiu|llista|llistat|conjunt|aula|ramat<exception regexp="yes">conjunta|conjuntes</exception></token>
+                    <token regexp="yes" inflected="yes">plantilla|col·lectiu|llista|llistat|conjunt|aula|ramat|&noms_collectius;<exception regexp="yes">conjunta|conjuntes</exception></token>
                     <token inflected="yes">de</token>
                     <marker>
-                        <!-- extraure llista de tot tipus de persona, animal...-->
-                        <token postag="NC.S.*" postag_regexp="yes" inflected="yes" regexp="yes">animal|bèstia|home|dona|nen|xiquet|jove|infant|al·lot|treballador|persona|empresari|assalariat|futbolista|jugador|sindicalista|funcionari|polític|alumne|professor</token>
+                        <!-- extraure llista de tot tipus de persona, animal... -->
+                        <token postag="NC.S.*" postag_regexp="yes" regexp="yes" inflected="yes">animal|bèstia|home|dona|nen|xiquet|jove|infant|al·lot|treballador|persona|empresari|assalariat|futbolista|jugador|sindicalista|funcionari|polític|alumne|professor</token>
                     </marker>
                 </pattern>
                 <message>Probablement cal un nom en plural.</message>
@@ -4748,6 +4745,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="treballadores">La plantilla de <marker>treballadora</marker>.</example>
                 <example correction="nens">Unes colles de <marker>nen</marker>.</example>
                 <example>Per la voluntat conjunta de treballador i empresari.</example>
+                <example>un grup de teatre</example>
             </rule>
             <rule id="CONFUSIO_NOMBRE" name="Confusions de nombre: catequesis, diesis">
                 <pattern>
@@ -32335,7 +32333,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token postag="SENT_START"/>
-                <token postag="_PUNCT.*" postag_regexp="yes" min="0" max="3"/> 
+                <token postag="_PUNCT.*" postag_regexp="yes" min="0" max="3"/>
                 <token regexp="yes" skip="-1">\p{Ll}.*</token>
                 <token postag="SENT_END"/>
             </antipattern>
@@ -33259,7 +33257,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">basat|basada|basats|basades</token>
                     <token regexp="yes">en|a</token>
                 </marker>
-                <token min="0" postag="DA.*" postag_regexp="yes"/> 
+                <token min="0" postag="DA.*" postag_regexp="yes"/>
                 <token postag="NP..G.." postag_regexp="yes"/>
             </pattern>
             <message>Amb el sentit de 'radicat a', aquesta expressió és un calc de l'anglès .</message>
