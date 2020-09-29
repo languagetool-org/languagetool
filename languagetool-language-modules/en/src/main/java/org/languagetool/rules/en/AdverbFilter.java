@@ -261,6 +261,9 @@ public class AdverbFilter extends RuleFilter {
     put("lightly", "light");
     put("haphazardly", "haphazard");
     put("lovingly", "loving");
+    put("sagely", "sage");
+    put("systematically", "systematical");
+    put("academically", "academical");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
