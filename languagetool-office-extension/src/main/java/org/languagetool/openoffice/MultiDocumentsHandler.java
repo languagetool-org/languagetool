@@ -265,6 +265,11 @@ public class MultiDocumentsHandler {
         if (config.saveLoCache()) {
           document.writeCaches();
         }
+        if(useQueue && textLevelQueue != null) {
+          MessageHandler.printToLogFile("Interrupt text level queue for document " + document.getDocID());
+          textLevelQueue.interruptCheck(document.getDocID());
+          MessageHandler.printToLogFile("Interrupt done");
+        }
       }
     }
     if (!found) {
@@ -531,11 +536,6 @@ public class MultiDocumentsHandler {
   private void removeDoc(String docID) {
     for (int i = documents.size() - 1; i >= 0; i--) {
       if(!docID.equals(documents.get(i).getDocID()) && documents.get(i).isDisposed()) {
-        if(useQueue && textLevelQueue != null) {
-          MessageHandler.printToLogFile("Interrupt text level queue for document " + documents.get(i).getDocID());
-          textLevelQueue.interruptCheck(documents.get(i).getDocID());
-          MessageHandler.printToLogFile("Interrupt done");
-        }
         if (goneContext != null) {
           XComponent xComponent = documents.get(i).getXComponent();
           if (xComponent != null && !xComponent.equals(goneContext)) {

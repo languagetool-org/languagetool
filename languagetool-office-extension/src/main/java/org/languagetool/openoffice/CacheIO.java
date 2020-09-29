@@ -110,13 +110,6 @@ public class CacheIO implements Serializable {
       fileOut.close();
       MessageHandler.printToLogFile("Caches saved to: " + cachePath);
       if (DEBUG_MODE) {
-        MessageHandler.printToLogFile("Document Cache: Number of paragraphs: " + allCaches.docCache.size());
-        MessageHandler.printToLogFile("Sentences Cache: Number of paragraphs: " + allCaches.sentencesCache.getNumberOfParas() 
-            + ", Number of matches: " + allCaches.sentencesCache.getNumberOfMatches());
-        MessageHandler.printToLogFile("Paragraph Cache(0): Number of paragraphs: " + allCaches.paragraphsCache.get(0).getNumberOfParas() 
-            + ", Number of matches: " + allCaches.paragraphsCache.get(0).getNumberOfMatches());
-        MessageHandler.printToLogFile("Paragraph Cache(1): Number of paragraphs: " + allCaches.paragraphsCache.get(1).getNumberOfParas() 
-            + ", Number of matches: " + allCaches.paragraphsCache.get(1).getNumberOfMatches());
         printCacheInfo();
       }
     } catch (Throwable t) {
@@ -156,13 +149,6 @@ public class CacheIO implements Serializable {
         fileIn.close();
         MessageHandler.printToLogFile("Caches read from: " + cachePath);
         if (DEBUG_MODE) {
-          MessageHandler.printToLogFile("Document Cache: Number of paragraphs: " + allCaches.docCache.size());
-          MessageHandler.printToLogFile("Sentences Cache: Number of paragraphs: " + allCaches.sentencesCache.getNumberOfParas() 
-              + ", Number of matches: " + allCaches.sentencesCache.getNumberOfMatches());
-          MessageHandler.printToLogFile("Paragraph Cache(0): Number of paragraphs: " + allCaches.paragraphsCache.get(0).getNumberOfParas() 
-              + ", Number of matches: " + allCaches.paragraphsCache.get(0).getNumberOfMatches());
-          MessageHandler.printToLogFile("Paragraph Cache(1): Number of paragraphs: " + allCaches.paragraphsCache.get(1).getNumberOfParas() 
-              + ", Number of matches: " + allCaches.paragraphsCache.get(1).getNumberOfMatches());
           printCacheInfo();
         }
         return true;
@@ -190,6 +176,13 @@ public class CacheIO implements Serializable {
   }
   
   private void printCacheInfo() {
+    MessageHandler.printToLogFile("Document Cache: Number of paragraphs: " + allCaches.docCache.size());
+    MessageHandler.printToLogFile("Sentences Cache: Number of paragraphs: " + allCaches.sentencesCache.getNumberOfParas() 
+        + ", Number of matches: " + allCaches.sentencesCache.getNumberOfMatches());
+    MessageHandler.printToLogFile("Paragraph Cache(0): Number of paragraphs: " + allCaches.paragraphsCache.get(0).getNumberOfParas() 
+        + ", Number of matches: " + allCaches.paragraphsCache.get(0).getNumberOfMatches());
+    MessageHandler.printToLogFile("Paragraph Cache(1): Number of paragraphs: " + allCaches.paragraphsCache.get(1).getNumberOfParas() 
+        + ", Number of matches: " + allCaches.paragraphsCache.get(1).getNumberOfMatches());
     if (allCaches.sentencesCache == null) {
       MessageHandler.printToLogFile("sentencesCache == null");
     } else {
