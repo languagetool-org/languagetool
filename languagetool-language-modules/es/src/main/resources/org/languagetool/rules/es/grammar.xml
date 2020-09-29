@@ -6883,33 +6883,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="Y_E_O_U" name="y Italia, o Honduras">
             <rule id="Y_E" name="e ante palabras empezando por i">
                 <pattern>
-                    <token>y<exception scope="previous">¿</exception></token>
+                    <marker>
+                        <token>y<exception scope="previous">¿</exception></token>
+                    </marker>
                     <token regexp="yes">h?[ií].*<exception regexp="yes">h?ih?[aeouáéóú].*</exception><!--Números romanos--><exception regexp="yes">[ivxlcdm]+</exception></token>
                 </pattern>
-                <message>Cuando precede a palabras que comienzan por «i-» (o «hi-»), la conjunción «y» se transforma en «e».</message>
-                <suggestion>e <match no="2"/></suggestion>
-                <example correction="e Italia">Alemania <marker>y Italia</marker> disputarán el torneo.</example>
+                <message>Cuando precede a palabras que comienzan por 'i-', la conjunción 'y' se transforma en 'e'.</message>
+                <suggestion>e</suggestion>
+                <example correction="e">Alemania <marker>y</marker> Italia disputarán el torneo.</example>
                 <example>¿<marker>Y Irene</marker>?</example>
             </rule>
             <rule id="E_Y" name="'y' ante palabras empezando por (h)ia" default="on">
                 <pattern>
-                    <token>e</token>
+                    <marker>
+                        <token>e</token>
+                    </marker>
                     <token regexp="yes">h?ih?[aeoáéó].*<exception>ia</exception></token>
                 </pattern>
-                <message>Cuando precede a palabras que comienzan con diptongo, se usa la conjunción «y», no «e».</message>
-                <suggestion>y <match no="2"/></suggestion>
-                <example correction="y hielo">Agua <marker>e hielo</marker>.</example>
-                <example correction="y hierro">Agua <marker>e hierro</marker>.</example>
-                <example correction="y iones">Agua <marker>e iones</marker>.</example>
+                <message>Cuando precede a palabras que comienzan con diptongo, se usa la conjunción 'y', no 'e'.</message>
+                <suggestion>y</suggestion>
+                <example correction="y">Agua <marker>e</marker> hielo.</example>
+                <example correction="y">Agua <marker>e</marker> hierro.</example>
+                <example correction="y">Agua <marker>e</marker> iones.</example>
             </rule>
             <rule id="O_U" name="cambio de o ante palabras empezando por o">
                 <pattern>
                     <token>o</token>
                     <token regexp="yes">^h?[oó].*</token>
                 </pattern>
-                <message>Cuando precede a palabras que comienzan por «o-» (u «ho-»), la conjunción «o» se transforma en «u»: <suggestion>u <match no="2"/></suggestion></message>
+                <message>Cuando precede a palabras que comienzan por 'o-', la conjunción 'o' se transforma en 'u'</message>
+                <suggestion>u</suggestion>
                 <short>Cuando precede a palabras que comienzan por «o-» (u «ho-»), la conjunción «o» se transforma en «u»</short>
-                <example correction="u Honduras">El torneo lo disputarán Alemania <marker>o Honduras</marker>.</example>
+                <example correction="u">El torneo lo disputarán Alemania <marker>o</marker>  Honduras.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PORQUE" name="porque/por que/porqué">
