@@ -9521,6 +9521,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="VOR_ORT_TERMIN" name="Vor-Ort-Termin" default="temp_off">
+            <pattern>
+                <token>vor</token>
+                <token>ort</token>
+                <token regexp="yes">termin[es]?</token>
+            </pattern>
+            <message>Das Nomen <suggestion>Vor-Ort-<match no="3" case_conversion="startupper" /></suggestion> wird mit Bindestrichen geschrieben.</message>
+            <example correction="Vor-Ort-Termin">Lass uns einen <marker>vor Ort Termin</marker> vereinbaren.</example>
+        </rule>
         <rulegroup id="POP_UP" name="Pop-up">
             <url>https://de.wikipedia.org/wiki/Pop-up</url>
             <rule>
