@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!DOCTYPE rules [
     <!ENTITY denominacio "element|paraula|mot|terme|expressió|vocable|nom|tipus|denominació|gentilici|terminació|arrel">
     <!ENTITY apostrophe "['’´]">
-    <!ENTITY common_english_nouns_feminine "Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation|Conference">
+    <!ENTITY common_english_nouns_feminine "University|Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation|Conference">
     <!ENTITY common_english_nouns_masculine "Club|TM|UD|UE|SD|Team|Day|Center|Centre|Hilton">
     <!ENTITY adjectius_TE_INFUSIO "descafeïnat|mòlt|jove|conegut|preparat|empaquetat|xin[èé]s|amargant|sud-americà|instantani|lleuger|indi|roquer|dolç|fals|bord|tradicional|gal·l[éè]s|pudent|salvatge|àrab|angl[éè]s|fosc|negre|verd|vermell|blanc|gelat|fred|calent|turc">
     <!ENTITY adverbis_temps_lloc "entra(t|ts|da|des)|passa(t|ts|da|des)|tocad(a|es)|arran|enfront|per|durant|llavors|tard|aviat|pròximament|properament|prompte|avui|abans|després|hui|ara|demà|ahir|abans-d'ahir|despús-ahir|despús-demà|aquí|ací|allí|allà|ahí|aleshores|recentment|posteriorment|mai">
@@ -4736,7 +4736,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">plantilla|grup|colla|col·lectiu|llista|llistat|conjunt|aula|ramat</token>
+                    <token regexp="yes" inflected="yes">plantilla|grup|colla|col·lectiu|llista|llistat|conjunt|aula|ramat<exception regexp="yes">conjunta|conjuntes</exception></token>
                     <token inflected="yes">de</token>
                     <marker>
                         <!-- extraure llista de tot tipus de persona, animal...-->
@@ -4747,6 +4747,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" postag="(NC.)S.*" postag_regexp="yes" postag_replace="$1P.*"/></suggestion>
                 <example correction="treballadores">La plantilla de <marker>treballadora</marker>.</example>
                 <example correction="nens">Unes colles de <marker>nen</marker>.</example>
+                <example>Per la voluntat conjunta de treballador i empresari.</example>
             </rule>
             <rule id="CONFUSIO_NOMBRE" name="Confusions de nombre: catequesis, diesis">
                 <pattern>
@@ -41331,6 +41332,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="assenyalà">L'àrbitre <marker>senyalà</marker> el final del partit.</example>
             <example type="triggers_error">Va senyalar totes les peces de roba.</example>
         </rule>
+        <rule id="SENYALADAMENT" name="senyaladament/assenyaladament">
+            <pattern>
+                <token>senyaladament</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>assenyaladament</suggestion> (ús més comú)? "Senyalar" és només fer o posar un senyal.</message>
+            <example correction="assenyaladament">Van dir, <marker>senyaladament</marker>, que no podia ser.</example>
+        </rule>
         <rule id="ASCÓ" name="ascó/escó">
             <pattern>
                 <token inflected="yes">ascó<exception postag="NP.*" postag_regexp="yes"/></token>
@@ -54920,7 +54928,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" negate="yes">a|de|per</token>
+                    <token><exception regexp="yes">a|de|per|aquí|ací|allí|allà</exception></token>
                     <marker>
                         <token regexp="yes">sobre|sota<exception postag="_GN_MS"/></token>
                         <token postag="V.[MSIG].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="V.[MSIG].*|_GV_" postag_regexp="yes" negate_pos="yes"/></token>
@@ -54929,6 +54937,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Combinació impossible: preposició+verb conjugat.</message>
                 <example correction="">serres que <marker>sobre passen</marker> els mil metres</example>
                 <example>Aquell sobre tenia un document.</example>
+                <example>Els paquets d'aquí sota necessiten ser revisats.</example>
             </rule>
         </rulegroup>
         <rule id="DE_INFINITIU_CONDICIONAL" name="de + infinitiu condicional">
