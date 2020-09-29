@@ -130,22 +130,22 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
         .filter(k -> !k.getReplacement().startsWith("re ") &&
                      !k.getReplacement().startsWith("en ") &&
                      !k.getReplacement().startsWith("co ") &&
-                     !k.getReplacement().startsWith("non ") &&
+                     !k.getReplacement().toLowerCase().startsWith("non ") &&
                      !k.getReplacement().startsWith("con ") &&
                      !k.getReplacement().startsWith("ins ") && // instable (ins table)
-                     !k.getReplacement().startsWith("pre ") &&
-                     !k.getReplacement().startsWith("inter ") &&
-                     !k.getReplacement().startsWith("anti ") &&
+                     !k.getReplacement().toLowerCase().startsWith("pre ") &&
+                     !k.getReplacement().toLowerCase().startsWith("inter ") &&
+                     !k.getReplacement().toLowerCase().startsWith("anti ") &&
                      !k.getReplacement().startsWith("sub ") &&
-                     !k.getReplacement().startsWith("auto ") &&
+                     !k.getReplacement().toLowerCase().startsWith("auto ") &&
                      !k.getReplacement().startsWith("sh ") &&
                      !k.getReplacement().startsWith("li ") &&
                      !k.getReplacement().startsWith("ha ") &&
-                     !k.getReplacement().startsWith("dis ") &&
-                     !k.getReplacement().startsWith("mono ") &&
-                     !k.getReplacement().startsWith("trans ") &&
-                     !k.getReplacement().startsWith("ultra ") &&
-                     !k.getReplacement().startsWith("mini ") &&
+                     !k.getReplacement().toLowerCase().startsWith("dis ") &&
+                     !k.getReplacement().toLowerCase().startsWith("mono ") &&
+                     !k.getReplacement().toLowerCase().startsWith("trans ") &&
+                     !k.getReplacement().toLowerCase().startsWith("ultra ") &&
+                     !k.getReplacement().toLowerCase().startsWith("mini ") &&
                      !k.getReplacement().startsWith("mu ") &&
                      !k.getReplacement().startsWith("e ") &&
                      !k.getReplacement().endsWith(" able") &&
