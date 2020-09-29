@@ -13942,6 +13942,261 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
+    <category name="tipografía avanzada" id="ACCURATE_TYPOGRAPHY" tags="picky">
+        <rule id="PUNTOS_SUSPENSIVOS" name="Carácter de puntos suspensivos">
+            <pattern>
+                <token>.</token>
+                <token>.</token>
+                <token>.</token>
+            </pattern>
+            <message>Sustituya los tres puntos por el carácter de puntos suspensivos.</message>
+            <suggestion>…</suggestion>
+            <example correction="…">Ahora mismo<marker>...</marker></example>
+            <example>Ahora…</example>
+        </rule>
+        <rulegroup id="GUION_LARGO" name="Guion largo">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token spacebefore="yes" regexp="yes">[–‒-]</token>
+                    </marker>
+                    <token spacebefore="no" regexp="yes">[^-\d].*</token>
+                </pattern>
+                <message>Utilice el carácter adecuado de guion largo.</message>
+                <suggestion>—</suggestion>
+                <example correction="—">Ven <marker>-</marker>dijo.</example>
+                <example correction="—">Ven <marker>–</marker>dijo.</example>
+                <example correction="—">Ven <marker>‒</marker>dijo.</example>
+                <example>Ven —dijo.</example>
+                <example>Años 1950‒1954.</example>
+                <example>Nivel medio-alto.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[^\-\d]</token>
+                    <marker>
+                        <token spacebefore="no" regexp="yes">[–‒-]</token>
+                    </marker>
+                    <token spacebefore="yes"/>
+                </pattern>
+                <message>Utilice el carácter adecuado de guion largo.</message>
+                <suggestion>—</suggestion>
+                <example correction="—">dijo entonces<marker>-</marker> ven.</example>
+                <example>Nivel bajo-medio.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[^\-\d]</token>
+                    <marker>
+                        <token spacebefore="no" regexp="yes">[–‒-]</token>
+                    </marker>
+                    <token regexp="yes">;|,|\.</token>
+                </pattern>
+                <message>Utilice el carácter adecuado de guion largo.</message>
+                <suggestion>—</suggestion>
+                <example correction="—">dijo<marker>-</marker>, ven.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[–‒-]</token>
+                    <token regexp="yes">[–‒-]</token>
+                </pattern>
+                <message>Utilice el carácter adecuado de guion largo.</message>
+                <suggestion>—</suggestion>
+                <example correction="—"><marker>--</marker></example>
+                <example><marker>—</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token regexp="yes">[–‒-]</token>
+                    </marker>
+                </pattern>
+                <message>Utilice el carácter adecuado de guion largo.</message>
+                <suggestion>—</suggestion>
+                <example correction="—"><marker>-</marker> Primer punto del orden del día.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="COMILLAS_TIPOGRAFICAS" name="Comillas tipográficas" tags="picky">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token spacebefore="yes">"</token>
+                    </marker>
+                    <token spacebefore="no"/>
+                </pattern>
+                <message>Use comillas tipográficas.</message>
+                <suggestion>“</suggestion>
+                <suggestion>«</suggestion>
+                <example correction="“|«">Es de <marker>"</marker>gran calidad".</example>
+                <example>Es de “gran calidad”.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception>"</exception></token>
+                    <token><exception regexp="yes">['‘«\[(¡¿–‒—-]</exception><exception postag="SENT_START"/></token>
+                    <marker>
+                        <token spacebefore="no">"</token>
+                    </marker>
+                </pattern>
+                <message>Use comillas tipográficas.</message>
+                <suggestion>”</suggestion>
+                <suggestion>»</suggestion>
+                <example correction="”|»">Es de "gran calidad<marker>"</marker>.</example>
+                <example>De “gran calidad”</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" regexp="yes">[–‒—-]</token>
+                    <marker>
+                        <token spacebefore="no">"</token>
+                    </marker>
+                    <token spacebefore="no"/>
+                </pattern>
+                <message>Use comillas tipográficas.</message>
+                <suggestion>“</suggestion>
+                <suggestion>«</suggestion>
+                <example correction="“|«">-<marker>"</marker>Dime qué pasó".</example>
+                <example correction="“|«"><marker>"</marker>Decidme qué pasó".</example>
+                <example>-“Gran calidad”</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">['‘«\[(¡¿]</token>
+                    <marker>
+                        <token spacebefore="no">"</token>
+                    </marker>
+                </pattern>
+                <message>Use comillas tipográficas.</message>
+                <suggestion>“</suggestion>
+                <suggestion>«</suggestion>
+                <example correction="“|«">(<marker>"</marker>gran calidad").</example>
+                <example>(“gran calidad”)</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token spacebefore="no">"</token>
+                    </marker>
+                    <token spacebefore="no" regexp="yes">[\])!?]</token>
+                </pattern>
+                <message>Use comillas tipográficas.</message>
+                <suggestion>”</suggestion>
+                <suggestion>»</suggestion>
+                <example correction="”|»">("gran calidad<marker>"</marker>).</example>
+                <example>¿“Gran calidad”?</example>
+            </rule>
+            <rule>
+                <!-- cath all-->
+                <pattern>
+                    <token>"</token>
+                </pattern>
+                <message>Use comillas tipográficas.</message>
+                <suggestion>”</suggestion>
+                <suggestion>“</suggestion>
+                <example correction="”|“"><marker>"</marker></example>
+                <example>¿“Gran calidad”?</example>
+            </rule>
+            <rule>
+                <!-- apostrophe (English or other languages) -->
+                <pattern>
+                    <marker>
+                        <token spacebefore="no">'</token>
+                    </marker>
+                    <token spacebefore="no"/>
+                </pattern>
+                <message>Use el apóstrofe tipográfico.</message>
+                <suggestion>’</suggestion>
+                <example correction="’">Sotheby<marker>'</marker>s.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token spacebefore="yes">'</token>
+                    </marker>
+                    <token spacebefore="no"/>
+                </pattern>
+                <message>Use comillas tipográficas.</message>
+                <suggestion>‘</suggestion>
+                <suggestion>“</suggestion>
+                <suggestion>«</suggestion>
+                <example correction="‘|“|«">Es de <marker>'</marker>gran calidad'.</example>
+                <example>De ‘gran calidad’.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception>'</exception></token>
+                    <token><exception regexp="yes">["‘«“\[(¡¿–‒—-]</exception><exception postag="SENT_START"/></token>
+                    <marker>
+                        <token spacebefore="no">'</token>
+                    </marker>
+                </pattern>
+                <message>Use comillas tipográficas.</message>
+                <suggestion>’</suggestion>
+                <suggestion>”</suggestion>
+                <suggestion>»</suggestion>
+                <example correction="’|”|»">Es de 'gran calidad<marker>'</marker>.</example>
+                <example>De ‘gran calidad’.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" regexp="yes">[–‒—-]</token>
+                    <marker>
+                        <token spacebefore="no">'</token>
+                    </marker>
+                    <token spacebefore="no"/>
+                </pattern>
+                <message>Use comillas tipográficas.</message>
+                <suggestion>‘</suggestion>
+                <suggestion>“</suggestion>
+                <suggestion>«</suggestion>
+                <example correction="‘|“|«">-<marker>'</marker>Dime qué pasó'.</example>
+                <example>De ‘gran calidad’.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">["«“\[(¡¿]</token>
+                    <marker>
+                        <token spacebefore="no">'</token>
+                    </marker>
+                </pattern>
+                <message>Use comillas tipográficas.</message>
+                <suggestion>‘</suggestion>
+                <suggestion>“</suggestion>
+                <suggestion>«</suggestion>
+                <example correction="‘|“|«">(<marker>'</marker>gran calidad').</example>
+                <example>De ‘gran calidad’.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token spacebefore="no">'</token>
+                    </marker>
+                    <token spacebefore="no" regexp="yes">[\])!?]</token>
+                </pattern>
+                <message>Use comillas tipográficas.</message>
+                <suggestion>’</suggestion>
+                <suggestion>”</suggestion>
+                <suggestion>»</suggestion>
+                <example correction="’|”|»">('gran calidad<marker>'</marker>).</example>
+                <example>(‘gran calidad’)</example>
+            </rule>
+            <rule>
+                <!-- cath all-->
+                <pattern>
+                    <token>'</token>
+                </pattern>
+                <message>Use comillas tipográficas.</message>
+                <suggestion>’</suggestion>
+                <suggestion>‘</suggestion>
+                <example correction="’|‘"><marker>'</marker></example>
+                <example>¿“Gran calidad”?</example>
+            </rule>
+        </rulegroup>
+    </category>
     <category id="LANGUAGE_VARIANTS" name="Variedades de lengua" type="locale-violation">
         <rulegroup id="VOSEO" name="Evitar formas de voseo" default="on">
             <url>https://www.rae.es/dpd/voseo</url>

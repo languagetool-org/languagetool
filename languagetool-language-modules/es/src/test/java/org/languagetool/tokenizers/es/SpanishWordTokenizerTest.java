@@ -57,5 +57,9 @@ public class SpanishWordTokenizerTest {
     tokens = wordTokenizer.tokenize("1,400.50$");
     assertEquals(tokens.size(), 1);
     assertEquals("[1,400.50$]", tokens.toString());
+    
+    tokens = wordTokenizer.tokenize("Ven ‒dijo."); // \u2012
+    assertEquals(tokens.size(), 5);
+    assertEquals("[Ven,  , ‒, dijo, .]", tokens.toString());
   }
 }
