@@ -8135,7 +8135,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="euros">Puede costar billones de <marker>euro</marker>.</example>
                 <example>Forma parte de un grupo de teatro.</example>
             </rule>
-        </rulegroup> 
+            <rule>
+                <!-- TODO: fix false alarms -->
+                <antipattern>
+                    <token>grupo</token>
+                    <token>de</token>
+                    <token>teatro</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" inflected="yes">plantilla|colectivo|lista|listado|grupo|conjunto|aula|pareja<exception regexp="yes">conjunta|conjuntas</exception></token>
+                    <token inflected="yes">de</token>
+                    <marker>
+                        <token postag="NC.S.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Probablemente el nombre debe ir en plural.</message>
+                <suggestion><match no="3" postag="(NC.)S(.*)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
+                <example correction="personas">Son un conjunto de <marker>persona</marker>.</example>
+                <example>Participa en un grupo de teatro.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AGREEMENT_DET_DET" name="concordancias det. + det.">
             <rule>
                 <pattern>
