@@ -6890,6 +6890,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Cuando precede a palabras que comienzan por 'i-', la conjunción 'y' se transforma en 'e'.</message>
                 <suggestion>e</suggestion>
+                <short>La conjunción 'y' se transforma en 'e'</short>
                 <example correction="e">Alemania <marker>y</marker> Italia disputarán el torneo.</example>
                 <example>¿<marker>Y Irene</marker>?</example>
             </rule>
@@ -6902,19 +6903,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Cuando precede a palabras que comienzan con diptongo, se usa la conjunción 'y', no 'e'.</message>
                 <suggestion>y</suggestion>
+                <short>Ante palabras que comienzan con diptongo, se usa 'y'</short>
                 <example correction="y">Agua <marker>e</marker> hielo.</example>
                 <example correction="y">Agua <marker>e</marker> hierro.</example>
                 <example correction="y">Agua <marker>e</marker> iones.</example>
             </rule>
             <rule id="O_U" name="cambio de o ante palabras empezando por o">
                 <pattern>
-                    <token>o</token>
+                    <marker>
+                        <token>o</token>
+                    </marker>
                     <token regexp="yes">^h?[oó].*</token>
                 </pattern>
-                <message>Cuando precede a palabras que comienzan por 'o-', la conjunción 'o' se transforma en 'u'</message>
+                <message>Cuando precede a palabras que comienzan por 'o-', la conjunción 'o' se transforma en 'u'.</message>
                 <suggestion>u</suggestion>
-                <short>Cuando precede a palabras que comienzan por «o-» (u «ho-»), la conjunción «o» se transforma en «u»</short>
-                <example correction="u">El torneo lo disputarán Alemania <marker>o</marker>  Honduras.</example>
+                <short>La conjunción 'o' se transforma en 'u'</short>
+                <example correction="u">El torneo lo disputarán Alemania <marker>o</marker> Honduras.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PORQUE" name="porque/por que/porqué">
@@ -6971,7 +6975,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token regexp="yes">lo|los|la|las</token>
-                    <token min="0" inflected="yes">haber</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token>porque</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">lo|los|la|las</token>
+                    <token inflected="yes">haber</token>
                     <token postag="V.*" postag_regexp="yes"/>
                     <token>porque</token>
                 </antipattern>
@@ -7008,6 +7017,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="por qué">No puedo comprender <marker>porqué</marker> él dijo eso</example>
                 <example correction="por qué">No estoy diciendo que entienda completamente <marker>porqué</marker> ha surgido este nuevo esfuerzo.</example>
                 <example>Lo sé porque lo he hecho muchas veces.</example>
+                <example>Lo he sabido porque me lo ha dicho ella.</example>
                 <example>Se explicaría porque era inventado.</example>
                 <example>Lo dices porque tienes miedo.</example>
                 <example>He querido decirlo porque después propondré otra cosa.</example>
