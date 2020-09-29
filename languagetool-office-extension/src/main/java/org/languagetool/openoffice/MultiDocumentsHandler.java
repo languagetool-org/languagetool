@@ -1090,6 +1090,9 @@ public class MultiDocumentsHandler {
         if (ltDialog != null) {
           ltDialog.closeDialog();
         }
+        if (docLanguage == null) {
+          docLanguage = getLanguage();
+        }
         SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
         if ("checkAgainDialog".equals(sEvent)) {
           DocumentCursorTools docCursor = new DocumentCursorTools(getCurrentDocument().getXComponent());
