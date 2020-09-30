@@ -1024,6 +1024,23 @@ title="Easy editing stylesheet" ?>
 		  <token postag='NPMS000' postag_regexp='no'/>
 	  </antipattern>	  	  
 <!-- MARCOAGPINTO 2020-09-08 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-09-30 (2-JUL-2020+) *START* -->
+<!-- "Ver na pasta SPAM caso nenhum link chegue." -->
+      <antipattern>
+		  <token regexp="yes">a|à|alguma|cada|como|com|da|desta|deste|em|na|nessa|nesta|ou|outra|para|pela|pelo|por|que|sem|sobre|sua</token> <!-- removed "uma" since it complained, create a special antipattern for it -->
+		  <token postag='NC[CF]S000|AQ0[CF]S0' postag_regexp='yes'/>
+		  <token postag='NC[CM]S000|AQ0[CM]S0' postag_regexp='yes'/>
+	  </antipattern>
+      <!-- "É preparado com um caldo fino de cor amarelada chamado tucupi." -->
+	  <!-- "Eu amo música rock." -->
+	  <!-- "1998: Surgem os primeiros players portáteis de MP3, usando memória flash." -->
+	  <!-- "Ao não permitir efeitos colaterais em funções, a linguagem oferece transparência referencial." -->
+      <antipattern>
+		  <token postag='NC[CF]S000|VMIP1S0|VMG0000|VMIP3S0|VMM02S0|RM' postag_regexp='yes'/>
+		  <token postag='NC[CF]S000|AQ0[CF]S0' postag_regexp='yes'/>
+		  <token postag='NC[CM]S000|AQ0[CM]S0' postag_regexp='yes'/>
+	  </antipattern>		  
+<!-- MARCOAGPINTO 2020-09-30 (2-JUL-2020+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>o|e|de|&hifen;</token> <!-- MARCOAGPINTO 2019-12-31 -->
         <marker>
@@ -1058,6 +1075,7 @@ title="Easy editing stylesheet" ?>
 	  <example type='correct'>Apenas testemunhos sem <marker>conta recebidos</marker> de todo o mundo.</example>
 	  <example type='correct'>Apenas testemunhas sem <marker>fim recebidas</marker> de todo o mundo.</example>
 	  <example type='correct'>A <marker>emoção Corinthians</marker>.</example>
+	  <example type='correct'>Ver na <marker>pasta SPAM</marker> caso nenhum link chegue.</example>
     </rule>
     <rule>
       <antipattern>
