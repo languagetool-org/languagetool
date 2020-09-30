@@ -180,11 +180,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\d\d?</token>
                     <token min="0" regexp="yes">de|d'</token>
                     <token regexp="yes">&mesos_any;|&mesos_any_abrev;</token>
-                    <token>de</token>
-                    <token spacebefore="no" min="0">l</token>
+                    <token regexp="yes" min="0" max="3">d'|de|l|l'|,|any</token>
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
-                <filter class="org.languagetool.rules.ca.DateCheckFilter" args="year:\8 month:\5 day:\3 weekDay:\1"/>
+                <filter class="org.languagetool.rules.ca.DateCheckFilter" args="year:\7 month:\5 day:\3 weekDay:\1"/>
                 <message>Aquesta data no és un {day} sinó un {realDay}.</message>
                 <example correction=""><marker>Dilluns, 7 d'octubre de 2014</marker></example>
                 <example correction=""><marker>Dilluns 7 d'octubre de 2014</marker></example>
@@ -193,13 +192,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>Dilluns 7 d'octubre del 2014</marker></example>
                 <example><marker>Dimarts, 7 d'octubre del 2014</marker></example>
                 <example><marker>Washington DC, 7 d'octubre del 2014</marker></example>
+                <example>Divendre 5 d'octubre de l'any 2018.</example>
             </rule>
             <rule>
                 <antipattern>
                     <marker>
                         <token regexp="yes">&mesos_any;|&mesos_any_abrev;</token>
-                        <token>de</token>
-                        <token spacebefore="no" min="0">l</token>
+                        <token regexp="yes" min="0" max="3">d'|de|l|l'|,|any</token>
                         <token regexp="yes">\d\d\d\d</token>
                     </marker>
                 </antipattern>
@@ -226,6 +225,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Dilluns 27 de novembre de 1922</example>
                 <example>Dilluns 27 de novembre del 1922</example>
                 <example>Dilluns 27 de novembre 1922</example>
+                <example>Divendre 5 d'octubre de l'any 2018.</example>
             </rule>
             <!-- "Dilluns, 7 oct 2014" -->
             <rule>

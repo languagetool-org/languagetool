@@ -11170,6 +11170,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="crear|creer">Tiene que <marker>cree</marker> que es posible.</example>
                 <example>¿Qué tiene que cree que es el mejor?</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">haber<exception>hay</exception></token>
+                    <token>de</token>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes"><exception postag="V.N.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="V.N...."/></suggestion>?</message>
+                <example correction="considerar">Se ha de <marker>considera</marker> el mejor.</example>
+                <example correction="crear|creer">Había de <marker>cree</marker> que es posible.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SIDO" name="sido">
             <antipattern>
@@ -14403,7 +14415,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\d\d?</token>
                     <token min="0">de</token>
                     <token regexp="yes">&meses_ano;|&meses_ano_abrv;</token>
-                    <token regexp="yes">de|del</token>
+                    <token regexp="yes" min="0" max="3">de|del|,|año</token>
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.DateCheckFilter" args="year:\7 month:\5 day:\3 weekDay:\1"/>
@@ -14419,7 +14431,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token regexp="yes">&meses_ano;|&meses_ano_abrv;</token>
-                    <token regexp="yes">de|del</token>
+                    <token regexp="yes" min="0" max="3">de|del|,|año</token>
                     <token regexp="yes">\d\d\d\d</token>
                 </antipattern>
                 <antipattern>
@@ -14443,6 +14455,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Lunes 27 de noviembre de 1922</example>
                 <example>Lunes 27 de noviembre del 1922</example>
                 <example>Lunes 27 de noviembre 1922</example>
+                <example>Viernes 5 de octubre del año 2018.</example>
+                <example>Viernes 5 de octubre, 2018.</example>
+                <example>Viernes 5 de octubre 2018.</example>
             </rule>
             <!-- "Lunes, 7 oct 2014" -->
             <rule>
