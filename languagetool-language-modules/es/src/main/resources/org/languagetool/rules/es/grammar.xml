@@ -57,6 +57,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY wrong_as_pron_verb2 "de|e">
 <!-- also: de, e-->
 <!ENTITY colors_invariable "burdeos|naranja|rosa|violeta|añil|carmesí">
+    <!ENTITY words_H_ASPIRADA2 "Higgs|high|Hildesheim|Hill|hijabs?|Hillary|Himmler|hip-hop|hippies|hippy|hipsters?|Hirado|His|hits?|Hubei|Hudson|Hunter|Husserl|Huygens|Utah|husky">
+    <!ENTITY words_H_ASPIRADA "Harris|Harvey|Hunspell|Hassan|Haddock|Haarle[mn].*|Hainan|haendel.*|händel.*|habermas.*|hadits?|Hanuk?kà|hack.*|Harlem|Harper|Hartford|Haifa|haikus?|haima|haimes|Haikou|halal|halar|Halifax|Halmstad|halls?|Halle|Halley|Hallstatt|Hallstein|Halloweens?|Hals|herr|Herut|Hamadan|Hamas|Hamàs|hamilton.*|Hamlet.*|hammams?|Hammond|Hampton|hàmsters?|h[aà]ndicaps?|Hangzhou|Hannover|Hanoi|Hans|Hansa|hanseàti[cq].*|happenings?|Harbin|hardware|Haneke|harolds?|Hatay|Hamleigh |Harrisburg|Harrison|harrods?|harry|Hartley|Hartmann?|Hartree|Haruki|Har[td]?vard|Harz|hash.*|Hastings|Havel|Havilland|hawai.*|hawk.*|Hayek|Haydn.*|Hayworth|Heard|hearst|Heathrow|heav.*|hegel.*|Hebei|Hedmark|Heerenveen|Hedw.*|Heerlen|Hefei|Heidelberg|Heide[gn].*|Heilbronn|Heilongjiang|Heilig.*|hei[nk].*|Heisen.*|Heitz|Helmand|Helmholtz|Helen|Helsingborg|Hèlsinki|Heming.*|Henan|henna|hennes|Henry|Hepburn|herbert.*|Herder|Hereford|Herford|Herning|Hertfordshire|Herzog|Hesse|Hessen|Hewlett.*|Hezboll.+|high.*|hilbert.*|Hilda|Hillingdon|hinden.*|Hilton|hinterlands?|Hirsch.*|Hitch.*|hitler.*|Hilversum|Hobart|Hockenheim|Hodeida|Hohhot|Hokkaido|hobbes.*|hobby|Hogw.*|hobbies|Hodgkin|Hohen.*|Hölderlin|h[òo]ldings?|holy.*|hollywood.*|Holmes.*|Holstein|Hong|Hong-Kong|hongk.+|Honolu.+|Honsh[uū]|h[òo]bbits?|hooligan.*|hoover.*|hopkins|Hork.*|Horowitz|horst|H[ou]f.*|Houla|house|Houston|Howard|Hoyerswerda|Hunan|Huddersfield|Hunedoara|huskys?|huskies|hubs?|Hubble|humbold.*|Hume|hunting.*|Hussein|husseinit.+|university|united|(?-i)Hagen|Hamada">
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
@@ -6897,26 +6899,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Maniobró para que la sentencia, una vez dictada, no se conociera.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="Y_E_O_U" name="y Italia, o Honduras">
-            <rule id="Y_E" name="e ante palabras empezando por i">
+        <rulegroup id="Y_E_O_U" name="e Italia; u Honduras">
+            <rule>
                 <pattern>
                     <marker>
                         <token>y<exception scope="previous">¿</exception></token>
                     </marker>
-                    <token regexp="yes">h?[ií].*<exception regexp="yes">h?ih?[aeouáéóú].*</exception><!--Números romanos--><exception regexp="yes">[ivxlcdm]+</exception></token>
+                    <token regexp="yes">h?[ií].*<exception regexp="yes">h?ih?[aeouáéóú].*</exception><!--Números romanos--><exception regexp="yes">[ivxlcdm]+|&words_H_ASPIRADA;|&words_H_ASPIRADA2;</exception></token>
                 </pattern>
-                <message>Cuando precede a palabras que comienzan por 'i-', la conjunción 'y' se transforma en 'e'.</message>
+                <message>Cuando precede a palabras que comienzan por 'i', la conjunción 'y' se transforma en 'e'.</message>
                 <suggestion>e</suggestion>
                 <short>La conjunción 'y' se transforma en 'e'</short>
                 <example correction="e">Alemania <marker>y</marker> Italia disputarán el torneo.</example>
                 <example>¿<marker>Y Irene</marker>?</example>
+                <example>Himmler y Hitler.</example>
+                <example>Hitler y Himmler.</example>
+                <example>vals, tango, disco, salsa, electrónica y hip-hop</example>
             </rule>
-            <rule id="E_Y" name="'y' ante palabras empezando por (h)ia" default="on">
+            <rule default="temp_off">
                 <pattern>
                     <marker>
                         <token>e</token>
                     </marker>
-                    <token regexp="yes">h?ih?[aeoáéó].*<exception>ia</exception></token>
+                    <and>
+                        <token regexp="yes">&words_H_ASPIRADA;|&words_H_ASPIRADA2;</token>
+                        <token regexp="yes">hi.*</token>
+                    </and>
+                </pattern>
+                <message>Cuando precede a palabras que comienzan con 'h' aspirada, se usa la conjunción 'y', no 'e'.</message>
+                <suggestion>y</suggestion>
+                <short>Ante palabras que comienzan con 'h' aspirada, se usa 'y'</short>
+                <example correction="y">Hitler <marker>e</marker> Himmler.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>e</token>
+                    </marker>
+                    <token regexp="yes">h?ih?[aeoáéó].*<exception regexp="yes">ia|iOS</exception></token>
                 </pattern>
                 <message>Cuando precede a palabras que comienzan con diptongo, se usa la conjunción 'y', no 'e'.</message>
                 <suggestion>y</suggestion>
@@ -6925,14 +6945,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="y">Agua <marker>e</marker> hierro.</example>
                 <example correction="y">Agua <marker>e</marker> iones.</example>
             </rule>
-            <rule id="O_U" name="cambio de o ante palabras empezando por o">
+            <rule>
                 <pattern>
                     <marker>
                         <token>o</token>
                     </marker>
                     <token regexp="yes">^h?[oó].*</token>
                 </pattern>
-                <message>Cuando precede a palabras que comienzan por 'o-', la conjunción 'o' se transforma en 'u'.</message>
+                <message>Cuando precede a palabras que comienzan por 'o', la conjunción 'o' se transforma en 'u'.</message>
                 <suggestion>u</suggestion>
                 <short>La conjunción 'o' se transforma en 'u'</short>
                 <example correction="u">El torneo lo disputarán Alemania <marker>o</marker> Honduras.</example>
@@ -8151,13 +8171,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="AGREEMENT_NOUNS" name="Concordancia en grupos nominales" type="inconsistency">
-        <rulegroup id="AGRREMENT_NUMBER" name="concordancia del número" default="temp_off">
+        <rulegroup id="AGRREMENT_NUMBER" name="concordancia del número">
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">conjunto|decena|centena|centenar|mil|millón|billón</token>
+                    <token regexp="yes" inflected="yes">decena|centena|centenar|mil|millón|billón</token>
                     <token>de</token>
                     <marker>
-                        <token postag="NC.S.*" postag_regexp="yes"/>
+                        <token postag="NC.S.*" postag_regexp="yes"><exception>presupuesto</exception></token>
                     </marker>
                 </pattern>
                 <message>Posible error de concordancia</message>
@@ -8166,19 +8186,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="personalidades">Decenas de <marker>personalidad</marker> firman un manifiesto.</example>
                 <example correction="euros">Puede costar billones de <marker>euro</marker>.</example>
                 <example>Forma parte de un grupo de teatro.</example>
+                <example>Costará 5.000 millones de presupuesto.</example>
             </rule>
             <rule>
-                <!-- TODO: fix false alarms -->
-                <antipattern>
-                    <token>grupo</token>
-                    <token>de</token>
-                    <token>teatro</token>
-                </antipattern>
                 <pattern>
                     <token regexp="yes" inflected="yes">plantilla|colectivo|lista|listado|grupo|conjunto|aula|pareja<exception regexp="yes">conjunta|conjuntas</exception></token>
                     <token inflected="yes">de</token>
+                    <!-- TODO: list of "countable" nouns. It could be large. -->
                     <marker>
-                        <token postag="NC.S.*" postag_regexp="yes"/>
+                        <token postag="NC.S.*" postag_regexp="yes" inflected="yes" regexp="yes">persona|personalidad|hombre|mujer|niño|chaval|chico|trabajador|empresario|animal</token>
                     </marker>
                 </pattern>
                 <message>Probablemente el nombre debe ir en plural.</message>
@@ -13974,7 +13990,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category name="tipografía avanzada" id="ACCURATE_TYPOGRAPHY" tags="picky">
+    <category name="tipografía avanzada" id="ACCURATE_TYPOGRAPHY" >
         <rule id="PUNTOS_SUSPENSIVOS" name="Carácter de puntos suspensivos">
             <pattern>
                 <token>.</token>
@@ -14066,7 +14082,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token><exception>"</exception></token>
+                    <!--<token><exception>"</exception></token>-->
                     <token><exception regexp="yes">['‘«\[(¡¿–‒—-]</exception><exception postag="SENT_START"/></token>
                     <marker>
                         <token spacebefore="no">"</token>
@@ -14159,7 +14175,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token><exception>'</exception></token>
+                    <!--<token><exception>'</exception></token>-->
                     <token><exception regexp="yes">["‘«“\[(¡¿–‒—-]</exception><exception postag="SENT_START"/></token>
                     <marker>
                         <token spacebefore="no">'</token>
