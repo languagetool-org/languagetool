@@ -14582,6 +14582,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="AH_HA" name="*ah/ha enviat" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">ah|eh</token>
+                </marker>
+                <token postag="V.P..SM." postag_regexp="yes"/> 
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="([ae])h" regexp_replace="h$1"></match></suggestion>?</message>
+            <example correction="ha">Ens <marker>ah</marker> enviat un missatge.</example>
+        </rule>
         <rulegroup id="TAL_TAN" name="tal/tan">
             <rule>
                 <pattern>

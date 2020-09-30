@@ -11105,6 +11105,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="AH_HA" name="*ah/ha enviado" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">ah|eh</token>
+                </marker>
+                <token postag="V.P..SM" postag_regexp="yes"/> 
+            </pattern>
+            <message>¿Quería decir <suggestion><match no="1" regexp_match="([ae])h" regexp_replace="h$1"></match></suggestion>?</message>
+            <example correction="he">Te <marker>eh</marker> mandado un correo.</example>
+        </rule>
         <rulegroup id="TAL_TAN" name="tal/tan">
             <rule>
                 <pattern>
@@ -11121,7 +11131,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>tal</token>
                     </marker>
-                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="NC.*" postag_regexp="yes"/></token>
                     <token regexp="yes">que|como</token>
                 </pattern>
                 <message>Posible confusión. ¿Quería decir <suggestion>tan</suggestion>?</message>
