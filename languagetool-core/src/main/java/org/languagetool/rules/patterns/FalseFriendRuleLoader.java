@@ -28,6 +28,7 @@ import javax.xml.parsers.*;
 import java.io.*;
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Loads {@link PatternRule}s from a false friends XML file.
@@ -74,14 +75,19 @@ public class FalseFriendRuleLoader extends DefaultHandler {
             false);
     saxParser.parse(stream, handler);
     List<AbstractPatternRule> rules = handler.getRules();
+    List<AbstractPatternRule> filteredRules = new ArrayList<>();
     // Add suggestions to each rule:
     MessageFormat msgFormat = new MessageFormat(falseFriendSugg);
     ShortDescriptionProvider descProvider = new ShortDescriptionProvider();
     for (AbstractPatternRule rule : rules) {
+      String patternStr = rule.getPatternTokens().stream().map(k -> k.getString()).collect(Collectors.joining(" "));
       List<String> suggestions = handler.getSuggestionMap().get(rule.getId());
       if (suggestions != null) {
         List<String> formattedSuggestions = new ArrayList<>();
         for (String suggestion : suggestions) {
+          if (patternStr.equalsIgnoreCase(suggestion)) {
+            continue;
+          }
           String desc = descProvider.getShortDescription(suggestion, textLanguage);
           if (desc != null) {
             formattedSuggestions.add("<suggestion>" + suggestion + "</suggestion> (" + desc + ")");
@@ -89,11 +95,14 @@ public class FalseFriendRuleLoader extends DefaultHandler {
             formattedSuggestions.add("<suggestion>" + suggestion + "</suggestion>");
           }
         }
-        String joined = String.join(", ", formattedSuggestions);
-        rule.setMessage(rule.getMessage() + " " + msgFormat.format(new String[]{joined}));
+        if (formattedSuggestions.size() > 0) {
+          String joined = String.join(", ", formattedSuggestions);
+          rule.setMessage(rule.getMessage() + " " + msgFormat.format(new String[]{joined}));
+          filteredRules.add(rule);
+        }
       }
     }
-    return rules;
+    return filteredRules;
   }
 
 }
