@@ -11123,9 +11123,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token regexp="yes">ah|eh</token>
                 </marker>
-                <token postag="V.P..SM" postag_regexp="yes"/> 
+                <token postag="V.P..SM" postag_regexp="yes"/>
             </pattern>
-            <message>¿Quería decir <suggestion><match no="1" regexp_match="([ae])h" regexp_replace="h$1"></match></suggestion>?</message>
+            <message>¿Quería decir <suggestion><match no="1" regexp_match="([ae])h" regexp_replace="h$1"/></suggestion>?</message>
             <example correction="he">Te <marker>eh</marker> mandado un correo.</example>
         </rule>
         <rulegroup id="TAL_TAN" name="tal/tan">
@@ -11183,19 +11183,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="crear|creer">Tiene que <marker>cree</marker> que es posible.</example>
                 <example>¿Qué tiene que cree que es el mejor?</example>
             </rule>
-            <rule default="temp_off">
-                <pattern>
-                    <token inflected="yes">haber<exception>hay</exception></token>
-                    <token>de</token>
-                    <marker>
-                        <token postag="V.*" postag_regexp="yes"><exception postag="V.N.*" postag_regexp="yes"/></token>
-                    </marker>
-                </pattern>
-                <message>¿Quería decir <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="V.N...."/></suggestion>?</message>
-                <example correction="considerar">Se ha de <marker>considera</marker> el mejor.</example>
-                <example correction="crear|creer">Había de <marker>cree</marker> que es posible.</example>
-            </rule>
         </rulegroup>
+        <rule id="HABER_DE_INFINITIVO" name="haber de + infinitivo" default="temp_off">
+            <antipattern>
+                <token regexp="yes">[\d ,.]+</token>
+                <token>ha</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V...3S.|V.N.*" postag_regexp="yes" inflected="yes">haber</token>
+                <token>de</token>
+                <token>hecho</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V...3S.|V.N.*" postag_regexp="yes" inflected="yes">haber</token>
+                <token>de</token>
+                <token postag="_GN_.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">haber</token>
+                <token>de</token>
+                <token regexp="yes">hecho|facto|de iure</token>
+                <token postag="V.P..SM" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">haber</token>
+                <token>de</token>
+                <token postag="_LOC_ADV"/>
+                <token postag="V.P..SM" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token inflected="yes">haber<exception>hay</exception></token>
+                <token>de</token>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes"><exception postag="V.N.*|_possible_NP" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>¿Quería decir <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="V.N...."/></suggestion>?</message>
+            <example correction="considerar">Se ha de <marker>considera</marker> el mejor.</example>
+            <example correction="crear|creer">Había de <marker>cree</marker> que es posible.</example>
+            <example correction="incorporar">Sus precios han de <marker>incorporan</marker> toda la información disponible</example>
+            <example>400 ha de cebada.</example>
+            <example>Hubo de hecho una riña.</example>
+            <example>la cantidad que haya de dichos elementos</example>
+            <example>ha de hecho difundido</example>
+            <example>He de Han, emperador chino.</example>
+            <example>puede haber de hecho hasta tres cesuras</example>
+            <example>He de veras pensado en ello.</example>
+        </rule>
         <rulegroup id="SIDO" name="sido">
             <antipattern>
                 <!-- other rules -->
@@ -14026,7 +14060,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category name="tipografía avanzada" id="ACCURATE_TYPOGRAPHY" >
+    <category name="tipografía avanzada" id="ACCURATE_TYPOGRAPHY">
         <rule id="PUNTOS_SUSPENSIVOS" name="Carácter de puntos suspensivos">
             <pattern>
                 <token>.</token>
