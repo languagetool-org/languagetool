@@ -36,10 +36,11 @@ public class CheckConfiguration {
   private final boolean enabledOnly;
   private final List<String> disabledRuleIds;
   private final String mode;
+  private final String level;
   private final List<String> ruleValues;
   
   CheckConfiguration(String langCode, String motherTongueLangCode, boolean guessLanguage, List<String> enabledRuleIds, boolean enabledOnly, 
-      List<String> disabledRuleIds, String mode, List<String> ruleValues) {
+      List<String> disabledRuleIds, String mode, String level, List<String> ruleValues) {
     if (langCode == null && !guessLanguage) {
       throw new IllegalArgumentException("No language was set but language guessing was not activated either");
     }
@@ -53,6 +54,7 @@ public class CheckConfiguration {
     this.enabledOnly = enabledOnly;
     this.disabledRuleIds = Objects.requireNonNull(disabledRuleIds);
     this.mode = mode;
+    this.level = level;
     this.ruleValues = Objects.requireNonNull(ruleValues);
   }
 
@@ -82,6 +84,10 @@ public class CheckConfiguration {
 
   public String getMode() {
     return mode;
+  }
+
+  public String getLevel() {
+    return level;
   }
 
   public List<String> getRuleValues() {
