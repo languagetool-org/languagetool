@@ -31,12 +31,9 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.UserConfig;
-import org.languagetool.JLanguageTool.Level;
-import org.languagetool.JLanguageTool.Mode;
 import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.gui.Configuration;
 import org.languagetool.markup.AnnotatedText;
-import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -176,30 +173,22 @@ public class SwJLanguageTool {
         ruleMatches = new ArrayList<>();
       }
       return ruleMatches;
+    } else if (isMultiThread) {
+      return mlt.check(text, tokenizeText, paraMode); 
     } else {
-      return this.check(new AnnotatedTextBuilder().addText(text).build(), tokenizeText, paraMode);
+      return lt.check(text, tokenizeText, paraMode); 
     }
   }
 
   public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode) throws IOException {
     if (isRemote) {
       return rlt.check(annotatedText.getOriginalText(), paraMode); 
+    } else if (isMultiThread) {
+      synchronized(mlt) {
+        return mlt.check(annotatedText, tokenizeText, paraMode);
+      }
     } else {
-      Mode mode;
-      if (paraMode == ParagraphHandling.ONLYNONPARA) {
-        mode = Mode.ALL_BUT_TEXTLEVEL_ONLY;
-      } else if (paraMode == ParagraphHandling.ONLYPARA) {
-        mode = Mode.TEXTLEVEL_ONLY;
-      } else {
-        mode = Mode.ALL;
-      }
-      if (isMultiThread) {
-        synchronized(mlt) {
-          return mlt.check(annotatedText, tokenizeText, paraMode, null, mode, Level.PICKY);
-        }
-      } else {
-        return lt.check(annotatedText, tokenizeText, paraMode, null, mode, Level.PICKY);
-      }
+      return lt.check(annotatedText, tokenizeText, paraMode); 
     }
   }
 
