@@ -14595,9 +14595,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token regexp="yes">ah|eh</token>
                 </marker>
-                <token postag="V.P..SM." postag_regexp="yes"/> 
+                <token postag="V.P..SM." postag_regexp="yes"/>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="([ae])h" regexp_replace="h$1"></match></suggestion>?</message>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="([ae])h" regexp_replace="h$1"/></suggestion>?</message>
             <example correction="ha">Ens <marker>ah</marker> enviat un missatge.</example>
         </rule>
         <rulegroup id="TAL_TAN" name="tal/tan">
@@ -47714,6 +47714,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="KARABAKH" name="Karabakh">
+            <pattern>
+                <token>Nagorno</token>
+                <token min="0">-</token>
+                <token>Karabakh</token>
+            </pattern>
+            <message>"Nagorno Karabakh" és una antiga forma russa. És preferible usar una altra forma.</message>
+            <suggestion><match no="1" regexp_match="Nagorno" regexp_replace="l'Alt Karabakh" case_conversion="startlower"/></suggestion>
+            <suggestion>República d'Artsakh</suggestion>
+            <url>https://esadir.cat/Toponims/Toponims_del_mon/Asia/Alt_Karabakh</url>
+            <example correction="l'Alt Karabakh|República d'Artsakh"><marker>Nagorno Karabakh</marker></example>
+            <example correction="l'Alt Karabakh|República d'Artsakh"><marker>Nagorno-Karabakh</marker></example>
+        </rule>
         <rule id="ELEGIR" name="escollir/triar/elegir">
             <pattern>
                 <marker>
