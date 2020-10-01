@@ -13113,13 +13113,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <feature id="numero"/>
                         <feature id="genero"/>
                         <token postag="N.*" postag_regexp="yes"/>
-                        <token postag="A.*" postag_regexp="yes" inflected="yes" regexp="yes">guapo|guapetón</token>
+                        <token postag="A.*" postag_regexp="yes" inflected="yes" regexp="yes">guapo|guapetón|guapísimo</token>
                     </unify>
                 </pattern>
                 <message>Probablemente falta una coma.</message>
                 <suggestion>\1, \2</suggestion>
                 <example correction="fiestas, guapo">Felices <marker>fiestas guapo</marker>.</example>
                 <example correction="besos, guapa">¡Muchos <marker>besos guapa</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <token postag="N.*" postag_regexp="yes" regexp="yes">adiós|gracias|fiestas|día|días|dia|dias|tardes|noches?|saludos|favor</token>
+                        <token postag="A.*" postag_regexp="yes"/>
+                    </unify>
+                </pattern>
+                <message>Probablemente falta una coma.</message>
+                <suggestion>\1, \2</suggestion>
+                <example correction="Adiós, chicos"><marker>Adiós chicos</marker>.</example>
+                <example correction="días, guapa">¡Buenos <marker>días guapa</marker>!</example>
             </rule>
             <rule>
                 <pattern>
