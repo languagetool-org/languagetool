@@ -1,5 +1,15 @@
 # LanguageTool Change Log
 
+## 5.2 (released planned for 2020-12-29)
+ * ...
+
+
+
+## 5.1.1 (released 2020-09-29)
+  * fixed a NullPointerException crash in the LibreOffice/OpenOffice add-on
+
+  
+
 ## 5.1 (released 2020-09-25)
 
 #### Catalan
