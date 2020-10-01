@@ -294,7 +294,7 @@ class ResultCache implements Serializable {
     SingleProofreadingError error = null;
     for(int sentenceStart : sentenceEntries.keySet()) {
       int sentenceNext = sentenceEntries.getNextSentencePosition(sentenceStart);
-      if(sentenceStart <= numChar &&  (sentenceNext == 0 || sentenceNext <= numChar)) {
+      if(sentenceStart <= numChar &&  (sentenceNext == 0 || sentenceNext >= numChar)) {
         for(SingleProofreadingError err : sentenceEntries.getErrorArray(sentenceStart)) {
           if(numChar >= err.nErrorStart && numChar <= err.nErrorStart + err.nErrorLength) {
             if(error == null || error.nErrorStart < err.nErrorStart
@@ -415,6 +415,7 @@ class ResultCache implements Serializable {
         error.nErrorType = nErrorType;
         error.aFullComment = aFullComment;
         error.aRuleIdentifier = aRuleIdentifier;
+//        MessageHandler.printToLogFile("toSingleProofreadingError: ruleID: " + aRuleIdentifier + ", Start = " + nErrorStart + ", Length = " + nErrorLength);
         error.aShortComment = aShortComment;
         error.aSuggestions = aSuggestions;
         if (aProperties != null) {
