@@ -116,6 +116,7 @@ class LORemoteLanguageTool {
       configBuilder.ruleValues(ruleValues);
       configBuilder.mode("allButTextLevelOnly");
     }
+    configBuilder.level("picky");
     CheckConfiguration remoteConfig = configBuilder.build();
     int limit;
     for (int nStart = 0; text.length() > nStart; nStart += limit) {
