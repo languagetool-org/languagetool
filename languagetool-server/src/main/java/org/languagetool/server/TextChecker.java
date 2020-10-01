@@ -685,7 +685,7 @@ abstract class TextChecker {
     DetectedLanguage detected;
     String mode;
     long t1 = System.nanoTime();
-    if (testMode && ngramIdentifier != null) {
+    if (ngramIdentifier != null) {
       detected = ngramIdentifier.detectLanguage(text, noopLangs, preferredLangs);
       mode = "ngram";
     } else {
