@@ -841,10 +841,10 @@ public class SpellAndGrammarCheckDialog extends Thread {
      */
     public LtCheckDialog(XComponentContext xContext) {
       int begFirstCol = 10;
-      int widFirstCol = 450;
+      int widFirstCol = 440;
       int disFirstCol = 10;
       int buttonHigh = 30;
-      int begSecondCol = 470;
+      int begSecondCol = 460;
       int buttonWidthCol = 160;
       int buttonDistCol = 10;
       int buttonWidthRow = 120;
