@@ -347,7 +347,29 @@ public class ProhibitedCompoundRule extends Rule {
           "Klimakurses",
           "Kursperioden",
           "Musikreise",
-          "Musikreisen"
+          "Musikreisen",
+          "Ziegenhof",
+          "Ziegenhofs",
+          "Außendecke",
+          "Außendecken",
+          "Bewegungsbarriere",
+          "Bewegungsbarrieren",
+          "Gerichtsantrag",
+          "Gerichtsantrags",
+          "Gerichtsanträge",
+          "Spezialwette",
+          "Spezialwetten",
+          "Geldmagnet",
+          "Testartikel",
+          "Testartikeln",
+          "Testartikels",
+          "folierte",
+          "foliert",
+          "folierten",
+          "foliertes",
+          "foliertem",
+          "Implementierungsvorgaben",
+          "Feuchtmann" //name
   ));
 
   // have per-class static list of these and reference that in instance
