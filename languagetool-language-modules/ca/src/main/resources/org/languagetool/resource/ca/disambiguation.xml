@@ -1681,23 +1681,40 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule id="en_forma" name="en forma">
             <antipattern>
                 <token>en</token>
-                <token regexp="yes">forma|perill</token>
+                <token>forma</token>
                 <token postag="RG" min="0"/>
                 <token postag="AQ.[FC]S.*|VMP..SF." postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <marker>
                     <token>en</token>
-                    <token regexp="yes">forma|perill</token>
+                    <token>forma</token>
                 </marker>
-                <token postag="RG" min="0"/>
-                <token><exception regexp="yes">de|d'|part</exception><exception postag="AQ.[FC]S.*|VMP..SF." postag_regexp="yes"/></token>
             </pattern>
             <disambig action="replace">
                 <wd pos="LOC_ADV"/>
                 <wd pos="LOC_ADV"/>
             </disambig>
             <example type="untouched">És <marker>en forma</marker> hexagonal.</example>
+        </rule>
+        <rule id="en_perill" name="en perill">
+            <antipattern>
+                <token>en</token>
+                <token>perill</token>
+                <token postag="RG" min="0"/>
+                <token postag="AQ.[MC]S.*|VMP..SM." postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>en</token>
+                    <token>perill</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd pos="LOC_ADV"/>
+                <wd pos="LOC_ADV"/>
+            </disambig>
+            <example type="untouched">És <marker>en perill</marker> altament crític.</example>
         </rule>
         <rule id="en_forma_n" name="en forma (nom)">
             <pattern>
@@ -2103,7 +2120,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token postag="VSS.*" postag_regexp="yes"/>
-                <token regexp="yes">què|qui|quins|quina|quines</token>
+                <token regexp="yes">què|qui|quin|quins|quina|quines</token>
                 <token><match no="0"/></token>
             </pattern>
             <disambig action="replace">
@@ -2116,7 +2133,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token postag="VSS.*" postag_regexp="yes"/>
                 <token regexp="yes">el|la|els|les</token>
-                <token>que</token>
+                <token regexp="yes">que|qui</token>
                 <token><match no="0"/></token>
             </pattern>
             <disambig action="replace">
@@ -6458,6 +6475,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="replace">
                 <wd pos="NCMS000"/>
             </disambig>
+        </rule>
+        <rule id="ET" name="ET (Estatut dels Treballadors)">
+            <antipattern>
+                <token>et</token>
+                <token postag="V.[SIM].*" postag_regexp="yes" regexp="yes">\p{Lu}+</token>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <token>ET</token>
+            </pattern>
+            <disambig action="replace" postag="NCMS000"/>
+            <example type="untouched">ET DIC QUE SÍ.</example>
         </rule>
     </rulegroup>
     <rulegroup id="C_LLOC" name="complements de lloc">

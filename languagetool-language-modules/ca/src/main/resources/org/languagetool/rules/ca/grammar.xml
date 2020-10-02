@@ -10437,6 +10437,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PREPOSITIONS" name="Preposicions" type="grammar">
+        <rule id="POSITIU_EN" name="positiu *de/en coronavirus" default="temp_off">
+            <pattern>
+                <token inflected="yes" regexp="yes">positiu|negatiu</token>
+                <marker>
+                    <token>de</token>
+                </marker>
+                <token regexp="yes">coronavirus|covid|covid-19|alcohol|cocaïna|heroïna|droga|drogues</token>
+            </pattern>
+            <message>La preposició 'de' no és adequada en aquest context.</message>
+            <suggestion>en</suggestion>
+            <example correction="en">Va donar positiu <marker>de</marker> coronavirus.</example>
+        </rule>
         <rule id="CONSISTIR_EN" name="consistir *de/en">
             <antipattern>
                 <token inflected="yes">de</token>
@@ -40867,6 +40879,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>No només perquè no sigui així, sinó perquè és aixà.</example>
             <example>no tant per no haver tingut descendència, sinó per allò altre.</example>
             <example correction="no per"><marker>per no</marker> haver tingut descendència, sinó per allò altre.</example>
+            <example correction="no la" type="triggers_error">la prova diabòlica d’un fet negatiu —<marker>la no</marker> discriminació—, sinó la raonabilitat</example>
         </rule>
         <rule id="COM_SI_ES_TRACTES" name="com si es tractés">
             <pattern>
@@ -42885,7 +42898,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token inflected="yes">escoltar</token>
-                    <token>que</token>
+                    <token regexp="yes">que|sovint</token>
                 </pattern>
                 <message>Probablement cal usar el v. 'sentir'. 'Escoltar' implica l'atenció i la voluntarietat de l'oient.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match> que</suggestion>
