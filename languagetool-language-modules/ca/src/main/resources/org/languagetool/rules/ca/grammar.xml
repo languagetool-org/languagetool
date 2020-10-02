@@ -42899,13 +42899,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token inflected="yes">escoltar</token>
-                    <token regexp="yes">que|sovint</token>
+                    <token>que</token>
                 </pattern>
                 <message>Probablement cal usar el v. 'sentir'. 'Escoltar' implica l'atenció i la voluntarietat de l'oient.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match> que</suggestion>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match> a dir que</suggestion>
                 <example correction="sentia que|sentia a dir que">Sovint <marker>escoltava que</marker> deien coses.</example>
                 <example correction="Sentim que|Sentim a dir que"><marker>Escoltem que</marker>.</example>
+                <example>Escolta què diuen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">escoltar</token>
+                    </marker>
+                    <token min="0" max="2" regexp="yes">a|molt|poc</token>
+                    <token regexp="yes">sovint|mai|freqüentment|rarament</token>
+                </pattern>
+                <message>Probablement cal usar el v. 'sentir'. 'Escoltar' implica l'atenció i la voluntarietat de l'oient.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match></suggestion>
+                <example correction="sentida">Aquesta paraula no l'havia <marker>escoltada</marker> mai.</example>
                 <example>Escolta què diuen.</example>
             </rule>
             <rule>
