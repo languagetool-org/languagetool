@@ -402,6 +402,7 @@ public class CaseRuleTest {
     assertGood("Das lesen sie doch sicher in einer Minute durch.");
     assertGood("Das lesen Sie doch sicher in einer Minute durch!");
     assertGood("Formationswasser, das oxidiert war.");
+    assertGood("Um das herauszubekommen diskutieren zwei Experten.");
 
     // Source of the following examples: https://dict.leo.org/grammatik/deutsch/Rechtschreibung/Amtlich/GrossKlein/pgf57-58.html
     assertGood("Das Lesen fällt mir schwer.");
