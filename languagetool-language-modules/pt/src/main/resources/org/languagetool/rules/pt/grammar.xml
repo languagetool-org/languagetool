@@ -9765,6 +9765,21 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="conceitos-chave">Na tese temos vários <marker>conceitos chave</marker>.</example>
     </rule>
 	
+    <!-- MUITO FRIO -->
+    <rule id='MUITO_FRIO' name="Muito frio">
+      <pattern>
+	    <marker>
+          <token>um</token>
+          <token>frio</token>
+		  <token regexp='yes'>da|de|do</token>
+		  <token postag='NC[CFM][SP]000|AQ0[CFM][SP]0|VMN0000' postag_regexp='yes'/>
+		</marker>
+		<token negate="yes" regexp='yes'>as?|os?</token>		  
+      </pattern>
+      <message>Linguagem informal. Substitua por <suggestion>muito frio</suggestion>.</message>
+      <example correction="muito frio">Está <marker>um frio de rachar</marker>.</example>
+    </rule>
+	
     <rule id='UMA_COISA_ALGO' name="Algo">
     <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-06-27    -->
       <pattern>
