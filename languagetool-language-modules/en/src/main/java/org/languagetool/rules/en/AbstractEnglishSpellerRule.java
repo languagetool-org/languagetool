@@ -149,6 +149,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                      !k.getReplacement().toLowerCase().startsWith("mini ") &&
                      !k.getReplacement().startsWith("mu ") &&
                      !k.getReplacement().startsWith("e ") &&
+                     !k.getReplacement().startsWith("c ") &&
                      !k.getReplacement().endsWith(" able") &&
                      !k.getReplacement().endsWith(" less") && // (e.g. permissionless)
                      !k.getReplacement().endsWith(" sly") && // uneccesary suggestion (e.g. for continuesly)
@@ -655,6 +656,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("blest", Arrays.asList("blessed"));
     s.put("yeld", Arrays.asList("yelled"));
     s.put("os", Arrays.asList("OS", "is", "so"));
+    s.put("abel", Arrays.asList("able"));
 
     return s;
   }

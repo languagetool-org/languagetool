@@ -3558,11 +3558,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                     <token postag_regexp="yes" postag="VB|JJ" negate="yes" regexp="yes" inflected="yes">\p{Lu}\p{Ll}+</token>
                 </and>
             </marker>
-            <token postag="NNP" regexp="yes">\p{Lu}\p{Ll}+</token>
+            <token postag="NNP" regexp="yes">
+                \p{Lu}\p{Ll}+
+                <exception case_sensitive="yes" regexp="yes">Going|Tell|Save|Cant|In|Quick|See|Had</exception><!-- uncommon NNPs -->
+            </token>
         </pattern>
         <disambig postag="NNP"/>
         <example type="untouched">It is in many Caribbean and Latin American countries...</example>
         <example type="untouched">Be Guest Wordsmith for a week at A.Word.</example><!-- #2748 -->
+        <example type="untouched">If You Just Had One Wish.</example><!-- #2748 -->
         <example type="untouched">See Wikipedia for a list of TCP/UDP ports that are already used.</example><!-- #2748 -->
         <example type="ambiguous" inputform="Best[Best/NNP,best/NN:U,best/VB,best/VBP,good/JJS,well/JJS,well/RBS]" outputform="Best[Best/NNP]"><marker>Best</marker> Art Direction – Set Decoration</example>
     </rule>
