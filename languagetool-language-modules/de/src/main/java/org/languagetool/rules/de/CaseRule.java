@@ -77,6 +77,11 @@ public class CaseRule extends Rule {
       posRegex("(?!SUB).*")
     ),
     Arrays.asList(
+      // "Um das herauszubekommen..."
+      token("das"),
+      regex(".+zu.+")
+    ),
+    Arrays.asList(
       token("Rock"),
       regex("['’]"),
       token("n"),
