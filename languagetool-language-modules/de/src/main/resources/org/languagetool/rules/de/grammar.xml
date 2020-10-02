@@ -140,6 +140,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="HEER_HERR" name="Heer (Herr) Müller" default="temp_off">
+            <pattern>
+                <token regexp="yes">Hallo|Lieber|Tag|Morgen|Abend|geehrter</token>
+                <token min="0">,</token>
+                <marker>
+                    <token>Heer</token>
+                    <token postag_regexp="yes" postag="UNKNOWN|EIG:.*"></token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>Herr \4</suggestion> (Anrede)?</message>
+            <example correction="Herr Meier">Hallo <marker>Heer Meier</marker>!</example>
+            <example correction="Herr Meier">Hallo, <marker>Heer Meier</marker>!</example>
+            <example correction="Herr Willenborg">Hallo <marker>Heer Willenborg</marker>!</example>
+            <example correction="Herr Meier">Sehr geehrter <marker>Heer Meier</marker>...</example>
+        </rule>
         <rule id="GESETZT_GESETZ" name="Gesetzt (Gesetz)">
             <antipattern>
                 <token postag="SENT_START" />
