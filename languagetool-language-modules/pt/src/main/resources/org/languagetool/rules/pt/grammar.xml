@@ -7787,6 +7787,75 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="concordam">Os responsáveis <marker>estão de acordo</marker>.</example>
     </rule>
 
+    <!-- FAZER USO DE usar recorrer -->
+    <rulegroup id='FAZER_USO_DE-USAR-RECORRER' name="Fazer uso de > usar > recorrer" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-10-02 (2-JUL-2020+)     -->
+	  <!-- DE -->
+	  <rule>
+		<pattern>
+			<token inflected='yes'>fazer</token>
+			<token regexp="no">uso</token>
+			<token regexp="no">de</token>
+		</pattern>
+		<message>Substitua por:</message>
+		<suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match></suggestion>
+		<suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> a</suggestion>
+		<example correction="usar|recorrer a">Vamos <marker>fazer uso de</marker> simuladores.</example>
+	   </rule>
+	   
+	  <!-- DA -->
+	  <rule>
+		<pattern>
+			<token inflected='yes'>fazer</token>
+			<token regexp="no">uso</token>
+			<token regexp="no">da</token>
+		</pattern>
+		<message>Substitua por:</message>
+		<suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> a</suggestion>
+		<suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> à</suggestion>
+		<example correction="usar a|recorrer à">Vamos <marker>fazer uso da</marker> tecnologia.</example>
+	   </rule>
+
+	  <!-- DAS -->
+	  <rule>
+		<pattern>
+			<token inflected='yes'>fazer</token>
+			<token regexp="no">uso</token>
+			<token regexp="no">das</token>
+		</pattern>
+		<message>Substitua por:</message>
+		<suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> as</suggestion>
+		<suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> às</suggestion>
+		<example correction="usar as|recorrer às">Vamos <marker>fazer uso das</marker> tecnologias.</example>
+	   </rule>	   
+
+	  <!-- DO -->
+	  <rule>
+		<pattern>
+			<token inflected='yes'>fazer</token>
+			<token regexp="no">uso</token>
+			<token regexp="no">do</token>
+		</pattern>
+		<message>Substitua por:</message>
+		<suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> o</suggestion>
+		<suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> ao</suggestion>
+		<example correction="usar o|recorrer ao">Vamos <marker>fazer uso do</marker> computador.</example>
+	   </rule>
+
+	  <!-- DOS -->
+	  <rule>
+		<pattern>
+			<token inflected='yes'>fazer</token>
+			<token regexp="no">uso</token>
+			<token regexp="no">dos</token>
+		</pattern>
+		<message>Substitua por:</message>
+		<suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> os</suggestion>
+		<suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> aos</suggestion>
+		<example correction="usar os|recorrer aos">Vamos <marker>fazer uso dos</marker> computadores.</example>
+	   </rule>
+    </rulegroup>
+
     <rule id='IMAGEM_DE_SATELITE' name="Imagem satélite -> Imagem de satélite">
     <!--      Created by Tiago F. Santos, 2019-09-07      -->
       <pattern>
