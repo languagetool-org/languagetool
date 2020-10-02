@@ -12390,7 +12390,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">dura|recull|tria|caça|expressa<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[IS].*" postag_regexp="yes"/></token>
+                    <and>
+                        <token regexp="yes">dura|recull|tria|caça|expressa<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[IS].*" postag_regexp="yes"/></token>
+                        <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
+                    </and>
                 </marker>
                 <token postag="[ND].*|RG" postag_regexp="yes"/>
             </pattern>

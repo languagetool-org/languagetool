@@ -50637,37 +50637,64 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=chuler%EDa&amp;numPagina=1&amp;database=CASCAT&amp;idFont=13276&amp;idHit=13276&amp;tipusFont=%3CI%3EDiccionari+catal%E0-castell%E0%3C%2FI%3E+d%27Enciclop%E8dia+Catalana+%283a+edici%F3%29&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=chuler%EDa+&amp;tematica=%28Totes%29&amp;tipusCerca=cerca.traduir</url>
             <example correction="fatxenderia|fanfarroneria|fanfarronada">Quanta <marker>xuleria</marker>!</example>
         </rule>
-        <rule id="XULO" name="xulo">
-            <pattern>
-                <token inflected="yes">xulo</token>
-            </pattern>
-            <message>Llenguatge col·loquial.</message>
-            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">bonic</match></suggestion>
-            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">vistós</match></suggestion>
-            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">maco</match></suggestion>
-            <suggestion>ben <match no="1" postag="AQ.(.)(.)." postag_regexp="yes" postag_replace="V.P..$2$1.">parir</match></suggestion>
-            <suggestion><match no="1" postag="AQ..(.)." postag_regexp="yes" postag_replace="NCC$1000">fatxenda</match></suggestion>
-            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">provocador</match></suggestion>
-            <suggestion><match no="1" postag="AQ..(.)." postag_regexp="yes" postag_replace="NCC$1000">proxeneta</match></suggestion>
-            <suggestion><match no="1" postag="AQ..(.)." postag_regexp="yes" postag_replace="NCM$1000">macarró</match></suggestion>
-            <!--<url>http://esadir.cat/entrades/fitxa/node/xulo</url>-->
+        <rulegroup id="XULO" name="xulo">
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=chulo&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=10665&amp;idHit=10665&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=2&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%C9s+correcte+xulo%2C+xula+en+catal%E0%3F+%2F+Com+es+diu+chulo+en+catal%E0%3F&amp;tematica=&amp;tipusCerca=cerca.traduir</url>
-            <example correction="bonic|vistós|maco|ben parit|fatxenda|provocador|proxeneta|macarró">Era molt <marker>xulo</marker>!</example>
-        </rule>
-        <rule id="XULISSIM" name="xulíssim">
-            <pattern>
-                <token inflected="yes">xulíssim</token>
-            </pattern>
-            <message>Llenguatge col·loquial.</message>
-            <suggestion>molt <match no="1" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">bonic</match></suggestion>
-            <suggestion>molt <match no="1" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">vistós</match></suggestion>
-            <suggestion>molt <match no="1" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">maco</match></suggestion>
-            <suggestion><match no="1" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQA$1">maquíssim</match></suggestion>
-            <suggestion>ben <match no="1" postag="AQ.(.)(.)." postag_regexp="yes" postag_replace="V.P..$2$1.">parir</match></suggestion>
-            <!--<url>http://esadir.cat/entrades/fitxa/node/xulo</url>-->
-            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=chulo&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=10665&amp;idHit=10665&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=2&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%C9s+correcte+xulo%2C+xula+en+catal%E0%3F+%2F+Com+es+diu+chulo+en+catal%E0%3F&amp;tematica=&amp;tipusCerca=cerca.traduir</url>
-            <example correction="molt boniques|molt vistoses|molt maques|maquíssimes|ben parides">Eren <marker>xulíssimes</marker>!</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token postag="D..M.." postag_regexp="yes"/>
+                    <marker>
+                        <token inflected="yes">xulo</token>
+                    </marker>
+                </pattern>
+                <message>Llenguatge col·loquial.</message>
+                <suggestion><match no="2" postag="AQ..(.)." postag_regexp="yes" postag_replace="NCC$1000">fatxenda</match></suggestion>
+                <suggestion><match no="2" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">provocador</match></suggestion>
+                <suggestion><match no="2" postag="AQ..(.)." postag_regexp="yes" postag_replace="NCC$1000">proxeneta</match></suggestion>
+                <suggestion><match no="2" postag="AQ..(.)." postag_regexp="yes" postag_replace="NCM$1000">macarró</match></suggestion>
+                <suggestion><match no="2" postag="AQ..(.)." postag_regexp="yes" postag_replace="NCM$1000">macarra</match></suggestion>
+                <!--<url>http://esadir.cat/entrades/fitxa/node/xulo</url>-->
+                <example correction="fatxenda|provocador|proxeneta|macarró|macarra">Era un <marker>xulo</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D..F.." postag_regexp="yes"/>
+                    <marker>
+                        <token inflected="yes">xulo</token>
+                    </marker>
+                </pattern>
+                <message>Llenguatge col·loquial.</message>
+                <suggestion><match no="2" postag="AQ..(.)." postag_regexp="yes" postag_replace="NCC$1000">fatxenda</match></suggestion>
+                <suggestion><match no="2" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">provocador</match></suggestion>
+                <suggestion><match no="2" postag="AQ..(.)." postag_regexp="yes" postag_replace="NCC$1000">proxeneta</match></suggestion>
+                <!--<url>http://esadir.cat/entrades/fitxa/node/xulo</url>-->
+                <example correction="fatxenda|provocadora|proxeneta">Era una <marker>xula</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">xulo</token>
+                </pattern>
+                <message>Llenguatge col·loquial.</message>
+                <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">bonic</match></suggestion>
+                <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">vistós</match></suggestion>
+                <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">maco</match></suggestion>
+                <suggestion>ben <match no="1" postag="AQ.(.)(.)." postag_regexp="yes" postag_replace="V.P..$2$1.">parir</match></suggestion>
+                <!--<url>http://esadir.cat/entrades/fitxa/node/xulo</url>-->
+                <example correction="bonic|vistós|maco|ben parit">Era molt <marker>xulo</marker>!</example>
+                <example correction="boniques|vistoses|maques|ben parides">La Paula fa coses molt <marker>xules</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">xulíssim</token>
+                </pattern>
+                <message>Llenguatge col·loquial.</message>
+                <suggestion>molt <match no="1" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">bonic</match></suggestion>
+                <suggestion>molt <match no="1" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">vistós</match></suggestion>
+                <suggestion>molt <match no="1" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">maco</match></suggestion>
+                <suggestion><match no="1" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQA$1">maquíssim</match></suggestion>
+                <suggestion>ben <match no="1" postag="AQ.(.)(.)." postag_regexp="yes" postag_replace="V.P..$2$1.">parir</match></suggestion>
+                <example correction="molt boniques|molt vistoses|molt maques|maquíssimes|ben parides">Eren <marker>xulíssimes</marker>!</example>
+            </rule>
+        </rulegroup>
         <rule id="MONISSIM" name="moníssim">
             <pattern>
                 <token inflected="yes">moníssim</token>
@@ -50685,7 +50712,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>mono</token>
             </pattern>
-            <message>Llenguatge col·loquial.</message>
+            <message>Llenguatge col·loquial. Té diferents significats segons el context.</message>
             <suggestion>bufó</suggestion>
             <suggestion>bonic</suggestion>
             <suggestion>graciós</suggestion>
@@ -50703,7 +50730,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>monos</token>
             </pattern>
-            <message>Llenguatge col·loquial.</message>
+            <message>Llenguatge col·loquial. Té diferents significats segons el context.</message>
             <suggestion>bufons</suggestion>
             <suggestion>bonics</suggestion>
             <suggestion>graciosos</suggestion>
@@ -53674,6 +53701,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>De manera directament proporcional.</example>
             <example>D'una forma racionalment sostenible.</example>
             <example>De manera mínimament ordenada.</example>
+            <example>això castigava de manera especialment dura els partits mitjans.</example>
         </rule>
         <rule id="POTSER_SIGUI" name="potser *sigui/és">
             <pattern>
