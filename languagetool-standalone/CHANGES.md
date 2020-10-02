@@ -1,7 +1,10 @@
 # LanguageTool Change Log
 
 ## 5.2 (released planned for 2020-12-29)
- * ...
+ 
+#### Dutch
+  * There's now support for Belgian Dutch (`nl-BE`). "Dutch" (`nl`) is
+    still the default. nl-BE-specific rules can be added to `nl-BE/grammar.xml`
 
 
 
