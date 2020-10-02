@@ -47,7 +47,7 @@ public class PortugueseWordTokenizer extends WordTokenizer {
         + "\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
         + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb"
         + "\u002A\u002B×∗·÷:=≠≂≃≄≅≆≇≈≉≤≥≪≫∧∨∩∪∈∉∊∋∌∍"
-        + ",.;()[]{}<>!?:/\\\"'«»„”“‘`’…¿¡\t\n\r";
+        + ",.;()[]{}<>!?:/\\\"'«»„”“‘`’…¿¡\t\n\r™®";
 
   // Section copied from UkranianWordTokenizer.java for handling exceptions
   
