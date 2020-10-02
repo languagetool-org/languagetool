@@ -68,9 +68,6 @@ public class MorfologikMultiSpeller {
                 if (!line.startsWith("#")) {
                   lines.add(StringUtils.substringBefore(line,"#").trim().getBytes(UTF_8));
                 }
-                if (line.matches(".+/[A-Z]+")) {
-                  throw new RuntimeException("Flags are not supported here: '" + line + "' in file " + path);
-                }
               }
               return lines;
             }
