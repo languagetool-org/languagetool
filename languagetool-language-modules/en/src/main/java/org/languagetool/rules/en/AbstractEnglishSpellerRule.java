@@ -131,6 +131,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                      !k.getReplacement().startsWith("en ") &&
                      !k.getReplacement().startsWith("co ") &&
                      !k.getReplacement().toLowerCase().startsWith("non ") &&
+                     !k.getReplacement().toLowerCase().startsWith("bio ") &&
                      !k.getReplacement().startsWith("con ") &&
                      !k.getReplacement().startsWith("ins ") && // instable (ins table)
                      !k.getReplacement().toLowerCase().startsWith("pre ") &&
@@ -494,8 +495,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("bisons", Arrays.asList("bison"));
     s.put("buffalos", Arrays.asList("buffaloes"));
     s.put("calfs", Arrays.asList("calves"));
-    s.put("Childs", Arrays.asList("Children"));
-    s.put("childs", Arrays.asList("children"));
+    s.put("Childs", Arrays.asList("Children", "Child's"));
+    s.put("childs", Arrays.asList("children", "child's"));
     s.put("crisises", Arrays.asList("crises"));
     s.put("criterions", Arrays.asList("criteria"));
     s.put("curriculums", Arrays.asList("curricula"));
@@ -652,6 +653,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("northeast", Arrays.asList("north-east"));
     s.put("Marylin", Arrays.asList("Marilyn"));
     s.put("blest", Arrays.asList("blessed"));
+    s.put("yeld", Arrays.asList("yelled"));
+    s.put("os", Arrays.asList("OS", "is", "so"));
 
     return s;
   }

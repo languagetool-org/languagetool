@@ -1097,10 +1097,13 @@ public class MultiDocumentsHandler {
         }
         SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
         if ("checkAgainDialog".equals(sEvent)) {
-          DocumentCursorTools docCursor = new DocumentCursorTools(getCurrentDocument().getXComponent());
-          ViewCursorTools viewCursor = new ViewCursorTools(xContext);
-          checkDialog.setTextViewCursor(0, 0, viewCursor, docCursor);
-          resetCheck();
+          XComponent currentComponent = getCurrentDocument().getXComponent();
+          if (currentComponent != null) {
+            DocumentCursorTools docCursor = new DocumentCursorTools(currentComponent);
+            ViewCursorTools viewCursor = new ViewCursorTools(xContext);
+            checkDialog.setTextViewCursor(0, 0, viewCursor, docCursor);
+            resetCheck();
+          }
         }
         if (debugMode) {
           MessageHandler.printToLogFile("Start Spell And Grammar Check Dialog");
@@ -1286,8 +1289,8 @@ public class MultiDocumentsHandler {
     } else {
       setContextOfClosedDoc(goneContext);
 //      documents.removeMenuListener(goneContext);
-    }
     goneContext.removeEventListener(xEventListener); 
+    }
   }
   
 }

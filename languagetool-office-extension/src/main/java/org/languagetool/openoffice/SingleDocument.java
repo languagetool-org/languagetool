@@ -390,6 +390,24 @@ class SingleDocument {
     return docCache;
   }
   
+  /** Update document cache and get it
+   */
+  DocumentCache getUpdatedDocumentCache() {
+    if (docCursor == null) {
+      docCursor = new DocumentCursorTools(xComponent);
+    }
+    if (flatPara == null) {
+      flatPara = new FlatParagraphTools(xComponent);
+    } else {
+      flatPara.init();
+    }
+    docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck);
+    if (docCache.isEmpty()) {
+      return null;
+    }
+    return docCache;
+  }
+  
   /**
    * reset the Document
    */
@@ -1600,21 +1618,60 @@ class SingleDocument {
    * by the position of the error (paragraph number and number of character)
    */
   private String getRuleIdFromCache(int nPara, int nChar) {
+    List<SingleProofreadingError> tmpErrors = new ArrayList<SingleProofreadingError>();
+    SingleProofreadingError sError = sentencesCache.getErrorAtPosition(nPara, nChar);
+    if (sError != null) {
+      tmpErrors.add(sError);
+    }
+    for(ResultCache paraCache : paragraphsCache) {
+      SingleProofreadingError tError = paraCache.getErrorAtPosition(nPara, nChar);
+      if (tError != null) {
+        tmpErrors.add(tError);
+      }
+    }
+    if (tmpErrors.size() > 0) {
+      SingleProofreadingError[] errors = new SingleProofreadingError[tmpErrors.size()];
+      for (int i = 0; i < tmpErrors.size(); i++) {
+        errors[i] = tmpErrors.get(i);
+      }
+      Arrays.sort(errors, new ErrorPositionComparator());
+      if (debugMode > 0) {
+        for (int i = 0; i < errors.length; i++) {
+          MessageHandler.printToLogFile("Error[" + i + "]: ruleID: " + errors[i].aRuleIdentifier + ", Start = " + errors[i].nErrorStart + ", Length = " + errors[i].nErrorLength);
+        }
+      }
+      return errors[0].aRuleIdentifier;
+    } else {
+      return null;
+    }
+/*  
+ *  Will be deleted after tests
+ *      
     SingleProofreadingError error = sentencesCache.getErrorAtPosition(nPara, nChar);
+    if (error != null) { 
+      MessageHandler.printToLogFile("sentencesCache: ruleID: " + error.aRuleIdentifier + ", Start = " + error.nErrorStart + ", Length = " + error.nErrorLength);
+    }
     for(ResultCache paraCache : paragraphsCache) {
       SingleProofreadingError err = paraCache.getErrorAtPosition(nPara, nChar);
+      if (err != null) { 
+        MessageHandler.printToLogFile("paraCache: ruleID: " + err.aRuleIdentifier + ", Start = " + err.nErrorStart + ", Length = " + err.nErrorLength);
+      } else {
+        MessageHandler.printToLogFile("paraCache: null");
+      }
       if(err != null) {
-        if(error == null || error.nErrorStart < err.nErrorStart
-            || (error.nErrorStart == err.nErrorStart && error.nErrorLength > err.nErrorLength)) {
+        if(error == null || err.nErrorStart < error.nErrorStart
+            || (error.nErrorStart == err.nErrorStart && error.nErrorLength < err.nErrorLength)) {
           error = err;
         } 
       }
     }
     if(error != null) {
+      MessageHandler.printToLogFile("nPara = " + nPara + ", nChar = " + nChar + ", ruleID: " + error.aRuleIdentifier);
       return error.aRuleIdentifier;
     } else {
       return null;
     }
+*/
   }
   
   /**

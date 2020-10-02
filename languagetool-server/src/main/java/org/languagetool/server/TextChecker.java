@@ -64,7 +64,7 @@ abstract class TextChecker {
   @NotNull
   protected abstract List<String> getPreferredVariants(Map<String, String> parameters);
   protected abstract DetectedLanguage getLanguage(String text, Map<String, String> parameters, List<String> preferredVariants,
-                                                  List<String> additionalDetectLangs, List<String> preferredLangs);
+                                                  List<String> additionalDetectLangs, List<String> preferredLangs, boolean testMode);
   protected abstract boolean getLanguageAutoDetect(Map<String, String> parameters);
   @NotNull
   protected abstract List<String> getEnabledRuleIds(Map<String, String> parameters);
@@ -88,7 +88,7 @@ abstract class TextChecker {
   private long lastHiddenMatchesServerTimeout;
   // counter; mark as down if this reaches hidenMatchesServerFall
   private long hiddenMatchesServerFailures = 0;
-  private final LanguageIdentifier identifier;
+  private final LanguageIdentifier fastTestIdentifier;
   private final ExecutorService executorService;
   private final ResultCache cache;
   private final DatabaseLogger databaseLogger;
@@ -96,14 +96,19 @@ abstract class TextChecker {
   private final Random random = new Random();
   private final Set<DatabasePingLogEntry> pings = new HashSet<>();
   private long pingsCleanDateMillis = System.currentTimeMillis();
+  private LanguageIdentifier ngramIdentifier = null;
   PipelinePool pipelinePool; // mocked in test -> package-private / not final
 
   TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
     this.config = config;
     this.workQueue = workQueue;
     this.reqCounter = reqCounter;
-    this.identifier = new LanguageIdentifier();
-    this.identifier.enableFasttext(config.getFasttextBinary(), config.getFasttextModel());
+    this.fastTestIdentifier = new LanguageIdentifier();
+    this.fastTestIdentifier.enableFasttext(config.getFasttextBinary(), config.getFasttextModel());
+    if (config.getNgramLangIdentDir() != null) {
+      this.ngramIdentifier = new LanguageIdentifier();
+      this.ngramIdentifier.enableNgrams(config.getNgramLangIdentDir());
+    }
     this.executorService = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("lt-textchecker-thread-%d").build());
     this.cache = config.getCacheSize() > 0 ? new ResultCache(
       config.getCacheSize(), config.getCacheTTLSeconds(), TimeUnit.SECONDS) : null;
@@ -274,7 +279,8 @@ abstract class TextChecker {
             Arrays.asList(parameters.get("noopLanguages").split(",")) : Collections.emptyList();
     List<String> preferredLangs = parameters.get("preferredLanguages") != null ?
             Arrays.asList(parameters.get("preferredLanguages").split(",")) : Collections.emptyList();
-    DetectedLanguage detLang = getLanguage(aText.getPlainText(), parameters, preferredVariants, noopLangs, preferredLangs);
+    DetectedLanguage detLang = getLanguage(aText.getPlainText(), parameters, preferredVariants, noopLangs, preferredLangs,
+      parameters.getOrDefault("ld", "control").equalsIgnoreCase("test"));
     Language lang = detLang.getGivenLanguage();
 
     // == temporary counting code ======================================
@@ -675,8 +681,20 @@ abstract class TextChecker {
   }
 
   DetectedLanguage detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants,
-                                          List<String> noopLangs, List<String> preferredLangs) {
-    DetectedLanguage detected = identifier.detectLanguage(text, noopLangs, preferredLangs);
+                                          List<String> noopLangs, List<String> preferredLangs, boolean testMode) {
+    DetectedLanguage detected;
+    String mode;
+    long t1 = System.nanoTime();
+    if (ngramIdentifier != null) {
+      detected = ngramIdentifier.detectLanguage(text, noopLangs, preferredLangs);
+      mode = "ngram";
+    } else {
+      detected = fastTestIdentifier.detectLanguage(text, noopLangs, preferredLangs);
+      mode = "fasttext";
+    }
+    long t2 = System.nanoTime();
+    float runTime = (t2-t1)/1000.0f/1000.0f;
+    System.out.printf(Locale.ENGLISH, "detected " + detected + " using " + mode + " in %.2fms\n", runTime);
     Language lang;
     if (detected == null) {
       lang = Languages.getLanguageForShortCode(fallbackLanguage != null ? fallbackLanguage : "en");

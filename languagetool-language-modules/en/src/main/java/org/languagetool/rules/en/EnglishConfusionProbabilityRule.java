@@ -415,10 +415,20 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "were they cold", // vs could
       "are we cold", // vs could
       "were we cold", // vs could
-      "us three" // vs is
+      "us three", // vs is
+      "way to go", // vs was
+      "way won't" // was
     );
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(
+      // way vs was: This way a person could learn ....
+      token("this"),
+      token("way"),
+      posRegex("DT"),
+      posRegex("NN.*"),
+      posRegex("MD")
+    ),
     Arrays.asList(
       // "from ... to ..." (to/the)
       posRegex("NNP|UNKNOWN"),
@@ -483,7 +493,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       // Text us at (410) 4535
       tokenRegex("message(s|d)?|text(s|ed)?|DM"),
       token("us"), // vs "is"
-      posRegex("PCT|IN|CC")
+      posRegex("PCT|IN|TO|CC|DT")
     ),
     Arrays.asList(
       // Clinton will pay us based on actuals.

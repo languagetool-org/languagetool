@@ -96,6 +96,9 @@ public class RemoteLanguageTool {
     if (config.getMode() != null) {
       append(params, "mode", config.getMode());
     }
+    if (config.getLevel() != null) {
+      append(params, "level", config.getLevel());
+    }
     if (config.getRuleValues().size() > 0) {
       append(params, "ruleValues", String.join(",", config.getRuleValues()));
     }
