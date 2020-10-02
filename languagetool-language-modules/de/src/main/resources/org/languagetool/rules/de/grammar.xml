@@ -9536,7 +9536,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rulegroup id="SUB_-s_BEDINGT_BASIERT" name="Alters bedingten (altersbedingt)" default="temp_off"> <!-- opensource #1490-->
+        <rulegroup id="SUB_-S_BEDINGT_BASIERT" name="Alters bedingten (altersbedingt)" default="temp_off"> <!-- opensource #1490-->
             <rule> 
                 <pattern>
                     <token postag="ART:.+|PRP:.+" postag_regexp="yes">
@@ -9579,7 +9579,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token postag="SUB:.+" postag_regexp="yes"/>
             </pattern>
-            <message>Meinten Sie möglicherweise das Adjektiv <suggestion><match no="2" case_conversion="startlower"/>\3</suggestion>, das zusammengeschrieben wird?</message>
+            <message>Meinten Sie möglicherweise das Adjektiv <suggestion><match no="2" case_conversion="alllower"/>\3</suggestion>, das zusammengeschrieben wird?</message>
             <example correction="textbasierte">Das ist eine <marker>Text basierte</marker> Analyse.</example>
             <example>Das Getränk basiert auf Alkohol.</example>
             <example>Das ist ein PDF basiertes Problem.</example>
@@ -9590,8 +9590,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ART:.+" postag_regexp="yes"/>
                     <token postag="ADJ:.+|PA1:.+" postag_regexp="yes" min="0"/>
                     <token postag="SUB:.+:(MAS|NEU)" postag_regexp="yes"/>
-                        <token>nach</token>
-                        <token>dem</token>
+                    <token>nach</token>
+                    <token>dem</token>
                 </antipattern>
                 <pattern>
                     <token postag="VER:.+" postag_regexp="yes"/>
@@ -9604,7 +9604,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>nach</token>
                         <token>dem</token>
                     </marker>
-                    <token postag="PRO:PER:.+|ART:.+|SUB:.+:FEM|ZUS" postag_regexp="yes"/>
+                    <token postag="PRO:PER:.+|ART:.+|SUB:.+:FEM|ZUS" postag_regexp="yes">
+                        <exception scope="next" postag="UNKNOWN|SUB:.+|PA2:.+" postag_regexp="yes"></exception>
+                        <exception postag="PRP:.+" postag_regexp="yes"></exception>
+                    </token>
                     <token skip="7" min="0">
                         <exception scope="next" regexp="yes">/|und|&amp;|oder|“|–|"|„|‚|‘|´|`|»|«|›|‹|-|\(|\)|sowie|'|–|;|[’´'‛′‘]|:</exception>
                         <exception regexp="yes">/|und|&amp;|oder|“|–|"|„|‚|‘|´|`|»|«|›|‹|-|\(|\)|sowie|'|–|;|[’´'‛′‘]|:</exception>
@@ -19004,6 +19007,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="PRO:.+" postag_regexp="yes"/>
                 </token>
                 <token case_sensitive="yes">Habe</token>
+            </antipattern>
+            <antipattern>
+                <token>Haben</token>
+                <token>und</token>
+                <token>Nichthaben</token>
             </antipattern>
             <pattern>
                 <token postag="PRO:PER:NOM:.+|EIG:.+|SUB:.+" postag_regexp="yes">
@@ -34368,7 +34376,7 @@ Andere Projekte</example>
                     </token>
                     <token postag="VER:INF:SFT">
                         <exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/>
-                        <exception regexp="yes">Gießen|Baden|Nordstemmen|Norden|Baden-Baden|Erlangen|Merken|Gardelegen|[a-zöäüß].+hausen</exception>
+                        <exception regexp="yes">Gießen|Baden|Nordstemmen|Norden|Baden-Baden|Erlangen|Merken|Gardelegen|[a-zöäüß].+hausen|Erreichen|Nichterreichen</exception>
                         <exception case_sensitive="yes" regexp="yes">[a-zöäüß].+</exception>
                         <exception scope="next" postag="ADJ:.+" postag_regexp="yes"/>
                     </token>
