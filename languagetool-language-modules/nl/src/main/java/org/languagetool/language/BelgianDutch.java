@@ -18,6 +18,10 @@
  */
 package org.languagetool.language;
 
+import org.languagetool.JLanguageTool;
+
+import java.util.List;
+
 public class BelgianDutch extends Dutch {
 
   @Override
@@ -30,4 +34,11 @@ public class BelgianDutch extends Dutch {
     return new String[]{"BE"};
   }
 
+  @Override
+  public List<String> getRuleFileNames() {
+    List<String> ruleFileNames = super.getRuleFileNames();
+    String dirBase = JLanguageTool.getDataBroker().getRulesDir() + "/" + getShortCode() + "/";
+    ruleFileNames.remove(dirBase + "nl-NL/grammar.xml");  // we're a subclass, so we need to remove it here
+    return ruleFileNames;
+  }
 }
