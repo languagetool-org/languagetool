@@ -37099,25 +37099,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>S'ha de pagar un tant.</example>
             <example>S'ha de pagar un tant al mes.</example>
         </rule>
-        <rule id="EN_BROMA" name="en broma">
+        <rule id="EN_BROMA" name="*en broma/de broma">
             <antipattern>
                 <marker>
                     <token>com</token>
                     <token>a</token>
-                    <token>broma</token>
+                    <token regexp="yes">broma|conya</token>
                 </marker>
             </antipattern>
             <pattern>
                 <token regexp="yes">en|a</token>
-                <token>broma</token>
+                <token regexp="yes">broma|conya</token>
             </pattern>
             <message>Expressió incorrecta.</message>
-            <suggestion>de broma</suggestion>
+            <suggestion>de \2</suggestion>
             <short>Expressió incorrecta</short>
-            <example correction="de broma"><marker>en broma</marker></example>
+            <example correction="de broma">Semblava dit <marker>en broma</marker>.</example>
+            <example correction="de conya">Sembla un tweet escrit <marker>en conya</marker>.</example>
             <example>de broma</example>
         </rule>
-        <rule id="A_COS_DE_REI" name="a cos de rei">
+        <rule id="A_COS_DE_REI" name="*a cos de rei">
             <pattern>
                 <token>a</token>
                 <token>cos</token>
@@ -37130,7 +37131,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>com un príncep</suggestion>
             <suggestion>com un canonge</suggestion>
             <short>Expressió incorrecta</short>
-            <example correction="a cor què vols, cor què desitges|com un rei|com un príncep|com un canonge"><marker>a cos de rei</marker></example>
+            <example correction="a cor què vols, cor què desitges|com un rei|com un príncep|com un canonge">Vivia <marker>a cos de rei</marker>.</example>
             <example>com un rei</example>
         </rule>
         <rule id="A_DIA_DAHIR" name="*a dia d'ahir">
