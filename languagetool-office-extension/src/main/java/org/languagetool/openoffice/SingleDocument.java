@@ -390,6 +390,24 @@ class SingleDocument {
     return docCache;
   }
   
+  /** Update document cache and get it
+   */
+  DocumentCache getUpdatedDocumentCache() {
+    if (docCursor == null) {
+      docCursor = new DocumentCursorTools(xComponent);
+    }
+    if (flatPara == null) {
+      flatPara = new FlatParagraphTools(xComponent);
+    } else {
+      flatPara.init();
+    }
+    docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck);
+    if (docCache.isEmpty()) {
+      return null;
+    }
+    return docCache;
+  }
+  
   /**
    * reset the Document
    */
