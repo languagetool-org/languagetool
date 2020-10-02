@@ -116,7 +116,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
 
-    /*if (match.getSentence().getText().contains("todo más difícil")) {
+    /*if (match.getSentence().getText().contains("Necesidad de más mercado")) {
       int kk=0;
       kk++;
     }*/
