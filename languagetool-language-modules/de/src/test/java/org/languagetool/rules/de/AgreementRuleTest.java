@@ -424,8 +424,8 @@ public class AgreementRuleTest {
     assertBadWithMessage("Das Fahrrads.", "des Kasus");
     assertBadWithMessage("Der Fahrrad.", "des Genus");
     assertBadWithMessage("Das Fahrräder.", "des Numerus");
-    assertBadWithMessage("Die Tischen sind ecking.", "des Kasus");
-    assertBadWithMessage("Die Tischen sind ecking.", "und Genus");
+    assertBadWithMessage("Die Tischen sind eckig.", "des Kasus");
+    assertBadWithMessage("Die Tischen sind eckig.", "und Genus");
     //TODO: input is actually correct
     assertBadWithMessage("Bei dem Papierabzüge von Digitalbildern bestellt werden.", "des Kasus, Genus oder Numerus.");
   }
