@@ -191,11 +191,9 @@ public class AdverbFilter extends RuleFilter {
     put("calmly", "calm");
     put("racially", "racial");
     put("widely", "wide");
-    put("peacefully", "peaceful");
     put("heavily", "heavy");
     put("authentically", "authentic");
     put("honestly", "honest");
-    put("voluntarily", "voluntary");
     put("desperately", "desperate");
     put("immensely", "immense");
     put("apparently", "apparent");
