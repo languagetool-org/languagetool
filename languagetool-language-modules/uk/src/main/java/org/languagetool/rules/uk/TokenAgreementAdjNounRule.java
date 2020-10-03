@@ -170,7 +170,7 @@ public class TokenAgreementAdjNounRule extends Rule {
             state.adjAnalyzedTokenReadings = tokenReadings;
           }
           else if( ! LemmaHelper.hasLemma(tokenReadings, Arrays.asList("другий"), "adj:f:")
-              || ! LemmaHelper.hasLemma(tokens[i+1], FAKE_FEM_LIST, "noun:inanim:m:") ) {
+              || (i + 1 < tokens.length && ! LemmaHelper.hasLemma(tokens[i+1], FAKE_FEM_LIST, "noun:inanim:m:")) ) {
             state.reset();
             break;
           }

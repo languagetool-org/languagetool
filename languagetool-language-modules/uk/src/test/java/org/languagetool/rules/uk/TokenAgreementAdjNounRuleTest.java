@@ -65,6 +65,7 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("(Пізніше Вальтер став першим");
     assertEmptyMatch("складовою успіху");
     assertEmptyMatch("про екс-першого віце-спікера.");
+    assertEmptyMatch("Маю лишній квиток і подумав за свого найкращого друга");
 
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("скрутна справі")).length);
