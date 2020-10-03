@@ -19001,6 +19001,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="KLEIN_NACH_PUNKT" name="Kleinschreibung und fehlendes Leerzeichen nach Punkt" default="temp_off">
+            <!-- PUNT_GEEN_HL in NL, https://github.com/languagetool-org/languagetool/issues/3655 -->
+            <pattern>
+                <token spacebefore="yes" regexp="yes" case_sensitive="yes">.*[a-zöäüß]$</token>
+                <token spacebefore="no">.</token>
+                <marker>
+                    <token spacebefore="no" regexp="yes" case_sensitive="yes">[a-zöüäßA-ZÖÄÜ].*<exception postag="UNKNOWN"/><exception regexp="yes">dat|doc</exception></token>
+                </marker>
+            </pattern>
+            <message>Wenn hier ein neuer Satz beginnt, wird das erste Wort großgeschrieben.</message>
+            <suggestion> <match no="3" case_conversion="startupper"/></suggestion>
+            <example correction=" Und">Das ist ein Satz.<marker>und</marker> das hier auch.</example>
+            <example>Die Datei bewertung.doc wurde aktualisiert.</example>
+        </rule>
         <rule id="ICH_HABE" name="Ich Habe (habe) das nicht gegessen." default="temp_off">
             <antipattern>
                 <token postag="SUB:GEN:.+" postag_regexp="yes">
