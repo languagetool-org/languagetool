@@ -6,7 +6,14 @@
   * There's now support for Belgian Dutch (`nl-BE`). "Dutch" (`nl`) is
     still the default. nl-BE-specific rules can be added to `nl-BE/grammar.xml`
 
-
+#### General
+  * There's now `RegexAntiPatternFilter` which can be used to have antipatterns
+    for `<regexp>` rules. Use like this:     
+    ```
+    <regexp>my regex</regexp>
+    <filter class="org.languagetool.rules.patterns.RegexAntiPatternFilter" args="antipatterns:regex1|regex2"/>
+    ```
+    Note that the regex after `antipatterns:` cannot contain spaces.
 
 ## 5.1.1 (released 2020-09-29)
   * fixed a NullPointerException crash in the LibreOffice/OpenOffice add-on

@@ -31,6 +31,7 @@ import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.ErrorTriggeringExample;
 import org.languagetool.rules.IncorrectExample;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
@@ -629,10 +630,19 @@ public class XMLRuleHandler extends DefaultHandler {
   
   protected void setRuleFilter(String filterClassName, String filterArgs, AbstractPatternRule rule) {
     if (filterClassName != null && filterArgs != null) {
-      RuleFilterCreator creator = new RuleFilterCreator();
-      RuleFilter filter = creator.getFilter(filterClassName);
-      rule.setFilter(filter);
-      rule.setFilterArguments(filterArgs);
+      if (rule instanceof RegexPatternRule) {
+        RegexRuleFilterCreator creator = new RegexRuleFilterCreator();
+        RegexRuleFilter filter = creator.getFilter(filterClassName);
+        rule.setRegexFilter(filter);
+        rule.setFilterArguments(filterArgs);
+      } else if (rule instanceof PatternRule || rule instanceof DisambiguationPatternRule) {
+        RuleFilterCreator creator = new RuleFilterCreator();
+        RuleFilter filter = creator.getFilter(filterClassName);
+        rule.setFilter(filter);
+        rule.setFilterArguments(filterArgs);
+      } else {
+        throw new RuntimeException("Rule " + rule.getFullId() + " of type " + rule.getClass() + " cannot have a filter (" + filterClassName + ")");
+      }
     }
   }
 
