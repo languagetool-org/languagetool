@@ -449,6 +449,13 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("optimalisiert", "optimiert", rule, lt);
     assertFirstSuggestion("introvertisches", "introvertiertes", rule, lt);
     assertFirstSuggestion("Entercotte", "Entrecôte", rule, lt);
+    assertFirstSuggestion("hirachie", "Hierarchie", rule, lt);
+    assertFirstSuggestion("amierte", "armierte", rule, lt);
+    assertFirstSuggestion("Versiehrten", "Versierten", rule, lt);
+    assertFirstSuggestion("durchsichtbar", "durchsichtig", rule, lt);
+    assertFirstSuggestion("offensichtiges", "offensichtliches", rule, lt);
+    assertFirstSuggestion("zurverfühgung", "zur Verfügung", rule, lt);
+    assertFirstSuggestion("Verständlichkeitsfragen", "Verständnisfragen", rule, lt);
   }
 
   @Test
