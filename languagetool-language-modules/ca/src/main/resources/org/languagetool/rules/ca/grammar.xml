@@ -1942,6 +1942,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Si l’empresari fes la comunicació transcorreguts els deu dies.</example>
             <example>Si l’empresari fes la comunicació transcorregudes més de dues setmanes.</example>
             <example>Si l’empresari fes la comunicació transcorreguda més d'una setmana.</example>
+            <example>La raó en forma part tant com l'afectivitat.</example>
             <!-- TODO: 
                 Els costats superior i laterals.
                 ambiguous: té una manera de jugar aquestes gires tan femenina
@@ -10465,8 +10466,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PREPOSITIONS" name="Preposicions" type="grammar">
-        <rule id="POSITIU_EN" name="positiu *de/en coronavirus" default="temp_off">
+        <rule id="POSITIU_EN" name="positiu *de/en coronavirus">
             <pattern>
+                <token inflected="yes">donar</token>
                 <token inflected="yes" regexp="yes">positiu|negatiu</token>
                 <marker>
                     <token>de</token>
@@ -42936,7 +42938,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Sentim que|Sentim a dir que"><marker>Escoltem que</marker>.</example>
                 <example>Escolta què diuen.</example>
             </rule>
-            <rule>
+            <!--<rule>
                 <pattern>
                     <marker>
                         <token inflected="yes">escoltar</token>
@@ -42948,7 +42950,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match></suggestion>
                 <example correction="sentida">Aquesta paraula no l'havia <marker>escoltada</marker> mai.</example>
                 <example>Escolta què diuen.</example>
-            </rule>
+            </rule>-->
             <rule>
                 <pattern>
                     <marker>
@@ -50736,59 +50738,73 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://esadir.cat/entrades/fitxa/node/mono</url>
             <example correction="molt boniques|molt bufones|molt gracioses|molt delicades|molt atractives">Eren <marker>moníssimes</marker>!</example>
         </rule>
-        <rule id="MONO" name="mono (bonic, mico, granota, monofònic, síndrome)">
-            <pattern>
-                <token>mono</token>
-            </pattern>
-            <message>Llenguatge col·loquial. Té diferents significats segons el context.</message>
-            <suggestion>bufó</suggestion>
-            <suggestion>bonic</suggestion>
-            <suggestion>graciós</suggestion>
-            <suggestion>granota</suggestion>
-            <suggestion>mona</suggestion>
-            <suggestion>mico</suggestion>
-            <suggestion>simi</suggestion>
-            <suggestion>síndrome d'abstinència</suggestion>
-            <suggestion>monofònic</suggestion>
-            <suggestion>monofònica</suggestion>
+        <rulegroup id="MONO" name="mono (bonic, mico, granota, monofònic, síndrome)">
             <url>http://esadir.cat/entrades/fitxa/node/mono</url>
-            <example correction="bufó|bonic|graciós|granota|mona|mico|simi|síndrome d'abstinència|monofònic|monofònica">Que <marker>mono</marker>!</example>
-        </rule>
-        <rule id="MONOS" name="monos (bonic, mico, granota, monofònic, síndrome)">
-            <pattern>
-                <token>monos</token>
-            </pattern>
-            <message>Llenguatge col·loquial. Té diferents significats segons el context.</message>
-            <suggestion>bufons</suggestion>
-            <suggestion>bonics</suggestion>
-            <suggestion>graciosos</suggestion>
-            <suggestion>granotes</suggestion>
-            <suggestion>mones</suggestion>
-            <suggestion>micos</suggestion>
-            <suggestion>simis</suggestion>
-            <suggestion>síndromes d'abstinència</suggestion>
-            <suggestion>monofònics</suggestion>
-            <suggestion>monofòniques</suggestion>
-            <url>http://esadir.cat/entrades/fitxa/node/mono</url>
-            <example correction="bufons|bonics|graciosos|granotes|mones|micos|simis|síndromes d'abstinència|monofònics|monofòniques">Que <marker>monos</marker>!</example>
-        </rule>
-        <rule id="MONA" name="mona (adj): bonica, graciosa">
-            <pattern>
-                <token postag="AQ.F.*" postag_regexp="yes" regexp="yes">mona|mones<exception postag="NC.*" postag_regexp="yes"/></token>
-            </pattern>
-            <message>Llenguatge col·loquial. Correcte si equival a "mico, simi" o "tipus de coca o pastís".</message>
-            <suggestion><match no="2" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">bonic</match></suggestion>
-            <suggestion><match no="2" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">bufó</match></suggestion>
-            <suggestion><match no="2" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">graciós</match></suggestion>
-            <suggestion><match no="2" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">delicat</match></suggestion>
-            <suggestion><match no="2" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">atractiu</match></suggestion>
-            <url>http://esadir.cat/entrades/fitxa/node/mono</url>
-            <example correction="boniques|bufones|gracioses|delicades|atractives">Eren tan <marker>mones</marker>!</example>
-            <example correction="boniques|bufones|gracioses|delicades|atractives">Eren cases <marker>mones</marker>!</example>
-            <example correction="bonica|bufona|graciosa|delicada|atractiva">És molt <marker>mona</marker>!</example>
-            <example>És una mona negra.</example>
-            <example>Són mones albines.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token>amb</token>
+                    <marker>
+                        <token>mono</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>granota</suggestion> (vestit de feina)? També pot ser una paraula col·loquial amb el sentit de <suggestion>síndrome d'abstinència</suggestion>.</message>
+                <example correction="granota|síndrome d'abstinència">Anava vestit amb <marker>mono</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>Anís</token>
+                    <token>de</token>
+                    <token>l</token>
+                    <token>Mono</token>
+                </antipattern>
+                <pattern>
+                    <token>mono</token>
+                </pattern>
+                <message>Llenguatge col·loquial. Té diferents significats segons el context: <suggestion>bufó</suggestion> (com a adjectiu), <suggestion>granota</suggestion> (vestit de feina). Incorrecte amb el sentit de <suggestion>mico</suggestion>.</message>
+                <suggestion>bonic</suggestion>
+                <suggestion>graciós</suggestion>
+                <suggestion>mona</suggestion>
+                <suggestion>simi</suggestion>
+                <suggestion>síndrome d'abstinència</suggestion>
+                <suggestion>monofònic</suggestion>
+                <suggestion>monofònica</suggestion>
+                <example correction="bufó|granota|mico|bonic|graciós|mona|simi|síndrome d'abstinència|monofònic|monofònica">Que <marker>mono</marker>!</example>
+                <example>Vicenç Bosch i Grau (1845-1907), empresari, creà l'Anís del Mono.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>monos</token>
+                </pattern>
+                <message>Llenguatge col·loquial. Té diferents significats segons el context.</message>
+                <suggestion>bufons</suggestion>
+                <suggestion>bonics</suggestion>
+                <suggestion>graciosos</suggestion>
+                <suggestion>granotes</suggestion>
+                <suggestion>mones</suggestion>
+                <suggestion>micos</suggestion>
+                <suggestion>simis</suggestion>
+                <suggestion>síndromes d'abstinència</suggestion>
+                <suggestion>monofònics</suggestion>
+                <suggestion>monofòniques</suggestion>
+                <example correction="bufons|bonics|graciosos|granotes|mones|micos|simis|síndromes d'abstinència|monofònics|monofòniques">Que <marker>monos</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="AQ.F.*" postag_regexp="yes" regexp="yes">mona|mones<exception postag="NC.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Llenguatge col·loquial. Correcte si equival a "mico, simi" o "tipus de coca o pastís".</message>
+                <suggestion><match no="2" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">bonic</match></suggestion>
+                <suggestion><match no="2" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">bufó</match></suggestion>
+                <suggestion><match no="2" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">graciós</match></suggestion>
+                <suggestion><match no="2" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">delicat</match></suggestion>
+                <suggestion><match no="2" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">atractiu</match></suggestion>
+                <example correction="boniques|bufones|gracioses|delicades|atractives">Eren tan <marker>mones</marker>!</example>
+                <example correction="boniques|bufones|gracioses|delicades|atractives">Eren cases <marker>mones</marker>!</example>
+                <example correction="bonica|bufona|graciosa|delicada|atractiva">És molt <marker>mona</marker>!</example>
+                <example>És una mona negra.</example>
+                <example>Són mones albines.</example>
+            </rule>
+        </rulegroup>
         <rule id="DESCEREBRAT" name="descerebrat">
             <pattern>
                 <token inflected="yes">descerebrat</token>
