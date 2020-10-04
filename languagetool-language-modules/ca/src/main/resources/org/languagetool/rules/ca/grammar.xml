@@ -6642,6 +6642,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Castellanisme</short>
                 <example correction="hem de">No <marker>tenim que</marker> fer res</example>
                 <example correction="hagut de">No ha <marker>tingut que</marker> fer res</example>
+                <example correction="has de">En anglès només <marker>tens que</marker> copiar el text.</example>
                 <example>No hem de fer res</example>
             </rule>
             <rule>
@@ -50766,15 +50767,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>mono</token>
                 </pattern>
-                <message>Llenguatge col·loquial. Té diferents significats segons el context: <suggestion>bufó</suggestion> (com a adjectiu), <suggestion>granota</suggestion> (vestit de feina). Incorrecte amb el sentit de <suggestion>mico</suggestion>.</message>
+                <message>Llenguatge col·loquial. Té diferents significats segons el context: <suggestion>bufó</suggestion> (com a adjectiu), <suggestion>granota</suggestion> (vestit de feina), <suggestion>síndrome d'abstinència</suggestion>. Incorrecte amb el sentit de <suggestion>mico</suggestion>.</message>
                 <suggestion>bonic</suggestion>
                 <suggestion>graciós</suggestion>
                 <suggestion>mona</suggestion>
                 <suggestion>simi</suggestion>
-                <suggestion>síndrome d'abstinència</suggestion>
                 <suggestion>monofònic</suggestion>
                 <suggestion>monofònica</suggestion>
-                <example correction="bufó|granota|mico|bonic|graciós|mona|simi|síndrome d'abstinència|monofònic|monofònica">Que <marker>mono</marker>!</example>
+                <example correction="bufó|granota|síndrome d'abstinència|mico|bonic|graciós|mona|simi|monofònic|monofònica">Que <marker>mono</marker>!</example>
                 <example>Vicenç Bosch i Grau (1845-1907), empresari, creà l'Anís del Mono.</example>
             </rule>
             <rule>
@@ -58010,6 +58010,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Gràcies infinites.</example>
                 <example>Gràcies us dono.</example>
                 <example>Ser capaços de donar gràcies no sols amb les paraules.</example>
+            </rule>
+        </rulegroup>
+    </category>
+    <category name="adaptador valencià" id="ADAPTADOR_VALENCIA" default="off">
+        <rulegroup name="adaptacions al valencià" id="ADAPTADOR_VALENCIA_LEXIC">
+            <rule>
+                <pattern>
+                    <token inflected="yes">desar</token>
+                </pattern>
+                <message>Adaptació al valencià.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">guardar</match></suggestion>
+                <example correction="Guarda"><marker>Desa</marker> el fitxer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">sortir</token>
+                </pattern>
+                <message>Adaptació al valencià.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">eixir</match></suggestion>
+                <example correction="Ix"><marker>Surt</marker> del programa.</example>
             </rule>
         </rulegroup>
     </category>

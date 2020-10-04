@@ -7212,7 +7212,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="SENT_START|CC|_PUNCT.*" postag_regexp="yes"/>
             <marker>
                 <and>
-                    <token postag="V.[IS].*" postag_regexp="yes"/>
+                    <token postag="V.[IS].*" postag_regexp="yes"><exception regexp="yes">surts?</exception></token>
                     <token postag="NC.*" postag_regexp="yes"/>
                 </and>
             </marker>
@@ -9150,7 +9150,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="[^R].*"/>
     </rule>
     <rulegroup id="nom_adv_adj" name="nom + adverbi + adjectiu que concorden">
-        <!-- antipattern: tens que -->
+        <antipattern>
+            <token>tens</token>
+            <token>que</token>
+        </antipattern>
         <rule id="aa2" name="aa1: Era la feina més dura ">
             <pattern>
                 <unify>
