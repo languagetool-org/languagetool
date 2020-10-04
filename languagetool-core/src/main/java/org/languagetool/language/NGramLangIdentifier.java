@@ -122,10 +122,11 @@ public class NGramLangIdentifier {
   public Map<String, Double> detectLanguages(String text, List<String> additionalLanguageCodes) {
     List<Integer> enc = this.encode(text);
     List<Double> vals = new ArrayList<>();
+    List<int[]> keys = this.keys(enc);
 
     for (int i = 0; i < this.codes.size(); i++) {
       double val = 0;
-      for (int[] key: this.keys(enc)) {
+      for (int[] key: keys) {
         double prob;
         if (this.knp) {
           prob = knp(key[0], key[1], i);
