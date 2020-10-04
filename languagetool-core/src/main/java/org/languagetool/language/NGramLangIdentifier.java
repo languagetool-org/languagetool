@@ -60,82 +60,82 @@ public class NGramLangIdentifier {
     String scalesPath = Paths.get(sourceFolder.getAbsolutePath(), "scales.txt").toString();
 
     //Load language codes - Line format = {Language Name}\t{2-code or "NULL"}\t{3-code}
-    this.codes = new ArrayList<>();
+    codes = new ArrayList<>();
     try (BufferedReader br = new BufferedReader(new FileReader(isoPath))) {
       String line;
       while ((line = br.readLine()) != null) {
         String[] values = line.split("\t");
         if (values[3].equals("1")) {
-          this.codes.add(values);
+          codes.add(values);
         }
       }
     }
 
     //Load vocab - Line format = {token}
-    this.vocab = new HashMap<>();
+    vocab = new HashMap<>();
     try (BufferedReader br = new BufferedReader(new FileReader(vocabPath))) {
       String line;
       int i = 0;
       while ((line = br.readLine()) != null) {
-        this.vocab.put(line.split("\t")[0].trim(), i);
+        vocab.put(line.split("\t")[0].trim(), i);
         i++;
       }
     }
 
     //Load transition matrices - Line format = {i} {j} {val}
-    this.bigramCounts = new ArrayList<>();
-    for (String path : this.expectedFiles(sourceFolder)) {
-      this.bigramCounts.add(loadDict(path));
+    bigramCounts = new ArrayList<>();
+    for (String path : expectedFiles(sourceFolder)) {
+      bigramCounts.add(loadDict(path));
     }
 
-    this.unigramCounts = new ArrayList<>();
-    for (String path : this.expectedFiles(ugPath)) {
-      this.unigramCounts.add(loadDict(path));
+    unigramCounts = new ArrayList<>();
+    for (String path : expectedFiles(ugPath)) {
+      unigramCounts.add(loadDict(path));
     }
 
     //Load sums - Line format = {i} {val}
-    this.bigramSumsPre = new ArrayList<>();
-    for (String path : this.expectedFiles(sumsPathPre)) {
-      this.bigramSumsPre.add(loadDict(path));
+    bigramSumsPre = new ArrayList<>();
+    for (String path : expectedFiles(sumsPathPre)) {
+      bigramSumsPre.add(loadDict(path));
     }
 
-    this.bigramSumsPost = new ArrayList<>();
-    for (String path : this.expectedFiles(sumsPathPost)) {
-      this.bigramSumsPost.add(loadDict(path));
+    bigramSumsPost = new ArrayList<>();
+    for (String path : expectedFiles(sumsPathPost)) {
+      bigramSumsPost.add(loadDict(path));
     }
 
     if (scaling) {
       //Load scales - Line format = {val} {val} ... {val}
-      this.scales = new ArrayList<>();
+      scales = new ArrayList<>();
       try (BufferedReader br = new BufferedReader(new FileReader(scalesPath))) {
         String line;
         while ((line = br.readLine()) != null) {
           String[] parts = line.trim().split(" ");
-          this.scales.add(Arrays.stream(parts).map(Double::parseDouble).collect(Collectors.toList()));
+          scales.add(Arrays.stream(parts).map(Double::parseDouble).collect(Collectors.toList()));
         }
       }
     } else {
-      this.scales = null;
+      scales = null;
     }
   }
 
   public Map<String, Double> detectLanguages(String text, List<String> additionalLanguageCodes) {
-    List<Integer> enc = this.encode(text);
+    List<Integer> enc = encode(text);
     List<Double> vals = new ArrayList<>();
-    List<int[]> keys = this.keys(enc);
+    List<int[]> keys = keys(enc);
 
-    for (int i = 0; i < this.codes.size(); i++) {
+    for (int i = 0; i < codes.size(); i++) {
       double val = 0;
       for (int[] key: keys) {
         double prob;
-        if (this.knp) {
+        if (knp) {
           prob = knp(key[0], key[1], i);
         } else {
-          int ugCnt = this.unigramCounts.get(i).getOrDefault("0_" + key[0], 0);
+          int ugCnt = unigramCounts.get(i).getOrDefault("0_" + key[0], 0);
           if (ugCnt == 0) {
             prob = EPSILON;
           } else {
-            prob = (double) (this.bigramCounts.get(i).getOrDefault(key[0] + "_" + key[1], 1)) / ugCnt;
+            prob = (double) (bigramCounts.get(i).getOrDefault(key[0] + "_" + key[1], 1)) / ugCnt;
           }
         }
         val += log(prob);
@@ -143,23 +143,23 @@ public class NGramLangIdentifier {
       vals.add(exp(val));
     }
 
-    if (this.scaling) {
+    if (scaling) {
       List<Double> l1normed = vals;
       vals = new ArrayList<>();
       for (int i = 0; i < l1normed.size(); i++) {
         double val = 0;
-        for (double d : this.scales.get(i)) {
+        for (double d : scales.get(i)) {
           val += d * l1normed.get(i);
         }
         vals.add(val);
       }
     }
 
-    vals = this.normalize(vals);
+    vals = normalize(vals);
 
     Map<String, Double> result = new HashMap<>();
-    for (int i = 0; i < this.codes.size(); i++) {
-      String langCode = this.codes.get(i)[1].equals("NULL") ? this.codes.get(i)[2] : this.codes.get(i)[1]; //2-character code if possible
+    for (int i = 0; i < codes.size(); i++) {
+      String langCode = codes.get(i)[1].equals("NULL") ? codes.get(i)[2] : codes.get(i)[1]; //2-character code if possible
       if (canLanguageBeDetected(langCode, additionalLanguageCodes)) {
         result.put(langCode, vals.get(i));
       }
@@ -183,7 +183,7 @@ public class NGramLangIdentifier {
 
   private List<String> expectedFiles(File folderPath) {
     List<String> result = new ArrayList<>();
-    for (int i = 0; i < this.codes.size(); i++) {
+    for (int i = 0; i < codes.size(); i++) {
       String name = String.format("%02d.txt", i);
       String fp = Paths.get(folderPath.getAbsolutePath(), name).toString();
       result.add(fp);
@@ -194,8 +194,8 @@ public class NGramLangIdentifier {
   private List<Integer> encode(String text) {
     List<Integer> result = new ArrayList<>();
     result.add(1); //Start of sentence token
-    if (text.length() > this.maxLength) {
-      text = text.substring(0, this.maxLength);
+    if (text.length() > maxLength) {
+      text = text.substring(0, maxLength);
     }
     text = Normalizer.normalize(text, Normalizer.Form.NFKC).toLowerCase().replaceAll("\\s+", "▁");
     if (text.length() == 0) {
@@ -208,7 +208,7 @@ public class NGramLangIdentifier {
       int tok = 0;
       int ci = 1;
       for (int i = cur + 1; i <= text.length(); i++) {
-        int maybeTok = this.vocab.getOrDefault(text.substring(cur, i), -1);
+        int maybeTok = vocab.getOrDefault(text.substring(cur, i), -1);
         if (maybeTok > -1) {
           tok = maybeTok;
           ci = i - cur;
@@ -230,10 +230,10 @@ public class NGramLangIdentifier {
   }
 
   private Double knp(int a, int b, int tmI) {
-    Map<String, Integer> tm = this.bigramCounts.get(tmI);
-    Map<String, Integer> tmU = this.unigramCounts.get(tmI);
-    Map<String, Integer> tmS = this.bigramSumsPre.get(tmI);
-    Map<String, Integer> tmSd = this.bigramSumsPost.get(tmI);
+    Map<String, Integer> tm = bigramCounts.get(tmI);
+    Map<String, Integer> tmU = unigramCounts.get(tmI);
+    Map<String, Integer> tmS = bigramSumsPre.get(tmI);
+    Map<String, Integer> tmSd = bigramSumsPost.get(tmI);
 
     int xaCnt = tmS.getOrDefault("" + b, 0);
     int axCnt = tmSd.getOrDefault("" + a, 0);
