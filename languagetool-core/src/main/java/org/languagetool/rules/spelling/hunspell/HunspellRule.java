@@ -19,29 +19,44 @@
 
 package org.languagetool.rules.spelling.hunspell;
 
-import com.google.common.io.Resources;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.languagetool.*;
-import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.rules.Categories;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.SuggestedReplacement;
-import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.tools.StringTools;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Queue;
+import java.util.ResourceBundle;
+import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.rules.Categories;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.SuggestedReplacement;
+import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.io.Resources;
+import com.vdurmont.emoji.EmojiParser;
 
 /**
  * A hunspell-based spellchecking-rule.
@@ -318,16 +333,11 @@ public class HunspellRule extends SpellingCheckRule {
         }
       } else if (token.length() > 1 && token.codePointCount(0, token.length()) != token.length()) {
         // some symbols such as emojis (😂) have a string length that equals 2 
-        for (int charIndex = 0; charIndex < token.length();) {
-          int unicodeCodePoint = token.codePointAt(charIndex);
-          int increment = Character.charCount(unicodeCodePoint);
-          if (increment == 1) {
-            sb.append(token.charAt(charIndex));
-          } else {
-            sb.append("  ");
-          }
-          charIndex += increment;
+        List<String> emojis = EmojiParser.extractEmojis(token);
+        for (String emoji : emojis) {
+          token = StringUtils.replace(token, emoji, WHITESPACE_ARRAY[emoji.length()]);
         }
+        sb.append(token);
       } else {
         sb.append(token);
       }

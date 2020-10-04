@@ -55,6 +55,8 @@ import org.languagetool.rules.translation.Translator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vdurmont.emoji.EmojiManager;
+
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
   private static final Logger logger = LoggerFactory.getLogger(MorfologikSpellerRule.class);
@@ -548,18 +550,14 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
   /**
-   * Checks whether a given String consists only of surrogate pairs.
+   * Checks whether a given String is an Emoji with a string length larger 1.
    * @param word to be checked
    * @since 4.2
    */
-  protected boolean isSurrogatePairCombination (String word) {
-    if (word.length() > 1 && word.length() % 2 == 0 && word.codePointCount(0, word.length()) != word.length()) {
+  protected boolean isEmoji (String word) {
+    if (word.length() > 1 && word.codePointCount(0, word.length()) != word.length()) {
       // some symbols such as emojis (😂) have a string length that equals 2
-      boolean isSurrogatePairCombination = true;
-      for (int i = 0; i < word.length() && isSurrogatePairCombination; i += 2) {
-        isSurrogatePairCombination &= Character.isSurrogatePair(word.charAt(i), word.charAt(i + 1));
-      }
-      return isSurrogatePairCombination;
+      return EmojiManager.isOnlyEmojis(word);
     }
     return false;
   }
@@ -571,7 +569,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
    */
   @Override
   protected boolean ignoreWord(String word) throws IOException {
-    return super.ignoreWord(word) || isSurrogatePairCombination(word);
+    return super.ignoreWord(word) || isEmoji(word);
   }
   
   /**
