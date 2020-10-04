@@ -694,7 +694,7 @@ abstract class TextChecker {
     }
     long t2 = System.nanoTime();
     float runTime = (t2-t1)/1000.0f/1000.0f;
-    System.out.printf(Locale.ENGLISH, "detected " + detected + " using " + mode + " in %.2fms\n", runTime);
+    System.out.printf(Locale.ENGLISH, "detected " + detected + " using " + mode + " in %.2fms for %d chars\n", runTime, text.length());
     Language lang;
     if (detected == null) {
       lang = Languages.getLanguageForShortCode(fallbackLanguage != null ? fallbackLanguage : "en");
