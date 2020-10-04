@@ -1110,6 +1110,9 @@ public class MultiDocumentsHandler {
         }
         checkDialog.start();
       } else if ("nextError".equals(sEvent)) {
+        if(docLanguage == null) {
+          docLanguage = getLanguage();
+        }
         SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
         checkDialog.nextError();
       } else if ("remoteHint".equals(sEvent)) {

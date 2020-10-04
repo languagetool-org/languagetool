@@ -166,8 +166,15 @@ public class LinguisticServices extends LinguServices {
   
   public static Locale getLocale(Language lang) {
     Locale locale = new Locale();
+//    for (int i = 0; i < lang.getCountries().length; i++) {
+//      MessageHandler.printToLogFile("Language: " + lang.getShortCode() + "-" + lang.getCountries()[i] + (lang.getVariant() == null ? "" : "-" + lang.getVariant()));
+//    }
     locale.Language = lang.getShortCode();
-    locale.Country = lang.getCountries()[0];
+    if (lang.getCountries().length != 1 && lang.getDefaultLanguageVariant() != null) {
+      locale.Country = lang.getDefaultLanguageVariant().getCountries()[0];
+    } else {
+      locale.Country = lang.getCountries()[0];
+    }
     if(lang.getVariant() == null) {
       locale.Variant = "";
     } else {
@@ -234,7 +241,9 @@ public class LinguisticServices extends LinguServices {
     }
     PropertyValue[] properties = new PropertyValue[0];
     try {
-      return spellChecker.isValid(word, locale, properties);
+      boolean isValid = spellChecker.isValid(word, locale, properties);
+//      MessageHandler.printToLogFile(word + "[" + locale.Language + "-" + locale.Country + (locale.Variant.isEmpty() ? "" : "-" + locale.Variant) + "]: " + isValid);
+      return isValid;
     } catch (Throwable t) {
       // If anything goes wrong, give the user a stack trace
       printMessage(t);
@@ -308,7 +317,8 @@ public class LinguisticServices extends LinguServices {
           mxLinguSvcMgr.setConfiguredServices("com.sun.star.linguistic2.Proofreader", locale, configuredServices);
           MessageHandler.printToLogFile("LT set as configured Service for Language: " + locale.Language + "-" + locale.Country 
               + (locale.Variant.isEmpty() ? "" : "-" + locale.Variant));
-          MessageHandler.printToLogFile("Other available Service: " + service + ", " + locale.Language + "-" + locale.Country + "-" + locale.Variant);
+          MessageHandler.printToLogFile("Disabled Service: " + service + ", " + locale.Language + "-" + locale.Country
+              + (locale.Variant.isEmpty() ? "" : "-" + locale.Variant));
         }
       }
     }
