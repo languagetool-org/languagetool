@@ -8694,34 +8694,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>No estava gens alerta.</example>
             <example>No sona gens segons el ritme.</example>
         </rule>
-        <rule id="QUANT_QUAN" name="quant/quan">
-            <pattern>
-                <token><exception regexp="yes">cada|en|a|amb|tot|de</exception><exception postag="D[^R].MS." postag_regexp="yes"/></token>
-                <marker>
-                    <token>quant</token>
-                </marker>
-                <token skip="-1"><exception regexp="yes">\?|a|de|d'|temps</exception> <exception postag="_PUNCT.*|V.P.*|AQ.*" postag_regexp="yes"/> <exception inflected="yes" regexp="yes">gastar|fer|durar|deure|guanyar|estimar|tenir|valer|costar|representar|voler|tardar|trigar|demanar|pagar|cobrar|donar|faltar|mancar|produir|variar|augmentar|pujar|baixar|apujar|abaixar</exception> <exception scope="next" inflected="yes" regexp="yes"
-                    >guanyar|durar|deure|estimar|tenir|valer|costar|representar|voler|tardar|trigar|demanar|pagar|cobrar|donar|faltar|mancar|produir|variar|augmentar|pujar|baixar|apujar|abaixar</exception></token>
-                <token postag="SENT_END"/>
-                <!-- <token postag="D.*|V.*" postag_regexp="yes"/>-->
-            </pattern>
-            <message>¿Volíeu dir <suggestion>quan</suggestion> (moment en el temps) en comptes de "quant" (quantitat)?</message>
-            <short>Possible confusió</short>
-            <example correction="Quan"><marker>Quant</marker> aquesta s'acabà.</example>
-            <example correction="Quan"><marker>Quant</marker> li fa la guitza.</example>
-            <example>¿Quant em podria costar?</example>
-            <example>Quant gastem en moda?</example>
-            <example>¿Quant val això?</example>
-            <example>Quant et dec?</example>
-            <example>¿Quant fan dos i dos?</example>
-            <example>¿Quant fa que se'n va anar?</example>
-            <example>Té tot quant necessita</example>
-            <!-- arcaisme -->
-            <example>"Hi guanya no sé quant."</example>
-            <example>No saps quant limitada és l'àrea</example>
-            <example>referents al com, al quant i al què</example>
-            <!-- Quant tinga coses fetes,  -->
-        </rule>
+        <rulegroup id="QUANT_QUAN" name="quant/quan">
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">cada|en|a|amb|tot|de</exception><exception postag="D[^R].MS." postag_regexp="yes"/></token>
+                    <marker>
+                        <token>quant</token>
+                    </marker>
+                    <token skip="-1">
+                        <exception regexp="yes">\?|a|de|d'|temps</exception>
+                        <exception postag="_PUNCT.*|V.P.*|AQ.*" postag_regexp="yes"/> <exception inflected="yes" regexp="yes">gastar|fer|durar|deure|guanyar|estimar|tenir|valer|costar|representar|voler|tardar|trigar|demanar|pagar|cobrar|donar|faltar|mancar|produir|variar|augmentar|pujar|baixar|apujar|abaixar</exception>
+                        <exception scope="next" inflected="yes" regexp="yes"
+                        >guanyar|durar|deure|estimar|tenir|valer|costar|representar|voler|tardar|trigar|demanar|pagar|cobrar|donar|faltar|mancar|produir|variar|augmentar|pujar|baixar|apujar|abaixar</exception></token>
+                    <token postag="SENT_END"/>
+                    <!-- <token postag="D.*|V.*" postag_regexp="yes"/>-->
+                </pattern>
+                <message>¿Volíeu dir <suggestion>quan</suggestion> (moment en el temps) en comptes de "quant" (quantitat)?</message>
+                <short>Possible confusió</short>
+                <example correction="Quan"><marker>Quant</marker> aquesta s'acabà.</example>
+                <example correction="Quan"><marker>Quant</marker> li fa la guitza.</example>
+                <example>¿Quant em podria costar?</example>
+                <example>Quant gastem en moda?</example>
+                <example>¿Quant val això?</example>
+                <example>Quant et dec?</example>
+                <example>¿Quant fan dos i dos?</example>
+                <example>¿Quant fa que se'n va anar?</example>
+                <example>Té tot quant necessita</example>
+                <!-- arcaisme -->
+                <example>"Hi guanya no sé quant."</example>
+                <example>No saps quant limitada és l'àrea</example>
+                <example>referents al com, al quant i al què</example>
+                <!-- Quant tinga coses fetes,  -->
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>quant</token>
+                    </marker>
+                    <token min="0" max="2" postag="&pronom_feble;" postag_regexp="yes"/>
+                    <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>quan</suggestion> (moment en el temps) en comptes de "quant" (quantitat)?</message>
+                <example correction="Quan"><marker>Quant</marker> tingui temps, ho faré.</example>
+                <example correction="Quan"><marker>Quant</marker> tinguéssim més diners, ho podríem comprar.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QUAN_QUANT" name="*quan/quant">
             <rule>
                 <pattern>
@@ -14634,6 +14651,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="VANS_SER" name="*vans/van ser">
+            <pattern>
+                <marker>
+                    <token>vans</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes" regexp="yes">s.+</token>
+            </pattern>
+            <message>Possible confusió.</message>
+            <suggestion>van</suggestion>
+            <example correction="Van"><marker>Vans</marker> ser ells els responsables.</example>
+        </rule>
         <rule id="AH_HA" name="*ah/ha enviat">
             <pattern>
                 <marker>
@@ -58014,6 +58042,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category name="adaptador valencià" id="ADAPTADOR_VALENCIA" default="off">
+        <!-- Aquestes regles no són per a correcció. Són per a adaptar texts a la varietat valenciana -->
         <rulegroup name="adaptacions al valencià" id="ADAPTADOR_VALENCIA_LEXIC">
             <rule>
                 <pattern>
@@ -58030,6 +58059,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Adaptació al valencià.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">eixir</match></suggestion>
                 <example correction="Ix"><marker>Surt</marker> del programa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>si</token>
+                    <token>us</token>
+                    <token>plau</token>
+                </pattern>
+                <message>Adaptació al valencià.</message>
+                <suggestion>per favor</suggestion>
+                <example correction="Per favor"><marker>Si us plau</marker>.</example>
             </rule>
         </rulegroup>
     </category>
