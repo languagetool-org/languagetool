@@ -937,6 +937,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[zZ]urverfühgung", "verfühgung", " Verfügung");
     putRepl("[vV]erständlichkeitsfragen?", "lichkeits", "nis");
     putRepl("[sS]pendeangebot(e[ns]?)?", "[sS]pende", "Spenden");
+    putRepl("gahrnichts?", "gahr", "gar ");
     put("[hH]irar?chie", "Hierarchie");
     put("Chr", "Chr.");
     put("Tiefbaumt", "Tiefbauamt");
