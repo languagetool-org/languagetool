@@ -290,12 +290,32 @@ public class RuleMatchDiffFinder {
     }
     try (FileWriter fw = new FileWriter(new File(outputDir, "index.html"))) {
       printHeader("Overview of regression results", fw);
+      fw.write("<table class='sortable_table'>\n");
+      fw.write("<thead>");
+      fw.write("<tr>");
+      fw.write("  <td>Count</td>");
+      fw.write("  <td>Source</td>");
+      fw.write("  <td>ID</td>");
+      fw.write("</tr>");
+      fw.write("</thead>");
+      fw.write("<tbody>\n");
       for (OutputFile outputFile : outputFiles) {
-        fw.write("<a href='" + outputFile.file.getName() + "'>" +
-          outputFile.file.getName().replace("result_", "").replace(".html", "") +
-          " (" + outputFile.itemCount + ")</a><br>\n");
+        String file = outputFile.file.getName();
+        fw.write("<tr>");
+        fw.write("<td>");
+        fw.write("" + outputFile.itemCount);
+        fw.write("</td>");
+        fw.write("<td>");
+        fw.write(file.replaceFirst("result_", "").replaceFirst("_.*", ""));
+        fw.write("</td>");
+        fw.write("<td>");
+        fw.write("  <a href='" + file + "'>" + file.replaceFirst("result_.*?_", "").replace(".html", "") + "</a>");
+        fw.write("</td>");
+        fw.write("</tr>\n");
       }
-      printFooter(fw);
+      fw.write("</tbody>");
+      fw.write("</table>\n\n");
+      printFooterForIndex(fw);
     }
   }
 
@@ -361,6 +381,23 @@ public class RuleMatchDiffFinder {
       "    auto_filter: { delay: 100 },\n" +
       "    grid_layout: false,\n" +
       "    col_types: ['string', 'string', 'string'],\n" +
+      "    extensions: [{ name: 'sort' }]\n" +
+      "});\n" +
+      "tf.init();\n" +
+      "</script>");
+    fw.write("</body>\n");
+    fw.write("</html>\n");
+  }
+
+  private void printFooterForIndex(FileWriter fw) throws IOException {
+    fw.write("<script>\n" +
+      "var tf = new TableFilter(document.querySelector('.sortable_table'), {\n" +
+      "    base_path: 'https://unpkg.com/tablefilter@0.7.0/dist/tablefilter/',\n" +
+      "    auto_filter: { delay: 100 },\n" +
+      "    col_0: 'none',\n" +
+      "    col_1: 'select',\n" +
+      "    grid_layout: false,\n" +
+      "    col_types: ['number', 'string', 'string'],\n" +
       "    extensions: [{ name: 'sort' }]\n" +
       "});\n" +
       "tf.init();\n" +
