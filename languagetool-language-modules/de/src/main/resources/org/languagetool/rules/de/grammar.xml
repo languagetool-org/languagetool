@@ -43,6 +43,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY klamzu "\)|\}|\&rsqb;|&gt;">
     <!ENTITY klam "&klamauf;|&klamzu;">
     <!ENTITY alnum "&lsqb;0-9A-ZÄÖÜa-zäöüßáàâêéèëíìîïòóôõûçñšž&rsqb;">
+    <!ENTITY sometlds "com|de|net|uk|org|info|nl|eu|cn|biz|at|ch|fr|tv|to|fm">
 
     <!-- Error messages -->
     <!ENTITY gla "Bitte verwenden Sie in Abkürzungen umbruchgeschützte Leerzeichen.">
@@ -1512,7 +1513,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="KOMMA_TLD" name="'example,com (example.com)'">
             <rule>
-                <regexp case_sensitive='yes'>([a-zäöüß0-9\-]+),(com|de|net|uk|org|info|nl|eu|cn|biz)\b</regexp>
+                <regexp case_sensitive='yes'>([a-zäöüß0-9\-]+),(&sometlds;)\b</regexp>
                 <message>Möglicher Tippfehler: Meinten Sie <suggestion>\1.\2</suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
                 <example correction="example.com">Guck mal auf <marker>example,com</marker> nach.</example>
@@ -19002,15 +19003,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="KLEIN_NACH_PUNKT" name="Kleinschreibung und fehlendes Leerzeichen nach Punkt" default="temp_off">
+        <rule id="KLEIN_NACH_PUNKT" name="Kleinschreibung und fehlendes Leerzeichen nach Punkt">
             <!-- PUNT_GEEN_HL in NL, https://github.com/languagetool-org/languagetool/issues/3655 -->
+            <antipattern>
+                <token>Straßen</token>
+                <token>.</token>
+                <token>NRW</token>
+            </antipattern>
             <antipattern>
                 <token regexp="yes" case_sensitive="yes">.*[a-zöäüß]$</token>
                 <token>.</token>
-                <token>de</token>
+                <token regexp="yes">de|com</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">(com|org|net|to|de|at|ch|fr|fm|tv)-[A-ZÖÄÜ].+</token>
+                <token regexp="yes">(&sometlds;)-[A-ZÖÄÜ].+</token>
             </antipattern>
             <antipattern>
                 <token>ver</token>
@@ -19021,7 +19027,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="yes" regexp="yes" case_sensitive="yes">.*[a-zöäüß]$</token>
                 <token spacebefore="no">.</token>
                 <marker>
-                    <token spacebefore="no" regexp="yes" case_sensitive="yes">[a-zöüäßA-ZÖÄÜ].+<exception postag="UNKNOWN"/><exception regexp="yes">de|dat|doc|pro|php|med</exception></token>
+                    <token spacebefore="no" regexp="yes" case_sensitive="yes">[a-zöüäßA-ZÖÄÜ].+<exception postag="UNKNOWN"/><exception regexp="yes">bat|de|dat|doc|pro|php|med</exception></token>
                 </marker>
             </pattern>
             <message>Beginnt hier ein neuer Satz? Dann bitte ein Leerzeichen einfügen und das erste Wort großschreiben.</message>
