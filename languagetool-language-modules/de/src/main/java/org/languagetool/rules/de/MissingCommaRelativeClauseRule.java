@@ -59,7 +59,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
       ),
       Arrays.asList(
         token("anstelle"),
-        regex("dieser|dieses")
+        regex("diese[rs]")
       ),
       Arrays.asList(
         csToken("mit"),
@@ -67,6 +67,12 @@ public class MissingCommaRelativeClauseRule extends Rule {
         regex("de[mrs]"),
         posRegex("SUB:.+"),
         csToken("verbindet")
+      ),
+      Arrays.asList(
+        csToken("am"),
+        pos("ADJ:PRD:SUP"),
+        csToken("von"),
+        regex("d(e[mnr]|e([nr]|ss)en)")
       )
   );
 
@@ -123,7 +129,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
    */
   private static boolean isVerb(AnalyzedTokenReadings[] tokens, int n) {
     return (tokens[n].matchesPosTagRegex("(VER:[1-3]:|VER:.*:[1-3]:).*")
-        && !tokens[n].matchesPosTagRegex("(ZAL|ADJ|ADV|ART|SUB|PRO:POS).*")
+        && !tokens[n].matchesPosTagRegex("(ZAL|AD[JV]|ART|SUB|PRO:POS).*")
         && (!tokens[n].hasPosTagStartingWith("VER:INF:") || !tokens[n-1].getToken().equals("zu"))
         && !tokens[n].isImmunized()
       );
