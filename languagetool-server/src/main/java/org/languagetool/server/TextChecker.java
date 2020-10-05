@@ -88,7 +88,7 @@ abstract class TextChecker {
   private long lastHiddenMatchesServerTimeout;
   // counter; mark as down if this reaches hidenMatchesServerFall
   private long hiddenMatchesServerFailures = 0;
-  private final LanguageIdentifier fastTestIdentifier;
+  private final LanguageIdentifier fastTextIdentifier;
   private final ExecutorService executorService;
   private final ResultCache cache;
   private final DatabaseLogger databaseLogger;
@@ -103,8 +103,8 @@ abstract class TextChecker {
     this.config = config;
     this.workQueue = workQueue;
     this.reqCounter = reqCounter;
-    this.fastTestIdentifier = new LanguageIdentifier();
-    this.fastTestIdentifier.enableFasttext(config.getFasttextBinary(), config.getFasttextModel());
+    this.fastTextIdentifier = new LanguageIdentifier();
+    this.fastTextIdentifier.enableFasttext(config.getFasttextBinary(), config.getFasttextModel());
     if (config.getNgramLangIdentDir() != null) {
       this.ngramIdentifier = new LanguageIdentifier();
       this.ngramIdentifier.enableNgrams(config.getNgramLangIdentDir());
@@ -689,7 +689,7 @@ abstract class TextChecker {
       detected = ngramIdentifier.detectLanguage(text, noopLangs, preferredLangs);
       mode = "ngram";
     } else {
-      detected = fastTestIdentifier.detectLanguage(text, noopLangs, preferredLangs);
+      detected = fastTextIdentifier.detectLanguage(text, noopLangs, preferredLangs);
       mode = "fasttext";
     }
     long t2 = System.nanoTime();
