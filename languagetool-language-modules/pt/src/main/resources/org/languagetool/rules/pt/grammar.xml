@@ -1408,6 +1408,32 @@ title="Easy editing stylesheet" ?>
           <token>a</token>
       </antipattern>
     <rule>
+<!-- MARCOAGPINTO 2020-10-05 (2-JUL-2020+) *START* -->
+	  <!-- "A Portugal coube o setor oriental do continente." -->
+      <antipattern>		  
+		  <token regexp="no">a</token>
+		  <token postag='NP[FM]S[0G]00' postag_regexp='yes'/>
+		  <token postag='V.+|CC|I|RG' postag_regexp='yes'/>
+	  </antipattern> 
+	  <!-- "Escrita em setembro de 1946 a Isaac Hirsch, o presidente." -->
+      <antipattern>	
+		  <token regexp="yes">com|sem</token>
+		  <token regexp="no">a</token>
+		  <token min="1" max="2" postag='NP[FM]S[0GS]00' postag_regexp='yes'/>
+		  <token regexp="yes">[,.)]</token>
+	  </antipattern> 	   	  
+      <antipattern>	
+		  <token regexp="no">a</token>
+		  <token min="1" max="2" postag='NP[FM]S[0GS]00' postag_regexp='yes'/>
+		  <token regexp="yes">[,.)]</token>
+	  </antipattern> 	   	  	  
+	  <!-- "A César o que é de César." -->
+      <antipattern>		  
+		  <token regexp="no">a</token>
+		  <token postag='NC[CFM]P000|AQ0[CFM]P0|NP[FM]S[0G]00' postag_regexp='yes'/>
+		  <token regexp="yes">que|na|no|maiores|menores|como|por|o</token>
+	  </antipattern> 	  
+<!-- MARCOAGPINTO 2020-10-05 (2-JUL-2020+) *END* -->	  
       <pattern>
           <token>a
             <exception scope='previous'>não</exception>
@@ -1421,6 +1447,8 @@ title="Easy editing stylesheet" ?>
       <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
       <example correction="O dogma"><marker>A dogma</marker> de quem sabe muito.</example>
       <example>Isto influencia muito negativamente a segurança.</example>
+	  <example type='correct'><marker>A Portugal coube</marker> o setor oriental do continente.</example>
+	  <example type='correct'><marker>A César o</marker> que é de César.</example>
     </rule>
     <rule>
 <!-- MARCOAGPINTO 2020-06-03 *START* -->
@@ -1456,6 +1484,22 @@ title="Easy editing stylesheet" ?>
 		  <token postag='SPS00' postag_regexp='no'/>		  
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-04 *END* -->
+<!-- MARCOAGPINTO 2020-10-05 (2-JUL-2020+) *START* --> 
+	  <!-- "Os arqueólogos dedicam-se cada vez mais a fases tardias da evolução humana." -->
+      <antipattern>		  
+		  <token regexp="no">a</token>
+		  <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
+		  <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
+	  </antipattern>
+	  <!-- "O profeta, mas a evidências que apoiam que esta reivindicação é falsa." -->
+	  <!-- "A duzentas no inverno." -->
+	  <!-- "Vendendo-os posteriormente a crianças menores de idade." -->
+      <antipattern>		  
+		  <token regexp="no">a</token>
+		  <token postag='NC[CFM]P000|AQ0[CFM]P0|NP[FM]S[0G]00' postag_regexp='yes'/>
+		  <token regexp="yes">que|na|no|maiores|menores|como|por|o</token>
+	  </antipattern>
+<!-- MARCOAGPINTO 2020-10-05 (2-JUL-2020+) *END* -->
       <pattern>
 			<token>a
 				<exception negate_pos='yes' postag_regexp='yes' postag='D.+'/>
@@ -1470,6 +1514,8 @@ title="Easy editing stylesheet" ?>
       <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
       <example correction="as proteções|a proteção">...financiamento de projetos para <marker>a proteções</marker> da floresta…</example>
 	  <example type='correct'>Daí <marker>a duas</marker> semanas temos a festa.</example>
+	  <example type='correct'>Os arqueólogos dedicam-se cada vez mais <marker>a fases tardias</marker> da evolução humana.</example>
+	  <example type='correct'>O profeta, mas <marker>a evidências que</marker> apoiam que esta reivindicação é falsa.</example>
     </rule>
   </rulegroup>
 
