@@ -1756,7 +1756,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule default="temp_off">
                 <pattern>
-                    <token inflected="yes">saber</token>
+                    <token inflected="yes" regexp="yes">saber|preguntar</token>
                     <token postag="SPS00"/>
                     <marker>
                         <token>que</token>
@@ -1766,6 +1766,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>qué</suggestion>
                 <example correction="qué">No sé a <marker>que</marker> estás esperando.</example>
                 <example correction="qué">No sabe de <marker>que</marker> le hablas.</example>
+                <example correction="qué">Me pregunto con <marker>que</marker> ideas vendrá.</example>
             </rule>
         </rulegroup>
         <rulegroup id="QUIEN" name="quien/quién...">
@@ -1783,6 +1784,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="quién">Yo no sé <marker>quien</marker> lo hizo.</example>
                 <example correction="quiénes">No sabía <marker>quienes</marker> lo hicieron.</example>
                 <example>Yo no soy quien lo ha dicho.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes" regexp="yes">saber|preguntar</token>
+                    <token postag="SPS00"/>
+                    <marker>
+                        <token>quien</token>
+                    </marker>
+                </pattern>
+                <message>Si equivale a 'qué persona', se escribe con tilde.</message>
+                <suggestion>quién</suggestion>
+                <example correction="quién">No sé a <marker>quien</marker> estás esperando.</example>
+                <example correction="quién">No sabe de <marker>quien</marker> le hablas.</example>
+                <example correction="quién">Me pregunto con <marker>quien</marker> vendrá.</example>
             </rule>
             <!--
                 The distinction quien/quién is almost irrelevant in these cases
