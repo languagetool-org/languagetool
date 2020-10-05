@@ -193,6 +193,7 @@ public class Spanish extends Language implements AutoCloseable{
       case "DIACRITICS": return 30;
       case "POR_CIERTO": return 30;
       case "LO_LOS": return 30;
+      case "AGREEMENT_ADJ_NOUN_AREA": return 30; // greater than AGREEMENT_DET_NOUN
       case "SE_CREO": return 25; // less than DIACRITICS_VERB_N_ADJ
       case "PRONOMBRE_SIN_VERBO": return 25; // inside CONFUSIONS, but less than other rules ?
       case "AGREEMENT_DET_ABREV": return 25; // greater than AGREEMENT_DET_NOUN
