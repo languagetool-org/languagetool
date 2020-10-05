@@ -41146,6 +41146,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
+        <rule id="VISOS" name="*visos">
+            <pattern>
+                <token regexp="yes" inflected="yes" skip="2">tenir|agafar|prendre|haver</token>
+                <marker>
+                    <token>visos</token>
+                </marker>
+            </pattern>
+            <message>Aquesta expressió és un calc del castellà.</message>
+            <suggestion>aire</suggestion>
+            <suggestion>aspecte</suggestion>
+            <suggestion>aparença</suggestion>
+            <example correction="aire|aspecte|aparença">L'entrevista va agafar <marker>visos</marker> de paròdia.</example>
+        </rule>
         <rulegroup id="RARE_WORDS" name="paraules molt infreqüents">
             <rule>
                 <pattern>
