@@ -14564,14 +14564,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="QUE_QUE" name="que y que" default="temp_off">
             <pattern>
                 <token>que</token>
-                <token/>
+                <token postag="CC"><exception postag="[RNAPV].*" postag_regexp="yes"/></token>
                 <token>que</token>
             </pattern>
-            <message>Palabra repedita. Posible error.</message>
+            <message>Palabra repetida. Posible error.</message>
             <suggestion>que</suggestion>
             <suggestion>que \2</suggestion>
             <suggestion>\2 que</suggestion>
             <example correction="que|que o|o que">Dijo <marker>que o que</marker> no podía ser.</example>
+            <example>Los objetivos que tenía que cumplir.</example>
+            <example>Cualquiera que sea que elijan.</example>
+            <example>Pues que bien que regresaste.</example>
         </rule>
         <rulegroup id="REPETEAD_ELEMENTS" name="elementos repetidos incorrectamente">
             <antipattern>
