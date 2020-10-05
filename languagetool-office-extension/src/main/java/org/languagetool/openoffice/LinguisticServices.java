@@ -58,7 +58,7 @@ public class LinguisticServices extends LinguServices {
   public LinguisticServices(XComponentContext xContext) {
     if (xContext != null) {
       XLinguServiceManager mxLinguSvcMgr = getLinguSvcMgr(xContext);
-      setLtAsGrammarService(mxLinguSvcMgr);
+//      setLtAsGrammarService(mxLinguSvcMgr);
       thesaurus = getThesaurus(mxLinguSvcMgr);
       spellChecker = getSpellChecker(mxLinguSvcMgr);
       hyphenator = getHyphenator(mxLinguSvcMgr);
@@ -315,6 +315,34 @@ public class LinguisticServices extends LinguServices {
   }
 
   /**
+   * Set LT as grammar checker for a specific language
+   * is normally used deactivate lightproof 
+   */
+  public boolean setLtAsGrammarService(XComponentContext xContext, Locale locale) {
+    if (xContext != null) {
+      XLinguServiceManager mxLinguSvcMgr = getLinguSvcMgr(xContext); 
+      if (mxLinguSvcMgr == null) {
+        printText("XLinguServiceManager == null");
+        return false;
+      }
+      String[] serviceNames = mxLinguSvcMgr.getAvailableServices("com.sun.star.linguistic2.Proofreader", locale);
+      for (String service : serviceNames) {
+        if (!service.equals(OfficeTools.LT_SERVICE_NAME)) {
+          String[] configuredServices = new String[1];
+          configuredServices[0] = OfficeTools.LT_SERVICE_NAME;
+          mxLinguSvcMgr.setConfiguredServices("com.sun.star.linguistic2.Proofreader", locale, configuredServices);
+          MessageHandler.printToLogFile("LT set as configured Service for Language: " + locale.Language + "-" + locale.Country 
+              + (locale.Variant.isEmpty() ? "" : "-" + locale.Variant));
+          MessageHandler.printToLogFile("Disabled Service: " + service + ", " + locale.Language + "-" + locale.Country
+              + (locale.Variant.isEmpty() ? "" : "-" + locale.Variant));
+        }
+      }
+      return true;
+    }
+    return false;
+  }
+
+  /**
    * Set LT as grammar checker for all supported languages
    * is normally used deactivate lightproof 
    */
@@ -334,6 +362,7 @@ public class LinguisticServices extends LinguServices {
       printText("XLinguServiceManager == null");
       return false;
     }
+    isSetLt = true;
     Locale[] locales = MultiDocumentsHandler.getLocales();
     for (Locale locale : locales) {
       String[] serviceNames = mxLinguSvcMgr.getAvailableServices("com.sun.star.linguistic2.Proofreader", locale);
@@ -358,7 +387,6 @@ public class LinguisticServices extends LinguServices {
         }
       }
     }
-    isSetLt = true;
     return true;
   }
 

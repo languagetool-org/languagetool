@@ -232,10 +232,17 @@ class OfficeTools {
   
   /**
    *  dispatch an internal LO/OO command
-   *  cmd does not include the ".uno:" substring; e.g. pass "Zoom" not ".uno:Zoom"
    */
   public static boolean dispatchCmd(String cmd, XComponentContext xContext) {
     return dispatchCmd(cmd, new PropertyValue[0], xContext);
+  } 
+
+  /**
+   *  dispatch an internal LO/OO command
+   *  cmd does not include the ".uno:" substring; e.g. pass "Zoom" not ".uno:Zoom"
+   */
+  public static boolean dispatchUnoCmd(String cmd, XComponentContext xContext) {
+    return dispatchCmd((".uno:" + cmd), new PropertyValue[0], xContext);
   } 
 
 
@@ -273,7 +280,7 @@ class OfficeTools {
         return false;
       }
 
-      dispatchHelper.executeDispatch(provider, (".uno:" + cmd), "", 0, props);
+      dispatchHelper.executeDispatch(provider, cmd, "", 0, props);
 
       return true;
     } catch (Throwable t) {

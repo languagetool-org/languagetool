@@ -136,12 +136,8 @@ public class MultiDocumentsHandler {
     extraRemoteRules = new ArrayList<>();
     dictionary = new LtDictionary();
 
-//    linguServices = new LinguisticServices(xContext);
-//    if (!linguServices.spellCheckerIsActive()) {
-//      linguServices= null;
-//    }
-//    LtHelper tmpThread = new LtHelper();
-//    tmpThread.start();
+    LtHelper tmpThread = new LtHelper();
+    tmpThread.start();
   }
   
   /**
@@ -189,16 +185,16 @@ public class MultiDocumentsHandler {
       boolean isSameLanguage = true;
       if(fixedLanguage == null || langForShortName == null) {
         langForShortName = getLanguage(locale);
-        isSameLanguage = langForShortName.equals(docLanguage);
+        isSameLanguage = langForShortName.equals(docLanguage) && langTool != null;
       }
-      if (!isSameLanguage || langTool == null || recheck) {
+      if (!isSameLanguage || recheck) {
         boolean initDocs = langTool == null || recheck;
         if (!isSameLanguage) {
           docLanguage = langForShortName;
           this.locale = locale;
           extraRemoteRules.clear();
         }
-        langTool = initLanguageTool();
+        langTool = initLanguageTool(!isSameLanguage);
         initCheck(langTool, locale);
         if (initDocs) {
           initDocuments();
@@ -368,15 +364,21 @@ public class MultiDocumentsHandler {
    * Checks the language under the cursor. Used for opening the configuration dialog.
    * @return the language under the visible cursor
    */
+  
   @Nullable
   public Language getLanguage() {
+    return getLanguage(getDocumentLocale());
+  }
+  
+  @Nullable
+  public Locale getDocumentLocale() {
     XComponent xComponent = OfficeTools.getCurrentComponent(xContext);
     Locale charLocale;
     XPropertySet xCursorProps;
     try {
       XModel model = UnoRuntime.queryInterface(XModel.class, xComponent);
       if(model == null) {
-        return Languages.getLanguageForShortCode("en-US");
+        return new Locale("en","US","");
       }
       XTextViewCursorSupplier xViewCursorSupplier =
           UnoRuntime.queryInterface(XTextViewCursorSupplier.class, model.getCurrentController());
@@ -396,15 +398,15 @@ public class MultiDocumentsHandler {
       // whether the text is e.g. Khmer or Tamil (the only "complex text layout (CTL)" languages we support so far).
       // Thus we check the text itself:
       if (new KhmerDetector().isThisLanguage(xCursor.getText().getString())) {
-        return Languages.getLanguageForShortCode("km");
+        return new Locale("km", "", "");
       }
       if (new TamilDetector().isThisLanguage(xCursor.getText().getString())) {
-        return Languages.getLanguageForShortCode("ta");
+        return new Locale("ta","","");
       }
 
       Object obj = xCursorProps.getPropertyValue("CharLocale");
       if (obj == null) {
-        return Languages.getLanguageForShortCode("en-US");
+        return new Locale("en","US","");
       }
       charLocale = (Locale) obj;
       boolean langIsSupported = false;
@@ -428,7 +430,7 @@ public class MultiDocumentsHandler {
       MessageHandler.showError(t);
       return null;
     }
-    return getLanguage(charLocale);
+    return charLocale;
   }
 
   /**
@@ -579,10 +581,14 @@ public class MultiDocumentsHandler {
    * Initialize LanguageTool
    */
   SwJLanguageTool initLanguageTool() {
-    return initLanguageTool(null);
+    return initLanguageTool(null, false);
   }
 
-  SwJLanguageTool initLanguageTool(Language currentLanguage) {
+  SwJLanguageTool initLanguageTool(boolean setService) {
+    return initLanguageTool(null, setService);
+  }
+
+  SwJLanguageTool initLanguageTool(Language currentLanguage, boolean setService) {
     SwJLanguageTool langTool = null;
     try {
       config = new Configuration(configDir, configFile, oldConfigFile, docLanguage);
@@ -590,6 +596,9 @@ public class MultiDocumentsHandler {
         linguServices = new LinguisticServices(xContext);
       }
       linguServices.setNoSynonymsAsSuggestions(config.noSynonymsAsSuggestions());
+      if (setService) {
+        linguServices.setLtAsGrammarService(xContext, locale);
+      }
       if (this.langTool == null) {
         OfficeTools.setLogLevel(config.getlogLevel());
         debugMode = OfficeTools.DEBUG_MODE_MD;
@@ -1105,13 +1114,16 @@ public class MultiDocumentsHandler {
         }
         SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
         if ("checkAgainDialog".equals(sEvent)) {
-          XComponent currentComponent = getCurrentDocument().getXComponent();
-          if (currentComponent != null) {
-            DocumentCursorTools docCursor = new DocumentCursorTools(currentComponent);
-            ViewCursorTools viewCursor = new ViewCursorTools(xContext);
-            checkDialog.setTextViewCursor(0, 0, viewCursor, docCursor);
-            resetCheck();
+          SingleDocument document = getCurrentDocument();
+          if (document != null) {
+            XComponent currentComponent = document.getXComponent();
+            if (currentComponent != null) {
+              DocumentCursorTools docCursor = new DocumentCursorTools(currentComponent);
+              ViewCursorTools viewCursor = new ViewCursorTools(xContext);
+              checkDialog.setTextViewCursor(0, 0, viewCursor, docCursor);
+            }
           }
+          resetDocument();
         }
         if (debugMode) {
           MessageHandler.printToLogFile("Start Spell And Grammar Check Dialog");
@@ -1144,27 +1156,11 @@ public class MultiDocumentsHandler {
         MessageHandler.showMessage("LinguisticServices failed! LanguageTool can not be started!");
         return false;
       }
-      if (!linguServices.setLtAsGrammarService(xContext)) {
+      if (!linguServices.setLtAsGrammarService(xContext, getDocumentLocale())) {
         MessageHandler.showMessage("LinguisticServices failed! LanguageTool can not be started!");
         return false;
       }
       resetCheck();
-/*      
-      int n = 0;
-      while (docLanguage == null && n < 1000) {
-        try {
-          Thread.sleep(100);
-          n++;
-        } catch (InterruptedException e) {
-          MessageHandler.showError(e);
-          return false;
-        }
-      }
-      if (docLanguage == null) {
-        MessageHandler.showMessage("Office do not call LanguageTool! It can not be started!");
-        return false;
-      }
-*/      
       return false;
     }
     return true;
@@ -1335,18 +1331,18 @@ public class MultiDocumentsHandler {
       goneContext.removeEventListener(xEventListener);
     }
   }
-/*
+
   private class LtHelper extends Thread {
     @Override
     public void run() {
       try {
         Thread.sleep(1000);
+        testDocLanguage();
       } catch (InterruptedException e) {
         MessageHandler.showError(e);
       }
-      testDocLanguage();
+
     }
   }
-*/
 
 }

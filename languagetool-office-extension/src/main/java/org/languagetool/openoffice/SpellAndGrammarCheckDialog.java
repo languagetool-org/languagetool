@@ -114,7 +114,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
    * Initialize LanguageTool to run in LT check dialog and next error function
    */
   private void setLangTool(MultiDocumentsHandler documents, Language language) {
-    langTool = documents.initLanguageTool(language);
+    langTool = documents.initLanguageTool(language, false);
     documents.initCheck(langTool, LinguisticServices.getLocale(language));
     doInit = false;
   }
@@ -283,6 +283,10 @@ public class SpellAndGrammarCheckDialog extends Thread {
       DocumentCursorTools docTools, Map<Integer, Set<Integer>> ignoredSpellMatches) {
     String text = docCache.getFlatParagraph(nFPara);
     locale = docCache.getFlatParagraphLocale(nFPara);
+    if (locale.Language.equals("zxx")) { // unknown Language 
+      locale = documents.getLocale();
+    }
+//    MessageHandler.printToLogFile("getNextErrorInParagraph: locale = " + locale.Language + "-" + locale.Country + "-" + locale.Variant);
     int[] footnotePosition = docCache.getFlatParagraphFootnotes(nFPara);
 
     CheckError sError = null;
