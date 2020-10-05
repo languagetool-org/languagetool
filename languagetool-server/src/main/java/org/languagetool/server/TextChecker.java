@@ -692,7 +692,7 @@ abstract class TextChecker {
       mode = "ngram";
     } else {
       detected = fastTextIdentifier.detectLanguage(text, noopLangs, preferredLangs);
-      mode = "fasttext";
+      mode = fastTextIdentifier.isFastTextEnabled() ? "fasttext" : "built-in";
     }
     long t2 = System.nanoTime();
     float runTime = (t2-t1)/1000.0f/1000.0f;

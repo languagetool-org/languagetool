@@ -119,6 +119,11 @@ public class LanguageIdentifier {
     }
   }
 
+  /** @since 5.2 */
+  public boolean isFastTextEnabled() {
+    return fastText != null;
+  }
+
   public void enableNgrams(File ngramDir) {
     try {
       logger.info("Loading ngram data for language identification from " + ngramDir + "...");
