@@ -135,6 +135,13 @@ public class MultiDocumentsHandler {
     disabledRulesUI = new HashSet<>();
     extraRemoteRules = new ArrayList<>();
     dictionary = new LtDictionary();
+
+//    linguServices = new LinguisticServices(xContext);
+//    if (!linguServices.spellCheckerIsActive()) {
+//      linguServices= null;
+//    }
+//    LtHelper tmpThread = new LtHelper();
+//    tmpThread.start();
   }
   
   /**
@@ -580,8 +587,9 @@ public class MultiDocumentsHandler {
     try {
       config = new Configuration(configDir, configFile, oldConfigFile, docLanguage);
       if (linguServices == null) {
-        linguServices = new LinguisticServices(xContext, config.noSynonymsAsSuggestions());
+        linguServices = new LinguisticServices(xContext);
       }
+      linguServices.setNoSynonymsAsSuggestions(config.noSynonymsAsSuggestions());
       if (this.langTool == null) {
         OfficeTools.setLogLevel(config.getlogLevel());
         debugMode = OfficeTools.DEBUG_MODE_MD;
@@ -1074,6 +1082,9 @@ public class MultiDocumentsHandler {
 
   public void trigger(String sEvent) {
     try {
+      if (!testDocLanguage()) {
+        return;
+      }
       if ("configure".equals(sEvent)) {
         runOptionsDialog();
       } else if ("about".equals(sEvent)) {
@@ -1092,9 +1103,6 @@ public class MultiDocumentsHandler {
         if (ltDialog != null) {
           ltDialog.closeDialog();
         }
-        if(docLanguage == null) {
-          docLanguage = getLanguage();
-        }
         SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
         if ("checkAgainDialog".equals(sEvent)) {
           XComponent currentComponent = getCurrentDocument().getXComponent();
@@ -1110,9 +1118,6 @@ public class MultiDocumentsHandler {
         }
         checkDialog.start();
       } else if ("nextError".equals(sEvent)) {
-        if(docLanguage == null) {
-          docLanguage = getLanguage();
-        }
         SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
         checkDialog.nextError();
       } else if ("remoteHint".equals(sEvent)) {
@@ -1128,6 +1133,41 @@ public class MultiDocumentsHandler {
     } catch (Throwable e) {
       MessageHandler.showError(e);
     }
+  }
+  
+  boolean testDocLanguage() {
+    if (docLanguage == null) {
+      if(linguServices == null) {
+        linguServices = new LinguisticServices(xContext);
+      }
+      if (!linguServices.spellCheckerIsActive()) {
+        MessageHandler.showMessage("LinguisticServices failed! LanguageTool can not be started!");
+        return false;
+      }
+      if (!linguServices.setLtAsGrammarService(xContext)) {
+        MessageHandler.showMessage("LinguisticServices failed! LanguageTool can not be started!");
+        return false;
+      }
+      resetCheck();
+/*      
+      int n = 0;
+      while (docLanguage == null && n < 1000) {
+        try {
+          Thread.sleep(100);
+          n++;
+        } catch (InterruptedException e) {
+          MessageHandler.showError(e);
+          return false;
+        }
+      }
+      if (docLanguage == null) {
+        MessageHandler.showMessage("Office do not call LanguageTool! It can not be started!");
+        return false;
+      }
+*/      
+      return false;
+    }
+    return true;
   }
 
   public boolean javaVersionOkay() {
@@ -1292,8 +1332,21 @@ public class MultiDocumentsHandler {
     } else {
       setContextOfClosedDoc(goneContext);
 //      documents.removeMenuListener(goneContext);
-    goneContext.removeEventListener(xEventListener); 
+      goneContext.removeEventListener(xEventListener);
     }
   }
-  
+/*
+  private class LtHelper extends Thread {
+    @Override
+    public void run() {
+      try {
+        Thread.sleep(1000);
+      } catch (InterruptedException e) {
+        MessageHandler.showError(e);
+      }
+      testDocLanguage();
+    }
+  }
+*/
+
 }
