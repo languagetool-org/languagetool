@@ -38508,7 +38508,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="COM_CONDICIONAL" name="*com + subjuntiu / si + indicatiu">
             <rule>
                 <pattern>
-                    <token postag="SENT_START"/>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                     <marker>
                         <token>com</token>
                         <token postag="VMS.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">poder|voler</exception><exception postag="V.I.*" postag_regexp="yes"/></token>
@@ -38522,7 +38522,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START"/>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                     <marker>
                         <token skip="4">com<exception postag="RN|PP.*|P0.*|V.*|SENT_END|PARA_END|DA.*|_GV_|_reflexiu|_perfet|_es_.*" scope="next" postag_regexp="yes" negate_pos="yes"/></token>
                         <token postag="VMS.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">poder|voler</exception><exception postag="V.I.*" postag_regexp="yes"/></token>
@@ -38539,6 +38539,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Com vulguis.</example>
                 <example>Com podeu veure.</example>
                 <example correction="Si es juguen"><marker>Com es juguin</marker> els punts</example>
+                <example correction="si ho veig|si ho veu">Ai, <marker>com ho vegi</marker> el Virgili!</example>
                 <example>Com es juguen els punts</example>
             </rule>
             <rule>
@@ -41116,6 +41117,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
+        <rulegroup id="RARE_WORDS" name="paraules molt infreqüents">
+            <rule>
+                <pattern>
+                    <token regexp="yes">get|gets</token>
+                </pattern>
+                <message>Possible error de picatge. Existeix la paraula "\1", però és infreqüent.</message>
+                <suggestion><match no="1" regexp_match="(?i)g" regexp_replace="f"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?i)et" regexp_replace="ent"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?i)g" regexp_replace="j"/></suggestion>
+                <example correction="fets|gents|jets">Els <marker>gets</marker> no ho corroboren.</example>
+                <example correction="fet|gent|jet">La <marker>get</marker> no s'ho explica.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">git|gits</token>
+                </pattern>
+                <message>Possible error de picatge. Existeix la paraula "\1", però és infreqüent.</message>
+                <suggestion><match no="1" regexp_match="(?i)g" regexp_replace="d"/></suggestion>
+                <example correction="dits">Tinc els <marker>gits</marker> freds.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PROJECTAR" name="projectar (anglicisme)">
             <antipattern>
                 <token regexp="yes">projectes?</token>
@@ -52739,7 +52761,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token inflected="yes">abraç</token>
             </pattern>
-            <message>Forma secundària no admesa per tots els diccionaris.</message>
+            <message>Forma secundària no admesa per tots els diccionaris. Existeix com a terme d'heràldica.</message>
             <suggestion><match no="1" postag="NCM(.)000" postag_regexp="yes" postag_replace="NCF$1000">abraçada</match></suggestion>
             <example correction="abraçades">Van repartir <marker>abraços</marker> per a tothom.</example>
         </rule>
