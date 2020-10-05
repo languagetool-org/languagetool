@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2017 Fred Kruse
+ * Copyright (C) 2011 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
@@ -256,13 +255,18 @@ public class MultiDocumentsHandler {
   /**
    *  Set a document as closed
    */
-  void setContextOfClosedDoc(XComponent context) {
+  private void setContextOfClosedDoc(XComponent context) {
     goneContext = context;
     boolean found = false;
     for (SingleDocument document : documents) {
       if (context.equals(document.getXComponent())) {
         found = true;
         document.dispose();
+        if(useQueue && textLevelQueue != null) {
+          MessageHandler.printToLogFile("Interrupt text level queue for document " + document.getDocID());
+          textLevelQueue.interruptCheck(document.getDocID());
+          MessageHandler.printToLogFile("Interrupt done");
+        }
       }
     }
     if (!found) {
@@ -529,11 +533,6 @@ public class MultiDocumentsHandler {
   private void removeDoc(String docID) {
     for (int i = documents.size() - 1; i >= 0; i--) {
       if(!docID.equals(documents.get(i).getDocID()) && documents.get(i).isDisposed()) {
-        if(useQueue && textLevelQueue != null) {
-          MessageHandler.printToLogFile("Interrupt text level queue for document " + documents.get(i).getDocID());
-          textLevelQueue.interruptCheck(documents.get(i).getDocID());
-          MessageHandler.printToLogFile("Interrupt done");
-        }
         if (goneContext != null) {
           XComponent xComponent = documents.get(i).getXComponent();
           if (xComponent != null && !xComponent.equals(goneContext)) {
@@ -578,8 +577,9 @@ public class MultiDocumentsHandler {
     try {
       config = new Configuration(configDir, configFile, oldConfigFile, docLanguage);
       if (linguServices == null) {
-        linguServices = new LinguisticServices(xContext, config.noSynonymsAsSuggestions());
+        linguServices = new LinguisticServices(xContext);
       }
+      linguServices.setNoSynonymsAsSuggestions(config.noSynonymsAsSuggestions());
       if (this.langTool == null) {
         OfficeTools.setLogLevel(config.getlogLevel());
         debugMode = OfficeTools.DEBUG_MODE_MD;
@@ -972,7 +972,7 @@ public class MultiDocumentsHandler {
   /**
    * @return An array of Locales supported by LT
    */
-  public final Locale[] getLocales() {
+  public final static Locale[] getLocales() {
     try {
       List<Locale> locales = new ArrayList<>();
       for (Language lang : Languages.get()) {
@@ -1072,6 +1072,9 @@ public class MultiDocumentsHandler {
 
   public void trigger(String sEvent) {
     try {
+      if (!testDocLanguage()) {
+        return;
+      }
       if ("configure".equals(sEvent)) {
         runOptionsDialog();
       } else if ("about".equals(sEvent)) {
@@ -1089,9 +1092,6 @@ public class MultiDocumentsHandler {
       } else if ("checkDialog".equals(sEvent) || "checkAgainDialog".equals(sEvent)) {
         if (ltDialog != null) {
           ltDialog.closeDialog();
-        }
-        if (docLanguage == null) {
-          docLanguage = getLanguage();
         }
         SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
         if ("checkAgainDialog".equals(sEvent)) {
@@ -1123,6 +1123,25 @@ public class MultiDocumentsHandler {
     } catch (Throwable e) {
       MessageHandler.showError(e);
     }
+  }
+  
+  boolean testDocLanguage() {
+    if (docLanguage == null) {
+      if(linguServices == null) {
+        linguServices = new LinguisticServices(xContext);
+      }
+      if (!linguServices.spellCheckerIsActive()) {
+        MessageHandler.showMessage("LinguisticServices failed! LanguageTool can not be started!");
+        return false;
+      }
+      if (!linguServices.setLtAsGrammarService(xContext)) {
+        MessageHandler.showMessage("LinguisticServices failed! LanguageTool can not be started!");
+        return false;
+      }
+      resetCheck();
+      return false;
+    }
+    return true;
   }
 
   public boolean javaVersionOkay() {
@@ -1287,8 +1306,8 @@ public class MultiDocumentsHandler {
     } else {
       setContextOfClosedDoc(goneContext);
 //      documents.removeMenuListener(goneContext);
+      goneContext.removeEventListener(xEventListener);
     }
-    goneContext.removeEventListener(xEventListener); 
   }
-  
+
 }

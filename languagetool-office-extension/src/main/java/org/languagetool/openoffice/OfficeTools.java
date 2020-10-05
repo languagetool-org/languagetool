@@ -46,6 +46,7 @@ import com.sun.star.uno.XComponentContext;
  */
 class OfficeTools {
   
+  public static final String LT_SERVICE_NAME = "org.languagetool.openoffice.Main";
   public static final int PROOFINFO_UNKNOWN = 0;
   public static final int PROOFINFO_GET_PROOFRESULT = 1;
   public static final int PROOFINFO_MARK_PARAGRAPH = 2;
