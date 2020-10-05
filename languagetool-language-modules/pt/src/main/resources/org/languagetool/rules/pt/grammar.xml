@@ -1413,15 +1413,14 @@ title="Easy editing stylesheet" ?>
       <antipattern>		  
 		  <token regexp="no">a</token>
 		  <token postag='NP[FM]S[0G]00' postag_regexp='yes'/>
-		  <token postag='V.+|CC|I|RG' postag_regexp='yes'/>
-	  </antipattern> 
-	  <!-- "Escrita em setembro de 1946 a Isaac Hirsch, o presidente." -->
-      <antipattern>	
-		  <token regexp="yes">com|sem</token>
+		  <token postag='V.+|PP1CSO00|CC|I|RG' postag_regexp='yes'/>
+	  </antipattern>
+	  <!-- "Atribuem-se a Newton as leis da mecânica clássica." -->
+      <antipattern>		  
 		  <token regexp="no">a</token>
-		  <token min="1" max="2" postag='NP[FM]S[0GS]00' postag_regexp='yes'/>
-		  <token regexp="yes">[,.)]</token>
-	  </antipattern> 	   	  
+		  <token postag='NP[FM]S[0G]00' postag_regexp='yes'/>
+		  <token regexp="yes">as?|os?|das?|dos?|de</token>
+	  </antipattern>	   	  
       <antipattern>	
 		  <token regexp="no">a</token>
 		  <token min="1" max="2" postag='NP[FM]S[0GS]00' postag_regexp='yes'/>
@@ -1449,6 +1448,7 @@ title="Easy editing stylesheet" ?>
       <example>Isto influencia muito negativamente a segurança.</example>
 	  <example type='correct'><marker>A Portugal coube</marker> o setor oriental do continente.</example>
 	  <example type='correct'><marker>A César o</marker> que é de César.</example>
+	  <example type='correct'>Atribuem-se <marker>a Newton as</marker> leis da mecânica clássica.</example>
     </rule>
     <rule>
 <!-- MARCOAGPINTO 2020-06-03 *START* -->
