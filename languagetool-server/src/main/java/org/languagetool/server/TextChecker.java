@@ -57,6 +57,7 @@ abstract class TextChecker {
 
   private static final int PINGS_CLEAN_MILLIS = 60 * 1000;  // internal pings database will be cleaned this often
   private static final int PINGS_MAX_SIZE = 5000;
+  private static final int NGRAM_THRESHOLD = 50;
 
   protected abstract void setHeaders(HttpExchange httpExchange);
   protected abstract String getResponse(AnnotatedText text, Language language, DetectedLanguage lang, Language motherTongue, List<RuleMatch> matches,
@@ -81,8 +82,9 @@ abstract class TextChecker {
   private static final int CACHE_STATS_PRINT = 500; // print cache stats every n cache requests
   
   private final Map<String,Integer> languageCheckCounts = new HashMap<>();
-  private Queue<Runnable> workQueue;
-  private RequestCounter reqCounter;
+  private final Queue<Runnable> workQueue;
+  private final RequestCounter reqCounter;
+
   // keep track of timeouts of the hidden matches server, check health periodically;
   // -1 => healthy, else => check timed out at given date, check back if time difference > config.getHiddenMatchesFailTimeout()
   private long lastHiddenMatchesServerTimeout;
@@ -685,7 +687,7 @@ abstract class TextChecker {
     DetectedLanguage detected;
     String mode;
     long t1 = System.nanoTime();
-    if (ngramIdentifier != null) {
+    if (ngramIdentifier != null && text.length() < NGRAM_THRESHOLD) {
       detected = ngramIdentifier.detectLanguage(text, noopLangs, preferredLangs);
       mode = "ngram";
     } else {
