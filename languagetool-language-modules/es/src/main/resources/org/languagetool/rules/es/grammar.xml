@@ -5360,6 +5360,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>denominarla directiva sobre adquisiciones</example>
             </rule>
         </rulegroup>
+        <rulegroup id="CON_GUION" name="palabras con guión" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>marítimo</token>
+                    <token regexp="yes">terrestres?</token>
+                </pattern>
+                <message>Se escribe con guión.</message>
+                <suggestion>\1-\2</suggestion>
+                <example correction="marítimo-terrestre">Pertenece a la zona <marker>marítimo terrestre</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="NO_SEPARADO" name="palabras no separadas">
             <rule>
                 <pattern>
@@ -5991,6 +6002,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La mantención de mi auto cuesta una fortuna.</example>
                 <example>¿Qué auto eligió Tom?</example>
                 <example>Su viejo auto anda en las últimas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">...+</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">hablantes?</token>
+                </pattern>
+                <message suppress_misspelled="yes">Se escribe junto.</message>
+                <suggestion>\1\3</suggestion>
+                <example correction="hispanohablantes">Son <marker>hispano hablantes</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="ALREDEDOR" name="*(a) alrededor">
