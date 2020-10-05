@@ -4754,13 +4754,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="PREISE" name="'Priese (Preise)'">
             <pattern>
-                <token regexp="yes" inflected="yes">steigend|fallend|hoch|niedrig</token>
+                <token regexp="yes" inflected="yes">steigend?|fallend?|hoch|niedrig|moderat</token>
                 <marker>
-                    <token>Priese</token>
+                    <token regex="yes">Prie?se</token>
                 </marker>
             </pattern>
             <message>Meinten Sie eine <suggestion>Preise</suggestion>?</message>
-            <example correction="Preise">Steigende <marker>Priese</marker> belasten den Kosnum.</example>
+            <example correction="Preise">Steigende <marker>Priese</marker> belasten den Konsum.</example>
+            <example correction="Preise">Steigende <marker>Prise</marker> belasten den Konsum.</example>
         </rule>
         <rule id="OCR_ERROR" name="'vor-Übergehend (vorübergehend)'">
             <pattern>
@@ -44003,14 +44004,19 @@ Andere Projekte</example>
                     <token>um</token>
                     <token regexp="yes">[0-9](.+)?</token>
                 </antipattern>
-                    <antipattern>
+                <antipattern>
                     <token>um</token>
                     <token postag="ZAL"/>
                 </antipattern>
                 <antipattern>
-                <token regexp="yes">als|anstatt|außer|ausser|ohne|statt|um</token>
-                <token postag="SUB:.+" postag_regexp="yes"/>
-                   <token postag="SUB:.+" postag_regexp="yes"/>  
+                    <token>um</token>
+                    <token postag="PRO.+" postag_regexp="yes" min="0"/>
+                    <token regexp="yes">&zeiteinheitenplu;</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">als|anstatt|außer|ausser|ohne|statt|um</token>
+                    <token postag="SUB:.+" postag_regexp="yes"/>
+                    <token postag="SUB:.+" postag_regexp="yes"/>  
                 </antipattern>
                 <pattern>
                     <marker>
@@ -44038,6 +44044,8 @@ Andere Projekte</example>
                 <example>Ich fange um 8 Uhr an zu arbeiten.</example>
                 <example>Ulmer vermochte als Regisseur Produktionen mit niedrigem Budget formell so sehr zu verfeinern.</example>
                 <example>Drücke diesen Knopf um die Maschine in Gang zu setzen.</example>
+                <example>Es handle sich um einen Schritt, der drohe die Auslieferung an Empfänger um einige Tage zu verzögern.</example>
+                <example>Es handle sich um einen Schritt, der drohe die Auslieferung an Empfänger um Wochen zu verzögern.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -44181,7 +44189,7 @@ Andere Projekte</example>
                     <token><exception regexp="yes">,|;|-|–|—|\(|„|“|"</exception><exception postag="SENT_START"/></token>
                     <token>sondern</token>
                 </pattern>
-                <message>Nach der Konjunktion 'sondern' folgt immer ein Komma.</message>
+                <message>Vor der Konjunktion 'sondern' steht immer ein Komma.</message>
                 <suggestion>\1, \2</suggestion>
                 <example correction="Sommer, sondern">Es ist nicht <marker>Sommer sondern</marker> Winter.</example>
                 <example>Es ist nicht <marker>Sommer, sondern</marker> Winter.</example>
