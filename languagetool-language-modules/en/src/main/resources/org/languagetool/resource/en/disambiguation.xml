@@ -8062,6 +8062,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
 
         <rule id="RIGHT_RB" name="right + away/now => RB"><!-- do not move after VERB_IT_JJ, as right may be JJ then -->
+          <antipattern><!-- #3657 your right now -->
+              <token postag="PRP$"/>
+              <token chunk="E-NP-singular">right</token>
+          </antipattern>
           <pattern>
             <marker>
               <token>right</token>
@@ -8070,6 +8074,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           </pattern>
           <disambig postag="RB"/>
           <example type="untouched">You are right.</example>
+          <example type="untouched">Your right now is to take legal action, if you ....</example>
           <example type="ambiguous" inputform="right[right/JJ,right/NN:UN,right/RB,right/UH,right/VB,right/VBP]" outputform="right[right/RB]">Do it <marker>right</marker> now!</example>
         </rule>
 
