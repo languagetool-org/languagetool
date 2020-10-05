@@ -71,8 +71,8 @@ public class MissingCommaRelativeClauseRule extends Rule {
       Arrays.asList(
         csToken("am"),
         pos("ADJ:PRD:SUP"),
-        csToken("von"),
-        regex("d(e[mnr]|e([nr]|ss)en)")
+        posRegex("PRP:.+"),
+        regex("d(e[mnr]|ie|as|e([nr]|ss)en)")
       )
   );
 
