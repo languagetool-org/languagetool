@@ -1754,6 +1754,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¡Como siempre, has oído mal!</example>
                 <example>¡Como yo pensaba, estaban equivocados!</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">saber</token>
+                    <token postag="SPS00"/>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Si equivale a 'qué cosa', se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="qué">No sé a <marker>que</marker> estás esperando.</example>
+                <example correction="qué">No sabe de <marker>que</marker> le hablas.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="QUIEN" name="quien/quién...">
             <url>https://www.rae.es/dpd/qui%C3%A9n</url>
