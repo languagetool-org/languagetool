@@ -15,7 +15,20 @@
     ```
     Note that the regex after `antipatterns:` cannot contain spaces.
 
+
+
+## 5.1.2 (released 2020-10-05)
+
+#### LibreOffice / Apache OpenOffice Integration
+  * fixed https://github.com/languagetool-org/languagetool/issues/3638,
+    https://github.com/languagetool-org/languagetool/issues/3652, and
+    https://github.com/languagetool-org/languagetool/issues/3575
+
+
+
 ## 5.1.1 (released 2020-09-29)
+
+#### LibreOffice / Apache OpenOffice Integration
   * fixed a NullPointerException crash in the LibreOffice/OpenOffice add-on
 
   
