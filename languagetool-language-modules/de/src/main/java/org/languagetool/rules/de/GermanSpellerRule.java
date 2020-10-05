@@ -1131,7 +1131,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           if (lastPart.length() > 3 && !isMisspelled(lastPart)) {
             // as these are only single words and both the first part and the last part are spelled correctly
             // (but the combination is not), it's okay to log the words from a privacy perspective:
-            logger.info("UNKNOWN: " + word);
+            logger.info("UNKNOWN: {}", word);
           }
         }
       }
@@ -1425,7 +1425,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         return Collections.singletonList(suggestion);
       }
     } else if (word.matches("koregier.+")) {
-      suggestion = word.replaceAll("reg", "rrig");
+      suggestion = word.replace("reg", "rrig");
       if (hunspell.spell(suggestion)) {
         return Collections.singletonList(suggestion);
       }

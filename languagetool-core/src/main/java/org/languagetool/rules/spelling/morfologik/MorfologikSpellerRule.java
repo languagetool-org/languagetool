@@ -287,7 +287,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     // Check for split word with previous word
     if (idx > 0 && tokens[idx].isWhitespaceBefore()) {
       String prevWord = tokens[idx - 1].getToken();
-      if (prevWord.length() > 0 && !prevWord.matches(".*\\d.*")
+      if (prevWord.length() > 0 && !StringUtils.containsAny(prevWord, "0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
           && getFrequency(speller1, prevWord) < MAX_FREQUENCY_FOR_SPLITTING) {
         int prevStartPos = tokens[idx - 1].getStartPos();
         // "thanky ou" -> "thank you"

@@ -332,7 +332,7 @@ public class HunspellRule extends SpellingCheckRule {
           }
         }
       } else if (token.length() > 1 && token.codePointCount(0, token.length()) != token.length()) {
-        // some symbols such as emojis (😂) have a string length that equals 2 
+        // some symbols such as emojis (😂) have a string length larger than 1 
         List<String> emojis = EmojiParser.extractEmojis(token);
         for (String emoji : emojis) {
           token = StringUtils.replace(token, emoji, WHITESPACE_ARRAY[emoji.length()]);
