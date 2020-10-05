@@ -46,6 +46,7 @@ import com.sun.star.uno.XComponentContext;
  */
 class OfficeTools {
   
+  public static final String LT_SERVICE_NAME = "org.languagetool.openoffice.Main";
   public static final int PROOFINFO_UNKNOWN = 0;
   public static final int PROOFINFO_GET_PROOFRESULT = 1;
   public static final int PROOFINFO_MARK_PARAGRAPH = 2;
@@ -68,6 +69,7 @@ class OfficeTools {
   public static boolean DEBUG_MODE_TQ = false;    //  Activate Debug Mode for TextLevelCheckQueue
   public static boolean DEBUG_MODE_LD = false;    //  Activate Debug Mode for LtDictionary
   public static boolean DEBUG_MODE_CD = false;    //  Activate Debug Mode for SpellAndGrammarCheckDialog
+  public static boolean DEBUG_MODE_IO = false;    //  Activate Debug Mode for Cache save to file
   public static boolean DEVELOP_MODE = false;     //  Activate Development Mode
 
   private static final String MENU_BAR = "private:resource/menubar/menubar";
@@ -230,10 +232,17 @@ class OfficeTools {
   
   /**
    *  dispatch an internal LO/OO command
-   *  cmd does not include the ".uno:" substring; e.g. pass "Zoom" not ".uno:Zoom"
    */
   public static boolean dispatchCmd(String cmd, XComponentContext xContext) {
     return dispatchCmd(cmd, new PropertyValue[0], xContext);
+  } 
+
+  /**
+   *  dispatch an internal LO/OO command
+   *  cmd does not include the ".uno:" substring; e.g. pass "Zoom" not ".uno:Zoom"
+   */
+  public static boolean dispatchUnoCmd(String cmd, XComponentContext xContext) {
+    return dispatchCmd((".uno:" + cmd), new PropertyValue[0], xContext);
   } 
 
 
@@ -271,7 +280,7 @@ class OfficeTools {
         return false;
       }
 
-      dispatchHelper.executeDispatch(provider, (".uno:" + cmd), "", 0, props);
+      dispatchHelper.executeDispatch(provider, cmd, "", 0, props);
 
       return true;
     } catch (Throwable t) {
@@ -334,6 +343,8 @@ class OfficeTools {
           DEBUG_MODE_LD = true;
         } else if(level.equals("cd")) {
           DEBUG_MODE_CD = true;
+        } else if(level.equals("io")) {
+          DEBUG_MODE_IO = true;
         } else if(level.equals("dev")) {
           DEVELOP_MODE = true;
         }

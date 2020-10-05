@@ -449,6 +449,13 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("optimalisiert", "optimiert", rule, lt);
     assertFirstSuggestion("introvertisches", "introvertiertes", rule, lt);
     assertFirstSuggestion("Entercotte", "Entrecôte", rule, lt);
+    assertFirstSuggestion("hirachie", "Hierarchie", rule, lt);
+    assertFirstSuggestion("amierte", "armierte", rule, lt);
+    assertFirstSuggestion("Versiehrten", "Versierten", rule, lt);
+    assertFirstSuggestion("durchsichtbar", "durchsichtig", rule, lt);
+    assertFirstSuggestion("offensichtiges", "offensichtliches", rule, lt);
+    assertFirstSuggestion("zurverfühgung", "zur Verfügung", rule, lt);
+    assertFirstSuggestion("Verständlichkeitsfragen", "Verständnisfragen", rule, lt);
   }
 
   @Test
@@ -883,8 +890,8 @@ public class GermanSpellerRuleTest {
   }
 
   /**
-   *  number of suggestions seems to depend on previously checked text
-   * fixed by not resusing morfologik Speller object
+   * number of suggestions seems to depend on previously checked text.
+   * fixed by not reusing morfologik Speller object
   */
   @Test
   public void testMorfologikSuggestionsWorkaround() throws IOException {
@@ -905,5 +912,9 @@ public class GermanSpellerRuleTest {
 
     assertEquals(matches11[0].getSuggestedReplacements().size(), matches21[0].getSuggestedReplacements().size());
     assertEquals(matches12[0].getSuggestedReplacements().size(), matches22[0].getSuggestedReplacements().size());
+
+    // a bug caused "bie" to be ignored:
+    RuleMatch[] matches20 = rule1.match(lt.getAnalyzedSentence("laut Beispielen bie"));
+    assertThat(matches20.length, is(1));
   }
 }

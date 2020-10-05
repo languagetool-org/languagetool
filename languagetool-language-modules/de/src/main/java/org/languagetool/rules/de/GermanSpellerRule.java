@@ -930,6 +930,21 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[tT]efonisch(e[mnrs]?)?", "efon", "elefon");
     putRepl("[oO]ptimalisiert", "alis", "");
     putRepl("[iI]ntrovertisch(e[mnrs]?)?", "isch", "iert");
+    putRepl("[aA]miert(e[mnrs]?)?", "mi", "rmi");
+    putRepl("[vV]ersiehrt(e[mnrs]?)?", "h", "");
+    putRepl("[dD]urchsichtbar(e[mnrs]?)?", "bar", "ig");
+    putRepl("[oO]ffensichtig(e[mnrs]?)?", "ig", "lich");
+    putRepl("[zZ]urverfühgung", "verfühgung", " Verfügung");
+    putRepl("[vV]erständlichkeitsfragen?", "lichkeits", "nis");
+    putRepl("[sS]pendeangebot(e[ns]?)?", "[sS]pende", "Spenden");
+    putRepl("gahrnichts?", "gahr", "gar ");
+    put("[hH]irar?chie", "Hierarchie");
+    put("Chr", "Chr.");
+    put("Tiefbaumt", "Tiefbauamt");
+    put("getäucht", "getäuscht");
+    put("[hH]ähme", "Häme");
+    put("Wochendruhezeiten", "Wochenendruhezeiten");
+    put("Studiumplatzt?", "Studienplatz");
     put("Permanent-Make-Up", "Permanent-Make-up");
     put("woltet", "wolltet");
     put("Bäckei", "Bäckerei");
@@ -953,6 +968,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Gewebtrauma", "Gewebetrauma");
     put("aufgehangen", "aufgehängt");
     put("Ehrenamtpauschale", "Ehrenamtspauschale");
+    put("Essenzubereitung", "Essenszubereitung");
     put("[gG]eborgsamkeit", "Geborgenheit");
     put("gekommt", "gekommen");
     put("hinweißen", "hinweisen");
@@ -962,6 +978,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Werksresett", "Werksreset");
     put("wiederfahren", "widerfahren");
     put("wiederspiegelten", "widerspiegelten");
+    put("weicheinlich", "wahrscheinlich");
+    put("schnäpchen", "Schnäppchen");
+    put("Hinduist", "Hindu");
+    put("Hinduisten", "Hindus");
+    put("Konzeptierung", "Konzipierung");
+    put("Phyton", "Python");
+    put("nochnichtmals?", "noch nicht einmal");
+    put("Refelektion", "Reflexion");
+    put("Refelektionen", "Reflexionen");
+    put("[sS]chanse", "Chance");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
@@ -1105,7 +1131,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           if (lastPart.length() > 3 && !isMisspelled(lastPart)) {
             // as these are only single words and both the first part and the last part are spelled correctly
             // (but the combination is not), it's okay to log the words from a privacy perspective:
-            logger.info("UNKNOWN: " + word);
+            logger.info("UNKNOWN: {}", word);
           }
         }
       }
@@ -1234,7 +1260,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if (StringUtils.startsWithAny(word, "bitter", "dunkel", "erz", "extra", "früh",
         "gemein", "hyper", "lau", "mega", "minder", "stock", "super", "tod", "ultra", "ur")) {
       String lastPart = RegExUtils.removePattern(word, "^(bitter|dunkel|erz|extra|früh|gemein|grund|hyper|lau|mega|minder|stock|super|tod|ultra|ur|voll)");
-      return !isMisspelled(lastPart);
+      return lastPart.length() >= 3 && !isMisspelled(lastPart);
     }
     return false;
   }
@@ -1262,7 +1288,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
       ignoreHyphenatedCompound = !ignoreByHyphen && ignoreCompoundWithIgnoredWord(words.get(idx));
     }
-    return ignore || ignoreUncapitalizedWord || ignoreByHyphen || ignoreHyphenatedCompound || ignoreElative(words.get(0));
+    return ignore || ignoreUncapitalizedWord || ignoreByHyphen || ignoreHyphenatedCompound || ignoreElative(words.get(idx));
   }
 
   @Override
@@ -1399,7 +1425,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         return Collections.singletonList(suggestion);
       }
     } else if (word.matches("koregier.+")) {
-      suggestion = word.replaceAll("reg", "rrig");
+      suggestion = word.replace("reg", "rrig");
       if (hunspell.spell(suggestion)) {
         return Collections.singletonList(suggestion);
       }

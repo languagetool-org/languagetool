@@ -120,6 +120,13 @@ public class MorfologikFrenchSpellerRuleTest {
     assertEquals(1, matches.length);
     assertEquals("d'hommes", matches[0].getSuggestedReplacements().get(0));
     
+    matches = rule.match(langTool.getAnalyzedSentence("ladolescence"));
+    // no: "l adolescence" 
+    assertEquals(1, matches.length);
+    assertEquals(2, matches[0].getSuggestedReplacements().size());
+    assertEquals("l'adolescence", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("adolescence", matches[0].getSuggestedReplacements().get(1));
+        
     assertSuggestion(rule, langTool, "qu’il sagissait", "ils agissait", "il s'agissait"); // see #3068 TODO: change order
     assertSuggestion(rule, langTool, "bonne sante", "bonnes ante", "bonne santé"); // see #3068 TODO: change order
     //assertSuggestion(rule, langTool, "et ca", "CA", "cA"); // see #2900

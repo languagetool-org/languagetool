@@ -76,14 +76,13 @@ public class Catalan extends Language {
             		Example.wrong("Preus de venda al públic. <marker>han</marker> pujat molt."),
             		Example.fixed("Preus de venda al públic. <marker>Han</marker> pujat molt.")),
             new MultipleWhitespaceRule(messages, this),
-            new LongSentenceRule(messages, userConfig),
+            new LongSentenceRule(messages, userConfig, 38, true, true),
             // specific to Catalan:
             new CatalanWordRepeatRule(messages, this),
             new MorfologikCatalanSpellerRule(messages, this, userConfig, altLanguages),
             new CatalanUnpairedQuestionMarksRule(messages, this),
             new CatalanUnpairedExclamationMarksRule(messages, this),
             new AccentuationCheckRule(messages),
-            new PostponedAdjectiveConcordanceRule(messages),
             new CatalanWrongWordInContextRule(messages),
             new CatalanWrongWordInContextDiacriticsRule(messages),
             new SimpleReplaceVerbsRule(messages, this),
@@ -193,11 +192,13 @@ public class Catalan extends Language {
       case "ORDINALS": return 20; // greater than SEPARAT
       case "ACCENTUATION_CHECK": return 10;
       case "HAVER_SENSE_HAC": return 10;
+      case "CASING": return 10; // greater than CONCORDANCES_DET_NOM
       case "CONCORDANCES_DET_NOM": return 5;
       case "VENIR_NO_REFLEXIU": return 5;
       case "REGIONAL_VERBS": return -10;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
       case "MUNDAR": return -50;
+      case "AGREEMENT_POSTPONED_ADJ_": return -50;
       case "MORFOLOGIK_RULE_CA_ES": return -100;
       case "EXIGEIX_ACCENTUACIO_VALENCIANA": return -120;
       case "SUBSTANTIUS_JUNTS": return -150;

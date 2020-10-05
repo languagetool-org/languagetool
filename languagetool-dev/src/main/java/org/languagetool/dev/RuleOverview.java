@@ -170,7 +170,7 @@ public final class RuleOverview {
       String maintainerText;
       boolean greyOutMaintainer = false;
       if (lang.getMaintainedState() != LanguageMaintainedState.ActivelyMaintained) {
-        maintainerText = "<span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for maintainer</a></span> - ";
+        maintainerText = "<span class='maintainerNeeded'><a href='https://dev.languagetool.org/tasks-for-language-maintainers'>Looking for maintainer</a></span> - ";
         greyOutMaintainer = true;
       } else {
         maintainerText = "";

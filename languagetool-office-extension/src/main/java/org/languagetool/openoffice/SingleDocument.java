@@ -96,6 +96,7 @@ class SingleDocument {
   private ResultCache sentencesCache;             //  Cache for matches of sentences rules
   private List<ResultCache> paragraphsCache;      //  Cache for matches of text rules
   private ResultCache singleParaCache;            //  Cache for matches of text rules for single paragraphs
+  private CacheIO cacheIO;
   private int resetFrom = 0;                      //  Reset from paragraph
   private int resetTo = 0;                        //  Reset to paragraph
   private int numParasReset = 1;                  //  Number of paragraphs to reset
@@ -137,6 +138,9 @@ class SingleDocument {
     }
     resetCache();
     ignoredMatches = new HashMap<>();
+    if (config != null && config.saveLoCache() && xComponent != null) {
+      readCaches();
+    }
   }
   
   /**  get the result for a check of a single document 
@@ -193,7 +197,11 @@ class SingleDocument {
       if (debugMode > 1) {
         MessageHandler.printToLogFile("... Check Sentence: numCurPara: " + paraNum 
             + "; startPos: " + paRes.nStartOfSentencePosition + "; Paragraph: " + paraText 
-            + ", sErrors: " + (sErrors == null ? 0 : sErrors.length) + OfficeTools.LOG_LINE_BREAK);
+            + ", sErrors: " + (sErrors == null ? "null" : sErrors.length) + OfficeTools.LOG_LINE_BREAK);
+        if (sErrors != null && sErrors.length > 0) {
+          MessageHandler.printToLogFile(".-> sErrors[0]: nStart = " + sErrors[0].nErrorStart + ", nEnd = " + sErrors[0].nErrorStart
+              + ", errorID = " + (sErrors[0].aRuleIdentifier == null ? "null" : sErrors[0].aRuleIdentifier));
+        }
       }
       String text = null;
       if(sErrors == null) {
@@ -382,11 +390,50 @@ class SingleDocument {
     return docCache;
   }
   
+  /** Update document cache and get it
+   */
+  DocumentCache getUpdatedDocumentCache() {
+    if (docCursor == null) {
+      docCursor = new DocumentCursorTools(xComponent);
+    }
+    if (flatPara == null) {
+      flatPara = new FlatParagraphTools(xComponent);
+    } else {
+      flatPara.init();
+    }
+    docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck);
+    if (docCache.isEmpty()) {
+      return null;
+    }
+    return docCache;
+  }
+  
   /**
    * reset the Document
    */
   void resetDocument() {
     mDocHandler.resetDocument();
+  }
+  
+  /**
+   * read caches from file
+   */
+  void readCaches() {
+    cacheIO = new CacheIO(xComponent);
+    boolean cacheExist = cacheIO.readAllCaches();
+    if (cacheExist) {
+      docCache = cacheIO.getDocumentCache();
+      sentencesCache = cacheIO.getSentencesCache();
+      paragraphsCache = cacheIO.getParagraphsCache();
+    }
+    cacheIO.resetAllCache();
+  }
+  
+  /**
+   * write caches to file
+   */
+  void writeCaches() {
+    cacheIO.saveCaches(docCache, sentencesCache, paragraphsCache);
   }
   
 /** Reset all caches of the document
@@ -1371,6 +1418,7 @@ class SingleDocument {
     allSuggestions = ruleMatch.getSuggestedReplacements().toArray(new String[numSuggestions]);
     //  Filter: remove suggestions for override dot at the end of sentences
     //  needed because of error in dialog
+    /*  since LT 5.2: Filter is commented out because of default use of LT dialog
     if (lastChar == '.' && (ruleMatch.getToPos() + startIndex) == sentencesLength) {
       int i = 0;
       while (i < numSuggestions && i < OfficeTools.MAX_SUGGESTIONS
@@ -1382,6 +1430,7 @@ class SingleDocument {
       allSuggestions = new String[0];
       }
     }
+    */
     //  End of Filter
     if (numSuggestions > OfficeTools.MAX_SUGGESTIONS) {
       aError.aSuggestions = Arrays.copyOfRange(allSuggestions, 0, OfficeTools.MAX_SUGGESTIONS);
@@ -1412,6 +1461,10 @@ class SingleDocument {
       nDim++;
     }
     if(nDim > 0) {
+      //  HINT: Because of result cache handling:
+      //  handle should always be -1
+      //  property state should always be PropertyState.DIRECT_VALUE
+      //  otherwise result cache handling has to be adapted
       PropertyValue[] propertyValues = new PropertyValue[nDim];
       int n = 0;
       if(url != null) {
@@ -1565,21 +1618,60 @@ class SingleDocument {
    * by the position of the error (paragraph number and number of character)
    */
   private String getRuleIdFromCache(int nPara, int nChar) {
+    List<SingleProofreadingError> tmpErrors = new ArrayList<SingleProofreadingError>();
+    SingleProofreadingError sError = sentencesCache.getErrorAtPosition(nPara, nChar);
+    if (sError != null) {
+      tmpErrors.add(sError);
+    }
+    for(ResultCache paraCache : paragraphsCache) {
+      SingleProofreadingError tError = paraCache.getErrorAtPosition(nPara, nChar);
+      if (tError != null) {
+        tmpErrors.add(tError);
+      }
+    }
+    if (tmpErrors.size() > 0) {
+      SingleProofreadingError[] errors = new SingleProofreadingError[tmpErrors.size()];
+      for (int i = 0; i < tmpErrors.size(); i++) {
+        errors[i] = tmpErrors.get(i);
+      }
+      Arrays.sort(errors, new ErrorPositionComparator());
+      if (debugMode > 0) {
+        for (int i = 0; i < errors.length; i++) {
+          MessageHandler.printToLogFile("Error[" + i + "]: ruleID: " + errors[i].aRuleIdentifier + ", Start = " + errors[i].nErrorStart + ", Length = " + errors[i].nErrorLength);
+        }
+      }
+      return errors[0].aRuleIdentifier;
+    } else {
+      return null;
+    }
+/*  
+ *  Will be deleted after tests
+ *      
     SingleProofreadingError error = sentencesCache.getErrorAtPosition(nPara, nChar);
+    if (error != null) { 
+      MessageHandler.printToLogFile("sentencesCache: ruleID: " + error.aRuleIdentifier + ", Start = " + error.nErrorStart + ", Length = " + error.nErrorLength);
+    }
     for(ResultCache paraCache : paragraphsCache) {
       SingleProofreadingError err = paraCache.getErrorAtPosition(nPara, nChar);
+      if (err != null) { 
+        MessageHandler.printToLogFile("paraCache: ruleID: " + err.aRuleIdentifier + ", Start = " + err.nErrorStart + ", Length = " + err.nErrorLength);
+      } else {
+        MessageHandler.printToLogFile("paraCache: null");
+      }
       if(err != null) {
-        if(error == null || error.nErrorStart < err.nErrorStart
-            || (error.nErrorStart == err.nErrorStart && error.nErrorLength > err.nErrorLength)) {
+        if(error == null || err.nErrorStart < error.nErrorStart
+            || (error.nErrorStart == err.nErrorStart && error.nErrorLength < err.nErrorLength)) {
           error = err;
         } 
       }
     }
     if(error != null) {
+      MessageHandler.printToLogFile("nPara = " + nPara + ", nChar = " + nChar + ", ruleID: " + error.aRuleIdentifier);
       return error.aRuleIdentifier;
     } else {
       return null;
     }
+*/
   }
   
   /**

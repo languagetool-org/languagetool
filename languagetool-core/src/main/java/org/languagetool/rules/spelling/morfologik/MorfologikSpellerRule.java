@@ -55,6 +55,8 @@ import org.languagetool.rules.translation.Translator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vdurmont.emoji.EmojiManager;
+
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
   private static final Logger logger = LoggerFactory.getLogger(MorfologikSpellerRule.class);
@@ -285,7 +287,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     // Check for split word with previous word
     if (idx > 0 && tokens[idx].isWhitespaceBefore()) {
       String prevWord = tokens[idx - 1].getToken();
-      if (prevWord.length() > 0 && !prevWord.matches(".*\\d.*")
+      if (prevWord.length() > 0 && !StringUtils.containsAny(prevWord, "0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
           && getFrequency(speller1, prevWord) < MAX_FREQUENCY_FOR_SPLITTING) {
         int prevStartPos = tokens[idx - 1].getStartPos();
         // "thanky ou" -> "thank you"
@@ -548,18 +550,14 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
   /**
-   * Checks whether a given String consists only of surrogate pairs.
+   * Checks whether a given String is an Emoji with a string length larger 1.
    * @param word to be checked
    * @since 4.2
    */
-  protected boolean isSurrogatePairCombination (String word) {
-    if (word.length() > 1 && word.length() % 2 == 0 && word.codePointCount(0, word.length()) != word.length()) {
+  protected boolean isEmoji (String word) {
+    if (word.length() > 1 && word.codePointCount(0, word.length()) != word.length()) {
       // some symbols such as emojis (😂) have a string length that equals 2
-      boolean isSurrogatePairCombination = true;
-      for (int i = 0; i < word.length() && isSurrogatePairCombination; i += 2) {
-        isSurrogatePairCombination &= Character.isSurrogatePair(word.charAt(i), word.charAt(i + 1));
-      }
-      return isSurrogatePairCombination;
+      return EmojiManager.isOnlyEmojis(word);
     }
     return false;
   }
@@ -571,7 +569,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
    */
   @Override
   protected boolean ignoreWord(String word) throws IOException {
-    return super.ignoreWord(word) || isSurrogatePairCombination(word);
+    return super.ignoreWord(word) || isEmoji(word);
   }
   
   /**

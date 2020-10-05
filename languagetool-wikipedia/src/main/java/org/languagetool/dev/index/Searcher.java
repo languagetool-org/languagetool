@@ -61,6 +61,7 @@ public class Searcher {
   private static final boolean WIKITEXT_OUTPUT = false;
   
   private final Directory directory;
+  private final String fieldName;
 
   private int skipHits = 0;
   private int maxHits = 1000;
@@ -68,7 +69,6 @@ public class Searcher {
   private IndexSearcher indexSearcher;
   private DirectoryReader reader;
   private boolean limitSearch = true;
-  private String fieldName;
 
   public Searcher(Directory directory) {
     this(directory, FIELD_NAME_LOWERCASE);

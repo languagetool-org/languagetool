@@ -41,7 +41,7 @@ import static org.junit.Assert.*;
 
 public class JLanguageToolTest {
 
-  @Ignore("not a test, but used on http://wiki.languagetool.org/java-api")
+  @Ignore("not a test, but used on https://dev.languagetool.org/java-api")
   @Test
   public void demoCodeForHomepage() throws IOException {
     JLanguageTool langTool = new JLanguageTool(new BritishEnglish());
@@ -57,7 +57,7 @@ public class JLanguageToolTest {
     }
   }
 
-  @Ignore("not a test, but used on http://wiki.languagetool.org/java-spell-checker")
+  @Ignore("not a test, but used on https://dev.languagetool.org/java-spell-checker")
   @Test
   public void spellCheckerDemoCodeForHomepage() throws IOException {
     JLanguageTool langTool = new JLanguageTool(new BritishEnglish());
@@ -76,7 +76,7 @@ public class JLanguageToolTest {
     }
   }
 
-  @Ignore("not a test, but used on http://wiki.languagetool.org/java-spell-checker")
+  @Ignore("not a test, but used on https://dev.languagetool.org/java-spell-checker")
   @Test
   public void spellCheckerDemoCodeForHomepageWithAddedWords() throws IOException {
     JLanguageTool langTool = new JLanguageTool(new BritishEnglish());

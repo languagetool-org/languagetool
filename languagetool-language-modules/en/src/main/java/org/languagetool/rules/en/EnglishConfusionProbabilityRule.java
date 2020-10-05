@@ -288,8 +288,6 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "[t]he", // vs the
       "the role at", // vs add
       "same false alarm", // vs some
-      "why is he relevant", // vs the
-      "why is he famous", // vs the
       "then that would", // vs than
       "was he part of", // vs the
       "is he right now", // vs the
@@ -393,10 +391,50 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "your hunt for", // vs you
       "if your bolt fits", // vs you
       "the go to", // vs to (caught by GO_TO_HYPHEN)
-      "text my number" // vs by
+      "text my number", // vs by
+      "why was he", // vs the
+      "what was he", // vs the
+      "was he sick", // vs the
+      "why is he", // vs the
+      "what is he", // vs the
+      "is he happy", // vs the
+      "he kind of", // vs the
+      "logged out", // vs our
+      "signed out", // vs our
+      "same seems to", // vs some
+      "am I cold", // vs could
+      "is he cold", // vs could
+      "was he cold", // vs could
+      "is she cold", // vs could
+      "was she cold", // vs could
+      "is it cold", // vs could
+      "was it cold", // vs could
+      "are you cold", // vs could
+      "were you cold", // vs could
+      "are they cold", // vs could
+      "were they cold", // vs could
+      "are we cold", // vs could
+      "were we cold", // vs could
+      "us three", // vs is
+      "way to go", // vs was
+      "way won't" // was
     );
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(
+      // way vs was: This way a person could learn ....
+      token("this"),
+      token("way"),
+      posRegex("DT"),
+      posRegex("NN.*"),
+      posRegex("MD")
+    ),
+    Arrays.asList(
+      // "from ... to ..." (to/the)
+      posRegex("NNP|UNKNOWN"),
+      tokenRegex("to"),
+      posRegex("NNP|UNKNOWN")
+    ),
     Arrays.asList(
       // "Meltzer taught Crim for Section 5 last year." (taught/thought)
       // "Sami threw Layla down and started to beat her.""	(threw/through)
@@ -416,10 +454,53 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       posRegex("JJR")
     ),
     Arrays.asList(
-      // "way back at" (was/way)
+      // "way much easier" (was/way)
       token("way"),
-      token("back"),
-      posRegex("IN")
+      token("much"),
+      posRegex("JJR")
+    ),
+    Arrays.asList(
+      // "way out of" (was/way)
+      token("way"),
+      token("out"),
+      tokenRegex("of|in|on")
+    ),
+    Arrays.asList(
+      // "way to long" (was/way)
+      token("way"),
+      token("to"),
+      posRegex("JJ")
+    ),
+    Arrays.asList(
+      // "He was there way before" (was/way)
+      token("way"),
+      tokenRegex("before|after|outside|inside|back")
+    ),
+    Arrays.asList(
+      // "In a logic way" (was/way)
+      token("in"),
+      tokenRegex("an?"),
+      posRegex("JJ"),
+      token("way")
+    ),
+    Arrays.asList(
+      // They "awarded" us a contract ...
+      posRegex("VB.*"),
+      tokenRegex("[\"”“]"),
+      token("us") // vs "is"
+    ),
+    Arrays.asList(
+      // Text us at (410) 4535
+      tokenRegex("message(s|d)?|text(s|ed)?|DM"),
+      token("us"), // vs "is"
+      posRegex("PCT|IN|TO|CC|DT")
+    ),
+    Arrays.asList(
+      // Clinton will pay us based on actuals.
+      posRegex("VB.*"),
+      token("us"), // vs "is"
+      tokenRegex("based|depending"),
+      token("on")
     )
   );
 

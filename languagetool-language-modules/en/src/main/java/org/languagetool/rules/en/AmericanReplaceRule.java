@@ -18,9 +18,12 @@
  */
 package org.languagetool.rules.en;
 
+import org.languagetool.Languages;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.en.EnglishSynthesizer;
 
 import java.util.List;
 import java.util.Locale;
@@ -37,6 +40,7 @@ public class AmericanReplaceRule extends AbstractSimpleReplaceRule {
   public static final String BRITISH_SIMPLE_REPLACE_RULE = "EN_US_SIMPLE_REPLACE";
 
   private static final Map<String, List<String>> wrongWords = loadFromPath("/en/en-US/replace.txt");
+  private static final Synthesizer synth = new EnglishSynthesizer(Languages.getLanguageForShortCode("en"));
   private static final Locale EN_US_LOCALE = new Locale("en-US");
 
   @Override
@@ -79,6 +83,11 @@ public class AmericanReplaceRule extends AbstractSimpleReplaceRule {
   @Override
   public Locale getLocale() {
     return EN_US_LOCALE;
+  }
+
+  @Override
+  public Synthesizer getSynthesizer() {
+    return synth;
   }
 
 }

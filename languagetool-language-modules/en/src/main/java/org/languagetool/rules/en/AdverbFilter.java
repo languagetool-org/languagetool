@@ -35,7 +35,7 @@ import java.util.Map;
  */
 public class AdverbFilter extends RuleFilter {
 
-  private Map<String,String> adverb2Adj = new HashMap<String, String>() {{
+  private final Map<String,String> adverb2Adj = new HashMap<String, String>() {{
     // irregular ones:
     put("well", "good");
     put("fast", "fast");
@@ -53,10 +53,7 @@ public class AdverbFilter extends RuleFilter {
     put("angrily", "angry");
     put("happily", "happy");
     put("luckily", "lucky");
-    put("probably", "probable");
     put("terribly", "terrible");
-    put("gently", "gentle");
-    put("basically", "basic");
     put("tragically", "tragic");
     put("economically", "economic");
     put("greatly", "great");
@@ -105,11 +102,8 @@ public class AdverbFilter extends RuleFilter {
     put("decreasingly", "decreasing");
     put("considerably", "considerable");
     put("effectively", "effective");
-    put("suddenly", "sudden");
     put("fairly", "fair");
     put("briefly", "brief");
-    put("slightly", "slight");
-    put("merely", "mere");
     put("exceedingly", "exceeding");
     put("physically", "physical");
     put("enthusiastically", "enthusiastic");
@@ -143,9 +137,7 @@ public class AdverbFilter extends RuleFilter {
     put("continuously", "continuous");
     put("sadly", "sad");
     put("eventually", "eventual");
-    put("steadily", "steady");
     put("possibly", "possible");
-    put("deliciously", "delicious");
     put("visually", "visual");
     put("predominantly", "predominant");
     put("quietly", "quiet");
@@ -199,11 +191,9 @@ public class AdverbFilter extends RuleFilter {
     put("calmly", "calm");
     put("racially", "racial");
     put("widely", "wide");
-    put("peacefully", "peaceful");
     put("heavily", "heavy");
     put("authentically", "authentic");
     put("honestly", "honest");
-    put("voluntarily", "voluntary");
     put("desperately", "desperate");
     put("immensely", "immense");
     put("apparently", "apparent");
@@ -247,6 +237,45 @@ public class AdverbFilter extends RuleFilter {
     put("consistently", "consistent");
     put("truly", "true");
     put("commonly", "common");
+    put("safely", "safe");
+    put("evolutionarily", "evolutionary");
+    put("internally", "internal");
+    put("magically", "magical");
+    put("annually", "annual");
+    put("brightly", "bright");
+    put("officially", "official");
+    put("inofficially", "inofficial");
+    put("perfectly", "perfect");
+    put("overly", "over");
+    put("tropically", "tropical");
+    put("brilliantly", "brilliant");
+    put("exclusively", "exclusive");
+    put("commercially", "commercial");
+    put("mischievously", "mischievous");
+    put("weirdly", "weird");
+    put("routinely", "routine");
+    put("gruffly", "gruff");
+    put("naturally", "natural");
+    put("lightly", "light");
+    put("haphazardly", "haphazard");
+    put("lovingly", "loving");
+    put("sagely", "sage");
+    put("systematically", "systematical");
+    put("academically", "academical");
+    put("jokingly", "joking");
+    put("primarily", "primary");
+    put("secondarily", "secondary");
+    put("peacefully", "peaceful");
+    put("thankfully", "thankful");
+    put("reliably", "reliable");
+    put("infinitesimally", "infinitesimal");
+    put("hugely", "huge");
+    put("strictly", "strict");
+    put("morally", "moral");
+    put("involuntarily", "involuntary");
+    put("voluntarily", "voluntary");
+    put("vanishingly", "vanishing");
+    put("typically", "typical");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

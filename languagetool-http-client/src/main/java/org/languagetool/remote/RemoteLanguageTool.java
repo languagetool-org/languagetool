@@ -32,9 +32,9 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * Check a text using a <a href="http://wiki.languagetool.org/http-server">remote LanguageTool server</a> via HTTP or HTTPS.
+ * Check a text using a <a href="https://dev.languagetool.org/http-server">remote LanguageTool server</a> via HTTP or HTTPS.
  * Our public HTTPS API and its restrictions are documented
- * <a href="http://wiki.languagetool.org/public-http-api">in our wiki</a>.
+ * <a href="https://dev.languagetool.org/public-http-api">here</a>.
  * @since 3.4
  */
 @SuppressWarnings("unchecked")
@@ -95,6 +95,9 @@ public class RemoteLanguageTool {
     }
     if (config.getMode() != null) {
       append(params, "mode", config.getMode());
+    }
+    if (config.getLevel() != null) {
+      append(params, "level", config.getLevel());
     }
     if (config.getRuleValues().size() > 0) {
       append(params, "ruleValues", String.join(",", config.getRuleValues()));

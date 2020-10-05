@@ -19,9 +19,12 @@
 package org.languagetool.rules.en;
 
 import org.junit.Test;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.LanguageSpecificTest;
 import org.languagetool.Languages;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -46,4 +49,52 @@ public class EnglishTest extends LanguageSpecificTest {
     );
     runTests(lang, null, "ÆæāýÅåøšùçıčćö");
   }
+
+  @Test
+  public void testMessages() {
+    Language lang = Languages.getLanguageForShortCode("en-US");
+    JLanguageTool lt = new JLanguageTool(lang);
+    for (Rule rule : lt.getAllRules()) {
+      if (rule instanceof AbstractPatternRule) {
+        AbstractPatternRule patternRule = (AbstractPatternRule) rule;
+        String message = patternRule.getMessage();
+        String origWord = null;
+        String suggWord = null;
+        if (message.contains("full stop")) {
+          origWord = "full stop";
+          suggWord = "period";
+        }
+        if (message.contains("pound sign")) {
+          origWord = "pound sign";
+          suggWord = "(ambiguous in en-US, see https://en.wikipedia.org/wiki/Pound_sign)";
+        }
+        if (message.contains("colour")) {
+          origWord = "colour";
+          suggWord = "color";
+        }
+        if (message.contains("flavour")) {
+          origWord = "flavour";
+          suggWord = "flavor";
+        }
+        if (message.contains("theatre")) {
+          origWord = "theatre";
+          suggWord = "theater";
+        }
+        if (message.contains("centre")) {
+          origWord = "centre";
+          suggWord = "center";
+        }
+        if (message.matches(".*(kilo|centi|milli)?(me|li)tres?.*")) {
+          origWord = "metre";
+          suggWord = "meter";
+        }
+        if (origWord != null) {
+          System.err.println("WARNING: Instead of '" + origWord + "' (en-GB) consider using " +
+                  "words that work in all locales (or '" + suggWord + "' (en-US) if you can't find those) for rule " +
+                  patternRule.getFullId() + ", message: '" + message + "'");
+        }
+      }
+    }
+  }
+
 }

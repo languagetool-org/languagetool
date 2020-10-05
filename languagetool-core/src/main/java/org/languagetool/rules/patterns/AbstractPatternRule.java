@@ -57,6 +57,7 @@ public abstract class AbstractPatternRule extends Rule {
   protected int endPositionCorrection;
   protected String suggestionsOutMsg; // extra suggestions outside message
   protected RuleFilter filter;
+  protected RegexRuleFilter regexFilter;
   protected String filterArgs;
   protected String message;
   protected String sourceFile = null;
@@ -311,6 +312,17 @@ public abstract class AbstractPatternRule extends Rule {
   @Nullable
   public RuleFilter getFilter() {
     return filter;
+  }
+
+  /** @since 5.2 */
+  public void setRegexFilter(RegexRuleFilter filter) {
+    this.regexFilter = filter;
+  }
+
+  /** @since 5.2 */
+  @Nullable
+  public RegexRuleFilter getRegexFilter() {
+    return regexFilter;
   }
 
   /** @since 2.7 (public since 3.2) */

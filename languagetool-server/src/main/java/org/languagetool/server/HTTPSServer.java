@@ -150,7 +150,7 @@ public class HTTPSServer extends Server {
       }
     } catch (IllegalConfigurationException e) {
       System.out.println(e.getMessage());
-      System.out.println("Note: this is the HTTPS server - if you want to use plain HTTP instead, please see http://wiki.languagetool.org/http-server");
+      System.out.println("Note: this is the HTTPS server - if you want to use plain HTTP instead, please see https://dev.languagetool.org/http-server");
       System.exit(1);
     }
   }

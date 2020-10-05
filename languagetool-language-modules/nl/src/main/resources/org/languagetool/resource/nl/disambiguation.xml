@@ -1177,52 +1177,43 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<disambig action="ignore_spelling"/>
 	</rule>
     
-	<!-- aanhalingstekens openen 
-	<rule id="AANHAAL_OPN_1" name="">
-        <pattern><token>‘</token></pattern>
-        <disambig action="add"><wd lemma="‘" pos="AHL:OPN">‘</wd></disambig>        
-	</rule>	
-	<rule id="AANHAAL_OPN_2" name="">
-        <pattern><token>“</token></pattern>
-        <disambig action="add"><wd lemma="“" pos="AHL:OPN">“</wd></disambig>        
-	</rule>	
-	<rule id="AANHAAL_OPN_3" name="">
-        <pattern><token>'</token></pattern>
-        <disambig action="add"><wd lemma="'" pos="AHL:OPN">'</wd></disambig>        
-	</rule>	
-	<rule id="AANHAAL_OPN_4" name="">
-        <pattern><token>"</token></pattern>
-        <disambig action="add"><wd lemma="&quot;" pos="AHL:OPN">"</wd></disambig>        
-	</rule>	
--->
-    <!-- aanhalingstekens sluiten 
-	<rule id="AANHAAL_SLT_1" name="">
-        <pattern><token>’</token></pattern>
-        <disambig action="add"><wd lemma="’" pos="AHL:SLT">’</wd></disambig>        
-	</rule>	
-	<rule id="AANHAAL_SLT_2" name="">
-        <pattern><token>”</token></pattern>
-        <disambig action="add"><wd lemma="”" pos="AHL:SLT">”</wd></disambig>        
-	</rule>	
-	<rule id="AANHAAL_SLT_3" name="">
-        <pattern><token>'</token></pattern>
-        <disambig action="add"><wd lemma="'" pos="AHL:SLT">'</wd></disambig>        
-	</rule>	
-	<rule id="AANHAAL_SLT_4" name="">
-        <pattern><token>"</token></pattern>
-        <disambig action="add"><wd lemma="&quot;" pos="AHL:SLT">"</wd></disambig>        
-	</rule>	
--->
 	
-	<!-- define start elements to ignore -->
+	<!-- define start and end elements to ignore -->
 	<rule id="START_IGNORE_01" name="">
 		<pattern>
-		<token postag_regexp="yes" postag="SENT_START|START"/>
-		<marker>
-			<token regexp="yes">[‘“'"]</token>
-		</marker>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<marker>
+				<token regexp="yes">[‘’“'"„”]</token>
+			</marker>
 		</pattern>
 		<disambig action="add"><wd pos="START"/></disambig>
+	</rule>
+	<rule id="START_IGNORE_02" name="">
+		<pattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<marker>
+				<token regexp="yes">en|maar</token>
+			</marker>
+		</pattern>
+		<disambig action="add"><wd pos="START"/></disambig>
+	</rule>
+	<rule id="END_IGNORE_01" name="">
+		<pattern>
+			<marker>
+				<token/>
+			</marker>
+			<token postag_regexp="yes" postag="SENT_END|END" regexp="yes">[‘’“'"„”]</token>
+			</pattern>
+		<disambig action="add"><wd pos="END"/></disambig>
+	</rule>
+	<rule id="END_IGNORE_03" name="">
+		<pattern>
+			<marker>
+				<token regexp="yes">[.!?]</token>
+			</marker>
+			<token regexp="yes">[.!?]</token>
+			</pattern>
+		<disambig action="add"><wd pos="END"/></disambig>
 	</rule>
 
 	<!-- voegt gij-vorm toe; heeft nog uitzonderingen nodig -->

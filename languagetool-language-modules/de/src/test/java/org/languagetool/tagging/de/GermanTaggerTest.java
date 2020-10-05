@@ -25,7 +25,6 @@ import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.tagging.TaggedWord;
 
 import java.io.IOException;
 import java.util.*;
@@ -162,6 +161,12 @@ public class GermanTaggerTest {
 
     AnalyzedTokenReadings aToken15 = tagger.lookup("erzkatholisch");
     assertTrue(aToken15.getReadings().get(0).getPOSTag().equals("ADJ:PRD:GRU"));
+
+    AnalyzedTokenReadings aToken16 = tagger.lookup("unerbeten");
+    assertTrue(aToken16.getReadings().get(0).getPOSTag().equals("PA2:PRD:GRU:VER"));
+
+    AnalyzedTokenReadings aToken17 = tagger.lookup("under");
+    assertTrue(aToken17 == null);
   }
 
   // make sure we use the version of the POS data that was extended with post spelling reform data

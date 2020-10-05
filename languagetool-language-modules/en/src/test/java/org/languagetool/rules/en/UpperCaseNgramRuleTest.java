@@ -80,6 +80,7 @@ public class UpperCaseNgramRuleTest {
     assertGood("Think I'm Tripping?");
     assertGood("Music and Concepts.");
     assertGood("It is called Ranked mode.");
+    assertGood("I was into Chronicle of a Death Foretold.");
     // TODO:
     //assertGood("Best Regards.");
     //assertGood("USB Port.");

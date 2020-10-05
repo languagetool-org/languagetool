@@ -33,9 +33,9 @@ class BuilderOptions {
   public static final String INPUT_OPTION = "i";
   public static final String FREQ_OPTION = "freq";
   public static final String FREQ_HELP = "optional .xml file with a frequency wordlist, " 
-      + "see http://wiki.languagetool.org/developing-a-tagger-dictionary";
+      + "see https://dev.languagetool.org/developing-a-tagger-dictionary";
   public static final String INFO_HELP = "*.info properties file, " 
-      + "see http://wiki.languagetool.org/developing-a-tagger-dictionary";
+      + "see https://dev.languagetool.org/developing-a-tagger-dictionary";
   public static final String TAB_INPUT_HELP = "tab-separated plain-text dictionary file " 
       + "with format: wordform<tab>lemma<tab>postag";
 

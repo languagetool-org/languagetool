@@ -57,6 +57,7 @@ abstract class TextChecker {
 
   private static final int PINGS_CLEAN_MILLIS = 60 * 1000;  // internal pings database will be cleaned this often
   private static final int PINGS_MAX_SIZE = 5000;
+  private static final int NGRAM_THRESHOLD = 50;
 
   protected abstract void setHeaders(HttpExchange httpExchange);
   protected abstract String getResponse(AnnotatedText text, Language language, DetectedLanguage lang, Language motherTongue, List<RuleMatch> matches,
@@ -64,7 +65,7 @@ abstract class TextChecker {
   @NotNull
   protected abstract List<String> getPreferredVariants(Map<String, String> parameters);
   protected abstract DetectedLanguage getLanguage(String text, Map<String, String> parameters, List<String> preferredVariants,
-                                                  List<String> additionalDetectLangs, List<String> preferredLangs);
+                                                  List<String> additionalDetectLangs, List<String> preferredLangs, boolean testMode);
   protected abstract boolean getLanguageAutoDetect(Map<String, String> parameters);
   @NotNull
   protected abstract List<String> getEnabledRuleIds(Map<String, String> parameters);
@@ -81,14 +82,15 @@ abstract class TextChecker {
   private static final int CACHE_STATS_PRINT = 500; // print cache stats every n cache requests
   
   private final Map<String,Integer> languageCheckCounts = new HashMap<>();
-  private Queue<Runnable> workQueue;
-  private RequestCounter reqCounter;
+  private final Queue<Runnable> workQueue;
+  private final RequestCounter reqCounter;
+
   // keep track of timeouts of the hidden matches server, check health periodically;
   // -1 => healthy, else => check timed out at given date, check back if time difference > config.getHiddenMatchesFailTimeout()
   private long lastHiddenMatchesServerTimeout;
   // counter; mark as down if this reaches hidenMatchesServerFall
   private long hiddenMatchesServerFailures = 0;
-  private final LanguageIdentifier identifier;
+  private final LanguageIdentifier fastTextIdentifier;
   private final ExecutorService executorService;
   private final ResultCache cache;
   private final DatabaseLogger databaseLogger;
@@ -96,14 +98,19 @@ abstract class TextChecker {
   private final Random random = new Random();
   private final Set<DatabasePingLogEntry> pings = new HashSet<>();
   private long pingsCleanDateMillis = System.currentTimeMillis();
+  private LanguageIdentifier ngramIdentifier = null;
   PipelinePool pipelinePool; // mocked in test -> package-private / not final
 
   TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
     this.config = config;
     this.workQueue = workQueue;
     this.reqCounter = reqCounter;
-    this.identifier = new LanguageIdentifier();
-    this.identifier.enableFasttext(config.getFasttextBinary(), config.getFasttextModel());
+    this.fastTextIdentifier = new LanguageIdentifier();
+    this.fastTextIdentifier.enableFasttext(config.getFasttextBinary(), config.getFasttextModel());
+    if (config.getNgramLangIdentDir() != null) {
+      this.ngramIdentifier = new LanguageIdentifier();
+      this.ngramIdentifier.enableNgrams(config.getNgramLangIdentDir());
+    }
     this.executorService = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("lt-textchecker-thread-%d").build());
     this.cache = config.getCacheSize() > 0 ? new ResultCache(
       config.getCacheSize(), config.getCacheTTLSeconds(), TimeUnit.SECONDS) : null;
@@ -274,7 +281,8 @@ abstract class TextChecker {
             Arrays.asList(parameters.get("noopLanguages").split(",")) : Collections.emptyList();
     List<String> preferredLangs = parameters.get("preferredLanguages") != null ?
             Arrays.asList(parameters.get("preferredLanguages").split(",")) : Collections.emptyList();
-    DetectedLanguage detLang = getLanguage(aText.getPlainText(), parameters, preferredVariants, noopLangs, preferredLangs);
+    DetectedLanguage detLang = getLanguage(aText.getPlainText(), parameters, preferredVariants, noopLangs, preferredLangs,
+      parameters.getOrDefault("ld", "control").equalsIgnoreCase("test"));
     Language lang = detLang.getGivenLanguage();
 
     // == temporary counting code ======================================
@@ -675,8 +683,20 @@ abstract class TextChecker {
   }
 
   DetectedLanguage detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants,
-                                          List<String> noopLangs, List<String> preferredLangs) {
-    DetectedLanguage detected = identifier.detectLanguage(text, noopLangs, preferredLangs);
+                                          List<String> noopLangs, List<String> preferredLangs, boolean testMode) {
+    DetectedLanguage detected;
+    String mode;
+    long t1 = System.nanoTime();
+    if (ngramIdentifier != null && text.length() < NGRAM_THRESHOLD) {
+      detected = ngramIdentifier.detectLanguage(text, noopLangs, preferredLangs);
+      mode = "ngram";
+    } else {
+      detected = fastTextIdentifier.detectLanguage(text, noopLangs, preferredLangs);
+      mode = fastTextIdentifier.isFastTextEnabled() ? "fasttext" : "built-in";
+    }
+    long t2 = System.nanoTime();
+    float runTime = (t2-t1)/1000.0f/1000.0f;
+    System.out.printf(Locale.ENGLISH, "detected " + detected + " using " + mode + " in %.2fms for %d chars\n", runTime, text.length());
     Language lang;
     if (detected == null) {
       lang = Languages.getLanguageForShortCode(fallbackLanguage != null ? fallbackLanguage : "en");

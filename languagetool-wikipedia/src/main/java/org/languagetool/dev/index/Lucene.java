@@ -25,7 +25,8 @@ package org.languagetool.dev.index;
 public class Lucene {
   
   public static final String FIELD_NAME = "field";
-  public static final String SOURCE_FIELD_NAME = "source";
   public static final String FIELD_NAME_LOWERCASE = "fieldLowercase";
-  
+  public static final String SOURCE_FIELD_NAME = "source";
+  public static final String RANDOM_FIELD = "random";
+
 }

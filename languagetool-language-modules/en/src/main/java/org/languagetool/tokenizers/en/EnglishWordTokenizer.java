@@ -30,13 +30,13 @@ import org.languagetool.tokenizers.WordTokenizer;
  */
 public class EnglishWordTokenizer extends WordTokenizer {
 
+  private static final String[] EXCEPTIONS = {"fo'c'sle"};
+  private static final String[] EXCEPTION_REPLACEMENT = {"fo\u2626c\u2626sle"};
+
   @Override
   public String getTokenizingCharacters() {
     return super.getTokenizingCharacters() + "–";  // n-dash
   }
-
-  private static final String[] EXCEPTIONS = {"fo'c'sle"};
-  private static final String[] EXCEPTION_REPLACEMENT = {"fo\u2626c\u2626sle"};
 
   /**
    * Tokenizes text.

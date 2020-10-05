@@ -161,6 +161,20 @@ USA
             <example correction="streetlights">I only go out once the <marker>street lights</marker> are turned on.</example>
         </rule>
 
+        <rule id="SHIT_SHOW_COMPOUND" name="shit show (shitshow)">
+            <pattern>
+                <token regexp="yes">an?</token>
+                <token postag="JJ" min="0" />
+                <marker>
+                    <token>shit</token>
+                    <token>show</token>
+                </marker>
+            </pattern>
+            <message>The noun <suggestion>shitshow</suggestion> is spelled as one word.</message>
+            <url>https://www.lexico.com/definition/shitshow</url>
+            <example correction="shitshow">The TV debate was an absolute <marker>shit show</marker>.</example>
+        </rule>
+
         <rule id="HOME_COMPOUNDS_EN_US" name="home town (hometown)">
             <pattern>
                 <token>home</token>
@@ -171,10 +185,9 @@ USA
         </rule>
 
           <rule id="ANY_MORE" name="any more (anymore)">
-              <antipattern><!-- any more likely than -->
+              <antipattern><!-- Tom could not have been any more helpful. -->
                  <token>more</token>
                  <token postag="JJ"/>
-                 <token>than</token>
               </antipattern>
               <antipattern><!-- #2985 any more random lag spikes -->
                  <token chunk="B-NP-plural">any</token>
@@ -219,6 +232,8 @@ USA
               <example>We probably should tell him that we don't have any more unless New Albany is enough.</example><!-- #3057 -->
               <example>Tell her that we don't really want any more because we have sufficient.</example><!-- #3057 -->
               <example>If we had bought any more while prices were high, we would have lose money.</example><!-- #3057 -->
+              <example>I know that Tom isn't any more likely to do that today than he was yesterday.</example>
+              <example>Tom could not have been any more helpful.</example>
           </rule>
 
     </category>
@@ -418,12 +433,17 @@ USA
 
     <category id="STYLE" name="Style" type="style">
         <rule id="THRU" name="thru / through">
+            <antipattern>
+                <token>thru</token>
+                <token regexp="yes">axles?</token>
+            </antipattern>
             <pattern>
                 <token>thru</token>
             </pattern>
             <message>The word 'thru' is informal. Consider replacing it with <suggestion>through</suggestion>.</message>
             <url>https://www.merriam-webster.com/dictionary/thru</url>
            <example correction="through">I'm going <marker>thru</marker> hell.</example>
+           <example>A thru axle (TA) is a wheel attachment system that secures a wheel on a hub between a pair of dropouts on a bicycle frame or fork.</example>
         </rule>
     </category>
 

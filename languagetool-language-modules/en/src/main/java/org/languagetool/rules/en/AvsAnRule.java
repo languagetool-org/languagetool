@@ -45,7 +45,7 @@ public class AvsAnRule extends Rule {
     A, AN, A_OR_AN, UNKNOWN
   }
 
-  private static final Pattern cleanupPattern = Pattern.compile("[^αa-zA-Z0-9\\.;,:']");
+  private static final Pattern cleanupPattern = Pattern.compile("[^αa-zA-Z0-9.;,:']");
 
   public AvsAnRule(ResourceBundle messages) {
     super.setCategory(Categories.MISC.getCategory(messages));

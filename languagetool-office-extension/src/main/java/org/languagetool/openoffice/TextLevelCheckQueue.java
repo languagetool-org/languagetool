@@ -259,7 +259,7 @@ public class TextLevelCheckQueue {
     List<SingleDocument> documents = multiDocHandler.getDocuments();
     int nDoc = 0;
     for(int n = 0; n < documents.size(); n++) {
-      if (docId.equals(documents.get(n).getDocID())) {
+      if (docId.equals(documents.get(n).getDocID()) && !documents.get(n).isDisposed()) {
         QueueEntry queueEntry = documents.get(n).getNextQueueEntry(nPara, nCache);
         if (queueEntry != null) {
           return queueEntry;
@@ -269,15 +269,19 @@ public class TextLevelCheckQueue {
       }
     }
     for(int i = nDoc + 1; i < documents.size(); i++) {
-      QueueEntry queueEntry = documents.get(i).getNextQueueEntry(-1, nCache);
-      if (queueEntry != null) {
-        return queueEntry;
+      if (!documents.get(i).isDisposed()) {
+        QueueEntry queueEntry = documents.get(i).getNextQueueEntry(-1, nCache);
+        if (queueEntry != null) {
+          return queueEntry;
+        }
       }
     }
     for(int i = 0; i < nDoc; i++) {
-      QueueEntry queueEntry = documents.get(i).getNextQueueEntry(-1, nCache);
-      if (queueEntry != null) {
-        return queueEntry;
+      if (!documents.get(i).isDisposed()) {
+        QueueEntry queueEntry = documents.get(i).getNextQueueEntry(-1, nCache);
+        if (queueEntry != null) {
+          return queueEntry;
+        }
       }
     }
     return null;
@@ -359,7 +363,7 @@ public class TextLevelCheckQueue {
     }
     
     public void initLangtool(Language language) {
-      langTool = multiDocHandler.initLanguageTool(language);
+      langTool = multiDocHandler.initLanguageTool(language, false);
       multiDocHandler.initCheck(langTool, multiDocHandler.getLocale());
       multiDocHandler.activateTextRulesByIndex(1, langTool);
     }

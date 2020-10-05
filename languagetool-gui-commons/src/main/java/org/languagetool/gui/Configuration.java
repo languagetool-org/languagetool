@@ -73,6 +73,7 @@ public class Configuration {
   static final boolean DEFAULT_MARK_SINGLE_CHAR_BOLD = false;
   static final boolean DEFAULT_USE_LT_DICTIONARY = true;
   static final boolean DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS = true;
+  static final boolean DEFAULT_SAVE_LO_CACHE = false;
 
   static final Color STYLE_COLOR = new Color(0, 175, 0);
 
@@ -119,6 +120,7 @@ public class Configuration {
   private static final String LOG_LEVEL_KEY = "logLevel";
   private static final String USE_LT_DICTIONARY_KEY = "UseLtDictionary";
   private static final String NO_SYNONYMS_AS_SUGGESTIONS_KEY = "noSynonymsAsSuggestions";
+  private static final String SAVE_LO_CACHE_KEY = "saveLoCache";
 
   private static final String DELIMITER = ",";
   // find all comma followed by zero or more white space characters that are preceded by ":" AND a valid 6-digit hex code
@@ -181,6 +183,7 @@ public class Configuration {
   private boolean markSingleCharBold = DEFAULT_MARK_SINGLE_CHAR_BOLD;
   private boolean useLtDictionary = DEFAULT_USE_LT_DICTIONARY;
   private boolean noSynonymsAsSuggestions = DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS;
+  private boolean saveLoCache = DEFAULT_SAVE_LO_CACHE;
   private String externalRuleDirectory;
   private String lookAndFeelName;
   private String currentProfile = null;
@@ -262,6 +265,7 @@ public class Configuration {
     markSingleCharBold = DEFAULT_MARK_SINGLE_CHAR_BOLD;
     useLtDictionary = DEFAULT_USE_LT_DICTIONARY;
     noSynonymsAsSuggestions = DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS;
+    saveLoCache = DEFAULT_SAVE_LO_CACHE;
     externalRuleDirectory = null;
     lookAndFeelName = null;
     currentProfile = null;
@@ -314,6 +318,7 @@ public class Configuration {
     this.markSingleCharBold = configuration.markSingleCharBold;
     this.useLtDictionary = configuration.useLtDictionary;
     this.noSynonymsAsSuggestions = configuration.noSynonymsAsSuggestions;
+    this.saveLoCache = configuration.saveLoCache;
     this.otherServerUrl = configuration.otherServerUrl;
     this.logLevel = configuration.logLevel;
     
@@ -495,6 +500,14 @@ public class Configuration {
 
   public boolean noSynonymsAsSuggestions() {
     return noSynonymsAsSuggestions;
+  }
+  
+  public void setSaveLoCache(boolean saveLoCache) {
+    this.saveLoCache = saveLoCache;
+  }
+
+  public boolean saveLoCache() {
+    return saveLoCache;
   }
   
   /**
@@ -1169,6 +1182,11 @@ public class Configuration {
         noSynonymsAsSuggestions = Boolean.parseBoolean(noSynonymsAsSuggestionsString);
       }
       
+      String saveLoCacheString = (String) props.get(prefix + SAVE_LO_CACHE_KEY);
+      if (saveLoCacheString != null) {
+        saveLoCache = Boolean.parseBoolean(saveLoCacheString);
+      }
+      
       String rulesValuesString = (String) props.get(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier);
       if (rulesValuesString == null) {
         rulesValuesString = (String) props.get(prefix + CONFIGURABLE_RULE_VALUES_KEY);
@@ -1331,7 +1349,7 @@ public class Configuration {
           props.setProperty(prefix + LANGUAGE_KEY, language.getShortCodeWithCountryAndVariant());
         }
         if (motherTongue != null) {
-          props.setProperty(prefix + MOTHER_TONGUE_KEY, motherTongue.getShortCode());
+          props.setProperty(prefix + MOTHER_TONGUE_KEY, motherTongue.getShortCodeWithCountryAndVariant());
         }
         if (ngramDirectory != null) {
           props.setProperty(prefix + NGRAM_DIR_KEY, ngramDirectory.getAbsolutePath());
@@ -1377,6 +1395,9 @@ public class Configuration {
         }
         if (noSynonymsAsSuggestions != DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS) {
           props.setProperty(prefix + NO_SYNONYMS_AS_SUGGESTIONS_KEY, Boolean.toString(noSynonymsAsSuggestions));
+        }
+        if (saveLoCache != DEFAULT_SAVE_LO_CACHE) {
+          props.setProperty(prefix + SAVE_LO_CACHE_KEY, Boolean.toString(saveLoCache));
         }
         if (switchOff) {
           props.setProperty(prefix + LT_SWITCHED_OFF_KEY, Boolean.toString(switchOff));
@@ -1488,6 +1509,7 @@ public class Configuration {
     allProfileKeys.add(MARK_SINGLE_CHAR_BOLD_KEY);
     allProfileKeys.add(USE_LT_DICTIONARY_KEY);
     allProfileKeys.add(NO_SYNONYMS_AS_SUGGESTIONS_KEY);
+    allProfileKeys.add(SAVE_LO_CACHE_KEY);
 
     allProfileLangKeys.add(DISABLED_RULES_KEY);
     allProfileLangKeys.add(ENABLED_RULES_KEY);

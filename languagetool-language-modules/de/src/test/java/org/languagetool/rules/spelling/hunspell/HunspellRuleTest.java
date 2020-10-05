@@ -55,7 +55,7 @@ public class HunspellRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Unter http://foo.org/bar steht dasdassda.")).length);
     
     // check the correct calculation of error position
-    // note that emojis have string length 2
+    // note that emojis have string length 2 or 3
     assertEquals(6 ,rule.match(langTool.getAnalyzedSentence("Hallo men Schatz!"))[0].getFromPos());
     assertEquals(9 ,rule.match(langTool.getAnalyzedSentence("Hallo men Schatz!"))[0].getToPos());
     assertEquals(9 ,rule.match(langTool.getAnalyzedSentence("Hallo 😂 men Schatz!"))[0].getFromPos());
@@ -64,6 +64,8 @@ public class HunspellRuleTest {
     assertEquals(14 ,rule.match(langTool.getAnalyzedSentence("Hallo 😂😂 men Schatz!"))[0].getToPos());
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Mir geht es 😂gut😂.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Mir geht es 😂gtu😂.")).length);
+    assertEquals(10 ,rule.match(langTool.getAnalyzedSentence("Hallo 🗺️ men Schatz!"))[0].getFromPos());
+    assertEquals(13 ,rule.match(langTool.getAnalyzedSentence("Hallo 🗺️ men Schatz!"))[0].getToPos());
   }
 
   @Test

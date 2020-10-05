@@ -162,7 +162,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
           translations.add(translation);
         }
         if (currentTranslationLanguage != null && currentTranslationLanguage.equalsConsiderVariantsIfSpecified(textLanguage)
-                && language.equalsConsiderVariantsIfSpecified(motherTongue)) {
+                && language.equalsConsiderVariantsIfSpecified(motherTongue) && !suggestions.contains(translation.toString())) {
           suggestions.add(translation.toString());
         }
         translation = new StringBuilder();

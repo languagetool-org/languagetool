@@ -441,6 +441,33 @@ public class FlatParagraphTools {
   }
   
   /**
+   * Marks all paragraphs as checked
+   */
+  void setFlatParasAsChecked() {
+    try {
+      XFlatParagraph xFlatPara = getLastFlatParagraph();
+      if (xFlatPara == null) {
+        if (debugMode) {
+          MessageHandler.printToLogFile("setFlatParasAsChecked: FlatParagraph == null");
+        }
+        return;
+      }
+      XFlatParagraph tmpFlatPara = xFlatPara;
+      while (tmpFlatPara != null) {
+        tmpFlatPara.setChecked(TextMarkupType.PROOFREADING, true);
+        tmpFlatPara = xFlatParaIter.getParaBefore(tmpFlatPara);
+      }
+      tmpFlatPara = xFlatPara;
+      while (tmpFlatPara != null) {
+        tmpFlatPara.setChecked(TextMarkupType.PROOFREADING, true);
+        tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
+      }
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    }
+  }
+  
+  /**
    * Get information of checked status of all paragraphs
    */
   List<Boolean> isChecked(List<Integer> changedParas, int nDiv) {

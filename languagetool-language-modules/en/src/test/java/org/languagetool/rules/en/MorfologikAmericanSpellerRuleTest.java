@@ -101,6 +101,7 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(0, rule.match(lt.getAnalyzedSentence("I like my emoji 😾")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("μ")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("I like my emoji ❤️")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("This is English text 🗺.")).length);
 
     // test words in language-specific spelling_en-US.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("USTestWordToBeIgnored")).length);
@@ -211,12 +212,6 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertThat(matches6[1].getToPos(), is(24));
     //assertThat(matches6[2].getSuggestedReplacements().get(0), is("spell"));
     
-    RuleMatch[] matches7 = rule.match(lt.getAnalyzedSentence("She awaked"));
-    assertThat(matches7.length, is(1));
-    // Avoid suggestion "Shea waked"
-    assertThat(matches7[0].getSuggestedReplacements().get(0), is("awoke"));
-    assertThat(matches7[0].getSuggestedReplacements().get(1), is("awake"));
-    
     RuleMatch[] matches8 = rule.match(lt.getAnalyzedSentence("I'm g oing"));
     assertThat(matches8.length, is(1));
     assertThat(matches8[0].getSuggestedReplacements().get(0), is("going"));
@@ -243,7 +238,7 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertSuggestion("He teached us.", "taught");
     assertSuggestion("He buyed the wrong brand", "bought");
     assertSuggestion("I thinked so.", "thought");
-    assertSuggestion("She awaked", "awoke"); 
+    //assertSuggestion("She awaked", "awoke");   // to be added to spelling.txt
     assertSuggestion("She becomed", "became");
     assertSuggestion("It begined", "began");
     assertSuggestion("It bited", "bit");

@@ -878,6 +878,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag=".+"/>
     </rule>
+    <rule name="EIN_AM_SATZENDE" id="EIN_AM_SATZENDE">
+        <pattern case_sensitive="yes">
+            <token/>
+            <marker>
+                <token>ein</token>
+            </marker>
+            <token postag="SENT_END" regexp="yes">[\!\.\?]</token>
+        </pattern>
+        <disambig postag="ZUS"></disambig>
+    </rule>
     <rule name="FIDEL" id="FIDEL">
         <pattern case_sensitive="yes">
             <marker>
@@ -1158,6 +1168,17 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="remove" postag="VER.*:(3|IMP):.+"/>
             <example type="ambiguous" inputform="sage[sagen/VER:1:SIN:KJ1:SFT,sagen/VER:1:SIN:PRÄ:SFT,sagen/VER:3:SIN:KJ1:SFT,sagen/VER:IMP:SIN:SFT]" outputform="sage[sagen/VER:1:SIN:KJ1:SFT,sagen/VER:1:SIN:PRÄ:SFT]">Weil sie es wollte, <marker>sage</marker> ich ihr diw Wahrheit.</example>
         </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token postag="EIG:NOM:SIN.+" postag_regexp="yes"></token>
+                <marker>
+                    <token postag="VER:.*3:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*:1:.+"/>
+            <example type="ambiguous" inputform="ginge[gehen/VER:1:SIN:KJ2:NON,gehen/VER:3:SIN:KJ2:NON]" outputform="ginge[gehen/VER:3:SIN:KJ2:NON]">Jeremy <marker>ginge</marker> jetzt, wenn er noch den Heimweg fände.</example>
+        </rule>
     </rulegroup>
     <rulegroup id="TASCHENMESSER" name="Taschenmesser">
         <rule>
@@ -1342,6 +1363,13 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token spacebefore="no">/</token>
             <token spacebefore="no" min="0">/</token>
             <token spacebefore="no" regexp="yes">[a-z0-9\-]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="IPv4/6" id="IPVx">
+        <pattern>
+            <token regexp="yes">IPv[46]-(Adressen?|Adressraum(s|es)?|Verbindung|Standard|Präfix|Netzwerke?|Netzwerke[ns]|Paket(e|en|s|es)?|Einstellung|Implementierung|Header|Host|Routing|Gerät(s|es|e|en)?|Kommunikation|fähig(e|er|es|en|em)?)</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2782,7 +2810,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="per se" id="PER_SE">
         <pattern>
             <token>per</token>
-            <token regexp="yes">procura|rectum|saldo|se|pedes</token>
+            <token regexp="yes">annum|procura|rectum|saldo|se|pedes</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

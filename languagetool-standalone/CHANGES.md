@@ -1,17 +1,83 @@
 # LanguageTool Change Log
 
-## 5.1-SNAPSHOT (release planned for 2020-09-25)
+## 5.2 (released planned for 2020-12-29)
+ 
+#### Dutch
+  * There's now support for Belgian Dutch (`nl-BE`). "Dutch" (`nl`) is
+    still the default. nl-BE-specific rules can be added to `nl-BE/grammar.xml`
+
+#### General
+  * There's now `RegexAntiPatternFilter` which can be used to have antipatterns
+    for `<regexp>` rules. Use like this:     
+    ```
+    <regexp>my regex</regexp>
+    <filter class="org.languagetool.rules.patterns.RegexAntiPatternFilter" args="antipatterns:regex1|regex2"/>
+    ```
+    Note that the regex after `antipatterns:` cannot contain spaces.
+
+
+
+## 5.1.2 (released 2020-10-05)
+
+#### LibreOffice / Apache OpenOffice Integration
+  * fixed https://github.com/languagetool-org/languagetool/issues/3638,
+    https://github.com/languagetool-org/languagetool/issues/3652, and
+    https://github.com/languagetool-org/languagetool/issues/3575
+
+
+
+## 5.1.1 (released 2020-09-29)
+
+#### LibreOffice / Apache OpenOffice Integration
+  * fixed a NullPointerException crash in the LibreOffice/OpenOffice add-on
+
+  
+
+## 5.1 (released 2020-09-25)
+
+#### Catalan
+  * added and improved rules
+
+#### Dutch
+  * added and improved rules
+
+#### English
+  * added and improved rules
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.88 - 2020-09-01)
+
+#### French
+  * added and improved rules
 
 #### German
   * Updated the German part-of-speech dictionary (https://github.com/languagetool-org/german-pos-dict)
     to version 1.2.2.
-  * Each pair of `ProhibitedCompoundRule` has its own ID now, so it can be separately turned on/off
+  * each pair of `ProhibitedCompoundRule` has its own ID now, so it can be separately turned on/off
+  * added and improved rules
+
+#### Italian
+  * small rule improvements
+
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
 
 #### Russian
   * added and improved rules
 
+#### Spanish
+  * added and improved rules
+
+#### Ukrainian
+  * dictionary update
+  * many new punctuation rules
+  * many new styling rules
+  * tokenization and tagging improvements
+  * disambiguation improvements
+
 #### General
-  * Each pair of `ConfusionProbabilityRule` has its own ID now, so it can be separately turned on/off
+  * each pair of `ConfusionProbabilityRule` has its own ID now, so it can be separately turned on/off
+  * new XML attribute `chunk_re` for `<token>`, which specifies a chunk as a regular expression
 
 
 

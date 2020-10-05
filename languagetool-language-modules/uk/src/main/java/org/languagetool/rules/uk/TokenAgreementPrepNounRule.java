@@ -143,7 +143,7 @@ public class TokenAgreementPrepNounRule extends Rule {
         if( prep.equals("понад") )
           continue;
 
-        if( prep.equals("шляхом") || prep.equals("од") ) {
+        if( Arrays.asList("шляхом", "од", "відповідно").contains(prep) ) {
           prepTokenReadings = null;
           continue;
         }

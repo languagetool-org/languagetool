@@ -51,7 +51,7 @@ import java.util.stream.Collectors;
  * Base class fur rules running on external servers;
  * see gRPC service definition in languagetool-core/src/main/proto/ml_server.proto
  *
- * @see #create(ResourceBundle, RemoteRuleConfig, String, String, Map)  for an easy to add rules; return rule in Language::getRelevantRemoteRules
+ * @see #create(ResourceBundle, RemoteRuleConfig, boolean, String, String, Map)  for an easy to add rules; return rule in Language::getRelevantRemoteRules
  * add it like this:
   <pre>
    public List&lt;Rule&gt; getRelevantRemoteRules(ResourceBundle messageBundle, List&lt;RemoteRuleConfig&gt; configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
@@ -71,7 +71,7 @@ public abstract class GRPCRule extends RemoteRule {
   private static final Logger logger = LoggerFactory.getLogger(GRPCRule.class);
 
   public static String cleanID(String id) {
-    return id.replaceAll("[^a-zA-Z_]", "_");
+    return id.replaceAll("[^a-zA-Z_]", "_").toUpperCase();
   }
   /**
    * Internal rule to create rule matches with IDs based on Match Sub-IDs
@@ -303,5 +303,12 @@ public abstract class GRPCRule extends RemoteRule {
         return description;
       }
     };
+  }
+
+  public static List<GRPCRule> createAll(List<RemoteRuleConfig> configs, boolean inputLogging, String defaultDescription) {
+    return configs.stream()
+      .filter(cfg -> cfg.getRuleId().startsWith("AI_"))
+      .map(cfg -> create(cfg, inputLogging, cfg.getRuleId(), defaultDescription, Collections.emptyMap()))
+      .collect(Collectors.toList());
   }
 }

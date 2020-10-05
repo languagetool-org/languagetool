@@ -48,6 +48,11 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("speiche", "Verbindung zwischen Nabe und Felge beim Rad", "speicher", "Lagerraum"),
+          new Pair("speichen", "Verbindung zwischen Nabe und Felge beim Rad", "speicher", "Lagerraum"),
+          new Pair("kart", "Gokart (Fahrzeug)", "karte", "Fahrkarte, Postkarte, Landkarte, ..."),
+          new Pair("karts", "Kart = Gokart (Fahrzeug)", "karte", "Fahrkarte, Postkarte, Landkarte, ..."),
+          new Pair("kurz", "Gegenteil von 'lang'", "kur", "medizinische Vorsorge und Rehabilitation"),
           new Pair("kiefer", "knöcherner Teil des Schädels", "kiefern", "Kieferngewächse (Baum)"),
           new Pair("gel", "dickflüssige Masse", "geld", "Zahlungsmittel"),
           new Pair("flucht", "Entkommen, Fliehen", "frucht", "Ummantelung des Samens einer Pflanze"),
@@ -97,6 +102,7 @@ public class ProhibitedCompoundRule extends Rule {
     "Gra(ph|f)it"   // Grafit/Graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Kreispokal",
           "Gründertag",
           "Korrekturlösung",
           "Regelschreiber",
@@ -308,7 +314,66 @@ public class ProhibitedCompoundRule extends Rule {
           "Maskenbefreiung",
           "Lusttropfen",
           "Kundenstimme",
-          "Deichschafen"
+          "Deichschafen",
+          "Industriehefe",
+          "Freizeitschuhe",
+          "Freizeitschuhen",
+          "Trainingsschuhe",
+          "Trainingsschuhen",
+          "Schuhblatt",
+          "Nachbacken",
+          "Wassermelder",
+          "Schutzsegen",
+          "Fischversteigerung",
+          "Fischversteigerungen",
+          "Konfigurationsteile",
+          "Konfigurationsteilen",
+          "Wasserbauch",
+          "Wasserbauchs",
+          "Stadtrad",
+          "Stadtrads",
+          "Seniorenrad",
+          "Seniorenrads",
+          "Bodenplane",
+          "Schwimmschuhe",
+          "Familienstrand",
+          "versiegelbaren",
+          "Überraschungsfeier",
+          "Überraschungsfeiern",
+          "ballseitig",
+          "Genussgarten",
+          "Genussgartens",
+          "Edelsteingarten",
+          "Edelsteingartens",
+          "Insektengarten",
+          "Insektengartens",
+          "Klimakurs",
+          "Klimakurses",
+          "Kursperioden",
+          "Musikreise",
+          "Musikreisen",
+          "Ziegenhof",
+          "Ziegenhofs",
+          "Außendecke",
+          "Außendecken",
+          "Bewegungsbarriere",
+          "Bewegungsbarrieren",
+          "Gerichtsantrag",
+          "Gerichtsantrags",
+          "Gerichtsanträge",
+          "Spezialwette",
+          "Spezialwetten",
+          "Geldmagnet",
+          "Testartikel",
+          "Testartikeln",
+          "Testartikels",
+          "folierte",
+          "foliert",
+          "folierten",
+          "foliertes",
+          "foliertem",
+          "Implementierungsvorgaben",
+          "Feuchtmann" //name
   ));
 
   // have per-class static list of these and reference that in instance
@@ -485,7 +550,7 @@ public class ProhibitedCompoundRule extends Rule {
       long wordCount = lm.getCount(wordPart);
       long variantCount = lm.getCount(variant);
       //float factor = variantCount / (float)Math.max(wordCount, 1);
-      //System.out.println("word: " + word + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
+      //System.out.println("word: " + wordPart + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
       if (variantCount > 0 && wordCount == 0 && !blacklist.contains(wordPart) && !isMisspelled(variant) && blacklistRegex.stream().noneMatch(k -> wordPart.matches(".*" + k + ".*"))) {
         String msg;
         if (pair.part1Desc != null && pair.part2Desc != null) {
@@ -526,6 +591,10 @@ public class ProhibitedCompoundRule extends Rule {
       StringBuilder sb = new StringBuilder();
       int i = 0;
       for (String part : parts) {
+        if (part.length() <= 1) {
+          // don't: S-Bahn -> Sbahn
+          return null;
+        }
         sb.append(i == 0 ? part : lowercaseFirstChar(part));
         i++;
       }

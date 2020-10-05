@@ -191,6 +191,10 @@ public class UpperCaseNgramRule extends Rule {
       token("BBC"),
       token("Culture")
     ),
+    Arrays.asList(
+      token("Time"),
+      tokenRegex("magazines?")
+    ),
     Arrays.asList( // name of TV series
       token("Dublin"),
       token("Murders")
@@ -328,6 +332,11 @@ public class UpperCaseNgramRule extends Rule {
       token("it|him|her|them|me|us|that|this"),
       tokenRegex("[A-Z].+")
     ),
+    Arrays.asList( // ... to something called Faded
+      tokenRegex("some(thing|body|one)"),
+      tokenRegex("called|named"),
+      csRegex("[A-Z].+")
+    ),
     Arrays.asList( // It is called Ranked mode
       csRegex("is|was|been|were|are"),
       csRegex("calls?|called|calling|name[ds]?|naming"),
@@ -378,6 +387,12 @@ public class UpperCaseNgramRule extends Rule {
     Arrays.asList( // Please click on Send
       csRegex("click(ed|s)?"),
       tokenRegex("on|at"),
+      tokenRegex("[A-Z].*")
+    ),
+    Arrays.asList( // Chronicle of a Death Foretold
+      csRegex("Chronicle"),
+      token("of"),
+      tokenRegex("the|an?"),
       tokenRegex("[A-Z].*")
     )
   );

@@ -42,7 +42,7 @@ public class RegexPatternRule extends AbstractPatternRule implements RuleMatcher
   private static final Pattern matchPattern = Pattern.compile("\\\\\\d");
 
   // in suggestions tokens are numbered from 1, anywhere else tokens are numbered from 0.
-  // see: http://wiki.languagetool.org/development-overview#toc17
+  // see: https://dev.languagetool.org/development-overview
   // But most of the rules tend to use 1 to refer the first capturing group, so keeping that behavior as default
   private static final int MATCHES_IN_SUGGESTIONS_NUMBERED_FROM = 0;
 
@@ -88,7 +88,15 @@ public class RegexPatternRule extends AbstractPatternRule implements RuleMatcher
         boolean startsWithUpperCase = patternMatcher.start() == 0 && Character.isUpperCase(sentenceObj.getText().charAt(patternMatcher.start()));
         RuleMatch ruleMatch = new RuleMatch(this, sentenceObj, markStart, markEnd, patternMatcher.start(), patternMatcher.end(),
                 processedMessage, shortMessage, startsWithUpperCase, processedSuggestionsOutMsg);
-        matches.add(ruleMatch);
+        if (getRegexFilter() != null) {
+          RegexRuleFilterEvaluator ruleFilterEvaluator = new RegexRuleFilterEvaluator(getRegexFilter());
+          RuleMatch filteredMatch = ruleFilterEvaluator.runFilter(getFilterArguments(), ruleMatch, sentenceObj, patternMatcher);
+          if (filteredMatch != null) {
+            matches.add(ruleMatch);
+          }
+        } else {
+          matches.add(ruleMatch);
+        }
 
         startPos = patternMatcher.end();
       } catch (IndexOutOfBoundsException e){

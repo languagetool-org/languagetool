@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.es;
 
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.SuggestedReplacement;
@@ -26,7 +25,6 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -38,7 +36,7 @@ import java.util.regex.Pattern;
 public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
 
   private static final Pattern PREFIX_WITH_WHITESPACE = Pattern.compile(
-      "^(auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans) (..+)$",
+      "^(auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans|re) (..+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern PARTICULA_FINAL = Pattern.compile("^(..+) (que|cual)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);

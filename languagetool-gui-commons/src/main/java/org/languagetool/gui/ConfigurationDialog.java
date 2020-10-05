@@ -788,6 +788,14 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     portPanel.add(noSynonymsAsSuggestionsBox, cons);
     
+    JCheckBox saveCacheBox = new JCheckBox(Tools.getLabel(messages.getString("guiSaveCacheToFile")));
+    saveCacheBox.setSelected(config.saveLoCache());
+    saveCacheBox.addItemListener(e -> {
+      config.setSaveLoCache(saveCacheBox.isSelected());
+    });
+    cons.gridy++;
+    portPanel.add(saveCacheBox, cons);
+    
   }
   
   private int showRemoteServerHint(Component component, boolean otherServer) {
@@ -1181,7 +1189,7 @@ public class ConfigurationDialog implements ActionListener {
     });
     panel.add(ngramDirButton, cons);
     JButton helpButton = new JButton(messages.getString("guiNgramHelp"));
-    helpButton.addActionListener(e -> Tools.openURL("http://wiki.languagetool.org/finding-errors-using-n-gram-data"));
+    helpButton.addActionListener(e -> Tools.openURL("https://dev.languagetool.org/finding-errors-using-n-gram-data"));
     panel.add(helpButton, cons);
     return panel;
   }

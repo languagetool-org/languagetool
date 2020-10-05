@@ -266,8 +266,6 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
     String checkDone = org.languagetool.tools.Tools.i18n(messages, "checkDone",
             ruleMatches.size(), runTime);
     sb.append("<br>\n").append(checkDone);
-    sb.append("<br>\n").append(messages.getString("makeLanguageToolBetter"));
-    sb.append("<br>\n");
     sb.append("</p>");
     appendMain(sb.toString());
   }
