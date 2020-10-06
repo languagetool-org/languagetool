@@ -94,6 +94,10 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;   // "wop wop"
     } else if (repetitionOf("woop", tokens, position)) {
       return true;   // "woop woop"
+    } else if (repetitionOf("fnarr", tokens, position)) {
+      return true;   // "fnarr fnarr" https://www.lexico.com/definition/fnarr_fnarr
+    } else if (repetitionOf("fnar", tokens, position)) {
+      return true;   // "fnar fnar"
     } else if (repetitionOf("ha", tokens, position)) {
       return true;   // "ha ha"
     } else if (repetitionOf("omg", tokens, position)) {

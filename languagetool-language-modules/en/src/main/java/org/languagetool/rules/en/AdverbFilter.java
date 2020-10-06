@@ -276,6 +276,15 @@ public class AdverbFilter extends RuleFilter {
     put("voluntarily", "voluntary");
     put("vanishingly", "vanishing");
     put("typically", "typical");
+    put("playfully", "playful");
+    put("wonderfully", "wonderful");
+    put("roguishly", "roguish");
+    put("legally", "legal");
+    put("emotionally", "emotional");
+    put("efficiently", "efficient");
+    put("unkindly", "unkind");
+    put("mentally", "mental");
+    put("credibly", "credible");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

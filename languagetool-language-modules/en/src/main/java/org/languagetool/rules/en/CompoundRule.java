@@ -55,6 +55,16 @@ public class CompoundRule extends AbstractCompoundRule {
         new PatternTokenBuilder().tokenRegex("senior|junior").build(),
         new PatternTokenBuilder().token("year").build(),
         new PatternTokenBuilder().token("end").build()
+      ),
+      Arrays.asList( // under investment 
+        new PatternTokenBuilder().token("under").build(),
+        new PatternTokenBuilder().token("investment").build(),
+        new PatternTokenBuilder().token("banking").build()
+      ),
+      Arrays.asList( // spring clean
+        new PatternTokenBuilder().token("spring").build(),
+        new PatternTokenBuilder().tokenRegex("cleans?|cleaned|cleaning").build(),
+        new PatternTokenBuilder().tokenRegex("up|the|my|our|his|her").build()
       )
   );
 

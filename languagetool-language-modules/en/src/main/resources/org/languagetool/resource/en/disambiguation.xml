@@ -3212,6 +3212,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>few</token>
             <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]?|MD"/>
         </antipattern>
+        <antipattern><!-- the world may never know -->
+            <token postag="DT" />
+            <token postag="NN.*" postag_regexp="yes" />
+            <token>may</token>
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception><exception scope="previous">of</exception></token>
             <token postag="JJ"><exception postag="RB|NNPS?|NN:U|PRP" postag_regexp="yes"/></token>
@@ -3227,6 +3232,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">These may be to bring about political change.</example>
         <example type="untouched">No one trusts him any more.</example>
         <example type="untouched">The public demands answers.</example>
+        <example type="untouched">The world may never know.</example>
+        <example type="untouched">The Atlantic harbors petroleum and gas fields.</example>
         <example type="untouched">The Atlantic harbors petroleum and gas fields.</example>
         <example type="untouched">... even to build a gym, much less <marker>build the</marker> administration building.</example>
         <example type="untouched">Verb: ... as when the Sovereign <marker>grants</marker> letters of denization to an alien.</example>
@@ -7060,6 +7067,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VBN"/>
             <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
         </antipattern>
+        <antipattern><!-- this needs specialized people -->
+            <token regexp="yes">that|this</token>
+            <token postag="VBZ" />
+            <token postag="JJ" />
+        </antipattern>
         <pattern>
             <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">be|have</exception></token>
             <token postag_regexp="yes" postag="PRP|NN.*"/>
@@ -7080,6 +7092,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">How can elected officials rage about deficits?</example><!-- #3263 -->
         <example type="untouched">Will elected officials actually do anything about the problem?</example><!-- #3263 -->
         <example type="untouched">Please forward executed version.</example><!-- #3387 -->
+        <example type="untouched">This needs specialized people.</example>
     </rule>
 
     <rule id="JJ_VB" name="companies: verb to noun if preceded by adj">
