@@ -207,6 +207,11 @@ public class VerbAgreementRule extends TextLevelRule {
      token("sie"),
      token("hätte"),
      token("ich")
+    ),
+    Arrays.asList( // Geh du mal!
+      pos("SENT_START"),
+      posRegex("VER:IMP:SIN.+"),
+      csToken("du")
     )
   );
 
