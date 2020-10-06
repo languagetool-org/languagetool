@@ -5990,6 +5990,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="wifi">Aquí no llega el <marker>wi-fi</marker>.</example>
                 <example correction="wifi">Aquí no llega el <marker>Wi-Fi</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">...+</token>
+                    <token min="0">-</token>
+                    <token>hablantes</token>
+                </pattern>
+                <message suppress_misspelled="yes">Se escribe junto.</message>
+                <suggestion><match no="1" regexp_match="(.+)" regexp_replace="$1hablantes"/></suggestion>
+                <example correction="hispanohablantes">Son <marker>hispano hablantes</marker>.</example>
+                <example>Cuenta con hablantes en todo el mundo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">...+</token>
+                    <token min="0">-</token>
+                    <token>hablante</token>
+                </pattern>
+                <message suppress_misspelled="yes">Se escribe junto.</message>
+                <suggestion><match no="1" regexp_match="(.+)" regexp_replace="$1hablante"/></suggestion>
+                <example correction="hispanohablante">Es <marker>hispano hablante</marker>.</example>
+                <example>Cuenta con un hablante en la oficina.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AUTO_NO_SEPARADO" name="prefijo auto- no separado">
             <rule>
@@ -6030,16 +6052,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La mantención de mi auto cuesta una fortuna.</example>
                 <example>¿Qué auto eligió Tom?</example>
                 <example>Su viejo auto anda en las últimas.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">...+</token>
-                    <token min="0">-</token>
-                    <token regexp="yes">hablantes?</token>
-                </pattern>
-                <message suppress_misspelled="yes">Se escribe junto.</message>
-                <suggestion>\1\3</suggestion>
-                <example correction="hispanohablantes">Son <marker>hispano hablantes</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="ALREDEDOR" name="*(a) alrededor">
@@ -13508,7 +13520,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="TYPOGRAPHY" name="Tipografía" type="typographical">
-        <rule id="ESPACIO_DESPUES_DE_PUNTO" name="comprueba que hay espacio después de punto." default="temp_off">
+        <rulegroup id="ESPACIO_DESPUES_DE_PUNTO" name="comprueba que hay espacio después de punto." default="temp_off">
             <antipattern>
                 <token>.</token>
                 <token spacebefore="no" postag="UNKNOWN" regexp="yes">\p{Ll}.+</token>
@@ -13525,42 +13537,81 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="no" regexp="yes">\p{Ll}.+</token>
             </antipattern>
             <antipattern>
+                <token>.</token>
+                <token regexp="yes" spacebefore="no">zip|jpg|jpeg|exe|php|jar|java|css|html?|ini|xml|csv|png</token>
+            </antipattern>
+            <antipattern>
+                <token>.</token>
+                <!-- Removed from exceptions: la, al, vi, ve, va, vg, si, se, -->
+                <token regexp="yes" spacebefore="no">(?-i)li|ai|us|bo|be|ca|com|ac|ad|ae|aero|af|ag|am|an|ao|aq|ar|arpa|as|asia|at|au|aw|ax|az|ba|bb|bd|bf|bg|bh|bi|biz|bj|bm|bn|br|bs|bt|bv|bw|by|bz|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|coop|cr|cu|cv|cw|cx|cy|cz|de|dj|dk|dm|do|dz|ec|edu|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gov|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|info|int|io|iq|ir|is|it|je|jm|jo|jobs|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|lb|lc|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mil|mk|ml|mm|mn|mo|mobi|mp|mq|mr|ms|mt|mu|museum|mv|mw|mx|my|mz|na|name|nc|ne|net|nf|ng|ni|nl|no|np|nr|nu|nz|om|org|pa|pe|pf|pg|ph|pk|pl|pm|pn|post|pr|pro|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|sg|sh|sj|sk|sl|sm|sn|so|sr|st|su|sv|sx|sy|sz|tc|td|tel|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|travel|tt|tv|tw|tz|ua|ug|uk|uy|uz|vc|vn|vu|wf|ws|xn|xxx|ye|yt|za|zm|zw</token>
+            </antipattern>
+            <antipattern>
                 <marker>
                     <token inflected="yes" regexp="yes">formato|fichero|archivo|paquete|extensión</token>
                     <token spacebefore="yes">.</token>
                     <token spacebefore="no" regexp="yes" case_sensitive="yes">[a-z][a-z0-9]+|[A-Z][A-Z0-9]+</token>
                 </marker>
             </antipattern>
-            <pattern>
-                <token regexp="yes">[.!?…]<exception postag="SENT_END"/></token>
-                <!-- Removed from exceptions: la, al, vi, ve, va, vg, si, se, -->
-                <token spacebefore="no" regexp="yes">([\p{L}·'-]{2,}|[¿¡])<exception regexp="yes">zip|jpg|jpeg|exe|php|jar|java|css|html?|ini|xml|csv|png</exception><exception regexp="yes"
-                    >(?-i)li|ai|us|bo|be|ca|com|ac|ad|ae|aero|af|ag|am|an|ao|aq|ar|arpa|as|asia|at|au|aw|ax|az|ba|bb|bd|bf|bg|bh|bi|biz|bj|bm|bn|br|bs|bt|bv|bw|by|bz|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|coop|cr|cu|cv|cw|cx|cy|cz|de|dj|dk|dm|do|dz|ec|edu|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gov|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|info|int|io|iq|ir|is|it|je|jm|jo|jobs|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|lb|lc|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mil|mk|ml|mm|mn|mo|mobi|mp|mq|mr|ms|mt|mu|museum|mv|mw|mx|my|mz|na|name|nc|ne|net|nf|ng|ni|nl|no|np|nr|nu|nz|om|org|pa|pe|pf|pg|ph|pk|pl|pm|pn|post|pr|pro|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|sg|sh|sj|sk|sl|sm|sn|so|sr|st|su|sv|sx|sy|sz|tc|td|tel|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|travel|tt|tv|tw|tz|ua|ug|uk|uy|uz|vc|vn|vu|wf|ws|xn|xxx|ye|yt|za|zm|zw</exception></token>
-            </pattern>
-            <message>Falta un espacio tras el punto.</message>
-            <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
-            <example correction=". Siempre">Es así<marker>.siempre</marker>.</example>
-            <example correction=". Como">Ven<marker>.Como</marker> prefieras.</example>
-            <example correction=". ¿">Ven<marker>.¿</marker>Como te gusta?</example>
-            <example correction="? Siempre">Es así<marker>?Siempre</marker>.</example>
-            <example correction="… Siempre">Es así<marker>…Siempre</marker>!</example>
-            <example correction=". Čerenkov">con P.A<marker>.Čerenkov</marker></example>
-            <example>Es así. Sempre.</example>
-            <example>Es así.</example>
-            <example>Es así...</example>
-            <example>(Es así...)</example>
-            <example>Es así. </example>
-            <example>Es así.» </example>
-            <example>Estelrich, etc., no vinieron.</example>
-            <example>ha expresado [...] la necesidad</example>
-            <example>ha expresado […] la necesidad</example>
-            <example>o simplemente ornamental.[1]</example>
-            <example>Binvenidos a socialismo.com</example>
-            <example>Binvenidos a www.languagetool.org</example>
-            <example>El documento no contiene «maindoc.xml2».</example>
-            <example>Un paquete .zip.</example>
-            <example>La extensión .doc.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" spacebefore="no">[.!?…]<exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">([\p{L}·'-]{2,}|[¿¡])</token>
+                </pattern>
+                <message>Falta un espacio tras el punto.</message>
+                <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
+                <example correction=". Siempre">Es así<marker>.siempre</marker>.</example>
+                <example correction=". Como">Ven<marker>.Como</marker> prefieras.</example>
+                <example correction=". ¿">Ven<marker>.¿</marker>Como te gusta?</example>
+                <example correction="? Siempre">Es así<marker>?Siempre</marker>.</example>
+                <example correction="… Siempre">Es así<marker>…Siempre</marker>!</example>
+                <example correction=". Čerenkov">con P.A<marker>.Čerenkov</marker></example>
+                <example>Es así. Sempre.</example>
+                <example>Es así.</example>
+                <example>Es así...</example>
+                <example>(Es así...)</example>
+                <example>Es así. </example>
+                <example>Es así.» </example>
+                <example>Estelrich, etc., no vinieron.</example>
+                <example>ha expresado [...] la necesidad</example>
+                <example>ha expresado […] la necesidad</example>
+                <example>o simplemente ornamental.[1]</example>
+                <example>Binvenidos a socialismo.com</example>
+                <example>Binvenidos a www.languagetool.org</example>
+                <example>El documento no contiene «maindoc.xml2».</example>
+                <example>Un paquete .zip.</example>
+                <example>La extensión .doc.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token/>
+                    <token regexp="yes" spacebefore="yes">[.!?…]<exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">([\p{L}·'-]{2,}|[¿¡])</token>
+                </pattern>
+                <message>Falta un espacio tras el punto, no antes.</message>
+                <suggestion><match no="1"/><match no="2"/> <match no="3" case_conversion="startupper"/></suggestion>
+                <example correction="así. Siempre">Es <marker>así .siempre</marker>.</example>
+                <example correction="Ven. Como"><marker>Ven .Como</marker> prefieras.</example>
+                <example correction="Ven. ¿"><marker>Ven .¿</marker>Como te gusta?</example>
+                <example correction="así? Siempre">Es <marker>así ?Siempre</marker>.</example>
+                <example correction="así… Siempre">Es <marker>así …Siempre</marker>!</example>
+                <example correction="A. Čerenkov">con P.<marker>A .Čerenkov</marker></example>
+                <example>Es así. Sempre.</example>
+                <example>Es así.</example>
+                <example>Es así...</example>
+                <example>(Es así...)</example>
+                <example>Es así. </example>
+                <example>Es así.» </example>
+                <example>Estelrich, etc., no vinieron.</example>
+                <example>ha expresado [...] la necesidad</example>
+                <example>ha expresado […] la necesidad</example>
+                <example>o simplemente ornamental.[1]</example>
+                <example>Binvenidos a socialismo.com</example>
+                <example>Binvenidos a www.languagetool.org</example>
+                <example>El documento no contiene «maindoc.xml2».</example>
+                <example>Un paquete .zip.</example>
+                <example>La extensión .doc.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ES_INITIAL_QUESTION_MARK" name="Signos de exclamación/interrogación desparejados">
             <antipattern>
                 <token skip="-1">¿<exception scope="next">¿</exception></token>
