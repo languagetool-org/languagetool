@@ -6443,6 +6443,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>'zu Recht' (berechtigterweise) ≠ 'zurecht' (wie in 'zurechtkommen')</short>
                 <example correction="zurechtgekommen|berechtigterweise gekommen|zu Recht gekommen">Er ist <marker>zurecht gekommen</marker>.</example>
             </rule>
+            <!-- match 'zu recht kommen', 'zu recht finden' etc. -->
+            <rule default="temp_off">
+                <pattern>
+                    <token>zu</token>
+                    <token case_sensitive="yes">recht</token>
+                    <token regexp="yes" inflected="yes">kommen|finden|biegen|legen|machen|rücken|schneiden|schnitzen|weisen|zimmern</token>
+                </pattern>
+                <message>Als Bestandteil von Fügungen mit Verben wie 'zurechtkommen', '-finden' schreiben Sie bitte zusammen: <suggestion>zurecht\3</suggestion>. Wenn Sie dagegen <suggestion>berechtigterweise \3</suggestion> meinen, schreiben Sie bitte getrennt: <suggestion>zu Recht \3</suggestion>.</message>
+                <short>'zu Recht' (berechtigterweise) ≠ 'zurecht' (wie in 'zurechtkommen')</short>
+                <example correction="zurechtgekommen|berechtigterweise gekommen|zu Recht gekommen">Er ist <marker>zu recht gekommen</marker>.</example>
+            </rule>
             <!-- match 'zu recht' with 'kommen', 'finden' etc. -->
             <rule>
                 <pattern case_sensitive="yes">
