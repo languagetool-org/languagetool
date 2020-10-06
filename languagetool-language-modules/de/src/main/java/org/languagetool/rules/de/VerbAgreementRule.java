@@ -209,9 +209,10 @@ public class VerbAgreementRule extends TextLevelRule {
      token("ich")
     ),
     Arrays.asList( // Geh du mal!
-      pos("SENT_START"),
+      pos(JLanguageTool.SENTENCE_START_TAGNAME),
       posRegex("VER:IMP:SIN.+"),
-      csToken("du")
+      csToken("du"),
+      new PatternTokenBuilder().csToken("?").negate().build()
     )
   );
 

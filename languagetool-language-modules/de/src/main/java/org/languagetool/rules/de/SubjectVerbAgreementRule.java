@@ -154,6 +154,12 @@ public class SubjectVerbAgreementRule extends Rule {
       token("zu"),
       csToken("Fuß"),
       tokenRegex("sind|waren")
+    ),
+    Arrays.asList( //Eltern ist der bisherige Kita-Öffnungsplan zu unkonkret
+      pos(JLanguageTool.SENTENCE_START_TAGNAME),
+      pos("SUB:DAT:PLU:NOG"),
+      tokenRegex("ist|war"),
+      posRegex(".+:NOM:.+")
     )
   );
 

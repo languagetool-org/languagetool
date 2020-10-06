@@ -302,7 +302,8 @@ public class SubjectVerbAgreementRuleTest {
         "Knapp acht Monate ist die Niederlage nun her.",
         "Vier Monate ist die Niederlage nun her.",
         "Sie liebt Kunst und Kunst war auch kein Problem, denn er würde das Geld zurückkriegen.",
-        "Bei komplexen und andauernden Störungen ist der Stress-Stoffwechsel des Hundes entgleist."
+        "Bei komplexen und andauernden Störungen ist der Stress-Stoffwechsel des Hundes entgleist.",
+        "Eltern ist der bisherige Kita-Öffnungsplan zu unkonkret"
     );
     for (String sentence : sentences) {
       assertGood(sentence);
