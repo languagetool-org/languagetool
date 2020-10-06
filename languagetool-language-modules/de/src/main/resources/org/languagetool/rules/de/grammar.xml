@@ -37414,17 +37414,21 @@ Andere Projekte</example>
                 <example correction="">Das ist der Grund, weshalb du jetzt gehen <marker>muss</marker>.</example>
                 <example>Hat er nicht gesagt, dass du fleißiger hättest lernen sollen?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <token regexp="yes" min="0">&anfauf;</token>
                     <marker>
                         <token>Ich</token>
-                        <token postag="VER:.+" postag_regexp="yes"><exception postag="VER:.*1:SIN.*" postag_regexp="yes"/></token>
+                        <token postag="VER:.+" postag_regexp="yes"><exception postag="VER:(IMP|.*1:SIN).*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Prüfen Sie, ob hier in Verbindung mit 'ich' die korrekte Verbform verwendet wird.</message>
                 <example correction="">„<marker>Ich sagen</marker> das nur ungern.“</example>
+                <example>Ich sag's ja nur!</example>
+                <example>Ich bestell lieber Bier.</example>
+                <example>Ich glaub, mein Schwein pfeift!</example>
+                <example>Ich probier's noch mal.</example>
             </rule>
         </rulegroup>
         <rule id="PASSIV_KEIN_PARTIZIP" name="fehlerhafte Passivkonstruktion (z.B. 'ist fahndet (gefahndet) worden')">
