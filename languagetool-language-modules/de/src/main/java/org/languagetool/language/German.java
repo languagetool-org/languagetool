@@ -304,6 +304,7 @@ public class German extends Language implements AutoCloseable {
       case "DIESEN_JAHRES": return 1;
       case "EBEN_FALLS": return 1;
       case "UST_ID": return 1;
+      case "VER_INF_PKT_VER_INF": return 1; // prefer over DE_CASE
       case "DASS_MIT_VERB": return 1; // prefer over SUBJUNKTION_KOMMA ("Dass wird Konsequenzen haben.")
       case "AB_TEST": return 1; // prefer over spell checker and agreement
       case "BZGL_ABK": return 1; // prefer over spell checker
