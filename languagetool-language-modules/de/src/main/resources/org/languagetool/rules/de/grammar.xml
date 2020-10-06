@@ -43,7 +43,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY klamzu "\)|\}|\&rsqb;|&gt;">
     <!ENTITY klam "&klamauf;|&klamzu;">
     <!ENTITY alnum "&lsqb;0-9A-ZÄÖÜa-zäöüßáàâêéèëíìîïòóôõûçñšž&rsqb;">
-    <!ENTITY sometlds "com|de|net|uk|org|info|nl|eu|cn|biz|at|ch|fr|tv|to|fm">
+    <!ENTITY sometlds "com|de|net|uk|org|info|nl|eu|cn|biz|at|ch|fr|tv|to|fm|es|it">
 
     <!-- Error messages -->
     <!ENTITY gla "Bitte verwenden Sie in Abkürzungen umbruchgeschützte Leerzeichen.">
@@ -19012,6 +19012,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="CASING" name="Groß-/Kleinschreibung">
         <rule id="KLEIN_NACH_PUNKT" name="Kleinschreibung und fehlendes Leerzeichen nach Punkt">
             <!-- PUNT_GEEN_HL in NL, https://github.com/languagetool-org/languagetool/issues/3655 -->
+            <antipattern>
+                <!-- in AT nicht unübliche Schreibweise für "Doktorin"  -->
+                <token regexp="yes">Prof|Dr</token>
+                <token>.</token>
+                <token>in</token>
+            </antipattern>
             <antipattern>
                 <token>Straßen</token>
                 <token>.</token>
