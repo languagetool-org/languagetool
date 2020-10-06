@@ -7392,7 +7392,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>,</token>
                     <marker>
                         <token skip="-1">dass
-                           <exception postag="SUB:.*|EIG:NOM.*|PRO:.*|UNKNOWN|PA2.+(SUP|KOM).*" postag_regexp="yes" scope="next"/>
+                           <exception postag="SUB:.*|EIG:NOM.*|PRO:.*|UNKNOWN|PA2.+" postag_regexp="yes" scope="next"/>
                         </token>
                     </marker>
                     <token regexp="yes">,|\.|:|\?|!|;</token>
@@ -7407,7 +7407,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich kann riechen, dass hier gekocht wird.</example>
                 <example>Unter Schülern kommt es oft vor, dass überhaupt nicht gelernt wird.</example>
                 <example>Das Ende hat für sie allerdings immerhin den Vorteil, dass nun ein unverstellterer, neutraler Blick auf die Antike möglich ist.</example>
-                <example correction="das">Hier stand einmal ein Hotel, <marker>dass</marker> behauptete, die frischsten Handtücher der Stadt zu haben.</example>
+                <!--<example correction="das">Hier stand einmal ein Hotel, <marker>dass</marker> behauptete, die frischsten Handtücher der Stadt zu haben.</example>-->
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -37414,7 +37414,7 @@ Andere Projekte</example>
                 <example correction="">Das ist der Grund, weshalb du jetzt gehen <marker>muss</marker>.</example>
                 <example>Hat er nicht gesagt, dass du fleißiger hättest lernen sollen?</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <token regexp="yes" min="0">&anfauf;</token>
