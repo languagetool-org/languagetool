@@ -9066,7 +9066,6 @@ though, and has since been slightly modified)-->
               <suggestion><match no="8" postag_regexp="yes" postag="(V.*ppa).*" postag_replace="$1 f p"/></suggestion>
               <example correction="mises">Les montres que j'ai <marker>mis</marker> hier.</example>
           </rule>
-          <!-- adjustments needed
           <rule name="m s">
               <pattern>
                   <token postag="SENT_START"/>
@@ -9078,13 +9077,14 @@ though, and has since been slightly modified)-->
                   <token inflected="yes">avoir</token>
                   <marker>
                       <token postag_regexp="yes" postag="V.* ppa.*">
-                          <exception postag_regexp="yes" postag="V.* ppa m sp?"/>
+                          <exception postag_regexp="yes" postag="V.* ppa (m|e) (s|sp)"/>
                       </token>
                   </marker>
               </pattern>
               <message>Erreur d'accord, le participe passé devrait être accordé avec le sujet \4.</message>
-              <suggestion><match no="8" postag_regexp="yes" postag="V(.* ppa).*" postag_replace="V$1 m s"/></suggestion>
+              <suggestion><match no="8" postag_regexp="yes" postag="V(.* ppa).*" postag_replace="V$1 m (s|sp)"/></suggestion>
               <example correction="mis">Le veston que j'ai <marker>mise</marker> hier.</example>
+              <example>Le fait qu'ils aient été locataires du terrain</example>
           </rule>
           <rule name="m p">
               <pattern>
@@ -9097,15 +9097,14 @@ though, and has since been slightly modified)-->
                   <token inflected="yes">avoir</token>
                   <marker>
                       <token postag_regexp="yes" postag="V.* ppa.*">
-                          <exception postag_regexp="yes" postag="V.* ppa m s?p"/>
+                          <exception postag_regexp="yes" postag="V.* ppa (m|e) (p|sp)"/>
                       </token>
                   </marker>
               </pattern>
               <message>Erreur d'accord, le participe passé devrait être accordé avec le sujet \4.</message>
-              <suggestion><match no="8" postag_regexp="yes" postag="(V.* ppa).*" postag_replace="$1 m p"/></suggestion>
+              <suggestion><match no="8" postag_regexp="yes" postag="V(.* ppa).*" postag_replace="V$1 m (p|sp)"/></suggestion>
               <example correction="mis">Les gants que j'ai <marker>mises</marker> hier.</example>
           </rule>
-      -->
       </rulegroup>
         <rulegroup id="YA" name="ya">
             <rule>
