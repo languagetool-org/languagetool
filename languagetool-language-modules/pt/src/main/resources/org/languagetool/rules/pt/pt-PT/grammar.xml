@@ -761,6 +761,14 @@ title="Easy editing stylesheet" ?>
       <example correction='duns'><marker>de uns</marker> rios.</example>
     </rule>
     <rule>
+<!-- MARCOAGPINTO 2020-10-06 (2-JUL-2020+) *START* --> 
+<!-- "Isto aconteceu em um ano apenas." -->
+      <antipattern>		  
+		  <token regexp="no">em</token>
+		  <token regexp="no">um</token>		  
+		  <token regexp="yes">segundo|minuto|dia|mês|ano</token>
+	  </antipattern>
+<!-- MARCOAGPINTO 2020-10-06 (2-JUL-2020+) *END* -->
       <pattern>
         <marker>
           <token>em</token>
@@ -774,6 +782,7 @@ title="Easy editing stylesheet" ?>
       <example correction='numa'><marker>em uma</marker> bonita manhã.</example>
       <example correction='numas'><marker>em umas</marker> laranjas verdes.</example>
       <example correction='nuns'><marker>em uns</marker> rios.</example>
+	  <example type='correct'>Isto aconteceu <marker>em um ano</marker> apenas.</example>
     </rule>
   </rulegroup>
 
