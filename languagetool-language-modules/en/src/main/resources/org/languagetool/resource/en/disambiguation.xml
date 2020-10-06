@@ -3854,6 +3854,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="RP"/>
             <token postag="PRP$"/>
         </antipattern>
+        <antipattern><!-- #3660 and save her -->
+            <token postag="CC"/>
+            <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
+            <token postag_regexp="yes" postag="PRP\$|NNP"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -3871,6 +3876,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">CC: CDC officials have said that <marker>while</marker> it's clear asymptomatic spread does happen, it does not...</example><!-- Premium #1079 -->
         <example type="untouched">CC: Any workarounds while Steve works on a fix?</example><!-- #2981 -->
         <example type="untouched">RP: ...to catch the suicide bombers downtown, prior to them carrying <marker>out</marker> their evil plan.</example>
+        <example type="untouched">... for she hoped that George would come and save her from the wicked marshal.</example><!-- #3660 -->
     </rule>
 
     <!-- the known good solution -->
