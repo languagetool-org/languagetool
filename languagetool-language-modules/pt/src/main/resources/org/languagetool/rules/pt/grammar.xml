@@ -9451,6 +9451,23 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="pedir um conselho">Devemos <marker>pedir um concelho</marker> ao padre.</example>
     </rule>
 
+    <!-- PARAR DE CHATEAR parar de incomodar/importunar -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-06 (2-JUL-2020+)     -->
+    <rule id='PARAR_DE_CHATEAR' name="Parar de incomodar/importunar">
+		<pattern>
+			<token inflected='yes'>parar</token>
+			<token regexp="no">de</token>
+			<token min="0" max="1" regexp="yes">as?|os?|me|te|lhes?|nos|vos</token>
+			<marker>
+				<token inflected='yes'>chatear</token>
+			</marker> 	
+		</pattern>
+		<message>Expressão de uso vulgar, considere</message>
+			<suggestion><match no='4' postag='V.+' postag_regexp='yes'>incomodar</match></suggestion>
+			<suggestion><match no='4' postag='V.+' postag_regexp='yes'>importunar</match></suggestion>
+		<example correction="incomodar|importunar">Pare de <marker>chatear</marker> os vizinhos.</example>
+    </rule>
+
     <rule id='PERFILHAR_DA_DOUTRINA_DE' name="Perfilhar a doutrina de">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
