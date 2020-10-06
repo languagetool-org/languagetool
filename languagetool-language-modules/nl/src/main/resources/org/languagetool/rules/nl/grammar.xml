@@ -16353,6 +16353,12 @@ steenwijk;Steenwijk
 		-->
 		<rulegroup id="PUNT_GEEN_HL" name="Geen spatie en hoofdletter na punt" default="on">
 			<rule>
+				<antipattern>
+					<token spacebefore="no" regexp="yes">.</token>
+					<token spacebefore="no">.</token>
+					<token spacebefore="no" regexp="yes">.</token>
+					<token spacebefore="no">.</token>
+				</antipattern>
 				<pattern>
 					<token spacebefore="yes" regexp="yes" case_sensitive="yes">.*[a-z]$</token>
 					<token spacebefore="no">.</token>
@@ -16363,6 +16369,7 @@ steenwijk;Steenwijk
 				<message>Zet een spatie en een hoofdletter bij een zinsovergang.</message>
 				<suggestion> <match no="3" case_conversion="startupper"/></suggestion>
 				<example correction=" En">Dit is een zin.<marker>en</marker> dit ook.</example>
+				<example>Dit is a.u.b. gewoon correct.</example>
 			</rule>
 		</rulegroup>
 		
