@@ -1754,10 +1754,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¡Como siempre, has oído mal!</example>
                 <example>¡Como yo pensaba, estaban equivocados!</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">saber|preguntar</token>
-                    <token postag="SPS00"/>
+                    <token postag="SPS00"><exception>por</exception></token>
                     <marker>
                         <token>que</token>
                     </marker>
@@ -1785,7 +1785,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="quiénes">No sabía <marker>quienes</marker> lo hicieron.</example>
                 <example>Yo no soy quien lo ha dicho.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">saber|preguntar</token>
                     <token postag="SPS00"/>
@@ -3453,12 +3453,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">ultimas?</token>
                 </pattern>
-                <message>Si es sustantivo, lleva tilde. Correcto si es del verbo 'ultimar'.</message>
+                <message>Si es adjetivo, lleva tilde. Correcto si es del verbo 'ultimar'.</message>
                 <suggestion><match no="1" regexp_match="(?i)u(ltimas?)" regexp_replace="ú$1"/></suggestion>
                 <example correction="última">Es mi <marker>ultima</marker> oferta.</example>
                 <example correction="últimas">Son las <marker>ultimas</marker> estimaciones.</example>
                 <example>Juan ultima los preparativos.</example>
                 <example>¿Me ultimas este trabajo?</example>
+            </rule>
+            <rule id="ULTIMO" name="ultimo/últimos">
+                <antipattern>
+                    <token regexp="yes">me|te|lo|le|nos|os|los|las|les|si|cuando|mientras|ahora</token>
+                    <token>ultimo</token>
+                </antipattern>
+                <antipattern>
+                    <token>ultimo</token>
+                    <token postag="_GN_.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token>ultimo</token>
+                </pattern>
+                <message>Si es adjetivo, lleva tilde. Correcto si es del verbo 'ultimar'.</message>
+                <suggestion><match no="1" regexp_match="(?i)u(ltimo)" regexp_replace="ú$1"/></suggestion>
+                <example correction="último">Es mi <marker>ultimo</marker> día.</example>
+                <example correction="último">El <marker>ultimo</marker> de la fila.</example>
+                <example correction="último">El <marker>ultimo</marker> los cogerá.</example>
+                <example>Os ultimo los últimos detalles.</example>
+                <example>Ahora ultimo los detalles.</example>
             </rule>
             <rule>
                 <pattern>
@@ -3695,7 +3715,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>sería</suggestion>
                 <example correction="sería">Y <marker>seria</marker> bueno que pasara.</example>
                 <example correction="sería">Y <marker>seria</marker> lo mejor.</example>
-                <example correction="sería">Una persona española <marker>seria</marker> hispana.</example>
                 <example>Es una persona seria la que buscamos.</example>
                 <example>Se puso seria otra vez.</example>
                 <example>Estaba seria a menudo.</example>
@@ -3780,6 +3799,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="sería">Esta observación <marker>seria</marker> correcta.</example>
                 <example correction="sería">Una sola persona <marker>seria</marker> mejor.</example>
                 <example correction="sería">Una sola persona <marker>seria</marker> lo mejor.</example>
+                <example correction="sería">Una persona española <marker>seria</marker> hispana.</example>
                 <example>Es una persona seria la que buscamos.</example>
                 <example>Es una persona seria lo que buscamos.</example>
                 <example>Se puso seria otra vez.</example>
@@ -3942,7 +3962,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>el</token>
-                    <token regexp="yes">cien|ciento|aquí|ahora|de|del|&nombre_fem_el;</token>
+                    <token regexp="yes">cien|ciento|aquí|ahora|de|del|&nombre_fem_el;|ultimo</token>
                 </antipattern>
                 <antipattern>
                     <token>el</token>
@@ -5388,7 +5408,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>denominarla directiva sobre adquisiciones</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CON_GUION" name="palabras con guión" default="temp_off">
+        <rulegroup id="CON_GUION" name="palabras con guión" >
             <rule>
                 <pattern>
                     <token>marítimo</token>
@@ -10040,6 +10060,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1, \2</suggestion>
                 <example correction="magnífica cuchara|magníficas cucharas|magníficos, cucharas">Con <marker>magníficos cucharas</marker>.</example>
                 <example correction="magnífica cuchara|magníficas cucharas|magníficas, cuchara">De <marker>magníficas cuchara</marker>.</example>
+                <example>Refrigerador vertical blanco cíclico.</example>
             </rule>
             <rule>
                 <pattern>
