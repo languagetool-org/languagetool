@@ -134,8 +134,6 @@ public class VerbAgreementRuleTest {
     assertBad("Sie sagte zu mir: „Du muss gehen.“");
     assertBad("„Ich müsst alles machen.“");
     assertBad("„Ich könnt mich sowieso nicht verstehen.“");
-    assertBad("Er sagte düster: Ich brauchen mich nicht böse angucken.");
-    assertBad("David sagte düster: Ich brauchen mich nicht böse angucken.");
   }
 
   @Test
