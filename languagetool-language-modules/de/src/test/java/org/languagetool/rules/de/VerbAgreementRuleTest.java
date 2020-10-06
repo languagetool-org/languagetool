@@ -120,6 +120,12 @@ public class VerbAgreementRuleTest {
     assertGood("Ich hoffe ihr auch.");
     assertGood("Wird hoffen du auch.");
     assertGood("Hab einen schönen Tag!");
+    assertGood("Tom traue ich mehr als Maria.");
+    assertGood("Tom kenne ich nicht besonders gut, dafür aber seine Frau.");
+    assertGood("Tom habe ich heute noch nicht gesehen.");
+    assertGood("Tom bezahle ich gut.");
+    assertGood("Tom werde ich nicht noch mal um Hilfe bitten.");
+    assertGood("Tom konnte ich überzeugen, nicht aber Maria.");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");
@@ -134,6 +140,12 @@ public class VerbAgreementRuleTest {
     assertBad("Sie sagte zu mir: „Du muss gehen.“");
     assertBad("„Ich müsst alles machen.“");
     assertBad("„Ich könnt mich sowieso nicht verstehen.“");
+    assertBad("Er sagte düster: Ich brauchen mich nicht böse angucken.");
+    assertBad("David sagte düster: Ich brauchen mich nicht böse angucken.");
+    assertBad("Ich setzet mich auf den weichen Teppich und kreuzte die Unterschenkel wie ein Japaner.");
+    assertBad("Ich brauchen einen Karren mit zwei Ochsen.");
+    assertBad("Ich haben meinen Ohrring fallen lassen.");
+    assertBad("Ich stehen Ihnen gerne für Rückfragen zur Verfügung.");
   }
 
   @Test
