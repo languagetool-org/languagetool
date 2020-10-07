@@ -313,7 +313,11 @@ public class LinguisticServices extends LinguServices {
       return 1;
     }
   }
-
+  
+  private static String localToString (Locale locale) {
+    return locale.Language + "-" + locale.Country + (locale.Variant.isEmpty() ? "" : "-" + locale.Variant);
+  }
+  
   /**
    * Set LT as grammar checker for a specific language
    * is normally used deactivate lightproof 
@@ -325,19 +329,31 @@ public class LinguisticServices extends LinguServices {
         printText("XLinguServiceManager == null");
         return false;
       }
-      String[] serviceNames = mxLinguSvcMgr.getAvailableServices("com.sun.star.linguistic2.Proofreader", locale);
-      for (String service : serviceNames) {
-        if (!service.equals(OfficeTools.LT_SERVICE_NAME)) {
-          String[] configuredServices = new String[1];
-          configuredServices[0] = OfficeTools.LT_SERVICE_NAME;
-          mxLinguSvcMgr.setConfiguredServices("com.sun.star.linguistic2.Proofreader", locale, configuredServices);
-          MessageHandler.printToLogFile("LT set as configured Service for Language: " + locale.Language + "-" + locale.Country 
-              + (locale.Variant.isEmpty() ? "" : "-" + locale.Variant));
-          MessageHandler.printToLogFile("Disabled Service: " + service + ", " + locale.Language + "-" + locale.Country
-              + (locale.Variant.isEmpty() ? "" : "-" + locale.Variant));
+      Locale[] locales = MultiDocumentsHandler.getLocales();
+      for (Locale loc : locales) {
+        if (OfficeTools.isEqualLocal(locale, loc)) {
+//          String[] aServiceNames = mxLinguSvcMgr.getAvailableServices("com.sun.star.linguistic2.Proofreader", locale);
+//          for (String service : aServiceNames) {
+//            MessageHandler.printToLogFile("Available Service: " + service + ", " + localToString(locale));
+//          }
+          String[] serviceNames = mxLinguSvcMgr.getConfiguredServices("com.sun.star.linguistic2.Proofreader", locale);
+          if (serviceNames.length == 0) {
+            MessageHandler.printToLogFile("No configured Service for: " + localToString(locale));
+          } else {
+            for (String service : serviceNames) {
+              MessageHandler.printToLogFile("Configured Service: " + service + ", " + localToString(locale));
+            }
+          }
+          if (serviceNames.length != 1 || !serviceNames[0].equals(OfficeTools.LT_SERVICE_NAME)) {
+            String[] configuredServices = new String[1];
+            configuredServices[0] = new String(OfficeTools.LT_SERVICE_NAME);
+            mxLinguSvcMgr.setConfiguredServices("com.sun.star.linguistic2.Proofreader", locale, configuredServices);
+            MessageHandler.printToLogFile("LT set as configured Service for Language: " + localToString(locale));
+          }
+          return true;
         }
       }
-      return true;
+      MessageHandler.printToLogFile("LT doesn't support language: " + localToString(locale));
     }
     return false;
   }
@@ -365,6 +381,16 @@ public class LinguisticServices extends LinguServices {
     isSetLt = true;
     Locale[] locales = MultiDocumentsHandler.getLocales();
     for (Locale locale : locales) {
+      String[] serviceNames = mxLinguSvcMgr.getConfiguredServices("com.sun.star.linguistic2.Proofreader", locale);
+      if (serviceNames.length != 1 || !serviceNames[0].equals(OfficeTools.LT_SERVICE_NAME)) {
+        String[] configuredServices = new String[1];
+        configuredServices[0] = new String(OfficeTools.LT_SERVICE_NAME);
+        mxLinguSvcMgr.setConfiguredServices("com.sun.star.linguistic2.Proofreader", locale, configuredServices);
+        MessageHandler.printToLogFile("LT set as configured Service for Language: " + localToString(locale));
+      }
+    }
+/*
+    for (Locale locale : locales) {
       String[] serviceNames = mxLinguSvcMgr.getAvailableServices("com.sun.star.linguistic2.Proofreader", locale);
       for (String service : serviceNames) {
         if (!service.equals(OfficeTools.LT_SERVICE_NAME)) {
@@ -387,6 +413,7 @@ public class LinguisticServices extends LinguServices {
         }
       }
     }
+*/
     return true;
   }
 

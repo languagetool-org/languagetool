@@ -365,24 +365,39 @@ public class MultiDocumentsHandler {
    * @return the language under the visible cursor
    */
   
-  @Nullable
   public Language getLanguage() {
-    return getLanguage(getDocumentLocale());
+    Locale locale = getDocumentLocale();
+    if (locale == null) {
+      locale = new Locale("en","US","");
+    }
+    return getLanguage(locale);
   }
   
   @Nullable
   public Locale getDocumentLocale() {
+    if(xContext == null) {
+      return null;
+    }
     XComponent xComponent = OfficeTools.getCurrentComponent(xContext);
+    if(xComponent == null) {
+      return null;
+    }
     Locale charLocale;
     XPropertySet xCursorProps;
     try {
       XModel model = UnoRuntime.queryInterface(XModel.class, xComponent);
       if(model == null) {
-        return new Locale("en","US","");
+        return null;
       }
       XTextViewCursorSupplier xViewCursorSupplier =
           UnoRuntime.queryInterface(XTextViewCursorSupplier.class, model.getCurrentController());
+      if(xViewCursorSupplier == null) {
+        return null;
+      }
       XTextViewCursor xCursor = xViewCursorSupplier.getViewCursor();
+      if(xCursor == null) {
+        return null;
+      }
       if (xCursor.isCollapsed()) { // no text selection
         xCursorProps = UnoRuntime.queryInterface(XPropertySet.class, xCursor);
       } else { // text is selected, need to create another cursor
@@ -403,7 +418,9 @@ public class MultiDocumentsHandler {
       if (new TamilDetector().isThisLanguage(xCursor.getText().getString())) {
         return new Locale("ta","","");
       }
-
+      if(xCursorProps == null) {
+        return null;
+      }
       Object obj = xCursorProps.getPropertyValue("CharLocale");
       if (obj == null) {
         return new Locale("en","US","");
@@ -597,7 +614,7 @@ public class MultiDocumentsHandler {
       }
       linguServices.setNoSynonymsAsSuggestions(config.noSynonymsAsSuggestions());
       if (setService) {
-        linguServices.setLtAsGrammarService(xContext, locale);
+        linguServices.setLtAsGrammarService(xContext);
       }
       if (this.langTool == null) {
         OfficeTools.setLogLevel(config.getlogLevel());
@@ -1091,7 +1108,7 @@ public class MultiDocumentsHandler {
 
   public void trigger(String sEvent) {
     try {
-      if (!testDocLanguage()) {
+      if (!testDocLanguage(true)) {
         return;
       }
       if ("configure".equals(sEvent)) {
@@ -1147,17 +1164,50 @@ public class MultiDocumentsHandler {
     }
   }
   
-  boolean testDocLanguage() {
+  boolean testDocLanguage(boolean showMessage) {
     if (docLanguage == null) {
       if(linguServices == null) {
         linguServices = new LinguisticServices(xContext);
       }
       if (!linguServices.spellCheckerIsActive()) {
-        MessageHandler.showMessage("LinguisticServices failed! LanguageTool can not be started!");
+        if (showMessage) {
+          MessageHandler.showMessage("LinguisticServices failed! LanguageTool can not be started!");
+        } else {
+          MessageHandler.printToLogFile("LinguisticServices failed! LanguageTool can not be started!");
+        }
         return false;
       }
-      if (!linguServices.setLtAsGrammarService(xContext, getDocumentLocale())) {
-        MessageHandler.showMessage("LinguisticServices failed! LanguageTool can not be started!");
+      Locale locale = getDocumentLocale();
+      try {
+        int n = 0;
+        while (locale == null && n < 100) {
+          Thread.sleep(500);
+          if (debugMode) {
+            MessageHandler.printToLogFile("Try to get locale: n = " + n);
+          }
+          locale = getDocumentLocale();
+          n++;
+        }
+      } catch (InterruptedException e) {
+        MessageHandler.showError(e);
+      }
+      if (locale == null) {
+        if (showMessage) {
+          MessageHandler.showMessage("No Local! LanguageTool can not be started!");
+        } else {
+          MessageHandler.printToLogFile("No Local! LanguageTool can not be started!");
+        }
+        return false;
+      }
+      if (debugMode) {
+        MessageHandler.printToLogFile("locale: " + locale.Language + "-" + locale.Country);
+      }
+      if (!linguServices.setLtAsGrammarService(xContext, locale)) {
+        if (showMessage) {
+          MessageHandler.showMessage("LinguisticServices failed! LanguageTool can not be started!");
+        } else {
+          MessageHandler.printToLogFile("LinguisticServices failed! LanguageTool can not be started!");
+        }
         return false;
       }
       resetCheck();
@@ -1336,8 +1386,8 @@ public class MultiDocumentsHandler {
     @Override
     public void run() {
       try {
-        Thread.sleep(1000);
-        testDocLanguage();
+        Thread.sleep(3000);
+        testDocLanguage(false);
       } catch (InterruptedException e) {
         MessageHandler.showError(e);
       }

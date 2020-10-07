@@ -31,6 +31,7 @@ import com.sun.star.frame.XDispatchHelper;
 import com.sun.star.frame.XDispatchProvider;
 import com.sun.star.frame.XFrame;
 import com.sun.star.frame.XLayoutManager;
+import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.linguistic2.XSearchableDictionaryList;
@@ -287,6 +288,17 @@ class OfficeTools {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return false;
     }
+  }
+  
+/**
+ *  return true if two locales are equal  
+ */
+  
+  static boolean isEqualLocal(Locale local1, Locale local2) {
+    if (local1.Language.equals(local2.Language) && local1.Country.equals(local2.Country) && local1.Variant.equals(local2.Variant)) {
+      return true;
+    }
+    return false;
   }
 
 /**
