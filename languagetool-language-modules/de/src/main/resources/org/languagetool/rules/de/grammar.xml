@@ -18659,6 +18659,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Möglicher Tippfehler</short>
                 <example correction="Sehr geehrte Damen und Herren"><marker>Sehr geehrte Dame und Herren</marker></example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Damen</token>
+                    <token>und</token>
+                    <marker>
+                        <token>Heeren</token>
+                    </marker>
+                </pattern>
+                <message>Möglicher Tippfehler: Meinten Sie <suggestion>Herren</suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example correction="Herren">Sehr geehrte Damen und <marker>Heeren</marker></example>
+            </rule>
         </rulegroup>
         <rulegroup id="LIEBER_ANNA" name="'Lieber (Liebe) Anna, ...' (als Anredeformel)">
             <rule>
