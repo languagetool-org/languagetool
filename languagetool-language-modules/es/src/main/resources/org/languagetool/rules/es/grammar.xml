@@ -10003,11 +10003,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="AGREEMENT_ADJ_NOUN" name="Concordancias adjetivo y nombre" default="temp_off">
             <antipattern>
-                <marker>
-                    <token postag="SPS00"/>
-                    <token regexp="yes">sí|yo|tú|él|ella|nosotros|nosotras|vosotros|vosotras|ellos|ellas|usted|ustedes</token>
-                    <token inflected="yes">mismo</token>
-                </marker>
+                <token postag="SPS00"/>
+                <token regexp="yes">sí|yo|tú|él|ella|nosotros|nosotras|vosotros|vosotras|ellos|ellas|usted|ustedes</token>
+                <token inflected="yes">mismo</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -10046,7 +10044,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
-                        <token postag="A.*" postag_regexp="yes"><exception postag="NP.*|complement.*|ignore_concordance|_possible_nompropi" postag_regexp="yes"/><exception inflected="yes" regexp="yes">plegats|junt</exception></token>
+                        <token postag="A.*" postag_regexp="yes"><exception postag="NP.*|complement.*|ignore_concordance|_possible_NP" postag_regexp="yes"/><exception inflected="yes" regexp="yes">plegats|junt</exception></token>
                         <token postag="N.M.*" postag_regexp="yes"><exception postag="_possilbe_NP|N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     </unify>
                 </pattern>
@@ -10059,13 +10057,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>se encuentran en este ambiente pequeños reptiles.</example>
                 <example>En televisión es de gran popularidad Patricia Conde.</example>
                 <example>la instalación de bases militares conjuntas hispano-estadounidenses</example>
+                <example>Quito: Universidad Andina Simón Bolívar.</example>
             </rule>
             <rule>
                 <pattern>
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
-                        <token postag="A.*|PX.*" postag_regexp="yes"><exception postag="NP.*|complement.*|ignore_concordance|_possible_nompropi" postag_regexp="yes"/><exception inflected="yes" regexp="yes">plegats|junt</exception></token>
+                        <token postag="A.*|PX.*" postag_regexp="yes"><exception postag="NP.*|complement.*|ignore_concordance|_possible_NP" postag_regexp="yes"/><exception inflected="yes" regexp="yes">plegats|junt</exception></token>
                         <token postag="N.F.*" postag_regexp="yes"><exception postag="_possilbe_NP|N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/><exception>ca</exception></token>
                     </unify>
                 </pattern>
@@ -10081,7 +10080,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <unify negate="yes">
                         <feature id="numero"/>
-                        <token postag="A.*" postag_regexp="yes"><exception postag="NP.*|complement.*|ignore_concordance|_possible_nompropi" postag_regexp="yes"/><exception inflected="yes" regexp="yes">plegats|junt</exception></token>
+                        <token postag="A.*" postag_regexp="yes"><exception postag="NP.*|complement.*|ignore_concordance|_possible_NP" postag_regexp="yes"/><exception inflected="yes" regexp="yes">plegats|junt</exception></token>
                         <token postag="N.C.*" postag_regexp="yes"><exception postag="_possilbe_NP|N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     </unify>
                 </pattern>
@@ -10372,7 +10371,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <phraseref idref="_GN_SINGULAR"/>
                     <token min="0">no</token>
                     <marker>
-                        <token postag="V.[IS].3P." postag_regexp="yes" regexp="yes" inflected="yes">ser|seguir|continuar|tener|parecer|mostrar|ofrecer|merecer<exception postag="V.[ISM]..S..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                        <token postag="V.[IS].3P." postag_regexp="yes" regexp="yes" inflected="yes">ser|seguir|continuar|tener|parecer|mostrar|ofrecer|merecer<exception postag="V.[ISM]..S..|_possible_NP|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Posible error de concordancia.</message>
@@ -10443,7 +10442,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         >&expresiones_tiempo;|&unidades_tiempo;|&dias_semana;|&meses_ano;|&estaciones_ano;|&partes_dia;|vez|mismo|resto|qué|cu[aá]l|cu[aá]nto</exception></token>
                     <token min="0">no</token>
                     <marker>
-                        <token postag="V.[IS].3S." postag_regexp="yes" inflected="yes" regexp="yes">ser|seguir|continuar|tener|parecer|mostrar|ofrecer|merecer<exception postag="V.[ISM]..P..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                        <token postag="V.[IS].3S." postag_regexp="yes" inflected="yes" regexp="yes">ser|seguir|continuar|tener|parecer|mostrar|ofrecer|merecer<exception postag="V.[ISM]..P..|_possible_NP|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Posible error de concordancia.</message>
@@ -13270,8 +13269,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <feature id="numero"/>
                         <feature id="genero"/>
                         <marker>
-                        <token postag="N.*" postag_regexp="yes"/>
-                        <token postag="A.*" postag_regexp="yes" inflected="yes" regexp="yes">guapo|guapetón|guapísimo|amigo|chico|niño<exception postag="_possible_NP"/></token>
+                            <token postag="N.*" postag_regexp="yes"/>
+                            <token postag="A.*" postag_regexp="yes" inflected="yes" regexp="yes">guapo|guapetón|guapísimo|amigo|chico|niño<exception postag="_possible_NP"/></token>
                         </marker>
                     </unify>
                     <token postag="_PUNCT.*" postag_regexp="yes"/>
