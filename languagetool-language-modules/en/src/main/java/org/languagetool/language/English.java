@@ -306,6 +306,7 @@ public class English extends Language implements AutoCloseable {
       case "COVID_19":                  return 1;
       case "OTHER_WISE_COMPOUND":       return 1;
       case "ON_EXCEL":                  return 1;
+      case "MAY_MANY":                  return 1;   // higher prio then MAY_MANY_MY
       case "BOUT_TO":                   return 1;   // higher prio than PRP_VB
       case "HAVE_HAVE":                 return 1;   // higher prio than HE_D_VBD
       case "CAR_CARE":                  return 1;   // higher prio than AI_MISSING_WORD_ARTICLE_THE

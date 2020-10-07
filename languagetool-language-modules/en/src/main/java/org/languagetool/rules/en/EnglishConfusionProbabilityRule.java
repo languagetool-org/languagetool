@@ -417,7 +417,9 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "were we cold", // vs could
       "us three", // vs is
       "way to go", // vs was
-      "way won't" // was
+      "way won't", // was
+      "and now him", // vs know
+      "and now us," // vs is
     );
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
