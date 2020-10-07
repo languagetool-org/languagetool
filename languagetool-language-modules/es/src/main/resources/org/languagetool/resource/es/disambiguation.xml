@@ -1284,6 +1284,16 @@ Copyright (C) 2011 Juan Martorell
     <rulegroup id="nombre_aposicion" name="nombre en aposición">
         <rule>
             <pattern>
+                <token>tamaño</token>
+                <token regexp="yes">carta|oficio|office|legal|letter|tabloide|A[012345]</token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="tamaño" pos="LOC_ADC"/>
+                <wd lemma="tamaño" pos="LOC_ADC"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <token regexp="yes" inflected="yes">página|navegador|sitio|plataforma</token>
                 <marker>
                     <token>web</token>
