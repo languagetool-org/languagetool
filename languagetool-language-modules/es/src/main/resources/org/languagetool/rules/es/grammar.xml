@@ -7475,7 +7475,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SPS00|SP\+DA|LOC_PREP" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/><exception>de</exception></token>
+                    <token>desde</token>
+                    <token postag="V.[MSI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:NC.*|A.*|V.[PN].*|P[DI].*"/>
+                <message>Combinación imposible: preposición seguida de verbo conjugado.</message>
+                <suggestion>desde que \2</suggestion>
+                <suggestion>desde {suggestion}</suggestion>
+                <example correction="desde que es|desde e|desde ese|desde esa|desde eso|desde mes|desde as|desde res|desde ése|desde ves">Lo sabe <marker>desde es</marker> adulto.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SPS00|SP\+DA|LOC_PREP" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/><exception regexp="yes">de|desde</exception></token>
                     <token postag="V.[MSI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes"/><exception postag="V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:NC.*|A.*|V.[PN].*|P[DI].*"/>
@@ -11150,6 +11161,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
+        <rule id="DESDE_ERA" name="desde (que) era" default="temp_off">
+            <pattern>
+                <token>desde</token>
+                <token>era</token>
+            </pattern>
+            <message>Posible confusión.</message>
+            <suggestion>desde que era</suggestion>
+            <example correction="desde que era">Lo sabe <marker>desde era</marker> niño.</example>
+        </rule>
         <rule id="LAS_MILES" name="*las/los miles">
             <!-- done already by the rule AGREEMENT_DET_NOUN, but a specific message is needed -->
             <pattern>
