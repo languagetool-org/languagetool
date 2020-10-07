@@ -3290,9 +3290,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="KLINGENDE_KASSEN" name="'klingende (klingelnde) Kassen'">
             <pattern>
                 <marker>
-                    <token regexp="yes">klingende|klingender|klingenden</token>
+                    <token regexp="yes">klingende[nr]?</token>
                 </marker>
-                <token regexp="yes">Kasse|Kassen</token>
+                <token regexp="yes">Kassen?</token>
             </pattern>
             <message>Meinten Sie <suggestion>klingelnde</suggestion>, <suggestion>klingelnder</suggestion> bzw. <suggestion>klingelnden</suggestion>?</message>
             <example correction="klingelnde|klingelnder|klingelnden">Box Office: Harry Potter und die <marker>klingenden</marker> Kassen.</example>
@@ -3394,6 +3394,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="bis">Von 5.000 <marker>biss</marker> 6.000 Toten ist die Rede.</example>
                 <example correction="bis">Von 5 Uhr <marker>biss</marker> 6 Uhr</example>
                 <example correction="bis">Von 5 <marker>biss</marker> 6 Uhr</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BEREIT_BEFREIT" name="'bereit (befreit)'">
+            <rule>
+                <antipattern>
+                    <token inflected="yes" skip="-1">bereiten</token>
+                    <token>zu</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token inflected="yes" skip="1">bereiten</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">Gefangener?|Geisel|Sklav(e|in)|Volk</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="bere" regexp_replace="befre"/></suggestion>?</message>
+                <example correction="befreite">Er <marker>bereite</marker> die Geiseln.</example>
+                <example>Sie bereitete den Geiseln Brote zu.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" regexp="yes">Gefangener?|Geisel|Sklav(e|in)|Volk</token>
+                    <marker>
+                        <token>bereit</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="bere" regexp_replace="befre"/></suggestion>?</message>
+                <example correction="befreit">Er hat die Sklaven <marker>bereit</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="VON_HAND" name="'van (von) Hand'">
