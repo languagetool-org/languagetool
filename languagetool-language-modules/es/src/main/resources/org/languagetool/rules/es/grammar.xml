@@ -4621,6 +4621,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No importa que este abierto se haya suspendido.</example>
                 <example>se cree que este mismo papa estuvo interesado</example>
                 <example>Te miras al espejo, no te agrada lo que este refleja.</example>
+                <example>donde ha sido descrito este parásito en particular</example>
             </rule>
         </rulegroup>
         <rulegroup id="DE_TILDE" name="de/dé (dar)" default="on">
@@ -5451,6 +5452,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="medioambientales">Cuestiones <marker>medio ambientales</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>doctrina</token>
+                    <token>social</token>
+                    <token>cristiana</token>
+                </antipattern>
                 <pattern>
                     <token>social</token>
                     <token min="0">-</token>
@@ -6072,6 +6078,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La mantención de mi auto cuesta una fortuna.</example>
                 <example>¿Qué auto eligió Tom?</example>
                 <example>Su viejo auto anda en las últimas.</example>
+                <example>Este auto usado es tan bueno como uno nuevo.</example>
             </rule>
         </rulegroup>
         <rule id="ALREDEDOR" name="*(a) alrededor">
@@ -9544,6 +9551,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">gourmet|satélite|clave|líder|bomba|miembro|sido|&colors_invariable;</token>
             </antipattern>
             <antipattern>
+                <!-- commonly nouns -->
+                <token inflected="yes">niño</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">la|su</token>
                 <token>mayoría</token>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
@@ -10044,6 +10055,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1, \2</suggestion>
                 <example correction="Magnífico cuchillo|Magníficos cuchillos|Magníficas, cuchillos"><marker>Magníficas cuchillos</marker>.</example>
                 <example correction="Magnífico cuchillo|Magníficos cuchillos|Magnífica, cuchillos"><marker>Magnífica cuchillos</marker>.</example>
+                <example>se encuentran en este ambiente pequeños reptiles.</example>
+                <example>En televisión es de gran popularidad Patricia Conde.</example>
+                <example>la instalación de bases militares conjuntas hispano-estadounidenses</example>
             </rule>
             <rule>
                 <pattern>
@@ -13254,14 +13268,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
+                        <marker>
                         <token postag="N.*" postag_regexp="yes"/>
-                        <token postag="A.*" postag_regexp="yes" inflected="yes" regexp="yes">guapo|guapetón|guapísimo|amigo|chico|niño</token>
+                        <token postag="A.*" postag_regexp="yes" inflected="yes" regexp="yes">guapo|guapetón|guapísimo|amigo|chico|niño<exception postag="_possible_NP"/></token>
+                        </marker>
                     </unify>
+                    <token postag="_PUNCT.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Probablemente falta una coma.</message>
                 <suggestion>\1, \2</suggestion>
                 <example correction="fiestas, guapo">Felices <marker>fiestas guapo</marker>.</example>
                 <example correction="besos, guapa">¡Muchos <marker>besos guapa</marker>!</example>
+                <example>de la Asociación Amigos de la Catedral</example>
+                <example>Fue recibido por Augusto Chicas, director de Desarrollo Sostenible.</example>
             </rule>
             <rule>
                 <pattern>
@@ -13568,8 +13587,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     >(?-i)li|ai|us|bo|be|ca|com|ac|ad|ae|aero|af|ag|am|an|ao|aq|ar|arpa|as|asia|at|au|aw|ax|az|ba|bb|bd|bf|bg|bh|bi|biz|bj|bm|bn|br|bs|bt|bv|bw|by|bz|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|coop|cr|cu|cv|cw|cx|cy|cz|de|dj|dk|dm|do|dz|ec|edu|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gov|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|info|int|io|iq|ir|is|it|je|jm|jo|jobs|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|lb|lc|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mil|mk|ml|mm|mn|mo|mobi|mp|mq|mr|ms|mt|mu|museum|mv|mw|mx|my|mz|na|name|nc|ne|net|nf|ng|ni|nl|no|np|nr|nu|nz|om|org|pa|pe|pf|pg|ph|pk|pl|pm|pn|post|pr|pro|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|sg|sh|sj|sk|sl|sm|sn|so|sr|st|su|sv|sx|sy|sz|tc|td|tel|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|travel|tt|tv|tw|tz|ua|ug|uk|uy|uz|vc|vn|vu|wf|ws|xn|xxx|ye|yt|za|zm|zw</token>
             </antipattern>
             <antipattern>
+                <token>.</token>
+                <token case_sensitive="yes" spacebefore="no">NET</token>
+            </antipattern>
+            <antipattern>
                 <marker>
-                    <token inflected="yes" regexp="yes">formato|fichero|archivo|paquete|extensión</token>
+                    <token inflected="yes" regexp="yes">formato|fichero|archivo|paquete|extensión|plataforma</token>
                     <token spacebefore="yes">.</token>
                     <token spacebefore="no" regexp="yes" case_sensitive="yes">[a-z][a-z0-9]+|[A-Z][A-Z0-9]+</token>
                 </marker>
