@@ -29567,6 +29567,112 @@ steenwijk;Steenwijk
 		</rulegroup>
 	</category>
 	<category id="STYLE" name="Stijl" type="style">
+		<rulegroup id="KAN_KUN" name="kan vs kun" tags="picky">
+			<antipattern>
+				<token postag="SENT_START"/>
+				<token regexp="yes">wat|wie</token>
+				<token postag_regexp="yes" postag="ZNW:EKV.*"/>
+				<token>kan</token>
+				<token regexp="yes">u|je</token>
+			</antipattern>
+			<antipattern>
+				<token postag="SENT_START"/>
+				<token min="0" regexp="yes">&quote;|&apostrof;</token>
+				<token regexp="yes">hij|zij|ze|men</token>
+				<token postag_regexp="yes" postag="ZNW:EKV.*"/>
+				<token>kan</token>
+				<token regexp="yes">u|je</token>
+			</antipattern>
+			<antipattern><token postag="SENT_START"/><token>Kan</token><token regexp="yes">je|u</token><token>nog</token><token postag="BNW:STL:ONV"/><token>van</token><token>pas</token><token>komen</token><token postag="SENT_END">.</token></antipattern>
+			<antipattern><token regexp="yes">[0-9]{1,2}</token><token>u</token></antipattern> <!-- tijd -->
+			<rule>
+				<!-- 2014-08-20 TaalTik -->
+				<pattern>
+					<token negate="yes" regexp="yes">ik|hij|zij|het</token>
+					<marker>
+						<token>kan</token>
+					</marker>
+					<token regexp="yes">je|jij</token>
+				</pattern>
+				<message>Velen vinden dat <suggestion>kun</suggestion> netter is als '\3' het onderwerp is. Kan mag echter ook.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/442/je_kan_kunt/</url>
+				<example><marker>Kun</marker> je het even doen voor mij?.</example>
+				<example correction="Kun"><marker>Kan</marker> je nog weg?</example>
+				<example correction="kun">Wat <marker>kan</marker> je doen?</example>
+				<example correction="kun">Zo <marker>kan</marker> je het tonen.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token><exception regexp="yes">ik|hij|zij|het</exception><exception postag_regexp="yes" postag="UNKNOWN|ENM.*"/></token>
+					<marker>
+						<token>kan</token>
+					</marker>
+					<token>u</token>
+				</pattern>
+				<message>Velen vinden dat <suggestion>kunt</suggestion> netter is als '\3' het onderwerp is. Kan mag echter ook.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/442/je_kan_kunt/</url>
+				<example correction="Kunt"><marker>Kan</marker> U de grasmaaier niet zelf vervoeren?</example>
+				<example correction="kunt">Onze schoolbrochure <marker>kan</marker> u downloaden.</example>
+				<example correction="kunt">Dat bericht <marker>kan</marker> u zelf instellen.</example>
+			</rule>
+			<rule>
+				<!-- 2014-08-21 TaalTik -->
+				<pattern>
+					<token regexp="yes">je|u</token>
+					<marker>
+						<token>kan</token>
+					</marker>
+					<token><exception postag="WKW:TGW:INF"/></token>
+				</pattern>
+				<message>Velen vinden dat <suggestion>kunt</suggestion> netter is als '\1' het onderwerp is. Kan mag echter ook.</message>
+				<example correction="kunt">Je <marker>kan</marker> dat niet vergelijken.</example>
+				<example correction="kunt">U <marker>kan</marker> één lied beluisteren.</example>
+				<example correction="kunt">En je <marker>kan</marker> er lekker eten.</example>
+				<example>Uw kinderbijslagfonds kan u vertellen.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="ZAL_ZUL" name="zal of zul">
+			<rule>
+				<!-- TODO: false positives bestrijden -->
+				<pattern>
+					<token><exception regexp="yes">ik|het|men|hij|zij|ze</exception></token>
+					<marker>
+						<token>zal</token>
+					</marker>
+					<token regexp="yes">je|jij</token>
+				</pattern>
+				<message>Velen zien <suggestion>zul</suggestion> nog als beter.</message>
+				<url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
+				<example correction="zul">Afdingen <marker>zal</marker> je.</example>
+			</rule>
+			<rule>
+				<!-- 2014-08-22 TaalTik -->
+				<pattern>
+					<token negate="yes" regexp="yes">hij|ik|zij|het|dit</token>
+					<marker>
+						<token>zal</token>
+						<token>u</token>
+					</marker>
+				</pattern>
+				<message>Velen zien <suggestion>zult u</suggestion> nog als beter.</message>
+				<url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
+				<example correction="zult u">Dat <marker>zal u</marker> niet lukken ?</example>
+				<example correction="zult u">Ik én vooral de vriendenkring <marker>zal U</marker> missen Julien.</example>
+				<example correction="Zult u"><marker>Zal u</marker> aan een gemiddelde van 3 beurzen per jaar deelnemen?</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">je|u</token>
+					<token>zal</token>
+				</pattern>
+				<message>Velen zien <suggestion><match no="1"/> zult</suggestion> nog als beter.</message>
+				<url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
+				<example><marker>U zult</marker> dat toch wel even doen voor mij?.</example>
+				<example correction="je zult">En jawel, <marker>je zal</marker> het merken.</example>
+				<example correction="U zult"><marker>U zal</marker> mij ooit nog gelijk geven.</example>
+			</rule>
+		</rulegroup>
+
 		<rule id="MITS_TENZIJ" name="verwarring mits en tenzij">
 			<pattern>
 				<token regexp="yes">mits|tenzij</token>
@@ -32152,111 +32258,6 @@ steenwijk;Steenwijk
 		<example>Weet je niet hoe <marker>duur die auto wel niet is</marker>?</example>
 		</rule>
 		-->
-		<rulegroup id="KAN_KUN" name="kan vs kun" tags="picky">
-			<antipattern>
-				<token postag="SENT_START"/>
-				<token regexp="yes">wat|wie</token>
-				<token postag_regexp="yes" postag="ZNW:EKV.*"/>
-				<token>kan</token>
-				<token regexp="yes">u|je</token>
-			</antipattern>
-			<antipattern>
-				<token postag="SENT_START"/>
-				<token min="0" regexp="yes">&quote;|&apostrof;</token>
-				<token regexp="yes">hij|zij|ze|men</token>
-				<token postag_regexp="yes" postag="ZNW:EKV.*"/>
-				<token>kan</token>
-				<token regexp="yes">u|je</token>
-			</antipattern>
-			<antipattern><token postag="SENT_START"/><token>Kan</token><token regexp="yes">je|u</token><token>nog</token><token postag="BNW:STL:ONV"/><token>van</token><token>pas</token><token>komen</token><token postag="SENT_END">.</token></antipattern>
-			<antipattern><token regexp="yes">[0-9]{1,2}</token><token>u</token></antipattern> <!-- tijd -->
-			<rule>
-				<!-- 2014-08-20 TaalTik -->
-				<pattern>
-					<token negate="yes" regexp="yes">ik|hij|zij|het</token>
-					<marker>
-						<token>kan</token>
-					</marker>
-					<token regexp="yes">je|jij</token>
-				</pattern>
-				<message>Velen vinden dat <suggestion>kun</suggestion> netter is als '\3' het onderwerp is. Kan mag echter ook.</message>
-				<url>https://taaladvies.net/taal/advies/vraag/442/je_kan_kunt/</url>
-				<example><marker>Kun</marker> je het even doen voor mij?.</example>
-				<example correction="Kun"><marker>Kan</marker> je nog weg?</example>
-				<example correction="kun">Wat <marker>kan</marker> je doen?</example>
-				<example correction="kun">Zo <marker>kan</marker> je het tonen.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token><exception regexp="yes">ik|hij|zij|het</exception><exception postag_regexp="yes" postag="UNKNOWN|ENM.*"/></token>
-					<marker>
-						<token>kan</token>
-					</marker>
-					<token>u</token>
-				</pattern>
-				<message>Velen vinden dat <suggestion>kunt</suggestion> netter is als '\3' het onderwerp is. Kan mag echter ook.</message>
-				<url>https://taaladvies.net/taal/advies/vraag/442/je_kan_kunt/</url>
-				<example correction="Kunt"><marker>Kan</marker> U de grasmaaier niet zelf vervoeren?</example>
-				<example correction="kunt">Onze schoolbrochure <marker>kan</marker> u downloaden.</example>
-				<example correction="kunt">Dat bericht <marker>kan</marker> u zelf instellen.</example>
-			</rule>
-			<rule>
-				<!-- 2014-08-21 TaalTik -->
-				<pattern>
-					<token regexp="yes">je|u</token>
-					<marker>
-						<token>kan</token>
-					</marker>
-					<token><exception postag="WKW:TGW:INF"/></token>
-				</pattern>
-				<message>Velen vinden dat <suggestion>kunt</suggestion> netter is als '\1' het onderwerp is. Kan mag echter ook.</message>
-				<example correction="kunt">Je <marker>kan</marker> dat niet vergelijken.</example>
-				<example correction="kunt">U <marker>kan</marker> één lied beluisteren.</example>
-				<example correction="kunt">En je <marker>kan</marker> er lekker eten.</example>
-				<example>Uw kinderbijslagfonds kan u vertellen.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="ZAL_ZUL" name="zal of zul">
-			<rule>
-				<!-- TODO: false positives bestrijden -->
-				<pattern>
-					<token><exception regexp="yes">ik|het|men|hij|zij|ze</exception></token>
-					<marker>
-						<token>zal</token>
-					</marker>
-					<token regexp="yes">je|jij</token>
-				</pattern>
-				<message>Velen zien <suggestion>zul</suggestion> nog als beter.</message>
-				<url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
-				<example correction="zul">Afdingen <marker>zal</marker> je.</example>
-			</rule>
-			<rule>
-				<!-- 2014-08-22 TaalTik -->
-				<pattern>
-					<token negate="yes" regexp="yes">hij|ik|zij|het|dit</token>
-					<marker>
-						<token>zal</token>
-						<token>u</token>
-					</marker>
-				</pattern>
-				<message>Velen zien <suggestion>zult u</suggestion> nog als beter.</message>
-				<url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
-				<example correction="zult u">Dat <marker>zal u</marker> niet lukken ?</example>
-				<example correction="zult u">Ik én vooral de vriendenkring <marker>zal U</marker> missen Julien.</example>
-				<example correction="Zult u"><marker>Zal u</marker> aan een gemiddelde van 3 beurzen per jaar deelnemen?</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token regexp="yes">je|u</token>
-					<token>zal</token>
-				</pattern>
-				<message>Velen zien <suggestion><match no="1"/> zult</suggestion> nog als beter.</message>
-				<url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
-				<example><marker>U zult</marker> dat toch wel even doen voor mij?.</example>
-				<example correction="je zult">En jawel, <marker>je zal</marker> het merken.</example>
-				<example correction="U zult"><marker>U zal</marker> mij ooit nog gelijk geven.</example>
-			</rule>
-		</rulegroup>
 		<!--
 		2014-08-23 TaalTik
 		regel uitgezet vanwege advies: https://onzetaal.nl/taaladvies/advies/dicteewoorden-met-een-f
