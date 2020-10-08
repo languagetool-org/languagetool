@@ -921,6 +921,12 @@ public class JLanguageTool {
     }
 
     ruleMatches.addAll(remoteMatches);
+
+    // rules can create matches with rule IDs different from the original rule (see e.g. RemoteRules)
+    // so while we can't avoid execution of these rules, we still want disabling them to work
+    // so do another pass with ignoreRule here
+    ruleMatches = ruleMatches.stream().filter(match -> !ignoreRule(match.getRule())).collect(Collectors.toList());
+
     ruleMatches = new SameRuleGroupFilter().filter(ruleMatches);
     // no sorting: SameRuleGroupFilter sorts rule matches already
     if (cleanOverlappingMatches) {
@@ -1176,6 +1182,11 @@ public class JLanguageTool {
       Collections.addAll(sentenceMatches, thisMatches);
     }
     AnnotatedText text = new AnnotatedTextBuilder().addText(analyzedSentenceText).build();
+    // rules can create matches with rule IDs different from the original rule (see e.g. RemoteRules)
+    // so while we can't avoid execution of these rules, we still want disabling them to work
+    // so do another pass with ignoreRule here
+    sentenceMatches = sentenceMatches.stream()
+      .filter(match -> !ignoreRule(match.getRule())).collect(Collectors.toList());
     return applyCustomFilters(new SameRuleGroupFilter().filter(sentenceMatches), text);
   }
 
