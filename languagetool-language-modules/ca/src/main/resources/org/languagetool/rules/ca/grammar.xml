@@ -11394,6 +11394,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- ambigu:  però el 1976 fou traspassada la seva participació a l'INI;-->
         </rule>
         <rule id="BASAR_EN" name="basar *amb/en">
+            <antipattern>
+                <token><exception postag="&pronom_feble;" postag_regexp="yes"/></token>
+                <token regexp="yes">centre|centres|base|bases</token>
+            </antipattern>
             <pattern>
                 <token inflected="yes" regexp="yes">basar|centrar</token>
                 <token min="0" max="3" postag="RG|LOC_ADV|&pronom_feble;" postag_regexp="yes"/>
@@ -11403,8 +11407,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Amb el v. '<match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="V.N.*"/>' probablement cal fer servir la preposició <suggestion>en</suggestion>.</message>
             <example correction="en">Estava basat <marker>amb</marker> xarxes neuronals.</example>
+            <example correction="en">Vull que et centres <marker>amb</marker> això.</example>
             <example correction="en">Si no és basada <marker>amb</marker> dades totalment objectives.</example>
-            <example>Va participar amb entusiasme en la competició.</example>
+            <example>un centre o centres amb cinquanta o més treballadors</example>
         </rule>
         <rule id="DELEGAR_EN" name="delegar *(en)">
             <pattern>
@@ -15067,14 +15072,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Volíeu dir <suggestion>per a la</suggestion>?</message>
             <example correction="per a la">Això és <marker>per la a</marker> germana.</example>
         </rule>
-        <rule id="VER_FER" name="ver -> fer" default="temp_off">
+        <rule id="VER_FER" name="ver -> fer">
+            <antipattern>
+                <token regexp="yes" inflected="yes">més|menys|manco|ser|semblar|parèixer</token>
+                <token>ver</token>
+            </antipattern>
+            <antipattern>
+                <token>ver</token>
+                <token spacebefore="no">-</token>
+            </antipattern>
+            <antipattern>
+                <token>ver</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes">[\d., ]+</token>
+            </antipattern>
+            <antipattern>
+                <token postag="_PUNCT.*" postag_regexp="yes"/>
+                <token>ver</token>
+                <token postag="_PUNCT.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
-                <token>ver<exception postag="_GN_MS"/></token>
+                <token>ver<exception postag="_GN_MS|_possible_nompropi" postag_regexp="yes"/></token>
             </pattern>
-            <message>Possible confusió. ¿Volíeu dir <suggestion>fer</suggestion>?</message>
+            <message>Possible confusió. ¿Volíeu dir <suggestion>fer</suggestion> en comptes de "ver" (veritable)?</message>
             <suggestion>vers</suggestion>
             <example correction="fer|vers">Podríem <marker>ver</marker> una altra cosa.</example>
-            <example>fou un ver amic.</example>
+            <example>Fou un ver amic.</example>
+            <example>És ver que no s'ha fet.</example>
+            <example>No és menys ver això.</example>
         </rule>
         <rule id="FA_VER" name="fa ver/va fer">
             <pattern>
@@ -17975,7 +18000,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token spacebefore="yes">l<exception postag="_possible_nompropi"/><exception scope="previous" regexp="yes">.*\d|/</exception></token>
+                    <token spacebefore="yes" case_sensitive="yes">l<exception postag="_possible_nompropi"/><exception scope="previous" regexp="yes">.*\d|/</exception></token>
                     <token><exception postag="[NA].*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>el <match no="2"/></suggestion>?</message>
@@ -17987,6 +18012,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La L representa la inductància.</example>
                 <example>Deixeble de L. Valla.</example>
                 <example>calculats per L.E. Cunningham</example>
+                <example>el professor anglès L. A. Sherman</example>
             </rule>
             <rule>
                 <pattern>
@@ -31929,7 +31955,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>.</token>
                 <!-- Eliminats d'excepcions: li, la, ai, al, vi, ve, va, vg, us, si, se, bo, be, ca -->
-                <token regexp="yes" spacebefore="no">(?-i)com|ac|ad|ae|aero|af|ag|am|an|ao|aq|ar|arpa|as|asia|at|au|aw|ax|az|ba|bb|bd|bf|bg|bh|bi|biz|bj|bm|bn|br|bs|bt|bv|bw|by|bz|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|coop|cr|cu|cv|cw|cx|cy|cz|de|dj|dk|dm|do|dz|ec|edu|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gov|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|info|int|io|iq|ir|is|it|je|jm|jo|jobs|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|lb|lc|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mil|mk|ml|mm|mn|mo|mobi|mp|mq|mr|ms|mt|mu|museum|mv|mw|mx|my|mz|na|name|nc|ne|net|nf|ng|ni|nl|no|np|nr|nu|nz|om|org|pa|pe|pf|pg|ph|pk|pl|pm|pn|post|pr|pro|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|sg|sh|sj|sk|sl|sm|sn|so|sr|st|su|sv|sx|sy|sz|tc|td|tel|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|travel|tt|tv|tw|tz|ua|ug|uk|uy|uz|vc|vn|vu|wf|ws|xn|xxx|ye|yt|za|zm|zw</token>
+                <token regexp="yes" spacebefore="no"
+                    >(?-i)com|ac|ad|ae|aero|af|ag|am|an|ao|aq|ar|arpa|as|asia|at|au|aw|ax|az|ba|bb|bd|bf|bg|bh|bi|biz|bj|bm|bn|br|bs|bt|bv|bw|by|bz|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|coop|cr|cu|cv|cw|cx|cy|cz|de|dj|dk|dm|do|dz|ec|edu|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gov|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|info|int|io|iq|ir|is|it|je|jm|jo|jobs|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|lb|lc|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mil|mk|ml|mm|mn|mo|mobi|mp|mq|mr|ms|mt|mu|museum|mv|mw|mx|my|mz|na|name|nc|ne|net|nf|ng|ni|nl|no|np|nr|nu|nz|om|org|pa|pe|pf|pg|ph|pk|pl|pm|pn|post|pr|pro|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|sg|sh|sj|sk|sl|sm|sn|so|sr|st|su|sv|sx|sy|sz|tc|td|tel|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|travel|tt|tv|tw|tz|ua|ug|uk|uy|uz|vc|vn|vu|wf|ws|xn|xxx|ye|yt|za|zm|zw</token>
             </antipattern>
             <antipattern>
                 <token>.</token>
