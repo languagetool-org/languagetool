@@ -1065,7 +1065,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     for (List<String> parts : partList) {
       candidates.addAll(super.getCandidates(parts));
       if (parts.size() == 2) {
-        // e.g. "inneremedizin" -> "innere Medizin"
+        // e.g. "inneremedizin" -> "innere Medizin", "gleichgroß" -> "gleich groß"
+        candidates.add(parts.get(0) + " " + parts.get(1));
         candidates.add(parts.get(0) + " " + StringTools.uppercaseFirstChar(parts.get(1)));
       }
       if (parts.size() == 2 && !parts.get(0).endsWith("s")) {
