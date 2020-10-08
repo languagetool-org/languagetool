@@ -7844,6 +7844,23 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="naturalidade">O Rui surgiu com a maior <marker>das calmas</marker>.</example>
     </rule>
 
+    <!-- DELIMITADA(O) COM/DE/POR [UMA] FONTEIRA(S) FÍSICA(S) delimitada(o) fisicamente -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-08 (2-JUL-2020+)     -->
+    <rule id='DELIMITADA_COM-DE-POR_FRONTEIRAS_FISICAS' name="Delimitada(o)(s) fisicamente">
+      <pattern>
+		  <token regexp="yes">delimitadas?|delimitados?</token>
+		  <marker>
+			<token regexp="yes">com|de|por</token>
+			<token min="0" max="1" regexp="no">uma</token>
+			<token regexp="yes">fronteiras?</token>
+			<token regexp="yes">físicas?</token>
+		  </marker>
+      </pattern>
+      <message>Substitua por <suggestion>fisicamente</suggestion>.</message>
+      <example correction="fisicamente">A área é delimitada <marker>por fronteiras físicas</marker>.</example>
+	  <example type='correct'>A área é delimitada <marker>fisicamente</marker>.</example>
+    </rule>
+
     <rule id='ESTAR_DE_ACORDO' name="concordar">
     <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-30 (2-JUL-2020+)     -->
       <pattern>
