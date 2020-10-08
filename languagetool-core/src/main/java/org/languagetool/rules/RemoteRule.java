@@ -22,6 +22,7 @@
 package org.languagetool.rules;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.markup.AnnotatedText;
 import org.slf4j.Logger;
@@ -55,15 +56,21 @@ public abstract class RemoteRule extends Rule {
   protected final boolean inputLogging;
   private AnnotatedText annotatedText;
 
-  public RemoteRule(ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
+  public RemoteRule(ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging, @Nullable String ruleId) {
     super(messages);
     serviceConfiguration = config;
     this.inputLogging = inputLogging;
-    String ruleId = getId();
+    if (ruleId == null) { // allow both providing rule ID in constructor or overriding getId
+      ruleId = getId();
+    }
     lastFailure.putIfAbsent(ruleId, 0L);
     consecutiveFailures.putIfAbsent(ruleId, new AtomicInteger());
     // TODO maybe use fixed pool, take number of concurrent requests from configuration?
     executors.putIfAbsent(ruleId, Executors.newCachedThreadPool(threadFactory));
+  }
+
+  public RemoteRule(ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
+    this(messages, config, inputLogging, null);
   }
 
   public static void shutdown() {
