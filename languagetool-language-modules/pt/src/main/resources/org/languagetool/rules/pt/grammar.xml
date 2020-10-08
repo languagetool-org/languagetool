@@ -9256,6 +9256,25 @@ MARCOAGPINTO 2020-02-18 -->
       <message>Substitua por <suggestion>música</suggestion>.</message>
       <example correction="música">A Ana é uma <marker>mulher músico</marker>.</example>
     </rule>
+	
+    <!-- NÃO HÁ/HAVIA MAIS NENHUM/NENHUNS -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-08 (2-JUL-2020+)     -->
+    <rule id='NAO_HA-HAVIA_MAIS_NENHUM-NENHUNS' name="Ser único">
+      <pattern>
+		  <marker>
+			<token regexp="no">não</token>
+			<token regexp="yes">há|havia</token>
+			<token regexp="no">mais</token>
+			<token regexp="yes">nenhum|nenhuns</token>
+		  </marker>
+		  <token negate_pos="yes" postag='NC[CFM][SP]000|AQ0[CFM][SP]0' postag_regexp='yes'/>
+      </pattern>
+      <message>Substitua por</message>
+	  <suggestion>é único</suggestion>
+	  <suggestion>era único</suggestion>
+      <example correction="é único|era único">Procurei e <marker>não havia mais nenhum</marker>.</example>
+	  <example type='correct'>Procurei e <marker>era único</marker>.</example>
+    </rule>
 
     <!-- NÃO VEZ QUE não vês que -->
     <rule id='NÃO_VEZ_QUE' name="Confusão: vez - vês">
