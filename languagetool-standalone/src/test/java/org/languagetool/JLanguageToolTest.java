@@ -18,15 +18,16 @@
  */
 package org.languagetool;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.languagetool.language.*;
+import org.languagetool.language.AmericanEnglish;
+import org.languagetool.language.Demo;
+import org.languagetool.language.English;
+import org.languagetool.language.GermanyGerman;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
-import org.languagetool.rules.CategoryId;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.TextLevelRule;
+import org.languagetool.rules.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,9 +36,11 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class JLanguageToolTest {
 
@@ -260,6 +263,58 @@ public class JLanguageToolTest {
     assertThat(cache.hitCount(), is(8L));
     assertThat(ltWithCache.check("Ein Delphin. Noch ein Delphin.").size(), is(0));   // try again - no state is kept
     assertThat(cache.hitCount(), is(12L));
+  }
+
+  class InternalRule extends Rule{
+    @Override
+    public String getId() {
+      return "INTERNAL_RULE";
+    }
+    @Override
+    public String getDescription() {
+      return "Internal rule";
+    }
+    @Override
+    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+      throw new UnsupportedOperationException();
+    }
+  }
+
+  @Test
+  public void testDisableInternalRule() throws IOException {
+    JLanguageTool lt = new JLanguageTool(new Demo(), null);
+    lt.addRule(new DemoRule() {
+      @Override
+      public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+        return toRuleMatchArray(Arrays.stream(super.match(sentence)).map(match ->
+          new RuleMatch(new InternalRule(), sentence, match.getFromPos(), match.getToPos(), match.getMessage())
+        ).collect(Collectors.toList()));
+      }
+    });
+    List<RuleMatch> matches;
+    List<Rule> rules;
+
+    String text = "demo";
+    matches = lt.check(text);
+    rules = matches.stream().map(RuleMatch::getRule).collect(Collectors.toList());
+    assertThat(rules, is(not(hasItem(CoreMatchers.isA(DemoRule.class)))));
+    assertThat(rules, is(hasItem(CoreMatchers.isA(InternalRule.class))));
+
+    // disabling implementing rule works
+    lt.disableRule(new DemoRule().getId());
+    matches = lt.check(text);
+    assertThat(matches.size(), is(0));
+
+    // reset
+    lt.enableRule(new DemoRule().getId());
+    matches = lt.check(text);
+    assertThat(matches.size(), is(not(0)));
+
+    // disabling match rule works
+    lt.disableRule(new InternalRule().getId());
+    matches = lt.check(text);
+    assertThat(matches.size(), is(0));
+
   }
 
   private class IgnoreInterval {
