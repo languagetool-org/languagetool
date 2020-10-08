@@ -45,6 +45,7 @@ import java.util.stream.Collectors;
  */
 public class BERTSuggestionRanking extends RemoteRule {
 
+  // only for RemoteRuleConfig
   public static final String RULE_ID = "BERT_SUGGESTION_RANKING";
 
   private static final Logger logger = LoggerFactory.getLogger(BERTSuggestionRanking.class);
@@ -74,7 +75,7 @@ public class BERTSuggestionRanking extends RemoteRule {
   private final Rule wrappedRule;
 
   public BERTSuggestionRanking(Rule rule, RemoteRuleConfig config, UserConfig userConfig, boolean inputLogging) {
-    super(rule.messages, config, inputLogging);
+    super(rule.messages, config, inputLogging, rule.getId());
     this.wrappedRule = rule;
     super.setCategory(wrappedRule.getCategory());
     synchronized (models) {
@@ -194,12 +195,13 @@ public class BERTSuggestionRanking extends RemoteRule {
 
   @Override
   public String getId() {
-    return RULE_ID;
+    // return values of wrapped rule so that enabling/disabling rules works
+    return wrappedRule.getId();
   }
 
   @Override
   public String getDescription() {
-    return "Suggestion reordering based on the BERT model";
+    return wrappedRule.getDescription();
   }
 
   private static class CuratedAndSameCaseComparator implements Comparator<Pair<SuggestedReplacement, Double>> {
