@@ -28,7 +28,7 @@ Copyright (C) 2011 Juan Martorell
     <!ENTITY nombre_fem_el "África|aguadulce|acta|afta|agua|aguasal|aguaviva|ala|alba|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|harpa|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
     <!ENTITY pronombre_personal_atono_POS "PP3..A.*|PP[123]C[SP][0D]00|P0[123].*">
     <!ENTITY denominacion "elemento|palabra|término|expresión|vocablo|nombre|tipo|denominación">
-    <!ENTITY nombre_seguidode_nombrepropio "calle|copa|casa|abad|informe|señor|señora|estándar|tipo|dirección|imperio|profeta|balneario|proyecto|corriente|lago|monte|padre|premio|caso|carrera|concurso|cuadro|mesa|novela|obra|río|estilo|programa|orquesta|escuela|registro|finca|sonda|rosa|tema">
+    <!ENTITY nombre_seguidode_nombrepropio "navegador|calle|copa|casa|abad|informe|señor|señora|estándar|tipo|dirección|imperio|profeta|balneario|proyecto|corriente|lago|monte|padre|premio|caso|carrera|concurso|cuadro|mesa|novela|obra|río|estilo|programa|orquesta|escuela|registro|finca|sonda|rosa|tema">
     <!ENTITY dias_semana "lunes|martes|miércoles|jueves|viernes|sábado|domingo">
     <!ENTITY partes_dia "madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche">
     <!ENTITY meses_ano "enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre">
@@ -1302,7 +1302,7 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes" inflected="yes">página|navegador|sitio|plataforma</token>
+                <token regexp="yes" inflected="yes">página|navegador|sitio|plataforma|agregador</token>
                 <marker>
                     <token>web</token>
                 </marker>
@@ -1441,7 +1441,7 @@ Copyright (C) 2011 Juan Martorell
     <rule id="not_adj" name="not adj">
         <pattern>
             <and>
-                <token postag="A.*" postag_regexp="yes" regexp="yes">moscas?|líneas?|manera</token>
+                <token postag="A.*" postag_regexp="yes" regexp="yes">moscas?|líneas?|manera|ideas?</token>
                 <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
             </and>
         </pattern>
@@ -1465,7 +1465,8 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <marker>
-                    <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">&nombre_seguidode_nombrepropio;<exception postag_regexp="yes" postag="&pronombre_personal_atono_POS;" scope="previous"/></token>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">&nombre_seguidode_nombrepropio;<exception scope="previous" regexp="yes">me|te|se|nos|os|le|les|lo</exception></token>
+                    <!-- <exception postag_regexp="yes" postag="&pronombre_personal_atono_POS;" scope="previous"/>-->
                 </marker>
                 <token regexp="yes">\p{Lu}.+</token>
             </pattern>
@@ -3847,6 +3848,12 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="remove" postag="[AND].*"/>
     </rule>
+    <rule id="not_noun1" name="not noun">
+        <pattern>
+            <token postag="NC.*" postag_regexp="yes" regexp="yes">racistas?<exception postag="_GN_.*" postag_regexp="yes"/></token>
+        </pattern>
+        <disambig action="remove" postag="NC.*"></disambig>
+    </rule>
 
     <rule id="la_not_noun" name="la not noun">
         <pattern>
@@ -4560,6 +4567,389 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
     <!-- SOME EXTRA TAGGING -->
+    <rulegroup id="nom_en_complement" name="nom en complement">
+        <rule>
+            <pattern>
+                <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"><exception>a</exception></token>
+                <marker>
+                    <token postag="N.*|PI.*|PD.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>com</token>
+                <marker>
+                    <token postag="N.*|PI.*|PD.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"><exception>a</exception></token>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token postag="D[ADI].*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.*|PI.*|PD.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"><exception>a</exception></token>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token postag="DA.*" postag_regexp="yes"/>
+                    <token postag="PX.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.*|PI.*|PD.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"><exception>a</exception></token>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token postag="D[ADI].*" postag_regexp="yes"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.*|PI.*|PD.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"><exception>a</exception></token>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.*|PI.*|PD.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement"/>
+            </disambig>
+        </rule>
+        <!-- Durant el període medieval gremis d'artesans -->
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <and>
+                        <token postag="N.*|PI.*|PD.*" postag_regexp="yes"><exception postag="DI.*" postag_regexp="yes"/></token>
+                        <token postag="complement" postag_regexp="yes"/>
+                    </and>
+                    <marker>
+                        <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <and>
+                        <token postag="N.*|PI.*|PD.*" postag_regexp="yes"><exception postag="DI.*" postag_regexp="yes"/></token>
+                        <token postag="complement" postag_regexp="yes"/>
+                    </and>
+                    <token postag="RG_before"/>
+                    <marker>
+                        <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"><exception>a</exception></token>
+                <marker>
+                    <token postag="PD0NS000"/>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement"/>
+            </disambig>
+        </rule>
+        <!--  complement regit per la preposició 'a' -->
+        <rule>
+            <pattern>
+                <token>a</token>
+                <marker>
+                    <token postag="N.*|PI.*|PD.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement_a"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>a</token>
+                <token postag="D[ADI].*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement_a"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>a</token>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token postag="DA.*" postag_regexp="yes"/>
+                    <token postag="PX.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement_a"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>a</token>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token postag="D[ADI].*" postag_regexp="yes"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement_a"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>a</token>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement_a"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>a</token>
+                <marker>
+                    <token postag="PD0NS000"/>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement_a"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <and>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="complement_a" postag_regexp="yes"/>
+                    </and>
+                    <marker>
+                        <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement_a"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <and>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="complement_a" postag_regexp="yes"/>
+                    </and>
+                    <token postag="RG_before"/>
+                    <marker>
+                        <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement_a"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <and>
+                    <token postag="NCF.*" postag_regexp="yes"/>
+                    <token postag="complement.*" postag_regexp="yes"/>
+                </and>
+                <token>y</token>
+                <marker>
+                    <token>media</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd pos="complement"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <and>
+                    <token postag="NCM.*" postag_regexp="yes"/>
+                    <token postag="complement.*" postag_regexp="yes"/>
+                </and>
+                <token>y</token>
+                <marker>
+                    <token>medio</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd pos="complement"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>cada</token>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement_cada"/>
+            </disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="adj_ignore_concordance" name="adjectiu que ja acompanya un nom">
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="A.*|PX.*|V.P.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="add">
+                <wd pos="ignore_concordance"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="A.*|PX.*|V.P.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="A.*|PX.*|V.P.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="add">
+                <wd pos="ignore_concordance"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="A.*|PX.*|V.P.*" postag_regexp="yes"/>
+                    <token regexp="yes">y|o|ni||e|u|,</token>
+                    <marker>
+                        <token postag="A.*|PX.*|V.P.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="add">
+                <wd pos="ignore_concordance"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="RG_before"/>
+                    <marker>
+                        <token postag="A.*|PX.*|V.P.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="add">
+                <wd pos="ignore_concordance"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token regexp="yes">yo|mí|tú|ti||él|ella|nosotros|vosotros|nosotras|vosotras|ellos|ellas|usted|ustedes|vos</token>
+                    <marker>
+                        <token inflected="yes">mismo</token>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="add">
+                <wd pos="ignore_concordance"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="possible_np" name="posible nombre propio">
         <rule>
             <pattern>
