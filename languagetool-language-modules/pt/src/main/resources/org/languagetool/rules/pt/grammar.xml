@@ -5328,6 +5328,16 @@ MARCOAGPINTO 2020-02-18 -->
           <token postag_regexp='yes' postag='R.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='R.+'/></token>
       </antipattern>
+      <antipattern>
+          <token>de</token>
+          <token>forma</token>
+          <token postag="A..[CF]S.+" postag_regexp="yes"/>
+      </antipattern>
+      <antipattern>
+          <token>de</token>
+          <token regexp='yes'>jeito|modo</token>
+          <token postag="A..[CM]S.+" postag_regexp="yes"/>
+      </antipattern>
     <rule id='PHRASAL_VERB_PREFERIR' name='Regência verbal: Preferir X a Y'>
     <!--      Created by Tiago F. Santos, 2017-01-24      -->
     <!-- Loosely based on CoGrOO rule -->
@@ -30692,6 +30702,20 @@ TODO Write better examples
  </category>
 
  <category id='STYLE' name="Estilo" type="style">
+     
+     <!-- DE FORMA/MODO + ADJ adv -->
+     <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-08 (2-JUL-2020+)     -->
+     <rule id='DE_FORMA-MODO_ADJ' name="De + forma/modo + Adj -> Advérbio" default="temp_off" tags="picky">
+         <pattern>
+             <token regexp="no">de</token>
+             <token regexp="yes">forma|modo</token>
+             <token postag='AQ0[CFM]S0' postag_regexp='yes'><exception regexp="yes">.*[áéíóúâêôãõàèìòù)].*</exception></token>
+         </pattern>
+         <message>Substitua por</message>
+         <suggestion><match no='3' postag='AQ0[CFM]S0' postag_regexp='yes' postag_replace='AQ0[CF]S0'/>mente</suggestion>
+         <example correction="permanentemente">A Ana foi banida <marker>de forma permanente</marker> por violar as regras.</example>
+         <example type='correct'>A Ana foi banida <marker>permanentemente</marker> por violar as regras.</example>
+     </rule>
 
     <rule id='MULTIPLE_VERBS_IN_A_ROW' name='Uso excessivo de verbos consecutivos' default='off'> <!-- TODO re-enable when pseudo-chunker is implemented -->
     <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-20 	-->
