@@ -3480,6 +3480,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Os ultimo los últimos detalles.</example>
                 <example>Ahora ultimo los detalles.</example>
             </rule>
+            <rule default="temp_off"> 
+                <antipattern>
+                    <token>practico</token>
+                    <token postag="[DN].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token>practico</token>
+                </antipattern>
+                <pattern>
+                    <token>practico</token>
+                </pattern>
+                <message>Si es sustantivo o adjetivo, lleva tilde. Correcto si es del v. 'practicar'.</message>
+                <suggestion><match no="1" regexp_match="(?i)pra(.*)" regexp_replace="prá$1"/></suggestion>
+                <example correction="práctico">Des del punto de vistar más <marker>practico</marker>.</example>
+                <example>Yo lo practico todos los días.</example>
+                <example>Practico la meditación.</example>
+                <example>Practico yoga.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">acido|acida|acidas</token>
@@ -13294,7 +13313,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token postag="A.*" postag_regexp="yes" inflected="yes" regexp="yes">guapo|guapetón|guapísimo|amigo|chico|niño<exception postag="_possible_NP"/></token>
                         </marker>
                     </unify>
-                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                    <token postag="_PUNCT.*|CC" postag_regexp="yes"/>
                 </pattern>
                 <message>Probablemente falta una coma.</message>
                 <suggestion>\1, \2</suggestion>
@@ -13462,6 +13481,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Los peces marions, susurró.</example>
                 <example>Esta sangre, baja en oxígeno, se suministra al resto del cuerpo.</example>
                 <example>Los usuarios, además, pueden publicar comentarios en las historias.</example>
+                <!--<example correction="">Mi hija Agustina, es licenciada</example>-->
             </rule>
             <rule>
                 <pattern>

@@ -122,10 +122,11 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="remove" postag="NCFS000"/>
         </rule>
         <rule>
+            <!-- not always true, but better to analyze it this way -->
             <pattern>
                 <token>mas</token>
             </pattern>
-            <disambig action="remove" postag="NCMS000"/>
+            <disambig action="replace" postag="RG"/>
         </rule>
     </rulegroup>
 
@@ -508,6 +509,12 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="remove" postag="N.*"/>
         </rule>
+        <rule>
+            <pattern>
+                <token postag="DA.*" postag_regexp="yes" regexp="yes">las?</token>
+            </pattern>
+            <disambig action="remove" postag="N.*"/>
+        </rule>
     </rulegroup>
     <rulegroup id="PREFIXES" name="prefijos">
         <rule>
@@ -584,7 +591,8 @@ Copyright (C) 2011 Juan Martorell
     <rule id="ADVERB_BEFORE" name="adverb before adjective">
         <pattern>
             <!--|todo-->
-            <token postag="RG" regexp="yes">todavía|mal|.+mente|muy|poco|muchísimo|poquísimo|tantísimo|tanto|tan|entonces|pronto|bastante|bien|aún|casi|harto|nada|incluso|ya|nunca|demasiado|medio|mejor|más|menos|no|solo|sólo|peor|quizás?|algo|siempre|también|tampoco|aun</token>
+            <!-- "mas" is usaully a typo for "más" --> 
+            <token postag="RG" regexp="yes">todavía|mal|.+mente|muy|poco|muchísimo|poquísimo|tantísimo|tanto|tan|entonces|pronto|bastante|bien|aún|casi|harto|nada|incluso|ya|nunca|demasiado|medio|mejor|más|mas|menos|no|solo|sólo|peor|quizás?|algo|siempre|también|tampoco|aun</token>
         </pattern>
         <disambig action="add">
             <wd pos="RG_before"/>
