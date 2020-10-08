@@ -306,7 +306,8 @@ public class English extends Language implements AutoCloseable {
       case "COVID_19":                  return 1;
       case "OTHER_WISE_COMPOUND":       return 1;
       case "ON_EXCEL":                  return 1;
-      case "MAY_MANY":                  return 1;   // higher prio then MAY_MANY_MY
+      case "CAUSE_BECAUSE":             return 1;   // higher prio than MISSING_TO_BETWEEN_BE_AND_VB
+      case "MAY_MANY":                  return 1;   // higher prio than MAY_MANY_MY
       case "BOUT_TO":                   return 1;   // higher prio than PRP_VB
       case "HAVE_HAVE":                 return 1;   // higher prio than HE_D_VBD
       case "CAR_CARE":                  return 1;   // higher prio than AI_MISSING_WORD_ARTICLE_THE
@@ -389,6 +390,7 @@ public class English extends Language implements AutoCloseable {
       case "IT_VBZ":                    return -1;
       case "IT_IS_2":                   return -1;  // needs higher prio than BEEN_PART_AGREEMENT
       case "A_RB_NN":                   return -1;  // prefer other more specific rules (e.g. QUIET_QUITE, A_QUITE_WHILE)
+      case "DT_RB_IN":                  return -1;  // prefer other more specific rules
       case "PLURAL_VERB_AFTER_THIS":    return -1;  // prefer other more specific rules (e.g. COMMA_TAG_QUESTION)
       case "BE_RB_BE":                  return -1;  // prefer other more specific rules
       case "IT_ITS":                    return -1;  // prefer other more specific rules

@@ -285,6 +285,11 @@ public class AdverbFilter extends RuleFilter {
     put("unkindly", "unkind");
     put("mentally", "mental");
     put("credibly", "credible");
+    put("seductively", "seductive");
+    put("rashly", "rash");
+    put("outwards", "outward");
+    put("periodically", "periodical");
+    put("comparatively", "comparative");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

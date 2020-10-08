@@ -419,7 +419,9 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "way to go", // vs was
       "way won't", // was
       "and now him", // vs know
-      "and now us," // vs is
+      "and now us,", // vs is
+      "to control us", // vs is
+      "are way not" // vs was
     );
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
@@ -427,7 +429,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       // way vs was: This way a person could learn ....
       token("this"),
       token("way"),
-      posRegex("DT"),
+      posRegex("DT|PRP\\$"),
       posRegex("NN.*"),
       posRegex("MD")
     ),
@@ -453,7 +455,13 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
     Arrays.asList(
       // "way easier" (was/way)
       token("way"),
-      posRegex("JJR")
+      posRegex("JJR|RBR")
+    ),
+    Arrays.asList(
+      // "He acts way different" (was/way)
+      posRegex("VB.*"),
+      token("way"),
+      token("different")
     ),
     Arrays.asList(
       // "way much easier" (was/way)
