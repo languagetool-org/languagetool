@@ -81,15 +81,11 @@ class FastTextConfidenceEval {
           if (bestLang != null) {
             if (bestLang.equals(language.getShortCode())) {
               if (CORRECT_DETECTION_CONFIDENCE) {
-                double finalMax = max;
-                textLengthToConfidence.compute(text.length(), (k, v) -> v == null ? finalMax : v + finalMax);
-                textLengthToConfidenceCount.compute(text.length(), (k, v) -> v == null ? 1 : v + 1);
+                updateMaps(textLengthToConfidence, textLengthToConfidenceCount, text, max);
               }
             } else {
               if (!CORRECT_DETECTION_CONFIDENCE) {
-                double finalMax = max;
-                textLengthToConfidence.compute(text.length(), (k, v) -> v == null ? finalMax : v + finalMax);
-                textLengthToConfidenceCount.compute(text.length(), (k, v) -> v == null ? 1 : v + 1);
+                updateMaps(textLengthToConfidence, textLengthToConfidenceCount, text, max);
               }
             }
          }
@@ -106,6 +102,11 @@ class FastTextConfidenceEval {
         }
       }
     }
+  }
+
+  private void updateMaps(Map<Integer, Double> textLengthToConfidence, Map<Integer, Integer> textLengthToConfidenceCount, String text, double max) {
+    textLengthToConfidence.compute(text.length(), (k, v) -> v == null ? max : v + max);
+    textLengthToConfidenceCount.compute(text.length(), (k, v) -> v == null ? 1 : v + 1);
   }
 
   private List<String> getLines(InputStream stream) throws IOException {
