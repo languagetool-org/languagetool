@@ -30,7 +30,7 @@ import static org.languagetool.language.LanguageIdentifier.canLanguageBeDetected
 /**
  * @since 5.0
  */
-class FastText {
+public class FastText {
 
   private static final Logger logger = LoggerFactory.getLogger(FastText.class);
   private static final int K_HIGHEST_SCORES = 5;
@@ -39,13 +39,13 @@ class FastText {
   private final BufferedReader fasttextIn;
   private final BufferedWriter fasttextOut;
 
-  FastText(File modelPath, File binaryPath) throws IOException {
+  public FastText(File modelPath, File binaryPath) throws IOException {
     fasttextProcess = new ProcessBuilder(binaryPath.getPath(), "predict-prob", modelPath.getPath(), "-", "" + K_HIGHEST_SCORES).start();
     fasttextIn = new BufferedReader(new InputStreamReader(fasttextProcess.getInputStream(), StandardCharsets.UTF_8));
     fasttextOut = new BufferedWriter(new OutputStreamWriter(fasttextProcess.getOutputStream(), StandardCharsets.UTF_8));
   }
 
-  Map<String, Double> runFasttext(String text, List<String> additionalLanguageCodes) throws IOException {
+  public Map<String, Double> runFasttext(String text, List<String> additionalLanguageCodes) throws IOException {
     Map<String, Double> probabilities = new HashMap<>();
     String joined = text.replace("\n", " ");
     String buffer;
