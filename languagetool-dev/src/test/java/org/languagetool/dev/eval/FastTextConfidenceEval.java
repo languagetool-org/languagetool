@@ -39,8 +39,8 @@ class FastTextConfidenceEval {
   private static final boolean CORRECT_DETECTION_CONFIDENCE = true;
   private static final int MIN_INPUT_LEN = 5;
   private static final int MAX_INPUT_LEN = 50;
-  public static final File MODEL_PATH = new File("/prg/fastText-0.1.0/data/lid.176.bin");
-  public static final File BINARY_PATH = new File("/prg/fastText-0.1.0/fasttext");
+  private static final File MODEL_PATH = new File("/prg/fastText-0.1.0/data/lid.176.bin");
+  private static final File BINARY_PATH = new File("/prg/fastText-0.1.0/fasttext");
 
   private final FastText ft;
 
