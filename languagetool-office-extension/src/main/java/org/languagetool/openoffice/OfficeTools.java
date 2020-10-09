@@ -290,21 +290,24 @@ class OfficeTools {
     }
   }
   
-/**
- *  return true if two locales are equal  
- */
-  
-  static boolean isEqualLocal(Locale local1, Locale local2) {
-    if (local1.Language.equals(local2.Language) && local1.Country.equals(local2.Country) && local1.Variant.equals(local2.Variant)) {
-      return true;
-    }
-    return false;
+  /**
+   *  Get a String from local
+   */
+  static String localeToString(Locale locale) {
+    return locale.Language + (locale.Country.isEmpty() ? "" : "-" + locale.Country) + (locale.Variant.isEmpty() ? "" : "-" + locale.Variant);
+  }
+
+  /**
+   *  return true if two locales are equal  
+   */
+  static boolean isEqualLocale(Locale locale1, Locale locale2) {
+    return (locale1.Language.equals(locale2.Language) && locale1.Country.equals(locale2.Country) 
+        && locale1.Variant.equals(locale2.Variant));
   }
 
 /**
  * Handle logLevel for debugging and development
  */
-  
   static void setLogLevel(String logLevel) {
     if (logLevel != null) {
       String[] levels = logLevel.split(LOG_DELIMITER);

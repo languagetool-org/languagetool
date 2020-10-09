@@ -40,6 +40,7 @@ import org.languagetool.tools.StringTools;
 
 import com.sun.star.beans.PropertyState;
 import com.sun.star.beans.PropertyValue;
+import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.SingleProofreadingError;
@@ -152,12 +153,12 @@ class SingleDocument {
    * @param nPara             number of flat paragraph (if known; only for LT internal functions)
    * @return                  proof reading result
    */
-  ProofreadingResult getCheckResults(String paraText, ProofreadingResult paRes, 
+  ProofreadingResult getCheckResults(String paraText, Locale locale, ProofreadingResult paRes, 
       PropertyValue[] propertyValues, boolean docReset, SwJLanguageTool langTool) {
-    return getCheckResults(paraText, paRes, propertyValues, docReset, langTool, -1);
+    return getCheckResults(paraText, locale, paRes, propertyValues, docReset, langTool, -1);
   }
     
-  ProofreadingResult getCheckResults(String paraText, ProofreadingResult paRes, 
+  ProofreadingResult getCheckResults(String paraText, Locale locale, ProofreadingResult paRes, 
       PropertyValue[] propertyValues, boolean docReset, SwJLanguageTool langTool, int nPara) {
     
     getPropertyValues(propertyValues);
@@ -177,7 +178,7 @@ class SingleDocument {
         ignoredMatches = new HashMap<>();
       }
       SingleProofreadingError[] sErrors = null;
-      paraNum = getParaPos(nPara, paraText, paRes.nStartOfSentencePosition);
+      paraNum = getParaPos(nPara, paraText, locale, paRes.nStartOfSentencePosition);
       this.paraNum = paraNum;
       if (nPara >= 0) {
         isDialogRequest.add(paraNum);
@@ -488,7 +489,7 @@ class SingleDocument {
    * Search for Position of Paragraph
    * gives Back the Position of flat paragraph / -1 if Paragraph can not be found
    */
-  private int getParaPos(int nPara, String chPara, int startPos) {
+  private int getParaPos(int nPara, String chPara, Locale locale, int startPos) {
 
     if (numParasToCheck == 0 || xComponent == null) {
       return -1;  //  check only the processed paragraph
@@ -516,7 +517,7 @@ class SingleDocument {
     }
 
     if (nPara >= 0) {
-      return setPossibleChanges(chPara, nPara);
+      return setPossibleChanges(chPara, locale, nPara);
     }
     
     if (debugMode > 1) {
@@ -524,10 +525,10 @@ class SingleDocument {
     }
     
     if(proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
-      return getParaFromViewCursorOrDialog(chPara);
+      return getParaFromViewCursorOrDialog(chPara, locale);
     }
     else {
-      return getParaFromFlatparagraph(chPara, startPos);
+      return getParaFromFlatparagraph(chPara, locale, startPos);
     }
     
   }
@@ -536,12 +537,12 @@ class SingleDocument {
    * Search for Position of Paragraph if reason for proof is mark paragraph or no proof info
    * returns -1 if Paragraph can not be found
    */
-  private int getParaFromFlatparagraph(String chPara, int startPos) {
+  private int getParaFromFlatparagraph(String chPara, Locale locale, int startPos) {
     if (docCache == null) {
       return -1;
     }
     // try to get next position from last FlatParagraph position (for performance reasons)
-    int nPara = findNextParaPos(numLastFlPara, chPara, startPos);
+    int nPara = findNextParaPos(numLastFlPara, chPara, locale, startPos);
     if (nPara >= 0) {
       numLastFlPara = nPara;
       if (debugMode > 0) {
@@ -562,7 +563,7 @@ class SingleDocument {
     
     if (proofInfo == OfficeTools.PROOFINFO_UNKNOWN && nPara < 0) {
       //  no automatic iteration - get ViewCursor position
-      return getParaFromViewCursorOrDialog(chPara);
+      return getParaFromViewCursorOrDialog(chPara, locale);
     }
 
     String curFlatParaText = flatPara.getCurrentParaText();
@@ -570,7 +571,7 @@ class SingleDocument {
     if (proofInfo == OfficeTools.PROOFINFO_UNKNOWN 
         && (curFlatParaText != null && !curFlatParaText.equals(chPara) && curFlatParaText.equals(docCache.getFlatParagraph(nPara)))) {
       //  no automatic iteration - get ViewCursor position
-      return getParaFromViewCursorOrDialog(chPara);
+      return getParaFromViewCursorOrDialog(chPara, locale);
     }
 
     //  test real flat paragraph rather then the one given by Proofreader - it could be changed meanwhile
@@ -579,13 +580,13 @@ class SingleDocument {
     }
 
     // find position from changed paragraph
-    return getPosFromChangedPara(chPara, nPara);
+    return getPosFromChangedPara(chPara, locale, nPara);
   }
 
   /**
    * Actualize document cache and result cache for given paragraph number
    */
-  private int setPossibleChanges (String chPara, int nPara) {
+  private int setPossibleChanges (String chPara, Locale locale, int nPara) {
     int nOldParas = docCache.size();
     changesInNumberOfParagraph(false);
     int numParas = docCache.size();
@@ -609,7 +610,7 @@ class SingleDocument {
         MessageHandler.printToLogFile("Internal request: Paragraph has changed:\no:" 
             + chPara + "\nn:" + docCache.getTextParagraph(nPara));
       }
-      docCache.setFlatParagraph(nPara, chPara);
+      docCache.setFlatParagraph(nPara, chPara, locale);
       removeResultCache(nPara);
       ignoredMatches.remove(nPara);
     }
@@ -630,7 +631,7 @@ class SingleDocument {
    * Get the Position of Paragraph if result is ordered by right mouse click or spelling dialog
    * returns -1 if it fails
    */
-  private int getParaFromViewCursorOrDialog(String chPara) {
+  private int getParaFromViewCursorOrDialog(String chPara, Locale locale) {
     // try to get ViewCursor position (proof initiated by mouse click)
     if (docCache == null) {
       return -1;
@@ -639,7 +640,7 @@ class SingleDocument {
       viewCursor = new ViewCursorTools(xContext);
     }
     int nParas = viewCursor.getViewCursorParagraph();
-    if (nParas >= 0 && nParas < docCache.textSize() && chPara.equals(docCache.getTextParagraph(nParas))) {
+    if (nParas >= 0 && nParas < docCache.textSize() && docCache.isEqual(docCache.getFlatParagraphNumber(nParas), chPara, locale)) {
       numLastVCPara = nParas;
       if (debugMode > 0) {
         MessageHandler.printToLogFile("From View Cursor: Number of Paragraph: " + nParas + OfficeTools.LOG_LINE_BREAK);
@@ -653,7 +654,7 @@ class SingleDocument {
       numLastVCPara = 0;
     }
     for(int i = numLastVCPara; i < docCache.textSize(); i++) {
-      if (chPara.equals(docCache.getTextParagraph(i))) {
+      if (docCache.isEqual(docCache.getFlatParagraphNumber(i), chPara, locale)) {
         numLastVCPara = i;
         if (debugMode > 0) {
           MessageHandler.printToLogFile("From Dialog: Number of Paragraph: " + i + OfficeTools.LOG_LINE_BREAK);
@@ -664,7 +665,7 @@ class SingleDocument {
       }
     }
     for(int i = 0; i < numLastVCPara; i++) {
-      if (chPara.equals(docCache.getTextParagraph(i))) {
+      if (docCache.isEqual(docCache.getFlatParagraphNumber(i), chPara, locale)) {
         numLastVCPara = i;
         if (debugMode > 0) {
           MessageHandler.printToLogFile("From Dialog: Number of Paragraph: " + i + OfficeTools.LOG_LINE_BREAK);
@@ -781,21 +782,21 @@ class SingleDocument {
   /**
    * find position from changed paragraph
    */
-  private int getPosFromChangedPara(String chPara, int nPara) {
+  private int getPosFromChangedPara(String chPara, Locale locale, int nPara) {
     if (docCache == null || nPara < 0) {
       return -1;
     }
     
     numLastFlPara = nPara;  //  Note: This is the number of flat paragraph
     
-    if (!chPara.equals(docCache.getFlatParagraph(nPara))) {
+    if (!docCache.isEqual(nPara, chPara, locale)) {
       if (debugMode > 0) {
         MessageHandler.printToLogFile("!!! flat praragraph changed: nPara: " + nPara
                 + "; docID: " + docID
                 + OfficeTools.LOG_LINE_BREAK + "old: " + docCache.getFlatParagraph(nPara) + OfficeTools.LOG_LINE_BREAK 
                 + "new: " + chPara + OfficeTools.LOG_LINE_BREAK);
       }
-      docCache.setFlatParagraph(nPara, chPara);
+      docCache.setFlatParagraph(nPara, chPara, locale);
       resetCheck.add(nPara);
       sentencesCache.remove(nPara);
       if(useQueue) {
@@ -829,17 +830,17 @@ class SingleDocument {
    * Heuristic try to find next position (automatic iteration)
    * Is paragraph same, next not empty after or before   
    */
-  private int findNextParaPos(int startPara, String paraStr, int startPos) {
+  private int findNextParaPos(int startPara, String paraStr, Locale locale, int startPos) {
     if (docCache == null || docCache.size() < 1) {
       return -1;
     }
     if (startPos > 0) {
-      if (startPara >= 0 && startPara < docCache.size() && paraStr.equals(docCache.getFlatParagraph(startPara))) {
+      if (startPara >= 0 && startPara < docCache.size() && docCache.isEqual(startPara, paraStr, locale)) {
         return startPara;
       }
     } else if (startPos == 0) {
       startPara = startPara >= docCache.size() ? 0 : startPara + 1;
-      if (startPara >= 0 && startPara < docCache.size() && paraStr.equals(docCache.getFlatParagraph(startPara))) {
+      if (startPara >= 0 && startPara < docCache.size() && docCache.isEqual(startPara, paraStr, locale)) {
         return startPara;
       }
     }

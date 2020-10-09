@@ -79,7 +79,9 @@ public class CacheIO implements Serializable {
       }
       String url = xModel.getURL();
       if (url == null || !url.startsWith("file://")) {
-        MessageHandler.printToLogFile("Not a file URL: " + (url == null ? "null" : url));
+        if (url != null && !url.isEmpty()) {
+          MessageHandler.printToLogFile("Not a file URL: " + (url == null ? "null" : url));
+        }
         return null;
       }
       URI uri = new URI(url);
@@ -183,6 +185,10 @@ public class CacheIO implements Serializable {
         + ", Number of matches: " + allCaches.paragraphsCache.get(0).getNumberOfMatches());
     MessageHandler.printToLogFile("Paragraph Cache(1): Number of paragraphs: " + allCaches.paragraphsCache.get(1).getNumberOfParas() 
         + ", Number of matches: " + allCaches.paragraphsCache.get(1).getNumberOfMatches());
+    for (int n = 0; n < allCaches.docCache.size(); n++) {
+      MessageHandler.printToLogFile("allCaches.docCache.getFlatParagraphLocale(" + n + "): " 
+            + (allCaches.docCache.getFlatParagraphLocale(n) == null ? "null" : OfficeTools.localeToString(allCaches.docCache.getFlatParagraphLocale(n))));
+    }
     if (allCaches.sentencesCache == null) {
       MessageHandler.printToLogFile("sentencesCache == null");
     } else {

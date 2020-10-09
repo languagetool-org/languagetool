@@ -39,10 +39,10 @@ public class DocumentCache implements Serializable {
 
   private List<String> paragraphs = null;            //  stores the flat paragraphs of document
   private List<Integer> headings = null;             //  stores the paragraphs formated as headings; is used to subdivide the document in chapters
-  private List<SerialLocale> locales = null;               //  stores the language of the paragraphs;
+  private List<SerialLocale> locales = null;         //  stores the language of the paragraphs;
   private List<int[]> footnotes = null;              //  stores the footnotes of the paragraphs;
-  private List<Integer> toTextMapping = new ArrayList<>();  //Mapping from FlatParagraph to DocumentCursor
-  private List<Integer> toParaMapping = new ArrayList<>();  //Mapping from DocumentCursor to FlatParagraph
+  private List<Integer> toTextMapping = new ArrayList<>();  //  Mapping from FlatParagraph to DocumentCursor
+  private List<Integer> toParaMapping = new ArrayList<>();  //  Mapping from DocumentCursor to FlatParagraph
   private int defaultParaCheck;
 
   DocumentCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, int defaultParaCheck) {
@@ -134,6 +134,11 @@ public class DocumentCache implements Serializable {
     paragraphs.set(n, sPara);
   }
     
+  public void setFlatParagraph(int n, String sPara, Locale locale) {
+    paragraphs.set(n, sPara);
+    locales.set(n, new SerialLocale(locale));
+  }
+    
   /**
    * get Text Paragraph by Index
    */
@@ -152,21 +157,21 @@ public class DocumentCache implements Serializable {
    * get Locale of Flat Paragraph by Index
    */
   public Locale getFlatParagraphLocale(int n) {
-    return locales.get(n);
+    return locales.get(n).toLocale();
   }
   
   /**
    * set Locale of Flat Paragraph by Index
    */
   public void setFlatParagraphLocale(int n, Locale locale) {
-    locales.set(n, (SerialLocale) locale);
+    locales.set(n, new SerialLocale(locale));
   }
   
   /**
    * get Locale of Text Paragraph by Index
    */
   public Locale getTextParagraphLocale(int n) {
-    return locales.get(toParaMapping.get(n));
+    return locales.get(toParaMapping.get(n)).toLocale();
   }
   
   /**
@@ -209,6 +214,13 @@ public class DocumentCache implements Serializable {
    */
   public int textSize() {
     return toParaMapping.size();
+  }
+  
+  /**
+   * size of text cache (without headers, footnotes, etc.)
+   */
+  public boolean isEqual(int n, String text, Locale locale) {
+    return (OfficeTools.isEqualLocale(locales.get(n).toLocale(), locale) && text.equals(paragraphs.get(n)));
   }
   
   /**
@@ -337,14 +349,22 @@ public class DocumentCache implements Serializable {
     return pos;
   }
 
-  class SerialLocale extends Locale implements Serializable {
-     private static final long serialVersionUID = 1L;
+  class SerialLocale implements Serializable {
      
-     SerialLocale(Locale locale) {
-       this.Country = locale.Country;
-       this.Language = locale.Language;
-       this.Variant = locale.Variant;
-     }
+    private static final long serialVersionUID = 1L;
+    String Country;
+    String Language;
+    String Variant;
+   
+    SerialLocale(Locale locale) {
+      this.Country = locale.Country;
+      this.Language = locale.Language;
+      this.Variant = locale.Variant;
+    }
+     
+    Locale toLocale() {
+      return new Locale(Language, Country, Variant); 
+    }
   }
 
 }

@@ -391,7 +391,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       paRes.nStartOfSentencePosition = paRes.nStartOfNextSentencePosition;
       paRes.nStartOfNextSentencePosition = text.length();
       paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
-      paRes = document.getCheckResults(text, paRes, propertyValues, false, langTool, y);
+      paRes = document.getCheckResults(text, locale, paRes, propertyValues, false, langTool, y);
       if (paRes.aErrors != null) {
         for (SingleProofreadingError error : paRes.aErrors) {
           if (error.nErrorStart >= x) {
