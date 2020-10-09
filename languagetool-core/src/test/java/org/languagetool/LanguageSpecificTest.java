@@ -62,6 +62,11 @@ public class LanguageSpecificTest {
   }
 
   private void testNoLineBreaksEtcInMessage(Language lang) {
+    if (lang.getMaintainedState() == LanguageMaintainedState.LookingForNewMaintainer) {
+      // avoid printing too many warnings that nobody takes care of
+      System.err.println("Skipping message tests for unmaintained language " + lang);
+      return;
+    }
     JLanguageTool lt = new JLanguageTool(lang);
     for (Rule rule : lt.getAllRules()) {
       if (lang.getShortCode().equals("en") && rule.getId().startsWith("EUPUB_")) {  // ignore, turned off anyway
@@ -69,11 +74,18 @@ public class LanguageSpecificTest {
       }
       if (rule instanceof AbstractPatternRule) {
         String message = ((AbstractPatternRule) rule).getMessage();
+        String prefix = "*** WARNING: " + lang.getShortCode() + ": " + rule.getFullId();
         if (message.contains("\n") || message.contains("\r")) {
-          System.err.println("*** WARNING: " + rule.getFullId() + " contains line break (\\n or \\r): " + message.replace("\n", "\\n").replace("\r", "\\r"));
+          System.err.println(prefix + " contains line break (\\n or \\r): " + message.replace("\n", "\\n").replace("\r", "\\r"));
         }
         if (message.contains("\t")) {
-          System.err.println("*** WARNING: " + rule.getFullId() + " contains tab (\\t): " + message.replace("\t", "\\t"));
+          System.err.println(prefix + " contains tab (\\t): " + message.replace("\t", "\\t"));
+        }
+        if (message.contains("  ")) {
+          System.err.println(prefix + " contains two consecutive spaces in message: " + message);
+        }
+        if (rule.getDescription().contains("  ")) {
+          System.err.println(prefix + " contains two consecutive spaces in description: " + rule.getDescription());
         }
       }
     }
