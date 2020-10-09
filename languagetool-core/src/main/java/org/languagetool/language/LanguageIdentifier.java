@@ -228,6 +228,11 @@ public class LanguageIdentifier {
           scores = ngram.detectLanguages(shortText, additionalLangs);
         }
         result = getHighestScoringResult(scores);
+        /*if (result.getValue().floatValue() < THRESHOLD) {
+          System.out.println("FastText below threshold: " + result.getValue().floatValue() + " for " + text.length() + " chars");
+        } else {
+          System.out.println("FastText above threshold: " + result.getValue().floatValue() + " for " + text.length() + " chars");
+        }*/
         if (result.getValue().floatValue() < THRESHOLD) {
           //System.out.println(text + " ->" + result.getValue().floatValue() + " " + result.getKey());
           CommonWords commonWords = new CommonWords();
