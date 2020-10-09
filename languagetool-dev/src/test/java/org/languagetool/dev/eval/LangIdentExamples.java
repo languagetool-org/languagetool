@@ -28,7 +28,7 @@ import java.util.*;
 /**
  * Test FastText or ngram-based approach with some examples.
  */
-class FastTextExamples {
+class LangIdentExamples {
 
   private static final String MODE = "fasttext";   // 'ngram' or 'fasttext'
   private static final File MODEL_PATH = new File("/prg/fastText-0.1.0/data/lid.176.bin");
@@ -48,7 +48,7 @@ class FastTextExamples {
   private final Map<String,Integer> langTotalCount = new HashMap<>();
   private final Map<String,Integer> langToCorrectCount = new HashMap<>();
 
-  private FastTextExamples() throws IOException {
+  private LangIdentExamples() throws IOException {
     if (MODE.equals("ngram")) {
       ngram = new NGramLangIdentifier(NGRAM_DIR, 100, true, false);
       ft = null;
@@ -203,7 +203,7 @@ class FastTextExamples {
   }
 
   public static void main(String[] args) throws IOException {
-    FastTextExamples eval = new FastTextExamples();
+    LangIdentExamples eval = new LangIdentExamples();
     eval.run();
   }
 
