@@ -41672,12 +41672,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="calé"> Ara hi ha molt de <marker>caler</marker>.</example>
         </rule>
         <rule id="VERGONYANT" name="vergonyant/vergonyós">
+            <antipattern>
+                <token>pobresa</token>
+                <token>vergonyant</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token inflected="yes">vergonyant</token>
                 </marker>
             </pattern>
-            <message>Incorrecte en el sentit de vergonyós (que causa vergonya) o indignant. Correcte en altres sentits menys usuals.</message>
+            <message>Incorrecte en el sentit de 'vergonyós' (que causa vergonya) o 'indignant'. Correcte en altres sentits menys usuals.</message>
             <suggestion><match no="1" postag="AQ0C(.)0" postag_regexp="yes" postag_replace="AQ0M$10">vergonyós</match></suggestion>
             <suggestion><match no="1" postag="AQ0C(.)0" postag_regexp="yes" postag_replace="AQ0F$10">vergonyós</match></suggestion>
             <suggestion><match no="2" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">indignant</match></suggestion>
