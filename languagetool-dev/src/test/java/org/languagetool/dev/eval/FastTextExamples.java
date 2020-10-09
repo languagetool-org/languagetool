@@ -19,33 +19,45 @@
 package org.languagetool.dev.eval;
 
 import org.languagetool.language.FastText;
+import org.languagetool.language.NGramLangIdentifier;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
 /**
- * Test FastText with some examples.
+ * Test FastText or ngram-based approach with some examples.
  */
 class FastTextExamples {
 
+  private static final String MODE = "fasttext";   // 'ngram' or 'fasttext'
   private static final File MODEL_PATH = new File("/prg/fastText-0.1.0/data/lid.176.bin");
   private static final File BINARY_PATH = new File("/prg/fastText-0.1.0/fasttext");
+  private static final File NGRAM_DIR = new File("/home/languagetool/ngram-lang-id");
 
   private static final String DE = "de";
   private static final String EN = "en";
   private static final String NL = "nl";
   private static final String ES = "es";
-  private static final String FR = "FR";
+  private static final String FR = "fr";
   private static final String IT = "it";
   private static final String UK = "uk";
 
   private final FastText ft;
+  private final NGramLangIdentifier ngram;
   private final Map<String,Integer> langTotalCount = new HashMap<>();
   private final Map<String,Integer> langToCorrectCount = new HashMap<>();
 
   private FastTextExamples() throws IOException {
-    ft = new FastText(MODEL_PATH, BINARY_PATH);
+    if (MODE.equals("ngram")) {
+      ngram = new NGramLangIdentifier(NGRAM_DIR, 100, true, false);
+      ft = null;
+    } else if (MODE.equals("fasttext")) {
+      ngram = null;
+      ft = new FastText(MODEL_PATH, BINARY_PATH);
+    } else {
+      throw new RuntimeException("MODE not known: " + MODE);
+    }
   }
 
   private void run() throws IOException {
@@ -157,7 +169,12 @@ class FastTextExamples {
   }
 
   private void eval(String input, String expectedLang) throws IOException {
-    Map<String, Double> map = ft.runFasttext(input, Collections.emptyList());
+    Map<String, Double> map;
+    if (MODE.equals("ngram")) {
+      map = ngram.detectLanguages(input, Collections.emptyList());
+    } else {
+      map = ft.runFasttext(input, Collections.emptyList());
+    }
     double max = 0;
     String bestLang = null;
     for (Map.Entry<String, Double> entry : map.entrySet()) {
@@ -179,7 +196,7 @@ class FastTextExamples {
 
   private void printSummary() {
     List<String> langs = Arrays.asList(DE, EN, FR, ES, IT, UK);
-    System.out.println("\nCorrectly detected:");
+    System.out.println("\nCorrectly detected (" + MODE + "):");
     for (String lang : langs) {
       System.out.println(lang + ": " + langToCorrectCount.get(lang) + " out of " + langTotalCount.get(lang));
     }
