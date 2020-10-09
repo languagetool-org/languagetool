@@ -3480,10 +3480,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Os ultimo los últimos detalles.</example>
                 <example>Ahora ultimo los detalles.</example>
             </rule>
-            <rule default="temp_off"> 
+            <rule>
                 <antipattern>
                     <token>practico</token>
                     <token postag="[DN].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>que</token>
+                    <token min="0" max="3" postag="R.*|LOC_ADV" postag_regexp="yes"/>
+                    <token>practico</token>
                 </antipattern>
                 <antipattern>
                     <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
@@ -3498,6 +3503,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Yo lo practico todos los días.</example>
                 <example>Practico la meditación.</example>
                 <example>Practico yoga.</example>
+                <example>soy la primera que no practico para nada este estilo</example>
+                <example>hace tiempo que practico tocar la cítara</example>
+                <!-- Ambiguous: es más bonito que *practico 
+                                es lo más bonito que practico -->
             </rule>
             <rule>
                 <pattern>
@@ -4168,6 +4177,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tú">Esto queda entre <marker>tu</marker> y yo.</example>
                 <example correction="tú">Tu hermana es como <marker>tu</marker>.</example>
                 <example correction="tú">¿Construiste eso <marker>tu</marker> solo?</example>
+                <example correction="tú">Pues <marker>tu</marker> la bajas.</example>
                 <example>Me alegra tu feliz vuelta al trabajo.</example>
                 <example>Me alegra tu vuelta al trabajo.</example>
                 <example>Es tu hermosa gente trabajadora.</example>
