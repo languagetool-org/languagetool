@@ -4780,6 +4780,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="E-NP-plural" postag="NNS"/>
             <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]?"/>
         </antipattern>
+        <antipattern><!-- #3672 flowers on the counter are -->
+            <token chunk="E-NP-plural" postag="NNS"/>
+            <token postag="IN"/>
+            <token postag="DT"/>
+            <token postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token postag_regexp="yes" postag="VB[PD]|MD"/>
+            <token postag_regexp="yes" postag="SENT_END"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -4815,6 +4823,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">In a perfect world technicians wear PPE.</example><!-- #3101 -->
         <example type="untouched">President Bush noted that the US would do its part by stimulating its economy.</example><!-- #3292 -->
         <example type="untouched">A few may come</example>
+        <example type="untouched">I wonder whose these beautiful flowers on the counter are.</example><!-- #3672 are/B-VP -->
+        <example type="untouched">This plant is not nice, but those beautiful flowers on the counter are.</example><!-- #3672 are/B-VP -->
+        <example type="untouched">You can easily get stunning displays, as these beautiful flowers on the counter show.</example><!-- #3672 show/E-NP-singular -->
     </rule>
 
     <rule name="required to" id="required_to">
@@ -8644,6 +8655,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]?"/>
             <token>that</token>
         </antipattern>
+        <antipattern><!-- #3672 flowers on the counter are -->
+            <token chunk="E-NP-plural" postag="NNS"/>
+            <token postag="IN"/>
+            <token postag="DT"/>
+            <token postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token postag_regexp="yes" postag="VB[PD]|MD"/>
+            <token postag_regexp="yes" postag="SENT_END|PCT|PRP|RB"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -8678,7 +8697,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Noun: Before the <marker>game</marker> starts she is unable to read all instructions.</example><!-- #2427 -->
         <example type="untouched">Noun: The <marker>work</marker> makes it possible.</example><!-- #2427 -->
         <example type="untouched">A large current flows through the air...</example><!-- #2926 -->
-        <example type="untouched">... if a forward pass crosses into the neutral zone.</example><!-- #2926 -->
+        <example type="untouched">... if a forward pass crosses into the neutral zones.</example><!-- #2926 -->
         <example type="untouched">I wish you a good party guys and don't drink too much.</example><!-- #2926, #2931 -->
         <example type="untouched">Considering that a new clutch costs nearly as much...</example><!-- #2926 -->
         <example type="untouched">... on a table while a pretty blonde looks at your ass?</example><!-- #2926 -->
@@ -8704,6 +8723,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">The media want to know about their customers.</example><!-- Premium #1564 -->
         <example type="untouched">Some people say that he died of hunger, some other tell that he still wanders.</example><!-- #3455 -->
         <example type="untouched">Some people say that he died of hunger and some other say that he still wanders.</example><!-- #3455 -->
+        <example type="untouched">I wonder whose these beautiful flowers on the counter are.</example><!-- #3672 are/B-VP -->
+        <example type="untouched">This plant is not nice, but those beautiful flowers on the counter are.</example><!-- #3672 are/B-VP -->
+        <example type="untouched">You can easily get stunning displays, as these beautiful flowers on the counter show.</example><!-- #3672 show/E-NP-singular -->
+        <example type="untouched">I wonder why these beautiful flowers on the counter lie askew.</example><!-- #3672 lie/E-NP-singular -->
+        <example type="untouched">These beautiful flowers on the counter show you what you can expect from our floral service.</example><!-- #3672 show/E-NP-singular -->
 <!--         <example type="untouched">If any professional want to know the new practices of their field it is only a click away.</example>Premium #1564, incorrect grammar. MFU 2020-08-31 I do not know how to make a general antipattern for this sentence. -->
     </rule>
 
