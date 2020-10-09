@@ -3217,6 +3217,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NN.*" postag_regexp="yes" />
             <token>may</token>
         </antipattern>
+        <antipattern><!-- #3668 flowers on the counter are -->
+            <token chunk="E-NP-plural" postag="NNS"/>
+            <token postag="IN"/>
+            <token postag="DT"/>
+            <token postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token postag_regexp="yes" postag="VB[PD]|MD"/>
+            <token postag_regexp="yes" postag="SENT_END|PCT|PRP|RB"/>
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception><exception scope="previous">of</exception></token>
             <token postag="JJ"><exception postag="RB|NNPS?|NN:U|PRP" postag_regexp="yes"/></token>
@@ -3264,6 +3272,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">The first dog bites, but the second barks happily.</example><!-- #3293 -->
         <example type="untouched">I like your examples; I think your third shows why we must be careful.</example><!-- #3293 -->
         <example type="untouched">I told you that a few affect my rules!</example><!-- #3276 -->
+        <example type="untouched">I wonder whose these beautiful flowers on the counter are.</example><!-- #3668 are/B-VP -->
+        <example type="untouched">This plant is not nice, but those beautiful flowers on the counter are.</example><!-- #3668 are/B-VP -->
+        <example type="untouched">I wonder why these beautiful flowers on the counter lie askew.</example><!-- #3668 lie/E-NP-singular -->
+        <example type="untouched">These beautiful flowers on the counter show you what you can expect from our floral service.</example><!-- #3668 show/E-NP-singular -->
+        <example type="untouched">You can easily get stunning displays, as these beautiful flowers on the counter show.</example><!-- #3668 show/E-NP-singular -->
+        <example type="untouched">This solitary daffodil will not impress your girlfriend, but these rare and expensive flowers on the counter will.</example><!-- #3668 -->
 <!-- Refer to the counter examples        <example type="untouched">If any professional want to know the new practices of their field it is only a click away.</example>Premium #1564 -->
         <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">Today, the black <marker>dogs</marker> barks loudly.</example>
         <example type="ambiguous" inputform="will[will/MD,will/NN:UN,will/VB,will/VBP]" outputform="will[will/NN:UN]">Undoubtedly, the general <marker>will</marker> is an important notion in Rousseau.</example>
@@ -3272,6 +3286,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="need[need/MD,need/NN:UN,need/VB,need/VBP]" outputform="need[need/NN:UN]">If any professional <marker>need</marker> to to achieve success is thwarted, anger and frustration can arise.</example><!-- Premium #1564 counter example -->
         <example type="ambiguous" inputform="want[want/NN:UN,want/VB,want/VBP]" outputform="want[want/NN:UN]">I know that if the professional <marker>want</marker> to enhance our reputation is not controlled, some professionals lose their moral compass.</example><!-- Premium #1564 counter example -->
         <example type="ambiguous" inputform="show[show/NN:UN,show/VB,show/VBP]" outputform="show[show/NN:UN]">I think the third <marker>show</marker> in her series was the best.</example><!-- #3293 -->
+        <example type="ambiguous" inputform="show[show/NN:UN,show/VB,show/VBP]" outputform="show[show/NN:UN]">These beautiful flowers on the counter <marker>show</marker> display give you some idea of what you can expect.</example><!-- #3668 'counter show display' is a noun cluster. -->
     </rule>
 
     <rule name="determiner + adj/noun + preposition => noun" id="DT_JJNN_IN_NN">
@@ -4397,6 +4412,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>few</token>
             <token>more</token>
         </antipattern>
+        <antipattern><!-- #3668 flowers on the counter are -->
+            <token chunk="E-NP-plural" postag="NNS"/>
+            <token postag="IN"/>
+            <token postag="DT"/>
+            <token postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token postag_regexp="yes" postag="VB[PD]"/>
+            <token postag_regexp="yes" postag="SENT_END|PCT|PRP|RB|IN"/>
+        </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"/>
             <token postag="JJ.*|VBG" postag_regexp="yes"><exception postag="RB"/><exception regexp="yes">being|one</exception></token>
@@ -4457,6 +4480,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">I got a few more wrong.</example><!-- #3590 -->
         <example type="untouched">A few more wrong answers are not a problem.</example><!-- #3590 -->
         <example type="untouched">Some people hurt other people out of fear; a few more wrong people because they are bullies.</example><!-- #3590 wrong/B-NP-plural -->
+        <example type="untouched">I wonder whose these beautiful flowers on the counter are.</example><!-- #3668 are/B-VP -->
+        <example type="untouched">This plant is not nice, but those beautiful flowers on the counter are.</example><!-- #3668 are/B-VP -->
+        <example type="untouched">I wonder why these beautiful flowers on the counter lie askew.</example><!-- #3668 lie/E-NP-singular -->
+        <example type="untouched">These beautiful flowers on the counter show you what you can expect from our floral...</example><!-- #3668 show/E-NP-singular -->
+        <example type="untouched">You can easily get stunning displays, as these beautiful flowers on the counter show.</example><!-- #3668 show/E-NP-singular -->
         <example type="ambiguous" inputform="nose[nose/NN,nose/VB,nose/VBP]" outputform="nose[nose/NN]">The elephant swings its long <marker>nose</marker>.</example>
         <example type="ambiguous" inputform="stone[stone/JJ,stone/NN:UN,stone/NNS,stone/VB,stone/VBP]" outputform="stone[stone/NN:UN,stone/NNS]">A rolling <marker>stone</marker> gathers no moss.</example>
         <example type="ambiguous" inputform="make[make/NN:UN,make/VB,make/VBP]" outputform="make[make/NN:UN]">No, I mean like <marker>make</marker> or brand name, in which case no further actions are necessary.</example>
