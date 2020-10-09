@@ -41257,6 +41257,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="RARE_WORDS" name="paraules molt infreqüents">
             <rule>
                 <pattern>
+                    <token inflected="yes">depenjar</token>
+                </pattern>
+                <message>Possible error de picatge. "Depenjar" és un sinònim poc freqüent de "dependre".</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">despenjar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">dependre</match></suggestion>
+                <example correction="despengi|depengui">No pot ser que això <marker>depengi</marker> d'ell</example>
+                <example correction="despenjava|depenia">No <marker>depenjava</marker> cartells</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">get|gets</token>
                 </pattern>
                 <message>Possible error de picatge. Existeix la paraula "<match no="1" case_conversion="alllower"/>", però és infreqüent.</message>
