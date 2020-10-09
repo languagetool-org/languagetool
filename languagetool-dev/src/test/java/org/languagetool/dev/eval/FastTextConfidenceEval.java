@@ -54,54 +54,68 @@ class FastTextConfidenceEval {
     System.out.println("\n=== " + language + " ===");
     if (stream == null) {
       throw new RuntimeException("No eval data found for " + language);
-    } else {
-      List<String> list = getLines(stream);
-      Map<Integer, Double> textLengthToConfidence = new HashMap<>();
-      Map<Integer, Integer> textLengthToConfidenceCount = new HashMap<>();
-      for (String line : list) {
-        if (line.trim().isEmpty()) {
-          System.err.println("Skipping empty input for " + language.getShortCode());
-          continue;
-        }
-        if (line.trim().length() < MIN_INPUT_LEN) {
-          System.err.println("Skipping short input for " + language.getShortCode() + ": " + line);
-          continue;
-        }
-        for (int i = Math.min(line.length(), MAX_INPUT_LEN); i > MIN_INPUT_LEN; i--) {
-          String text = line.substring(0, i);
-          Map<String, Double> map = ft.runFasttext(text, Collections.emptyList());
-          double max = 0;
-          String bestLang = null;
-          for (Map.Entry<String, Double> entry : map.entrySet()) {
-            if (entry.getValue() > max) {
-              max = entry.getValue();
-              bestLang = entry.getKey();
-            }
-          }
-          if (bestLang != null) {
-            if (bestLang.equals(language.getShortCode())) {
-              if (CORRECT_DETECTION_CONFIDENCE) {
-                updateMaps(textLengthToConfidence, textLengthToConfidenceCount, text, max);
-              }
-            } else {
-              if (!CORRECT_DETECTION_CONFIDENCE) {
-                updateMaps(textLengthToConfidence, textLengthToConfidenceCount, text, max);
-              }
-            }
-         }
-        }
+    }
+    List<String> list = getLines(stream);
+    Map<Integer, Double> textLengthToConfidence = new HashMap<>();
+    Map<Integer, Integer> textLengthToConfidenceCount = new HashMap<>();
+    double failConfidenceSum = 0;  // confidence just when the input gets short enough so detection fails
+    int failConfidenceCount = 0;  // confidence just when the input gets short enough so detection fails
+    for (String line : list) {
+      if (line.trim().isEmpty()) {
+        System.err.println("Skipping empty input for " + language.getShortCode());
+        continue;
       }
-      for (int i = MIN_INPUT_LEN + 1; i <= MAX_INPUT_LEN; i++) {
-        if (i < 11 || i % 10 == 0) {
-          if (textLengthToConfidence.get(i) == null || textLengthToConfidenceCount.get(i) == null) {
-            System.out.printf("%d\t-\n", i);
-          } else {
-            System.out.printf(Locale.ENGLISH, "%d\t%.2f\t%d\n", i,
-                    textLengthToConfidence.get(i)/textLengthToConfidenceCount.get(i), textLengthToConfidenceCount.get(i));
+      if (line.trim().length() < MIN_INPUT_LEN) {
+        System.err.println("Skipping short input for " + language.getShortCode() + ": " + line);
+        continue;
+      }
+      boolean prevDetectionCorrect = false;
+      String prevText = null;
+      for (int i = Math.min(line.length(), MAX_INPUT_LEN); i > MIN_INPUT_LEN; i--) {
+        String text = line.substring(0, i);
+        Map<String, Double> map = ft.runFasttext(text, Collections.emptyList());
+        double max = 0;
+        String bestLang = null;
+        for (Map.Entry<String, Double> entry : map.entrySet()) {
+          if (entry.getValue() > max) {
+            max = entry.getValue();
+            bestLang = entry.getKey();
           }
+        }
+        if (bestLang != null) {
+          if (bestLang.equals(language.getShortCode())) {
+            if (CORRECT_DETECTION_CONFIDENCE) {
+              updateMaps(textLengthToConfidence, textLengthToConfidenceCount, text, max);
+            }
+            prevDetectionCorrect = true;
+          } else {
+            if (!CORRECT_DETECTION_CONFIDENCE) {
+              updateMaps(textLengthToConfidence, textLengthToConfidenceCount, text, max);
+            }
+            if (prevDetectionCorrect && prevText != null) {
+              //System.out.println("Detection of " + language + " not correct anymore at confidence " + max + " at " + text.length() + " chars");
+              //System.out.println("OK  : " + prevText);
+              //System.out.println("N.OK: " + text);
+              failConfidenceSum += max;
+              failConfidenceCount++;
+            }
+            prevDetectionCorrect = false;
+          }
+        }
+        prevText = text;
+      }
+    }
+    for (int i = MIN_INPUT_LEN + 1; i <= MAX_INPUT_LEN; i++) {
+      if (i < 11 || i % 10 == 0) {
+        if (textLengthToConfidence.get(i) == null || textLengthToConfidenceCount.get(i) == null) {
+          System.out.printf("%d\t-\n", i);
+        } else {
+          System.out.printf(Locale.ENGLISH, "%d\t%.2f\t%d\n", i,
+                  textLengthToConfidence.get(i)/textLengthToConfidenceCount.get(i), textLengthToConfidenceCount.get(i));
         }
       }
     }
+    System.out.printf(Locale.ENGLISH, "Avg. confidence when just failing detection: %.2f\n", failConfidenceSum/failConfidenceCount);
   }
 
   private void updateMaps(Map<Integer, Double> textLengthToConfidence, Map<Integer, Integer> textLengthToConfidenceCount, String text, double max) {
