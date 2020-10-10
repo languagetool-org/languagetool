@@ -676,6 +676,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
   public static void main(String[] args) throws Throwable {
     PatternRuleTest test = new PatternRuleTest();
     System.out.println("Running XML pattern tests...");
+    System.out.println("LanguageTool version " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ", " + JLanguageTool.GIT_SHORT_ID + ")");
     if (args.length == 0) {
       test.runGrammarRulesFromXmlTestIgnoringLanguages(null);
     } else {
