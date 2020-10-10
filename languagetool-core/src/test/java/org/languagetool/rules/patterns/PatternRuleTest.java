@@ -165,7 +165,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     validateSentenceStartNotInMarker(allRulesLt);
     List<AbstractPatternRule> rules = getAllPatternRules(lang, lt);
     testRegexSyntax(lang, rules);
-    testExamplesExist(lang, rules);
+    testExamplesExist(rules);
     testGrammarRulesFromXML(rules, lt, allRulesLt, lang);
     System.out.println(rules.size() + " rules tested.");
     allRulesLt.shutdown();
@@ -279,7 +279,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     }
   }
 
-  private void testExamplesExist(Language lang, List<AbstractPatternRule> rules) {
+  private void testExamplesExist(List<AbstractPatternRule> rules) {
     for (AbstractPatternRule rule : rules) {
       if (rule.getCorrectExamples().isEmpty()) {
         boolean correctionExists = false;
@@ -314,7 +314,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
         skipCount++;
         continue;
       }
-      testCorrectSentences(lt, allRulesLt, lang, rule);
+      testCorrectSentences(lt, allRulesLt, rule);
       testBadSentences(lt, allRulesLt, lang, complexRules, rule);
       testErrorTriggeringSentences(lt, lang, rule);
       if (++i % 100 == 0) {
@@ -545,7 +545,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
   }
 
   private void testCorrectSentences(JLanguageTool lt, JLanguageTool allRulesLt,
-                                    Language lang, AbstractPatternRule rule) throws IOException {
+                                    AbstractPatternRule rule) throws IOException {
     List<CorrectExample> goodSentences = rule.getCorrectExamples();
     // necessary for XML Pattern rules containing <or>
     List<AbstractPatternRule> rules = allRulesLt.getPatternRulesByIdAndSubId(rule.getId(), rule.getSubId());
@@ -664,9 +664,8 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       patternTokens.add(pToken);
       pos = false;
     }
-    PatternRule rule = new PatternRule("ID1", TestTools.getDemoLanguage(), patternTokens,
+    return new PatternRule("ID1", TestTools.getDemoLanguage(), patternTokens,
         "test rule", "user visible message", "short comment");
-    return rule;
   }
 
   /**
