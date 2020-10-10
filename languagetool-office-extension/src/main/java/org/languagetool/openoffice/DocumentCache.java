@@ -220,7 +220,7 @@ public class DocumentCache implements Serializable {
    * size of text cache (without headers, footnotes, etc.)
    */
   public boolean isEqual(int n, String text, Locale locale) {
-    return (OfficeTools.isEqualLocale(locales.get(n).toLocale(), locale) && text.equals(paragraphs.get(n)));
+    return (locales.get(n).equalsLocale(locale) && text.equals(paragraphs.get(n)));
   }
   
   /**
@@ -361,10 +361,21 @@ public class DocumentCache implements Serializable {
       this.Language = locale.Language;
       this.Variant = locale.Variant;
     }
-     
+    
+    /**
+     * return the language as Locale
+     */
     Locale toLocale() {
       return new Locale(Language, Country, Variant); 
     }
+
+    /**
+     * True if the Languageis the same as Locale
+     */
+    boolean equalsLocale(Locale locale) {
+      return (Language.equals(locale.Language) && Country.equals(locale.Country) && Variant.equals(locale.Variant));
+    }
+
   }
 
 }
