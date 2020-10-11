@@ -10257,6 +10257,22 @@ MARCOAGPINTO 2020-02-18 -->
     </rule>
   </rulegroup>
 
+    <!-- ULTRAPASSAR superar/vencer	-->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-11 (2-JUL-2020+)     -->
+    <rule id='ULTRAPASSAR' name="Superar/Vencer">
+      <pattern>
+		  <marker>
+			<token inflected='yes'>ultrapassar</token>
+		  </marker>	
+          <token regexp="yes">as?|umas?|os?|um|uns</token>
+          <token regexp="yes">provas?|desafios?</token>
+      </pattern>
+      <message>Substitua por</message>
+	    <suggestion><match no='1' postag='V.+' postag_regexp='yes'>superar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>vencer</match></suggestion>
+      <example correction="superar|vencer">A Ana vai <marker>ultrapassar</marker> a prova.</example>      
+    </rule>
+
   <rulegroup type='grammar' id='CONTRACOES_OBRIGATORIAS' name="Contrações obrigatórias">
     <!--     Created by Tiago F. Santos, on 2016-10-31   -->
       <url>https://pt.wiktionary.org/wiki/Ap%C3%AAndice:Combina%C3%A7%C3%B5es_e_contra%C3%A7%C3%B5es_do_portugu%C3%AAs</url>
