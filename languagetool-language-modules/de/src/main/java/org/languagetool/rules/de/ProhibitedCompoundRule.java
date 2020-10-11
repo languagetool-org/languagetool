@@ -373,6 +373,20 @@ public class ProhibitedCompoundRule extends Rule {
           "foliertes",
           "foliertem",
           "Implementierungsvorgaben",
+          "Bücherzelle",
+          "Bücherzellen",
+          "Cuttermesser",
+          "Cuttermessern",
+          "Cuttermessers",
+          "Kabelsammlung",
+          "Kabelsammlungen",
+          "Schleifschwamm",
+          "Schleifschwamms",
+          "Schleifschwämme",
+          "Teemarke",
+          "Teemarken",
+          "Vorzelt",
+          "Vorzelte",
           "Feuchtmann" //name
   ));
 
