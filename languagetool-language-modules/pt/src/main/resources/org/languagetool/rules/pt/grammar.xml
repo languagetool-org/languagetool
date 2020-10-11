@@ -7870,6 +7870,24 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="fisicamente">A área é delimitada <marker>por fronteiras físicas</marker>.</example>
 	  <example type='correct'>A área é delimitada <marker>fisicamente</marker>.</example>
     </rule>
+	
+    <!-- DIFERENTES diferem	-->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-11 (2-JUL-2020+)     -->
+    <rule id='DIFERENTES' name="Diferir" default="temp_off">
+      <pattern>
+		  <marker>
+		    <token inflected='yes'>ser</token>
+			<token regexp="yes">diferentes?</token>
+		  </marker>
+		  <and>
+			<token negate_pos="yes" postag='NC[CFM][SP]000|AQ0[CFM][SP]0' postag_regexp='yes'/>
+			<token negate="yes" regexp="yes">[.]|as?|os?</token>
+		  </and>
+      </pattern>
+      <message>Substitua por</message>
+	    <suggestion><match no='1' postag='V.+' postag_regexp='yes'>diferir</match></suggestion>      
+      <example correction="diferem">Os terroristas <marker>são diferentes</marker> dos criminosos comuns.</example>      
+    </rule>	
 
     <rule id='ESTAR_DE_ACORDO' name="concordar">
     <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-30 (2-JUL-2020+)     -->
