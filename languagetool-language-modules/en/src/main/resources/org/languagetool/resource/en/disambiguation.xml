@@ -12369,4 +12369,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="replace"><wd lemma="will" pos="MD" /></disambig>
         <example type="ambiguous" inputform="d[d]" outputform="d[will/MD]">I'<marker>d</marker> like to know if that works.</example>
     </rule> -->
+
+    <rule id="ON_BENDED_KNEES_SPELLING" name="Ignore spelling of 'on bended knees'">
+        <!-- https://www.lexico.com/definition/on_bended_knee -->
+        <pattern>
+            <token>bended</token><!-- normally "bent" -->
+            <token regexp="yes">knees?</token>
+        </pattern>
+        <disambig action="ignore_spelling" />
+    </rule>
 </rules>

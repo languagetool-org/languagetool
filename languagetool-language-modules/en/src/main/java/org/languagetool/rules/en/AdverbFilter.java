@@ -290,6 +290,11 @@ public class AdverbFilter extends RuleFilter {
     put("outwards", "outward");
     put("periodically", "periodical");
     put("comparatively", "comparative");
+    put("confidentially", "confidential");
+    put("dominantly", "dominant");
+    put("forcibly", "forcible");
+    put("formerly", "former");
+    put("financially", "financial");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

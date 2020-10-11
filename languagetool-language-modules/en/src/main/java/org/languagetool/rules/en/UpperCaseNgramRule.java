@@ -207,6 +207,10 @@ public class UpperCaseNgramRule extends Rule {
       token("Volvo"),
       token("Buses")
     ),
+    Arrays.asList( // video game
+      token("Heavy"),
+      token("Rain")
+    ),
     Arrays.asList(
       csRegex("[A-Z].+"),
       token("/"),
@@ -394,6 +398,18 @@ public class UpperCaseNgramRule extends Rule {
       token("of"),
       tokenRegex("the|an?"),
       tokenRegex("[A-Z].*")
+    ),
+    Arrays.asList( // Please see Question 2, 
+      csRegex("[A-Z].*"),
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList( // Please see Question #2, 
+      csRegex("[A-Z].*"),
+      token("#"),
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList( // company departments used like proper nouns
+      csRegex("Finance|Marketing|Engineering|Controlling")
     )
   );
 
