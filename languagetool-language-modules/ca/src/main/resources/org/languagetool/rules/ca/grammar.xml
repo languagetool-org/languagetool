@@ -18033,25 +18033,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La L representa la inductància.</example>
                 <example>L. van Beethoven</example>
             </rule>
-            <rule id="L_A_LA" name="l a/la">
+            <rule>
                 <pattern>
-                    <token>l<exception scope="previous" postag="DN.*" postag_regexp="yes"/></token>
-                    <token>a</token>
+                    <token regexp="yes">a|de</token>
+                    <token>l</token>
+                    <token case_sensitive="yes">a</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>\1\2</suggestion>?</message>
+                <message>¿Volíeu dir <suggestion>\1 la</suggestion>?</message>
                 <short>Possible confusió</short>
-                <example correction="La"><marker>L a</marker> plataforma.</example>
+                <example correction="de la">Arbitratge <marker>del a</marker> inspecció de treball.</example>
                 <example>Han caigut 300 L a Barcelona.</example>
             </rule>
             <rule default="temp_off">
                 <pattern>
-                    <token>de</token>
+                    <token regexp="yes">a|de</token>
                     <token>l</token>
-                    <token>a</token>
+                    <token case_sensitive="yes">A</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>de la</suggestion>?</message>
+                <message>¿Volíeu dir <suggestion>\1 l'A</suggestion>?</message>
                 <short>Possible confusió</short>
-                <example correction="de la">Arbitratge <marker>del a</marker> inspecció de treball.</example>
+                <example correction="de l'A">És de la mida <marker>del A</marker>-4.</example>
+                <example>Han caigut 300 L a Barcelona.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>l<exception scope="previous" postag="DN.*" postag_regexp="yes"/></token>
+                    <token case_sensitive="yes">a</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>\1\2</suggestion>?</message>
+                <short>Possible confusió</short>
+                <example correction="La"><marker>L a</marker> plataforma.</example>
                 <example>Han caigut 300 L a Barcelona.</example>
             </rule>
             <rule>
