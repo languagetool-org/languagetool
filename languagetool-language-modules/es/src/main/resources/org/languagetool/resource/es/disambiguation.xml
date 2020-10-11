@@ -591,7 +591,7 @@ Copyright (C) 2011 Juan Martorell
     <rule id="ADVERB_BEFORE" name="adverb before adjective">
         <pattern>
             <!--|todo-->
-            <!-- "mas" is usaully a typo for "más" --> 
+            <!-- "mas" is usaully a typo for "más" -->
             <token postag="RG" regexp="yes">todavía|mal|.+mente|muy|poco|muchísimo|poquísimo|tantísimo|tanto|tan|entonces|pronto|bastante|bien|aún|casi|harto|nada|incluso|ya|nunca|demasiado|medio|mejor|más|mas|menos|no|solo|sólo|peor|quizás?|algo|siempre|también|tampoco|aun</token>
         </pattern>
         <disambig action="add">
@@ -3089,6 +3089,24 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rulegroup id="noun_not_reflexive_verb" name="nombre, no verbo reflexivo">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>persona<exception scope="previous">se</exception></token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>personas<exception scope="previous">te</exception></token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+    </rulegroup>
 
     <!-- NOMINAL GROUPS -->
 
@@ -3852,7 +3870,7 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <token postag="NC.*" postag_regexp="yes" regexp="yes">racistas?<exception postag="_GN_.*" postag_regexp="yes"/></token>
         </pattern>
-        <disambig action="remove" postag="NC.*"></disambig>
+        <disambig action="remove" postag="NC.*"/>
     </rule>
 
     <rule id="la_not_noun" name="la not noun">
@@ -4572,7 +4590,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"><exception>a</exception></token>
                 <marker>
-                    <token postag="N.*|PI.*|PD.*" postag_regexp="yes"></token>
+                    <token postag="N.*|PI.*|PD.*" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <disambig action="add">
@@ -5040,14 +5058,6 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
 
-    <rule id="noun_not_reflexive_verb" name="nombre, no verbo reflexivo">
-        <pattern>
-            <marker>
-                <token regexp="yes">persona|personas<exception postag="_reflexive"/></token>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="V.*"/>
-    </rule>
     <!-- IGNORE SPELLING -->
     <rule id="un_haiga" name="un haiga">
         <pattern>

@@ -5557,7 +5557,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>ultra</token>
                     <token min="0">-</token>
-                    <token regexp="yes">violetas</token>
+                    <token>violetas</token>
                 </pattern>
                 <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
                 <suggestion>ultravioleta</suggestion>
@@ -11333,13 +11333,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="CONFUSIONS" name="Confusiones">
         <rule id="DE_LA" name="del a/de la">
-            <!-- TODO: del as -->
             <pattern>
-                <token>del</token>
-                <token>a</token>
+                <token regexp="yes">del|al</token>
+                <token case_sensitive="yes">a</token>
             </pattern>
-            <message>¿Quería decir <suggestion>de la</suggestion>?</message>
+            <message>¿Quería decir <suggestion><match no="1" regexp_match="(?iu)l" regexp_replace=""/> la</suggestion>?</message>
             <example correction="de la">La situación <marker>del a</marker> inspección.</example>
+        </rule>
+        <rule id="DE_LAS" name="del as/de las" default="temp_off">
+            <pattern>
+                <token regexp="yes">del|al</token>
+                <token>as</token>
+                <token postag=".*[FC][PN].*|V.P..PF" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Quería decir <suggestion><match no="1" regexp_match="(?iu)l" regexp_replace=""/> las \3</suggestion>?</message>
+            <example correction="de las personas">La situación <marker>del as personas</marker>.</example>
+            <example correction="A las excluidas"><marker>Al as excluidas</marker>.</example>
         </rule>
         <rule id="JAMAS" name="jamas/jamás">
             <pattern>
