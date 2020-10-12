@@ -279,7 +279,7 @@ public class RuleMatchDiffFinder {
     for (Map.Entry<String, List<RuleMatchDiff>> entry : keyToDiffs.entrySet()) {
       File outputFile = new File(outputDir, "result_" + entry.getKey().replaceAll("/" , "_").replaceAll("[\\s_]+", "_") + ".html");
       if (entry.getValue().size() > 0) {
-        outputFiles.add(new OutputFile(outputFile, entry.getValue().size()));
+        outputFiles.add(new OutputFile(outputFile, entry.getValue()));
       }
       try (FileWriter fw = new FileWriter(outputFile)) {
         System.out.println("Writing result to " + outputFile);
@@ -293,7 +293,10 @@ public class RuleMatchDiffFinder {
       fw.write("<table class='sortable_table'>\n");
       fw.write("<thead>");
       fw.write("<tr>");
-      fw.write("  <td>Count</td>");
+      fw.write("  <td>Total</td>");
+      fw.write("  <td>ADD</td>");
+      fw.write("  <td>REM</td>");
+      fw.write("  <td>MOD</td>");
       fw.write("  <td>Source</td>");
       fw.write("  <td>ID</td>");
       fw.write("</tr>");
@@ -302,9 +305,10 @@ public class RuleMatchDiffFinder {
       for (OutputFile outputFile : outputFiles) {
         String file = outputFile.file.getName();
         fw.write("<tr>");
-        fw.write("<td>");
-        fw.write("" + outputFile.itemCount);
-        fw.write("</td>");
+        fw.write("<td>" + outputFile.items.size() + "</td>");
+        fw.write("<td>" + outputFile.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.ADDED).count() + "</td>");
+        fw.write("<td>" + outputFile.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.REMOVED).count() + "</td>");
+        fw.write("<td>" + outputFile.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.MODIFIED).count() + "</td>");
         fw.write("<td>");
         fw.write(file.replaceFirst("result_", "").replaceFirst("_.*", ""));
         fw.write("</td>");
@@ -321,10 +325,10 @@ public class RuleMatchDiffFinder {
 
   static class OutputFile {
     File file;
-    int itemCount;
-    OutputFile(File file, int itemCount) {
+    List<RuleMatchDiff> items;
+    OutputFile(File file, List<RuleMatchDiff> items) {
       this.file = file;
-      this.itemCount = itemCount;
+      this.items = items;
     }
   }
 
@@ -395,9 +399,12 @@ public class RuleMatchDiffFinder {
       "    base_path: 'https://unpkg.com/tablefilter@0.7.0/dist/tablefilter/',\n" +
       "    auto_filter: { delay: 100 },\n" +
       "    col_0: 'none',\n" +
-      "    col_1: 'select',\n" +
+      "    col_1: 'none',\n" +
+      "    col_2: 'none',\n" +
+      "    col_3: 'none',\n" +
+      "    col_4: 'select',\n" +
       "    grid_layout: false,\n" +
-      "    col_types: ['number', 'string', 'string'],\n" +
+      "    col_types: ['number', 'number', 'number', 'number', 'string', 'string'],\n" +
       "    extensions: [{ name: 'sort' }]\n" +
       "});\n" +
       "tf.init();\n" +
