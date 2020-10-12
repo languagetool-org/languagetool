@@ -43275,6 +43275,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="sentit">No havia <marker>escoltat</marker> mai la paraula llomello.</example>
                 <example>Escoltem ara la paraula de Déu.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>s'</token>
+                        <token inflected="yes">escoltar</token>
+                    </marker>
+                </pattern>
+                <message>Probablement cal usar el v. 'sentir'. 'Escoltar' implica l'atenció i la voluntarietat de l'oient.</message>
+                <suggestion>se <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match></suggestion>
+                <example correction="se sent">Això <marker>s'escolta</marker> des dels balcons.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>s'</token>
+                    <token inflected="yes">haver</token>
+                    <marker>
+                        <token>escoltat</token>
+                    </marker>
+                </pattern>
+                <message>Probablement cal usar el v. 'sentir'. 'Escoltar' implica l'atenció i la voluntarietat de l'oient.</message>
+                <suggestion>sentit</suggestion>
+                <example correction="sentit">Això s'ha <marker>escoltat</marker> des dels balcons.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>es</token>
+                    <token inflected="yes">anar</token>
+                    <marker>
+                        <token>escoltar</token>
+                    </marker>
+                </pattern>
+                <message>Probablement cal usar el v. 'sentir'. 'Escoltar' implica l'atenció i la voluntarietat de l'oient.</message>
+                <suggestion>sentir</suggestion>
+                <example correction="sentir">Això es va <marker>escoltar</marker> des dels balcons.</example>
+            </rule>
         </rulegroup>
         <rule id="TOTA_VEGADA_QUE" name="tota vegada que">
             <pattern>
