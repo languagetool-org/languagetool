@@ -3548,6 +3548,28 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="noms_aposicio" name="noms en aposició">
         <rule>
             <pattern>
+                <token regexp="yes">país|estat</token>
+                <marker>
+                    <token>pària</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="paria" pos="AQ0CS0"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">països|estats</token>
+                <marker>
+                    <token>pàries</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="paria" pos="AQ0CP0"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <token inflected="yes" regexp="yes">empresa|negoci|companyia</token>
                 <marker>
                     <token>unicorn</token>
