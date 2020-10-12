@@ -31479,7 +31479,7 @@ though, and has since been slightly modified)-->
       </antipattern>
       <antipattern>
         <marker>
-          <token inflected="yes" regexp="yes">format|fichier|package|extension|plateforme</token>
+          <token inflected="yes" regexp="yes">format|fichier|package|extension|plateforme|domaine</token>
           <token spacebefore="yes">.</token>
           <token spacebefore="no" regexp="yes" case_sensitive="yes">[a-z][a-z0-9]+|[A-Z][A-Z0-9]+</token>
         </marker>
@@ -31499,6 +31499,11 @@ though, and has since been slightly modified)-->
         <token case_sensitive="yes" spacebefore="no">NET</token>
       </antipattern>
       <rule>
+        <antipattern>
+          <token regexp="yes" skip="3">domaine|adresse</token>
+          <token>.</token>
+          <token spacebefore="no"/>
+        </antipattern>
         <pattern>
           <token regexp="yes" spacebefore="no">[.!?…]<exception postag="SENT_END"/></token>
           <token spacebefore="no" regexp="yes">([\p{L}·'-]{2,}|[¿¡])<exception>von</exception></token>
@@ -31518,6 +31523,8 @@ though, and has since been slightly modified)-->
         <example>Bienvenue a www.languagetool.org</example>
         <example>Le document ne contient pas «maindoc.xml2».</example>
         <example>L'extension .doc.</example>
+        <example>Disposer d'une adresse internet en .ALSACE pemet à ses titulaires de montrer qu'ils partagent les valeurs alsaciennes.</example>
+        <example>Tous les noms de domaine en .BUSINESS fonctionnent sous la règle de "premier arrivé, premier servi".</example>
       </rule>
       <rule>
         <pattern>
