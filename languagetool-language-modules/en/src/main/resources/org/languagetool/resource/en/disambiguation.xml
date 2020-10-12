@@ -7036,9 +7036,43 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>bit</token>
             <token postag="JJ.*" postag_regexp="yes" />
         </antipattern>
+        <antipattern><!-- When Burnet was ashore he hastened to William  -->
+            <token inflected="yes" regexp="yes">be|have</token>
+            <token postag="JJ.*" postag_regexp="yes" />
+            <token postag="PRP|NNP" postag_regexp="yes" />
+            <token postag="VBD" />
+        </antipattern>
+        <antipattern><!-- Mary had everything she wanted. -->
+            <token inflected="yes" regexp="yes">be|have</token>
+            <token postag="PRP" />
+            <token postag="PRP" />
+        </antipattern>
+        <antipattern><!-- Mary had everything she wanted. -->
+            <token inflected="yes" regexp="yes">be|have</token>
+            <token postag="NN.*" postag_regexp="yes" />
+            <token postag="PRP" />
+            <token postag="VBD"/>
+        </antipattern>
+        <antipattern><!-- She's not the woman she was before she got married. / It didn’t work, that’s why it got removed.  -->
+            <token inflected="yes" regexp="yes">be|have</token>
+            <token postag="IN|CC|W.*" postag_regexp="yes" />
+            <token postag="PRP" />
+            <token postag="VBD"/>
+        </antipattern>
+        <antipattern><!-- If you are not on this list and should be please let me know. -->
+            <token inflected="yes" regexp="yes">be|have</token>
+            <token>please</token>
+            <token postag="VB" />
+        </antipattern>
+        <antipattern>
+            <token inflected="yes" regexp="yes">be|have</token>
+            <token postag="NN.*" postag_regexp="yes" />
+            <token postag="PRP" />
+            <token postag="VBD" />
+        </antipattern>
         <pattern>
             <token inflected="yes" regexp="yes">be|have</token>
-            <token min="0" max="2" postag="PRP|NN.*|RB" postag_regexp="yes"/>
+            <token min="0" max="2" postag="PRP|NN.*|RB" postag_regexp="yes" />
             <marker>
                 <and>
                     <token postag="VBD"/>
@@ -7075,6 +7109,18 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Tom said you had something you wanted to tell me.</example><!-- #3329 -->
         <example type="untouched">Are you sure this is something you wanted to tell me?</example><!-- #3329 -->
         <example type="untouched">That was wine I wanted for the cooking.</example><!-- #3329 -->
+        <example type="untouched">I’m glad it got figured out.</example>
+        <example type="untouched">I’m glad it worked.</example>
+        <example type="untouched">Mary had everything she wanted.</example>
+        <example type="untouched">He had everything he needed.</example>
+        <example type="untouched">It didn’t work, that’s why it got removed.</example>
+        <example type="untouched">I’m sure it happened like she said.</example>
+        <example type="untouched">He could have anything he wanted.</example>
+        <example type="untouched">She's not the woman she was before she got married.</example>
+        <example type="untouched">But still it’s strange it happened.</example>
+        <example type="untouched">If you are not on this list and should be please let me know.</example>
+        <example type="untouched">When Burnet was ashore he hastened to William and eagerly enquired what William now intended to do.</example>
+        <example type="untouched">Timothy only found out who his sponsor had been after he graduated from the program at 17</example>
 <!--        <example type="untouched">She was <marker>pleased</marker> with her new car.</example> Adjective. Compare with the 'considered' example. Refer to https://en.wikipedia.org/wiki/English_passive_voice#Stative_and_adjectival_uses -->
         <example type="ambiguous" inputform="made[make/VBD,make/VBN]" outputform="made[make/VBN]">He has <marker>made</marker> a mistake.</example>
         <example type="ambiguous" outputform="liked[like/VBN]" inputform="liked[like/VBD,like/VBN]">Have you <marker>liked</marker> Dutch jazz music?</example>
@@ -8327,7 +8373,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <pattern>
             <marker>
               <and>
-                <token regexp="yes">still|further|long<exception scope="previous" regexp="yes">a|the</exception></token>
+                <token regexp="yes">still|further|long<exception scope="previous" regexp="yes">an?|the</exception></token>
                 <token postag="NN.*|VB.*" postag_regexp="yes"/>
               </and>
             </marker>
@@ -12377,5 +12423,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">knees?</token>
         </pattern>
         <disambig action="ignore_spelling" />
+    </rule>
+
+    <rule id="W_VE" name="VBP for 'where've'">
+        <pattern>
+            <token postag="W.+" postag_regexp="yes" />
+            <token regexp="yes" spacebefore="no">&apostrophe;</token>
+            <marker>
+                <token spacebefore="no">ve</token>
+            </marker>
+        </pattern>
+        <disambig action="replace"><wd lemma="have" pos="VBP" /></disambig>
+        <example type="ambiguous" inputform="ve[ve]" outputform="ve[have/VBP]">Where'<marker>ve</marker> you been?</example>
     </rule>
 </rules>

@@ -295,6 +295,13 @@ public class AdverbFilter extends RuleFilter {
     put("forcibly", "forcible");
     put("formerly", "former");
     put("financially", "financial");
+    put("urgently", "urgent");
+    put("inherently", "inherent");
+    put("historically", "historical");
+    put("tightly", "tight");
+    put("greedily", "greedy");
+    put("fluently", "fluent");
+    put("ordinarily", "ordinary");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
