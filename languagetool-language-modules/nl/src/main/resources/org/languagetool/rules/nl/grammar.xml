@@ -11151,7 +11151,7 @@ onwaarschijnlijk
 	<category id="CONSTRUCTIEFOUT" name="Constructiefout">
 
 		<rulegroup id="DES_TE-VREEMD" name="Vreemd woord na des te">
-			<antipattern><token>des</token><token>te</token><token postag="WKW:TGW:INF"/></antipattern><!-- des als ziekte of medicijn -->
+			<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="BNW.*"/><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
 			<antipattern><token>des</token><token>te</token><token postag_regexp="yes" postag="BNW:VGR:(ONV|VRB)"/></antipattern>
 			<antipattern><token>des</token><token>te</token><token regexp="yes">meer|eerder|minder</token></antipattern>
 			<antipattern><token>des</token><token>te</token><token postag="UNKNOWN"/></antipattern>
@@ -17250,6 +17250,7 @@ steenwijk;Steenwijk
 
 		<rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" default="temp_off">
 			<rule>
+				<antipattern><token regexp="yes">'s$</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
 				<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="BNW.*"/><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
 				<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag=".*MRV.*"/><token postag_regexp="yes" postag="BNW.*ONV"/></antipattern>
 				<antipattern><token>dat</token><token postag="ZNW.*" postag_regexp="yes"/><token postag="ZNW.*" postag_regexp="yes"/><token postag="WKW.*" postag_regexp="yes"/></antipattern>
