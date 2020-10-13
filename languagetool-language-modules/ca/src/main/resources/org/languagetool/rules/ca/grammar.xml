@@ -32670,6 +32670,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">[(\[]</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <!-- triggers another rule -->
+                <token regexp="yes">[lstmdn]</token>
+                <token spacebefore="no" regexp="yes">["”“‘»«]</token>
+                <token spacebefore="no" regexp="yes">h?[aeiouàèéíòóú].*</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token><exception postag="_PUNCT.*|SENT_START" postag_regexp="yes"/></token>

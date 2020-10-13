@@ -2795,6 +2795,15 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="remove" postag="V.*"/>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">sedes?</token>
+                </marker>
+                <token regexp="yes">de|del</token>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
     </rulegroup>
 
     <rule id="un_not_verb" name="un + not verb">
