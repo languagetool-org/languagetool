@@ -302,6 +302,16 @@ public class AdverbFilter extends RuleFilter {
     put("greedily", "greedy");
     put("fluently", "fluent");
     put("ordinarily", "ordinary");
+    put("inevitably", "inevitable");
+    put("partly", "partial");
+    put("liquidly", "liquid");
+    put("supremely", "supreme");
+    put("initially", "initial");
+    put("unjustly", "unjust");
+    put("plausibly", "plausible");
+    put("amiably", "amiable");
+    put("massively", "massive");
+    put("lowly", "low");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

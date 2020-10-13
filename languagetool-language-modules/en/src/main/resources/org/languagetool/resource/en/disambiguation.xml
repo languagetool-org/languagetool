@@ -3869,6 +3869,24 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="RP"/>
             <token postag="PRP$"/>
         </antipattern>
+        <antipattern><!-- Leila couldn't save Sami. -->
+            <token postag="MD" />
+            <token regexp="yes">&apostrophe;</token>
+            <token>t</token>
+            <token>save</token>
+        </antipattern>
+        <antipattern><!-- Leila couldn't save Sami. -->
+            <token postag="MD" />
+            <token regexp="yes">&apostrophe;</token>
+            <token>t</token>
+            <token postag="RB" />
+            <token>save</token>
+        </antipattern>
+        <antipattern><!-- Leila could really save Sami. -->
+            <token postag="MD" />
+            <token postag="RB" />
+            <token>save</token>
+        </antipattern>
         <antipattern><!-- #3660 and save her -->
             <token postag_regexp="yes" postag="CC|TO"/>
             <token chunk_re="[BI]-VP" postag_regexp="yes" postag="VBP?"/>
@@ -3880,7 +3898,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                     <token postag="IN">
                         <exception postag="CC"/>
                         <exception>like</exception><!-- Do we need a new postag for subordinating conjunctions? -->
-                        </token>
+                    </token>
                     <token postag="NN"/>
                 </and>
             </marker>
@@ -3893,6 +3911,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">RP: ...to catch the suicide bombers downtown, prior to them carrying <marker>out</marker> their evil plan.</example>
         <example type="untouched">... for she hoped that George would come and save her from the wicked marshal.</example><!-- #3660 -->
         <example type="untouched">I did everything I could to save Tom.</example><!-- #3660 -->
+        <example type="untouched">Leila couldn't save Sami.</example>
+        <example type="untouched">Leila could really save Sami.</example>
     </rule>
 
     <!-- the known good solution -->

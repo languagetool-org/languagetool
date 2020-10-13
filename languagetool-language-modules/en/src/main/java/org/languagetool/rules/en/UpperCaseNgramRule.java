@@ -224,7 +224,7 @@ public class UpperCaseNgramRule extends Rule {
     Arrays.asList( // "He plays games at Games.co.uk."
       csRegex("[A-Z].+"),
       token("."),
-      tokenRegex("com?|de|us|gov|net|info|org|es|mx|ca|uk|at|ch|it|pl|ru|nl|ie|be|fr")
+      tokenRegex("com?|de|us|gov|net|info|org|es|mx|ca|uk|at|ch|it|pl|ru|nl|ie|be|fr|ai|dev|io|pt|mil|club|jp|es|se|dk|no")
     ),
     Arrays.asList(
       tokenRegex("[A-Z].+"),  // He's Ben (Been)
@@ -410,6 +410,14 @@ public class UpperCaseNgramRule extends Rule {
     ),
     Arrays.asList( // company departments used like proper nouns
       csRegex("Finance|Marketing|Engineering|Controlling")
+    ),
+    Arrays.asList( // They used Draft.js to solve it.
+      csRegex("[A-Z].*"),
+      token("."),
+      tokenRegex("js")
+    ),
+    Arrays.asList( // And mine is Wed.
+      csRegex("Wed")
     )
   );
 
