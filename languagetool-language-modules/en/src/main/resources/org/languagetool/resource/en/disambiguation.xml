@@ -7067,7 +7067,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <antipattern>
             <token inflected="yes" regexp="yes">be|have</token>
             <token postag="NN.*" postag_regexp="yes" />
-            <token postag="PRP" />
+            <token postag="PRP|NN.*" postag_regexp="yes" />
+            <token postag="VBD" />
+        </antipattern>
+        <antipattern><!-- It was there he discovered the mighty outflow river -->
+            <token inflected="yes" regexp="yes">be|have</token>
+            <token postag="RB.*" postag_regexp="yes" />
+            <token postag="PRP|NN.*" postag_regexp="yes" />
             <token postag="VBD" />
         </antipattern>
         <pattern>
@@ -7118,6 +7124,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">He could have anything he wanted.</example>
         <example type="untouched">She's not the woman she was before she got married.</example>
         <example type="untouched">But still it’s strange it happened.</example>
+        <example type="untouched">Incorrect grammar: Which of the books have not you read yet?</example>
+        <example type="untouched">It was there he discovered the mighty outflow river</example>
         <example type="untouched">If you are not on this list and should be please let me know.</example>
         <example type="untouched">When Burnet was ashore he hastened to William and eagerly enquired what William now intended to do.</example>
         <example type="untouched">Timothy only found out who his sponsor had been after he graduated from the program at 17</example>
