@@ -15017,6 +15017,19 @@ though, and has since been slightly modified)-->
         <example correction="aimé">Le marteau que j'ai <marker>aimée</marker>.</example>
       </rule>
       <rule name="f s suivi par . p">
+          <antipattern>
+              <token postag_regexp="yes" postag="D.*" min="0"/>
+              <token postag_regexp="yes" postag="A.*|J.*" min="0" max="2"/>
+              <token postag_regexp="yes" postag="N.*" min="1" max="2"/>
+              <token>et</token>
+              <token postag_regexp="yes" postag="D.*" min="0"/>
+              <token postag_regexp="yes" postag="A.*|J.*" min="0" max="2"/>
+              <token postag_regexp="yes" postag="N.*" min="1" max="2"/>
+              <token regexp="yes">que|qu'</token>
+              <token postag_regexp="yes" postag="D.*|N.*|Z.*|R.*"/>
+              <token postag_regexp="yes" postag="V avoir.*"/>
+              <token postag_regexp="yes" postag="V.*ppa.*p"/>
+          </antipattern>
         <antipattern>
           <token postag="N f s">
               <exception postag="V.*" postag_regexp="yes"/>
@@ -15078,6 +15091,8 @@ though, and has since been slightly modified)-->
         <example correction="achetée">La voiture qu’ils ont <marker>achetés</marker>.</example>
         <example>Tout cela pour dire qu’on a longtemps été confrontés à ce problème.</example>
         <example>C’est dans la soirée que ces poursuites avaient été entamées.</example>
+          <example>Mes anciennes expériences et la formation professionnelle que j'ai effectuées.</example>
+          <example>Mes très anciennes expériences et la superbement belle formation professionnelle que j'ai effectuées.</example>
       </rule>
       <rule name="det + n f s suivi par . p">
         <pattern>
