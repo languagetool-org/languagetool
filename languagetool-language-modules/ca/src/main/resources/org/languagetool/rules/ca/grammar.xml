@@ -17956,10 +17956,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="L" name="*l/el/la/l'">
             <antipattern>
-                <marker>
-                    <token>longitud</token>
-                    <token>l</token>
-                </marker>
+                <token>longitud</token>
+                <token>l</token>
             </antipattern>
             <antipattern>
                 <marker>
@@ -17968,11 +17966,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token postag="SENT_START|CC|SPS00|_PUNCT.*" postag_regexp="yes"/>
-                    <token>l</token>
-                    <token spacebefore="no">)</token>
-                </marker>
+                <token postag="SENT_START|CC|SPS00|_PUNCT.*" postag_regexp="yes"/>
+                <token>l</token>
+                <token spacebefore="no">)</token>
+            </antipattern>
+            <antipattern>
+                <!-- triggers another rule -->
+                <token regexp="yes">[lstmdn]</token>
+                <token spacebefore="no" regexp="yes">["”“‘»«]</token>
+                <token spacebefore="no" regexp="yes">h?[aeiouàèéíòóú].*</token>
             </antipattern>
             <rule>
                 <pattern>
