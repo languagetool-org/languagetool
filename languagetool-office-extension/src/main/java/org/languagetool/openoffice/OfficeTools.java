@@ -18,6 +18,8 @@
  */
 package org.languagetool.openoffice;
 
+import java.util.List;
+
 import org.jetbrains.annotations.Nullable;
 
 import com.sun.star.awt.XMenuBar;
@@ -303,6 +305,18 @@ class OfficeTools {
   static boolean isEqualLocale(Locale locale1, Locale locale2) {
     return (locale1.Language.equals(locale2.Language) && locale1.Country.equals(locale2.Country) 
         && locale1.Variant.equals(locale2.Variant));
+  }
+
+  /**
+   *  return true if the list of locales contains the locale
+   */
+  static boolean containsLocale(List<Locale> locales, Locale locale) {
+    for (Locale loc : locales) {
+      if (isEqualLocale(loc, locale)) {
+        return true;
+      }
+    }
+    return false;
   }
 
 /**

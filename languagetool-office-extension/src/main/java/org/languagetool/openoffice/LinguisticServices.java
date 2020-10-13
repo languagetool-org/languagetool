@@ -328,10 +328,6 @@ public class LinguisticServices extends LinguServices {
       Locale[] locales = MultiDocumentsHandler.getLocales();
       for (Locale loc : locales) {
         if (OfficeTools.isEqualLocale(locale, loc)) {
-//          String[] aServiceNames = mxLinguSvcMgr.getAvailableServices("com.sun.star.linguistic2.Proofreader", locale);
-//          for (String service : aServiceNames) {
-//            MessageHandler.printToLogFile("Available Service: " + service + ", " + localToString(locale));
-//          }
           String[] serviceNames = mxLinguSvcMgr.getConfiguredServices("com.sun.star.linguistic2.Proofreader", locale);
           if (serviceNames.length == 0) {
             MessageHandler.printToLogFile("No configured Service for: " + OfficeTools.localeToString(locale));
@@ -341,6 +337,10 @@ public class LinguisticServices extends LinguServices {
             }
           }
           if (serviceNames.length != 1 || !serviceNames[0].equals(OfficeTools.LT_SERVICE_NAME)) {
+            String[] aServiceNames = mxLinguSvcMgr.getAvailableServices("com.sun.star.linguistic2.Proofreader", locale);
+            for (String service : aServiceNames) {
+              MessageHandler.printToLogFile("Available Service: " + service + ", " + OfficeTools.localeToString(locale));
+            }
             String[] configuredServices = new String[1];
             configuredServices[0] = new String(OfficeTools.LT_SERVICE_NAME);
             mxLinguSvcMgr.setConfiguredServices("com.sun.star.linguistic2.Proofreader", locale, configuredServices);
@@ -379,6 +379,10 @@ public class LinguisticServices extends LinguServices {
     for (Locale locale : locales) {
       String[] serviceNames = mxLinguSvcMgr.getConfiguredServices("com.sun.star.linguistic2.Proofreader", locale);
       if (serviceNames.length != 1 || !serviceNames[0].equals(OfficeTools.LT_SERVICE_NAME)) {
+        String[] aServiceNames = mxLinguSvcMgr.getAvailableServices("com.sun.star.linguistic2.Proofreader", locale);
+        for (String service : aServiceNames) {
+          MessageHandler.printToLogFile("Available Service: " + service + ", " + OfficeTools.localeToString(locale));
+        }
         String[] configuredServices = new String[1];
         configuredServices[0] = new String(OfficeTools.LT_SERVICE_NAME);
         mxLinguSvcMgr.setConfiguredServices("com.sun.star.linguistic2.Proofreader", locale, configuredServices);
