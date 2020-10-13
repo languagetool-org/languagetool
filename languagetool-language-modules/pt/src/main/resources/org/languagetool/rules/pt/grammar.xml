@@ -7910,6 +7910,20 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="concordam">Os responsáveis <marker>estão de acordo</marker>.</example>
     </rule>
 
+    <!-- ESTAR À ESPERA esperar -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-13 (2-JUL-2020+)     -->
+    <rule id='ESTAR_A_ESPERA' name="Esperar">
+      <pattern>
+		  <token inflected='yes'>estar</token>
+		  <token regexp="yes">nas?|nos?|em</token>
+		  <token postag='NC[CFM][SP]000|AQ0[CFM][SP]0' postag_regexp='yes'/>
+		  <token regexp="no">à</token>
+		  <token inflected='yes'>esperar</token>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>esperar</match> \2 \3</suggestion>.</message>
+      <example correction="esperar na fila">O Rui optou por <marker>estar na fila à espera</marker>.</example>
+    </rule>
+
     <!-- ESTAR NO ECRÃ -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-13 (2-JUL-2020+)     -->
     <rule id='ESTAR_NO_ECRA' name="Estar no ecrã">
