@@ -540,15 +540,14 @@ public class ConfigurationDialog implements ActionListener {
     numParaField.setEnabled(radioButtons[2].isSelected());
     numParaField.setMinimumSize(new Dimension(30, 25));
     
-    JCheckBox fullTextCheckAtFirstBox = new JCheckBox(Tools.getLabel(messages.getString("guiCheckFullTextAtFirst")));
-    fullTextCheckAtFirstBox.addItemListener(e -> config.setFullCheckAtFirst(fullTextCheckAtFirstBox.isSelected()));
+    JCheckBox noBackgroundCheckBox = new JCheckBox(Tools.getLabel(messages.getString("guiNoBackgroundCheck")));
+    noBackgroundCheckBox.setSelected(config.noBackgroundCheck());
+    noBackgroundCheckBox.addItemListener(e -> config.setNoBackgroundCheck(noBackgroundCheckBox.isSelected()));
 
     JCheckBox useQueueResetbox = new JCheckBox(Tools.getLabel(messages.getString("guiUseTextLevelQueue")));
     useQueueResetbox.setSelected(config.useTextLevelQueue());
-    fullTextCheckAtFirstBox.setEnabled(!useQueueResetbox.isSelected());
     useQueueResetbox.addItemListener(e -> {
       config.setUseTextLevelQueue(useQueueResetbox.isSelected());
-      fullTextCheckAtFirstBox.setEnabled(!useQueueResetbox.isSelected());
     });
     
     for (int i = 0; i < 4; i++) {
@@ -559,43 +558,36 @@ public class ConfigurationDialog implements ActionListener {
       radioButtons[0].setSelected(true);
       numParaField.setEnabled(false);
       useQueueResetbox.setEnabled(false);
-      fullTextCheckAtFirstBox.setEnabled(false);
     } else if (numParaCheck < -1) {
       radioButtons[1].setSelected(true);
       numParaField.setEnabled(false);    
       useQueueResetbox.setEnabled(true);
-      fullTextCheckAtFirstBox.setEnabled(false);
     } else if (numParaCheck < 0) {
       radioButtons[2].setSelected(true);
       numParaField.setEnabled(false);
       useQueueResetbox.setEnabled(true);
-      fullTextCheckAtFirstBox.setEnabled(false);
     } else {
       radioButtons[3].setSelected(true);
       numParaField.setText(Integer.toString(numParaCheck));
       numParaField.setEnabled(true);
       useQueueResetbox.setEnabled(true);
-      fullTextCheckAtFirstBox.setEnabled(!useQueueResetbox.isSelected());
     }
 
     radioButtons[0].addActionListener(e -> {
       numParaField.setEnabled(false);
       useQueueResetbox.setEnabled(false);
-      fullTextCheckAtFirstBox.setEnabled(false);
       config.setNumParasToCheck(0);
     });
     
     radioButtons[1].addActionListener(e -> {
       numParaField.setEnabled(false);
       useQueueResetbox.setEnabled(true);
-      fullTextCheckAtFirstBox.setEnabled(false);
       config.setNumParasToCheck(-2);
     });
     
     radioButtons[2].addActionListener(e -> {
       numParaField.setEnabled(false);
       useQueueResetbox.setEnabled(true);
-      fullTextCheckAtFirstBox.setEnabled(false);
       config.setNumParasToCheck(-1);
     });
     
@@ -608,7 +600,6 @@ public class ConfigurationDialog implements ActionListener {
       numParaField.setText(Integer.toString(numParaCheck1));
       numParaField.setEnabled(true);
       useQueueResetbox.setEnabled(true);
-      fullTextCheckAtFirstBox.setEnabled(!useQueueResetbox.isSelected());
     });
     
     numParaField.getDocument().addDocumentListener(new DocumentListener() {
@@ -656,7 +647,7 @@ public class ConfigurationDialog implements ActionListener {
 
     cons.gridx = 0;
     cons.gridy++;
-    portPanel.add(fullTextCheckAtFirstBox, cons);
+    portPanel.add(noBackgroundCheckBox, cons);
     
     JCheckBox isMultiThreadBox = new JCheckBox(Tools.getLabel(messages.getString("guiIsMultiThread")));
     isMultiThreadBox.setSelected(config.isMultiThread());

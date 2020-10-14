@@ -205,6 +205,9 @@ public class LtDictionary {
       return null;
     }
     XDictionary[] dictionaryList = searchableDictionaryList.getDictionaries();
+    if (listIgnoredWords == null) {
+      listIgnoredWords = dictionaryList[dictionaryList.length - 1];
+    }
     List<String> userDictionaries = new ArrayList<String>();
     for (XDictionary dictionary : dictionaryList) {
       String name = dictionary.getName();

@@ -65,7 +65,7 @@ public class Configuration {
   static final int FONT_SIZE_INVALID = -1;
   static final boolean DEFAULT_DO_RESET = false;
   static final boolean DEFAULT_MULTI_THREAD = false;
-  static final boolean DEFAULT_FULL_CHECK_FIRST = true;
+  static final boolean DEFAULT_NO_BACKGROUND_CHECK = false;
   static final boolean DEFAULT_USE_QUEUE = true;
   static final boolean DEFAULT_USE_DOC_LANGUAGE = true;
   static final boolean DEFAULT_DO_REMOTE_CHECK = false;
@@ -99,7 +99,7 @@ public class Configuration {
   private static final String PARA_CHECK_KEY = "numberParagraphs";
   private static final String RESET_CHECK_KEY = "doResetCheck";
   private static final String USE_QUEUE_KEY = "useTextLevelQueue";
-  private static final String DO_FULL_CHECK_AT_FIRST_KEY = "doFullCheckAtFirst";
+  private static final String NO_BACKGROUND_CHECK_KEY = "noBackgroundCheck";
   private static final String USE_DOC_LANG_KEY = "useDocumentLanguage";
   private static final String USE_GUI_KEY = "useGUIConfig";
   private static final String FONT_NAME_KEY = "font.name";
@@ -175,7 +175,7 @@ public class Configuration {
   private int numParasToCheck = DEFAULT_NUM_CHECK_PARAS;
   private boolean doResetCheck = DEFAULT_DO_RESET;
   private boolean isMultiThreadLO = DEFAULT_MULTI_THREAD;
-  private boolean doFullCheckAtFirst = DEFAULT_FULL_CHECK_FIRST;
+  private boolean noBackgroundCheck = DEFAULT_NO_BACKGROUND_CHECK;
   private boolean useTextLevelQueue = DEFAULT_USE_QUEUE;
   private boolean useDocLanguage = DEFAULT_USE_DOC_LANGUAGE;
   private boolean doRemoteCheck = DEFAULT_DO_REMOTE_CHECK;
@@ -257,7 +257,7 @@ public class Configuration {
     numParasToCheck = DEFAULT_NUM_CHECK_PARAS;
     doResetCheck = DEFAULT_DO_RESET;
     isMultiThreadLO = DEFAULT_MULTI_THREAD;
-    doFullCheckAtFirst = DEFAULT_FULL_CHECK_FIRST;
+    noBackgroundCheck = DEFAULT_NO_BACKGROUND_CHECK;
     useTextLevelQueue = DEFAULT_USE_QUEUE;
     useDocLanguage = DEFAULT_USE_DOC_LANGUAGE;
     doRemoteCheck = DEFAULT_DO_REMOTE_CHECK;
@@ -307,7 +307,7 @@ public class Configuration {
     this.numParasToCheck = configuration.numParasToCheck;
     this.doResetCheck = configuration.doResetCheck;
     this.useTextLevelQueue = configuration.useTextLevelQueue;
-    this.doFullCheckAtFirst = configuration.doFullCheckAtFirst;
+    this.noBackgroundCheck = configuration.noBackgroundCheck;
     this.isMultiThreadLO = configuration.isMultiThreadLO;
     this.useDocLanguage = configuration.useDocLanguage;
     this.lookAndFeelName = configuration.lookAndFeelName;
@@ -614,19 +614,31 @@ public class Configuration {
   }
 
   /**
-   * set option to do a full check at first iteration
-   * @since 4.7
+   * set option to switch off background check
+   * if true: LT engine is switched of (no marks inside of document)
+   * @since 5.2
    */
-  public void setFullCheckAtFirst(boolean doFullCheckAtFirst) {
-    this.doFullCheckAtFirst = doFullCheckAtFirst;
+  public void setNoBackgroundCheck(boolean noBackgroundCheck) {
+    this.noBackgroundCheck = noBackgroundCheck;
   }
 
   /**
-   * do a full check at first iteration?
-   * @since 4.7
+   * set option to switch off background check
+   * and save configuration
+   * @since 5.2
    */
-  public boolean doFullCheckAtFirst() {
-    return doFullCheckAtFirst;
+  public void saveNoBackgroundCheck(boolean noBackgroundCheck, Language lang) throws IOException {
+    this.noBackgroundCheck = noBackgroundCheck;
+    saveConfiguration(lang);
+  }
+  
+  /**
+   * return true if background check is switched of
+   * (no marks inside of document)
+   * @since 5.2
+   */
+  public boolean noBackgroundCheck() {
+    return noBackgroundCheck;
   }
   
   /**
@@ -989,19 +1001,19 @@ public class Configuration {
    * if true: LT is switched Off, else: LT is switched On
    * @since 4.4
    */
-  public boolean isSwitchedOff() {
-    return switchOff;
-  }
+//  public boolean isSwitchedOff() {
+//    return switchOff;
+//  }
 
   /**
    * Set LT is switched Off or On
    * save configuration
    * @since 4.4
    */
-  public void setSwitchedOff(boolean switchOff, Language lang) throws IOException {
-    this.switchOff = switchOff;
-    saveConfiguration(lang);
-  }
+//  public void setSwitchedOff(boolean switchOff, Language lang) throws IOException {
+//    this.switchOff = switchOff;
+//    saveConfiguration(lang);
+//  }
   
   /**
    * Test if http-server URL is correct
@@ -1137,9 +1149,9 @@ public class Configuration {
         useTextLevelQueue = Boolean.parseBoolean(useTextLevelQueueString);
       }
 
-      String doFullCheckAtFirstString = (String) props.get(prefix + DO_FULL_CHECK_AT_FIRST_KEY);
-      if (doFullCheckAtFirstString != null) {
-        doFullCheckAtFirst = Boolean.parseBoolean(doFullCheckAtFirstString);
+      String noBackgroundCheckString = (String) props.get(prefix + NO_BACKGROUND_CHECK_KEY);
+      if (noBackgroundCheckString != null) {
+        noBackgroundCheck = Boolean.parseBoolean(noBackgroundCheckString);
       }
 
       String switchOffString = (String) props.get(prefix + LT_SWITCHED_OFF_KEY);
@@ -1341,10 +1353,18 @@ public class Configuration {
     for (String prefix : prefixes) {
       props = new Properties();
       if (currentPrefix.equals(prefix)) {
-        addListToProperties(props, prefix + DISABLED_RULES_KEY + qualifier, disabledRuleIds);
-        addListToProperties(props, prefix + ENABLED_RULES_KEY + qualifier, enabledRuleIds);
-        addListToProperties(props, prefix + DISABLED_CATEGORIES_KEY + qualifier, disabledCategoryNames);
-        addListToProperties(props, prefix + ENABLED_CATEGORIES_KEY + qualifier, enabledCategoryNames);
+        if (!disabledRuleIds.isEmpty()) {
+          addListToProperties(props, prefix + DISABLED_RULES_KEY + qualifier, disabledRuleIds);
+        }
+        if (!enabledRuleIds.isEmpty()) {
+          addListToProperties(props, prefix + ENABLED_RULES_KEY + qualifier, enabledRuleIds);
+        }
+        if (!disabledCategoryNames.isEmpty()) {
+          addListToProperties(props, prefix + DISABLED_CATEGORIES_KEY + qualifier, disabledCategoryNames);
+        }
+        if (!enabledCategoryNames.isEmpty()) {
+          addListToProperties(props, prefix + ENABLED_CATEGORIES_KEY + qualifier, enabledCategoryNames);
+        }
         if (language != null && !language.isExternal()) {  // external languages won't be known at startup, so don't save them
           props.setProperty(prefix + LANGUAGE_KEY, language.getShortCodeWithCountryAndVariant());
         }
@@ -1372,8 +1392,8 @@ public class Configuration {
         if (useTextLevelQueue != DEFAULT_USE_QUEUE) {
           props.setProperty(prefix + USE_QUEUE_KEY, Boolean.toString(useTextLevelQueue));
         }
-        if (doFullCheckAtFirst != DEFAULT_FULL_CHECK_FIRST) {
-          props.setProperty(prefix + DO_FULL_CHECK_AT_FIRST_KEY, Boolean.toString(doFullCheckAtFirst));
+        if (noBackgroundCheck != DEFAULT_NO_BACKGROUND_CHECK) {
+          props.setProperty(prefix + NO_BACKGROUND_CHECK_KEY, Boolean.toString(noBackgroundCheck));
         }
         if (useDocLanguage != DEFAULT_USE_DOC_LANGUAGE) {
           props.setProperty(prefix + USE_DOC_LANG_KEY, Boolean.toString(useDocLanguage));
@@ -1490,7 +1510,7 @@ public class Configuration {
     allProfileKeys.add(PARA_CHECK_KEY);
     allProfileKeys.add(RESET_CHECK_KEY);
     allProfileKeys.add(USE_QUEUE_KEY);
-    allProfileKeys.add(DO_FULL_CHECK_AT_FIRST_KEY);
+    allProfileKeys.add(NO_BACKGROUND_CHECK_KEY);
     allProfileKeys.add(USE_DOC_LANG_KEY);
     allProfileKeys.add(USE_GUI_KEY);
     allProfileKeys.add(FONT_NAME_KEY);

@@ -78,10 +78,7 @@ class SingleDocument {
   private Configuration config;
 
   private int defaultParaCheck = 10;              // will be overwritten by config
-  private boolean doFullCheckAtFirst = true;      // will be overwritten by config
-  
   private int numParasToCheck = 0;                // current number of Paragraphs to be checked
-  private boolean firstCheckIsDone = false;       // Is first check done?
 
   private XComponentContext xContext;             //  The context of the document
   private String docID;                           //  docID of the document
@@ -294,15 +291,12 @@ class SingleDocument {
     } else {
       useQueue = mDocHandler.isTestMode() ? false : config.useTextLevelQueue();
     }
-    if(useQueue || numParasToCheck == 0) {
-      doFullCheckAtFirst = false;
-    } else {
-      doFullCheckAtFirst = config.doFullCheckAtFirst();
-    }
     changedParas = new ArrayList<Integer>();
-    firstCheckIsDone = false;
     if(ltMenus != null) {
       ltMenus.setConfigValues(config);
+    }
+    if (config.noBackgroundCheck()) {
+      setFlatParagraphTools(xComponent);
     }
   }
   
@@ -397,14 +391,10 @@ class SingleDocument {
     if (docCursor == null) {
       docCursor = new DocumentCursorTools(xComponent);
     }
-    if (flatPara == null) {
-      flatPara = new FlatParagraphTools(xComponent);
-    } else {
-      flatPara.init();
-    }
-    docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck);
-    if (docCache.isEmpty()) {
-      return null;
+    setFlatParagraphTools(xComponent);
+    DocumentCache newCache = new DocumentCache(docCursor, flatPara, defaultParaCheck);
+    if (!newCache.isEmpty()) {
+      docCache = newCache;
     }
     return docCache;
   }
@@ -446,7 +436,7 @@ class SingleDocument {
       paragraphsCache.get(i).removeAll();
     }
     numParasReset = numParasToCheck;
-    if((doFullCheckAtFirst || numParasToCheck < 0 || useQueue) && mDocHandler != null) {
+    if((numParasToCheck < 0 || useQueue) && mDocHandler != null) {
       minToCheckPara = mDocHandler.getNumMinToCheckParas();
       if(minToCheckPara == null) {
         return;
@@ -458,6 +448,14 @@ class SingleDocument {
           }
         }
       }
+    }
+  }
+  
+  private void setFlatParagraphTools(XComponent xComponent) {
+    if (flatPara == null) {
+      flatPara = new FlatParagraphTools(xComponent);
+    } else {
+      flatPara.init();
     }
   }
   
@@ -498,13 +496,10 @@ class SingleDocument {
     // Initialization 
     
     docCursor = null;
-    if(flatPara != null) {
-      flatPara.init();
-    }
+    setFlatParagraphTools(xComponent);
 
     if (docCache == null) {
       docCursor = new DocumentCursorTools(xComponent);
-      flatPara = new FlatParagraphTools(xComponent);
       docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck);
       if (debugMode > 0) {
         MessageHandler.printToLogFile("+++ resetAllParas (docCache == null): docCache.size: " + docCache.size()
@@ -691,9 +686,7 @@ class SingleDocument {
     if (docCache == null) {
       return -1;
     }
-    if (flatPara == null) {
-      flatPara = new FlatParagraphTools(xComponent);
-    }
+    setFlatParagraphTools(xComponent);
     int nPara = 0;
     if (getCurNum) {
       nPara = flatPara.getCurNumFlatParagraph();
@@ -950,7 +943,7 @@ class SingleDocument {
     List<SingleProofreadingError[]> pErrors = new ArrayList<>();
 
     int nTParas = paraNum < 0 ? -1 : docCache.getNumberOfTextParagraph(paraNum);
-    if(nTParas < 0 || (numParasToCheck >= 0 && !doFullCheckAtFirst && !useQueue)) {
+    if(nTParas < 0 || (numParasToCheck >= 0 && !useQueue)) {
       int parasToCheck = nTParas < 0 ? 0 : numParasToCheck;
       pErrors.add(checkParaRules(paraText, paraNum, startSentencePos, endSentencePos, langTool, 0, parasToCheck, isIntern));
       if(resetCheck.contains(paraNum)) {
@@ -965,10 +958,7 @@ class SingleDocument {
       }
       for(int i = 0; i < minToCheckPara.size(); i++) {
         int parasToCheck = minToCheckPara.get(i);
-        if(!firstCheckIsDone && numParasToCheck >= 0 && parasToCheck < 0) {
-          parasToCheck = -2;
-        }
-        if(firstCheckIsDone && numParasToCheck >= 0 && (parasToCheck < 0 || numParasToCheck < parasToCheck)) {
+        if(numParasToCheck >= 0 && (parasToCheck < 0 || numParasToCheck < parasToCheck)) {
           parasToCheck = numParasToCheck;
         }
         defaultParaCheck = PARA_CHECK_DEFAULT;
@@ -1017,9 +1007,6 @@ class SingleDocument {
         }
       }
 */
-      if(!firstCheckIsDone) {
-        firstCheckIsDone = true;
-      }
       oldCache = null;
       mDocHandler.reactivateTextRules(langTool);
     }
@@ -1147,6 +1134,9 @@ class SingleDocument {
       if(nPara < 0 || parasToCheck == 0) {
         textToCheck = DocumentCache.fixLinebreak(paraText);
         if(mDocHandler.isSortedRuleForIndex(cacheNum)) {
+//          for (String id : langTool.getDisabledRules()) {
+//            MessageHandler.printToLogFile("Para check cache(" + cacheNum + ") disabled rule: " + id);
+//          }
           paragraphMatches = langTool.check(textToCheck, true, JLanguageTool.ParagraphHandling.ONLYPARA);
         } else {
           paragraphMatches = null;
@@ -1217,7 +1207,6 @@ class SingleDocument {
           boolean override, boolean isIntern) {
     //  make the method thread save
     MultiDocumentsHandler mDH = mDocHandler;
-    FlatParagraphTools flatPara = this.flatPara;
     DocumentCursorTools docCursor = this.docCursor;
     DocumentCache docCache = this.docCache;
     if (docCache == null) {
@@ -1301,9 +1290,7 @@ class SingleDocument {
         if (docCursor == null) {
           docCursor = new DocumentCursorTools(xComponent);
         }
-        if (flatPara == null) {
-          flatPara = new FlatParagraphTools(xComponent);
-        }
+        setFlatParagraphTools(xComponent);
         if(override) {
           if (debugMode > 0) {
             MessageHandler.printToLogFile("Do Reset (useQueue == true)");

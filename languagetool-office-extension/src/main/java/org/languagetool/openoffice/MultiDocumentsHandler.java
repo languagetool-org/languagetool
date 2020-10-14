@@ -111,8 +111,9 @@ public class MultiDocumentsHandler {
   private boolean recheck = true;             //  if true: recheck the whole document at next iteration
   private int docNum;                         //  number of the current document
 
-  private boolean switchOff = false;          //  is LT switched off
-  private boolean useQueue = true;            //  will be overwritten by config;
+//  private boolean switchOff = false;          //  is LT switched off
+  private boolean noBackgroundCheck = false;  //  is LT switched off by config
+  private boolean useQueue = true;            //  will be overwritten by config
 
   private String menuDocId = null;            //  Id of document at which context menu was called 
   private TextLevelCheckQueue textLevelQueue = null; // Queue to check text level rules
@@ -181,7 +182,8 @@ public class MultiDocumentsHandler {
     if (!hasLocale(locale)) {
       return paRes;
     }
-    if(!switchOff) {
+//    if(!switchOff && !noBackgroundCheck) {
+    if(!noBackgroundCheck) {
       boolean isSameLanguage = true;
       if(fixedLanguage == null || langForShortName == null) {
         langForShortName = getLanguage(locale);
@@ -202,7 +204,8 @@ public class MultiDocumentsHandler {
       }
     }
     docNum = getNumDoc(paRes.aDocumentIdentifier);
-    if(switchOff) {
+//    if(switchOff || noBackgroundCheck) {
+    if(noBackgroundCheck) {
       return paRes;
     }
     paRes = documents.get(docNum).getCheckResults(paraText, locale, paRes, propertyValues, docReset, langTool);
@@ -477,7 +480,7 @@ public class MultiDocumentsHandler {
   private void setConfigValues(Configuration config, SwJLanguageTool langTool) {
     this.config = config;
     this.langTool = langTool;
-    this.useQueue = testMode ? false : config.useTextLevelQueue();
+    this.useQueue = noBackgroundCheck || testMode ? false : config.useTextLevelQueue();
     for (SingleDocument document : documents) {
       document.setConfigValues(config);
     }
@@ -609,6 +612,7 @@ public class MultiDocumentsHandler {
     SwJLanguageTool langTool = null;
     try {
       config = new Configuration(configDir, configFile, oldConfigFile, docLanguage);
+      noBackgroundCheck = config.noBackgroundCheck();
       if (linguServices == null) {
         linguServices = new LinguisticServices(xContext);
       }
@@ -627,7 +631,7 @@ public class MultiDocumentsHandler {
         }
         currentLanguage = docLanguage;
       }
-      switchOff = config.isSwitchedOff();
+//      switchOff = config.isSwitchedOff();
       // not using MultiThreadedSwJLanguageTool here fixes "osl::Thread::Create failed", see https://bugs.documentfoundation.org/show_bug.cgi?id=90740:
       langTool = new SwJLanguageTool(currentLanguage, config.getMotherTongue(),
           new UserConfig(config.getConfigurableValues(), linguServices), config, extraRemoteRules, testMode);
@@ -722,7 +726,7 @@ public class MultiDocumentsHandler {
     for (SingleDocument document : documents) {
       document.resetCache();
     }
-    if(useQueue) {
+    if(useQueue && !noBackgroundCheck) {
       if(textLevelQueue == null) {
         textLevelQueue = new TextLevelCheckQueue(this);
       } else {
@@ -763,7 +767,8 @@ public class MultiDocumentsHandler {
    * true, if LanguageTool is switched off
    */
   public boolean isSwitchedOff() {
-    return switchOff;
+//    return switchOff;
+    return noBackgroundCheck;
   }
 
   /**
@@ -777,13 +782,16 @@ public class MultiDocumentsHandler {
     if (config == null) {
       config = new Configuration(configDir, configFile, oldConfigFile, docLanguage);
     }
-    switchOff = !switchOff;
-    if(!switchOff && textLevelQueue != null) {
+//    switchOff = !switchOff;
+    noBackgroundCheck = !noBackgroundCheck;
+//    if(!switchOff && textLevelQueue != null) {
+    if(!noBackgroundCheck && textLevelQueue != null) {
       textLevelQueue.setStop();
       textLevelQueue = null;
     }
     recheck = true;
-    config.setSwitchedOff(switchOff, docLanguage);
+//    config.setSwitchedOff(switchOff, docLanguage);
+    config.saveNoBackgroundCheck(noBackgroundCheck, docLanguage);
     for (SingleDocument document : documents) {
       document.setConfigValues(config);
     }
@@ -898,6 +906,7 @@ public class MultiDocumentsHandler {
   class SortedTextRules { 
     List<Integer> minToCheckParagraph;
     List<List<String>> textLevelRules;
+
     SortedTextRules () {
       minToCheckParagraph = new ArrayList<>();
       textLevelRules = new ArrayList<>();
@@ -1106,6 +1115,7 @@ public class MultiDocumentsHandler {
    */
   void resetConfiguration() {
     linguServices = null;
+    noBackgroundCheck = false;
     resetDocument();
   }
 

@@ -80,7 +80,8 @@ public class LanguageToolMenus {
   
   void setConfigValues(Configuration config) {
     this.config = config;
-    switchOff = config.isSwitchedOff();
+//    switchOff = config.isSwitchedOff();
+    switchOff = config.noBackgroundCheck();
     isRemote = config.doRemoteCheck();
   }
   
