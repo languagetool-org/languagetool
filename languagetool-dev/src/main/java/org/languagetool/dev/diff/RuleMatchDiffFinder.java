@@ -248,6 +248,7 @@ public class RuleMatchDiffFinder {
       int markerFrom = oldMatch.getContext().indexOf(MARKER_START);
       int markerTo = oldMatch.getContext().replace(MARKER_START, "").indexOf(MARKER_END);
       String params = "sentence=" + enc(oldMatch.getContext().replace(MARKER_START, "").replace(MARKER_END, ""), 300) +
+                      "&rule_id=" + enc(oldMatch.getFullRuleId()) +
                       "&filename=" + enc(cleanSource(oldMatch.getRuleSource())) +
                       "&message=" + enc(message, 300) +
                       "&suggestions=" + enc(oldMatch.getSuggestions(), 300) +
