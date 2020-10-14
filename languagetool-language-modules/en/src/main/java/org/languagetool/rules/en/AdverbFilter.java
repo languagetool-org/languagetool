@@ -312,6 +312,8 @@ public class AdverbFilter extends RuleFilter {
     put("amiably", "amiable");
     put("massively", "massive");
     put("lowly", "low");
+    put("notoriously", "notorious");
+    put("meaningfully", "meaningful");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
