@@ -23,6 +23,7 @@ import org.languagetool.*;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tagging.ca.CatalanTagger;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
@@ -118,6 +119,13 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
           newSuggestions.add(0, suggestions.get(i));
           continue;
         }
+      }
+      
+      String suggWithoutDiacritics = StringTools.removeDiacritics(suggestions.get(i).getReplacement());
+      if (word.equalsIgnoreCase(suggWithoutDiacritics) &&
+          !suggWithoutDiacritics.equalsIgnoreCase(suggestions.get(0).getReplacement())) {
+        newSuggestions.add(0, suggestions.get(i));
+        continue;
       }
 
       // move words with apostrophe or hyphen to second position

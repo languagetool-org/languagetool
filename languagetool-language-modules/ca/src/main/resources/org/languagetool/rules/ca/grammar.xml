@@ -14673,6 +14673,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="MA_MHA" name="ma/m'ha" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>ma</token>
+                </marker>
+                <token postag="V.P.*SM.?" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*|llibertat</exception><exception postag="_GN_.*" postag_regexp="yes" regexp="yes">determina(t|ts|da|des)</exception></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>m'ha</suggestion>?</message>
+            <example correction="M'ha"><marker>Ma</marker> agradat molt.</example>
+        </rule>
         <rule id="VANS_SER" name="*vans/van ser">
             <pattern>
                 <marker>

@@ -369,9 +369,11 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("veureles"));
         assertEquals("veure-les", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("lilla"));
-        assertEquals("l'illa", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Lilla", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("l'illa", matches[0].getSuggestedReplacements().get(1));
         matches = rule.match(langTool.getAnalyzedSentence("portas"));
-        assertEquals("portes", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("portàs", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("portes", matches[0].getSuggestedReplacements().get(1));
         matches = rule.match(langTool.getAnalyzedSentence("mantenir'me"));
         assertEquals("mantenir-me", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("elcap"));
@@ -407,7 +409,8 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("Nosé"));
         assertEquals("No sé", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("air"));
-        assertEquals("Aïr", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("aïr", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Aïr", matches[0].getSuggestedReplacements().get(1));
         
         matches = rule.match(langTool.getAnalyzedSentence("Misiones"));
         assertEquals("Missiones", matches[0].getSuggestedReplacements().get(0));
@@ -527,6 +530,11 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("estimat", matches[0].getSuggestedReplacements().get(1));
         matches = rule.match(langTool.getAnalyzedSentence("co nstel·lació")); 
         assertEquals("constel·lació", matches[0].getSuggestedReplacements().get(0));
+        
+        //diacritics
+        matches = rule.match(langTool.getAnalyzedSentence("literaria"));
+        assertEquals("literària", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("l'iteraria", matches[0].getSuggestedReplacements().get(1));
         
         // different speller dictionaries Cat/Val
         matches = rule.match(langTool.getAnalyzedSentence("ingeniaria")); 
