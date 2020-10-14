@@ -297,7 +297,7 @@ public class RuleMatchDiffFinder {
     fw.write("  <th>File</th>\n");
     fw.write("  <th>Rule ID</th>\n");
     fw.write("  <th>Message and Text</th>\n");
-    fw.write("  <th>Suggestion</th>\n");
+    fw.write("  <th>Suggestions</th>\n");
     fw.write("</tr>\n");
     fw.write("</thead>\n");
     fw.write("<tbody>\n");
