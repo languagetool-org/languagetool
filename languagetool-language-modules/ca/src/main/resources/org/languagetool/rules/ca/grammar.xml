@@ -79,7 +79,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY ordes "oblat|clarissa|agustí|terciari|mínim|agustinià|salesià|religiós|franciscà|benedictí|templari|templer|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim|caputxí|carmelità">
     <!ENTITY ordes_invariable "conventual|mendicant|militar|major|menor|marista|jesuïta|regular">
     <!ENTITY parts_dia "matinada|matí|migdia|tarda|vesprada|horabaixa|vespre|capvespre|nit1|mitjanit">
-    <!ENTITY precedits_per_COM_A "models?|directora?|directore?s|editor(s|a|es)?|efecte|instituci(ó|ons)|elements?|avantatges?|municipi|excepci(ó|ons)|exemples?|causa|causes|ostatges?|conseqüènci(a|es)|hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|estratègi(a|es)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens|administrador[ae]?s?">
+    <!ENTITY precedits_per_COM_A "alcalde|alcaldessa|batll?e|batll?essa|assignatur(a|es)|models?|directora?|directore?s|editor(s|a|es)?|efecte|instituci(ó|ons)|elements?|avantatges?|municipi|excepci(ó|ons)|exemples?|causa|causes|ostatges?|conseqüènci(a|es)|hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|estratègi(a|es)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens|administrador[ae]?s?">
     <!ENTITY precedits_per_TAN "feble|dèbil|deixat|llargs?|bo|prompte|savi|espectacular|alt|baix|ample|estret|complex|comú|divers|eficaç|efectiu|fals|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer|exagerat|ràpid|(in)?capacita(ts?|da|des)|necessaris?|necessàri(a|es)">
     <!ENTITY precedits_per_TANT "si|sí|no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
     <!ENTITY seguits_per_COM_A "reconèixer|acceptar|justificar|caracteritzar|qualificar|figurar|conèixer|definir|veure|entendre|interpretar|percebre|etiquetar|pintar">
@@ -11065,7 +11065,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <marker>
-                        <token inflected="yes" regexp="yes">astre|estrella|mestre|prestigi|nom|persona|personalitat|personatge|escultor|obra|empreses|actor|artista|pintor|autor|DJ|sèrie|escriptor|novel·lista|alcalde|alcaldessa|batll?e|batll?essa|assignatura</token>
+                        <token inflected="yes" regexp="yes">astre|estrella|mestre|prestigi|nom|persona|personalitat|personatge|escultor|obra|empreses|actor|artista|pintor|autor|DJ|sèrie|escriptor|novel·lista</token>
                         <token min="0" postag="RG|_GN.*" postag_regexp="yes"/>
                         <token postag="V.P.*" postag_regexp="yes" inflected="yes">reconèixer</token>
                     </marker>
@@ -11092,7 +11092,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" regexp="yes">['"‘“«]</token>
                     <token postag="[AN].*|_possible_nompropi|UNKNOWN" postag_regexp="yes"><exception>a</exception><exception inflected="yes" regexp="yes">el|un|tot</exception><exception regexp="yes">['"‘“«]|las|il|gli|los|le|the</exception></token>
                 </pattern>
-                <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
+                <message>Probablement cal escriure <suggestion>com a</suggestion> ('en qualitat de', 'amb caràcter de', 'en funció de'...).</message>
                 <short>Possible error</short>
                 <example correction="com a">Francesc Sabaté Llopart, conegut <marker>com</marker> Quico Sabaté</example>
                 <example correction="com a">també conegut <marker>com</marker> baudrier</example>
@@ -11131,7 +11131,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" regexp="yes">['"‘“«]</token>
                     <token postag="[AN].*|_possible_nompropi|UNKNOWN" postag_regexp="yes"><exception>a</exception><exception inflected="yes" regexp="yes">el|un|tot</exception><exception regexp="yes">['"‘“«]|las|il|gli|los|le|the</exception></token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>com a</suggestion>?</message>
+                <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <example correction="com a">Es coneixia <marker>com</marker> lehendakari.</example>
                 <example correction="com a">Es van conèixer <marker>com</marker> lehendakaris.</example>
                 <example>Es coneixien com The Gladiators.</example>
@@ -11148,7 +11148,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" regexp="yes">['"‘“«]</token>
                     <token postag="[AN].*|_possible_nompropi|UNKNOWN" postag_regexp="yes"><exception>a</exception><exception inflected="yes" regexp="yes">el|un|tot</exception><exception regexp="yes">['"‘“«]|las|il|gli|los|le|the</exception></token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>com a</suggestion>?</message>
+                <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <example correction="com a">Se'l coneixia <marker>com</marker> lehendakari.</example>
                 <example correction="com a">Se l'ha conegut <marker>com</marker> lehendakari.</example>
                 <example correction="com a">Se'ls va conèixer <marker>com</marker> lehendakaris.</example>
