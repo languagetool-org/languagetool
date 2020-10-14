@@ -18,9 +18,11 @@
  */
 package org.languagetool.dev.diff;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -29,7 +31,11 @@ import java.util.*;
  * suggestion of these same matches, then we consider this match to be "modified".
  */
 public class RuleMatchDiffFinder {
-  
+
+  private static final String MARKER_START = "<span class='marker'>";
+  private static final String MARKER_END = "</span>";
+  private static final int IFRAME_MAX = 150;
+
   List<RuleMatchDiff> getDiffs(List<LightRuleMatch> l1, List<LightRuleMatch> l2) {
     System.out.println("Comparing result 1 (" + l1.size() + " matches) to result 2 (" + l2.size() + " matches), step 1");
     //debugList("List 1", l1);
@@ -108,7 +114,7 @@ public class RuleMatchDiffFinder {
   }
 
   private String cleanSpan(String s) {
-    return s.replaceFirst("<span class='marker'>", "").replaceFirst("</span>", "");
+    return s.replaceFirst(MARKER_START, "").replaceFirst("</span>", "");
   }
 
   private void debugList(String title, List<LightRuleMatch> l1) {
@@ -128,9 +134,10 @@ public class RuleMatchDiffFinder {
     return map;
   }
 
-  private void printDiffs(List<RuleMatchDiff> diffs, FileWriter fw) throws IOException {
+  private void printDiffs(List<RuleMatchDiff> diffs, FileWriter fw, String langCode, String date) throws IOException {
     fw.write("Diffs found: " + diffs.size() + "<br>\n");
     printTableBegin(fw);
+    int iframeCount = 0;
     for (RuleMatchDiff diff : diffs) {
       if (diff.getStatus() == RuleMatchDiff.Status.ADDED) {
         fw.write("<tr style='background-color: #c7ffd0'>\n");
@@ -151,7 +158,7 @@ public class RuleMatchDiffFinder {
       }
       if (oldMatch != null && newMatch != null) {
         printRuleIdCol(fw, oldMatch, newMatch);
-        printMessage(fw, oldMatch, newMatch, diff.getReplaces(), diff.getReplacedBy());
+        iframeCount += printMessage(fw, oldMatch, newMatch, diff.getReplaces(), diff.getReplacedBy(), langCode, date, diff.getStatus(), iframeCount);
         if (oldMatch.getSuggestions().equals(newMatch.getSuggestions())) {
           fw.write("  <td>" + oldMatch.getSuggestions() + "</td>\n");
         } else {
@@ -164,7 +171,7 @@ public class RuleMatchDiffFinder {
       } else {
         LightRuleMatch match = diff.getOldMatch() != null ? diff.getOldMatch() : diff.getNewMatch();
         printRuleIdCol(fw, null, match);
-        printMessage(fw, match, null, diff.getReplaces(), diff.getReplacedBy());
+        iframeCount += printMessage(fw, match, null, diff.getReplaces(), diff.getReplacedBy(), langCode, date, diff.getStatus(), iframeCount);
         fw.write("  <td>" + match.getSuggestions() + "</td>\n");
         fw.write("</tr>\n");
       }
@@ -202,19 +209,24 @@ public class RuleMatchDiffFinder {
     fw.write(" </td>\n");
   }
 
-  private void printMessage(FileWriter fw, LightRuleMatch oldMatch, LightRuleMatch newMatch,
-                            LightRuleMatch replaces, LightRuleMatch replacedBy) throws IOException {
+  private int printMessage(FileWriter fw, LightRuleMatch oldMatch, LightRuleMatch newMatch,
+                            LightRuleMatch replaces, LightRuleMatch replacedBy, String langCode, String date,
+                            RuleMatchDiff.Status status, int iframeCount) throws IOException {
     fw.write("  <td>");
+    String message;
     if (newMatch == null) {
       fw.write(oldMatch.getMessage());
+      message = oldMatch.getMessage();
     } else if (oldMatch.getMessage().equals(newMatch.getMessage())) {
       fw.write(oldMatch.getMessage());
+      message = oldMatch.getMessage();
     } else {
       //System.out.println("old: " + oldMatch.getMessage());
       //System.out.println("new: " + newMatch.getMessage());
       fw.write(
         "<tt>old:</tt> " + showTrimSpace(oldMatch.getMessage()) + "<br>\n" +
         "<tt>new:</tt> " + showTrimSpace(newMatch.getMessage()));
+      message = newMatch.getMessage();
     }
     fw.write("  <br><span class='sentence'>" + oldMatch.getContext() + "</span>");
     if (replaces != null) {
@@ -229,9 +241,45 @@ public class RuleMatchDiffFinder {
       fw.write(replacedBy.getMessage());
       fw.write("  <br><span class='sentence'>" + replacedBy.getContext() + "</span>");
       fw.write("  <br><span class='suggestions'>Suggestions: " + replacedBy.getSuggestions() + "</span>");
-      fw.write("  <br><span class='id'>" + replacedBy.getFullRuleId() + "</span>");
+      fw.write("  <br><span class='id'>" + replacedBy.getFullRuleId() + "</span>\n");
+    }
+    boolean withIframe = false;
+    if (status == RuleMatchDiff.Status.ADDED || status == RuleMatchDiff.Status.MODIFIED) {
+      int markerFrom = oldMatch.getContext().indexOf(MARKER_START);
+      int markerTo = oldMatch.getContext().replace(MARKER_START, "").indexOf(MARKER_END);
+      String params = "sentence=" + enc(oldMatch.getContext().replace(MARKER_START, "").replace(MARKER_END, ""), 300) +
+                      "&filename=" + enc(cleanSource(oldMatch.getRuleSource())) +
+                      "&message=" + enc(message, 300) +
+                      "&suggestions=" + enc(oldMatch.getSuggestions(), 300) +
+                      "&marker_from=" + markerFrom +
+                      "&marker_to=" + markerTo +
+                      "&language=" + enc(langCode) +
+                      "&day=" + enc(date);
+      if (iframeCount > IFRAME_MAX) {
+        // rendering 2000 iframes into a page isn't fun...
+        fw.write("    <a target='regression_feedback' href=\"https://languagetoolplus.com/regression/button?" + params + "\">FA?</a>\n\n");
+      } else {
+        fw.write("    <iframe scrolling=\"no\" style=\"border: none; width: 160px; height: 30px\"\n" +
+                "src=\"https://languagetoolplus.com/regression/button?" +
+                //"src=\"http://127.0.0.1:8000/regression/button" +
+                params + "\"></iframe>\n\n");
+        withIframe = true;
+      }
     }
     fw.write("  </td>\n");
+    return withIframe ? 1 : 0;
+  }
+
+  private String enc(String s)  {
+    return enc(s, Integer.MAX_VALUE);
+  }
+
+  private String enc(String s, int maxLen)  {
+    try {
+      return URLEncoder.encode(StringUtils.abbreviate(s, maxLen), "utf-8");
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private String showTrimSpace(String s) {
@@ -259,7 +307,7 @@ public class RuleMatchDiffFinder {
     fw.write("</table>\n\n");
   }
 
-  private void run(LightRuleMatchParser parser, File file1, File file2, File outputDir) throws IOException {
+  private void run(LightRuleMatchParser parser, File file1, File file2, File outputDir, String langCode, String date) throws IOException {
     List<LightRuleMatch> l1 = parser.parseOutput(file1);
     List<LightRuleMatch> l2 = parser.parseOutput(file2);
     String title = "Comparing " + file1.getName() + " to "  + file2.getName();
@@ -284,7 +332,7 @@ public class RuleMatchDiffFinder {
       try (FileWriter fw = new FileWriter(outputFile)) {
         System.out.println("Writing result to " + outputFile);
         printHeader(title, fw);
-        printDiffs(entry.getValue(), fw);
+        printDiffs(entry.getValue(), fw, langCode, date);
         printFooter(fw);
       }
     }
@@ -424,18 +472,19 @@ public class RuleMatchDiffFinder {
   }
 
   public static void main(String[] args) throws IOException {
-    if (args.length != 3) {
-      System.out.println("Usage: " + RuleMatchDiffFinder.class.getSimpleName() + " <matches1> <matches2> <resultDir>");
-      System.out.println(" <matches1> and <matches2> are text outputs of different versions of org.languagetool.dev.dumpcheck.SentenceSourceChecker run on the same input");
-      System.out.println("                           our JSON outputs from org.languagetool.dev.httpchecker.HttpApiSentenceChecker");
-      System.exit(1);
-    }
     RuleMatchDiffFinder diffFinder = new RuleMatchDiffFinder();
     LightRuleMatchParser parser = new LightRuleMatchParser();
     if (args[0].contains("XX") && args[1].contains("XX") && args[2].contains("XX")) {
+      if (args.length != 4) {
+        System.out.println("Usage: " + RuleMatchDiffFinder.class.getSimpleName() + " <matches1> <matches2> <resultDir> <date>");
+        System.out.println(" <matches1> and <matches2> are text outputs of different versions of org.languagetool.dev.dumpcheck.SentenceSourceChecker run on the same input");
+        System.out.println("                           or JSON outputs from org.languagetool.dev.httpchecker.HttpApiSentenceChecker");
+        System.exit(1);
+      }
       System.out.println("Running in multi-file mode, replacing 'XX' in filenames with lang codes...");
       String file1 = args[0];
       String file3 = args[2];
+      String date = args[3];
       File dir = new File(file1).getParentFile();
       String templateName = new File(file1).getName();
       int varPos = templateName.indexOf("XX");
@@ -452,14 +501,22 @@ public class RuleMatchDiffFinder {
             System.out.println("==== " + file + " =================================");
             File oldFile = new File(dir, file);
             String outputFile = file3.replace("XX", langCode);
-            diffFinder.run(parser, oldFile, newFile, new File(outputFile));
+            diffFinder.run(parser, oldFile, newFile, new File(outputFile), langCode, date);
           }
         }
       }
     } else {
+      if (args.length != 5) {
+        System.out.println("Usage: " + RuleMatchDiffFinder.class.getSimpleName() + " <matches1> <matches2> <resultDir> <langCode> <date>");
+        System.out.println(" <matches1> and <matches2> are text outputs of different versions of org.languagetool.dev.dumpcheck.SentenceSourceChecker run on the same input");
+        System.out.println("                           or JSON outputs from org.languagetool.dev.httpchecker.HttpApiSentenceChecker");
+        System.exit(1);
+      }
       File file1 = new File(args[0]);
       File file2 = new File(args[1]);
       File outputDir = new File(args[2]);
+      String langCode = args[3];
+      String date = args[4];
       if (outputDir.exists() && outputDir.isFile()) {
         throw new IOException("<resultDir> already exists, but is a file: " + outputDir);
       }
@@ -469,7 +526,7 @@ public class RuleMatchDiffFinder {
           throw new IOException("Could not create directory " + outputDir);
         }
       }
-      diffFinder.run(parser, file1, file2, outputDir);
+      diffFinder.run(parser, file1, file2, outputDir, langCode, date);
     }
   }
 
