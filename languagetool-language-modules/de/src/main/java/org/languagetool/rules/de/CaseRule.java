@@ -674,6 +674,10 @@ public class CaseRule extends Rule {
     Arrays.asList( // Am So 14:00 (should be "So." but that's a different error)
       csRegex("am|jeden"),
       csToken("So")
+    ),
+    Arrays.asList( // Es hatte 10,5 Ah
+      csRegex("\\d+"),
+      csToken("Ah")
     )
   );
 
@@ -704,6 +708,7 @@ public class CaseRule extends Rule {
    */
   private static final String[] exceptions = {
     "Out", // eng
+    "Packet", // misspelling of "Paket" (caught by spell checker)
     "Mo",
     "Di",
     "Mi",

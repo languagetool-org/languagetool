@@ -43,7 +43,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY klamzu "\)|\}|\&rsqb;|&gt;">
     <!ENTITY klam "&klamauf;|&klamzu;">
     <!ENTITY alnum "&lsqb;0-9A-ZÄÖÜa-zäöüßáàâêéèëíìîïòóôõûçñšž&rsqb;">
-    <!ENTITY sometlds "com|de|net|uk|org|info|nl|eu|cn|biz|at|ch|fr|tv|to|fm|es|it|gov|mil|mx|pt|dev|us|sg|me|io|app|shop|club|games|in|co|cloud|no|se|dk|ie|cc|tk">
+    <!ENTITY sometlds "com|de|net|edu|uk|org|info|nl|eu|cn|biz|at|ch|fr|tv|to|fm|es|it|gov|mil|mx|pt|dev|us|sg|me|io|app|shop|club|games|in|co|cloud|no|se|dk|ie|cc|tk|ai|au|nz|za|cm|ng|tw|jp|kg|ag|site|int|my|ir|pk|mobi|asia|hk|mz|xyz|design">
 
     <!-- Error messages -->
     <!ENTITY gla "Bitte verwenden Sie in Abkürzungen umbruchgeschützte Leerzeichen.">
@@ -18601,27 +18601,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="CORRESPONDENCE" name="Briefe und E-Mails">
         <rulegroup id="MIT_FREUNDLICHEN_GRUESSE" name="'Mit freundlichen Grüße (Grüßen)' etc.">
             <rule>
-                <regexp>Mit freundliche? Grü(ß|ss)en?</regexp>
-                <message>Meinten Sie <suggestion>Mit freundlichen Grüßen</suggestion>?</message>
-                <example correction="Mit freundlichen Grüßen"><marker>Mit freundliche Grüße</marker></example>
-            </rule>
-            <rule>
-                <regexp>Mir freundlich(en)? Grü(ß|ss)en?</regexp>
-                <message>Meinten Sie <suggestion>Mit freundlichen Grüßen</suggestion>?</message>
-                <example>Sie übersendete <marker>mir freundliche Grüße</marker>.</example>
-                <example correction="Mit freundlichen Grüßen"><marker>Mir freundlich Grüße</marker></example>
-                <example correction="Mit freundlichen Grüßen"><marker>Mir freundlichen Grüßen</marker></example>
-            </rule>
-            <rule>
+                <antipattern>
+                    <token>mit</token>
+                    <token>freundlichen</token>
+                    <token regexp="yes">Grü(ß|ss)en</token>
+                </antipattern>
                 <pattern>
                     <token>Mit</token>
                     <token regexp="yes">freundliche?n?</token>
-                    <marker>
-                        <token regexp="yes">Grü(ß|ss)e</token>
-                    </marker>
+                    <token regexp="yes">Grü(ß|ss)en?</token>
                 </pattern>
-                <message>Meinten Sie Mit freundlichen <suggestion>Grüßen</suggestion>?</message>
-                <example correction="Grüßen">Mit freundlichen <marker>Grüße</marker></example>
+                <message>Meinten Sie <suggestion>\1 freundlichen Grüßen</suggestion>?</message>
+                <example correction="Mit freundlichen Grüßen"><marker>Mit freundlichen Grüße</marker></example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>mit</token>
+                    <token>herzlichen</token>
+                    <token regexp="yes">Grü(ß|ss)en</token>
+                </antipattern>
+                <pattern>
+                    <token>Mit</token>
+                    <token regexp="yes">herzliche?n?</token>
+                    <token regexp="yes">Grü(ß|ss)en?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>\1 herzlichen Grüßen</suggestion>?</message>
+                <example correction="Mit herzlichen Grüßen"><marker>Mit herzlichen Grüße</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -36915,7 +36920,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token>ohne</token>
-                    <token>gleich</token>
+                    <token regexp="yes">gleich|mühsam</token>
                     <token postag="SUB:.+" postag_regexp="yes" skip="2"/>
                     <token>zu</token>
                 </antipattern>
@@ -36939,10 +36944,27 @@ Andere Projekte</example>
                     <token>Smart</token>
                     <token>City</token>
                 </antipattern>
+                <antipattern>
+                    <token>National</token>
+                    <token>Park</token>
+                </antipattern>
+                <antipattern>
+                    <token>Klar</token>
+                    <token>Mobil</token>
+                </antipattern>
                 <antipattern><!-- https://www.duden.de/rechtschreibung/deutsch -->
                     <token>auf</token>
                     <token>gut</token>
                     <token>Deutsch</token>
+                </antipattern>
+                <antipattern>
+                    <token>mit</token>
+                    <token>ordentlich</token>
+                    <token regexp="yes">Holz|Kraft</token>
+                </antipattern>
+                <antipattern>
+                    <token>real</token>
+                    <token regexp="yes">(Super)?Markt|Kundenservice</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -36974,6 +36996,7 @@ Andere Projekte</example>
                 <example>Ich habe seit eben Schluckauf.</example>
                 <example>Man hörte von fern Musik.</example>
                 <example>Auf gut Deutsch gesagt.</example>
+                <example>Eine Frau mit ordentlich Holz vor der Hütte.</example>
             </rule>
             <!-- TODO ergaenzen -->
             <rule>
@@ -37020,7 +37043,9 @@ Andere Projekte</example>
                     <marker>
                         <token postag="(ART:(IND|DEF)|PRO:(IND|POS)):NOM:SIN:NEU.*" postag_regexp="yes"/>
                         <token postag="ADJ:PRD:GRU"><exception postag="ADJ:NOM:SIN:NEU.*" postag_regexp="yes"/><exception regexp="yes">&meinkleinhausausnahmen;</exception></token>
-                        <token postag="SUB:NOM:SIN:NEU"/>
+                        <token postag="SUB:NOM:SIN:NEU">
+                            <exception>Ich</exception>
+                        </token>
                     </marker>
                 </pattern>
                 <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein klein Haus' statt 'mein kleines Haus'</message>
@@ -37030,6 +37055,7 @@ Andere Projekte</example>
                 <example><marker>Das bundlose Griffbrett</marker> ist schön.</example>
                 <example correction=""><marker>Jedes möglich Wort</marker> enthält nur genau ein „a“.</example>
                 <example><marker>Jedes mögliche Wort</marker> enthält nur genau ein „a“.</example>
+                <example>Das weiß Ich nicht.</example>
             </rule>
             <rule>
                 <antipattern>

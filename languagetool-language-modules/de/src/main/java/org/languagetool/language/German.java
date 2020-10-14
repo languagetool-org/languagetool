@@ -310,6 +310,7 @@ public class German extends Language implements AutoCloseable {
       case "BZGL_ABK": return 1; // prefer over spell checker
       case "DURCH_WACHSEN": return 1; // prefer over SUBSTANTIVIERUNG_NACH_DURCHs
       case "RUNDUM_SORGLOS_PAKET": return 1; // higher prio than DE_CASE
+      case "MIT_FREUNDLICHEN_GRUESSE": return 1; // higher prio than MEIN_KLEIN_HAUS
       // default is 0
       case "DE_AGREEMENT": return -1;  // prefer RECHT_MACHEN, MONTAGS, KONJUNKTION_DASS_DAS, DESWEITEREN, DIES_BEZUEGLICH and other
       case "COMMA_IN_FRONT_RELATIVE_CLAUSE": return -1; // prefer other rules (KONJUNKTION_DASS_DAS)
