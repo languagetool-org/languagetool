@@ -258,7 +258,7 @@ public class LanguageSpecificTest {
   private void testCorrectExamples(Rule rule, JLanguageTool lt) throws IOException {
     List<CorrectExample> correctExamples = rule.getCorrectExamples();
     for (CorrectExample correctExample : correctExamples) {
-      String input = cleanMarkers(correctExample.getExample());
+      String input = ExampleSentence.cleanMarkersInExample(correctExample.getExample());
       enableOnlyOneRule(lt, rule);
       List<RuleMatch> ruleMatches = lt.check(input);
       assertEquals("Got unexpected rule match for correct example sentence:\n"
@@ -271,7 +271,7 @@ public class LanguageSpecificTest {
   private void testIncorrectExamples(Rule rule, JLanguageTool lt) throws IOException {
     List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
     for (IncorrectExample incorrectExample : incorrectExamples) {
-      String input = cleanMarkers(incorrectExample.getExample());
+      String input = ExampleSentence.cleanMarkersInExample(incorrectExample.getExample());
       enableOnlyOneRule(lt, rule);
       List<RuleMatch> ruleMatches = lt.check(input);
       assertEquals("Did not get the expected rule match for the incorrect example sentence:\n"
@@ -286,10 +286,6 @@ public class LanguageSpecificTest {
       lt.disableRule(rule.getId());
     }
     lt.enableRule(ruleToActivate.getId());
-  }
-
-  private String cleanMarkers(String example) {
-    return example.replace("<marker>", "").replace("</marker>", "");
   }
 
   private void countTempOffRules(Language lang) {
