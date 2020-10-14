@@ -2368,6 +2368,67 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>De forma continua la cosa va.</example>
                 <example>La continua tensión.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>continua</token>
+                    <token postag="CC"/>
+                    <token postag="AQ.[FC][SN].|V.P..SF" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="NC[FC][SN].*" postag_regexp="yes"/>
+                    <token postag="AQ.*|CC|V.P.*" postag_regexp="yes" max="4"><exception>continua</exception></token>
+                    <token>continua</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="NC[FC][SN].*" postag_regexp="yes"/>
+                    <token postag="SP.*" postag_regexp="yes"/>
+                    <token/>
+                    <token>continua</token>
+                </antipattern>
+                <pattern>
+                    <token postag="NC.*" postag_regexp="yes"><exception postag="NC[FC][SN].*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>continua</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'continuar', se escribe con tilde. Si es adjectivo, revise la concordancia.</message>
+                <suggestion>continúa</suggestion>
+                <suggestion>continuo</suggestion>
+                <suggestion>continuas</suggestion>
+                <example correction="continúa|continuo|continuas">Si el error <marker>continua</marker>, apague el ordenador.</example>
+                <example>Guerra de ediciones continua e injustificada</example>
+                <example>Se trabaja con corrientes continua y alterna.</example>
+                <example>tenía una búsqueda espiritual y musical continua.</example>
+                <example>Longitud de estructura de acero continua.</example>
+                <example>con música de fondo continua</example>
+                <!-- Completely ambiguous -->
+                <example>la degradación del ambiente continua</example>
+            </rule>
+            <rule default="temp_off" tags="picky">
+                <!-- catch-all rule -->
+                <pattern>
+                    <marker>
+                        <token>continua</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'continuar', se escribe con tilde. Si es adjectivo, revise la concordancia.</message>
+                <suggestion>continúa</suggestion>
+                <suggestion>continuo</suggestion>
+                <suggestion>continuas</suggestion>
+                <example correction="continúa|continuo|continuas">Si el error <marker>continua</marker>, apague el ordenador.</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- catch-all rule -->
+                <pattern>
+                    <marker>
+                        <token>continuas<exception postag="_GN_FP"/></token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'continuar', se escribe con tilde. Si es adjectivo, revise la concordancia.</message>
+                <suggestion>continúas</suggestion>
+                <example correction="continúas">Si <marker>continuas</marker> así, apaga el ordenador.</example>
+                <example>Las continuas interrupciones del servicio.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SABIA" name="sabia/sabía">
             <antipattern>
