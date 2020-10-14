@@ -1680,7 +1680,6 @@ public final class Main {
 
     //  Keep history information to reduce the number of times the component
     //  needs to be repainted
-    private int lastDigits;
     private int lastLine;
 
     /**
@@ -1722,7 +1721,6 @@ public final class Main {
       this.borderGap = borderGap;
       Border inner = new EmptyBorder(0, borderGap, 0, borderGap);
       setBorder(new CompoundBorder(OUTER, inner));
-      lastDigits = 0;
       setPreferredWidth();
     }
 
@@ -1951,7 +1949,6 @@ public final class Main {
       if (evt.getNewValue() instanceof Font) {
         Font newFont = (Font) evt.getNewValue();
         setFont(newFont);
-        lastDigits = 0;
         setPreferredWidth();
         documentChanged();
       }
