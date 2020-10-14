@@ -43,9 +43,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
   // This check prints a warning for affected rules, but it's disabled by default because
   // it makes the tests very slow:
   private static final boolean CHECK_WITH_SENTENCE_SPLITTING = false;
-  private static final Pattern PATTERN_MARKER_START = Pattern.compile(".*<pattern[^>]*>\\s*<marker>.*", Pattern.DOTALL);
-  private static final Pattern PATTERN_MARKER_END = Pattern.compile(".*</marker>\\s*</pattern>.*", Pattern.DOTALL);
-  private static final Comparator<Match> MATCH_COMPARATOR = (m1, m2) -> Integer.compare( m1.getTokenRef(), m2.getTokenRef());
+  private static final Comparator<Match> MATCH_COMPARATOR = Comparator.comparingInt(Match::getTokenRef);
 
   static class PatternRuleTestFailure extends Exception {
     private final AbstractPatternRule rule;
@@ -316,7 +314,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       }
       testCorrectSentences(lt, allRulesLt, rule);
       testBadSentences(lt, allRulesLt, lang, complexRules, rule);
-      testErrorTriggeringSentences(lt, lang, rule);
+      testErrorTriggeringSentences(lt, rule);
       if (++i % 100 == 0) {
         System.out.println("Testing rule " +  i + "...");
       }
@@ -359,7 +357,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
         ruleErrors.addError(new PatternRuleTestFailure(rule, "No error position markup ('<marker>...</marker>') in bad example."));
         continue;
       }
-      String badSentence = cleanMarkersInExample(origBadSentence);
+      String badSentence = ExampleSentence.cleanMarkersInExample(origBadSentence);
       if (!(badSentence.trim().length() > 0)) {
           ruleErrors.addError(new PatternRuleTestFailure(rule,
             "Empty incorrect example sentence after cleaning/trimming."));
@@ -414,7 +412,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
             "Incorrect match position markup " + matchPositions + " in sentence: " + badSentence));
         } else {
           // make sure suggestion is what we expect it to be
-          assertSuggestions(badSentence, lang, expectedCorrections, rule, matches);
+          assertSuggestions(badSentence, expectedCorrections, rule, matches);
           // make sure the suggested correction doesn't produce an error:
           if (matches.get(0).getSuggestedReplacements().size() > 0) {
             int fromPos = matches.get(0).getFromPos();
@@ -451,7 +449,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
               expectedMatchStart, expectedMatchEnd, matches.get(0).getFromPos(), matches.get(0).getToPos());
             ruleErrors.addError(new PatternRuleTestFailure(rule, "Incorrect match position markup " + matchPositions + "in sentence: " + badSentence));
           } else {
-            assertSuggestions(badSentence, lang, expectedCorrections, rule, matches);
+            assertSuggestions(badSentence, expectedCorrections, rule, matches);
             assertSuggestionsDoNotCreateErrors(badSentence, lt, rule, matches);
           }
         }
@@ -479,8 +477,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     return max;
   }
 
-  private void testErrorTriggeringSentences(JLanguageTool lt, Language lang,
-                                            AbstractPatternRule rule) throws IOException {
+  private void testErrorTriggeringSentences(JLanguageTool lt, AbstractPatternRule rule) throws IOException {
     for (ErrorTriggeringExample example : rule.getErrorTriggeringExamples()) {
       String sentence = cleanXML(example.getExample());
       List<RuleMatch> matches = getMatchesForText(rule, sentence, lt);
@@ -502,7 +499,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     }
   }
 
-  private void assertSuggestions(String sentence, Language lang, List<String> expectedCorrections, AbstractPatternRule rule, List<RuleMatch> matches) {
+  private void assertSuggestions(String sentence, List<String> expectedCorrections, AbstractPatternRule rule, List<RuleMatch> matches) {
     if (!expectedCorrections.isEmpty()) {
       boolean expectedNonEmptyCorrection = expectedCorrections.get(0).length() > 0;
       if (expectedNonEmptyCorrection) {
@@ -586,10 +583,6 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
 
   protected String cleanXML(String str) {
     return str.replaceAll("<([^<].*?)>", "");
-  }
-
-  protected String cleanMarkersInExample(String str) {
-    return str.replace("<marker>", "").replace("</marker>", "");
   }
 
   private boolean match(Rule rule, String sentence, JLanguageTool lt) throws IOException {

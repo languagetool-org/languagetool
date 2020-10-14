@@ -25,7 +25,6 @@ import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 /**

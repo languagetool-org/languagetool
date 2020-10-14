@@ -56,12 +56,12 @@ public class HTTPSServerTesting {
     long startTime = System.currentTimeMillis();
     try {
       ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
-      List<Future> futures = new ArrayList<>();
+      List<Future<?>> futures = new ArrayList<>();
       for (int i = 0; i < THREAD_COUNT; i++) {
         Future<?> future = executorService.submit(new TestRunnable(i));
         futures.add(future);
       }
-      for (Future future : futures) {
+      for (Future<?> future : futures) {
         future.get();
       }
     } finally {
@@ -105,10 +105,10 @@ public class HTTPSServerTesting {
     }
   }
 
-  private String getSentencesAsText(List<ExampleSentence> sentences) {
+  private static String getSentencesAsText(List<ExampleSentence> sentences) {
     StringBuilder sb = new StringBuilder();
     for (ExampleSentence sentence : sentences) {
-      String sentenceStr = sentence.getSentence().replace("<marker>", "").replace("</marker>", "");
+      String sentenceStr = org.languagetool.rules.ExampleSentence.cleanMarkersInExample(sentence.getSentence());
       String cleanSentenceStr = sentenceStr.replaceAll("[\\n\\t]+", "");
       sb.append(cleanSentenceStr);
       sb.append("\n\n");
