@@ -43153,6 +43153,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ESCOLTAR_SENTIR" name="escoltar/sentir">
             <!--<url>http://esadir.cat/entrades/fitxa/node/escoltar</url>-->
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=escoltar&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=9741&amp;idHit=9741&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=sentir+o+escoltar%3F&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
+            <antipattern>
+                <token inflected="yes" skip="10">escoltar</token>
+                <token inflected="yes" regexp="yes">atenció|atentament|contar|explicar</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes" skip="10">atenció|atentament|contar|explicar</token>
+                <token inflected="yes">escoltar</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token inflected="yes">escoltar</token>
@@ -43293,7 +43301,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="sentit">No havia <marker>escoltat</marker> mai la paraula llomello.</example>
                 <example>Escoltem ara la paraula de Déu.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>s'</token>
@@ -43304,7 +43312,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>se <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match></suggestion>
                 <example correction="se sent">Això <marker>s'escolta</marker> des dels balcons.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>s'</token>
                     <token inflected="yes">haver</token>
@@ -43315,8 +43323,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Probablement cal usar el v. 'sentir'. 'Escoltar' implica l'atenció i la voluntarietat de l'oient.</message>
                 <suggestion>sentit</suggestion>
                 <example correction="sentit">Això s'ha <marker>escoltat</marker> des dels balcons.</example>
+                <!--<example>La gent contava històries sense mirar el rellotge, sense importar si ja s'havien escoltat.</example>-->
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>es</token>
                     <token inflected="yes">anar</token>
@@ -43327,6 +43336,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Probablement cal usar el v. 'sentir'. 'Escoltar' implica l'atenció i la voluntarietat de l'oient.</message>
                 <suggestion>sentir</suggestion>
                 <example correction="sentir">Això es va <marker>escoltar</marker> des dels balcons.</example>
+                <example>Per això es va escoltar amb atenció Tom Raftery.</example>
             </rule>
         </rulegroup>
         <rule id="TOTA_VEGADA_QUE" name="tota vegada que">
