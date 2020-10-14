@@ -2322,6 +2322,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="CONTINUA" name="continua/continúa" default="on">
+            <antipattern>
+                <token>continua</token>
+                <token postag="CC"/>
+                <token postag="AQ.[FC][SN].|V.P..SF" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="NC[FC][SN].*" postag_regexp="yes"/>
+                <token postag="AQ.*|CC|V.P.*" postag_regexp="yes" max="4"><exception>continua</exception></token>
+                <token>continua</token>
+            </antipattern>
+            <antipattern>
+                <token postag="NC[FC][SN].*" postag_regexp="yes"/>
+                <token postag="SP.*" postag_regexp="yes"/>
+                <token/>
+                <token>continua</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -2369,22 +2385,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La continua tensión.</example>
             </rule>
             <rule default="temp_off">
-                <antipattern>
-                    <token>continua</token>
-                    <token postag="CC"/>
-                    <token postag="AQ.[FC][SN].|V.P..SF" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="NC[FC][SN].*" postag_regexp="yes"/>
-                    <token postag="AQ.*|CC|V.P.*" postag_regexp="yes" max="4"><exception>continua</exception></token>
-                    <token>continua</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="NC[FC][SN].*" postag_regexp="yes"/>
-                    <token postag="SP.*" postag_regexp="yes"/>
-                    <token/>
-                    <token>continua</token>
-                </antipattern>
                 <pattern>
                     <token postag="NC.*" postag_regexp="yes"><exception postag="NC[FC][SN].*" postag_regexp="yes"/></token>
                     <marker>
@@ -2403,6 +2403,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>con música de fondo continua</example>
                 <!-- Completely ambiguous -->
                 <example>la degradación del ambiente continua</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START|_PUNCT" postag_regexp="yes"/>
+                    <marker>
+                        <token>continua</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'continuar', se escribe con tilde. Correcto si es adjectivo.</message>
+                <suggestion>continúa</suggestion>
+                <example correction="Continúa"><marker>Continua</marker> igual.</example>
+                <example>Sea una función no decreciente, continua y positiva.</example>
+                <example>Nos identificamos con una sucesión “continua” en el tiempo.</example>
+                <example>Una función que sea "continua por la derecha".</example>
             </rule>
             <rule default="temp_off" tags="picky">
                 <!-- catch-all rule -->
