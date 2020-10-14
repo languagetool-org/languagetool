@@ -121,6 +121,10 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   
   @Override
   protected List<AnalyzedSentence> analyzeSentences(List<String> sentences) throws IOException {
+    if (sentences.size() < 2) {
+      return super.analyzeSentences(sentences);
+    }
+
     List<AnalyzedSentence> analyzedSentences = new ArrayList<>();
     
     ExecutorService executorService = getExecutorService();
@@ -213,13 +217,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
 
     @Override
     public AnalyzedSentence call() throws Exception {
-      AnalyzedSentence analyzedSentence = super.call();
-      AnalyzedTokenReadings[] anTokens = analyzedSentence.getTokens();
-      anTokens[anTokens.length - 1].setParagraphEnd();
-      AnalyzedTokenReadings[] preDisambigAnTokens = analyzedSentence.getPreDisambigTokens();
-      preDisambigAnTokens[anTokens.length - 1].setParagraphEnd();
-      analyzedSentence = new AnalyzedSentence(anTokens, preDisambigAnTokens);  ///TODO: why???
-      return analyzedSentence;
+      return markAsParagraphEnd(super.call());
     }
   }
 }

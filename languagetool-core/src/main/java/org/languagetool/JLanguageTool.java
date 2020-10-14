@@ -1099,14 +1099,21 @@ public class JLanguageTool {
       AnalyzedSentence analyzedSentence = getAnalyzedSentence(sentence);
       rememberUnknownWords(analyzedSentence);
       if (++j == sentences.size()) {
-        AnalyzedTokenReadings[] anTokens = analyzedSentence.getTokens();
-        anTokens[anTokens.length - 1].setParagraphEnd();
-        analyzedSentence = new AnalyzedSentence(anTokens);
+        analyzedSentence = markAsParagraphEnd(analyzedSentence);
       }
       analyzedSentences.add(analyzedSentence);
       printSentenceInfo(analyzedSentence);
     }
     return analyzedSentences;
+  }
+
+  @NotNull
+  static AnalyzedSentence markAsParagraphEnd(AnalyzedSentence analyzedSentence) {
+    AnalyzedTokenReadings[] anTokens = analyzedSentence.getTokens();
+    anTokens[anTokens.length - 1].setParagraphEnd();
+    AnalyzedTokenReadings[] preDisambigAnTokens = analyzedSentence.getPreDisambigTokens();
+    preDisambigAnTokens[anTokens.length - 1].setParagraphEnd();
+    return new AnalyzedSentence(anTokens, preDisambigAnTokens);  ///TODO: why???
   }
 
   protected void printSentenceInfo(AnalyzedSentence analyzedSentence) {
