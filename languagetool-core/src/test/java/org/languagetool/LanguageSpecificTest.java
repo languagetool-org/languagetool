@@ -73,8 +73,9 @@ public class LanguageSpecificTest {
         continue;
       }
       if (rule instanceof AbstractPatternRule) {
-        String message = ((AbstractPatternRule) rule).getMessage();
-        String prefix = "*** WARNING: " + lang.getShortCode() + ": " + rule.getFullId();
+        AbstractPatternRule pRule = (AbstractPatternRule) rule;
+        String message = pRule.getMessage();
+        String prefix = "*** WARNING: " + lang.getShortCode() + ": " + rule.getFullId() + " from " + pRule.getSourceFile();
         if (message.contains("\n") || message.contains("\r")) {
           System.err.println(prefix + " contains line break (\\n or \\r): " + message.replace("\n", "\\n").replace("\r", "\\r"));
         }
