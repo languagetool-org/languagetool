@@ -9805,6 +9805,19 @@ MARCOAGPINTO 2020-02-18 -->
       <message>Substitua por <suggestion>rio-me</suggestion>.</message>
       <example correction="rio-me">Eu <marker>riu-me</marker> das tuas piadas.</example>
     </rule>
+	
+    <!-- SÃO/É PARA SER/SEREM PARTPASSADO são para Infinitivo -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-15 (2-JUL-2020+)     -->
+    <rule id='SAO-E_PARA_SER-SEREM_PARTPASSADO' name="São/É + para + Verbo Infinitivo" default="temp_off">
+      <pattern>
+		  <token inflected='yes'>ser</token>
+		  <token regexp="no">para</token>
+		  <token inflected='yes'>ser</token>
+		  <token postag='VMP00[SP][FM]' postag_regexp='yes'/>
+      </pattern>
+      <message>Substitua por <suggestion>\1 \2 <match no='4' postag='VMP00[SP][FM]' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>.</message>
+      <example correction="são para usar">Os anéis <marker>são para serem usados</marker> de manhã.</example>
+    </rule>
 
     <rule id='SERVIR_A_FAZER' name="Servir para fazer">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
