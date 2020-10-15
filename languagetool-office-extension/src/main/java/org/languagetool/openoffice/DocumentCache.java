@@ -33,12 +33,12 @@ import com.sun.star.lang.Locale;
  */
 public class DocumentCache implements Serializable {
   
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 2L;
 
   private static boolean debugMode;         //  should be false except for testing
 
   private List<String> paragraphs = null;            //  stores the flat paragraphs of document
-  private List<Integer> headings = null;             //  stores the paragraphs formated as headings; is used to subdivide the document in chapters
+  private List<Integer> chapterBegins = null;             //  stores the paragraphs formated as headings; is used to subdivide the document in chapters
   private List<SerialLocale> locales = null;         //  stores the language of the paragraphs;
   private List<int[]> footnotes = null;              //  stores the footnotes of the paragraphs;
   private List<Integer> toTextMapping = new ArrayList<>();  //  Mapping from FlatParagraph to DocumentCursor
@@ -55,24 +55,23 @@ public class DocumentCache implements Serializable {
     List<String> textParas = docCursor.getAllTextParagraphs();
     ParagraphContainer paragraphContainer = null;
     if (textParas != null) {
-      headings = docCursor.getParagraphHeadings();
+      chapterBegins = docCursor.getParagraphHeadings();
       paragraphContainer = flatPara.getAllFlatParagraphs();
       if (paragraphContainer == null) {
         MessageHandler.printToLogFile("paragraphContainer == null - ParagraphCache not initialised");
         return;
       }
       paragraphs = paragraphContainer.paragraphs;
+      locales = new ArrayList<SerialLocale>();
+      for (Locale locale :  paragraphContainer.locales) {
+        locales.add(new SerialLocale(locale)) ;
+      }
+      footnotes = paragraphContainer.footnotePositions;
     }
     if (paragraphs == null) {
       MessageHandler.printToLogFile("paragraphs == null - ParagraphCache not initialised");
       return;
     }
-    locales = new ArrayList<SerialLocale>();
-    for (Locale locale :  paragraphContainer.locales) {
-      locales.add(new SerialLocale(locale)) ;
-    }
-    footnotes = paragraphContainer.footnotePositions;
-    
     if (debugMode) {
       MessageHandler.printToLogFile("\n\nNot mapped paragraphs:");
     }
@@ -95,6 +94,7 @@ public class DocumentCache implements Serializable {
           }  
         }
       }
+      prepareChapterBegins();
       if (debugMode) {
         MessageHandler.printToLogFile("\n\ntoParaMapping:");
         for (int i = 0; i < toParaMapping.size(); i++) {
@@ -109,8 +109,8 @@ public class DocumentCache implements Serializable {
 //        }
         }
         MessageHandler.printToLogFile("\n\nheadings:");
-        for (int i = 0; i < headings.size(); i++) {
-          MessageHandler.printToLogFile("Num: " + i + " Heading: " + headings.get(i));
+        for (int i = 0; i < chapterBegins.size(); i++) {
+          MessageHandler.printToLogFile("Num: " + i + " Heading: " + chapterBegins.get(i));
         }
         MessageHandler.printToLogFile("\nNumber of Flat Paragraphs: " + paragraphs.size());
         MessageHandler.printToLogFile("Number of Text Paragraphs: " + toParaMapping.size());
@@ -237,18 +237,14 @@ public class DocumentCache implements Serializable {
     if (parasToCheck == 0) {
       return numCurPara;
     }
-    int headingBefore = -1;
-    for (int heading : headings) {
+    int headingBefore = 0;
+    for (int heading : chapterBegins) {
       if (heading > numCurPara) {
         break;
       } 
       headingBefore = heading;
     }
-    if (headingBefore == numCurPara) {
-      return headingBefore;
-    }
-    headingBefore++;
-    if (parasToCheck < 0) {
+    if (headingBefore == numCurPara || parasToCheck < 0) {
       return headingBefore;
     }
     int startPos = numCurPara - parasToCheck;
@@ -268,21 +264,18 @@ public class DocumentCache implements Serializable {
     if (numCurPara < 0 || toParaMapping.size() <= numCurPara) {
       return -1;
     }
-    int headingAfter = -1;
     if (parasToCheck < -1) {
       return toParaMapping.size();
     }
+    int headingAfter = -1;
     if (parasToCheck == 0) {
       return numCurPara + 1;
     }
-    for (int heading : headings) {
+    for (int heading : chapterBegins) {
       headingAfter = heading;
-      if (heading >= numCurPara) {
+      if (heading > numCurPara) {
         break;
       }
-    }
-    if (headingAfter == numCurPara) {
-      return headingAfter + 1;
     }
     if (headingAfter < numCurPara || headingAfter > toParaMapping.size()) {
       headingAfter = toParaMapping.size();
@@ -349,7 +342,37 @@ public class DocumentCache implements Serializable {
     }
     return pos;
   }
+  
+  /**
+   *  Add the next chapter begin after Heading 
+   *  and changes of language to the chapter begins
+   */
+  private void prepareChapterBegins() {
+    List<Integer> prepChBegins = new ArrayList<Integer>(chapterBegins);
+    for (int begin : chapterBegins) {
+      if (!prepChBegins.contains(begin + 1)) {
+        prepChBegins.add(begin + 1);
+      }
+    }
+    if (locales.size() > 0) {
+      SerialLocale lastLocale = locales.get(0);
+      for (int i = 1; i < locales.size(); i++) {
+        if (!locales.get(i).equalsLocale(lastLocale)) {
+          if (!prepChBegins.contains(i)) {
+            prepChBegins.add(i);
+          }
+          lastLocale = locales.get(i);
+        }
+      }
+    }
+    prepChBegins.sort(null);
+    chapterBegins = prepChBegins;
+  }
 
+  /**
+   * Class of serializable locale
+   * needed to save cache
+   */
   class SerialLocale implements Serializable {
      
     private static final long serialVersionUID = 1L;
@@ -371,9 +394,14 @@ public class DocumentCache implements Serializable {
     }
 
     /**
-     * True if the Languageis the same as Locale
+     * True if the Language is the same as Locale
      */
     boolean equalsLocale(Locale locale) {
+      return ((locale == null || Language == null || Country == null || Variant == null)? false : 
+          Language.equals(locale.Language) && Country.equals(locale.Country) && Variant.equals(locale.Variant));
+    }
+
+    boolean equalsLocale(SerialLocale locale) {
       return ((locale == null || Language == null || Country == null || Variant == null)? false : 
           Language.equals(locale.Language) && Country.equals(locale.Country) && Variant.equals(locale.Variant));
     }

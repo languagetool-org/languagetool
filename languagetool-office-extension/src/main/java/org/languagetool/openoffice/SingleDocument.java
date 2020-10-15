@@ -641,7 +641,7 @@ class SingleDocument {
         MessageHandler.printToLogFile("From View Cursor: Number of Paragraph: " + nParas + OfficeTools.LOG_LINE_BREAK);
       }
       nParas = docCache.getFlatParagraphNumber(nParas);
-      isDialogRequest.add(nParas);
+//      isDialogRequest.add(nParas);
       return nParas;
     }
     // try to get next position from last ViewCursor position (proof per dialog box)
@@ -655,7 +655,7 @@ class SingleDocument {
           MessageHandler.printToLogFile("From Dialog: Number of Paragraph: " + i + OfficeTools.LOG_LINE_BREAK);
         }
         nParas = docCache.getFlatParagraphNumber(numLastVCPara);
-        isDialogRequest.add(nParas);
+//        isDialogRequest.add(nParas);
         return nParas;
       }
     }
@@ -666,7 +666,7 @@ class SingleDocument {
           MessageHandler.printToLogFile("From Dialog: Number of Paragraph: " + i + OfficeTools.LOG_LINE_BREAK);
         }
         nParas = docCache.getFlatParagraphNumber(numLastVCPara);
-        isDialogRequest.add(nParas);
+//        isDialogRequest.add(nParas);
         return nParas;
       }
     }

@@ -24,6 +24,8 @@ import java.util.List;
 
 import org.languagetool.Language;
 
+import com.sun.star.lang.Locale;
+
 /**
  * Class of a queue to handle parallel check of text level rules
  * @since 4.9
@@ -215,10 +217,14 @@ public class TextLevelCheckQueue {
   /**
    *  get language of document by ID
    */
-  Language getLanguage(String docId) {
+  Language getLanguage(String docId, int nStart) {
     SingleDocument document = getSingleDocument(docId);
     if (document != null) {
-      return document.getLanguage();
+      Locale locale = document.getDocumentCache().getTextParagraphLocale(nStart);
+      if (multiDocHandler.hasLocale(locale)) {
+        return multiDocHandler.getLanguage(locale);
+      }
+//      return document.getLanguage();
     }
     return null;
   }
@@ -423,17 +429,19 @@ public class TextLevelCheckQueue {
                 MessageHandler.printToLogFile("run queue entry: docId = " + queueEntry.docId + ", nStart = " 
                     + queueEntry.nStart + ", nEnd = " + queueEntry.nEnd + ", nCheck = " + queueEntry.nCheck + ", overrideRunning = " + queueEntry.overrideRunning);
               }
-              lastDocId = queueEntry.docId;
-              Language entryLanguage = getLanguage(lastDocId);
-              if (lastLanguage == null || !lastLanguage.equals(entryLanguage)) {
-                lastLanguage = entryLanguage;
-                initLangtool(lastLanguage);
-              } else if (lastCache != queueEntry.nCache) {
-                multiDocHandler.activateTextRulesByIndex(queueEntry.nCache, langTool);
+              Language entryLanguage = getLanguage(queueEntry.docId, queueEntry.nStart);
+              if (entryLanguage != null) {
+                if (lastLanguage == null || !lastLanguage.equals(entryLanguage)) {
+                  lastLanguage = entryLanguage;
+                  initLangtool(lastLanguage);
+                } else if (lastCache != queueEntry.nCache) {
+                  multiDocHandler.activateTextRulesByIndex(queueEntry.nCache, langTool);
+                }
+                lastDocId = queueEntry.docId;
+                lastStart = queueEntry.nStart;
+                lastCache = queueEntry.nCache;
+                queueEntry.runQueueEntry(multiDocHandler, langTool);
               }
-              lastStart = queueEntry.nStart;
-              lastCache = queueEntry.nCache;
-              queueEntry.runQueueEntry(multiDocHandler, langTool);
               queueEntry = null;
             }
           }

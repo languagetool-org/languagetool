@@ -1468,7 +1468,7 @@ public class MultiDocumentsHandler {
       MessageHandler.printToLogFile("xComponent of closed document is null");
     } else {
       setContextOfClosedDoc(goneContext);
-      linguServices.setLtAsGrammarService(xContext);
+//      linguServices.setLtAsGrammarService(xContext);
 //      documents.removeMenuListener(goneContext);
       goneContext.removeEventListener(xEventListener);
     }

@@ -177,11 +177,12 @@ class DocumentCursorTools {
     try {
       XPropertySet xParagraphPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xPCursor.getStart());
       paraStyleName = (String) xParagraphPropertySet.getPropertyValue("ParaStyleName");
+//      MessageHandler.printToLogFile("!!! Properties: ParaStyleName: " + paraStyleName);
     } catch (Throwable e) {
       MessageHandler.printException(e);
       return false;
     }
-    return (paraStyleName.startsWith("Heading") || paraStyleName.equals("Title") || paraStyleName.equals("Subtitle"));
+    return (paraStyleName.startsWith("Heading") || paraStyleName.startsWith("Contents") || paraStyleName.equals("Title") || paraStyleName.equals("Subtitle"));
   }
   
   /**
