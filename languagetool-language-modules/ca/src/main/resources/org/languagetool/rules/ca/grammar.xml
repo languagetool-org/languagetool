@@ -50026,7 +50026,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Arran"><marker>A ran</marker> d'això, fugí.</example>
             <example>arran de</example>
         </rule>
-        <rule id="PASSAR_PER" name="passar per + infinitiu">
+        <rule id="PASSAR_PER_INFINITIU" name="passar per + infinitiu">
             <pattern>
                 <marker>
                     <token postag="V.[IS].*" postag_regexp="yes" inflected="yes">passar<exception scope="previous" postag="&pronom_feble;" postag_regexp="yes"/></token>
@@ -58373,6 +58373,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Per refer-me vaig voler anar als banys.</example>
                 <example>I se'l van pujar a l'esquena.</example>
                 <example>Va veure'ls preparar-se per anar cap al poble.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PASSAR_PER" name="passar per (no pronominal)" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <and>
+                            <token inflected="yes">passar<exception postag="_reflexiu_complement"/></token>
+                            <token postag="_reflexiu"/>
+                        </and>
+                        <token postag="&pronom_feble;" postag_regexp="yes" spacebefore="no" skip="2"/>
+                    </marker>
+                    <token inflected="yes">per</token>
+                </pattern>
+                <message>No feu pronominal l'expressió "passar per".</message>
+                <suggestion>\1</suggestion>
+                <example correction="Passeu"><marker>Passeu-vos</marker> per la reunió.</example>
+                <example correction="Passeu"><marker>Passeu-vos</marker> algun dia per la seu.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="&pronom_feble;" postag_regexp="yes"><exception regexp="yes">['-].*</exception></token>
+                        <and>
+                            <token inflected="yes">passar<exception postag="_reflexiu_complement"/></token>
+                            <token postag="_reflexiu" skip="2"/>
+                        </and>
+                    </marker>
+                    <token inflected="yes">per</token>
+                </pattern>
+                <message>No feu pronominal l'expressió "passar per".</message>
+                <suggestion>\2</suggestion>
+                <example correction="passeu">Si <marker>us passeu</marker> per la reunió, ho sabreu tot.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="&pronom_feble;" postag_regexp="yes"><exception regexp="yes">['-].*</exception></token>
+                        <token inflected="yes" regexp="yes">haver|anar</token>
+                        <and>
+                            <token inflected="yes">passar<exception postag="_reflexiu_complement"/></token>
+                            <token postag="_reflexiu" skip="2"/>
+                        </and>
+                    </marker>
+                    <token inflected="yes">per</token>
+                </pattern>
+                <message>No feu pronominal l'expressió "passar per".</message>
+                <suggestion>\2 \3</suggestion>
+                <example correction="haguéssiu passat">Si <marker>us haguéssiu passat</marker> per la reunió, ho sabríeu tot.</example>
             </rule>
         </rulegroup>
     </category>
