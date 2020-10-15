@@ -2420,17 +2420,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Una función que sea "continua por la derecha".</example>
             </rule>
             <rule default="temp_off">
-                <!-- catch-all rule -->
                 <pattern>
+                    <token regexp="yes">si|cuando|tú|¿</token>
                     <marker>
                         <token>continuas<exception postag="_GN_FP"/></token>
                     </marker>
                 </pattern>
-                <message>Si es del v. 'continuar', se escribe con tilde. Si es adjetivo, revise la concordancia.</message>
+                <message>Si es del v. 'continuar', se escribe con tilde. Correcto si es un adjetivo.</message>
                 <suggestion>continúas</suggestion>
                 <example correction="continúas">Si <marker>continuas</marker> así, apaga el ordenador.</example>
+                <example correction="Continúas">¿<marker>Continuas</marker> enfadado?</example>
                 <example>Las continuas interrupciones del servicio.</example>
             </rule>
+            <!-- ambiguous: y continuas con -->
+            <!-- TODO: continúa > continua -->
         </rulegroup>
         <rulegroup id="SABIA" name="sabia/sabía">
             <antipattern>
