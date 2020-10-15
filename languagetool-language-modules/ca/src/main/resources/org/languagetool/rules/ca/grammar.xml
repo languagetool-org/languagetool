@@ -20249,6 +20249,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Probablement cal escriure <suggestion>per què</suggestion> (per quin motiu).</message>
                 <example correction="per què">Vet ací <marker>perquè</marker> ho diu.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token skip="-1">perquè</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Amb el sentit de 'per quina raó' s'escriu separat. És correcte junt si la resposta a la pregunta és "sí" o "no".</message>
+                <suggestion>per què</suggestion>
+                <example correction="Per què"><marker>Perquè</marker> no m'ho has dit?</example>
+                <example correction="Per què">¿<marker>Perquè</marker> no m'ho has dit?</example>
+                <example>¿No véns perquè no t'agrada la companyia?</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PER_QUE_PERQUE" name="*per què/perquè">
             <!--<url>http://esadir.cat/gramatica/sintaxi/conjperque</url>-->
@@ -32915,6 +32929,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="ALUMNAT" name="noms col·lectius: alumnat, professorat..." default="temp_off">
+            <url>https://www.ub.edu/cub/criteri.php?id=2568</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">número|nombre|percentatge|ràtio|proporció|quantitat</token>
+                    <token inflected="yes">de</token>
+                    <marker>
+                        <token regexp="yes">alumnats?</token>
+                    </marker>
+                </pattern>
+                <message>"Alumnat" és un nom col·lectiu. No és correcte en aquest context.</message>
+                <suggestion>alumnes</suggestion>
+                <example correction="alumnes">El nombre d'<marker>alumnat</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">número|nombre|percentatge|ràtio|proporció|quantitat</token>
+                    <token inflected="yes">de</token>
+                    <marker>
+                        <token regexp="yes">professorats?</token>
+                    </marker>
+                </pattern>
+                <message>"Professorat" és un nom col·lectiu. No és correcte en aquest context.</message>
+                <suggestion>professors</suggestion>
+                <example correction="professors">El nombre de <marker>professorat</marker> assistent a la reunió.</example>
+            </rule>
+        </rulegroup>
         <rule id="A_ULLS_VEIENTS" name="*a ulls vista -> a ulls veients">
             <pattern>
                 <token>a</token>
@@ -46264,6 +46305,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </antipattern>
             <rule>
+                <antipattern>
+                    <token>quarts</token>
+                    <token>de</token>
+                    <token>l</token>
+                    <token>mateix</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="SPS00">de</token>
@@ -46277,6 +46324,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="d'aquest">Les causes <marker>del mateix</marker>.</example>
                 <example correction="d'aquesta">Les causes <marker>de la mateixa</marker>.</example>
                 <example>Parlaven sempre del mateix.</example>
+                <example>I els altres tres quarts del mateix.</example>
             </rule>
             <rule>
                 <pattern>
