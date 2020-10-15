@@ -364,7 +364,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
    * Get the first grammatical error in the flat paragraph y at or after character position x
    */
   SingleProofreadingError getNextGrammatikErrorInParagraph(int x, int y, String text, int[] footnotePosition, Locale locale, SingleDocument document) {
-    if (text == null || text.isEmpty() || x >= text.length()) {
+    if (text == null || text.isEmpty() || x >= text.length() || !documents.hasLocale(locale)) {
       return null;
     }
     PropertyValue[] propertyValues = { new PropertyValue("FootnotePositions", -1, footnotePosition, PropertyState.DIRECT_VALUE) };
