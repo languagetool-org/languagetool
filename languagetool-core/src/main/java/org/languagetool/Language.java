@@ -38,6 +38,7 @@ import org.languagetool.tokenizers.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -66,7 +67,7 @@ public abstract class Language {
   private final Pattern ignoredCharactersRegex = Pattern.compile("[\u00AD]");  // soft hyphen
   
   private List<AbstractPatternRule> patternRules;
-  private boolean noLmWarningPrinted;
+  private final AtomicBoolean noLmWarningPrinted = new AtomicBoolean();
 
   private Disambiguator disambiguator;
   private Tagger tagger;
@@ -169,9 +170,8 @@ public abstract class Language {
       File topIndexDir = new File(indexDir, getShortCode());
       if (topIndexDir.exists()) {
         languageModel = new LuceneLanguageModel(topIndexDir);
-      } else if (!noLmWarningPrinted) {
+      } else if (noLmWarningPrinted.compareAndSet(false, true)) {
         System.err.println("WARN: ngram index dir " + topIndexDir + " not found for " + getName());
-        noLmWarningPrinted = true;
       }
     }
     return languageModel;
@@ -323,7 +323,7 @@ public abstract class Language {
   /**
    * Get this language's part-of-speech disambiguator implementation.
    */
-  public Disambiguator getDisambiguator() {
+  public synchronized Disambiguator getDisambiguator() {
     if (disambiguator == null) {
       disambiguator = createDefaultDisambiguator();
     }
@@ -352,7 +352,7 @@ public abstract class Language {
    * Get this language's part-of-speech tagger implementation.
    */
   @NotNull
-  public Tagger getTagger() {
+  public synchronized Tagger getTagger() {
     if (tagger == null) {
       tagger = createDefaultTagger();
     }
@@ -377,7 +377,7 @@ public abstract class Language {
   /**
    * Get this language's sentence tokenizer implementation.
    */
-  public SentenceTokenizer getSentenceTokenizer() {
+  public synchronized SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
       sentenceTokenizer = createDefaultSentenceTokenizer();
     }
@@ -403,7 +403,7 @@ public abstract class Language {
   /**
    * Get this language's word tokenizer implementation.
    */
-  public Tokenizer getWordTokenizer() {
+  public synchronized Tokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
       wordTokenizer = createDefaultWordTokenizer();
     }
@@ -432,7 +432,7 @@ public abstract class Language {
    * @since 2.3
    */
   @Nullable
-  public Chunker getChunker() {
+  public synchronized Chunker getChunker() {
     if (chunker == null) {
       chunker = createDefaultChunker();
     }
@@ -461,7 +461,7 @@ public abstract class Language {
    * @since 2.9
    */
   @Nullable
-  public Chunker getPostDisambiguationChunker() {
+  public synchronized Chunker getPostDisambiguationChunker() {
     if (postDisambiguationChunker == null) {
       postDisambiguationChunker = createDefaultPostDisambiguationChunker();
     }
@@ -489,7 +489,7 @@ public abstract class Language {
    * Get this language's part-of-speech synthesizer implementation or {@code null}.
    */
   @Nullable
-  public Synthesizer getSynthesizer() {
+  public synchronized Synthesizer getSynthesizer() {
     if (synthesizer == null) {
       synthesizer = createDefaultSynthesizer();
     }
