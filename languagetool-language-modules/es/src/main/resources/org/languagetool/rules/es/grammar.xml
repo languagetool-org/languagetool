@@ -2341,13 +2341,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>continua</token>
+                        <token regexp="yes">continua|continuas</token>
                     </marker>
                     <token postag="V.G.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Si es un verbo, lleva tilde.</message>
-                <suggestion>continúa</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)ua" regexp_replace="úa"/></suggestion>
                 <example correction="Continúa"><marker>Continua</marker> recibiendo apoyos.</example>
+                <example correction="continúas">Si <marker>continuas</marker> navegando, aceptas las condiciones.</example>
                 <example>De tensión continua.</example>
             </rule>
             <rule>
@@ -2384,14 +2385,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>De forma continua la cosa va.</example>
                 <example>La continua tensión.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="NC.*" postag_regexp="yes"><exception postag="NC[FC][SN].*" postag_regexp="yes"/></token>
                     <marker>
                         <token>continua</token>
                     </marker>
                 </pattern>
-                <message>Si es del v. 'continuar', se escribe con tilde. Si es adjetivo, revise la concordancia.</message>
+                <message>Si es del v. 'continuar', se escribe con tilde. Si es un adjetivo, revise la concordancia.</message>
                 <suggestion>continúa</suggestion>
                 <suggestion>continuo</suggestion>
                 <suggestion>continuas</suggestion>
@@ -2404,32 +2405,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- Completely ambiguous -->
                 <example>la degradación del ambiente continua</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|_PUNCT" postag_regexp="yes"/>
                     <marker>
                         <token>continua</token>
                     </marker>
                 </pattern>
-                <message>Si es del v. 'continuar', se escribe con tilde. Correcto si es adjetivo.</message>
+                <message>Si es del v. 'continuar', se escribe con tilde. Correcto si es un adjetivo.</message>
                 <suggestion>continúa</suggestion>
                 <example correction="Continúa"><marker>Continua</marker> igual.</example>
                 <example>Sea una función no decreciente, continua y positiva.</example>
                 <example>Nos identificamos con una sucesión “continua” en el tiempo.</example>
                 <example>Una función que sea "continua por la derecha".</example>
-            </rule>
-            <rule default="temp_off" tags="picky">
-                <!-- catch-all rule -->
-                <pattern>
-                    <marker>
-                        <token>continua</token>
-                    </marker>
-                </pattern>
-                <message>Si es del v. 'continuar', se escribe con tilde. Si es adjetivo, revise la concordancia.</message>
-                <suggestion>continúa</suggestion>
-                <suggestion>continuo</suggestion>
-                <suggestion>continuas</suggestion>
-                <example correction="continúa|continuo|continuas">Si el error <marker>continua</marker>, apague el ordenador.</example>
             </rule>
             <rule default="temp_off">
                 <!-- catch-all rule -->
