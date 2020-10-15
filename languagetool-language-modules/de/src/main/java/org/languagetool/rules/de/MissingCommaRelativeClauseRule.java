@@ -41,7 +41,7 @@ import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 
 /**
- * A rule checks a sentence for a missing comma before or after a relative clause (only for German language)
+ * A rule checks a sentence for a missing comma before or after a relative clause (only for German language).
  * @author Fred Kruse
  */
 public class MissingCommaRelativeClauseRule extends Rule {

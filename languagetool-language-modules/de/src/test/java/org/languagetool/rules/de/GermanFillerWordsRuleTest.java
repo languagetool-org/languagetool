@@ -46,7 +46,7 @@ public class GermanFillerWordsRuleTest {
     assertEquals(2, lt.check("Der Satz enthält augenscheinlich relativ viele Füllwörter.").size());
     //  less than 8% filler words - don't show them
     assertEquals(0, lt.check("Der Satz enthält augenscheinlich ein Füllwort, aber es sind nicht genug um angezeigt zu werden.").size());
-    //  direct speach or citation - don't show filler words
+    //  direct speech or citation - don't show filler words
     assertEquals(0, lt.check("»Der Satz enthält augenscheinlich ein Füllwort«").size());
     
     //  percentage set to zero - show all filler words
