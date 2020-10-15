@@ -215,25 +215,28 @@ public class BaseSynthesizer implements Synthesizer {
   }
 
   protected void initPossibleTags() throws IOException {
-    List<String> tags = possibleTags;
-    if (tags == null) {
+    if (possibleTags == null) {
       synchronized (this) {
-        tags = possibleTags;
-        if (tags == null) {
-          try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(tagFileName)) {
-            possibleTags = SynthesizerTools.loadWords(stream);
-          }
-        }
-        // needed to be moved into synchronized block, should fix ConcurrentModificationException in synthesize
-        if (manualSynthesizer != null) {
-          for (String tag : manualSynthesizer.getPossibleTags()) {
-            if (!possibleTags.contains(tag)) {
-              possibleTags.add(tag);
-            }
-          }
+        if (possibleTags == null) {
+          possibleTags = loadTags();
         }
       }
     }
+  }
+
+  private List<String> loadTags() throws IOException {
+    List<String> tags;
+    try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(tagFileName)) {
+      tags = SynthesizerTools.loadWords(stream);
+    }
+    if (manualSynthesizer != null) {
+      for (String tag : manualSynthesizer.getPossibleTags()) {
+        if (!tags.contains(tag)) {
+          tags.add(tag);
+        }
+      }
+    }
+    return tags;
   }
 
   @Override
