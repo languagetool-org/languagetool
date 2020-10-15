@@ -46,7 +46,7 @@ public class DuUpperLowerCaseRule extends TextLevelRule {
                         "eurem", "euerem", "eures", "eueres")
   );
   private static final Set<String> ambiguousWords = new HashSet<>(
-          Arrays.asList("ihr", "ihre", "ihren", "ihrem", "ihres", "ihrer")
+          Arrays.asList("ihr")
   );
   
   public DuUpperLowerCaseRule(ResourceBundle messages) {
