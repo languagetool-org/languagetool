@@ -17,6 +17,14 @@
 
 
 
+## 5.1.3 (released 2020-10-15)
+
+#### LibreOffice / Apache OpenOffice Integration
+  * fixed https://github.com/languagetool-org/languagetool/issues/3666
+    ("... not a language code known to LanguageTool")
+
+
+
 ## 5.1.2 (released 2020-10-05)
 
 #### LibreOffice / Apache OpenOffice Integration
