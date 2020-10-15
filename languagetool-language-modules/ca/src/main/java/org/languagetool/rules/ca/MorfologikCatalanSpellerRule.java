@@ -122,8 +122,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       }
       
       String suggWithoutDiacritics = StringTools.removeDiacritics(suggestions.get(i).getReplacement());
-      if (word.equalsIgnoreCase(suggWithoutDiacritics) &&
-          !suggWithoutDiacritics.equalsIgnoreCase(suggestions.get(0).getReplacement())) {
+      if (word.equalsIgnoreCase(suggWithoutDiacritics) && suggestions.get(0).getReplacement().contains("'")) {
         newSuggestions.add(0, suggestions.get(i));
         continue;
       }

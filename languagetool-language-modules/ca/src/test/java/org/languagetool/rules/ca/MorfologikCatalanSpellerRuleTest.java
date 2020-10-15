@@ -372,8 +372,7 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("Lilla", matches[0].getSuggestedReplacements().get(0));
         assertEquals("l'illa", matches[0].getSuggestedReplacements().get(1));
         matches = rule.match(langTool.getAnalyzedSentence("portas"));
-        assertEquals("portàs", matches[0].getSuggestedReplacements().get(0));
-        assertEquals("portes", matches[0].getSuggestedReplacements().get(1));
+        assertEquals("portes", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("mantenir'me"));
         assertEquals("mantenir-me", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("elcap"));
@@ -409,8 +408,8 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("Nosé"));
         assertEquals("No sé", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("air"));
-        assertEquals("aïr", matches[0].getSuggestedReplacements().get(0));
-        assertEquals("Aïr", matches[0].getSuggestedReplacements().get(1));
+        assertEquals("Aïr", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("aïr", matches[0].getSuggestedReplacements().get(1));
         
         matches = rule.match(langTool.getAnalyzedSentence("Misiones"));
         assertEquals("Missiones", matches[0].getSuggestedReplacements().get(0));
