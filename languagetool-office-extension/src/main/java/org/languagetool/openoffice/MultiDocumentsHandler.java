@@ -373,9 +373,74 @@ public class MultiDocumentsHandler {
     if (locale == null) {
       locale = new Locale("en","US","");
     }
+    if (!hasLocale(locale)) {
+      String message = Tools.i18n(messages, "language_not_supported", locale.Language);
+      MessageHandler.showMessage(message);
+      return null;
+    }
     return getLanguage(locale);
   }
   
+  @Nullable
+  public Locale getDocumentLocale() {
+    if(xContext == null) {
+      return null;
+    }
+    XComponent xComponent = OfficeTools.getCurrentComponent(xContext);
+    if(xComponent == null) {
+      return null;
+    }
+    Locale charLocale;
+    XPropertySet xCursorProps;
+    try {
+      XModel model = UnoRuntime.queryInterface(XModel.class, xComponent);
+      if(model == null) {
+        return null;
+      }
+      XTextViewCursorSupplier xViewCursorSupplier =
+          UnoRuntime.queryInterface(XTextViewCursorSupplier.class, model.getCurrentController());
+      if(xViewCursorSupplier == null) {
+        return null;
+      }
+      XTextViewCursor xCursor = xViewCursorSupplier.getViewCursor();
+      if(xCursor == null) {
+        return null;
+      }
+      if (xCursor.isCollapsed()) { // no text selection
+        xCursorProps = UnoRuntime.queryInterface(XPropertySet.class, xCursor);
+      } else { // text is selected, need to create another cursor
+        // as multiple languages can occur here - we care only
+        // about character under the cursor, which might be wrong
+        // but it applies only to the checking dialog to be removed
+        xCursorProps = UnoRuntime.queryInterface(
+            XPropertySet.class,
+            xCursor.getText().createTextCursorByRange(xCursor.getStart()));
+      }
+
+      // The CharLocale and CharLocaleComplex properties may both be set, so we still cannot know
+      // whether the text is e.g. Khmer or Tamil (the only "complex text layout (CTL)" languages we support so far).
+      // Thus we check the text itself:
+      if (new KhmerDetector().isThisLanguage(xCursor.getText().getString())) {
+        return new Locale("km", "", "");
+      }
+      if (new TamilDetector().isThisLanguage(xCursor.getText().getString())) {
+        return new Locale("ta","","");
+      }
+      if(xCursorProps == null) {
+        return null;
+      }
+      Object obj = xCursorProps.getPropertyValue("CharLocale");
+      if (obj == null) {
+        return null;
+      }
+      charLocale = (Locale) obj;
+    } catch (Throwable t) {
+      MessageHandler.showError(t);
+      return null;
+    }
+    return charLocale;
+  }
+/*
   @Nullable
   public Locale getDocumentLocale() {
     if(xContext == null) {
@@ -452,7 +517,7 @@ public class MultiDocumentsHandler {
     }
     return charLocale;
   }
-
+*/
   /**
    * @return true if LT supports the language of a given locale
    * @param locale The Locale to check
@@ -1219,6 +1284,10 @@ public class MultiDocumentsHandler {
         } else {
           MessageHandler.printToLogFile("No Local! LanguageTool can not be started!");
         }
+        return false;
+      } else if (!hasLocale(locale)) {
+        String message = Tools.i18n(messages, "language_not_supported", locale.Language);
+        MessageHandler.showMessage(message);
         return false;
       }
       if (debugMode) {

@@ -384,7 +384,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
    * Get the first grammatical error in the flat paragraph y at or after character position x
    */
   SingleProofreadingError getNextGrammatikErrorInParagraph(int x, int nFPara, String text, int[] footnotePosition, Locale locale, SingleDocument document) {
-    if (text == null || text.isEmpty() || x >= text.length()) {
+    if (text == null || text.isEmpty() || x >= text.length() || !documents.hasLocale(locale)) {
       return null;
     }
     PropertyValue[] propertyValues = { new PropertyValue("FootnotePositions", -1, footnotePosition, PropertyState.DIRECT_VALUE) };
@@ -1388,7 +1388,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
           sentenceIncludeError.setText(docCache.getFlatParagraph(docCache.size() - 1));
           locale = docCache.getFlatParagraphLocale(docCache.size() - 1);
         }
-        Language lang = locale == null ? langTool.getLanguage() : documents.getLanguage(locale);
+        Language lang = locale == null || !documents.hasLocale(locale)? langTool.getLanguage() : documents.getLanguage(locale);
         language.setSelectedItem(lang.getTranslatedName(messages));
       }
     }
