@@ -229,6 +229,30 @@ public class RuleMatchDiffFinder {
       message = newMatch.getMessage();
     }
     fw.write("  <br><span class='sentence'>" + oldMatch.getContext() + "</span>");
+    boolean withIframe = false;
+    if (status == RuleMatchDiff.Status.ADDED || status == RuleMatchDiff.Status.MODIFIED) {
+      int markerFrom = oldMatch.getContext().indexOf(MARKER_START);
+      int markerTo = oldMatch.getContext().replace(MARKER_START, "").indexOf(MARKER_END);
+      String params = "sentence=" + enc(oldMatch.getContext().replace(MARKER_START, "").replace(MARKER_END, ""), 300) +
+              "&rule_id=" + enc(oldMatch.getFullRuleId()) +
+              "&filename=" + enc(cleanSource(oldMatch.getRuleSource())) +
+              "&message=" + enc(message, 300) +
+              "&suggestions=" + enc(oldMatch.getSuggestions(), 300) +
+              "&marker_from=" + markerFrom +
+              "&marker_to=" + markerTo +
+              "&language=" + enc(langCode) +
+              "&day=" + enc(date);
+      if (iframeCount > IFRAME_MAX) {
+        // rendering 2000 iframes into a page isn't fun...
+        fw.write("    <a target='regression_feedback' href=\"https://languagetoolplus.com/regression/button?" + params + "\">FA?</a>\n\n");
+      } else {
+        fw.write("    <iframe scrolling=\"no\" style=\"border: none; width: 160px; height: 30px\"\n" +
+                "src=\"https://languagetoolplus.com/regression/button?" +
+                //"src=\"http://127.0.0.1:8000/regression/button" +
+                params + "\"></iframe>\n\n");
+        withIframe = true;
+      }
+    }
     if (replaces != null) {
       fw.write("<br><br><i>Maybe replaces old match:</i><br>");
       fw.write(replaces.getMessage());
@@ -242,30 +266,6 @@ public class RuleMatchDiffFinder {
       fw.write("  <br><span class='sentence'>" + replacedBy.getContext() + "</span>");
       fw.write("  <br><span class='suggestions'>Suggestions: " + replacedBy.getSuggestions() + "</span>");
       fw.write("  <br><span class='id'>" + replacedBy.getFullRuleId() + "</span>\n");
-    }
-    boolean withIframe = false;
-    if (status == RuleMatchDiff.Status.ADDED || status == RuleMatchDiff.Status.MODIFIED) {
-      int markerFrom = oldMatch.getContext().indexOf(MARKER_START);
-      int markerTo = oldMatch.getContext().replace(MARKER_START, "").indexOf(MARKER_END);
-      String params = "sentence=" + enc(oldMatch.getContext().replace(MARKER_START, "").replace(MARKER_END, ""), 300) +
-                      "&rule_id=" + enc(oldMatch.getFullRuleId()) +
-                      "&filename=" + enc(cleanSource(oldMatch.getRuleSource())) +
-                      "&message=" + enc(message, 300) +
-                      "&suggestions=" + enc(oldMatch.getSuggestions(), 300) +
-                      "&marker_from=" + markerFrom +
-                      "&marker_to=" + markerTo +
-                      "&language=" + enc(langCode) +
-                      "&day=" + enc(date);
-      if (iframeCount > IFRAME_MAX) {
-        // rendering 2000 iframes into a page isn't fun...
-        fw.write("    <a target='regression_feedback' href=\"https://languagetoolplus.com/regression/button?" + params + "\">FA?</a>\n\n");
-      } else {
-        fw.write("    <iframe scrolling=\"no\" style=\"border: none; width: 160px; height: 30px\"\n" +
-                "src=\"https://languagetoolplus.com/regression/button?" +
-                //"src=\"http://127.0.0.1:8000/regression/button" +
-                params + "\"></iframe>\n\n");
-        withIframe = true;
-      }
     }
     fw.write("  </td>\n");
     return withIframe ? 1 : 0;
