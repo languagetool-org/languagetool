@@ -111,8 +111,6 @@ public class ProhibitedCompoundRule extends Rule {
           "Brandschutz",
           "Testbahn",
           "Testbahnen",
-          "Reiszwecke",
-          "Reiszwecken",
           "Startglocke",
           "Startglocken",
           "Ladepunkte",
@@ -136,7 +134,7 @@ public class ProhibitedCompoundRule extends Rule {
           "Ermittlungsgesetz",
           "Lindeverfahren",
           "Stromspender",
-          "Turmvverlag",  // eigtl. Turm-Verlag, muss hier als Ausnahme aber so stehen
+          "Turmverlag",  // eigtl. Turm-Verlag, muss hier als Ausnahme aber so stehen
           "Bäckerlunge",
           "Reisbeutel",
           "Reisbeuteln",
@@ -245,7 +243,6 @@ public class ProhibitedCompoundRule extends Rule {
           "Oktober-Miete",
           "November-Miete",
           "Dezember-Miete",
-          "Suchindice",
           "Suchindices",
           "Kirchenfreizeit",
           "Kirchenfreizeiten",
