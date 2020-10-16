@@ -43,10 +43,11 @@ import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.de.GermanToken.POSType;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
-import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
+import static org.languagetool.tools.StringTools.lowercaseFirstChar;
+import static org.languagetool.tools.StringTools.startsWithUppercase;
 
 /**
  * Simple agreement checker for German noun phrases. Checks agreement in:
@@ -1124,7 +1125,7 @@ public class AgreementRule extends Rule {
       return null;
     }
 
-    Set<String> set1 = null;
+    Set<String> set1;
     if (token1.getReadings().size() == 1 &&
         token1.getReadings().get(0).getPOSTag() != null &&
         token1.getReadings().get(0).getPOSTag().endsWith(":STV")) {
@@ -1165,15 +1166,29 @@ public class AgreementRule extends Rule {
   // z.B. "die Original Mail" -> "die Originalmail"
   @Nullable
   private RuleMatch getCompoundError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2, int tokenPos, AnalyzedSentence sentence) {
+    if (tokenPos != -1 && tokenPos + 3 < sentence.getTokensWithoutWhitespace().length) {
+      AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 2];
+      AnalyzedTokenReadings nextToken2 = sentence.getTokensWithoutWhitespace()[tokenPos + 3];
+      if (startsWithUppercase(nextToken.getToken()) && startsWithUppercase(nextToken2.getToken())) {
+        // "das Content Management System"
+        String potentialCompound = token2.getToken() + lowercaseFirstChar(nextToken.getToken()) + lowercaseFirstChar(nextToken2.getToken());
+        String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before 'ins' etc. replacement
+        String testPhrase = origToken1 + " " + potentialCompound;
+        String hyphenPotentialCompound = token2.getToken() + "-" + nextToken.getToken() + "-" + nextToken2.getToken();
+        String hyphenTestPhrase = origToken1 + " " + hyphenPotentialCompound;
+        return getRuleMatch(token1, sentence, nextToken, nextToken2, testPhrase, hyphenTestPhrase);
+      }
+    }
     if (tokenPos != -1 && tokenPos + 2 < sentence.getTokensWithoutWhitespace().length) {
       AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 2];
-      if (StringTools.startsWithUppercase(nextToken.getToken())) {
-        String potentialCompound = token2.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
+      if (startsWithUppercase(nextToken.getToken())) {
+        // "das Test Verfahren"
+        String potentialCompound = token2.getToken() + lowercaseFirstChar(nextToken.getToken());
         String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before 'ins' etc. replacement
         String testPhrase = origToken1 + " " + potentialCompound;
         String hyphenPotentialCompound = token2.getToken() + "-" + nextToken.getToken();
         String hyphenTestPhrase = origToken1 + " " + hyphenPotentialCompound;
-        return getRuleMatch(token1, sentence, nextToken, testPhrase, hyphenTestPhrase);
+        return getRuleMatch(token1, sentence, nextToken, null, testPhrase, hyphenTestPhrase);
       }
     }
     return null;
@@ -1183,37 +1198,53 @@ public class AgreementRule extends Rule {
   @Nullable
   private RuleMatch getCompoundError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2, AnalyzedTokenReadings token3,
                                      int tokenPos, AnalyzedSentence sentence) {
+    if (tokenPos != -1 && tokenPos + 4 < sentence.getTokensWithoutWhitespace().length) {
+      AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 3];
+      AnalyzedTokenReadings nextToken2 = sentence.getTokensWithoutWhitespace()[tokenPos + 4];
+      if (startsWithUppercase(nextToken.getToken()) && startsWithUppercase(nextToken2.getToken())) {
+        String potentialCompound = token3.getToken() + lowercaseFirstChar(nextToken.getToken()) + lowercaseFirstChar(nextToken2.getToken());
+        String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before 'ins' etc. replacement
+        String testPhrase = origToken1 + " " + token2.getToken() + " " + potentialCompound;
+        String hyphenPotentialCompound = token3.getToken() + "-" + nextToken.getToken() + "-" + nextToken2.getToken();
+        String hyphenTestPhrase = origToken1 + " " + token2.getToken() + " " + hyphenPotentialCompound;
+        return getRuleMatch(token1, sentence, nextToken, nextToken2, testPhrase, hyphenTestPhrase);
+      }
+    }
     if (tokenPos != -1 && tokenPos + 3 < sentence.getTokensWithoutWhitespace().length) {
       AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 3];
-      if (StringTools.startsWithUppercase(nextToken.getToken())) {
-        String potentialCompound = token3.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
+      if (startsWithUppercase(nextToken.getToken())) {
+        String potentialCompound = token3.getToken() + lowercaseFirstChar(nextToken.getToken());
         String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before 'ins' etc. replacement
         String testPhrase = origToken1 + " " + token2.getToken() + " " + potentialCompound;
         String hyphenPotentialCompound = token3.getToken() + "-" + nextToken.getToken();
         String hyphenTestPhrase = origToken1 + " " + token2.getToken() + " " + hyphenPotentialCompound;
-        return getRuleMatch(token1, sentence, nextToken, testPhrase, hyphenTestPhrase);
+        return getRuleMatch(token1, sentence, nextToken, null, testPhrase, hyphenTestPhrase);
       }
     }
     return null;
   }
 
   @Nullable
-  private RuleMatch getRuleMatch(AnalyzedTokenReadings token1, AnalyzedSentence sentence, AnalyzedTokenReadings nextToken, String testPhrase, String hyphenTestPhrase) {
+  private RuleMatch getRuleMatch(AnalyzedTokenReadings token1, AnalyzedSentence sentence, AnalyzedTokenReadings nextToken, AnalyzedTokenReadings nextToken2, String testPhrase, String hyphenTestPhrase) {
     try {
       initLt();
       if (nextToken.getReadings().stream().allMatch(k -> k.getPOSTag() != null && !k.getPOSTag().startsWith("SUB:"))) {
         return null;
       }
+      if (nextToken2 != null && nextToken2.getReadings().stream().allMatch(k -> k.getPOSTag() != null && !k.getPOSTag().startsWith("SUB:"))) {
+        return null;
+      }
       List<String> replacements = new ArrayList<>();
-      if (lt.check(testPhrase).isEmpty() && nextToken.isTagged()) {
+      if (lt.check(testPhrase).isEmpty() && nextToken.isTagged() && (nextToken2 == null || nextToken2.isTagged())) {
         replacements.add(testPhrase);
       }
-      if (lt.check(hyphenTestPhrase).isEmpty() && nextToken.isTagged()) {
+      if (lt.check(hyphenTestPhrase).isEmpty() && nextToken.isTagged() && (nextToken2 == null || nextToken2.isTagged())) {
         replacements.add(hyphenTestPhrase);
       }
       if (replacements.size() > 0) {
         String message = "Wenn es sich um ein zusammengesetztes Nomen handelt, wird es zusammengeschrieben.";
-        RuleMatch ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), nextToken.getEndPos(), message);
+        int endPos = nextToken2 != null ? nextToken2.getEndPos() : nextToken.getEndPos();
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), endPos, message);
         ruleMatch.addSuggestedReplacements(replacements);
         ruleMatch.setUrl(Tools.getUrl("https://dict.leo.org/grammatik/deutsch/Rechtschreibung/Regeln/Getrennt-zusammen/Nomen.html#grammarAnchor-Nomen-49575"));
         return ruleMatch;
