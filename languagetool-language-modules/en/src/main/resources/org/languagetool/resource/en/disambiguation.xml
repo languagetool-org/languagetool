@@ -1259,6 +1259,11 @@
 
     <rulegroup name="well + past participle -&gt; well + adjective" id="WELL_VBN">
         <rule>
+            <antipattern>
+                <token regexp="yes">the|an?</token>
+                <token>well</token>
+                <token postag="VBN" />
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="RB">well</token>
@@ -1266,6 +1271,7 @@
                 <token postag="VBN"/>
             </pattern>
             <disambig><match no="1" postag_regexp="yes" postag="RB"/></disambig>
+            <example type="untouched">The well reached a total vertical depth of 14,080 feet and was drilled laterally for almost 5,000 feet.</example>
         </rule>
         <!-- 
         commented out because:
@@ -2296,7 +2302,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
     <rule name="ll -> will" id="ll_MD">
       <pattern>
-        <token regexp="yes">I|s?he|they|we|what|who|you</token>
+        <token regexp="yes">I|s?he|they|we|what|who|you|that</token>
         <token regexp="yes">&apostrophe;</token>
         <marker>
           <token spacebefore="no">ll</token>

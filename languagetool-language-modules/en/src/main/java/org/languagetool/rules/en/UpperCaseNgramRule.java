@@ -409,7 +409,7 @@ public class UpperCaseNgramRule extends Rule {
       tokenRegex("\\d+")
     ),
     Arrays.asList( // company departments used like proper nouns
-      csRegex("Finance|Marketing|Engineering|Controlling")
+      csRegex("Finance|Marketing|Engineering|Controlling|Support|Accounting")
     ),
     Arrays.asList( // They used Draft.js to solve it.
       csRegex("[A-Z].*"),

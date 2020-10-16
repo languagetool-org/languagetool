@@ -314,6 +314,12 @@ public class AdverbFilter extends RuleFilter {
     put("lowly", "low");
     put("notoriously", "notorious");
     put("meaningfully", "meaningful");
+    put("approximately", "approximate");
+    put("extraordinarily", "extraordinary");
+    put("warmly", "warm");
+    put("nearly", "near");
+    put("strategically", "strategical");
+    put("endlessly", "endless");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
