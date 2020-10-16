@@ -5224,6 +5224,17 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+    <rule id="plin" name="a mí, plin">
+        <pattern>
+            <token>a</token>
+            <token regexp="yes">mí|ti|él|ella|nosotros|nosotras|vosotros|vosotras|ellos|ellas|(?-i)\p{Lu}.+</token>
+            <token min="0">,</token>
+            <marker>
+                <token regexp="yes">plin|plim</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rule id="DE_LA_A" name="de la a a la z">
         <pattern case_sensitive="yes">
             <token regexp="yes">de|a|desde|hasta</token>
