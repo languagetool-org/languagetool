@@ -41425,6 +41425,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
+        <rulegroup id="SORRA_ARENA" name="sorra/arena">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>sorra</token>
+                    </marker>
+                    <token regexp="yes">política|internacional|ideològica|pública</token>
+                </pattern>
+                <message>Amb el sentit de 'àmbit de discussió' cal dir <suggestion>arena</suggestion>.</message>
+                <example correction="arena">Els estats de <marker>sorra</marker> internacional.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">baixar</token>
+                    <token>a</token>
+                    <marker>
+                    <token>la</token>
+                        <token>sorra</token>
+                    </marker>
+                </pattern>
+                <message>Amb el sentit de 'àmbit de discussió' cal dir <suggestion>l'arena</suggestion>.</message>
+                <example correction="l'arena">Els jutges han baixat a <marker>la sorra</marker> política.</example>
+            </rule>
+        </rulegroup>
         <rule id="APERTURA" name="apertura/oberua">
             <antipattern>
                 <token skip="-1" regexp="yes" inflected="yes">ideològic|polític|política|liberal|liberalitzador|liberalització</token>
