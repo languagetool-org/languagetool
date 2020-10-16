@@ -175,6 +175,7 @@ public class CaseRuleTest {
     assertGood("WUrzeln");  // to be found by spell checker
     assertGood("🙂 Übrigens finde ich dein neues Ordnungssystem richtig genial!");
     assertGood("Ein 10,4 Ah Lithium-Akku");
+    assertGood("14:15 Uhr SpVgg Westheim");
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");
