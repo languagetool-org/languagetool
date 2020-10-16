@@ -5156,6 +5156,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token inflected="yes" regexp="yes">deixar|posar</token>
+                <token regexp="yes">a|de</token>
+                <marker>
+                    <token regexp="yes">part|banda</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GV_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <token inflected="yes">estar</token>
                 <token>a</token>
                 <token spacebefore="no">l</token>
@@ -11794,7 +11806,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="no_GV" name="neteja GV">
         <rule>
             <pattern>
-                <token postag="_GV_"><exception postag="P[P0].*|V.*" postag_regexp="yes"/><exception regexp="yes">llum|dubte|qüestió|pràctica|valor|marxa|escena|servei|servici|contacte|baixa|falta|terme|origen|camí|corrent|relleu|compte|consulta</exception></token>
+                <token postag="_GV_"><exception postag="P[P0].*|V.*" postag_regexp="yes"/><exception regexp="yes">banda|part|llum|dubte|qüestió|pràctica|valor|marxa|escena|servei|servici|contacte|baixa|falta|terme|origen|camí|corrent|relleu|compte|consulta</exception></token>
             </pattern>
             <disambig action="remove">
                 <wd pos="_GV_"/>
@@ -12433,12 +12445,24 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token><exception postag="RG_anteposat"/></token>
                 <marker>
                     <and>
-                        <token postag="A.*" postag_regexp="yes" regexp="yes">acceptes|manca|vius?|accepta|palesa|manifesta|ultra|vers|lluny|presta|som|sabeu|seré|fer|afecta|alterna|ciutadà|ciutadans|ciutadana|ciutadanes|jugadors?|jugadora|jugadores|cantants?<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token postag="A.*" postag_regexp="yes" regexp="yes">dura|acceptes|manca|vius?|accepta|palesa|manifesta|ultra|vers|lluny|presta|som|sabeu|seré|fer|afecta|alterna|ciutadà|ciutadans|ciutadana|ciutadanes|jugadors?|jugadora|jugadores|cantants?<exception postag="_GN_.*" postag_regexp="yes"/></token>
                         <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
                     </and>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="[^A].*"/>
+            <disambig action="remove" postag="A.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="A.*" postag_regexp="yes">dura<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
+                    </and>
+                </marker>
+                <token regexp="yes">més|mensy|manco|molt|poc|moltíssim|poquíssim</token>
+            </pattern>
+            <disambig action="remove" postag="A.*"/>
         </rule>
         <rule>
             <pattern>
@@ -12451,13 +12475,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     </and>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="[^A].*"/>
+            <disambig action="remove" postag="A.*"/>
         </rule>
         <rule>
             <pattern>
                 <marker>
                     <and>
-                        <token regexp="yes">dura|recull|tria|caça|expressa<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[IS].*" postag_regexp="yes"/></token>
+                        <token regexp="yes">recull|tria|caça|expressa<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[IS].*" postag_regexp="yes"/></token>
                         <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
                     </and>
                 </marker>
@@ -16307,6 +16331,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token regexp="yes">\d{3,}[A-Z]+</token>
             </pattern>
             <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>sub</token>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no" regexp="yes">\d?\d</token>
+            </pattern>
+            <disambig action="ignore_spelling"></disambig>
         </rule>
     </rulegroup>
     <rulegroup id="onomatopeies" name="algunes onomatopeies">

@@ -489,6 +489,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="EXIGEIX_ACCENTUACIO_VALENCIANA" name="Exigeix accentuació valenciana (café, sotmés, conéixer, térbol)" default="off">
+            <antipattern>
+                <token>Cugat</token>
+                <token>de</token>
+                <token>l</token>
+                <token>Vallès</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">.+è|.+ès|.+èn<exception regexp="yes">perquès?|quès?|Novetlè|collibè</exception></token>
@@ -23967,6 +23973,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token>Tel</token>
+                    <token>Aviv</token>
+                </pattern>
+                <message>És preferible l'escriptura guionet.</message>
+                <suggestion>Tel-Aviv</suggestion>
+                <url>https://esadir.cat/Toponims/Toponims_del_mon/Asia/Israel/Tel-Aviv</url>
+                <example correction="Tel-Aviv">Visc a <marker>Tel Aviv</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>boca<exception scope="previous">de</exception></token>
                     <token>a</token>
                     <token regexp="yes">orell(a|es)</token>
@@ -31423,6 +31439,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Al sud-est</example>
         </rule>
         <rulegroup id="MESOS_ANY" name="Exigeix mesos de l'any en minúscula en dates">
+            <antipattern case_sensitive="yes">
+                <token>Premis</token>
+                <token>Octubre</token>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token postag="SENT_START"/>
@@ -55679,6 +55699,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La més estesa forma de relació es donava entre homes adults.</example>
                 <example>No hi ha tasques d'impressió actives</example>
                 <example>L'islam és la religió no cristiana més important.</example>
+                <example>Més dura encara ha estat la resolució.</example>
                 <!-- without period -->
             </rule>
         </rulegroup>
