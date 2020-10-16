@@ -338,6 +338,8 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("a")).length);
         
         // pronoms febles
+        matches = rule.match(langTool.getAnalyzedSentence("ferse"));
+        assertEquals("fer-se", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("Magradaria"));
         assertEquals("M'agradaria", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("tenvio"));

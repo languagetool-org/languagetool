@@ -11052,7 +11052,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=%22com+a%22&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=11958&amp;idHit=11958&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27com%27+o+%27com+a%27%3F+%2F+Usos+de+la+preposici%F3+%27com+i+%27com+a%27+%2F+Nova+gram%E0tica&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <antipattern>
                 <marker>
-                    <token regexp="yes">tant|tanta|tants|tantes|de</token>
+                    <token regexp="yes">tant|tanta|tants|tantes|de|paraula|paraules|mots?|substantius?</token>
                     <token>com</token>
                 </marker>
             </antipattern>
@@ -11191,6 +11191,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En pel·lícules com Ciutadà Kane</example>
                 <example>Es fa tantes vegades com parts té la peça.</example>
                 <example>Hi ha tantes visions del problema com actors hi participen.</example>
+                <example>Manteniment sense palatalitzar del grup antic tl en mots com batle i ametla.</example>
                 <!-- atragué grans personalitats, com actors, actrius, escriptors o polítics.
                     es varen trobar evidències d'habitatge com instruments d'os-->
             </rule>
@@ -14673,7 +14674,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
-        <rulegroup id="VEN_BEN" name="ven/ben" default="temp_off">
+        <rulegroup id="VEN_BEN" name="ven/ben">
             <rule>
                 <antipattern>
                     <token postag="&pronom_feble;|C.*|PR.*|N.*|_possible_nompropi" postag_regexp="yes"/>
@@ -14740,7 +14741,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>L'empresa ven materials d'alguns associats.</example>
             </rule>
         </rulegroup>
-        <rule id="MA_MHA" name="ma/m'ha" default="temp_off">
+        <rule id="MA_MHA" name="ma/m'ha">
             <pattern>
                 <marker>
                     <token>ma</token>
@@ -20316,7 +20317,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Probablement cal escriure <suggestion>per què</suggestion> (per quin motiu).</message>
                 <example correction="per què">Vet ací <marker>perquè</marker> ho diu.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>?</token>
+                    <token skip="-1"/>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">no|oi|eh|qui|què|quan|on|quant|com</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <token skip="-1" regexp="yes">què|qui|quan|quant|com|on</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token>perquè</token>
+                    <token regexp="yes">què|qui|quan|quant|com|on</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                     <marker>
@@ -20328,7 +20347,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>per què</suggestion>
                 <example correction="Per què"><marker>Perquè</marker> no m'ho has dit?</example>
                 <example correction="Per què">¿<marker>Perquè</marker> no m'ho has dit?</example>
+                <example correction="Per què">Va cridar: "<marker>Perquè</marker> no m'ho has dit?"</example>
                 <example>¿No véns perquè no t'agrada la companyia?</example>
+                <example>perquè una sola D intervocàlica es pronuncia [r] en alguerès([budi'na], “ploviscar?”).</example>
+                <example>Perquè allò s'ho valia, oi?</example>
+                <example>Què era allò, perquè t'interessés tant?</example>
+                <example>Perquè si vull anar-hi, què haig de fer?</example>
             </rule>
         </rulegroup>
         <rulegroup id="PER_QUE_PERQUE" name="*per què/perquè">
@@ -24654,6 +24678,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="pluri$1"/></suggestion>
                 <example correction="pluridisciplinàries"><marker>pluri-disciplinàries</marker></example>
                 <example correction="pluridisciplinàries"><marker>pluri disciplinàries</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>pan</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">..+</token>
+                </pattern>
+                <message suppress_misspelled="yes">S'escriu junt.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="pan$1"/></suggestion>
+                <example correction="paneuropeus">Els jocs <marker>pan-europeus</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -32996,7 +33030,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
-        <rulegroup id="ALUMNAT" name="noms col·lectius: alumnat, professorat..." default="temp_off">
+        <rulegroup id="ALUMNAT" name="noms col·lectius: alumnat, professorat...">
             <url>https://www.ub.edu/cub/criteri.php?id=2568</url>
             <rule>
                 <pattern>
@@ -41391,7 +41425,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
-        <rule id="APERTURA" name="apertura/oberua" default="temp_off">
+        <rule id="APERTURA" name="apertura/oberua">
             <antipattern>
                 <token skip="-1" regexp="yes" inflected="yes">ideològic|polític|política|liberal|liberalitzador|liberalització</token>
                 <token inflected="yes">apertura</token>
@@ -58375,7 +58409,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Va veure'ls preparar-se per anar cap al poble.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PASSAR_PER" name="passar per (no pronominal)" default="temp_off">
+        <rulegroup id="PASSAR_PER" name="passar per (no pronominal)">
+            <antipattern>
+                <token inflected="yes">es</token>
+                <token postag="V...3S.." postag_regexp="yes" inflected="yes" regexp="yes">passar|haver|anar</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -58406,6 +58444,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>No feu pronominal l'expressió "passar per".</message>
                 <suggestion>\2</suggestion>
                 <example correction="passeu">Si <marker>us passeu</marker> per la reunió, ho sabreu tot.</example>
+                <example>Llavors es passa pel túrmix.</example>
             </rule>
             <rule>
                 <pattern>
@@ -58422,6 +58461,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>No feu pronominal l'expressió "passar per".</message>
                 <suggestion>\2 \3</suggestion>
                 <example correction="haguéssiu passat">Si <marker>us haguéssiu passat</marker> per la reunió, ho sabríeu tot.</example>
+                <example>S'ha passat pel túrmix.</example>
+                <example>S'anava passant per preses i refugis.</example>
             </rule>
         </rulegroup>
     </category>
