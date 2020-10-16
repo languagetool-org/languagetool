@@ -4534,6 +4534,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>doubt</token>
             <token chunk="B-VP" postag="VBP"/>
         </antipattern>
+        <antipattern><!-- #3601 Left hand draw = -->
+             <token postag="SENT_START"/>
+             <token chunk="B-NP-singular" postag_regexp="yes" postag="JJ|NN(:UN?)?"/>
+             <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+             <token postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token>=</token>
+        </antipattern>
         <pattern>
             <token chunk="B-NP-singular" postag="JJ"/>
             <marker>
@@ -4545,6 +4552,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="filterall"/>
         <example type="untouched">MD not JJ. But we <marker>must</marker> all understand they are a fledgling business...</example>
         <example type="untouched">MD: It's just one study though, and future research <marker>will</marker> no doubt add nuance to the overall picture.</example>
+        <example type="untouched">Left hand draw = arrow on left side of bow.</example><!-- #3601 -->
         <example type="ambiguous" inputform="safety[safety/JJ,safety/NN:U,safety/VB,safety/VBP]" outputform="safety[safety/NN:U]">... together with its education services and level of social <marker>safety</marker> make it attractive for locals and visitors alike.</example><!-- #2433 -->
         <example type="ambiguous" inputform="make[make/NN:UN,make/VB,make/VBP]" outputform="make[make/VBP]">... together with its education services and level of social safety <marker>make</marker> it attractive for locals and visitors alike.</example><!-- #2433 -->
         <example type="ambiguous" inputform="saw[saw/NN,saw/VB,saw/VBP,see/VBD]" outputform="saw[saw/VBP,see/VBD]">This period of Greek art <marker>saw</marker> a veneration of the human physical form.</example>
