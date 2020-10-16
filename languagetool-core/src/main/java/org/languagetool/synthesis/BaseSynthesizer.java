@@ -31,12 +31,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BaseSynthesizer implements Synthesizer {
+
+  public final String SPELLNUMBER_TAG = "_spell_number_";
 
   protected volatile List<String> possibleTags;
 
@@ -47,8 +50,6 @@ public class BaseSynthesizer implements Synthesizer {
   private final ManualSynthesizer removalSynthesizer;
   private final String sorosFileName;
   private final Soros numberSpeller;
-  
-  public final String SPELLNUMBER_TAG = "_spell_number_";
   
   private volatile Dictionary dictionary;
 
@@ -122,12 +123,12 @@ public class BaseSynthesizer implements Synthesizer {
   }
   
   private Soros createNumberSpeller(String langcode) {
-    Soros s = null;
+    Soros s;
     try {
       URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(sorosFileName);
-      BufferedReader f = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+      BufferedReader f = new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8));
       StringBuffer st = new StringBuffer();
-      String line = null;
+      String line;
       while ((line = f.readLine()) != null) {
         st.append(line);
         st.append('\n');
