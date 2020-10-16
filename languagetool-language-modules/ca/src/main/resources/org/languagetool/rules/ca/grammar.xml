@@ -33042,6 +33042,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="PEL_COMPTE_QUE_EM" name="*pel compte que em porta">
+            <rule>
+                <pattern>
+                    <token>pe</token>
+                    <token>l</token>
+                    <token>compte</token>
+                    <token>que</token>
+                    <token regexp="yes">li|ens|us|vos|els</token>
+                    <token postag="V...3S.." postag_regexp="yes" inflected="yes" regexp="yes">tenir|portar|dur</token>
+                </pattern>
+                <message>Calc del castellà.</message>
+                <suggestion>pel que \5 hi <match no="6" postag="(V.*)" postag_regexp="yes" postag_replace="$1">anar</match></suggestion>
+                <suggestion>per la part que \5 <match no="6" postag="(V.*)" postag_regexp="yes" postag_replace="$1">tocar</match></suggestion>
+                <example correction="Pel que li hi va|Per la part que li toca"><marker>Pel compte que li porta</marker>, s'espavilarà.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>pe</token>
+                    <token>l</token>
+                    <token>compte</token>
+                    <token>que</token>
+                    <token regexp="yes">em|et</token>
+                    <token postag="V...3S.." postag_regexp="yes" inflected="yes" regexp="yes">tenir|portar|dur</token>
+                </pattern>
+                <message>Calc del castellà.</message>
+                <suggestion>pel que <match no="5" regexp_match="e([mt])" regexp_replace="$1'hi"></match> <match no="6" postag="(V.*)" postag_regexp="yes" postag_replace="$1">anar</match></suggestion>
+                <suggestion>per la part que \5 <match no="6" postag="(V.*)" postag_regexp="yes" postag_replace="$1">tocar</match></suggestion>
+                <example correction="Pel que m'hi anava|Per la part que em tocava"><marker>Pel compte que em portava</marker>, m'havia d'espavilar.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ALUMNAT" name="noms col·lectius: alumnat, professorat...">
             <url>https://www.ub.edu/cub/criteri.php?id=2568</url>
             <rule>
