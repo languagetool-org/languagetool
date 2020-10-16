@@ -1768,6 +1768,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="qué">No sabe de <marker>que</marker> le hablas.</example>
                 <example correction="qué">Me pregunto con <marker>que</marker> ideas vendrá.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes" regexp="yes">saber|preguntar|dudar</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si equivale a 'qué cosa', se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="qué">No sé <marker>que</marker> hacer ahora mismo.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="QUIEN" name="quien/quién...">
             <url>https://www.rae.es/dpd/qui%C3%A9n</url>
