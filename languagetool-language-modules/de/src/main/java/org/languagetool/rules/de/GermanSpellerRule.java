@@ -938,6 +938,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[vV]erständlichkeitsfragen?", "lichkeits", "nis");
     putRepl("[sS]pendeangebot(e[ns]?)?", "[sS]pende", "Spenden");
     putRepl("gahrnichts?", "gahr", "gar ");
+    putRepl("[aA]ugensichtlich(e[mnrs]?)?", "sicht", "schein");
+    putRepl("[lL]eidensvoll(e[mnrs]?)?", "ens", "");
+    putRepl("[bB]ewusstlich(e[mnrs]?)?", "lich", "");
+    putRepl("[vV]erschmerzlich(e[mnrs]?)?", "lich", "bar");
+    put("Pinn", w -> Arrays.asList("Pin", "PIN"));
+    put("Geldmachung", w -> Arrays.asList("Geltendmachung", "Geldmacherei"));
+    put("Bekennung", "Bekenntnis");
     put("[hH]irar?chie", "Hierarchie");
     put("Chr", "Chr.");
     put("Tiefbaumt", "Tiefbauamt");
