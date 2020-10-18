@@ -48735,7 +48735,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes" skip="3">realitzar</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">faena|feina|treball|visita|viatge|proposta|declaració|reflexió|cua|coa</token>
+                    <token regexp="yes" inflected="yes">faena|feina|treball|visita|viatge|proposta|declaració|reflexió|cua|coa|operació</token>
                 </pattern>
                 <message>Ús abusiu del verb "realitzar". Considereu una opció alternativa.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
@@ -48746,7 +48746,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes" skip="3">realitzar</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">delicte|crim|abús|violació|homicidi|assassinat|infracció|falta|contravenció|atemptat|agressió|estafa|frau</token>
+                    <token regexp="yes" inflected="yes">delicte|crim|abús|violació|homicidi|assassinat|infracció|falta|contravenció|atemptat|agressió|estafa|frau|compra|venda</token>
                 </pattern>
                 <message>Ús abusiu del verb "realitzar". Considereu una opció alternativa.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">cometre</match></suggestion>
@@ -48836,6 +48836,78 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">comprar</match></suggestion>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> \2 \3</suggestion>
                 <example correction="comprarem|farem la compra">I llavors <marker>realitzarem la compra</marker> dels avions.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">realitzar</token>
+                        <token postag="D.*" postag_regexp="yes"/>
+                        <token inflected="yes">venda</token>
+                    </marker>
+                </pattern>
+                <message>Ús abusiu del verb "realitzar". Considereu una opció alternativa.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">vendre</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> \2 \3</suggestion>
+                <example correction="vendrem|farem la venda">I llavors <marker>realitzarem la venda</marker> dels avions.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">realitzar</token>
+                        <token postag="D.*" postag_regexp="yes"/>
+                        <token inflected="yes">avaluació</token>
+                    </marker>
+                </pattern>
+                <message>Ús abusiu del verb "realitzar". Considereu una opció alternativa.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">avaluar</match></suggestion>
+                <example correction="avaluarem">I llavors <marker>realitzarem l'avaluació</marker> dels avions.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="3">realitzar</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">activitat|actuació|projecte</token>
+                </pattern>
+                <message>Ús abusiu del verb "<match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="V.N.*"/>". Considereu una opció alternativa.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">acomplir</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">executar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">dur</match> a terme</suggestion>
+                <example correction="acomplirem|executarem|durem a terme">I llavors <marker>realitzarem</marker> l'activitat.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="3">realitzar</token>
+                    </marker>
+                    <token inflected="yes">obra</token>
+                </pattern>
+                <message>Ús abusiu del verb "<match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="V.N.*"/>". Considereu una opció alternativa.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">executar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
+                <example correction="executaren|feren">I llavors <marker>realitzaren</marker> l'obra.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="3">realitzar</token>
+                    </marker>
+                    <token inflected="yes">pagament</token>
+                </pattern>
+                <message>Ús abusiu del verb "realitzar". Considereu una opció alternativa.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">efectuar</match></suggestion>
+                <example correction="efectuarem">I llavors <marker>realitzarem</marker> els pagaments.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="6">pagament</token>
+                    <marker>
+                        <token inflected="yes">realitzar</token>
+                    </marker>
+                </pattern>
+                <message>Ús abusiu del verb "realitzar". Considereu una opció alternativa.</message>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">efectuar</match></suggestion>
+                <example correction="efectuar">El pagament s'ha de <marker>realitzar</marker> anticipadament.</example>
             </rule>
         </rulegroup>
         <rulegroup id="COLLE" name="col·le/escola">
