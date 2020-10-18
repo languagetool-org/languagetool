@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY adverbis_temps_lloc "entra(t|ts|da|des)|passa(t|ts|da|des)|tocad(a|es)|arran|enfront|per|durant|llavors|tard|aviat|pròximament|properament|prompte|avui|abans|després|hui|ara|demà|ahir|abans-d'ahir|despús-ahir|despús-demà|aquí|ací|allí|allà|ahí|aleshores|recentment|posteriorment|mai">
     <!ENTITY context_ALOS "Isil|Àneu|Pallars|Sobirà">
     <!ENTITY context_COMPTE "registre|inici|sessió|registrar|usuari|dispositiu|correu|e-mail|email|adreça|banc|caixa|targeta|electrònic|bancari|corrent|contrasenya|accedir|sistema|xarxa|Twitter|Facebook|Gmail|Amazon|Yahoo|Hotmail|LinkedIn">
+    <!ENTITY context_CONTE "dibuix|dibuixar|escola|escriptura|escriure|il·lustrar|infant|infantil|juvenil|lectura|llegir|llibre|naració|nen|petit|por|relat|taller|terror|xiquet">
     <!ENTITY context_PASTAR "aigua|bol|canyella|cera|coca|dit|farina|ingredient|llet|llevat|llimona|mà|mantega|massa|min|minuts|mona|oli|ou|panificadora|sucre">
     <!ENTITY context_TAXA "a?baixar|acceleració|acceptació|alcohol.*|anual|a?pujar|atur|augment|augmentar|bit|canvi|consum|convergència|conversió|creixement|dada|defunció|descomptar|descompte|desocupació|disminució|disminuir|duana|fecunditat|flux|impost|incidència|índex|interès|IPC|mensual|migració|mortalitat|mutació|natalitat|nupcialitat|reacció|recuperació|rendiment|renovació|reposició|retorn|supervivència|transferència|vacant|velocitat">
     <!ENTITY context_FALLAR "TSJ.*|recurs|judici|judicial|juí|sentència|veredicte|premi|tribunal|jutges?|jurat|favor|instruir|dispositiva|jutjar|jutjat|sentenciar">
@@ -33101,7 +33102,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V...3S.." postag_regexp="yes" inflected="yes" regexp="yes">tenir|portar|dur</token>
                 </pattern>
                 <message>Calc del castellà.</message>
-                <suggestion>pel que <match no="5" regexp_match="e([mt])" regexp_replace="$1'hi"></match> <match no="6" postag="(V.*)" postag_regexp="yes" postag_replace="$1">anar</match></suggestion>
+                <suggestion>pel que <match no="5" regexp_match="e([mt])" regexp_replace="$1'hi"/> <match no="6" postag="(V.*)" postag_regexp="yes" postag_replace="$1">anar</match></suggestion>
                 <suggestion>per la part que \5 <match no="6" postag="(V.*)" postag_regexp="yes" postag_replace="$1">tocar</match></suggestion>
                 <example correction="Pel que m'hi anava|Per la part que em tocava"><marker>Pel compte que em portava</marker>, m'havia d'espavilar.</example>
             </rule>
@@ -41502,6 +41503,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <rulegroup id="CONTE_COMPTE" name="conte -> compte">
+            <antipattern>
+                <token skip="-1" inflected="yes">conte</token>
+                <token inflected="yes" regexp="yes">&context_CONTE;</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" inflected="yes" regexp="yes">&context_CONTE;</token>
+                <token inflected="yes">conte</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -41512,6 +41521,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">compte</match></suggestion> (registre) en lloc de "\1" (narració)?</message>
                 <example correction="compte">Cal obrir un <marker>conte</marker> d'usuari.</example>
                 <example>Vull que ens contes el que li ha passat a l'usuari.</example>
+                <example>l'activitat de “l'Hora del conte“, aquesta sessió anava dirigida als nens i nenes de 0 a 3 anys</example>
+                <example>També es podrà adquirir el conte d’en Tomàs, un conte infantil il·lustrat en la sessió de tarda.</example>
             </rule>
             <rule>
                 <pattern>
@@ -41520,9 +41531,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token inflected="yes">conte</token>
                     </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">compte</match></suggestion> (registre) en lloc de "\1" (narració)?</message>
+                <message>¿Volíeu dir <suggestion><match no="2" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">compte</match></suggestion> (registre) en lloc de "\2" (narració)?</message>
                 <example correction="compte">En aquest dispositiu no tinc <marker>conte</marker>.</example>
                 <example>A l'usuari no li ho contes, això.</example>
+                <example>En la primera sessió, per exemple, van llegir un parell de contes del llibre,</example>
             </rule>
         </rulegroup>
         <rulegroup id="SORRA_ARENA" name="sorra/arena">
@@ -41541,7 +41553,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">baixar</token>
                     <token>a</token>
                     <marker>
-                    <token>la</token>
+                        <token>la</token>
                         <token>sorra</token>
                     </marker>
                 </pattern>
