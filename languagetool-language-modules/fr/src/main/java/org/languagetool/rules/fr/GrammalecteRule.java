@@ -199,8 +199,8 @@ public class GrammalecteRule extends Rule {
   }
 
   static class GrammalecteInternalRule extends Rule {
-    private String id;
-    private String desc;
+    private final String id;
+    private final String desc;
 
     GrammalecteInternalRule(String id, String desc) {
       this.id = id;
