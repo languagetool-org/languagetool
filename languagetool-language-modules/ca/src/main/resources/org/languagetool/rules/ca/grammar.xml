@@ -3330,8 +3330,215 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="alguns mitjans"><marker>algun mitjans</marker> públics.</example>
                 <example correction="alguns alts"><marker>alguna alts</marker> càrrecs públics.</example>
             </rule>
+            <!-- <example>així com per la molt posterior Patlabor.</example>
+                    a fer tots botànica cultural-->
             <rule>
-                <!--  Falta veure què passa amb tots els altres determinants -->
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="nombre"/>
+                        <feature id="genere"/>
+                        <marker>
+                            <token postag="D[^RN].*" postag_regexp="yes"><exception postag="RG.*|_GN_.*" postag_regexp="yes"/><exception>cada</exception><exception postag="complement.*" postag_regexp="yes" regexp="yes">tot(a|s|es)?</exception></token>
+                        </marker>
+                        <token postag=".*_GN_MS.*" postag_regexp="yes"><exception postag="D[AIR].*" postag_regexp="yes"/></token>
+                    </unify>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion><match no="1" postag="(D[^RN].)..(.)" postag_regexp="yes" postag_replace="$1MS$2"/></suggestion>
+                <example correction="el">En <marker>la</marker> hit parade.</example>
+                <example correction="el">En <marker>la</marker> pendent descendent dels últims anys.</example>
+                <example>Uns alts càrrecs públics.</example>
+                <example>El bel canto.</example>
+                <example>Els metges pacients.</example>
+                <example>A tots els pares els passa igual.</example>
+                <example>Les quatre restants foren per als nobles.</example>
+                <example>Els gats domèstics mengen molt poca matèria vegetal.</example>
+                <example>i tant la seva mare com la seva dona </example>
+                <example>A l'illa caribenya de Aruba, el parla una gran quantitat de persones.</example>
+                <example>A l'illa caribenya de Aruba, el parla gran quantitat de persones.</example>
+                <example>La ciutat de Berga deu el seu origen</example>
+                <example>En faig un cada mes.</example>
+                <example>administrava a aquests una dosi de 325mg.</example>
+                <example>per part d'aquest una resistència o altre.</example>
+                <example>a l'esquerra d'aquesta les desenes,</example>
+                <example>és en opinió de molts el nombre excessiu</example>
+                <example>la subxarxa establint a un els bits de xarxa-subxarxa</example>
+                <example>és segons molts el millor melodrama</example>
+                <example>n'hi ha uns quants la llavor dels quals</example>
+                <example>segons la qual sant Joan</example>
+                <example>Se celebren cada quatre anys</example>
+                <example>la molt pràctica intenció</example>
+                <example>sobre nosaltres dos aquell proverbi</example>
+                <example>una quinta de tos aparatosa</example>
+                <example>Feu servir a tots idèntica vedella amb pèsols</example>
+                <example>Enyorava moltíssim ma mare</example>
+                <example>Què t'ha portat cap aquests verals?</example>
+                <example>hàgiu pogut passar tan poc temps junts</example>
+                <example>acabà muntant-la tres vegades seguides</example>
+                <example>d'un dels seus vessants</example>
+                <example>la possible base del triangle</example>
+                <example>l'origen del modus vivendi</example>
+                <example>Fins a les nou i set minuts.</example>
+                <example>Ha partit pel mig dos gegants.</example>
+                <example>I el 2005 57 114 h.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="nombre"/>
+                        <feature id="genere"/>
+                        <marker>
+                            <token postag="D[^RN].*" postag_regexp="yes"><exception postag="RG.*|_GN_.*" postag_regexp="yes"/><exception>cada</exception><exception postag="complement.*" postag_regexp="yes" regexp="yes">tot(a|s|es)?</exception></token>
+                        </marker>
+                        <token postag=".*_GN_FS.*" postag_regexp="yes"><exception postag="D[AIR].*" postag_regexp="yes"/></token>
+                    </unify>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion><match no="1" postag="(D[^RN].)..(.)" postag_regexp="yes" postag_replace="$1FS$2"/></suggestion>
+                <example correction="el">En <marker>la</marker> hit parade.</example>
+                <example>Uns alts càrrecs públics.</example>
+                <example>El bel canto.</example>
+                <example>Els metges pacients.</example>
+                <example>A tots els pares els passa igual.</example>
+                <example>Les quatre restants foren per als nobles.</example>
+                <example>Els gats domèstics mengen molt poca matèria vegetal.</example>
+                <example>i tant la seva mare com la seva dona </example>
+                <example>A l'illa caribenya de Aruba, el parla una gran quantitat de persones.</example>
+                <example>A l'illa caribenya de Aruba, el parla gran quantitat de persones.</example>
+                <example>La ciutat de Berga deu el seu origen</example>
+                <example>En faig un cada mes.</example>
+                <example>administrava a aquests una dosi de 325mg.</example>
+                <example>per part d'aquest una resistència o altre.</example>
+                <example>a l'esquerra d'aquesta les desenes,</example>
+                <example>és en opinió de molts el nombre excessiu</example>
+                <example>la subxarxa establint a un els bits de xarxa-subxarxa</example>
+                <example>és segons molts el millor melodrama</example>
+                <example>n'hi ha uns quants la llavor dels quals</example>
+                <example>segons la qual sant Joan</example>
+                <example>Se celebren cada quatre anys</example>
+                <example>la molt pràctica intenció</example>
+                <example>sobre nosaltres dos aquell proverbi</example>
+                <example>una quinta de tos aparatosa</example>
+                <example>Feu servir a tots idèntica vedella amb pèsols</example>
+                <example>Enyorava moltíssim ma mare</example>
+                <example>Què t'ha portat cap aquests verals?</example>
+                <example>hàgiu pogut passar tan poc temps junts</example>
+                <example>acabà muntant-la tres vegades seguides</example>
+                <example>d'un dels seus vessants</example>
+                <example>la possible base del triangle</example>
+                <example>l'origen del modus vivendi</example>
+                <example>Fins a les nou i set minuts.</example>
+                <example>Ha partit pel mig dos gegants.</example>
+                <example>I el 2005 57 114 h.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="nombre"/>
+                        <feature id="genere"/>
+                        <marker>
+                            <token postag="D[^RN].*" postag_regexp="yes"><exception postag="RG.*|_GN_.*" postag_regexp="yes"/><exception>cada</exception><exception postag="complement.*" postag_regexp="yes" regexp="yes">tot(a|s|es)?</exception></token>
+                        </marker>
+                        <token postag=".*_GN_MP.*" postag_regexp="yes"><exception postag="D[AIR].*" postag_regexp="yes"/></token>
+                    </unify>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion><match no="1" postag="(D[^RN].)..(.)" postag_regexp="yes" postag_replace="$1MP$2"/></suggestion>
+                <example correction="Els"><marker>El</marker> metges pacients.</example>
+                <example correction="els">la manca d'aigua en <marker>les</marker> pendents superiors</example>
+                <example correction="uns"><marker>un</marker> cinc o sis xiquets</example>
+                <example correction="uns"><marker>un</marker> mitjans públics.</example>
+                <example correction="uns"><marker>un</marker> alts càrrecs públics.</example>
+                <example correction="els">En <marker>el</marker> 40 graus.</example>
+                <example correction="altres">D'<marker>altre</marker> ocells petits.</example>
+                <example correction="els">d'entre <marker>el</marker> segles X i XV</example>
+                <example>Uns alts càrrecs públics.</example>
+                <example>El bel canto.</example>
+                <example>Els metges pacients.</example>
+                <example>A tots els pares els passa igual.</example>
+                <example>Les quatre restants foren per als nobles.</example>
+                <example>Els gats domèstics mengen molt poca matèria vegetal.</example>
+                <example>i tant la seva mare com la seva dona </example>
+                <example>A l'illa caribenya de Aruba, el parla una gran quantitat de persones.</example>
+                <example>A l'illa caribenya de Aruba, el parla gran quantitat de persones.</example>
+                <example>La ciutat de Berga deu el seu origen</example>
+                <example>En faig un cada mes.</example>
+                <example>administrava a aquests una dosi de 325mg.</example>
+                <example>per part d'aquest una resistència o altre.</example>
+                <example>a l'esquerra d'aquesta les desenes,</example>
+                <example>és en opinió de molts el nombre excessiu</example>
+                <example>la subxarxa establint a un els bits de xarxa-subxarxa</example>
+                <example>és segons molts el millor melodrama</example>
+                <example>n'hi ha uns quants la llavor dels quals</example>
+                <example>segons la qual sant Joan</example>
+                <example>Se celebren cada quatre anys</example>
+                <example>la molt pràctica intenció</example>
+                <example>sobre nosaltres dos aquell proverbi</example>
+                <example>una quinta de tos aparatosa</example>
+                <example>Feu servir a tots idèntica vedella amb pèsols</example>
+                <example>Enyorava moltíssim ma mare</example>
+                <example>Què t'ha portat cap aquests verals?</example>
+                <example>hàgiu pogut passar tan poc temps junts</example>
+                <example>acabà muntant-la tres vegades seguides</example>
+                <example>d'un dels seus vessants</example>
+                <example>la possible base del triangle</example>
+                <example>l'origen del modus vivendi</example>
+                <example>Fins a les nou i set minuts.</example>
+                <example>Ha partit pel mig dos gegants.</example>
+                <example>I el 2005 57 114 h.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="nombre"/>
+                        <feature id="genere"/>
+                        <marker>
+                            <token postag="D[^RN].*" postag_regexp="yes"><exception postag="RG.*|_GN_.*" postag_regexp="yes"/><exception>cada</exception><exception postag="complement.*" postag_regexp="yes" regexp="yes">tot(a|s|es)?</exception></token>
+                        </marker>
+                        <token postag=".*_GN_FP.*" postag_regexp="yes"><exception postag="D[AIR].*" postag_regexp="yes"/></token>
+                    </unify>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion><match no="1" postag="(D[^RN].)..(.)" postag_regexp="yes" postag_replace="$1FP$2"/></suggestion>
+                <example correction="unes"><marker>uns</marker> tres o quatre xiquetes</example>
+                <example correction="Les"><marker>Els</marker> Corts valencianes.</example>
+                <example>Uns alts càrrecs públics.</example>
+                <example>El bel canto.</example>
+                <example>Els metges pacients.</example>
+                <example>A tots els pares els passa igual.</example>
+                <example>Les quatre restants foren per als nobles.</example>
+                <example>Els gats domèstics mengen molt poca matèria vegetal.</example>
+                <example>i tant la seva mare com la seva dona </example>
+                <example>A l'illa caribenya de Aruba, el parla una gran quantitat de persones.</example>
+                <example>A l'illa caribenya de Aruba, el parla gran quantitat de persones.</example>
+                <example>La ciutat de Berga deu el seu origen</example>
+                <example>En faig un cada mes.</example>
+                <example>administrava a aquests una dosi de 325mg.</example>
+                <example>per part d'aquest una resistència o altre.</example>
+                <example>a l'esquerra d'aquesta les desenes,</example>
+                <example>és en opinió de molts el nombre excessiu</example>
+                <example>la subxarxa establint a un els bits de xarxa-subxarxa</example>
+                <example>és segons molts el millor melodrama</example>
+                <example>n'hi ha uns quants la llavor dels quals</example>
+                <example>segons la qual sant Joan</example>
+                <example>Se celebren cada quatre anys</example>
+                <example>la molt pràctica intenció</example>
+                <example>sobre nosaltres dos aquell proverbi</example>
+                <example>una quinta de tos aparatosa</example>
+                <example>Feu servir a tots idèntica vedella amb pèsols</example>
+                <example>Enyorava moltíssim ma mare</example>
+                <example>Què t'ha portat cap aquests verals?</example>
+                <example>hàgiu pogut passar tan poc temps junts</example>
+                <example>acabà muntant-la tres vegades seguides</example>
+                <example>d'un dels seus vessants</example>
+                <example>la possible base del triangle</example>
+                <example>l'origen del modus vivendi</example>
+                <example>Fins a les nou i set minuts.</example>
+                <example>Ha partit pel mig dos gegants.</example>
+                <example>I el 2005 57 114 h.</example>
+            </rule>
+            <!-- catch all 
+            <rule> 
                 <pattern>
                     <unify negate="yes">
                         <feature id="nombre"/>
@@ -3387,9 +3594,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Fins a les nou i set minuts.</example>
                 <example>Ha partit pel mig dos gegants.</example>
                 <example>I el 2005 57 114 h.</example>
-                <!-- <example>així com per la molt posterior Patlabor.</example>
-                    a fer tots botànica cultural-->
-            </rule>
+            </rule>-->
         </rulegroup>
         <!--  concordança DA-DR el qual -->
         <!-- <rulegroup id="CONCORDANCES_GN_DIFERENTS" name="detecta grups nominals enganxats: un cotxe (d')altes prestacions "> -->
