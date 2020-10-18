@@ -10989,7 +10989,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <marker>
                 <and>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes">jo|fan|demà|ahir|avui|hui|totals?|vius?|veus?|saps?|sola|soles|vessant|sec|personal|vers|creu|cau|fou|crec|davant|darrere|damunt|davall|sota|ve|tornés|seré|estic|som|sou|amples?|creix|fem|res|si|bé|perquè|però|dins|sobre|real|era|eres|dius?<exception postag="_GN.*" postag_regexp="yes"/></token>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">pinte|jo|fan|demà|ahir|avui|hui|totals?|vius?|veus?|saps?|sola|soles|vessant|sec|personal|vers|creu|cau|fou|crec|davant|darrere|damunt|davall|sota|ve|tornés|seré|estic|som|sou|amples?|creix|fem|res|si|bé|perquè|però|dins|sobre|real|era|eres|dius?<exception postag="_GN.*" postag_regexp="yes"/></token>
                     <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
@@ -12211,7 +12211,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <and>
                     <token postag="NC.*" postag_regexp="yes"/>
-                    <token postag="V.[MS].*|VMIP1S0V" postag_regexp="yes" regexp="yes">.+e|.+[aei]sses|.+[ae]res|.+era<exception postag="_GV_"/></token>
+                    <token postag="V.[MS].*|VMIP1S0V" postag_regexp="yes" regexp="yes">.+e|.+[aei]sses|.+[ae]res|.+era<exception postag="_GV_"/><exception>pinte</exception></token>
                 </and>
             </marker>
         </pattern>
@@ -12984,7 +12984,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="nNom2" name="no nom si no ha concordat">
         <pattern>
             <and>
-                <token postag="N.*" postag_regexp="yes" regexp="yes">trenca|guarda|passa|salva|faig|dic|jeia|estaria|estaries|grossa|ros|suau|sobre|publicà|allò|parla|parles|deixa|deixes|torna|tornes|sabeu|seré|joves?|caus?|meritoris?|meritòri(a|es)|seca|resulta|porta|fou|grans?|surt|era|verticals?<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">pinte|trenca|guarda|passa|salva|faig|dic|jeia|estaria|estaries|grossa|ros|suau|sobre|publicà|allò|parla|parles|deixa|deixes|torna|tornes|sabeu|seré|joves?|caus?|meritoris?|meritòri(a|es)|seca|resulta|porta|fou|grans?|surt|era|verticals?<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 <token postag="[AVCP].*|SPS00" postag_regexp="yes"/>
             </and>
         </pattern>
@@ -14526,6 +14526,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="remove" postag="V.S.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
+                <marker>
+                    <and>
+                        <token postag="VMIP..00" postag_regexp="yes"/>
+                        <token postag="VMSP..0V" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag=".*V"/>
         </rule>
     </rulegroup>
     <rulegroup id="primera_tercera_persona" name="verb primera o tercera persona">
@@ -16338,7 +16350,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token spacebefore="no">-</token>
                 <token spacebefore="no" regexp="yes">\d?\d</token>
             </pattern>
-            <disambig action="ignore_spelling"></disambig>
+            <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
     <rulegroup id="onomatopeies" name="algunes onomatopeies">
