@@ -29,6 +29,8 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A rule that matches words which should not be used and suggests
@@ -40,6 +42,8 @@ import org.languagetool.tools.StringTools;
 public abstract class AbstractSimpleReplaceRule extends Rule {
 
   protected boolean ignoreTaggedWords = false;
+
+  private static final Logger logger = LoggerFactory.getLogger(AbstractSimpleReplaceRule.class);
   private boolean checkLemmas = true;
 
   protected abstract Map<String, List<String>> getWrongWords();
@@ -162,6 +166,9 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
           if (synth != null) {
             for (String replacementLemma : replacements) {
               for (AnalyzedToken at : tokenReadings.getReadings()) {
+                if (at.getLemma() == null) {
+                  logger.warn("at.getLemma() == null for " + at + ", replacementLemma: " + replacementLemma);
+                }
                 AnalyzedToken newAt = new AnalyzedToken(at.getLemma(), at.getPOSTag(), replacementLemma);
                 String[] s = synth.synthesize(newAt, at.getPOSTag());
                 possibleReplacements.addAll(Arrays.asList(s));
