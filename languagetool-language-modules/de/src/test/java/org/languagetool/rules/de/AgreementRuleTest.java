@@ -55,10 +55,6 @@ public class AgreementRuleTest {
     assertBad("Mit seinem Konkurrent Alistair Müller", "sein Konkurrent", "seinem Konkurrenten");
     assertBad("Wir gehen ins Fitness Studio", "ins Fitnessstudio", "ins Fitness-Studio");
     assertBad("Wir gehen durchs Fitness Studio", "durchs Fitnessstudio", "durchs Fitness-Studio");
-    assertBad("Das ist das Content Management System", "das Content-Management-System");
-    assertBad("Das ist das neue Content Management System", "das neue Content-Management-System");
-    assertBad("Die Original Test Mail", "Die Originaltestmail", "Die Original-Test-Mail");
-    //assertBad("Das ist unser Content Management System", "unser Content-Management-System");  // not supported yet
     //assertBad("Die Bad Taste Party von Susi", "Die Bad-Taste-Party");   // not supported yet
     //assertBad("Die Update Liste.", "Die Updateliste");  // not accepted by speller
     List<RuleMatch> matches = lt.check("Er folgt damit dem Tipp des Autoren Michael Müller.");
