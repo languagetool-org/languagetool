@@ -33323,6 +33323,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="COLE" name="cole/escola">
+            <rule>
+                <pattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <token min="0" max="3" postag="D.*|PX.*|A.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>cole</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>escola</suggestion>, <suggestion>col·legi</suggestion> o <suggestion>col·le</suggestion> (informal)?</message>
+                <example correction="escola|col·legi|col·le">En el meu <marker>cole</marker> no es feia així.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <token min="0" max="3" postag="D.*|PX.*|A.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>coles</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>escoles</suggestion>, <suggestion>col·legis</suggestion> o <suggestion>col·les</suggestion> (informal)?</message>
+                <example correction="escoles|col·legis|col·les">En els meus <marker>coles</marker> no es feia així.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PEL_COMPTE_QUE_EM" name="*pel compte que em porta">
             <rule>
                 <pattern>
@@ -48704,6 +48728,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rulegroup id="COLLE" name="col·le/escola">
+            <url>https://esadir.cat/entrades/fitxa/node/Entry2004-05-053749</url>
+            <rule>
+                <pattern>
+                    <token>col·le</token>
+                </pattern>
+                <message>Escurçament informal.</message>
+                <suggestion>escola</suggestion>
+                <suggestion>estudi</suggestion>
+                <suggestion>col·legi</suggestion>
+                <example correction="escola|estudi|col·legi">Me'n vaig al <marker>col·le</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>col·les</token>
+                </pattern>
+                <message>Escurçament informal.</message>
+                <suggestion>escoles</suggestion>
+                <suggestion>estudis</suggestion>
+                <suggestion>col·legis</suggestion>
+                <example correction="escoles|estudis|col·legis">Els <marker>col·les</marker> ho fan.</example>
+            </rule>
+        </rulegroup>
         <rule id="A_COMPTAGOTES" name="a comptagotes/amb comptagotes">
             <pattern>
                 <token>a<exception scope="previous">per</exception></token>
