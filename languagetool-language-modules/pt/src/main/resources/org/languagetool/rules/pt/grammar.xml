@@ -9353,7 +9353,30 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="é único|era único">Procurei e <marker>não havia mais nenhum</marker>.</example>
 	  <example type='correct'>Procurei e <marker>era único</marker>.</example>
     </rule>
-
+	
+    <!-- NÃO MILITARES civis -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-18 (2-JUL-2020+)     -->
+    <rulegroup id='NAO_MILITARES' name="Civil/Civis" default="temp_off">
+	  <rule>
+		<pattern>
+		  <token regexp="no">não</token>
+		  <token regexp="no">militar</token>	  
+		</pattern>
+		<message>Veja se pretende referir uma organização/empresa civil.</message>
+		<suggestion>civil</suggestion>
+		<example correction="civil">Há uma empresa <marker>não militar</marker> a criar simuladores.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+		  <token regexp="no">não</token>
+		  <token regexp="no">militares</token>	  
+		</pattern>
+		<message>Veja se pretende referir uma organização/empresa civil.</message>
+		<suggestion>civis</suggestion>
+		<example correction="civis">Há empresas <marker>não militares</marker> a criar simuladores.</example>
+	  </rule>
+    </rulegroup>
+	
     <!-- NÃO VEZ QUE não vês que -->
     <rule id='NÃO_VEZ_QUE' name="Confusão: vez - vês">
       <pattern>
@@ -9820,7 +9843,7 @@ MARCOAGPINTO 2020-02-18 -->
 	
     <!-- SÃO/É PARA SER/SEREM PARTPASSADO são para Infinitivo -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-15 (2-JUL-2020+)     -->
-    <rule id='SAO-E_PARA_SER-SEREM_PARTPASSADO' name="São/É + para + Verbo Infinitivo" default="temp_off">
+    <rule id='SAO-E_PARA_SER-SEREM_PARTPASSADO' name="São/É + para + Verbo Infinitivo">
       <pattern>
 		  <token inflected='yes'>ser</token>
 		  <token regexp="no">para</token>
