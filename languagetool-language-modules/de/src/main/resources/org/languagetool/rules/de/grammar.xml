@@ -10222,6 +10222,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Homeoffice|Home-Office">Wegen der Corona-Pandemie mussten alle Mitarbeiter aus dem <marker>Home Office</marker> arbeiten.</example>
         </rule>
          <rule id="FUGEN_S_ZUSAMMENSCHREIBUNG" name="Wirtschafts Weisen (Wirtschschaftsweisen)">
+            <antipattern>
+                <token postag="EIG:NOM:.+" postag_regexp="yes" />
+                <token regexp="yes">[A-ZÜÄÖ][a-zäöüß]{2,}(ung|schaft|sicht|heit|keit|ion|tät)s</token>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]{2,}(ung|schaft|sicht|heit|keit|ion|tät)s
@@ -10245,6 +10249,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>SNA – United Nations System of National Accounts (auch UNSNA)</example>
             <example>Seinen Siegelring übergab er Perdikkas, der nach Hephaistions Tod sein engster Vertrauter gewesen war.</example>
             <example>Adelungs Wörterbuch hatte einen großen Einfluss auf die deutsche Lexikographie, das genaue Ausmaß ist jedoch relativ wenig bekannt.</example>
+            <example>Klara Weitsichts Blick fällt auf ...</example>
         </rule>
         <rule id="NAECHSTMOEGLICH" name="nächst möglich (nächstmöglich)">
             <pattern>
