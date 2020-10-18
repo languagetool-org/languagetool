@@ -3395,7 +3395,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Error de concordança.</message>
                 <suggestion><match no="1" postag="(D[^RN].)..(.)" postag_regexp="yes" postag_replace="$1FS$2"/></suggestion>
-                <example correction="el">En <marker>la</marker> hit parade.</example>
+                <example correction="una">Era <marker>un</marker> femme fatale.</example>
                 <example>Uns alts càrrecs públics.</example>
                 <example>El bel canto.</example>
                 <example>Els metges pacients.</example>
@@ -3443,7 +3443,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </unify>
                 </pattern>
                 <message>Error de concordança.</message>
-                <suggestion><match no="1" postag="(D[^RN].)..(.)" postag_regexp="yes" postag_replace="$1MP$2"/></suggestion>
+                <suggestion><match no="1" postag="(D[^RN].)..(.)" postag_regexp="yes" postag_replace="$1[MC]P$2"/></suggestion>
                 <example correction="Els"><marker>El</marker> metges pacients.</example>
                 <example correction="els">la manca d'aigua en <marker>les</marker> pendents superiors</example>
                 <example correction="uns"><marker>un</marker> cinc o sis xiquets</example>
@@ -3499,7 +3499,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </unify>
                 </pattern>
                 <message>Error de concordança.</message>
-                <suggestion><match no="1" postag="(D[^RN].)..(.)" postag_regexp="yes" postag_replace="$1FP$2"/></suggestion>
+                <suggestion><match no="1" postag="(D[^RN].)..(.)" postag_regexp="yes" postag_replace="$1[FC]P$2"/></suggestion>
                 <example correction="unes"><marker>uns</marker> tres o quatre xiquetes</example>
                 <example correction="Les"><marker>Els</marker> Corts valencianes.</example>
                 <example>Uns alts càrrecs públics.</example>
@@ -48170,7 +48170,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>és</token>
+                    <token postag="V...3S.." postag_regexp="yes" inflected="yes" regexp="yes">ser|semblar|parèixer</token>
                     <marker>
                         <token>depenent</token>
                     </marker>
@@ -48181,7 +48181,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>és</token>
+                    <token postag="V...3S.." postag_regexp="yes" inflected="yes" regexp="yes">ser|semblar|parèixer</token>
                     <token postag="RG_anteposat"/>
                     <marker>
                         <token>depenent</token>
@@ -48194,7 +48194,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="VS.*|_PUNCT.*" postag_regexp="yes"/>
-                    <token>molt</token>
+                    <token regexp="yes">molt|més|menys</token>
                     <marker>
                         <token>depenent</token>
                     </marker>
@@ -48203,6 +48203,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="dependent">una agricultura molt diversificada, molt <marker>depenent</marker> de la ramaderia.</example>
                 <example correction="dependent">que és molt <marker>depenent</marker> de l comerç exterior</example>
                 <example>variava molt depenent de la importància de l'oficial</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>cada</token>
+                    <token/>
+                    <token regexp="yes">més|menys</token>
+                    <marker>
+                        <token>depenent</token>
+                    </marker>
+                </pattern>
+                <message>Si no és gerundi, cal dir <suggestion>dependent</suggestion>.</message>
+                <example correction="dependent">És cada vegada més <marker>depenent</marker> dels aliats.</example>
             </rule>
             <!-- <rule>
                 <pattern>
