@@ -162,6 +162,9 @@ public class GrammalecteRule extends Rule {
   private List<RuleMatch> parseJson(InputStream inputStream) throws IOException {
     Map map = mapper.readValue(inputStream, Map.class);
     List matches = (ArrayList) map.get("data");
+    if (matches == null) {
+      throw new RuntimeException("No 'data' found in grammalecte JSON: " + map);  // handled in match()
+    }
     List<RuleMatch> result = new ArrayList<>();
     for (Object match : matches) {
       List<RuleMatch> remoteMatches = getMatches((Map<String, Object>)match);
