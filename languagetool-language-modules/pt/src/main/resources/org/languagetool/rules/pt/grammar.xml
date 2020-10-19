@@ -7936,6 +7936,35 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="esperar na fila">O Rui optou por <marker>estar na fila à espera</marker>.</example>
     </rule>
 
+    <!-- ESTAR A VERB_INFINITIVE verb (verb1 person)-->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-19 (2-JUL-2020+)     -->	
+    <rulegroup id='ESTAR_A_VERB-INFINITIVE' name="Estar + a + Verbo_Infinitivo" default="temp_off">
+	  <rule>
+		<pattern>
+			<and>
+				<token inflected='yes'>estar</token>
+				<token postag='VMII1S0|VMII3S0' postag_regexp='yes'/>
+			</and>
+			<token regexp="no">a</token>
+			<token postag='VMN0000' postag_regexp='no'/>
+		</pattern>
+		<message>Substitua por <suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMII3S0'/></suggestion>.</message>
+		<example correction="tomava">O Rui <marker>estava a tomar</marker> café.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<and>
+				<token inflected='yes'>estar</token>
+				<token postag='VMII3P0' postag_regexp='no'/>
+			</and>
+			<token regexp="no">a</token>
+			<token postag='VMN0000' postag_regexp='no'/>
+		</pattern>
+		<message>Substitua por <suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMII3P0'/></suggestion>.</message>
+		<example correction="tomavam">O Rui e Ana <marker>estavam a tomar</marker> café.</example>
+	  </rule>
+	</rulegroup>
+
     <!-- ESTAR NO ECRÃ -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-13 (2-JUL-2020+)     -->
     <rule id='ESTAR_NO_ECRA' name="Estar no ecrã">
