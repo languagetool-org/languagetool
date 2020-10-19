@@ -1768,7 +1768,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="qué">No sabe de <marker>que</marker> le hablas.</example>
                 <example correction="qué">Me pregunto con <marker>que</marker> ideas vendrá.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <antipattern>
+                    <token postag="V.N.*" skip="10" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes">saber|preguntar|dudar</token>
                     <marker>
@@ -1779,31 +1783,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si equivale a 'qué cosa', se escribe con tilde.</message>
                 <suggestion>qué</suggestion>
                 <example correction="qué">No sé <marker>que</marker> hacer ahora mismo.</example>
+                <example correction="qué">Ya no sabe <marker>que</marker> hacer para tener notoriedad.</example>
+                <example>Sabe que partir de una única forma lo conduce necesariamente a la uniformidad.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">saber|preguntar|dudar</token>
+                    <token regexp="yes">no|alguien|nadie</token>
+                    <token inflected="yes">saber</token>
                     <marker>
                         <token>que</token>
                     </marker>
-                    <token postag="V.[IS].*" postag_regexp="yes"/>
+                    <token postag="V.[IS].*" postag_regexp="yes" regexp="yes" inflected="yes">pensar|pasar|ocurrir|decir|suceder|querer</token>
+                    <token postag="PP.*|V.N...." postag_regexp="yes" min="0" max="3"/>
+                    <token regexp="yes">[\.,;:?!]</token>
                 </pattern>
                 <message>Si equivale a 'qué cosa', se escribe con tilde.</message>
                 <suggestion>qué</suggestion>
                 <example correction="qué">No sé <marker>que</marker> pensaría él.</example>
+                <example correction="qué">No sé <marker>que</marker> pensaría.</example>
+                <example correction="qué">¿Alguien sabe <marker>que</marker> pasó?</example>
+                <example correction="qué">No sé <marker>que</marker> pensaría él.</example>
+                <!--<example correction="qué">Me pregunto <marker>que</marker> quería.</example>-->
+                <example>No hay duda que dicha causa se encuentra abierta.</example>
+                <!--<example correction="qué">No sé <marker>que</marker> debía pensar.</example>-->
+                <example>Todos los delegados sabían que debían debatirlo.</example>
+                <example>Sabe que tiene que correr más rápido que el león.</example>
+                <example>Ya sé que traes buenas noticias.</example>
+                <example>Tom sabía que estaría allí.</example>
+                <!-- ambiguous: ¿Sabes que son las reglas?
+                    Sabía que pasaría.-->
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">saber|preguntar|dudar</token>
+                    <token inflected="yes">preguntar<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>que</token>
                     </marker>
-                    <token inflected="yes" regexp="yes">pensar|decir|querer</token>
+                    <token postag="V.[IS].*" postag_regexp="yes" regexp="yes" inflected="yes">pensar|pasar|ocurrir|decir|suceder|querer</token>
+                    <token postag="PP.*|V.N...." postag_regexp="yes" min="0" max="3"/>
+                    <token regexp="yes">[\.,;:?!]</token>
                 </pattern>
                 <message>Si equivale a 'qué cosa', se escribe con tilde.</message>
                 <suggestion>qué</suggestion>
-                <example correction="qué">No sé <marker>que</marker> pensaría él.</example>
                 <example correction="qué">Me pregunto <marker>que</marker> quería.</example>
+                <example>Estas no son las preguntas que pensábamos hacer.</example>
             </rule>
         </rulegroup>
         <rulegroup id="QUIEN" name="quien/quién...">
@@ -2456,7 +2479,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nos identificamos con una sucesión “continua” en el tiempo.</example>
                 <example>Una función que sea "continua por la derecha".</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">si|cuando|tú|¿</token>
                     <marker>

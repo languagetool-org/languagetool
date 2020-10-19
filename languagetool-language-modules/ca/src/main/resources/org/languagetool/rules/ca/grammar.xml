@@ -26488,7 +26488,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>que</token>
                     </marker>
                 </pattern>
-                <message>Probablement cal accentuar.</message>
+                <message>Amb el sentit de 'quina cosa', s'escriu amb accent.</message>
                 <suggestion>què</suggestion>
                 <example correction="què">No sé <marker>que</marker> passa.</example>
                 <example>no sé què</example>
@@ -26502,7 +26502,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">fer|dir</token>
                     <token regexp="yes" inflected="yes">amb|de</token>
                 </pattern>
-                <message>Probablement cal accentuar.</message>
+                <message>Amb el sentit de 'quina cosa', s'escriu amb accent.</message>
+                <suggestion>què</suggestion>
                 <suggestion>què</suggestion>
                 <example correction="què">No sabien <marker>que</marker> fer amb allò.</example>
             </rule>
@@ -26516,7 +26517,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.I.*" postag_regexp="yes" inflected="yes">voler</token>
                     <token postag="SENT_END"/>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>què</suggestion> (quina cosa)?</message>
+                <message>Amb el sentit de 'quina cosa', s'escriu amb accent.</message>
+                <suggestion>què</suggestion>
                 <example correction="què">No sap <marker>que</marker> vol?</example>
                 <example correction="què">No sabia <marker>que</marker> volia?</example>
                 <example correction="què">No sabia mai <marker>que</marker> volia?</example>
@@ -26525,6 +26527,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El safrà que volia.</example>
                 <example>Semblava que voldrien.</example>
                 <example>L'escola que volem.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="V.N.*" skip="10" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes" regexp="yes">saber|preguntar|dubtar|demanar</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Amb el sentit de 'quina cosa', s'escriu amb accent.</message>
+                <suggestion>què</suggestion>
+                <example correction="què">Em demano <marker>que</marker> fer ara mateix.</example>
+                <example correction="què">Sí que sé <marker>que</marker> fer per a tenir fama.</example>
+                <example>Sap que partir d'una única forma el condueix a la uniformitat.</example>
             </rule>
             <!--<rule>
                 <pattern>
