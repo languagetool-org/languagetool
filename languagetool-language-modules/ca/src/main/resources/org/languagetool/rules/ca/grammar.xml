@@ -42011,17 +42011,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="preveiessin|calculessin|prediguessin|pronostiquessin|esperessin">Si es <marker>projectessin</marker> beneficis de mil milions.</example>
             </rule>
         </rulegroup>
-        <rule id="VENA_BENA" name="vena/bena">
-            <pattern>
-                <token inflected="yes" regexp="yes" skip="3">posar|llevar|treure</token>
-                <marker>
-                    <token regexp="yes">vena|venes</token>
-                </marker>
-            </pattern>
-            <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?iu)v" regexp_replace="b"></match></suggestion> (tira de teixit) en lloc de "\2" (vas sanguini)?</message>
-            <example correction="bena">¿Volies posar la <marker>vena</marker> abans que et ferissin, oi?</example>
-            <example correction="benes">Hem de treure’ns les <marker>venes</marker> cosmopolitistes</example>
-        </rule>
+        <rulegroup id="VENA_BENA" name="vena/bena">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="3">posar|llevar|treure</token>
+                    <marker>
+                        <token regexp="yes">vena|venes</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?iu)v" regexp_replace="b"/></suggestion> (tira de teixit) en lloc de "\2" (vas sanguini)?</message>
+                <example correction="bena">¿Volies posar la <marker>vena</marker> abans que et ferissin, oi?</example>
+                <example correction="benes">Hem de treure’ns les <marker>venes</marker> cosmopolitistes</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" skip="4">vena|venes</token>
+                    </marker>
+                    <token inflected="yes">ull</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)v" regexp_replace="b"/></suggestion> (tira de teixit) en lloc de "\1" (vas sanguini)?</message>
+                <example correction="benes">Cal apartar les <marker>venes</marker> neoliberals dels ulls.</example>
+            </rule>
+        </rulegroup>
         <rule id="ENTRAMENT" name="entrament/entrenament">
             <pattern>
                 <token regexp="yes">entraments?</token>
