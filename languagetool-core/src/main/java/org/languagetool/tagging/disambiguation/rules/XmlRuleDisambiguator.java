@@ -19,17 +19,18 @@
 
 package org.languagetool.tagging.disambiguation.rules;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-
-import javax.xml.parsers.ParserConfigurationException;
-
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Rule-based disambiguator.
@@ -41,6 +42,9 @@ public class XmlRuleDisambiguator extends AbstractDisambiguator {
 
   private static final String DISAMBIGUATION_FILE = "disambiguation.xml";
 
+  private final BitSet unhintedRules = new BitSet();
+  private final Map<String, BitSet> hintedRulesSensitive = new HashMap<>();
+  private final Map<String, BitSet> hintedRulesInsensitive = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
   private final List<DisambiguationPatternRule> disambiguationRules;
 
   public XmlRuleDisambiguator(Language language) {
@@ -51,15 +55,58 @@ public class XmlRuleDisambiguator extends AbstractDisambiguator {
     } catch (Exception e) {
       throw new RuntimeException("Problems with loading disambiguation file: " + disambiguationFile, e);
     }
+    for (int i = 0; i < disambiguationRules.size(); i++) {
+      registerHints(disambiguationRules.get(i), i);
+    }
+  }
+
+  private void registerHints(DisambiguationPatternRule rule, int index) {
+    for (PatternToken token : rule.getPatternTokens()) {
+      Set<String> hints = token.calcFormHints();
+      if (hints != null) {
+        Map<String, BitSet> map = token.isCaseSensitive() ? hintedRulesSensitive : hintedRulesInsensitive;
+        for (String hint : hints) {
+          map.computeIfAbsent(hint, __ -> new BitSet()).set(index);
+        }
+        return;
+      }
+    }
+    unhintedRules.set(index);
   }
 
   @Override
   public AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException {
+    BitSet toCheck = getRelevantRules(input);
     AnalyzedSentence sentence = input;
-    for (DisambiguationPatternRule patternRule : disambiguationRules) {
-      sentence = patternRule.replace(sentence);
+    int i = -1;
+    while (true) {
+      i = toCheck.nextSetBit(i + 1);
+      if (i < 0) break;
+      sentence = disambiguationRules.get(i).replace(sentence);
     }
     return sentence;
+  }
+
+  @NotNull
+  private BitSet getRelevantRules(AnalyzedSentence input) {
+    BitSet toCheck = unhintedRules;
+    for (AnalyzedTokenReadings readings : input.getTokensWithoutWhitespace()) {
+      BitSet rules = hintedRulesSensitive.get(readings.getToken());
+      if (rules != null) {
+        if (toCheck == unhintedRules) {
+          toCheck = (BitSet) toCheck.clone();
+        }
+        toCheck.or(rules);
+      }
+      rules = hintedRulesInsensitive.get(readings.getToken());
+      if (rules != null) {
+        if (toCheck == unhintedRules) {
+          toCheck = (BitSet) toCheck.clone();
+        }
+        toCheck.or(rules);
+      }
+    }
+    return toCheck;
   }
 
   /**

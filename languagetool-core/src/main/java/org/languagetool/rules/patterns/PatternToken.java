@@ -18,8 +18,12 @@
  */
 package org.languagetool.rules.patterns;
 
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.InterruptibleCharSequence;
@@ -27,6 +31,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,9 +42,6 @@ public class PatternToken implements Cloneable {
 
   /** Matches only tokens without any POS tag. **/
   public static final String UNKNOWN_TAG = "UNKNOWN";
-
-  /** Parameter passed to regular expression matcher to enable case insensitive Unicode matching. */
-  private static final String CASE_INSENSITIVE = "(?iu)";
 
   private final boolean caseSensitive;
   private final boolean stringRegExp;
@@ -74,7 +76,7 @@ public class PatternToken implements Cloneable {
   private int minOccurrence = 1;
   private int maxOccurrence = 1;
 
-  private Pattern pattern;
+  private Predicate<String> stringMatcher = s -> true;
 
   /** The reference to another element in the pattern. **/
   private Match tokenReference;
@@ -308,15 +310,34 @@ public class PatternToken implements Cloneable {
       stringToken = null;
     }
     testString = !StringTools.isEmpty(stringToken);
-    if (testString && stringRegExp) {
-      String regToken = stringToken;
+    stringMatcher = testString ? createMatcher() : s -> true;
+  }
+
+  private Predicate<String> createMatcher() {
+    Set<String> set = calcOwnPossibleStringValues();
+    if (set != null) {
+      if (set.size() == 1) {
+        return stringEquals(set.iterator().next());
+      }
       if (!caseSensitive) {
-        regToken = CASE_INSENSITIVE + stringToken;
+        TreeSet<String> treeSet = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+        treeSet.addAll(set);
+        set = treeSet;
       }
-      if (!"\\0".equals(token)) {
-        pattern = Pattern.compile(regToken);
-      }
+      return set::contains;
     }
+
+    if (stringRegExp && !"\\0".equals(stringToken)) {
+      Pattern pattern = Pattern.compile(stringToken, caseSensitive ? 0 : Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      return s -> pattern.matcher(new InterruptibleCharSequence(s)).matches();
+    }
+
+    return stringEquals(stringToken);
+  }
+
+  @NotNull
+  private Predicate<String> stringEquals(String single) {
+    return caseSensitive ? s -> s.equals(single) : s -> s.equalsIgnoreCase(single);
   }
 
   /**
@@ -395,15 +416,7 @@ public class PatternToken implements Cloneable {
    * @return True if matches.
    */
   private boolean isStringTokenMatched(AnalyzedToken token) {
-    String testToken = getTestToken(token);
-    if (stringRegExp) {
-      Matcher m = pattern.matcher(new InterruptibleCharSequence(testToken));
-      return m.matches();
-    }
-    if (caseSensitive) {
-      return stringToken.equals(testToken);
-    }
-    return stringToken.equalsIgnoreCase(testToken);
+    return stringMatcher.test(getTestToken(token));
   }
 
   private String getTestToken(AnalyzedToken token) {
@@ -741,6 +754,82 @@ public class PatternToken implements Cloneable {
 
   public boolean hasExceptionList() {
     return exceptionList != null || previousExceptionList != null;
+  }
+
+  /**
+   * @return all possible forms that this token pattern can accept, or {@code null} if such set is unknown/unbounded.
+   * This is used internally for performance optimizations.
+   */
+  @Nullable
+  public Set<String> calcFormHints() {
+    Set<String> result = inflected ? null : calcOwnPossibleStringValues();
+
+    if (andGroupList != null) {
+      if (result == null) return null;
+      for (PatternToken token : andGroupList) {
+        Set<String> hints = token.calcFormHints();
+        if (hints != null) {
+          result.retainAll(hints);
+        }
+      }
+    } else if (orGroupList != null) {
+      if (result != null) return result;
+
+      for (PatternToken token : orGroupList) {
+        Set<String> hints = token.calcFormHints();
+        if (hints != null) {
+          return hints;
+        }
+      }
+    }
+
+    return result;
+  }
+
+  @Nullable
+  private Set<String> calcOwnPossibleStringValues() {
+    if (negation || !hasStringThatMustMatch()) {
+      return null;
+    }
+    return stringRegExp ? getPossibleRegexpValues() : Collections.singleton(stringToken);
+  }
+
+  @Nullable
+  private Set<String> getPossibleRegexpValues() {
+    if (StringUtils.containsAny(stringToken, "()*+.\\^${}")) {
+      return null;
+    }
+    Set<String> result = new HashSet<>();
+    Queue<String> unprocessed = new ArrayDeque<>(Arrays.asList(stringToken.split("\\|")));
+    while (!unprocessed.isEmpty()) {
+      String regex = unprocessed.poll();
+      int lBracket = regex.indexOf('[');
+      if (lBracket >= 0) {
+        int rBracket = regex.indexOf(']', lBracket + 1);
+        if (rBracket < 0) {
+          return null;
+        }
+        for (int i = lBracket + 1; i < rBracket; i++) {
+          char c = regex.charAt(i);
+          if (c == '-') return null;
+          unprocessed.add(regex.substring(0, lBracket) + c + regex.substring(rBracket + 1));
+        }
+        continue;
+      }
+
+      int question = regex.indexOf('?');
+      if (question <= 0) {
+        result.add(regex);
+      } else {
+        unprocessed.add(regex.substring(0, question) + regex.substring(question + 1));
+        unprocessed.add(regex.substring(0, question - 1) + regex.substring(question + 1));
+      }
+    }
+    return result;
+  }
+
+  boolean hasStringThatMustMatch() {
+    return tokenReference == null && minOccurrence > 0 && stringToken != null && !stringToken.isEmpty();
   }
 
   @Override

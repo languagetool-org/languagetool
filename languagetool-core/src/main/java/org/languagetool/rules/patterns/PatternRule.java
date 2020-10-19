@@ -18,7 +18,9 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.languagetool.*;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
@@ -241,14 +243,10 @@ public class PatternRule extends AbstractPatternRule {
   // tokens that just refer to a word - no regex and optionally no inflection etc.
   private Set<String> getSet(boolean isInflected) {
     Set<String> set = new HashSet<>();
-    for (PatternToken patternToken : patternTokens) {
-      boolean acceptInflectionValue = isInflected ? patternToken.isInflected() : !patternToken.isInflected();
-      if (acceptInflectionValue && !patternToken.getNegation() && !patternToken.isRegularExpression()
-              && !patternToken.isReferenceElement() && patternToken.getMinOccurrence() > 0) {
-        String str = patternToken.getString();
-        if (!StringTools.isEmpty(str)) {
-          set.add(str.toLowerCase());
-        }
+    for (PatternToken token : patternTokens) {
+      if (isInflected == token.isInflected() && !token.isRegularExpression() && !token.getNegation() &&
+          token.hasStringThatMustMatch()) {
+        set.add(Objects.requireNonNull(token.getString()).toLowerCase());
       }
     }
     if (set.isEmpty()) return Collections.emptySet();
