@@ -12480,4 +12480,23 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="replace"><wd lemma="have" pos="VBP" /></disambig>
         <example type="ambiguous" inputform="ve[ve]" outputform="ve[have/VBP]">Where'<marker>ve</marker> you been?</example>
     </rule>
+
+    <rule id="LETTER_AMP_LETTER_SPELLING" name="Ignore spelling of 'A&amp;B'">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">[A-Z]</token>
+            <token regexp="yes" spacebefore="no">&amp;</token>
+            <token regexp="yes" spacebefore="no">[A-Z]</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="SALUT_SENT_START_SPELLING" name="Ignore spelling of 'Salut' at SENT_START">
+        <pattern>
+            <token postag="SENT_START" />
+            <marker>
+                <token>Salut</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 </rules>
