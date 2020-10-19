@@ -10232,6 +10232,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
+                    <marker>
+                        <token regexp="yes">\d+.?º</token>
+                    </marker>
+                    <token postag="NCFS000"/>
+                </pattern>
+                <message>Error de concordancia.</message>
+                <suggestion><match no="1" regexp_match="º" regexp_replace="ª"/></suggestion>
+                <example correction="40ª"><marker>40º</marker> Asamblea de la ONU.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d+.?ª</token>
+                    </marker>
+                    <token postag="NCMS000"/>
+                </pattern>
+                <message>Error de concordancia.</message>
+                <suggestion><match no="1" regexp_match="ª" regexp_replace="º"/></suggestion>
+                <example correction="40º"><marker>40ª</marker> Aniversario de la ONU.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="A.*" postag_regexp="yes" regexp="yes">buen|buenas</token>
                     <token postag="N.[MC]P.*" postag_regexp="yes"><exception postag="_possilbe_NP|_GN_.*|N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -10266,12 +10288,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token regexp="yes">.*%</token>
                 </antipattern>
+                <antipattern>
+                    <token>color</token>
+                    <token postag="NC.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <!-- telegraphic writing -->
+                    <token>total</token>
+                    <token>productors</token>
+                </antipattern>
                 <pattern>
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
                         <token postag="A.*" postag_regexp="yes"><exception postag="NP.*|complement.*|ignore_concordance|_possible_NP" postag_regexp="yes"/></token>
-                        <token postag="N.M.*" postag_regexp="yes"><exception postag="_possilbe_NP|N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                        <token postag="N.M.*" postag_regexp="yes"><exception postag="_possilbe_NP|N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/><exception>tipo</exception></token>
                     </unify>
                 </pattern>
                 <message>Posible error de concordancia.</message>
@@ -10284,6 +10315,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En televisión es de gran popularidad Patricia Conde.</example>
                 <example>la instalación de bases militares conjuntas hispano-estadounidenses</example>
                 <example>Quito: Universidad Andina Simón Bolívar.</example>
+                <example>Sube poco y baja rápido.</example>
+                <example>Para plantar árboles.</example>
+                <example>la encimera color lila</example>
+                <example>Aproximar al lector datos históricos congruentes.</example>
+                <example>Una batidora tipo KA.</example>
+                <example>alguna fábrica de calzado abierta hoy festivo</example>
             </rule>
             <rule>
                 <pattern>

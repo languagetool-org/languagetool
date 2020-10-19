@@ -884,7 +884,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <token regexp="yes">[1234567890., ]+</token>
                 <marker>
-                    <token>m</token>
+                    <token spacebefore="yes">m</token>
                 </marker>
             </pattern>
             <disambig action="replace" postag="NCMP000"/>
@@ -3805,7 +3805,7 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="filter" postag="S.*|_GV_"/>
         </rule>
     </rulegroup>
-    <rule id="mas_najo" name="más + adj no adv">
+    <rule id="mas_bajo" name="más + adj no adv">
         <pattern>
             <token postag="RG"/>
             <!--más|menos|muy|bien-->
@@ -3860,7 +3860,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <marker>
                     <and>
-                        <token postag="A.*" postag_regexp="yes" regexp="yes">varios?|varias?|afectas?<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token postag="A.*" postag_regexp="yes" regexp="yes">varios?|varias?|afectas?|plantar<exception postag="_GN_.*" postag_regexp="yes"/></token>
                         <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
                     </and>
                 </marker>
@@ -3943,13 +3943,16 @@ Copyright (C) 2011 Juan Martorell
     </rulegroup>
     <rule id="verb_notnoun" name="verb not noun: queda">
         <pattern>
-            <token postag="V.*" postag_regexp="yes" regexp="yes">quedo|queda|descargue|salga|ganas?<exception postag="_GN_.*" postag_regexp="yes"/></token>
+            <token postag="V.*" postag_regexp="yes" regexp="yes">fija|quedo|queda|descargue|salga|ganas?<exception postag="_GN_.*" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="remove" postag="[AND].*"/>
     </rule>
     <rule id="not_noun1" name="not noun">
         <pattern>
-            <token postag="NC.*" postag_regexp="yes" regexp="yes">racistas?<exception postag="_GN_.*" postag_regexp="yes"/></token>
+            <and>
+                <token postag="NC.*" postag_regexp="yes" regexp="yes">racistas?|hoy<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                <token postag="NC.*" postag_regexp="yes" negate_pos="yes"/>
+            </and>
         </pattern>
         <disambig action="remove" postag="NC.*"/>
     </rule>
@@ -4041,14 +4044,22 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <marker>
                 <and>
-                    <token postag="A.*" postag_regexp="yes" regexp="yes">venerando|computador(a|es|as)?|mal|solo|mejor|parejas?|jugador(a|es|as)?|matemáticas<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="A.*" postag_regexp="yes" regexp="yes">llena|venerando|computador(a|es|as)?|mal|solo|mejor|parejas?|jugador(a|es|as)?|matemáticas<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <token postag="N.*|RG|V.G.*" postag_regexp="yes"/>
                 </and>
             </marker>
         </pattern>
         <disambig action="remove" postag="A.*"/>
     </rule>
-
+    <rule id="baja" name="baja (adj o verb)">
+        <pattern>
+            <token postag="SENT_START|_PUNCT|CC" postag_regexp="yes"/>
+            <marker>
+                <token postag="V.*" postag_regexp="yes">baja<exception postag="_GN_FS"/></token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="A.*"/>
+    </rule>
     <rule id="not_verb_if_agreement" name="not verb if agreement">
         <pattern>
             <and>
@@ -4669,7 +4680,7 @@ Copyright (C) 2011 Juan Martorell
     <rulegroup id="nom_en_complement" name="nom en complement">
         <rule>
             <pattern>
-                <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"><exception>a</exception></token>
+                <token postag="SP.*|.*LOC_PREP.*" postag_regexp="yes"><exception>a</exception></token>
                 <marker>
                     <token postag="N.*|PI.*|PD.*" postag_regexp="yes"/>
                 </marker>
@@ -4807,7 +4818,7 @@ Copyright (C) 2011 Juan Martorell
         <!--  complement regit per la preposició 'a' -->
         <rule>
             <pattern>
-                <token>a</token>
+                <token regexp="yes">a|al</token>
                 <marker>
                     <token postag="N.*|PI.*|PD.*" postag_regexp="yes"/>
                 </marker>

@@ -8249,9 +8249,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </unify>
             </pattern>
             <disambig action="add">
-                <wd pos="_GN_MS"></wd>
-                <wd pos="_GN_MS"></wd>
-                <wd pos="_GN_MS"></wd>
+                <wd pos="_GN_MS"/>
+                <wd pos="_GN_MS"/>
+                <wd pos="_GN_MS"/>
             </disambig>
         </rule>
         <rule>
@@ -8265,9 +8265,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </unify>
             </pattern>
             <disambig action="add">
-                <wd pos="_GN_FS"></wd>
-                <wd pos="_GN_FS"></wd>
-                <wd pos="_GN_FS"></wd>
+                <wd pos="_GN_FS"/>
+                <wd pos="_GN_FS"/>
+                <wd pos="_GN_FS"/>
             </disambig>
         </rule>
         <rule>
@@ -8281,9 +8281,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </unify>
             </pattern>
             <disambig action="add">
-                <wd pos="_GN_MP"></wd>
-                <wd pos="_GN_MP"></wd>
-                <wd pos="_GN_MP"></wd>
+                <wd pos="_GN_MP"/>
+                <wd pos="_GN_MP"/>
+                <wd pos="_GN_MP"/>
             </disambig>
         </rule>
         <rule>
@@ -8297,9 +8297,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </unify>
             </pattern>
             <disambig action="add">
-                <wd pos="_GN_FP"></wd>
-                <wd pos="_GN_FP"></wd>
-                <wd pos="_GN_FP"></wd>
+                <wd pos="_GN_FP"/>
+                <wd pos="_GN_FP"/>
+                <wd pos="_GN_FP"/>
             </disambig>
         </rule>
     </rulegroup>
@@ -12292,6 +12292,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
         </pattern>
         <disambig action="filter" postag="[^V].*"/>
+    </rule>
+    <rule id="baixa" name="baixa (adj o verb)">
+        <pattern>
+            <token postag="SENT_START|_PUNCT|CC" postag_regexp="yes"/>
+            <marker>
+                <token postag="V.*" postag_regexp="yes">baixa<exception postag="_GN_FS"/></token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="A.*"/>
     </rule>
     <rule id="VerbAdjectiu" name="verb i adjectiu que no ha concordat">
         <!-- fer exàmens. Excep: tan regular (adj) -->
