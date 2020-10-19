@@ -24989,11 +24989,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>wi</token>
                     <token min="0">-</token>
-                    <token>fi</token>
+                    <token regexp="yes">fis?</token>
                 </pattern>
-                <message>Normalment s'escriu junt i en minúscules.</message>
-                <suggestion><match no="1" regexp_match="(?iu)wi" regexp_replace="wifi" case_conversion="alllower"/></suggestion>
+                <message>Normalment s'escriu junt i en minúscules. "Wi-Fi" és possible com a nom de marca registrada.</message>
+                <suggestion><match no="1" case_conversion="alllower"/><match no="3" case_conversion="alllower"/></suggestion>
                 <example correction="wifi">Allà no arriba el <marker>wi-fi</marker>.</example>
+                <example correction="wifis">Les <marker>Wi-Fis</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONTRACCIONS" name="contraccions">
@@ -31479,6 +31480,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CASING" name="E) Majúscules i minúscules" type="typographical">
+        <rule id="WIFI" name="wifi">
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
+                <token regexp="yes">Wifis?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" case_sensitive="yes">wifis?</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">wifis?</token>
+            </pattern>
+            <message>Normalment s'escriu en minúscula.</message>
+            <suggestion><match no="1" case_conversion="alllower"/></suggestion>
+            <example correction="wifi">La <marker>Wifi</marker> no funciona.</example>
+            <example>Wifi gratuït.</example>
+        </rule>
         <rulegroup id="VALENCIA" name="valència/València">
             <antipattern>
                 <token inflected="yes" regexp="yes" skip="-1">&context_valencia;</token>
@@ -41995,14 +42013,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="VENA_BENA" name="vena/bena">
             <pattern>
-                <token inflected="yes">posar</token>
-                <token regexp="yes">una|la</token>
+                <token inflected="yes" regexp="yes" skip="3">posar|llevar|treure</token>
                 <marker>
-                    <token>vena</token>
+                    <token regexp="yes">vena|venes</token>
                 </marker>
             </pattern>
-            <message>¿Volíeu dir <suggestion>bena</suggestion> (tira de teixit) en lloc de "vena" (vas sanguini)?</message>
+            <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?iu)v" regexp_replace="b"></match></suggestion> (tira de teixit) en lloc de "\2" (vas sanguini)?</message>
             <example correction="bena">¿Volies posar la <marker>vena</marker> abans que et ferissin, oi?</example>
+            <example correction="benes">Hem de treure’ns les <marker>venes</marker> cosmopolitistes</example>
         </rule>
         <rule id="ENTRAMENT" name="entrament/entrenament">
             <pattern>
