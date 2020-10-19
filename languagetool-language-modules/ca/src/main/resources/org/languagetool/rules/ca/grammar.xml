@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY adverbis_temps_lloc "entra(t|ts|da|des)|passa(t|ts|da|des)|tocad(a|es)|arran|enfront|per|durant|llavors|tard|aviat|pròximament|properament|prompte|avui|abans|després|hui|ara|demà|ahir|abans-d'ahir|despús-ahir|despús-demà|aquí|ací|allí|allà|ahí|aleshores|recentment|posteriorment|mai">
     <!ENTITY context_ALOS "Isil|Àneu|Pallars|Sobirà">
     <!ENTITY context_COMPTE "obrir|tancar|registre|inici|sessió|registrar|usuari|dispositiu|correu|e-mail|email|adreça|banc|caixa|targeta|electrònic|bancari|corrent|contrasenya|accedir|sistema|xarxa|Twitter|Facebook|Gmail|Amazon|Yahoo|Hotmail|LinkedIn">
-    <!ENTITY context_CONTE "dibuix|dibuixar|escola|escriptura|escriure|il·lustrar|infant|infantil|juvenil|lectura|llegir|llibre|naració|nen|petit|por|relat|taller|terror|xiquet">
+    <!ENTITY context_CONTE "educatiu|follet|obra|comèdia|sàtira|humor|humorístic|satíric|dormir|assaig|teatre|teatral|recull|Alí|Babà|popular|autor|novel·la|frase|estrofa|publicació|publicar|volum|explicar|contar|dibuix|dibuixar|escola|escriptura|escriure|il·lustrar|infant|infantil|juvenil|lectura|llegir|llibre|naració|nen|petit|por|relat|taller|terror|xiquet">
     <!ENTITY context_PASTAR "aigua|bol|canyella|cera|coca|dit|farina|ingredient|llet|llevat|llimona|mà|mantega|massa|min|minuts|mona|oli|ou|panificadora|sucre">
     <!ENTITY context_TAXA "a?baixar|acceleració|acceptació|alcohol.*|anual|a?pujar|atur|augment|augmentar|bit|canvi|consum|convergència|conversió|creixement|dada|defunció|descomptar|descompte|desocupació|disminució|disminuir|duana|fecunditat|flux|impost|incidència|índex|interès|IPC|mensual|migració|mortalitat|mutació|natalitat|nupcialitat|reacció|recuperació|rendiment|renovació|reposició|retorn|supervivència|transferència|vacant|velocitat">
     <!ENTITY context_FALLAR "TSJ.*|recurs|judici|judicial|juí|sentència|veredicte|premi|tribunal|jutges?|jurat|favor|instruir|dispositiva|jutjar|jutjat|sentenciar">
@@ -3288,6 +3288,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup> -->
         <rulegroup id="DET_GN" name="concordança article determinat + grup nominal">
             <antipattern>
+                <!-- rule MES -->
+                <token postag="D.*" postag_regexp="yes"/>
+                <token>mes</token>
+            </antipattern>
+            <antipattern>
                 <!-- Detected by CONCORDANCES_DET_POSSESSIU -->
                 <marker>
                     <token postag="DA.*" postag_regexp="yes"/>
@@ -3330,6 +3335,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="alguns mitjans"><marker>algun mitjans</marker> públics.</example>
                 <example correction="alguns alts"><marker>alguna alts</marker> càrrecs públics.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">a|de|pe</token>
+                        <token>l</token>
+                    </marker>
+                    <token postag=".*_GN_MP.*" postag_regexp="yes"><exception postag="D[AIR].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion>\1ls</suggestion>
+                <example correction="dels">Gestió <marker>del</marker> projectes públics.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">a|de</token>
+                        <token>ls</token>
+                    </marker>
+                    <token postag=".*_GN_FP.*" postag_regexp="yes"><exception postag="D[AIR].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion>\1 les</suggestion>
+                <example correction="de les">Gestió <marker>dels</marker> anàlisis ambientals.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>pe</token>
+                        <token>ls</token>
+                    </marker>
+                    <token postag=".*_GN_FP.*" postag_regexp="yes"><exception postag="D[AIR].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion>per les</suggestion>
+                <example correction="per les">Ha estat establert <marker>pels</marker> anàlisis ambientals.</example>
+            </rule>
             <!-- <example>així com per la molt posterior Patlabor.</example>
                     a fer tots botànica cultural-->
             <rule>
@@ -3344,7 +3385,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </unify>
                 </pattern>
                 <message>Error de concordança.</message>
-                <suggestion><match no="1" postag="(D[^RN].)..(.)" postag_regexp="yes" postag_replace="$1MS$2"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(D[^RN].)..(.)" postag_regexp="yes" postag_replace="$1MS$2"/></suggestion>
                 <example correction="el">En <marker>la</marker> hit parade.</example>
                 <example correction="el">En <marker>la</marker> pendent descendent dels últims anys.</example>
                 <example>Uns alts càrrecs públics.</example>
@@ -3381,6 +3422,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Fins a les nou i set minuts.</example>
                 <example>Ha partit pel mig dos gegants.</example>
                 <example>I el 2005 57 114 h.</example>
+                <example>Per una tal Sofia.</example>
+                <example>La creació d'una força militar africana.</example>
             </rule>
             <rule>
                 <pattern>
@@ -3430,8 +3473,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Fins a les nou i set minuts.</example>
                 <example>Ha partit pel mig dos gegants.</example>
                 <example>I el 2005 57 114 h.</example>
+                <example>Un era un tal Christopher Mulholland.</example>
+                <example>El tal Antoni va marxar amb la cua entre cames.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="D..FP." postag_regexp="yes"/>
+                    <token postag="_GN_FP"/>
+                </antipattern>
                 <pattern>
                     <unify negate="yes">
                         <feature id="nombre"/>
@@ -3488,6 +3537,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>I el 2005 57 114 h.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="D..MP." postag_regexp="yes"/>
+                    <token postag="_GN_MP"/>
+                </antipattern>
                 <pattern>
                     <unify negate="yes">
                         <feature id="nombre"/>
@@ -3536,6 +3589,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Fins a les nou i set minuts.</example>
                 <example>Ha partit pel mig dos gegants.</example>
                 <example>I el 2005 57 114 h.</example>
+                <example>Representaven uns 215 i 145 h respectivament</example>
+                <example>Representaven uns 215 i 145 habitants respectivament</example>
+                <example>A quin dels dotze o catorze membres?</example>
             </rule>
             <!-- catch all 
             <rule> 
@@ -28403,6 +28459,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="-te'l">Menja<marker>-t'el</marker>.</example>
                 <example correction="-te'ls">Menja<marker>-t'els</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>hi</token>
+                    <token postag="V.P..SM." postag_regexp="yes"/>
+                </pattern>
+                <message>Pronom feble solt.</message>
+                <suggestion>hi ha \2</suggestion>
+                <suggestion>hi he \2</suggestion>
+                <suggestion>he \2</suggestion>
+                <suggestion>ha \2</suggestion>
+                <example correction="hi ha fet|hi he fet|he fet|ha fet">No <marker>hi fet</marker> res.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PRONOMS_FEBLES_SOLTS" name="Comprova pronoms febles solts: *li cantar">
             <!-- pronom feble solt: caldria diferenciar dos casos: posposat i anteposat-->
@@ -33347,12 +33415,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
                     <token min="0" max="3" postag="D.*|PX.*|A.*" postag_regexp="yes"/>
                     <marker>
-                        <token>cole</token>
+                        <token>cole<exception postag="NP.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>escola</suggestion>, <suggestion>col·legi</suggestion> o <suggestion>col·le</suggestion> (informal)?</message>
                 <example correction="escola|col·legi|col·le">En el meu <marker>cole</marker> no es feia així.</example>
+                <example>La cançó de Cole Porter anomenada You're the Top.</example>
             </rule>
+            <!--
+                "coles" és plural de "cola"
             <rule>
                 <pattern>
                     <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
@@ -33363,7 +33434,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>¿Volíeu dir <suggestion>escoles</suggestion>, <suggestion>col·legis</suggestion> o <suggestion>col·les</suggestion> (informal)?</message>
                 <example correction="escoles|col·legis|col·les">En els meus <marker>coles</marker> no es feia així.</example>
-            </rule>
+            </rule>-->
         </rulegroup>
         <rulegroup id="PEL_COMPTE_QUE_EM" name="*pel compte que em porta">
             <rule>
@@ -35492,6 +35563,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="finançaments"><marker>finaçiacions</marker></example>
         </rule>
         <rulegroup id="ANGLICISMES" name="anglicismes innecessaris">
+            <rule id="NEW_YORK" name="New York">
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">New|Nueva<exception postag="NP.*" postag_regexp="yes"/></token>
+                    <token>York</token>
+                </pattern>
+                <message>Normalment fem servir el nom d'aquesta ciutat traduït.</message>
+                <suggestion>Nova York</suggestion>
+                <url>https://esadir.cat/Toponims/Toponims_del_mon/America/Estats_Units/Nova_York</url>
+                <example correction="Nova York">Vinc de <marker>New York</marker>.</example>
+                <example>New York Times</example>
+                <example>New York Times Giants</example>
+            </rule>
             <rule id="VENTURE_CAPITAL" name="venture capital">
                 <pattern>
                     <token>venture</token>
@@ -48758,12 +48841,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
-        <rulegroup id="REALITZAR" name="realitzar (abusiu)" default="temp_off">
+        <rulegroup id="REALITZAR" name="realitzar (abusiu)">
             <url>https://esadir.cat/entrades/fitxa/id/2226</url>
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="3">realitzar</token>
+                        <token inflected="yes" skip="3">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
                     </marker>
                     <token regexp="yes" inflected="yes">faena|feina|treball|visita|viatge|proposta|declaració|reflexió|cua|coa|operació</token>
                 </pattern>
@@ -48774,7 +48857,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="3">realitzar</token>
+                        <token inflected="yes" skip="3">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
                     </marker>
                     <token regexp="yes" inflected="yes">delicte|crim|abús|violació|homicidi|assassinat|infracció|falta|contravenció|atemptat|agressió|estafa|frau|compra|venda</token>
                 </pattern>
@@ -48785,7 +48868,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes">realitzar</token>
+                        <token inflected="yes">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
                         <token postag="D.*" postag_regexp="yes"/>
                         <token inflected="yes">distribució</token>
                     </marker>
@@ -48797,7 +48880,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes">realitzar</token>
+                        <token inflected="yes">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
                         <token postag="D.*" postag_regexp="yes"/>
                         <token inflected="yes">visita</token>
                     </marker>
@@ -48810,7 +48893,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes">realitzar</token>
+                        <token inflected="yes">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
                         <token postag="D.*" postag_regexp="yes"/>
                         <token inflected="yes">viatge</token>
                     </marker>
@@ -48823,7 +48906,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes">realitzar</token>
+                        <token inflected="yes">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
                         <token postag="D.*" postag_regexp="yes"/>
                         <token inflected="yes">evacuació</token>
                     </marker>
@@ -48835,18 +48918,56 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="3">realitzar</token>
+                        <token inflected="yes" skip="3" regexp="yes">realitzar|celebrar</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">reunió|conferència|roda|concurs|elecció</token>
+                    <token regexp="yes" inflected="yes" skip="1">conferència|roda</token>
+                    <token>premsa</token>
                 </pattern>
-                <message>Ús abusiu del verb "realitzar". Considereu una opció alternativa.</message>
-                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">celebrar</match></suggestion>
-                <example correction="celebraren">Es <marker>realitzaren</marker> unes eleccions plebiscitàries.</example>
+                <message>Ús abusiu del verb "<match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="V.N.*"/>". Considereu una opció alternativa.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">oferir</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
+                <example correction="oferí|feu|féu">Es <marker>realitzà</marker> una roda de premsa.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="3">realitzar</token>
+                        <token inflected="yes" skip="3">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">reunió|assemblea|conferència|roda|concurs|elecció|trobada|sopar|manifestació</token>
+                </pattern>
+                <message>Ús abusiu del verb "realitzar". Considereu una opció alternativa.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">celebrar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">dur</match> a terme</suggestion>
+                <example correction="celebraren|feren|dugueren a terme">Es <marker>realitzaren</marker> unes eleccions plebiscitàries.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="3">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">discurs|sermó|al·locució</token>
+                </pattern>
+                <message>Ús abusiu del verb "<match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="V.N.*"/>". Considereu una opció alternativa.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">oferir</match></suggestion>
+                <example correction="oferir">Va <marker>realitzar</marker> un discurs solemne.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="3" regexp="yes">realitzar|celebrar</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">cursa|partit|partida|matx|competició|copa|lliga|eliminatòria|final|semifinal|quart</token>
+                </pattern>
+                <message>Ús abusiu del verb "<match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="V.N.*"/>". Considereu una opció alternativa.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">disputar</match></suggestion>
+                <example correction="disputà">Es <marker>realitzà</marker> un partit a porta tancada.</example>
+                <example correction="disputà">Es <marker>celebrà</marker> l'eliminatòria de la copa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="3">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
                     </marker>
                     <token regexp="yes" inflected="yes">marca|rècord|gesta</token>
                 </pattern>
@@ -48895,7 +49016,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="3">realitzar</token>
+                        <token inflected="yes" skip="3">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
                     </marker>
                     <token inflected="yes" regexp="yes">activitat|actuació|projecte</token>
                 </pattern>
@@ -48908,7 +49029,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="3">realitzar</token>
+                        <token inflected="yes" skip="3">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
                     </marker>
                     <token inflected="yes">obra</token>
                 </pattern>
@@ -48920,7 +49041,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="3">realitzar</token>
+                        <token inflected="yes" skip="3">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
                     </marker>
                     <token inflected="yes">pagament</token>
                 </pattern>
@@ -48930,7 +49051,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" skip="6">pagament</token>
+                    <token inflected="yes" skip="6">pagament<exception scope="next" regexp="yes">[:;]</exception></token>
                     <marker>
                         <token inflected="yes">realitzar</token>
                     </marker>
@@ -48942,6 +49063,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="COLLE" name="col·le/escola">
             <url>https://esadir.cat/entrades/fitxa/node/Entry2004-05-053749</url>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>l</token>
+                    <token>col·le</token>
+                </pattern>
+                <message>Escurçament informal.</message>
+                <suggestion>a escola</suggestion>
+                <suggestion>a estudi</suggestion>
+                <suggestion>al col·legi</suggestion>
+                <example correction="a escola|a estudi|al col·legi">Me'n vaig <marker>al col·le</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>de</token>
+                    <token>l</token>
+                    <token>col·le</token>
+                </pattern>
+                <message>Escurçament informal.</message>
+                <suggestion>d'escola</suggestion>
+                <suggestion>d'estudi</suggestion>
+                <suggestion>del col·legi</suggestion>
+                <example correction="d'escola|d'estudi|del col·legi">Vinc <marker>del col·le</marker>.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>col·le</token>
@@ -56476,7 +56621,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="DE_INFINITIU_CONDICIONAL" name="de + infinitiu condicional">
-            <!--<url>http://esadir.cat/gramatica/sintaxi/condeinf</url>--> <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=%22preposici%F3+de%22+condicional&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12237&amp;idHit=12237&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=5&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27d%27haver-ho+sabut%27+o+%27si+ho+hagu%E9s+sabut%27%3F+%2F+Preposici%F3+%27de%27+seguida+d%27infinitiu+amb+valor+condicional+%2F+Infinitiu+condicional&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
+            <!--<url>http://esadir.cat/gramatica/sintaxi/condeinf</url>-->
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=%22preposici%F3+de%22+condicional&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12237&amp;idHit=12237&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=5&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27d%27haver-ho+sabut%27+o+%27si+ho+hagu%E9s+sabut%27%3F+%2F+Preposici%F3+%27de%27+seguida+d%27infinitiu+amb+valor+condicional+%2F+Infinitiu+condicional&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <rule>
                 <pattern>
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"><exception regexp="yes">["')’”»]</exception></token>
@@ -56507,7 +56653,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"><exception regexp="yes">["')’”»]</exception></token>
                     <marker>
-                        <token regexp="yes">de<exception postag="_complement_directe|_obligacio" postag_regexp="yes"/></token>
+                        <token>de<exception postag="_complement_directe|_obligacio" postag_regexp="yes"/></token>
                         <token>no</token>
                         <token regexp="yes">ser|ésser|esser</token>
                         <token regexp="yes">que|perquè</token>
