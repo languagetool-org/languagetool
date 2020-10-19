@@ -3066,6 +3066,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove" postag="V.*"/>
     </rule>
+    <rule id="tant" name="tant (no nom)">
+        <pattern>
+            <token><exception regexp="yes">el|un</exception></token>
+            <marker>
+                <token>tant</token>    
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NCMS000"></disambig>
+    </rule>
     <rule id="vol" name="vol no nom">
         <pattern>
             <token><exception postag="D.*|A.*|V.P.*|SENT_START|SPS00|.*LOC_.*|PX.*" postag_regexp="yes"/><exception regexp="yes" inflected="yes">haver|tenir</exception></token>
