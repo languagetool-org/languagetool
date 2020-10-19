@@ -47854,33 +47854,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="si és procedent|si escau">aprovar, <marker>si procedeix</marker>, l'acta</example>
             <example>és humit si procedeix de l'Atlàntic</example>
         </rule>
-        <rule id="ENTENIMENT_ENTESA_ENTRE" name="*enteniment/entesa entre">
-            <pattern>
-                <marker>
+        <rulegroup id="ENTENIMENT_ENTESA" name="*enteniment/entesa entre">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>enteniment</token>
+                    </marker>
+                    <token regexp="yes">entre|amb|mutual</token>
+                </pattern>
+                <message>¿Volíeu dir: <suggestion>entesa</suggestion> (acord) en comptes de "enteniment" (seny)?</message>
+                <short>Possible confusió</short>
+                <example correction="entesa">cal un <marker>enteniment</marker> entre generacions</example>
+                <example>entesa entre</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>enteniment</token>
-                </marker>
-                <token regexp="yes">entre|amb</token>
-            </pattern>
-            <message>¿Volíeu dir: <suggestion>entesa</suggestion> (acord) en comptes de "enteniment" (seny)?</message>
-            <short>Possible confusió</short>
-            <example correction="entesa">cal un <marker>enteniment</marker> entre generacions</example>
-            <example>entesa entre</example>
-        </rule>
-        <rule id="MANCA_ENTENIMENT_ENTESA" name="manca d'*enteniment/entesa">
-            <pattern>
-                <token regexp="yes" inflected="yes">falta|manca|intentar|cercar|buscar|trobar|pont|via|camí</token>
-                <token regexp="yes">d'|l'|un</token>
-                <marker>
-                    <token>enteniment</token>
-                </marker>
-            </pattern>
-            <message>¿Volíeu dir: <suggestion>entesa</suggestion> (acord) en comptes de "enteniment" (seny)?</message>
-            <short>Possible confusió</short>
-            <example correction="entesa">Hi ha una manca d'<marker>enteniment</marker>.</example>
-            <example correction="entesa">Cal cercar un <marker>enteniment</marker>.</example>
-            <example correction="entesa">Cal cercar ponts d'<marker>enteniment</marker>.</example>
-            <example correction="entesa">Intenten l'<marker>enteniment</marker>.</example>
-        </rule>
+                    <token regexp="yes">mutu|recíproc|respectiu</token>
+                </pattern>
+                <message>¿Volíeu dir: "entesa" (acord) en comptes de "enteniment" (seny)?</message>
+                <suggestion>entesa <match no="2" postag="(A.*)" postag_regexp="yes" postag_replace="AQ0[FC]S0"/></suggestion>
+                <short>Possible confusió</short>
+                <example correction="entesa mútua">cal un <marker>enteniment mutu</marker> entre generacions</example>
+                <example correction="entesa recíproca">cal un <marker>enteniment recíproc</marker> entre generacions</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">falta|manca|intentar|cercar|buscar|trobar|pont|via|camí</token>
+                    <token regexp="yes">d'|l'|un</token>
+                    <marker>
+                        <token>enteniment</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir: <suggestion>entesa</suggestion> (acord) en comptes de "enteniment" (seny)?</message>
+                <short>Possible confusió</short>
+                <example correction="entesa">Hi ha una manca d'<marker>enteniment</marker>.</example>
+                <example correction="entesa">Cal cercar un <marker>enteniment</marker>.</example>
+                <example correction="entesa">Cal cercar ponts d'<marker>enteniment</marker>.</example>
+                <example correction="entesa">Intenten l'<marker>enteniment</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="RATLLAR" name="*ratllar/vorejar">
             <rule>
                 <pattern>
