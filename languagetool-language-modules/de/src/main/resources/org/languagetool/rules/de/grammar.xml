@@ -19120,7 +19120,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>e</token>
                 <token spacebefore="no">.</token>
-                <token regexp="yes" spacebefore="no">commerce|mails?</token>
+                <token regexp="yes" spacebefore="no">commerce|mails?|bikes?|mobility</token>
             </antipattern>
             <antipattern>
                 <token>fritz</token>
@@ -19146,6 +19146,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>process</token>
                 <token>.</token>
                 <token>env</token>
+            </antipattern>
+            <antipattern><!-- @mentions -->
+                <token regexp="yes">@.+</token>
+                <token>.</token>
+                <token regexp="yes">.+</token>
             </antipattern>
             <pattern>
                 <token spacebefore="yes" regexp="yes" case_sensitive="yes">.*[a-zöäüß]$</token>
@@ -36903,6 +36908,18 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rulegroup id="MEIN_KLEIN_HAUS" name="Unflektiertes Adjektiv statt flektierter Form (unvollständig!), z.B. 'mein klein (kleines) Haus' ">
+            <antipattern>
+                <token>Smart</token>
+                <token>City</token>
+            </antipattern>
+            <antipattern>
+                <token>National</token>
+                <token>Park</token>
+            </antipattern>
+            <antipattern>
+                <token>Global</token>
+                <token>Location</token>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token postag="ZAL"/>
@@ -36910,13 +36927,13 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token>auf</token><!-- auf praktisch Null-->
-                    <token postag=" ADJ:PRD:GRU"/>
+                    <token postag="ADJ:PRD:GRU"/>
                     <token>Null</token>
                 </antipattern>
-                <antipattern>
+                <antipattern><!-- https://www.duden.de/rechtschreibung/deutsch -->
                     <token>auf</token>
                     <token>gut</token>
-                    <token>Glück</token>
+                    <token regexp="yes">Glück|Deutsch</token>
                 </antipattern>
                 <antipattern>
                     <token>für</token>
@@ -36946,21 +36963,8 @@ Andere Projekte</example>
                     <token postag="SUB:.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token>Smart</token>
-                    <token>City</token>
-                </antipattern>
-                <antipattern>
-                    <token>National</token>
-                    <token>Park</token>
-                </antipattern>
-                <antipattern>
                     <token>Klar</token>
                     <token>Mobil</token>
-                </antipattern>
-                <antipattern><!-- https://www.duden.de/rechtschreibung/deutsch -->
-                    <token>auf</token>
-                    <token>gut</token>
-                    <token>Deutsch</token>
                 </antipattern>
                 <antipattern>
                     <token>mit</token>
@@ -45589,16 +45593,24 @@ Andere Projekte</example>
                     <token>,</token>
                     <token postag="VER:IMP:.+" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" />
+                    <token>von</token>
+                    <token>mir</token>
+                    <token>aus</token>
+                    <token regexp="yes">jetzt|gleich|heute|(über)?morgen</token>
+                    <token>,</token>
+                </antipattern>
                 <pattern>
                     <token skip="-1" postag="SENT_START">
                         <exception scope="next" postag="VER:.*|UNKNOWN" postag_regexp="yes"/>
                     </token>
                     <marker>
-                    <token>,</token>
-                    <token>
-                        <exception regexp="yes">als|bevor|bis|da(mit|ss?)?|de([mnr]|nn|[nr]en|ssen)|die|falls|indem|nachdem|ob(gleich|wohl)?|seitdem|so(bald|dass|fern|lange)?|während|was|we(il|lche[mrs]?|nn|r|ssen)|wie|wo(her|hin|mit|rum|von)?|siehe</exception>
-                        <exception postag="ABK:.+|UNKNOWN" postag_regexp="yes"/>
-                    </token>
+                        <token>,</token>
+                        <token>
+                            <exception regexp="yes">als|bevor|bis|da(mit|ss?)?|de([mnr]|nn|[nr]en|ssen)|die|falls|indem|nachdem|ob(gleich|wohl)?|seitdem|so(bald|dass|fern|lange)?|während|was|we(il|lche[mrs]?|nn|r|ssen)|wie|wo(her|hin|mit|rum|von)?|siehe</exception>
+                            <exception postag="ABK:.+|UNKNOWN" postag_regexp="yes"/>
+                        </token>
                     </marker>
                 </pattern>
                 <message>Wenn es sich hier um keinen Haupt- und Nebensatz handelt, wird in der Regel kein Komma gesetzt.</message>
@@ -45618,6 +45630,7 @@ Andere Projekte</example>
                 <example>Kenntnisse in Python, PHP und MySQL sind gerne gesehen.</example>
                 <example>Laut dem Thomas nicht, vergleiche das Haus dort mal mit der Villa.</example>
                 <example>Laut Büchern nicht, vergleiche es dort mal mit "Jeans".</example>
+                <example>Von mir aus jetzt, hab aber eigentlich nur kurz Zeit.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_VOR_INFINITIVGRUPPEN_OPT" name="Optional: Komma vor Infinitivgruppen" default="off">
