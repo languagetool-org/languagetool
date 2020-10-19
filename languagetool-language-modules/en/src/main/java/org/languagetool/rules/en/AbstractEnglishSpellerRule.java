@@ -130,6 +130,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
         .filter(k -> !k.getReplacement().startsWith("re ") &&
                      !k.getReplacement().startsWith("en ") &&
                      !k.getReplacement().startsWith("co ") &&
+                     !k.getReplacement().startsWith("de ") &&
                      !k.getReplacement().toLowerCase().startsWith("non ") &&
                      !k.getReplacement().toLowerCase().startsWith("bio ") &&
                      !k.getReplacement().startsWith("con ") &&
@@ -660,6 +661,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("yeld", Arrays.asList("yelled"));
     s.put("os", Arrays.asList("OS", "is", "so"));
     s.put("abel", Arrays.asList("able"));
+    s.put("ensuite", Arrays.asList("en suite"));
+    s.put("Ensuite", Arrays.asList("En suite"));
 
     return s;
   }

@@ -421,7 +421,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "and now him", // vs know
       "and now us,", // vs is
       "to control us", // vs is
-      "are way not" // vs was
+      "are way not", // vs was
+      "the invite" // vs to invite
     );
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
