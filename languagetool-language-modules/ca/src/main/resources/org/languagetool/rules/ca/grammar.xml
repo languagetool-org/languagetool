@@ -43886,10 +43886,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=escoltar&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=9741&amp;idHit=9741&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=sentir+o+escoltar%3F&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <antipattern>
                 <token inflected="yes" skip="10">escoltar</token>
-                <token inflected="yes" regexp="yes">atenció|atentament|contar|explicar</token>
+                <token inflected="yes" regexp="yes">atenció|atentament|contar|explicar|reivindicació</token>
             </antipattern>
             <antipattern>
-                <token inflected="yes" regexp="yes" skip="10">atenció|atentament|contar|explicar</token>
+                <token inflected="yes" regexp="yes" skip="10">atenció|atentament|contar|explicar|reivindicació</token>
                 <token inflected="yes">escoltar</token>
             </antipattern>
             <rule>
@@ -49165,6 +49165,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.termcat.cat/ca/cercaterm/lletra%20tipogr%C3%A0fica?type=basic&amp;thematic_area=&amp;language=</url>
             <example correction="lletra|família|lletra tipogràfica|família tipogràfica">No m'agrada gens aquest <marker>tipus de lletra</marker>.</example>
         </rule>
+        <rulegroup id="PELOTAZO" name="pelotazo">
+            <rule>
+                <pattern>
+                    <token>pelotazo</token>
+                </pattern>
+                <message>Paraula castellana. En sentit figurat ('enriquiment ràpid'), podeu deixar-la en cursiva o fer servir una alternativa.</message>
+                <suggestion>esclafit</suggestion>
+                <suggestion>arramassada</suggestion>
+                <suggestion>morterada</suggestion>
+                <suggestion>arreplec</suggestion>
+                <example correction="esclafit|arramassada|morterada|arreplec">Van fer un <marker>pelotazo</marker> a la costa de la Marina.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>pelotazos</token>
+                </pattern>
+                <message>Paraula castellana. En sentit figurat ('enriquiment ràpid'), podeu deixar-la en cursiva o fer servir una alternativa.</message>
+                <suggestion>esclafits</suggestion>
+                <suggestion>arramassades</suggestion>
+                <suggestion>morterades</suggestion>
+                <suggestion>arreplecs</suggestion>
+                <example correction="esclafits|arramassades|morterades|arreplecs">Van fer uns bons <marker>pelotazos</marker> a la costa de la Marina.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BOTELLON" name="botellón">
             <url>https://www.termcat.cat/ca/cercaterm/botellada?type=basic&amp;thematic_area=&amp;language=</url>
             <rule>
@@ -51723,7 +51747,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="MAI_ABANS" name="mai abans" default="temp_off">
             <antipattern>
                 <token>abans</token>
-                <token inflected="yes">de</token>
+                <token regexp="yes">de|d'</token>
             </antipattern>
             <rule>
                 <pattern>
