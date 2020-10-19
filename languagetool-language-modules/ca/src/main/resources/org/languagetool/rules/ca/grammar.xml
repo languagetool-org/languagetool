@@ -56475,35 +56475,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Els paquets d'aquí sota necessiten ser revisats.</example>
             </rule>
         </rulegroup>
-        <rule id="DE_INFINITIU_CONDICIONAL" name="de + infinitiu condicional">
-            <pattern>
-                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"><exception regexp="yes">["')]</exception></token>
-                <marker>
-                    <token regexp="yes">de|d'<exception postag="_complement_directe|_obligacio" postag_regexp="yes"/></token>
-                </marker>
-                <token min="0">no</token>
-                <token postag="V.N.*" postag_regexp="yes" skip="-1"><exception postag="[NA].*|_GN_.*" postag_regexp="yes"/><exception scope="next" postag="_PUNCT"/></token>
-                <token skip="-1">,<exception scope="next" postag="PP3CN000" inflected="yes">en</exception><exception scope="next" postag="_PUNCT|C.*" postag_regexp="yes"/></token>
-                <token postag="V..[CF].*" postag_regexp="yes"/>
-            </pattern>
-            <message>Incorrecte si és una construcció de condicional.</message>
-            <suggestion>en cas <match no="2" case_conversion="startlower"/></suggestion>
-            <suggestion>si (...)</suggestion>
-            <!--<url>http://esadir.cat/gramatica/sintaxi/condeinf</url>-->
-            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=%22preposici%F3+de%22+condicional&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12237&amp;idHit=12237&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=5&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27d%27haver-ho+sabut%27+o+%27si+ho+hagu%E9s+sabut%27%3F+%2F+Preposici%F3+%27de%27+seguida+d%27infinitiu+amb+valor+condicional+%2F+Infinitiu+condicional&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
-            <short>Construcció incorrecta</short>
-            <example correction="En cas d'|Si (...)"><marker>D'</marker>haver-ho sabut, hauria vingut.</example>
-            <example correction="En cas de|Si (...)"><marker>De</marker> no tenir-la, l'hauríem de fer aquí.</example>
-            <example>En cas d'haver-ho sabut, hauria vingut</example>
-            <example>El pare era un ric comerciant de coure que es convertiria en un respectat ciutadà</example>
-            <example correction="en cas de|si (...)">una amenaça que, <marker>de</marker> concretar-se, fóra una insensatesa.</example>
-            <example correction="En cas de|Si (...)"><marker>De</marker> marxar ara, encara hi arribareu a temps</example>
-            <example correction="En cas de|Si (...)"><marker>De</marker> confirmar-se l'avaria, el tren no podrà sortir</example>
-            <example>l'ideari juvenil "d'anar sempre més enllà"</example>
-            <example>Tot el veïnat va decidir, doncs, de fer cada dia un sorteig entre tots els habitants de la vila i que aquell que destinés la sort seria lliurat a la "simpàtica" fera.</example>
-            <example>D’enraonar, no me’n cansaria mai,</example>
-            <!-- Potser això hauria estat possible de comptar amb l’”home nou” de què van parlar alguns teòrics marxistes. -->
-        </rule>
+        <rulegroup id="DE_INFINITIU_CONDICIONAL" name="de + infinitiu condicional">
+            <!--<url>http://esadir.cat/gramatica/sintaxi/condeinf</url>--> <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=%22preposici%F3+de%22+condicional&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12237&amp;idHit=12237&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=5&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27d%27haver-ho+sabut%27+o+%27si+ho+hagu%E9s+sabut%27%3F+%2F+Preposici%F3+%27de%27+seguida+d%27infinitiu+amb+valor+condicional+%2F+Infinitiu+condicional&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"><exception regexp="yes">["')’”»]</exception></token>
+                    <marker>
+                        <token regexp="yes">de|d'<exception postag="_complement_directe|_obligacio" postag_regexp="yes"/></token>
+                    </marker>
+                    <token min="0">no</token>
+                    <token postag="V.N.*" postag_regexp="yes" skip="-1"><exception postag="[NA].*|_GN_.*" postag_regexp="yes"/><exception scope="next" postag="_PUNCT"/></token>
+                    <token skip="-1">,<exception scope="next" postag="PP3CN000" inflected="yes">en</exception><exception scope="next" postag="_PUNCT|C.*" postag_regexp="yes"/></token>
+                    <token postag="V..[CF].*" postag_regexp="yes"/>
+                </pattern>
+                <message>Incorrecte si és una construcció de condicional.</message>
+                <suggestion>en cas <match no="2" case_conversion="startlower"/></suggestion>
+                <suggestion>si (...)</suggestion>
+                <example correction="En cas d'|Si (...)"><marker>D'</marker>haver-ho sabut, hauria vingut.</example>
+                <example correction="En cas de|Si (...)"><marker>De</marker> no tenir-la, l'hauríem de fer aquí.</example>
+                <example>En cas d'haver-ho sabut, hauria vingut</example>
+                <example>El pare era un ric comerciant de coure que es convertiria en un respectat ciutadà</example>
+                <example correction="en cas de|si (...)">una amenaça que, <marker>de</marker> concretar-se, fóra una insensatesa.</example>
+                <example correction="En cas de|Si (...)"><marker>De</marker> marxar ara, encara hi arribareu a temps</example>
+                <example correction="En cas de|Si (...)"><marker>De</marker> confirmar-se l'avaria, el tren no podrà sortir</example>
+                <example>l'ideari juvenil "d'anar sempre més enllà"</example>
+                <example>Tot el veïnat va decidir, doncs, de fer cada dia un sorteig entre tots els habitants de la vila i que aquell que destinés la sort seria lliurat a la "simpàtica" fera.</example>
+                <example>D’enraonar, no me’n cansaria mai,</example>
+                <!-- Potser això hauria estat possible de comptar amb l’”home nou” de què van parlar alguns teòrics marxistes. -->
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"><exception regexp="yes">["')’”»]</exception></token>
+                    <marker>
+                        <token regexp="yes">de<exception postag="_complement_directe|_obligacio" postag_regexp="yes"/></token>
+                        <token>no</token>
+                        <token regexp="yes">ser|ésser|esser</token>
+                        <token regexp="yes">que|perquè</token>
+                    </marker>
+                </pattern>
+                <message>Incorrecte si és una construcció de condicional.</message>
+                <suggestion>si no fos \5</suggestion>
+                <example correction="Si no fos perquè"><marker>De no ser perquè</marker> el seu interès és un altre.</example>
+            </rule>
+        </rulegroup>
         <!--  <rulegroup id="CONDICIONALS" name="condicionals">
             <rule>
             <pattern>
