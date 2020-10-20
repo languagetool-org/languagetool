@@ -42,10 +42,25 @@ public class XmlRuleDisambiguator extends AbstractDisambiguator {
 
   private static final String DISAMBIGUATION_FILE = "disambiguation.xml";
 
-  private final BitSet unhintedRules = new BitSet();
-  private final Map<String, BitSet> hintedRulesSensitive = new HashMap<>();
-  private final Map<String, BitSet> hintedRulesInsensitive = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
   private final List<DisambiguationPatternRule> disambiguationRules;
+
+  /**
+   * A map containing indices rules with form hints,
+   * which are only called when the analyzed sentence contains any of the word forms that the rules have provided.
+   * The keys of the map are the known word forms, the values are sets of indices in {@link #disambiguationRules} list.
+   */
+  private final Map<String, BitSet> hintedRulesSensitive = new HashMap<>();
+
+  /**
+   * Same as {@link #hintedRulesSensitive}, but case-insensitively.
+   */
+  private final Map<String, BitSet> hintedRulesInsensitive = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+
+  /**
+   * Indices in {@link #disambiguationRules} that correspond to rules without form hints, which fall into
+   * neither {@link #hintedRulesSensitive} nor {@link #hintedRulesInsensitive}.
+   */
+  private final BitSet unhintedRules = new BitSet();
 
   public XmlRuleDisambiguator(Language language) {
     Objects.requireNonNull(language);
@@ -60,6 +75,10 @@ public class XmlRuleDisambiguator extends AbstractDisambiguator {
     }
   }
 
+  /**
+   * Classifies the given rule into {@link #unhintedRules}, {@link #hintedRulesInsensitive} or {@link #hintedRulesSensitive},
+   * based on the form hints provided by its token patterns.
+   */
   private void registerHints(DisambiguationPatternRule rule, int index) {
     for (PatternToken token : rule.getPatternTokens()) {
       Set<String> hints = token.calcFormHints();
@@ -87,6 +106,10 @@ public class XmlRuleDisambiguator extends AbstractDisambiguator {
     return sentence;
   }
 
+  /**
+   * @return rules that have a chance to be triggered by the given sentence: the ones whose form hints
+   * (see {@link PatternToken#calcFormHints()}) occur in the sentence and the ones without form hints ({@link #unhintedRules}).
+   */
   @NotNull
   private BitSet getRelevantRules(AnalyzedSentence input) {
     BitSet toCheck = unhintedRules;

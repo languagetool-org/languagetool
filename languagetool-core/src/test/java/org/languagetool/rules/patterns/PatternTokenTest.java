@@ -19,11 +19,11 @@
 
 package org.languagetool.rules.patterns;
 
+import com.google.common.collect.Sets;
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.languagetool.JLanguageTool.*;
 import static org.languagetool.rules.patterns.PatternToken.UNKNOWN_TAG;
 
@@ -150,4 +150,21 @@ public class PatternTokenTest {
 
   }
 
+  @Test
+  public void testFormHints() {
+    PatternToken token = new PatternTokenBuilder().tokenRegex("an?|the|th[eo]se").build();
+    assertEquals(token.calcFormHints(), Sets.newHashSet("a", "an", "the", "these", "those"));
+
+    token = new PatternTokenBuilder().token("foo").build();
+    assertEquals(token.calcFormHints(), Sets.newHashSet("foo"));
+
+    token = new PatternTokenBuilder().tokenRegex("(foo)?.*").build();
+    assertNull(token.calcFormHints());
+
+    token = new PatternTokenBuilder().csTokenRegex("a|b").build();
+    assertEquals(token.calcFormHints(), Sets.newHashSet("a", "b"));
+
+    token = new PatternTokenBuilder().token("a").min(0).build();
+    assertNull(token.calcFormHints());
+  }
 }
