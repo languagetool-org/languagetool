@@ -26512,7 +26512,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.[ISM].*|_GV_" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="V.[ISM].*|_GV_" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception inflected="yes">anar</exception></token>
                     <token postag="RG" min="0"/>
                     <marker>
                         <token>que</token>
@@ -26530,6 +26530,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El safrà que volia.</example>
                 <example>Semblava que voldrien.</example>
                 <example>L'escola que volem.</example>
+                <example>Les cerveses van que volen.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -35587,6 +35588,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="ANGLICISMES" name="anglicismes innecessaris">
             <rule id="NEW_YORK" name="New York">
+                <antipattern>
+                    <token postag="UNKNOWN"/>
+                    <token>New</token>
+                </antipattern>
+                <antipattern>
+                    <token>York</token>
+                    <token postag="UNKNOWN"/>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">New|Nueva<exception postag="NP.*" postag_regexp="yes"/></token>
                     <token>York</token>
@@ -35597,6 +35606,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Nova York">Vinc de <marker>New York</marker>.</example>
                 <example>New York Times</example>
                 <example>New York Times Giants</example>
+                <example>l'empresa química New York Chemical Manufacturing Company.</example>
+                <example>el New York City Ballet</example>
             </rule>
             <rule id="VENTURE_CAPITAL" name="venture capital">
                 <pattern>
@@ -48882,28 +48893,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="3">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
-                    </marker>
-                    <token regexp="yes" inflected="yes">faena|feina|treball|visita|viatge|proposta|declaració|reflexió|cua|coa|operació</token>
-                </pattern>
-                <message>Ús abusiu del verb "realitzar". Considereu una opció alternativa.</message>
-                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
-                <example correction="fet">Han <marker>realitzat</marker> una molt bona feina.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token inflected="yes" skip="3">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
-                    </marker>
-                    <token regexp="yes" inflected="yes">delicte|crim|abús|violació|homicidi|assassinat|infracció|falta|contravenció|atemptat|agressió|estafa|frau</token>
-                </pattern>
-                <message>Ús abusiu del verb "realitzar". Considereu una opció alternativa.</message>
-                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">cometre</match></suggestion>
-                <example correction="Cometeren"><marker>Realitzaren</marker> una violació dels drets humans.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
                         <token inflected="yes">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
                         <token postag="D.*" postag_regexp="yes"/>
                         <token inflected="yes">distribució</token>
@@ -48954,66 +48943,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="3" regexp="yes">realitzar|celebrar</token>
-                    </marker>
-                    <token regexp="yes" inflected="yes" skip="1">conferència|roda</token>
-                    <token>premsa</token>
-                </pattern>
-                <message>Ús abusiu del verb "<match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="V.N.*"/>". Considereu una opció alternativa.</message>
-                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">oferir</match></suggestion>
-                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
-                <example correction="oferí|feu|féu">Es <marker>realitzà</marker> una roda de premsa.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token inflected="yes" skip="3">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
-                    </marker>
-                    <token regexp="yes" inflected="yes">reunió|assemblea|conferència|roda|concurs|elecció|trobada|sopar|manifestació</token>
-                </pattern>
-                <message>Ús abusiu del verb "realitzar". Considereu una opció alternativa.</message>
-                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">celebrar</match></suggestion>
-                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
-                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">dur</match> a terme</suggestion>
-                <example correction="celebraren|feren|dugueren a terme">Es <marker>realitzaren</marker> unes eleccions plebiscitàries.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token inflected="yes" skip="3">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
-                    </marker>
-                    <token regexp="yes" inflected="yes">discurs|sermó|al·locució</token>
-                </pattern>
-                <message>Ús abusiu del verb "<match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="V.N.*"/>". Considereu una opció alternativa.</message>
-                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">oferir</match></suggestion>
-                <example correction="oferir">Va <marker>realitzar</marker> un discurs solemne.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token inflected="yes" skip="3" regexp="yes">realitzar|celebrar</token>
-                    </marker>
-                    <token regexp="yes" inflected="yes">cursa|partit|partida|matx|competició|copa|lliga|eliminatòria|final|semifinal|quart</token>
-                </pattern>
-                <message>Ús abusiu del verb "<match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="V.N.*"/>". Considereu una opció alternativa.</message>
-                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">disputar</match></suggestion>
-                <example correction="disputà">Es <marker>realitzà</marker> un partit a porta tancada.</example>
-                <example correction="disputà">Es <marker>celebrà</marker> l'eliminatòria de la copa.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token inflected="yes" skip="3">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
-                    </marker>
-                    <token regexp="yes" inflected="yes">marca|rècord|gesta</token>
-                </pattern>
-                <message>Ús abusiu del verb "realitzar". Considereu una opció alternativa.</message>
-                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">aconseguir</match></suggestion>
-                <example correction="Aconseguí"><marker>Realitzà</marker> la setena millor marca de la història.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
                         <token inflected="yes">realitzar</token>
                         <token postag="D.*" postag_regexp="yes"/>
                         <token inflected="yes">compra</token>
@@ -49052,21 +48981,118 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="3">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
+                        <token inflected="yes">realitzar</token>
                     </marker>
+                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception regexp="yes" inflected="yes">faena|feina|treball|visita|viatge|proposta|declaració|reflexió|cua|coa|operació</exception></token>
+                    <token regexp="yes" inflected="yes">faena|feina|treball|visita|viatge|proposta|declaració|reflexió|cua|coa|operació</token>
+                </pattern>
+                <message>Ús abusiu del verb "realitzar". Considereu una opció alternativa.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
+                <example correction="fet">Han <marker>realitzat</marker> una molt bona feina.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">realitzar</token>
+                    </marker>
+                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception regexp="yes" inflected="yes">delicte|crim|abús|violació|homicidi|assassinat|infracció|falta|contravenció|atemptat|agressió|estafa|frau</exception></token>
+                    <token regexp="yes" inflected="yes">delicte|crim|abús|violació|homicidi|assassinat|infracció|falta|contravenció|atemptat|agressió|estafa|frau</token>
+                </pattern>
+                <message>Ús abusiu del verb "realitzar". Considereu una opció alternativa.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">cometre</match></suggestion>
+                <example correction="Cometeren"><marker>Realitzaren</marker> una violació dels drets humans.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="3" regexp="yes">realitzar|celebrar</token>
+                    </marker>
+                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception regexp="yes" inflected="yes">conferència|roda</exception></token>
+                    <token regexp="yes" inflected="yes" skip="1">conferència|roda</token>
+                    <token>premsa</token>
+                </pattern>
+                <message>Ús abusiu del verb "<match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="V.N.*"/>". Considereu una opció alternativa.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">oferir</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
+                <example correction="oferí|feu|féu">Es <marker>realitzà</marker> una roda de premsa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
+                    </marker>
+                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception regexp="yes" inflected="yes">reunió|assemblea|conferència|roda|concurs|elecció|trobada|sopar|manifestació</exception></token>
+                    <token regexp="yes" inflected="yes">reunió|assemblea|conferència|roda|concurs|elecció|trobada|sopar|manifestació</token>
+                </pattern>
+                <message>Ús abusiu del verb "realitzar". Considereu una opció alternativa.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">celebrar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">dur</match> a terme</suggestion>
+                <example correction="celebraren|feren|dugueren a terme">Es <marker>realitzaren</marker> unes eleccions plebiscitàries.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
+                    </marker>
+                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception regexp="yes" inflected="yes">discurs|sermó|al·locució</exception></token>
+                    <token regexp="yes" inflected="yes">discurs|sermó|al·locució</token>
+                </pattern>
+                <message>Ús abusiu del verb "<match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="V.N.*"/>". Considereu una opció alternativa.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">oferir</match></suggestion>
+                <example correction="oferir">Va <marker>realitzar</marker> un discurs solemne.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="_GN_MS">final</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" regexp="yes">realitzar|celebrar</token>
+                    </marker>
+                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception regexp="yes" inflected="yes">cursa|partit|partida|matx|competició|copa|lliga|eliminatòria|final|semifinal</exception></token>
+                    <token regexp="yes" inflected="yes">cursa|partit|partida|matx|competició|copa|lliga|eliminatòria|final|semifinal</token>
+                </pattern>
+                <message>Ús abusiu del verb "<match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="V.N.*"/>". Considereu una opció alternativa.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">disputar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">jugar</match></suggestion>
+                <example correction="disputà|jugà">Es <marker>realitzà</marker> un partit a porta tancada.</example>
+                <example correction="disputà|jugà">Es <marker>celebrà</marker> l'eliminatòria de la copa.</example>
+                <example>Celebra el final de la campanya.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">realitzar</token>
+                    </marker>
+                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception regexp="yes" inflected="yes">marca|rècord|gesta</exception></token>
+                    <token regexp="yes" inflected="yes">marca|rècord|gesta</token>
+                </pattern>
+                <message>Ús abusiu del verb "realitzar". Considereu una opció alternativa.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">aconseguir</match></suggestion>
+                <example correction="Aconseguí"><marker>Realitzà</marker> la setena millor marca de la història.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">realitzar</token>
+                    </marker>
+                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception regexp="yes" inflected="yes">activitat|actuació|projecte</exception></token>
                     <token inflected="yes" regexp="yes">activitat|actuació|projecte</token>
                 </pattern>
                 <message>Ús abusiu del verb "<match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="V.N.*"/>". Considereu una opció alternativa.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">acomplir</match></suggestion>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">executar</match></suggestion>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">dur</match> a terme</suggestion>
-                <example correction="acomplirem|executarem|durem a terme">I llavors <marker>realitzarem</marker> l'activitat.</example>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
+                <example correction="acomplirem|executarem|durem a terme|farem">I llavors <marker>realitzarem</marker> l'activitat.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="3">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
+                        <token inflected="yes">realitzar</token>
                     </marker>
+                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception inflected="yes">obra</exception></token>
                     <token inflected="yes">obra</token>
                 </pattern>
                 <message>Ús abusiu del verb "<match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="V.N.*"/>". Considereu una opció alternativa.</message>
@@ -49077,14 +49103,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="3">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
+                        <token inflected="yes">realitzar</token>
                     </marker>
+                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception inflected="yes">pagament</exception></token>
                     <token inflected="yes">pagament</token>
                 </pattern>
                 <message>Ús abusiu del verb "realitzar". Considereu una opció alternativa.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">efectuar</match></suggestion>
-                <example correction="efectuarem">I llavors <marker>realitzarem</marker> els pagaments.</example>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
+                <example correction="efectuarem|farem">I llavors <marker>realitzarem</marker> els pagaments.</example>
             </rule>
+            <!-- sentit contrari -->
             <rule>
                 <pattern>
                     <token inflected="yes" skip="6">pagament<exception scope="next" regexp="yes">[:;]</exception></token>
@@ -49094,7 +49123,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Ús abusiu del verb "realitzar". Considereu una opció alternativa.</message>
                 <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">efectuar</match></suggestion>
-                <example correction="efectuar">El pagament s'ha de <marker>realitzar</marker> anticipadament.</example>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
+                <example correction="efectuar|fer">El pagament s'ha de <marker>realitzar</marker> anticipadament.</example>
             </rule>
         </rulegroup>
         <rulegroup id="COLLE" name="col·le/escola">
@@ -56710,7 +56740,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>D’enraonar, no me’n cansaria mai,</example>
                 <!-- Potser això hauria estat possible de comptar amb l’”home nou” de què van parlar alguns teòrics marxistes. -->
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"><exception regexp="yes">["')’”»]</exception></token>
                     <marker>
