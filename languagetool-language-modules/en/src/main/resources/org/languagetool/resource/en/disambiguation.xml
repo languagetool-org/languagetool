@@ -1503,6 +1503,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="E-NP-plural" postag_regexp="yes" postag="VB[ZD]"/>
             <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]"/>
         </antipattern>
+        <antipattern>
+            <token regexp="yes">an?</token>
+            <token postag="NNP?|NN:UN" postag_regexp="yes" />
+            <token postag="VBZ" />
+        </antipattern>
         <pattern>
             <token>
                 <exception regexp="yes">&subject_pronouns;</exception>
@@ -1531,6 +1536,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">A thing that one finds should never be kept.</example><!-- #2944 -->
         <example type="untouched">I think one tests should be sufficient.</example><!-- #2944 -->
         <example type="untouched">She thinks 1 tests might be sufficient.</example><!-- #2944 -->
+        <example type="untouched">But the words which a person uses may give to his gestures or preparation such a meaning as may make those gestures or preparations amount to an assault.</example><!-- #3700 -->
         <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]"
                  outputform="forces[force/NNS]">The armed <marker>forces</marker> are here.</example>
     </rule>
@@ -7976,7 +7982,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="JJ">
                 <exception scope="previous" regexp="yes">s?he|it</exception>
                 <exception postag_regexp="yes" postag="RB|NNP|ORD"/>
-                <exception scope="previous" postag="JJ"/>
+                <exception scope="previous" postag="JJ.*" postag_regexp="yes"/>
                 </token>
             <marker>
                 <and>
@@ -8015,6 +8021,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">I like her examples; I think the third shows that we must be careful.</example><!-- #3407 -->
         <example type="untouched">I think the third shows that we attended was the best.</example><!-- #3407. Incorrect grammar. -->
         <example type="untouched">There is one dogs.</example><!-- #3515 -->
+        <example type="untouched">An elder woman points to the boy.</example>
         <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]" outputform="forces[force/NNS]">I like military <marker>forces</marker>.</example>
         <example type="ambiguous" inputform="FORCES[force/NNS,force/VBZ]" outputform="FORCES[force/NNS]">THEY WANT MILITARY <marker>FORCES</marker>, I THINK.</example>
         <example type="ambiguous" inputform="parks[park/NNS,park/VBZ]" outputform="parks[park/NNS]">If the game <marker>parks</marker> you both visit have the same facilities, it will be difficult to judge the winner of this competition.</example><!-- #3296 -->
@@ -8093,6 +8100,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token regexp="yes">&subject_pronouns;</token>
                 <token chunk_re="[BI]-VP" postag_regexp="yes" postag="VBP?"/>
             </antipattern>
+            <antipattern><!-- -->
+                <token regexp="yes">an?</token>
+                <token postag="NNP?|NN:UN" postag_regexp="yes" />
+                <token postag="VBZ" />
+                <token postag="CC" />
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="NN.*" postag_regexp="yes"><exception postag_regexp="yes" postag="RBR?|JJ"/></token>
@@ -8125,6 +8138,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">Why wouldn't she scream or anything?</example><!-- #3571 -->
             <example type="untouched">How does he know or Tom?</example><!-- #3571 know/B-VP -->
             <example type="untouched">I know you told some of them, but does he know or Tom?</example><!-- #3571 know/I-VP -->
+            <example type="untouched">If a fuse blows or breaker trips, it is often a warning that the circuit is overloaded.</example><!-- #3699 -->
+            <example type="untouched">I will post when a dosage changes or something is added or dropped.</example><!-- #3699 -->
             <example type="ambiguous" inputform="man[man/NN:UN,man/VB,man/VBP]" outputform="man[man/NN:UN]">They are now <marker>man</marker> and wife duly married.</example>
             <example type="ambiguous" inputform="husband[husband/NN,husband/VB,husband/VBP]" outputform="husband[husband/NN]">They were <marker>husband</marker> and wife.</example>
             <example type="ambiguous" inputform="bosses[boss/NNS,boss/VBZ]" outputform="bosses[boss/NNS]">I know that <marker>bosses</marker> or workers can do these tasks.</example>
@@ -8753,6 +8768,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag_regexp="yes" postag="VB[PD]|MD"/>
             <token postag_regexp="yes" postag="SENT_END|PCT|PRP|RB"/>
         </antipattern>
+        <antipattern><!-- An elder woman points to the boy. -->
+            <token regexp="yes">an?</token>
+            <token postag="JJ" />
+            <token postag="NN.*" postag_regexp="yes" />
+            <token postag="VBZ" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -8819,6 +8840,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">I wonder why these beautiful flowers on the counter lie askew.</example><!-- #3672 lie/E-NP-singular -->
         <example type="untouched">These beautiful flowers on the counter show you what you can expect from our floral service.</example><!-- #3672 show/E-NP-singular -->
 <!--         <example type="untouched">If any professional want to know the new practices of their field it is only a click away.</example>Premium #1564, incorrect grammar. MFU 2020-08-31 I do not know how to make a general antipattern for this sentence. -->
+        <example type="untouched">An elder woman points to the boy.</example>
     </rule>
 
     <rule id="DT_JJ_NNJJ_NN_VB_APOSTROPHE" name="determiner + adj + noun/adj + noun + verbn't => noun"><!-- #3108 -->
