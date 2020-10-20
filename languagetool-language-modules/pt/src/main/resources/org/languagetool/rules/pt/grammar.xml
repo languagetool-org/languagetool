@@ -9385,7 +9385,7 @@ MARCOAGPINTO 2020-02-18 -->
 	
     <!-- NÃO MILITARES civis -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-18 (2-JUL-2020+)     -->
-    <rulegroup id='NAO_MILITARES' name="Civil/Civis" default="temp_off">
+    <rulegroup id='NAO_MILITARES' name="Civil/Civis">
 	  <rule>
 		<pattern>
 		  <token regexp="no">não</token>
@@ -9881,6 +9881,21 @@ MARCOAGPINTO 2020-02-18 -->
       </pattern>
       <message>Substitua por <suggestion>\1 \2 <match no='4' postag='VMP00[SP][FM]' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>.</message>
       <example correction="são para usar">Os anéis <marker>são para serem usados</marker> de manhã.</example>
+    </rule>
+
+    <!-- SE CASO caso -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-20 (2-JUL-2020+)     -->
+	<rule id='SE_CASO-CASO' name="Se caso -> caso">
+      <pattern>
+		  <marker>
+			<token>se</token>
+			<token>caso</token>
+		  </marker>		  			
+		  <token min="1" max="2"><exception regexp='no'>com</exception><exception postag='V.+' postag_regexp='yes'/></token>
+		  <token postag='V.+' postag_regexp='yes'/>		  
+      </pattern>
+      <message>Substitua por <suggestion>caso</suggestion>.</message>
+      <example correction="Caso"><marker>Se caso</marker> eles vierem, não os atenda.</example>
     </rule>
 
     <rule id='SERVIR_A_FAZER' name="Servir para fazer">
