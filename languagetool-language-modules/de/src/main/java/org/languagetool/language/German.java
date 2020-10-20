@@ -318,6 +318,7 @@ public class German extends Language implements AutoCloseable {
       case "MODALVERB_FLEKT_VERB": return -1;
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
       case "GERMAN_WORD_REPEAT_RULE": return -1; // prefer other more specific rules
+      case "ART_ADJ_SOL": return -2; // lower prio than DE_AGREEMENT and IM_ALTER, DAS_ALTER
       case "GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "AUSTRIAN_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "SWISS_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule

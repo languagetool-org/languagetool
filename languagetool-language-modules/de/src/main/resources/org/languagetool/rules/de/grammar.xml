@@ -19081,6 +19081,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="DAS_ALTER" name="Das alter (Alter)" default="temp_off">
+            <pattern>
+                <token>das</token>
+                <token min="0" regexp="yes" case_sensitive="yes">hohe|niedrige|junge</token>
+                <marker>
+                    <token case_sensitive="yes">alter</token>
+                </marker>
+                <token postag="PKT|VER.*|ART.*|PRP.*|PRO.*" postag_regexp="yes" />
+            </pattern>
+            <message>Das Nomen <suggestion>Alter</suggestion> wird in der Regel großgeschrieben.</message>
+            <example correction="Alter">Das <marker>alter</marker> ist mir egal.</example>
+        </rule>
         <rule id="KLEIN_NACH_PUNKT" name="Kleinschreibung und fehlendes Leerzeichen nach Punkt">
             <!-- PUNT_GEEN_HL in NL, https://github.com/languagetool-org/languagetool/issues/3655 -->
             <antipattern>
@@ -38206,6 +38218,19 @@ Andere Projekte</example>
                     <token>Theater</token>
                     <token>AG</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">d(e[nmrs]|ie|as)|im|am</token>
+                    <token postag="ADJ:.*:(SOL|IND)" postag_regexp="yes" />
+                    <token />
+                    <token>Foundation</token>
+                </antipattern>
+                <antipattern><!-- Personen die ähnliche Ziele verfolgen (missing comma, different error) -->
+                    <token postag="SUB:.*:PLU:.*" postag_regexp="yes" />
+                    <token>die</token>
+                    <token postag="ADJ:NOM:PLU:NEU:GRU:SOL" />
+                    <token postag="SUB:NOM:PLU:.*" postag_regexp="yes" />
+                    <token postag="VER:.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token negate="yes">,</token>
                     <marker>
@@ -38239,6 +38264,8 @@ Andere Projekte</example>
                 <example>In diesem Fall hatte das fatale Konsequenzen.</example>
                 <example>Das ist der weniger schöne Teil der Strecke.</example>
                 <example>Die ehemalige Theater AG</example><!-- different error found by DE_COMPOUNDS -->
+                <example>Sie engagiert sich für die kanadische Tourette-Syndrome Foundation und die US-amerikanische Tourette Syndrome Association.</example>
+                <example>Es gibt Personen die ähnliche Ziele verfolgen.</example><!-- missing comma -->
             </rule>
         </rulegroup>
         <rulegroup id="ADJ_PRAEDIKATIV" name="Starke, schwache oder gemischte Adjektiv-Flexion statt prädikativer, z.B. 'sich normale (normal) entwickeln'">
