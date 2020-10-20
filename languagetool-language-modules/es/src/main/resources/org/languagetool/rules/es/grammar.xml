@@ -6941,31 +6941,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="deshecho">Habías <marker>desecho</marker> esto.</example>
             </rule>
         </rulegroup>
-        <rule id="HECHO_ECHO" name="*hecho/echo" default="on">
+        <rulegroup id="HECHO_ECHO" name="*hecho/echo" default="on">
             <antipattern>
                 <token>lo</token>
                 <token>hecho</token>
                 <token><exception regexp="yes">a|al</exception></token>
             </antipattern>
-            <pattern>
-                <token postag_regexp="yes" postag="&pronombre_personal_atono_POS;"/>
-                <marker>
-                    <token regexp="yes">hecho|hecha|hechas<exception postag="_GN_.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <message>Si es del v. 'echar' (=tirar, lanzar, sacar), se escribe sin hache.</message>
-            <suggestion><match no="2" regexp_match="(?iu)h(.*)" regexp_replace="$1"/></suggestion>
-            <example correction="echa">Os <marker>hecha</marker></example>
-            <example correction="echas">Lo <marker>hechas</marker> a la calle.</example>
-            <example correction="echo">Lo <marker>hecho</marker> a la calle.</example>
-            <example correction="echa">Las <marker>hecha</marker> a la calle.</example>
-            <example correction="echa">Se les <marker>hecha</marker> a la calle.</example>
-            <example correction="echo">No le <marker>hecho</marker> azúcar al café.</example>
-            <example>Las crudas no, las hechas.</example>
-            <example>Las hechas por el fabricante.</example>
-            <example>Lo hecho, hecho está.</example>
-            <example>A lo hecho, pecho.</example>
-        </rule>
+            <antipattern>
+                <token>de</token>
+                <token>hecho</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="&pronombre_personal_atono_POS;"/>
+                    <marker>
+                        <token regexp="yes">hecho|hecha|hechas<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'echar' (=tirar, lanzar, sacar), se escribe sin hache.</message>
+                <suggestion><match no="2" regexp_match="(?iu)h(.*)" regexp_replace="$1"/></suggestion>
+                <example correction="echa">Os <marker>hecha</marker></example>
+                <example correction="echas">Lo <marker>hechas</marker> a la calle.</example>
+                <example correction="echo">Lo <marker>hecho</marker> a la calle.</example>
+                <example correction="echa">Las <marker>hecha</marker> a la calle.</example>
+                <example correction="echa">Se les <marker>hecha</marker> a la calle.</example>
+                <example correction="echo">No le <marker>hecho</marker> azúcar al café.</example>
+                <example>Las crudas no, las hechas.</example>
+                <example>Las hechas por el fabricante.</example>
+                <example>Lo hecho, hecho está.</example>
+                <example>A lo hecho, pecho.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">hecho|hecha|hechas<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token regexp="yes">cuentas?</token>
+                </pattern>
+                <message>Si es del v. 'echar' (=tirar, lanzar, sacar), se escribe sin hache.</message>
+                <suggestion><match no="1" regexp_match="(?iu)h(.*)" regexp_replace="$1"/></suggestion>
+                <example correction="echas">Porque si <marker>hechas</marker> cuenta salen caras.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DESHECHO_DESECHO" name="*deshecho/desecho">
             <antipattern>
                 <token inflected="yes">haber</token>
@@ -10224,7 +10241,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="de la otra área">Viene <marker>del otro área</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AGREEMENT_ADJ_NOUN_" name="Concordancias adjetivo y nombre" default="temp_off">
+        <rulegroup id="AGREEMENT_ADJ_NOUN_" name="Concordancias adjetivo y nombre">
             <antipattern>
                 <token postag="SPS00"/>
                 <token regexp="yes">sí|yo|tú|él|ella|nosotros|nosotras|vosotros|vosotras|ellos|ellas|usted|ustedes</token>
@@ -10235,7 +10252,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">\d+.?º</token>
                     </marker>
-                    <token postag="NCFS000"/>
+                    <token postag="NCFS000"><exception regexp="yes">derecha|izquierda|ESO</exception></token>
                 </pattern>
                 <message>Error de concordancia.</message>
                 <suggestion><match no="1" regexp_match="º" regexp_replace="ª"/></suggestion>
@@ -10276,7 +10293,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Él tiene buena cabeza.</example>
                 <example>Es una buena cantante francesa.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <antipattern>
                     <token postag="A..FS." postag_regexp="yes"/>
                     <token postag="N.FS.*|A..[FC]S." postag_regexp="yes"/>
@@ -10322,7 +10339,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Una batidora tipo KA.</example>
                 <example>alguna fábrica de calzado abierta hoy festivo</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <pattern>
                     <unify negate="yes">
                         <feature id="numero"/>
@@ -10340,7 +10357,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Refrigerador vertical blanco cíclico.</example>
                 <example>Caso especial es el de las funciones miembro estáticas.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <pattern>
                     <unify negate="yes">
                         <feature id="numero"/>
@@ -10382,6 +10399,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">producto|objeto</token>
                 <token regexp="yes">de|del</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">ser|estar</token>
+                <token postag="V.P.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">CE</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <!-- <token><exception postag="SENT_START"/><exception regexp="yes" spacebefore="yes">[¿¡"«»—–:\-]</exception></token> -->
@@ -10401,6 +10425,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="deformado cuchillo|deformados cuchillos">Con <marker>deformados cuchillo</marker>.</example>
                 <example>Son acuerdos consensuados producto de la negociación.</example>
                 <example>estaban sentados alrededor de la mesa jugando a las cartas.</example>
+                <example>el abogado comprueba el inmueble</example>
+                <example>Ustedes piden prestado joyas de sus amigas.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -10425,6 +10451,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="V.P.*PF.?" postag_regexp="yes"/> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes"/></suggestion>
                 <example correction="contada excepción|contadas excepciones">En <marker>contados excepciones</marker>.</example>
                 <example correction="contada excepción|contadas excepciones">En <marker>contado excepciones</marker>.</example>
+                <example>Me quedé dormido cerca de las doce de la noche.</example>
+                <example>para conseguir ser considerados personas</example>
+                <example>El primero de esos juegos ofrecido vía email.</example>
             </rule>
         </rulegroup>
     </category>
