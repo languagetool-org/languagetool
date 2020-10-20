@@ -2065,6 +2065,16 @@ Copyright (C) 2011 Juan Martorell
             <wd pos="_GV_"/>
         </disambig>
     </rule>
+    <rule id="dar_cuenta" name="dar cuenta">
+        <pattern>
+            <token postag="V.*" postag_regexp="yes" inflected="yes">dar</token>
+            <token>cuenta</token>
+        </pattern>
+        <disambig action="add">
+            <wd pos="_GV_"/>
+            <wd pos="_GV_"/>
+        </disambig>
+    </rule>
     <rulegroup id="E_CONJ" name="e (conjunción)">
         <rule>
             <pattern>
@@ -3963,7 +3973,7 @@ Copyright (C) 2011 Juan Martorell
     </rulegroup>
     <rule id="verb_notnoun" name="verb not noun: queda">
         <pattern>
-            <token postag="V.*" postag_regexp="yes" regexp="yes">fija|quedo|queda|descargue|salga|ganas?|cerca|compruebas?|cuelgas?|figura|forma<exception postag="_GN_.*" postag_regexp="yes"/></token>
+            <token postag="V.*" postag_regexp="yes" regexp="yes">fija|quedo|queda|descargue|salga|ganas?|cerca|compruebas?|cuelgas?|figura|forma|tira|giras?<exception postag="_GN_.*" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="remove" postag="[AND].*"/>
     </rule>
@@ -4123,7 +4133,7 @@ Copyright (C) 2011 Juan Martorell
             <marker>
                 <and>
                     <token postag="N.*" postag_regexp="yes" regexp="yes"
-                        >muestra|muestras|alrededor|dejas?|crías?|busco|dejes?|buscas?|fallas?|faltas?|tantos?|resultas?|uso|usas?|cuestas?|hablas?|cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|queda|quedas<exception
+                        >pruebas?|muestra|muestras|alrededor|dejas?|crías?|busco|dejes?|buscas?|fallas?|faltas?|tantos?|resultas?|uso|usas?|cuestas?|hablas?|cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|queda|quedas<exception
                         postag="_GN_.*" postag_regexp="yes"/></token>
                     <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
@@ -5425,4 +5435,13 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rulegroup id="telegraphic_writing" name="escritura telegráfica">
+        <rule>
+            <pattern>
+                <token regexp="yes">abierto|cerrado</token>
+                <token regexp="yes" inflected="yes">mañana|tarde|noche|víspera|festivo|&dias_semana;</token>
+            </pattern>
+            <disambig action="immunize"></disambig>
+        </rule>
+    </rulegroup>
 </rules>

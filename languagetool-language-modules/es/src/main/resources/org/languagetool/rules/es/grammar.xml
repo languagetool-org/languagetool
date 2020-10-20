@@ -10247,6 +10247,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">sí|yo|tú|él|ella|nosotros|nosotras|vosotros|vosotras|ellos|ellas|usted|ustedes</token>
                 <token inflected="yes">mismo</token>
             </antipattern>
+            <antipattern>
+                <token case_sensitive="yes" regexp="yes">CE|SL</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
+                <token regexp="yes">atrás|después</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -10400,11 +10407,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">de|del</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes" inflected="yes">ser|estar</token>
+                <token regexp="yes" inflected="yes">ser|estar|quedar</token>
                 <token postag="V.P.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token case_sensitive="yes">CE</token>
+                <token case_sensitive="yes" regexp="yes">CE|SL</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
+                <token regexp="yes">atrás|después</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -10419,7 +10430,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </marker>
                     </unify>
                 </pattern>
-                <message>Posible error de concordancia.</message>
+                <message>Posible error de concordancia. Revise la puntuación.</message>
                 <suggestion><match no="1" postag="V.P.*SM.?" postag_regexp="yes"/> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes"/></suggestion>
                 <suggestion><match no="1" postag="V.P.*PM.?" postag_regexp="yes"/> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes"/></suggestion>
                 <example correction="deformado cuchillo|deformados cuchillos">Con <marker>deformados cuchillo</marker>.</example>
@@ -10446,7 +10457,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </marker>
                     </unify>
                 </pattern>
-                <message>Posible error de concordancia.</message>
+                <message>Posible error de concordancia. Revise la puntuación.</message>
                 <suggestion><match no="1" postag="V.P.*SF.?" postag_regexp="yes"/> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes"/></suggestion>
                 <suggestion><match no="1" postag="V.P.*PF.?" postag_regexp="yes"/> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes"/></suggestion>
                 <example correction="contada excepción|contadas excepciones">En <marker>contados excepciones</marker>.</example>
@@ -10454,6 +10465,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Me quedé dormido cerca de las doce de la noche.</example>
                 <example>para conseguir ser considerados personas</example>
                 <example>El primero de esos juegos ofrecido vía email.</example>
+                <example>Y me hace la perdida horas después.</example>
+                <example>pueden ser considerados formas de corrupción</example>
+                <example>Me quedé dormido tarde.</example>
+                <example>Habiéndose, por fin, dado cuenta de que el señuelo no engaña.</example>
             </rule>
         </rulegroup>
     </category>
