@@ -323,6 +323,9 @@ public class AdverbFilter extends RuleFilter {
     put("virtually", "virtual");
     put("regularly", "regulary");
     put("deliberately", "deliberate");
+    put("reasonably", "reasonable");
+    put("similarly", "similar");
+    put("flexibly", "flexible");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
