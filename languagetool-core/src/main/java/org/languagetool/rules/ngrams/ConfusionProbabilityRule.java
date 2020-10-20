@@ -251,7 +251,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   @Override
   public String getDescription() {
-    return null;  // the one from SpecificIdRule is used
+    return Tools.i18n(messages, "statistics_rule_description");  // the one from SpecificIdRule is used
   }
 
   private String getDescription(String word1, String word2) {
