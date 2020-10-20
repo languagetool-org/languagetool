@@ -3429,6 +3429,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La creació d'una força militar africana.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <!-- regla d'apostrofació -->
+                    <token spacebefore="no">l</token>
+                    <token postag="_cometes_obertura" min="0"/>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
+                </antipattern>
                 <pattern>
                     <unify negate="yes">
                         <feature id="nombre"/>
@@ -22128,6 +22134,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si és un nom, s'ha d'accentuar.</message>
                 <suggestion><match no="1" regexp_match="(?iu).*(a|es)" regexp_replace="indústri$1" case_conversion="preserve"/></suggestion>
                 <example correction="indústria">En la <marker>industria</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="&pronom_feble;" postag_regexp="yes"><exception regexp="yes">la|les</exception></token>
+                    <token regexp="yes">renunci(a|es)</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="4">renunci(a|es)</token>
+                    <token>a</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">renunci(a|es)</token>
+                    </marker>
+                </pattern>
+                <message>Si és un nom, s'ha d'accentuar.</message>
+                <suggestion><match no="1" regexp_match="(?iu)u" regexp_replace="ú" case_conversion="preserve"/></suggestion>
+                <example correction="renúncies">passions, <marker>renuncies</marker>, prejudicis.</example>
+                <example>Hi renuncia completament.</example>
+                <example>Renuncia a l'herència?</example>
             </rule>
             <rule>
                 <pattern>
@@ -49044,14 +49070,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token postag="_GN_MS">final</token>
+                    <token><exception regexp="yes">la|una</exception></token>
+                    <token regexp="yes">finals?</token>
                 </antipattern>
                 <pattern>
                     <marker>
                         <token inflected="yes" regexp="yes">realitzar|celebrar</token>
                     </marker>
-                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception regexp="yes" inflected="yes">cursa|partit|partida|matx|competició|copa|lliga|eliminatòria|final|semifinal</exception></token>
-                    <token regexp="yes" inflected="yes">cursa|partit|partida|matx|competició|copa|lliga|eliminatòria|final|semifinal</token>
+                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception regexp="yes" inflected="yes">partit|partida|matx|competició|copa|lliga|eliminatòria|final|semifinal</exception></token>
+                    <token regexp="yes" inflected="yes">partit|partida|matx|competició|copa|lliga|eliminatòria|final|semifinal</token>
                 </pattern>
                 <message>Ús abusiu del verb "<match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="V.N.*"/>". Considereu una opció alternativa.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">disputar</match></suggestion>
@@ -49059,6 +49086,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="disputà|jugà">Es <marker>realitzà</marker> un partit a porta tancada.</example>
                 <example correction="disputà|jugà">Es <marker>celebrà</marker> l'eliminatòria de la copa.</example>
                 <example>Celebra el final de la campanya.</example>
+                <example>per a realitzar les presentacions finals de projectes</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">realitzar</token>
+                    </marker>
+                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception regexp="yes" inflected="yes">cursa|carrera|correguda</exception></token>
+                    <token regexp="yes" inflected="yes">cursa|carrera|correguda</token>
+                </pattern>
+                <message>Ús abusiu del verb "<match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="V.N.*"/>". Considereu una opció alternativa.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">córrer</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
+                <example correction="Corregué|Feu|Féu"><marker>Realitzà</marker> una cursa extraordinària.</example>
             </rule>
             <rule>
                 <pattern>
