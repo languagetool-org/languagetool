@@ -223,7 +223,7 @@ public class LanguageIdentifier {
         shortText = shortText.replaceAll("\uFEFF+", " ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
         Map<String, Double> scores;
         boolean usingFastText = false;
-        if (text.length() <= SHORT_ALGO_THRESHOLD || fastText == null) {
+        if ((text.length() <= SHORT_ALGO_THRESHOLD || fastText == null) && ngram != null) {
           scores = ngram.detectLanguages(shortText, additionalLangs);
         } else {
           usingFastText = true;
