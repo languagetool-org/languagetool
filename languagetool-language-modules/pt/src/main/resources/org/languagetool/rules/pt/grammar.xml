@@ -3860,7 +3860,7 @@ MARCOAGPINTO 2020-02-18 -->
 <!-- "A probabilidade de prosseguir trilhas entre nós é conseguida na função." -->
       <antipattern>
 		  <token postag='SPS.+' postag_regexp='yes'/>
-		  <token postag='PP.+|NC[CFM]P000' postag_regexp='yes'/>
+		  <token postag='PP.+|NC[CFM]P000||AQ0[CFM]P0' postag_regexp='yes'/>
 		  <token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
 	  </antipattern>
 <!-- MARCOAGPINTO 2020-10-21 (21-OCT-2020+) *END* -->
@@ -4529,6 +4529,16 @@ MARCOAGPINTO 2020-02-18 -->
         <token postag='VMI[SM]3P0' postag_regexp='yes'/>
       </antipattern>	  	  
 <!-- MARCOAGPINTO 2020-08-04 + 2020-08-05 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-10-21 (21-OCT-2020+) *START* --> 
+<!-- "Sem a sua presença ficamos à rasca." -->
+<!-- "Sem a sua presença ficámos à rasca." -->
+      <antipattern>
+		  <token postag='DP.+' postag_regexp='yes'/>
+		  <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
+		  <token postag='VMI[SP]1P0' postag_regexp='yes'/>
+		  <token postag='SPS.+' postag_regexp='yes'/>
+	  </antipattern>
+<!-- MARCOAGPINTO 2020-10-21 (21-OCT-2020+) *END* -->
       <pattern>
 <!-- MARCOAGPINTO 2020-05-09 *START* -->
 <!-- "As pessoas no meu trabalho infelizmente não falam Alemão, apenas português." -->	  
@@ -4558,6 +4568,8 @@ MARCOAGPINTO 2020-02-18 -->
 	  <example type='correct'>Ele e o <marker>seu irmão foram</marker> castrados.</example>
 	  <example type='correct'>Ele e a <marker>sua irmã foram</marker> castrados.</example>
 	  <example type='correct'>Grandes rios que correm <marker>a região escavaram</marker> grandes e profundos vales.</example>
+	  <example type='correct'>Sem a <marker>sua presença ficamos</marker> à rasca.</example>
+	  <example type='correct'>Sem a <marker>sua presença ficámos</marker> à rasca.</example>
     </rule>
   </rulegroup>
 
