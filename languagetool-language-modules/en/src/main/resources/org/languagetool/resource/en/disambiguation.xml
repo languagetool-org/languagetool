@@ -3236,6 +3236,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag_regexp="yes" postag="VB[PD]|MD"/>
             <token postag_regexp="yes" postag="SENT_END|PCT|PRP|RB"/>
         </antipattern>
+        <antipattern><!-- the service covers entertainment ... -->
+            <token postag="DT" />
+            <token postag="NN.*" postag_regexp="yes" />
+            <token postag="VB[DZ]" postag_regexp="yes" chunk="B-VP" />
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception><exception scope="previous">of</exception></token>
             <token postag="JJ"><exception postag="RB|NNPS?|NN:U|PRP" postag_regexp="yes"/></token>
@@ -3283,6 +3288,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">The first dog bites, but the second barks happily.</example><!-- #3293 -->
         <example type="untouched">I like your examples; I think your third shows why we must be careful.</example><!-- #3293 -->
         <example type="untouched">I told you that a few affect my rules!</example><!-- #3276 -->
+        <example type="untouched">Developed in collaboration between CBS Interactive and ET distributor CBS Television Distribution, the service covers entertainment news headlines and breaking news.</example>
         <example type="untouched">I wonder whose these beautiful flowers on the counter are.</example><!-- #3668 are/B-VP -->
         <example type="untouched">This plant is not nice, but those beautiful flowers on the counter are.</example><!-- #3668 are/B-VP -->
         <example type="untouched">I wonder why these beautiful flowers on the counter lie askew.</example><!-- #3668 lie/E-NP-singular -->
@@ -7421,7 +7427,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                         <token postag="RB">
                             <exception regexp="yes">supply|way</exception>
                             <exception scope="previous" postag="DT"/>
-                            </token>
+                            <exception scope="previous">the</exception><!-- matcing misspelled "THe" (which is not DT) -->
+                        </token>
                         <token postag_regexp="yes" postag="NN:UN?"/>
                     </and>
                 </marker>
@@ -12534,7 +12541,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <marker>
                     <token spacebefore="no">d</token>
                 </marker>
-                <token regexp="yes">be|have|do|like|love|prefer</token>
+                <token regexp="yes">be|have|do|like|love|prefer|recommend|go|make|get|say|answer</token>
             </pattern>
             <disambig action="replace"><wd lemma="will" pos="MD" /></disambig>
             <example type="ambiguous" inputform="d[d]" outputform="d[will/MD]">I'<marker>d</marker> like to know if that works.</example>
@@ -12548,13 +12555,42 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                     <token spacebefore="no">d</token>
                 </marker>
                 <token postag="RB">
-                    <exception postag="CC" />
+                    <exception postag="CC|IN" postag_regexp="yes" />
                 </token>
-                <token regexp="yes">be|have|do|like|love|prefer</token>
+                <token regexp="yes">be|have|do|like|love|prefer|recommend|go|make|get|say|answer</token>
             </pattern>
             <disambig action="replace"><wd lemma="will" pos="MD" /></disambig>
             <example type="ambiguous" inputform="d[d]" outputform="d[will/MD]">I'<marker>d</marker> rather like to know if that works.</example>
             <example type="untouched">I'd really done that.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">s?he|it|you|we|they|I|[wt]hat|who</token>
+                <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                <marker>
+                    <token spacebefore="no">d</token>
+                </marker>
+                <token regexp="yes">been|gone|done</token>
+            </pattern>
+            <disambig action="replace"><wd lemma="have" pos="VBD" /></disambig>
+            <example type="ambiguous" inputform="d[d]" outputform="d[have/VBD]">I'<marker>d</marker> done that already.</example>
+            <example type="untouched">I'd do that.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">s?he|it|you|we|they|I|[wt]hat|who</token>
+                <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                <marker>
+                    <token spacebefore="no">d</token>
+                </marker>
+                <token postag="RB">
+                    <exception postag="CC|IN" postag_regexp="yes" />
+                </token>
+                <token regexp="yes">been|gone|done</token>
+            </pattern>
+            <disambig action="replace"><wd lemma="have" pos="VBD" /></disambig>
+            <example type="ambiguous" inputform="d[d]" outputform="d[have/VBD]">I'<marker>d</marker> really done that already.</example>
+            <example type="untouched">I'd really do that.</example>
         </rule>
     </rulegroup>
 
