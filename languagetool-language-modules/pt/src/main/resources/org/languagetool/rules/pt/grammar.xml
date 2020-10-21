@@ -3855,23 +3855,15 @@ MARCOAGPINTO 2020-02-18 -->
             <exception scope='next'>,</exception></token>
           <token postag='V.[CIS].3S0' postag_regexp='yes'/>
       </antipattern>
-<!-- MARCOAGPINTO 2020-03-13 *START* -->
+<!-- MARCOAGPINTO 2020-10-21 (21-OCT-2020+) *START* --> 
+<!-- "E antes em nós semeia esta vileza." -->
 <!-- "A probabilidade de prosseguir trilhas entre nós é conseguida na função." -->
       <antipattern>
-			<token  postag_regexp="no" postag="SPS00"/>
-			<token  postag_regexp="yes" postag="PP1CP000|NCMP000"/>
-			<token  postag_regexp="no" postag="VMIP3S0"/>
-			<token  postag_regexp="no" postag="VMP00SF"/>			
-      </antipattern>
-<!-- MARCOAGPINTO 2020-03-13 *END* -->
-<!-- MARCOAGPINTO 2020-10-21 (2-JUL-2020+) *START* --> 
-<!-- "E antes em nós semeia esta vileza." -->
-      <antipattern>
 		  <token postag='SPS.+' postag_regexp='yes'/>
-		  <token postag='PP.+' postag_regexp='yes'/>
+		  <token postag='PP.+|NC[CFM]P000' postag_regexp='yes'/>
 		  <token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
 	  </antipattern>
-<!-- MARCOAGPINTO 2020-10-21 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-10-21 (21-OCT-2020+) *END* -->
       <pattern>
           <token>nós</token>
           <token min="0" max="3" postag='R.+' postag_regexp='yes'>
@@ -3888,6 +3880,7 @@ MARCOAGPINTO 2020-02-18 -->
       <example>Nós preocupar-nos-iamos, talvez, com esta manifestação de ignorância.</example>
       <example>Um de nós passeia na praia.</example>
 	  <example type='correct'>E antes em <marker>nós semeia</marker> esta vileza.</example>
+	  <example type='correct'>A probabilidade de prosseguir trilhas entre <marker>nós é</marker> conseguida na função.</example>
     </rule>
     <rule>
       <pattern>
