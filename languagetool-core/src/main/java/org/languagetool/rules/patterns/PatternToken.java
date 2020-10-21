@@ -45,10 +45,10 @@ public class PatternToken implements Cloneable {
 
   private final boolean caseSensitive;
   private final boolean stringRegExp;
-  private List<PatternToken> andGroupList;
-  private List<PatternToken> orGroupList;
   private final boolean inflected;
 
+  private List<PatternToken> andGroupList;
+  private List<PatternToken> orGroupList;
   private String stringToken;
   private PosToken posToken;
   private ChunkTag chunkTag;
