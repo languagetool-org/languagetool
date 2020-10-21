@@ -110,7 +110,7 @@ public class HTTPServerConfig {
   protected String abTest = null;
   protected Pattern abTestClients = null;
   protected int abTestRollout = 100; // percentage [0,100]
-  protected File ngramLangIdentDir;
+  protected File ngramLangIdentData;
 
   private static final List<String> KNOWN_OPTION_KEYS = Arrays.asList("abTest", "abTestClients", "abTestRollout",
     "beolingusFile", "blockedReferrers", "cacheSize", "cacheTTLSeconds",
@@ -123,7 +123,7 @@ public class HTTPServerConfig {
     "requestLimit", "requestLimitInBytes", "requestLimitPeriodInSeconds", "rulesFile", "secretTokenKey", "serverURL",
     "skipLoggingChecks", "skipLoggingRuleMatches", "timeoutRequestLimit", "trustXForwardForHeader", "warmUp", "word2vecModel",
     "keystore", "password", "maxTextLengthPremium", "maxTextLengthAnonymous", "maxTextLengthLoggedIn", "gracefulDatabaseFailure",
-    "ngramLangIdentDir",
+    "ngramLangIdentData",
     "redisPassword", "redisHost", "dbLogging", "premiumOnly");
 
   /**
@@ -335,13 +335,13 @@ public class HTTPServerConfig {
         setAbTest(getOptionalProperty(props, "abTest", null));
         setAbTestClients(getOptionalProperty(props, "abTestClients", null));
         setAbTestRollout(Integer.parseInt(getOptionalProperty(props, "abTestRollout", "100")));
-        String ngramLangIdentDir = getOptionalProperty(props, "ngramLangIdentDir", null);
-        if (ngramLangIdentDir != null) {
-          File dir = new File(ngramLangIdentDir);
-          if (!dir.exists() || !dir.isDirectory()) {
-            throw new IllegalArgumentException("ngramLangIdentDir does not exist or is not a directory: " + ngramLangIdentDir);
+        String ngramLangIdentData = getOptionalProperty(props, "ngramLangIdentData", null);
+        if (ngramLangIdentData != null) {
+          File dir = new File(ngramLangIdentData);
+          if (!dir.exists() || dir.isDirectory()) {
+            throw new IllegalArgumentException("ngramLangIdentData does not exist or is a directory (needs to be a ZIP file): " + ngramLangIdentData);
           }
-          setNgramLangIdentDir(dir);
+          setNgramLangIdentData(dir);
         }
       }
     } catch (IOException e) {
@@ -1045,15 +1045,15 @@ public class HTTPServerConfig {
     return abTestRollout;
   }
 
-  /** @since 5.1 */
-  public void setNgramLangIdentDir(File ngramLangIdentDir) {
-    this.ngramLangIdentDir = ngramLangIdentDir;
+  /** @since 5.2 */
+  public void setNgramLangIdentData(File ngramLangIdentData) {
+    this.ngramLangIdentData = ngramLangIdentData;
   }
 
-  /** @since 5.1 */
+  /** @since 5.2 */
   @Nullable
-  public File getNgramLangIdentDir() {
-    return ngramLangIdentDir;
+  public File getNgramLangIdentData() {
+    return ngramLangIdentData;
   }
 
   /**
