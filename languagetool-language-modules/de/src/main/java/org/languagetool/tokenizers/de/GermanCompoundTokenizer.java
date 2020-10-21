@@ -119,6 +119,19 @@ public class GermanCompoundTokenizer implements Tokenizer {
       words.add("genetischen");
       words.add("genetisches");
       words.add("premium");
+      words.add("kontrolleurin");
+      words.add("konstrukteurin");
+      words.add("importeurin");
+      words.add("requisiteurin");
+      words.add("akteurin");
+      words.add("masseurin");
+      words.add("profiteurin");
+      words.add("charmeurin");
+      words.add("medailleurin");
+      words.add("exporteurin");
+      words.add("rechercheurin");
+      words.add("poseurin");
+      words.add("auskommentieren");
       return words;
     }
   }
