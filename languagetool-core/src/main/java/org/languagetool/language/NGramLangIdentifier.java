@@ -146,7 +146,7 @@ public class NGramLangIdentifier {
       }
     }
     catch(java.io.IOException e) {
-      // TODO
+      throw new RuntimeException(e);
     }
     return result;
   }
