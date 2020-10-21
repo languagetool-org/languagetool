@@ -33,7 +33,7 @@ class LangIdentExamples {
   private static final String MODE = "fasttext";   // 'ngram' or 'fasttext'
   private static final File MODEL_PATH = new File("/prg/fastText-0.1.0/data/lid.176.bin");
   private static final File BINARY_PATH = new File("/prg/fastText-0.1.0/fasttext");
-  private static final File NGRAM_DIR = new File("/home/languagetool/ngram-lang-id");
+  private static final File NGRAM_ZIP = new File("/home/languagetool/ngram-lang-id/model_ml50_new.zip");
 
   private static final String DE = "de";
   private static final String EN = "en";
@@ -50,7 +50,7 @@ class LangIdentExamples {
 
   private LangIdentExamples() throws IOException {
     if (MODE.equals("ngram")) {
-      ngram = new NGramLangIdentifier(NGRAM_DIR, 100, true, false);
+      ngram = new NGramLangIdentifier(NGRAM_ZIP, 50);
       ft = null;
     } else if (MODE.equals("fasttext")) {
       ngram = null;

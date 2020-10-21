@@ -18,50 +18,39 @@
  */
 package org.languagetool.language;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.text.Normalizer;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import static java.lang.StrictMath.*;
 import static org.languagetool.language.LanguageIdentifier.canLanguageBeDetected;
 
 public class NGramLangIdentifier {
 
-  private final static double EPSILON = 1e-8;
+  private final static double EPSILON = 1e-4;
 
   private final Map<String, Integer> vocab;
   private final List<String[]> codes; // Elem format = {Name, 2-code (or "NULL"), 3-code}
 
-  private final List<Map<String, Integer>> bigramCounts;
-  private final List<Map<String, Integer>> unigramCounts;
-  private final List<Map<String, Integer>> bigramSumsPre;
-  private final List<Map<String, Integer>> bigramSumsPost;
-
-  private final List<List<Double>> scales;
+  private final List<Map<String, Double>> knpBigramProbs;
+  private final int thresholds_start;
+  private final List<double[]> thresholds;
 
   private final int maxLength;
-  private final boolean knp;
-  private final boolean scaling;
+  private final ZipFile zipFile;
 
-  public NGramLangIdentifier(File sourceFolder, int maxLength, boolean knSmoothing, boolean scaling) throws IOException {
+  public NGramLangIdentifier(File sourceModelZip, int maxLength) throws IOException {
     this.maxLength = maxLength;
-    this.knp = knSmoothing;
-    this.scaling = scaling;
-    String vocabPath = Paths.get(sourceFolder.getAbsolutePath(), "vocab.txt").toString();
-    String isoPath = Paths.get(sourceFolder.getAbsolutePath(), "iso_codes.tsv").toString();
-    File ugPath = new File(sourceFolder.getAbsolutePath(), "/ug/");
-    File sumsPathPre = new File(sourceFolder.getAbsolutePath(), "/sums/pre/");
-    File sumsPathPost = new File(sourceFolder.getAbsolutePath(), "/sums/post/");
-    String scalesPath = Paths.get(sourceFolder.getAbsolutePath(), "scales.txt").toString();
+    this.zipFile = new ZipFile(sourceModelZip);
 
     //Load language codes - Line format = {Language Name}\t{2-code or "NULL"}\t{3-code}
     codes = new ArrayList<>();
-    try (BufferedReader br = new BufferedReader(new FileReader(isoPath))) {
+    try (BufferedReader br = getReader("iso_codes.tsv")) {
       String line;
       while ((line = br.readLine()) != null) {
         String[] values = line.split("\t");
@@ -73,7 +62,7 @@ public class NGramLangIdentifier {
 
     //Load vocab - Line format = {token}
     vocab = new HashMap<>();
-    try (BufferedReader br = new BufferedReader(new FileReader(vocabPath))) {
+    try (BufferedReader br = getReader("vocab.txt")) {
       String line;
       int i = 0;
       while ((line = br.readLine()) != null) {
@@ -82,86 +71,58 @@ public class NGramLangIdentifier {
       }
     }
 
-    //Load transition matrices - Line format = {i} {j} {val}
-    bigramCounts = new ArrayList<>();
-    for (String path : expectedFiles(sourceFolder)) {
-      bigramCounts.add(loadDict(path));
-    }
-
-    unigramCounts = new ArrayList<>();
-    for (String path : expectedFiles(ugPath)) {
-      unigramCounts.add(loadDict(path));
-    }
-
-    //Load sums - Line format = {i} {val}
-    bigramSumsPre = new ArrayList<>();
-    for (String path : expectedFiles(sumsPathPre)) {
-      bigramSumsPre.add(loadDict(path));
-    }
-
-    bigramSumsPost = new ArrayList<>();
-    for (String path : expectedFiles(sumsPathPost)) {
-      bigramSumsPost.add(loadDict(path));
-    }
-
-    if (scaling) {
-      //Load scales - Line format = {val} {val} ... {val}
-      scales = new ArrayList<>();
-      try (BufferedReader br = new BufferedReader(new FileReader(scalesPath))) {
-        String line;
-        while ((line = br.readLine()) != null) {
-          String[] parts = line.trim().split(" ");
-          scales.add(Arrays.stream(parts).map(Double::parseDouble).collect(Collectors.toList()));
-        }
+    //Load thresholds
+    thresholds = new ArrayList<>();
+    try (BufferedReader br = getReader("thresholds.txt")) {
+      String line;
+      thresholds_start = Integer.parseInt(br.readLine());
+      while ((line = br.readLine()) != null) {
+        double[] vals = Arrays.stream(line.split(" ")).mapToDouble(Double::parseDouble).toArray();
+        thresholds.add(vals);
       }
-    } else {
-      scales = null;
+      assert (thresholds.size() == maxLength - thresholds_start) : "Thresholds file is incomplete";
     }
+
+    //Load transition matrices - Line format = {i} {j} {val}
+    knpBigramProbs = expectedFiles().stream().map(this::readLines).parallel().map(NGramLangIdentifier::loadDict).collect(Collectors.toList());
   }
 
   public Map<String, Double> detectLanguages(String text, List<String> additionalLanguageCodes) {
     List<Integer> enc = encode(text);
-    List<Double> vals = new ArrayList<>();
+    List<Double> finalProbs = new ArrayList<>();
     List<int[]> keys = keys(enc);
 
     for (int i = 0; i < codes.size(); i++) {
       double val = 0;
       for (int[] key: keys) {
-        double prob;
-        if (knp) {
-          prob = knp(key[0], key[1], i);
-        } else {
-          int ugCnt = unigramCounts.get(i).getOrDefault("0_" + key[0], 0);
-          if (ugCnt == 0) {
-            prob = EPSILON;
-          } else {
-            prob = (double) (bigramCounts.get(i).getOrDefault(key[0] + "_" + key[1], 1)) / ugCnt;
-          }
-        }
+        double prob = knpBigramProbs.get(i).getOrDefault(key[0] + "_" + key[1], EPSILON);
         val += log(prob);
       }
-      vals.add(exp(val));
+      finalProbs.add(val);
     }
 
-    if (scaling) {
-      List<Double> l1normed = vals;
-      vals = new ArrayList<>();
-      for (int i = 0; i < l1normed.size(); i++) {
-        double val = 0;
-        for (double d : scales.get(i)) {
-          val += d * l1normed.get(i);
+    Map<String, Double> result = new HashMap<>();
+
+    if (text.length() >= this.thresholds_start){
+      int argMax = 0;
+      for (int i = 1; i < finalProbs.size(); i++){
+        if (finalProbs.get(i) > finalProbs.get(argMax)){
+          argMax = i;
         }
-        vals.add(val);
+      }
+      int thresholdIndex = min(text.length(), maxLength) - this.thresholds_start;
+      if (finalProbs.get(argMax) < thresholds.get(thresholdIndex)[argMax]){
+        result.put("zz", 100.0);
+        return result;
       }
     }
 
-    vals = normalize(vals);
-
-    Map<String, Double> result = new HashMap<>();
+    finalProbs = finalProbs.stream().map(StrictMath::exp).collect(Collectors.toList());
+    finalProbs = normalize(finalProbs);
     for (int i = 0; i < codes.size(); i++) {
       String langCode = codes.get(i)[1].equals("NULL") ? codes.get(i)[2] : codes.get(i)[1]; //2-character code if possible
       if (canLanguageBeDetected(langCode, additionalLanguageCodes)) {
-        result.put(langCode, vals.get(i));
+        result.put(langCode, finalProbs.get(i));
       }
     }
 
@@ -169,24 +130,42 @@ public class NGramLangIdentifier {
     return result;
   }
 
-  private static Map<String, Integer> loadDict(String path) throws IOException {
-    Map<String, Integer> tm = new HashMap<>();
-    BufferedReader br = new BufferedReader(new FileReader(path));
-    String line;
-    while ((line = br.readLine()) != null) {
+  private BufferedReader getReader(String fileName) throws IOException {
+    InputStream is = this.zipFile.getInputStream(this.zipFile.getEntry(fileName));
+    InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
+    return new BufferedReader(isr);
+  }
+
+  private List<String> readLines(String path) {
+    ArrayList<String> result = new ArrayList<>();
+    try {
+      BufferedReader br = getReader(path);
+      String line;
+      while ((line = br.readLine()) != null) {
+        result.add(line);
+      }
+    }
+    catch(java.io.IOException e) {
+      // TODO
+    }
+    return result;
+  }
+
+  private static Map<String, Double> loadDict(List<String> lines)  {
+    Map<String, Double> tm = new HashMap<>();
+    for(String line : lines) {
       String[] parts = line.trim().split(" ");
       String key = String.join("_", Arrays.copyOfRange(parts, 0, parts.length-1));
-      tm.put(key, Integer.parseInt(parts[parts.length-1]));
+      tm.put(key, Double.parseDouble(parts[parts.length-1]));
     }
     return tm;
   }
 
-  private List<String> expectedFiles(File folderPath) {
+  private List<String> expectedFiles() {
     List<String> result = new ArrayList<>();
     for (int i = 0; i < codes.size(); i++) {
       String name = String.format("%02d.txt", i);
-      String fp = Paths.get(folderPath.getAbsolutePath(), name).toString();
-      result.add(fp);
+      result.add(name);
     }
     return result;
   }
@@ -197,7 +176,17 @@ public class NGramLangIdentifier {
     if (text.length() > maxLength) {
       text = text.substring(0, maxLength);
     }
-    text = Normalizer.normalize(text, Normalizer.Form.NFKC).toLowerCase().replaceAll("\\s+", "▁");
+    text = Normalizer.normalize(text, Normalizer.Form.NFKC).toLowerCase();
+    text = text.replaceAll("\\d+", "<NUM>");
+    text = text.replaceAll("[\\uac00-\\ud7a3]", "<KO>"); // Korean
+    text = text.replaceAll("[\\u3040-\\u30ff]", "<JA>"); // Japanese
+    text = text.replaceAll("[\\u4e00-\\u9FFF]", "<ZH>"); // Chinese
+    text = text.replaceAll("[\\u1780-\\u17FF]", "<KM>"); // Khmer
+    text = text.replaceAll("[\\u1700-\\u171F]", "<TL>"); // Tagalog
+    text = text.replaceAll("[\\u0530-\\u058F]", "<HY>"); // Armenian
+    text = text.replaceAll("[\\u0370-\\u03FF]", "<EL>"); // Greek
+    text = text.replaceAll("[\\u0B80-\\u0BFF]", "<TA>"); // Tamil
+    text = text.replaceAll("\\s+", "▁");
     if (text.length() == 0) {
       return result;
     }
@@ -227,25 +216,6 @@ public class NGramLangIdentifier {
       result.add(new int[]{enc.get(i-1), enc.get(i)});
     }
     return result;
-  }
-
-  private Double knp(int a, int b, int tmI) {
-    Map<String, Integer> tm = bigramCounts.get(tmI);
-    Map<String, Integer> tmU = unigramCounts.get(tmI);
-    Map<String, Integer> tmS = bigramSumsPre.get(tmI);
-    Map<String, Integer> tmSd = bigramSumsPost.get(tmI);
-
-    int xaCnt = tmS.getOrDefault("" + b, 0);
-    int axCnt = tmSd.getOrDefault("" + a, 0);
-    int bigramsTotal = tm.size();
-    int unigramCnt = tmU.getOrDefault("0_" + a, 1);
-    int bigramCnt = tm.getOrDefault(a + "_" + b, 1);
-
-    double d = 0.75;
-    double bigramProbNormalized = Double.max(bigramCnt - d, 0) / unigramCnt;
-    double pCont = (double) xaCnt / bigramsTotal;
-    double lamb = (d * axCnt) / unigramCnt;
-    return bigramProbNormalized + (lamb * pCont) + EPSILON;
   }
 
   private List<Double> normalize(List<Double> vals) {

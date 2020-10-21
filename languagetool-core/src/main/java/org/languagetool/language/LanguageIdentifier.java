@@ -127,7 +127,7 @@ public class LanguageIdentifier {
   public void enableNgrams(File ngramDir) {
     try {
       logger.info("Loading ngram data for language identification from " + ngramDir + "...");
-      ngram = new NGramLangIdentifier(ngramDir, 50, true, false);
+      ngram = new NGramLangIdentifier(ngramDir, 50);
       logger.info("Loaded ngram data for language identification from " + ngramDir);
     } catch (IOException e) {
       throw new RuntimeException("Could not load ngram data language identification from " + ngramDir, e);
@@ -216,16 +216,18 @@ public class LanguageIdentifier {
     if (fastText != null || ngram != null) {
       try {
         // do *not* use TextObjectFactory because of https://github.com/languagetool-org/languagetool/issues/1278
-        // (using it for optimaize is okay, assuming the same strong normalization was applied during training):
+        // (using it for optimize is okay, assuming the same strong normalization was applied during training):
         shortText = ImprovedUrlTextFilter.getInstance().filter(shortText);
         shortText = new RemoveEMailSignatureFilter().filter(shortText);
         shortText = new RemoveNonBreakingSpaces().filter(shortText);
         shortText = shortText.replaceAll("\uFEFF+", " ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
         Map<String, Double> scores;
-        if (fastText != null) {
-          scores = fastText.runFasttext(shortText, additionalLangs);
-        } else {
+        boolean usingFastText = false;
+        if (text.length() <= SHORT_ALGO_THRESHOLD || fastText == null) {
           scores = ngram.detectLanguages(shortText, additionalLangs);
+        } else {
+          usingFastText = true;
+          scores = fastText.runFasttext(shortText, additionalLangs);
         }
         result = getHighestScoringResult(scores);
         /*if (result.getValue().floatValue() < THRESHOLD) {
@@ -233,7 +235,7 @@ public class LanguageIdentifier {
         } else {
           System.out.println("FastText above threshold: " + result.getValue().floatValue() + " for " + text.length() + " chars");
         }*/
-        if (result.getValue().floatValue() < THRESHOLD) {
+        if ((usingFastText && result.getValue().floatValue() < THRESHOLD) || result.getKey().equals("zz")) {
           //System.out.println(text + " ->" + result.getValue().floatValue() + " " + result.getKey());
           CommonWords commonWords = new CommonWords();
           Map<Language, Integer> lang2Count = commonWords.getKnownWordsPerLanguage(shortText);

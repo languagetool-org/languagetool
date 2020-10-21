@@ -31,13 +31,13 @@ import java.util.Map;
 
 public class NGramLangIdentifierPerformanceTest {
 
-  private static final File ngramDir = new File("/home/languagetool/ngram-lang-id");
+  private static final File ngramZip = new File("/home/languagetool/ngram-lang-id/model_ml50_new.zip");
   private static final Path input = Paths.get("/home/dnaber/data/corpus/tatoeba/20191014/sentences_shuf.txt");
   private static final int limit = 10_000;
 
   public void testPerformance() throws IOException {
     System.out.println("Loading ngrams...");
-    NGramLangIdentifier ngram = new NGramLangIdentifier(ngramDir, 100, true, false);
+    NGramLangIdentifier ngram = new NGramLangIdentifier(ngramZip, 50);
     System.out.println("Loaded.");
     int i = 0;
     double totalMillis = 0;
