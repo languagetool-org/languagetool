@@ -7874,6 +7874,22 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="que">Vamos ambicionar <marker>a que</marker> seja uma vitória.</example>
     </rule>
 	
+    <!-- AO MESMO TEMPO em simultâneo -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-22 (21-OCT-2020+)     -->
+	<rule id='AO_MESMO_TEMPO-EM_SIMULTANEO' name="Em simultâneo" default="temp_off">
+      <pattern>
+		<token negate_pos="yes" postag='SENT_START'/>
+			<marker>
+				<token>ao</token>
+				<token>mesmo</token>
+				<token>tempo</token>
+			</marker>	
+		<token negate="yes">que</token>
+      </pattern>
+      <message>Substitua por <suggestion>em simultâneo</suggestion>.</message>
+      <example correction="em simultâneo">Tudo aconteceu <marker>ao mesmo tempo</marker>.</example>
+    </rule>
+	
     <!-- COM A MAIOR DAS CALMAS com a maior naturalidade -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-04 (2-JUL-2020+)     -->
     <rule id='COM_A_MAIOR_DAS_CALMAS' name="Com a maior naturalidade">
