@@ -813,15 +813,25 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().tokenRegex("Junior|Senior").setSkip(3).build(),
       tokenRegex("Manager[ns]?|Managerin(nen)?")
     ),
+    Arrays.asList(
+      new PatternTokenBuilder().tokenRegex("Junior|Senior").build(),
+      token("Software"),
+      tokenRegex("Engineers?|Architects?|Managers?|Directors?")
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().tokenRegex("Junior|Senior").build(),
+      token("Engineering"),
+      tokenRegex("Manager[ns]?|Directors?")
+    ),
     Arrays.asList( // "Angel" is tagged like the "Die Angel" for fishing
       csToken("Business"),
       tokenRegex("Angel[ns]?")
     ),
     Arrays.asList(
       csToken("Junior"),
-      csToken("Suite[sn]?")
+      tokenRegex("Suite[sn]?")
     ),
-    Arrays.asList( // "Angel" is tagged like the "Die Angel" for fishing
+    Arrays.asList(
       tokenRegex("Customer|User"),
       tokenRegex("Journeys?")
     ),

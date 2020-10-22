@@ -658,6 +658,10 @@ public class GermanSpellerRuleTest {
     assertEquals(1, rule.match(lt.getAnalyzedSentence("rumfangreichen")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Standart")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Standartversuch")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Halterun")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Wandhalterun")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Halterung")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Wandhalterung")).length);
   }
   
   @Test

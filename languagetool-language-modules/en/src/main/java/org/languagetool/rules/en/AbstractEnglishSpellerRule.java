@@ -286,6 +286,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("g-mail", Arrays.asList("Gmail"));
     s.put("playstation", Arrays.asList("PlayStation"));
     s.put("iam", Arrays.asList("I am", "I'm"));
+    s.put("kpop", Arrays.asList("K-pop"));
     return s;
   }
 
