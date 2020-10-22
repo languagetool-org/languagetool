@@ -677,6 +677,10 @@ public class CaseRule extends Rule {
     Arrays.asList( // Es hatte 10,5 Ah
       csRegex("\\d+"),
       csToken("Ah")
+    ),
+    Arrays.asList( // Via Camparlungo (Straßennamen in der italienischen Schweiz)
+      csToken("Via"),
+      new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-Z].+").build()
     )
   );
 

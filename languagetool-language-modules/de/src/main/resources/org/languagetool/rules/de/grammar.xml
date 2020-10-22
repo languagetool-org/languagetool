@@ -9874,6 +9874,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>Microsoft</token>
                 <token regexp="yes">Word|Edge</token>
             </antipattern>
+            <antipattern>
+                <token>meinen</token>
+                <token>Plug</token>
+            </antipattern>
+            <antipattern><!-- "einen Plug in den Arsch stecken" -->
+                <token>Plug</token>
+                <token>in</token>
+                <token regexp="yes">den|die|der|das</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">Browser|Chrome|Firefox|Safari|Edge|Opera|Word|Audio|Grafik|Java|WordPress</token>
@@ -10229,7 +10238,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]{2,}(ung|schaft|sicht|heit|keit|ion|tät)s
-                    <exception regexp="yes">Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
+                    <exception regexp="yes">Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
                 </token>
                 <token postag=".*SUB.*" postag_regexp="yes" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]+
@@ -36839,6 +36848,28 @@ Andere Projekte</example>
                 <token>weiter</token>
                 <token regexp="yes">(west|süd|öst|nörd)lich</token>
             </antipattern>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START|VER:.*" postag_regexp="yes" />
+                    <marker>
+                        <token regexp="yes">Wegen|(Ab|Zu)züglich|Angesichts|Abseits|Anhand|Aufgrund|Infolge|Innerhalb|Außerhalb|Ausserhalb|Jenseits|Kraft|Mithilfe|Namens|Seitens|Unfern|Zwecks|Hinsichtlich</token>
+                        <token regexp="yes">dem|ihrem|d?einem|unserem|diesem|jenem|eurem</token>
+                        <token postag="ADJ:DAT:SIN:NEU:GRU:IND" min="0" />
+                        <token postag="SUB:DAT:SIN:(MAS|FEM|NEU)" postag_regexp="yes" />
+                    </marker>
+                </pattern>
+                <message>Die Präposition '<match no="2" case_conversion="startlower"/>' erfordert standardsprachlich den Genitiv.</message>
+                <suggestion>\2 <match no="3" regexp_match="(?i)em$" regexp_replace="es" /> \4 <match no="5" postag="SUB:GEN:SIN:.+" postag_regexp="yes" /></suggestion>
+                <short>Diese Präposition erfordert den Genitiv</short>
+                <example correction="Wegen des Unfalles|Wegen des Unfalls"><marker>Wegen dem Unfall</marker> kam ich zu spät.</example>
+                <example correction="Wegen Ihres langsamen Autos"><marker>Wegen Ihrem langsamen Auto</marker> konnten Sie nicht kommen.</example>
+                <example correction="wegen eines Unfalles|wegen eines Unfalls">Ich bin <marker>wegen einem Unfall</marker> zu spät gekommen.</example>
+                <example correction="wegen des Geldes|wegen des Gelds">Tom kam <marker>wegen dem Geld</marker> hierher. </example>
+                <example correction="Wegen des schlechten Wetters"><marker>Wegen dem schlechten Wetter</marker> hatte das Flugzeug drei Stunden Verspätung.</example>
+                <example><marker>Wegen des</marker> Unfalls</example>
+                <example><marker>Wegen ihres</marker> Unfalls</example>
+                <example>Ich bin <marker>wegen eines</marker> Unfalls zu spät gekommen.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token>dem</token>
@@ -38217,6 +38248,10 @@ Andere Projekte</example>
                 <antipattern>
                     <token>Theater</token>
                     <token>AG</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">Customer|User</token>
+                    <token regexp="yes">Journeys?</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">d(e[nmrs]|ie|as)|im|am</token>

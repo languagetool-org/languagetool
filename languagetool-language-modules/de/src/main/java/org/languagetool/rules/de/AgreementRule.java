@@ -832,12 +832,16 @@ public class AgreementRule extends Rule {
       tokenRegex("Suite[sn]?")
     ),
     Arrays.asList(
-      tokenRegex("Customer|User"),
-      tokenRegex("Journeys?")
+      new PatternTokenBuilder().tokenRegex("Junior|Senior").build(),
+      new PatternTokenBuilder().tokenRegex("Journeys?").build()
     ),
     Arrays.asList( // Wir trinken ein kühles Blondes
       token("kühles"),
       token("Blondes")
+    ),
+    Arrays.asList(
+      tokenRegex("Vitamin|Buchstabe"),
+      token("D")
     ),
     Arrays.asList( // "Bei uns im Krankenhaus betrifft das Operationssäle."
       new PatternTokenBuilder().token("betreffen").matchInflectedForms().build(),
