@@ -332,6 +332,10 @@ public class AdverbFilter extends RuleFilter {
     put("sweetly", "sweet");
     put("comfortably", "comfortable");
     put("uncomfortably", "uncomfortable");
+    put("intricately", "intricate");
+    put("unnecessarily", "unnecessary");
+    put("obstinately", "obstinate");
+    put("reportedly", "reported");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

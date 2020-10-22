@@ -4839,6 +4839,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NNP?S" postag_regexp="yes" />
             <token regexp="yes">haven?|aren?|weren?</token>
         </antipattern>
+        <antipattern><!-- You will see what an American looks like. -->
+            <token postag="DT" />
+            <token postag="NNP" />
+            <token postag="VBZ" />
+            <token>like</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -4868,6 +4874,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">... that happen after an enemy dies are too slow to matter.</example><!-- #2921 -->
         <example type="untouched">A blonde woman laughs and mucks.</example><!-- #2952 -->
         <example type="untouched">A blonde woman laughs.</example><!-- #2952 -->
+        <example type="untouched">You will see what an American looks like.</example>
         <example type="untouched">This makes my skin crawl.</example><!-- #3092 -->
         <example type="untouched">In a perfect world spreaders don't exist.</example><!-- #3101 -->
         <example type="untouched">In a perfect world technicians don this equipment for protection.</example><!-- #3101 -->
@@ -6437,6 +6444,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>,</token>
             <token>but</token>
             <token postag="JJ" />
+        </antipattern>
+        <antipattern>
+            <token case_sensitive="yes">i</token><!-- lowercase "i" causes incorrect chunking -->
+            <token postag="MD" />
+            <token postag="VB" />
         </antipattern>
         <pattern>
             <marker>
@@ -8018,7 +8030,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <exception scope="previous" regexp="yes">s?he|it</exception>
                 <exception postag_regexp="yes" postag="RB|NNP|ORD"/>
                 <exception scope="previous" postag="JJ.*" postag_regexp="yes"/>
-                </token>
+            </token>
             <marker>
                 <and>
                     <token postag="VBZ"><exception regexp="yes">is|does</exception></token>
@@ -12541,7 +12553,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <marker>
                     <token spacebefore="no">d</token>
                 </marker>
-                <token regexp="yes">be|have|do|like|love|prefer|recommend|go|make|get|say|answer</token>
+                <token regexp="yes">be|have|do|like|love|prefer|recommend|go|make|get|say|answer|suggest</token>
             </pattern>
             <disambig action="replace"><wd lemma="will" pos="MD" /></disambig>
             <example type="ambiguous" inputform="d[d]" outputform="d[will/MD]">I'<marker>d</marker> like to know if that works.</example>
@@ -12557,7 +12569,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag="RB">
                     <exception postag="CC|IN" postag_regexp="yes" />
                 </token>
-                <token regexp="yes">be|have|do|like|love|prefer|recommend|go|make|get|say|answer</token>
+                <token regexp="yes">be|have|do|like|love|prefer|recommend|go|make|get|say|answer|suggest</token>
             </pattern>
             <disambig action="replace"><wd lemma="will" pos="MD" /></disambig>
             <example type="ambiguous" inputform="d[d]" outputform="d[will/MD]">I'<marker>d</marker> rather like to know if that works.</example>
