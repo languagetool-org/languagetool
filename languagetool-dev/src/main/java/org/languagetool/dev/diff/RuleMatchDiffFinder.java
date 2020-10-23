@@ -246,7 +246,7 @@ public class RuleMatchDiffFinder {
         // rendering 2000 iframes into a page isn't fun...
         fw.write("    <a target='regression_feedback' href=\"https://languagetoolplus.com/regression/button?" + params + "\">FA?</a>\n\n");
       } else {
-        fw.write("    <iframe scrolling=\"no\" style=\"border: none; width: 160px; height: 30px\"\n" +
+        fw.write("    <iframe scrolling=\"no\" style=\"border: none; width: 165px; height: 30px\"\n" +
                 "src=\"https://languagetoolplus.com/regression/button?" +
                 //"src=\"http://127.0.0.1:8000/regression/button" +
                 params + "\"></iframe>\n\n");
