@@ -146,6 +146,7 @@ public class AgreementRuleTest {
     assertGood("Es sind jegliche tierische Nahrungsmittel untersagt.");
     assertGood("Das reicht bis weit ins heutige Hessen.");
     assertGood("Die Customer Journey.");
+    assertGood("Für dich gehört Radfahren zum perfekten Urlaub dazu?");
     //assertGood("... der zu dieser Zeit aber ohnehin schon allen Einfluss verloren hatte.");
 
     assertGood("Wir machen das Januar.");

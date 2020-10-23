@@ -884,6 +884,7 @@ public class AgreementRule extends Rule {
   private static final Set<String> PRONOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
     "ich",
     "dir",
+    "dich",
     "du",
     "er", "sie", "es",
     "wir",
@@ -925,7 +926,7 @@ public class AgreementRule extends Rule {
     "Piepen", // Die Piepen
     "Badlands",
     "Visual", // englisch
-    "Chief", // Chief Excutive Officer
+    "Chief", // Chief Executive Officer
     "Carina", // Name
     "Wüstenrot", // Name
     "Meter", // Das Meter (Objekt zum Messen)
