@@ -336,6 +336,10 @@ public class AdverbFilter extends RuleFilter {
     put("unnecessarily", "unnecessary");
     put("obstinately", "obstinate");
     put("reportedly", "reported");
+    put("loosely", "loose");
+    put("profusely", "profuse");
+    put("mortally", "mortal");
+    put("likewise", "similar"); // special case
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

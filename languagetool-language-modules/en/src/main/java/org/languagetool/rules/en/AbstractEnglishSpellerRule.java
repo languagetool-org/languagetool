@@ -148,6 +148,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                      !k.getReplacement().toLowerCase().startsWith("trans ") &&
                      !k.getReplacement().toLowerCase().startsWith("ultra ") &&
                      !k.getReplacement().toLowerCase().startsWith("mini ") &&
+                     !k.getReplacement().toLowerCase().startsWith("hyper ") &&
                      !k.getReplacement().toLowerCase().startsWith("fore ") &&
                      !k.getReplacement().toLowerCase().startsWith("pseudo ") &&
                      !k.getReplacement().toLowerCase().startsWith("lo ") &&
