@@ -1360,6 +1360,17 @@ title="Easy editing stylesheet" ?>
 		  <token postag="VMN0000|NC[CFM]S000" postag_regexp='yes'/>
       </antipattern>	  
 <!-- MARCOAGPINTO 2020-06-07 *END* -->
+<!-- MARCOAGPINTO 2020-10-23 (21-OCT-2020+) *START* --> 
+<!-- "E assim abri-me com ela." -->
+<!-- "E assim abri-lhe a porta." -->
+<!-- "E assim abri-lhes a porta." -->
+      <antipattern>
+		  <token postag='VMX0000|VMIP2P0|VMIS1S0|VMM02P0' postag_regexp='yes'/>
+		  <token regexp='yes' spacebefore='no'>&hifen;</token>
+		  <token regexp='yes' spacebefore='no'>me|lhes?</token>
+      </antipattern>	  	  
+<!-- MARCOAGPINTO 2020-10-23 (21-OCT-2020+) *END* -->
+
       <pattern>
           <token min='0' regexp='yes'>tu|vós</token>
           <token postag="V...2.+" postag_regexp='yes'>
@@ -1374,6 +1385,9 @@ title="Easy editing stylesheet" ?>
       <example correction="Diga-me"><marker>Diz-me</marker> que foi mesmo assim?</example>
       <example correction="Diga-me"><marker>Tu diz-me</marker> que foi mesmo assim?</example>
       <example correction="confira-me">Por favor, <marker>confere-me</marker> o valor do talão.</example>
+	  <example type='correct'>E assim <marker>abri-me</marker> com ela.</example>
+	  <example type='correct'>E assim <marker>abri-lhe</marker> a porta.</example>
+	  <example type='correct'>E assim <marker>abri-lhes</marker> a porta.</example>
     </rule>
     <!--    <rule>
       <antipattern>
