@@ -10168,6 +10168,31 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="algo">Tudo isto para <marker>uma coisa</marker> que aconteceu.</example>
     </rule>
 
+    <!-- VERBO1 QUE VERBO2 VERBO3 O QUE verbo2_infinitivo verbo3_infinitivo o que -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-23 (21-OCT-2020+)     -->
+	<rule id='VERBO1_QUE_VERBO2_VERBO3_O_QUE' name="verbo2 + verbo3_infinitivo">
+		<antipattern>
+			<token postag='V.+' postag_regexp='yes'/>			
+			<token>que</token>
+			<token postag='V.+' postag_regexp='yes'/>
+			<token postag='SPS.+' postag_regexp='yes'/>
+			<token>o</token>
+			<token>que</token>			
+		</antipattern>
+		<pattern>
+			<token postag='V.+' postag_regexp='yes'/>			
+			<marker>
+				<token>que</token>
+				<token postag='V.+' postag_regexp='yes'/>
+				<token postag='V.+' postag_regexp='yes'/>					
+			</marker>
+			<token>o</token>
+			<token>que</token>			
+		</pattern>
+		<message>Substitua por <suggestion><match no='3' postag='V.+' postag_regexp="yes" postag_replace='VMN03[SP]0'/> \4</suggestion></message>
+		<example correction="i ver|ir ver|irem ver">Falei com o Rui que me disse <marker>que ia ver</marker> o que se passava com o software.</example>
+    </rule>
+
     <rule id='VÍDEO_CONFERÊNCIA' name="Videoconferência">
     <!-- Created by Marco A.G. Pinto, Portuguese rule -->
       <pattern>
