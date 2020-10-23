@@ -20,6 +20,7 @@ package org.languagetool.dev.diff;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.languagetool.tools.StringTools;
 
 import java.io.*;
 import java.net.URLEncoder;
@@ -228,7 +229,7 @@ public class RuleMatchDiffFinder {
         "<tt>new:</tt> " + showTrimSpace(newMatch.getMessage()));
       message = newMatch.getMessage();
     }
-    fw.write("  <br><span class='sentence'>" + oldMatch.getContext() + "</span>");
+    fw.write("  <br><span class='sentence'>" + escapeSentence(oldMatch.getContext()) + "</span>");
     boolean withIframe = false;
     if (status == RuleMatchDiff.Status.ADDED || status == RuleMatchDiff.Status.MODIFIED) {
       int markerFrom = oldMatch.getContext().indexOf(MARKER_START);
@@ -256,19 +257,25 @@ public class RuleMatchDiffFinder {
     if (replaces != null) {
       fw.write("<br><br><i>Maybe replaces old match:</i><br>");
       fw.write(replaces.getMessage());
-      fw.write("  <br><span class='sentence'>" + replaces.getContext() + "</span>");
+      fw.write("  <br><span class='sentence'>" + escapeSentence(replaces.getContext()) + "</span>");
       fw.write("  <br><span class='suggestions'>Suggestions: " + replaces.getSuggestions() + "</span>");
       fw.write("  <br><span class='id'>" + replaces.getFullRuleId() + "</span>");
     }
     if (replacedBy != null) {
       fw.write("<br><br><i>Maybe replaced by new match:</i><br>");
       fw.write(replacedBy.getMessage());
-      fw.write("  <br><span class='sentence'>" + replacedBy.getContext() + "</span>");
+      fw.write("  <br><span class='sentence'>" + escapeSentence(replacedBy.getContext()) + "</span>");
       fw.write("  <br><span class='suggestions'>Suggestions: " + replacedBy.getSuggestions() + "</span>");
       fw.write("  <br><span class='id'>" + replacedBy.getFullRuleId() + "</span>\n");
     }
     fw.write("  </td>\n");
     return withIframe ? 1 : 0;
+  }
+
+  private String escapeSentence(String s)  {
+    return StringTools.escapeHTML(s).
+            replace("&lt;span class='marker'&gt;", "<span class='marker'>").
+            replace("&lt;/span&gt;", "</span>");
   }
 
   private String enc(String s)  {
