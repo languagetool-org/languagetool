@@ -216,7 +216,7 @@ public class LanguageIdentifier {
     if (fastText != null || ngram != null) {
       try {
         // do *not* use TextObjectFactory because of https://github.com/languagetool-org/languagetool/issues/1278
-        // (using it for optimize is okay, assuming the same strong normalization was applied during training):
+        // (using it for optimaize is okay, assuming the same strong normalization was applied during training):
         shortText = ImprovedUrlTextFilter.getInstance().filter(shortText);
         shortText = new RemoveEMailSignatureFilter().filter(shortText);
         shortText = new RemoveNonBreakingSpaces().filter(shortText);
