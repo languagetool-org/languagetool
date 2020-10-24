@@ -4993,6 +4993,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!-- falta añadir adverbios acabaods en -mente en el tagger-->
                     <token>aún</token>
                 </antipattern>
+                <antipattern>
+                    <token>aún</token>
+                    <token>si</token>
+                    <token>cabe</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>aún</token>
@@ -7044,6 +7049,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Quería decir <suggestion>a ver si</suggestion>?</message>
                 <example correction="A ver si"><marker>Haber si</marker> puedes arreglar esto.</example>
                 <example>No va a haber si se ha acabado.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>vamos</token>
+                        <token>haber</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>vamos a ver</suggestion>?</message>
+                <example correction="Vamos a ver"><marker>Vamos haber</marker> lo que pasa.</example>
             </rule>
         </rulegroup>
         <rule id="ROMAN_NUMERALS_CHECK" name="comprueba números romanos">
@@ -11586,6 +11601,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rulegroup id="SUBJUNTIVO_INFINITIVO" name="*formalizase/formalizarse" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">poder|querer|deber</token>
+                    <marker>
+                        <token postag="VMSI3S0" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión.</message>
+                <suggestion><match no="2" postag="VMSI3S0" postag_regexp="yes" postag_replace="VMN0000.PP3CN000"/></suggestion>
+                <example correction="formalizarse">No deberán <marker>formalizase</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">tener</token>
+                    <token>que</token>
+                    <marker>
+                        <token postag="VMSI3S0" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión.</message>
+                <suggestion><match no="3" postag="VMSI3S0" postag_regexp="yes" postag_replace="VMN0000.PP3CN000"/></suggestion>
+                <example correction="formalizarse">No tiene que <marker>formalizase</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="DE_LA" name="del a/de la">
             <pattern>
                 <token regexp="yes">del|al</token>
