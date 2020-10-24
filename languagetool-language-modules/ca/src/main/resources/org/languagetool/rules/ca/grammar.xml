@@ -14023,6 +14023,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="PETJADA" name="petjada/empremta">
+            <pattern>
+                <token inflected="yes">deixar</token>
+                <token min="0" max="3" postag="[DANR].*" postag_regexp="yes"><exception>petjada</exception></token>
+                <marker>
+                    <token>petjada</token>
+                </marker>
+            </pattern>
+            <message>Possible calc del castellà. Feu servir una altra expressió.</message>
+            <suggestion>empremta</suggestion>
+            <suggestion>marca</suggestion>
+            <example correction="empremta|marca">Van deixar una profunda <marker>petjada</marker> en els nostres cors.</example>
+            <example correction="empremta|marca">Van deixar <marker>petjada</marker> en l'equip.</example>
+        </rule>
         <rulegroup id="TALLADA_DE_CABELLS" name="*tall de pèl/tallada de cabells">
             <antipattern>
                 <token regexp="yes">tallada|tallades</token>
