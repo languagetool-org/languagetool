@@ -10210,15 +10210,27 @@ MARCOAGPINTO 2020-02-18 -->
 		<example correction="i ver|ir ver|irem ver">Falei com o Rui que me disse <marker>que ia ver</marker> o que se passava com o software.</example>
     </rule>
 
-    <rule id='VÍDEO_CONFERÊNCIA' name="Videoconferência">
-    <!-- Created by Marco A.G. Pinto, Portuguese rule -->
-      <pattern>
+    <!-- DE VOCÊS vossas -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-24 (21-OCT-2020+)     -->
+    <rulegroup id='VÍDEO_CONFERÊNCIA' name="Videoconferência">
+	  <rule>
+		<pattern>
           <token>vídeo</token>
           <token regexp='yes'>conferências?</token>
-      </pattern>
-      <message>Substitua por <suggestion>video\2</suggestion>.</message>
-      <example correction="videoconferência">Vou realizar uma <marker>vídeo conferência</marker> no Skype.</example>
-    </rule>
+		</pattern>
+		<message>Substitua por <suggestion>video\2</suggestion>.</message>
+		<example correction="videoconferência">Vou realizar uma <marker>vídeo conferência</marker> no Skype.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+          <token regexp='yes'>conferências?</token>
+		  <token regexp='yes'>de|com|por</token>
+          <token>vídeo</token>		  
+		</pattern>
+		<message>Substitua por <suggestion>video\1</suggestion>.</message>
+		<example correction="videoconferência">Vou realizar uma <marker>conferência de vídeo</marker> no Skype.</example>
+	  </rule>
+    </rulegroup>
 
     <rule id='VISANDO_A_CONSEGUIR' name="Visando conseguir">
     <!-- Created by Marco A.G. Pinto, Portuguese rule -->
