@@ -26282,6 +26282,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="DIACRITICS" name="Z) Accents diacrítics comuns" type="misspelling">
+        <rulegroup id="SOL" name="sol/sòl" default="temp_off">
+            <!-- TODO: word in context -->
+            <rule>
+                <pattern>
+                    <token inflected="yes">clàusula</token>
+                    <marker>
+                        <token>sol</token>
+                    </marker>
+                </pattern>
+                <message>S'escriu amb accent.</message>
+                <suggestion>sòl</suggestion>
+                <example correction="sòl">El banc no va aplicar la clàusula <marker>sol</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">sols?</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">agrícola|sorrenc|desèrtic|fèrtil|infèrtil|al·luvial|volcànic|urbanitzable|calcari|urbanitzar|quaternari</token>
+                </pattern>
+                <message>Amb el sentit de 'terra, terreny', s'escriu amb accent.</message>
+                <suggestion><match no="1" regexp_match="(?iu)sol" regexp_replace="sòl"/></suggestion>
+                <example correction="sòls">Van expropiar <marker>sols</marker> agrícoles.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SE" name="se/sé">
             <antipattern>
                 <marker>
@@ -31680,6 +31705,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CASING" name="E) Majúscules i minúscules" type="typographical">
+        <rule id="NADAL" name="nadal/Nadal">
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">nadals?</token>
+            </pattern>
+            <message>Normalment s'escriu en majúscula.</message>
+            <suggestion><match no="1" case_conversion="startupper"></match></suggestion>
+            <example correction="Nadal">Per <marker>nadal</marker> ens veurem.</example>
+        </rule>
         <rule id="WIFI" name="wifi">
             <antipattern>
                 <token postag="SENT_START"/>
@@ -49033,6 +49066,74 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rulegroup id="EL_NADAL" name="el Nadal/Nadal" default="temp_off">
+            <url>https://esadir.cat/Nomspropis/Entitats/Societat/nadal</url>
+            <antipattern>
+                <token>Nadal</token>
+                <token regexp="yes">de|d'</token>
+            </antipattern>
+            <antipattern>
+                <token>Nadal</token>
+                <token postag="A..[MC]S.|V.P..SM." postag_regexp="yes"/>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>pe</token>
+                    <token>l</token>
+                    <token>Nadal</token>
+                </pattern>
+                <message>El terme "Nadal" va generalment sense article.</message>
+                <suggestion>per Nadal</suggestion>
+                <example correction="Per Nadal"><marker>Pel Nadal</marker> no farem vacances.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">a|de</token>
+                    <token>l</token>
+                    <token>Nadal</token>
+                </pattern>
+                <message>El terme "Nadal" va generalment sense article.</message>
+                <suggestion>\1 Nadal</suggestion>
+                <example correction="a Nadal">Fins <marker>al Nadal</marker> no farem vacances.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="2" regexp="yes" inflected="yes">desagradar|agradar|repensar</token>
+                    <token>el</token>
+                    <token>Nadal</token>
+                </antipattern>
+                <pattern>
+                    <token>el</token>
+                    <token>Nadal</token>
+                </pattern>
+                <message>El terme "Nadal" va generalment sense article.</message>
+                <suggestion>Nadal</suggestion>
+                <example correction="Nadal"><marker>El Nadal</marker> és bonic.</example>
+                <example>el Nadal de l'any passat</example>
+                <example>la gran nevada del Nadal del 1967</example>
+                <example>el Nadal solidari de la parròquia</example>
+                <example>No m'agrada gens el Nadal.</example>
+            </rule>
+        </rulegroup>
+        <rule id="SI_O_SI" name="sí o sí/tant sí com no">
+            <pattern>
+                <token>sí</token>
+                <token>o</token>
+                <token>sí</token>
+            </pattern>
+            <message>Val més fer servir una altra expressió.</message>
+            <suggestion>tant sí com no</suggestion>
+            <suggestion>costi el que costi</suggestion>
+            <suggestion>peti qui peti</suggestion>
+            <suggestion>passi el que passi</suggestion>
+            <suggestion>de totes passades</suggestion>
+            <suggestion>de bon o mal grat</suggestion>
+            <suggestion>a qualsevol preu</suggestion>
+            <suggestion>de totes totes</suggestion>
+            <suggestion>tretze són tretze</suggestion>
+            <url>https://dsff.uab.cat/concepte/indefectiblement</url>
+            <example correction="tant sí com no|costi el que costi|peti qui peti|passi el que passi|de totes passades|de bon o mal grat|a qualsevol preu|de totes totes|tretze són tretze">Ho hem de fer <marker>sí o sí</marker>.</example>
+        </rule>
         <rulegroup id="REALITZAR" name="realitzar (abusiu)">
             <url>https://esadir.cat/entrades/fitxa/id/2226</url>
             <rule>

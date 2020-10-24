@@ -47,6 +47,7 @@ public class AccentuationCheckRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
+    assertCorrect("De 1974 continua vigent");
     assertCorrect("I la faria desgraciada");
     assertCorrect("jo ja la tenia incorporada abans");
     assertCorrect("tu ja les tenies incorporades abans");
