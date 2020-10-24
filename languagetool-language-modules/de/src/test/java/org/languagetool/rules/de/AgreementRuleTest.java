@@ -48,6 +48,9 @@ public class AgreementRuleTest {
   public void testCompoundMatch() throws IOException {
     assertBad("Das ist die Original Mail", "die Originalmail", "die Original-Mail");
     assertBad("Das ist die neue Original Mail", "die neue Originalmail", "die neue Original-Mail");
+    assertBad("Das ist die ganz neue Original Mail", "die ganz neue Originalmail", "die ganz neue Original-Mail");
+    assertBad("Doch dieser kleine Magnesium Anteil ist entscheidend.", "dieser kleine Magnesiumanteil", "dieser kleine Magnesium-Anteil");
+    assertBad("Doch dieser sehr kleine Magnesium Anteil ist entscheidend.", "dieser sehr kleine Magnesiumanteil", "dieser sehr kleine Magnesium-Anteil");
     assertBad("Die Standard Priorität ist 5.", "Die Standardpriorität", "Die Standard-Priorität");
     assertBad("Die derzeitige Standard Priorität ist 5.", "Die derzeitige Standardpriorität", "Die derzeitige Standard-Priorität");
     assertBad("Ein neuer LanguageTool Account", "Ein neuer LanguageTool-Account");

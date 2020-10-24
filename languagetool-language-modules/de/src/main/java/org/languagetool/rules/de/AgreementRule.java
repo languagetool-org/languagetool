@@ -1212,6 +1212,24 @@ public class AgreementRule extends Rule {
     return null;
   }
 
+  // z.B. "die ganz neue Original Mail" -> "die ganz neue Originalmail"
+  @Nullable
+  private RuleMatch getCompoundError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2, AnalyzedTokenReadings token3,
+                                     AnalyzedTokenReadings token4, int tokenPos, AnalyzedSentence sentence) {
+    if (tokenPos != -1 && tokenPos + 4 < sentence.getTokensWithoutWhitespace().length) {
+      AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 4];
+      if (StringTools.startsWithUppercase(nextToken.getToken())) {
+        String potentialCompound = token4.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
+        String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before 'ins' etc. replacement
+        String testPhrase = origToken1 + " " + token2.getToken() + " " + token3.getToken() + " " + potentialCompound;
+        String hyphenPotentialCompound = token4.getToken() + "-" + nextToken.getToken();
+        String hyphenTestPhrase = origToken1 + " " + token2.getToken() + " " + token3.getToken() + " " + hyphenPotentialCompound;
+        return getRuleMatch(token1, sentence, nextToken, testPhrase, hyphenTestPhrase);
+      }
+    }
+    return null;
+  }
+
   @Nullable
   private RuleMatch getRuleMatch(AnalyzedTokenReadings token1, AnalyzedSentence sentence, AnalyzedTokenReadings nextToken, String testPhrase, String hyphenTestPhrase) {
     try {
@@ -1280,6 +1298,15 @@ public class AgreementRule extends Rule {
         if (!token4.isTagged() || token4.hasPosTagStartingWith("EIG:")) {
           // 'Aber das ignorierte Herr Grey bewusst.'
           return null;
+        }
+      }
+      if (tokenPos + 4 < sentence.getTokensWithoutWhitespace().length) {
+        RuleMatch compoundMatch = getCompoundError(sentence.getTokensWithoutWhitespace()[tokenPos],
+                sentence.getTokensWithoutWhitespace()[tokenPos+1],
+                sentence.getTokensWithoutWhitespace()[tokenPos+2],
+                sentence.getTokensWithoutWhitespace()[tokenPos+3], tokenPos, sentence);
+        if (compoundMatch != null) {
+          return compoundMatch;
         }
       }
       RuleMatch compoundMatch = getCompoundError(token1, token2, token3, tokenPos, sentence);
