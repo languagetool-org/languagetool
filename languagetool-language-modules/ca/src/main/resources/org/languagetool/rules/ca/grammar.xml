@@ -2081,6 +2081,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>havia de passar llista dues o tres vegades</example>
                 <example>Un milió dues-centes mil?</example>
                 <example>I quines dues!</example>
+                <example>Cal tenir també en compte dues altres morfologies típiques.</example>
             </rule>
             <!-- art fem 'una' + numeral masculí-->
             <rule>
@@ -8856,25 +8857,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="MOLTS_MOLT" name="*molts/molt contents">
             <antipattern>
-                <marker>
-                    <token regexp="yes">molts|pocs</token>
-                    <token max="3" postag="A..[MC][PN]." postag_regexp="yes"/>
-                    <token postag="N.[MC][PN].*|PI.[MC]P.*" postag_regexp="yes"/>
-                </marker>
+                <token regexp="yes">molts|pocs</token>
+                <token max="3" postag="A..[MC][PN]." postag_regexp="yes"/>
+                <token postag="N.[MC][PN].*|PI.[MC]P.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token>uns</token>
-                    <token>pocs</token>
-                </marker>
+                <token>uns</token>
+                <token>pocs</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token>n'</token>
-                    <token>hi</token>
-                    <token inflected="yes">haver</token>
-                    <token regexp="yes">molts|pocs</token>
-                </marker>
+                <token>n'</token>
+                <token>hi</token>
+                <token inflected="yes">haver</token>
+                <token regexp="yes">molts|pocs</token>
             </antipattern>
             <pattern>
                 <marker>
@@ -8894,6 +8889,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Treballem amb molts autònoms.</example>
             <example>Molts portàtils tenen un commutador.</example>
             <example>I molts altres petitons.</example>
+            <example>Però, com molts altres Estats europeus, no ho fan.</example>
         </rule>
         <rule id="MOLTS_POCS" name="*molts pocs / molt pocs">
             <pattern>
@@ -15030,7 +15026,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
-        <rule id="SER_SERVIR" name="ser/fer servir" default="temp_off">
+        <rule id="SER_SERVIR" name="ser/fer servir">
             <antipattern>
                 <token regexp="yes" inflected="yes" skip="10">tasca|objectiu|aportació|feina|faena|treball</token>
                 <token>ser</token>
@@ -22209,6 +22205,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" skip="6">renunci(a|es)</token>
                     <token>a</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">renunci(a|es)</token>
+                    <token inflected="yes">per</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">renunci(a|es)</token>
@@ -26117,15 +26117,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="dóna">Joan <marker>dona</marker> com a bo.</example>
                 <example>La dona com a objecte.</example>
             </rule>
-            <rule default="temp_off">
-                <!-- catch-all rule -->
+            <!--<rule>
+                 catch-all rule 
                 <pattern>
                     <token postag="VMIP3S00">dona<exception postag="NCFS000"/></token>
                 </pattern>
                 <message>S'accentua quan és del v. 'donar'.</message>
                 <suggestion>dóna</suggestion>
                 <example correction="dóna">Això <marker>dona</marker> com a error una altre resultat.</example>
-            </rule>
+                <example>L'única deessa dona de les set deïtats.</example>
+                <example>Bona dona, la meva salut era excel·lent.</example>
+                <example>Ell diu, va, dona, va, prova d'aixecar-te.</example>
+                <example>fou la fundadora d'Alguaire dona Marquesa de Guàrdia</example>
+                <example>es feia servir "faraó dona" o, simplement, "faraó"</example>
+            </rule>-->
         </rulegroup>
         <rule id="DONA_COMPTE" name="dona/dóna compte">
             <antipattern>
@@ -26282,7 +26287,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="DIACRITICS" name="Z) Accents diacrítics comuns" type="misspelling">
-        <rulegroup id="SOL" name="sol/sòl" default="temp_off">
+        <rulegroup id="SOL" name="sol/sòl">
             <!-- TODO: word in context -->
             <rule>
                 <pattern>
@@ -31710,7 +31715,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" case_sensitive="yes">nadals?</token>
             </pattern>
             <message>Normalment s'escriu en majúscula.</message>
-            <suggestion><match no="1" case_conversion="startupper"></match></suggestion>
+            <suggestion><match no="1" case_conversion="startupper"/></suggestion>
             <example correction="Nadal">Per <marker>nadal</marker> ens veurem.</example>
         </rule>
         <rule id="WIFI" name="wifi">
@@ -36872,7 +36877,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Expressió incorrecta.</message>
             <suggestion><match no="1"/> <match no="2"/> presentable</suggestion>
-            <example correction="no és presentable">Això <marker>no és de rebut</marker>.</example>
+            <suggestion><match no="1"/> <match no="2"/> admissible</suggestion>
+            <suggestion><match no="1"/> <match no="2"/> acceptable</suggestion>
+            <suggestion><match no="1"/> <match no="2"/> tolerable</suggestion>
+            <suggestion>no s'hi val</suggestion>
+            <suggestion>no pot ser</suggestion>
+            <suggestion><match no="2"/> inadmissible</suggestion>
+            <!-- no és just, no pot passar-->
+            <example correction="no és presentable|no és admissible|no és acceptable|no és tolerable|no s'hi val|no pot ser|és inadmissible">Això <marker>no és de rebut</marker>.</example>
             <example>No és presentable.</example>
         </rule>
         <rulegroup id="TROBAR_A_FALTAR" name="*tirar a faltar/tirar en falta/tirar de menys">
@@ -40314,22 +40326,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="GUST_A" name="gust a">
             <antipattern>
-                <marker>
-                    <token>a</token>
-                    <token postag="NP.*" postag_regexp="yes"/>
-                </marker>
+                <token>a</token>
+                <token postag="NP.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token>a</token>
-                    <token min="0" postag="D.*" postag_regexp="yes"/>
-                    <token regexp="yes" inflected="yes">&unitats_temps;</token>
-                </marker>
+                <token>a</token>
+                <token min="0" postag="D.*" postag_regexp="yes"/>
+                <token regexp="yes" inflected="yes">&unitats_temps;</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token postag="_GN_MS">pudor</token>
-                </marker>
+                <token postag="_GN_MS">pudor</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -40359,6 +40365,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>tenia olor de maduixa</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token inflected="yes" regexp="yes" skip="7">aplicar|aplicació</token>
+                    <token>gust</token>
+                </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token postag="DA.*|V.N.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token><exception inflected="yes">trobar</exception><exception regexp="yes">-li|-hi</exception></token>
                     <token postag="D[^R].*|C.*|_PUNCT.*" postag_regexp="yes"/>
@@ -40374,6 +40388,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>tenia olor de maduixa</example>
                 <example>començava a trobar-li el gust al sarcasme</example>
                 <example>Pel pudor a la representació del cos humà</example>
+                <example>És l'aplicació de l'habilitat i del gust a la producció d'una obra.</example>
+                <example>la dona que vessa el perfum als peus de Jesús</example>
+                <example>Havien de dissenyar un perfum a partir d'un cos geomètric.</example>
             </rule>
             <rule>
                 <pattern>
@@ -49066,11 +49083,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
-        <rulegroup id="EL_NADAL" name="el Nadal/Nadal" default="temp_off">
+        <rulegroup id="EL_NADAL" name="el Nadal/Nadal">
             <url>https://esadir.cat/Nomspropis/Entitats/Societat/nadal</url>
             <antipattern>
                 <token>Nadal</token>
-                <token regexp="yes">de|d'</token>
+                <token regexp="yes">de|d'|que</token>
             </antipattern>
             <antipattern>
                 <token>Nadal</token>
@@ -49241,8 +49258,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes">realitzar</token>
                     </marker>
-                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception regexp="yes" inflected="yes">delicte|crim|abús|violació|homicidi|assassinat|infracció|falta|contravenció|atemptat|agressió|estafa|frau</exception></token>
-                    <token regexp="yes" inflected="yes">delicte|crim|abús|violació|homicidi|assassinat|infracció|falta|contravenció|atemptat|agressió|estafa|frau</token>
+                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception regexp="yes" inflected="yes">robatori|delicte|crim|abús|violació|homicidi|assassinat|infracció|falta|contravenció|atemptat|agressió|estafa|frau</exception></token>
+                    <token regexp="yes" inflected="yes">robatori|delicte|crim|abús|violació|homicidi|assassinat|infracció|falta|contravenció|atemptat|agressió|estafa|frau</token>
                 </pattern>
                 <message>Ús abusiu del verb "realitzar". Considereu una opció alternativa.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">cometre</match></suggestion>
@@ -49267,8 +49284,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes">realitzar<exception scope="next" regexp="yes">[:;]</exception></token>
                     </marker>
-                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception regexp="yes" inflected="yes">reunió|assemblea|conferència|roda|concurs|elecció|trobada|sopar|manifestació</exception></token>
-                    <token regexp="yes" inflected="yes">reunió|assemblea|conferència|roda|concurs|elecció|trobada|sopar|manifestació</token>
+                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception regexp="yes" inflected="yes">reunió|assemblea|conferència|roda|concurs|elecció|trobada|sopar|manifestació|votació</exception></token>
+                    <token regexp="yes" inflected="yes">reunió|assemblea|conferència|roda|concurs|elecció|trobada|sopar|manifestació|votació</token>
                 </pattern>
                 <message>Ús abusiu del verb "realitzar". Considereu una opció alternativa.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">celebrar</match></suggestion>
@@ -49366,8 +49383,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes">realitzar</token>
                     </marker>
-                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception inflected="yes">pagament</exception></token>
-                    <token inflected="yes">pagament</token>
+                    <token min="0" max="4" postag="[DAN].*|V.P.*|_GN_.*|RG.*|LOC_ADV" postag_regexp="yes"><exception inflected="yes" regexp="yes">pagament|compravenda|lliurament|entrega</exception></token>
+                    <token inflected="yes" regexp="yes">pagament|compravenda|lliurament|entrega</token>
                 </pattern>
                 <message>Ús abusiu del verb "realitzar". Considereu una opció alternativa.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">efectuar</match></suggestion>
@@ -53187,49 +53204,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>amb</token>
                     </marker>
                     <token min="0" max="4" postag="[DA].*|RG|PX.*" postag_regexp="yes"/>
-                    <token regexp="yes" inflected="yes">pandèmia|epidèmia|sida|covid.*|intenció|dinastia|regnat|discriminació|abús|frau|plaga|pesta|infecció|situació|vida|exempció|excepció|precarietat</token>
+                    <token regexp="yes" inflected="yes">herència|pandèmia|epidèmia|sida|covid.*|intenció|dinastia|regnat|discriminació|abús|frau|plaga|pesta|infecció|situació|vida|exempció|excepció|precarietat</token>
                 </pattern>
                 <message>En el sentit de 'posar fi a' val més fer servir una altra expressió.</message>
-                <suggestion>(posar fi a)</suggestion>
-                <suggestion>(eliminar)</suggestion>
-                <suggestion>(destruir)</suggestion>
-                <suggestion>(desfer)</suggestion>
-                <suggestion>(acabar)</suggestion>
-                <suggestion>(fer acabar)</suggestion>
-                <suggestion>(fer cessar)</suggestion>
-                <suggestion>(exterminar)</suggestion>
-                <suggestion>(aniquilar)</suggestion>
-                <suggestion>(liquidar)</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="none">posar</match> fi <match no="1" include_skipped="following" regexp_match=".+" regexp_replace=""/> a</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">eliminar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">destruir</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">desfer</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">acabar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">fer</match> acabar</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">fer</match> cessar</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">exterminar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">aniquilar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">liquidar</match></suggestion>
                 <short>Expressió incorrecta</short>
-                <example correction="(posar fi a)|(eliminar)|(destruir)|(desfer)|(acabar)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)">Cal <marker>acabar amb</marker> els abusos.</example>
-                <example correction="(posar fi a)|(eliminar)|(destruir)|(desfer)|(acabar)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)">estan <marker>acabant amb</marker> aquesta situació</example>
-                <example correction="(posar fi a)|(eliminar)|(destruir)|(desfer)|(acabar)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)">Amenaçar d'<marker>acabar amb</marker> la seua vida.</example>
+                <example correction="posar fi a|eliminar|destruir|desfer|acabar|fer acabar|fer cessar|exterminar|aniquilar|liquidar">Cal <marker>acabar amb</marker> els abusos.</example>
+                <example correction="posant fi a|eliminant|destruint|desfent|acabant|fent acabar|fent cessar|exterminant|aniquilant|liquidant">estan <marker>acabant amb</marker> aquesta situació</example>
+                <example correction="posar fi a|eliminar|destruir|desfer|acabar|fer acabar|fer cessar|exterminar|aniquilar|liquidar">Amenaçar d'<marker>acabar amb</marker> la seua vida.</example>
+                <example correction="posar fi immediatament a|eliminar immediatament|destruir immediatament|desfer immediatament|acabar immediatament|fer immediatament acabar|fer immediatament cessar|exterminar immediatament|aniquilar immediatament|liquidar immediatament">Cal <marker>acabar immediatament amb</marker> els abusos.</example>
                 <example>Acaba amb la fi del regnat d'Alexandre.</example>
                 <example>La crema començarà i acabarà amb llum de dia, excepció feta dels focs d'esbarjo.</example>
                 <example>Acabem amb unes aplicacions a distintes situacions.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token inflected="yes" skip="2">acabar</token>
+                    <token>encara</token>
+                </antipattern>
                 <pattern>
                     <marker>
-                        <token inflected="yes">acabar<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
-                        <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"><exception>encara</exception></token>
+                        <token inflected="yes" skip="2">acabar<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
                         <token>amb</token>
                     </marker>
                     <token regexp="yes" inflected="yes">això|açò|allò</token>
                 </pattern>
                 <message>En el sentit de 'posar fi a' val més fer servir una altra expressió.</message>
-                <suggestion>(posar fi a)</suggestion>
-                <suggestion>(eliminar)</suggestion>
-                <suggestion>(destruir)</suggestion>
-                <suggestion>(desfer)</suggestion>
-                <suggestion>(acabar)</suggestion>
-                <suggestion>(fer acabar)</suggestion>
-                <suggestion>(fer cessar)</suggestion>
-                <suggestion>(exterminar)</suggestion>
-                <suggestion>(aniquilar)</suggestion>
-                <suggestion>(liquidar)</suggestion>
-                <short>Expressió incorrecta</short>
-                <example correction="(posar fi a)|(eliminar)|(destruir)|(desfer)|(acabar)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)">Cal <marker>acabar immediatament amb</marker> això.</example>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="none">posar</match> fi <match no="1" include_skipped="following" regexp_match=".+" regexp_replace=""/> a</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">eliminar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">destruir</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">desfer</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">acabar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">fer</match> acabar</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">fer</match> cessar</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">exterminar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">aniquilar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">liquidar</match></suggestion>
+                <example correction="posar fi immediatament a|eliminar immediatament|destruir immediatament|desfer immediatament|acabar immediatament|fer immediatament acabar|fer immediatament cessar|exterminar immediatament|aniquilar immediatament|liquidar immediatament">Cal <marker>acabar immediatament amb</marker> això.</example>
                 <example>Cal posar-hi fi.</example>
                 <example>la història no s'acaba encara amb això</example>
             </rule>
@@ -53244,18 +53264,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>En el sentit de 'posar fi a' val més fer servir una altra expressió.</message>
-                <suggestion>(posar fi a)</suggestion>
-                <suggestion>(eliminar)</suggestion>
-                <suggestion>(destruir)</suggestion>
-                <suggestion>(acabar)</suggestion>
-                <suggestion>(desfer)</suggestion>
-                <suggestion>(fer acabar)</suggestion>
-                <suggestion>(fer cessar)</suggestion>
-                <suggestion>(exterminar)</suggestion>
-                <suggestion>(aniquilar)</suggestion>
-                <suggestion>(liquidar)</suggestion>
-                <short>Expressió incorrecta</short>
-                <example correction="(posar fi a)|(eliminar)|(destruir)|(acabar)|(desfer)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)">És necessari per a <marker>acabar immediatament amb</marker> el problema.</example>
+                <suggestion><match no="4" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="none">posar</match> fi <match no="4" include_skipped="following" regexp_match=".+" regexp_replace=""/> a</suggestion>
+                <suggestion><match no="4" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">eliminar</match></suggestion>
+                <suggestion><match no="4" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">destruir</match></suggestion>
+                <suggestion><match no="4" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">desfer</match></suggestion>
+                <suggestion><match no="4" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">acabar</match></suggestion>
+                <suggestion><match no="4" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">fer</match> acabar</suggestion>
+                <suggestion><match no="4" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">fer</match> cessar</suggestion>
+                <suggestion><match no="4" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">exterminar</match></suggestion>
+                <suggestion><match no="4" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">aniquilar</match></suggestion>
+                <suggestion><match no="4" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">liquidar</match></suggestion>
+                <suggestion><match no="4" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">resoldre</match></suggestion>
+                <example correction="posar fi immediatament a|eliminar immediatament|destruir immediatament|desfer immediatament|acabar immediatament|fer immediatament acabar|fer immediatament cessar|exterminar immediatament|aniquilar immediatament|liquidar immediatament|resoldre immediatament">És necessari per a <marker>acabar immediatament amb</marker> el problema.</example>
                 <example>Cal posar-hi fi.</example>
             </rule>
             <rule>
@@ -53268,19 +53288,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>En el sentit de 'posar fi a' val més fer servir una altra expressió.</message>
-                <suggestion>(posar fi a)</suggestion>
-                <suggestion>(eliminar)</suggestion>
-                <suggestion>(destruir)</suggestion>
-                <suggestion>(acabar)</suggestion>
-                <suggestion>(desfer)</suggestion>
-                <suggestion>(fer acabar)</suggestion>
-                <suggestion>(fer cessar)</suggestion>
-                <suggestion>(exterminar)</suggestion>
-                <suggestion>(aniquilar)</suggestion>
-                <suggestion>(liquidar)</suggestion>
-                <suggestion>(resoldre)</suggestion>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="none">posar</match> fi <match no="3" include_skipped="following" regexp_match=".+" regexp_replace=""/> a</suggestion>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">eliminar</match></suggestion>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">destruir</match></suggestion>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">desfer</match></suggestion>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">acabar</match></suggestion>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">fer</match> acabar</suggestion>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">fer</match> cessar</suggestion>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">exterminar</match></suggestion>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">aniquilar</match></suggestion>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">liquidar</match></suggestion>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">resoldre</match></suggestion>
                 <short>Expressió incorrecta</short>
-                <example correction="(posar fi a)|(eliminar)|(destruir)|(acabar)|(desfer)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)|(resoldre)">Va contribuir a <marker>acabar amb</marker> el problema.</example>
+                <example correction="posar fi a|eliminar|destruir|desfer|acabar|fer acabar|fer cessar|exterminar|aniquilar|liquidar|resoldre">Va contribuir a <marker>acabar amb</marker> el problema.</example>
                 <example>acostuma a acabar amb un fort plaer</example>
             </rule>
         </rulegroup>
