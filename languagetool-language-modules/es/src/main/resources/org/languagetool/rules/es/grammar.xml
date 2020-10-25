@@ -6976,7 +6976,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Lo hecho, hecho está.</example>
                 <example>A lo hecho, pecho.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">hecho|hecha|hechas<exception postag="_GN_.*" postag_regexp="yes"/></token>
@@ -7050,7 +7050,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="A ver si"><marker>Haber si</marker> puedes arreglar esto.</example>
                 <example>No va a haber si se ha acabado.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>vamos</token>
@@ -10256,7 +10256,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="de la otra área">Viene <marker>del otro área</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AGREEMENT_ADJ_NOUN_" name="Concordancias adjetivo y nombre">
+        <rulegroup id="AGREEMENT_ADJ_NOUN" name="Concordancias adjetivo y nombre">
             <antipattern>
                 <token postag="SPS00"/>
                 <token regexp="yes">sí|yo|tú|él|ella|nosotros|nosotras|vosotros|vosotras|ellos|ellas|usted|ustedes</token>
@@ -10334,7 +10334,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <!-- telegraphic writing -->
                     <token>total</token>
-                    <token>productors</token>
+                    <token>productos</token>
                 </antipattern>
                 <pattern>
                     <unify negate="yes">
@@ -10401,7 +10401,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ácidos grasos omega 3.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AGREEMENT_PARTICIPLE_NOUN_" name="concordancias participio y nombre" default="temp_off">
+        <rulegroup id="AGREEMENT_PARTICIPLE_NOUN" name="concordancias participio y nombre" default="temp_off">
             <antipattern>
                 <token regexp="yes">ab[ií](a|as|an|amos|ais)|as|emos|e|an<exception regexp="yes">\p{Lu}+</exception><exception postag="_GN_MS"/></token>
                 <token postag="V.P..SM" postag_regexp="yes"/>
@@ -11606,7 +11606,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token inflected="yes" regexp="yes">poder|querer|deber</token>
                     <marker>
-                        <token postag="VMSI3S0" postag_regexp="yes" regexp="yes">[\p{Ll}]+ase<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                        <token postag="VMSI3S0" regexp="yes">[\p{Ll}]+ase<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Posible confusión.</message>
@@ -11618,7 +11618,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">tener</token>
                     <token>que</token>
                     <marker>
-                        <token postag="VMSI3S0" postag_regexp="yes" regexp="yes">[\p{Ll}]+ase<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                        <token postag="VMSI3S0" regexp="yes">[\p{Ll}]+ase<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Posible confusión.</message>
@@ -11629,7 +11629,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token inflected="yes" regexp="yes">poder|querer|deber</token>
                     <marker>
-                        <token postag="VMSI3S0" postag_regexp="yes" regexp="yes">[\p{Ll}]+ara<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                        <token postag="VMSI3S0" regexp="yes">[\p{Ll}]+ara<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Posible confusión.</message>
@@ -11641,7 +11641,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">tener</token>
                     <token>que</token>
                     <marker>
-                        <token postag="VMSI3S0" postag_regexp="yes" regexp="yes">[\p{Ll}]+ara<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                        <token postag="VMSI3S0" regexp="yes">[\p{Ll}]+ara<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Posible confusión.</message>
