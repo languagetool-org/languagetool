@@ -681,6 +681,10 @@ public class CaseRule extends Rule {
     Arrays.asList( // Via Camparlungo (Straßennamen in der italienischen Schweiz)
       csToken("Via"),
       new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-Z].+").build()
+    ),
+    Arrays.asList( // Geoghegan Hart
+      new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-Z].+").build(),
+      csToken("Hart")
     )
   );
 
