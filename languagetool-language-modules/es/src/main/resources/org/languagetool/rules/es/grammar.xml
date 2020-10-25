@@ -11601,12 +11601,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rulegroup id="SUBJUNTIVO_INFINITIVO" name="*formalizase/formalizarse" default="temp_off">
+        <rulegroup id="SUBJUNTIVO_INFINITIVO" name="*formalizase/formalizarse">
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">poder|querer|deber</token>
                     <marker>
-                        <token postag="VMSI3S0" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                        <token postag="VMSI3S0" postag_regexp="yes" regexp="yes">[\p{Ll}]+ase<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Posible confusión.</message>
@@ -11618,12 +11618,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">tener</token>
                     <token>que</token>
                     <marker>
-                        <token postag="VMSI3S0" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                        <token postag="VMSI3S0" postag_regexp="yes" regexp="yes">[\p{Ll}]+ase<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Posible confusión.</message>
                 <suggestion><match no="3" postag="VMSI3S0" postag_regexp="yes" postag_replace="VMN0000.PP3CN000"/></suggestion>
                 <example correction="formalizarse">No tiene que <marker>formalizase</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">poder|querer|deber</token>
+                    <marker>
+                        <token postag="VMSI3S0" postag_regexp="yes" regexp="yes">[\p{Ll}]+ara<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión.</message>
+                <suggestion><match no="2" postag="VMSI3S0" postag_regexp="yes" postag_replace="VMN0000.PP3FSA00"/></suggestion>
+                <example correction="encontrarla">Podías <marker>encontrara</marker> por todas partes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">tener</token>
+                    <token>que</token>
+                    <marker>
+                        <token postag="VMSI3S0" postag_regexp="yes" regexp="yes">[\p{Ll}]+ara<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión.</message>
+                <suggestion><match no="3" postag="VMSI3S0" postag_regexp="yes" postag_replace="VMN0000.PP3FSA00"/></suggestion>
+                <example correction="llevarla">Tienes que <marker>llevara</marker> por todas partes.</example>
             </rule>
         </rulegroup>
         <rule id="DE_LA" name="del a/de la">
