@@ -9333,6 +9333,33 @@ MARCOAGPINTO 2020-02-18 -->
       <message>Substitua por <suggestion>maiores \2</suggestion>.</message>
       <example correction="maiores as">São <marker>maior as</marker> hipóteses.</example>
     </rule>
+	
+    <!-- MAIS REDUZIDA(O)(S) inferior(es) -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-25 (21-OCT-2020+)     -->
+    <rulegroup id='MAIS_REDUZIDA_INFERIOR' name="Inferior(es)">
+	  <rule>
+		<pattern>
+			<token postag='V.+|CS|I|RG|AQ0[CFM][SP]0|DI0MS0|CC|NC[CFM][SP]000' postag_regexp='yes'/>
+			<marker>
+				<token>mais</token>
+				<token regexp='yes'>reduzida|reduzido</token>
+			</marker>
+		</pattern>
+		<message>Substitua por <suggestion>inferior</suggestion>.</message>
+		<example correction="inferior">Temos um grau de incerteza, embora <marker>mais reduzido</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token postag='V.+|CS|I|RG|AQ0[CFM][SP]0|DI0MS0|CC|NC[CFM][SP]000' postag_regexp='yes'/>
+			<marker>
+				<token>mais</token>
+				<token regexp='yes'>reduzidas|reduzidos</token>
+			</marker>
+		</pattern>
+		<message>Substitua por <suggestion>inferiores</suggestion>.</message>
+		<example correction="inferiores">Temos graus de incerteza, embora <marker>mais reduzidos</marker>.</example>
+	  </rule>
+    </rulegroup>
 
     <!-- MAS E SIM mas é sim -->
     <rule id='MAS_E_SIM' name="Mas é sim">
