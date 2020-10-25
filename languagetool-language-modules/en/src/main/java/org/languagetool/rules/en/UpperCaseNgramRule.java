@@ -418,6 +418,9 @@ public class UpperCaseNgramRule extends Rule {
     ),
     Arrays.asList( // And mine is Wed.
       csRegex("Wed")
+    ),
+    Arrays.asList( // Keys
+      csRegex("Enter|Return|Escape|Shift")
     )
   );
 

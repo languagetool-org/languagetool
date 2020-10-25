@@ -339,6 +339,9 @@ public class AdverbFilter extends RuleFilter {
     put("loosely", "loose");
     put("profusely", "profuse");
     put("mortally", "mortal");
+    put("dynamically", "dynamical");
+    put("illegally", "illegal");
+    put("legally", "legal");
     put("likewise", "similar"); // special case
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
