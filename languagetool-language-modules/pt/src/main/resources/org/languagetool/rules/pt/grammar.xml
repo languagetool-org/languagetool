@@ -9336,7 +9336,7 @@ MARCOAGPINTO 2020-02-18 -->
 	
     <!-- MAIS REDUZIDA(O)(S) inferior(es) -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-25 (21-OCT-2020+)     -->
-    <rulegroup id='MAIS_REDUZIDA_INFERIOR' name="Inferior(es)">
+    <rulegroup id='MAIS_REDUZIDA_INFERIOR' name="Inferior(es)/menor(es)/menos">
 	  <rule>
 		<pattern>
 			<token postag='V.+|CS|I|RG|AQ0[CFM][SP]0|DI0MS0|CC|NC[CFM][SP]000' postag_regexp='yes'/>
@@ -9345,8 +9345,11 @@ MARCOAGPINTO 2020-02-18 -->
 				<token regexp='yes'>reduzida|reduzido</token>
 			</marker>
 		</pattern>
-		<message>Substitua por <suggestion>inferior</suggestion>.</message>
-		<example correction="inferior">Temos um grau de incerteza, embora <marker>mais reduzido</marker>.</example>
+		<message>Substitua por</message>
+		<suggestion>inferior</suggestion>
+		<suggestion>menor</suggestion>
+		<suggestion>menos</suggestion>
+		<example correction="inferior|menor|menos">Temos um grau de incerteza, embora <marker>mais reduzido</marker>.</example>
 	  </rule>
 	  <rule>
 		<pattern>
@@ -9356,8 +9359,11 @@ MARCOAGPINTO 2020-02-18 -->
 				<token regexp='yes'>reduzidas|reduzidos</token>
 			</marker>
 		</pattern>
-		<message>Substitua por <suggestion>inferiores</suggestion>.</message>
-		<example correction="inferiores">Temos graus de incerteza, embora <marker>mais reduzidos</marker>.</example>
+		<message>Substitua por</message>
+		<suggestion>inferiores</suggestion>
+		<suggestion>menores</suggestion>
+		<suggestion>menos</suggestion>
+		<example correction="inferiores|menores|menos">Temos graus de incerteza, embora <marker>mais reduzidos</marker>.</example>
 	  </rule>
     </rulegroup>
 
