@@ -73,9 +73,9 @@ public class WikipediaQuickCheckTest {
     assertThat(firstAppliedMatch.getRuleMatchApplications().size(), is(1));
     RuleMatchApplication ruleMatchApplication = firstAppliedMatch.getRuleMatchApplications().get(0);
     assertTrue("Got: " + ruleMatchApplication.getTextWithCorrection(),
-            ruleMatchApplication.getTextWithCorrection().contains("<err>wegen dem</err> Leerzeichen."));
-    assertThat(ruleMatchApplication.getOriginalErrorContext(12), is("st richtig, <err>wegen dem</err> Leerz"));
-    assertThat(ruleMatchApplication.getCorrectedErrorContext(12), is("st richtig, <err>wegen dem</err> Leerz"));
+            ruleMatchApplication.getTextWithCorrection().contains("<err>wegen des Leerzeichens.</err>"));
+    assertThat(ruleMatchApplication.getOriginalErrorContext(12), is("st richtig, <err>wegen dem Leerzeichen.</err>"));
+    assertThat(ruleMatchApplication.getCorrectedErrorContext(12), is("st richtig, <err>wegen des Leerzeichens.</err>"));
   }
 
   @Test
