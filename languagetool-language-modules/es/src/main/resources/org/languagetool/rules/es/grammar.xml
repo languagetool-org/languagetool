@@ -7079,6 +7079,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
+        <rulegroup id="DOS_VERBOS" name="dos verbos juntos" default="temp_off">
+            <!-- better disambiguation needed -->
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="10" postag_regexp="yes" postag="[NADSR].*|V.P.*"><exception postag="C.*|PR.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="V.[SI].*" postag_regexp="yes"><exception postag="[NARCP].*|_possible_NP|SP.*" postag_regexp="yes"/></token>
+                        <token min="0" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                        <token postag="V.[SI].*" postag_regexp="yes"><exception postag="[NARCP].*|_possible_NP|SP.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Revise esta construcción: dos verbos juntos. ¿Falta algún elemento (coma, conjunción)?</message>
+                <example correction="">La fiscalía <marker>estudia recurre</marker>.</example>
+                <example correction=""><marker>Murió hacía</marker> 1566.</example>
+                <example correction="">El <marker>informa concluía</marker> que no era cierto.</example>
+                <example>Como empezaron sus obras.</example>
+                <example>El Municipio presenta una.</example>
+                <example>Tengo gans de reír.</example>
+                <example>Tiene forma romboidal.</example>
+                <example>Víctor Erice recuerda.</example>
+                <example>Ven para acá.</example>
+                <example>Trabaja para Campe.</example>
+                <example>El Times escribió.</example>
+                <example>La RAE dice.</example>
+                <example>Nada es para siempre.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TE_HAY" name="*te hay">
             <rule>
                 <pattern>

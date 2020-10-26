@@ -1799,6 +1799,35 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
+    <rulegroup id="quedar_participio" name="quedar + participio">
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="numero"/>
+                    <marker>
+                        <token postag="V.[^P].*" postag_regexp="yes" inflected="yes" regexp="yes">quedar|restar</token>
+                        <token postag="V.P.*" postag_regexp="yes"></token>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="numero"/>
+                    <marker>
+                        <token postag="V.[^P].*" postag_regexp="yes" inflected="yes" regexp="yes">quedar|restar</token>
+                        <token postag="V.P.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GV_"/>
+                <wd pos="_GV_"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rule id="el_haya" name="el haya">
         <pattern>
             <token regexp="yes">el|al|del|un|algún|ningún</token>
@@ -3973,7 +4002,7 @@ Copyright (C) 2011 Juan Martorell
     </rulegroup>
     <rule id="verb_notnoun" name="verb not noun: queda">
         <pattern>
-            <token postag="V.*" postag_regexp="yes" regexp="yes">fija|quedo|queda|descargue|salga|ganas?|cerca|compruebas?|cuelgas?|figura|forma|tira|giras?<exception postag="_GN_.*" postag_regexp="yes"/></token>
+            <token postag="V.*" postag_regexp="yes" regexp="yes">fija|quedo|queda|descargue|salga|ganas?|cerca|compruebas?|cuelgas?|figura|forma|tira|giras?<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[IS].*|_GV_" postag_regexp="yes"></exception></token>
         </pattern>
         <disambig action="remove" postag="[AND].*"/>
     </rule>
