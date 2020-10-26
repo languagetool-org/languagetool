@@ -209,7 +209,7 @@ public class MainTest extends AbstractSecurityTestCase {
   public void testStdInWithExternalFalseFriends() throws Exception {
     String test = "Láska!\n";
     System.setIn(new ByteArrayInputStream(test.getBytes()));
-    String[] args = {"-l", "sk", "--falsefriends", getExternalFalseFriends(), "-m", "pl", "-"};
+    String[] args = {"-l", "sk", "--falsefriends", getExternalFalseFriends(), "--level", "PICKY", "-m", "pl", "-"};
 
     Main.main(args);
     String stdout = new String(this.out.toByteArray());

@@ -19,7 +19,9 @@
 package org.languagetool.rules.patterns;
 
 import org.languagetool.Language;
+import org.languagetool.Tag;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,6 +31,7 @@ public class FalseFriendPatternRule extends PatternRule {
 
   public FalseFriendPatternRule(String id, Language language, List<PatternToken> patternTokens, String description, String message, String shortMessage) {
     super(id, language, patternTokens, description, message, shortMessage);
+    setTags(Collections.singletonList(Tag.picky));
   }
 
 }

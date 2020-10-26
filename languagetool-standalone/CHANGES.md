@@ -14,7 +14,12 @@
     <filter class="org.languagetool.rules.patterns.RegexAntiPatternFilter" args="antipatterns:regex1|regex2"/>
     ```
     Note that the regex after `antipatterns:` cannot contain spaces.
-
+  * German, French, Dutch, and Spanish have ngram-based false friends for
+    some time already, meaning that a German/Dutch/... native speaker will
+    get an error if (probably) using and English word incorrectly in an English
+    text. The change in this version is that for all other language pairs that
+    also have false friends, these rules are now active only in picky mode
+    (`--level PICKY` on the command line, `level=picky` with the HTTP API.)
 
 
 ## 5.1.3 (released 2020-10-15)
