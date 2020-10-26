@@ -71,7 +71,8 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
           "iHeartRadio",
           "iMessage",
           "iFood",
-          "x86"
+          "x86",
+          "reCAPTCHA"
   ));
 
   private final Language language;
