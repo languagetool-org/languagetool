@@ -47,6 +47,7 @@ import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
+import static org.languagetool.tools.StringTools.startsWithUppercase;
 
 /**
  * Simple agreement checker for German noun phrases. Checks agreement in:
@@ -1182,7 +1183,7 @@ public class AgreementRule extends Rule {
   private RuleMatch getCompoundError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2, int tokenPos, AnalyzedSentence sentence) {
     if (tokenPos != -1 && tokenPos + 2 < sentence.getTokensWithoutWhitespace().length) {
       AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 2];
-      if (StringTools.startsWithUppercase(nextToken.getToken())) {
+      if (startsWithUppercase(nextToken.getToken())) {
         String potentialCompound = token2.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
         String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before 'ins' etc. replacement
         String testPhrase = origToken1 + " " + potentialCompound;
@@ -1200,7 +1201,7 @@ public class AgreementRule extends Rule {
                                      int tokenPos, AnalyzedSentence sentence) {
     if (tokenPos != -1 && tokenPos + 3 < sentence.getTokensWithoutWhitespace().length) {
       AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 3];
-      if (StringTools.startsWithUppercase(nextToken.getToken())) {
+      if (startsWithUppercase(nextToken.getToken())) {
         String potentialCompound = token3.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
         String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before 'ins' etc. replacement
         String testPhrase = origToken1 + " " + token2.getToken() + " " + potentialCompound;
@@ -1218,8 +1219,8 @@ public class AgreementRule extends Rule {
                                      AnalyzedTokenReadings token4, int tokenPos, AnalyzedSentence sentence) {
     if (tokenPos != -1 && tokenPos + 4 < sentence.getTokensWithoutWhitespace().length) {
       AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 4];
-      if (StringTools.startsWithUppercase(nextToken.getToken())) {
-        String potentialCompound = token4.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
+      String potentialCompound = token4.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
+      if (startsWithUppercase(token4.getToken()) && startsWithUppercase(nextToken.getToken())) {
         String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before 'ins' etc. replacement
         String testPhrase = origToken1 + " " + token2.getToken() + " " + token3.getToken() + " " + potentialCompound;
         String hyphenPotentialCompound = token4.getToken() + "-" + nextToken.getToken();

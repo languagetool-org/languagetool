@@ -58,6 +58,7 @@ public class AgreementRuleTest {
     assertBad("Mit seinem Konkurrent Alistair Müller", "sein Konkurrent", "seinem Konkurrenten");
     assertBad("Wir gehen ins Fitness Studio", "ins Fitnessstudio", "ins Fitness-Studio");
     assertBad("Wir gehen durchs Fitness Studio", "durchs Fitnessstudio", "durchs Fitness-Studio");
+    assertGood("Es gibt ein Sprichwort, dem zufolge der tägliche Genuss einer Mandel dem Gedächtnis förderlich sei.");
     //assertBad("Die Bad Taste Party von Susi", "Die Bad-Taste-Party");   // not supported yet
     //assertBad("Die Update Liste.", "Die Updateliste");  // not accepted by speller
     List<RuleMatch> matches = lt.check("Er folgt damit dem Tipp des Autoren Michael Müller.");
@@ -364,6 +365,7 @@ public class AgreementRuleTest {
     assertBad("Ich gebe dir das kleinen Kaninchen.");
     assertBad("Ich gebe dir das kleinem Kaninchen.");
     assertBad("Ich gebe dir das kleiner Kaninchen.");
+    assertBadWithNoSuggestion("Geprägt ist der Platz durch einen 142 Meter hoher Obelisken");
     //assertBad("Ich gebe dir das kleines Kaninchen.");  // already detected by ART_ADJ_SOL
     //assertBad("Ich gebe dir das klein Kaninchen.");  // already detected by MEIN_KLEIN_HAUS
     assertGood("Ich gebe dir das kleine Kaninchen.");
@@ -491,6 +493,16 @@ public class AgreementRuleTest {
       RuleMatch match = matches[0];
       List<String> suggestions = match.getSuggestedReplacements();
       assertThat(suggestions, is(Arrays.asList(expectedSuggestions)));
+    }
+  }
+
+  private void assertBadWithNoSuggestion(String s) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
+    assertEquals("Did not find one match in sentence '" + s + "'", 1, matches.length);
+    RuleMatch match = matches[0];
+    List<String> suggestions = match.getSuggestedReplacements();
+    if (suggestions.size() != 0) {
+      fail("Expected 0 suggestions for: " + s + ", got: " + suggestions);
     }
   }
 
