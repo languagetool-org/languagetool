@@ -4685,7 +4685,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>este</token>
                 <token min="0" max="3" postag="N.[MC][SN].*|A..[MC][NS]." postag_regexp="yes"/>
-                <token postag="V.[MSI].*" postag_regexp="yes"><exception postag="V.[MSI].*|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
+                <token postag="V.[MSI].*" postag_regexp="yes"><exception postag="V.[MSI].*|_GV_|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
             </antipattern>
             <rule>
                 <!-- esté + participio-->
@@ -7081,6 +7081,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="GRAMMAR" name="Gramática" type="grammar">
         <rulegroup id="DOS_VERBOS" name="dos verbos juntos" default="temp_off">
             <!-- better disambiguation needed -->
+            <antipattern>
+                <token regexp="yes">hace|hacía</token>
+                <token postag="D[IN].*" postag_regexp="yes"/>
+                <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -7105,6 +7110,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El Times escribió.</example>
                 <example>La RAE dice.</example>
                 <example>Nada es para siempre.</example>
+                <example>Estoy haciendo de cocinero.</example>
+                <example>Va haciendo más calor día a día.</example>
+                <example>Murió hace tres años.</example>
+                <example>Empezó hace diez minutos.</example>
+                <example>El sacrificio era visto como un medio.</example>
+                <!-- No tenemos pruebas de que eso realmente sucederá. -->
             </rule>
         </rulegroup>
         <rulegroup id="TE_HAY" name="*te hay">
