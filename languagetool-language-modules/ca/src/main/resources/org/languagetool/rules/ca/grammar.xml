@@ -33278,6 +33278,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="15&#160;h">A les <marker>15hs</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>h</token>
+                    <!--habitants-->
+                    <token>.</token>
+                    <token regexp="yes">/|per</token>
+                    <token regexp="yes">km|km²|km2|kilòmetre|quilòmetre</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">([012]?\d\.)?[012345]?\d</token>
                     <token>h</token>
@@ -33290,6 +33297,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="5.30 h">A les <marker>5.30 h.</marker> serà la festa.</example>
                 <example>Arribarà a les 15.30 h.</example>
                 <example>Hi vivien 500 h. de diferents nacionalitats.</example>
+                <example>Tenia 15 h./km2</example>
                 <!-- <example>Hi vivien 15 h. Eren de diferents nacionalitats.</example>  It doesn't pass test because it needs sentence tokenization (?) -->
             </rule>
             <rule>
