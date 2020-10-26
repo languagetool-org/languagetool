@@ -1132,6 +1132,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
    */
   @Override
   public List<String> getSuggestions(String word) throws IOException {
+    /* Do not just comment in because of https://github.com/languagetool-org/languagetool/issues/3757
     if (word.length() < 18 && word.matches("[a-zA-Zöäüß-]+.?")) {
       for (String prefix : VerbPrefixes.get()) {
         if (word.startsWith(prefix)) {
@@ -1143,7 +1144,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           }
         }
       }
-    }
+    }*/
     List<String> suggestions = super.getSuggestions(word);
     suggestions = suggestions.stream().filter(k -> !PREVENT_SUGGESTION.matcher(k).matches() && !k.endsWith("roulett")).collect(Collectors.toList());
     if (word.endsWith(".")) {
