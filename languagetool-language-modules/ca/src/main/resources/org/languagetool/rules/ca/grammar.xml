@@ -85,7 +85,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY precedits_per_TAN "sovint|feble|dèbil|deixat|llargs?|bo|prompte|savi|espectacular|alt|baix|ample|estret|complex|comú|divers|eficaç|efectiu|fals|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer|exagerat|ràpid|(in)?capacita(ts?|da|des)|necessaris?|necessàri(a|es)">
     <!ENTITY precedits_per_TANT "si|sí|no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
     <!ENTITY seguits_per_COM_A "reconèixer|acceptar|justificar|caracteritzar|qualificar|figurar|conèixer|definir|veure|entendre|interpretar|percebre|etiquetar|pintar">
-    <!ENTITY sigles_apostrofen "(?-i)MI5|MI6|FM|FP|FBI|FMI|IEC|IULA|RNA|HTML|IES|IEA|NBA|NBC|SPD|FTP|F1|IAE|LSD|FDP|FMLN|IPC|IRA|IRPF|NPD|SME|SMI|SPLA|Spartak?|XML|UNICEF">
+    <!ENTITY sigles_apostrofen "MI5|MI6|FM|FP|FBI|FMI|IEC|IULA|RNA|HTML|IES|IEA|NBA|NBC|SPD|FTP|F1|IAE|LSD|FDP|FMLN|IPC|IRPF|NPD|SME|SMI|SPLA|Spartak?|XML|UNICEF|(?-i)IRA">
     <!ENTITY sigles_no_apostrofen "(?-i)SGAE|FNAC|ITV|Scala">
     <!ENTITY apostrofen_ela "Slesvig|Slesvig-Holstein|striptease|Sporting|statu|scherzo|ftalat|snack|Stradivarius|zwitterió|Hble">
     <!ENTITY unitats "cc|aC|dC|AM|PM|MB|GB|TB|mm|cm|dm|m|km|d|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|K|pts|ptes|[£€$]|(mm|cm|dm|m|km)[23²³]">
@@ -23282,6 +23282,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Cal apostrofar.</message>
                 <suggestion>\1 l'\3</suggestion>
                 <example correction="de l'FBI"><marker>del FBI</marker></example>
+                <example correction="de l'html"><marker>del html</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -23485,6 +23486,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>l'<match no="2"/><match no="3"/></suggestion>
                 <example correction="l'home"><marker>el home</marker></example>
                 <example correction="l'&#34;home"><marker>el "home</marker>"</example>
+                <example correction="L'IRA"><marker>El IRA</marker> irlandès.</example>
                 <example>el Hubble</example>
                 <example>el atletismo</example>
                 <example>el iugoslau</example>
@@ -23799,7 +23801,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>l'</token>
-                    <token postag="N.M.*|A..M.*|RG" postag_regexp="yes" regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">ió|uix.+|html</exception><exception regexp="yes">(?-i)&sigles_apostrofen;|Iu</exception></token>
+                    <token postag="N.M.*|A..M.*|RG" postag_regexp="yes" regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">ió|uix.+</exception><exception regexp="yes">(?-i)&sigles_apostrofen;|Iu</exception></token>
                 </pattern>
                 <message>No s'apostrofa.</message>
                 <suggestion>el <match no="2"/></suggestion>
@@ -24027,6 +24029,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="la imitàveu">A Anna <marker>l'imitàveu</marker> així.</example>
                 <example correction="la imitessin">Que a la fornera <marker>l'imitessin</marker> així.</example>
                 <example>A Portugal l'impregnà de nostàlgia.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>l'</token>
+                    <token>ira<exception case_sensitive="yes">IRA</exception></token>
+                </pattern>
+                <message>Com a nom femení, no s'apostrofa. L'apostrofació pot ser correcta si és una forma del v. 'irar'.</message>
+                <suggestion>la ira</suggestion>
+                <short>No s'apostrofa</short>
+                <example correction="La ira"><marker>L'ira</marker> el feia embogira.</example>
+                <example>Fou membre de l'IRA.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CAL_APOSTROFAR" name="apostrofació: ca l'Enric, de ca l'ample">
