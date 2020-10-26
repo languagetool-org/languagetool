@@ -7967,6 +7967,20 @@ MARCOAGPINTO 2020-02-18 -->
 	    <suggestion><match no='1' postag='V.+' postag_regexp='yes'>diferir</match></suggestion>      
       <example correction="diferem">Os terroristas <marker>são diferentes</marker> dos criminosos comuns.</example>      
     </rule>	
+	
+    <!-- EM QUE _verboeu_ EM a _verboinfinitivo_ em -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-26 (21-OCT-2020+)     -->
+    <rule id='EM_QUE_VERBOEU_EM' name="A + Verbo Infinitivo + em">
+      <pattern>
+          <token>em</token>
+		  <token>que</token>
+		  <token min="0" max="1">eu</token>
+		  <token postag='VMIP1S0' postag_regexp='no'/>
+		  <token>em</token>
+      </pattern>
+      <message>Substitua por <suggestion>a <match no='4' postag='VMIP1S0' postag_regexp="yes" postag_replace='VMN0000'/> em</suggestion>.</message>
+      <example correction="a morar em">Foram bons os 20 anos <marker>em que moro em</marker> Lisboa.</example>
+    </rule>
 
     <rule id='ESTAR_DE_ACORDO' name="concordar">
     <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-30 (2-JUL-2020+)     -->
