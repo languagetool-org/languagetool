@@ -9740,17 +9740,18 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="prefere">A Ana <marker>prefere antes</marker> a Matemática.</example>
     </rule>
 
-    <!-- O MAIS + ADJ-PLURAL + POSSÍVEIS - o mais adj-plural possível -->
-    <rule id='O_MAIS_ADJ-PLURAL_POSSÍVEIS' name="Erro de concordância de número - possíveis-possível">
+    <!-- O MAIS/MENOS + ADJ-PLURAL + POSSÍVEIS - o mais/menos adj/subst-plural possível -->
+	<!--      Created and improved by Marco A.G.Pinto, Portuguese rule 2020-10-27 (21-OCT-2020+)     -->
+    <rule id='O_MAIS-MENOS_ADJ-SUBST-PLURAL_POSSÍVEIS' name="Erro de concordância de número - possíveis-possível">
       <pattern>
           <token>o</token>
-          <token>mais</token>
-          <token postag="AQ0CP0"/>
+          <token regexp='yes'>mais|menos</token>
+          <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
         <marker>
           <token>possíveis</token>
         </marker>
       </pattern>
-      <message>&MSG_ECN;</message>
+      <message>Neste contexto esta palavra é invariável.</message>
         <suggestion>possível</suggestion>
       <example correction="possível">Faz perguntas o mais abrangentes <marker>possíveis</marker>.</example>
     </rule>
