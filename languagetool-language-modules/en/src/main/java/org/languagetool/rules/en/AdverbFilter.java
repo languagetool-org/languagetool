@@ -130,7 +130,7 @@ public class AdverbFilter extends RuleFilter {
     put("unreasonably", "unreasonable");
     put("forcibly", "forcible");
     put("personally", "personal");
-    put("basically", "basical");
+    put("basically", "basic");
     put("definitely", "definite");
     put("potentially", "potential");
     put("manually", "manual");
@@ -342,6 +342,8 @@ public class AdverbFilter extends RuleFilter {
     put("dynamically", "dynamical");
     put("illegally", "illegal");
     put("legally", "legal");
+    put("undoubtedly", "undoubted");
+    put("humanly", "human");
     put("likewise", "similar"); // special case
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
