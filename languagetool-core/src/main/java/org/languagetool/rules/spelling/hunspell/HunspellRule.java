@@ -371,14 +371,15 @@ public class HunspellRule extends SpellingCheckRule {
       hunspell = Hunspell.getInstance(Paths.get(shortDicPath + ".dic"), affPath);
     }
     if (affPath != null) {
-      Scanner sc = new Scanner(affPath);
-      while (sc.hasNextLine()) {
-        String line = sc.nextLine();
-        if (line.startsWith("WORDCHARS ")) {
-          String wordCharsFromAff = line.substring("WORDCHARS ".length());
-          //System.out.println("#" + wordCharsFromAff+ "#");
-          wordChars = "(?![" + wordCharsFromAff.replace("-", "\\-") + "])";
-          break;
+      try(Scanner sc = new Scanner(affPath)){
+        while (sc.hasNextLine()) {
+          String line = sc.nextLine();
+          if (line.startsWith("WORDCHARS ")) {
+            String wordCharsFromAff = line.substring("WORDCHARS ".length());
+            //System.out.println("#" + wordCharsFromAff+ "#");
+            wordChars = "(?![" + wordCharsFromAff.replace("-", "\\-") + "])";
+            break;
+          }
         }
       }
       
