@@ -7081,11 +7081,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="GRAMMAR" name="Gramática" type="grammar">
         <rule id="DOS_VERBOS_MODALES" name="dos verbos modales seguidos" default="temp_off">
             <antipattern>
-                <token inflected="yes" regexp="yes">seguir|continuar|proseguir</token>
+                <token inflected="yes" regexp="yes">seguir|continuar|proseguir|estar</token>
                 <token postag="V.G.*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
-                <token inflected="yes" regexp="yes">parecer|poder|deber|querer|quedar|estar|ser|permanecer|restar|seguir|continuar|proseguir</token>
+                <token inflected="yes" regexp="yes">parecer|poder|deber|querer|quedar|estar|ser|permanecer|restar|seguir|continuar|proseguir<exception scope="previous">que</exception><exception postag="RG"></exception></token>
                 <marker>
                     <token inflected="yes" regexp="yes">parecer|poder|deber|querer|quedar|estar|ser|permanecer|restar|seguir|continuar<exception postag="V.N.*" postag_regexp="yes"/></token>
                 </marker>
@@ -7096,6 +7096,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="quedar">Pueden <marker>quedan</marker> sintetizados.</example>
             <example correction="parecer">Pueden <marker>parecen</marker> cansados.</example>
             <example>Siguen estando cansados.</example>
+            <example>Estoy siendo perseguido.</example>
+            <example>Los zapatos rojos que querías están agotados.</example>
+            <example>Nos estamos quedando dormidos.</example>
+            <example>Fuera está nevado.</example>
         </rule>
         <rulegroup id="DOS_VERBOS" name="dos verbos juntos" default="temp_off">
             <!-- better disambiguation needed -->
