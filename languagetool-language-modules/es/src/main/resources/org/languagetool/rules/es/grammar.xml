@@ -7145,7 +7145,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>no hay</suggestion>
                 <example correction="lo hay|los hay|la hay|las hay|no hay">De haberlos, <marker>nos hay</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>hay</token>
@@ -7156,6 +7156,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Posible confusión.</message>
                 <suggestion>ha</suggestion>
                 <example correction="Ha"><marker>Hay</marker> debido verla.</example>
+                <example correction="ha">Algo que no <marker>hay</marker> podido satisfacer.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>hay</token>
+                    </marker>
+                    <token postag="V.P..SM" postag_regexp="yes" inflected="yes" regexp="yes">tener|poder|deber|ser|estar<exception postag="[NA].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Posible confusión.</message>
+                <suggestion>ha</suggestion>
+                <example correction="ha">No <marker>hay</marker> tenido nada que ver.</example>
             </rule>
             <rule default="temp_off">
                 <!-- still too many false positives -->
@@ -7694,6 +7706,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Construcción incorrecta.</message>
                 <suggestion>\1 \2 {suggestion}</suggestion>
                 <example correction="En las casas|En las clases|En las bases|En las fases|En las cales|En las cáseas"><marker>En las cases</marker> sociales.</example>
+                <example>Estamos en la era llamada "Kali-iuga".</example>
             </rule>
             <rule>
                 <pattern>
@@ -8522,6 +8535,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No iré si no para de llover.</example>
                 <example>La gente no dice cotidianamente «voy a evacuar el vientre» sino «voy a cagar» o «voy a ensuciar».</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token skip="3" regexp="yes">hace|hacía</token>
+                    <token postag="D[NI].*|CC" min="1" max="4" postag_regexp="yes"/>
+                    <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
+                </antipattern>
+                <pattern>
+                    <token skip="10">no</token>
+                    <marker>
+                        <token skip="2">sino<exception regexp="yes" scope="next">que|también|porque|como|cómo|donde|qué|quien|quién|si|quienes|quiénes|,|;|cuando|según|cuál|cuáles|cual|cuales</exception></token>
+                    </marker>
+                    <token postag="V.[^NGP].*" postag_regexp="yes"><exception negate_pos="yes" postag="V.[^NGP].*|_GV_" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Posible confusión.</message>
+                <suggestion>sino que</suggestion>
+                <suggestion>si no</suggestion>
+                <example correction="sino que|si no">La ley no fue hecha para agradar a Dios <marker>sino</marker> fue introducida por causa del pecado.</example>
+                <example>No es así, sino de otra manera.</example>
+                <example>No hace un siglo, sino hace escasamente dos meses.</example>
+                <example>No implica contacto sino falta de cooperación.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token skip="3" regexp="yes">hace|hacía</token>
@@ -8532,7 +8566,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token skip="2">sino<exception regexp="yes" scope="next">que|también|porque|como|cómo|donde|qué|quien|quién|si|quienes|quiénes|,|;|cuando|según|cuál|cuáles|cual|cuales</exception></token>
                     </marker>
-                    <token postag="V.[^NGP].*" postag_regexp="yes"><exception negate_pos="yes" postag="V.[^NGP].*" postag_regexp="yes"/></token>
+                    <token postag="V.[^NGP].*" postag_regexp="yes"><exception negate_pos="yes" postag="V.[^NGP].*|_GV_" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Posible confusión.</message>
                 <suggestion>si no</suggestion>
@@ -8882,6 +8916,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mi casa|mis casas"><marker>mi casas</marker></example>
                 <example correction="la persona|las personas">No saben lo que hacen <marker>la personas</marker> que viven aquí.</example>
                 <example correction="Nuestra sucursal|Nuestras sucursales"><marker>Nuestros sucursales</marker> abren mañana.</example>
+                <example correction="esta reforma|estas reformas">Todas <marker>esta reformas</marker> fueron corroboradas.</example>
                 <example>sus hermanos</example>
                 <example>Los polis y las polis.</example>
                 <example>El agua.</example>
