@@ -13263,17 +13263,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=preposicions+%2B+que&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=13067&amp;idHit=13067&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27t%27adones+de+que%27+o+%27t%27adones+que%27%3F+%2F+Les+preposicions+%27a%27%2C+%27de%27%2C+%27en%27+i+%27amb%27+davant+de+la+conjunci%F3+%27que%27+%2F+Nova+gram%E0tica&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <antipattern>
                 <!--doblets de gènere: el xiquet/a que-->
-                <marker>
                     <token postag="[AN].*MS.*" postag_regexp="yes"/>
                     <token spacebefore="no">/</token>
                     <token spacebefore="no">a</token>
-                </marker>
             </antipattern>
             <antipattern>
-                <marker>
                     <token>què</token>
                     <token>?</token>
-                </marker>
             </antipattern>
             <rule>
                 <pattern>
@@ -14019,7 +14015,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
-        <rule id="EN_CONTRARI" name="en contrari/en contra">
+        <rule id="DEGUT_QUE" name="*degut que">
+            <pattern>
+                <marker>
+                    <token>degut</token>
+                    <token regexp="yes">que|què</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta en el sentit de <suggestion>pel fet que</suggestion>.</message>
+            <suggestion>perquè</suggestion>
+            <suggestion>ja que</suggestion>
+            <suggestion>com que</suggestion>
+            <suggestion>a causa del fet que</suggestion>
+            <suggestion>gràcies al fet que</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/degut_a</url>
+            <example correction="pel fet que|perquè|ja que|com que|a causa del fet que|gràcies al fet que">No vingué <marker>degut que</marker> tenia febre.</example>
+        </rule>
+        <rule id="EN_CONTRARI" name="*en contrari/en contra">
             <pattern>
                 <token>en</token>
                 <token>contrari</token>
