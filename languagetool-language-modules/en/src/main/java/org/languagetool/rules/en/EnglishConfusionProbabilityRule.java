@@ -428,6 +428,12 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      // "Those wee changes made a big difference"
+      tokenRegex("the|these|those"),
+      token("wee"),
+      posRegex("NNS")
+    ),
+    Arrays.asList(
       // way vs was: This way a person could learn ....
       token("this"),
       token("way"),
