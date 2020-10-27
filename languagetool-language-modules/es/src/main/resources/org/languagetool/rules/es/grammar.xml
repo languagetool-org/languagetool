@@ -7079,6 +7079,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
+        <rule id="DOS_VERBOS_MODALES" name="dos verbos modales seguidos" default="temp_off">
+            <antipattern>
+                <token inflected="yes" regexp="yes">seguir|continuar|proseguir</token>
+                <token postag="V.G.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token inflected="yes" regexp="yes">parecer|poder|deber|querer|quedar|estar|ser|permanecer|restar|seguir|continuar|proseguir</token>
+                <marker>
+                    <token inflected="yes" regexp="yes">parecer|poder|deber|querer|quedar|estar|ser|permanecer|restar|seguir|continuar<exception postag="V.N.*" postag_regexp="yes"/></token>
+                </marker>
+                <token postag="V.P.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Posible confusión.</message>
+            <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="V.N...."/></suggestion>
+            <example correction="quedar">Pueden <marker>quedan</marker> sintetizados.</example>
+            <example correction="parecer">Pueden <marker>parecen</marker> cansados.</example>
+            <example>Siguen estando cansados.</example>
+        </rule>
         <rulegroup id="DOS_VERBOS" name="dos verbos juntos" default="temp_off">
             <!-- better disambiguation needed -->
             <antipattern>
