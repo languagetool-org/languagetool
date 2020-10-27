@@ -4980,6 +4980,64 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rulegroup id="MERZ_MÄRZ" name="März vs Merz" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="1">im|bis|Monat|ersten|zweiten|dritten|vierten|anfang|mitte|ende</token>
+                    <marker>
+                        <token>Merz</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie den Monat <suggestion>März</suggestion>?</message>
+                <example correction="März">Ich schaue im <marker>Merz</marker> nochmal vorbei.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>von</token>
+                    <marker>
+                        <token skip="3">Merz</token>
+                    </marker>
+                    <token>bis</token>
+                </pattern>
+                <message>Meinten Sie den Monat <suggestion>März</suggestion>?</message>
+                <example correction="März">Von <marker>Merz</marker> bis April.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[1-9]|0[1-9]|2[0-9]|30|31</token>
+                    <token>.</token>
+                    <marker>
+                        <token>Merz</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie den Monat <suggestion>März</suggestion>?</message>
+                <example correction="März">Am 8. <marker>Merz</marker> findet das Meeting statt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>Merz</token>
+                    </marker>
+                    <token regexp="yes">[12]\d{3}</token>
+                </pattern>
+                <message>Meinten Sie den Monat <suggestion>März</suggestion>?</message>
+                <example correction="März"><marker>Merz</marker> 2020</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Friedrich</token>
+                    <token>Merz</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">Frie?dr?ich</token>
+                    <token regexp="yes">M[eä]rz</token>
+                </pattern>
+                <message>Meinten Sie den Politiker <suggestion>Friedrich Merz</suggestion>?</message>
+                <url>https://de.wikipedia.org/wiki/Friedrich_Merz</url>
+                <example correction="Friedrich Merz"><marker>Friedrich März</marker> ist ein deutscher Politiker.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="VEREINT_VEREINIGT" name="Vereinigten Nationen (Vereinten Nationen)">
             <rule>
                 <pattern>
