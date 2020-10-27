@@ -4410,6 +4410,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">ser</token>
                     <token>esta</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="NC[FC]P000|_GN_FP" postag_regexp="yes"/>
+                    <token>como</token>
+                    <token>esta</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>esta</token>
@@ -4439,6 +4444,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>es esta una de las mejores</example>
                 <example>por ser esta la casa matriz</example>
                 <example>No ha sido esta la vía elegida.</example>
+                <example>Habrá muchas escenas como esta en los próximos programas.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -7084,8 +7090,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes" regexp="yes">seguir|continuar|proseguir|estar</token>
                 <token postag="V.G.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token>al</token>
+                <token>parecer</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">si</token>
+                <token postag="V.IC.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
-                <token inflected="yes" regexp="yes">parecer|poder|deber|querer|quedar|estar|ser|permanecer|restar|seguir|continuar|proseguir<exception scope="previous">que</exception><exception postag="RG"></exception></token>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">parecer|poder|deber|querer|quedar|estar|ser|permanecer|restar|seguir|continuar|proseguir<exception scope="previous">que</exception><exception postag="RG"></exception></token>
                 <marker>
                     <token inflected="yes" regexp="yes">parecer|poder|deber|querer|quedar|estar|ser|permanecer|restar|seguir|continuar<exception postag="V.N.*" postag_regexp="yes"/></token>
                 </marker>
@@ -7100,6 +7114,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Los zapatos rojos que querías están agotados.</example>
             <example>Nos estamos quedando dormidos.</example>
             <example>Fuera está nevado.</example>
+            <example>La teoría de la separación de los poderes es atribuida a Montesquieu.</example>
+            <example>El cuarto de estar está hecho una leonera.</example>
+            <example>Si se pudiera estaría abierto durante 8 días a la semana.</example>
         </rule>
         <rulegroup id="DOS_VERBOS" name="dos verbos juntos" default="temp_off">
             <!-- better disambiguation needed -->
