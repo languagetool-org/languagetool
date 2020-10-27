@@ -7082,9 +7082,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="DOS_VERBOS" name="dos verbos juntos" default="temp_off">
             <!-- better disambiguation needed -->
             <antipattern>
-                <token regexp="yes">hace|hacía</token>
-                <token postag="D[IN].*" postag_regexp="yes"/>
-                <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
+                <token regexp="yes" skip="5">hace|hacía</token>
+                <token regexp="yes" inflected="yes">&unidades_tiempo;|rato|instante|momento</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -7115,7 +7114,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Murió hace tres años.</example>
                 <example>Empezó hace diez minutos.</example>
                 <example>El sacrificio era visto como un medio.</example>
-                <!-- No tenemos pruebas de que eso realmente sucederá. -->
+                <!-- No tenemos pruebas de que eso realmente sucederá.
+                Mañana hay prueba de matemáticas.-->
             </rule>
         </rulegroup>
         <rulegroup id="TE_HAY" name="*te hay">
@@ -14476,19 +14476,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ABREV_HORA" name="abreviatura de horas, gramos" default="on">
             <rule>
                 <pattern>
-                    <token>hrs</token>
-                    <token>.<exception postag="SENT_END"/></token>
+                    <token regexp="yes">[\d.,]+</token>
+                    <marker>
+                        <token>hrs</token>
+                        <token>.<exception postag="SENT_END"/></token>
+                    </marker>
                 </pattern>
                 <message>Para indicar horas se usa el símbolo h, en minúscula y sin punto.</message>
-                <suggestion>h</suggestion>
+                <suggestion><match no="1" case_conversion="alllower" regexp_match=".+" regexp_replace="h"/></suggestion>
                 <example correction="h">A las 5 <marker>hrs.</marker> del domingo.</example>
+                <example correction="h">A las 5 <marker>HRS.</marker> del domingo.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>hrs</token>
                 </pattern>
                 <message>Para indicar horas se usa el símbolo h, en minúscula y sin punto.</message>
-                <suggestion>h</suggestion>
+                <suggestion><match no="1" case_conversion="alllower" regexp_match=".+" regexp_replace="h"/></suggestion>
                 <example correction="h">A las 5 <marker>hrs</marker>.</example>
             </rule>
             <rule>
@@ -14497,7 +14501,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>.<exception postag="SENT_END"/></token>
                 </pattern>
                 <message>Para indicar horas se usa el símbolo h, en minúscula y sin punto.</message>
-                <suggestion><match no="1" regexp_match="(\d+)h.*" regexp_replace="$1 h"/></suggestion>
+                <suggestion><match no="1" regexp_match="(\d+)h.*" regexp_replace="$1 h" case_conversion="alllower"/></suggestion>
                 <example correction="5 h">A las <marker>5hrs.</marker> del domingo.</example>
             </rule>
             <rule>
@@ -14505,11 +14509,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\d+(hrs|hr|hs)</token>
                 </pattern>
                 <message>Para indicar horas se usa el símbolo h, en minúscula y sin punto.</message>
-                <suggestion><match no="1" regexp_match="(\d+)h.*" regexp_replace="$1 h"/></suggestion>
+                <suggestion><match no="1" regexp_match="(\d+)h.*" regexp_replace="$1 h" case_conversion="alllower"/></suggestion>
                 <example correction="5 h">A las <marker>5hs</marker>.</example>
                 <example correction="48 h">A las <marker>48hrs</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>h</token>
                     <!--habitants-->
