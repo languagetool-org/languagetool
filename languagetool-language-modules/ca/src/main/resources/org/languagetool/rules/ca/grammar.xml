@@ -49544,20 +49544,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="amb comptagotes|a gotes">Ho fan <marker>a comptagotes</marker>.</example>
             <example>Flascons per a comptagotes.</example>
         </rule>
-        <rule id="TIPUS_DE_LLETRA" name="*tipus de lletra">
-            <pattern>
-                <token>tipus</token>
-                <token>de</token>
-                <token>lletra</token>
-            </pattern>
-            <message>D'acord amb el Termcat, és preferible utilitzar una altra expressió.</message>
-            <suggestion>lletra</suggestion>
-            <suggestion>família</suggestion>
-            <suggestion>lletra tipogràfica</suggestion>
-            <suggestion>família tipogràfica</suggestion>
-            <url>https://www.termcat.cat/ca/cercaterm/lletra%20tipogr%C3%A0fica?type=basic&amp;thematic_area=&amp;language=</url>
-            <example correction="lletra|família|lletra tipogràfica|família tipogràfica">No m'agrada gens aquest <marker>tipus de lletra</marker>.</example>
-        </rule>
+        <rulegroup id="TIPUS_DE_LLETRA" name="*tipus de lletra">
+            <rule>
+                <pattern>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token>tipus</token>
+                    <token>de</token>
+                    <token>lletra</token>
+                </pattern>
+                <message>D'acord amb el Termcat, és preferible utilitzar una altra expressió.</message>
+                <suggestion><match no="1" postag="(D..).([SP].)" postag_regexp="yes" postag_replace="$1F$2"/> <match no="1" postag="D...([SP])." postag_regexp="yes" postag_replace="NCF$1000">lletra</match></suggestion>
+                <suggestion><match no="1" postag="(D..).([SP].)" postag_regexp="yes" postag_replace="$1F$2"/> <match no="1" postag="D...([SP])." postag_regexp="yes" postag_replace="NCF$1000">família</match></suggestion>
+                <suggestion><match no="1" postag="(D..).([SP].)" postag_regexp="yes" postag_replace="$1F$2"/> <match no="1" postag="D...([SP])." postag_regexp="yes" postag_replace="NCF$1000">lletra</match> <match no="1" postag="D...([SP])." postag_regexp="yes" postag_replace="AQ0F$10">tipogràfic</match></suggestion>
+                <suggestion><match no="1" postag="(D..).([SP].)" postag_regexp="yes" postag_replace="$1F$2"/> <match no="1" postag="D...([SP])." postag_regexp="yes" postag_replace="NCF$1000">família</match> <match no="1" postag="D...([SP])." postag_regexp="yes" postag_replace="AQ0F$10">tipogràfic</match></suggestion>
+                <url>https://www.termcat.cat/ca/cercaterm/lletra%20tipogr%C3%A0fica?type=basic&amp;thematic_area=&amp;language=</url>
+                <example correction="aquesta lletra|aquesta família|aquesta lletra tipogràfica|aquesta família tipogràfica">No m'agrada gens <marker>aquest tipus de lletra</marker>.</example>
+                <example correction="les lletres|les famílies|les lletres tipogràfiques|les famílies tipogràfiques">No m'agraden gens <marker>els tipus de lletra</marker> d'aquesta empresa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>tipus</token>
+                    <token>de</token>
+                    <token>lletra</token>
+                </pattern>
+                <message>D'acord amb el Termcat, és preferible utilitzar una altra expressió.</message>
+                <suggestion>lletra</suggestion>
+                <suggestion>lletres</suggestion>
+                <suggestion>família</suggestion>
+                <suggestion>famílies</suggestion>
+                <suggestion>lletra tipogràfica</suggestion>
+                <suggestion>lletres tipogràfiques</suggestion>
+                <suggestion>família tipogràfica</suggestion>
+                <suggestion>famílies tipogràfiques</suggestion>
+                <url>https://www.termcat.cat/ca/cercaterm/lletra%20tipogr%C3%A0fica?type=basic&amp;thematic_area=&amp;language=</url>
+                <example correction="lletra|lletres|família|famílies|lletra tipogràfica|lletres tipogràfiques|família tipogràfica|famílies tipogràfiques">No m'agrada gens aquest <marker>tipus de lletra</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PELOTAZO" name="pelotazo">
             <rule>
                 <pattern>
