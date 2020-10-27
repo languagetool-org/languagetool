@@ -2409,6 +2409,18 @@ title="Easy editing stylesheet" ?>
 		  <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
 	  </antipattern> 
 <!-- MARCOAGPINTO 2020-10-02 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-10-27 (21-OCT-2020+) *START* -->
+<!-- "As simulações deviam ser o mais realistas que há." -->
+<!-- "As simulações devem ser o mais realistas que há." -->
+<!-- "As simulações são o mais realistas que há." -->
+      <antipattern>
+		  <token postag='VM..3P0' postag_regexp='yes'/>
+          <token min="0" max="1" postag='VMN0000'></token>
+		  <token postag='DA0MS0|PD0MS000|PP3MSA00' postag_regexp='yes'/>
+          <token postag='RG'></token>
+		  <token postag='AQ0[CFM]P0|NC[CFM]P000' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-10-27 (21-OCT-2020+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
@@ -2441,6 +2453,8 @@ title="Easy editing stylesheet" ?>
 	  <example type='correct'>Apenas testemunhos sem <marker>fim recebidos</marker> de todo o mundo.</example>
 	  <example type='correct'>Apenas testemunhos sem <marker>conta recebidos</marker> de todo o mundo.</example>
 	 <example type='correct'>Apenas testemunhas sem <marker>fim recebidas</marker> de todo o mundo.</example>
+	 <example type='correct'>As simulações <marker>devem ser</marker> o mais realistas que há.</example>
+	 <example type='correct'>As simulações <marker>são</marker> o mais realistas que há.</example>
     </rule>
     <rule>
       <antipattern>
