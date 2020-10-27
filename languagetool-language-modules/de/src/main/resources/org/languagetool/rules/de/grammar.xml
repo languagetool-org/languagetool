@@ -43,7 +43,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY klamzu "\)|\}|\&rsqb;|&gt;">
     <!ENTITY klam "&klamauf;|&klamzu;">
     <!ENTITY alnum "&lsqb;0-9A-ZÄÖÜa-zäöüßáàâêéèëíìîïòóôõûçñšž&rsqb;">
-    <!ENTITY sometlds "com|de|net|edu|uk|org|info|nl|eu|cn|biz|at|ch|fr|tv|to|fm|es|it|gov|mil|mx|pt|dev|us|sg|me|io|app|shop|club|games|in|co|cloud|no|se|dk|ie|cc|tk|ai|au|nz|za|cm|ng|tw|jp|kg|ag|site|int|my|ir|pk|mobi|asia|hk|mz|xyz|design">
+    <!ENTITY sometlds "com|de|net|edu|uk|org|info|nl|eu|cn|biz|at|ch|fr|tv|to|fm|es|it|gov|mil|mx|pt|dev|us|sg|me|io|app|shop|club|games|in|co|cloud|no|se|dk|ie|cc|tk|ai|au|nz|za|cm|ng|tw|jp|kg|ag|site|int|my|ir|pk|mobi|asia|hk|mz|xyz|design|ventures|services|cat|ly">
 
     <!-- Error messages -->
     <!ENTITY gla "Bitte verwenden Sie in Abkürzungen umbruchgeschützte Leerzeichen.">
@@ -9599,7 +9599,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="NOM_GEN_COMPOUND" name="wegen des iPhone Angebots (iPhone-Angebots)" default="temp_off">
+        <rule id="NOM_GEN_COMPOUND" name="wegen des iPhone Angebots (iPhone-Angebots)">
             <pattern>
                     <token regexp="yes">Wegen|(Ab|Zu)züglich|Angesichts|Abseits|Anhand|Aufgrund|Infolge|Innerhalb|Außerhalb|Ausserhalb|Jenseits|Kraft|Mithilfe|Namens|Seitens|Unfern|Zwecks|Hinsichtlich</token>
                     <token regexp="yes">des|ihres|[dms]?eines|unseres|dieses|jenes|eures</token>
@@ -9916,7 +9916,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern><!-- "einen Plug in den Arsch stecken" -->
                 <token>Plug</token>
                 <token>in</token>
-                <token regexp="yes">den|die|der|das</token>
+                <token regexp="yes">den|die|der|das|[dms]eine[nm]|ihren</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -19151,7 +19151,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Das Nomen <suggestion><match no="1" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
                 <example correction="Pause">Ich werde eine <marker>pause</marker> machen.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">haben?|hatten?|macht?en?|machen?</token>
                     <token regexp="yes" min="0">nachher|jetzt|morgen|gestern|nun</token>
