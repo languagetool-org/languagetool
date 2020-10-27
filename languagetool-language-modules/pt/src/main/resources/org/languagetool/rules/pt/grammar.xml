@@ -1041,6 +1041,16 @@ title="Easy editing stylesheet" ?>
 		  <token postag='NC[CM]S000|AQ0[CM]S0' postag_regexp='yes'/>
 	  </antipattern>		  
 <!-- MARCOAGPINTO 2020-09-30 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-10-27 (21-OCT-2020+) *START* -->
+<!-- "Precisa agora de estar em quarentena 1 dia." -->
+<!-- "Precisa agora de estar em quarentena 14 dias." -->
+<!-- "Precisa agora de estar em quarentena 14 horas." -->
+      <antipattern>
+		  <token postag='NC[CF]S000' postag_regexp='yes'/>
+		  <token postag='Z0CN0'></token>
+		  <token postag='AQ0[CFM][SP]0|NC[CFM][SP]000' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-10-27 (21-OCT-2020+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>o|e|de|&hifen;</token> <!-- MARCOAGPINTO 2019-12-31 -->
         <marker>
@@ -1076,6 +1086,9 @@ title="Easy editing stylesheet" ?>
 	  <example type='correct'>Apenas testemunhas sem <marker>fim recebidas</marker> de todo o mundo.</example>
 	  <example type='correct'>A <marker>emoção Corinthians</marker>.</example>
 	  <example type='correct'>Ver na <marker>pasta SPAM</marker> caso nenhum link chegue.</example>
+	  <example type='correct'>Precisa agora de estar em <marker>quarentena 1 dia</marker>.</example>
+	  <example type='correct'>Precisa agora de estar em <marker>quarentena 14 dias</marker>.</example>
+	  <example type='correct'>Precisa agora de estar em <marker>quarentena 14 horas</marker>.</example>
     </rule>
     <rule>
       <antipattern>
