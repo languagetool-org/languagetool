@@ -13405,6 +13405,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token>eramos</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>éramos</suggestion> (v. 'ser') o <suggestion>erramos</suggestion> (v. 'errar')? "Eramos" del v. 'erar' es poco usual.</message>
+                <example correction="éramos|erramos">Entonces <marker>eramos</marker> felices.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>ere</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>ERE</suggestion> (expediente de regulación de empleo) o <suggestion>eres</suggestion> v. 'ser'?</message>
+                <!--  "Ere" del v. 'erar' es poco usual.-->
+                <example correction="ERE|eres">Tú <marker>ere</marker> el mejor.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token inflected="yes">erar<exception inflected="yes" negate="yes">erar</exception></token>
                 </pattern>
                 <message>¿Quería decir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">errar</match></suggestion>? 'Erar' es un verbo poco usual.</message>
