@@ -34910,10 +34910,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Construcció incorrecta. Feu servir la preposició 'a' o una expressió alternativa.</message>
             <suggestion><match no="1" include_skipped="all"/> a desitjar</suggestion>
-            <suggestion><match no="1" postag="V.(.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> imperfecte</suggestion>
-            <suggestion><match no="1" postag="V.(.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> defectuós</suggestion>
-            <suggestion><match no="1" postag="V.(.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> mediocre</suggestion>
-            <suggestion><match no="1" postag="V.(.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> fluix</suggestion>
+            <suggestion><match no="1" postag="V.([^M].*)" postag_regexp="yes" postag_replace="VS$1">ser</match> <match no="1" postag="V.[^M]..([SP]).." postag_regexp="yes" postag_replace="AQ0[MC]$10">imperfecte</match></suggestion>
+            <suggestion><match no="1" postag="V.([^M].*)" postag_regexp="yes" postag_replace="VS$1">ser</match> <match no="1" postag="V.[^M]..([SP]).." postag_regexp="yes" postag_replace="AQ0M$10">defectuós</match></suggestion>
+            <suggestion><match no="1" postag="V.([^M].*)" postag_regexp="yes" postag_replace="VS$1">ser</match> <match no="1" postag="V.[^M]..([SP]).." postag_regexp="yes" postag_replace="AQ0C$10">mediocre</match></suggestion>
+            <suggestion><match no="1" postag="V.([^M].*)" postag_regexp="yes" postag_replace="VS$1">ser</match> <match no="1" postag="V.[^M]..([SP]).." postag_regexp="yes" postag_replace="AQ0M$10">fluix</match></suggestion>
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=deixar+que+desitjar&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=11346&amp;idHit=11346&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%C9s+correcte+deixar+a+desitjar+en+catal%E0%3F+%2F+Com+es+diu+dejar+que+desear+en+catal%E0%3F&amp;tematica=&amp;tipusCerca=cerca.tot</url>
             <example correction="deixava molt a desitjar|era imperfecte|era defectuós|era mediocre|era fluix">Allò <marker>deixava molt que desitjar</marker></example>
             <example correction="deixava a desitjar|era imperfecte|era defectuós|era mediocre|era fluix">Allò <marker>deixava que desitjar</marker></example>
@@ -34922,6 +34922,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="deixava res a desitjar|era imperfecte|era defectuós|era mediocre|era fluix">Allò no <marker>deixava res que desitjar</marker></example>
             <example correction="deixava gens a desitjar|era imperfecte|era defectuós|era mediocre|era fluix">Allò <marker>deixava gens que desitjar</marker></example>
             <example correction="deixava alguna cosa a desitjar|era imperfecte|era defectuós|era mediocre|era fluix">Allò <marker>deixava alguna cosa que desitjar</marker></example>
+            <example correction="Deixen molt a desitjar|Són imperfectes|Són defectuosos|Són mediocres|Són fluixos"><marker>Deixen molt que desitjar</marker>.</example>
         </rule>
         <rule id="DE_PER_SI_MATEIX" name="de per si mateix / per si mateix">
             <pattern>
@@ -56738,6 +56739,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>el</token>
                 <token>concepte</token>
+            </antipattern>
+            <antipattern>
+                <token>la</token>
+                <token>forma</token>
             </antipattern>
             <antipattern>
                 <token/>
