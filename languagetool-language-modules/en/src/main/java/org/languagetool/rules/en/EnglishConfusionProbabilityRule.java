@@ -536,6 +536,14 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       token("us"), // vs "is"
       tokenRegex("based|depending"),
       token("on")
+    ),
+    Arrays.asList(
+      // How Apple and FB do events:
+      token("how"),
+      posRegex("NNP"),
+      tokenRegex("and|&"),
+      posRegex("NNP"),
+      token("do") // vs 'to'
     )
   );
 

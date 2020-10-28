@@ -345,6 +345,9 @@ public class AdverbFilter extends RuleFilter {
     put("undoubtedly", "undoubted");
     put("humanly", "human");
     put("likewise", "similar"); // special case
+    put("intrinsically", "intrinsic");
+    put("substantially", "substantial");
+    put("suspiciously", "suspicious");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
