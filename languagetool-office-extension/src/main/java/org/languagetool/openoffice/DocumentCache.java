@@ -44,6 +44,7 @@ public class DocumentCache implements Serializable {
   private List<Integer> toTextMapping = new ArrayList<>();  //  Mapping from FlatParagraph to DocumentCursor
   private List<Integer> toParaMapping = new ArrayList<>();  //  Mapping from DocumentCursor to FlatParagraph
   private int defaultParaCheck;
+  private boolean isReset = false;
 
   DocumentCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, int defaultParaCheck) {
     debugMode = OfficeTools.DEBUG_MODE_DC;
@@ -52,6 +53,7 @@ public class DocumentCache implements Serializable {
   }
   
   public void reset(DocumentCursorTools docCursor, FlatParagraphTools flatPara) {
+    isReset = true;
     List<String> textParas = docCursor.getAllTextParagraphs();
     ParagraphContainer paragraphContainer = null;
     if (textParas != null) {
@@ -59,6 +61,7 @@ public class DocumentCache implements Serializable {
       paragraphContainer = flatPara.getAllFlatParagraphs();
       if (paragraphContainer == null) {
         MessageHandler.printToLogFile("paragraphContainer == null - ParagraphCache not initialised");
+        isReset = false;
         return;
       }
       paragraphs = paragraphContainer.paragraphs;
@@ -70,6 +73,7 @@ public class DocumentCache implements Serializable {
     }
     if (paragraphs == null) {
       MessageHandler.printToLogFile("paragraphs == null - ParagraphCache not initialised");
+      isReset = false;
       return;
     }
     if (debugMode) {
@@ -95,6 +99,7 @@ public class DocumentCache implements Serializable {
         }
       }
       prepareChapterBegins();
+      isReset = false;
       if (debugMode) {
         MessageHandler.printToLogFile("\n\ntoParaMapping:");
         for (int i = 0; i < toParaMapping.size(); i++) {
@@ -118,6 +123,20 @@ public class DocumentCache implements Serializable {
         MessageHandler.printToLogFile("Number of locales: " + locales.size());
       }
     }
+  }
+  
+  /**
+   * wait till reset is finished
+   */
+  public boolean isFinished() {
+    while (isReset) {
+      try {
+        Thread.sleep(5);
+      } catch (InterruptedException e) {
+        MessageHandler.showError(e);
+      }
+    }
+    return true;
   }
   
   /**

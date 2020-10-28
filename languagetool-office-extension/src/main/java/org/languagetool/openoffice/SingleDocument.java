@@ -1056,19 +1056,19 @@ class SingleDocument {
   public QueueEntry getNextQueueEntry(int nPara, int nCache) {
     if (docCache != null) {
       for(int i = nPara + 1; i < docCache.textSize(); i++) {
-        if(paragraphsCache.get(nCache).getEntryByParagraph(docCache.getFlatParagraphNumber(i)) == null) {
+        if(docCache.isFinished() && paragraphsCache.get(nCache).getEntryByParagraph(docCache.getFlatParagraphNumber(i)) == null) {
           return createQueueEntry(i, nCache);
         }
       }
       for(int i = 0; i < nPara; i++) {
-        if(paragraphsCache.get(nCache).getEntryByParagraph(docCache.getFlatParagraphNumber(i)) == null) {
+        if(docCache.isFinished() && paragraphsCache.get(nCache).getEntryByParagraph(docCache.getFlatParagraphNumber(i)) == null) {
           return createQueueEntry(i, nCache);
         }
       }
       for(int n = 0; n < minToCheckPara.size(); n++) {
         if(n != nCache && minToCheckPara.get(n) != 0) {
           for(int i = 0; i < docCache.textSize(); i++) {
-            if(paragraphsCache.get(n).getEntryByParagraph(docCache.getFlatParagraphNumber(i)) == null) {
+            if(docCache.isFinished() && paragraphsCache.get(n).getEntryByParagraph(docCache.getFlatParagraphNumber(i)) == null) {
               return createQueueEntry(i, n);
             }
           }
@@ -1082,7 +1082,9 @@ class SingleDocument {
    * run a text level check from a queue entry (initiated by the queue)
    */
   public void runQueueEntry(int nStart, int nEnd, int cacheNum, int nCheck, boolean doReset, SwJLanguageTool langTool) {
-    addParaErrorsToCache(docCache.getFlatParagraphNumber(nStart), langTool, cacheNum, nCheck, doReset, false);
+    if (docCache.isFinished()) {
+      addParaErrorsToCache(docCache.getFlatParagraphNumber(nStart), langTool, cacheNum, nCheck, doReset, false);
+    }
   }
 
   /**
