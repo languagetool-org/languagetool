@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class BaseSynthesizer implements Synthesizer {
 
@@ -188,7 +189,13 @@ public class BaseSynthesizer implements Synthesizer {
   public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException {
     if (posTagRegExp) {
       initPossibleTags();
-      Pattern p = Pattern.compile(posTag);
+      Pattern p;
+      try {
+        p = Pattern.compile(posTag);
+      } catch (PatternSyntaxException e) {
+        throw new RuntimeException("Error trying to synthesize POS tag " + posTag +
+                " (posTagRegExp: " + posTagRegExp + ") from token " + token.getToken(), e);
+      }
       List<String> results = new ArrayList<>();
       for (String tag : possibleTags) {
         Matcher m = p.matcher(tag);
