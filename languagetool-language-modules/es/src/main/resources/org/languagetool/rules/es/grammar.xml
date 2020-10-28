@@ -7085,7 +7085,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="no">-</token>
                 <token regexp="yes" spacebefore="no">[A-Z]+</token>
             </antipattern>
+            <!--<antipattern>
+                 common excepcions
+                <token regexp="yes">CDC|IC|VC|IMC|IM|ICC|LM|CMDX|CMD|CCM</token>
+            </antipattern>-->
             <pattern case_sensitive="yes">
+                <token regexp="yes" inflected="yes">siglo|apartado|capítulo|sección|parte</token>
                 <marker>
                     <token regexp="yes" spacebefore="yes">[MCDXLVI]+ <exception regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</exception> <exception postag="[RYANDV].*|.*LOC.*" postag_regexp="yes"/> <exception regexp="yes">XML|DLL</exception></token>
                 </marker>

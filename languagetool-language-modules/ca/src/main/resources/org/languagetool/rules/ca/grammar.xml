@@ -8817,17 +8817,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" spacebefore="no">[A-Z]+</token>
             </antipattern>
             <rule>
-                <pattern case_sensitive="yes">
+                <pattern>
+                    <token inflected="yes" regexp="yes">segle|capítol|apartat|secció|part</token>
                     <marker>
                         <token regexp="yes" spacebefore="yes">[MCDXLVI]+<exception regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</exception><exception postag="[RYANDV].*|.*LOC.*" postag_regexp="yes"/><exception regexp="yes">XML|DLL</exception></token>
                     </marker>
                 </pattern>
                 <message>Nombre romà incorrecte.</message>
-                <example correction="">Hi ha <marker>XXIVIIV</marker> solucions.</example>
+                <example correction="">Va passar en el segle <marker>XXIVIIV</marker>.</example>
                 <example>Hi ha XXI solucions.</example>
                 <example>VI Trobada Excursionista</example>
             </rule>
-            <rule>
+            <!--<rule>
                 <pattern case_sensitive="yes">
                     <marker>
                         <token regexp="yes" spacebefore="yes">[mcdxlvi]+<exception regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</exception><exception postag="[RYANDV].*|.*LOC.*" postag_regexp="yes"/><exception>dvd</exception></token>
@@ -8839,7 +8840,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tinc mil coses</example>
                 <example>És d'obra civil.</example>
                 <example>Al cim del cimbori.</example>
-            </rule>
+            </rule>-->
         </rulegroup>
     </category>
     <category id="ADVERBS" name="Z) Adverbis" type="grammar">
