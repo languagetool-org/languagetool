@@ -4980,10 +4980,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
-        <rulegroup id="MERZ_MÄRZ" name="März vs Merz" default="temp_off">
+        <rulegroup id="MERZ_MÄRZ" name="März vs Merz">
+            <antipattern case_sensitive="yes">
+                <token>Friedrich</token>
+                <token>Merz</token>
+            </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes" skip="1">im|bis|Monat|ersten|zweiten|dritten|vierten|anfang|mitte|ende</token>
+                    <token regexp="yes">ab|im|bis|Monat(e[ns]?)?|ersten|zweiten|dritten|vierten|fünften|sechsten|siebten|anfang|mitte|ende|nächste[rn]?|letzte[rn]?|vorherige[rn]?</token>
                     <marker>
                         <token>Merz</token>
                     </marker>
@@ -5025,10 +5029,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="März"><marker>Merz</marker> 2020</example>
             </rule>
             <rule>
-                <antipattern case_sensitive="yes">
-                    <token>Friedrich</token>
-                    <token>Merz</token>
-                </antipattern>
                 <pattern>
                     <token regexp="yes">Frie?dr?ich</token>
                     <token regexp="yes">M[eä]rz</token>
@@ -5036,6 +5036,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie den Politiker <suggestion>Friedrich Merz</suggestion>?</message>
                 <url>https://de.wikipedia.org/wiki/Friedrich_Merz</url>
                 <example correction="Friedrich Merz"><marker>Friedrich März</marker> ist ein deutscher Politiker.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Merz</token>
+                    </marker>
+                    <token regexp="yes">[\-,–]|bis</token>
+                    <token regexp="yes">&monate;</token>
+                </pattern>
+                <message>Meinten Sie den Monat <suggestion>März</suggestion>?</message>
+                <example correction="März">Von <marker>Merz</marker> - April</example>
             </rule>
         </rulegroup>
         <rulegroup id="VEREINT_VEREINIGT" name="Vereinigten Nationen (Vereinten Nationen)">
@@ -37048,13 +37059,14 @@ Andere Projekte</example>
                     <marker>
                         <token regexp="yes">abseits|abzüglich|angelegentlich|angesichts|anhand|anlässlich|anstelle|aufgrund|aufseiten|ausgangs|außerhalb|ausserhalb|ausweislich|behufs|beiderseits|beidseits|betreffs|bezüglich|dank|diesseits|eingangs|eingedenk|einschließlich|einschliesslich|fernab|hinsichtlich|infolge|inklusive|inmitten|innerhalb|innert|inpuncto|jenseits|kraft|längs|längsseits|mangels|mithilfe|mittels|namens|nördlich|oberhalb|östlich|rücksichtlich|seitens|seitlich|seitwärts|südlich|trotz|unbeschadet|uneingedenk|unerachtet|unfern|ungeachtet|ungerechnet|unterhalb|unweit|vermittels(t)|vermöge|vonseiten|vorbehaltlich|vorbehältlich|wegen|weitab|willen|zeit|zugunsten|zuhanden|zulasten|zuseiten|zuungunsten|zuzüglich|zwecks</token>
                         <token regexp="yes">den|[Ii]hrem|[Ddms]?einen|unseren|diesen|jenen|[Ee]uren</token>
-                        <token postag="SUB:GEN:SIN:(MAS|FEM|NEU)" postag_regexp="yes">
+                        <token postag="ADJ:DAT:SIN:NEU:GRU:IND" min="0" />
+                        <token postag="SUB:(GEN|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes">
                             <exception scope="next" postag="SUB:GEN:SIN:(MAS|FEM|NEU)" postag_regexp="yes" />
                         </token>
                     </marker>
                 </pattern>
                 <message>Die Präposition '\2' erfordert in der Regel den Genitiv.</message>
-                <suggestion>\2 <match no="3" regexp_match="[mn]$" regexp_replace="s" /> <match no="4" postag="SUB:GEN:SIN:.+" postag_regexp="yes" /></suggestion>
+                <suggestion>\2 <match no="3" regexp_match="[mn]$" regexp_replace="s" /> \4 <match no="5" postag="SUB:GEN:SIN:.+" postag_regexp="yes" /></suggestion>
                 <short>Diese Präposition erfordert den Genitiv</short>
                 <example correction="bezüglich unseres Termines|bezüglich unseres Termins">Ich würde mich <marker>bezüglich unseren Termins</marker> noch einmal melden.</example>
             </rule>
@@ -38140,6 +38152,7 @@ Andere Projekte</example>
                     <token postag_regexp="yes" postag="SUB:DAT:SIN:...">
                         <exception postag_regexp="yes" postag="SUB:.*PLU.+"/>
                         <exception regexp="yes">\w*[gG]ramm</exception>
+                        <exception scope="next" postag="SUB:DAT:PLU:.+" postag_regexp="yes" />
                     </token>
                 </pattern>
                 <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion>.</message>
