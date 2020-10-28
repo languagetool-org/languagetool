@@ -5434,6 +5434,17 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rule id="ignore_initials" name="ignorar iniciales en nombres propios">
+        <pattern>
+            <token regexp="yes">\p{Lu}.*</token>
+            <marker>
+                <token regexp="yes">[A-Z]</token>
+            </marker>
+            <token spacebefore="no">.</token>
+            <token regexp="yes">\p{Lu}.*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="Ignore spelling of @user mentions" id="IGNORE_USER_MENTION">
         <pattern>
             <token regexp="yes">@.+</token>
