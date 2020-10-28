@@ -9744,28 +9744,82 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Tienen <marker>previsto</marker> los dioses hacerme una visita?</example>
             </rule>
         </rulegroup>
-        <rule id="AGREEMENT_QUEDAR_VP" name="concordancia: quedar + participio + el">
-            <pattern>
-                <token inflected="yes">quedar</token>
-                <unify negate="yes">
-                    <feature id="genero"/>
-                    <feature id="numero"/>
-                    <marker>
-                        <token postag="V.P.*" postag_regexp="yes"/>
-                        <token postag="DA.[MF][SP]." postag_regexp="yes"/>
-                    </marker>
-                    <token><exception regexp="yes" inflected="yes">&dias_semana;|&meses_ano;|&partes_dia;|&unidades_tiempo;|arapo|trozo|triza|uno|otro|momento|tiempo|ceniza</exception></token>
-                </unify>
-            </pattern>
-            <message>Esta expresión debe concordar en género y número.</message>
-            <example correction="">De esta forma queda <marker>garantizado la</marker> comercialización.</example>
-            <example>los camiones que queden descargados el jueves</example>
-            <example>El hecho es que se quedó dormido esa mañana.</example>
-            <example>Ella se quedó sentada unos momentos más</example>
-            <example>quedó hecha un arapo</example>
-            <example>ambos quedan prendados el uno del otro</example>
-            <example>Queda abolido lo que era ceremonial.</example>
-        </rule>
+        <rulegroup id="AGREEMENT_QUEDAR_VP" name="concordancia: quedar + participio + el">
+            <antipattern>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token regexp="yes" inflected="yes">&dias_semana;|&meses_ano;|&partes_dia;|&unidades_tiempo;|arapo|trozo|triza|uno|otro|momento|tiempo|ceniza</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token inflected="yes">quedar</token>
+                    <unify negate="yes">
+                        <feature id="genero"/>
+                        <feature id="numero"/>
+                        <marker>
+                            <token postag="V.P.*" postag_regexp="yes"/>
+                        </marker>
+                        <token postag="DA.FS." postag_regexp="yes"/>
+                    </unify>
+                </pattern>
+                <message>Esta expresión debe concordar en género y número.</message>
+                <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..SF"/></suggestion>
+                <example correction="garantizada">De esta forma queda <marker>garantizado</marker> la comercialización.</example>
+                <example>los camiones que queden descargados el jueves</example>
+                <example>El hecho es que se quedó dormido esa mañana.</example>
+                <example>Ella se quedó sentada unos momentos más</example>
+                <example>quedó hecha un arapo</example>
+                <example>ambos quedan prendados el uno del otro</example>
+                <example>Queda abolido lo que era ceremonial.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">quedar</token>
+                    <unify negate="yes">
+                        <feature id="genero"/>
+                        <feature id="numero"/>
+                        <marker>
+                            <token postag="V.P.*" postag_regexp="yes"/>
+                        </marker>
+                        <token postag="DA.FP." postag_regexp="yes"/>
+                    </unify>
+                </pattern>
+                <message>Esta expresión debe concordar en género y número.</message>
+                <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..PF"/></suggestion>
+                <example correction="garantizadas">De esta forma quedan <marker>garantizados</marker> las comercializaciones.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">quedar</token>
+                    <unify negate="yes">
+                        <feature id="genero"/>
+                        <feature id="numero"/>
+                        <marker>
+                            <token postag="V.P.*" postag_regexp="yes"/>
+                        </marker>
+                        <token postag="DA.MS." postag_regexp="yes"/>
+                    </unify>
+                </pattern>
+                <message>Esta expresión debe concordar en género y número.</message>
+                <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..SM"/></suggestion>
+                <example correction="garantizado">De esta forma queda <marker>garantizada</marker> el éxito.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">quedar</token>
+                    <unify negate="yes">
+                        <feature id="genero"/>
+                        <feature id="numero"/>
+                        <marker>
+                            <token postag="V.P.*" postag_regexp="yes"/>
+                        </marker>
+                        <token postag="DA.MP." postag_regexp="yes"/>
+                    </unify>
+                </pattern>
+                <message>Esta expresión debe concordar en género y número.</message>
+                <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..PM"/></suggestion>
+                <example correction="garantizados">De esta forma quedan <marker>garantizadas</marker> los éxitos.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BUENAS_TARDES" name="concordancia: buenas tardes">
             <!-- this rule is necessary because "tardes" can be noun/verb-->
             <rule>
