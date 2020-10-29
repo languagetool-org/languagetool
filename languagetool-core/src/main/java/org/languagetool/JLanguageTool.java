@@ -1067,9 +1067,9 @@ public class JLanguageTool {
               cachedResults.get(sentenceIndex).addAll(cachedMatches);
             }
           }
-          task = rule.run(nonCachedSentences);
+          task = rule.run(nonCachedSentences, userConfig.getTextSessionId());
         } else {
-          task = rule.run(analyzedSentences);
+          task = rule.run(analyzedSentences, userConfig.getTextSessionId());
         }
         remoteRuleTasks.add(task);
         remoteRulesThreadPool.submit(task);

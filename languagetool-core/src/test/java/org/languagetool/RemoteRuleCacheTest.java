@@ -64,7 +64,7 @@ public class RemoteRuleCacheTest {
     }
 
     @Override
-    protected RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText) {
+    protected RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText, Long textSessionId) {
       return new TestRemoteRequest(sentences);
     }
 

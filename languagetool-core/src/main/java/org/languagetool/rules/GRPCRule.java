@@ -196,7 +196,7 @@ public abstract class GRPCRule extends RemoteRule {
   }
 
   @Override
-  protected RemoteRule.RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText) {
+  protected RemoteRule.RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText, Long textSessionId) {
     List<String> text = sentences.stream().map(AnalyzedSentence::getText).collect(Collectors.toList());
     MLServerProto.MatchRequest req = MLServerProto.MatchRequest.newBuilder()
       .addAllSentences(text)
