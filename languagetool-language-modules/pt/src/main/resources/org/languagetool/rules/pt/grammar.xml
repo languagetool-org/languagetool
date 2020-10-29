@@ -10153,6 +10153,22 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="para">O martelo serviu <marker>a</marker> fazer o banco.</example>
     </rule>
 
+    <!-- SER + QUEM + VERB_ESSE + WORD era quem chegasse primeiro -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-29 (21-OCT-2020+)     -->
+    <rule id='SER_QUEM_VERB-ESSE_WORD' name="Ser + quem + Verbo -esse + Palavra > Verbo Ser + Verbo -esse_inf + Palavra">
+      <pattern>
+	      <token></token>
+		  <marker>
+			<token inflected='yes'>ser</token>
+			<token>quem</token>
+			<token postag='VMSI[13][SP]0' postag_regexp='yes'/>			
+		  </marker>
+		  <token negate="yes" regexp='yes'>[.,!?]</token>
+      </pattern>
+      <message>Substitua por <suggestion>\2 <match no='4' postag='VMSI[13][SP]0' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>.</message>
+      <example correction="era chegar">A vitória na guerra <marker>era quem chegasse</marker> primeiro à bandeira inimiga.</example>
+    </rule>
+
     <rule id='SOBRE_MESA' name="Sobremesa">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
