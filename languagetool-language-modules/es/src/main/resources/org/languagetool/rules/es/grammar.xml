@@ -1446,6 +1446,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>{suggestion}</suggestion>
                 <example correction="náusea">Hasta la <marker>nausea</marker>.</example>
             </rule>
+            <rule default="temp_off">
+            <!-- catch-all rule, only test-->
+                <antipattern>
+                    <token/>
+                    <token postag="[DNA].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token/>
+                    <token regexp="yes">a|al|como</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="3">que|si</token>
+                    <token min="0" max="3" postag="R.*|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V.[SI].*" postag_regexp="yes"><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:NC.*|AQ.*"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="Nóminas"><marker>Nominas</marker> de octubre.</example>
+            </rule>
         </rulegroup>
         <rule id="DIACRITICS_CONDICIONAL" name="secundaria/secundaría">
             <pattern>
