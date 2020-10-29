@@ -9026,6 +9026,23 @@ though, and has since been slightly modified)-->
         <example correction="trois fois par semaine">Je joue au Softball <marker>trois fois au semaine</marker>.</example>
       </rule>
       <!-- End of additions -->
+      <rule id="SONT_SOMMES" name="sont au lieu de sommes">
+          <pattern>
+              <token postag_regexp="yes" postag="R.*"/>
+              <token>et</token>
+              <token postag_regexp="yes" postag="R.*1.*">
+                  <exception>m</exception>
+                  <exception case_sensitive="yes">Moi</exception>
+              </token>
+              <token min="0">ne</token>
+              <marker>
+                  <token>sont</token>
+              </marker>
+          </pattern>
+          <message>Dans le cas d'un sujet pluriel vous incluant, « sont » devient <suggestion>sommes</suggestion>.</message>
+          <example correction="sommes">Dans ce cas-là eux et moi ne <marker>sont</marker> pas d'accord.</example>
+          <example correction="sommes">Dans ce cas-là eux et moi <marker>sont</marker> d'accord.</example>
+      </rule>
       <rulegroup id="D_N_QUE_R_AVOIR_PPA" name="Relative avec erreur d'accord" default="off">
           <rule name="f s">
               <pattern>
@@ -13778,7 +13795,7 @@ though, and has since been slightly modified)-->
         <example>Ils ont eux-mêmes été contaminés.</example>
         <example>Ont-ils apprécié leurs vacances en Écosse ?</example>
         <example>et pourront, par conséquent, elles-mêmes être appelées</example>
-      </rule>
+      </rule> <!-- todo: add exceptions for multiple pronouns -->
       <rule name="celles/ceux + 2 tokens + Verbe">
         <antipattern>
           <token regexp="yes">(?:celles|ceux)-(?:ci|là)</token>
@@ -15026,7 +15043,7 @@ though, and has since been slightly modified)-->
               <token postag_regexp="yes" postag="D.*" min="0"/>
               <token postag_regexp="yes" postag="A.*|J.*" min="0" max="2"/>
               <token postag_regexp="yes" postag="N.*" min="1" max="2"/>
-              <token regexp="yes">que|qu'</token>
+              <token regexp="yes">que|qu[’´'‛′‘]</token>
               <token postag_regexp="yes" postag="D.*|N.*|Z.*|R.*"/>
               <token postag_regexp="yes" postag="V avoir.*"/>
               <token postag_regexp="yes" postag="V.*ppa.*p"/>
@@ -15035,7 +15052,7 @@ though, and has since been slightly modified)-->
           <token postag="N f s">
               <exception postag="V.*" postag_regexp="yes"/>
           </token>
-          <token regexp="yes" skip="2">que|qu'</token>
+          <token regexp="yes" skip="2">que|qu[’´'‛′‘]</token>
           <token postag="V avoir ind.*" postag_regexp="yes" skip="2">
               <exception scope="next">été</exception>
           </token>
@@ -15094,6 +15111,7 @@ though, and has since been slightly modified)-->
         <example>C’est dans la soirée que ces poursuites avaient été entamées.</example>
           <example>Mes anciennes expériences et la formation professionnelle que j'ai effectuées.</example>
           <example>Mes très anciennes expériences et la superbement belle formation professionnelle que j'ai effectuées.</example>
+          <example>Mes expériences et la formation que j'ai effectuées.</example>
       </rule>
       <rule name="det + n f s suivi par . p">
         <pattern>
