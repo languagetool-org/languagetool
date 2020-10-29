@@ -17,6 +17,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
+    <!ENTITY expressio_DOS_NOMS "aliatge|associació|binomi|concordança|connexió|corpus|correció|corrector|debat|diccionari|dualitat|figura|interpretació|paral·lel|parell|parella|relació|ràtio|traducció|traductor">
     <!ENTITY denominacio "element|paraula|mot|terme|expressió|vocable|nom|tipus|denominació|gentilici|terminació|arrel">
     <!ENTITY apostrophe "['’´]">
     <!ENTITY common_english_nouns_feminine "University|Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation|Conference|Agency">
@@ -1954,6 +1955,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>La raó en forma part tant com l'afectivitat.</example>
             <example>Han posat en pràctica polítiques d'ocupació.</example>
             <example>Treuen a la llum artistes molt vàlids.</example>
+            <!--<example>Són els elements distintius: tradició i història comunes.</example>-->
             <!-- TODO: 
                 Els costats superior i laterals.
                 ambiguous: té una manera de jugar aquestes gires tan femenina
@@ -4191,6 +4193,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>amb la destral en una mà i l'altre braç estès</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ANTIPODES" name="als antípodes">
+            <rule>
+                <pattern>
+                    <token regexp="yes">a|de</token>
+                    <token>les</token>
+                    <token>antípodes</token>
+                </pattern>
+                <message>Com a referència geogràfica (també en sentit figurat), "antípodes" és preferentment un nom masculí.</message>
+                <suggestion><match no="1"/>ls antípodes</suggestion>
+                <short>Possible error de concordança</short>
+                <example correction="als antípodes">Viuen <marker>a les antípodes</marker>.</example>
+                <example>als antípodes</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">en|per</token>
+                    <marker>
+                        <token>les</token>
+                        <token>antípodes</token>
+                    </marker>
+                </pattern>
+                <message>Com a referència geogràfica (també en sentit figurat), "antípodes" és preferentment un nom masculí.</message>
+                <suggestion>els antípodes</suggestion>
+                <short>Possible error de concordança</short>
+                <example correction="els antípodes">Viuen en <marker>les antípodes</marker>.</example>
+                <example>als antípodes</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CONCORDANCES_CASOS_PARTICULARS" name="casos particulars de concordances: esquerre/a, altre/a part, pendent, corrent...">
             <rule id="CONCORDANCES_PRIMER" name="la *primer opció">
                 <pattern>
@@ -4540,18 +4570,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>mig planys i mig compliments</example>
                 <example>mig planys mig compliments</example>
                 <example>Estaven mig obertes o mig tancades?</example>
-            </rule>
-            <rule id="ANTIPODES" name="als antípodes">
-                <pattern>
-                    <token regexp="yes">a|de</token>
-                    <token>les</token>
-                    <token>antípodes</token>
-                </pattern>
-                <message>Com a referència geogràfica, "antípodes" és nom masculí.</message>
-                <suggestion><match no="1"/>ls antípodes</suggestion>
-                <short>Possible error de concordança</short>
-                <example correction="als antípodes">Viuen <marker>a les antípodes</marker>.</example>
-                <example>als antípodes</example>
             </rule>
             <rule id="TITELLA" name="titella">
                 <pattern>
@@ -13183,35 +13201,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!--<url>http://esadir.cat/entrades/fitxa/id/1492</url>-->
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=canvi+i+caiguda+de+preposicions&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=13067&amp;idHit=13067&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=5&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27t%27adones+de+que%27+o+%27t%27adones+que%27%3F+%2F+Les+preposicions+%27a%27%2C+%27de%27%2C+%27en%27+i+%27amb%27+davant+de+la+conjunci%F3+%27que%27+%2F+Nova+gram%E0tica&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <antipattern>
-                <marker>
-                    <token>què</token>
-                    <token>?</token>
-                </marker>
+                <token>què</token>
+                <token>?</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token postag="DD.*" postag_regexp="yes"/>
-                    <token>en</token>
-                    <token>què</token>
-                </marker>
+                <token postag="DD.*" postag_regexp="yes"/>
+                <token>en</token>
+                <token>què</token>
             </antipattern>
             <rule>
                 <antipattern>
-                    <marker>
-                        <token>què</token>
-                        <token regexp="yes" inflected="yes">passar|esdevenir|ocórrer|succeir</token>
-                    </marker>
+                    <token>què</token>
+                    <token regexp="yes" inflected="yes">passar|esdevenir|ocórrer|succeir|poder</token>
                 </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes">traduir|èmfasi|consistir|basar|insistir|fonamentar|coincidir|radicar|raure|diferenciar|diferir|estar|fixar|centrar|trobar|resultar|assemblar|confiar|convenir|influir|recaure|consistent<exception postag="_GN_.*" postag_regexp="yes">estat</exception></token>
                     <token min="0" max="4" postag="RG|_PUNCT_CONT|.*LOC_ADV.*|&pronom_feble;" postag_regexp="yes"/>
                     <marker>
                         <token>en</token>
-                        <token regexp="yes">què|que</token>
+                        <token>què</token>
                     </marker>
                 </pattern>
-                <message>Construcció incorrecta.</message>
-                <suggestion>en el fet que</suggestion>
+                <message>Construcció incorrecta si equival a <suggestion>en el fet que</suggestion>.</message>
                 <suggestion>que</suggestion>
                 <suggestion>a fer que</suggestion>
                 <suggestion>a dir que</suggestion>
@@ -13219,16 +13230,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="en el fet que|que|a fer que|a dir que">Això consisteix, fonamentalment, <marker>en què</marker> ho farà</example>
                 <example correction="en el fet que|que|a fer que|a dir que">Això consisteix <marker>en què</marker> ho farà</example>
                 <example>Van comprovar el greu estat en què es trobava la instal·lació.</example>
+                <example>Ens hem de fixar en què podem ajudar.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="V.[IS].*" postag_regexp="yes" inflected="yes" regexp="yes" skip="15">diferenciar|diferir|distingir<exception regexp="yes" scope="next">què|qual|entre</exception></token>
                     <marker>
                         <token>en</token>
-                        <token regexp="yes">que|què</token>
+                        <token>què</token>
                     </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>en el fet que</suggestion>?</message>
+                <message>Construcció incorrecta si equival a <suggestion>en el fet que</suggestion>.</message>
                 <example correction="en el fet que">Es diferencien dels altres <marker>en què</marker> són verds.</example>
             </rule>
             <rule>
@@ -13237,7 +13249,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>acord</token>
                     <marker>
                         <token>en</token>
-                        <token regexp="yes">què|que</token>
+                        <token>què</token>
+                    </marker>
+                </pattern>
+                <message>Construcció incorrecta si equival a <suggestion>en el fet que</suggestion>.</message>
+                <suggestion>en el fet que</suggestion>
+                <suggestion>que</suggestion>
+                <suggestion>a fer que</suggestion>
+                <suggestion>a dir que</suggestion>
+                <example correction="en el fet que|que|a fer que|a dir que">Sempre estaven d'acord <marker>en què</marker> ho podrien fer</example>
+                <example>Estaven d'acord que ho podrien fer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">traduir|èmfasi|consistir|basar|insistir|fonamentar|coincidir|radicar|raure|diferenciar|diferir|estar|fixar|centrar|trobar|resultar|assemblar|confiar|convenir|influir|recaure|consistent<exception postag="_GN_.*" postag_regexp="yes">estat</exception></token>
+                    <token min="0" max="4" postag="RG|_PUNCT_CONT|.*LOC_ADV.*|&pronom_feble;" postag_regexp="yes"/>
+                    <marker>
+                        <token>en</token>
+                        <token>que</token>
                     </marker>
                 </pattern>
                 <message>Construcció incorrecta.</message>
@@ -13245,7 +13274,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>que</suggestion>
                 <suggestion>a fer que</suggestion>
                 <suggestion>a dir que</suggestion>
-                <example correction="en el fet que|que|a fer que|a dir que">Sempre estaven d'acord <marker>en què</marker> ho podrien fer</example>
+                <example correction="en el fet que|que|a fer que|a dir que">Això consisteix fonamentalment <marker>en que</marker> ho farà</example>
+                <example correction="en el fet que|que|a fer que|a dir que">Això consisteix, fonamentalment, <marker>en que</marker> ho farà</example>
+                <example correction="en el fet que|que|a fer que|a dir que">Això consisteix <marker>en que</marker> ho farà</example>
+                <example>Van comprovar el greu estat en què es trobava la instal·lació.</example>
+                <example>Ens hem de fixar en què podem ajudar.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.[IS].*" postag_regexp="yes" inflected="yes" regexp="yes" skip="15">diferenciar|diferir|distingir<exception regexp="yes" scope="next">què|qual|entre</exception></token>
+                    <marker>
+                        <token>en</token>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Construcció incorrecta.</message>
+                <suggestion>en el fet que</suggestion>
+                <example correction="en el fet que">Es diferencien dels altres <marker>en que</marker> són verds.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>d'</token>
+                    <token>acord</token>
+                    <marker>
+                        <token>en</token>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Construcció incorrecta.</message>
+                <suggestion>en el fet que</suggestion>
+                <suggestion>que</suggestion>
+                <suggestion>a fer que</suggestion>
+                <suggestion>a dir que</suggestion>
+                <example correction="en el fet que|que|a fer que|a dir que">Sempre estaven d'acord <marker>en que</marker> ho podrien fer</example>
                 <example>Estaven d'acord que ho podrien fer.</example>
             </rule>
             <rule>
@@ -13266,13 +13327,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=preposicions+%2B+que&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=13067&amp;idHit=13067&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27t%27adones+de+que%27+o+%27t%27adones+que%27%3F+%2F+Les+preposicions+%27a%27%2C+%27de%27%2C+%27en%27+i+%27amb%27+davant+de+la+conjunci%F3+%27que%27+%2F+Nova+gram%E0tica&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <antipattern>
                 <!--doblets de gènere: el xiquet/a que-->
-                    <token postag="[AN].*MS.*" postag_regexp="yes"/>
-                    <token spacebefore="no">/</token>
-                    <token spacebefore="no">a</token>
+                <token postag="[AN].*MS.*" postag_regexp="yes"/>
+                <token spacebefore="no">/</token>
+                <token spacebefore="no">a</token>
             </antipattern>
             <antipattern>
-                    <token>què</token>
-                    <token>?</token>
+                <token>què</token>
+                <token>?</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -40437,7 +40498,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token inflected="yes" skip="2">fer</token>
+                    <token inflected="yes" skip="2" regexp="yes">fer|arribar</token>
                     <marker>
                         <token regexp="yes">(re)?gust|olor|pudor|flaire|perfum</token>
                         <token>a</token>
@@ -40447,6 +40508,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Preposició inadequada</short>
                 <example correction="gust de">fa <marker>gust a</marker> maduixa</example>
                 <example correction="flaire de">fa una enorme <marker>flaire a</marker> oportunisme</example>
+                <example correction="olor de">M'arriba l'<marker>olor a</marker> menjar.</example>
                 <example>fa gust de maduixa</example>
             </rule>
             <rule>
@@ -44323,7 +44385,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="sentit">No havia <marker>escoltat</marker> mai la paraula llomello.</example>
                 <example>Escoltem ara la paraula de Déu.</example>
             </rule>
-            <rule>
+            <rule default="off">
                 <pattern>
                     <marker>
                         <token>s'</token>
@@ -44334,6 +44396,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>se <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match></suggestion>
                 <example correction="se sent">Això <marker>s'escolta</marker> des dels balcons.</example>
                 <example>Van voler manifestar-se per tal que s'escoltessin les seves reivindicacions.</example>
+                <!--<example> i només s’escolta una línia de pensament.</example>
+                podria millorar si s’escoltés més els científics.-->
             </rule>
             <rule>
                 <pattern>
@@ -56719,7 +56783,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">efecte|benefici</token>
             </antipattern>
             <antipattern>
-                <token inflected="yes" regexp="yes">traducció|interpretació|correció|corpus|paral·lel|diccionari|traductor|corrector|concordança|parell|figura|binomi|relació|connexió</token>
+                <token inflected="yes" regexp="yes">&expressio_DOS_NOMS;</token>
                 <token/>
                 <token regexp="yes">[/i\-]</token>
                 <token/>

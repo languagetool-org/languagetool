@@ -20,6 +20,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!ENTITY parts_dia "matinada|matí|migdia|tarda|vesprada|horabaixa|vespre|capvespre|nit1|mitjanit">
     <!ENTITY elements_perifrasis_verbals "a|acabar|amb|anar|aplegar|arribar|començar|continuar|de|deixar|deure|en|estar|haver|intentar|mirar|parar|pas|pensar|poder|provar|prosseguir|prou|seguir|soler|tenir|tornar|tractar|venir|voler">
     <!ENTITY elements_perifrasis_verbals2 "aprendre|impedir|aspirar|saber|decidir|proposar|suggerir|semblar|parèixer|aconseguir|recomanar|procurar|tendir|acordar|optar|disposar|resistir|evitar|tardar|trigar|afanyar|fer|bé">
+    <!ENTITY expressio_DOS_NOMS "aliatge|associació|binomi|concordança|connexió|corpus|correció|corrector|debat|diccionari|dualitat|figura|interpretació|paral·lel|parell|parella|relació|ràtio|traducció|traductor">
 ]>
 <rules lang="ca" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="nombre">
@@ -16183,7 +16184,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="expressio_guionet" name="expressió amb guionet">
         <rule>
             <pattern>
-                <token regexp="yes" inflected="yes" skip="2">traducció|interpretació|correció|corpus|paral·lel|diccionari|traductor|corrector|concordança|parell|figura</token>
+                <token regexp="yes" inflected="yes" skip="2">&expressio_DOS_NOMS;</token>
                 <marker>
                     <token postag="N.*|A.*" postag_regexp="yes"/>
                 </marker>
@@ -16196,7 +16197,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes" inflected="yes">traducció|interpretació|correció|corpus|paral·lel|diccionari|traductor|corrector|concordança|parell</token>
+                <token regexp="yes" inflected="yes">&expressio_DOS_NOMS;</token>
                 <marker>
                     <token postag="N.*|A.*" postag_regexp="yes"/>
                 </marker>
