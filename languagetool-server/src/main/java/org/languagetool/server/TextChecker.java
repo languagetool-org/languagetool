@@ -228,12 +228,16 @@ abstract class TextChecker {
     try {
       if (parameters.containsKey("textSessionId")) {
         String textSessionIdStr = parameters.get("textSessionId");
-        if (textSessionIdStr.contains(":")) { // transitioning to new format used in chrome addon
+        if (textSessionIdStr.startsWith("user:")) {
+          int sepPos = textSessionIdStr.indexOf(':');
+          String sessionId = textSessionIdStr.substring(sepPos + 1);
+          textSessionId = Long.valueOf(sessionId);
+        } else if (textSessionIdStr.contains(":")) { // transitioning to new format used in chrome addon
           // format: "{random number in 0..99999}:{unix time}"
           long random, timestamp;
           int sepPos = textSessionIdStr.indexOf(':');
-          random = Long.valueOf(textSessionIdStr.substring(0, sepPos));
-          timestamp = Long.valueOf(textSessionIdStr.substring(sepPos + 1));
+          random = Long.parseLong(textSessionIdStr.substring(0, sepPos));
+          timestamp = Long.parseLong(textSessionIdStr.substring(sepPos + 1));
           // use random number to choose a slice in possible range of values
           // then choose position in slice by timestamp
           long maxRandom = 100000;
