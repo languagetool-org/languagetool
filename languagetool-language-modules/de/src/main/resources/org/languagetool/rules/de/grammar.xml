@@ -8918,17 +8918,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <!-- Prominente -->
         <rule id="WERNHER_VON_BRAUN" name="Werner (Wernher) von Braun">
-            <pattern case_sensitive="yes">
-                <marker>
-                    <token>Werner</token>
-                </marker>
+            <antipattern case_sensitive="yes">
+                <token>Wernher</token>
                 <token>von</token>
                 <token regexp="yes">Brauns?</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">wernh?err?</token>
+                <token regexp="yes">v[ao][mn]</token>
+                <token regexp="yes">brown|brauh?ns?</token>
             </pattern>
-            <message>Meinten Sie evtl. den deutsch-amerikanischen Ingenieur <suggestion>Wernher</suggestion> Freiherr von Braun (1912–1977), bekannt als Vater der Raketentechnologie?</message>
+            <message>Meinten Sie evtl. den deutsch-amerikanischen Ingenieur Wernher Freiherr von Braun (1912–1977), bekannt als Vater der Raketentechnologie?</message>
+            <suggestion>Wernher von <match no="3" regexp_match="(?i)brown|brauh?n" regexp_replace="Braun" /></suggestion>
             <url>https://de.wikipedia.org/wiki/Wernher_von_Braun</url>
             <short>&eigenname;</short>
-            <example correction="Wernher"><marker>Werner</marker> von Braun hat die Rakete erfunden.</example>
+            <example correction="Wernher von Braun"><marker>Werner von Braun</marker> hat die Rakete erfunden.</example>
         </rule>
         <rule id="ALEXIUS_MEINONG" name="'Alexius Meinung (Meinong)'">
             <pattern case_sensitive="yes">
@@ -37002,7 +37006,7 @@ Andere Projekte</example>
                     <token postag="SUB:DAT:SIN:(MAS|FEM|NEU)" postag_regexp="yes" />
                 </antipattern>
                 <pattern>
-                    <token postag="SENT_START|VER:.*" postag_regexp="yes" />
+                    <token postag="SENT_START|VER:.*|KON.*" postag_regexp="yes" />
                     <marker>
                         <token regexp="yes">Wegen|(Ab|Zu)züglich|Angesichts|Abseits|Anhand|Aufgrund|Infolge|Innerhalb|Außerhalb|Ausserhalb|Jenseits|Kraft|Mithilfe|Namens|Seitens|Unfern|Zwecks|Hinsichtlich</token>
                         <token regexp="yes">dem|[Ii]hrem|[Ddms]?einem|unserem|diesem|jenem|[Ee]urem</token>
@@ -37069,6 +37073,31 @@ Andere Projekte</example>
                 <suggestion>\2 <match no="3" regexp_match="[mn]$" regexp_replace="s" /> \4 <match no="5" postag="SUB:GEN:SIN:.+" postag_regexp="yes" /></suggestion>
                 <short>Diese Präposition erfordert den Genitiv</short>
                 <example correction="bezüglich unseres Termines|bezüglich unseres Termins">Ich würde mich <marker>bezüglich unseren Termins</marker> noch einmal melden.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="SUB:GEN:.+" postag_regexp="yes">
+                        <exception>Aber</exception>
+                    </token>
+                    <token>wegen</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">Wegen|(Ab|Zu)züglich|Angesichts|Abseits|Anhand|Aufgrund|Infolge|Innerhalb|Außerhalb|Ausserhalb|Jenseits|Kraft|Mithilfe|Namens|Seitens|Unfern|Zwecks|Hinsichtlich</token>
+                        <token regexp="yes" case_sensitive="yes">de[mn]|[Ddsm]?eine[mn]?|(eu|ih|Ih|unse)re[mn]?|(jen|dein|dies)e[mn]?</token>
+                        <token postag="ADJ:DAT:PLU:NEU:GRU:IND" min="0" />
+                        <token postag="SUB:DAT:PLU:(NEU|MAS|FEM)" postag_regexp="yes" />
+                    </marker>
+                </pattern>
+                <message>Die Präposition '<match no="2" case_conversion="startlower"/>' erfordert standardsprachlich den Genitiv.</message>
+                <suggestion suppress_misspelled="yes">\1 <match no="2" regexp_match="[mn]$" regexp_replace="r" /> \3 <match no="4" postag="SUB:GEN:PLU:(NEU|MAS|FEM)" postag_regexp="yes" /></suggestion>
+                <short>Diese Präposition erfordert den Genitiv</short>
+                <example correction="Wegen der aktuellen Geschehnisse"><marker>Wegen den aktuellen Geschehnissen</marker> sind aktuell fast alle wieder im Home-Office.</example>
+                <example correction="wegen der Autos">Aber vorallem <marker>wegen den Autos</marker> ist die Luft so verpestet.</example>
+                <example correction="wegen der Fanartikel">Die Befürchtung, die reale Welt könnte im Wiki <marker>wegen den Fanartikeln</marker> lediglich eine Randerscheinung werden, kann ich nicht teilen.</example>
+                <example correction="anhand ihrer Spektra|anhand ihrer Spektren">1905 und 1907 veröffentlichte er heute klassische Artikel „Zur Strahlung der Sterne“ über seine Versuche, die Lichtstärke von Sternen <marker>anhand ihren Spektren</marker> auszumessen.</example>
+                <example>1923 legte er des fortgeschrittenen Alters wegen den Führerposten nieder und trat ihn an 0berstraßenmeister Plehn ab, der ihn bis 1929 innehatte.</example>
+                <example>1874 kaufte der Psychiater Ludwig Binswanger (1820–1880) das Schloss einschließlich des dazugehörenden landwirtschaftlichen Betriebs und gab ihm der Brunnen wegen den Namen Brunnegg.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -37193,7 +37222,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token>ohne</token>
-                    <token regexp="yes">gleich|mühsam</token>
+                    <token regexp="yes">gleich|mühsam|ständig</token>
                     <token postag="SUB:.+" postag_regexp="yes" skip="2"/>
                     <token>zu</token>
                 </antipattern>
@@ -37257,6 +37286,7 @@ Andere Projekte</example>
                 <example>Man hörte von fern Musik.</example>
                 <example>Auf gut Deutsch gesagt.</example>
                 <example>Eine Frau mit ordentlich Holz vor der Hütte.</example>
+                <example>Ich mache es, ohne ständig Anschiss zu bekommen.</example>
             </rule>
             <!-- TODO ergaenzen -->
             <rule>
