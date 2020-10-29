@@ -13764,6 +13764,14 @@ though, and has since been slightly modified)-->
           <token regexp="yes">(?:celles|ceux)-(?:ci|là)</token>
           <token postag_regexp="yes" postag="V .* ppr"/>
         </antipattern>
+          <antipattern>
+              <token postag_regexp="yes" postag="R.*"/>
+              <token>et</token>
+              <token postag_regexp="yes" postag="R.*1.*">
+                  <exception>m</exception>
+                  <exception case_sensitive="yes">Moi</exception>
+              </token>
+          </antipattern>
         <pattern>
           <token postag="R pers suj 3 .* p|R dem . p" postag_regexp="yes">
             <exception regexp="yes">celles|ceux|-.*|.*-mêmes</exception>
@@ -13795,7 +13803,7 @@ though, and has since been slightly modified)-->
         <example>Ils ont eux-mêmes été contaminés.</example>
         <example>Ont-ils apprécié leurs vacances en Écosse ?</example>
         <example>et pourront, par conséquent, elles-mêmes être appelées</example>
-      </rule> <!-- todo: add exceptions for multiple pronouns -->
+      </rule>
       <rule name="celles/ceux + 2 tokens + Verbe">
         <antipattern>
           <token regexp="yes">(?:celles|ceux)-(?:ci|là)</token>
@@ -13828,6 +13836,14 @@ though, and has since been slightly modified)-->
         <example>Lequel d'entre-eux était-ce ?</example>
       </rule>
       <rule name="ils/elles + 3 tokens + Verbe">
+        <antipattern>
+          <token postag_regexp="yes" postag="R.*"/>
+          <token>et</token>
+          <token postag_regexp="yes" postag="R.*1.*">
+              <exception>m</exception>
+              <exception case_sensitive="yes">Moi</exception>
+          </token>
+        </antipattern>
         <pattern>
           <token postag="R pers suj 3 .* p|R dem . p" postag_regexp="yes">
             <exception regexp="yes">-.*</exception>
@@ -13846,6 +13862,14 @@ though, and has since been slightly modified)-->
         <example>Ils me l’<marker>avaient</marker> donné.</example>
       </rule>
       <rule name="ils/elles + 4 tokens + Verbe">
+          <antipattern>
+              <token postag_regexp="yes" postag="R.*"/>
+              <token>et</token>
+              <token postag_regexp="yes" postag="R.*1.*">
+                  <exception>m</exception>
+                  <exception case_sensitive="yes">Moi</exception>
+              </token>
+          </antipattern>
         <pattern>
           <token postag="R pers suj 3 .* p|R dem . p" postag_regexp="yes">
             <exception regexp="yes">-.*</exception>
