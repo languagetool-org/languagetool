@@ -7163,7 +7163,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <marker>
-                    <token postag="V.[SIN].*" postag_regexp="yes" inflected="yes" regexp="yes">parecer|poder|deber|querer|quedar|estar|ser|permanecer|restar|seguir|continuar|proseguir<exception scope="previous">que</exception><exception postag="RG|_GN_.*|_possible_NP|N.*" postag_regexp="yes"/></token>
+                    <token postag="V.[SIN].*" postag_regexp="yes" inflected="yes" regexp="yes">parecer|poder|deber|querer|quedar|estar|ser|permanecer|restar|seguir|continuar|proseguir<exception scope="previous">que</exception><exception postag="RG|_GN_.*|_possible_NP|N.*" postag_regexp="yes"
+                        /></token>
                     <token inflected="yes" regexp="yes">parecer|poder|deber|querer|quedar|estar|ser|permanecer|restar|seguir|continuar<exception postag="V.N.*" postag_regexp="yes"/></token>
                 </marker>
                 <token postag="V.P.*" postag_regexp="yes"/>
@@ -10942,7 +10943,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- Eliminados los sustantivos y otros pronombres por exceso de falsos positivos.-->
                 <pattern>
                     <token postag="PP.{2}P.*" postag_regexp="yes"><exception postag="SP.*|CS.*|PT.*" postag_regexp="yes" scope="previous"/> <exception postag="AQ.*|V.*|PP[12]C.000|PP3.{2}[AD]00" postag_regexp="yes"/></token>
-                    <token postag="V.{4}S.*" postag_regexp="yes"><exception negate_pos="yes" postag="V.*" postag_regexp="yes"/><exception postag="V....P." postag_regexp="yes"></exception><exception regexp="yes">es|para|una|juntas</exception></token>
+                    <token postag="V.{4}S.*" postag_regexp="yes"><exception negate_pos="yes" postag="V.*" postag_regexp="yes"/><exception postag="V....P." postag_regexp="yes"/><exception regexp="yes">es|para|una|juntas</exception></token>
                 </pattern>
                 <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
                 <example correction="">sólo <marker>ellos vuela</marker> por el cielo</example>
@@ -12018,7 +12019,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Qué tiene que cree que es el mejor?</example>
             </rule>
         </rulegroup>
-        <rule id="HABER_DE_INFINITIVO" name="haber de + infinitivo">
+        <rulegroup id="HABER_DE_INFINITIVO" name="haber de + infinitivo">
             <antipattern>
                 <token regexp="yes">[\d ,.]+</token>
                 <token>ha</token>
@@ -12045,25 +12046,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="_LOC_ADV"/>
                 <token postag="V.P..SM" postag_regexp="yes"/>
             </antipattern>
-            <pattern>
-                <token inflected="yes">haber<exception>hay</exception></token>
-                <token>de</token>
-                <marker>
-                    <token postag="V.*" postag_regexp="yes"><exception postag="V.N.*|_possible_NP" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <message>¿Quería decir <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="V.N...."/></suggestion>?</message>
-            <example correction="considerar">Se ha de <marker>considera</marker> el mejor.</example>
-            <example correction="crear|creer">Había de <marker>cree</marker> que es posible.</example>
-            <example correction="incorporar">Sus precios han de <marker>incorporan</marker> toda la información disponible</example>
-            <example>400 ha de cebada.</example>
-            <example>Hubo de hecho una riña.</example>
-            <example>la cantidad que haya de dichos elementos</example>
-            <example>ha de hecho difundido</example>
-            <example>He de Han, emperador chino.</example>
-            <example>puede haber de hecho hasta tres cesuras</example>
-            <example>He de veras pensado en ello.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">haber<exception>hay</exception></token>
+                    <token>de</token>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes"><exception postag="V.N.*|_possible_NP" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="V.N...."/></suggestion>?</message>
+                <example correction="considerar">Se ha de <marker>considera</marker> el mejor.</example>
+                <example correction="crear|creer">Había de <marker>cree</marker> que es posible.</example>
+                <example correction="incorporar">Sus precios han de <marker>incorporan</marker> toda la información disponible</example>
+                <example>400 ha de cebada.</example>
+                <example>Hubo de hecho una riña.</example>
+                <example>la cantidad que haya de dichos elementos</example>
+                <example>ha de hecho difundido</example>
+                <example>He de Han, emperador chino.</example>
+                <example>puede haber de hecho hasta tres cesuras</example>
+                <example>He de veras pensado en ello.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">haber</token>
+                    <token>de</token>
+                    <token/>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:3 DesiredPostag:V.N.*"/>
+                <message>Probablemente falta un infinitivo después de la expresión 'haber de'.</message>
+                <example correction="ahorrar|adorar|ahogar|ahorcar|añorar"><marker>Habías de ahorar</marker> lo que pudieras.</example>
+                <example>400 ha de cebada.</example>
+                <example>Hubo de hecho una riña.</example>
+                <example>la cantidad que haya de dichos elementos</example>
+                <example>ha de hecho difundido</example>
+                <example>He de Han, emperador chino.</example>
+                <example>puede haber de hecho hasta tres cesuras</example>
+                <example>He de veras pensado en ello.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SIDO" name="sido">
             <antipattern>
                 <!-- other rules -->
