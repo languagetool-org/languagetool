@@ -112,7 +112,7 @@ public class BERTSuggestionRanking extends RemoteRule {
   }
 
   @Override
-  protected RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText) {
+  protected RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText, Long textSessionId) {
     List<RuleMatch> matches = new LinkedList<>();
     List<RemoteLanguageModel.Request> requests = new LinkedList<>();
     try {

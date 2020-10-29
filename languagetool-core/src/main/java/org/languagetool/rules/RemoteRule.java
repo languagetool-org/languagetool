@@ -77,18 +77,27 @@ public abstract class RemoteRule extends Rule {
     shutdownRoutines.forEach(Runnable::run);
   }
 
+  public FutureTask<RemoteRuleResult> run(List<AnalyzedSentence> sentences) {
+    return run(sentences, 0L);
+  }
+
   protected class RemoteRequest {}
 
-  protected abstract RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText);
+  protected abstract RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText, Long textSessionId);
   protected abstract Callable<RemoteRuleResult> executeRequest(RemoteRequest request);
   protected abstract RemoteRuleResult fallbackResults(RemoteRequest request);
 
-  public FutureTask<RemoteRuleResult> run(List<AnalyzedSentence> sentences) {
+  /**
+   * @param sentences text to check
+   * @param textSessionId ID for texts, should stay constant for a user session; used for A/B tests of experimental rules
+   * @return Future with result
+   */
+  public FutureTask<RemoteRuleResult> run(List<AnalyzedSentence> sentences, Long textSessionId) {
     return new FutureTask<>(() -> {
       long startTime = System.nanoTime();
       long characters = sentences.stream().mapToInt(sentence -> sentence.getText().length()).sum();
       String ruleId = getId();
-      RemoteRequest req = prepareRequest(sentences, annotatedText);
+      RemoteRequest req = prepareRequest(sentences, annotatedText, textSessionId);
       RemoteRuleResult result;
 
       if (consecutiveFailures.get(ruleId).get() >= serviceConfiguration.getFall()) {
