@@ -33735,6 +33735,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="MIDA_MESURA" name="mida/mesura" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">mid(a|es)</token>
+                </marker>
+                <token min="0">de</token>
+                <token inflected="yes" regexp="yes">protecció|seguretat|anti...+|confinament|prevenció|centralització|centralitzador</token>
+            </pattern>
+            <message>En aquest context cal dir <suggestion><match no="1" regexp_match="(?iu)mid" regexp_replace="mesur"/></suggestion>.</message>
+            <example correction="mesures">Aquestes són les <marker>mides</marker> de protecció necessàries.</example>
+            <example>Mesures antigues.</example>
+        </rule>
         <rulegroup id="COLE" name="cole/escola">
             <rule>
                 <pattern>
