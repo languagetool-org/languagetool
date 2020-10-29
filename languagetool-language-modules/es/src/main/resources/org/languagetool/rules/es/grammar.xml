@@ -5554,6 +5554,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En JJ. OO.</example>
                 <example>En JJ.&#160;OO.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">JJOO|jjoo</token>
+                </pattern>
+                <message>Abreviatura de "Juegos Olímpicos".</message>
+                <suggestion>JJ.&#160;OO.</suggestion>
+                <example correction="JJ.&#160;OO.">En los <marker>JJOO</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>DD</token>
+                    <token>.</token>
+                    <token spacebefore="no">HH</token>
+                    <token>.</token>
+                </pattern>
+                <message>Abreviatura de "derechos humanos".</message>
+                <suggestion>DD.&#160;HH.</suggestion>
+                <example correction="DD.&#160;HH.">En los <marker>DD.HH.</marker> de Pequín.</example>
+                <example>En DD. HH.</example>
+                <example>En DD.&#160;HH.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>DD</token>
+                    <token>.</token>
+                    <token spacebefore="no">HH</token>
+                </pattern>
+                <message>Abreviatura de "derechos humanos".</message>
+                <suggestion>DD.&#160;HH.</suggestion>
+                <example correction="DD.&#160;HH.">En los <marker>DD.HH</marker></example>
+                <example>En DD. HH.</example>
+                <example>En DD.&#160;HH.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">DDHH|ddhh</token>
+                </pattern>
+                <message>Abreviatura de "derechos humanos".</message>
+                <suggestion>DD.&#160;HH.</suggestion>
+                <example correction="DD.&#160;HH.">En los <marker>DDHH</marker></example>
+            </rule>
         </rulegroup>
         <rule id="CURRICULUM" name="currículum / curriculum vitae">
             <pattern>
@@ -7122,7 +7163,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <marker>
-                    <token postag="V.[SIN].*" postag_regexp="yes" inflected="yes" regexp="yes">parecer|poder|deber|querer|quedar|estar|ser|permanecer|restar|seguir|continuar|proseguir<exception scope="previous">que</exception><exception postag="RG|_GN_.*|_possible_NP" postag_regexp="yes"/></token>
+                    <token postag="V.[SIN].*" postag_regexp="yes" inflected="yes" regexp="yes">parecer|poder|deber|querer|quedar|estar|ser|permanecer|restar|seguir|continuar|proseguir<exception scope="previous">que</exception><exception postag="RG|_GN_.*|_possible_NP|N.*" postag_regexp="yes"/></token>
                     <token inflected="yes" regexp="yes">parecer|poder|deber|querer|quedar|estar|ser|permanecer|restar|seguir|continuar<exception postag="V.N.*" postag_regexp="yes"/></token>
                 </marker>
                 <token postag="V.P.*" postag_regexp="yes"/>
@@ -7143,6 +7184,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Fueron siendo eliminados.</example>
             <example>¿Cómo sería el mundo si el poder fuera compartido?</example>
             <example>y los que no pueden son subidos a las ambulancias</example>
+            <example>Este incremento tremendo de poder fue acompañado por inestabilidad política.</example>
+            <!-- allowed missing "que" : que Dios quiere sean llevadas a cabo -->
         </rule>
         <rulegroup id="DOS_VERBOS" name="dos verbos juntos" default="temp_off">
             <!-- better disambiguation needed -->
@@ -8568,6 +8611,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>La que sí quiera, puede venir.</example>
         </rule>
         <rulegroup id="SINO_SI_NO" name="sino/si no">
+            <url>https://www.fundeu.es/recomendacion/sino-si-no/</url>
             <antipattern>
                 <token regexp="yes">o|y</token>
                 <token min="0">,</token>
@@ -12382,8 +12426,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token spacebefore="no">-</token>
+                    <token>-</token>
                     <token spacebefore="no">e</token>
+                </antipattern>
+                <antipattern>
+                    <token>e</token>
+                    <token regexp="yes">y|o|ó</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -12404,6 +12452,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La letra e.</example>
                 <example>El apartado e del artículo 4 de la Ley.</example>
                 <example>Tom le remitió el correo-e que recibió de Mary a John.</example>
+                <example>Los ejes principales X e Y.</example>
             </rule>
         </rulegroup>
         <rule id="ESTO_ESTE" name="esto/este">
@@ -13432,6 +13481,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ERE|eres">Tú <marker>ere</marker> el mejor.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>-</token>
+                    <token spacebefore="no">ero</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">erar<exception inflected="yes" negate="yes">erar</exception></token>
                 </pattern>
@@ -13440,6 +13493,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="errara|errase">Cuando <marker>erase</marker>.</example>
                 <example>Era muy bonito.</example>
                 <example>Érase una vez.</example>
+                <example>Con la terminación -ero.</example>
             </rule>
         </rulegroup>
         <rulegroup id="EL_LA_EN_LA" name="*el/en la" default="on">
