@@ -22359,6 +22359,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="règim">El <marker>regim</marker>.</example>
                 <example>Ens regim per un sistema estricte.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="&pronom_feble;" postag_regexp="yes"/>
+                    <token regexp="yes">formula|formules</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">si|que</token>
+                    <token regexp="yes">formula|formules</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">formula|formules</token>
+                    <token postag="[DAN].*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">formula|formules</token>
+                    </marker>
+                </pattern>
+                <message>Si és nom, s'ha d'accentuar. Correcte si és del v. 'formular'.</message>
+                <suggestion><match no="1" regexp_match="(?iu)o" regexp_replace="ó"></match></suggestion>
+                <example correction="Fórmules"><marker>Formules</marker> màgiques.</example>
+                <example>Si ho formules així.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="&pronom_feble;" postag_regexp="yes"/>
+                    <token regexp="yes">nomina|nomines</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">si|que</token>
+                    <token regexp="yes">nomina|nomines</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">nomina|nomines</token>
+                    <token postag="[DAN].*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">nomina|nomines</token>
+                    </marker>
+                </pattern>
+                <message>Si és nom, s'ha d'accentuar. Correcte si és del v. 'nominar'.</message>
+                <suggestion><match no="1" regexp_match="(?iu)o" regexp_replace="ò"></match></suggestion>
+                <example correction="Nòmines"><marker>Nomines</marker> d'octubre.</example>
+                <example>L'Acadèmia nomina les millores pel·lícules de l'any.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <marker>
@@ -33785,7 +33831,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
-        <rule id="MIDA_MESURA" name="mida/mesura" default="temp_off">
+        <rule id="MIDA_MESURA" name="mida/mesura">
             <pattern>
                 <marker>
                     <token regexp="yes">mid(a|es)</token>
