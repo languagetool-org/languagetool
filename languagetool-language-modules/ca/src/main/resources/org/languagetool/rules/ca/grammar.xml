@@ -22403,7 +22403,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si és nom, s'ha d'accentuar. Correcte si és del v. 'nominar'.</message>
                 <suggestion><match no="1" regexp_match="(?iu)o" regexp_replace="ò"></match></suggestion>
                 <example correction="Nòmines"><marker>Nomines</marker> d'octubre.</example>
-                <example>L'Acadèmia nomina les millores pel·lícules de l'any.</example>
+                <example>L'Acadèmia nomina les millors pel·lícules de l'any.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -32275,12 +32275,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token case_sensitive="yes" regexp="yes">Honorable|Hble|Excel·lentíssims?|Il·lustríssima?|Il·lustre|Il·ltr.|Excma?|Magfca?|Il·lm|Ilm|Il·ltre</token>
                     <token min="0">.</token>
-                    <token case_sensitive="yes" regexp="yes">|Sr|Sra|Senyor|Senyora</token>
+                    <token case_sensitive="yes" regexp="yes">Sr|Sra|Senyor|Senyora</token>
                     <token min="0">.</token>
                     <token regexp="yes" inflected="yes">&carrecs;</token>
                 </antipattern>
                 <antipattern>
-                    <token case_sensitive="yes">[HIEM]</token>
+                    <token case_sensitive="yes" regexp="yes">[HIEM]</token>
                     <token>.</token>
                     <token regexp="yes" inflected="yes">&carrecs;</token>
                 </antipattern>
@@ -49418,6 +49418,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>tretze són tretze</suggestion>
             <url>https://dsff.uab.cat/concepte/indefectiblement</url>
             <example correction="tant sí com no|costi el que costi|peti qui peti|passi el que passi|de totes passades|de bon o mal grat|a qualsevol preu|de totes totes|tretze són tretze">Ho hem de fer <marker>sí o sí</marker>.</example>
+        </rule>
+        <rule id="PARALITZAR" name="paralitzar (abusiu)" default="temp_off">
+            <pattern>
+                <marker>
+                    <token inflected="yes" skip="2">paralitzar</token>
+                </marker>
+                <token inflected="yes" regexp="yes">servei|servici|desnonament|enviament|tramesa|compra|venda|traspàs</token>
+            </pattern>
+            <message>Ús abusiu del v. 'paralizar'. Considereu una opció alternativa.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">aturar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">interrompre</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">detenir</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">retenir</match></suggestion>
+            <example correction="Aturat|Interromput|Detingut|Retingut"><marker>Paralitzat</marker> el servei d'automús entre València i Barcelona.</example>
         </rule>
         <rulegroup id="REALITZAR" name="realitzar (abusiu)">
             <url>https://esadir.cat/entrades/fitxa/id/2226</url>
