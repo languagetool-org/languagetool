@@ -3681,7 +3681,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token regexp="yes">nominas?</token>
-                    <token postag="[DN].*" postag_regexp="yes"/>
+                    <token postag="[DN].*|_GN_.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">nominas?</token>
@@ -3702,7 +3702,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es sustantivo, lleva tilde. Correcto si es del v. 'nominar'.</message>
                 <suggestion><match no="1" regexp_match="(?i)o" regexp_replace="ó"/></suggestion>
                 <example correction="Nóminas"><marker>Nominas</marker> del mes de noviembre.</example>
-                <example>El equipo perdedor nomina a dos jugadoras.</example>
+                <example>La Academia nomina las mejores películas.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">formulas?</token>
+                    <token postag="[DN].*|_GN_.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">que|si</token>
+                    <token min="0" max="3" postag="R.*|LOC_ADV" postag_regexp="yes"/>
+                    <token regexp="yes">formulas?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token regexp="yes">formulas?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">formulas?</token>
+                </pattern>
+                <message>Si es sustantivo, lleva tilde. Correcto si es del v. 'formular'.</message>
+                <suggestion><match no="1" regexp_match="(?i)o" regexp_replace="ó"/></suggestion>
+                <example correction="fórmulas"><marker>formulas</marker> magistrales</example>
+                <example>La oposición formula preguntas incómodas.</example>
             </rule>
             <rule>
                 <pattern>
@@ -12137,7 +12159,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>puede haber de hecho hasta tres cesuras</example>
                 <example>He de veras pensado en ello.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes">haber<exception postag="V...3S.|V.[PG].*|_possible_NP|N.*" postag_regexp="yes"/></token>
                     <token>de</token>
@@ -12157,6 +12179,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>puede haber de hecho hasta tres cesuras</example>
                 <example>He de veras pensado en ello.</example>
                 <example>Porque entremedio hubo de todo.</example>
+                <!-- Needs another suggestion: has de tu vida -->
             </rule>
         </rulegroup>
         <rulegroup id="SIDO" name="sido">
