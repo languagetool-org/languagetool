@@ -27,6 +27,7 @@ import org.languagetool.rules.RuleMatch;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class SwissGermanSpellerRuleTest {
 
@@ -42,6 +43,7 @@ public class SwissGermanSpellerRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("aifhdlidflifs")).length, is(1));
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Trottinettens")); // from spelling-de-CH.txt
+    assertTrue(matches.length > 0);
     assertThat("Matches: " + matches.length + ", Suggestions of first match: " +
             matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().get(0), is("Trottinetten"));
   }
