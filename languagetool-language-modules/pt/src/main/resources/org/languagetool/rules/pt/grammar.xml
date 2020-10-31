@@ -7995,6 +7995,64 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="em simultâneo">Tudo aconteceu <marker>ao mesmo tempo</marker>.</example>
     </rule>
 	
+    <!-- 	CADA VEZ MAIOR/MENOR crescente/decrescente -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-31 (21-OCT-2020+)     -->
+    <rulegroup id='CADA_VEZ_MAIOR_MENOR_CRESCENTE_DECRESCENTE' name="Cada vez maior/menor > crescente/decrescente">
+	
+	  <!-- CRESCENTE -->
+	  <rule>
+		<pattern>
+	      <token regexp='yes'>a|e|é|o|um|uma</token>
+		  <marker>
+			<token>cada</token>
+			<token>vez</token>
+			<token>maior</token>
+		  </marker>
+		</pattern>
+		<message>Substitua por <suggestion>crescente</suggestion>.</message>
+		<example correction="crescente">O <marker>cada vez maior</marker> número de cometas descobertos tornou o processo problemático.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+	      <token postag='AQ0[CFM]S0|NC[CFM]S000' postag_regexp='yes'/>
+		  <marker>
+			<token>cada</token>
+			<token>vez</token>
+			<token>maior</token>
+		  </marker>
+		</pattern>
+		<message>Substitua por <suggestion>crescente</suggestion>.</message>
+		<example correction="crescente">O número <marker>cada vez maior</marker> de cometas descobertos tornou o processo problemático.</example>
+	  </rule>
+	  
+	  <!-- DECRESCENTE -->
+	  <rule>
+		<pattern>
+	      <token regexp='yes'>a|e|é|o|um|uma</token>
+		  <marker>
+			<token>cada</token>
+			<token>vez</token>
+			<token>menor</token>
+		  </marker>
+		</pattern>
+		<message>Substitua por <suggestion>decrescente</suggestion>.</message>
+		<example correction="decrescente">O <marker>cada vez menor</marker> número de cometas descobertos tornou o processo problemático.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+	      <token postag='AQ0[CFM]S0|NC[CFM]S000' postag_regexp='yes'/>
+		  <marker>
+			<token>cada</token>
+			<token>vez</token>
+			<token>menor</token>
+		  </marker>
+		</pattern>
+		<message>Substitua por <suggestion>decrescente</suggestion>.</message>
+		<example correction="decrescente">O número <marker>cada vez menor</marker> de cometas descobertos tornou o processo problemático.</example>
+	  </rule>
+	  
+    </rulegroup>
+	
     <!-- COM A MAIOR DAS CALMAS com a maior naturalidade -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-04 (2-JUL-2020+)     -->
     <rule id='COM_A_MAIOR_DAS_CALMAS' name="Com a maior naturalidade">
