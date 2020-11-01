@@ -159,6 +159,7 @@ public class RuleMatchDiffFinder {
       }
       if (oldMatch != null && newMatch != null) {
         printRuleIdCol(fw, oldMatch, newMatch);
+        printMarkerCol(fw, oldMatch, newMatch);
         iframeCount += printMessage(fw, oldMatch, newMatch, diff.getReplaces(), diff.getReplacedBy(), langCode, date, diff.getStatus(), iframeCount);
         if (oldMatch.getSuggestions().equals(newMatch.getSuggestions())) {
           fw.write("  <td>" + oldMatch.getSuggestions() + "</td>\n");
@@ -172,6 +173,7 @@ public class RuleMatchDiffFinder {
       } else {
         LightRuleMatch match = diff.getOldMatch() != null ? diff.getOldMatch() : diff.getNewMatch();
         printRuleIdCol(fw, null, match);
+        printMarkerCol(fw, null, match);
         iframeCount += printMessage(fw, match, null, diff.getReplaces(), diff.getReplacedBy(), langCode, date, diff.getStatus(), iframeCount);
         fw.write("  <td>" + match.getSuggestions() + "</td>\n");
         fw.write("</tr>\n");
@@ -188,7 +190,7 @@ public class RuleMatchDiffFinder {
   }
 
   private void printRuleIdCol(FileWriter fw, LightRuleMatch oldMatch, LightRuleMatch newMatch) throws IOException {
-    fw.write("  <td>");
+    fw.write("  <td class='small'>");
     if (oldMatch != null && !Objects.equals(oldMatch.getSubId(), newMatch.getSubId())) {
       fw.write(oldMatch.getRuleId());
       fw.write("[" + oldMatch.getSubId() + " => " + newMatch.getSubId() + "]");
@@ -207,6 +209,13 @@ public class RuleMatchDiffFinder {
     if (oldMatch != null && !newMatch.getTags().equals(oldMatch.getTags())) {
       fw.write("  <br><span class='status'>" + oldMatch.getTags() + " => " + newMatch.getTags() + "</span>");
     }
+    fw.write(" </td>\n");
+  }
+
+  private void printMarkerCol(FileWriter fw, LightRuleMatch oldMatch, LightRuleMatch newMatch) throws IOException {
+    fw.write("  <td>");
+    String markedText = newMatch == null ? oldMatch.getCoveredText() : newMatch.getCoveredText();
+    fw.write(markedText);
     fw.write(" </td>\n");
   }
 
@@ -302,7 +311,8 @@ public class RuleMatchDiffFinder {
     fw.write("<tr>\n");
     fw.write("  <th>Change</th>\n");
     fw.write("  <th>File</th>\n");
-    fw.write("  <th>Rule ID</th>\n");
+    fw.write("  <th class='small'>Rule ID</th>\n");
+    fw.write("  <th>Marked</th>\n");
     fw.write("  <th>Message and Text</th>\n");
     fw.write("  <th>Suggestions</th>\n");
     fw.write("</tr>\n");
@@ -324,7 +334,12 @@ public class RuleMatchDiffFinder {
     diffs.sort((k, j) -> {
         int idDiff = getFullId(k).compareTo(getFullId(j));
         if (idDiff == 0) {
-          return k.getStatus().compareTo(j.getStatus());
+          int diff2 = k.getStatus().compareTo(j.getStatus());
+          if (diff2 == 0) {
+            return k.getMarkedText().compareTo(j.getMarkedText());
+          } else {
+            return diff2;
+          }
         }
         return idDiff;
       }
@@ -421,6 +436,7 @@ public class RuleMatchDiffFinder {
     fw.write("  <script src='https://unpkg.com/tablefilter@0.7.0/dist/tablefilter/tablefilter.js'></script>\n");  // https://github.com/koalyptus/TableFilter/
     fw.write("  <style>\n");
     fw.write("    td { vertical-align: top; }\n");
+    fw.write("    .small { font-size: small }\n");
     fw.write("    .sentence { color: #666; }\n");
     fw.write("    .marker { text-decoration: underline; }\n");
     fw.write("    .source { color: #999; }\n");

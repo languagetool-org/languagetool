@@ -59,6 +59,10 @@ class RuleMatchDiff {
     return status;
   }
 
+  String getMarkedText() {
+    return newMatch == null ? oldMatch.getCoveredText() : newMatch.getCoveredText();
+  }
+
   LightRuleMatch getOldMatch() {
     return oldMatch;
   }
