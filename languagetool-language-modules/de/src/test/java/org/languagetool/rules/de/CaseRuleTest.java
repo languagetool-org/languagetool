@@ -177,6 +177,8 @@ public class CaseRuleTest {
     assertGood("Ein 10,4 Ah Lithium-Akku");
     assertGood("14:15 Uhr SpVgg Westheim");
     assertGood("Unser Wärmestrom-Tarif WärmeKompakt im Detail");  // ignore so we don't suggest "wärmeKompakt" (#3779)
+    assertGood("Autohaus Dornig GmbH");
+    assertGood("Hans Pries GmbH");
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");

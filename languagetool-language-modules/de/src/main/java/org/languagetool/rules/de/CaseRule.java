@@ -296,8 +296,8 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
       // Names: "Jeremy Schulte", "Alexa Jung", "Fiete Lang", ...
-      posRegex("UNKNOWN|EIG:.+"),
-      regex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Weigert|D(ü|ue)rr|Nagele|Hoppe|D(ö|oe)rre|G(ö|oe)ttlich|Stark")
+      new PatternTokenBuilder().posRegex("EIG:.+|UNKNOWN").csTokenRegex("[A-Z].+").build(),
+      regex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Weigert|D(ü|ue)rr|Nagele|Hoppe|D(ö|oe)rre|G(ö|oe)ttlich|Stark|Fahle")
     ),
     Arrays.asList(
       token(","),
@@ -685,6 +685,11 @@ public class CaseRule extends Rule {
     Arrays.asList( // Geoghegan Hart
       new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-Z].+").build(),
       csToken("Hart")
+    ),
+    Arrays.asList( // Autohaus Dornig GmbH
+      new PatternTokenBuilder().posRegex("EIG:.+|SUB:.+").csTokenRegex("[A-Z].+").build(),
+      csRegex("[A-ZÄÜÖ].+"),
+      csRegex("Gmb[Hh]|AG|KG|UG")
     )
   );
 
@@ -733,6 +738,9 @@ public class CaseRule extends Rule {
     "Schutzheiliger",
     "Schutzheiligen",
     "Lila",
+    "Langzeitarbeitslose",
+    "Langzeitarbeitslosen",
+    "Langzeitarbeitsloser",
     "Linksintellektuelle",
     "Linksintellektueller",
     "Linksintellektuellen",

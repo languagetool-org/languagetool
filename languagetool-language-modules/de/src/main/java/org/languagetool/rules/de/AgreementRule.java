@@ -828,6 +828,10 @@ public class AgreementRule extends Rule {
       csToken("Business"),
       tokenRegex("Angel[ns]?")
     ),
+    Arrays.asList( // "des Manager Magazins"
+      csToken("Manager"),
+      tokenRegex("Magazins?")
+    ),
     Arrays.asList(
       csToken("Junior"),
       tokenRegex("Suite[sn]?")

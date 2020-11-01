@@ -4980,6 +4980,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rule id="RESOURCE_RESSOURCE" name="Ressource vs Resource" default="temp_off">
+            <pattern>
+                <token>Human</token>
+                <token regexp="yes">Ressources?</token>
+            </pattern>
+            <message>Meinten Sie den englischen Begriff <suggestion><match no="1" case_conversion="startupper" /> <match no="2" regexp_match="ss" regexp_replace="s" /></suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/Personalwesen</url>
+            <example correction="Human Resources">Er war hauptverantwortlich für den Bereich <marker>Human Ressources</marker>.</example>
+        </rule>
         <rulegroup id="MERZ_MÄRZ" name="März vs Merz">
             <antipattern case_sensitive="yes">
                 <token>Friedrich</token>
@@ -4987,7 +4996,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes">ab|im|bis|Monat(e[ns]?)?|ersten|zweiten|dritten|vierten|fünften|sechsten|siebten|anfang|mitte|ende|nächste[rn]?|letzte[rn]?|vorherige[rn]?</token>
+                    <token regexp="yes">ab|im|bis|Monat(e[ns]?)?|ersten|zweiten|dritten|vierten|fünften|sechsten|siebten|anfang|mitte|ende|(über)?nächste[rn]?|letzte[rn]?|vorherige[rn]?|kommende[rn]</token>
                     <marker>
                         <token>Merz</token>
                     </marker>
@@ -37070,7 +37079,7 @@ Andere Projekte</example>
                     </marker>
                 </pattern>
                 <message>Die Präposition '\2' erfordert in der Regel den Genitiv.</message>
-                <suggestion>\2 <match no="3" regexp_match="[mn]$" regexp_replace="s" /> \4 <match no="5" postag="SUB:GEN:SIN:.+" postag_regexp="yes" /></suggestion>
+                <suggestion suppress_misspelled="yes">\2 <match no="3" regexp_match="[mn]$" regexp_replace="s" /> \4 <match no="5" postag="SUB:GEN:SIN:.+" postag_regexp="yes" /></suggestion>
                 <short>Diese Präposition erfordert den Genitiv</short>
                 <example correction="bezüglich unseres Termines|bezüglich unseres Termins">Ich würde mich <marker>bezüglich unseren Termins</marker> noch einmal melden.</example>
             </rule>
