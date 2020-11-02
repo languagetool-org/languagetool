@@ -1047,7 +1047,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   @Override
-  protected void init() throws IOException {
+  protected synchronized void init() throws IOException {
     super.init();
     super.ignoreWordsWithLength = 1;
     String pattern = "(" + nonWordPattern.pattern() + "|(?<=[\\d°])-|-(?=\\d+))";

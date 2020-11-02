@@ -52,7 +52,7 @@ public class SwissGermanSpellerRule extends GermanSpellerRule {
   }
 
   @Override
-  protected void init() throws IOException {
+  protected synchronized void init() throws IOException {
     super.init();
     for (String ignoreWord : wordListLoader.loadWords("/de/hunspell/spelling-de-CH.txt")) {
       addIgnoreWords(ignoreWord);
