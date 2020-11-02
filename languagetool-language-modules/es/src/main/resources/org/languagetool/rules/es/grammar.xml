@@ -5570,12 +5570,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ABBREVIATION" name="abreviaturas">
             <url>https://www.rae.es/dpd/ayuda/abreviaturas</url>
             <rule>
+                <antipattern>
+                    <token>US</token>
+                    <token postag="UNKNOWN"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="UNKNOWN"/>
+                    <token>US</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">EEUU|eeuu|USA|US</token>
                 </pattern>
                 <message>Abreviatura (<suggestion>EE.&#160;UU.</suggestion>) o sigla (<suggestion>EUA</suggestion>) de Estados Unidos.</message>
                 <example correction="EE.&#160;UU.|EUA">En <marker>EEUU</marker>.</example>
                 <example>Es el que usa él.</example>
+                <example>US Army</example>
             </rule>
             <rule>
                 <pattern>
