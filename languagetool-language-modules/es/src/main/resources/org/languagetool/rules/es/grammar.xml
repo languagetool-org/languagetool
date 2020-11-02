@@ -3704,7 +3704,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Nóminas"><marker>Nominas</marker> del mes de noviembre.</example>
                 <example>La Academia nomina las mejores películas.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes">formulas?</token>
                     <token postag="[DN].*|_GN_.*" postag_regexp="yes"/>
@@ -7227,7 +7227,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
-        <rule id="VERBO_MODAL_INFINITIVO" name="verbo modal + infinitivo" default="temp_off">
+        <rule id="VERBO_MODAL_INFINITIVO" name="verbo modal + infinitivo">
             <pattern>
                 <token inflected="yes" regexp="yes">poder|deber</token>
                 <marker>
@@ -10618,7 +10618,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="de la otra área">Viene <marker>del otro área</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AGREEMENT_ADJ_NOUN" name="Concordancias adjetivo y nombre">
+        <rulegroup id="AGREEMENT_ADJ_NOUN_" name="Concordancias adjetivo y nombre">
             <antipattern>
                 <token postag="SPS00"/>
                 <token regexp="yes">sí|yo|tú|él|ella|nosotros|nosotras|vosotros|vosotras|ellos|ellas|usted|ustedes</token>
@@ -10766,7 +10766,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ácidos grasos omega 3.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AGREEMENT_PARTICIPLE_NOUN" name="concordancias participio y nombre" default="temp_off">
+        <rulegroup id="AGREEMENT_PARTICIPLE_NOUN_" name="concordancias participio y nombre" default="temp_off">
             <antipattern>
                 <token regexp="yes">ab[ií](a|as|an|amos|ais)|as|emos|e|an<exception regexp="yes">\p{Lu}+</exception><exception postag="_GN_MS"/></token>
                 <token postag="V.P..SM" postag_regexp="yes"/>
