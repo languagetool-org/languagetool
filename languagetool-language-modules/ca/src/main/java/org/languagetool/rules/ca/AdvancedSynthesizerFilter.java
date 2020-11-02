@@ -34,6 +34,13 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 
+/*
+ * Synthesize suggestions using the lemma from one token (lemma_from) 
+ * and the POS tag from another one (postag_from).
+ * 
+ * The lemma_select and postag_select attributes are required 
+ * to choose one among several possible readings.
+ */
 public class AdvancedSynthesizerFilter extends RuleFilter {
 
   private static final CatalanSynthesizer synth = new CatalanSynthesizer(new Catalan());
