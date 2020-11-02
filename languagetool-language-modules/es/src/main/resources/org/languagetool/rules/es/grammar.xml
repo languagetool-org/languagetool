@@ -1447,7 +1447,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="náusea">Hasta la <marker>nausea</marker>.</example>
             </rule>
             <rule default="temp_off">
-            <!-- catch-all rule, only test-->
+                <!-- catch-all rule, only test-->
                 <antipattern>
                     <token/>
                     <token postag="[DNA].*" postag_regexp="yes"/>
@@ -6857,7 +6857,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!-- Find only standard prose -->
                     <token regexp="yes">[a-z].*</token>
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">[a-z] <exception regexp="yes">[aeouy]</exception> <exception postag="NNP"/> </token>
+                        <token case_sensitive="yes" regexp="yes">[a-z]<exception regexp="yes">[aeouy]</exception> <exception postag="NNP"/> </token>
                     </marker>
                     <token regexp="yes">[a-z].*</token>
                 </pattern>
@@ -14833,6 +14833,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Sr.">Vive con el <marker>Sr</marker> García.</example>
             </rule>
         </rulegroup>
+        <rule id="ABREVIATURA_SIGLO" name="punto en abreviatura de siglo (s.)" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>s</token>
+                </marker>
+                <token regexp="yes">[xiv]+</token>
+            </pattern>
+            <message>Falta un punto después de la abreviatura de "siglo".</message>
+            <suggestion><match no="1"/>.</suggestion>
+            <suggestion>siglo</suggestion>
+            <example correction="s.|siglo">Vive en el <marker>s</marker> XVIII.</example>
+        </rule>
         <rule id="WRONG_DASH" name="Carácter de guion incorrecto (u+2500...)">
             <pattern case_sensitive="no">
                 <marker>
