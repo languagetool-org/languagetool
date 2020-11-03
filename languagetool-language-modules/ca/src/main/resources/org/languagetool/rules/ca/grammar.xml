@@ -32779,12 +32779,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="COMA_ETC" name="coma abans de 'etc.'">
             <pattern>
-                <token><exception regexp="yes">[,;\(\[]|llarg|llarguíssim|extens|extensíssim|interminable|i</exception><exception postag="SENT_START"/></token>
-                <token regexp="yes">(?-i)etc|etcètera</token>
+                <token><exception regexp="yes">[,;\(\[]|llarg|llarguíssim|extens|extensíssim|interminable|inacabable|i</exception><exception postag="SENT_START"/></token>
+                <marker>
+                    <token regexp="yes">(?-i)etc|etcètera</token>
+                </marker>
             </pattern>
             <message>Probablement hi falta una coma.</message>
-            <suggestion>\1, \2</suggestion>
-            <example correction="verd, etc">Roig, blau, <marker>verd etc</marker>.</example>
+            <suggestion>, \2</suggestion>
+            <example correction=", etc">Roig, blau, verd<marker> etc</marker>.</example>
             <example>Roig, blau, verd i un llarg etc.</example>
             <example>Etcètera.</example>
             <example>I etcètera.</example>

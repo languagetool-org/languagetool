@@ -12960,17 +12960,19 @@ MARCOAGPINTO 2020-02-18 -->
       </pattern>
       <message>'etc.' não deve ser precedido por 'e'.</message>
         <suggestion>, etc.</suggestion>
-      <example correction=", etc.">Pode comer francezinhas, feijoada, quiche <marker>e etc.</marker></example>
+      <example correction=", etc.">Pode comer francezinhas, feijoada, quiche<marker> e etc.</marker></example>
     </rule>
     <rule>
       <pattern>
           <token negate="yes" regexp='yes'>,|e</token>
-          <token>etc</token>
+          <marker>
+            <token>etc</token>
+          </marker>
           <token>.</token>
       </pattern>
       <message>Deve-se utilizar a vírgula antes de 'etc.'.</message>
-        <suggestion>\1, etc.</suggestion>
-      <example correction="quiche, etc.">Pode comer francezinhas, feijoada, <marker>quiche etc.</marker></example>
+        <suggestion>, etc</suggestion>
+        <example correction=", etc">Pode comer francezinhas, feijoada, quiche<marker> etc</marker>.</example>
     </rule>
     <rule>
       <pattern>
