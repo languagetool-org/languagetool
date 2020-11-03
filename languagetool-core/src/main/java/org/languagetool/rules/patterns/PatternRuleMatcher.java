@@ -224,7 +224,8 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
     }
     int fromPos = tokens[firstMarkerMatchToken].getStartPos();
     // FIXME: this is fishy, assumes that comma should always come before whitespace:
-    if (errMessage.contains(SUGGESTION_START_TAG + ",") && firstMarkerMatchToken >= 1) {
+    if (firstMarkerMatchToken >= 1 && (errMessage.contains(SUGGESTION_START_TAG + ",") 
+        || suggestionsOutMsg.contains(SUGGESTION_START_TAG + ","))) {
       fromPos = tokens[firstMarkerMatchToken - 1].getStartPos()
           + tokens[firstMarkerMatchToken - 1].getToken().length();
     }

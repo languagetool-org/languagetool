@@ -17,7 +17,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
-    <!ENTITY carrecs "governador|delegat|president|ministre|fiscal|jutge|director|secretari|vicepresident|viceministre|vicesecretari|conseller|síndic|portaveu|alcalde|alcaldessa|batl?le|batl?lessa|regidor|rector|vicerector|diputat|senador|eurodiputat|bisbe|arquebisbe|lletrat|magistrat|comte|mossèn|sor|fra|professor|registrador|notari|tresorer"> <!-- senyor, rei -->
+    <!ENTITY carrecs "governador|delegat|president|ministre|fiscal|jutge|director|secretari|vicepresident|viceministre|vicesecretari|conseller|síndic|portaveu|alcalde|alcaldessa|batl?le|batl?lessa|regidor|rector|vicerector|diputat|senador|eurodiputat|bisbe|arquebisbe|lletrat|magistrat|comte|mossèn|sor|fra|professor|registrador|notari|tresorer|tinent"> <!-- senyor, rei -->
     <!ENTITY expressio_DOS_NOMS "aliatge|associació|binomi|concordança|connexió|corpus|correció|corrector|debat|diccionari|dualitat|figura|interpretació|paral·lel|parell|parella|relació|ràtio|traducció|traductor">
     <!ENTITY denominacio "element|paraula|mot|terme|expressió|vocable|nom|tipus|denominació|gentilici|terminació|arrel">
     <!ENTITY apostrophe "['’´]">
@@ -15116,6 +15116,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="THE_TE" name="t'he / te">
+            <pattern>
+                <marker>
+                    <token>t'</token>
+                    <token>he</token>
+                </marker>
+                <token postag="&pronom_feble;" postag_regexp="yes"/>
+                <token postag="V.[IS].*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>te</suggestion>?</message>
+            <example correction="te">Així <marker>t'he</marker> l'estalvies.</example>
+        </rule>
+        <rule id="LA_LHA" name="la / l'ha">
+            <pattern>
+                <token regexp="yes">me|te|se|ens|us|vos</token>
+                <marker>
+                    <token>la</token>
+                </marker>
+                <token postag="V.P.*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>l'ha</suggestion>?</message>
+            <example correction="l'ha">Se <marker>la</marker> cregut.</example>
+        </rule>
         <rule id="SER_SERVIR" name="ser/fer servir">
             <antipattern>
                 <token regexp="yes" inflected="yes" skip="10">tasca|objectiu|aportació|feina|faena|treball</token>
@@ -26533,7 +26556,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">sols?</token>
                     </marker>
-                    <token inflected="yes" regexp="yes">agrícola|sorrenc|desèrtic|fèrtil|infèrtil|al·luvial|volcànic|urbanitzable|calcari|urbanitzar|quaternari</token>
+                    <token inflected="yes" regexp="yes">agrícola|sorrenc|desèrtic|fèrtil|infèrtil|al·luvial|volcànic|urbanitzable|calcari|urbanitzar|quaternari|.*pelvià</token>
                 </pattern>
                 <message>Amb el sentit de 'terra, terreny', s'escriu amb accent.</message>
                 <suggestion><match no="1" regexp_match="(?iu)sol" regexp_replace="sòl"/></suggestion>
@@ -32317,7 +32340,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">\p{Lu}\p{Ll}+</token>
                     </and>
                 </pattern>
-                <message>Els càrrecs i les formes de tractament s'escriuen en minúscula, excepte en el tractament protocol·lari (ex. Molt Honorable Senyor President).</message>
+                <message>Els càrrecs i les formes de tractament s'escriuen en minúscula, excepte en el tractament protocol·lari (ex. Molt Honorable Senyor President) o si formen part d'un nom propi.</message>
                 <suggestion><match no="1" case_conversion="alllower"/> <match no="2" case_conversion="alllower"/></suggestion>
                 <example correction="primer ministre">Serà el nou <marker>Primer Ministre</marker>.</example>
                 <example correction="primera ministra">Serà la nova <marker>Primera Ministra</marker>.</example>
@@ -32333,7 +32356,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">\p{Lu}\p{Ll}+</token>
                     </and>
                 </pattern>
-                <message>Els càrrecs i les formes de tractament s'escriuen en minúscula, excepte en el tractament protocol·lari (ex. Molt Honorable Senyor President).</message>
+                <message>Els càrrecs i les formes de tractament s'escriuen en minúscula, excepte en el tractament protocol·lari (ex. Molt Honorable Senyor President) o si formen part d'un nom propi.</message>
                 <suggestion><match no="1" case_conversion="alllower"/> <match no="2" case_conversion="alllower"/></suggestion>
                 <example correction="fiscal general">Serà el nou <marker>Fiscal General</marker>.</example>
             </rule>
@@ -32366,7 +32389,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">\p{Lu}\p{Ll}+</token>
                     </and>
                 </pattern>
-                <message>Els càrrecs i les formes de tractament s'escriuen en minúscula, excepte en el tractament protocol·lari (ex. Molt Honorable Senyor President).</message>
+                <message>Els càrrecs i les formes de tractament s'escriuen en minúscula, excepte en el tractament protocol·lari (ex. Molt Honorable Senyor President) o si formen part d'un nom propi.</message>
                 <suggestion><match no="1" case_conversion="alllower"/></suggestion>
                 <example correction="president">Es va reunir amb el <marker>President</marker>.</example>
                 <example correction="presidenta">Se va reunir amb la <marker>Presidenta</marker> dels Estats Units.</example>
@@ -60204,15 +60227,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <marker>
-                    <token/>
+                    <token skip="-1" case_sensitive="yes">però<exception scope="next" postag="CC"></exception></token>
                 </marker>
-                <token skip="-1" case_sensitive="yes">però</token>
                 <token postag="V.[SI].*" postag_regexp="yes"/>
             </pattern>
             <message>La conjunció 'però' sovint va precedida d'una coma.</message>
-            <suggestion>\1,</suggestion>
-            <example correction="escons,">El partit aconsegueix molts <marker>escons</marker> però encara no n'hi ha prou.</example>
+            <suggestion>, però</suggestion>
+            <example correction=", però">El partit aconsegueix molts escons<marker> però</marker> encara no n'hi ha prou.</example>
             <example>¿Però què passa amb això?</example>
+            <example>És un cos celeste sòlid semblant als asteroides però amb diferent composició, i descriuen òrbites allargades.</example>
         </rule>
         <rulegroup id="MISSING_COMMA" name="coma en vocatius">
             <antipattern>
