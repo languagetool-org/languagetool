@@ -348,6 +348,10 @@ public class AdverbFilter extends RuleFilter {
     put("intrinsically", "intrinsic");
     put("substantially", "substantial");
     put("suspiciously", "suspicious");
+    put("generationally", "generational");
+    put("loudly", "loud");
+    put("moderately", "moderate");
+    put("gravely", "grave");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

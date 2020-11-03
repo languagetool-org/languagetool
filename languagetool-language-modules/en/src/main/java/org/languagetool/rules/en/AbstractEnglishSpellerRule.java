@@ -131,6 +131,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                      !k.getReplacement().startsWith("en ") &&
                      !k.getReplacement().startsWith("co ") &&
                      !k.getReplacement().startsWith("de ") &&
+                     !k.getReplacement().startsWith("mid ") &&
                      !k.getReplacement().toLowerCase().startsWith("non ") &&
                      !k.getReplacement().toLowerCase().startsWith("bio ") &&
                      !k.getReplacement().startsWith("con ") &&
