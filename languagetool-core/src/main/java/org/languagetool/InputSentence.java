@@ -41,11 +41,12 @@ class InputSentence {
   private final List<Language> altLanguages;
   private final JLanguageTool.Mode mode;
   private final JLanguageTool.Level level;
+  private final Long textSessionID;
 
   InputSentence(String text, Language lang, Language motherTongue,
                 Set<String> disabledRules, Set<CategoryId> disabledRuleCategories,
                 Set<String> enabledRules, Set<CategoryId> enabledRuleCategories, UserConfig userConfig,
-                List<Language> altLanguages, JLanguageTool.Mode mode, JLanguageTool.Level level) {
+                List<Language> altLanguages, JLanguageTool.Mode mode, JLanguageTool.Level level, Long textSessionID) {
     this.text = Objects.requireNonNull(text);
     this.lang = Objects.requireNonNull(lang);
     this.motherTongue = motherTongue;
@@ -54,9 +55,19 @@ class InputSentence {
     this.enabledRules = enabledRules;
     this.enabledRuleCategories = enabledRuleCategories;
     this.userConfig = userConfig;
+    this.textSessionID = textSessionID;
     this.altLanguages = altLanguages;
     this.mode = Objects.requireNonNull(mode);
     this.level = Objects.requireNonNull(level);
+  }
+
+  InputSentence(String text, Language lang, Language motherTongue,
+                Set<String> disabledRules, Set<CategoryId> disabledRuleCategories,
+                Set<String> enabledRules, Set<CategoryId> enabledRuleCategories, UserConfig userConfig,
+                List<Language> altLanguages, JLanguageTool.Mode mode, JLanguageTool.Level level) {
+    this(text, lang, motherTongue, disabledRules, disabledRuleCategories,
+      enabledRules, enabledRuleCategories, userConfig, altLanguages,
+      mode, level, userConfig != null ? userConfig.getTextSessionId() : null);
   }
 
   /** @since 4.1 */
@@ -78,6 +89,7 @@ class InputSentence {
            Objects.equals(enabledRules, other.enabledRules) &&
            Objects.equals(enabledRuleCategories, other.enabledRuleCategories) &&
            Objects.equals(userConfig, other.userConfig) &&
+           Objects.equals(textSessionID, other.textSessionID) &&
            Objects.equals(altLanguages, other.altLanguages) &&
            Objects.equals(mode, other.mode) &&
            Objects.equals(level, other.level);
@@ -86,7 +98,7 @@ class InputSentence {
   @Override
   public int hashCode() {
     return Objects.hash(text, lang, motherTongue, disabledRules, disabledRuleCategories,
-            enabledRules, enabledRuleCategories, userConfig, altLanguages, mode, level);
+            enabledRules, enabledRuleCategories, userConfig, textSessionID, altLanguages, mode, level);
   }
 
   @Override

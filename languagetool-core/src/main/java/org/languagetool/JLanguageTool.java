@@ -874,7 +874,22 @@ public class JLanguageTool {
    */
   public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener,
                                Mode mode, Level level, @Nullable ExecutorService remoteRulesThreadPool) throws IOException {
-    List<String> sentences;
+    return check(annotatedText, tokenizeText, paraMode, listener, mode, level, remoteRulesThreadPool,
+      userConfig != null ? userConfig.getTextSessionId() : null);
+  }
+
+
+
+  /**
+   * The main check method. Tokenizes the text into sentences and matches these
+   * sentences against all currently active rules depending on {@code mode}.
+   *
+   * @param textSessionID UserConfig.getTextSessionID can be outdated because of pipeline pool caching, so pass through directly
+   * @since 5.2
+   */
+  public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener,
+      Mode mode, Level level, @Nullable ExecutorService remoteRulesThreadPool, @Nullable Long textSessionID) throws IOException {
+      List<String> sentences;
     if (tokenizeText) {
       sentences = sentenceTokenize(annotatedText.getPlainText());
     } else {
@@ -905,7 +920,7 @@ public class JLanguageTool {
       // trigger remote rules to run on whole text at once, at the start, then we wait for the results
       remoteRuleTasks = new LinkedList<>();
       checkRemoteRules(remoteRulesThreadPool, allRules, analyzedSentences, mode, level,
-        remoteRuleTasks, remoteRules, cachedResults, matchOffset);
+        remoteRuleTasks, remoteRules, cachedResults, matchOffset, textSessionID);
     }
 
     long textCheckStart = System.currentTimeMillis();
@@ -913,7 +928,8 @@ public class JLanguageTool {
       paraMode, annotatedText, listener, mode, level, remoteRulesThreadPool == null);
     long textCheckEnd = System.currentTimeMillis();
 
-    fetchRemoteRuleResults(mode, level, analyzedSentences, remoteMatches, remoteRuleTasks, remoteRules, cachedResults, matchOffset, annotatedText);
+    fetchRemoteRuleResults(mode, level, analyzedSentences, remoteMatches, remoteRuleTasks, remoteRules,
+      cachedResults, matchOffset, annotatedText, textSessionID);
     long remoteRuleCheckEnd = System.currentTimeMillis();
     if (remoteRules.size() > 0) {
       logger.info("Local checks took {}ms, remote checks {}ms; waited {}ms on remote results",
@@ -943,7 +959,7 @@ public class JLanguageTool {
                                         List<FutureTask<RemoteRuleResult>> remoteRuleTasks, List<RemoteRule> remoteRules,
                                         Map<Integer, List<RuleMatch>> cachedResults,
                                         Map<Integer, Integer> matchOffset,
-                                        AnnotatedText annotatedText) {
+                                        AnnotatedText annotatedText, Long textSessionID) {
     if (remoteRuleTasks != null) {
       // fetch results from remote rules
       for (int taskIndex = 0; taskIndex < remoteRuleTasks.size(); taskIndex++) {
@@ -962,7 +978,7 @@ public class JLanguageTool {
               // store in cache
               InputSentence cacheKey = new InputSentence(
                 sentence.getText(), language, motherTongue, disabledRules, disabledRuleCategories,
-                enabledRules, enabledRuleCategories, userConfig, altLanguages, mode, level);
+                enabledRules, enabledRuleCategories, userConfig, altLanguages, mode, level, textSessionID);
               Map<String, List<RuleMatch>> cacheEntry = cache.getRemoteMatchesCache().get(cacheKey, HashMap::new);
               // TODO check if result is from fallback, don't cache?
               //logger.info("Caching: Remote rule '{}'", ruleKey);
@@ -1022,7 +1038,7 @@ public class JLanguageTool {
   protected void checkRemoteRules(@NotNull ExecutorService remoteRulesThreadPool,
                                   List<Rule> allRules, List<AnalyzedSentence> analyzedSentences, Mode mode, Level level,
                                   List<FutureTask<RemoteRuleResult>> remoteRuleTasks, List<RemoteRule> remoteRules,
-                                  Map<Integer, List<RuleMatch>> cachedResults, Map<Integer, Integer> matchOffset) {
+                                  Map<Integer, List<RuleMatch>> cachedResults, Map<Integer, Integer> matchOffset, Long textSessionID) {
     List<InputSentence> cacheKeys = new LinkedList<>();
     int offset = 0;
     // prepare keys for caching, offsets for adjusting match positions
@@ -1032,7 +1048,7 @@ public class JLanguageTool {
       offset += s.getText().length();
       InputSentence cacheKey = new InputSentence(s.getText(), language, motherTongue,
         disabledRules, disabledRuleCategories, enabledRules, enabledRuleCategories,
-        userConfig, altLanguages, mode, level);
+        userConfig, altLanguages, mode, level, textSessionID);
       cacheKeys.add(cacheKey);
     }
     for (Rule r : allRules) {
@@ -1067,9 +1083,10 @@ public class JLanguageTool {
               cachedResults.get(sentenceIndex).addAll(cachedMatches);
             }
           }
-          task = rule.run(nonCachedSentences, userConfig.getTextSessionId());
+          // userConfig is cached by pipeline pool,
+          task = rule.run(nonCachedSentences, textSessionID);
         } else {
-          task = rule.run(analyzedSentences, userConfig.getTextSessionId());
+          task = rule.run(analyzedSentences, textSessionID);
         }
         remoteRuleTasks.add(task);
         remoteRulesThreadPool.submit(task);
