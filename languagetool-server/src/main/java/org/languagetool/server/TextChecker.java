@@ -638,7 +638,8 @@ abstract class TextChecker {
     try {
       settings = new PipelinePool.PipelineSettings(lang, motherTongue, params, config.globalConfig, userConfig);
       lt = pipelinePool.getPipeline(settings);
-      matches.addAll(lt.check(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener, params.mode, params.level, executorService));
+      matches.addAll(lt.check(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener,
+        params.mode, params.level, executorService, userConfig.getTextSessionId()));
     } finally {
       if (lt != null) {
         pipelinePool.returnPipeline(settings, lt);

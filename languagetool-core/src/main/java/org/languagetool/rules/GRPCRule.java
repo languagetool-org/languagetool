@@ -196,11 +196,17 @@ public abstract class GRPCRule extends RemoteRule {
   }
 
   @Override
-  protected RemoteRule.RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText, Long textSessionId) {
+  protected RemoteRule.RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText, @Nullable Long textSessionId) {
     List<String> text = sentences.stream().map(AnalyzedSentence::getText).collect(Collectors.toList());
+    List<Long> ids = Collections.emptyList();
+    if (textSessionId != null) {
+      ids = Collections.nCopies(text.size(), textSessionId);
+    }
+
     MLServerProto.MatchRequest req = MLServerProto.MatchRequest.newBuilder()
       .addAllSentences(text)
       .setInputLogging(inputLogging)
+      .addAllTextSessionID(ids)
       .build();
     return new MLRuleRequest(req, sentences);
   }

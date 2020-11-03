@@ -68,6 +68,35 @@ public final class MLServerProto {
      * @return The inputLogging.
      */
     boolean getInputLogging();
+
+    /**
+     * <pre>
+     * session ID, for partial rollout &amp; A/B tests
+     * </pre>
+     *
+     * <code>repeated int64 textSessionID = 3;</code>
+     * @return A list containing the textSessionID.
+     */
+    java.util.List<java.lang.Long> getTextSessionIDList();
+    /**
+     * <pre>
+     * session ID, for partial rollout &amp; A/B tests
+     * </pre>
+     *
+     * <code>repeated int64 textSessionID = 3;</code>
+     * @return The count of textSessionID.
+     */
+    int getTextSessionIDCount();
+    /**
+     * <pre>
+     * session ID, for partial rollout &amp; A/B tests
+     * </pre>
+     *
+     * <code>repeated int64 textSessionID = 3;</code>
+     * @param index The index of the element to return.
+     * @return The textSessionID at the given index.
+     */
+    long getTextSessionID(int index);
   }
   /**
    * Protobuf type {@code lt_ml_server.MatchRequest}
@@ -83,6 +112,7 @@ public final class MLServerProto {
     }
     private MatchRequest() {
       sentences_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      textSessionID_ = emptyLongList();
     }
 
     @java.lang.Override
@@ -130,6 +160,27 @@ public final class MLServerProto {
               inputLogging_ = input.readBool();
               break;
             }
+            case 24: {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                textSessionID_ = newLongList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              textSessionID_.addLong(input.readInt64());
+              break;
+            }
+            case 26: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
+                textSessionID_ = newLongList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                textSessionID_.addLong(input.readInt64());
+              }
+              input.popLimit(limit);
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -147,6 +198,9 @@ public final class MLServerProto {
       } finally {
         if (((mutable_bitField0_ & 0x00000001) != 0)) {
           sentences_ = sentences_.getUnmodifiableView();
+        }
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+          textSessionID_.makeImmutable(); // C
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -230,6 +284,45 @@ public final class MLServerProto {
       return inputLogging_;
     }
 
+    public static final int TEXTSESSIONID_FIELD_NUMBER = 3;
+    private com.google.protobuf.Internal.LongList textSessionID_;
+    /**
+     * <pre>
+     * session ID, for partial rollout &amp; A/B tests
+     * </pre>
+     *
+     * <code>repeated int64 textSessionID = 3;</code>
+     * @return A list containing the textSessionID.
+     */
+    public java.util.List<java.lang.Long>
+        getTextSessionIDList() {
+      return textSessionID_;
+    }
+    /**
+     * <pre>
+     * session ID, for partial rollout &amp; A/B tests
+     * </pre>
+     *
+     * <code>repeated int64 textSessionID = 3;</code>
+     * @return The count of textSessionID.
+     */
+    public int getTextSessionIDCount() {
+      return textSessionID_.size();
+    }
+    /**
+     * <pre>
+     * session ID, for partial rollout &amp; A/B tests
+     * </pre>
+     *
+     * <code>repeated int64 textSessionID = 3;</code>
+     * @param index The index of the element to return.
+     * @return The textSessionID at the given index.
+     */
+    public long getTextSessionID(int index) {
+      return textSessionID_.getLong(index);
+    }
+    private int textSessionIDMemoizedSerializedSize = -1;
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -244,11 +337,19 @@ public final class MLServerProto {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      getSerializedSize();
       for (int i = 0; i < sentences_.size(); i++) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, sentences_.getRaw(i));
       }
       if (inputLogging_ != false) {
         output.writeBool(2, inputLogging_);
+      }
+      if (getTextSessionIDList().size() > 0) {
+        output.writeUInt32NoTag(26);
+        output.writeUInt32NoTag(textSessionIDMemoizedSerializedSize);
+      }
+      for (int i = 0; i < textSessionID_.size(); i++) {
+        output.writeInt64NoTag(textSessionID_.getLong(i));
       }
       unknownFields.writeTo(output);
     }
@@ -271,6 +372,20 @@ public final class MLServerProto {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(2, inputLogging_);
       }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < textSessionID_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt64SizeNoTag(textSessionID_.getLong(i));
+        }
+        size += dataSize;
+        if (!getTextSessionIDList().isEmpty()) {
+          size += 1;
+          size += com.google.protobuf.CodedOutputStream
+              .computeInt32SizeNoTag(dataSize);
+        }
+        textSessionIDMemoizedSerializedSize = dataSize;
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -290,6 +405,8 @@ public final class MLServerProto {
           .equals(other.getSentencesList())) return false;
       if (getInputLogging()
           != other.getInputLogging()) return false;
+      if (!getTextSessionIDList()
+          .equals(other.getTextSessionIDList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -308,6 +425,10 @@ public final class MLServerProto {
       hash = (37 * hash) + INPUTLOGGING_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getInputLogging());
+      if (getTextSessionIDCount() > 0) {
+        hash = (37 * hash) + TEXTSESSIONID_FIELD_NUMBER;
+        hash = (53 * hash) + getTextSessionIDList().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -445,6 +566,8 @@ public final class MLServerProto {
         bitField0_ = (bitField0_ & ~0x00000001);
         inputLogging_ = false;
 
+        textSessionID_ = emptyLongList();
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -478,6 +601,11 @@ public final class MLServerProto {
         }
         result.sentences_ = sentences_;
         result.inputLogging_ = inputLogging_;
+        if (((bitField0_ & 0x00000002) != 0)) {
+          textSessionID_.makeImmutable();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.textSessionID_ = textSessionID_;
         onBuilt();
         return result;
       }
@@ -538,6 +666,16 @@ public final class MLServerProto {
         }
         if (other.getInputLogging() != false) {
           setInputLogging(other.getInputLogging());
+        }
+        if (!other.textSessionID_.isEmpty()) {
+          if (textSessionID_.isEmpty()) {
+            textSessionID_ = other.textSessionID_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureTextSessionIDIsMutable();
+            textSessionID_.addAll(other.textSessionID_);
+          }
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -753,6 +891,113 @@ public final class MLServerProto {
       public Builder clearInputLogging() {
         
         inputLogging_ = false;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.Internal.LongList textSessionID_ = emptyLongList();
+      private void ensureTextSessionIDIsMutable() {
+        if (!((bitField0_ & 0x00000002) != 0)) {
+          textSessionID_ = mutableCopy(textSessionID_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <pre>
+       * session ID, for partial rollout &amp; A/B tests
+       * </pre>
+       *
+       * <code>repeated int64 textSessionID = 3;</code>
+       * @return A list containing the textSessionID.
+       */
+      public java.util.List<java.lang.Long>
+          getTextSessionIDList() {
+        return ((bitField0_ & 0x00000002) != 0) ?
+                 java.util.Collections.unmodifiableList(textSessionID_) : textSessionID_;
+      }
+      /**
+       * <pre>
+       * session ID, for partial rollout &amp; A/B tests
+       * </pre>
+       *
+       * <code>repeated int64 textSessionID = 3;</code>
+       * @return The count of textSessionID.
+       */
+      public int getTextSessionIDCount() {
+        return textSessionID_.size();
+      }
+      /**
+       * <pre>
+       * session ID, for partial rollout &amp; A/B tests
+       * </pre>
+       *
+       * <code>repeated int64 textSessionID = 3;</code>
+       * @param index The index of the element to return.
+       * @return The textSessionID at the given index.
+       */
+      public long getTextSessionID(int index) {
+        return textSessionID_.getLong(index);
+      }
+      /**
+       * <pre>
+       * session ID, for partial rollout &amp; A/B tests
+       * </pre>
+       *
+       * <code>repeated int64 textSessionID = 3;</code>
+       * @param index The index to set the value at.
+       * @param value The textSessionID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTextSessionID(
+          int index, long value) {
+        ensureTextSessionIDIsMutable();
+        textSessionID_.setLong(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * session ID, for partial rollout &amp; A/B tests
+       * </pre>
+       *
+       * <code>repeated int64 textSessionID = 3;</code>
+       * @param value The textSessionID to add.
+       * @return This builder for chaining.
+       */
+      public Builder addTextSessionID(long value) {
+        ensureTextSessionIDIsMutable();
+        textSessionID_.addLong(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * session ID, for partial rollout &amp; A/B tests
+       * </pre>
+       *
+       * <code>repeated int64 textSessionID = 3;</code>
+       * @param values The textSessionID to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllTextSessionID(
+          java.lang.Iterable<? extends java.lang.Long> values) {
+        ensureTextSessionIDIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, textSessionID_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * session ID, for partial rollout &amp; A/B tests
+       * </pre>
+       *
+       * <code>repeated int64 textSessionID = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTextSessionID() {
+        textSessionID_ = emptyLongList();
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
@@ -4372,19 +4617,20 @@ public final class MLServerProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\017ml_server.proto\022\014lt_ml_server\"7\n\014Match" +
+      "\n\017ml_server.proto\022\014lt_ml_server\"N\n\014Match" +
       "Request\022\021\n\tsentences\030\001 \003(\t\022\024\n\014inputLoggi" +
-      "ng\030\002 \001(\010\"A\n\rMatchResponse\0220\n\017sentenceMat" +
-      "ches\030\001 \003(\0132\027.lt_ml_server.MatchList\"1\n\tM" +
-      "atchList\022$\n\007matches\030\001 \003(\0132\023.lt_ml_server" +
-      ".Match\"\252\001\n\005Match\022\016\n\006offset\030\001 \001(\r\022\016\n\006leng" +
-      "th\030\002 \001(\r\022\n\n\002id\030\003 \001(\t\022\016\n\006sub_id\030\004 \001(\t\022\023\n\013" +
-      "suggestions\030\005 \003(\t\022\027\n\017ruleDescription\030\006 \001" +
-      "(\t\022\030\n\020matchDescription\030\007 \001(\t\022\035\n\025matchSho" +
-      "rtDescription\030\010 \001(\t2N\n\010MLServer\022B\n\005Match" +
-      "\022\032.lt_ml_server.MatchRequest\032\033.lt_ml_ser" +
-      "ver.MatchResponse\"\000B*\n\031org.languagetool." +
-      "rules.mlB\rMLServerProtob\006proto3"
+      "ng\030\002 \001(\010\022\025\n\rtextSessionID\030\003 \003(\003\"A\n\rMatch" +
+      "Response\0220\n\017sentenceMatches\030\001 \003(\0132\027.lt_m" +
+      "l_server.MatchList\"1\n\tMatchList\022$\n\007match" +
+      "es\030\001 \003(\0132\023.lt_ml_server.Match\"\252\001\n\005Match\022" +
+      "\016\n\006offset\030\001 \001(\r\022\016\n\006length\030\002 \001(\r\022\n\n\002id\030\003 " +
+      "\001(\t\022\016\n\006sub_id\030\004 \001(\t\022\023\n\013suggestions\030\005 \003(\t" +
+      "\022\027\n\017ruleDescription\030\006 \001(\t\022\030\n\020matchDescri" +
+      "ption\030\007 \001(\t\022\035\n\025matchShortDescription\030\010 \001" +
+      "(\t2N\n\010MLServer\022B\n\005Match\022\032.lt_ml_server.M" +
+      "atchRequest\032\033.lt_ml_server.MatchResponse" +
+      "\"\000B*\n\031org.languagetool.rules.mlB\rMLServe" +
+      "rProtob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -4395,7 +4641,7 @@ public final class MLServerProto {
     internal_static_lt_ml_server_MatchRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_lt_ml_server_MatchRequest_descriptor,
-        new java.lang.String[] { "Sentences", "InputLogging", });
+        new java.lang.String[] { "Sentences", "InputLogging", "TextSessionID", });
     internal_static_lt_ml_server_MatchResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_lt_ml_server_MatchResponse_fieldAccessorTable = new

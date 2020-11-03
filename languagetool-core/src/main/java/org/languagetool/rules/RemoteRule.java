@@ -78,12 +78,12 @@ public abstract class RemoteRule extends Rule {
   }
 
   public FutureTask<RemoteRuleResult> run(List<AnalyzedSentence> sentences) {
-    return run(sentences, 0L);
+    return run(sentences, null);
   }
 
   protected class RemoteRequest {}
 
-  protected abstract RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText, Long textSessionId);
+  protected abstract RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText, @Nullable Long textSessionId);
   protected abstract Callable<RemoteRuleResult> executeRequest(RemoteRequest request);
   protected abstract RemoteRuleResult fallbackResults(RemoteRequest request);
 
@@ -92,7 +92,10 @@ public abstract class RemoteRule extends Rule {
    * @param textSessionId ID for texts, should stay constant for a user session; used for A/B tests of experimental rules
    * @return Future with result
    */
-  public FutureTask<RemoteRuleResult> run(List<AnalyzedSentence> sentences, Long textSessionId) {
+  public FutureTask<RemoteRuleResult> run(List<AnalyzedSentence> sentences, @Nullable Long textSessionId) {
+    if (sentences.isEmpty()) {
+      return new FutureTask<>(() -> new RemoteRuleResult(false, true, Collections.emptyList()));
+    }
     return new FutureTask<>(() -> {
       long startTime = System.nanoTime();
       long characters = sentences.stream().mapToInt(sentence -> sentence.getText().length()).sum();
