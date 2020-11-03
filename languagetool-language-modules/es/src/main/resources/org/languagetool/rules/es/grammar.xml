@@ -7228,14 +7228,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
         <rule id="VERBO_MODAL_INFINITIVO" name="verbo modal + infinitivo" default="temp_off">
-            <pattern>
+            <antipattern>
+                <token skip="5">si</token>
                 <token inflected="yes" regexp="yes">poder|deber</token>
+            </antipattern>
+            <pattern>
+                <token  postag="V.[SIN].*" postag_regexp="yes" inflected="yes" regexp="yes">poder|deber<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 <marker>
-                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">.+a</token>
+                    <token postag="V.I.*" postag_regexp="yes" regexp="yes">.+[ae]<exception postag="[DP].*|V.S.*" postag_regexp="yes"></exception></token>
                 </marker>
             </pattern>
-            <message>¿Quería decir <suggestion><match no="2" postag="V.[SI].*" postag_regexp="yes" postag_replace="V.N...."/></suggestion></message>
+            <message>Posible confusión. ¿Quería decir <suggestion><match no="2" postag="V.[SI].*" postag_regexp="yes" postag_replace="V.N...."/></suggestion></message>
             <example correction="entrever|entrevistar">Es una lástima no poder <marker>entrevista</marker> al diputado.</example>
+            <example correction="hacer">Quien pueda <marker>hace</marker> un milagro que lo haga.</example>
+            <example>Un gran poder conlleva una gran responsabilidad.</example>
+            <example>El deber debería venir antes que cualquier otra cosa.</example>
+            <example>Si puedes anda a aver.</example>
+            <example>Si pudiera abriría 8 días a la semana.</example>
+            <example>Si se pudiera estaría abierto.</example>
+            <example>Que quien pueda haga un milagro.</example>
+            <example>No me debes nada.</example>
         </rule>
         <rule id="DOS_VERBOS_MODALES" name="dos verbos modales seguidos" default="temp_off">
             <antipattern>
