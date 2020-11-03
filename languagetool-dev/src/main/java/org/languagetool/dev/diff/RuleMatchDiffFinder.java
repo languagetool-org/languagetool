@@ -173,8 +173,8 @@ public class RuleMatchDiffFinder {
       } else {
         LightRuleMatch match = diff.getOldMatch() != null ? diff.getOldMatch() : diff.getNewMatch();
         printRuleIdCol(fw, null, match);
-        printMarkerCol(fw, null, match);
         iframeCount += printMessage(fw, match, null, diff.getReplaces(), diff.getReplacedBy(), langCode, date, diff.getStatus(), iframeCount);
+        printMarkerCol(fw, null, match);
         fw.write("  <td>" + match.getSuggestions() + "</td>\n");
         fw.write("</tr>\n");
       }
@@ -312,8 +312,8 @@ public class RuleMatchDiffFinder {
     fw.write("  <th>Change</th>\n");
     fw.write("  <th>File</th>\n");
     fw.write("  <th class='small'>Rule ID</th>\n");
-    fw.write("  <th>Marked</th>\n");
     fw.write("  <th>Message and Text</th>\n");
+    fw.write("  <th>Marked</th>\n");
     fw.write("  <th>Suggestions</th>\n");
     fw.write("</tr>\n");
     fw.write("</thead>\n");
