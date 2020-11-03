@@ -7028,20 +7028,6 @@ onwaarschijnlijk
 	</category>
 	<category id="EIGENNAMEN" name="Eigennamen beroemdheden etc.">
 
-		<rulegroup id="DUBBELE_VOORLETTER" name="dubbele voorletter">
-			<rule>
-				<pattern>
-					<marker>
-					<token  case_sensitive="yes" regexp="yes">Adr|Fr|Fred|IJ|Jac|Joh|Ph|Th|Tj</token>
-					<token spacebefore="no">.</token>
-					</marker>
-					<token regexp="yes" case_sensitive="yes">[A-Z].*</token>
-				</pattern>
-				<message>Officiële instanties gebruiken zelden dubbele voorletters: <suggestion><match no="1" regexp_match="(^[A-Z]).*" regexp_replace="$1."/></suggestion>.</message>
-				<url>https://onzetaal.nl/taaladvies/th-t-als-voorletter</url>
-				<example correction="T.">De naam is <marker>Th.</marker> Janssen.</example>
-			</rule>
-		</rulegroup>
 		
 		<rulegroup id="NAAM_FOUT_GESPELD" name="Jimmy Hendrix → Jimi Hendrix (etc.)">
 			<rule>
@@ -29569,6 +29555,22 @@ steenwijk;Steenwijk
 		</rulegroup>
 	</category>
 	<category id="STYLE" name="Stijl" type="style">
+
+		<rulegroup id="DUBBELE_VOORLETTER" name="dubbele voorletter">
+			<rule>
+				<pattern>
+					<marker>
+					<token  case_sensitive="yes" regexp="yes">Adr|Fr|IJ|Jac|Joh|Ph|Th|Tj</token>
+					<token spacebefore="no">.</token>
+					</marker>
+					<token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+				</pattern>
+				<message>Officiële instanties gebruiken zelden dubbele voorletters: <suggestion><match no="1" regexp_match="(^[A-Z]).*" regexp_replace="$1."/></suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/th-t-als-voorletter</url>
+				<example correction="T.">De naam is <marker>Th.</marker> Janssen.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="KAN_KUN" name="kan vs kun" tags="picky">
 			<antipattern>
 				<token postag="SENT_START"/>
