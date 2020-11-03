@@ -46,6 +46,7 @@ public class GermanSynthesizerTest {
 
   @Test
   public void testSynthesize() throws IOException {
+    assertThat(synth("Buschfeuer", "SUB:GEN:SIN:NEU"), is("[Buschfeuers]"));
     assertThat(synth("Äußerung", "SUB:NOM:PLU:FEM"), is("[Äußerungen]"));
     assertThat(synth("Äußerung", "SUB:NOM:PLU:MAS"), is("[]"));
     assertThat(synth("Haus", "SUB:AKK:PLU:NEU"), is("[Häuser]"));
