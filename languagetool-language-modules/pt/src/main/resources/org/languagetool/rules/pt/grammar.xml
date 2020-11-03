@@ -10484,6 +10484,39 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="guarda">O Rui é da velha <marker>escola</marker>.</example>
     </rule>
 
+    <!-- 	VERB + QUE + É verb + ser(em) -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-02 (21-OCT-2020+)     -->
+    <rulegroup id='VERB_QUE_É_VERB_SER' name="Que é/são > ser(em)">
+		<rule>
+			<pattern>
+				<token postag='V.+' postag_regexp='yes'>
+				<exception regexp='no'>é</exception>
+				<exception postag_regexp='yes' postag='NC[CFM][SP]000|AQ0[CFM][SP]0'/></token>
+				<marker>
+					<token>que</token>
+					<token>é</token>
+				</marker>
+				<token negate="yes" regexp='yes'>horas?</token>
+			</pattern>		
+			<message>Substitua por <suggestion>ser</suggestion>.</message>
+			<example correction="ser">Mas depende sempre daquilo que consideras <marker>que é</marker> o problema.</example>  
+		</rule>
+		<rule>
+			<pattern>
+				<token postag='V.+' postag_regexp='yes'>
+				<exception regexp='no'>é</exception>
+				<exception postag_regexp='yes' postag='NC[CFM][SP]000|AQ0[CFM][SP]0'/></token>
+				<marker>
+					<token>que</token>
+					<token>são</token>
+				</marker>
+				<token negate="yes" regexp='yes'>horas?</token>
+			</pattern>		
+			<message>Substitua por <suggestion>serem</suggestion>.</message>
+			<example correction="serem">Mas depende sempre daquilo que consideras <marker>que são</marker> os problemas.</example>  
+		</rule>		
+	</rulegroup>
+
     <!-- VERBO1 QUE VERBO2 VERBO3 O QUE verbo2_infinitivo verbo3_infinitivo o que -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-23 (21-OCT-2020+)     -->
 	<rule id='VERBO1_QUE_VERBO2_VERBO3_O_QUE' name="verbo2 + verbo3_infinitivo">
