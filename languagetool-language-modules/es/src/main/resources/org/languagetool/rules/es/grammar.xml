@@ -11475,6 +11475,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>a tiempo parcial</suggestion>
                 <example correction="dedicación parcial|dedicación no exclusiva|a tiempo parcial"><marker>part-time</marker></example>
             </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">postear</token>
+                </pattern>
+                <message>Anglicismo innecesario. Es preferible usar otro verbo.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">publicar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">publicar</match> un artículo</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">publicar</match> una entrada</suggestion>
+                <url>https://www.fundeu.es/recomendacion/internet-terminos-relacionados-1315/</url>
+                <example correction="publicó|publicó un artículo|publicó una entrada">Entonces <marker>posteó</marker> su mensaje.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">posteo</token>
+                </pattern>
+                <message>Anglicismo innecesario. Es preferible usar otra palabra.</message>
+                <suggestion><match no="1" postag="NCM(.*)" postag_regexp="yes" postag_replace="NCF$1">publicación</match></suggestion>
+                <suggestion><match no="1" postag="NCM(.*)" postag_regexp="yes" postag_replace="NCF$1">entrada</match></suggestion>
+                <suggestion><match no="1" postag="NCM(.*)" postag_regexp="yes" postag_replace="NCM$1">artículo</match></suggestion>
+                <url>https://www.fundeu.es/recomendacion/internet-terminos-relacionados-1315/</url>
+                <example correction="publicaciones|entradas|artículos">Los <marker>posteos</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PER_CAPITA" name="per cápita">
             <rule>
