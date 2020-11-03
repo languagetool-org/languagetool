@@ -397,9 +397,9 @@ class SingleDocument {
     } else {
       flatPara.init();
     }
-    docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck);
-    if (docCache.isEmpty()) {
-      return null;
+    DocumentCache newCache = new DocumentCache(docCursor, flatPara, defaultParaCheck);
+    if (!newCache.isEmpty()) {
+      docCache = newCache;
     }
     return docCache;
   }
