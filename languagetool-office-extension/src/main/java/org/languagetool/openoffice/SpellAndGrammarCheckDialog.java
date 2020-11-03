@@ -1454,7 +1454,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       docCache = new DocumentCache(docCursor, flatPara, -1);
  */
       docCache = currentDocument.getUpdatedDocumentCache();
-      if (docCache.size() <= 0) {
+      if (docCache == null || docCache.size() <= 0) {
         MessageHandler.printToLogFile("getNextError: docCache size == 0: Return null");
         return null;
       }
