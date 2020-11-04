@@ -12015,6 +12015,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rulegroup id="VEN" name="confusiones ven/ver/en" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">poder|deber|querer</token>
+                    <marker>
+                        <token>ven</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>ver</suggestion>?</message>
+                <example correction="ver">Pueden <marker>ven</marker> el resultado al final.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START|_PUNCT.*|P.*|CC|R.*" postag_regexp="yes"/>
+                    <token>ven</token>
+                </antipattern>
+                <antipattern>
+                    <token>ven</token>
+                    <token postag="SPS00|V.N.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>ven</token>
+                    <token>ven</token>
+                </antipattern>
+                <antipattern>
+                    <token>al</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="PR.*|CS" postag_regexp="yes" skip="-1"/>
+                    <token>ven</token>
+                </antipattern>
+                <pattern>
+                    <token postag="V.[ISN].*" postag_regexp="yes"><exception postag="NC.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token case_sensitive="yes">ven</token>
+                    </marker>
+                    <token min="0" postag="D.*" postag_regexp="yes"/>
+                    <token postag="[AN].*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Quería decir <suggestion>en</suggestion>?</message>
+                <example correction="en">Está <marker>ven</marker> deuda.</example>
+                <example>Si tú me dices ven lo dejo todo.</example>
+                <example>Los años que siguen ven la creación de asociaciones culturales croatas.</example>
+                <example>Incluso algunos productores a gran escala ven descensos en la producción. </example>
+                <example>Mientras que las compañías de software espía ven una compra de exploits como un pago</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SUBJUNTIVO_INFINITIVO" name="*formalizase/formalizarse">
             <rule>
                 <pattern>
