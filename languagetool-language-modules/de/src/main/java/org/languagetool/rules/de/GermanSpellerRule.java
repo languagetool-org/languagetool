@@ -942,8 +942,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[lL]eidensvoll(e[mnrs]?)?", "ens", "");
     putRepl("[bB]ewusstlich(e[mnrs]?)?", "lich", "");
     putRepl("[vV]erschmerzlich(e[mnrs]?)?", "lich", "bar");
+    putRepl("Krankenbruders?", "bruder", "pfleger");
+    putRepl("Krankenbrüdern?", "brüder", "pfleger");
+    putRepl("Lan-(Kabel[ns]?|Verbindung)", "Lan", "LAN");
+    put("[wW]elan", w -> Arrays.asList("WLAN", "W-LAN"));
     put("Pinn", w -> Arrays.asList("Pin", "PIN"));
     put("Geldmachung", w -> Arrays.asList("Geltendmachung", "Geldmacherei"));
+    put("[uU]nstimm?ichkeiten", "Unstimmigkeiten");
+    put("Teilnehmung", "Teilnahme");
+    put("Teilnehmungen", "Teilnahmen");
+    put("waser", "Wasser");
     put("Bekennung", "Bekenntnis");
     put("[hH]irar?chie", "Hierarchie");
     put("Chr", "Chr.");

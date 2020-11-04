@@ -459,6 +459,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Bewusstliches", "Bewusstes", rule, lt);
     assertFirstSuggestion("leidensvolle", "leidvolle", rule, lt);
     assertFirstSuggestion("augensichtlich", "augenscheinlich", rule, lt);
+    assertFirstSuggestion("Krankenbrüdern", "Krankenpflegern", rule, lt);
+    assertFirstSuggestion("Lan-Kabel", "LAN-Kabel", rule, lt);
   }
 
   @Test
