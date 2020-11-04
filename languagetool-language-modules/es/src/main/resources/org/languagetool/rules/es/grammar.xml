@@ -7237,9 +7237,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes" regexp="yes">poder|deber</token>
             </antipattern>
             <pattern>
-                <token  postag="V.[SIN].*" postag_regexp="yes" inflected="yes" regexp="yes">poder|deber<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                <token postag="V.[SIN].*" postag_regexp="yes" inflected="yes" regexp="yes">poder|deber<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 <marker>
-                    <token postag="V.IP.*" postag_regexp="yes" regexp="yes">.+[ae]<exception postag="[DP].*|V.S.*|LOC_ADV" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes">poder|ser</exception></token>
+                    <token postag="V.IP.*" postag_regexp="yes" regexp="yes">.+[ae]<exception postag="[DP].*|V.S.*|LOC_ADV" postag_regexp="yes"/><exception inflected="yes" regexp="yes">poder|ser</exception></token>
                 </marker>
             </pattern>
             <message>Posible confusión. ¿Quería decir <suggestion><match no="2" postag="V.[SI].*" postag_regexp="yes" postag_replace="V.N...."/></suggestion></message>
@@ -14868,12 +14868,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes">[SD]r(a|as|es)?|etc</token>
+                        <token regexp="yes">[SD]r(a|as|es)?</token>
                     </marker>
                 </pattern>
                 <message>Probablemente falta un punto después de la abreviatura.</message>
                 <suggestion><match no="1" case_conversion="startupper"/>.</suggestion>
                 <example correction="Sr.">Vive con el <marker>Sr</marker> García.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">etc|Etc</token>
+                </pattern>
+                <message>Probablemente falta un punto después de la abreviatura.</message>
+                <suggestion>\1.</suggestion>
+                <example correction="etc.">Rojo, azul, verde, <marker>etc</marker></example>
             </rule>
         </rulegroup>
         <rule id="ABREVIATURA_SIGLO" name="punto en abreviatura de siglo (s.)" default="temp_off">
