@@ -7229,13 +7229,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="GRAMMAR" name="Gramática" type="grammar">
         <rule id="VERBO_MODAL_INFINITIVO" name="verbo modal + infinitivo" default="temp_off">
             <antipattern>
+                <token>de</token>
+                <token>poder</token>
+            </antipattern>
+            <antipattern>
                 <token skip="5">si</token>
                 <token inflected="yes" regexp="yes">poder|deber</token>
             </antipattern>
             <pattern>
                 <token  postag="V.[SIN].*" postag_regexp="yes" inflected="yes" regexp="yes">poder|deber<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 <marker>
-                    <token postag="V.I.*" postag_regexp="yes" regexp="yes">.+[ae]<exception postag="[DP].*|V.S.*" postag_regexp="yes"></exception></token>
+                    <token postag="V.IP.*" postag_regexp="yes" regexp="yes">.+[ae]<exception postag="[DP].*|V.S.*|LOC_ADV" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes">poder|ser</exception></token>
                 </marker>
             </pattern>
             <message>Posible confusión. ¿Quería decir <suggestion><match no="2" postag="V.[SI].*" postag_regexp="yes" postag_replace="V.N...."/></suggestion></message>
@@ -7248,6 +7252,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Si se pudiera estaría abierto.</example>
             <example>Que quien pueda haga un milagro.</example>
             <example>No me debes nada.</example>
+            <example>Este incremento tremendo de poder fue acompañado por inestabilidad política.</example>
+            <example>Como instrumento de poder puede conducir a resultados ciertamente perversos.</example>
+            <example>y grupos cuyo poder pasaba fuera de las fronteras nacionales.</example>
+            <example>El dictador llegó al poder hace quince años.</example>
+            <!-- TODO: <example>en cuanto Franco coge poder desaparece el partido</example>-->
         </rule>
         <rule id="DOS_VERBOS_MODALES" name="dos verbos modales seguidos" default="temp_off">
             <antipattern>

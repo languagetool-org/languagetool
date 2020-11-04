@@ -33,6 +33,9 @@ Copyright (C) 2011 Juan Martorell
     <!ENTITY partes_dia "madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche">
     <!ENTITY meses_ano "enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre">
     <!ENTITY estaciones_ano "primavera|verano|otoño|invierno">
+    <!ENTITY unidades_tiempo "segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio">
+    <!ENTITY meses_ano "enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre">
+    <!ENTITY estaciones_ano "primavera|verano|otoño|invierno">
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
@@ -5290,6 +5293,37 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rulegroup id="hace_x_tiempo" name="hace tres años, hace mucho tiempo">
+        <rule>
+            <pattern>
+                <token><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/><exception regexp="yes">qué|cuánto</exception></token>
+                <marker>
+                    <token postag="V.I[PI]3S0" postag_regexp="yes" inflected="yes" skip="12">hacer<exception postag=".*LOC_ADV.*" postag_regexp="yes"/><exception scope="next" regexp="yes">que|en</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes">,</exception><exception postag="V.[MSI].*|_GV_|DA.*" postag_regexp="yes" scope="next"/></token>
+                </marker>
+                <token regexp="yes" inflected="yes">&unidades_tiempo;|&estaciones_ano;|&meses_ano;|momento|instante|tiempo|rato</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="LOC_ADV"/>
+            </disambig>
+        </rule>
+        <rule>
+            <antipattern>
+                <token regexp="yes">mucho|poco|muchísimo|poquísimo</token>
+                <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/><exception regexp="yes">qué|cuánto</exception></token>
+                <marker>
+                    <token postag="V.I[PI]3S0" postag_regexp="yes" inflected="yes">hacer<exception postag=".*LOC_ADV.*" postag_regexp="yes"/><exception scope="next" regexp="yes">que|en</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes">,</exception><exception postag="V.[MSI].*|_GV_|DA.*" postag_regexp="yes" scope="next"/></token>
+                    <token regexp="yes">mucho|poco|muchísimo|poquísimo</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="LOC_ADV"/>
+                <wd pos="LOC_ADV"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rulegroup name="Ignore spelling numbers " id="IGNORE_NUMBERS">
         <rule>
             <!-- style rules can be suggested for these abbreviations -->
