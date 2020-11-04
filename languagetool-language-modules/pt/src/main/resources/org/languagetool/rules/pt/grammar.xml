@@ -10496,7 +10496,7 @@ MARCOAGPINTO 2020-02-18 -->
 					<token>que</token>
 					<token>é</token>
 				</marker>
-				<token negate="yes" regexp='yes'>horas?</token>
+				<token negate="yes" regexp='yes'>horas?|[.,!?]</token>
 			</pattern>		
 			<message>Substitua por <suggestion>ser</suggestion>.</message>
 			<example correction="ser">Mas depende sempre daquilo que consideras <marker>que é</marker> o problema.</example>  
@@ -10510,7 +10510,7 @@ MARCOAGPINTO 2020-02-18 -->
 					<token>que</token>
 					<token>são</token>
 				</marker>
-				<token negate="yes" regexp='yes'>horas?</token>
+				<token negate="yes" regexp='yes'>horas?|[.,!?]</token>
 			</pattern>		
 			<message>Substitua por <suggestion>serem</suggestion>.</message>
 			<example correction="serem">Mas depende sempre daquilo que consideras <marker>que são</marker> os problemas.</example>  
@@ -10541,6 +10541,27 @@ MARCOAGPINTO 2020-02-18 -->
 		<message>Substitua por <suggestion><match no='3' postag='V.+' postag_regexp="yes" postag_replace='VMN03[SP]0'/> \4</suggestion></message>
 		<example correction="i ver|ir ver|irem ver">Falei com o Rui que me disse <marker>que ia ver</marker> o que se passava com o software.</example>
     </rule>
+
+    <!-- 	VERB TER + PARTICÍPIO PASSADO Pret. Perf. Ind. de Part_Passado -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-04 (21-OCT-2020+)     -->
+    <rulegroup id='VERB_TER_MAIS_PARTICIPIO_PASSADO' name="Verbo Ter + Part_Passado > Verbo Pret. Perf. Ind. de Part_Passado">
+		<rule>
+			<pattern>
+				<token>tinha</token>
+				<token postag='VMP00SM' postag_regexp='no'/>
+			</pattern>		
+			<message>Substitua por <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS1S0|VMIS3S0|VMIM3S0'/></suggestion>.</message>
+			<example correction="foi|fora|fui">Essa honra <marker>tinha sido</marker> entregue a Ernest Hemingway.</example> 
+		</rule>
+		<rule>
+			<pattern>
+				<token>tinham</token>
+				<token postag='VMP00SM' postag_regexp='no'/>
+			</pattern>		
+			<message>Substitua por <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIM3P0|VMIS3P0'/></suggestion>.</message>
+			<example correction="foram">Essas honras <marker>tinham sido</marker> entregues a Ernest Hemingway.</example>  
+		</rule>		
+	</rulegroup>
 
     <!-- VÍDEO CONFERÊNCIA videoconferência -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-24 (21-OCT-2020+)     -->
