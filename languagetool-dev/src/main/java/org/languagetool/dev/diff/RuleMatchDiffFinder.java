@@ -159,8 +159,8 @@ public class RuleMatchDiffFinder {
       }
       if (oldMatch != null && newMatch != null) {
         printRuleIdCol(fw, oldMatch, newMatch);
-        printMarkerCol(fw, oldMatch, newMatch);
         iframeCount += printMessage(fw, oldMatch, newMatch, diff.getReplaces(), diff.getReplacedBy(), langCode, date, diff.getStatus(), iframeCount);
+        printMarkerCol(fw, oldMatch, newMatch);
         if (oldMatch.getSuggestions().equals(newMatch.getSuggestions())) {
           fw.write("  <td>" + oldMatch.getSuggestions() + "</td>\n");
         } else {
