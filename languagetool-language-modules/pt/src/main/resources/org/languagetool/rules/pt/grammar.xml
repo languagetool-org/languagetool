@@ -28443,6 +28443,15 @@ TODO Write better examples
         </marker>
       </antipattern>-->
     <rule>
+<!-- MARCOAGPINTO 2020-11-04 (21-OCT-2020+) *START* -->
+<!-- "Ver subcapítulo 3.6." -->
+      <antipattern>
+		  <token postag='V.+' postag_regexp='yes'/>
+		  <token min="0" max="1" regexp='yes'>as?|os?|das?|dos?|nas?|nos?</token>
+		  <token regexp='yes'>capítulos?|subcapítulos?|partes?|parágrafos?|equação|equações|figuras?|tabelas?</token>
+		  <token postag='Z0CN0' postag_regexp='no'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-11-04 (21-OCT-2020+) *END* -->
       <pattern>
           <token regexp="yes">\d+\.\d+
             <exception regexp="yes">\d{1,3}\.\d{3}</exception></token>
@@ -28473,6 +28482,7 @@ TODO Write better examples
       <example>No último censo nacional, 600.000 argentinos (1,autoidentificaram como indígena…</example>
       <example>GNOME 3.16 – 3.20 Committer</example>
       <example><marker>111.231</marker></example><!-- XXX Corrigido pela segunda regra -->
+	  <example type='correct'>Ver subcapítulo <marker>3.6</marker>.</example>
     </rule>
     <rule>
       <pattern>
