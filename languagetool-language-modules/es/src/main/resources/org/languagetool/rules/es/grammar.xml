@@ -7304,11 +7304,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- allowed missing "que" : que Dios quiere sean llevadas a cabo -->
         </rule>
         <rulegroup id="DOS_VERBOS" name="dos verbos juntos" default="temp_off">
-            <!-- better disambiguation needed -->
-            <antipattern>
-                <token regexp="yes" skip="5">hace|hacía</token>
-                <token regexp="yes" inflected="yes">&unidades_tiempo;|rato|instante|momento</token>
-            </antipattern>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -7316,7 +7311,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="V.[SI].*" postag_regexp="yes"><exception postag="[NARCP].*|_possible_NP|SP.*" postag_regexp="yes"/></token>
                         <token min="0" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                        <token postag="V.[SI].*" postag_regexp="yes"><exception postag="[NARCP].*|_possible_NP|SP.*" postag_regexp="yes"/></token>
+                        <token postag="V.[SI].*" postag_regexp="yes"><exception postag="[NARCP].*|_possible_NP|SP.*|LOC_ADV" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Revise esta construcción: dos verbos juntos. ¿Falta algún elemento (coma, conjunción)?</message>
@@ -8762,11 +8757,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La gente no dice cotidianamente «voy a evacuar el vientre» sino «voy a cagar» o «voy a ensuciar».</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token skip="3" regexp="yes">hace|hacía</token>
-                    <token postag="D[NI].*|CC" min="1" max="4" postag_regexp="yes"/>
-                    <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
-                </antipattern>
                 <pattern>
                     <token skip="10">no</token>
                     <marker>
@@ -8783,11 +8773,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No implica contacto sino falta de cooperación.</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token skip="3" regexp="yes">hace|hacía</token>
-                    <token postag="D[NI].*|CC" min="1" max="4" postag_regexp="yes"/>
-                    <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
-                </antipattern>
                 <pattern>
                     <marker>
                         <token skip="2">sino<exception regexp="yes" scope="next">que|también|porque|como|cómo|donde|qué|quien|quién|si|quienes|quiénes|,|;|cuando|según|cuál|cuáles|cual|cuales</exception></token>
