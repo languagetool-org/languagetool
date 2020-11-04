@@ -12000,6 +12000,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="ORA_HORA" name="ora/hora">
+            <antipattern>
+                <token skip="-1">ora</token>
+                <token>ora</token>
+            </antipattern>
+            <antipattern>
+                <token>ora</token>
+                <token>et</token>
+                <token>labora</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">se|le</token>
+                <token>ora</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes">ora</token>
+            </pattern>
+            <message>¿Quería decir <suggestion>hora</suggestion>? Correcto si es del v. 'orar'.</message>
+            <example correction="hora">Dame la <marker>ora</marker>.</example>
+        </rule>
         <rulegroup id="VEN" name="confusiones ven/ver/en" default="temp_off">
             <rule>
                 <pattern>
