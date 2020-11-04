@@ -82,7 +82,7 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getSuggestion() {
-    return "Anglicisme innecessari.";
+    return "Anglicisme innecessari. Considereu fer servir una altra paraula.";
   }
 
   @Override

@@ -32779,7 +32779,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="COMA_ETC" name="coma abans de 'etc.'">
             <pattern>
-                <token><exception regexp="yes">[,;\(\[]|llarg|llarguíssim|extens|extensíssim|interminable|inacabable|i</exception><exception postag="SENT_START"/></token>
+                <token><exception regexp="yes">[&gt;/,;\(\[]|llarg|llarguíssim|extens|extensíssim|interminable|inacabable|i</exception><exception postag="SENT_START"/></token>
                 <marker>
                     <token regexp="yes">(?-i)etc|etcètera</token>
                 </marker>
@@ -33674,6 +33674,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Probablement falta un punt al final de la frase.</message>
                 <suggestion>.</suggestion>
                 <example correction=".">Aquesta és una frase llarga que no té punt al final i per tant és segur que hi ha un error<marker>,</marker></example>
+                <example correction=".">Aquesta és una frase llarga que no té punt al final i per tant és segur que hi ha un error <marker>,</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -52601,7 +52602,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token inflected="yes">tornar</token>
                 <token>a</token>
-                <token postag="V.N.*" postag_regexp="yes" regexp="yes">re(afegir|caure|dimensionar|fer|aparèixer|prendre|emprendre|poblar|unificar|viure|construir|dissenyar|stablir)</token>
+                <token postag="V.N.*" postag_regexp="yes" regexp="yes">re(llançar|afegir|caure|dimensionar|fer|aparèixer|prendre|emprendre|poblar|unificar|viure|construir|dissenyar|stablir)</token>
             </pattern>
             <filter class="org.languagetool.rules.ca.AdvancedSynthesizerFilter" args="lemma_from:3 lemma_select:V.N.* postag_from:1 postag_select:V.*"/>
             <message>Possible redundància.</message>
@@ -52633,6 +52634,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>etc.</suggestion>
                 <suggestion>…</suggestion>
                 <example correction="etc.|…">Tres, quatre, cinc, <marker>etc...</marker></example>
+                <example>Un, dos, etc.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>etc</token>
+                    <token>.</token>
+                </pattern>
+                <message>Redundància.</message>
+                <suggestion>…</suggestion>
+                <suggestion>, etc.</suggestion>
+                <example correction="…|, etc.">Tres, quatre, cinc<marker>... etc.</marker></example>
+                <example>Un, dos, etc.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>…</token>
+                    <token>etc</token>
+                    <token>.</token>
+                </pattern>
+                <message>Redundància.</message>
+                <suggestion>…</suggestion>
+                <suggestion>, etc.</suggestion>
+                <example correction="…|, etc.">Tres, quatre, cinc<marker>… etc.</marker></example>
                 <example>Un, dos, etc.</example>
             </rule>
         </rulegroup>
@@ -60229,7 +60256,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <marker>
-                    <token skip="-1" case_sensitive="yes">però<exception scope="next" postag="CC"></exception></token>
+                    <token skip="-1" case_sensitive="yes">però<exception scope="next" postag="CC"/></token>
                 </marker>
                 <token postag="V.[SI].*" postag_regexp="yes"/>
             </pattern>
