@@ -8188,6 +8188,22 @@ MARCOAGPINTO 2020-02-18 -->
 	  <example type='correct'>A área é delimitada <marker>fisicamente</marker>.</example>
     </rule>
 	
+    <!-- 	DEPOIS DE após -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-05 (21-OCT-2020+)     -->
+    <rule id='DEPOIS_DE_APÓS' name="Depois de > após">
+		<pattern>
+			<marker>
+				<token>depois</token>
+				<token>de</token>				
+			</marker>
+			<token postag='V.+|NCMS000' postag_regexp='yes'>
+				<exception postag_regexp="yes" postag='NP.+'></exception>
+			</token>
+		</pattern>		
+		<message>Substitua por <suggestion>após</suggestion>.</message>
+		<example correction="após">Isto tudo <marker>depois de</marker> saber os resultados.</example> 
+	</rule>
+	
     <!-- DIFERENTES diferem	-->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-11 (2-JUL-2020+)     -->
     <rule id='DIFERENTES' name="Diferir">
