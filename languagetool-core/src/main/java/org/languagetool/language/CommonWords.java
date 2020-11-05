@@ -38,7 +38,7 @@ public class CommonWords {
   private final static Language esLang = Languages.getLanguageForShortCode("es");
   // but -cion can be Esperanto; ía(n) can be Galician
   private final static Pattern spanishPattern = Pattern.compile("^[a-zñ]+(ón|cion|aban|ábamos|ábais|íamos|íais|[úí]a[sn]?|úe[ns]?)$");
-  private final static Pattern notSpanishPattern = Pattern.compile("^.*ns$|^.*(ss|[çàèòï]).*$");
+  private final static Pattern notSpanishPattern = Pattern.compile("^.*(ns|á.i[oa]s?)$|^.*(ss|[çàèòï]).*$");
 
   public CommonWords() throws IOException {
     synchronized (word2langs) {
