@@ -681,7 +681,7 @@ public class MultiDocumentsHandler {
       if (linguServices == null) {
         linguServices = new LinguisticServices(xContext);
       }
-      linguServices.setNoSynonymsAsSuggestions(config.noSynonymsAsSuggestions());
+      linguServices.setNoSynonymsAsSuggestions(config.noSynonymsAsSuggestions() || testMode);
 //      if (setService) {
 //        linguServices.setLtAsGrammarService(xContext);
 //      }
