@@ -49475,6 +49475,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="EXERCITAR" name="exercitar/exercir" default="temp_off">
+            <pattern>
+                <marker>
+                    <token inflected="yes" skip="4">exercitar</token>
+                </marker>
+                <token regexp="yes" inflected="yes">dret|capacitat|virtut|qualitat</token>
+            </pattern>
+            <message>En aquest context és preferible fer servir el v. 'exercir'.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">exercir</match></suggestion>
+            <example correction="Exercim"><marker>Exercitem</marker> el dret de rèplica.</example>
+        </rule>
         <rulegroup id="EL_NADAL" name="el Nadal/Nadal">
             <url>https://esadir.cat/Nomspropis/Entitats/Societat/nadal</url>
             <antipattern>
@@ -52576,12 +52587,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>-->
         <rule id="CITA_PREVIA" name="cita prèvia">
             <pattern>
-                <token inflected="yes">cita</token>
-                <token inflected="yes">prèvia</token>
+                <token inflected="yes" regexp="yes" skip="7">demanar|sol·licitar|reservar</token>
+                <marker>
+                    <token inflected="yes">cita</token>
+                    <token inflected="yes">prèvia</token>
+                </marker>
             </pattern>
-            <message>Expressió redundant. N'hi ha prou de dir <suggestion>\1</suggestion>.</message>
+            <message>Expressió redundant. N'hi ha prou de dir <suggestion>cita</suggestion>.</message>
             <suggestion>hora</suggestion>
             <example correction="cita|hora">He demanat <marker>cita prèvia</marker> en la clínica.</example>
+            <example>S'ha de venir amb cita prèvia.</example>
+        </rule>
+        <rule id="PREVEURE" name="preveure amb antelació" default="temp_off">
+            <pattern>
+                <token inflected="yes">preveure</token>
+                <token>amb</token>
+                <token>antelació</token>
+            </pattern>
+            <message>Expressió redundant.</message>
+            <suggestion>\1</suggestion>
+            <example correction="preveure">Cal <marker>preveure amb antelació</marker> les mecesstats futures.</example>
         </rule>
         <rule id="DES_ENCA" name="des de ... ençà">
             <pattern>
@@ -60276,7 +60301,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token postag="V.[SI].*" postag_regexp="yes"/>
             </pattern>
-            <message>La conjunció 'però' sovint va precedida d'una coma.</message>
+            <message>La conjunció 'però' va precedida de coma en la majorida dels casos.</message>
             <suggestion>, però</suggestion>
             <example correction=", però">El partit aconsegueix molts escons<marker> però</marker> encara no n'hi ha prou.</example>
             <example>¿Però què passa amb això?</example>
