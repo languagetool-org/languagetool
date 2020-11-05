@@ -209,8 +209,9 @@ public class LanguageIdentifier {
     if (!preferredLangs.contains("ru") && !preferredLangs.contains("uk") && !preferredLangs.contains("be") && !preferredLangs.contains("zh") &&
         !preferredLangs.contains("hi") && !preferredLangs.contains("mr")) {
       // Cyrillic and Chinese are so different from Latin characters that we try to detect it even with preferredLangs not properly set:
-      preferredLangs.addAll(unicodeIdentifier.getAdditionalLangCodes(text));
-      additionalLangs.addAll(unicodeIdentifier.getAdditionalLangCodes(text));
+      List<String> additionalLangCodes = unicodeIdentifier.getAdditionalLangCodes(text);
+      preferredLangs.addAll(additionalLangCodes);
+      additionalLangs.addAll(additionalLangCodes);
     }
     Map.Entry<String,Double> result = null;
     if (fastText != null || ngram != null) {
