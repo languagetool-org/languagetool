@@ -43,27 +43,36 @@ public class DutchTagger extends BaseTagger {
     int pos = 0;
 
     for (String word : sentenceTokens) {
+
+      // standardize in-word apostrophe before requesting postag
+      // 'hack' by Ruud 5-11-2020
+      String normalizedWord=word;
+      normalizedWord=normalizedWord.replace("`","'");
+      normalizedWord=normalizedWord.replace("’","'");
+      normalizedWord=normalizedWord.replace("‘","'");
+      normalizedWord=normalizedWord.replace("´","'");
+      
       boolean ignoreSpelling = false;
       final List<AnalyzedToken> l = new ArrayList<>();
-      final String lowerWord = word.toLowerCase(locale);
-      final boolean isLowercase = word.equals(lowerWord);
-      final boolean isMixedCase = StringTools.isMixedCase(word);
-      final boolean isAllUpper = StringTools.isAllUppercase(word);
-      List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
+      final String lowerWord = normalizedWord.toLowerCase(locale);
+      final boolean isLowercase = normalizedWord.equals(lowerWord);
+      final boolean isMixedCase = StringTools.isMixedCase(normalizedWord);
+      final boolean isAllUpper = StringTools.isAllUppercase(normalizedWord);
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(normalizedWord, getWordTagger().tag(normalizedWord));
 
       // normal case:
       addTokens(taggerTokens, l);
       // tag non-lowercase (alluppercase or startuppercase), but not mixedcase
       // word with lowercase word tags:
       if (!isLowercase && !isMixedCase) {
-        List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(lowerWord));
+        List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(normalizedWord, getWordTagger().tag(lowerWord));
         addTokens(lowerTaggerTokens, l);
       }
 
       // tag all-uppercase proper nouns
       if (l.isEmpty() && isAllUpper) {
         final String firstUpper = StringTools.uppercaseFirstChar(lowerWord);
-        List<AnalyzedToken> firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(word,
+        List<AnalyzedToken> firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(normalizedWord,
             getWordTagger().tag(firstUpper));
         addTokens(firstupperTaggerTokens, l);
       }
@@ -77,13 +86,13 @@ public class DutchTagger extends BaseTagger {
         // best would be to check the parts as well (uncompound)
         word2 = word2.replaceAll("([a-z])-([a-z])", "$1$2");
         
-        if (!word2.equals(word)) {
-          List<AnalyzedToken> l2 = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word2));
+        if (!word2.equals(normalizedWord)) {
+          List<AnalyzedToken> l2 = asAnalyzedTokenListForTaggedWords(normalizedWord, getWordTagger().tag(word2));
           if (l2 != null) {
             addTokens(l2, l);
 
-            String word3 = word;
-            word3 = word.replaceAll("([a-z])-([a-z])", "$1$2");
+            String word3 = normalizedWord;
+            word3 = normalizedWord.replaceAll("([a-z])-([a-z])", "$1$2");
             // remove allowed accented characterd
 
             word3 = word3.replace("áá", "aa");
@@ -115,7 +124,7 @@ public class DutchTagger extends BaseTagger {
       }
 
       if (l.isEmpty()) {
-        l.add(new AnalyzedToken(word, null, null));
+        l.add(new AnalyzedToken(normalizedWord, null, null));
       }
 
       AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);
@@ -124,7 +133,7 @@ public class DutchTagger extends BaseTagger {
       }
 
       tokenReadings.add(atr);
-      pos += word.length();
+      pos += normalizedWord.length();
     }
 
     return tokenReadings;
