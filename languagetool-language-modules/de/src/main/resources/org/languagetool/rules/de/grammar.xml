@@ -5450,34 +5450,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.korrekturen.de/beliebte_fehler/zeit_und_muse.shtml</url>
             <example correction='Muße'>Zeit und <marker>Muse</marker></example>
         </rule>
-        <rule id="WAR_WAHR" name="war (wahr)">
-            <antipattern>
-                <token>gewesen</token>
-                <token>war</token>
-            </antipattern>
-            <antipattern>
-                <token>zu</token>
-                <token>sein</token>
-                <token>war</token>
-            </antipattern>
-            <antipattern>
-                <token inflected="yes" postag="VER:.*" postag_regexp="yes">sein</token>
-                <token regexp='yes'>,|und|oder</token>
-                <token>war</token>
-            </antipattern>
-            <pattern>
-                <token inflected="yes" postag="VER:.*" postag_regexp="yes">sein<exception>sein</exception></token>
-                <token/><!-- added this token to avoid conflict with rulegroup WAHR_WERDEN -->
-                <marker>
+        <rulegroup id="WAR_WAHR" name="war (wahr)">
+            <rule>
+                <antipattern>
+                    <token>gewesen</token>
                     <token>war</token>
-                </marker>
-            </pattern>
-            <message>Meinten Sie <suggestion>wahr</suggestion> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein') &odkomma;?</message>
-            <short>Mögliche Wortverwechslung</short>
-            <example correction="wahr">Das ist nicht <marker>war</marker>.</example>
-            <example>Sein T-Shirt war pechschwarz.</example>
-            <example>Ist das <marker>wahr</marker>?</example>
-        </rule>
+                </antipattern>
+                <antipattern>
+                    <token>zu</token>
+                    <token>sein</token>
+                    <token>war</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" postag="VER:.*" postag_regexp="yes">sein</token>
+                    <token regexp='yes'>,|und|oder</token>
+                    <token>war</token>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes" postag="VER:.*" postag_regexp="yes">sein<exception>sein</exception></token>
+                    <token/><!-- added this token to avoid conflict with rulegroup WAHR_WERDEN -->
+                    <marker>
+                        <token>war</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>wahr</suggestion> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein') &odkomma;?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="wahr">Das ist nicht <marker>war</marker>.</example>
+                <example>Sein T-Shirt war pechschwarz.</example>
+                <example>Ist das <marker>wahr</marker>?</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>,</token>
+                    <token>nicht</token>
+                    <marker>
+                        <token>war</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>wahr</suggestion> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein') &odkomma;?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="wahr">Sein T-Shirt ist pechschwarz, nicht <marker>war</marker>?</example>
+            </rule>
+        </rulegroup>
         <rule id="LIEHT" name="lieht (liegt)">
             <pattern>
                 <token>lieht</token>
