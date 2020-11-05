@@ -8290,6 +8290,84 @@ MARCOAGPINTO 2020-02-18 -->
 	  </rule>
 	</rulegroup>
 
+    <!-- 	ESTAR + ADVÉRBIO + A + VERBO verbo + advérbio -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-05 (21-OCT-2020+)     -->
+    <rulegroup id='ESTAR_ADVÉRBIO_A_VERBO_VERBO_ADVÉRBIO' name="Estar + Advérbio + A + Verbo > Verbo + Advérbio">
+	
+	    <!-- ESTOU -->
+		<rule>
+			<pattern>
+				<token>estou</token>
+				<token postag='RM' postag_regexp='no'/>
+				<token>a</token>				
+				<token postag='V.+' postag_regexp='yes'/>
+			</pattern>		
+			<message>Substitua por <suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMIP1S0'/> \2</suggestion>.</message>
+			<example correction="treino atualmente">Por isso <marker>estou atualmente a treinar</marker> para a guerra.</example> 
+		</rule>
+
+	    <!-- ESTÁS -->
+		<rule>
+			<pattern>
+				<token>estás</token>
+				<token postag='RM' postag_regexp='no'/>
+				<token>a</token>				
+				<token postag='V.+' postag_regexp='yes'/>
+			</pattern>		
+			<message>Substitua por <suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMIP2S0'/> \2</suggestion>.</message>
+			<example correction="treinas atualmente">Por isso <marker>estás atualmente a treinar</marker> para a guerra.</example> 
+		</rule>
+
+	    <!-- ESTÁ -->
+		<rule>
+			<pattern>
+				<token>está</token>
+				<token postag='RM' postag_regexp='no'/>
+				<token>a</token>				
+				<token postag='V.+' postag_regexp='yes'/>
+			</pattern>		
+			<message>Substitua por <suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMIP3S0|VMM02S0'/> \2</suggestion>.</message>
+			<example correction="treina atualmente|treines atualmente">Por isso <marker>está atualmente a treinar</marker> para a guerra.</example> 
+		</rule>
+		
+	    <!-- ESTAMOS -->
+		<rule>
+			<pattern>
+				<token>estamos</token>
+				<token postag='RM' postag_regexp='no'/>
+				<token>a</token>				
+				<token postag='V.+' postag_regexp='yes'/>
+			</pattern>		
+			<message>Substitua por <suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMIP1P0'/> \2</suggestion>.</message>
+			<example correction="treinamo atualmente|treinamos atualmente">Por isso <marker>estamos atualmente a treinar</marker> para a guerra.</example> 
+		</rule>		
+
+	    <!-- ESTAIS -->
+		<rule>
+			<pattern>
+				<token>estais</token>
+				<token postag='RM' postag_regexp='no'/>
+				<token>a</token>				
+				<token postag='V.+' postag_regexp='yes'/>
+			</pattern>		
+			<message>Substitua por <suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMIP2P0'/> \2</suggestion>.</message>
+			<example correction="treinai atualmente|treinais atualmente">Por isso <marker>estais atualmente a treinar</marker> para a guerra.</example> 
+		</rule>		
+	
+	    <!-- ESTÃO -->
+		<rule>
+			<pattern>
+				<token>estão</token>
+				<token postag='RM' postag_regexp='no'/>
+				<token>a</token>				
+				<token postag='V.+' postag_regexp='yes'/>
+			</pattern>		
+			<message>Substitua por <suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMIP3P0'/> \2</suggestion>.</message>
+			<example correction="treinam atualmente">Por isso <marker>estão atualmente a treinar</marker> para a guerra.</example> 
+		</rule>		
+	
+	</rulegroup>
+
     <!-- ESTAR NO ECRÃ -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-13 (2-JUL-2020+)     -->
     <rule id='ESTAR_NO_ECRA' name="Estar no ecrã">
