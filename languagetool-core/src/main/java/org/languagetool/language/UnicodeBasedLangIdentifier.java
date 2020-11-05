@@ -89,7 +89,7 @@ class UnicodeBasedLangIdentifier {
     if ((float)cjkChars / significantChars >= THRESHOLD) {
       langCodes.add("zh");
       langCodes.add("ja");
-      // Korean is not supported by LT, do we don't add it
+      // Korean is not supported by LT, so we don't add it
     }
     if ((float)khmerChars / significantChars >= THRESHOLD) {
       langCodes.add("km");
