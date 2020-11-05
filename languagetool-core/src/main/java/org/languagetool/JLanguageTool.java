@@ -1346,8 +1346,8 @@ public class JLanguageTool {
   }
 
   static class CleanToken {
-    private String origToken;
-    private String cleanToken;
+    private final String origToken;
+    private final String cleanToken;
     CleanToken(String origToken, String cleanToken) {
       this.origToken = origToken;
       this.cleanToken = cleanToken;
@@ -1584,7 +1584,7 @@ public class JLanguageTool {
    *
    * @param matches matches after applying rules and default filters
    * @param text    text that matches refer to
-   * @return transformed matches (after applying filters in {@link matchFilters})
+   * @return transformed matches (after applying filters in {@link #matchFilters})
    * @since 4.7
    */
   protected List<RuleMatch> applyCustomFilters(List<RuleMatch> matches, AnnotatedText text) {
