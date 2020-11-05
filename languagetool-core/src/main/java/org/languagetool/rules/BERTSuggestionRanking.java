@@ -28,7 +28,6 @@ import com.google.common.collect.Streams;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.bert.RemoteLanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.slf4j.Logger;
@@ -74,18 +73,16 @@ public class BERTSuggestionRanking extends RemoteRule {
   private final RemoteLanguageModel model;
   private final Rule wrappedRule;
 
-  public BERTSuggestionRanking(Rule rule, RemoteRuleConfig config, UserConfig userConfig, boolean inputLogging) {
+  public BERTSuggestionRanking(Rule rule, RemoteRuleConfig config, boolean inputLogging) {
     super(rule.messages, config, inputLogging, rule.getId());
     this.wrappedRule = rule;
     super.setCategory(wrappedRule.getCategory());
     synchronized (models) {
       RemoteLanguageModel model = null;
-      if (getId().equals(userConfig.getAbTest())) {
-        try {
-          model = models.get(serviceConfiguration);
-        } catch (Exception e) {
-          logger.error("Could not connect to BERT service at " + serviceConfiguration + " for suggestion reranking", e);
-        }
+      try {
+        model = models.get(serviceConfiguration);
+      } catch (Exception e) {
+        logger.error("Could not connect to BERT service at " + serviceConfiguration + " for suggestion reranking", e);
       }
       this.model = model;
     }
@@ -161,14 +158,14 @@ public class BERTSuggestionRanking extends RemoteRule {
         for (int i = 0; i < indices.size(); i++) {
           List<Double> scores = results.get(i);
           String userWord = requests.get(i).text.substring(requests.get(i).start, requests.get(i).end);
-          RemoteLanguageModel.Request req = requests.get(i);
           RuleMatch match = matches.get(indices.get(i).intValue());
-          String error = req.text.substring(req.start, req.end);
-          logger.info("Scored suggestions for '{}': {} -> {}", error, match.getSuggestedReplacements(), Streams
-            .zip(match.getSuggestedReplacementObjects().stream(), scores.stream(), Pair::of)
-            .sorted(new CuratedAndSameCaseComparator(userWord))
-            .map(scored -> String.format("%s (%e)", scored.getLeft().getReplacement(), scored.getRight()))
-            .collect(Collectors.toList()));
+          //RemoteLanguageModel.Request req = requests.get(i);
+          //String error = req.text.substring(req.start, req.end);
+          //logger.info("Scored suggestions for '{}': {} -> {}", error, match.getSuggestedReplacements(), Streams
+          //  .zip(match.getSuggestedReplacementObjects().stream(), scores.stream(), Pair::of)
+          //  .sorted(new CuratedAndSameCaseComparator(userWord))
+          //  .map(scored -> String.format("%s (%e)", scored.getLeft().getReplacement(), scored.getRight()))
+          //  .collect(Collectors.toList()));
           List<SuggestedReplacement> ranked = Streams
             .zip(match.getSuggestedReplacementObjects().stream(), scores.stream(), Pair::of)
             .sorted(new CuratedAndSameCaseComparator(userWord))
