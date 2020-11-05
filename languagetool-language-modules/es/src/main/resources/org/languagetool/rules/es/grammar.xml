@@ -95,6 +95,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </phrase>
     </phrases>
     <category id="CASING" name="Mayúsculas y minúsculas" type="typographical">
+        <rule id="MAY_ABREVIATURA" name="mayúscula en algunas abreviaturas" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">sr|sra|sres|sras|dr|dra|dres|dras|prof|st|sta|excmo|excma|ilma|ilmo</token>
+                </marker>
+                <token>.</token>
+            </pattern>
+            <message>Esta abreviatura se escribe con mayúscula inicial.</message>
+            <suggestion><match no="1" case_conversion="startupper"/></suggestion>
+            <example correction="Sra">Ha venido la <marker>sra</marker>. García.</example>
+        </rule>
         <rulegroup id="MIN_MESES" name="Meses en minúscula">
             <url>http://www.rae.es/consultas/mayuscula-o-minuscula-en-los-meses-los-dias-de-la-semana-y-las-estaciones-del-ano</url>
             <antipattern case_sensitive="yes">
