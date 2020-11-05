@@ -4974,6 +4974,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Jour fixes">Die <marker>Jour-fixes</marker> sind ab jetzt immer um 10 Uhr.</example>
             </rule>
         </rulegroup>
+        <rule id="PLANT_PLANET" name="Plant (Planet)">
+            <pattern>
+                <token regexp="yes" postag="UNKNOWN">Plant(en)?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="Plant" regexp_replace="Planet"/></suggestion>?</message>
+            <example correction="Planeten">Die <marker>Planten</marker> umkreisen den Stern.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
