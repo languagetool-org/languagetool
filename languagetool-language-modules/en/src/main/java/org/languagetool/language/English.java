@@ -467,8 +467,8 @@ public class English extends Language implements AutoCloseable {
 
     return original -> {
       if (original.isDictionaryBasedSpellingRule() && original.getId().startsWith("MORFOLOGIK_RULE_EN")) {
-        if (UserConfig.hasABTestsEnabled() && bert != null) {
-          return new BERTSuggestionRanking(original, bert, userConfig, inputLogging);
+        if (bert != null) {
+          return new BERTSuggestionRanking(original, bert, inputLogging);
         }
       }
       return fallback.apply(original);
