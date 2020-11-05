@@ -44,6 +44,7 @@ class UnicodeBasedLangIdentifier {
     int tamilChars = 0;
     int greekChars = 0;
     int devanagariChars = 0;
+    int thaiChars = 0;
     int significantChars = 0;
     for (int i = 0; i < Math.min(str.length(), maxCheckLength); i++) {
       int val = str.charAt(i);
@@ -75,6 +76,9 @@ class UnicodeBasedLangIdentifier {
       if (val >= 0x0900 && val <= 0x097F) {
         devanagariChars++;
       }
+      if (val >= 0x0E00 && val <= 0x0E7F) {
+        thaiChars++;
+      }
     }
     List<String> langCodes = new ArrayList<>();
     if ((float)arabicChars / significantChars >= THRESHOLD) {
@@ -103,6 +107,9 @@ class UnicodeBasedLangIdentifier {
     if ((float)devanagariChars / significantChars >= THRESHOLD) {
       langCodes.add("hi");
       langCodes.add("mr");
+    }
+    if ((float)thaiChars / significantChars >= THRESHOLD) {
+      langCodes.add("th");
     }
     return langCodes;
   }
