@@ -36,6 +36,8 @@ public class CommonWordsTest {
     Language de = Languages.getLanguageForShortCode("de");
     Language en = Languages.getLanguageForShortCode("en");
     Language es = Languages.getLanguageForShortCode("es");
+    Language pt = Languages.getLanguageForShortCode("pt");
+    Language ca = Languages.getLanguageForShortCode("ca");
     CommonWords cw = new CommonWords();
 
     Map<Language, Integer> res1 = cw.getKnownWordsPerLanguage("Das ist bequem");
@@ -59,6 +61,11 @@ public class CommonWordsTest {
     
     Map<Language, Integer> res6 = cw.getKnownWordsPerLanguage("Ideábamos una declaracion con el; desassigna mencions.");
     assertThat(res6.get(es), is(3));
+    
+    Map<Language, Integer> res7 = cw.getKnownWordsPerLanguage("Estagiário de desenvolvedor 'web' ou relacionados a programador.");
+    assertThat(res7.get(es), is(3));
+    assertThat(res7.get(pt), is(4));
+    assertThat(res7.get(ca), is(2));
   }
 
 }
