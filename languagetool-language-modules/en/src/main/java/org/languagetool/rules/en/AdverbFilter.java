@@ -354,6 +354,7 @@ public class AdverbFilter extends RuleFilter {
     put("gravely", "grave");
     put("temporally", "temporal");
     put("digitally", "digital");
+    put("finely", "fine");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
