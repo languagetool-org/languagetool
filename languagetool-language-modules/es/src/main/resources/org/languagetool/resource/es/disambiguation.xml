@@ -1611,6 +1611,23 @@ Copyright (C) 2011 Juan Martorell
     </rulegroup>
     <rulegroup id="ADVERBS" name="adverbios">
         <rule>
+            <!-- TODO ambiguous: los apenas conocidos -->
+            <pattern>
+                <token postag="RG">apenas<exception scope="previous" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>apenas</token>
+                </marker>
+                <token postag="PP.*" postag_regexp="yes" min="0" max="2"/>
+                <token postag="V.[^MNPG].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="RG"/>
+        </rule>
+        <rule>
             <pattern>
                 <token postag="V.[SI].*" postag_regexp="yes"/>
                 <token min="0" postag="V.[NP].*" postag_regexp="yes"/>
@@ -2280,16 +2297,7 @@ Copyright (C) 2011 Juan Martorell
             <wd pos="AQ0CN0"/>
         </disambig>
     </rule>
-    <rule id="apenas" name="apenas (adv)">
-        <pattern>
-            <marker>
-                <token>apenas</token>
-            </marker>
-            <token postag="PP.*" postag_regexp="yes" min="0" max="2"/>
-            <token postag="V.[^MNPG].*" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="filter" postag="RG"/>
-    </rule>
+    
     <rulegroup id="PP_NOUN" name="pronombre personal / nombre">
         <rule>
             <pattern>

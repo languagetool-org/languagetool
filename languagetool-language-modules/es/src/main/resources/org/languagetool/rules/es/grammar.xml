@@ -1471,7 +1471,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:NC.*|AQ.*"/>
-                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <message>Si es adjetivo o nombre, se escribe con tilde._</message>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="Nóminas"><marker>Nominas</marker> de octubre.</example>
             </rule>
@@ -7333,6 +7333,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Murió hace tres años.</example>
                 <example>Empezó hace diez minutos.</example>
                 <example>El sacrificio era visto como un medio.</example>
+                <example>El invierno llegó hace apenas cuatro días.</example>
                 <!-- No tenemos pruebas de que eso realmente sucederá.
                 Mañana hay prueba de matemáticas.-->
             </rule>
@@ -12014,11 +12015,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">se|le</token>
                 <token>ora</token>
             </antipattern>
+            <antipattern>
+                <token>ora</token>
+                <token regexp="yes">por|a|durante</token>
+            </antipattern>
+            <antipattern>
+                <token postag="N.*|_GN_.*" postag_regexp="yes"/>
+                <token>ora</token>
+            </antipattern>
             <pattern>
                 <token case_sensitive="yes">ora</token>
             </pattern>
             <message>¿Quería decir <suggestion>hora</suggestion>? Correcto si es del v. 'orar'.</message>
             <example correction="hora">Dame la <marker>ora</marker>.</example>
+            <example>El monje ora durante una hora.</example>
         </rule>
         <rulegroup id="VEN" name="confusiones ven/ver/en" default="temp_off">
             <rule>
@@ -14937,7 +14947,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="etc.">Rojo, azul, verde, <marker>etc</marker></example>
             </rule>
         </rulegroup>
-        <rule id="ABREVIATURA_SIGLO" name="punto en abreviatura de siglo (s.)" default="temp_off">
+        <rule id="ABREVIATURA_SIGLO" name="punto en abreviatura de siglo (s.)">
             <pattern>
                 <marker>
                     <token>s</token>
