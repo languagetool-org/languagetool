@@ -1528,7 +1528,7 @@ title="Easy editing stylesheet" ?>
 		  <token postag='SPS00' postag_regexp='no'/>		  
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-04 *END* -->
-<!-- MARCOAGPINTO 2020-10-05 (2-JUL-2020+) *START* --> 
+<!-- MARCOAGPINTO 2020-10-05 + 2020-11-05 (2-JUL-2020+) *START* --> 
 	  <!-- "Os arqueólogos dedicam-se cada vez mais a fases tardias da evolução humana." -->
       <antipattern>		  
 		  <token regexp="no">a</token>
@@ -1538,12 +1538,13 @@ title="Easy editing stylesheet" ?>
 	  <!-- "O profeta, mas a evidências que apoiam que esta reivindicação é falsa." -->
 	  <!-- "A duzentas no inverno." -->
 	  <!-- "Vendendo-os posteriormente a crianças menores de idade." -->
+	  <!-- "Vendendo-os posteriormente a crianças." -->
       <antipattern>		  
 		  <token regexp="no">a</token>
 		  <token postag='NC[CFM]P000|AQ0[CFM]P0|NP[FM]S[0G]00' postag_regexp='yes'/>
-		  <token regexp="yes">que|na|no|maiores|menores|como|por|o</token>
+		  <token regexp="yes">que|na|no|maiores|menores|como|por|o|[.,?!]</token>
 	  </antipattern>
-<!-- MARCOAGPINTO 2020-10-05 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-10-05 + 2020-11-05 (2-JUL-2020+) *END* -->
       <pattern>
 			<token>a
 				<exception negate_pos='yes' postag_regexp='yes' postag='D.+'/>
@@ -2787,6 +2788,23 @@ title="Easy editing stylesheet" ?>
 		  <token postag='AQ0[CFM]P0|NC[CFM]P000' postag_regexp='yes'/>
       </antipattern>	  
 <!-- MARCOAGPINTO 2020-10-29 + 2020-10-30 (21-OCT-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-10-05 + 2020-11-05 (2-JUL-2020+) *START* --> 
+	  <!-- "Os arqueólogos dedicam-se cada vez mais a fases tardias da evolução humana." -->
+      <antipattern>		  
+		  <token regexp="no">a</token>
+		  <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
+		  <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
+	  </antipattern>
+	  <!-- "O profeta, mas a evidências que apoiam que esta reivindicação é falsa." -->
+	  <!-- "A duzentas no inverno." -->
+	  <!-- "Vendendo-os posteriormente a crianças menores de idade." -->
+	  <!-- "Vendendo-os posteriormente a crianças." -->
+      <antipattern>		  
+		  <token regexp="no">a</token>
+		  <token postag='NC[CFM]P000|AQ0[CFM]P0|NP[FM]S[0G]00' postag_regexp='yes'/>
+		  <token regexp="yes">que|na|no|maiores|menores|como|por|o|[.,?!]</token>
+	  </antipattern>
+<!-- MARCOAGPINTO 2020-10-05 + 2020-11-05 (2-JUL-2020+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
