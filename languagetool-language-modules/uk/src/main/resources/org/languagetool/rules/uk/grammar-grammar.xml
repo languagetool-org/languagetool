@@ -2419,6 +2419,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="від">і залежно <marker>він</marker> результату</example>
     </rule>
 
+    <rule id="zaznaty_porazku" name="Зазнати/завдати поразку">
+      <pattern>
+        <token regexp="yes" inflected="yes">зазнати|зазнавати|завдати|завдавати</token>
+        <token min="0" postag_regexp="yes" postag="noun.*?v_dav.*">
+          <exception postag_regexp="yes" postag="adj:f:v_zna.*"/>
+        </token>
+        <marker>
+          <token min="0" postag_regexp="yes" postag="adj:f:v_zna.*"/>
+          <token>поразку</token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion><match no="3" postag_regexp="yes" postag="adj:f:v_zna(.*)" postag_replace="adj:f:v_rod$1"/> поразки</suggestion></message>
+      <example correction="поразки">зазнати <marker>поразку</marker>.</example>
+      <example correction="нищівної поразки">завдав <marker>нищівну поразку</marker>.</example>
+      <example correction="нищівної поразки">завдав йому <marker>нищівну поразку</marker>.</example>
+    </rule>
+
 <!--
     TODO: досить складна логіка
     <rulegroup id="NE_Z_PRUKMETNYKAMY" name="Не з прикметниками">
