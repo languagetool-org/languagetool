@@ -1183,7 +1183,6 @@ public class JLanguageTool {
   public List<RuleMatch> checkAnalyzedSentence(ParagraphHandling paraMode,
                                                List<Rule> rules, AnalyzedSentence analyzedSentence, boolean checkRemoteRules) throws IOException {
     List<RuleMatch> sentenceMatches = new ArrayList<>();
-    String analyzedSentenceText = analyzedSentence.getText();
     for (Rule rule : rules) {
       if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) {
         break;
@@ -1208,7 +1207,11 @@ public class JLanguageTool {
       RuleMatch[] thisMatches = rule.match(analyzedSentence);
       Collections.addAll(sentenceMatches, thisMatches);
     }
-    AnnotatedText text = new AnnotatedTextBuilder().addText(analyzedSentenceText).build();
+    if (sentenceMatches.isEmpty()) {
+      return sentenceMatches;
+    }
+
+    AnnotatedText text = new AnnotatedTextBuilder().addText(analyzedSentence.getText()).build();
     // rules can create matches with rule IDs different from the original rule (see e.g. RemoteRules)
     // so while we can't avoid execution of these rules, we still want disabling them to work
     // so do another pass with ignoreRule here
