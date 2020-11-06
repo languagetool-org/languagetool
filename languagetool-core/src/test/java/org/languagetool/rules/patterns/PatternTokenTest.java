@@ -189,16 +189,16 @@ public class PatternTokenTest {
   @Test
   public void testFormHints() {
     PatternToken token = new PatternTokenBuilder().tokenRegex("an?|the|th[eo]se").build();
-    assertEquals(token.calcFormHints(), Sets.newHashSet("a", "an", "the", "these", "those"));
+    assertEquals(Sets.newHashSet("a", "an", "the", "these", "those"), token.calcFormHints());
 
     token = new PatternTokenBuilder().token("foo").build();
-    assertEquals(token.calcFormHints(), Sets.newHashSet("foo"));
+    assertEquals(Sets.newHashSet("foo"), token.calcFormHints());
 
     token = new PatternTokenBuilder().tokenRegex("(foo)?.*").build();
     assertNull(token.calcFormHints());
 
     token = new PatternTokenBuilder().csTokenRegex("a|b").build();
-    assertEquals(token.calcFormHints(), Sets.newHashSet("a", "b"));
+    assertEquals(Sets.newHashSet("a", "b"), token.calcFormHints());
 
     token = new PatternTokenBuilder().token("a").min(0).build();
     assertNull(token.calcFormHints());
