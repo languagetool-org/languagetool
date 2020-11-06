@@ -68,6 +68,11 @@ public class CaseRule extends Rule {
   // also see case_rule_exceptions.txt:
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      token("Planten"),
+      token("un"),
+      regex("Blomens?")
+    ),
+    Arrays.asList(
       // "Tom ist ein engagierter, gutaussehender Vierzigjähriger, der..."
       posRegex("(ADJ:|PA2).*"),
       token(","),
