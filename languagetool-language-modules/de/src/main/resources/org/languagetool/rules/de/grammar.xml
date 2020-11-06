@@ -4975,11 +4975,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="PLANT_PLANET" name="Plant (Planet)">
+            <antipattern>
+                <token>Planten</token>
+                <token>un</token>
+                <token>Blomen</token>
+            </antipattern>
+            <antipattern><!-- eng -->
+                <token regexp="yes" skip="1">the|of|for</token>
+                <token>plant</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes" postag="UNKNOWN">Plant(en)?</token>
             </pattern>
             <message>Meinten Sie <suggestion><match no="1" regexp_match="Plant" regexp_replace="Planet"/></suggestion>?</message>
             <example correction="Planeten">Die <marker>Planten</marker> umkreisen den Stern.</example>
+            <example>Zu den besonders aufwendig gestalteten Anlagen gehört Planten un Blomen mit der größten japanischen Gartenanlage in Deutschland.</example>
         </rule>
     </category>
 
