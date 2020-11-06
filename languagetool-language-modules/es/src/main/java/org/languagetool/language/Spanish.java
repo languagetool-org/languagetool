@@ -219,6 +219,7 @@ public class Spanish extends Language implements AutoCloseable{
       case "AGREEMENT_ADJ_NOUN": return -30;
       case "AGREEMENT_PARTICIPLE_NOUN": return -30;
       case "AGREEMENT_POSTPONED_ADJ": return -30;
+      case "COMMA_SINO": return -40;
       case "VOSEO": return -40;
       case "MORFOLOGIK_RULE_ES": return -100;
       case "UPPERCASE_SENTENCE_START": return -200;
