@@ -4352,11 +4352,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="TU_SIN_TILDE" name="tú > tu">
+            <antipattern>
+                <token>tú</token>
+                <token>ve</token>
+            </antipattern>
             <rule>
-                <antipattern>
-                    <token>tú</token>
-                    <token>ve</token>
-                </antipattern>
                 <pattern>
                     <marker>
                         <token>tú</token>
@@ -4372,6 +4372,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tu">Aprobará <marker>tú</marker> envío de dinero.</example>
                 <example correction="tu">Cuando revisé <marker>tú</marker> caso, no encontré nada relevante.</example>
                 <example>Tú vienes</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>tú</token>
+                    </marker>
+                        <token postag="NC.S000|A...S." postag_regexp="yes"><exception regexp="yes">como|una|obra</exception><exception postag="V...2S.|SP.*" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>Si es un posesivo, se escribe sin tilde.</message>
+                <suggestion>tu</suggestion>
+                <example correction="tu">Se ajustan a <marker>tú</marker> pie como un calcetín.</example>
+                <example correction="tu">Aprobará <marker>tú</marker> envío de dinero.</example>
+                <example correction="tu">Ahora viene <marker>tú</marker> padre.</example>
+                <example>Tú vienes</example>
+                <example>Tú ve.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TU_TILDE" name="tu / tú">
