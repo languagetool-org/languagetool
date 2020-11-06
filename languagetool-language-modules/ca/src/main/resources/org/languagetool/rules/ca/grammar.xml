@@ -31977,6 +31977,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CASING" name="E) Majúscules i minúscules" type="typographical">
+        <rule id="SEGLE_MINUSCULA" name="segle en minúscula (s.)" default="temp_off">
+            <pattern>
+                <token postag="D.*" postag_regexp="yes"/>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">S|Segle</token>
+                </marker>
+                <token min="0">.</token>
+                <token regexp="yes">[xiv]+</token>
+            </pattern>
+            <message>Si és un nom comú, s'escriu en minúscula.</message>
+            <suggestion><match no="2" case_conversion="alllower"/></suggestion>
+            <example correction="s">Aquest quadre és del <marker>S</marker>. XVIII.</example>
+            <example correction="segle">Aquesta imatge es va crear en el <marker>Segle</marker> XVIII.</example>
+        </rule>
         <rule id="NADAL" name="nadal/Nadal">
             <pattern>
                 <token regexp="yes" case_sensitive="yes">nadals?</token>
