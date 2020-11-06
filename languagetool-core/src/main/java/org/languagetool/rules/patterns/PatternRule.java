@@ -19,6 +19,7 @@
 package org.languagetool.rules.patterns;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
@@ -222,12 +223,22 @@ public class PatternRule extends AbstractPatternRule {
       } else {
         throw new IllegalStateException("Neither pattern tokens nor regex set for rule " + getId());
       }
-      return matcher.match(getSentenceWithImmunization(sentence));
+      return checkForAntiPatterns(sentence, matcher, matcher.match(sentence));
     } catch (IOException e) {
       throw new IOException("Error analyzing sentence: '" + sentence + "'", e);
     } catch (Exception e) {
       throw new RuntimeException("Error analyzing sentence: '" + sentence + "' with rule " + getFullId(), e);
     }
+  }
+
+  private RuleMatch[] checkForAntiPatterns(AnalyzedSentence sentence, RuleMatcher matcher, RuleMatch[] matches) throws IOException {
+    if (matches != null && matches.length > 0 && !getAntiPatterns().isEmpty()) {
+      AnalyzedSentence immunized = getSentenceWithImmunization(sentence);
+      if (Arrays.stream(immunized.getTokens()).anyMatch(AnalyzedTokenReadings::isImmunized)) {
+        return matcher.match(immunized);
+      }
+    }
+    return matches;
   }
 
   /**
