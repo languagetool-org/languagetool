@@ -590,25 +590,28 @@ public class JLanguageTool {
   }
 
   public void activateRemoteRules(@Nullable File configFile) throws IOException {
+    List<RemoteRuleConfig> configs;
     try {
-      List<RemoteRuleConfig> configs;
       if (configFile != null) {
         configs = RemoteRuleConfig.load(configFile);
       } else {
         configs = Collections.emptyList();
       }
-      List<Rule> rules = language.getRelevantRemoteRules(getMessageBundle(language), configs,
-        globalConfig, userConfig, motherTongue, altLanguages, inputLogging);
-      userRules.addAll(rules);
-      Function<Rule, Rule> enhanced = language.getRemoteEnhancedRules(getMessageBundle(language), configs, userConfig, motherTongue, altLanguages, inputLogging);
-      transformRules(enhanced, builtinRules);
-      transformRules(enhanced, userRules);
-
+      activateRemoteRules(configs);
     } catch (IOException e) {
       throw new IOException("Could not load remote rules.", e);
     } catch (ExecutionException e) {
       throw new IOException("Could not load remote rules configuration at " + configFile.getAbsolutePath(), e);
     }
+  }
+
+  public void activateRemoteRules(List<RemoteRuleConfig> configs) throws IOException {
+    List<Rule> rules = language.getRelevantRemoteRules(getMessageBundle(language), configs,
+      globalConfig, userConfig, motherTongue, altLanguages, inputLogging);
+    userRules.addAll(rules);
+    Function<Rule, Rule> enhanced = language.getRemoteEnhancedRules(getMessageBundle(language), configs, userConfig, motherTongue, altLanguages, inputLogging);
+    transformRules(enhanced, builtinRules);
+    transformRules(enhanced, userRules);
   }
 
   /**

@@ -746,6 +746,8 @@ abstract class TextChecker {
     /** allowed to log input with stack traces to reproduce errors? */
     final boolean inputLogging;
 
+    final boolean regressionTestMode; // no fallbacks for remote rules, retries, enable all rules
+
     QueryParams(List<Language> altLanguages, List<String> enabledRules, List<String> disabledRules, List<CategoryId> enabledCategories, List<CategoryId> disabledCategories,
                 boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, boolean enableTempOffRules, JLanguageTool.Mode mode, JLanguageTool.Level level, @Nullable String callback) {
       this(altLanguages, enabledRules, disabledRules, enabledCategories, disabledCategories, useEnabledOnly, useQuerySettings, allowIncompleteResults, enableHiddenRules, enableTempOffRules, mode, level, callback, true);
@@ -763,6 +765,7 @@ abstract class TextChecker {
       this.allowIncompleteResults = allowIncompleteResults;
       this.enableHiddenRules = enableHiddenRules;
       this.enableTempOffRules = enableTempOffRules;
+      this.regressionTestMode = enableTempOffRules;
       this.mode = Objects.requireNonNull(mode);
       this.level = Objects.requireNonNull(level);
       if (callback != null && !callback.matches("[a-zA-Z]+")) {
@@ -785,6 +788,7 @@ abstract class TextChecker {
         .append(allowIncompleteResults)
         .append(enableHiddenRules)
         .append(enableTempOffRules)
+        .append(regressionTestMode)
         .append(mode)
         .append(level)
         .append(callback)
@@ -810,6 +814,7 @@ abstract class TextChecker {
         .append(allowIncompleteResults, other.allowIncompleteResults)
         .append(enableHiddenRules, other.enableHiddenRules)
         .append(enableTempOffRules, other.enableTempOffRules)
+        .append(regressionTestMode, other.regressionTestMode)
         .append(mode, other.mode)
         .append(level, other.level)
         .append(callback, other.callback)
@@ -830,6 +835,7 @@ abstract class TextChecker {
         .append("allowIncompleteResults", allowIncompleteResults)
         .append("enableHiddenRules", enableHiddenRules)
         .append("enableTempOffRules", enableTempOffRules)
+        .append("regressionTestMode", regressionTestMode)
         .append("mode", mode)
         .append("level", level)
         .append("callback", callback)

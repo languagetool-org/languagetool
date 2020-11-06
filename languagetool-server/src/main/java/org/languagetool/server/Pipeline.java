@@ -21,10 +21,7 @@ package org.languagetool.server;
 
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.*;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.CategoryId;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatchFilter;
+import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.xml.sax.SAXException;
 
@@ -134,6 +131,12 @@ class Pipeline extends JLanguageTool {
   public void activateRemoteRules(File configFile) throws IOException {
     preventModificationAfterSetup();
     super.activateRemoteRules(configFile);
+  }
+
+  @Override
+  public void activateRemoteRules(List<RemoteRuleConfig> configs) throws IOException {
+    preventModificationAfterSetup();
+    super.activateRemoteRules(configs);
   }
 
   @Override
