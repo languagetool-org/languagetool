@@ -23,11 +23,47 @@ import com.google.common.collect.Sets;
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 
+import java.util.Set;
+
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static org.languagetool.JLanguageTool.*;
 import static org.languagetool.rules.patterns.PatternToken.UNKNOWN_TAG;
 
 public class PatternTokenTest {
+
+  @SuppressWarnings("ConstantConditions")
+  @Test
+  public void testGetPossibleRegexpValues() {
+    PatternToken pToken = new PatternToken("foo", false, false, false);
+    assertNull(pToken.getPossibleRegexpValues("x.*"));
+    assertNull(pToken.getPossibleRegexpValues("x+"));
+    assertNull(pToken.getPossibleRegexpValues("^x$"));
+    assertNull(pToken.getPossibleRegexpValues("a.c"));
+    assertNull(pToken.getPossibleRegexpValues("a{2}"));
+    assertNull(pToken.getPossibleRegexpValues("[a-z]"));
+    assertNull(pToken.getPossibleRegexpValues("a[a-z]"));
+
+    Set<String> set = pToken.getPossibleRegexpValues("aa|bb");
+    assertThat(set.size(), is(2));
+    assertTrue(set.contains("aa"));
+    assertTrue(set.contains("bb"));
+
+    set = pToken.getPossibleRegexpValues("aa");
+    assertThat(set.size(), is(1));
+    assertTrue(set.contains("aa"));
+
+    set = pToken.getPossibleRegexpValues("aa?");
+    assertThat(set.size(), is(2));
+    assertTrue(set.contains("a"));
+    assertTrue(set.contains("aa"));
+
+    set = pToken.getPossibleRegexpValues("[abc]");
+    assertThat(set.size(), is(3));
+    assertTrue(set.contains("a"));
+    assertTrue(set.contains("b"));
+    assertTrue(set.contains("c"));
+  }
 
   @Test
   public void testSentenceStart() {

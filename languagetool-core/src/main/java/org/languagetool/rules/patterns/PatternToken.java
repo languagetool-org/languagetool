@@ -791,11 +791,11 @@ public class PatternToken implements Cloneable {
     if (negation || !hasStringThatMustMatch()) {
       return null;
     }
-    return stringRegExp ? getPossibleRegexpValues() : Collections.singleton(stringToken);
+    return stringRegExp ? getPossibleRegexpValues(stringToken) : Collections.singleton(stringToken);
   }
 
   @Nullable
-  private Set<String> getPossibleRegexpValues() {
+  Set<String> getPossibleRegexpValues(String stringToken) {
     if (StringUtils.containsAny(stringToken, "()*+.\\^${}")) {
       return null;
     }
