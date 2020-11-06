@@ -50,12 +50,11 @@ class LanguageDetectionMinLengthEval {
 
   private LanguageDetectionMinLengthEval() {
     languageIdentifier = new LanguageIdentifier();
-    languageIdentifier.enableNgrams(new File("/home/languagetool/ngram-lang-id"));
+    languageIdentifier.enableNgrams(new File("/home/languagetool/model_ml50_new.zip"));
     //languageIdentifier = new CLD2Identifier();
     //languageIdentifier.enableFasttext(new File("/path/to/fasttext/binary"), new File("/path/to/fasttext/model"));
     // Daniel's paths:
     //languageIdentifier.enableFasttext(new File("/prg/fastText-0.1.0/fasttext"), new File("/prg/fastText-0.1.0/data/lid.176.bin"));
-    //languageIdentifier.enableFasttext(new File("/home/dnaber/lt/robert/langid_prod/start.sh"), new File("/prg/fastText-0.1.0/data/lid.176.bin"));
   }
 
   private float evaluate(Language language) throws IOException {
