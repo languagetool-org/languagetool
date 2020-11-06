@@ -44,12 +44,17 @@ public class DutchTagger extends BaseTagger {
 
     for (String word : sentenceTokens) {
       boolean ignoreSpelling = false;
+      // make treatment of weird apostrophes same as in tokenizer (R. Baars, 2020-11-06)
+      String originalWord=word;
+      word=word.replace("`","'").replace("’","'").replace("‘","'").replace("´","'");
+      
       final List<AnalyzedToken> l = new ArrayList<>();
       final String lowerWord = word.toLowerCase(locale);
       final boolean isLowercase = word.equals(lowerWord);
       final boolean isMixedCase = StringTools.isMixedCase(word);
       final boolean isAllUpper = StringTools.isAllUppercase(word);
       List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
+      //List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
 
       // normal case:
       addTokens(taggerTokens, l);
@@ -114,6 +119,9 @@ public class DutchTagger extends BaseTagger {
         }
       }
 
+      // set word to original
+      word = originalWord;
+      
       if (l.isEmpty()) {
         l.add(new AnalyzedToken(word, null, null));
       }
@@ -124,9 +132,10 @@ public class DutchTagger extends BaseTagger {
       }
 
       tokenReadings.add(atr);
+      
       pos += word.length();
     }
-
+    
     return tokenReadings;
   }
 
