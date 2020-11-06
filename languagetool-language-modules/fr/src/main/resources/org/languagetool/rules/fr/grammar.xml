@@ -9026,6 +9026,53 @@ though, and has since been slightly modified)-->
         <example correction="trois fois par semaine">Je joue au Softball <marker>trois fois au semaine</marker>.</example>
       </rule>
       <!-- End of additions -->
+      <rule id="CONFUSION_PAR_PART" name="Confusion part/par expression de par" default="temp_off">
+          <pattern>
+              <token>de</token>
+              <marker>
+                  <token>part</token>
+              </marker>
+              <token regexp="yes" postag_regexp="yes">
+                  sa|ses|son|leur|leurs
+              </token>
+          </pattern>
+          <message>L'expression « de par \3 » s'écrit sans « t ».</message>
+          <suggestion>par</suggestion>
+          <example correction="par">De <marker>part</marker> ses multiples expériences, Jacques avait déjà créé des sites internets.</example>
+      </rule>
+      <rule id="CONFUSION_PPA_IND_2E_GROUPE" name="confusion entre participe passé et indicatif du deuxième groupe" default="temp_off">
+          <pattern>
+              <token postag="D.*" postag_regexp="yes"/>
+              <token postag="N.*" postag_regexp="yes"/>
+              <marker>
+                  <token postag="V.*" postag_regexp="yes" regexp="yes">.*i
+                      <exception postag_regexp="yes" postag="V.*(ind|con|sub|imp).*"/>
+                  </token>
+              </marker>
+              <token>de</token>
+              <token postag="V.*inf" postag_regexp="yes"/>
+          </pattern>
+          <message>Did you mean <suggestion><match no="3" postag_replace="V$1 ind pres 3 $2" postag="V(.*) ppa m ([sp])" postag_regexp="yes"/></suggestion>?</message>
+          <example correction="choisit">Le professeur <marker>choisi</marker> de créer un site internet.</example>
+          <example>Le professeur choisit de créer un site internet.</example>
+      </rule>
+      <!-- needs declinations
+      <rule id="ACCORD_DE_ADJ" name="De + adj + nom pluriel">
+          <pattern>
+              <token>de</token>
+              <marker>
+                  <token postag_regexp="yes" postag="J.*">
+                      <exception postag_regexp="yes" postag="J [fe] (p|sp)"/>
+                      <exception regexp="yes">l[ao]s</exception>
+                  </token>
+              </marker>
+              <token postag_regexp="yes" postag="N f p"/>
+          </pattern>
+          <message>Si le sujet est bien « \3 », l'accord se fait avec ce dernier.</message>
+          <suggestion><match no="2" postag_regexp="yes" postag="J.*" postag_replace="J f p"/></suggestion>
+          <example correction="larges">Il avait donc de <marker>large</marker> compétences.</example>
+      </rule>
+      -->
       <rule id="SONT_SOMMES" name="sont au lieu de sommes" default="temp_off">
           <pattern>
               <token postag_regexp="yes" postag="R.*"/>
