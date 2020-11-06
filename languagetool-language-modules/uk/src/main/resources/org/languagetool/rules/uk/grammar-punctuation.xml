@@ -2239,7 +2239,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>10 - 10</example>
       </rule>
     </rulegroup>
- 
+
+    <rulegroup id="jakscho_to" name="Кома: якщо ... то">
+      <antipattern>
+        <token>то</token>
+        <token min="1" max="6">
+          <exception>то</exception>
+        </token>
+        <token>то</token>
+      </antipattern>
+      <antipattern>
+        <token>якщо</token>
+        <token>ж</token>
+        <token>то</token>
+      </antipattern>
+      <rule>
+        <pattern>
+          <token>якщо</token>
+          <token max="7">
+            <exception regexp="yes">то|[,;:()…—–-]|\.\.\.</exception>
+          </token>
+          <marker>
+            <token>то
+              <exception scope="previous" regexp="yes">,|не|а|чи|і|й|та</exception>
+              <!-- 
+              <exception scope="next" inflected="yes">бути</exception>
+               -->
+            </token>
+          </marker>
+        </pattern>
+        <message>В звороті «якщо ... то» перед «то» ставимо кому</message>
+        <suggestion>, \3</suggestion>
+        <example correction=", то">якщо побачиш<marker> то</marker> передай йому.</example>
+        <example>якщо щось, а не то</example>
+        <example>якщо щось трапиться, приходь, то буде швидко</example>
+        <example>якщо ... то ...</example>
+        <example>якщо чи то він чи то вона</example>
+        <example>якщо вона рухається то вперед, то назад</example>
+        <example>якщо ж то був він</example>
+      </rule>
+    </rulegroup>
+
   <!-- 
       <rule>
         <pattern>
