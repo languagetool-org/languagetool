@@ -10625,7 +10625,7 @@ MARCOAGPINTO 2020-02-18 -->
     </rule>
 
     <!-- 	VERB + QUE + É verb + ser(em) -->	
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-02 (21-OCT-2020+)     -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-02 + 2020-11-06 (21-OCT-2020+)     -->
     <rulegroup id='VERB_QUE_É_VERB_SER' name="Que é/são > ser(em)">
 		<rule>
 			<pattern>
@@ -10636,7 +10636,9 @@ MARCOAGPINTO 2020-02-18 -->
 					<token>que</token>
 					<token>é</token>
 				</marker>
-				<token negate="yes" regexp='yes'>horas?|[.,!?]</token>
+				<token negate="yes" regexp='yes'>horas?|[.,!?]
+					<exception postag_regexp="no" postag='CS'/>
+				</token>
 			</pattern>		
 			<message>Substitua por <suggestion>ser</suggestion>.</message>
 			<example correction="ser">Mas depende sempre daquilo que consideras <marker>que é</marker> o problema.</example>  
@@ -10650,7 +10652,9 @@ MARCOAGPINTO 2020-02-18 -->
 					<token>que</token>
 					<token>são</token>
 				</marker>
-				<token negate="yes" regexp='yes'>horas?|[.,!?]</token>
+				<token negate="yes" regexp='yes'>horas?|[.,!?]
+					<exception postag_regexp="no" postag='CS'/>
+				</token>				
 			</pattern>		
 			<message>Substitua por <suggestion>serem</suggestion>.</message>
 			<example correction="serem">Mas depende sempre daquilo que consideras <marker>que são</marker> os problemas.</example>  
