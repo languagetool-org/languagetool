@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -47,6 +48,9 @@ public class PatternRule extends AbstractPatternRule {
   private final Set<String> simpleRuleTokens;
 
   private final Set<String> inflectedRuleTokens;
+
+  @Nullable
+  private final Set<String> formHints;
 
   // This property is used for short-circuiting evaluation of the elementNo list order:
   private final boolean useList;
@@ -105,6 +109,7 @@ public class PatternRule extends AbstractPatternRule {
     useList = tempUseList;
     simpleRuleTokens = getSet(false);
     inflectedRuleTokens = getSet(true);
+    formHints = calcFormHints();
   }
   
   public PatternRule(String id, Language language,
@@ -247,8 +252,20 @@ public class PatternRule extends AbstractPatternRule {
    * @since 2.4
    */
   public boolean canBeIgnoredFor(AnalyzedSentence sentence) {
-    return (!simpleRuleTokens.isEmpty() && !sentence.getTokenSet().containsAll(simpleRuleTokens))
-            || (!inflectedRuleTokens.isEmpty() && !sentence.getLemmaSet().containsAll(inflectedRuleTokens));
+    if (!simpleRuleTokens.isEmpty() && !sentence.getTokenSet().containsAll(simpleRuleTokens)) return true;
+    if (!inflectedRuleTokens.isEmpty() && !sentence.getLemmaSet().containsAll(inflectedRuleTokens)) return true;
+    return formHints != null && !setsIntersect(sentence.getTokenSet(), formHints);
+  }
+
+  private static boolean setsIntersect(Set<String> set1, Set<String> set2) {
+    Set<String> smaller = set1.size() > set2.size() ? set2 : set1;
+    Set<String> another = smaller == set1 ? set2 : set1;
+    for (String s : smaller) {
+      if (another.contains(s)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   // tokens that just refer to a word - no regex and optionally no inflection etc.
@@ -262,6 +279,16 @@ public class PatternRule extends AbstractPatternRule {
     }
     if (set.isEmpty()) return Collections.emptySet();
     return Collections.unmodifiableSet(set);
+  }
+
+  private Set<String> calcFormHints() {
+    for (PatternToken token : patternTokens) {
+      Set<String> hints = token.calcFormHints();
+      if (hints != null) {
+        return hints.stream().map(String::toLowerCase).collect(Collectors.toSet());
+      }
+    }
+    return null;
   }
 
   List<Integer> getElementNo() {
