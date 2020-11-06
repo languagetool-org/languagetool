@@ -6458,6 +6458,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>ether</token>
             <token postag="VB" />
         </antipattern>
+        <antipattern><!-- they will eventually revolt and ... -->
+            <token postag="NNP|PRP" postag_regexp="yes" />
+            <token postag="MD" />
+            <token postag="RB" />
+            <token postag="VBP" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -6487,6 +6493,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Get the code read and search it online.</example>
         <example type="untouched">Nah, call it morning breath.</example>
         <example type="untouched">He would sexual assault her.</example>
+        <example type="untouched">They will eventually revolt and</example>
         <example type="untouched">...and angles that <marker>share</marker> a common vertex...</example>
         <example type="untouched">I have <marker>notice</marker> she doesn't like me.</example><!-- Possibly a noun (=somebody has told me (that)), but possibly incorrect verb form (should be 'noticed') -->
         <example type="untouched">Only <marker>count</marker> every 10th item when you do the test.</example>
@@ -12638,9 +12645,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
 
     <rule id="LETTER_AMP_LETTER_SPELLING" name="Ignore spelling of 'A&amp;B'">
         <pattern case_sensitive="yes">
-            <token regexp="yes">[A-Z]</token>
-            <token regexp="yes" spacebefore="no">&amp;</token>
-            <token regexp="yes" spacebefore="no">[A-Z]</token>
+            <token regexp="yes">[A-Z]&amp;[A-Z]</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

@@ -321,7 +321,7 @@ public class AdverbFilter extends RuleFilter {
     put("strategically", "strategical");
     put("endlessly", "endless");
     put("virtually", "virtual");
-    put("regularly", "regulary");
+    put("regularly", "regular");
     put("deliberately", "deliberate");
     put("reasonably", "reasonable");
     put("similarly", "similar");
@@ -355,6 +355,8 @@ public class AdverbFilter extends RuleFilter {
     put("temporally", "temporal");
     put("digitally", "digital");
     put("finely", "fine");
+    put("respectfully", "respectful");
+    put("questioningly", "questioning");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
