@@ -4980,16 +4980,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>un</token>
                 <token>Blomen</token>
             </antipattern>
-            <antipattern><!-- eng -->
-                <token regexp="yes" skip="1">the|of|for</token>
-                <token>plant</token>
-            </antipattern>
             <pattern>
-                <token regexp="yes" postag="UNKNOWN">Plant(en)?</token>
+                <token postag="SENT_START" skip="-1">
+                    <exception scope="next" regexp="yes">for|the|databases?|famil(y|ies)|Sadie|assembly|products?|sciences?|protection|diseases?|projects?|books?|taxonomy</exception>
+                </token>
+                <marker>
+                    <token regexp="yes" postag="UNKNOWN" skip="-1">Plant(en)?<exception scope="next" regexp="yes">for|the|databases?|famil(y|ies)|products?|sciences?|protection|diseases?|projects?|books?|taxonomy</exception>
+                    </token>
+                </marker>
+                <token postag="SENT_END"></token>
             </pattern>
-            <message>Meinten Sie <suggestion><match no="1" regexp_match="Plant" regexp_replace="Planet"/></suggestion>?</message>
+            <message>Meinten Sie <suggestion><match no="2" regexp_match="Plant" regexp_replace="Planet"/></suggestion>?</message>
             <example correction="Planeten">Die <marker>Planten</marker> umkreisen den Stern.</example>
-            <example>Zu den besonders aufwendig gestalteten Anlagen gehört Planten un Blomen mit der größten japanischen Gartenanlage in Deutschland.</example>
+            <example correction="Planet">Ein kleiner roter <marker>Plant</marker> bildete den Abschluss des Systems.</example>
+            <example>Multilingual Multiscript <marker>Plant</marker> Name Database</example>
+            <example>A small South African Assembly <marker>Plant</marker> that became a major Manufacturer</example>
+            <example>New <marker>Plant</marker> Products der Purdue University</example>
+            <example>Das Dahlem Centre of <marker>Plant</marker> Sciences der Max-Planck-Gesellschaft</example>
+            <example>Journal of <marker>Plant</marker> Diseases and Protection</example>
+            <example>The Linnaean <marker>Plant</marker> Name Typification Project</example>
+            <example>Association for <marker>Plant</marker> Taxonomy</example>
+            <example>Zu den besonders aufwendig gestalteten Anlagen gehört <marker>Planten</marker> un Blomen.</example>
         </rule>
     </category>
 
