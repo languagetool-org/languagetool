@@ -638,8 +638,12 @@ abstract class TextChecker {
     try {
       settings = new PipelinePool.PipelineSettings(lang, motherTongue, params, config.globalConfig, userConfig);
       lt = pipelinePool.getPipeline(settings);
+      Long textSessionId = userConfig.getTextSessionId();
+      if (params.regressionTestMode) {
+        textSessionId = -2L; // magic value for remote rule roll-out - includes all results, even from disabled models
+      }
       matches.addAll(lt.check(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener,
-        params.mode, params.level, executorService, userConfig.getTextSessionId()));
+        params.mode, params.level, executorService, textSessionId));
     } finally {
       if (lt != null) {
         pipelinePool.returnPipeline(settings, lt);
