@@ -4351,6 +4351,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>lo que hago en mi día a día</example>
             </rule>
         </rulegroup>
+        <rulegroup id="MI_SIN_TILDE" name="mí > mi" default="temp_off">
+            <rule >
+                <pattern>
+                    <marker>
+                        <token>mí</token>
+                    </marker>
+                    <token postag="NC.S000|A...S." postag_regexp="yes"/>
+                </pattern>
+                <message>Si es un posesivo, se escribe sin tilde.</message>
+                <suggestion>mi</suggestion>
+                <example correction="mi">Se ajustan a <marker>mí</marker> pie como un calcetín.</example>
+                <example correction="mi">Aprobará <marker>mí</marker> envío de dinero.</example>
+                <example correction="mi">Ahora viene <marker>mí</marker> padre.</example>
+                <example correction="mi">Ahora viene <marker>mí</marker> querido padre.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TU_SIN_TILDE" name="tú > tu">
             <antipattern>
                 <token>tú</token>
