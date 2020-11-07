@@ -15132,6 +15132,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="UN_MITJA" name="un mitja/mitjà" default="temp_off">
+            <pattern>
+                <token postag="D..MS." postag_regexp="yes"/>
+                <token>mitja</token>
+            </pattern>
+            <message>Error de concordança o d'accentuació.</message>
+            <suggestion>\1 mitjà</suggestion>
+            <suggestion><match no="1" postag="(D..)M(..)" postag_regexp="yes" postag_replace="$1F$2"/> \2</suggestion>
+            <suggestion>\1 mig</suggestion>
+            <example correction="un mitjà|una mitja|un mig">Director d'<marker>un mitja</marker> de comunicació.</example>
+        </rule>
         <rule id="THE_TE" name="t'he / te">
             <pattern>
                 <marker>
@@ -32382,7 +32393,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">\p{Lu}\p{Ll}+</token>
                     </and>
                     <and>
-                        <token regexp="yes" inflected="yes" case_sensitive="yes">general|delegat|delegar|executiu|tècnic|municipal|nacional|estatal|comarcal|provincial|suplent|administratiu|comptador|regional<exception scope="previous" postag="SENT_START"/></token>
+                        <token regexp="yes" inflected="yes" case_sensitive="yes">general|delegat|delegar|executiu|tècnic|municipal|nacional|estatal|comarcal|provincial|suplent|administratiu|comptador|regional|metropolità<exception scope="previous" postag="SENT_START"/></token>
                         <token regexp="yes">\p{Lu}\p{Ll}+</token>
                     </and>
                 </pattern>
@@ -51175,26 +51186,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="no impedia que|no obstava perquè|no era obstacle perquè">Això <marker>no treia que</marker>.</example>
             <example>No impedeix que a mi m'agradi.</example>
         </rule>
-        <rule id="POSAR_EN_VALOR" name="posar en valor">
-            <pattern>
-                <token inflected="yes">posar</token>
-                <token min="0" regexp="yes" postag="P.*" postag_regexp="yes">-.+</token>
-                <token>en</token>
-                <token>valor</token>
-            </pattern>
-            <message>Val més usar una altra expressió.</message>
-            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">valorar</match></suggestion>
-            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">fer</match> valdre</suggestion>
-            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">afavorir</match></suggestion>
-            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">treure</match> profit</suggestion>
-            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">remarcar</match></suggestion>
-            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">realçar</match></suggestion>
-            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">reivindicar</match></suggestion>
+        <rulegroup id="POSAR_EN_VALOR" name="posar en valor">
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?input_cercar=&amp;action=Principal&amp;method=detall_completa&amp;numPagina=1&amp;idHit=12197&amp;database=FITXES_PUB&amp;tipusFont=Fitxes%20de%20l%27Optimot&amp;idFont=12197&amp;titol=%27posar%20en%20valor%27%20o%20%27fer%20valer%27?%20/%20Com%20es%20diu%20poner%20en%20valor%20en%20catal%E0?&amp;numeroResultat=1&amp;clickLink=detall&amp;tipusCerca=cerca.fitxes</url>
-            <example correction="Valorarem|Farem valdre|Afavorirem|Traurem profit|Remarcarem|Realçarem|Reivindicarem"><marker>Posarem en valor</marker> el museu.</example>
-            <example correction="valorar|fer valdre|afavorir|traure profit|treure profit|remarcar|realçar|reivindicar">Cal <marker>posar-la en valor</marker>.</example>
-            <example>Valorarem.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">posar</token>
+                    <token min="0" regexp="yes" postag="P.*" postag_regexp="yes">-.+</token>
+                    <token>en</token>
+                    <token>valor</token>
+                </pattern>
+                <message>Expressió utilitzada a vegades de manera abusica. Considereu una alternativa.</message>
+                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">valorar</match></suggestion>
+                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">fer</match> valdre</suggestion>
+                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">afavorir</match></suggestion>
+                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">treure</match> profit</suggestion>
+                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">remarcar</match></suggestion>
+                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">realçar</match></suggestion>
+                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">reivindicar</match></suggestion>
+                <example correction="Valorarem|Farem valdre|Afavorirem|Traurem profit|Remarcarem|Realçarem|Reivindicarem"><marker>Posarem en valor</marker> el museu.</example>
+                <example correction="valorar|fer valdre|afavorir|traure profit|treure profit|remarcar|realçar|reivindicar">Cal <marker>posar-la en valor</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">posada|posades</token>
+                        <token>en</token>
+                        <token>valor</token>
+                    </marker>
+                </pattern>
+                <message>Expressió utilitzada a vegades de manera abusica. Considereu una alternativa.</message>
+                <suggestion><match no="2" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCF$1">valoració</match></suggestion>
+                <suggestion><match no="2" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCM$1">reconeixement</match></suggestion>
+                <suggestion><match no="2" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCF$1">reivindicació</match></suggestion>
+                <example correction="valoracions|reconeixements|reivindicacions">Les <marker>posades en valor</marker> del patrimoni artístic.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SUFICIENT_PROU" name="suficient/prou">
             <rule>
                 <pattern>
