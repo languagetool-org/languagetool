@@ -3011,18 +3011,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- cas especial per a ordinals AO.* ? -->
             <antipattern>
                 <!-- Detected by CONCORDANCES_DET_POSSESSIU -->
-                <marker>
-                    <token postag="DA.*" postag_regexp="yes"/>
-                    <token postag="PX.*" postag_regexp="yes"/>
-                    <token postag="N.*" postag_regexp="yes"/>
-                </marker>
+                <token postag="DA.*" postag_regexp="yes"/>
+                <token postag="PX.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token postag="SPS00"/>
-                    <token regexp="yes">si|jo|tu|ell|ella|nosaltres|vosaltres|ells|elles</token>
-                    <token inflected="yes">mateix</token>
-                </marker>
+                <token postag="SPS00"/>
+                <token regexp="yes">si|jo|tu|ell|ella|nosaltres|vosaltres|ells|elles</token>
+                <token inflected="yes">mateix</token>
             </antipattern>
             <antipattern>
                 <token postag="A.*" postag_regexp="yes"/>
@@ -3030,26 +3026,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token postag="A.*" postag_regexp="yes" regexp="yes">bon|bones</token>
-                    <token postag="N.MP.*" postag_regexp="yes"><exception postag="N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                    <unify negate="yes">
+                        <feature id="nombre"/>
+                        <feature id="genere"/>
+                        <token postag="A.*" postag_regexp="yes" inflected="yes">bo</token>
+                        <token postag="N.*" postag_regexp="yes"><exception postag="N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                    </unify>
                 </pattern>
                 <message>Error de concordança.</message>
                 <suggestion suppress_misspelled="yes">bon <match no="2" postag="N.[MC][SN].*" postag_regexp="yes"/></suggestion>
                 <suggestion suppress_misspelled="yes">bons <match no="2" postag="N.[MC][PN].*" postag_regexp="yes"/></suggestion>
-                <short>Error de concordança</short>
-                <example correction="Bon amic|Bons amics"><marker>Bon amics</marker>.</example>
+                <suggestion suppress_misspelled="yes">bona <match no="2" postag="N.[FC][SN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes">bones <match no="2" postag="N.[FC][PN].*" postag_regexp="yes"/></suggestion>
+                <example correction="Bon amic|Bons amics|Bona amiga|Bones amigues"><marker>Bon amics</marker>.</example>
                 <example correction="bon costum|bons costums">Contrària a les <marker>bones costums</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="A.*" postag_regexp="yes" regexp="yes">bona|bones</token>
-                    <token postag="N.MS.*" postag_regexp="yes"><exception postag="N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Error de concordança.</message>
-                <suggestion suppress_misspelled="yes">bon <match no="2" postag="N.[MC][SN].*" postag_regexp="yes"/></suggestion>
-                <suggestion suppress_misspelled="yes">bons <match no="2" postag="N.[MC][PN].*" postag_regexp="yes"/></suggestion>
-                <short>Error de concordança</short>
                 <example correction="bon pastís|bons pastissos">Vull menjar-me un <marker>bona pastís</marker>.</example>
+                <example correction="bon pastís|bons pastissos">Vull menjar-me un <marker>bona pastís</marker>.</example>
+                <example correction="Bon amic|Bons amics|Bona amiga|Bones amigues"><marker>Bon amigues</marker>.</example>
+                <example correction="Bon estrateg|Bons estrategs|Bona estratega|Bones estrategues"><marker>Bons estrategues</marker>.</example>
+                <example correction="Bon estrateg|Bons estrategs|Bona estratega|Bones estrategues"><marker>Bon estratega</marker>.</example>
             </rule>
             <rule>
                 <antipattern>
