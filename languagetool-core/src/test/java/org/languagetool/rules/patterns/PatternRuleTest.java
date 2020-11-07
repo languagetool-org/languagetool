@@ -316,57 +316,63 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
 
     int threadCount = Math.max(1, Runtime.getRuntime().availableProcessors() / 2);
     ExecutorService executor = Executors.newFixedThreadPool(threadCount);
-    List<Future<?>> futures = new ArrayList<>();
+    try {
 
-    ThreadLocal<MultiThreadedJLanguageTool> lt = ThreadLocal.withInitial(() -> createToolForTesting(lang));
+      List<Future<?>> futures = new ArrayList<>();
+      ThreadLocal<MultiThreadedJLanguageTool> lt = ThreadLocal.withInitial(() -> createToolForTesting(lang));
 
-    Map<String, AbstractPatternRule> complexRules = new HashMap<>();
-    int skipCount = 0;
-    AtomicInteger i = new AtomicInteger();
-    for (AbstractPatternRule rule : rules) {
-      String sourceFile = rule.getSourceFile();
-      if (lang.isVariant() && sourceFile != null &&
-        sourceFile.matches("/org/languagetool/rules/" + lang.getShortCode() + "/grammar.*\\.xml") &&
-        !sourceFile.contains("-l2-")) {
-        //System.out.println("Skipping " + rule.getFullId() + " in " + sourceFile + " because we're checking a variant");
-        skipCount++;
-        continue;
-      }
-
-      futures.add(executor.submit(() -> {
-        testCorrectSentences(lt.get(), allRulesLt, rule);
-        testBadSentences(lt.get(), allRulesLt, lang, complexRules, rule);
-        testErrorTriggeringSentences(lt.get(), rule);
-        if (i.incrementAndGet() % 100 == 0) {
-          System.out.println("Testing rule " + i + "...");
+      Map<String, AbstractPatternRule> complexRules = new HashMap<>();
+      int skipCount = 0;
+      AtomicInteger i = new AtomicInteger();
+      for (AbstractPatternRule rule : rules) {
+        String sourceFile = rule.getSourceFile();
+        if (lang.isVariant() && sourceFile != null &&
+                sourceFile.matches("/org/languagetool/rules/" + lang.getShortCode() + "/grammar.*\\.xml") &&
+                !sourceFile.contains("-l2-")) {
+          //System.out.println("Skipping " + rule.getFullId() + " in " + sourceFile + " because we're checking a variant");
+          skipCount++;
+          continue;
         }
-        return null;
-      }));
-    }
-    for (Future<?> task : futures) {
-      try {
-        task.get();
-      } catch (InterruptedException | ExecutionException e) {
-        throw new RuntimeException(e);
+
+        futures.add(executor.submit(() -> {
+          testCorrectSentences(lt.get(), allRulesLt, rule);
+          testBadSentences(lt.get(), allRulesLt, lang, complexRules, rule);
+          testErrorTriggeringSentences(lt.get(), rule);
+          if (i.incrementAndGet() % 100 == 0) {
+            System.out.println("Testing rule " + i + "...");
+          }
+          return null;
+        }));
       }
-    }
-    System.out.println("Skipped " + skipCount + " rules for variant language to avoid checking rules more than once");
-    
-    if (!complexRules.isEmpty()) {
-      Set<String> set = complexRules.keySet();
-      List<AbstractPatternRule> badRules = new ArrayList<>();
-      for (String aSet : set) {
-        AbstractPatternRule badRule = complexRules.get(aSet);
-        if (badRule instanceof PatternRule) {
-          ((PatternRule)badRule).notComplexPhrase();
-          badRule.setMessage("The rule contains a phrase that never matched any incorrect example.\n" + ((PatternRule) badRule).toPatternString());
-          badRules.add(badRule);
+      for (Future<?> task : futures) {
+        try {
+          task.get();
+        } catch (InterruptedException | ExecutionException e) {
+          throw new RuntimeException(e);
         }
       }
-      if (!badRules.isEmpty()) {
-        testGrammarRulesFromXML(badRules, allRulesLt, lang);
+      System.out.println("Skipped " + skipCount + " rules for variant language to avoid checking rules more than once");
+
+      if (!complexRules.isEmpty()) {
+        Set<String> set = complexRules.keySet();
+        List<AbstractPatternRule> badRules = new ArrayList<>();
+        for (String aSet : set) {
+          AbstractPatternRule badRule = complexRules.get(aSet);
+          if (badRule instanceof PatternRule) {
+            ((PatternRule)badRule).notComplexPhrase();
+            badRule.setMessage("The rule contains a phrase that never matched any incorrect example.\n" + ((PatternRule) badRule).toPatternString());
+            badRules.add(badRule);
+          }
+        }
+        if (!badRules.isEmpty()) {
+          testGrammarRulesFromXML(badRules, allRulesLt, lang);
+        }
       }
+
+    } finally {
+      executor.shutdown();
     }
+
   }
 
   private void testBadSentences(JLanguageTool lt, JLanguageTool allRulesLt, Language lang,
