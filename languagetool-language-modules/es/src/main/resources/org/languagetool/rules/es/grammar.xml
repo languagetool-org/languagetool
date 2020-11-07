@@ -4351,15 +4351,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>lo que hago en mi día a día</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MI_SIN_TILDE" name="mí > mi" default="temp_off">
-            <rule >
+        <rulegroup id="MI_SIN_TILDE" name="mí > mi">
+            <antipattern>
+                <token>igual</token>
+                <token>que</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SP.*" postag_regexp="yes"><exception>con</exception></token>
+                <token>mí</token>
+                <token inflected="yes">otro</token>
+            </antipattern>
+            <rule>
                 <pattern>
                     <marker>
                         <token>mí</token>
                     </marker>
-                    <token postag="NC.S000|A...S." postag_regexp="yes"><exception inflected="yes">mismo</exception></token>
+                    <token postag="NC.S000|A...S." postag_regexp="yes"><exception inflected="yes" regexp="yes">mismo|solo|solito</exception></token>
                 </pattern>
-                <message>Si es un posesivo o un nombre, se escribe sin tilde. Puede que falte una coma</message>
+                <message>Si es un posesivo o un nombre, se escribe sin tilde. Puede que falte una coma. Es correcto como pronombre.</message>
                 <suggestion>mi</suggestion>
                 <suggestion>mí,</suggestion>
                 <example correction="mi|mí,">Se ajustan a <marker>mí</marker> pie como un calcetín.</example>
@@ -4367,10 +4376,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mi|mí,">Ahora viene <marker>mí</marker> padre.</example>
                 <example correction="mi|mí,">Ahora viene <marker>mí</marker> querido padre.</example>
                 <example correction="mi|mí,">Por <marker>mí</marker> bien.</example>
+                <example correction="mi|mí,">Concierto en <marker>mí</marker> bemol.</example>
+                <example correction="mi|mí,">Concierto en <marker>mí</marker> menor.</example>
                 <example>Yo no me fío mucho de mí mismo.</example>
+                <example>¡N me pasa a mí sola!</example>
+                <example>Que se entregue a mí igual que yo me sometí a él.</example>
+                <example>Eso hizo despertar en mí otro tipo de ambiciones.</example>
+                <example>¿Podrías hacerlo por mí otra vez? </example>
+                <example>¿Lo harás tú solito?</example>
+                <!-- ambiguous: que de vuestros llagas descienda sobre mí fuerza y vigor -->
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>mí<exception scope="previous" postag="SPS00"/></token>
+                    </marker>
+                </pattern>
+                <message>Si es un posesivo o un nombre, se escribe sin tilde.</message>
+                <suggestion>mi</suggestion>
+                <example correction="mi">Este <marker>mí</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TU_SIN_TILDE" name="tú > tu">
+        <rulegroup id="TU_SIN_TILDE_" name="tú > tu">
             <antipattern>
                 <token>tú</token>
                 <token>ve</token>
@@ -4393,19 +4420,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tú vienes</example>
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <token>tú</token>
+                    <token postag="AO.*" postag_regexp="yes"><exception postag="_GN.*" postag_regexp="yes"/></token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V...2S." postag_regexp="yes"/>
+                    <token>tú</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>tú</token>
                     </marker>
-                        <token postag="NC.S000|A...S." postag_regexp="yes"><exception regexp="yes">como|una|obra</exception><exception postag="V...2S.|SP.*" postag_regexp="yes"></exception></token>
+                    <token postag="NC.S000|A...S." postag_regexp="yes"><exception regexp="yes">como|una|obra</exception><exception postag="V...2S.|SP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">mismo|solo|solito</exception></token>
                 </pattern>
                 <message>Si es un posesivo, se escribe sin tilde.</message>
                 <suggestion>tu</suggestion>
-                <example correction="tu">Se ajustan a <marker>tú</marker> pie como un calcetín.</example>
-                <example correction="tu">Aprobará <marker>tú</marker> envío de dinero.</example>
-                <example correction="tu">Ahora viene <marker>tú</marker> padre.</example>
+                <suggestion>tú,</suggestion>
+                <example correction="tu|tú,">Se ajustan a <marker>tú</marker> pie como un calcetín.</example>
+                <example correction="tu|tú,">Aprobará <marker>tú</marker> envío de dinero.</example>
+                <example correction="tu|tú,">Ahora viene <marker>tú</marker> padre.</example>
+                <example correction="tu|tú,">Ahora viene <marker>tú</marker> primera comprobación.</example>
                 <example>Tú vienes</example>
                 <example>Tú ve.</example>
+                <example>Tú mismo no sabes de qué estás hablando.</example>
+                <example>Tú primera.</example>
+                <example>Tú primero.</example>
+                <example>¿Hablas tú italiano?</example>
+                <example>¿Eras tú consciente de eso?</example>
+                <example>Sírvete tú mismo lo que quieras comer.</example>
+                <example>Sírvete tú lo que quieras comer.</example>
+                <example>¡Menudo fantoche estás tú hecho!</example>
+                <example>Sé tú mismo.</example>
+                <example>Sé tú.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TU_TILDE" name="tu / tú">
@@ -13310,7 +13357,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="NC.*" postag_regexp="yes"><exception postag="V.[MIS].*|_GN_.*|A.*|V.P.*|RG" postag_regexp="yes"/><exception regexp="yes" case_sensitive="yes">[A-Z]+</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:V.[SI].*"/>
-                <message>Posible error ortográfico.</message>
+                <message>Posible confusión. Pronombre átono sin verbo.</message>
                 <suggestion>\1 {suggestion}</suggestion>
                 <example correction="Lo augura|Lo auguró|Lo auguro|Lo augure|Lo auguré"><marker>Lo augur</marker>.</example>
                 <example correction="lo habitó|lo habito|lo habita|lo habite|lo habituó|lo abito|lo abitó|lo habité|lo habitúo"><marker>lo hábito</marker>.</example>
