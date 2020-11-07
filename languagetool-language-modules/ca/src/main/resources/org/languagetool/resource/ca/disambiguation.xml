@@ -14802,6 +14802,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <marker>
+                    <and>
+                        <token postag="VA..1S0." postag_regexp="yes" inflected="yes" skip="3" regexp="yes">haver</token>
+                        <token postag="VA..3S0." postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token regexp="yes">caigut|vingut|anat</token>
+                <token regexp="yes" inflected="yes">bé|de gust</token>
+            </pattern>
+            <disambig action="remove" postag="VA..1S0."/>
+        </rule>
+        <rule>
+            <pattern>
                 <token postag="N..[SN].*|_GN_.S|PI..[SN].*|_possible_nompropi|UNKNOWN" postag_regexp="yes"><exception regexp="yes">dia|any|mes|segle|&dies_setmana;|&mesos_any;</exception></token>
                 <token min="0" max="3" postag="&pronom_feble;|R.*" postag_regexp="yes"><exception postag="P010S000"/></token>
                 <marker>
