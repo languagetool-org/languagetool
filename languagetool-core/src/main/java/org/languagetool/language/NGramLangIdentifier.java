@@ -18,13 +18,13 @@
  */
 package org.languagetool.language;
 
+import org.languagetool.noop.NoopLanguage;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 import java.text.Normalizer;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import static java.lang.StrictMath.*;
@@ -38,7 +38,7 @@ public class NGramLangIdentifier {
   private final List<String[]> codes; // Elem format = {Name, 2-code (or "NULL"), 3-code}
 
   private final List<Map<String, Double>> knpBigramProbs;
-  private final int thresholds_start;
+  private final int thresholdsStart;
   private final List<double[]> thresholds;
 
   private final int maxLength;
@@ -75,12 +75,12 @@ public class NGramLangIdentifier {
     thresholds = new ArrayList<>();
     try (BufferedReader br = getReader("thresholds.txt")) {
       String line;
-      thresholds_start = Integer.parseInt(br.readLine());
+      thresholdsStart = Integer.parseInt(br.readLine());
       while ((line = br.readLine()) != null) {
         double[] vals = Arrays.stream(line.split(" ")).mapToDouble(Double::parseDouble).toArray();
         thresholds.add(vals);
       }
-      assert (thresholds.size() == maxLength - thresholds_start) : "Thresholds file is incomplete";
+      assert (thresholds.size() == maxLength - thresholdsStart) : "Thresholds file is incomplete";
     }
 
     //Load transition matrices - Line format = {i} {j} {val}
@@ -103,16 +103,16 @@ public class NGramLangIdentifier {
 
     Map<String, Double> result = new HashMap<>();
 
-    if (text.length() >= this.thresholds_start){
+    if (text.length() >= this.thresholdsStart) {
       int argMax = 0;
-      for (int i = 1; i < finalProbs.size(); i++){
-        if (finalProbs.get(i) > finalProbs.get(argMax)){
+      for (int i = 1; i < finalProbs.size(); i++) {
+        if (finalProbs.get(i) > finalProbs.get(argMax)) {
           argMax = i;
         }
       }
-      int thresholdIndex = min(text.length(), maxLength) - this.thresholds_start;
-      if (finalProbs.get(argMax) < thresholds.get(thresholdIndex)[argMax]){
-        result.put("zz", 100.0);
+      int thresholdIndex = min(text.length(), maxLength) - this.thresholdsStart;
+      if (finalProbs.get(argMax) < thresholds.get(thresholdIndex)[argMax]) {
+        result.put(NoopLanguage.SHORT_CODE, 100.0);
         return result;
       }
     }
@@ -126,7 +126,6 @@ public class NGramLangIdentifier {
       }
     }
 
-    //System.out.println("ngram result: " + result);
     return result;
   }
 
@@ -144,8 +143,7 @@ public class NGramLangIdentifier {
       while ((line = br.readLine()) != null) {
         result.add(line);
       }
-    }
-    catch(java.io.IOException e) {
+    } catch(java.io.IOException e) {
       throw new RuntimeException(e);
     }
     return result;
