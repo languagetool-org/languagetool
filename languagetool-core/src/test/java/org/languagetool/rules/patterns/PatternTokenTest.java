@@ -203,10 +203,11 @@ public class PatternTokenTest {
     token = new PatternTokenBuilder().token("a").min(0).build();
     assertNull(token.calcFormHints());
 
-    // TODO?
-    //token = new PatternTokenBuilder().tokenRegex("an|the").build();
-    //token.setOrGroupElement(new PatternTokenBuilder().tokenRegex("foo|bar").build());
-    //assertEquals(Sets.newHashSet("an", "the", "foo", "bar"), token.calcFormHints());
+    token = new PatternTokenBuilder().tokenRegex("an|the").build();
+    token.setOrGroupElement(new PatternTokenBuilder().tokenRegex("foo|bar").build());
+    assertEquals(Sets.newHashSet("an", "the", "foo", "bar"), token.calcFormHints());
+    token.setOrGroupElement(new PatternTokenBuilder().tokenRegex("foo.*|bar").build());
+    assertNull(token.calcFormHints());
 
     token = new PatternTokenBuilder().tokenRegex("an|the").build();
     token.setAndGroupElement(new PatternTokenBuilder().tokenRegex("foo|an").build());

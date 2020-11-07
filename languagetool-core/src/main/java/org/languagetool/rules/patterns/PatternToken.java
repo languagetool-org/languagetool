@@ -773,13 +773,15 @@ public class PatternToken implements Cloneable {
         }
       }
     } else if (orGroupList != null) {
-      if (result != null) return result;
+      if (result == null) return null;
+
+      result = new HashSet<>(result);
 
       for (PatternToken token : orGroupList) {
         Set<String> hints = token.calcFormHints();
-        if (hints != null) {
-          return hints;
-        }
+        if (hints == null) return null;
+
+        result.addAll(hints);
       }
     }
 
