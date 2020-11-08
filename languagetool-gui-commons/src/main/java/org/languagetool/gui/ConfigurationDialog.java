@@ -585,7 +585,7 @@ public class ConfigurationDialog implements ActionListener {
     portPanel.add(languagePanel, cons);
   }
 
-  private void addOfficeTextruleElements(GridBagConstraints cons, JPanel portPanel) {
+  private void addOfficeTextruleElements(GridBagConstraints cons, JPanel portPanel, JCheckBox useQueueResetbox, JCheckBox saveCacheBox) {
     int numParaCheck = config.getNumParasToCheck();
     JRadioButton[] radioButtons = new JRadioButton[4];
     ButtonGroup numParaGroup = new ButtonGroup();
@@ -612,6 +612,8 @@ public class ConfigurationDialog implements ActionListener {
     if (numParaCheck == 0) {
       radioButtons[0].setSelected(true);
       numParaField.setEnabled(false);
+      useQueueResetbox.setEnabled(false);
+      saveCacheBox.setEnabled(false);
     } else if (numParaCheck < -1) {
       radioButtons[1].setSelected(true);
       numParaField.setEnabled(false);    
@@ -627,16 +629,22 @@ public class ConfigurationDialog implements ActionListener {
     radioButtons[0].addActionListener(e -> {
       numParaField.setEnabled(false);
       config.setNumParasToCheck(0);
+      useQueueResetbox.setEnabled(false);
+      saveCacheBox.setEnabled(false);
     });
     
     radioButtons[1].addActionListener(e -> {
       numParaField.setEnabled(false);
       config.setNumParasToCheck(-2);
+      useQueueResetbox.setEnabled(true);
+      saveCacheBox.setEnabled(true);
     });
     
     radioButtons[2].addActionListener(e -> {
       numParaField.setEnabled(false);
       config.setNumParasToCheck(-1);
+      useQueueResetbox.setEnabled(true);
+      saveCacheBox.setEnabled(true);
     });
     
     radioButtons[3].addActionListener(e -> {
@@ -647,6 +655,8 @@ public class ConfigurationDialog implements ActionListener {
       numParaField.setForeground(Color.BLACK);
       numParaField.setText(Integer.toString(numParaCheck1));
       numParaField.setEnabled(true);
+      useQueueResetbox.setEnabled(true);
+      saveCacheBox.setEnabled(true);
     });
     
     numParaField.getDocument().addDocumentListener(new DocumentListener() {
@@ -802,15 +812,15 @@ public class ConfigurationDialog implements ActionListener {
       config.setRemoteCheck(true);
     } else if (config.isMultiThread()) {
       typeOfCheckButtons[1].setSelected(true);
-      otherServerNameField.setEnabled(useServerBox.isSelected());
-      useServerBox.setEnabled(true);
-      config.setMultiThreadLO(false);
-      config.setRemoteCheck(true);
+      otherServerNameField.setEnabled(false);
+      useServerBox.setEnabled(false);
+      config.setMultiThreadLO(true);
+      config.setRemoteCheck(false);
     } else {
       typeOfCheckButtons[0].setSelected(true);
       otherServerNameField.setEnabled(false);
       useServerBox.setEnabled(false);
-      config.setMultiThreadLO(true);
+      config.setMultiThreadLO(false);
       config.setRemoteCheck(false);
     }
     cons.gridy++;
@@ -843,6 +853,9 @@ public class ConfigurationDialog implements ActionListener {
   }
   
   private void createOfficeElements(GridBagConstraints cons, JPanel portPanel) {
+
+    JCheckBox useQueueResetbox = new JCheckBox(Tools.getLabel(messages.getString("guiUseTextLevelQueue")));
+    JCheckBox saveCacheBox = new JCheckBox(Tools.getLabel(messages.getString("guiSaveCacheToFile")));
     
     addOfficeLanguageElements(cons, portPanel);
     cons.gridx = 0;
@@ -858,7 +871,7 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     portPanel.add(new JLabel(" "), cons);
     
-    addOfficeTextruleElements(cons, portPanel);
+    addOfficeTextruleElements(cons, portPanel, useQueueResetbox, saveCacheBox);
     
     cons.insets = new Insets(0, SHIFT1, 0, 0);
     cons.gridx = 0;
@@ -886,7 +899,6 @@ public class ConfigurationDialog implements ActionListener {
     
     addOfficeTechnicalElements(cons, portPanel);
 
-    JCheckBox useQueueResetbox = new JCheckBox(Tools.getLabel(messages.getString("guiUseTextLevelQueue")));
     useQueueResetbox.setSelected(config.useTextLevelQueue());
     useQueueResetbox.addItemListener(e -> {
       config.setUseTextLevelQueue(useQueueResetbox.isSelected());
@@ -896,7 +908,6 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     portPanel.add(useQueueResetbox, cons);
 
-    JCheckBox saveCacheBox = new JCheckBox(Tools.getLabel(messages.getString("guiSaveCacheToFile")));
     saveCacheBox.setSelected(config.saveLoCache());
     saveCacheBox.addItemListener(e -> {
       config.setSaveLoCache(saveCacheBox.isSelected());

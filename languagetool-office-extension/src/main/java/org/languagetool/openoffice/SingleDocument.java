@@ -410,21 +410,25 @@ class SingleDocument {
    * read caches from file
    */
   void readCaches() {
-    cacheIO = new CacheIO(xComponent);
-    boolean cacheExist = cacheIO.readAllCaches();
-    if (cacheExist) {
-      docCache = cacheIO.getDocumentCache();
-      sentencesCache = cacheIO.getSentencesCache();
-      paragraphsCache = cacheIO.getParagraphsCache();
+    if (numParasToCheck != 0) {
+      cacheIO = new CacheIO(xComponent);
+      boolean cacheExist = cacheIO.readAllCaches();
+      if (cacheExist) {
+        docCache = cacheIO.getDocumentCache();
+        sentencesCache = cacheIO.getSentencesCache();
+        paragraphsCache = cacheIO.getParagraphsCache();
+      }
+      cacheIO.resetAllCache();
     }
-    cacheIO.resetAllCache();
   }
   
   /**
    * write caches to file
    */
   void writeCaches() {
-    cacheIO.saveCaches(docCache, sentencesCache, paragraphsCache);
+    if (numParasToCheck != 0) {
+      cacheIO.saveCaches(docCache, sentencesCache, paragraphsCache);
+    }
   }
   
 /** Reset all caches of the document

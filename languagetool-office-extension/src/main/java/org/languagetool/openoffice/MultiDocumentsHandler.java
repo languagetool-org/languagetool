@@ -182,7 +182,6 @@ public class MultiDocumentsHandler {
     if (!hasLocale(locale)) {
       return paRes;
     }
-//    if(!switchOff && !noBackgroundCheck) {
     if(!noBackgroundCheck) {
       boolean isSameLanguage = true;
       if(fixedLanguage == null || langForShortName == null) {
@@ -204,7 +203,6 @@ public class MultiDocumentsHandler {
       }
     }
     docNum = getNumDoc(paRes.aDocumentIdentifier);
-//    if(switchOff || noBackgroundCheck) {
     if(noBackgroundCheck) {
       return paRes;
     }
@@ -545,7 +543,11 @@ public class MultiDocumentsHandler {
   private void setConfigValues(Configuration config, SwJLanguageTool langTool) {
     this.config = config;
     this.langTool = langTool;
-    this.useQueue = noBackgroundCheck || testMode ? false : config.useTextLevelQueue();
+    if (useQueue && config.getNumParasToCheck() == 0) {
+      textLevelQueue.setStop();
+      textLevelQueue = null;
+    }
+    useQueue = noBackgroundCheck || testMode || config.getNumParasToCheck() == 0 ? false : config.useTextLevelQueue();
     for (SingleDocument document : documents) {
       document.setConfigValues(config);
     }
