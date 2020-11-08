@@ -1457,7 +1457,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>{suggestion}</suggestion>
                 <example correction="náusea">Hasta la <marker>nausea</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule id="DIACRITICS_SPECIAL" name="diacríticos, casos especiales" default="temp_off">
                 <!-- catch-all rule, only test-->
                 <antipattern>
                     <token/>
@@ -4392,7 +4392,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- ambiguous: que de vuestros llagas descienda sobre mí fuerza y vigor 
                 No esperes de mí sinceridad -->
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <antipattern>
+                    <!-- colloquial or error -->
+                    <token regexp="yes">donde|adonde|á|pa</token>
+                    <token>mí</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>mí<exception scope="previous" postag="SPS00|LOC_PREP" postag_regexp="yes"/></token>
@@ -4405,18 +4410,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Algo que deberías saber acerca de mí.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TU_SIN_TILDE_" name="tú > tu">
+        <rulegroup id="TU_SIN_TILDE" name="tú > tu">
             <antipattern>
                 <token>tú</token>
                 <token>ve</token>
             </antipattern>
-            <rule>
+            <antipattern>
+                <token>tú</token>
+                <token postag="AO.*" postag_regexp="yes"><exception postag="_GN.*" postag_regexp="yes"/></token>
+            </antipattern>
+            <antipattern>
+                <token postag="V...2S." postag_regexp="yes"/>
+                <token>tú</token>
+            </antipattern>
+            <!--<rule>
                 <pattern>
                     <marker>
                         <token>tú</token>
                     </marker>
                     <and>
-                        <token postag="V.{3}[13].*" postag_regexp="yes"><exception postag="AQ.*|SP.*" postag_regexp="yes"/><!--TODO: generalizar.--><exception regexp="yes">como|una|obra</exception></token>
+                        <token postag="V.{3}[13].*" postag_regexp="yes"><exception postag="AQ.*|SP.*" postag_regexp="yes"/><exception regexp="yes">como|una|obra</exception></token>
                         <token postag="NC.S000|A...S." postag_regexp="yes"/>
                     </and>
                 </pattern>
@@ -4426,21 +4439,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tu">Aprobará <marker>tú</marker> envío de dinero.</example>
                 <example correction="tu">Cuando revisé <marker>tú</marker> caso, no encontré nada relevante.</example>
                 <example>Tú vienes</example>
-            </rule>
-            <rule default="temp_off">
-                <antipattern>
-                    <token>tú</token>
-                    <token postag="AO.*" postag_regexp="yes"><exception postag="_GN.*" postag_regexp="yes"/></token>
-                </antipattern>
-                <antipattern>
-                    <token postag="V...2S." postag_regexp="yes"/>
-                    <token>tú</token>
-                </antipattern>
+                <example>¿De qué silencio eres tú silencio?</example>
+            </rule>-->
+            <rule>
                 <pattern>
                     <marker>
                         <token>tú</token>
                     </marker>
-                    <token postag="NC.S000|A...S." postag_regexp="yes"><exception regexp="yes">como|una|obra</exception><exception postag="V...2S.|SP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">mismo|solo|solito</exception></token>
+                    <token postag="NC.S000|A...S." postag_regexp="yes"><exception regexp="yes">como|una|obra</exception><exception postag="V...2S.|SP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">mismo|solo|solito</exception><exception regexp="yes">como|una|obra</exception></token>
                 </pattern>
                 <message>Si es un posesivo, se escribe sin tilde.</message>
                 <suggestion>tu</suggestion>
@@ -4449,6 +4455,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tu|tú,">Aprobará <marker>tú</marker> envío de dinero.</example>
                 <example correction="tu|tú,">Ahora viene <marker>tú</marker> padre.</example>
                 <example correction="tu|tú,">Ahora viene <marker>tú</marker> primera comprobación.</example>
+                <example correction="tu|tú,">Se ajustan a <marker>tú</marker> pie como un calcetín.</example>
+                <example correction="tu|tú,">Aprobará <marker>tú</marker> envío de dinero.</example>
+                <example correction="tu|tú,">Cuando revisé <marker>tú</marker> caso, no encontré nada relevante.</example>
+                <example>Tú vienes</example>
+                <example>¿De qué silencio eres tú silencio?</example>
                 <example>Tú vienes</example>
                 <example>Tú ve.</example>
                 <example>Tú mismo no sabes de qué estás hablando.</example>
@@ -10728,7 +10739,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="de la otra área">Viene <marker>del otro área</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AGREEMENT_ADJ_NOUN_" name="Concordancias adjetivo y nombre">
+        <rulegroup id="AGREEMENT_ADJ_NOUN" name="Concordancias adjetivo y nombre">
             <antipattern>
                 <token postag="SPS00"/>
                 <token regexp="yes">sí|yo|tú|él|ella|nosotros|nosotras|vosotros|vosotras|ellos|ellas|usted|ustedes</token>
@@ -10876,7 +10887,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ácidos grasos omega 3.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AGREEMENT_PARTICIPLE_NOUN_" name="concordancias participio y nombre" default="temp_off">
+        <rulegroup id="AGREEMENT_PARTICIPLE_NOUN" name="concordancias participio y nombre" default="temp_off">
             <antipattern>
                 <token regexp="yes">ab[ií](a|as|an|amos|ais)|as|emos|e|an<exception regexp="yes">\p{Lu}+</exception><exception postag="_GN_MS"/></token>
                 <token postag="V.P..SM" postag_regexp="yes"/>
@@ -12133,7 +12144,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="hora">Dame la <marker>ora</marker>.</example>
             <example>El monje ora durante una hora.</example>
         </rule>
-        <rulegroup id="VEN" name="confusiones ven/ver/en" default="temp_off">
+        <rulegroup id="VEN_" name="confusiones ven/ver/en" default="temp_off">
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">poder|deber|querer</token>
