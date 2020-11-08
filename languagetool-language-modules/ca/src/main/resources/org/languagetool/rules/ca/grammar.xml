@@ -3045,6 +3045,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Bon amic|Bons amics|Bona amiga|Bones amigues"><marker>Bon amigues</marker>.</example>
                 <example correction="Bon estrateg|Bons estrategs|Bona estratega|Bones estrategues"><marker>Bons estrategues</marker>.</example>
                 <example correction="Bon estrateg|Bons estrategs|Bona estratega|Bones estrategues"><marker>Bon estratega</marker>.</example>
+                <example>Té bon pols.</example>
+                <example>Bona pols.</example>
+                <example>Bones pols.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -3085,11 +3088,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Error de concordança.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(PX|A.).[MC][SN].*" postag_regexp="yes"/> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes"/></suggestion>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(PX|A.).[MC][PN].*" postag_regexp="yes"/> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(PX|A.).[FC][SN].*" postag_regexp="yes"/> <match no="2" postag="NC[FC][SN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(PX|A.).[FC][PN].*" postag_regexp="yes"/> <match no="2" postag="NC[FC][PN].*" postag_regexp="yes"/></suggestion>
                 <short>Error de concordança</short>
                 <example correction="Magnífic ganivet|Magnífics ganivets"><marker>Magnífiques ganivets</marker>.</example>
                 <example correction="Magnífic ganivet|Magnífics ganivets"><marker>Magnífic ganivets</marker>.</example>
                 <example correction="Magnífic ganivet|Magnífics ganivets"><marker>Magnífiques ganivet</marker>.</example>
-                <example correction="gran mestre|grans mestres">Per <marker>grans mestre</marker></example>
+                <example correction="gran mestre|grans mestres|gran mestra">Per <marker>grans mestre</marker></example>
                 <example correction="Antic àmbit|Antics àmbits"><marker>Antic àmbits</marker></example>
                 <example>Magnífics ganivets.</example>
                 <example>Aquesta situació ha sigut acumulativa any rere any,</example>
@@ -3139,6 +3144,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Error de concordança.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(PX|A.).[FC][SN].*" postag_regexp="yes"/> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes"/></suggestion>
                 <suggestion suppress_misspelled="yes"><match no="1" postag="(PX|A.).[FC][PN].*" postag_regexp="yes"/> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(PX|A.).[MC][SN].*" postag_regexp="yes"/> <match no="2" postag="NC[MC][SN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(PX|A.).[MC][PN].*" postag_regexp="yes"/> <match no="2" postag="NC[MC][PN].*" postag_regexp="yes"/></suggestion>
                 <short>Error de concordança</short>
                 <example correction="magnífica cullera|magnífiques culleres">amb <marker>magnífics culleres</marker>.</example>
                 <example correction="magnífica cullera|magnífiques culleres"><marker>magnífiques cullera</marker>.</example>
@@ -15127,7 +15134,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
-        <rule id="UN_MITJA" name="un mitja/mitjà" default="temp_off">
+        <rule id="UN_MITJA" name="un mitja/mitjà">
             <pattern>
                 <token postag="D..MS." postag_regexp="yes"/>
                 <token>mitja</token>
@@ -51190,7 +51197,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>en</token>
                     <token>valor</token>
                 </pattern>
-                <message>Expressió utilitzada a vegades de manera abusica. Considereu una alternativa.</message>
+                <message>Expressió utilitzada a vegades de manera abusiva. Considereu una alternativa.</message>
                 <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">valorar</match></suggestion>
                 <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">fer</match> valdre</suggestion>
                 <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">afavorir</match></suggestion>
@@ -51210,7 +51217,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>valor</token>
                     </marker>
                 </pattern>
-                <message>Expressió utilitzada a vegades de manera abusica. Considereu una alternativa.</message>
+                <message>Expressió utilitzada a vegades de manera abusiva. Considereu una alternativa.</message>
                 <suggestion><match no="2" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCF$1">valoració</match></suggestion>
                 <suggestion><match no="2" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCM$1">reconeixement</match></suggestion>
                 <suggestion><match no="2" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCF$1">reivindicació</match></suggestion>

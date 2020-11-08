@@ -11387,6 +11387,26 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
     </rulegroup>
+    <rulegroup id="pols" name="pols">
+        <rule>
+            <pattern>
+                <token postag="_GN_MS">pols</token>
+            </pattern>
+            <disambig action="filter" postag=".*MS.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="_GN_FS">pols</token>
+            </pattern>
+            <disambig action="filter" postag=".*FS.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="_GN_FP">pols</token>
+            </pattern>
+            <disambig action="filter" postag=".*FP.*"/>
+        </rule>
+    </rulegroup>
     <rule id="nou_adj" name="nou adjectiu">
         <pattern>
             <marker>
@@ -14804,7 +14824,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <marker>
                     <and>
-                        <token postag="VA..1S0." postag_regexp="yes" inflected="yes" skip="3" regexp="yes">haver</token>
+                        <token postag="VA..1S0." postag_regexp="yes" inflected="yes" skip="3">haver</token>
                         <token postag="VA..3S0." postag_regexp="yes"/>
                     </and>
                 </marker>
