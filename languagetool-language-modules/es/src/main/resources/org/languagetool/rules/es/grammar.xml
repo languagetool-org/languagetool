@@ -14591,6 +14591,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Se enfrentó al cuarto, puesto que era el Madrid.</example>
             <example>En cualquier caso y puesto que no quiero extenderme, señor presidente.</example>
         </rule>
+        <rule id="COMMA_SINO" name="coma antes de 'sino'" default="temp_off">
+            <!-- less priority than SINO_SI_NO -->
+            <antipattern>
+                <token postag="_PUNCT.*|SENT_START" postag_regexp="yes"/>
+                <token>sino</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">el|un|mi|tu|su|nuestro|vuestro</token>
+                <token>sino</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+                <token min="0" postag="V.[NP].*" postag_regexp="yes"/>
+                <token>sino</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token skip="-1" case_sensitive="yes">sino<exception postag="CC" scope="next"/></token>
+                </marker>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+            </pattern>
+            <message>En la mayoría de los casos la conjunción 'sino' va precedida de una coma.</message>
+            <suggestion>, \1</suggestion>
+            <example correction=", sino">No lo hice yo<marker> sino</marker> que lo hizo él.</example>
+            <example>Su sino es fracasar.</example>
+            <example>Nadie lo sabe sino Juan.</example>
+            <example>No te pido sino que te vaysa enseguida</example>
+        </rule>
+        <rule id="COMMA_PERO" name="coma antes de 'pero'" default="temp_off">
+            <antipattern>
+                <token postag="_PUNCT.*|SENT_START" postag_regexp="yes"/>
+                <token>pero</token>
+            </antipattern>
+            <antipattern>
+                <token skip="2">pero</token>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token skip="-1" case_sensitive="yes">pero<exception postag="CC" scope="next"/></token>
+                </marker>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+            </pattern>
+            <message>En la mayoría de los casos la conjunción 'pero' va precedida de una coma.</message>
+            <suggestion>, pero</suggestion>
+            <url>https://www.fundeu.es/recomendacion/pero-con-coma-usos-apropiados/</url>
+            <example correction=", pero">La alianza suma bastantes escaños<marker> pero</marker> no son suficientes.</example>
+            <example>¿Pero qué pasa aquí?</example>
+        </rule>
         <!--TODO: idem with ", pues"-->
         <rule id="COMMA_REPETITION" name="coma en repeticiones">
             <antipattern>
