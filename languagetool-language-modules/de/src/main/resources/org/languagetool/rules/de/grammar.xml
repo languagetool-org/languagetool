@@ -34750,6 +34750,28 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="ZAL_MAL" name="Fehlender Bindestrich in '10 mal'" default="temp_off">
+            <antipattern>
+                <token regexp="yes">\d+</token>
+                <token>mal</token>
+                <token regexp="yes">\d+.*</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d+</token>
+                <token>mal</token>
+                <token postag="ZAL" />
+            </antipattern>
+            <pattern>
+                <token regexp="yes">\d+|x</token>
+                <token case_sensitive="yes">mal</token>
+            </pattern>
+            <message>Hier fehlt in der Regel ein Bindestrich. Alternativ kann man "mal" auch großschreiben, wenn es hervorheben möchte.</message>
+            <suggestion>\1-\2</suggestion>
+            <suggestion>\1 Mal</suggestion>
+            <example correction="10-mal|10 Mal">Noch <marker>10 mal</marker> schlafen, dann kommt das Christkind.</example>
+            <example>6 mal 6 ergibt 36</example>
+            <example>1833 schreibt Edmund March Blunt, sie messe 8 mal 2½ Meilen, hingegen behaupteten John Purdy und Alexander G. Findlay, sie messe fast 7 mal 3½ Meilen.</example>
+        </rule>
         <rule id="DU_MEINS_DAS" name="Du meins (meinst) das.">
             <antipattern>
                 <token>meins</token>
