@@ -357,6 +357,8 @@ public class AdverbFilter extends RuleFilter {
     put("finely", "fine");
     put("respectfully", "respectful");
     put("questioningly", "questioning");
+    put("nasally", "nasal");
+    put("diagonally", "diagonal");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
