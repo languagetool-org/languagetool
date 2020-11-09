@@ -543,7 +543,7 @@ public class MultiDocumentsHandler {
   private void setConfigValues(Configuration config, SwJLanguageTool langTool) {
     this.config = config;
     this.langTool = langTool;
-    if (useQueue && config.getNumParasToCheck() == 0) {
+    if (textLevelQueue != null && config.getNumParasToCheck() == 0) {
       textLevelQueue.setStop();
       textLevelQueue = null;
     }

@@ -224,7 +224,7 @@ class SingleDocument {
             paraNum, footnotePositions, langTool, isIntern);
       }
       
-      paRes.aErrors = mergeErrors(sErrors, pErrors);
+      paRes.aErrors = mergeErrors(sErrors, pErrors, nPara >= 0 ? nPara : paraNum);
       if (debugMode > 1) {
         MessageHandler.printToLogFile("paRes.aErrors.length: " + paRes.aErrors.length + "; docID: " + docID + OfficeTools.LOG_LINE_BREAK);
       }
@@ -295,7 +295,7 @@ class SingleDocument {
     if(ltMenus != null) {
       ltMenus.setConfigValues(config);
     }
-    if (config.noBackgroundCheck()) {
+    if (config.noBackgroundCheck() || numParasToCheck == 0) {
       setFlatParagraphTools(xComponent);
     }
   }
@@ -475,7 +475,7 @@ class SingleDocument {
         pErrors.add(paragraphsCache.get(i).getMatches(nPara));
       }
       SingleProofreadingError[] sErrors = sentencesCache.getMatches(nPara);
-      changedParasMap.put(nPara, mergeErrors(sErrors, pErrors));
+      changedParasMap.put(nPara, mergeErrors(sErrors, pErrors, nPara));
     }
     flatPara.markParagraphs(changedParasMap, docCache, true, cursor);
   }
@@ -877,7 +877,7 @@ class SingleDocument {
   /**
    * Merge errors from different checks (paragraphs and sentences)
    */
-  private SingleProofreadingError[] mergeErrors(SingleProofreadingError[] sErrors, List<SingleProofreadingError[]> pErrors) {
+  private SingleProofreadingError[] mergeErrors(SingleProofreadingError[] sErrors, List<SingleProofreadingError[]> pErrors, int nPara) {
     int errorCount = 0;
     if (sErrors != null) {
       errorCount += sErrors.length;
@@ -907,7 +907,7 @@ class SingleDocument {
       }
     }
     Arrays.sort(errorArray, new ErrorPositionComparator());
-    return filterIgnoredMatches(errorArray, paraNum);
+    return filterIgnoredMatches(errorArray, nPara);
   }
   
   /**
@@ -1614,34 +1614,51 @@ class SingleDocument {
     } else {
       return null;
     }
-/*  
- *  Will be deleted after tests
- *      
-    SingleProofreadingError error = sentencesCache.getErrorAtPosition(nPara, nChar);
-    if (error != null) { 
-      MessageHandler.printToLogFile("sentencesCache: ruleID: " + error.aRuleIdentifier + ", Start = " + error.nErrorStart + ", Length = " + error.nErrorLength);
-    }
-    for(ResultCache paraCache : paragraphsCache) {
-      SingleProofreadingError err = paraCache.getErrorAtPosition(nPara, nChar);
-      if (err != null) { 
-        MessageHandler.printToLogFile("paraCache: ruleID: " + err.aRuleIdentifier + ", Start = " + err.nErrorStart + ", Length = " + err.nErrorLength);
-      } else {
-        MessageHandler.printToLogFile("paraCache: null");
-      }
-      if(err != null) {
-        if(error == null || err.nErrorStart < error.nErrorStart
-            || (error.nErrorStart == err.nErrorStart && error.nErrorLength < err.nErrorLength)) {
-          error = err;
-        } 
-      }
-    }
-    if(error != null) {
-      MessageHandler.printToLogFile("nPara = " + nPara + ", nChar = " + nChar + ", ruleID: " + error.aRuleIdentifier);
-      return error.aRuleIdentifier;
-    } else {
+  }
+  
+  /**
+   * get a rule ID of an error from a check 
+   * by the position of the error (number of character)
+   */
+  private String getRuleIdFromCache(int nChar, ViewCursorTools viewCursor) {
+    String text = viewCursor.getViewCursorParagraphText();
+    if (text == null) {
+//      MessageHandler.printToLogFile("getRuleIdFromCache: Text == null");
       return null;
     }
-*/
+    PropertyValue[] propertyValues = new PropertyValue[0];
+    ProofreadingResult paRes = new ProofreadingResult();
+    paRes.nStartOfSentencePosition = 0;
+    paRes.nStartOfNextSentencePosition = 0;
+    paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
+    paRes.xProofreader = null;
+    paRes.aLocale = mDocHandler.getLocale();
+    paRes.aDocumentIdentifier = docID;
+    paRes.aText = text;
+    paRes.aProperties = propertyValues;
+    paRes.aErrors = null;
+    while (nChar > paRes.nStartOfNextSentencePosition && paRes.nStartOfNextSentencePosition < text.length()) {
+      paRes.nStartOfSentencePosition = paRes.nStartOfNextSentencePosition;
+      paRes.nStartOfNextSentencePosition = text.length();
+      paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
+      paRes = getCheckResults(text, paRes.aLocale, paRes, propertyValues, false, mDocHandler.getLanguageTool(), -1);
+      if (paRes.nStartOfNextSentencePosition > nChar) {
+        if (paRes.aErrors == null) {
+//          MessageHandler.printToLogFile("getRuleIdFromCache: paRes.aErrors == null");
+          return null;
+        }
+//        MessageHandler.printToLogFile("getRuleIdFromCache: Text: " + text + "\nx = "+ nChar + ", paRes.aErrors = " + paRes.aErrors.length);
+        for (SingleProofreadingError error : paRes.aErrors) {
+//          MessageHandler.printToLogFile("getRuleIdFromCache: ruleID: " + error.aRuleIdentifier + ", Start: " + error.nErrorStart + ", End: " + error.nErrorStart + error.nErrorLength);
+          if (error.nErrorStart <= nChar && nChar < error.nErrorStart + error.nErrorLength) {
+//            MessageHandler.printToLogFile("getRuleIdFromCache: ruleID: " + error.aRuleIdentifier);
+            return error.aRuleIdentifier;
+          }
+        }
+      }
+    }
+    MessageHandler.printToLogFile("getRuleIdFromCache: No ruleId found");
+    return null;
   }
   
   /**
@@ -1650,6 +1667,9 @@ class SingleDocument {
   public String deactivateRule() {
     ViewCursorTools viewCursor = new ViewCursorTools(xContext);
     int x = viewCursor.getViewCursorCharacter();
+    if (numParasToCheck == 0) {
+      return getRuleIdFromCache(x, viewCursor);
+    }
     int y = viewCursor.getViewCursorParagraph();
     return getRuleIdFromCache(y, x);
   }
