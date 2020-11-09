@@ -1457,8 +1457,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>{suggestion}</suggestion>
                 <example correction="náusea">Hasta la <marker>nausea</marker>.</example>
             </rule>
+            <!-- catch-all rule, only test
             <rule id="DIACRITICS_SPECIAL" name="diacríticos, casos especiales" default="temp_off">
-                <!-- catch-all rule, only test-->
+                
                 <antipattern>
                     <token/>
                     <token postag="[DNA].*" postag_regexp="yes"/>
@@ -1485,7 +1486,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es adjetivo o nombre, se escribe con tilde._</message>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="Nóminas"><marker>Nominas</marker> de octubre.</example>
-            </rule>
+            </rule>-->
         </rulegroup>
         <rule id="DIACRITICS_CONDICIONAL" name="secundaria/secundaría">
             <pattern>
@@ -3955,6 +3956,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>compás</suggestion>
                 <example correction="compás">Dame el <marker>compas</marker>.</example>
                 <example correction="compás">Del <marker>compas</marker> 4 al 34.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="amen/amén" id="AMEN" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>amen</token>
+                    </marker>
+                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si es una interjeción, se escribe <suggestion>amén</suggestion> (así sea). Correcto si es del v. 'amar'.</message>
+                <example correction="Amén"><marker>Amen</marker>.</example>
+                <example>Dedicado los que amen a la música.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.*|D..MS." postag_regexp="yes" inflected="yes" regexp="yes">decir|responder|contestar|cantar|el|uno</token>
+                    <marker>
+                        <token>amen</token>
+                    </marker>
+                </pattern>
+                <message>Si es una interjeción, se escribe <suggestion>amén</suggestion> (así sea). Correcto si es del v. 'amar'.</message>
+                <example correction="amén">Decid <marker>amen</marker> a todo.</example>
+                <example correction="amén">En un <marker>amen</marker> lo terminó.</example>
+                <example>Decid los que amen a la música.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SERIA" name="seria/sería">

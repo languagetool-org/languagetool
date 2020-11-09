@@ -22774,6 +22774,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La resolució en prorroga els resultats.</example>
             </rule>
         </rulegroup>
+        <rulegroup name="amen/amén" id="AMEN" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>amen</token>
+                    </marker>
+                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si és una interjecció, s'escriu <suggestion>amén</suggestion> (així sia). Correcte si és del v. 'amar'.</message>
+                <example correction="Amén"><marker>Amen</marker>.</example>
+                <example>Els qui amen la música són els filharmònics.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.*|D..MS." postag_regexp="yes" inflected="yes" regexp="yes">dir|respondre|contestar|cantar|el|un</token>
+                    <marker>
+                        <token>amen</token>
+                    </marker>
+                </pattern>
+                <message>Si és una interjecció, s'escriu <suggestion>amén</suggestion> (així sia). Correcte si és del v. 'amar'.</message>
+                <example correction="amén">No va dir <marker>amen</marker> a tot.</example>
+                <example correction="amén">En un <marker>amen</marker> s'acabà la cervesa.</example>
+                <example>Els qui amen la música són els filharmònics.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="COMA_COM_A" name="coma / com a">
             <!--alguna falsa alarma?-->
             <rule>
