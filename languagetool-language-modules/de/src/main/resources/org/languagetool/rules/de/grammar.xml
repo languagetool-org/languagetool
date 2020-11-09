@@ -34755,12 +34755,12 @@ Andere Projekte</example>
     <category id="GRAMMAR" name="Grammatik">
         <rule id="ZAL_MAL" name="Fehlender Bindestrich in '10 mal'" default="temp_off">
             <antipattern>
-                <token regexp="yes">\d+</token>
+                <token regexp="yes">\d+|x</token>
                 <token>mal</token>
                 <token regexp="yes">\d+.*</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">\d+</token>
+                <token regexp="yes">\d+|x</token>
                 <token>mal</token>
                 <token postag="ZAL" />
             </antipattern>
@@ -38072,8 +38072,8 @@ Andere Projekte</example>
                 <antipattern>
                     <token>mit</token>
                     <token>das</token>
-                    <token>beste</token>
-                    <token>,</token>
+                    <token regexp="yes">beste|wichtigste</token>
+                    <token regexp="yes">,|\.|\!|was|woran|wovon|dass</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">bei|von|nahe|nebst|samt|mit(samt)?|zu</token>
@@ -38085,6 +38085,7 @@ Andere Projekte</example>
                 <example>Das ist mit das Dümmste, was ich je gehört habe.</example>
                 <example>Er hatte sich 1924 mit Die Bronzezeit am Jenissei habilitiert.</example>
                 <example>Er hatte so was von die Nase voll.</example>
+                <example>Das ist von allen mit das Wichtigste.</example>
             </rule>
             <rule>
                 <antipattern>
