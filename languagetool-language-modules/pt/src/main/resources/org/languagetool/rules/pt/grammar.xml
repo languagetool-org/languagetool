@@ -2994,6 +2994,14 @@ title="Easy editing stylesheet" ?>
 		  <token>tempo</token>
       </antipattern>
 <!-- MARCOAGPINTO 2020-11-05 (21-OCT-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-11-09 (21-OCT-2020+) *START* -->
+<!-- "Dez anos, ao longo dos quais Ana esperou pelo marido." -->
+      <antipattern>
+		  <token regexp='yes'>as|os|das|dos|nas|nos|pelas|pelos</token>
+		  <token postag='PE0CP000|PR0CP000|PT0CP000' postag_regexp='yes'/>
+          <token postag='NP.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-11-09 (21-OCT-2020+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -3023,6 +3031,7 @@ title="Easy editing stylesheet" ?>
       <example>Eu as encontro.</example>
 	  <example type='correct'>O campo B pode ser definido de muitas formas <marker>equivalentes baseado</marker> nos seus efeitos sobre o ambiente.</example>
 	  <example type='correct'>O campo B pode ser definido de muitas formas <marker>equivalentes baseada</marker> nas suas influências sobre o ambiente.</example>
+	  <example type='correct'>Dez anos, ao longo <marker>dos quais Ana</marker> esperou pelo marido.</example>
     </rule>
     <rule>
       <antipattern>
