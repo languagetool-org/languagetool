@@ -5049,6 +5049,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="(D..)..(.)" postag_regexp="yes" postag_replace="$1FP$2"/> \2 \3</suggestion>
                 <example correction="les principals pomeres"><marker>els principals pomeres</marker>.</example>
                 <example>es va decidir que el millor era no traslladar tot l'equip</example>
+                <!-- ambiguous: carreguem als altres càrregues difícils de portar, -->
             </rule>
             <rule>
                 <pattern>
@@ -5067,6 +5068,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="(D..)..(.)" postag_regexp="yes" postag_replace="$1MS$2"/> \2 \3</suggestion>
                 <example correction="un gran tsunami"><marker>una gran tsunami</marker></example>
                 <example correction="el suau corrent">Amb <marker>la suau corrent</marker> del riu.</example>
+                <example>La soprano dalt de l'escenari.</example>
             </rule>
             <rule>
                 <pattern>
@@ -25008,6 +25010,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="© 2020"><marker>©2020</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SUPER" name="super/súper/super-" default="temp_off">
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=prefix+super-&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=13527&amp;idHit=13527&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=El+prefix+%3Cem%3Esuper%3C%2Fem%3E-+%2F+L%27adjectiu+i+adverbi+%3Cem%3Es%FAper%3C%2Fem%3E&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">super|súper</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">..+</token>
+                </pattern>
+                <message suppress_misspelled="yes">El prefix 'super-' s'escriu junt.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="super$1" case_conversion="alllower"/></suggestion>
+                <example correction="superbones">Són <marker>súper bones</marker></example>
+                <example correction="superbones">Són <marker>super-bones</marker></example>
+                <example correction="superfesta">Vam organitzar una <marker>super festa</marker>.</example>
+                <example correction="superherois">Tres <marker>súper herois</marker>.</example>
+                <example correction="superherois">Tres <marker>súper-herois</marker>.</example>
+                <example correction="superestrella">Era una <marker>súper estrella</marker>.</example>
+                <example>El superheroi</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">super|súper</token>
+                    <token min="0">-</token>
+                    <token>bo</token>
+                </pattern>
+                <message>Com a prefix d'un altre adjectiu, 'super-' s'escriu junt.</message>
+                <suggestion>superbò</suggestion>
+                <example correction="superbò">És <marker>súper bo</marker></example>
+                <example correction="superbò">És <marker>super-bo</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">super|súper</token>
+                    <token min="0">-</token>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Com a prefix d'un altre adjectiu, 'super-' s'escriu junt, encara que la paraula resultant no sigui en el diccionari.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="super$1" case_conversion="alllower"/></suggestion>
+                <example correction="superbones">Són <marker>super bones</marker></example>
+                <example correction="superbones">Són <marker>súper-bones</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>super</token>
+                </pattern>
+                <message>Com a adjectiu, adverbi o sinònim de 'supermercat', s'escriu <suggestion>súper</suggestion>.</message>
+                <example correction="súper">Me'n vaig al <marker>super</marker>.</example>
+                <example correction="súper">Ens ho vam passar <marker>super</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MOTS_NO_SEPARATS" name="mots no separats: *súper heroi/*súper-heroi/superheroi">
             <rule>
                 <pattern>
@@ -25232,20 +25283,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>audio<match no="3"/></suggestion>
                 <example correction="audiovisuals">mitjans <marker>àudio-visuals</marker></example>
                 <example>del sector audiovisual</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">s[úu]per</token>
-                    <token min="0">-</token>
-                    <token regexp="yes" inflected="yes"
-                        >administrador|abundància|abundant|abundantment|abundar|àcid|aerodinàmica|axil·lar|calandratge|carburant|classe|clúster|complex|computació|computador|conductivitat|conductor|corda|crític|cúmul|dominància|dominant|dotat|ego|eminència|eminent|espècie|estatge|estrella|estructura|família|fecundació|femella|fluid|fluïdesa|fosfat|heterodí|heroi|home|humeral|índex|infecció|intendència|intendent|mascle|mercat|mortalitat|nova|numerari|ordre|òxid|plàstic|plasticitat|població|poblat|posar|posició|potència|producció|purgació|realisme|realista|simetria|sònic|substancial|tensió|visar|visió|visor|vivència|vivent</token>
-                </pattern>
-                <message>S'escriu junt.</message>
-                <suggestion>super<match no="3"/></suggestion>
-                <example correction="superherois">Tres <marker>súper herois</marker>.</example>
-                <example correction="superherois">Tres <marker>súper-herois</marker>.</example>
-                <example correction="superestrella">Era una <marker>súper estrella</marker>.</example>
-                <example>El superheroi</example>
             </rule>
             <rule>
                 <antipattern>

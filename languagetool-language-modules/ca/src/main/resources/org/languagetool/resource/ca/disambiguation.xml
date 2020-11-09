@@ -3044,6 +3044,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="SPS00|.*LOC_ADV.*"/>
         </rule>
+        <rule>
+            <pattern>
+                <token><exception postag="D..MS." postag_regexp="yes"/></token>
+                <marker>
+                    <token>dalt</token>
+                </marker>
+                <token regexp="yes">de|d'</token>
+            </pattern>
+            <disambig action="remove" postag="NCMS000"/>
+        </rule>
     </rulegroup>
     <rule id="ara_no_conjuncio" name="ara (adverbi no conjunció)">
         <!-- ¿És necessari en algun cas? -->
@@ -3416,7 +3426,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="NC.*" postag_regexp="yes">peu</token>
             <token postag="V.*" postag_regexp="yes" inflected="yes">calçar</token>
         </pattern>
-        <disambig action="filterall"></disambig>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="tornar_a" name="tornar a/sobre">
+        <pattern>
+            <token><exception postag="SPS00"/></token>
+            <marker>
+                <token inflected="yes">tornar<exception>torn</exception></token>
+            </marker>
+            <token regexp="yes">a|sobre|de|enrere|arrere|endarrere</token>
+        </pattern>
+        <disambig action="filter" postag="V.*"/>
     </rule>
     <rulegroup id="SegPersSing" name="verb segona persona singular">
         <rule>
@@ -5575,16 +5595,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
         </pattern>
         <disambig action="filter" postag="V.[^P].*"/>
-    </rule>
-    <rule id="tornar_a" name="tornar a/sobre">
-        <pattern>
-            <token><exception postag="SPS00"/></token>
-            <marker>
-                <token inflected="yes">tornar<exception>torn</exception></token>
-            </marker>
-            <token regexp="yes">a|sobre|de|enrere|arrere|endarrere</token>
-        </pattern>
-        <disambig action="filter" postag="V.*"/>
     </rule>
     <rule id="marxa" name="marxa (nom)">
         <pattern>
@@ -9156,7 +9166,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="N.*" postag_regexp="yes"><exception postag="V.[MSI].*" postag_regexp="yes"/></token>
-                        <token postag="AQ.C.*" postag_regexp="yes"><exception regexp="yes">corrent|pendent|comensal</exception></token>
+                        <token postag="AQ.C.*" postag_regexp="yes"><exception regexp="yes">corrent|pendent|comensal|activista</exception></token>
                     </and>
                 </marker>
                 <token postag="N.*" postag_regexp="yes"><exception postag="V.[MSI].*|AQ.*|V.P.*|PX.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+</exception></token>
