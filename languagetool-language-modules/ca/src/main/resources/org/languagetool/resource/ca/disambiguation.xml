@@ -10963,6 +10963,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="V.*|_GV_"/>
     </rule>
     <rulegroup id="AdjNom" name="adj + nom">
+        <antipattern>
+            <token regexp="yes">\p{Lu}.*<exception scope="previous" postag="SENT_START"/></token>
+            <token postag="V.[IS].*" postag_regexp="yes"/>
+        </antipattern>
         <rule>
             <pattern>
                 <marker>
