@@ -109,8 +109,8 @@ public class PatternToken implements Cloneable {
    */
   public PatternToken(String token, boolean caseSensitive, boolean regExp, boolean inflected) {
     this.caseSensitive = caseSensitive;
-    this.stringRegExp = regExp;
     this.inflected = inflected;
+    stringRegExp = regExp;
     setStringElement(token);
   }
 
@@ -698,7 +698,7 @@ public class PatternToken implements Cloneable {
    * @since 2.5
    */
   public void setUnificationNeutral() {
-    this.unificationNeutral = true;
+    unificationNeutral = true;
   }
 
 
@@ -797,7 +797,7 @@ public class PatternToken implements Cloneable {
   }
 
   @Nullable
-  Set<String> getPossibleRegexpValues(String stringToken) {
+  static Set<String> getPossibleRegexpValues(String stringToken) {
     if (StringUtils.containsAny(stringToken, "()*+.\\^${}")) {
       return null;
     }
