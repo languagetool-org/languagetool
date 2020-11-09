@@ -4421,7 +4421,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token postag="V...2S." postag_regexp="yes"/>
-                <token>tú</token>
+                <token skip="-1">tú</token>
+                <token regexp="yes">[?!]</token>
             </antipattern>
             <!--<rule>
                 <pattern>
@@ -4446,18 +4447,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>tú</token>
                     </marker>
-                    <token postag="NC.S000|A...S." postag_regexp="yes"><exception regexp="yes">como|una|obra</exception><exception postag="V...2S.|SP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">mismo|solo|solito</exception><exception regexp="yes">como|una|obra</exception></token>
+                    <token postag="NC.S000|A...S." postag_regexp="yes"><exception regexp="yes">como|una|obra</exception><exception postag="V...2S.|SP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">mismo|solo|solito</exception></token>
                 </pattern>
                 <message>Si es un posesivo, se escribe sin tilde.</message>
                 <suggestion>tu</suggestion>
-                <suggestion>tú,</suggestion>
-                <example correction="tu|tú,">Se ajustan a <marker>tú</marker> pie como un calcetín.</example>
-                <example correction="tu|tú,">Aprobará <marker>tú</marker> envío de dinero.</example>
-                <example correction="tu|tú,">Ahora viene <marker>tú</marker> padre.</example>
-                <example correction="tu|tú,">Ahora viene <marker>tú</marker> primera comprobación.</example>
-                <example correction="tu|tú,">Se ajustan a <marker>tú</marker> pie como un calcetín.</example>
-                <example correction="tu|tú,">Aprobará <marker>tú</marker> envío de dinero.</example>
-                <example correction="tu|tú,">Cuando revisé <marker>tú</marker> caso, no encontré nada relevante.</example>
+                <!--<suggestion>tú,</suggestion>-->
+                <example correction="tu">Se ajustan a <marker>tú</marker> pie como un calcetín.</example>
+                <example correction="tu">Aprobará <marker>tú</marker> envío de dinero.</example>
+                <example correction="tu">Ahora viene <marker>tú</marker> padre.</example>
+                <example correction="tu">Ahora viene <marker>tú</marker> primera comprobación.</example>
+                <example correction="tu">Se ajustan a <marker>tú</marker> pie como un calcetín.</example>
+                <example correction="tu">Aprobará <marker>tú</marker> envío de dinero.</example>
+                <example correction="tu">Cuando revisé <marker>tú</marker> caso, no encontré nada relevante.</example>
+                <example correction="tu">Si tienes oportunidad, por favor revisa <marker>tú</marker> correo.</example>
                 <example>Tú vienes</example>
                 <example>¿De qué silencio eres tú silencio?</example>
                 <example>Tú vienes</example>
@@ -11111,6 +11113,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule id="PP_V_2" name="Concordancia 2ª persona">
                 <antipattern>
+                    <token postag="V...2S." postag_regexp="yes"/>
+                    <token skip="-1">tú</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
                     <token>tú</token>
                     <token postag="VMM02S0"/>
                 </antipattern>
@@ -11126,6 +11133,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ellos con vosotros son solo ratas.</example>
                 <example>Que tu familia y tú estéis tranquilos.</example>
                 <example>Tú ve allá.</example>
+                <example>¿De qué silencio eres tú silencio?</example>
             </rule>
             <rule id="PP_V_3">
                 <pattern>
@@ -14602,7 +14610,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Se enfrentó al cuarto, puesto que era el Madrid.</example>
             <example>En cualquier caso y puesto que no quiero extenderme, señor presidente.</example>
         </rule>
-        <rule id="COMMA_SINO" name="coma antes de 'sino'" default="temp_off">
+        <rulegroup id="COMMA_SINO" name="coma antes de 'sino'">
             <!-- less priority than SINO_SI_NO -->
             <antipattern>
                 <token postag="_PUNCT.*|SENT_START" postag_regexp="yes"/>
@@ -14617,19 +14625,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0" postag="V.[NP].*" postag_regexp="yes"/>
                 <token>sino</token>
             </antipattern>
-            <pattern>
-                <marker>
-                    <token skip="-1" case_sensitive="yes">sino<exception postag="CC" scope="next"/></token>
-                </marker>
-                <token postag="V.[SI].*" postag_regexp="yes"/>
-            </pattern>
-            <message>En la mayoría de los casos la conjunción 'sino' va precedida de una coma.</message>
-            <suggestion>, \1</suggestion>
-            <example correction=", sino">No lo hice yo<marker> sino</marker> que lo hizo él.</example>
-            <example>Su sino es fracasar.</example>
-            <example>Nadie lo sabe sino Juan.</example>
-            <example>No te pido sino que te vaysa enseguida</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="-1" case_sensitive="yes">sino<exception postag="CC|LOC_CS|CS|PR.*" postag_regexp="yes" scope="next"/></token>
+                    </marker>
+                    <token postag="V.[SIN].*" postag_regexp="yes"/>
+                </pattern>
+                <message>En la mayoría de los casos la conjunción 'sino' va precedida de una coma.</message>
+                <suggestion>, \1</suggestion>
+                <example correction=", sino">La mujer del César no solo debe ser honesta<marker> sino</marker> parecerlo.</example>
+                <example>Su sino es fracasar.</example>
+                <example>Nadie lo sabe sino Juan.</example>
+                <example>No te pido sino que te vaysa enseguida</example>
+                <example>No sólo en lo institucional sino también en lo político.</example>
+                <example>No sólo en lo institucional sino también en lo político, ya que la universidad ha ido consolidándose.</example>
+                <example>Sabes que no quiero a nadie sino a él.</example>
+                <example>No deseaba sino retornar a la sede.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">sino</token>
+                    </marker>
+                    <token skip="-1">que<exception postag="CC|LOC_CS|CS|PR.*" postag_regexp="yes" scope="next"/></token>
+                    <token postag="V.[SIN].*" postag_regexp="yes"/>
+                </pattern>
+                <message>En la mayoría de los casos la conjunción 'sino' va precedida de una coma.</message>
+                <suggestion>, \1</suggestion>
+                <example correction=", sino">No lo hice yo<marker> sino</marker> que lo hizo él.</example>
+            </rule>
+        </rulegroup>
         <rule id="COMMA_PERO" name="coma antes de 'pero'" default="temp_off">
             <antipattern>
                 <token postag="_PUNCT.*|SENT_START" postag_regexp="yes"/>
