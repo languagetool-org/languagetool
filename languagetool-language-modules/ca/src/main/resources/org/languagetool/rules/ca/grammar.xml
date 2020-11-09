@@ -3024,6 +3024,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="A.*" postag_regexp="yes"/>
                 <token regexp="yes">.+[º°]</token>
             </antipattern>
+            <antipattern>
+                <token>per</token>
+                <token regexp="yes">complet|igual</token>
+            </antipattern>
+            <antipattern>
+                <token postag="AO0MS0"/>
+                <token postag="AO0FS0"/>
+            </antipattern>
+            <antipattern>
+                <token>actuals</token>
+                <token postag="NP.*|_possible_nompropi" postag_regexp="yes"/>
+                <token postag="CC|_PUNCT.*" postag_regexp="yes"/>
+                <token postag="NP.*|_possible_nompropi" postag_regexp="yes"/>
+            </antipattern>
             <rule>
                 <pattern>
                     <unify negate="yes">
@@ -3171,8 +3185,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>dels beduïns rudes i malcarats</example>
                 <example>1r ESO, 2n ESO, 3r ESO, 4t ESO.</example>
                 <example>Benvolgudes Vicenta i Anna.</example>
-                <!-- <example>i el Club Esportiu Lleida Basquetbol</example>
-                    a les actuals Cambodja i Cotxinxina-->
+                <example>És segon tercera.</example>
+                <example>i el Club Esportiu Lleida Basquetbol</example>
+                <example>a les actuals Cambodja i Cotxinxina</example>
             </rule>
             <rule>
                 <pattern>
@@ -19489,7 +19504,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token inflected="yes" regexp="yes">pagar|cobrar|distribuir|parcial|total|percebre</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)rent(a|es)" regexp_replace="rend$1"/></suggestion> en lloc de <match no="1"/> (del v. 'rentar')?</message>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)rent(a|es)" regexp_replace="rend$1"/></suggestion> en lloc de "<match no="1"/>" (del v. 'rentar')?</message>
                 <example correction="renda">La <marker>renta</marker> pagada</example>
                 <example>renda pagada</example>
             </rule>
@@ -20105,7 +20120,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">serie[mu]</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match=".+(.)" regexp_replace="seríe$1"/></suggestion> (v. 'ser') en lloc de <match no="1"/> (v. 'seriar')?</message>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match=".+(.)" regexp_replace="seríe$1"/></suggestion> (v. 'ser') en lloc de "<match no="1"/>" (v. 'seriar')?</message>
             <short>Possible confusió</short>
             <example correction="Seríeu">¿<marker>Serieu</marker> tan amables de fer-ho?</example>
             <example>Seríem els millors.</example>
