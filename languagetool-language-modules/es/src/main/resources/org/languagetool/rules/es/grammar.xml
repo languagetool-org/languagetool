@@ -1477,7 +1477,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <!-- NOT: celebre, domino, decimos, domine, escalamos, , echo, llamaron, piden, paramos, cede, solicita, solicito, termino, verifica, vienes, aman, borren, calan, capitula, crias, critica, criticas, critico, cuajaron, cupe, calculo, envió, escalamos, estipula, habito, participe, platica, platicas, predica, predicas, patina, regulo, solicita, solicitas, solicito, suplico, suplica, suplicas, termino, verifica, indica, ulula
-                         ???: pio, lio, moran, indico, opera, anima, animas,  replica, replicas,-->
+                         ???: pio, moran, indico, opera, anima, animas, replica, replicas,-->
                     <marker>
                         <token postag="V.[SI].*" postag_regexp="yes" regexp="yes"
                             >ada|adan|animo|arboles|aticulo|autentica|autenticas|autentico|azucares|barbara|calculo|canceres|capitulo|capsula|capsulas|catalogo|circulo|critica|cubica|cubicas|debito|deposito|desordenes|diagnostico|dialogo|domestica|domesticas|domestico|ejercito|embolo|entrelinea|entrelineas|epitome|especifica|especificas|especifico|espontanea|estomago|fabrica|fabricas|genero|idolatra|idolatras|ignifuga|ignifugas|ignifugo|ilegitima|ilegitimas|ilegitimo|invalida|invalidas|invalido|lagrima|lagrimas|lamina|laminas|lastima|lastimas|legitima|legitimas|legitimo|lideres|limite|limites|linea|lineas|liquida|liquidas|liquido|maquina|maquinas|marques|matricula|medica|medicas|medico|modulo|nausea|nauseas|nomina|nominas|oleo|ordenes|ovulo|oxido|oxigeno|pacifico|petroleo|pixeles|practica|practicas|practico|prestamos|prorroga|prospera|prosperas|prospero|publica|publicas|publico|purpurea|purpureas|recamara|recamaras|reciproca|reciprocas|reciproco|retrograda|retrogradas|retrogrado|revalida|revalidas|rondo|simultanea|simultaneas|simultaneo|solida|solidas|solido|tempano|titulo|trafico|tramite|tramites|transito|tremolo|triangulo|ulcera|ulceras|vehiculo|victima|victimas|vinculo<exception
@@ -4023,6 +4023,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>frío</suggestion>
             <example correction="frío">No tengo ni <marker>frio</marker> ni calor</example>
             <example>Les frio el cerebro.</example>
+        </rule>
+        <rule id="LIO" name="lio/lío" default="temp_off">
+            <antipattern>
+                <token regexp="yes">me|te|le|se|nos|os|les|lo|la</token>
+                <token>lio</token>
+            </antipattern>
+            <antipattern>
+                <token>lio</token>
+                <token postag="D.*|NC.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token>lio</token>
+            </pattern>
+            <message>Si es un nombre, es escribe <suggestion>lío</suggestion>. Correcto si es del v. 'liar' en pasado (él lio).</message>           
+            <example correction="lío">¡Menudo <marker>lio</marker>!</example>
+            <example>Se lio una buena.</example>
         </rule>
         <rulegroup name="amen/amén" id="AMEN" default="temp_off">
             <rule>
