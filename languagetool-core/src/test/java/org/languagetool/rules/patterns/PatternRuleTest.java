@@ -618,24 +618,24 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     return str.replaceAll("<([^<].*?)>", "");
   }
 
-  private boolean match(Rule rule, String sentence, JLanguageTool lt) throws IOException {
+  private static boolean match(Rule rule, String sentence, JLanguageTool lt) throws IOException {
     List<AnalyzedSentence> analyzedSentences = lt.analyzeText(sentence);
     int matchCount = 0;
     for (AnalyzedSentence analyzedSentence : analyzedSentences) {
-    RuleMatch[] matches = rule.match(analyzedSentence);
+    RuleMatch[] matches = matchRule(rule, analyzedSentence);
       matchCount += matches.length;
     }
     return matchCount > 0;
   }
 
   // Unlike getMatchesForSingleSentence() this splits the text at sentence boundaries
-  private List<RuleMatch> getMatchesForText(Rule rule, String sentence, JLanguageTool lt) throws IOException {
+  private static List<RuleMatch> getMatchesForText(Rule rule, String sentence, JLanguageTool lt) throws IOException {
     List<AnalyzedSentence> analyzedSentences = lt.analyzeText(sentence);
     List<RuleMatch> matches = new ArrayList<>();
     int matchOffset = 0;
     // fix offset calculation for testCorrectSentences / testBadSentences (e.g. position of marker)
     for (AnalyzedSentence analyzedSentence : analyzedSentences) {
-      List<RuleMatch> sentenceMatches = Arrays.asList(rule.match(analyzedSentence));
+      List<RuleMatch> sentenceMatches = Arrays.asList(matchRule(rule, analyzedSentence));
       for (RuleMatch match : sentenceMatches) {
         match.setOffsetPosition(match.getFromPos() + matchOffset, match.getToPos() + matchOffset);
       }
@@ -645,9 +645,16 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     return matches;
   }
 
-  private List<RuleMatch> getMatchesForSingleSentence(Rule rule, String sentence, JLanguageTool lt) throws IOException {
+  private static RuleMatch[] matchRule(Rule rule, AnalyzedSentence analyzedSentence) throws IOException {
+    if (rule instanceof PatternRule && ((PatternRule) rule).canBeIgnoredFor(analyzedSentence)) {
+      return new RuleMatch[0];
+    }
+    return rule.match(analyzedSentence);
+  }
+
+  private static List<RuleMatch> getMatchesForSingleSentence(Rule rule, String sentence, JLanguageTool lt) throws IOException {
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(sentence);
-    RuleMatch[] matches = rule.match(analyzedSentence);
+    RuleMatch[] matches = matchRule(rule, analyzedSentence);
     if (CHECK_WITH_SENTENCE_SPLITTING) {
       // "real check" with sentence splitting:
       for (Rule r : lt.getAllActiveRules()) {
