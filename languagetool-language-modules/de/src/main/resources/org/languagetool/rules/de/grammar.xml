@@ -15739,7 +15739,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>.</token>
                 <token regexp="yes">\d\d?</token>
                 <token>.</token>
-                <token regexp="yes">\d\d\d\d</token>
+                <token regexp="yes">\d\d(\d\d)?</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">&abgekWochentage;</token>
@@ -15750,7 +15750,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>.</token>
                 <token regexp="yes">\d\d?</token>
                 <token>.</token>
-                <token regexp="yes">\d\d\d\d</token>
+                <token regexp="yes">\d\d(\d\d)?</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">&wochentage;|&abgekWochentage;</token>
@@ -15760,7 +15760,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">\d\d?</token>
                 <token>.</token>
                 <token regexp="yes">&monate;</token>
-                <token regexp="yes">\d\d\d\d</token>
+                <token regexp="yes">\d\d(\d\d)?</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">&wochentage;|&abgekWochentage;</token>
@@ -15771,7 +15771,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>.</token>
                 <token regexp="yes">&abgekMonate;</token>
                 <token>.</token>
-                <token regexp="yes">\d\d\d\d</token>
+                <token regexp="yes">\d\d(\d\d)?</token>
             </antipattern>
 
             <rule>
@@ -15800,6 +15800,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Termin: Sa, 33.08.</example><!-- invalid, but ignored by this rule -->
                 <example>Termin: Sa, 11.13.</example><!-- invalid, but ignored by this rule -->
                 <example>Termin: Sa, 12.13.</example><!-- invalid, but ignored by this rule -->
+                <example>Der erste Arbeitstag ist Montag, 04.01.21.</example>
+                <example>Der erste Arbeitstag ist Montag, 4.1.21..</example>
+
             </rule>
             <rule>
                 <antipattern case_sensitive="yes">
