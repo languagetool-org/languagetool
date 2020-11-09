@@ -260,13 +260,13 @@ public abstract class ConfusionProbabilityRule extends Rule {
   
   protected String getMessage(ConfusionString textString, ConfusionString suggestion) {
     if (textString.getDescription() != null && suggestion.getDescription() != null) {
-      return Tools.i18n(messages, "statistics_suggest1", suggestion.getString(), suggestion.getDescription(), textString.getString(), textString.getDescription());
+      return Tools.i18n(messages, "statistics_suggest1_new", suggestion.getString(), suggestion.getDescription(), textString.getString(), textString.getDescription());
     } else if (textString.getDescription() != null) {
-      return Tools.i18n(messages, "statistics_suggest4", suggestion.getString(), textString, textString.getDescription());
+      return Tools.i18n(messages, "statistics_suggest4_new", suggestion.getString(), textString, textString.getDescription());
     } else if (suggestion.getDescription() != null) {
-      return Tools.i18n(messages, "statistics_suggest2", suggestion.getString(), suggestion.getDescription());
+      return Tools.i18n(messages, "statistics_suggest2_new", suggestion.getString(), suggestion.getDescription(), textString.getString());
     } else {
-      return Tools.i18n(messages, "statistics_suggest3", suggestion.getString());
+      return Tools.i18n(messages, "statistics_suggest3_new", suggestion.getString(), textString.getString());
     }
   }
   
