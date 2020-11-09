@@ -1457,9 +1457,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>{suggestion}</suggestion>
                 <example correction="náusea">Hasta la <marker>nausea</marker>.</example>
             </rule>
-            <!-- catch-all rule, only test
             <rule id="DIACRITICS_SPECIAL" name="diacríticos, casos especiales" default="temp_off">
-                
                 <antipattern>
                     <token/>
                     <token postag="[DNA].*" postag_regexp="yes"/>
@@ -1478,15 +1476,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token/>
                 </antipattern>
                 <pattern>
+                    <!-- NOT: celebre, domino, decimos, domine, escalamos, , echo, llamaron, piden, paramos, cede, solicita, solicito, termino, verifica, vienes, aman, borren, calan, capitula, crias, critica, criticas, critico, cuajaron, cupe, calculo, envió, escalamos, estipula, habito, participe, platica, platicas, predica, predicas, patina, regulo, solicita, solicitas, solicito, suplico, suplica, suplicas, termino, verifica, indica, ulula
+                         ???: pio, lio, moran, indico, opera, anima, animas,  replica, replicas,-->
                     <marker>
-                        <token postag="V.[SI].*" postag_regexp="yes"><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                        <token postag="V.[SI].*" postag_regexp="yes" regexp="yes"
+                            >ada|adan|animo|arboles|aticulo|autentica|autenticas|autentico|azucares|barbara|calculo|canceres|capitulo|capsula|capsulas|catalogo|circulo|critica|cubica|cubicas|debito|deposito|desordenes|diagnostico|dialogo|domestica|domesticas|domestico|ejercito|embolo|entrelinea|entrelineas|epitome|especifica|especificas|especifico|espontanea|estomago|fabrica|fabricas|genero|idolatra|idolatras|ignifuga|ignifugas|ignifugo|ilegitima|ilegitimas|ilegitimo|invalida|invalidas|invalido|lagrima|lagrimas|lamina|laminas|lastima|lastimas|legitima|legitimas|legitimo|lideres|limite|limites|linea|lineas|liquida|liquidas|liquido|maquina|maquinas|marques|matricula|medica|medicas|medico|modulo|nausea|nauseas|nomina|nominas|oleo|ordenes|ovulo|oxido|oxigeno|pacifico|petroleo|pixeles|practica|practicas|practico|prestamos|prorroga|prospera|prosperas|prospero|publica|publicas|publico|purpurea|purpureas|recamara|recamaras|reciproca|reciprocas|reciproco|retrograda|retrogradas|retrogrado|revalida|revalidas|rondo|simultanea|simultaneas|simultaneo|solida|solidas|solido|tempano|titulo|trafico|tramite|tramites|transito|tremolo|triangulo|ulcera|ulceras|vehiculo|victima|victimas|vinculo<exception
+                            postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:NC.*|AQ.*"/>
                 <message>Si es adjetivo o nombre, se escribe con tilde._</message>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="Nóminas"><marker>Nominas</marker> de octubre.</example>
-            </rule>-->
+                <example>Londres, el lugar donde habito, era antiguamente conocida por su niebla.</example>
+                <example>Hoy el abuelo naufraga en su memoria.</example>
+                <example>«Los hermanos Kocher», replica Norton.</example>
+            </rule>
         </rulegroup>
         <rule id="DIACRITICS_CONDICIONAL" name="secundaria/secundaría">
             <pattern>
@@ -3958,6 +3963,67 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="compás">Del <marker>compas</marker> 4 al 34.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="RIO" name="rio/río" default="temp_off">
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Río</token>
+                    <token>de</token>
+                    <token>Janeiro</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">rio|río|rió</token>
+                    <token>de</token>
+                    <token>janeiro</token>
+                </pattern>
+                <message>Error de ortografía.</message>
+                <suggestion>Río de Janeiro</suggestion>
+                <example correction="Río de Janeiro">Me voy a <marker>río de janeiro</marker>.</example>
+                <example correction="Río de Janeiro">Me voy a <marker>Rio de Janeiro</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">se|le|me|te</token>
+                    <token>rio</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>rio</token>
+                    </marker>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </pattern>
+                <message>Si es un nombre, es escribe con acento. Correcto si es del v. 'reír' en pasado (él se rio).</message>
+                <suggestion>río</suggestion>
+                <example correction="Río"><marker>Rio</marker> Turia.</example>
+                <example>Entonces se rio Juan.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">Rio</token>
+                    </marker>
+                </pattern>
+                <message>Si es un nombre, es escribe con acento. Correcto si es del v. 'reír' en pasado (él rio).</message>
+                <suggestion>Río</suggestion>
+                <example correction="Río"><marker>Rio</marker> es bonito.</example>
+            </rule>
+        </rulegroup>
+        <rule id="FRIO" name="frio/frío" default="temp_off">
+            <antipattern>
+                <token regexp="yes">me|te|le|se|nos|os|les|lo|la</token>
+                <token>frio</token>
+            </antipattern>
+            <antipattern>
+                <token>frio</token>
+                <token postag="D.*|NC.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token>frio</token>
+            </pattern>
+            <message>Si es un nombre, es escribe con acento. Correcto si es del v. 'freír' en pasado (él frio).</message>
+            <suggestion>frío</suggestion>
+            <example correction="frío">No tengo ni <marker>frio</marker> ni calor</example>
+            <example>Les frio el cerebro.</example>
+        </rule>
         <rulegroup name="amen/amén" id="AMEN" default="temp_off">
             <rule>
                 <pattern>
