@@ -127,6 +127,8 @@ public class SentenceSourceChecker {
             .desc("Activate only rules from this XML file (e.g. 'grammar.xml')").build());
     options.addOption(Option.builder().longOpt("skip").hasArg()
             .desc("Skip this many sentences from input before actually checking sentences").build());
+    options.addOption(Option.builder().longOpt("print-duration")
+            .desc("Print the duration of analysis in milliseconds").build());
     try {
       CommandLineParser parser = new DefaultParser();
       return parser.parse(options, args);
@@ -263,8 +265,9 @@ public class SentenceSourceChecker {
         float matchesPerSentence = (float)ruleMatchCount / sentenceCount;
         System.out.printf(lang + ": %d total matches\n", ruleMatchCount);
         System.out.printf(Locale.ENGLISH, lang + ": ø%.2f rule matches per sentence\n", matchesPerSentence);
-        //long runTimeMillis = System.currentTimeMillis() - startTime;
-        //System.out.printf(Locale.ENGLISH, lang + ": Time: %.2f minutes\n", runTimeMillis/1000.0/60.0);
+        if (options.hasOption("print-duration")) {
+          System.out.println("The analysis took " + (System.currentTimeMillis() - startTime) + "ms");
+        }
         try {
           resultHandler.close();
         } catch (Exception e) {
@@ -274,7 +277,7 @@ public class SentenceSourceChecker {
     }
   }
 
-  private void enableOnlySpecifiedRules(String[] ruleIds, JLanguageTool lt) {
+  private static void enableOnlySpecifiedRules(String[] ruleIds, JLanguageTool lt) {
     for (Rule rule : lt.getAllRules()) {
       lt.disableRule(rule.getId());
     }
@@ -285,7 +288,7 @@ public class SentenceSourceChecker {
     System.out.println("Only these rules are enabled: " + Arrays.toString(ruleIds));
   }
 
-  private void warnOnNonExistingRuleIds(String[] ruleIds, JLanguageTool lt) {
+  private static void warnOnNonExistingRuleIds(String[] ruleIds, JLanguageTool lt) {
     for (String ruleId : ruleIds) {
       boolean found = false;
       for (Rule rule : lt.getAllRules()) {
@@ -300,7 +303,7 @@ public class SentenceSourceChecker {
     }
   }
 
-  private void applyRuleDeactivation(JLanguageTool lt, Set<String> disabledRules) {
+  private static void applyRuleDeactivation(JLanguageTool lt, Set<String> disabledRules) {
     // disabled via config file, usually to avoid too many false alarms:
     for (String disabledRuleId : disabledRules) {
       lt.disableRule(disabledRuleId);
@@ -308,7 +311,7 @@ public class SentenceSourceChecker {
     System.out.println("These rules are disabled: " + lt.getDisabledRules());
   }
 
-  private void activateAdditionalCategories(String[] additionalCategoryIds, JLanguageTool lt) {
+  private static void activateAdditionalCategories(String[] additionalCategoryIds, JLanguageTool lt) {
     if (additionalCategoryIds != null) {
       for (String categoryId : additionalCategoryIds) {
         for (Rule rule : lt.getAllRules()) {
@@ -322,7 +325,7 @@ public class SentenceSourceChecker {
     }
   }
 
-  private void disableSpellingRules(JLanguageTool lt) {
+  private static void disableSpellingRules(JLanguageTool lt) {
     List<Rule> allActiveRules = lt.getAllActiveRules();
     for (Rule rule : allActiveRules) {
       if (rule.isDictionaryBasedSpellingRule()) {
