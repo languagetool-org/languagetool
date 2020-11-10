@@ -9026,6 +9026,17 @@ though, and has since been slightly modified)-->
         <example correction="trois fois par semaine">Je joue au Softball <marker>trois fois au semaine</marker>.</example>
       </rule>
       <!-- End of additions -->
+      <rule id="VOUS_LE_PPA_1ER_GROUPE" name="s manquant à vous le ppa" default="temp_off">
+          <pattern>
+              <token>vous</token>
+              <token>le</token>
+              <marker>
+                  <token postag="V ppa.*s" regexp="yes" postag_regexp="yes">\w+e</token>
+              </marker>
+          </pattern>
+          <message>Il semblerait manquer la marque du pluriel. Vouliez-vous dire « <suggestion>\3s</suggestion> ».</message>
+          <example correction="faites">Comme vous le <marker>faite</marker>.</example>
+      </rule>
       <rule id="CONFUSION_PAR_PART" name="Confusion part/par expression de par" default="temp_off">
           <pattern>
               <token>de</token>
@@ -9175,6 +9186,17 @@ though, and has since been slightly modified)-->
       </rule>
       <rulegroup id="D_N_QUE_R_AVOIR_PPA" name="Relative avec erreur d'accord" default="off">
           <rule name="f s">
+              <antipattern>
+                  <token postag="SENT_START"/>
+                  <token postag="D f s"/>
+                  <token min="0" max="1" postag="A"/>
+                  <token postag="N f s"/>
+                  <token regexp="yes">qu[e']</token>
+                  <token postag_regexp="yes" postag="R.*suj.*|Z.*"/>
+                  <token inflected="yes">avoir</token>
+                  <token postag_regexp="yes" postag="V.* ppa.*"/>
+                  <token postag_regexp="yes" postag="V.* ppa.*"/>
+              </antipattern>
               <pattern>
                   <token postag="SENT_START"/>
                   <token postag="D f s"/>
@@ -9193,6 +9215,7 @@ though, and has since been slightly modified)-->
               <suggestion><match no="8" postag_regexp="yes" postag="(V.* ppa).*" postag_replace="$1 f s"/></suggestion>
               <example correction="mise">La montre que j'ai <marker>mis</marker> hier.</example>
               <example correction="mise">La montre qu'il a <marker>mis</marker> ce matin.</example>
+              <example>La nouvelle qu'il avait été blessé lui fit un choc.</example>
           </rule>
           <rule name="f p">
               <pattern>
