@@ -1980,7 +1980,7 @@ Copyright (C) 2011 Juan Martorell
                 <token inflected="yes">diputado</token>
             </marker>
         </pattern>
-        <disambig action="filter" postag="N.*"></disambig>
+        <disambig action="filter" postag="N.*"/>
     </rule>
     <rulegroup id="quedar_participio" name="quedar + participio">
         <rule>
@@ -2304,7 +2304,6 @@ Copyright (C) 2011 Juan Martorell
             <wd pos="AQ0CN0"/>
         </disambig>
     </rule>
-    
     <rulegroup id="PP_NOUN" name="pronombre personal / nombre">
         <rule>
             <pattern>
@@ -3254,6 +3253,20 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
     <!-- NOMINAL GROUPS -->
+    <rulegroup id="verb_improbable" name="verbo improbable">
+        <rule>
+            <pattern>
+                <token><exception postag="&pronombre_personal_atono_POS;|CS|PR.*|LOC_CS" postag_regexp="yes"/></token>
+                <marker>
+                    <token postag="[ND].*" postag_regexp="yes" regexp="yes">una|espacio</token>
+                </marker>
+                <token><exception postag="D.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+            <example type="untouched">Encontrar algo que los una.</example>
+            <example type="untouched">Algo que una los distintos partidos.</example>
+        </rule>
+    </rulegroup>
     <rule id="NOMBRE_PROPIOS" name="nombres propios">
         <pattern>
             <token><exception postag="SENT_START"/><exception regexp="yes">[—–\-]</exception><exception regexp="yes">[¿¡"'«»‘“:]</exception></token>
@@ -3393,7 +3406,7 @@ Copyright (C) 2011 Juan Martorell
                 </marker>
             </pattern>
             <disambig action="unify"/>
-            <example inputform="una[unir/VMM03S0,unir/VMSP1S0,unir/VMSP3S0,uno/DI0FS0,uno/PI0FS000]" outputform="una[uno/DI0FS0]" type="ambiguous">Es <marker>una</marker> ocasión romántica.</example>
+            <example inputform="una[uno/DI0FS0,uno/PI0FS000]" outputform="una[uno/DI0FS0]" type="ambiguous">Es <marker>una</marker> ocasión romántica.</example>
             <example type="untouched">Es una romántica ocasión.</example>
         </rule>
         <rule>
@@ -3467,7 +3480,7 @@ Copyright (C) 2011 Juan Martorell
             </marker>
         </pattern>
         <disambig action="unify"/>
-        <example inputform="una[unir/VMM03S0,unir/VMSP1S0,unir/VMSP3S0,uno/DI0FS0,uno/PI0FS000]" outputform="una[uno/DI0FS0]" type="ambiguous">Es <marker>una</marker> romántica ocasión.</example>
+        <example inputform="una[uno/DI0FS0,uno/PI0FS000]" outputform="una[uno/DI0FS0]" type="ambiguous">Es <marker>una</marker> romántica ocasión.</example>
         <example type="untouched">Es una ocasión romántica.</example>
     </rule>
     <!-- NSN : Nom + Nom/Prep + Nom/Adj = prep
@@ -5314,7 +5327,8 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <token><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/><exception regexp="yes">qué|cuánto</exception></token>
                 <marker>
-                    <token postag="V.I[PI]3S0" postag_regexp="yes" inflected="yes" skip="12">hacer<exception postag=".*LOC_ADV.*" postag_regexp="yes"/><exception scope="next" regexp="yes">que|en</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes">,</exception><exception postag="V.[MSI].*|_GV_|DA.*" postag_regexp="yes" scope="next"/></token>
+                    <token postag="V.I[PI]3S0" postag_regexp="yes" inflected="yes" skip="12">hacer<exception postag=".*LOC_ADV.*" postag_regexp="yes"/><exception scope="next" regexp="yes">que|en</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes">,</exception><exception
+                        postag="V.[MSI].*|_GV_|DA.*" postag_regexp="yes" scope="next"/></token>
                 </marker>
                 <token regexp="yes" inflected="yes">&unidades_tiempo;|&estaciones_ano;|&meses_ano;|momento|instante|tiempo|rato</token>
             </pattern>
@@ -5330,7 +5344,8 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <token><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/><exception regexp="yes">qué|cuánto</exception></token>
                 <marker>
-                    <token postag="V.I[PI]3S0" postag_regexp="yes" inflected="yes">hacer<exception postag=".*LOC_ADV.*" postag_regexp="yes"/><exception scope="next" regexp="yes">que|en</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes">,</exception><exception postag="V.[MSI].*|_GV_|DA.*" postag_regexp="yes" scope="next"/></token>
+                    <token postag="V.I[PI]3S0" postag_regexp="yes" inflected="yes">hacer<exception postag=".*LOC_ADV.*" postag_regexp="yes"/><exception scope="next" regexp="yes">que|en</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes">,</exception><exception
+                        postag="V.[MSI].*|_GV_|DA.*" postag_regexp="yes" scope="next"/></token>
                     <token regexp="yes">mucho|poco|muchísimo|poquísimo</token>
                 </marker>
             </pattern>
