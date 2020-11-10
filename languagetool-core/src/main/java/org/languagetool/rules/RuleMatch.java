@@ -20,8 +20,8 @@ package org.languagetool.rules;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
-import org.languagetool.rules.patterns.AbstractPatternRule;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.ApiCleanupNeeded;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleMatcher;
 import org.languagetool.tools.StringTools;
@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
  * @author Daniel Naber
  */
 public class RuleMatch implements Comparable<RuleMatch> {
+  public static final RuleMatch[] EMPTY_ARRAY = new RuleMatch[0];
 
   private static final Pattern SUGGESTION_PATTERN = Pattern.compile("<suggestion>(.*?)</suggestion>");
   private final Rule rule;
