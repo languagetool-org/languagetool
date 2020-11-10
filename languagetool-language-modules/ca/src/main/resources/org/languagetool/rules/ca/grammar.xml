@@ -62,7 +62,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY exceptions_LLINDA_AMB "escut|imposta|pòrtic|nom|taulellet|forma|pilastra|orla|dent|figura|llegenda|brancal|frontó|columna|guardapols|línia|motll?ura|floró|motiu|data|imatge|arc|inscripció|dovella|decoració|timpà|relleu|escultura|ornament|ornamentació|ornamentar|decorar|garlanda|esglaó|graó|emblema|torre|pedra">
     <!ENTITY exceptions_ODRE "pell|bot|líquid|aigua|oli|llet|vi|substància|mantega|càntir|ampolla|porró|paràbola|cuir|cuiro">
     <!ENTITY exceptions_Paris "fletxa|arc|sageta|Filoctetes|Hèracles|Hèrcules|Apol·lo|taló|Aquil·les|Aquil·leu|personatge|mitològic|mitologia|mite|argiu|Homer|Afrodita|Helena|Menelau|Hèctor|Troia|Atena|Esparta|príncep|troià|Himeneu|judici|juí|Ifigènia|Aulis">
-    <!ENTITY exceptions_pronom_en "norma|single|nota|tema|taula|mapa|figura|vegeu|juny|sala|pregunta|programa|(?-i)Mateu|Romans|Espanya">
+    <!ENTITY exceptions_pronom_en "super|norma|single|nota|tema|taula|mapa|figura|vegeu|juny|sala|pregunta|programa|(?-i)Mateu|Romans|Espanya">
     <!ENTITY exceptions_RECOLZAR "cap|espatll?a|cara|punta|marc|porta|contra|banc|mà|genoll|cama|colze|peu|braç|butaca|en|sobre|damunt|paret|escala|arbre|mur|esquena|ampit|barana|taula|cadira|sofà|finestra|tanca|sorra|arena|terra|cuixa|barra|llitera|calaixera|bàscula|superfície|pota|muralla|mitgera|pedra|pantalla|crossa|roca|boca|cos|llit|taulell|mostrador|llindar|tronc|pit|piano|coixí|graó|escaló|esglaó|forat|motxilla">
     <!ENTITY exceptions_SON "descans|estrès|estrés|cansament|fatiga|hiptertensió|mareig|alegria|somnambulisme|esbarjo|estupor|gana|fam|anorèxia|vigília">
     <!ENTITY expressions_temps "ara|avui|hui|demà|despús-demà|ahir|despús-ahir|endemà|enguany|temporada|curs">
@@ -3365,6 +3365,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Error de concordança.</message>
                 <suggestion>\1ls</suggestion>
                 <example correction="dels">Gestió <marker>del</marker> projectes públics.</example>
+                <example correction="dels">La problemàtica <marker>del</marker> diferents contaminants</example>
                 <example>La Conquesta del Pol Sud</example>
             </rule>
             <rule>
@@ -8863,6 +8864,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>I de l'altra la fascinació.</example>
                 <example>Als uns els féu esclaus.</example>
                 <example>Atribueixen als uns els errors dels altres.</example>
+                <example>Ens fan diferents els uns dels altres.</example>
             </rule>
             <rule>
                 <pattern>
@@ -10107,6 +10109,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tant"><marker>tan</marker> l'un com l'altre</example>
                 <example correction="tant"><marker>tan</marker> aquest com aquell</example>
                 <example>tant aquest com aquell</example>
+                <example>Eren tan diversos com els altres.</example>
             </rule>
             <rule>
                 <pattern>
@@ -14202,6 +14205,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="A_DOS_VELAS" name="*a dos velas">
+            <pattern>
+                <token>a</token>
+                <token regexp="yes">dos|dues</token>
+                <token regexp="yes">velas|veles</token>
+            </pattern>
+            <message>Possible calc del castellà.</message>
+            <suggestion>sense ni un xavo</suggestion>
+            <suggestion>en la misèria</suggestion>
+            <example correction="sense ni un xavo|en la misèria">M'he quedat <marker>a dos veles</marker>.</example>
+        </rule>
         <rule id="DEGUT_QUE" name="*degut que">
             <pattern>
                 <marker>
@@ -22774,7 +22788,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La resolució en prorroga els resultats.</example>
             </rule>
         </rulegroup>
-        <rulegroup name="amen/amén" id="AMEN" default="temp_off">
+        <rulegroup name="amen/amén" id="AMEN">
             <rule>
                 <pattern>
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
@@ -25052,13 +25066,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="© 2020"><marker>©2020</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SUPER" name="super/súper/super-" default="temp_off">
+        <rulegroup id="SUPER" name="super/súper/super-">
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=prefix+super-&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=13527&amp;idHit=13527&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=El+prefix+%3Cem%3Esuper%3C%2Fem%3E-+%2F+L%27adjectiu+i+adverbi+%3Cem%3Es%FAper%3C%2Fem%3E&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <rule>
                 <pattern>
                     <token regexp="yes">super|súper</token>
                     <token min="0">-</token>
-                    <token regexp="yes">..+</token>
+                    <token regexp="yes">..+<exception>és</exception></token>
                 </pattern>
                 <message suppress_misspelled="yes">El prefix 'super-' s'escriu junt.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="super$1" case_conversion="alllower"/></suggestion>
@@ -25069,6 +25083,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="superherois">Tres <marker>súper-herois</marker>.</example>
                 <example correction="superestrella">Era una <marker>súper estrella</marker>.</example>
                 <example>El superheroi</example>
+                <example>El súper és el superintendent.</example>
             </rule>
             <rule>
                 <pattern>
@@ -25085,7 +25100,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">super|súper</token>
                     <token min="0">-</token>
-                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Com a prefix d'un altre adjectiu, 'super-' s'escriu junt, encara que la paraula resultant no sigui en el diccionari.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="super$1" case_conversion="alllower"/></suggestion>
@@ -60553,7 +60568,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PUNCTUATION" name="puntuació" type="grammar">
-        <rule id="COMMA_PERO" name="coma abans de 'però'">
+        <rulegroup id="COMMA_PERO" name="coma abans de 'però'">
             <antipattern>
                 <token postag="_PUNCT.*|SENT_START" postag_regexp="yes"/>
                 <token>però</token>
@@ -60562,18 +60577,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token skip="2">però</token>
                 <token postag="SENT_END"/>
             </antipattern>
-            <pattern>
-                <marker>
-                    <token skip="-1" case_sensitive="yes">però<exception postag="CC|LOC_CS|CS|PR.*" postag_regexp="yes" scope="next"/></token>
-                </marker>
-                <token postag="V.[SI].*" postag_regexp="yes"/>
-            </pattern>
-            <message>La conjunció 'però' va precedida de coma en la majorida dels casos.</message>
-            <suggestion>, però</suggestion>
-            <example correction=", però">El partit aconsegueix molts escons<marker> però</marker> encara no n'hi ha prou.</example>
-            <example>¿Però què passa amb això?</example>
-            <example>És un cos celeste sòlid semblant als asteroides però amb diferent composició, i descriuen òrbites allargades.</example>
-        </rule>
+            <antipattern>
+                <token>però</token>
+                <token postag="_PUNCT.*" postag_regexp="yes"/>
+                <token postag="CC"/>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="-1" case_sensitive="yes">però<exception postag="CC|LOC_CS|CS|PR.*" postag_regexp="yes" scope="next"/></token>
+                    </marker>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </pattern>
+                <message>La conjunció 'però' va precedida de coma en la majorida dels casos.</message>
+                <suggestion>, però</suggestion>
+                <example correction=", però">El partit aconsegueix molts escons<marker> però</marker> encara no n'hi ha prou.</example>
+                <example>¿Però què passa amb això?</example>
+                <example>És un cos celeste sòlid semblant als asteroides però amb diferent composició, i descriuen òrbites allargades.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MISSING_COMMA" name="coma en vocatius">
             <antipattern>
                 <token regexp="yes">salutacions|felicitats|felicitacions|dia|vespre|vesprada|tarda|nit</token>

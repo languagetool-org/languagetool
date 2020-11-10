@@ -2917,6 +2917,24 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <!--  paraules comunes que no solen ser determinants gairebé mai -->
         <rule>
             <pattern>
+                <token regexp="yes" inflected="yes">tan|tant|força|molt|el</token>
+                <marker>
+                    <token regexp="yes">diversos|diverses|diferents</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="D.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">diversos|diverses|diferents</token>
+                </marker>
+                <token><exception postag="NC.[PN].*|AQ..[PN]." postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="remove" postag="D.*"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token><exception postag="SPS00"/></token>
                 <marker>
                     <token regexp="yes">es|s'</token>
