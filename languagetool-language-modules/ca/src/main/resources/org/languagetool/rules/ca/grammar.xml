@@ -15239,6 +15239,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="FET_FER" name="fet/fer">
+            <pattern>
+                <token inflected="yes" regexp="yes">poder|voler|deure</token>
+                <marker>
+                    <token>fet</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>fer</suggestion>?</message>
+            <example correction="fer">Això es pot <marker>fet</marker> demà.</example>
+        </rule>
         <rule id="UN_MITJA" name="un mitja/mitjà">
             <pattern>
                 <token postag="D..MS." postag_regexp="yes"/>
@@ -22786,6 +22796,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" regexp_match="(?-i)pro(.*)" regexp_replace="prò$1"/></suggestion>
                 <example correction="pròrroga">Treball en <marker>prorroga</marker>.</example>
                 <example>La resolució en prorroga els resultats.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">transits?</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="à"/></suggestion>?</message>
+                <example correction="trànsit">Hi havia molt de <marker>transit</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup name="amen/amén" id="AMEN">
@@ -42799,6 +42816,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="aire|aspecte|aparença">L'entrevista va agafar <marker>visos</marker> de paròdia.</example>
         </rule>
         <rulegroup id="RARE_WORDS" name="paraules molt infreqüents">
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">transir</token>
+                </pattern>
+                <message>¿Esteu segur que volíu dir "\1"? "Transir" és un verb antic, poc usual.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">morir</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">traspassar</match></suggestion>
+                <example correction="moro|traspasso">Ara <marker>transeixo</marker>.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token inflected="yes">depenjar</token>
@@ -58946,12 +58972,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes">amarar</token>
+                    <token inflected="yes">amarar<exception inflected="yes">amar</exception></token>
                 </pattern>
                 <message>Usem preferentment la forma amb -e-.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">amerar</match></suggestion>
                 <example correction="Amerat"><marker>Amarat</marker> de suor.</example>
                 <example correction="ameraren">L'<marker>amararen</marker>.</example>
+                <example>Es feia amar per tothom.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MUNICIPIS_OFICIAL" name="Exigeix el nom oficial dels municipis valencians">
