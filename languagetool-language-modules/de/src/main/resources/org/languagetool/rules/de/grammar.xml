@@ -1325,9 +1325,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="SONDERN_KEIN_NICHT" name="fehlende Verneinung bei sondern-Konstruktion">
             <pattern>
-                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">nie|niemals|nicht|noch|kein.*|kaum|weniger</exception></token>
+                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">nie|niemals|nicht|noch|kein.*|kaum|weniger|nirgendwo</exception></token>
                 <marker>
-                    <token skip="-1">aber<exception scope="next" regexp="yes">nie|niemals|nicht|nichts|noch|kein.*|kaum|weniger</exception></token>
+                    <token skip="-1">aber<exception scope="next" regexp="yes">nie|niemals|nicht|nichts|noch|kein.*|kaum|weniger|nirgendwo</exception></token>
                     <token>sondern</token>
                 </marker>
             </pattern>
@@ -1335,6 +1335,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=""><marker>Aber das mache ich mit Gas, sondern</marker> mit Öl.</example>
             <example><marker>Aber das mache ich nicht mit Gas, sondern</marker> mit Öl.</example>
             <example><marker>Aber das mache ich niemals mit Gas, sondern</marker> mit Öl.</example>
+            <example>Das Hauptquartier hatte von jedem Mitglied eine Akte mit Foto, aber nirgendwo stand ein echter Name, sondern nur eine Identitätsnummer.</example>
         </rule>
         <rule id="AUF_AUS" name="'auf (aus) einer Liste entfernen'">
             <antipattern>
