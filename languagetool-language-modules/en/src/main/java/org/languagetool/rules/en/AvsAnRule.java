@@ -97,11 +97,11 @@ public class AvsAnRule extends Rule {
         if (equalsA && determiner == Determiner.AN) {
           String replacement = StringTools.startsWithUppercase(prevTokenStr) ? "An" : "an";
           msg = "Use <suggestion>" + replacement + "</suggestion> instead of '" + prevTokenStr + "' if the following "+
-                  "word starts with a vowel sound, e.g. 'an article', 'an hour'";
+                  "word starts with a vowel sound, e.g. 'an article', 'an hour'.";
         } else if (equalsAn && determiner == Determiner.A) {
           String replacement = StringTools.startsWithUppercase(prevTokenStr) ? "A" : "a";
           msg = "Use <suggestion>" + replacement + "</suggestion> instead of '" + prevTokenStr + "' if the following "+
-                  "word doesn't start with a vowel sound, e.g. 'a sentence', 'a university'";
+                  "word doesn't start with a vowel sound, e.g. 'a sentence', 'a university'.";
         }
         if (msg != null) {
           RuleMatch match = new RuleMatch(
