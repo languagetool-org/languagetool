@@ -1151,9 +1151,10 @@ public class JLanguageTool {
   /**
    * @since 3.7
    */
-  protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
+  protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentenceTexts,
                                          List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, RuleMatchListener listener, Mode mode, Level level, boolean checkRemoteRules) throws IOException {
-    Callable<List<RuleMatch>> matcher = new TextCheckCallable(allRules, sentences, analyzedSentences, paraMode, annotatedText, 0, 0, 1, listener, mode, level, checkRemoteRules);
+    List<SentenceData> sentences = computeSentenceData(analyzedSentences, sentenceTexts);
+    Callable<List<RuleMatch>> matcher = new TextCheckCallable(allRules, sentences, paraMode, annotatedText, listener, mode, level, checkRemoteRules);
     try {
       return matcher.call();
     } catch (IOException e) {
@@ -1161,6 +1162,35 @@ public class JLanguageTool {
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
+  }
+
+  protected final List<SentenceData> computeSentenceData(List<AnalyzedSentence> analyzedSentences, List<String> texts) {
+    int charCount = 0;
+    int lineCount = 0;
+    int columnCount = 1;
+    List<SentenceData> result = new ArrayList<>(texts.size());
+    for (int i = 0; i < texts.size(); i++) {
+      String sentence = texts.get(i);
+      result.add(new SentenceData(analyzedSentences.get(i), sentence, charCount, lineCount, columnCount));
+
+      charCount += sentence.length();
+      lineCount += countLineBreaks(sentence);
+      columnCount = processColumnChange(columnCount, sentence);
+    }
+    return result;
+  }
+
+  private int processColumnChange(int columnCount, String sentence) {
+    int lineBreakPos = sentence.lastIndexOf('\n');
+    if (lineBreakPos == -1) {
+      columnCount += sentence.length();
+    } else {
+      columnCount = sentence.length() - lineBreakPos;
+      if (lineBreakPos == 0 && !language.getSentenceTokenizer().singleLineBreaksMarksPara()) {
+        columnCount--;
+      }
+    }
+    return columnCount;
   }
 
   /**
@@ -1624,37 +1654,42 @@ public class JLanguageTool {
     boolean checkCancelled();
   }
 
-  class TextCheckCallable implements Callable<List<RuleMatch>> {
+  static class SentenceData {
+    private final AnalyzedSentence analyzed;
+    private final String text;
+    private final int startOffset;
+    private final int startLine;
+    private final int startColumn;
+    private final int wordCount;
 
+    SentenceData(AnalyzedSentence analyzed, String text, int startOffset, int startLine, int startColumn) {
+      this.analyzed = analyzed;
+      this.text = text;
+      this.startOffset = startOffset;
+      this.startLine = startLine;
+      this.startColumn = startColumn;
+      wordCount = analyzed.getTokensWithoutWhitespace().length;
+    }
+  }
+
+  class TextCheckCallable implements Callable<List<RuleMatch>> {
     private final List<Rule> rules;
     private final boolean checkRemoteRules;
     private final ParagraphHandling paraMode;
     private final AnnotatedText annotatedText;
-    private final List<String> sentences;
-    private final List<AnalyzedSentence> analyzedSentences;
+    private final List<SentenceData> sentences;
     private final RuleMatchListener listener;
     private final Mode mode;
     private final Level level;
 
-    private int charCount;
-    private int lineCount;
-    private int columnCount;
-
-    TextCheckCallable(List<Rule> rules, List<String> sentences, List<AnalyzedSentence> analyzedSentences,
-                      ParagraphHandling paraMode, AnnotatedText annotatedText, int charCount, int lineCount, int columnCount,
+    TextCheckCallable(List<Rule> rules, List<SentenceData> sentences,
+                      ParagraphHandling paraMode, AnnotatedText annotatedText,
                       RuleMatchListener listener, Mode mode, Level level, boolean checkRemoteRules) {
       this.rules = rules;
       this.checkRemoteRules = checkRemoteRules;
-      if (sentences.size() != analyzedSentences.size()) {
-        throw new IllegalArgumentException("sentences and analyzedSentences do not have the same length : " + sentences.size() + " != " + analyzedSentences.size());
-      }
       this.sentences = Objects.requireNonNull(sentences);
-      this.analyzedSentences = Objects.requireNonNull(analyzedSentences);
       this.paraMode = Objects.requireNonNull(paraMode);
       this.annotatedText = Objects.requireNonNull(annotatedText);
-      this.charCount = charCount;
-      this.lineCount = lineCount;
-      this.columnCount = columnCount;
       this.listener = listener;
       this.mode = Objects.requireNonNull(mode);
       this.level = Objects.requireNonNull(level);
@@ -1680,15 +1715,20 @@ public class JLanguageTool {
 
     private List<RuleMatch> getTextLevelRuleMatches() throws IOException {
       List<RuleMatch> ruleMatches = new ArrayList<>();
+      List<AnalyzedSentence> analyzedSentences = null;
       for (Rule rule : rules) {
         if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) {
           break;
         }
         if (rule instanceof TextLevelRule && !ignoreRule(rule) && paraMode != ParagraphHandling.ONLYNONPARA) {
+          if (analyzedSentences == null) {
+            analyzedSentences = sentences.stream().map(s -> s.analyzed).collect(Collectors.toList());
+          }
           RuleMatch[] matches = ((TextLevelRule) rule).match(analyzedSentences, annotatedText);
           List<RuleMatch> adaptedMatches = new ArrayList<>();
           for (RuleMatch match : matches) {
-            LineColumnRange range = getLineColumnRange(match);
+            LineColumnPosition from = findLineColumn(match.getFromPos());
+            LineColumnPosition to = findLineColumn(match.getToPos());
             int newFromPos;
             int newToPos;
             try {
@@ -1699,14 +1739,10 @@ public class JLanguageTool {
             }
             RuleMatch newMatch = new RuleMatch(match);
             newMatch.setOffsetPosition(newFromPos, newToPos);
-            newMatch.setLine(range.from.line);
-            newMatch.setEndLine(range.to.line);
-            if (match.getLine() == 0) {
-              newMatch.setColumn(range.from.column + 1);
-            } else {
-              newMatch.setColumn(range.from.column);
-            }
-            newMatch.setEndColumn(range.to.column);
+            newMatch.setLine(from.line);
+            newMatch.setEndLine(to.line);
+            newMatch.setColumn(from.column - (from.line == 0 ? 1 : 0));
+            newMatch.setEndColumn(to.column - (to.line == 0 ? 1 : 0));
             newMatch.setSuggestedReplacementObjects(extendSuggestions(match.getSuggestedReplacementObjects()));
             adaptedMatches.add(newMatch);
           }
@@ -1723,14 +1759,12 @@ public class JLanguageTool {
 
     private List<RuleMatch> getOtherRuleMatches() {
       List<RuleMatch> ruleMatches = new ArrayList<>();
-      int i = 0;
       int wordCounter = 0;
-      for (AnalyzedSentence analyzedSentence : analyzedSentences) {
+      for (SentenceData sentence : sentences) {
         if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) {
           break;
         }
-        String sentence = sentences.get(i++);
-        wordCounter += analyzedSentence.getTokensWithoutWhitespace().length;
+        wordCounter += sentence.wordCount;
         try {
           //comment in to trigger an exception via input text:
           //if (analyzedSentence.getText().contains("fakecrash")) {
@@ -1739,26 +1773,26 @@ public class JLanguageTool {
           List<RuleMatch> sentenceMatches = null;
           InputSentence cacheKey = null;
           if (cache != null) {
-            cacheKey = new InputSentence(analyzedSentence.getText(), language, motherTongue,
+            cacheKey = new InputSentence(sentence.text, language, motherTongue,
                     disabledRules, disabledRuleCategories,
                     enabledRules, enabledRuleCategories, userConfig, altLanguages, mode, level);
             sentenceMatches = cache.getIfPresent(cacheKey);
           }
           if (sentenceMatches == null) {
-            sentenceMatches = checkAnalyzedSentence(paraMode, rules, analyzedSentence, checkRemoteRules);
+            sentenceMatches = checkAnalyzedSentence(paraMode, rules, sentence.analyzed, checkRemoteRules);
           }
           if (cache != null) {
             cache.put(cacheKey, sentenceMatches);
           }
-          List<RuleMatch> adaptedMatches = new ArrayList<>();
-          for (RuleMatch elem : sentenceMatches) {
-            RuleMatch thisMatch = adjustRuleMatchPos(elem, charCount, columnCount, lineCount, sentence, annotatedText);
-            adaptedMatches.add(thisMatch);
-            if (listener != null) {
-              listener.matchFound(thisMatch);
+          if (!sentenceMatches.isEmpty()) {
+            for (RuleMatch elem : sentenceMatches) {
+              RuleMatch thisMatch = adjustRuleMatchPos(elem, sentence.startOffset, sentence.startColumn, sentence.startLine, sentence.text, annotatedText);
+              ruleMatches.add(thisMatch);
+              if (listener != null) {
+                listener.matchFound(thisMatch);
+              }
             }
           }
-          ruleMatches.addAll(adaptedMatches);
           float errorsPerWord = ruleMatches.size() / (float) wordCounter;
           //System.out.println("errorPerWord " + errorsPerWord + " (matches: " + ruleMatches.size() + " / " + wordCounter + ")");
           if (maxErrorsPerWordRate > 0 && errorsPerWord > maxErrorsPerWordRate && wordCounter > 25) {
@@ -1768,56 +1802,37 @@ public class JLanguageTool {
                     ", text length: " + annotatedText.getPlainText().length());
             //        ", text length: " + annotatedText.getPlainText().length() + ", common word count: " + commonWords.getKnownWordsPerLanguage(annotatedText.getPlainText()));
           }
-          charCount += sentence.length();
-          lineCount += countLineBreaks(sentence);
-
-          // calculate matching column:
-          int lineBreakPos = sentence.lastIndexOf('\n');
-          if (lineBreakPos == -1) {
-            columnCount += sentence.length();
-          } else {
-            if (lineBreakPos == 0) {
-              columnCount = sentence.length();
-              if (!language.getSentenceTokenizer().singleLineBreaksMarksPara()) {
-                columnCount--;
-              }
-            } else {
-              columnCount = sentence.length() - lineBreakPos;
-            }
-          }
         } catch (ErrorRateTooHighException e) {
           throw e;
         } catch (Exception e) {
           throw new RuntimeException("Could not check sentence (language: " + language + "): <sentcontent>"
-                  + StringUtils.abbreviate(analyzedSentence.toTextString(), 500) + "</sentcontent>", e);
+                  + StringUtils.abbreviate(sentence.analyzed.toTextString(), 500) + "</sentcontent>", e);
         }
       }
       return ruleMatches;
     }
 
-    private LineColumnRange getLineColumnRange(RuleMatch match) {
-      LineColumnPosition fromPos = new LineColumnPosition(-1, -1);
-      LineColumnPosition toPos = new LineColumnPosition(-1, -1);
-      LineColumnPosition pos = new LineColumnPosition(0, 0);
-      int charCount = 0;
-      for (AnalyzedSentence analyzedSentence : analyzedSentences) {
-        for (AnalyzedTokenReadings readings : analyzedSentence.getTokens()) {
-          String token = readings.getToken();
-          if ("\n".equals(token)) {
-            pos.line++;
-            pos.column = 0;
-          }
-          pos.column += token.length();
-          charCount += token.length();
-          if (charCount == match.getFromPos()) {
-            fromPos = new LineColumnPosition(pos.line, pos.column);
-          }
-          if (charCount == match.getToPos()) {
-            toPos = new LineColumnPosition(pos.line, pos.column);
-          }
-        }
+    private LineColumnPosition findLineColumn(int offset) {
+      if (sentences.isEmpty()) return new LineColumnPosition(0, 0);
+
+      SentenceData sentence = findSentenceContaining(offset);
+      String prefix = sentence.text.substring(0, offset - sentence.startOffset);
+      return new LineColumnPosition(
+        sentence.startLine + countLineBreaks(prefix),
+        processColumnChange(sentence.startColumn, prefix));
+    }
+
+    private SentenceData findSentenceContaining(int offset) {
+      int low = 0;
+      int high = sentences.size() - 1;
+      while (low <= high) {
+        int mid = (low + high) >>> 1;
+        SentenceData sentence = sentences.get(mid);
+        if (sentence.startOffset < offset) low = mid + 1;
+        else if (sentence.startOffset > offset) high = mid - 1;
+        else return sentence;
       }
-      return new LineColumnRange(fromPos, toPos);
+      return sentences.get(low - 1);
     }
 
     private class LineColumnPosition {
@@ -1829,17 +1844,6 @@ public class JLanguageTool {
         this.column = column;
       }
     }
-
-    private class LineColumnRange {
-      LineColumnPosition from;
-      LineColumnPosition to;
-
-      private LineColumnRange(LineColumnPosition from, LineColumnPosition to) {
-        this.from = from;
-        this.to = to;
-      }
-    }
-
   }
 
   public void setConfigValues(Map<String, Integer> v) {
