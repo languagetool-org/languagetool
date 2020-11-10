@@ -1880,6 +1880,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Estas no son las preguntas que pensábamos hacer.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="QUE_SIN_TILDE" name="qué -> que" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <token postag="DA.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>qué</token>
+                    </marker>
+                </pattern>
+                <message>Probablemente se escribe sin tilde. Correcto si equivale a 'qué cosa'.</message>
+                <suggestion>que</suggestion>
+                <example correction="que">La persona de la <marker>qué</marker> te hablé</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SP:DA"/>
+                    <marker>
+                        <token>qué</token>
+                    </marker>
+                </pattern>
+                <message>Probablemente se escribe sin tilde. Correcto si equivale a 'qué cosa'.</message>
+                <suggestion>que</suggestion>
+                <example correction="que">El personaje del <marker>qué</marker> no se habla</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QUIEN" name="quien/quién...">
             <url>https://www.rae.es/dpd/qui%C3%A9n</url>
             <rule>
