@@ -77,7 +77,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getShort() {
-    return "Vergissing";
+    return "Vergissing?";
   }
 
   @Override
