@@ -1826,7 +1826,7 @@ public class JLanguageTool {
       int low = 0;
       int high = sentences.size() - 1;
       while (low <= high) {
-        int mid = (low + high) >>> 1;
+        int mid = (low + high) / 2;
         SentenceData sentence = sentences.get(mid);
         if (sentence.startOffset < offset) low = mid + 1;
         else if (sentence.startOffset > offset) high = mid - 1;
