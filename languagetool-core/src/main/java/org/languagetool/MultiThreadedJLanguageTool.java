@@ -161,9 +161,10 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   
   
   @Override
-  protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
+  protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentenceTexts,
                                          List<Rule> allRules, ParagraphHandling paraMode,
                                          AnnotatedText annotatedText, RuleMatchListener listener, Mode mode, Level level, boolean checkRemoteRules) {
+    List<SentenceData> sentences = computeSentenceData(analyzedSentences, sentenceTexts);
     AtomicInteger ruleIndex = new AtomicInteger();
     Map<Integer, List<RuleMatch>> ruleMatches = new TreeMap<>();
     List<Future<?>> futures = IntStream.range(0, getThreadPoolSize()).mapToObj(__ -> getExecutorService().submit(() -> {
@@ -172,8 +173,8 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
         if (index >= allRules.size()) return null;
 
         // less need for special treatment of remote rules when execution is already parallel
-        List<RuleMatch> matches = new TextCheckCallable(Collections.singletonList(allRules.get(index)), sentences, analyzedSentences, paraMode,
-          annotatedText, 0, 0, 1, listener, mode, level, true).call();
+        List<RuleMatch> matches = new TextCheckCallable(Collections.singletonList(allRules.get(index)), sentences,
+          paraMode, annotatedText, listener, mode, level, true).call();
         if (!matches.isEmpty()) {
           synchronized (ruleMatches) {
             ruleMatches.put(index, matches);
