@@ -34911,6 +34911,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="malgrat això|a pesar d'això">I <marker>pese a això</marker>, es va acabar.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="CONDICIO" name="condició (anglicisme)" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">condició</token>
+                    </marker>
+                    <token min="0">de</token>
+                    <token regexp="yes" inflected="yes">risc|diabètic</token>
+                </pattern>
+                <message>Calc de l'anglès si vol dir <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCF$1">malaltia</match></suggestion>.</message>
+                <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCF$1">afecció</match></suggestion>
+                <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCM$1">trastorn</match></suggestion>
+                <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCM$1">estat</match> de salut</suggestion>
+                <example correction="malalties|afeccions|trastorns|estats de salut">En les <marker>condicions</marker> de risc.</example>
+            </rule>
+        </rulegroup>
         <rule id="BASAT_EN" name="basat en (anglicisme)">
             <pattern>
                 <marker>
