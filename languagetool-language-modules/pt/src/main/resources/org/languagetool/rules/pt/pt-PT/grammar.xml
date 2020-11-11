@@ -1371,7 +1371,16 @@ title="Easy editing stylesheet" ?>
 		  <token regexp='yes' spacebefore='no'>me|lhes?</token>
       </antipattern>	  	  
 <!-- MARCOAGPINTO 2020-10-23 (21-OCT-2020+) *END* -->
-
+<!-- MARCOAGPINTO 2020-11-11 (21-OCT-2020+) *START* -->
+<!-- "O Facebook pergunta-me o que vai na minha mente." -->
+      <antipattern>
+		  <token regexp='yes'>a|o</token>
+		  <token postag='NC.+|NP.+|AQ.+' postag_regexp='yes'/>
+		  <token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
+		  <token regexp='yes' spacebefore='no'>&hifen;</token>
+		  <token regexp='no' spacebefore='no'>me</token>
+      </antipattern>	  	  
+<!-- MARCOAGPINTO 2020-11-11 (21-OCT-2020+) *END* -->
       <pattern>
           <token min='0' regexp='yes'>tu|vós</token>
           <token postag="V...2.+" postag_regexp='yes'>
@@ -1389,6 +1398,7 @@ title="Easy editing stylesheet" ?>
 	  <example type='correct'>E assim <marker>abri-me</marker> com ela.</example>
 	  <example type='correct'>E assim <marker>abri-lhe</marker> a porta.</example>
 	  <example type='correct'>E assim <marker>abri-lhes</marker> a porta.</example>
+	  <example type='correct'><marker>O Facebook pergunta-me</marker> o que vai na minha mente.</example>
     </rule>
     <!--    <rule>
       <antipattern>
