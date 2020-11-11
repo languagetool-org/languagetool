@@ -43,7 +43,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY klamzu "\)|\}|\&rsqb;|&gt;">
     <!ENTITY klam "&klamauf;|&klamzu;">
     <!ENTITY alnum "&lsqb;0-9A-ZÄÖÜa-zäöüßáàâêéèëíìîïòóôõûçñšž&rsqb;">
-    <!ENTITY sometlds "com|de|net|edu|uk|org|info|nl|eu|cn|biz|at|ch|fr|tv|to|fm|es|it|gov|mil|mx|pt|dev|us|sg|me|io|app|shop|club|games|in|co|cloud|no|se|dk|ie|cc|tk|ai|au|nz|za|cm|ng|tw|jp|kg|ag|site|int|my|ir|pk|mobi|asia|hk|mz|xyz|design|ventures|services|cat|ly">
+    <!ENTITY sometlds "com|de|net|edu|uk|org|info|nl|eu|cn|biz|at|ch|fr|tv|to|fm|es|it|gov|mil|mx|pt|dev|us|sg|me|io|app|shop|club|games|in|co|cloud|no|se|dk|ie|cc|tk|ai|au|nz|za|cm|ng|tw|jp|kg|ag|site|int|my|ir|pk|mobi|asia|hk|mz|xyz|design|ventures|services|cat|ly|name|world|online|consulting|digital">
 
     <!-- Error messages -->
     <!ENTITY gla "Bitte verwenden Sie in Abkürzungen umbruchgeschützte Leerzeichen.">
@@ -1325,7 +1325,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="SONDERN_KEIN_NICHT" name="fehlende Verneinung bei sondern-Konstruktion">
             <pattern>
-                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">nie|niemals|nicht|noch|kein.*|kaum|weniger|nirgendwo</exception></token>
+                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">nie|niemals|nicht|noch|kein.*|kaum|weniger|nirgendwo|nirgends</exception></token>
                 <marker>
                     <token skip="-1">aber<exception scope="next" regexp="yes">nie(mals|mand)?|nichts?|noch|kein.*|kaum|weniger|nirgend(s|wo)</exception></token>
                     <token>sondern</token>
@@ -19304,7 +19304,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Das Nomen <suggestion>Alter</suggestion> wird in der Regel großgeschrieben.</message>
             <example correction="Alter">Das <marker>alter</marker> ist mir egal.</example>
         </rule>
-        <rule id="KLEIN_NACH_PUNKT" name="Kleinschreibung und fehlendes Leerzeichen nach Punkt">
+        <rulegroup id="KLEIN_NACH_PUNKT" name="Kleinschreibung und fehlendes Leerzeichen nach Punkt">
             <!-- PUNT_GEEN_HL in NL, https://github.com/languagetool-org/languagetool/issues/3655 -->
             <antipattern>
                 <!-- in AT nicht unübliche Schreibweise für "Doktorin"  -->
@@ -19379,28 +19379,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>.</token>
                 <token regexp="yes">.+</token>
             </antipattern>
-            <pattern>
-                <token spacebefore="yes" regexp="yes" case_sensitive="yes">.*[a-zöäüß]$</token>
-                <token spacebefore="no">.</token>
-                <marker>
-                    <token spacebefore="no" regexp="yes" case_sensitive="yes">
-                        [a-zöüäßA-ZÖÄÜ].+
-                        <exception postag="UNKNOWN"/>
-                        <exception regexp="yes">bat|de|dat|doc|pro|php|med|htm|html|src|dot|db|sh|pkg|jar|conf|rb|properties|config|log|swift|js|key|java</exception>
-                    </token>
-                </marker>
-            </pattern>
-            <message>Beginnt hier ein neuer Satz? Dann bitte ein Leerzeichen einfügen und das erste Wort großschreiben.</message>
-            <suggestion> <match no="3" case_conversion="startupper"/></suggestion>
-            <example correction=" Und">Das ist ein Satz.<marker>und</marker> das hier auch.</example>
-            <example>Die Datei bewertung.doc wurde aktualisiert.</example>
-            <example>Sofortkredit schon ab 1,59 Prozent p.a.</example>
-            <example>Wir versenden das Test-Kit i.d.R. in einer Woche.</example>
-            <example>Folgen Sie Domain.de auch auf Twitter</example>
-            <example>Teilnahme an Groupidoo.com-Dienstleistungen</example>
-            <example>Loggen Sie sich auf my.sonnen.de ein.</example>
-            <example>Dr.med. Müller</example> <!-- found by typo rule -->
-        </rule>
+            <antipattern>
+                <token>.</token>
+                <token regexp="yes" spacebefore="no">bat|de|dat|doc|pro|php|med|htm|html|src|dot|db|sh|pkg|jar|conf|rb|properties|config|log|swift|js|key|java|go</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token spacebefore="yes" regexp="yes">u|usw|bzw|evtl|zb|eigtl|inkl|exkl</token>
+                    <token spacebefore="no">.</token>
+                    <marker>
+                        <token spacebefore="no" regexp="yes" case_sensitive="yes">
+                            [a-zöüäßA-ZÖÄÜ].+
+                            <exception postag="UNKNOWN"/>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Hier scheint ein Leerzeichen zu fehlen.</message>
+                <suggestion> <match no="3" /></suggestion>
+                <example correction=" habe">Ich bin glücklich u.<marker>habe</marker> keine weiteren Wünsche.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token spacebefore="yes" regexp="yes" case_sensitive="yes">.*[a-zöäüß]$</token>
+                    <token spacebefore="no">.</token>
+                    <marker>
+                        <token spacebefore="no" regexp="yes" case_sensitive="yes">
+                            [a-zöüäßA-ZÖÄÜ].+
+                            <exception postag="UNKNOWN"/>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Beginnt hier ein neuer Satz? Dann bitte ein Leerzeichen einfügen und das erste Wort großschreiben.</message>
+                <suggestion> <match no="3" case_conversion="startupper"/></suggestion>
+                <example correction=" Und">Das ist ein Satz.<marker>und</marker> das hier auch.</example>
+                <example>Die Datei bewertung.doc wurde aktualisiert.</example>
+                <example>Sofortkredit schon ab 1,59 Prozent p.a.</example>
+                <example>Wir versenden das Test-Kit i.d.R. in einer Woche.</example>
+                <example>Folgen Sie Domain.de auch auf Twitter</example>
+                <example>Teilnahme an Groupidoo.com-Dienstleistungen</example>
+                <example>Loggen Sie sich auf my.sonnen.de ein.</example>
+                <example>Dr.med. Müller</example> <!-- found by typo rule -->
+            </rule>
+        </rulegroup>
         <rule id="ICH_HABE" name="Ich Habe (habe) das nicht gegessen.">
             <antipattern>
                 <token postag="SUB:GEN:.+" postag_regexp="yes">
