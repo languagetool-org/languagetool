@@ -483,14 +483,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup name="uso corretto" id="GR_07_001">
             <!-- da -->
             <rule>
-                <pattern>
+                <antipattern><!-- Se lo sai dà un pochino fastidio -->
+                    <token skip="3">dà</token>
+                    <token regexp="yes">fastidio|ragione|notizia|fiducia|vita|spazio|voce</token>
+                </antipattern>
+                <antipattern><!-- Chi vuole dà l'elemosina -->
+                    <token skip="2" postag=".*WH.*" postag_regexp="yes"/>
                     <token postag_regexp="yes" postag="VER:ind.*"/>
+                </antipattern>
+                <antipattern><!-- Chi lo vede dà per scontato che vincerà -->
+                    <token>dà</token>
+                    <token postag="PRE"/>
+                </antipattern>
+                <pattern>
+                    <token postag_regexp="yes" postag="VER:ind.*"><exception postag="(N.*)|(ADJ.*)" postag_regexp="yes"/></token>
                     <marker>
                         <token>dà</token>
                     </marker>
                 </pattern>
                 <message>Probabilmente si scrive senza accento: <suggestion>da</suggestion>.</message>
                 <example correction="da">Vengo <marker>dà</marker> Roma.</example>
+                <example correction="da">È <marker>dà</marker> due ore che ti aspetto.</example>
+                <example>L'opposizione russa dà voce alle sue inquietudini.</example>
+                <example>Sentirsi giudicati da chi non ti conosce dà un pochino fastidio.</example>
+                <example>Chi vuole dà l'elemosina.</example>
             </rule>
             <!-- PB002+ -->
             <!-- assolvere a... -->
