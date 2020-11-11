@@ -6866,6 +6866,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>повністю йдуть за смаком глядача</example>
     </rule>
 
+    <rule id="za_shyvorot" name="За шиворот">
+      <pattern>
+        <token>за</token>
+        <token>шиворот</token>
+      </pattern>
+      <message>Правильно: <suggestion>за шкірку</suggestion>.</message>
+      <example correction="за шкірку">налий йому <marker>за шиворот</marker>.</example>
+    </rule>
+
+    <rule id="v_obnimku" name="В обнімку">
+      <pattern>
+        <token regexp="yes">[ву]</token>
+        <token>обнімку</token>
+      </pattern>
+      <message>Правильно: <suggestion>обійнявшись</suggestion>.</message>
+      <example correction="обійнявшись">пішли <marker>в обнімку</marker>.</example>
+    </rule>
+
+    <rule id="postupok_vchynok" name="Поступок і вчинок">
+      <pattern>
+        <token regexp="yes" inflected="yes" postag_regexp="yes" postag="adj:[mp]:.*">(не)?хороший|поганий|героїчний</token>
+        <marker>
+          <token regexp="yes">поступ(ок|ка|ку|ком|ки|ків|кам|ками|ках)</token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion>вчинок</suggestion>.</message>
+      <example correction="вчинок">поганий <marker>поступок</marker>.</example>
+    </rule>
+
     <rulegroup id="doklad_vs_dopovid" name="Доклад і доповідь">
       <rule>
         <pattern>
