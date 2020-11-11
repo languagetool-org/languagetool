@@ -2785,10 +2785,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </unify>
                 </pattern>
                 <message>Error de concordança.</message>
-                <suggestion><match no="1" postag="D..[MC]S.*" postag_regexp="yes"/> <match no="2" postag="A..[MC][SN].*|V.P..SM.?" postag_regexp="yes"/></suggestion>
-                <suggestion><match no="1" postag="D..[FC]S.*" postag_regexp="yes"/> <match no="2" postag="A..[FC][SN].*|V.P..SF.?" postag_regexp="yes"/></suggestion>
-                <suggestion><match no="1" postag="D..[MC]P.*" postag_regexp="yes"/> <match no="2" postag="A..[MC][PN].*|V.P..PM.?" postag_regexp="yes"/></suggestion>
-                <suggestion><match no="1" postag="D..[FC]P.*" postag_regexp="yes"/> <match no="2" postag="A..[FC][PN].*|V.P..PF.?" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[MC]S.*" postag_regexp="yes"/> <match no="2" postag="A..[MC][SN].*|V.P..SM.?" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC]S.*" postag_regexp="yes"/> <match no="2" postag="A..[FC][SN].*|V.P..SF.?" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[MC]P.*" postag_regexp="yes"/> <match no="2" postag="A..[MC][PN].*|V.P..PM.?" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC]P.*" postag_regexp="yes"/> <match no="2" postag="A..[FC][PN].*|V.P..PF.?" postag_regexp="yes"/></suggestion>
                 <short>Error de concordança</short>
                 <example correction="aquell vermell|aquella vermella|aquells vermells|aquelles vermelles">Porta'n d'<marker>aquell vermelles</marker>.</example>
                 <example>Porta'n d'aquells vermells.</example>
@@ -25126,11 +25126,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>super</token>
+                    <token regexp="yes">super|súper<exception postag="NP.*" postag_regexp="yes"/></token>
+                    <token min="0">-</token>
+                    <token postag="NC.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Com a prefix, 'super-' s'escriu junt, encara que la paraula resultant no sigui en el diccionari.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="super$1" case_conversion="alllower"/></suggestion>
+                <example correction="supercamí">És un <marker>super camí</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>super<exception postag="NP.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Com a adjectiu, adverbi o sinònim de 'supermercat', s'escriu <suggestion>súper</suggestion>.</message>
                 <example correction="súper">Me'n vaig al <marker>super</marker>.</example>
                 <example correction="súper">Ens ho vam passar <marker>super</marker>.</example>
+                <example>Són del Club Super 3.</example>
+                <example>Avui es juga la Super Bowl.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MOTS_NO_SEPARATS" name="mots no separats: *súper heroi/*súper-heroi/superheroi">
@@ -34928,7 +34940,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="malgrat això|a pesar d'això">I <marker>pese a això</marker>, es va acabar.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CONDICIO" name="condició (anglicisme)" default="temp_off">
+        <rulegroup id="CONDICIO" name="condició (anglicisme)">
             <rule>
                 <pattern>
                     <marker>
@@ -42816,11 +42828,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="aire|aspecte|aparença">L'entrevista va agafar <marker>visos</marker> de paròdia.</example>
         </rule>
         <rulegroup id="RARE_WORDS" name="paraules molt infreqüents">
-            <rule default="temp_off">
+            <rule>
                 <pattern>
-                    <token inflected="yes">transir</token>
+                    <token inflected="yes">transir<exception regexp="yes">transit|transits</exception></token>
                 </pattern>
-                <message>¿Esteu segur que volíu dir "\1"? "Transir" és un verb antic, poc usual.</message>
+                <message>¿Esteu segur que volíeu dir "\1"? "Transir" és un verb poc usual.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">morir</match></suggestion>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">traspassar</match></suggestion>
                 <example correction="moro|traspasso">Ara <marker>transeixo</marker>.</example>
