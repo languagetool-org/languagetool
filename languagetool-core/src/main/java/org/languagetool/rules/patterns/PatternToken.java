@@ -91,6 +91,9 @@ public class PatternToken implements Cloneable {
    */
   private boolean testString;
 
+  @Nullable
+  private Set<String> possibleStrings;
+
   /** Determines whether the element should be ignored when doing unification **/
   private boolean unificationNeutral;
 
@@ -310,11 +313,18 @@ public class PatternToken implements Cloneable {
       stringToken = null;
     }
     testString = !StringTools.isEmpty(stringToken);
+    updateMatcher();
+  }
+
+  private void updateMatcher() {
+    possibleStrings = negation || !hasStringThatMustMatch() ? null :
+                      stringRegExp ? getPossibleRegexpValues(stringToken) :
+                      Collections.singleton(stringToken);
     stringMatcher = testString ? createMatcher() : s -> true;
   }
 
   private Predicate<String> createMatcher() {
-    Set<String> set = calcOwnPossibleStringValues();
+    Set<String> set = possibleStrings;
     if (set != null) {
       if (set.size() == 1) {
         return stringEquals(set.iterator().next());
@@ -470,6 +480,7 @@ public class PatternToken implements Cloneable {
       throw new IllegalArgumentException("minOccurrences must be 0 or 1: " + i);
     }
     minOccurrence = i;
+    updateMatcher();
   }
 
   /**
@@ -504,7 +515,9 @@ public class PatternToken implements Cloneable {
    * Negates the matching so that non-matching elements match and vice-versa.
    */
   public void setNegation(boolean negation) {
+    if (negation == this.negation) return;
     this.negation = negation;
+    updateMatcher();
   }
 
   /**
@@ -528,6 +541,7 @@ public class PatternToken implements Cloneable {
    */
   public void setMatch(Match match) {
     tokenReference = Objects.requireNonNull(match);
+    updateMatcher();
   }
 
   public Match getMatch() {
@@ -762,10 +776,12 @@ public class PatternToken implements Cloneable {
    */
   @Nullable
   public Set<String> calcFormHints() {
-    Set<String> result = inflected ? null : calcOwnPossibleStringValues();
+    Set<String> result = inflected ? null : possibleStrings;
+    if (result == null) return null;
 
     if (andGroupList != null) {
-      if (result == null) return null;
+      result = new HashSet<>(result);
+
       for (PatternToken token : andGroupList) {
         Set<String> hints = token.calcFormHints();
         if (hints != null) {
@@ -773,8 +789,6 @@ public class PatternToken implements Cloneable {
         }
       }
     } else if (orGroupList != null) {
-      if (result == null) return null;
-
       result = new HashSet<>(result);
 
       for (PatternToken token : orGroupList) {
@@ -786,14 +800,6 @@ public class PatternToken implements Cloneable {
     }
 
     return result;
-  }
-
-  @Nullable
-  private Set<String> calcOwnPossibleStringValues() {
-    if (negation || !hasStringThatMustMatch()) {
-      return null;
-    }
-    return stringRegExp ? getPossibleRegexpValues(stringToken) : Collections.singleton(stringToken);
   }
 
   @Nullable
