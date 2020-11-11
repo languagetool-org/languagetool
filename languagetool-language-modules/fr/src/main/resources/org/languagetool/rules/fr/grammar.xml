@@ -2058,6 +2058,7 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup  id="CE_SE" name="CE au lieu de SE">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2440</url>
       <rule>
         <pattern>
           <marker><token>ce</token></marker>
@@ -2068,7 +2069,6 @@ though, and has since been slightly modified)-->
           </token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>se</suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2440</url>
         <example correction="Se"><marker>Ce</marker> promener est relaxant.</example>
         <example correction="se">Ce phénomène <marker>ce</marker> transforme en phénomène de société.</example>
         <example>Ce sera bien.</example>
@@ -2077,21 +2077,36 @@ though, and has since been slightly modified)-->
         <example>Pour ce faire, vous disposez d’un délai d’une semaine.</example>
         <example>Ce tapis est beau.</example>
       </rule>
-      <rule>
+      <rule default="temp_off">
+        <antipattern>
+          <token>ce</token>
+          <token>placer</token>
+          <token>d'</token>
+          <token>or</token>
+        </antipattern>
+        <pattern>
+          <!--<token postag="V.*" postag_regexp="yes"/>
+          <token postag="P" min="0"><exception>pour</exception></token>-->
+          <marker>
+            <token>ce</token>
+          </marker>
+          <token>placer</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>se</suggestion> ?</message>
+        <example correction="se">Il devrait <marker>ce</marker> placer</example>
+        <example correction="se">Je lui dis de <marker>ce</marker> placer</example>
+      </rule>
+      <rule default="temp_off">
         <pattern>
           <token postag="V.*" postag_regexp="yes"/>
           <token postag="P" min="0"><exception>pour</exception></token>
-          <marker><token>ce</token></marker>
-            <or>
-              <token postag="V inf"/>
-              <!--Some verbe are recognize as noun -->
-              <token regexp="yes">placer</token>
-            </or>
+          <marker>
+            <token>ce</token>
+          </marker>
+          <token>faire</token>
+          <token postag="V inf"/> 
         </pattern>
         <message>Voulez-vous écrire <suggestion>se</suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2440</url>
-        <example correction="se">Il devrait <marker>ce</marker> placer</example>
-        <example correction="se">Je lui dis de <marker>ce</marker> placer</example>
         <example correction="se">Il devrait <marker>ce</marker> faire livrer.</example>
       </rule>
     </rulegroup>
