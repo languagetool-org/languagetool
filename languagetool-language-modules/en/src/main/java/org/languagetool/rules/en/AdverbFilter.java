@@ -359,6 +359,8 @@ public class AdverbFilter extends RuleFilter {
     put("questioningly", "questioning");
     put("nasally", "nasal");
     put("diagonally", "diagonal");
+    put("additionally", "additional");
+    put("sexually", "sexual");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

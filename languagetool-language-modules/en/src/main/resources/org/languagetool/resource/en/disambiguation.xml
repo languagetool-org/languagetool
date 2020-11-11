@@ -3241,6 +3241,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NN.*" postag_regexp="yes" />
             <token postag="VB[DZ]" postag_regexp="yes" chunk="B-VP" />
         </antipattern>
+        <antipattern><!-- The road curves to the side -->
+            <token regexp="yes">the|an?</token>
+            <token postag="NN|NN:UN?" postag_regexp="yes" />
+            <token postag="VBZ" />
+            <token postag="TO|IN" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception><exception scope="previous">of</exception></token>
             <token postag="JJ"><exception postag="RB|NNPS?|NN:U|PRP" postag_regexp="yes"/></token>
@@ -3257,6 +3263,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">No one trusts him any more.</example>
         <example type="untouched">The public demands answers.</example>
         <example type="untouched">The world may never know.</example>
+        <example type="untouched">Here the road curves to the right.</example>
         <example type="untouched">The Atlantic harbors petroleum and gas fields.</example>
         <example type="untouched">... even to build a gym, much less <marker>build the</marker> administration building.</example>
         <example type="untouched">Verb: ... as when the Sovereign <marker>grants</marker> letters of denization to an alien.</example>
@@ -12672,5 +12679,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </marker>
         </pattern>
         <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="TWITTER_USERNAME_NNP" name="NNP for '@realDonalTrump'">
+        <pattern>
+            <token regexp="yes">@[a-z0-9]+</token>
+        </pattern>
+        <disambig postag="NNP" />
     </rule>
 </rules>
