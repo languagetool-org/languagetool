@@ -10703,6 +10703,78 @@ MARCOAGPINTO 2020-02-18 -->
 		<message>Substitua por <suggestion><match no='3' postag='V.+' postag_regexp="yes" postag_replace='VMN03[SP]0'/> \4</suggestion></message>
 		<example correction="i ver|ir ver|irem ver">Falei com o Rui que me disse <marker>que ia ver</marker> o que se passava com o software.</example>
     </rule>
+	
+    <!-- 	VERBO_ESTAR + A + VERBO_INF verbo -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-11 (21-OCT-2020+)     -->
+    <rulegroup id='VERBO_ESTAR_A_VERBO_INF' name="Verbo estar + a + Verbo_inf > Verbo">
+	
+	    <!-- estou -->
+		<rule>
+			<pattern>
+				<token>estou</token>
+				<token>a</token>
+				<token postag='VMN0000' postag_regexp='no'/>
+			</pattern>		
+			<message>Substitua por <suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP1S0'/></suggestion>.</message>
+			<example correction="oriento">Temos diferentes perspetivas mediante a lógica pela qual me <marker>estou a orientar</marker>.</example>
+		</rule>
+
+	    <!-- estás -->
+		<rule>
+			<pattern>
+				<token>estás</token>
+				<token>a</token>
+				<token postag='VMN0000' postag_regexp='no'/>
+			</pattern>		
+			<message>Substitua por <suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP2S0'/></suggestion>.</message>
+			<example correction="orientas">Temos diferentes perspetivas mediante a lógica pela qual me <marker>estás a orientar</marker>.</example>
+		</rule>
+
+	    <!-- está -->
+		<rule>
+			<pattern>
+				<token>está</token>
+				<token>a</token>
+				<token postag='VMN0000' postag_regexp='no'/>
+			</pattern>		
+			<message>Substitua por <suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP3S0|VMM02S0'/></suggestion>.</message>
+			<example correction="orienta|orientes">Temos diferentes perspetivas mediante a lógica pela qual me <marker>está a orientar</marker>.</example>
+		</rule>
+
+	    <!-- estamos -->
+		<rule>
+			<pattern>
+				<token>estamos</token>
+				<token>a</token>
+				<token postag='VMN0000' postag_regexp='no'/>
+			</pattern>		
+			<message>Substitua por <suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP1P0'/></suggestion>.</message>
+			<example correction="orientamo|orientamos">Temos diferentes perspetivas mediante a lógica pela qual nos <marker>estamos a orientar</marker>.</example>
+		</rule>
+
+	    <!-- estais -->
+		<rule>
+			<pattern>
+				<token>estais</token>
+				<token>a</token>
+				<token postag='VMN0000' postag_regexp='no'/>
+			</pattern>		
+			<message>Substitua por <suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP2P0'/></suggestion>.</message>
+			<example correction="orientai|orientais">Temos diferentes perspetivas mediante a lógica pela qual nos <marker>estais a orientar</marker>.</example>
+		</rule>
+
+	    <!-- estão -->
+		<rule>
+			<pattern>
+				<token>estão</token>
+				<token>a</token>
+				<token postag='VMN0000' postag_regexp='no'/>
+			</pattern>		
+			<message>Substitua por <suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP3P0'/></suggestion>.</message>
+			<example correction="orientam">Temos diferentes perspetivas mediante a lógica pela qual nos <marker>estão a orientar</marker>.</example>
+		</rule>
+
+	</rulegroup>
 
     <!-- 	VERB TER + PARTICÍPIO PASSADO Pret. Perf. Ind. de Part_Passado -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-04 (21-OCT-2020+)     -->
