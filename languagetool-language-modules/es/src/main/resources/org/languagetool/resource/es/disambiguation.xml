@@ -3266,6 +3266,15 @@ Copyright (C) 2011 Juan Martorell
             <example type="untouched">Encontrar algo que los una.</example>
             <example type="untouched">Algo que una los distintos partidos.</example>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>media</token>
+                </marker>
+                <token postag="NCFS000"/>
+            </pattern>
+            <disambig action="filter" postag="AQ0FS0"/>
+        </rule>
     </rulegroup>
     <rule id="NOMBRE_PROPIOS" name="nombres propios">
         <pattern>
@@ -4462,6 +4471,7 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
     <rule id="VerbAdjective" name="verb/adjective no agreement">
+        <!-- too greedy? -->
         <antipattern>
             <token postag="NC.*|CS|PR.*" postag_regexp="yes"/>
             <token>este</token>

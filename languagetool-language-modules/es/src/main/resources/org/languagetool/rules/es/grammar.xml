@@ -1457,42 +1457,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>{suggestion}</suggestion>
                 <example correction="náusea">Hasta la <marker>nausea</marker>.</example>
             </rule>
-            <rule id="DIACRITICS_SPECIAL" name="diacríticos, casos especiales" default="temp_off">
-                <antipattern>
-                    <token/>
-                    <token postag="[DNA].*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token/>
-                    <token regexp="yes">a|al|como</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes" skip="3">que|si</token>
-                    <token min="0" max="3" postag="R.*|LOC_ADV" postag_regexp="yes"/>
-                    <token postag="V.[SI].*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                    <token/>
-                </antipattern>
-                <pattern>
-                    <!-- NOT: celebre, domino, decimos, domine, escalamos, , echo, llamaron, piden, paramos, cede, solicita, solicito, termino, verifica, vienes, aman, borren, calan, capitula, crias, critica, criticas, critico, cuajaron, cupe, calculo, envió, escalamos, estipula, habito, participe, platica, platicas, predica, predicas, patina, regulo, solicita, solicitas, solicito, suplico, suplica, suplicas, termino, verifica, indica, ulula
-                         ???: pio, moran, indico, opera, anima, animas, replica, replicas,-->
-                    <marker>
-                        <token postag="V.[SI].*" postag_regexp="yes" regexp="yes"
-                            >ada|adan|animo|arboles|aticulo|autentica|autenticas|autentico|azucares|barbara|calculo|canceres|capitulo|capsula|capsulas|catalogo|circulo|critica|cubica|cubicas|debito|deposito|desordenes|diagnostico|dialogo|domestica|domesticas|domestico|ejercito|embolo|entrelinea|entrelineas|epitome|especifica|especificas|especifico|espontanea|estomago|fabrica|fabricas|genero|idolatra|idolatras|ignifuga|ignifugas|ignifugo|ilegitima|ilegitimas|ilegitimo|invalida|invalidas|invalido|lagrima|lagrimas|lamina|laminas|lastima|lastimas|legitima|legitimas|legitimo|lideres|limite|limites|linea|lineas|liquida|liquidas|liquido|maquina|maquinas|marques|matricula|medica|medicas|medico|modulo|nausea|nauseas|nomina|nominas|oleo|ordenes|ovulo|oxido|oxigeno|pacifico|petroleo|pixeles|practica|practicas|practico|prestamos|prorroga|prospera|prosperas|prospero|publica|publicas|publico|purpurea|purpureas|recamara|recamaras|reciproca|reciprocas|reciproco|retrograda|retrogradas|retrogrado|revalida|revalidas|rondo|simultanea|simultaneas|simultaneo|solida|solidas|solido|tempano|titulo|trafico|tramite|tramites|transito|tremolo|triangulo|ulcera|ulceras|vehiculo|victima|victimas|vinculo<exception
-                            postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
-                    </marker>
-                </pattern>
-                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:NC.*|AQ.*"/>
-                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
-                <suggestion>{suggestion}</suggestion>
-                <example correction="Nóminas"><marker>Nominas</marker> de octubre.</example>
-                <example>Londres, el lugar donde habito, era antiguamente conocida por su niebla.</example>
-                <example>Hoy el abuelo naufraga en su memoria.</example>
-                <example>«Los hermanos Kocher», replica Norton.</example>
-            </rule>
         </rulegroup>
+        <rule id="DIACRITICS_SPECIAL" name="diacríticos, casos especiales">
+            <antipattern>
+                <token/>
+                <token postag="[DNA].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token/>
+                <token regexp="yes">a|al|como</token>
+            </antipattern>
+            <antipattern>
+                <token/>
+                <token postag="RG"/>
+                <token regexp="yes">a|al|como</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="3">que|si</token>
+                <token min="0" max="3" postag="R.*|LOC_ADV" postag_regexp="yes"/>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <token/>
+            </antipattern>
+            <antipattern>
+                <token skip="2">calculo</token>
+                <token>que</token>
+            </antipattern>
+            <pattern>
+                <!-- NOT: celebre, domino, decimos, domine, escalamos, , echo, llamaron, piden, paramos, cede, solicita, solicito, termino, verifica, vienes, aman, borren, calan, capitula, crias, critica, criticas, critico |critica, cuajaron, cupe, calculo, envió, escalamos, estipula, habito, participe, platica, platicas, predica, predicas, patina, regulo, solicita, solicitas, solicito, suplico, suplica, suplicas, termino, verifica, indica, ulula publica|publicas|publico prospera|prosperas|prospero  especifica|especificas|especifico| |fabrica|fabricas |limite|limites
+                         ???: pio, moran, indico, opera, anima, animas, replica, replicas,-->
+                <marker>
+                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes"
+                        >ada|adan|animo|arboles|aticulo|autentica|autenticas|autentico|azucares|barbara|calculo|canceres|capitulo|capsula|capsulas|catalogo|circulo|cubica|cubicas|debito|deposito|desordenes|diagnostico|dialogo|domestica|domesticas|domestico|ejercito|embolo|entrelinea|entrelineas|epitome|espontanea|estomago|genero|idolatra|idolatras|ignifuga|ignifugas|ignifugo|ilegitima|ilegitimas|ilegitimo|invalida|invalidas|invalido|lagrima|lagrimas|lamina|laminas|lastima|lastimas|legitima|legitimas|legitimo|lideres|linea|lineas|liquida|liquidas|liquido|maquina|maquinas|marques|matricula|medica|medicas|medico|modulo|nausea|nauseas|nomina|nominas|oleo|ordenes|ovulo|oxido|oxigeno|pacifico|petroleo|pixeles|practica|practicas|practico|prestamos|prorroga|purpurea|purpureas|recamara|recamaras|reciproca|reciprocas|reciproco|retrograda|retrogradas|retrogrado|revalida|revalidas|rondo|simultanea|simultaneas|simultaneo|solida|solidas|solido|tempano|titulo|trafico|tramite|tramites|transito|tremolo|triangulo|ulcera|ulceras|vehiculo|victima|victimas|vinculo<exception
+                            postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:NC.*|AQ.*"/>
+            <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+            <suggestion>{suggestion}</suggestion>
+            <example correction="Nóminas"><marker>Nominas</marker> de octubre.</example>
+            <example>Londres, el lugar donde habito, era antiguamente conocida por su niebla.</example>
+            <example>Hoy el abuelo naufraga en su memoria.</example>
+            <example>«Los hermanos Kocher», replica Norton.</example>
+            <example>las cosas que coso yo misma y publico en mi blog</example>
+            <example>Mi negocio prospera.</example>
+            <example>Calculo que ya es hora de que nos marchemos.</example>
+            <example>Especifica más.</example>
+            <example>El fondo monetario internacional critica severamente al manejo de la crisis en la Eurozona.</example>
+            <example>Marea Verde critica también que quiera hacernos creer que los millones se perderían</example>
+            <example>Él critica todo.</example>
+            <example>Faber-Castell fabrica más de 2,3 mil millones.</example>
+            <example>que se defina y limite, hacia delante y hacia atrás, la competencia temporal</example>
+            <example>María publica continuamente fotos de ella misma en Instagram.</example>
+        </rule>
         <rule id="DIACRITICS_CONDICIONAL" name="secundaria/secundaría">
             <pattern>
                 <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
@@ -1880,7 +1899,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Estas no son las preguntas que pensábamos hacer.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="QUE_SIN_TILDE" name="qué -> que" default="temp_off">
+        <rulegroup id="QUE_SIN_TILDE" name="qué -> que">
             <rule>
                 <pattern>
                     <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
@@ -4016,7 +4035,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">\p{Lu}.*</token>
                 </pattern>
-                <message>Si es un nombre, es escribe con acento. Correcto si es del v. 'reír' en pasado (él se rio).</message>
+                <message>Si es un nombre, es escribe con tilde. Correcto si es del v. 'reír' en pasado (él se rio).</message>
                 <suggestion>río</suggestion>
                 <example correction="Río"><marker>Rio</marker> Turia.</example>
                 <example>Entonces se rio Juan.</example>
@@ -4027,7 +4046,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token case_sensitive="yes">Rio</token>
                     </marker>
                 </pattern>
-                <message>Si es un nombre, es escribe con acento. Correcto si es del v. 'reír' en pasado (él rio).</message>
+                <message>Si es un nombre, es escribe con tilde. Correcto si es del v. 'reír' en pasado (él rio).</message>
                 <suggestion>Río</suggestion>
                 <example correction="Río"><marker>Rio</marker> es bonito.</example>
             </rule>
@@ -6636,7 +6655,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Cuenta con un hablante en la oficina.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SUPER" name="super/súper/super-" default="temp_off">
+        <rulegroup id="SUPER" name="super/súper/super-">
             <rule>
                 <pattern>
                     <token regexp="yes">super|súper</token>
@@ -6652,7 +6671,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">super|súper</token>
                     <token min="0">-</token>
-                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception regexp="yes">cercano|super|súper</exception></token>
                 </pattern>
                 <message>Como prefijo de un adjetivo, 'super-' se escribe junto, aunque la palabra resultante no esté en el diccionario.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="super$1" case_conversion="alllower"/></suggestion>
@@ -6660,10 +6679,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>super</token>
+                    <token regexp="yes">super|súper</token>
+                    <token min="0">-</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Como prefijo, 'super-' se escribe junto, aunque la palabra resultante no esté en el diccionario.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="super$1" case_conversion="alllower"/></suggestion>
+                <example correction="supercamino">Son un <marker>super camino</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>super<exception postag="NP.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Como adjetivo, adverbio o sinónimo de 'supermercado', se escribe <suggestion>súper</suggestion>.</message>
                 <example correction="súper">Me voy al <marker>super</marker>.</example>
+                <example>En la Super Bowl.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUTO_NO_SEPARADO" name="prefijo auto- no separado">
@@ -7579,6 +7609,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>¿Cómo sería el mundo si el poder fuera compartido?</example>
             <example>y los que no pueden son subidos a las ambulancias</example>
             <example>Este incremento tremendo de poder fue acompañado por inestabilidad política.</example>
+            <example>Ya lo dijiste hace media hora.</example>
             <!-- allowed missing "que" : que Dios quiere sean llevadas a cabo -->
         </rule>
         <rulegroup id="DOS_VERBOS" name="dos verbos juntos" default="temp_off">
@@ -9040,7 +9071,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token skip="12">no</token>
                     <marker>
-                        <token skip="2">sino<exception regexp="yes" scope="next">que|también|porque|como|cómo|donde|qué|quien|quién|si|quienes|quiénes|,|;|cuando|según|cuál|cuáles|cual|cuales</exception></token>
+                        <token skip="2">sino<exception regexp="yes" scope="next">que|también|porque|como|cómo|donde|dónde|adonde|adónde|qué|quien|quién|si|quienes|quiénes|,|;|cuando|según|cuál|cuáles|cual|cuales</exception></token>
                     </marker>
                     <token postag="V.[^NGP].*" postag_regexp="yes"><exception negate_pos="yes" postag="V.[^NGP].*|_GV_|_reflexive" postag_regexp="yes"/></token>
                 </pattern>
@@ -9052,6 +9083,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No es así, sino de otra manera.</example>
                 <example>No hace un siglo, sino hace escasamente dos meses.</example>
                 <example>No implica contacto sino falta de cooperación.</example>
+                <example>No es dónde se encuentra en momentos de comodidad y conveniencia, sino dónde se sitúa en tiempos de desafío.</example>
             </rule>
             <rule>
                 <pattern>
