@@ -1327,7 +1327,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">nie|niemals|nicht|noch|kein.*|kaum|weniger|nirgendwo</exception></token>
                 <marker>
-                    <token skip="-1">aber<exception scope="next" regexp="yes">nie|niemals|nicht|nichts|noch|kein.*|kaum|weniger|nirgendwo</exception></token>
+                    <token skip="-1">aber<exception scope="next" regexp="yes">nie(mals|mand)?|nichts?|noch|kein.*|kaum|weniger|nirgend(s|wo)</exception></token>
                     <token>sondern</token>
                 </marker>
             </pattern>
@@ -1373,7 +1373,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next">aus</exception></token>
                 <marker>
-                    <token skip="5">auf<exception scope="next" regexp="yes">,|\(|oder|und|aus|etwa|circa</exception></token>
+                    <token skip="5">auf<exception scope="next" regexp="yes">,|\(|oder|und|aus|etwa|circa|ungefähr|schätzungsweise</exception></token>
                 </marker>
                 <token skip="2" postag_regexp="yes" postag="SUB:GEN.*"><exception scope="next" regexp="yes">,|\(|oder|und|aus</exception></token>
                 <token inflected="yes">entfernen</token>
