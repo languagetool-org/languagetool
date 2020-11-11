@@ -6026,6 +6026,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="marítimo-terrestre">Pertenece a la zona <marker>marítimo terrestre</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="APARTES" name="apartes/aparte" default="temp_off">
+            <antipattern>
+                <token postag="[PR].*|D..MP.|SPS00" postag_regexp="yes"/>
+                <token>apartes</token>
+            </antipattern>
+            <pattern>
+                <token>apartes</token>
+                <token regexp="yes">de|del</token>
+            </pattern>
+            <message>¿Quería decir <suggestion>aparte \2</suggestion>?</message>
+            <url>https://www.fundeu.es/recomendacion/aparte-a-parte/</url>
+            <example correction="Aparte de"><marker>Apartes de</marker> esto, tomemos una decisión.</example>
+        </rule>
         <rule id="APARTE" name="a parte/aparte" default="temp_off">
             <!-- Many true positives expected -->
             <antipattern>
