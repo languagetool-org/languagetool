@@ -1491,7 +1491,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token postag="V.[SI].*" postag_regexp="yes" regexp="yes"
                         >ada|adan|animo|arboles|aticulo|autentica|autenticas|autentico|azucares|barbara|calculo|canceres|capitulo|capsula|capsulas|catalogo|circulo|cubica|cubicas|debito|deposito|desordenes|diagnostico|dialogo|domestica|domesticas|domestico|ejercito|embolo|entrelinea|entrelineas|epitome|espontanea|estomago|genero|idolatra|idolatras|ignifuga|ignifugas|ignifugo|ilegitima|ilegitimas|ilegitimo|invalida|invalidas|invalido|lagrima|lagrimas|lamina|laminas|lastima|lastimas|legitima|legitimas|legitimo|lideres|linea|lineas|liquida|liquidas|liquido|maquina|maquinas|marques|matricula|medica|medicas|medico|modulo|nausea|nauseas|nomina|nominas|oleo|ordenes|ovulo|oxido|oxigeno|pacifico|petroleo|pixeles|practica|practicas|practico|prestamos|prorroga|purpurea|purpureas|recamara|recamaras|reciproca|reciprocas|reciproco|retrograda|retrogradas|retrogrado|revalida|revalidas|rondo|simultanea|simultaneas|simultaneo|solida|solidas|solido|tempano|titulo|trafico|tramite|tramites|transito|tremolo|triangulo|ulcera|ulceras|vehiculo|victima|victimas|vinculo<exception
-                            postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                        postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:NC.*|AQ.*"/>
@@ -6026,6 +6026,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="marítimo-terrestre">Pertenece a la zona <marker>marítimo terrestre</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="APARTE" name="a parte/aparte" default="temp_off">
+            <!-- Many true positives expected -->
+            <antipattern>
+                <token>parte</token>
+                <token>alguna</token>
+            </antipattern>
+            <antipattern>
+                <token>de</token>
+                <token>parte</token>
+                <token>a</token>
+                <token>parte</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">dejar</token>
+                <token min="0" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                <token>a</token>
+                <token>parte</token>
+                <token regexp="yes">de|del</token>
+            </antipattern>
+            <pattern>
+                <token>a</token>
+                <token>parte</token>
+            </pattern>
+            <message>En la mayoría de los casos se escribe <suggestion>aparte</suggestion>. Solo se escribe separado si equivale a 'a una parte'.</message>
+            <url>https://www.fundeu.es/recomendacion/aparte-a-parte/</url>
+            <example correction="aparte">Debates <marker>a parte</marker>, tomemos una decisión.</example>
+            <example>Esta decisión no nos lleva a parte alguna.</example>
+            <example>Deja indefensos a parte de los vecinos.</example>
+            <example>La carretera lo atraviesa de parte a parte.</example>
+        </rule>
         <rulegroup id="NO_SEPARADO" name="palabras no separadas">
             <rule>
                 <pattern>
