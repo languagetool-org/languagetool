@@ -139,6 +139,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                      !k.getReplacement().toLowerCase().startsWith("pre ") &&
                      !k.getReplacement().toLowerCase().startsWith("inter ") &&
                      !k.getReplacement().toLowerCase().startsWith("anti ") &&
+                     !k.getReplacement().toLowerCase().startsWith("photo ") &&
                      !k.getReplacement().startsWith("sub ") &&
                      !k.getReplacement().toLowerCase().startsWith("auto ") &&
                      !k.getReplacement().startsWith("sh ") &&
