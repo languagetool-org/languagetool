@@ -34134,12 +34134,12 @@ Andere Projekte</example>
         </rule>
         </rulegroup>
         <rulegroup id="LEID_TUN" name="'tut mir Leid (leid)'">
-            <url>https://www.duden.de/rechtschreibung/leidtun</url>
+            <url>https://www.korrekturen.de/wortliste/leidtun.shtml</url>
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes">tun</token>
                     <token regexp="yes">mir|ih[mr]|euch|[iI]hnen|uns|es|das</token>
-                    <token regexp="yes" min="0">wirklich|sehr|ausgesprochen|echt|voll|total|noch</token>
+                    <token regexp="yes" min="0">wirklich|sehr|ausgesprochen|echt|voll|total|noch|nicht</token>
                     <marker>
                         <token>Leid</token>
                     </marker>
@@ -34153,7 +34153,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">mir|ih[mr]|euch|[iI]hnen|uns</token>
-                    <token regexp="yes" min="0">wirklich|sehr|ausgesprochen|echt|voll|total|noch|irgendwann</token>
+                    <token regexp="yes" min="0">wirklich|sehr|ausgesprochen|echt|voll|total|noch|irgendwann|nicht</token>
                     <marker>
                         <token regexp="yes">[lL]eid</token>
                         <token inflected="yes">tun</token>
@@ -34186,6 +34186,15 @@ Andere Projekte</example>
                 </pattern>
                 <message>&inwend;'jemandem leidtun' wird <suggestion><match case_conversion="alllower" no="2"/></suggestion> kleingeschrieben.</message>
                 <example correction="leid">Sie sagte, wie <marker>Leid</marker> es ihr täte.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Leid</token>
+                    <token case_sensitive="yes">zu</token>
+                    <token case_sensitive="yes">tun</token>
+                </pattern>
+                <message>Der erweiterte Infinitiv von 'jemandem leidtun' lautet <suggestion>leidzutun</suggestion> kleingeschrieben.</message>
+                <example correction="leidzutun">Es braucht dir nicht <marker>leid zu tun</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SOMMERS_WIE_WINTERS" name="'sommers wie winters'">
