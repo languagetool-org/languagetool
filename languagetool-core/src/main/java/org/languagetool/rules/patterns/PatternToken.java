@@ -320,9 +320,9 @@ public class PatternToken implements Cloneable {
         return stringEquals(set.iterator().next());
       }
       if (!caseSensitive) {
-        TreeSet<String> treeSet = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
-        treeSet.addAll(set);
-        set = treeSet;
+        String[] sorted = set.toArray(new String[0]);
+        Arrays.sort(sorted, String.CASE_INSENSITIVE_ORDER);
+        return s -> Arrays.binarySearch(sorted, s, String.CASE_INSENSITIVE_ORDER) >= 0;
       }
       return set::contains;
     }
