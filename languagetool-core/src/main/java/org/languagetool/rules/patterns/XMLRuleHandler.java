@@ -18,12 +18,6 @@
  */
 package org.languagetool.rules.patterns;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 import org.apache.commons.lang3.ObjectUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
@@ -38,6 +32,9 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import java.util.*;
+import java.util.function.Function;
 
 /**
  * XML rule handler that loads rules from XML and throws
@@ -417,7 +414,7 @@ public class XMLRuleHandler extends DefaultHandler {
     exceptionStringInflected = YES.equals(attrs.getValue(INFLECTED));
 
     if (attrs.getValue(POSTAG) != null) {
-      exceptionPosToken = attrs.getValue(POSTAG);
+      exceptionPosToken = internString(attrs.getValue(POSTAG));
       exceptionPosRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));
       exceptionPosNegation = YES.equals(attrs.getValue(NEGATE_POS));
     }
@@ -442,12 +439,12 @@ public class XMLRuleHandler extends DefaultHandler {
       if (tokenLevelCaseSet) {
         tokenCase = tokenLevelCaseSensitive;
       }
-      patternToken = new PatternToken(elements.toString(), tokenCase, regExpression, tokenInflected);
+      patternToken = new PatternToken(internString(elements.toString().trim()), tokenCase, regExpression, tokenInflected);
       exceptionSet = true;
     }
     patternToken.setNegation(tokenNegated);
     if (!StringTools.isEmpty(exceptions.toString()) || exceptionPosToken != null) {
-      patternToken.setStringPosException(exceptions.toString(), exceptionStringRegExp,
+      patternToken.setStringPosException(internString(exceptions.toString().trim()), exceptionStringRegExp,
           exceptionStringInflected, exceptionStringNegation, exceptionValidNext, exceptionValidPrev,
           exceptionPosToken, exceptionPosRegExp, exceptionPosNegation, exceptionLevelCaseSensitive);
       exceptionPosToken = null;
@@ -481,7 +478,7 @@ public class XMLRuleHandler extends DefaultHandler {
     elements = new StringBuilder();
     // POSElement creation
     if (attrs.getValue(POSTAG) != null) {
-      posToken = attrs.getValue(POSTAG);
+      posToken = internString(attrs.getValue(POSTAG));
       posRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));
       posNegation = YES.equals(attrs.getValue(NEGATE_POS));
     }
@@ -489,9 +486,9 @@ public class XMLRuleHandler extends DefaultHandler {
       throw new SAXException("You cannot set both 'chunk' and 'chunk_re' for " + id);
     }
     if (attrs.getValue(CHUNKTAG) != null) {
-      chunkTag = new ChunkTag(attrs.getValue(CHUNKTAG));
+      chunkTag = new ChunkTag(internString(attrs.getValue(CHUNKTAG)));
     } else if (attrs.getValue(CHUNKTAG_REGEXP) != null) {
-      chunkTag = new ChunkTag(attrs.getValue(CHUNKTAG_REGEXP), true);
+      chunkTag = new ChunkTag(internString(attrs.getValue(CHUNKTAG_REGEXP)), true);
     }
     regExpression = YES.equals(attrs.getValue(REGEXP));
 
@@ -557,11 +554,11 @@ public class XMLRuleHandler extends DefaultHandler {
       if (tokenLevelCaseSet) {
         tokenCase = tokenLevelCaseSensitive;
       }
-      patternToken = new PatternToken(elements.toString(),
-          tokenCase, regExpression, tokenInflected);
+      patternToken = new PatternToken(internString(elements.toString().trim()),
+        tokenCase, regExpression, tokenInflected);
       patternToken.setNegation(tokenNegated);
     } else {
-      patternToken.setStringElement(elements.toString());
+      patternToken.setStringElement(internString(elements.toString().trim()));
     }
     if (skipPos != 0) {
       patternToken.setSkipNext(skipPos);
@@ -644,6 +641,12 @@ public class XMLRuleHandler extends DefaultHandler {
         throw new RuntimeException("Rule " + rule.getFullId() + " of type " + rule.getClass() + " cannot have a filter (" + filterClassName + ")");
       }
     }
+  }
+
+  private final Map<String, String> internedStrings = new HashMap<>();
+
+  protected String internString(String s) {
+    return internedStrings.computeIfAbsent(s, Function.identity());
   }
 
 }
