@@ -19717,6 +19717,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>für</token>
                     <token postag="VER:INF:.*" postag_regexp="yes" />
                 </antipattern>
+                <antipattern>
+                    <token skip="2">da</token>
+                    <token regexp="yes">Geld|Moneten</token>
+                    <token>für</token>
+                    <token regexp="yes">hinlegen|bezahlen|ausgeben|überweisen</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[vV]or|[bB]ei|[Ff]ür|[Ii]n</token>
                     <marker>
@@ -19730,6 +19736,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Fragen">Ich stehe bei <marker>fragen</marker> gerne zur Verfügung.</example>
                 <example>Ich stehe bei <marker>jungen</marker> Erwachsenen.</example>
                 <example correction="Grenzen">Die Begeisterung hielt sich in <marker>grenzen</marker>.</example>
+                <example>Wir können da auch gerne Geld für ausgeben.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DAS_BESTE_AM" name="'das beste (Beste) am' etc.">
@@ -47083,7 +47090,7 @@ Andere Projekte</example>
                 <example>Er <marker>hat</marker> gerade gegessen.</example>
             </rule>
         </rulegroup>
-        <rule id="UEBERFLUESSIGE_PHRASE" name="Phrasen" default="off">
+        <rule id="UEBERFLUESSIGE_PHRASE" name="Phrasen" tags="picky">
             <regexp>\b(dann und wann|des Ungeachtet|ganz und gar|hie und da|im Allgemeinen|in der Tat|in diesem Zusammenhang|mehr oder weniger|meines Erachtens|ohne weiteres|ohne Zweifel|samt und sonders|sowohl als auch|voll und ganz|von Neuem|allem Anschein nach|aufs Neue|ein bisschen|ein wenig|des Öfteren|bei weitem|an sich")\b</regexp>
             <message>Der Ausdruck '\1' gilt als Phrase. Es wird empfohlen ihn zu löschen, falls möglich.</message>
             <example correction="">Sie sah <marker>ohne Zweifel</marker> hinreißend aus.</example>
@@ -47094,10 +47101,10 @@ Andere Projekte</example>
                 <token min="0" regexp="yes">„|“|»|«|"</token>
                 <marker>
                 <token skip="-1" regexp="yes">aber|allerdings|also?|andererseits|anschließend|anschliessend|anstatt|außer|ausserdem|bevor|beziehungsweise|bis|da|dadurch|dafür|dagegen|damit|danach|dann|darauf|darum|dass|davor|dazu|denn|deshalb|dessen|desto|desungeachtet|deswegen|doch|ehe?|entweder|falls|ferner|folglich|genauso|geschweige|immerhin|indem|indes|indessen|insofern|insoweit|inzwischen|je|jedoch|nachdem|ob|obgleich|obschon|obwohl|obzwar|oder|respektive|seit|seitdem|so|sodass|sofern|solange?|sondern|sooft|soviel|soweit|sowie|sowohl|später|statt|trotzdem|um|umso|und|ungeachtet|vorher|während|währenddem|währenddessen|weder|weil|wenn|wenngleich|wennschon|wie|wiewohl|wobei|wohingegen|zumal|zuvor|zwar
-                    <exception scope="next">,</exception>
+                    <exception scope="next" regexp="yes">,|;|–|-</exception>
                 </token>
                 </marker>
-                <token postag="SENT_END"/>
+                <token postag="SENT_END" regexp="yes">[\.\!\?]</token>
             </pattern>
             <message>Ein Bindewort wie '\3' sollte nur in Ausnahmefällen am Satzanfang verwendet werden. Formulieren Sie den Satz um, falls möglich.</message>
             <example correction=""><marker>Also</marker> ging er.</example>
