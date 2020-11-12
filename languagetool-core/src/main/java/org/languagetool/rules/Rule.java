@@ -52,7 +52,9 @@ public abstract class Rule {
 
   protected final ResourceBundle messages;
 
-  private List<Tag> tags = new ArrayList<>();
+  @Nullable
+  private List<Tag> tags;
+
   private List<CorrectExample> correctExamples;
   private List<IncorrectExample> incorrectExamples;
   private List<ErrorTriggeringExample> errorTriggeringExamples;
@@ -474,9 +476,15 @@ public abstract class Rule {
    * @since 5.1
    */
   public void addTags(List<String> tags) {
+    if (tags.isEmpty()) return;
+
+    List<Tag> myTags = this.tags;
+    if (myTags == null) {
+      this.tags = myTags = new ArrayList<>();
+    }
     for (String tag : tags) {
-      if (this.tags.stream().noneMatch(k -> k.name().equals(tag))) {
-        this.tags.add(Tag.valueOf(tag));
+      if (myTags.stream().noneMatch(k -> k.name().equals(tag))) {
+        myTags.add(Tag.valueOf(tag));
       }
     }
   }
@@ -485,18 +493,18 @@ public abstract class Rule {
    * @since 5.1
    */
   public void setTags(List<Tag> tags) {
-    this.tags = Objects.requireNonNull(tags);
+    this.tags = tags.isEmpty() ? null : Objects.requireNonNull(tags);
   }
 
   /** @since 5.1 */
   @NotNull
   public List<Tag> getTags() {
-    return this.tags;
+    return tags == null ? Collections.emptyList() : tags;
   }
 
   /** @since 5.1 */
   public boolean hasTag(Tag tag) {
-    return this.tags.contains(tag);
+    return tags != null && tags.contains(tag);
   }
 
 }
