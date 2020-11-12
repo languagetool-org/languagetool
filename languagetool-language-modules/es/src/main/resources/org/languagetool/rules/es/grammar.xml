@@ -1485,6 +1485,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token skip="2">calculo</token>
                 <token>que</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">practicas?</token>
+                <token postag="RG"/>
+            </antipattern>
+            <antipattern>
+                <token postag="NCM.*|NCFP000" postag_regexp="yes"/>
+                <token>practica</token>
+            </antipattern>
+            <antipattern>
+                <token postag="NCM.*|NCFS000" postag_regexp="yes"/>
+                <token>practicas</token>
+            </antipattern>
             <pattern>
                 <!-- NOT: celebre, domino, decimos, domine, escalamos, , echo, llamaron, piden, paramos, cede, solicita, solicito, termino, verifica, vienes, aman, borren, calan, capitula, crias, critica, criticas, critico |critica, cuajaron, cupe, calculo, envió, escalamos, estipula, habito, participe, platica, platicas, predica, predicas, patina, regulo, solicita, solicitas, solicito, suplico, suplica, suplicas, termino, verifica, indica, ulula publica|publicas|publico prospera|prosperas|prospero  especifica|especificas|especifico| |fabrica|fabricas |limite|limites
                          ???: pio, moran, indico, opera, anima, animas, replica, replicas,-->
@@ -1511,6 +1523,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Faber-Castell fabrica más de 2,3 mil millones.</example>
             <example>que se defina y limite, hacia delante y hacia atrás, la competencia temporal</example>
             <example>María publica continuamente fotos de ella misma en Instagram.</example>
+            <example>Lee mucho y practica mucho.</example>
+            <example>¿Qué clase de deportes practicas?</example>
         </rule>
         <rule id="DIACRITICS_CONDICIONAL" name="secundaria/secundaría">
             <pattern>
@@ -1900,6 +1914,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="QUE_SIN_TILDE" name="qué -> que">
+            <antipattern>
+                <token regexp="yes">el|del|al</token>
+                <token>qué</token>
+                <token>dirán</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
@@ -1911,6 +1930,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Probablemente se escribe sin tilde. Correcto si equivale a 'qué cosa'.</message>
                 <suggestion>que</suggestion>
                 <example correction="que">La persona de la <marker>qué</marker> te hablé.</example>
+                <example>No me preocupa nada el qué dirán.</example>
             </rule>
             <rule>
                 <pattern>
@@ -1922,6 +1942,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Probablemente se escribe sin tilde. Correcto si equivale a 'qué cosa'.</message>
                 <suggestion>que</suggestion>
                 <example correction="que">El personaje del <marker>qué</marker> no se habla</example>
+                <example>No hay que preocuparse del qué dirán.</example>
             </rule>
         </rulegroup>
         <rulegroup id="QUIEN" name="quien/quién...">
@@ -6725,13 +6746,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">super|súper</token>
+                    <token regexp="yes">super|súper<exception postag="NP.*" postag_regexp="yes"/></token>
                     <token min="0">-</token>
                     <token postag="N.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Como prefijo, 'super-' se escribe junto, aunque la palabra resultante no esté en el diccionario.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="super$1" case_conversion="alllower"/></suggestion>
                 <example correction="supercamino">Son un <marker>super camino</marker></example>
+                <example>En la Super Bowl.</example>
             </rule>
             <rule>
                 <pattern>
