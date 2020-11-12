@@ -278,7 +278,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
           startPos = 0;
           endPos = tokenCountForMarker;
         }
-        rule.setSubId(inRuleGroup ? Integer.toString(subId) : "1");
+        rule.setSubId(inRuleGroup ? internString(Integer.toString(subId)) : "1");
 
         int matchedTokenCount = endPos - startPos;
         if (newWdList != null) {
@@ -351,11 +351,11 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
           if (tokenLevelCaseSet) {
             tokenCase = tokenLevelCaseSensitive;
           }
-          patternToken = new PatternToken(elements.toString(), tokenCase,
+          patternToken = new PatternToken(internString(elements.toString().trim()), tokenCase,
                   regExpression, tokenInflected);
           patternToken.setNegation(tokenNegated);
         } else {
-          patternToken.setStringElement(elements.toString());
+          patternToken.setStringElement(internString(elements.toString().trim()));
         }
         if (skipPos != 0) {
           patternToken.setSkipNext(skipPos);

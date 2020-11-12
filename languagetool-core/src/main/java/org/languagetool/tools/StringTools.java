@@ -357,7 +357,7 @@ public final class StringTools {
         filter.append(c);
       }
     }
-    return filter.toString();
+    return filter.length() == str.length() ? str : filter.toString();
   }
 
   /**

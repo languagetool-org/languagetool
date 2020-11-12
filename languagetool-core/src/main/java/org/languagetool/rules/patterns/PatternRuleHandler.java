@@ -591,8 +591,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
       AbstractPatternRule rule;
       if (tmpPatternTokens.size() > 0) {
         rule = new PatternRule(id, language, tmpPatternTokens, name,
-                message.toString(), shortMessage,
-                suggestionsOutMsg.toString(), phrasePatternTokens.size() > 1, interpretPosTagsPreDisambiguation);
+                internString(message.toString()), internString(shortMessage),
+                internString(suggestionsOutMsg.toString()), phrasePatternTokens.size() > 1, interpretPosTagsPreDisambiguation);
         rule.addTags(ruleTags);
         rule.addTags(ruleGroupTags);
         rule.addTags(categoryTags);
@@ -691,7 +691,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
     rule.addTags(ruleGroupTags);
     rule.addTags(categoryTags);
     if (inRuleGroup) {
-      rule.setSubId(Integer.toString(subId));
+      rule.setSubId(internString(Integer.toString(subId)));
     } else {
       rule.setSubId("1");
     }
@@ -717,13 +717,14 @@ public class PatternRuleHandler extends XMLRuleHandler {
     }
     if (url != null && url.length() > 0) {
       try {
-        rule.setUrl(new URL(url.toString()));
+        String s = url.toString();
+        rule.setUrl(internUrl(s));
       } catch (MalformedURLException e) {
         throw new RuntimeException("Could not parse URL for rule: " + rule + ": '" + url + "'", e);
       }
     } else if (urlForRuleGroup != null && urlForRuleGroup.length() > 0) {
       try {
-        rule.setUrl(new URL(urlForRuleGroup.toString()));
+        rule.setUrl(internUrl(urlForRuleGroup.toString()));
       } catch (MalformedURLException e) {
         throw new RuntimeException("Could not parse URL for rule: " + rule + ": '" + urlForRuleGroup + "'", e);
       }
@@ -736,6 +737,18 @@ public class PatternRuleHandler extends XMLRuleHandler {
     } else if (categoryIssueType != null) {
       rule.setLocQualityIssueType(ITSIssueType.getIssueType(categoryIssueType));
     }
+  }
+
+  private final Map<String, URL> internedUrls = new HashMap<>();
+
+  private URL internUrl(String s) throws MalformedURLException {
+    URL url = internedUrls.get(s);
+    if (url == null) {
+      url = new URL(s);
+      url = new URL(internString(url.getProtocol()), internString(url.getHost()), url.getPort(), internString(url.getFile()));
+      internedUrls.put(s, url);
+    }
+    return url;
   }
 
   @Override
