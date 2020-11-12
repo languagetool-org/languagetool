@@ -1162,6 +1162,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <wd lemma="temps ha" pos="LOC_ADV"/>
             </disambig>
         </rule>
+        <rule id="a_espai" name="a espai (locució adverbial)">
+            <pattern>
+                <token><exception regexp="yes" inflected="yes">com|per|dedicar</exception></token>
+                <marker>
+                    <token>a</token>
+                    <token>espai</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="a espai" pos="LOC_ADV"/>
+                <wd lemma="a espai" pos="LOC_ADV"/>
+            </disambig>
+        </rule>
         <rule id="venir_de_gust" name="venir de gust (locució adverbial)">
             <pattern>
                 <token inflected="yes">venir</token>
@@ -3601,6 +3614,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
     </rulegroup>
     <rulegroup id="noms_aposicio" name="noms en aposició">
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">grup|classe|viatge|vol</token>
+                <marker>
+                    <token>bombolla</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="bombolla" pos="AQ0CN0"/>
+            </disambig>
+        </rule>
         <rule>
             <pattern>
                 <token regexp="yes" inflected="yes">pregunta|argument|argumentació</token>

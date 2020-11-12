@@ -1955,6 +1955,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>La raó en forma part tant com l'afectivitat.</example>
             <example>Han posat en pràctica polítiques d'ocupació.</example>
             <example>Treuen a la llum artistes molt vàlids.</example>
+            <example>En una nova etapa com a espai de creació pluridisciplinari.</example>
             <!--<example>Són els elements distintius: tradició i història comunes.</example>-->
             <!-- TODO: 
                 Els costats superior i laterals.
@@ -25128,11 +25129,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">super|súper<exception postag="NP.*" postag_regexp="yes"/></token>
                     <token min="0">-</token>
-                    <token postag="NC.*" postag_regexp="yes"/>
+                    <token postag="NC.*" postag_regexp="yes"><exception regexp="yes">\d+|.</exception></token>
                 </pattern>
                 <message>Com a prefix, 'super-' s'escriu junt, encara que la paraula resultant no sigui en el diccionari.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="super$1" case_conversion="alllower"/></suggestion>
                 <example correction="supercamí">És un <marker>super camí</marker></example>
+                <example>El Súper G</example>
+                <example>El súper-8</example>
             </rule>
             <rule>
                 <pattern>
