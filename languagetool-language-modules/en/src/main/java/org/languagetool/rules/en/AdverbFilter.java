@@ -361,6 +361,10 @@ public class AdverbFilter extends RuleFilter {
     put("diagonally", "diagonal");
     put("additionally", "additional");
     put("sexually", "sexual");
+    put("remarkably", "remarkable");
+    put("acutely", "acute");
+    put("linearly", "linear");
+    put("perfunctorily", "perfunctory");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

@@ -295,6 +295,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   protected Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
+    s.put("ensuite", Arrays.asList("en suite"));
+    s.put("Ensuite", Arrays.asList("En suite"));
     s.put("insite", Arrays.asList("insight"));
     s.put("insites", Arrays.asList("insights"));
     s.put("thouraly", Arrays.asList("thoroughly"));
