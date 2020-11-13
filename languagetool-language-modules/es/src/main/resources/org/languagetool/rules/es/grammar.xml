@@ -1500,6 +1500,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <!-- NOT: celebre, domino, decimos, domine, escalamos, , echo, llamaron, piden, paramos, cede, solicita, solicito, termino, verifica, vienes, aman, borren, calan, capitula, crias, critica, criticas, critico |critica, cuajaron, cupe, calculo, envió, escalamos, estipula, habito, participe, platica, platicas, predica, predicas, patina, regulo, solicita, solicitas, solicito, suplico, suplica, suplicas, termino, verifica, indica, ulula publica|publicas|publico prospera|prosperas|prospero  especifica|especificas|especifico| |fabrica|fabricas |limite|limites
                          ???: pio, moran, indico, opera, anima, animas, replica, replicas,-->
+                <!-- TODO: solo me faltan 2 practicas más -->
                 <marker>
                     <token postag="V.[SI].*" postag_regexp="yes" regexp="yes"
                         >ada|adan|animo|arboles|aticulo|autentica|autenticas|autentico|azucares|barbara|calculo|canceres|capitulo|capsula|capsulas|catalogo|circulo|cubica|cubicas|debito|deposito|desordenes|diagnostico|dialogo|domestica|domesticas|domestico|ejercito|embolo|entrelinea|entrelineas|epitome|espontanea|estomago|genero|idolatra|idolatras|ignifuga|ignifugas|ignifugo|ilegitima|ilegitimas|ilegitimo|invalida|invalidas|invalido|lagrima|lagrimas|lamina|laminas|lastima|lastimas|legitima|legitimas|legitimo|lideres|linea|lineas|liquida|liquidas|liquido|maquina|maquinas|marques|matricula|medica|medicas|medico|modulo|nausea|nauseas|nomina|nominas|oleo|ordenes|ovulo|oxido|oxigeno|pacifico|petroleo|pixeles|practica|practicas|practico|prestamos|prorroga|purpurea|purpureas|recamara|recamaras|reciproca|reciprocas|reciproco|retrograda|retrogradas|retrogrado|revalida|revalidas|rondo|simultanea|simultaneas|simultaneo|solida|solidas|solido|tempano|titulo|trafico|tramite|tramites|transito|tremolo|triangulo|ulcera|ulceras|vehiculo|victima|victimas|vinculo<exception
@@ -7384,7 +7385,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="HAZ_HAS" name="haz/has">
             <rule>
                 <antipattern>
-                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="D..MS.|SP.*" postag_regexp="yes"><exception>tanto</exception></token>
                     <token>haz</token>
                 </antipattern>
                 <pattern>
@@ -7396,9 +7397,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Quería decir <suggestion>has</suggestion> (del v. 'haber').</message>
                 <example correction="Has"><marker>Haz</marker> agotado mi paciencia.</example>
                 <example correction="Has">¿<marker>Haz</marker> acabado?</example>
+                <example correction="has">La gata que tanto <marker>haz</marker> buscado.</example>
                 <example>El haz dividido se proyecta en varios sitios.</example>
+                <example>faros de haz proyectado con acabado ahumado</example>
+                <example>Una haz de neutrones.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern case_sensitive="no">
                     <marker>
                         <token>haz</token>
