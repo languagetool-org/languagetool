@@ -48,12 +48,12 @@ public class Hunspell implements Closeable {
         throw new RuntimeException("Unable to create Hunspell instance");
       }
     } catch (UnsatisfiedLinkError e) {
-      throw new RuntimeException("Could not create hunspell instance. Please note that only 64 bit platforms " +
-        "(Linux, Windows, Mac) are supported by LanguageTool and that your JVM (Java) also needs to b 64 bit.", e);
+      throw new RuntimeException("Could not create hunspell instance. Please note that LanguageTool supports only 64-bit platforms " +
+        "(Linux, Windows, Mac) and that it requires a 64-bit JVM (Java).", e);
     }
   }
   
-  public synchronized static Hunspell getInstance(Path dictionary, Path affix) {
+  public static synchronized Hunspell getInstance(Path dictionary, Path affix) {
     LanguageAndPath key = new LanguageAndPath(dictionary, affix);
     Hunspell hunspell = map.get(key);
     if (hunspell != null) {
@@ -120,7 +120,7 @@ public class Hunspell implements Closeable {
     // Ask bridj for a `java.util.List` that wraps `nativeSuggestionArray`
     List<Pointer<Byte>> nativeSuggestionList = nativeSuggestionArray.get().validElements(suggestionCount).asList();
     // Convert C Strings to java strings
-    List<String> suggestions = nativeSuggestionList.stream().map((p) -> p.getStringAtOffset(0, Pointer.StringType.C, charset)).collect(Collectors.toList());
+    List<String> suggestions = nativeSuggestionList.stream().map(p -> p.getStringAtOffset(0, Pointer.StringType.C, charset)).collect(Collectors.toList());
 
     // We can free the underlying buffer now because Java's `String` owns it's own memory
     HunspellLibrary.Hunspell_free_list(handle, nativeSuggestionArray, suggestionCount);
