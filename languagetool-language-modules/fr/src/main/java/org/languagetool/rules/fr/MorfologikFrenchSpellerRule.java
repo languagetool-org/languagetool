@@ -217,7 +217,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
       if (recursive) {
         List<String> moreSugg = this.speller1.getSuggestions(newSuggestion);
         if (moreSugg.size() > 0) {
-          for (int i=0; i<moreSugg.size(); i++) {
+          for (int i = 0; i < moreSugg.size(); i++) {
             String newWord;
             if (suggestionPosition == 1) {
               newWord = moreSugg.get(i).toLowerCase() + matcher.group(2);
@@ -228,7 +228,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
             if (!newSugg.isEmpty()) {
               newSuggestions.addAll(newSugg);
             }
-            if (i>5) {
+            if (i > 5) {
               break;
             }
           }
@@ -250,7 +250,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
       if (posTag == null) {
         posTag = "UNKNOWN";
       }
-      final Matcher m = pattern.matcher(posTag);
+      Matcher m = pattern.matcher(posTag);
       if (m.matches()) {
         return true;
       }
