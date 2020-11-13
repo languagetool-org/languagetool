@@ -19,6 +19,7 @@
 package org.languagetool.rules.patterns;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.tuple.Triple;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.chunking.ChunkTag;
@@ -572,7 +573,8 @@ public class XMLRuleHandler extends DefaultHandler {
       maxOccurrence = 1;
     }
     if (posToken != null) {
-      patternToken.setPosToken(new PatternToken.PosToken(posToken, posRegExp, posNegation));
+      patternToken.setPosToken(internedPos.computeIfAbsent(Triple.of(posToken, posRegExp, posNegation),
+        t -> new PatternToken.PosToken(t.getLeft(), t.getMiddle(), t.getRight())));
       posToken = null;
     }
     if (chunkTag != null) {
@@ -648,5 +650,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected String internString(String s) {
     return internedStrings.computeIfAbsent(s, Function.identity());
   }
+
+  private final Map<Triple<String, Boolean, Boolean>, PatternToken.PosToken> internedPos = new HashMap<>();
 
 }
