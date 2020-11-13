@@ -32,7 +32,6 @@ import org.languagetool.tools.StringTools;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -390,24 +389,15 @@ public class PatternToken implements Cloneable {
    * @return true if matches
    */
   private boolean isPosTokenMatched(AnalyzedToken token) {
-    if (posToken == null || posToken.posTag == null) {
-      // if no POS set defaulting to true
+    PosToken pos = posToken;
+    if (pos == null || pos.posTag == null || pos.posUnknown && token.hasNoTag()) {
       return true;
     }
-    if (token.getPOSTag() == null) {
-      return posToken.posUnknown && token.hasNoTag();
+    String tokenPos = token.getPOSTag();
+    if (tokenPos == null) {
+      return false;
     }
-    boolean match;
-    if (posToken.regExp) {
-      Matcher mPos = posToken.posPattern.matcher(token.getPOSTag());
-      match = mPos.matches();
-    } else {
-      match = posToken.posTag.equals(token.getPOSTag());
-    }
-    if (!match && posToken.posUnknown) { // ignore helper tags
-      match = token.hasNoTag();
-    }
-    return match;
+    return pos.posPattern != null ? pos.posPattern.matcher(tokenPos).matches() : pos.posTag.equals(tokenPos);
   }
 
   /**
@@ -605,7 +595,7 @@ public class PatternToken implements Cloneable {
    * @since 1.3.0
    */
   public boolean isPOStagRegularExpression() {
-    return posToken != null && posToken.regExp;
+    return posToken != null && posToken.posPattern != null;
   }
 
   /**
@@ -864,14 +854,12 @@ public class PatternToken implements Cloneable {
   public static class PosToken {
 
     private final String posTag;
-    private final boolean regExp;
     private final boolean negation;
     private final Pattern posPattern;
     private final boolean posUnknown;
 
     public PosToken(String posTag, boolean regExp, boolean negation) {
       this.posTag = posTag;
-      this.regExp = regExp;
       this.negation = negation;
       if (regExp) {
         posPattern = Pattern.compile(posTag);
