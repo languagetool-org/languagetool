@@ -1457,6 +1457,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>{suggestion}</suggestion>
                 <example correction="náusea">Hasta la <marker>nausea</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <!-- dos practicas -->
+                <antipattern>
+                    <token regexp="yes">en|el|del|al|de|año</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </antipattern>
+                <pattern>
+                    <token postag="DN..P." postag_regexp="yes"/>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:NC.[PN].*|A...[PN]."/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="prácticas">Tengo 2 <marker>practicas</marker> más.</example>
+                <example correction="prácticas">Tengo dos <marker>practicas</marker> más.</example>
+                <example>En el año 2010 practicas más.</example>
+            </rule>
         </rulegroup>
         <rule id="DIACRITICS_SPECIAL" name="diacríticos, casos especiales">
             <antipattern>
@@ -1511,6 +1530,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Si es adjetivo o nombre, se escribe con tilde.</message>
             <suggestion>{suggestion}</suggestion>
             <example correction="Nóminas"><marker>Nominas</marker> de octubre.</example>
+            <example correction="Máquina"><marker>Maquina</marker> para pelar patatas.</example>
+            <example>Ahora maquina otro plan.</example>
             <example>Londres, el lugar donde habito, era antiguamente conocida por su niebla.</example>
             <example>Hoy el abuelo naufraga en su memoria.</example>
             <example>«Los hermanos Kocher», replica Norton.</example>

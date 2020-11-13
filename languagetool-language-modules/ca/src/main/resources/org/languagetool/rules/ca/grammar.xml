@@ -22415,16 +22415,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">contrari(a|es)</token>
                 </antipattern>
                 <antipattern>
-                    <token>contraria</token>
+                    <token regexp="yes">contraria|maquina|maquines</token>
                     <token postag="D.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">(circumstanci|instanci|pagin|substanci|contrari)(a|es)</token>
+                    <token regexp="yes">(circumstanci|instanci|pagin|substanci|contrari|maquin)(a|es)</token>
                 </pattern>
                 <message>Si és nom, cal accentuar. Correcte si és del v. '<match no="1" case_conversion="alllower" regexp_match="(?iu)(.*)(a|es)" regexp_replace="$1ar"/>'.</message>
-                <suggestion><match no="1" regexp_match="(?iu)(.*)a(nci|gin|ri)(a|es)" regexp_replace="$1à$2$3" case_conversion="preserve"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(.*)a(nci|gin|ri|quin)(a|es)" regexp_replace="$1à$2$3" case_conversion="preserve"/></suggestion>
                 <example correction="Instància">Jutjat de Primera <marker>Instancia</marker>.</example>
                 <example correction="Pàgina"><marker>Pagina</marker> 34.</example>
+                <example correction="Màquina"><marker>Maquina</marker> de pelar patates.</example>
+                <example>Ara maquina un altre pla.</example>
                 <example>Això no se substancia en res.</example>
                 <example>Si el contraries, s'enfadarà</example>
                 <example>Aquesta diferència contraria un dret.</example>
