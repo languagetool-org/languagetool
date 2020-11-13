@@ -338,7 +338,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     // Check for split word with next word
     if (ruleMatch == null && idx < tokens.length - 1 && tokens[idx + 1].isWhitespaceBefore()) {
       String nextWord = tokens[idx + 1].getToken();
-      if (nextWord.length() > 0 && !StringUtils.containsAny(nextWord, "0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
+      if (nextWord.length() > 0 && !StringUtils.containsAny(nextWord, '0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
           && getFrequency(speller1, nextWord) < MAX_FREQUENCY_FOR_SPLITTING) {
         int nextStartPos = tokens[idx + 1].getStartPos();
         String sugg1a = word.substring(0, word.length() - 1);
