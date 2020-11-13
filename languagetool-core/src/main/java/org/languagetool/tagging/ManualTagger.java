@@ -18,18 +18,19 @@
  */
 package org.languagetool.tagging;
 
-import gnu.trove.THashMap;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.synthesis.ManualSynthesizer;
 import org.languagetool.tools.StringTools;
-
-import java.io.*;
-import java.util.*;
 
 /**
  * A tagger that reads the POS information from a plain (UTF-8) text file. This
@@ -64,7 +65,7 @@ public class ManualTagger implements WordTagger {
         if (StringTools.isEmpty(line) || line.charAt(0) == '#') {
           continue;
         }
-        line = line.replaceFirst("#.*", "").trim();
+        line = StringUtils.substringBefore(line, "#").trim();
         String[] parts = line.split("\t");
         if (parts.length != 3) {
           throw new IOException("Unknown line format when loading manual tagger dictionary, expected three tab-separated fields: '" + line + "'");

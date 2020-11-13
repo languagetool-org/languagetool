@@ -425,10 +425,8 @@ public final class StringTools {
       return true;
     }
     if (trimStr.length() == 1) {
-      if ("\u200B".equals(str)) {
-        // We need u200B​​ to be detected as whitespace for Khmer, as it was the case before Java 7.
-        return true;
-      } else if ("\u00A0".equals(str) || "\u202F".equals(str)) {  // non-breaking space and narrow non-breaking space
+      if ("\u200B".equals(str) ||// We need u200B​​ to be detected as whitespace for Khmer, as it was the case before Java 7.
+          "\u00A0".equals(str) || "\u202F".equals(str)) { // non-breaking space and narrow non-breaking space
         return true;
       }
       return Character.isWhitespace(trimStr.charAt(0));
@@ -540,6 +538,6 @@ public final class StringTools {
    * @since 5.1
    */
   public static String toId(String input) {
-    return input.toUpperCase().replace(" ", "_").replace("'", "_Q_");
+    return input.toUpperCase().replace(' ', '_').replace("'", "_Q_");
   }
 }

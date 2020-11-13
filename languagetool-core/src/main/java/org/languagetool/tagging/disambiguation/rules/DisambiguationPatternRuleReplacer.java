@@ -25,12 +25,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.*;
+import org.languagetool.rules.patterns.AbstractPatternRulePerformer;
+import org.languagetool.rules.patterns.Match;
+import org.languagetool.rules.patterns.MatchState;
+import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.PatternTokenMatcher;
+import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.rules.patterns.RuleFilterEvaluator;
 import org.languagetool.tools.StringTools;
 
 /**
@@ -180,10 +189,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     RuleFilter filter = rule.getFilter();
     if (filter != null) {
       RuleFilterEvaluator ruleFilterEval = new RuleFilterEvaluator(filter);
-      List<Integer> tokensPos = new ArrayList<>();
-      for (int tokenPosition : tokenPositions) {
-        tokensPos.add(tokenPosition);
-      }
+      List<Integer> tokensPos = IntStream.of(tokenPositions).boxed().collect(Collectors.toList());
       Map<String, String> resolvedArguments = ruleFilterEval.getResolvedArguments(rule.getFilterArguments(), tokens, firstMatchToken, tokensPos);
       AnalyzedTokenReadings[] relevantTokens = Arrays.copyOfRange(tokens, firstMatchToken, lastMatchToken + 1);
       return filter.matches(resolvedArguments, relevantTokens, firstMatchToken);
@@ -224,11 +230,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
 
     int matchingTokensWithCorrection = matchingTokens;
 
-    List<Integer> tokenPositionList = new ArrayList<>();
-    for (int i : tokenPositions) {
-      tokenPositionList.add(i);
-    }
-
+    List<Integer> tokenPositionList = IntStream.of(tokenPositions).boxed().collect(Collectors.toList());
     if (startPositionCorrection > 0) {
       correctedStPos--; //token positions are shifted by 1
       for (int j = 0; j < pTokensMatched.size(); j++) {
@@ -264,7 +266,6 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
 
     int fromPos = sentence.getOriginalPosition(firstMatchToken + correctedStPos);
 
-    boolean spaceBefore = whTokens[fromPos].isWhitespaceBefore();
     DisambiguationPatternRule.DisambiguatorAction disAction = rule.getAction();
 
     AnalyzedToken[] newTokenReadings = rule.getNewTokenReadings();
