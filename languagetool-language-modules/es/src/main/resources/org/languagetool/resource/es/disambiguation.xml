@@ -1313,6 +1313,15 @@ Copyright (C) 2011 Juan Martorell
     <rulegroup id="nombre_aposicion" name="nombre en aposición">
         <rule>
             <pattern>
+                <token inflected="yes" regexp="yes">sala|salón|habitación|cocina</token>
+                <marker>
+                    <token>comedor</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CN0"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token inflected="yes" regexp="yes">factor|efecto|invitado|invitadas|fiesta|celebración|ataque|miembro</token>
                 <marker>
                     <token>sorpresa</token>

@@ -14946,9 +14946,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token skip="2">pero</token>
                 <token postag="SENT_END"/>
             </antipattern>
+            <antipattern>
+                <token skip="-1">pero</token>
+                <token postag="_PUNCT.*" postag_regexp="yes"/>
+                <token postag="CC"/>
+            </antipattern>
             <pattern>
                 <marker>
-                    <token skip="-1" case_sensitive="yes">pero<exception postag="CC" scope="next"/></token>
+                    <token skip="-1" case_sensitive="yes">pero</token>
                 </marker>
                 <token postag="V.[SI].*" postag_regexp="yes"/>
             </pattern>
@@ -14957,6 +14962,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.fundeu.es/recomendacion/pero-con-coma-usos-apropiados/</url>
             <example correction=", pero">La alianza suma bastantes escaños<marker> pero</marker> no son suficientes.</example>
             <example>¿Pero qué pasa aquí?</example>
+            <example>Es bonito pero barato, y lo demás no importa.</example>
         </rule>
         <!--TODO: idem with ", pues"-->
         <rule id="COMMA_REPETITION" name="coma en repeticiones">
