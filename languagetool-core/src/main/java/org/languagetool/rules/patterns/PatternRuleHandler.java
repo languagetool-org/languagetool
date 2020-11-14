@@ -745,7 +745,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
     URL url = internedUrls.get(s);
     if (url == null) {
       url = new URL(s);
-      url = new URL(internString(url.getProtocol()), internString(url.getHost()), url.getPort(), internString(url.getFile()));
       internedUrls.put(s, url);
     }
     return url;
