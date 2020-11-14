@@ -27039,6 +27039,17 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
+                    <marker>
+                        <token inflected="yes" regexp="yes">klein|groß</token>
+                    </marker>
+                    <token regexp="yes">Walachei|Belts?</token>
+                </pattern>
+                <message>Geografische Eigennamen schreibt man groß. Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2?</message>
+                <url>https://grammis.ids-mannheim.de/rechtschreibung/6195</url>
+                <example correction="Große">Die <marker>große</marker> Walachei ist eine historische Landschaft im Süden Rumäniens.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="-1"><exception scope="next">Mercedes</exception></token>
                     <token regexp="yes" skip="-1">.*[sS]tern.*</token>
                     <marker>
@@ -27299,14 +27310,14 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">ein|eines</token>
-                    <token regexp="yes">((tote|rote|schwarze)[sn]?)</token>
+                    <token regexp="yes">ein(es)?</token>
+                    <token regexp="yes" inflected="yes">tot|rot|schwarz</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes">((tote|rote|schwarze)[sn]?)</token>
+                        <token regexp="yes" inflected="yes">tot|rot|schwarz</token>
                     </marker>
-                    <token regexp="yes">Meere?s?</token>
+                    <token inflected="yes">Meer</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2? &namengross;</message>
                 <url>https://www.duden.de/rechtschreibung/schwarz</url>
