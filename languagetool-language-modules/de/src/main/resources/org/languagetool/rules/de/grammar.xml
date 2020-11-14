@@ -67,6 +67,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY odkomma "oder fehlt vielleicht ein Komma">
     <!ENTITY redundanz "Diese Formulierung ist möglicherweise redundant.">
     <!ENTITY seitseid "Meinten Sie <suggestion>seit</suggestion> (Präposition: 'seit wann?') statt 'seid' (Verbform: 'seid ihr angekommen?')?">
+    <!ENTITY maennerleute "(.*kauf|Berg|Kamera|Verbindungs|See|Feuerwehr|Berufsfeuerwehr|Gewährs|Edel|Vertrauens|Ombuds|Wach|Geschäfts|Wahl|Werbefach)männern?">
 
     <!ENTITY wochentage "Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonnabend|Sonntag">
     <!ENTITY abgekWochentage "M[oi]|D[io]|Fr|S[ao]">
@@ -18748,12 +18749,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="MAENNER_VS_LEUTE" name="'Kaufmänner' etc. statt 'Kaufleute'">
             <antipattern>
-                <token regexp="yes">(.*kauf|Kamera|Verbindungs|See|Feuerwehr|Berufsfeuerwehr|Gewährs|Edel|Vertrauens|Ombuds|Wach|Geschäfts|Wahl|Werbefach)männern?</token>
+                <token regexp="yes">&maennerleute;</token>
                 <token>und</token>
                 <token>-frauen</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">(.*kauf|Berg|Kamera|Verbindungs|See|Feuerwehr|Berufsfeuerwehr|Gewährs|Edel|Vertrauens|Ombuds|Wach|Geschäfts|Wahl|Werbefach)männern?</token>
+                <token regexp="yes">&maennerleute;</token>
             </pattern>
             <message>Evtl. passt der geschlechtsneutrale Begriff <suggestion><match no="1" regexp_match="männer(n)?" regexp_replace="leute$1"/></suggestion> besser.</message>
             <example correction="Feuerwehrleute">Es waren viele <marker>Feuerwehrmänner</marker> im Einsatz.</example>
