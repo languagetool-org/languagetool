@@ -10626,6 +10626,41 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="muito frio">Está <marker>um frio de rachar</marker>.</example>
     </rule>
 	
+    <!-- 	QUE + VERB + COM verb_inf + com -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-02 + 2020-11-14 (21-OCT-2020+)     -->
+    <rulegroup id='QUE_VERB_COM_VERBINF_COM' name="Que + Verbo + Com > Verbo_inf + com">
+		<rule>
+			<pattern>	
+				<token postag='V.+|RG' postag_regexp='yes'>
+					<exception>tempo</exception>
+					<exception postag='NC.+' postag_regexp='yes'/>
+				</token>
+				<marker>
+					<token>que</token>
+					<token postag='VMII1S0|VMII3S0' postag_regexp='yes'/>
+				</marker>
+				<token>com</token>
+			</pattern>		
+			<message>Substitua por <suggestion><match no='3' postag='VMII1S0|VMII3S0' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>.</message>
+			<example correction="estar">O Rui disse <marker>que estava</marker> com pressa.</example>  
+		</rule>
+		<rule>
+			<pattern>
+				<token postag='V.+|RG' postag_regexp='yes'>
+					<exception>tempo</exception>
+					<exception postag='NC.+' postag_regexp='yes'/>
+				</token>
+				<marker>
+					<token>que</token>
+					<token postag='VMII3P0' postag_regexp='no'/>
+				</marker>
+				<token>com</token>
+			</pattern>		
+			<message>Substitua por <suggestion><match no='3' postag='VMII3P0' postag_regexp="yes" postag_replace='VMN03P0'/></suggestion>.</message>
+			<example correction="estarem">Uns clientes disseram <marker>que estavam</marker> com pressa.</example>  
+		</rule>
+	</rulegroup>
+	
     <rule id='UMA_COISA_ALGO' name="Algo">
     <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-06-27    -->
       <pattern>
