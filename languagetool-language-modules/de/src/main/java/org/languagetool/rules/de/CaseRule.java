@@ -229,10 +229,10 @@ public class CaseRule extends Rule {
       regex("[kK]nock"),
       regex("[oO]ut")
     ),
-    Arrays.asList( // "was sie über das denken"
-      token("über"),
-      token("das"),
-      token("denken")
+    Arrays.asList(
+      csToken("das"),
+      posRegex("VER:INF:.+"),
+      posRegex("KON:NEB|PKT")
     ),
     // names with english adjectives
     Arrays.asList(

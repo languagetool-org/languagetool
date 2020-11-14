@@ -147,6 +147,7 @@ public class CaseRuleTest {
     assertGood("Das schaffen moderne und effizientere E-Autos schneller.");
     assertGood("Das verwalten User.");
     assertGood("Man kann das generalisieren");
+    assertGood("Aber wie wir das machen und sicher gestalten, darauf konzentriert sich unsere Arbeit.");
     assertGood("Vielleicht kann man das erweitern");
     assertGood("Vielleicht soll er das generalisieren");
     assertGood("Wahrscheinlich müssten sie das überarbeiten");
