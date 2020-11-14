@@ -165,10 +165,12 @@ public class MorfologikFrenchSpellerRuleTest {
     assertSuggestion(rule, langTool, "buvezen", "buvez-en");
     assertSuggestion(rule, langTool, "avaisje", "avais-je");
     assertSuggestion(rule, langTool, "damazon", "d'Amazon", "d'amazone", "d'Amazone");
+    assertSuggestion(rule, langTool, "deja", "déjà", "d'EA");
+    assertSuggestion(rule, langTool, "depeche-toi", "dépêchè", "dépêché", "dépêche", "d'empêché", "d'évêché", "repêché");
     
     // to improve
     assertSuggestion(rule, langTool, "language", "l'engage", "l'engagé", "l'aiguage", "langage");
-    assertSuggestion(rule, langTool, "depeche-toi", "d'empêché", "d'évêché", "dépêche");
+    
     
     // don't split prefixes 
     matches = rule.match(langTool.getAnalyzedSentence("macrodiscipline"));

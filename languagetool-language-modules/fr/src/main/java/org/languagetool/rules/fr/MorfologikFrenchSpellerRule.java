@@ -23,6 +23,7 @@ import org.languagetool.*;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tagging.fr.FrenchTagger;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
@@ -134,6 +135,12 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
       // move some split words to first place
       Matcher matcher = PARTICULA_INICIAL.matcher(suggestions.get(i).getReplacement());
       if (matcher.matches()) {
+        newSuggestions.add(0, suggestions.get(i));
+        continue;
+      }
+      
+      String suggWithoutDiacritics = StringTools.removeDiacritics(suggestions.get(i).getReplacement());
+      if (word.equalsIgnoreCase(suggWithoutDiacritics) && suggestions.get(0).getReplacement().contains("'")) {
         newSuggestions.add(0, suggestions.get(i));
         continue;
       }
