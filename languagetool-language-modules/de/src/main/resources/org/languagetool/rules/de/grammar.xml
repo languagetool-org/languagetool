@@ -66,6 +66,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY typo "Möglicher Tippfehler">
     <!ENTITY odkomma "oder fehlt vielleicht ein Komma">
     <!ENTITY redundanz "Diese Formulierung ist möglicherweise redundant.">
+    <!ENTITY seitseid "Meinten Sie <suggestion>seit</suggestion> (Präposition: 'seit wann?') statt 'seid' (Verbform: 'seid ihr angekommen?')?">
 
     <!ENTITY wochentage "Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonnabend|Sonntag">
     <!ENTITY abgekWochentage "M[oi]|D[io]|Fr|S[ao]">
@@ -4198,7 +4199,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ADV:TMP"/>
                     <token postag="SENT_END"/>
                 </pattern>
-                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
+                <message>&seitseid;</message>
                 <example correction="seit">Das ist schon so <marker>seid</marker> vorgestern.</example>
             </rule>
             <rule>
@@ -4211,7 +4212,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception regexp="yes">erwachsen|missraten|verkommen|überlegen|verlegen</exception>
                     </token>
                 </pattern>
-                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
+                <message>&seitseid;</message>
                 <example correction="Seit"><marker>Seid</marker> gestern geht es mir wieder besser.</example>
                 <example>Ihr Mädchen <marker>seid</marker> immer verlegen.</example>
             </rule>
@@ -4223,7 +4224,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="ADV:TMP"/>
                 </pattern>
-                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
+                <message>&seitseid;</message>
                 <example>Es geht <marker>seit</marker> gestern wieder besser.</example>
                 <example correction="seit">Es läuft <marker>seid</marker> gestern wieder besser.</example>
             </rule>
@@ -4235,7 +4236,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="ADV:TMP"/>
                 </pattern>
-                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
+                <message>&seitseid;</message>
                 <example>Es geht schon <marker>seit</marker> gestern wieder besser.</example>
                 <example correction="seit">Das ist nicht erst <marker>seid</marker> gestern so.</example>
             </rule>
@@ -4248,7 +4249,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ZAL"/>
                     <token regexp="yes">&zeiteinheiten;</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
+                <message>&seitseid;</message>
                 <example correction="seit">Mir geht es schon <marker>seid</marker> zwei Tagen wieder besser.</example>
             </rule>
             <rule>
@@ -4260,7 +4261,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" min="0">[0-9]+</token>
                     <token regexp="yes">&zeiteinheiten;</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
+                <message>&seitseid;</message>
                 <example correction="seit">Mir geht es schon <marker>seid</marker> 13 Tagen wieder besser.</example>
                 <example>Mir geht es schon <marker>seit</marker> Tagen wieder besser.</example>
                 <example correction="seit">Mir geht es schon <marker>seid</marker> Jahren nicht so gut.</example>
@@ -4273,7 +4274,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">&zeiteinheiten;</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
+                <message>&seitseid;</message>
                 <example>Die wurden <marker>seit</marker> Jahren nicht mehr gewartet.</example>
                 <example correction="seit">Das ist <marker>seid</marker> Jahren schon kaputt.</example>
             </rule>
@@ -4286,7 +4287,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">&zeiteinheiten;</token>
                     <token postag="VER:(AUX:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes"/>
                 </pattern>
-                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
+                <message>&seitseid;</message>
                 <example><marker>Seit</marker> einigen Tagen läuft der Laden wieder.</example>
                 <example correction="Seit"><marker>Seid</marker> einigen Tagen geht es wieder besser.</example>
             </rule>
@@ -4299,7 +4300,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">einigen|wenigen|vielen|etlichen|mehreren</token>
                     <token regexp="yes">&zeiteinheiten;</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
+                <message>&seitseid;</message>
                 <example>Es geht <marker>seit</marker> einigen Tagen wieder.</example>
                 <example correction="seit">Der Laden läuft <marker>seid</marker> einigen Tagen auf Hochtouren.</example>
             </rule>
@@ -4312,7 +4313,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">letzten|vorletzten</token>
                     <token regexp="yes">&wochentage;|&monate;|Frühling|Sommer|Herbst|Winter|Jahr|Halbjahr|Semester|Wintersemester|Sommersemester</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
+                <message>&seitseid;</message>
                 <example>Es geht <marker>seit</marker> letzten Mittwoch wieder.</example>
                 <example correction="seit">Der Laden läuft <marker>seid</marker> letzten Mittwoch auf Hochtouren.</example>
             </rule>
@@ -4325,7 +4326,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">&wochentage;|&monate;|Frühling|Sommer|Herbst|Winter|Jahr|Halbjahr|Semester|Wintersemester|Sommersemester</token>
                     <token postag="VER:(AUX:|MOD:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes"/>
                 </pattern>
-                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
+                <message>&seitseid;</message>
                 <example><marker>Seit</marker> letztem Mittwoch brennt das Licht wieder.</example>
                 <example correction="Seit"><marker>Seid</marker> letztem Mittwoch läuft es wieder.</example>
             </rule>
@@ -4339,7 +4340,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">&wochentage;|&monate;|Frühling|Sommer|Herbst|Winter|Jahr|Halbjahr|Semester|Wintersemester|Sommersemester</token>
                     <token postag="VER:(AUX:|MOD:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes"/>
                 </pattern>
-                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
+                <message>&seitseid;</message>
                 <example><marker>Seit</marker> dem letzten Mittwoch brennt das Licht wieder.</example>
                 <example correction="Seit"><marker>Seid</marker> dem letzten Mittwoch läuft es wieder.</example>
             </rule>
@@ -4353,7 +4354,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>paar</token>
                     <token regexp="yes">&zeiteinheiten;</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
+                <message>&seitseid;</message>
                 <example>Es geht <marker>seit</marker> ein paar Tagen wieder.</example>
                 <example correction="seit">Der Laden läuft <marker>seid</marker> ein paar Tagen auf Hochtouren.</example>
             </rule>
@@ -4365,7 +4366,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">Gründung|Bestehen|kurzem|langem</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
+                <message>&seitseid;</message>
                 <example correction="seit">Noch nie so viele Auswanderer <marker>seid</marker> Bestehen der BRD</example>
             </rule>
             <rule>
@@ -4378,7 +4379,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">[0-9]+</token>
                     <token regexp="yes">&zeiteinheiten;</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
+                <message>&seitseid;</message>
                 <example><marker>Seit</marker> über 15 Jahren</example>
                 <example>Ihr <marker>seid</marker> über 15 Jahre alt.</example>
                 <example correction="Seit"><marker>Seid</marker> über 15 Jahren wohne ich schon hier.</example>
@@ -4394,7 +4395,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">[0-9]+</token>
                     <token regexp="yes">&zeiteinheiten;</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
+                <message>&seitseid;</message>
                 <example>Ihr <marker>seid</marker> mehr als 15 Jahre alt.</example>
                 <example correction="Seit"><marker>Seid</marker> mehr als 15 Jahren</example>
             </rule>
@@ -4406,7 +4407,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">[0-9]+|wann</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
+                <message>&seitseid;</message>
                 <example>Ihr <marker>seid</marker> 15 Jahre alt.</example>
                 <example correction="Seit"><marker>Seid</marker> 15 Jahren</example>
                 <example correction="Seit"><marker>Seid</marker> wann ist das so?</example>
@@ -4418,7 +4419,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">du|er|ich|wir</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
+                <message>&seitseid;</message>
                 <example correction="Seit"><marker>Seid</marker> du nicht mehr da bist, ist alles doof.</example>
             </rule>
             <rule>
@@ -4428,7 +4429,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>seid</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
+                <message>&seitseid;</message>
                 <example correction="seit">Da ich <marker>seid</marker> letzter Woche nicht mehr kommen kann, ist alles doof.</example>
             </rule>
         </rulegroup>
