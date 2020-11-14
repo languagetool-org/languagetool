@@ -52,7 +52,7 @@ public final class Languages {
    */
   public static Language addLanguage(String name, String code, File dictPath) {
     Language lang;
-    if (dictPath.getName().endsWith(".dict")) {
+    if (dictPath.getName().endsWith(JLanguageTool.DICTIONARY_FILENAME_EXTENSION)) {
       lang = new DynamicMorfologikLanguage(name, code, dictPath);
     } else if (dictPath.getName().endsWith(".dic")) {
       lang = new DynamicHunspellLanguage(name, code, dictPath);
