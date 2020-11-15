@@ -165,6 +165,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                      !k.getReplacement().endsWith(" ally") && // adverbs ending in "ally" that LT doesn't know (yet)
                      !k.getReplacement().endsWith(" ize") && // "advertize"
                      !k.getReplacement().endsWith(" sh") &&
+                     !k.getReplacement().endsWith(" ward") &&
                      !k.getReplacement().endsWith(" en") && // "Antwerpen" suggests "Antwerp en"
                      !k.getReplacement().endsWith(" ed"))
         .collect(Collectors.toList());
@@ -295,6 +296,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   protected Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
+    s.put("pharmasuitable", Arrays.asList("pharmaceutical"));
+    s.put("storie", Arrays.asList("story", "store", "stories"));
+    s.put("Storie", Arrays.asList("Story", "Store", "Stories"));
     s.put("ensuite", Arrays.asList("en suite"));
     s.put("Ensuite", Arrays.asList("En suite"));
     s.put("insite", Arrays.asList("insight"));
@@ -467,7 +471,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("sowwy", Arrays.asList("sorry"));
     s.put("Sowwy", Arrays.asList("Sorry"));
     s.put("grandmum", Arrays.asList("grandma", "grandmother"));
+    s.put("grandmom", Arrays.asList("grandma", "grandmother"));
     s.put("Grandmum", Arrays.asList("Grandma", "Grandmother"));
+    s.put("Grandmom", Arrays.asList("Grandma", "Grandmother"));
     s.put("Hongkong", Arrays.asList("Hong Kong"));
     s.put("enlighting", Arrays.asList("enlightening"));
     s.put("Enlighting", Arrays.asList("Enlightening"));
