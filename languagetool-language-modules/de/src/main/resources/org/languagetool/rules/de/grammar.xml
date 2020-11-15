@@ -68,7 +68,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY redundanz "Diese Formulierung ist möglicherweise redundant.">
     <!ENTITY seitseid "Meinten Sie <suggestion>seit</suggestion> (Präposition: 'seit gestern') statt 'seid' (Verbform: 'seid ihr angekommen?')?">
     <!ENTITY seidseit "Meinten Sie <suggestion>seid</suggestion> (Verbform: 'seid ihr angekommen?') statt 'seit' (Präposition: 'seit gestern')?">
-    <!ENTITY maennerleute "(.*kauf|Amt|Berg|Berufsfeuerwehr|Boots|Busch|Clubob|Dienst|Edel|Ersatz|Fach|Fahrens|Feuerwehr|Finanz|Forst|Geschäfts|Gewährs|Haupt|Hinter|Kamera|Kirchen|Klubob|Medizin|Neben|Ombuds|Ordens|Reiters|Schutz|See|Sicherheits|Steuer|Stroh|Verbindungs|Verkehrsschutz|Vertrauens|Wach|Wahl|Werbefach)männer(n|.*)?">
+    <!ENTITY maennerleute "(.*kauf|Amt|Berg|Berufsfeuerwehr|Boots|Busch|Clubob|Dienst|Edel|Ersatz|Fach|Fahrens|Feuerwehr|Finanz|Forst|Geschäfts|Gewährs|Haupt|Hinter|Kamera|Kirchen|Klubob|Neben|Ombuds|Ordens|Reiters|Schutz|See|Sicherheits|Steuer|Stroh|Verbindungs|Verkehrsschutz|Vertrauens|Wach|Wahl|Werbefach)männer(n|.*)?">
 
     <!ENTITY wochentage "Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonnabend|Sonntag">
     <!ENTITY abgekWochentage "M[oi]|D[io]|Fr|S[ao]">
@@ -18739,13 +18739,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="MAENNER_VS_LEUTE" name="'Kaufmänner' etc. statt 'Kaufleute'">
             <antipattern>
                 <token regexp="yes">&maennerleute;</token>
-                <token>und</token>
+                <token regexp="yes">und|oder</token>
                 <token>-frauen</token>
             </antipattern>
             <pattern>
                 <token regexp="yes">&maennerleute;</token>
             </pattern>
-            <message>Evtl. passt der geschlechtsneutrale Begriff <suggestion><match no="1" regexp_match="männer(n)?" regexp_replace="leute$1"/></suggestion> besser.</message>
+            <message>Evtl. passt ein geschlechtsneutraler Begriff besser.</message>
+            <suggestion><match no="1" regexp_match="männer(n)?" regexp_replace="leute$1"/></suggestion>
             <example correction="Feuerwehrleute">Es waren viele <marker>Feuerwehrmänner</marker> im Einsatz.</example>
             <example>Es waren viele <marker>Feuerwehrmänner</marker> und -frauen im Einsatz.</example>
             <example correction="Industriekaufleute">Es werden viele <marker>Industriekaufmänner</marker> gesucht.</example>
