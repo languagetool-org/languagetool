@@ -7,11 +7,11 @@
     <!ENTITY apostrophe "['’`´‘]">
     <!ENTITY months "January|February|March|April|May|Ju(ne|ly)|August|September|October|November|December">
     <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Ju[ln]|Aug|Sept?|Oct|Nov|Dec">
-    <!ENTITY file_name_extensions "ai|asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|docx?|dll|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpe?g|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|ods|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rar|rss|sh|shtml|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|yaml|yml|zip|zipx">    <!ENTITY subject_pronouns "I|you|he|she|it|we|they|one">
+    <!ENTITY file_name_extensions "ai|aspx?|avi|ba[kt]|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|docx?|dll|eps|exe|flv|gif|html?|ibooks|ico|ini|jar|jpe?g|jsp?|lnk|mdb?|mid|mov|mp[34ag]|ods|pdf|php|pl|png|pp[st]|psd?|py|rar|rss|sh|shtml|sql|svg|sys|tar|tiff?|tmp|txt|wav|wma|xhtml|xlsx?|xsl|xml|yaml|yml|zipx?">    <!ENTITY subject_pronouns "I|you|he|she|it|we|they|one">
     <!ENTITY object_pronouns "me|you|him|her|it|us|them|one">
     <!ENTITY hispanic_nnp "Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Días|Di?os|Nacional|Villas|Cinco|Rancho|Cerro|Universidad|Copa|Academia|Plaza|Facultad|Torre|Camino|Club|Tapas|Palma|Águas|Costa">
     <!ENTITY plural_adjectival_nouns "angry|blind|deaf|destitute|dead|dying|elderly|faithful|homeless|injured|insane|jobless|old|poor|rich|sick|squeamish|wealthy|wicked|wounded|young"><!-- One-word terms only, only after the word 'the': www.oxfordlearnersdictionaries.com/definition/english/rich, www.englishgrammar.org/adjectives-nouns/ -->
-    <!ENTITY subordinating_conjunctions "after|although|as|because|before|if|lest|like|once|since|than|that|though|unless|until|whenever|where|whereas|wherever|whether|while|why"><!-- #2988 -->
+    <!ENTITY subordinating_conjunctions "after|although|as|because|before|if|lest|like|once|since|tha[nt]|though|unless|until|whenever|where|whereas|wherever|whether|while|why"><!-- #2988 -->
      <!ENTITY abbreviated_negated_verbs "ain|aren|isn|wasn|weren|can|couldn|don|doesn|didn|hasn|hadn|haven|mayn|mightn|mustn|needn|oughtn|shan|shouldn|usedn|won|wouldn">
 ]>
 <rules lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -306,6 +306,22 @@
         </pattern>
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="six[six/CD,six/JJ,six/NN]" outputform="six[six/CD]">It's ten past <marker>six</marker>.</example>
+    </rule>
+
+    <rule id="DT_CD_VBP" name="Disambiguate verb">
+        <pattern>
+            <token postag="DT"/>
+            <token postag="CD"/>
+            <marker>
+                <and>
+                    <token postag="VBP"/>
+                    <token postag="NN:UN"/>
+                </and>
+            </marker>
+            <token postag="PRP|NN[PS]?" postag_regexp="yes"></token>
+        </pattern>
+        <disambig action="remove" postag="NN:UN"/>
+        <example type="ambiguous" inputform="love[love/NN:UN,love/VB,love/VBP]" outputform="love[love/VB,love/VBP]">The two <marker>love</marker> you.</example>
     </rule>
 
     <rule id="half_past_CD" name="Disambiguate time no. 2">
@@ -3148,6 +3164,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag_regexp="yes" postag="NN(S|:UN?)"/>
             <token postag="IN"/>
         </antipattern>
+        <antipattern><!-- #3853 ... when you don't know whether the two love you as much as you love both. -->
+            <token postag="DT"/>
+            <token postag="CD"/>
+            <token postag="VBP"/>
+        </antipattern>
         <antipattern><!-- #2405 the community sees it as -->
             <token postag="DT"/>
             <token postag_regexp="yes" postag="NN(:UN?)?"/>
@@ -4306,6 +4327,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>few</token>
             <token postag="VBP"/>
             <token postag_regexp="yes" postag="PCT|CC"/>
+        </antipattern>
+        <antipattern><!-- #3853 ... when you don't know whether the two love you as much as you love both. -->
+            <token postag="DT"/>
+            <token postag="CD"/>
+            <token postag="VBP"/>
         </antipattern>
         <antipattern><!-- the most stable and prosperous. Refer to DT_JJR_JJ_CC_JJ -->
             <token postag_regexp="yes" postag="DT|PRP\$"/>
