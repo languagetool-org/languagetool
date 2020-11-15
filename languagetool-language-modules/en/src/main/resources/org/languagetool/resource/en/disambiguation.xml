@@ -324,6 +324,21 @@
         <example type="ambiguous" inputform="love[love/NN:UN,love/VB,love/VBP]" outputform="love[love/VB,love/VBP]">The two <marker>love</marker> you.</example>
     </rule>
 
+<!--    <rule id="SOME_VBP_IN" name="Disambiguate verb">
+        <pattern>
+            <token regexp="yes">many|some</token>
+            <marker>
+                <and>
+                    <token postag="VBP"/>
+                    <token postag="NN:UN"/>
+                </and>
+            </marker>
+            <token postag="IN"></token>
+        </pattern>
+        <disambig action="remove" postag="NN:UN"/>
+        <example type="ambiguous" inputform="fall[fall/NN:UN,fall/VB,fall/VBP]" outputform="fall[fall/VB,fall/VBP]">We looked at the partygoers and found some <marker>fall</marker> in the gutter, usually when they are drunk.</example>
+    </rule>-->
+
     <rule id="half_past_CD" name="Disambiguate time no. 2">
         <pattern>
             <marker>
@@ -3001,6 +3016,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="DT"/>
             <token/>
             <token postag_regexp="yes" postag="TO|PRP\$|DT"/>
+        </antipattern>
+        <antipattern><!-- #3274 but some fall in the gutter -->
+            <token regexp="yes">many|some</token>
+            <token postag="VBP"/>
+            <token postag="IN"><exception>of</exception></token>
         </antipattern>
         <antipattern>
             <token regexp="yes">&subject_pronouns;</token>
@@ -6000,6 +6020,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>if</token>
             <token postag="RB"/>
             <token postag_regexp="yes" postag="VBP?"/>
+        </antipattern>
+        <antipattern><!-- #3274 but some fall in the gutter -->
+            <token regexp="yes">many|some</token>
+            <token postag="VBP"/>
+            <token postag="IN"><exception>of</exception></token>
         </antipattern>
         <antipattern><!-- Fix for chunker: did he last talk ... -->
             <token>did</token>
