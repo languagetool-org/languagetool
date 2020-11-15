@@ -2104,6 +2104,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NN(:UN?)?" postag_regexp="yes"/>
             <token postag="SENT_END"/>
         </antipattern>
+        <antipattern><!-- You damn idiot #3682 -->
+            <token postag="SENT_START"/>
+            <token>You</token>
+            <token postag="JJ"/>
+            <token postag="NN"/>
+            <token postag="SENT_END">!</token>
+        </antipattern>
         <pattern>
             <token postag="SENT_START|[:;,]" postag_regexp="yes"/>
             <token regexp="yes">I|you|we|they</token>
@@ -5946,7 +5953,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="PRP"><exception regexp="yes">me|her|its|him|us|them</exception></token>
             <marker>
                 <and>
-                <token postag="VB"><exception negate_pos="yes" postag_regexp="yes" postag="VBP|VB"/></token>
+                <token postag="VB"><exception negate_pos="yes" postag_regexp="yes" postag="VBP?"/></token>
                 <token postag='VBP'/>
                 </and>
             </marker>
