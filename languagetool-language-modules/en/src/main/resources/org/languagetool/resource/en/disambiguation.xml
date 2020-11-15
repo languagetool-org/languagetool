@@ -1118,6 +1118,17 @@
       <example type="ambiguous" inputform="No[No/NNP,no/DT,no/NN]" outputform="No[no/DT]"><marker>No</marker> one trusts him any more.</example>
     </rule>
 
+    <rule id="ONE_OF_THE_MOST" name="'most' as RBS">
+      <pattern>
+        <token>one</token>
+        <token>of</token>
+        <token>the</token>
+        <marker><token>most</token></marker>
+        <token postag="JJ|VBG" postag_regexp="yes"/>
+      </pattern>
+      <disambig postag="RBS"/>
+    </rule>
+
     <rule name="best as adjective" id="BEST_JJS"> <!-- very crude -->
       <antipattern>
         <token regexp="yes">thee?</token>
@@ -1182,7 +1193,7 @@
 
     <rule id="DO_VBNN_VB" name="do/did/does + verb/noun -> VB">
         <pattern>
-            <token regexp="yes">do|did|does</token>
+            <token regexp="yes">do(es)?|did</token>
             <marker>
                 <and>
                     <token postag="VB"/>
@@ -1204,7 +1215,7 @@
     <rule id="DO_not_VBNN_VB" name="do/did/does + not + verb/noun -> VB">
       <pattern>
           <marker>
-            <token postag="VB.*" postag_regexp="yes" regexp="yes">do|did|does</token>
+            <token postag="VB.*" postag_regexp="yes" regexp="yes">do(es)?|did</token>
             <token>not</token>
                 <and>
                     <token postag="VB"/>
