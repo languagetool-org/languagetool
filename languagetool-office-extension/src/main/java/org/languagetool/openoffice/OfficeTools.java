@@ -18,8 +18,11 @@
  */
 package org.languagetool.openoffice;
 
+import java.io.File;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.jetbrains.annotations.Nullable;
 
 import com.sun.star.awt.XMenuBar;
@@ -75,6 +78,11 @@ class OfficeTools {
   public static boolean DEBUG_MODE_IO = false;    //  Activate Debug Mode for Cache save to file
   public static boolean DEVELOP_MODE = false;     //  Activate Development Mode
 
+  private static final String VENDOR_ID = "languagetool.org";
+  private static final String APPLICATION_ID = "LanguageTool";
+  private static final String OFFICE_EXTENSION_ID = "LibreOffice";
+  private static final String CACHE_ID = "cache";
+  
   private static final String MENU_BAR = "private:resource/menubar/menubar";
   private static final String LOG_DELIMITER = ",";
 
@@ -318,6 +326,87 @@ class OfficeTools {
     }
     return false;
   }
+
+  /**
+   * Returns directory to store every information for LT office extension
+   * @since 4.7
+   */
+  public static File getLOConfigDir() {
+      String userHome = null;
+      File directory;
+      try {
+        userHome = System.getProperty("user.home");
+      } catch (SecurityException ex) {
+      }
+      if (userHome == null) {
+        MessageHandler.showError(new RuntimeException("Could not get home directory"));
+        directory = null;
+      } else if (SystemUtils.IS_OS_WINDOWS) {
+        // Path: \\user\<YourUserName>\AppData\Roaming\languagetool.org\LanguageTool\LibreOffice  
+        File appDataDir = null;
+        try {
+          String appData = System.getenv("APPDATA");
+          if (!StringUtils.isEmpty(appData)) {
+            appDataDir = new File(appData);
+          }
+        } catch (SecurityException ex) {
+        }
+        if (appDataDir != null && appDataDir.isDirectory()) {
+          String path = VENDOR_ID + "\\" + APPLICATION_ID + "\\" + OFFICE_EXTENSION_ID + "\\";
+          directory = new File(appDataDir, path);
+        } else {
+          String path = "Application Data\\" + VENDOR_ID + "\\" + APPLICATION_ID + "\\" + OFFICE_EXTENSION_ID + "\\";
+          directory = new File(userHome, path);
+        }
+      } else if (SystemUtils.IS_OS_LINUX) {
+        // Path: /home/<YourUserName>/.config/LanguageTool/LibreOffice  
+        File appDataDir = null;
+        try {
+          String xdgConfigHome = System.getenv("XDG_CONFIG_HOME");
+          if (!StringUtils.isEmpty(xdgConfigHome)) {
+            appDataDir = new File(xdgConfigHome);
+            if (!appDataDir.isAbsolute()) {
+              //https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+              //All paths set in these environment variables must be absolute.
+              //If an implementation encounters a relative path in any of these
+              //variables it should consider the path invalid and ignore it.
+              appDataDir = null;
+            }
+          }
+        } catch (SecurityException ex) {
+        }
+        if (appDataDir != null && appDataDir.isDirectory()) {
+          String path = APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
+          directory = new File(appDataDir, path);
+        } else {
+          String path = ".config/" + APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
+          directory = new File(userHome, path);
+        }
+      } else if (SystemUtils.IS_OS_MAC_OSX) {
+        String path = "Library/Application Support/" + APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
+        directory = new File(userHome, path);
+      } else {
+        String path = "." + APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
+        directory = new File(userHome, path);
+      }
+      if (directory != null && !directory.exists()) {
+        directory.mkdirs();
+      }
+      return directory;
+  }
+  
+  /**
+   * Returns directory to saves caches
+   * @since 5.2
+   */
+  public static File getCacheDir() {
+    File cacheDir = new File(getLOConfigDir(), CACHE_ID);
+    if (cacheDir != null && !cacheDir.exists()) {
+      cacheDir.mkdirs();
+    }
+    return cacheDir;
+  }
+
 
 /**
  * Handle logLevel for debugging and development

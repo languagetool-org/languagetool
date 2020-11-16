@@ -427,7 +427,7 @@ class SingleDocument {
    */
   void writeCaches() {
     if (numParasToCheck != 0) {
-      cacheIO.saveCaches(docCache, sentencesCache, paragraphsCache);
+      cacheIO.saveCaches(xComponent, docCache, sentencesCache, paragraphsCache);
     }
   }
   
@@ -768,6 +768,12 @@ class SingleDocument {
     }
     if (nFParas < docCache.textSize()) {
       return -1;   // try to get ViewCursor position for proof info unknown
+    }
+    if (nPara >= docCache.size()) {
+      nPara = flatPara.getCurNumFlatParagraph();
+      if(nPara < 0 || nPara >= docCache.size()) {
+        return -1;
+      }
     }
     if (getCurNum) {
       resetCheck.add(nPara);
