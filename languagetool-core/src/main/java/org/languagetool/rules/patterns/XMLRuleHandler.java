@@ -549,7 +549,7 @@ public class XMLRuleHandler extends DefaultHandler {
     return sugMatch;
   }
 
-  protected void finalizeTokens() throws SAXException {
+  protected void finalizeTokens(UnifierConfiguration unifierConfiguration) throws SAXException {
     if (!exceptionSet || patternToken == null) {
       boolean tokenCase = caseSensitive;
       if (tokenLevelCaseSet) {
@@ -618,7 +618,7 @@ public class XMLRuleHandler extends DefaultHandler {
     }
     patternToken.setInsideMarker(inMarker);
     if (inUnificationDef) {
-      language.getUnifierConfiguration().setEquivalence(uFeature, uType, patternToken);
+      unifierConfiguration.setEquivalence(uFeature, uType, patternToken);
       patternTokens.clear();
     }
     if (tokenSpaceBeforeSet) {

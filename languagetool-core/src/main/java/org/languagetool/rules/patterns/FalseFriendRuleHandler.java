@@ -151,7 +151,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
         }
         break;
       case TOKEN:
-        finalizeTokens();
+        finalizeTokens(language.getUnifierConfiguration());
         break;
       case PATTERN:
         inPattern = false;
