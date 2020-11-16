@@ -71,9 +71,9 @@ public class PatternToken implements Cloneable {
   /** List of exceptions that are valid for a previous token. */
   private List<PatternToken> previousExceptionList;
 
-  private int skip;
-  private int minOccurrence = 1;
-  private int maxOccurrence = 1;
+  private byte skip;
+  private boolean mayBeOmitted;
+  private byte maxOccurrence = 1;
 
   private Predicate<String> stringMatcher = s -> true;
 
@@ -434,7 +434,7 @@ public class PatternToken implements Cloneable {
    * The minimum number of times the element needs to occur.
    */
   public int getMinOccurrence() {
-    return minOccurrence;
+    return mayBeOmitted ? 0 : 1;
   }
 
   /**
@@ -448,7 +448,10 @@ public class PatternToken implements Cloneable {
    * @param i exception scope length.
    */
   public void setSkipNext(int i) {
-    skip = i;
+    if (i < -1 || i > Byte.MAX_VALUE) {
+      throw new IllegalArgumentException("'skip' should be between -1 and " + Byte.MAX_VALUE);
+    }
+    skip = (byte) i;
   }
 
   /**
@@ -459,7 +462,7 @@ public class PatternToken implements Cloneable {
     if (i != 0 && i != 1) {
       throw new IllegalArgumentException("minOccurrences must be 0 or 1: " + i);
     }
-    minOccurrence = i;
+    mayBeOmitted = i == 0;
   }
 
   /**
@@ -470,7 +473,10 @@ public class PatternToken implements Cloneable {
     if (i == 0) {
       throw new IllegalArgumentException("maxOccurrences may not be 0");
     }
-    maxOccurrence = i;
+    if (i < -1 || i > Byte.MAX_VALUE) {
+      throw new IllegalArgumentException("maxOccurrences should be between -1 and " + Byte.MAX_VALUE);
+    }
+    maxOccurrence = (byte) i;
   }
 
   /**
@@ -821,7 +827,7 @@ public class PatternToken implements Cloneable {
   }
 
   boolean hasStringThatMustMatch() {
-    return tokenReference == null && minOccurrence > 0 && stringToken != null && !stringToken.isEmpty();
+    return tokenReference == null && !mayBeOmitted && stringToken != null && !stringToken.isEmpty();
   }
 
   @Override
