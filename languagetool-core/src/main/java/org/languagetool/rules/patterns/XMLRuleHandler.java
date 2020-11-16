@@ -440,7 +440,7 @@ public class XMLRuleHandler extends DefaultHandler {
       if (tokenLevelCaseSet) {
         tokenCase = tokenLevelCaseSensitive;
       }
-      patternToken = new PatternToken(internString(elements.toString().trim()), tokenCase, regExpression, tokenInflected);
+      patternToken = new PatternToken(tokenInflected, internMatcher(elements.toString().trim(), regExpression, tokenCase));
       exceptionSet = true;
     }
     patternToken.setNegation(tokenNegated);
@@ -555,11 +555,10 @@ public class XMLRuleHandler extends DefaultHandler {
       if (tokenLevelCaseSet) {
         tokenCase = tokenLevelCaseSensitive;
       }
-      patternToken = new PatternToken(internString(elements.toString().trim()),
-        tokenCase, regExpression, tokenInflected);
+      patternToken = new PatternToken(tokenInflected, internMatcher(elements.toString().trim(), regExpression, tokenCase));
       patternToken.setNegation(tokenNegated);
     } else {
-      patternToken.setStringElement(internString(elements.toString().trim()));
+      patternToken.setTextMatcher(internMatcher(elements.toString().trim(), patternToken.isRegularExpression(), patternToken.isCaseSensitive()));
     }
     if (skipPos != 0) {
       patternToken.setSkipNext(skipPos);
@@ -649,6 +648,14 @@ public class XMLRuleHandler extends DefaultHandler {
 
   protected String internString(String s) {
     return internedStrings.computeIfAbsent(s, Function.identity());
+  }
+
+  private final Map<Triple<String, Boolean, Boolean>, StringMatcher> internedMatchers = new HashMap<>();
+
+  private StringMatcher internMatcher(String text, boolean regexp, boolean caseSensitive) {
+    text = internString(PatternToken.normalizeTextPattern(text));
+    return internedMatchers.computeIfAbsent(Triple.of(text, regexp, caseSensitive), t ->
+      StringMatcher.create(t.getLeft(), t.getMiddle(), t.getRight(), this::internString));
   }
 
   private final Map<Triple<String, Boolean, Boolean>, PatternToken.PosToken> internedPos = new HashMap<>();

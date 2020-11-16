@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
@@ -26,12 +25,10 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.synthesis.Synthesizer;
-import org.languagetool.tools.InterruptibleCharSequence;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 /**
@@ -42,13 +39,11 @@ public class PatternToken implements Cloneable {
   /** Matches only tokens without any POS tag. **/
   public static final String UNKNOWN_TAG = "UNKNOWN";
 
-  private final boolean caseSensitive;
-  private final boolean stringRegExp;
   private final boolean inflected;
 
   private List<PatternToken> andGroupList;
   private List<PatternToken> orGroupList;
-  private String stringToken;
+  private StringMatcher textMatcher;
   private PosToken posToken;
   private ChunkTag chunkTag;
   private boolean negation;
@@ -74,8 +69,6 @@ public class PatternToken implements Cloneable {
   private byte skip;
   private boolean mayBeOmitted;
   private byte maxOccurrence = 1;
-
-  private Predicate<String> stringMatcher = s -> true;
 
   /** The reference to another element in the pattern. **/
   private Match tokenReference;
@@ -107,10 +100,12 @@ public class PatternToken implements Cloneable {
    * @param inflected true if the check refers to base forms (lemmas), note that {@code token} must be a base form for this to work
    */
   public PatternToken(String token, boolean caseSensitive, boolean regExp, boolean inflected) {
-    this.caseSensitive = caseSensitive;
+    this(inflected, StringMatcher.create(normalizeTextPattern(token), regExp, caseSensitive));
+  }
+
+  PatternToken(boolean inflected, @NotNull StringMatcher textMatcher) {
     this.inflected = inflected;
-    stringRegExp = regExp;
-    setStringElement(token);
+    setTextMatcher(textMatcher);
   }
 
   @Override
@@ -129,7 +124,7 @@ public class PatternToken implements Cloneable {
     }
     boolean posNegation = posToken != null && posToken.negation;
     if (testString) {
-      return isStringTokenMatched(token) ^ negation &&
+      return textMatcher.matches(getTestToken(token)) ^ negation &&
              isPosTokenMatched(token) ^ posNegation;
     } else {
       return !negation &&
@@ -292,51 +287,21 @@ public class PatternToken implements Cloneable {
     this.chunkTag = chunkTag;
   }
 
-  @Nullable
   public String getString() {
-    return stringToken;
+    return textMatcher.pattern;
   }
 
   public void setStringElement(String token) {
-    if (token != null) {
-      String tok = StringTools.trimWhitespace(token);
-      if (tok.isEmpty()) {
-        stringToken = "";
-      } else {
-        stringToken = tok;
-      }
-    } else {
-      stringToken = null;
-    }
-    testString = !StringTools.isEmpty(stringToken);
-    stringMatcher = testString ? createMatcher() : s -> true;
+    setTextMatcher(StringMatcher.create(normalizeTextPattern(token), isRegularExpression(), isCaseSensitive()));
   }
 
-  private Predicate<String> createMatcher() {
-    Set<String> set = calcOwnPossibleStringValues();
-    if (set != null) {
-      if (set.size() == 1) {
-        return stringEquals(set.iterator().next());
-      }
-      if (!caseSensitive) {
-        String[] sorted = set.toArray(new String[0]);
-        Arrays.sort(sorted, String.CASE_INSENSITIVE_ORDER);
-        return s -> Arrays.binarySearch(sorted, s, String.CASE_INSENSITIVE_ORDER) >= 0;
-      }
-      return set::contains;
-    }
-
-    if (stringRegExp && !"\\0".equals(stringToken)) {
-      Pattern pattern = Pattern.compile(stringToken, caseSensitive ? 0 : Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-      return s -> pattern.matcher(new InterruptibleCharSequence(s)).matches();
-    }
-
-    return stringEquals(stringToken);
+  void setTextMatcher(@NotNull StringMatcher matcher) {
+    textMatcher = matcher;
+    testString = !StringTools.isEmpty(matcher.pattern);
   }
 
-  @NotNull
-  private Predicate<String> stringEquals(String single) {
-    return caseSensitive ? s -> s.equals(single) : s -> s.equalsIgnoreCase(single);
+  static String normalizeTextPattern(String token) {
+    return token == null ? "" : StringTools.trimWhitespace(token);
   }
 
   /**
@@ -357,7 +322,7 @@ public class PatternToken implements Cloneable {
           String token, boolean regExp, boolean inflected,
           boolean negation, boolean scopeNext, boolean scopePrevious,
           String posToken, boolean posRegExp, boolean posNegation, Boolean caseSensitivity) {
-    PatternToken exception = new PatternToken(token, caseSensitivity == null ? caseSensitive : caseSensitivity, regExp, inflected);
+    PatternToken exception = new PatternToken(token, caseSensitivity == null ? isCaseSensitive() : caseSensitivity, regExp, inflected);
     exception.setNegation(negation);
     exception.setPosToken(new PosToken(posToken, posRegExp, posNegation));
     exception.exceptionValidNext = scopeNext;
@@ -398,15 +363,6 @@ public class PatternToken implements Cloneable {
       return false;
     }
     return pos.posPattern != null ? pos.posPattern.matcher(tokenPos).matches() : pos.posTag.equals(tokenPos);
-  }
-
-  /**
-   * Tests whether the string token element matches a given token.
-   * @param token {@link AnalyzedToken} to match against.
-   * @return True if matches.
-   */
-  private boolean isStringTokenMatched(AnalyzedToken token) {
-    return stringMatcher.test(getTestToken(token));
   }
 
   private String getTestToken(AnalyzedToken token) {
@@ -550,7 +506,7 @@ public class PatternToken implements Cloneable {
   private void doCompile(AnalyzedTokenReadings token, Synthesizer synth) throws IOException {
     MatchState matchState = tokenReference.createState(synth, token);
     if (StringTools.isEmpty(referenceString)) {
-      referenceString = stringToken;
+      referenceString = textMatcher.pattern;
     }
     String reference = "\\" + tokenReference.getTokenRef();
     if (tokenReference.setsPos()) {
@@ -585,7 +541,7 @@ public class PatternToken implements Cloneable {
    * @since 2.3
    */
   public boolean isCaseSensitive() {
-    return caseSensitive;
+    return textMatcher.caseSensitive;
   }
 
   /**
@@ -593,7 +549,7 @@ public class PatternToken implements Cloneable {
    * @since 0.9.6
    */
   public boolean isRegularExpression() {
-    return stringRegExp;
+    return textMatcher.isRegExp;
   }
 
   /**
@@ -759,9 +715,11 @@ public class PatternToken implements Cloneable {
   @Nullable
   public Set<String> calcFormHints() {
     Set<String> result = inflected ? null : calcOwnPossibleStringValues();
+    if (result == null) return null;
 
     if (andGroupList != null) {
-      if (result == null) return null;
+      result = new HashSet<>(result);
+
       for (PatternToken token : andGroupList) {
         Set<String> hints = token.calcFormHints();
         if (hints != null) {
@@ -769,8 +727,6 @@ public class PatternToken implements Cloneable {
         }
       }
     } else if (orGroupList != null) {
-      if (result == null) return null;
-
       result = new HashSet<>(result);
 
       for (PatternToken token : orGroupList) {
@@ -789,45 +745,11 @@ public class PatternToken implements Cloneable {
     if (negation || !hasStringThatMustMatch()) {
       return null;
     }
-    return stringRegExp ? getPossibleRegexpValues(stringToken) : Collections.singleton(stringToken);
-  }
-
-  @Nullable
-  static Set<String> getPossibleRegexpValues(String stringToken) {
-    if (StringUtils.containsAny(stringToken, "()*+.\\^${}")) {
-      return null;
-    }
-    Set<String> result = new HashSet<>();
-    Queue<String> unprocessed = new ArrayDeque<>(Arrays.asList(stringToken.split("\\|")));
-    while (!unprocessed.isEmpty()) {
-      String regex = unprocessed.poll();
-      int lBracket = regex.indexOf('[');
-      if (lBracket >= 0) {
-        int rBracket = regex.indexOf(']', lBracket + 1);
-        if (rBracket < 0) {
-          return null;
-        }
-        for (int i = lBracket + 1; i < rBracket; i++) {
-          char c = regex.charAt(i);
-          if (c == '-') return null;
-          unprocessed.add(regex.substring(0, lBracket) + c + regex.substring(rBracket + 1));
-        }
-        continue;
-      }
-
-      int question = regex.indexOf('?');
-      if (question <= 0) {
-        result.add(regex);
-      } else {
-        unprocessed.add(regex.substring(0, question) + regex.substring(question + 1));
-        unprocessed.add(regex.substring(0, question - 1) + regex.substring(question + 1));
-      }
-    }
-    return result;
+    return textMatcher.getPossibleValues();
   }
 
   boolean hasStringThatMustMatch() {
-    return tokenReference == null && !mayBeOmitted && stringToken != null && !stringToken.isEmpty();
+    return tokenReference == null && !mayBeOmitted && !getString().isEmpty();
   }
 
   @Override
@@ -836,7 +758,7 @@ public class PatternToken implements Cloneable {
     if (negation) {
       sb.append('!');
     }
-    sb.append(stringToken);
+    sb.append(getString());
     if (phraseName != null) {
       sb.append(" {");
       sb.append(phraseName);
