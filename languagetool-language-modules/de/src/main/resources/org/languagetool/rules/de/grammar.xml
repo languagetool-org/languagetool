@@ -43433,40 +43433,58 @@ Andere Projekte</example>
             <example correction="kommt,">Er <marker>kommt</marker> und zwar in einer Stunde.</example>
             <example>Gib ihm Kaffee, und zwar schnell!</example>
         </rule>
-        <rule id="INDIREKTE_FRAGE" name="indirekte Frage">
-            <antipattern>
-                <token>ob</token>
-                <token postag='.*GEN.*|UNKNOWN' postag_regexp='yes'/>
-            </antipattern>
-            <antipattern>
-                <token postag="SENT_START|PKT|UNKNOWN" postag_regexp="yes"/>
-                <token regexp='yes'>&fragewoerter;</token>
-                <token/>
-                <token regexp='yes' case_sensitive='yes'>inwiefern|inwieweit|ob|wann|warum|wem|wen|wer|weshalb|weswegen|wessen|wieso|wo|wodurch|woher|wohin|wofür|womit|woran|worau|wovon|wozu</token>
-            </antipattern>
-            <antipattern>
-                <token>und</token>
-                <token regexp='yes'>&fragewoerter;</token>
-                <token/>
-                <token regexp='yes' case_sensitive='yes'>inwiefern|inwieweit|ob|wann|warum|wem|wen|wer|weshalb|weswegen|wessen|wieso|wo|wodurch|woher|wohin|wofür|womit|woran|worau|wovon|wozu</token>
-            </antipattern>
-            <pattern>
-                <token postag='VER:.*' postag_regexp='yes'><exception>mal</exception></token>
-                <token regexp='yes' min='0'>nicht|bereits|schon|vielleicht|noch|mich|dich|sich|euch|uns|sie|ihn|dann|schließlich|schliesslich|endlich</token>
-                <marker>
+        <rulegroup id="INDIREKTE_FRAGE" name="indirekte Frage">
+            <rule>
+                <antipattern>
+                    <token>ob</token>
+                    <token postag='.*GEN.*|UNKNOWN' postag_regexp='yes'/>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START|PKT|UNKNOWN" postag_regexp="yes"/>
+                    <token regexp='yes'>&fragewoerter;</token>
+                    <token/>
                     <token regexp='yes' case_sensitive='yes'>inwiefern|inwieweit|ob|wann|warum|wem|wen|wer|weshalb|weswegen|wessen|wieso|wo|wodurch|woher|wohin|wofür|womit|woran|worau|wovon|wozu</token>
-                </marker>
-                <token><exception postag="PKT"/></token>
-            </pattern>
-            <message>Indirekte Fragen werden mit Komma vom Hauptsatz abgetrennt. Meinten Sie <suggestion>, \3</suggestion>?</message>
-            <short>Möglicherweise fehlendes Komma</short>
-            <example correction=', ob'>Er fragt<marker> ob</marker> das ginge.</example>
-            <example correction=', wer'>Ich erkundigte mich<marker> wer</marker> das sei.</example>
-            <example>Er konnte hören, wen sie anrief.</example>
-            <example>Ich bin erstaunt ob deiner schnellen Antwort.</example>
-            <example>Er zitterte ob Marias Schlagfertigkeit.</example>
-            <example>Sie fragte: "Wer küsste wen?"</example>
-        </rule>
+                </antipattern>
+                <antipattern>
+                    <token>und</token>
+                    <token regexp='yes'>&fragewoerter;</token>
+                    <token/>
+                    <token regexp='yes' case_sensitive='yes'>inwiefern|inwieweit|ob|wann|warum|wem|wen|wer|weshalb|weswegen|wessen|wieso|wo|wodurch|woher|wohin|wofür|womit|woran|worau|wovon|wozu</token>
+                </antipattern>
+                <pattern>
+                    <token postag='VER:.*' postag_regexp='yes'><exception>mal</exception></token>
+                    <token regexp='yes' min='0'>nicht|bereits|schon|vielleicht|noch|mich|dich|sich|euch|uns|sie|ihn|dann|schließlich|schliesslich|endlich</token>
+                    <marker>
+                        <token regexp='yes' case_sensitive='yes'>inwiefern|inwieweit|ob|wann|warum|wem|wen|wer|weshalb|weswegen|wessen|wieso|wo|wodurch|woher|wohin|wofür|womit|woran|worauf|wovon|wozu</token>
+                    </marker>
+                    <token><exception postag="PKT"/></token>
+                </pattern>
+                <message>Indirekte Fragen werden mit Komma vom Hauptsatz abgetrennt. Meinten Sie <suggestion>, \3</suggestion>?</message>
+                <short>Möglicherweise fehlendes Komma</short>
+                <example correction=', ob'>Er fragt<marker> ob</marker> das ginge.</example>
+                <example correction=', wer'>Ich erkundigte mich<marker> wer</marker> das sei.</example>
+                <example>Er konnte hören, wen sie anrief.</example>
+                <example>Ich bin erstaunt ob deiner schnellen Antwort.</example>
+                <example>Er zitterte ob Marias Schlagfertigkeit.</example>
+                <example>Sie fragte: "Wer küsste wen?"</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>ob</token>
+                    <token postag='.*GEN.*|UNKNOWN' postag_regexp='yes'/>
+                </antipattern>
+                <pattern>
+                    <token postag="VER:[1-3].+" postag_regexp="yes"></token>
+                    <token min="0" postag="NEG"></token>
+                    <marker><token regexp="yes">inwie(fern|weit)|ob|wann|was|warum|we[mnr]|wes(halb|wegen|sen)|wieso|wo(durch|her|hin|für|mit|gegen|ran|rauf|von|zu)?</token></marker>
+                    <token postag="PRO.+|EIG.+" postag_regexp="yes"></token>
+               </pattern>
+               <message>Indirekte Fragen werden mit Komma vom Hauptsatz abgetrennt. Meinten Sie <suggestion>, \3</suggestion>?</message>
+               <short>Möglicherweise fehlendes Komma</short>
+               <example correction=", was">Denn sie wissen nicht<marker> was</marker> sie tun.</example>
+               <example correction=", was">Denn sie wissen<marker> was</marker> sie tun.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="KOMMA_VOR_WIE" name="Komma vor wie">
             <rule>
                 <antipattern>
