@@ -40,6 +40,7 @@ import org.languagetool.tokenizers.*;
 import org.languagetool.tokenizers.en.EnglishWordTokenizer;
 
 import java.io.*;
+import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -65,6 +66,7 @@ public class English extends Language implements AutoCloseable {
           return rules;
         }
       });
+  private static volatile WeakReference<EnglishTagger> cachedTagger;
   private static final Language AMERICAN_ENGLISH = new AmericanEnglish();
 
   private LanguageModel languageModel;
@@ -105,7 +107,13 @@ public class English extends Language implements AutoCloseable {
   @NotNull
   @Override
   public Tagger createDefaultTagger() {
-    return new EnglishTagger();
+    WeakReference<EnglishTagger> ref = cachedTagger;
+    EnglishTagger tagger = ref == null ? null : ref.get();
+    if (tagger == null) {
+      tagger = new EnglishTagger();
+      cachedTagger = new WeakReference<>(tagger);
+    }
+    return tagger;
   }
 
   @Nullable
