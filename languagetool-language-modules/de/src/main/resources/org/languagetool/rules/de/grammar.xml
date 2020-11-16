@@ -4187,7 +4187,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="SEIT_VS_SEID" name="'seid (seit)'">
-            <rule>
+            <rule><!-- 1 -->
                 <pattern>
                     <marker>
                         <token>seid</token>
@@ -4198,7 +4198,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&seitseid;</message>
                 <example correction="seit">Das ist schon so <marker>seid</marker> vorgestern.</example>
             </rule>
-            <rule>
+            <rule><!-- 2 -->
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token postag="KON:NEB" min="0"/>
+                    <token>Ihr</token>
+                    <token>seid</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>seid</token>
@@ -4211,8 +4217,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&seitseid;</message>
                 <example correction="Seit"><marker>Seid</marker> gestern geht es mir wieder besser.</example>
                 <example>Ihr Mädchen <marker>seid</marker> immer verlegen.</example>
+                <example>Ihr seid immer beschäftigt.</example>
             </rule>
-            <rule>
+            <rule><!-- 3 -->
                 <pattern>
                     <token postag="VER:(AUX:|MOD:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes"/>
                     <marker>
@@ -4224,7 +4231,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es geht <marker>seit</marker> gestern wieder besser.</example>
                 <example correction="seit">Es läuft <marker>seid</marker> gestern wieder besser.</example>
             </rule>
-            <rule>
+            <rule><!-- 4 -->
                 <pattern>
                     <token regexp="yes">schon|bereits|erst</token>
                     <marker>
@@ -4236,7 +4243,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es geht schon <marker>seit</marker> gestern wieder besser.</example>
                 <example correction="seit">Das ist nicht erst <marker>seid</marker> gestern so.</example>
             </rule>
-            <rule>
+            <rule><!-- 5 -->
                 <pattern>
                     <token regexp="yes">schon|bereits|erst</token>
                     <marker>
@@ -4248,7 +4255,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&seitseid;</message>
                 <example correction="seit">Mir geht es schon <marker>seid</marker> zwei Tagen wieder besser.</example>
             </rule>
-            <rule>
+            <rule><!-- 6 -->
                 <pattern>
                     <token regexp="yes">schon|bereits|erst</token>
                     <marker>
@@ -4262,7 +4269,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Mir geht es schon <marker>seit</marker> Tagen wieder besser.</example>
                 <example correction="seit">Mir geht es schon <marker>seid</marker> Jahren nicht so gut.</example>
             </rule>
-            <rule>
+            <rule><!-- 7 -->
                 <pattern>
                     <token regexp="yes">ist|wurden?</token>
                     <marker>
@@ -4274,7 +4281,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Die wurden <marker>seit</marker> Jahren nicht mehr gewartet.</example>
                 <example correction="seit">Das ist <marker>seid</marker> Jahren schon kaputt.</example>
             </rule>
-            <rule>
+            <rule><!-- 8 -->
                 <pattern>
                     <marker>
                         <token>seid</token>
@@ -4287,7 +4294,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>Seit</marker> einigen Tagen läuft der Laden wieder.</example>
                 <example correction="Seit"><marker>Seid</marker> einigen Tagen geht es wieder besser.</example>
             </rule>
-            <rule>
+            <rule><!-- 9 -->
                 <pattern>
                     <token postag="VER:(AUX:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes"/>
                     <marker>
@@ -4300,7 +4307,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es geht <marker>seit</marker> einigen Tagen wieder.</example>
                 <example correction="seit">Der Laden läuft <marker>seid</marker> einigen Tagen auf Hochtouren.</example>
             </rule>
-            <rule>
+            <rule><!-- 10 -->
                 <pattern>
                     <token postag="VER:(AUX:|MOD:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes"/>
                     <marker>
@@ -4313,7 +4320,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es geht <marker>seit</marker> letzten Mittwoch wieder.</example>
                 <example correction="seit">Der Laden läuft <marker>seid</marker> letzten Mittwoch auf Hochtouren.</example>
             </rule>
-            <rule>
+            <rule><!-- 11 -->
                 <pattern>
                     <marker>
                         <token>seid</token>
@@ -4326,7 +4333,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>Seit</marker> letztem Mittwoch brennt das Licht wieder.</example>
                 <example correction="Seit"><marker>Seid</marker> letztem Mittwoch läuft es wieder.</example>
             </rule>
-            <rule>
+            <rule><!-- 12 -->
                 <pattern>
                     <marker>
                         <token>seid</token>
@@ -4340,7 +4347,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>Seit</marker> dem letzten Mittwoch brennt das Licht wieder.</example>
                 <example correction="Seit"><marker>Seid</marker> dem letzten Mittwoch läuft es wieder.</example>
             </rule>
-            <rule>
+            <rule><!-- 13 -->
                 <pattern>
                     <token postag="VER:(AUX:|MOD:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes"/>
                     <marker>
@@ -4354,7 +4361,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es geht <marker>seit</marker> ein paar Tagen wieder.</example>
                 <example correction="seit">Der Laden läuft <marker>seid</marker> ein paar Tagen auf Hochtouren.</example>
             </rule>
-            <rule>
+            <rule><!-- 14 -->
                 <!-- TODO: generalize -->
                 <pattern>
                     <marker>
@@ -4365,7 +4372,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&seitseid;</message>
                 <example correction="seit">Noch nie so viele Auswanderer <marker>seid</marker> Bestehen der BRD</example>
             </rule>
-            <rule>
+            <rule><!-- 15 -->
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <marker>
@@ -4380,7 +4387,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ihr <marker>seid</marker> über 15 Jahre alt.</example>
                 <example correction="Seit"><marker>Seid</marker> über 15 Jahren wohne ich schon hier.</example>
             </rule>
-            <rule>
+            <rule><!-- 16 -->
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <marker>
@@ -4395,7 +4402,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ihr <marker>seid</marker> mehr als 15 Jahre alt.</example>
                 <example correction="Seit"><marker>Seid</marker> mehr als 15 Jahren</example>
             </rule>
-            <rule>
+            <rule><!-- 17 -->
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <marker>
@@ -4408,7 +4415,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Seit"><marker>Seid</marker> 15 Jahren</example>
                 <example correction="Seit"><marker>Seid</marker> wann ist das so?</example>
             </rule>
-            <rule>
+            <rule><!-- 18 -->
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token postag="KON:NEB" min="0"/>
+                    <token>seid</token>
+                    <token>du</token>
+                    <token>und</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>seid</token>
@@ -4417,8 +4431,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>&seitseid;</message>
                 <example correction="Seit"><marker>Seid</marker> du nicht mehr da bist, ist alles doof.</example>
+                <example>Seid du und Maria Schwestern?</example>
             </rule>
-            <rule>
+            <rule><!-- 19 -->
+                <antipattern>
+                    <token postag="EIG:.*" postag_regexp="yes"/>
+                    <token>und</token>
+                    <token>du</token>
+                    <token>seid</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">ich|wir|du</token>
                     <marker>
@@ -4427,6 +4448,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>&seitseid;</message>
                 <example correction="seit">Da ich <marker>seid</marker> letzter Woche nicht mehr kommen kann, ist alles doof.</example>
+                <example>Tom und du seid gute Freunde, oder?</example>
             </rule>
         </rulegroup>
         <rule id="IN_DIE_ANALEN" name="'in die Analen (Annalen)'">
