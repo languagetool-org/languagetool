@@ -30,22 +30,6 @@ import static org.languagetool.rules.patterns.PatternToken.UNKNOWN_TAG;
 public class PatternTokenTest {
 
   @Test
-  public void testGetPossibleRegexpValues() {
-    assertNull(PatternToken.getPossibleRegexpValues("x.*"));
-    assertNull(PatternToken.getPossibleRegexpValues("x+"));
-    assertNull(PatternToken.getPossibleRegexpValues("^x$"));
-    assertNull(PatternToken.getPossibleRegexpValues("a.c"));
-    assertNull(PatternToken.getPossibleRegexpValues("a{2}"));
-    assertNull(PatternToken.getPossibleRegexpValues("[a-z]"));
-    assertNull(PatternToken.getPossibleRegexpValues("a[a-z]"));
-
-    assertEquals(Sets.newHashSet("aa", "bb"), PatternToken.getPossibleRegexpValues("aa|bb"));
-    assertEquals(Sets.newHashSet("aa"), PatternToken.getPossibleRegexpValues("aa"));
-    assertEquals(Sets.newHashSet("aa", "a"), PatternToken.getPossibleRegexpValues("aa?"));
-    assertEquals(Sets.newHashSet("a", "b", "c"), PatternToken.getPossibleRegexpValues("[abc]"));
-  }
-
-  @Test
   public void testSentenceStart() {
     PatternToken patternToken = new PatternToken("", false, false, false);
     patternToken.setPosToken(new PatternToken.PosToken(SENTENCE_START_TAGNAME, false, false));
