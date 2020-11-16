@@ -83,7 +83,7 @@ public abstract class SpellingCheckRule extends Rule {
   private List<DisambiguationPatternRule> antiPatterns = new ArrayList<>();
   private boolean considerIgnoreWords = true;
   private boolean convertsCase = false;
-  protected final Set<String> wordsToBeIgnored = new HashSet<>();
+  protected final Set<String> wordsToBeIgnored = new THashSet<>();
   protected int ignoreWordsWithLength = 0;
 
   public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig) {
@@ -228,12 +228,12 @@ public abstract class SpellingCheckRule extends Rule {
   // The words' first char serves as key, and the Set<String> contains all Strings starting with this char
   private void updateIgnoredWordDictionary() {
     wordsToBeIgnoredDictionary = wordsToBeIgnored
-                                   .stream()
-                                   .collect(Collectors.groupingBy(s -> s.substring(0,1), Collectors.toCollection(THashSet::new)));
+      .stream()
+      .collect(Collectors.groupingBy(s -> s.substring(0,1), THashMap::new, Collectors.toCollection(THashSet::new)));
     wordsToBeIgnoredDictionaryIgnoreCase = wordsToBeIgnored
-                                             .stream()
-                                             .map(String::toLowerCase)
-                                             .collect(Collectors.groupingBy(s -> s.substring(0,1), Collectors.toCollection(THashSet::new)));
+      .stream()
+      .map(String::toLowerCase)
+      .collect(Collectors.groupingBy(s -> s.substring(0,1), THashMap::new, Collectors.toCollection(THashSet::new)));
   }
 
   /**
