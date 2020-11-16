@@ -2728,7 +2728,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <feature id="nombre"/>
                         <feature id="genere"/>
                         <token postag="DA.*" postag_regexp="yes"><exception postag="RG"/><exception postag="_GN_.*" postag_regexp="yes"/></token>
-                        <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="_GN_.*|_GV_" postag_regexp="yes"/></token>
+                        <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="_GN_.*|_GV_" postag_regexp="yes"/><exception case_sensitive="yes">17A</exception></token>
                     </unify>
                 </pattern>
                 <message>Error de concordança.</message>
@@ -2738,6 +2738,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="de la 1a|de les 1es|del 1r|dels 1rs"><marker>dels 1a</marker></example>
                 <example>dels únics</example>
                 <example>a la Sala dels Nou del Palazzo</example>
+                <example>Un dels terroristes del 17A.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24532,20 +24533,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ANA_ANNA" name="Ana/Anna">
             <antipattern>
                 <token>Ana</token>
-                <token regexp="yes">\p{Lu}.+<exception regexp="yes">Karèninca|Karenina</exception></token>
+                <token regexp="yes">\p{Lu}.+<exception regexp="yes">Karènina|Karenina|Bolena|Kúrnikova|Gabriel</exception></token>
             </antipattern>
             <pattern>
                 <token case_sensitive="yes">Ana</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion>Anna</suggestion>? "Ana" és el nom en castellà.</message>
+            <message>¿Volíeu dir <suggestion>Anna</suggestion>? "Ana" és correcte si és un nom en castellà.</message>
             <example correction="Anna">En l'ermita de santa <marker>Ana</marker>.</example>
             <example correction="Anna">A la població d'<marker>Ana</marker>.</example>
+            <example correction="Anna">Tolstoi va escriure <marker>Ana</marker> Karenina.</example>
             <example>Ana García.</example>
         </rule>
         <rule id="MIGUEL_MIQUEL" name="Miguel/Miquel">
-            <antipattern>
+            <antipattern case_sensitive="yes">
                 <token>Miguel</token>
-                <token postag="NP.*|_possible_nompropi" postag_regexp="yes"/>
+                <token regexp="yes">\p{Lu}.+</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">\p{Lu}.+<exception>Sant</exception><exception postag="SENT_START"/></token>
+                <token>Miguel</token>
             </antipattern>
             <antipattern case_sensitive="yes">
                 <token>San</token>
@@ -24554,7 +24560,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token case_sensitive="yes">Miguel</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion>Miquel</suggestion>? "Miguel" és el nom en castellà.</message>
+            <message>¿Volíeu dir <suggestion>Miquel</suggestion>? "Miguel" és correcte si és un nom en castellà.</message>
             <example correction="Miquel">En el terme de Sant <marker>Miguel</marker>.</example>
             <example>Miguel Rodríguez.</example>
         </rule>
