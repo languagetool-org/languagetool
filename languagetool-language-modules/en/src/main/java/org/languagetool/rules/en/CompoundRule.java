@@ -70,9 +70,9 @@ public class CompoundRule extends AbstractCompoundRule {
 
   public CompoundRule(ResourceBundle messages) throws IOException {    
     super(messages,
-            "This word is normally spelled with hyphen.", 
+            "This word is normally spelled with a hyphen.",
             "This word is normally spelled as one.", 
-            "This expression is normally spelled as one or with hyphen.",
+            "This expression is normally spelled as one or with a hyphen.",
             "Hyphenation problem");
     addExamplePair(Example.wrong("I now have a <marker>part time</marker> job."),
                    Example.fixed("I now have a <marker>part-time</marker> job."));
