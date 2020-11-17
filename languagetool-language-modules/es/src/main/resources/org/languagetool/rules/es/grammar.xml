@@ -3248,6 +3248,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0"/>
                     <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token>una</token>
+                    <token>vez</token>
+                    <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <and>
                         <token inflected="yes" regexp="yes">.*ar</token>
@@ -3286,6 +3291,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- ambiguous? -->
                 <!-- the error is a missing word before the verb: -->
                 <example correction="dejará">Se adhirió a la organización antes de él <marker>dejara</marker> el cargo.</example>
+                <example>Una vez entrar vigencia la ley, se solucionaría el problema.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -7357,7 +7363,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>elevado</token>
                 </antipattern>
                 <antipattern>
-                    <token inflected="yes" regexp="yes">sujetar|sujeto|tirar</token>
+                    <token inflected="yes" regexp="yes">sujetar|sujeto|tirar|ir</token>
                     <token>a</token>
                 </antipattern>
                 <antipattern>
@@ -7384,6 +7390,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes">pasar|convertir</token>
                     <token skip="2">de</token>
                     <token>a</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.P00SM" postag_regexp="yes"/>
+                    <token>a</token>
+                    <token><match no="0"/></token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">leve|grave</token>
+                    <token>a</token>
+                    <token>moderado</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -7414,6 +7430,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ponte a cubierto.</example>
                 <example>Él pasó de acusador a acusado.</example>
                 <example>en el equipo de la Serie A debido a la dificultad</example>
+                <example>Latido a latido.</example>
             </rule>
             <rule id="AN_PARTICIPIO" name="an + participio">
                 <pattern>
@@ -14246,14 +14263,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>el</token>
                     </marker>
                     <token regexp="yes">la|las</token>
+                    <token postag="V.[SI].3S." postag_regexp="yes"/>
+                </pattern>
+                <message>Se escribe con tilde si es un pronombre.</message>
+                <suggestion>él</suggestion>
+                <example correction="él">A ver si <marker>el</marker> la tiene.</example>
+                <example>El la del diapasón.</example>
+                <example>El la sobreagudo.</example>
+                <example>En el La a 440Hz.</example>
+                <example>En el La a 440 Hz.</example>
+                <example>En el La 440 Hz.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>el</token>
+                    </marker>
+                    <token regexp="yes">la|las</token>
                 </pattern>
                 <message>Posible confusión.</message>
                 <suggestion>en</suggestion>
-                <example correction="en">Fue <marker>el</marker> la plaza.</example>
-                <example correction="en">Viven <marker>el</marker> las calles.</example>
-                <example correction="en">Ocurrió <marker>el</marker> la fecha histórica del 23 de abril.</example>
-                <example correction="en">estudiar doctorado <marker>el</marker> la rea de sociología.</example>
-                <example correction="en">usados <marker>el</marker> la práctica de karate</example>
+                <suggestion>él</suggestion>
+                <example correction="en|él">Fue <marker>el</marker> la plaza.</example>
+                <example correction="en|él">Viven <marker>el</marker> las calles.</example>
+                <example correction="en|él">Ocurrió <marker>el</marker> la fecha histórica del 23 de abril.</example>
+                <example correction="en|él">estudiar doctorado <marker>el</marker> la rea de sociología.</example>
+                <example correction="en|él">usados <marker>el</marker> la práctica de karate</example>
                 <example>El la del diapasón.</example>
                 <example>El la sobreagudo.</example>
                 <example>En el La a 440Hz.</example>
@@ -14940,9 +14975,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- a lot of true positives expected -->
             <pattern>
                 <token><exception postag="SENT_START"/></token>
-                <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception><exception regexp="yes" spacebefore="yes">[—–-]</exception></token>
+                <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception><exception regexp="yes" spacebefore="yes">[—–-]</exception><exception postag="_QM_OPEN"></exception></token>
                 <marker>
-                    <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception><exception regexp="yes" spacebefore="yes">[—–-]</exception></token>
+                    <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception><exception regexp="yes" spacebefore="yes">[—–-]</exception><exception postag="_QM_OPEN"></exception></token>
                     <token>ya</token>
                     <token>que</token>
                 </marker>
