@@ -18573,6 +18573,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Die meisten der"><marker>Die meisten aller</marker> Hollywoodfilme spielen in den USA.</example>
             <example><marker>Die meisten der</marker> damaligen Hollywoodfilme spielten in den USA.</example>
         </rule>
+        <rulegroup id="PRP_WAS_WO" name="Standardsprache: 'woran' statt 'an was'">
+            <rule>
+                <pattern>
+                    <token regexp="yes">,|und</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">aus|in|unter|über</token>
+                        <token>was</token>
+                    </marker>
+                    <token><exception>für</exception></token>
+                </pattern>
+                <message>Wollen Sie das standardsprachliche <suggestion>wor\2</suggestion> verwnden oder fehlt ein Komma nach '\1'?</message>
+                <example correction="woraus">Sie fragte ihn, <marker>aus was</marker> es bestünde.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">Au[fs]|Unter|Über</token>
+                        <token>was</token>
+                    </marker>
+                </pattern>
+                <message>Wollen Sie das standardsprachliche <suggestion>Wor<match no="1" case_conversion="startlower"/></suggestion> verwenden?</message>
+                <example correction="Woraus"><marker>Aus was</marker> besteht es?</example>
+            </rule>
+            <rule>
+               <pattern>
+                    <token regexp="yes" case_sensitive="yes">an|bei|für|gegen|hinter|mit|nach|neben| vo[nr]|zu|zwischen</token>
+                    <token>was</token>
+                </pattern>
+                <message>Wollen Sie das standardsprachliche <suggestion>wo\1</suggestion> verwenden?</message>
+                <example correction="wofür">Sie fragte ihn, <marker>für was</marker> kämpfte.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">An|Bei|Für|Gegen|Hinter|Mit|Nach|Neben|Über|No[nr]|Zu|Zwischen</token>
+                    <token>was</token>
+                </pattern>
+                <message>Wollen Sie das standardsprachliche <suggestion>Wo<match no="1" case_conversion="startlower"/></suggestion> verwenden?</message>
+                <example correction="Wofür"><marker>Für was</marker> kämpft er?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="UST_ID" name="Empfohlene Schreibweise für Umsatzsteuer-Identifikationsnummer">
             <url>https://de.wikipedia.org/wiki/Umsatzsteuer-Identifikationsnummer</url>
             <rule>
