@@ -328,7 +328,7 @@ public class AdverbFilter extends RuleFilter {
     put("flexibly", "flexible");
     put("softly", "soft");
     put("responsibly", "responsible");
-    put("unresponsibly", "unresponsible");
+    put("irresponsibly", "irresponsible");
     put("sweetly", "sweet");
     put("comfortably", "comfortable");
     put("uncomfortably", "uncomfortable");
@@ -365,6 +365,13 @@ public class AdverbFilter extends RuleFilter {
     put("acutely", "acute");
     put("linearly", "linear");
     put("perfunctorily", "perfunctory");
+    put("unbelievably", "unbelievable");
+    put("merrily", "merry");
+    put("beneath", "below"); // special case
+    put("nasally", "nasal");
+    put("concretely", "concrete");
+    put("intuitively", "intuitive");
+    put("please", "pleasing");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

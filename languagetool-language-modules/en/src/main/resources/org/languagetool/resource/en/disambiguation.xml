@@ -5054,6 +5054,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag="VBP"/>
                 <token>?</token>
             </antipattern>
+            <antipattern><!-- I'm sure that its working great (its vs it's) -->
+                <token>its</token>
+                <token postag="VBG" />
+                <token postag="SENT_END|JJ|RB" postag_regexp="yes" />
+            </antipattern>
             <pattern>
                 <token postag="DT|PRP\$" postag_regexp="yes">
                     <exception regexp="yes">th[eo]se|no|much</exception>
@@ -5074,6 +5079,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="unify"/>
             <example type="ambiguous" inputform="cleaner[clean/JJR,cleaner/NN]" outputform="cleaner[cleaner/NN]">The bleach is next to the <marker>cleaner</marker>.</example>
             <example type="untouched">Thank you, this is much cleaner.</example>
+            <example type="untouched">I'm sure that its working great.</example>
             <example type="untouched">… the heads of a ram and <marker>a buck</marker> are budding forth.</example>
             <example type="untouched">At the end of the party, they were both drunk.</example>
             <example type="untouched">My clothes were dirty, but at the end of the wash, they were all cleaner.</example>
