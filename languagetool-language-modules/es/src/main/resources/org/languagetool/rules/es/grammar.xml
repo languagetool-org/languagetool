@@ -1477,6 +1477,68 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En el año 2010 practicas más.</example>
             </rule>
         </rulegroup>
+        <rule id="PRACTICA" name="practica/práctica" default="temp_off">
+            <antipattern>
+                <token>que</token>
+                <token min="0" max="3" postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
+                <token regexp="yes">practico|practica|practicas</token>
+            </antipattern>
+            <antipattern>
+                <token postag="&pronombre_personal_atono_POS;|RG|LOC_ADV" postag_regexp="yes"/>
+                <token regexp="yes">practico|practica|practicas</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">practico|practica|practicas</token>
+                <token postag="[DAN].*" postag_regexp="yes"><exception regexp="yes">número|núm</exception></token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">que|cual|quien|donde|quién|cuál|dónde</token>
+                <token regexp="yes">practico|practica|practicas</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">practico|practica|practicas</token>
+                <token regexp="yes">por|con</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">practica|practicas</token>
+                <token>tú</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">practico|practica|practicas</token>
+                <token postag="V.G.*|RG" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>practica</token>
+                <token postag="CC"/>
+                <token postag="V.[SI].3S." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.[SI].3S." postag_regexp="yes"/>
+                <token postag="CC"/>
+                <token>practica</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">practico|practica|practicas</token>
+            </pattern>
+            <message>Si es adjetivo o nombre, se escribe con tilde. Correcto si es del v. 'practicar'.</message>
+            <suggestion><match no="1" regexp_match="(?iu)(pr)a(c.*)" regexp_replace="$1á$2" case_conversion="preserve"/></suggestion>
+            <example correction="Práctica"><marker>Practica</marker> núm. 12</example>
+            <example correction="Prácticas"><marker>Practicas</marker></example>
+            <example correction="práctica">Teoría y <marker>practica</marker>.</example>
+            <example>Si lo practicas mucho, lo conseguirrás.</example>
+            <example>Si practicas mucho, lo conseguirrás.</example>
+            <example>Se practica con intensidad.</example>
+            <example>Entrena y practica escalada en hielo </example>
+            <example>Practica esquí con la familia. </example>
+            <example>Habitualmente practica yoga. </example>
+            <example>Practica igualmente el judo. </example>
+            <example>Practica también la caza. </example>
+            <example>Después practica y registra este comportamiento.</example>
+            <example>Es vegetariano y practica y enseña meditación trascendental.</example>
+            <example>También practica snowboarding.</example>
+            <example>Así practicas.</example>
+            <example>Practica tú misma.</example>
+        </rule>
         <rule id="DIACRITICS_SPECIAL" name="diacríticos, casos especiales">
             <antipattern>
                 <token/>
@@ -1522,7 +1584,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- TODO: solo me faltan 2 practicas más -->
                 <marker>
                     <token postag="V.[SI].*" postag_regexp="yes" regexp="yes"
-                        >ada|adan|animo|arboles|aticulo|autentica|autenticas|autentico|azucares|barbara|calculo|canceres|capitulo|capsula|capsulas|catalogo|circulo|cubica|cubicas|debito|deposito|desordenes|diagnostico|dialogo|domestica|domesticas|domestico|ejercito|embolo|entrelinea|entrelineas|epitome|espontanea|estomago|genero|idolatra|idolatras|ignifuga|ignifugas|ignifugo|ilegitima|ilegitimas|ilegitimo|invalida|invalidas|invalido|lagrima|lagrimas|lamina|laminas|lastima|lastimas|legitima|legitimas|legitimo|lideres|linea|lineas|liquida|liquidas|liquido|maquina|maquinas|marques|matricula|medica|medicas|medico|modulo|nausea|nauseas|nomina|nominas|oleo|ordenes|ovulo|oxido|oxigeno|pacifico|petroleo|pixeles|practica|practicas|practico|prestamos|prorroga|purpurea|purpureas|recamara|recamaras|reciproca|reciprocas|reciproco|retrograda|retrogradas|retrogrado|revalida|revalidas|rondo|simultanea|simultaneas|simultaneo|solida|solidas|solido|tempano|titulo|trafico|tramite|tramites|transito|tremolo|triangulo|ulcera|ulceras|vehiculo|victima|victimas|vinculo<exception
+                        >ada|adan|animo|arboles|aticulo|autentica|autenticas|autentico|azucares|barbara|calculo|canceres|capitulo|capsula|capsulas|catalogo|circulo|cubica|cubicas|debito|deposito|desordenes|diagnostico|dialogo|domestica|domesticas|domestico|ejercito|embolo|entrelinea|entrelineas|epitome|espontanea|estomago|genero|idolatra|idolatras|ignifuga|ignifugas|ignifugo|ilegitima|ilegitimas|ilegitimo|invalida|invalidas|invalido|lagrima|lagrimas|lamina|laminas|lastima|lastimas|legitima|legitimas|legitimo|lideres|linea|lineas|liquida|liquidas|liquido|maquina|maquinas|marques|matricula|medica|medicas|medico|modulo|nausea|nauseas|nomina|nominas|oleo|ordenes|ovulo|oxido|oxigeno|pacifico|petroleo|pixeles|prestamos|prorroga|purpurea|purpureas|recamara|recamaras|reciproca|reciprocas|reciproco|retrograda|retrogradas|retrogrado|revalida|revalidas|rondo|simultanea|simultaneas|simultaneo|solida|solidas|solido|tempano|titulo|trafico|tramite|tramites|transito|tremolo|triangulo|ulcera|ulceras|vehiculo|victima|victimas|vinculo<exception
                         postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
