@@ -24573,7 +24573,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">\p{Lu}.+<exception regexp="yes">Karènina|Karenina|Bolena|Kúrnikova|Gabriel</exception></token>
             </antipattern>
             <pattern>
-                <token case_sensitive="yes">Ana</token>
+                <token case_sensitive="yes">Ana<exception postag="NP.*" postag_regexp="yes"/></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>Anna</suggestion>? "Ana" és correcte si és un nom en castellà.</message>
             <example correction="Anna">En l'ermita de santa <marker>Ana</marker>.</example>
@@ -24587,7 +24587,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">\p{Lu}.+</token>
             </antipattern>
             <antipattern case_sensitive="yes">
-                <token regexp="yes">\p{Lu}.+<exception>Sant</exception><exception postag="SENT_START"/></token>
+                <token><exception postag="SENT_START"/></token>
+                <token regexp="yes">\p{Lu}.+<exception>Sant</exception></token>
                 <token>Miguel</token>
             </antipattern>
             <antipattern case_sensitive="yes">
@@ -24595,11 +24596,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>Miguel</token>
             </antipattern>
             <pattern>
-                <token case_sensitive="yes">Miguel</token>
+                <token case_sensitive="yes">Miguel<exception postag="NP.*" postag_regexp="yes"/></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>Miquel</suggestion>? "Miguel" és correcte si és un nom en castellà.</message>
             <example correction="Miquel">En el terme de Sant <marker>Miguel</marker>.</example>
             <example>Miguel Rodríguez.</example>
+            <example>Miguel de Unamuno</example>
         </rule>
         <rule id="SENS" name="se'ns / sens">
             <pattern>
@@ -60781,12 +60783,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token skip="-1">però<exception scope="next" postag="V.[SI].*" postag_regexp="yes"/></token>
                 <token postag="_PUNCT.*" postag_regexp="yes"/>
-                <token regexp="yes">i|o|ni|que</token>
+                <token regexp="yes">i|o|ni|que|sinó|perquè</token>
             </antipattern>
             <antipattern>
                 <token skip="-1">però<exception scope="next" postag="V.[SI].*" postag_regexp="yes"/></token>
                 <token postag="_PUNCT.*" postag_regexp="yes"/>
-                <token>ja</token>
+                <token regexp="yes">ja|encara</token>
                 <token>que</token>
             </antipattern>
             <rule>
