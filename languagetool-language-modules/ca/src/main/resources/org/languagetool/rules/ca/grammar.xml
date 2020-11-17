@@ -34265,8 +34265,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <marker>
-                <token>a</token>
-                <token>data</token>
+                    <token>a</token>
+                    <token>data</token>
                 </marker>
                 <token regexp="yes">de|d'</token>
             </pattern>
@@ -53049,19 +53049,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>\1</suggestion>
             <example correction="Tinguin"><marker>Tinguin vostès</marker> bon dia.</example>
         </rule>-->
-        <rule id="CITA_PREVIA" name="cita prèvia">
-            <pattern>
-                <token inflected="yes" regexp="yes" skip="7">demanar|sol·licitar|reservar|tenir|concertar|concretar</token>
-                <marker>
-                    <token inflected="yes">cita</token>
-                    <token inflected="yes">prèvia</token>
-                </marker>
-            </pattern>
-            <message>Expressió redundant. N'hi ha prou de dir <suggestion>cita</suggestion>.</message>
-            <suggestion>hora</suggestion>
-            <example correction="cita|hora">He demanat <marker>cita prèvia</marker> en la clínica.</example>
-            <example>S'ha de venir amb cita prèvia.</example>
-        </rule>
+        <rulegroup id="CITA_PREVIA" name="cita prèvia">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="7">demanar|sol·licitar|reservar|tenir|concertar|concretar</token>
+                    <marker>
+                        <token inflected="yes">cita</token>
+                        <token inflected="yes">prèvia</token>
+                    </marker>
+                </pattern>
+                <message>Expressió redundant. N'hi ha prou de dir <suggestion>cita</suggestion>.</message>
+                <suggestion>hora</suggestion>
+                <example correction="cita|hora">He demanat <marker>cita prèvia</marker> en la clínica.</example>
+                <example>S'ha de venir amb cita prèvia.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="7">demanar|sol·licitar|reservar|tenir|concertar|concretar</token>
+                    <marker>
+                        <token>la</token>
+                        <token regexp="yes">teua|teva|vostra</token>
+                        <token inflected="yes">cita</token>
+                        <token inflected="yes">prèvia</token>
+                    </marker>
+                </pattern>
+                <message>Expressió redundant. N'hi ha prou de dir <suggestion>cita</suggestion>.</message>
+                <suggestion>hora</suggestion>
+                <example correction="cita|hora">Demana <marker>la teva cita prèvia</marker> en la clínica.</example>
+                <example>S'ha de venir amb cita prèvia.</example>
+            </rule>
+        </rulegroup>
         <rule id="PREVEURE" name="preveure amb antelació">
             <pattern>
                 <token inflected="yes">preveure</token>
