@@ -34417,6 +34417,22 @@ TODO Write better examples
 
 	</rulegroup>
 
+    <!-- 	PORQUE + VERBO_EU_ELE + A(S)/O(S) por/ao verbo_inf a(s)/o(s) -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-17 (21-OCT-2020+)     -->
+    <rule id='PORQUE_VERBOEUELE_AS_OS_POR_AO_VERBOINF_AS_OS' name="Porque + Verbo Eu/ele + A(s)/O(s) > Por/Ao + Verbo_inf + a(s)/o(s)">
+		<pattern>
+		    <marker>
+				<token>porque</token>
+				<token postag='VMIS1S0|VMIS3S0' postag_regexp='yes'/>				
+			</marker>
+			<token regexp='yes'>as?|os?</token>
+		</pattern>		
+		<message>Substitua por:</message>
+		<suggestion>ao <match no='2' postag='VMIS1S0|VMIS3S0' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
+		<suggestion>por <match no='2' postag='VMIS1S0|VMIS3S0' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
+		<example correction="ao sentir|por sentir">Comentei o sucedido <marker>porque senti</marker> os efeitos rapidamente.</example>  
+	</rule>
+	
     <rule id='SEXTA_DE_VIME' name="Calinada: Sexta de vime">
     <!-- Created by Marco A.G.Pinto -->
       <pattern>
