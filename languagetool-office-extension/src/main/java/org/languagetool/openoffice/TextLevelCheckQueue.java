@@ -38,6 +38,8 @@ public class TextLevelCheckQueue {
   public static final int STOP_FLAG = 2;
   public static final int DISPOSE_FLAG = 3;
 
+  private static final int MAX_WAIT = 2000;
+
   private List<QueueEntry> textRuleQueue = Collections.synchronizedList(new ArrayList<QueueEntry>());  //  Queue to check text rules in a separate thread
   private Object queueWakeup = new Object();
   private MultiDocumentsHandler multiDocHandler;
@@ -182,8 +184,9 @@ public class TextLevelCheckQueue {
         }
       }
     }
-    if (!queueWaits && lastStart >= 0 && lastDocId.equals(docId)) {
+    if (!queueWaits && lastStart >= 0 && lastDocId != null && lastDocId.equals(docId)) {
       waitForInterrupt();
+      lastDocId = null;
     }
   }
   
@@ -193,9 +196,11 @@ public class TextLevelCheckQueue {
   private void waitForInterrupt() {
     interruptCheck = true;
     wakeupQueue();
-    while(interruptCheck) {
+    int n = 0;
+    while(interruptCheck && n < MAX_WAIT) {
       try {
         Thread.sleep(1);
+        n++;
       } catch (InterruptedException e) {
         MessageHandler.showError(e);
       }
