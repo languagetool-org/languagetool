@@ -9070,7 +9070,7 @@ though, and has since been slightly modified)-->
         <example correction="trois fois par semaine">Je joue au Softball <marker>trois fois au semaine</marker>.</example>
       </rule>
       <!-- End of additions -->
-      <rule id="VOUS_LE_PPA_1ER_GROUPE" name="s manquant à vous le ppa" default="temp_off">
+      <rule id="VOUS_LE_PPA_1ER_GROUPE" name="s manquant à vous le ppa">
           <pattern>
               <token>vous</token>
               <token>le</token>
@@ -9081,7 +9081,7 @@ though, and has since been slightly modified)-->
           <message>Il semblerait manquer la marque du pluriel. Vouliez-vous dire « <suggestion>\3s</suggestion> ».</message>
           <example correction="faites">Comme vous le <marker>faite</marker>.</example>
       </rule>
-      <rule id="CONFUSION_PAR_PART" name="Confusion part/par expression de par" default="temp_off">
+      <rule id="CONFUSION_PAR_PART" name="Confusion part/par expression de par">
           <pattern>
               <token>de</token>
               <marker>
@@ -9095,7 +9095,7 @@ though, and has since been slightly modified)-->
           <suggestion>par</suggestion>
           <example correction="par">De <marker>part</marker> ses multiples expériences, Jacques avait déjà créé des sites internets.</example>
       </rule>
-      <rule id="CONFUSION_PPA_IND_2E_GROUPE" name="confusion entre participe passé et indicatif du deuxième groupe" default="temp_off">
+      <rule id="CONFUSION_PPA_IND_2E_GROUPE" name="confusion entre participe passé et indicatif du deuxième groupe">
           <pattern>
               <token postag="D.*" postag_regexp="yes"/>
               <token postag="N.*" postag_regexp="yes"/>
@@ -9111,7 +9111,8 @@ though, and has since been slightly modified)-->
           <example correction="choisit">Le professeur <marker>choisi</marker> de créer un site internet.</example>
           <example>Le professeur choisit de créer un site internet.</example>
       </rule>
-     <rulegroup id="ACCORD_DE_ADJ" name="De + adj + nom pluriel" default="temp_off">
+      <!-- Can be deployed after work on word groups is done
+     <rulegroup id="ACCORD_DE_ADJ" name="De + adj + nom pluriel" default="off">
          <rule name="J e s -> N [mfe] p">
               <pattern>
                   <token>de</token>
@@ -9211,6 +9212,7 @@ though, and has since been slightly modified)-->
              <example correction="sacrés">Il avait donc de <marker>sacré</marker> atouts.</example>
          </rule>
       </rulegroup>
+      -->
       <rule id="SONT_SOMMES" name="sont au lieu de sommes" default="temp_off">
           <pattern>
               <token postag_regexp="yes" postag="R.*"/>
