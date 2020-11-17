@@ -34246,6 +34246,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="A_DATA_DE" name="*a data de" default="temp_off">
+            <antipattern>
+                <token skip="4" postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">&exceptions_ALS_TRES_MESOS;<exception regexp="yes">remuntada|remuntades</exception></token>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">&exceptions_ALS_TRES_MESOS;<exception regexp="yes">remuntada|remuntades</exception></token>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token postag="LOC_PREP"/>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">de|d'</token>
+                <token regexp="yes">avui|hui</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                <token>a</token>
+                <token>data</token>
+                </marker>
+                <token regexp="yes">de|d'</token>
+            </pattern>
+            <message>Cal dir <suggestion>en data</suggestion> o <suggestion>amb data</suggestion> (referit a un document).</message>
+            <example correction="en data|amb data">Ho vam presentar <marker>a data</marker> de 3 d'abril.</example>
+            <example>Respecte a data d'abril.</example>
+            <example>Es remunta a data de 1985.</example>
+        </rule>
         <rule id="MIDA_MESURA" name="mida/mesura">
             <pattern>
                 <marker>
@@ -42811,6 +42840,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
+        <rule id="TRASTOCAR" name="trastocar" default="temp_off">
+            <pattern>
+                <marker>
+                    <token inflected="yes" skip="4">trastocar</token>
+                </marker>
+                <token inflected="yes" regexp="yes">pla|horari|projecte|previsió|predicció|tot</token>
+            </pattern>
+            <message>"Trastocar" vol dir "fer tornar boig". Potser no és adequat en aquest context.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">alterar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">capgirar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">variar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">modificar</match></suggestion>
+            <example correction="alterat|capgirat|variat|modificat">Ens ha <marker>trastocat</marker> els plans.</example>
+            <example correction="alterat|capgirat|variat|modificat">Ens ho ha <marker>trastocat</marker> tot.</example>
+        </rule>
         <rulegroup id="CONTE_COMPTE" name="conte -> compte">
             <antipattern>
                 <token skip="-1" inflected="yes">conte</token>
