@@ -92,8 +92,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   }
 
   @Override
-  protected List<SuggestedReplacement> filterSuggestions(List<SuggestedReplacement> suggestions, AnalyzedSentence sentence, int i) {
-    List<SuggestedReplacement> result = super.filterSuggestions(suggestions, sentence, i);
+  protected List<SuggestedReplacement> filterSuggestions(List<SuggestedReplacement> suggestions) {
+    List<SuggestedReplacement> result = super.filterSuggestions(suggestions);
     List<SuggestedReplacement> clean = new ArrayList<>();
     for (SuggestedReplacement suggestion : result) {
       if (!suggestion.getReplacement().matches(".* (b|c|d|e|f|g|h|j|k|l|m|n|o|p|q|r|s|t|v|w|y|z|ll|ve)")) {  // e.g. 'timezones' suggests 'timezone s'
@@ -259,7 +259,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   protected final Map<String, List<String>> topSuggestions;
   protected final Map<String, List<String>> topSuggestionsIgnoreCase;
 
-  protected Map<String, List<String>> getTopSuggestionsIgnoreCase() {
+  protected static Map<String, List<String>> getTopSuggestionsIgnoreCase() {
     Map<String, List<String>> s = new HashMap<>();
     s.put("json", Arrays.asList("Jason"));
     s.put("bmps", Arrays.asList("BMPs"));
@@ -294,7 +294,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     return s;
   }
 
-  protected Map<String, List<String>> getTopSuggestions() {
+  protected static Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
     s.put("pharmasuitable", Arrays.asList("pharmaceutical"));
     s.put("storie", Arrays.asList("story", "store", "stories"));
@@ -611,8 +611,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("automisation", Arrays.asList("automatisation"));
     s.put("Automization", Arrays.asList("Automatization"));
     s.put("Automisation", Arrays.asList("Automatisation"));
-    s.put("ensuite", Arrays.asList("en suite"));
-    s.put("Ensuite", Arrays.asList("En suite"));
     s.put("aswell", Arrays.asList("as well"));
     s.put("Continuesly", Arrays.asList("Continuously"));
     s.put("continuesly", Arrays.asList("continuously"));
@@ -675,8 +673,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("yeld", Arrays.asList("yelled"));
     s.put("os", Arrays.asList("OS", "is", "so"));
     s.put("abel", Arrays.asList("able"));
-    s.put("ensuite", Arrays.asList("en suite"));
-    s.put("Ensuite", Arrays.asList("En suite"));
 
     return s;
   }

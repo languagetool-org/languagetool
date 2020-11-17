@@ -19,30 +19,11 @@
 
 package org.languagetool.rules.spelling.morfologik;
 
-import static org.languagetool.JLanguageTool.getDataBroker;
-
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
+import com.vdurmont.emoji.EmojiManager;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Experimental;
-import org.languagetool.GlobalConfig;
-import org.languagetool.Language;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
@@ -55,7 +36,14 @@ import org.languagetool.rules.translation.Translator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vdurmont.emoji.EmojiManager;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import static org.languagetool.JLanguageTool.getDataBroker;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
@@ -103,7 +91,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     this.userConfig = userConfig;
     this.motherTongue = motherTongue;
     super.setCategory(Categories.TYPOS.getCategory(messages));
-    this.conversionLocale = conversionLocale != null ? conversionLocale : Locale.getDefault();
+    conversionLocale = conversionLocale != null ? conversionLocale : Locale.getDefault();
     init();
     setLocQualityIssueType(ITSIssueType.Misspelling);
   }
@@ -140,11 +128,12 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       // if we use token.getToken() we'll get ignored characters inside and speller will choke
       String word = token.getAnalyzedToken(0).getToken();
       int newRuleIdx = ruleMatches.size();
-      if (tokenizingPattern() == null) {
+      Pattern pattern = tokenizingPattern();
+      if (pattern == null) {
         ruleMatches.addAll(getRuleMatches(word, startPos, sentence, ruleMatches, idx, tokens));
       } else {
         int index = 0;
-        Matcher m = tokenizingPattern().matcher(word);
+        Matcher m = pattern.matcher(word);
         while (m.find()) {
           String match = word.subSequence(index, m.start()).toString();
           ruleMatches.addAll(getRuleMatches(match, startPos + index, sentence, ruleMatches, idx, tokens));
@@ -178,7 +167,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
   @Nullable
-  protected Translator getTranslator(GlobalConfig globalConfig) throws IOException {
+  protected Translator getTranslator(GlobalConfig globalConfig) {
     return null;
   }
 
@@ -262,7 +251,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     return true;
   }
   
-  protected int getFrequency(MorfologikMultiSpeller speller, String word) {
+  private static int getFrequency(MorfologikMultiSpeller speller, String word) {
     return speller.getFrequency(word);
   }
 
@@ -300,10 +289,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           beforeSuggestionStr = prevWord + " ";
         }
         // "than kyou" -> "thank you" ; but not "She awaked" -> "Shea waked"
-        String sugg2a = prevWord + word.substring(0, 1);
+        String sugg2a = prevWord + word.charAt(0);
         String sugg2b = word.substring(1);
-        if (sugg2a.length() > 1 && sugg2b.length() > 2 && !isMisspelled(speller1, sugg2a)
-            && !isMisspelled(speller1, sugg2b)) {
+        if (sugg2b.length() > 2 && !isMisspelled(speller1, sugg2a) && !isMisspelled(speller1, sugg2b)) {
           if (ruleMatch == null) {
             if (getFrequency(speller1, sugg2a) + getFrequency(speller1, sugg2b) > getFrequency(speller1, prevWord)) {
               ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg2a, sugg2b,
@@ -348,9 +336,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg1a, sugg1b, startPos);
           afterSuggestionStr = " " + nextWord;
         }
-        String sugg2a = word + nextWord.substring(0, 1);
+        String sugg2a = word + nextWord.charAt(0);
         String sugg2b = nextWord.substring(1);
-        if (sugg2a.length() > 1 && sugg2b.length() > 2 && !isMisspelled(speller1, sugg2a) && !isMisspelled(speller1, sugg2b)) {
+        if (sugg2b.length() > 2 && !isMisspelled(speller1, sugg2a) && !isMisspelled(speller1, sugg2b)) {
           if (ruleMatch == null) {
             if (getFrequency(speller1, sugg2a) + getFrequency(speller1, sugg2b) > getFrequency(speller1, nextWord)) {
               ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg2a, sugg2b, startPos);
@@ -464,7 +452,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       defaultSuggestions.addAll(getAdditionalSuggestions(defaultSuggestions, word));
 
       if (!(defaultSuggestions.isEmpty() && userSuggestions.isEmpty()) && !preventFurtherSuggestions) {
-        defaultSuggestions = filterSuggestions(defaultSuggestions, sentence, idx);
+        defaultSuggestions = filterSuggestions(defaultSuggestions);
         userSuggestions = filterDupes(userSuggestions);
         defaultSuggestions = orderSuggestions(defaultSuggestions, word);
         
@@ -489,7 +477,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
   @NotNull
-  private List<SuggestedReplacement> mergeSuggestionsWithSameTranslation(List<SuggestedReplacement> l) {
+  private static List<SuggestedReplacement> mergeSuggestionsWithSameTranslation(List<SuggestedReplacement> l) {
     List<SuggestedReplacement> mergedRepl = new ArrayList<>();
     Set<String> handledReplacements = new HashSet<>();
     for (SuggestedReplacement repl : l) {
@@ -498,9 +486,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         .filter(k -> k.getSuffix() == null || (k.getSuffix() != null && k.getSuffix().equals(repl.getSuffix())))
         .collect(Collectors.toList());
       if (sameRepl.size() > 1) {
-        if (handledReplacements.contains(repl.getReplacement())) {
-          // skip
-        } else {
+        if (!handledReplacements.contains(repl.getReplacement())) {
           List<String> joinedRepls = new ArrayList<>();
           for (SuggestedReplacement r : sameRepl) {
             joinedRepls.add("* " + r.getShortDescription());
@@ -554,7 +540,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
    * @param word to be checked
    * @since 4.2
    */
-  protected boolean isEmoji (String word) {
+  protected static boolean isEmoji(String word) {
     if (word.length() > 1 && word.codePointCount(0, word.length()) != word.length()) {
       // some symbols such as emojis (😂) have a string length that equals 2
       return EmojiManager.isOnlyEmojis(word);
@@ -579,8 +565,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
    * Ex. to thow > tot how | to throw
    * 
    */
-  private List<SuggestedReplacement> joinBeforeAfterSuggestions(List<SuggestedReplacement> suggestionsList, String beforeSuggestionStr,
-      String afterSuggestionStr) {
+  private static List<SuggestedReplacement> joinBeforeAfterSuggestions(List<SuggestedReplacement> suggestionsList, String beforeSuggestionStr,
+                                                                       String afterSuggestionStr) {
     List<SuggestedReplacement> newSuggestionsList = new ArrayList<>();
     for (SuggestedReplacement suggestion : suggestionsList) {
       String str = suggestion.getReplacement();

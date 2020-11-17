@@ -19,44 +19,27 @@
 
 package org.languagetool.rules.spelling.hunspell;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Queue;
-import java.util.ResourceBundle;
-import java.util.Scanner;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
+import com.google.common.io.Resources;
+import com.vdurmont.emoji.EmojiParser;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import com.google.common.io.Resources;
-import com.vdurmont.emoji.EmojiParser;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * A hunspell-based spellchecking-rule.
@@ -78,7 +61,7 @@ public class HunspellRule extends SpellingCheckRule {
   private static final ConcurrentLinkedQueue<String> activeChecks = new ConcurrentLinkedQueue<>();
   private static final String NON_ALPHABETIC = "[^\\p{L}]";
 
-  private final boolean monitorRules;
+  private static final boolean monitorRules = System.getProperty("monitorActiveRules") != null;
 
   public static Queue<String> getActiveChecks() {
     return activeChecks;
@@ -110,7 +93,6 @@ public class HunspellRule extends SpellingCheckRule {
     super(messages, language, userConfig, altLanguages, languageModel);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     this.userConfig = userConfig;
-    this.monitorRules = System.getProperty("monitorActiveRules") != null;
   }
 
   @Override
@@ -142,7 +124,7 @@ public class HunspellRule extends SpellingCheckRule {
       return toRuleMatchArray(ruleMatches);
     }
 
-    String monitoringText = this.getClass().getName() + ":" + this.getId() + ":" + sentence.getText();
+    String monitoringText = getClass().getName() + ":" + getId() + ":" + sentence.getText();
     try {
       if (monitorRules) {
         activeChecks.add(monitoringText);
@@ -182,7 +164,7 @@ public class HunspellRule extends SpellingCheckRule {
                 }
               }
               // "than kyou" -> "thank you"
-              String sugg2a = prevWord + word.substring(0, 1);
+              String sugg2a = prevWord + word.charAt(0);
               String sugg2b = cutOffDot(word.substring(1));
               if (!isMisspelled(sugg2a) && !isMisspelled(sugg2b)) {
                 RuleMatch rm = createWrongSplitMatch(sentence, ruleMatches, len, cleanWord, sugg2a, sugg2b, prevStartPos);
@@ -235,7 +217,7 @@ public class HunspellRule extends SpellingCheckRule {
                 suggestions.addAll(additionalSuggestions);
               }
             }
-            suggestions = filterDupes(filterSuggestions(suggestions, sentence, i));
+            suggestions = filterDupes(filterSuggestions(suggestions));
             // Find potentially missing compounds with privacy-friendly logging: we only log a single unknown word with no
             // meta data and only if it's made up of two valid words, similar to the "UNKNOWN" logging in
             // GermanSpellerRule:
@@ -269,7 +251,7 @@ public class HunspellRule extends SpellingCheckRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private String cutOffDot(String s) {
+  private static String cutOffDot(String s) {
     return s.endsWith(".") ? s.substring(0, s.length()-1) : s;
   }
 
@@ -404,8 +386,8 @@ public class HunspellRule extends SpellingCheckRule {
     }
   }
 
-  private String getDictionaryPath(String dicName,
-      String originalPath) throws IOException {
+  private static String getDictionaryPath(String dicName,
+                                          String originalPath) throws IOException {
 
     URL dictURL = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(originalPath);
     String dictionaryPath;
@@ -439,7 +421,7 @@ public class HunspellRule extends SpellingCheckRule {
     return dictionaryPath;
   }
 
-  private void fileCopy(InputStream in, File targetFile) throws IOException {
+  private static void fileCopy(InputStream in, File targetFile) throws IOException {
     try (OutputStream out = new FileOutputStream(targetFile)) {
       byte[] buf = new byte[1024];
       int len;
