@@ -22451,7 +22451,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token regexp="yes">practica|practiques</token>
                     <token min="0" postag="RN"/>
-                    <token postag="V.G.*|RG|UNKONWN" postag_regexp="yes"/>
+                    <token postag="V.G.*|RG|UNKNOWN" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token>practica</token>
@@ -22494,6 +22494,72 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Practica tu mateixa.</example>
                 <example>És incansable, perquè practica sense parar la cursa.</example>
                 <example>L'home practica no sempre d'una manera plenament conscient.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <!-- english-->
+                    <token>public</token>
+                    <token regexp="yes">health|schools?|theater|finance|hero|domain|license|licence|opinion|choice|key|law|enemy|space|policy|service|offices?|library|international|administration|broadcasting|house</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token regexp="yes">publica|publiques</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="&pronom_feble;" postag_regexp="yes"/>
+                    <token regexp="yes">publica|publiques</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">publica|publiques</token>
+                    <token min="0" postag="_cometes_obertura"/>
+                    <token postag="[DAN].*" postag_regexp="yes"><exception regexp="yes">número|núm</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">que|qual|qui|on|perquè|car</token>
+                    <token regexp="yes">publica|publiques|public</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">publica|publiques</token>
+                    <token regexp="yes">per|amb|tu|a|en</token>
+                </antipattern>
+                <antipattern>
+                    <token>publica</token>
+                    <token>:</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d\d\d\d</token>
+                    <token>publica</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token>publica</token>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">publica|publiques</token>
+                    <token min="0" postag="RN|_cometes_obertura" postag_regexp="yes"/>
+                    <token postag="V.G.*|RG|UNKNOWN" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>publica</token>
+                    <token regexp="yes">o|i|ni</token>
+                    <token postag="V.[SI].3S.." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.[SI].3S.." postag_regexp="yes"/>
+                    <token regexp="yes">o|i|ni</token>
+                    <token>publica</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">public|publica|publiques<exception postag="NP.*|A.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Si és un adjectiu, cal accentuar. Correcte si és del v. 'publicar'.</message>
+                <suggestion><match no="1" regexp_match="(?iu)u" regexp_replace="ú" case_conversion="preserve"/></suggestion>
+                <example correction="pública">Concurrència competitiva, que s’iniciarà d’ofici mitjançant convocatòria <marker>publica</marker>.</example>
+                <example correction="pública">¿És una inversió privada o <marker>publica</marker>?</example>
+                <example>GNU General Public License v.2.0</example>
+                <example>Millais publica "Ophelia".</example>
+                <example>Per a guiar la res publica.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -53077,7 +53143,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes" skip="7">demanar|sol·licitar|reservar|tenir|concertar|concretar</token>
                     <marker>
                         <token>la</token>
-                        <token regexp="yes">teua|teva|vostra</token>
+                        <token regexp="yes">teua|teva|vostra|seua|seva|meua|meva|nostra</token>
                         <token inflected="yes">cita</token>
                         <token inflected="yes">prèvia</token>
                     </marker>
