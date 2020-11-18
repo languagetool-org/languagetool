@@ -6462,31 +6462,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 on dormíem l'abnegada Alcestis i jo
                 </rule> -->
         </rulegroup>
-        <rulegroup id="PASSAR_PEL_CAP" name="verbs no pronominals: Passar*(-se) pel cap">
+        <rule id="PASSAR_PEL_CAP" name="verbs no pronominals: Passar*(-se) pel cap">
+            <pattern>
+                <marker>
+                    <token regexp="yes">se|es</token>
+                    <token postag="PP[123]C[SP][^A].*" postag_regexp="yes" skip="1"/>
+                </marker>
+                <token inflected="yes" skip="1">passar</token>
+                <token>pe</token>
+                <token>l</token>
+                <token>cap</token>
+            </pattern>
+            <message>Ús pronominal incorrecte. Cal eliminar el pronom reflexiu.</message>
+            <suggestion><match no="2" regexp_match="'(.+)" regexp_replace="e$1"/></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/1441</url>
+            <example correction="li">A Joan mai no <marker>se li</marker> ha passat pel cap fer això.</example>
+            <example correction="ens">Mai no <marker>se'ns</marker> ha passat pel cap fer això.</example>
+            <example>No li ha passat mai pel cap.</example>
+        </rule>
+        <rulegroup id="PASSAR_SE" name="verbs no pronominals: passar*(-se)">
             <url>http://esadir.cat/entrades/fitxa/id/1441</url>
             <antipattern>
                 <token inflected="yes" skip="1">passar</token>
                 <token postag="DA.*" postag_regexp="yes"/>
                 <token regexp="yes">arròs|dinar|sopar|paella|macarrons</token>
             </antipattern>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token regexp="yes">se|es</token>
-                        <token postag="PP[123]C[SP][^A].*" postag_regexp="yes" skip="1"/>
-                    </marker>
-                    <token inflected="yes" skip="1">passar</token>
-                    <token>pe</token>
-                    <token>l</token>
-                    <token>cap</token>
-                </pattern>
-                <message>Ús pronominal incorrecte. Cal eliminar el pronom reflexiu.</message>
-                <suggestion><match no="2" regexp_match="'(.+)" regexp_replace="e$1"/></suggestion>
-                <short>Ús pronominal incorrecte</short>
-                <example correction="li">A Joan mai no <marker>se li</marker> ha passat pel cap fer això.</example>
-                <example correction="ens">Mai no <marker>se'ns</marker> ha passat pel cap fer això.</example>
-                <example>No li ha passat mai pel cap.</example>
-            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">se|es</token>
@@ -6518,6 +6518,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="(Descuidar-se de)|Em degué passar per alt|Em degué passar"><marker>Se'm degué passar</marker>.</example>
                 <example>No se'ls deixava passar mai.</example>
                 <example>Vigila que se't passarà l'arròs.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">se|es</token>
+                    <token postag="PP[123]C[SP][^A].*" postag_regexp="yes"/>
+                    <token spacebefore="no" inflected="yes" regexp="yes">anar|haver|deure</token>
+                    <token regexp="yes">pogut|poder</token>
+                    <token>passar</token>
+                </pattern>
+                <message>Ús pronominal incorrecte. Canvieu l'expressió o elimineu el pronom reflexiu.</message>
+                <suggestion>(descuidar-se de)</suggestion>
+                <suggestion><match no="2" regexp_match="'(.+)" regexp_replace="e$1"/><match no="3"/> <match no="4"/> passar per alt</suggestion>
+                <suggestion><match no="2" regexp_match="'(.+)" regexp_replace="e$1"/><match no="3"/> <match no="4"/> passar</suggestion>
+                <short>Ús pronominal incorrecte</short>
+                <example correction="(descuidar-se de)|m'ha pogut passar per alt|m'ha pogut passar">Com <marker>se m'ha pogut passar</marker> això?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">se|es</token>
+                    <token postag="PP[123]C[SP][^A].*" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">anar|haver|deure</token>
+                    <token regexp="yes">pogut|poder</token>
+                    <token>passar</token>
+                </pattern>
+                <message>Ús pronominal incorrecte. Canvieu l'expressió o elimineu el pronom reflexiu.</message>
+                <suggestion>(descuidar-se de)</suggestion>
+                <suggestion><match no="2" regexp_match="'(.+)" regexp_replace="e$1"/> <match no="3"/> <match no="4"/> passar per alt</suggestion>
+                <suggestion><match no="2" regexp_match="'(.+)" regexp_replace="e$1"/> <match no="3"/> <match no="4"/> passar</suggestion>
+                <short>Ús pronominal incorrecte</short>
+                <example correction="(descuidar-se de)|li ha pogut passar per alt|li ha pogut passar">Com <marker>se li ha pogut passar</marker> això?</example>
+                <example correction="(descuidar-se de)|li va poder passar per alt|li va poder passar">Com <marker>se li va poder passar</marker> això?</example>
+                <example correction="(descuidar-se de)|em va poder passar per alt|em va poder passar">Com <marker>se'm va poder passar</marker> això?</example>
             </rule>
         </rulegroup>
         <rulegroup id="VERBS_NO_TRANSITIUS" name="verbs no transitius">
