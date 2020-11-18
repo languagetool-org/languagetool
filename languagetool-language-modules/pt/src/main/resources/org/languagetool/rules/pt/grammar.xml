@@ -2025,6 +2025,24 @@ title="Easy editing stylesheet" ?>
           <token postag='AQC[CFM]S0' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-11-09 (21-OCT-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-11-18 (21-OCT-2020+) *START* -->
+<!-- "Os ficheiros cache são carregados no início." -->
+<!-- "As palavras passe são carregadas no início." -->
+      <antipattern>
+		<token regexp='yes'>as|os</token>
+		<token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
+		<token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
+		<token postag='VMIP3P0|VMIM3P0|VMIS3P0' postag_regexp='yes'/>
+      </antipattern>
+<!-- "Portugal exporta para os mercados europeu, asiático e americano." -->	  
+      <antipattern>
+		<token regexp='yes'>as|os</token>
+		<token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
+		<token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
+		<token regexp='yes'>[.,(]</token>
+		<token negate_pos="yes" postag='SPS.+|V.+' postag_regexp='yes'/>
+      </antipattern>	  	  
+<!-- MARCOAGPINTO 2020-11-18 (21-OCT-2020+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -2048,7 +2066,6 @@ title="Easy editing stylesheet" ?>
       <example correction='O cão|Os cães|Os, cão'><marker>Os cão</marker> está no pasto.</example>
       <example correction="pai natal|pais natais|pais, natal">Havia <marker>pais natal</marker> na festa.</example>
       <example correction="todinho litoral|todo litoral|todinho, litoral|todo, litoral">Possui uma extensão aproximada de 378 km, o que representa 3,8% de <marker>todos litoral</marker> do México.</example>
-      <example correction="caso mais preocupante|casos mais preocupantes|casos mais, preocupante">Os <marker>casos mais preocupante</marker> são estas.</example>
       <example correction="o bugio|os bugios|os, bugio">Macacos maiores como <marker>os bugio</marker></example>
       <example>Conforme mais dados vão sendo acumulados de pessoas de todas as idades.</example>
       <example>Os rinocerontes serão anestesiados, antes de se remover o chifre.</example>
@@ -2062,6 +2079,9 @@ title="Easy editing stylesheet" ?>
 	  <example type='correct'>O campo B pode ser definido de muitas formas <marker>equivalentes baseada</marker> nas suas influências sobre o ambiente.</example>
 	  <example type='correct'>Pedro, <marker>comes muito queijo</marker>.</example>
 	  <example type='correct'>Ele não escrevia os <marker>ditados direitinho</marker>.</example>
+	  <example type='correct'><marker>Os ficheiros cache</marker> são carregados no início.</example>
+	  <example type='correct'><marker>As palavras passe</marker> são carregadas no início.</example>
+	  <example type='correct'>Portugal exporta para <marker>os mercados europeu,</marker> asiático e americano.</example>
     </rule>
     <rule>
       <antipattern>
@@ -3010,6 +3030,24 @@ title="Easy editing stylesheet" ?>
           <token postag='NP.+' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-11-09 (21-OCT-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-11-18 (21-OCT-2020+) *START* -->
+<!-- "Os ficheiros cache são carregados no início." -->
+<!-- "As palavras passe são carregadas no início." -->
+      <antipattern>
+		<token regexp='yes'>as|os</token>
+		<token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
+		<token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
+		<token postag='VMIP3P0|VMIM3P0|VMIS3P0' postag_regexp='yes'/>
+      </antipattern>
+<!-- "Portugal exporta para os mercados europeu, asiático e americano." -->	  
+      <antipattern>
+		<token regexp='yes'>as|os</token>
+		<token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
+		<token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
+		<token regexp='yes'>[.,(]</token>
+		<token negate_pos="yes" postag='SPS.+|V.+' postag_regexp='yes'/>
+      </antipattern>	  	  
+<!-- MARCOAGPINTO 2020-11-18 (21-OCT-2020+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -3032,7 +3070,6 @@ title="Easy editing stylesheet" ?>
       <example correction='A vaca|As vacas|As, vaca'><marker>As vaca</marker> são malhadas.</example>
       <example>Apresentou os programas Jornal do Mundo, Internacional Patati e Plus Berlin.</example>
       <example correction='fechadura grande|fechaduras grandes|fechaduras, grande'>Coloca essa chave nas <marker>fechaduras grande</marker>.</example>
-      <example correction="situação mais preocupante|situações mais preocupantes|situações mais, preocupante">A <marker>situações mais preocupante</marker> é esta.</example>
       <example>Conforme mais dados vão sendo acumulados de pessoas de todas as idades.</example>
       <example>Pega na chave das <marker>fechaduras grande</marker>.</example>
       <example>As respostas têm de ser o mais amplas possível para serem efectivos.</example>
@@ -3040,6 +3077,9 @@ title="Easy editing stylesheet" ?>
 	  <example type='correct'>O campo B pode ser definido de muitas formas <marker>equivalentes baseado</marker> nos seus efeitos sobre o ambiente.</example>
 	  <example type='correct'>O campo B pode ser definido de muitas formas <marker>equivalentes baseada</marker> nas suas influências sobre o ambiente.</example>
 	  <example type='correct'>Dez anos, ao longo <marker>dos quais Ana</marker> esperou pelo marido.</example>
+	  <example type='correct'><marker>Os ficheiros cache</marker> são carregados no início.</example>
+	  <example type='correct'><marker>As palavras passe</marker> são carregadas no início.</example>
+	  <example type='correct'>Portugal exporta para <marker>os mercados europeu,</marker> asiático e americano.</example>
     </rule>
     <rule>
       <antipattern>
