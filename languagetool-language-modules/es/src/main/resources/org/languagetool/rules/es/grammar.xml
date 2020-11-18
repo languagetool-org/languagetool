@@ -2575,7 +2575,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>se</token>
-                    <token regexp="yes">me|te|le|les|lo|los|nos|os</token>
+                    <token regexp="yes">me|te|le|les|nos|os</token>
+                </antipattern>
+                <antipattern>
+                    <token>se</token>
+                    <token regexp="yes">lo|los</token>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <!-- triggers another rule -->
@@ -2598,6 +2603,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="sé">No <marker>se</marker> la lección.</example>
                 <example correction="sé">No me <marker>se</marker> la lección.</example>
                 <example correction="sé">Lo <marker>se</marker> de buena tinta.</example>
+                <example correction="sé">No <marker>se</marker> lo que quieres decir.</example>
+                <example correction="sé">No <marker>se</marker> los que vinieron.</example>
                 <example type="correct" reason="triggers another rule">Se desarollo.</example>
                 <example type="correct" reason="triggers another rule">Se desarrollo.</example>
                 <example>Se me apareció.</example>
