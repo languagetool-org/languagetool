@@ -43541,13 +43541,18 @@ Andere Projekte</example>
                 <pattern>
                     <token postag="VER:[1-3].+" postag_regexp="yes"></token>
                     <token min="0" postag="NEG"></token>
-                    <marker><token regexp="yes">inwie(fern|weit)|ob|wann|was|warum|we[mnr]|wes(halb|wegen|sen)|wieso|wo(durch|her|hin|für|mit|gegen|ran|rauf|von|zu)?</token></marker>
+                    <marker>
+                        <token min="0" postag="PRP.+" postag_regexp="yes"></token>
+                        <token regexp="yes">inwie(fern|weit)|ob|wann|was|warum|we[mnr]|wes(halb|wegen|sen)|wieso|wo(durch|her|hin|für|mit|gegen|ran|rauf|von|zu)?</token>
+                    </marker>
                     <token postag="PRO.+|EIG.+" postag_regexp="yes"></token>
                </pattern>
-               <message>Indirekte Fragen werden mit Komma vom Hauptsatz abgetrennt. Meinten Sie <suggestion>, \3</suggestion>?</message>
+               <message>Indirekte Fragen und Relativsätze werden mit Komma vom Hauptsatz abgetrennt. Meinten Sie <suggestion>, \3 \4</suggestion>?</message>
                <short>Möglicherweise fehlendes Komma</short>
                <example correction=", was">Denn sie wissen nicht<marker> was</marker> sie tun.</example>
                <example correction=", was">Denn sie wissen<marker> was</marker> sie tun.</example>
+               <example correction=", an was">Denn sie wissen nicht<marker> an was</marker> sie glauben sollen.</example>
+               <example correction=", an was">Denn sie wissen<marker> an was</marker> sie glauben sollen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_VOR_WIE" name="Komma vor wie">
