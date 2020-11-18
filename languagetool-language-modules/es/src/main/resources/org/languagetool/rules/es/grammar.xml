@@ -1477,7 +1477,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En el año 2010 practicas más.</example>
             </rule>
         </rulegroup>
-        <rule id="PRACTICA" name="practica/práctica" default="temp_off">
+        <rule id="PRACTICA" name="practica/práctica">
             <antipattern>
                 <token>que</token>
                 <token min="0" max="3" postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
@@ -1492,16 +1492,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="[DAN].*" postag_regexp="yes"><exception regexp="yes">número|núm</exception></token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">que|cual|quien|donde|quién|cuál|dónde</token>
+                <token regexp="yes">que|cual|quien|donde|quién|cuál|dónde|si</token>
                 <token regexp="yes">practico|practica|practicas</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">practico|practica|practicas</token>
-                <token regexp="yes">por|con</token>
+                <token regexp="yes">por|con|a</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">practica|practicas</token>
-                <token>tú</token>
+                <token regexp="yes">tú|?</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">practico|practica|practicas</token>
@@ -1527,6 +1527,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="práctica">Teoría y <marker>practica</marker>.</example>
             <example>Si lo practicas mucho, lo conseguirrás.</example>
             <example>Si practicas mucho, lo conseguirrás.</example>
+            <example>Si practicas, le cogerás el tranquillo tarde o temprano.</example>
             <example>Se practica con intensidad.</example>
             <example>Entrena y practica escalada en hielo </example>
             <example>Practica esquí con la familia. </example>
@@ -1538,6 +1539,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>También practica snowboarding.</example>
             <example>Así practicas.</example>
             <example>Practica tú misma.</example>
+            <example>Las maquinaciones ue la Iglesia practica a nivel mundial.</example>
+            <example>¿Qué clase de deportes practicas?</example>
         </rule>
         <rule id="DIACRITICS_SPECIAL" name="diacríticos, casos especiales">
             <antipattern>
@@ -15074,12 +15077,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="SENT_END"/>
             </antipattern>
             <antipattern>
-                <token skip="-1">pero<exception scope="next" postag="V.[SI].*" postag_regexp="yes"/></token>
+                <token>pero<exception scope="next" postag="V.[SI].*" postag_regexp="yes"/></token>
+                <token skip="-1"/>
                 <token postag="_PUNCT.*" postag_regexp="yes"/>
                 <token regexp="yes">y|o|e|u|ni|que|sino|aunque|porque</token>
             </antipattern>
             <antipattern>
-                <token skip="-1">pero<exception scope="next" postag="V.[SI].*" postag_regexp="yes"/></token>
+                <token >pero<exception scope="next" postag="V.[SI].*" postag_regexp="yes"/></token>
+                <token skip="-1"/>
                 <token postag="_PUNCT.*" postag_regexp="yes"/>
                 <token regexp="yes">ya|puesto</token>
                 <token>que</token>
