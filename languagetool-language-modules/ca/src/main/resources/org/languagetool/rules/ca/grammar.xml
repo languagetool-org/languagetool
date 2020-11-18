@@ -22429,7 +22429,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>substancia</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="&pronom_feble;|RG|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token regexp="yes">practica|practiques</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="&pronom_feble;" postag_regexp="yes"/>
                     <token regexp="yes">contrari(a|es)|practica|practiques</token>
                 </antipattern>
                 <antipattern>
@@ -22437,7 +22441,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="[DAN].*" postag_regexp="yes"><exception regexp="yes">número|núm</exception></token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">que|qual|qui|on</token>
+                    <token regexp="yes">que|qual|qui|on|perquè|car</token>
                     <token regexp="yes">contraria|contraries|maquina|maquines|practica|practiques</token>
                 </antipattern>
                 <antipattern>
@@ -22446,7 +22450,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">practica|practiques</token>
-                    <token postag="V.G.*|RG" postag_regexp="yes"/>
+                    <token min="0" postag="RN"/>
+                    <token postag="V.G.*|RG|UNKONWN" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token>practica</token>
@@ -22469,6 +22474,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Pràctica"><marker>Practica</marker> núm. 12</example>
                 <example correction="Pràctiques"><marker>Practiques</marker></example>
                 <example correction="pràctica">Teoria i <marker>practica</marker>.</example>
+                <example correction="contrària">Era clarament <marker>contraria</marker> a la formació.</example>
                 <example>Ara maquina un altre pla.</example>
                 <example>Això no se substancia en res.</example>
                 <example>Si el contraries, s'enfadarà</example>
@@ -22486,6 +22492,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>També practica snowboarding.</example>
                 <example>Així practiques.</example>
                 <example>Practica tu mateixa.</example>
+                <example>És incansable, perquè practica sense parar la cursa.</example>
+                <example>L'home practica no sempre d'una manera plenament conscient.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -34246,13 +34254,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
-        <rule id="A_DATA_DE" name="*a data de" default="temp_off">
+        <rule id="A_DATA_DE" name="*a data de">
             <antipattern>
                 <token skip="4" postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">&exceptions_ALS_TRES_MESOS;<exception regexp="yes">remuntada|remuntades</exception></token>
                 <token>a</token>
             </antipattern>
             <antipattern>
-                <token inflected="yes" regexp="yes">&exceptions_ALS_TRES_MESOS;<exception regexp="yes">remuntada|remuntades</exception></token>
+                <token inflected="yes" regexp="yes">&exceptions_ALS_TRES_MESOS;|com<exception regexp="yes">remuntada|remuntades</exception></token>
                 <token>a</token>
             </antipattern>
             <antipattern>
@@ -34274,6 +34282,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="en data|amb data">Ho vam presentar <marker>a data</marker> de 3 d'abril.</example>
             <example>Respecte a data d'abril.</example>
             <example>Es remunta a data de 1985.</example>
+            <example>com a data d'inici dels Jocs Olímpics</example>
         </rule>
         <rule id="MIDA_MESURA" name="mida/mesura">
             <pattern>
@@ -42840,12 +42849,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
-        <rule id="TRASTOCAR" name="trastocar" default="temp_off">
+        <rule id="TRASTOCAR" name="trastocar">
             <pattern>
                 <marker>
                     <token inflected="yes" skip="4">trastocar</token>
                 </marker>
-                <token inflected="yes" regexp="yes">pla|horari|projecte|previsió|predicció|tot</token>
+                <token inflected="yes" regexp="yes">tot|pla|horari|projecte|previsió|predicció|estimació|avaluació|estadística</token>
             </pattern>
             <message>"Trastocar" vol dir "fer tornar boig". Potser no és adequat en aquest context.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">alterar</match></suggestion>
@@ -60698,7 +60707,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <and>
-                        <token inflected="yes" regexp="yes">anar|pujar|venir<exception postag="VA.*" postag_regexp="yes"/></token>
+                        <token inflected="yes" regexp="yes">anar|pujar|venir<exception postag="VA.*" postag_regexp="yes"/><exception inflected="yes">vendre</exception></token>
                         <token postag="_reflexiu"><exception postag="_reflexiu_complement"/></token>
                     </and>
                 </pattern>
@@ -60732,6 +60741,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- un portal adovellat pel qual es puja al castell-->
                 <example correction="" type="triggers_error" reason="ambiguous">I, mantenint el contacte amb el caiac, es <marker>puja</marker> a la superfície.</example>
                 <example correction="">Els problemes que se'ns <marker>venen</marker> a sobre.</example>
+                <example>Es pensava que les coses es venien soles.</example>
+                <example>Em venc la moto.</example>
                 <example>Joan se'n va a casa.</example>
                 <example>Se li n'anaven els ulls.</example>
                 <example>Ens hem d'anar esforçant</example>
