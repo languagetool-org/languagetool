@@ -34699,16 +34699,19 @@ TODO Write better examples
       <example correction='verosimilhança'>A estimativa de máxima <marker>semelhança</marker> é usada em Estatística.</example>
     </rule>
 
-    <rule id='FURTO_DE_IDENTIDADE' name="Usurpação de identidade">
-    <!-- Created by Marco A.G. Pinto, 2017-XX-XX -->
-      <pattern>
-          <token>furto</token>
-          <token>de</token>
-          <token regexp='yes'>identidades?</token>
-      </pattern>
-      <message>Substitua por <suggestion>usurpação de \3</suggestion>.</message>
-      <example correction="usurpação de identidade">É comum ser alvo de <marker>furto de identidade</marker> na Internet.</example>
-    </rule>
+    <!-- 	FURTO/ROUBO DA/DE IDENTIDADE usurpação de identidade -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-17 (21-OCT-2020+)     -->
+    <rule id='FURTO_ROUBO_IDENTIDADE' name="Usurpação de identidade">
+		<pattern>
+		    <marker>
+				<token regexp='yes'>furtos?|roubos?</token>
+			</marker>
+			<token regexp='yes'>das?|de</token>
+			<token regexp='yes'>identidades?</token>
+		</pattern>		
+		<message>Substitua por <suggestion>usurpação</suggestion>.</message>
+		<example correction="usurpação">Houve <marker>roubo</marker> de identidade na empresa.</example>  
+	</rule>
 
     <rule id='OPENING_INTERROGATION' name="Sinal de interrogação inicial" default="on">
     <!-- Localized from Catalan, by Tiago F. Santos, 2017-02-27 -->
