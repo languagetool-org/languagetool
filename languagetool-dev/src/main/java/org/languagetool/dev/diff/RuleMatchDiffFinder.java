@@ -136,7 +136,16 @@ public class RuleMatchDiffFinder {
   }
 
   private void printDiffs(List<RuleMatchDiff> diffs, FileWriter fw, String langCode, String date) throws IOException {
-    fw.write("Diffs found: " + diffs.size() + "<br>\n");
+    fw.write("Diffs found: " + diffs.size());
+    if (diffs.size() > 0) {
+      RuleMatchDiff diff1 = diffs.get(0);
+      if (diff1.getOldMatch() != null) {
+        fw.write(". Category: " + diff1.getOldMatch().getCategoryName());
+      } else if (diff1.getNewMatch() != null) {
+        fw.write(". Category: " + diff1.getNewMatch().getCategoryName());
+      }
+    }
+    fw.write("<br>\n");
     printTableBegin(fw);
     int iframeCount = 0;
     for (RuleMatchDiff diff : diffs) {

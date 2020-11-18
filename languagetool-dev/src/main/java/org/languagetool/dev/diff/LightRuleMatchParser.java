@@ -79,6 +79,7 @@ class LightRuleMatchParser {
     String ruleId = rule.get("id").asText();
     String fullRuleId = rule.get("subId") != null ? ruleId + "[" + rule.get("subId").asText() + "]" : ruleId;
     String message = match.get("message").asText();
+    String category = rule.get("category") != null ? rule.get("category").get("name").asText() : "(unknown)";
     int contextOffset = match.get("context").get("offset").asInt();
     int contextLength = match.get("context").get("length").asInt();
     String context = match.get("context").get("text").asText();
@@ -117,7 +118,7 @@ class LightRuleMatchParser {
         tags.add(tag.asText());
       }
     }
-    return new LightRuleMatch(0, offset, fullRuleId, message, context, coveredText, suggestions, ruleSource, title, status, tags);
+    return new LightRuleMatch(0, offset, fullRuleId, message, category, context, coveredText, suggestions, ruleSource, title, status, tags);
   }
 
   List<LightRuleMatch> parseOutput(Reader reader) {
@@ -197,7 +198,7 @@ class LightRuleMatchParser {
   private LightRuleMatch makeMatch(int line, int column, String ruleId, String cleanId, String message, String suggestions,
                                    String context, String coveredText, String title, String source, List<String> tags) {
     LightRuleMatch.Status s = ruleId.contains("[temp_off]") ? LightRuleMatch.Status.temp_off : LightRuleMatch.Status.on;
-    return new LightRuleMatch(line, column, cleanId, message, context, coveredText, suggestions, source, title, s, tags);
+    return new LightRuleMatch(line, column, cleanId, message, "", context, coveredText, suggestions, source, title, s, tags);
   }
   
 }

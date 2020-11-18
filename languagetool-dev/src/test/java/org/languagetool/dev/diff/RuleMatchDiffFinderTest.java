@@ -94,7 +94,7 @@ public class RuleMatchDiffFinderTest {
 
   @NotNull
   private LightRuleMatch make(String msg, String context, String coveredText, String suggestion) {
-    return new LightRuleMatch(1, 10, "FAKE_ID1", msg, context, coveredText, suggestion, "grammar.xml", "mytitle",
+    return new LightRuleMatch(1, 10, "FAKE_ID1", msg, "FakeCategory", context, coveredText, suggestion, "grammar.xml", "mytitle",
       LightRuleMatch.Status.on, Collections.emptyList());
   }
 

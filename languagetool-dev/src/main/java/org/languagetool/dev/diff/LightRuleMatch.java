@@ -33,6 +33,7 @@ class LightRuleMatch {
   private final int column;
   private final String fullRuleId;
   private final String message;
+  private final String category;
   private final String context;
   private final String coveredText;
   private final String suggestions;
@@ -41,12 +42,13 @@ class LightRuleMatch {
   private final Status status;
   private final List<String> tags;
 
-  LightRuleMatch(int line, int column, String ruleId, String message, String context, String coveredText,
+  LightRuleMatch(int line, int column, String ruleId, String message, String category, String context, String coveredText,
                  String suggestions, String ruleSource, String title, Status status, List<String> tags) {
     this.line = line;
     this.column = column;
     this.fullRuleId = Objects.requireNonNull(ruleId);
     this.message = Objects.requireNonNull(message);
+    this.category = Objects.requireNonNull(category);
     this.context = Objects.requireNonNull(context);
     this.coveredText = Objects.requireNonNull(coveredText);
     this.suggestions = suggestions == null ? "" : suggestions;
@@ -79,6 +81,10 @@ class LightRuleMatch {
 
   String getMessage() {
     return message;
+  }
+
+  String getCategoryName() {
+    return category;
   }
 
   String getContext() {
