@@ -22515,6 +22515,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="[DAN].*" postag_regexp="yes"><exception regexp="yes">número|núm</exception></token>
                 </antipattern>
                 <antipattern>
+                    <token regexp="yes">publica|publiques</token>
+                    <token skip="-1" regexp="yes">[,-—–]</token>
+                    <token><match no="1"/></token>
+                    <token min="0" postag="_cometes_obertura"/>
+                    <token postag="[DAN].*" postag_regexp="yes"><exception regexp="yes">número|núm</exception></token>
+                </antipattern>
+                <antipattern>
                     <token regexp="yes">que|qual|qui|on|perquè|car|quan</token>
                     <token regexp="yes">publica|publiques|public</token>
                 </antipattern>
@@ -22529,6 +22536,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token regexp="yes">\d\d\d\d</token>
                     <token>publica</token>
+                </antipattern>
+                <antipattern>
+                    <token>publica</token>
+                    <token regexp="yes">\p{Lu}.*</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">\p{Lu}.*</token>

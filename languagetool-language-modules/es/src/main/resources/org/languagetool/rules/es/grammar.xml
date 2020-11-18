@@ -1542,6 +1542,84 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Las maquinaciones ue la Iglesia practica a nivel mundial.</example>
             <example>¿Qué clase de deportes practicas?</example>
         </rule>
+        <rule id="PUBLICO" name="publico/público" default="temp_off">
+            <antipattern>
+                <token postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token regexp="yes">publico|publicas?</token>
+            </antipattern>
+            <antipattern>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <token regexp="yes">publico|publicas?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">publico|publicas?</token>
+                <token min="0" postag="_QM_OPEN"/>
+                <token postag="[DAN].*|PI.*" postag_regexp="yes"><exception regexp="yes">número|núm</exception></token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">publico|publicas?</token>
+                <token skip="-1" regexp="yes">[,-—–]</token>
+                <token><match no="1"/></token>
+                <token min="0" postag="_QM_OPEN"/>
+                <token postag="[DAN].*|PI.*" postag_regexp="yes"><exception regexp="yes">número|núm</exception></token>
+            </antipattern>
+            <antipattern>
+                <token postag="PR.*" postag_regexp="yes"/> <!--que|cual|quien|donde|porque|cuando</token>-->
+                <token regexp="yes">publico|publicas?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">publico|publicas?</token>
+                <token regexp="yes">por|con|a|en</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">publicas?</token>
+                <token>tú</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">publico|publicas?</token>
+                <token>:</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>publica</token>
+            </antipattern>
+            <antipattern>
+                <token>publica</token>
+                <token regexp="yes">\p{Lu}.*</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\p{Lu}.*</token>
+                <token>publica</token>
+                <token regexp="yes">\p{Lu}.*</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">publico|publicas?</token>
+                <token min="0" postag="RN|_QM_OPEN" postag_regexp="yes"/>
+                <token postag="V.G.*|RG|UNKNOWN" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>publica</token>
+                <token postag="CC"/>
+                <token postag="V.[SI].3S." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.[SI].3S." postag_regexp="yes"/>
+                <token postag="CC"/>
+                <token>publica</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">publico|publicas?<exception postag="NP.*|A.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Si es adjetivo o nombre, se escribe con tilde. Correcto si es del v. 'publicar'.</message>
+            <suggestion><match no="1" regexp_match="(?iu)u" regexp_replace="ú" case_conversion="preserve"/></suggestion>
+            <example correction="pública">Concurrencia competitiva, que se inicia de oficio mediante convocatoria <marker>publica</marker>.</example>
+            <example correction="Pública">Se crea el Tribunal de Vigilancia y Seguridad <marker>Publica</marker>.</example>
+            <example>Se preocupa de la res publica.</example>
+            <example>En el siguiente año, publica, junto con Javier Heraud, Ensayo a dos voces.</example>
+            <example>En 2006 la banda publica uno de sus álbumes.</example>
+            <example>En 1996 el trío publica Nove Luas</example>
+            <example>La Biblioteca Nacional publica, en formato impreso y digital, una agenda bimestral.</example>
+        </rule>
         <rule id="DIACRITICS_SPECIAL" name="diacríticos, casos especiales">
             <antipattern>
                 <token/>
