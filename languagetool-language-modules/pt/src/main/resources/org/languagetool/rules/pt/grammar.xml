@@ -34700,17 +34700,18 @@ TODO Write better examples
     </rule>
 
     <!-- 	FURTO/ROUBO DA/DE IDENTIDADE usurpação de identidade -->	
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-17 (21-OCT-2020+)     -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-18 (21-OCT-2020+)     -->
     <rule id='FURTO_ROUBO_IDENTIDADE' name="Usurpação de identidade">
 		<pattern>
 		    <marker>
-				<token regexp='yes'>furtos?|roubos?</token>
+				<token inflected='yes' regexp='yes'>furtar|roubar</token>
 			</marker>
-			<token regexp='yes'>das?|de</token>
+			<token regexp='yes'>as?|das?|de</token>
+			<token min="0" max="1" postag='DP.*' postag_regexp='yes'/>
 			<token regexp='yes'>identidades?</token>
 		</pattern>		
-		<message>Substitua por <suggestion>usurpação</suggestion>.</message>
-		<example correction="usurpação">Houve <marker>roubo</marker> de identidade na empresa.</example>  
+		<message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usurpar</match></suggestion>.</message>
+		<example correction="usurpou">Alguém <marker>roubou</marker> a identidade do dono da empresa.</example>  
 	</rule>
 
     <rule id='OPENING_INTERROGATION' name="Sinal de interrogação inicial" default="on">
