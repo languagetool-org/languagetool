@@ -6551,6 +6551,20 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="RB" />
             <token postag="VBP" />
         </antipattern>
+        <antipattern>
+            <token postag="MD" />
+            <token>be</token>
+            <token postag="VB" />
+            <token postag="PCT|CC|IN" postag_regexp="yes" />
+        </antipattern>
+        <antipattern>
+            <token postag="MD" />
+            <token regexp="yes">&apostrophe;</token>
+            <token>t</token>
+            <token>be</token>
+            <token postag="VB" />
+            <token postag="PCT|CC|IN" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -6574,6 +6588,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Doubled consonants count as two consonants.</example>
         <example type="untouched">The Beatles play to nearly 60,000 fans at Shea Stadium.</example>
         <example type="untouched">Wed love to hear this!</example>
+        <example type="untouched">When the text can't be check because it is too short.</example><!-- needed to detect "check" as wrong by BEEN_PART_AGREEMENT -->
         <example type="untouched">He sexual assault her.</example>
         <example type="untouched">He is sexual assaulting her.</example>
         <example type="untouched">So within macro A, i trigger another macro by keystroke (call it macro B) and I want to pause until macro B is finished before proceeding.</example>
