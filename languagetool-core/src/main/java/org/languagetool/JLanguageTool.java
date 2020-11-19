@@ -1286,8 +1286,7 @@ public class JLanguageTool {
     int endPos = match.getPatternToPos() + charCount;
     thisMatch.setPatternPosition(startPos, endPos);
 
-    List<SuggestedReplacement> replacements = match.getSuggestedReplacementObjects();
-    thisMatch.setSuggestedReplacementObjects(extendSuggestions(replacements));
+    thisMatch.setLazySuggestedReplacements(() -> extendSuggestions(match.getSuggestedReplacementObjects()));
 
     String sentencePartToError = sentence.substring(0, match.getFromPos());
     String sentencePartToEndOfError = sentence.substring(0, match.getToPos());
