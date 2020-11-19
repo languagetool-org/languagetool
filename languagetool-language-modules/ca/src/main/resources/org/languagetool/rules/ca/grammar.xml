@@ -34400,6 +34400,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="EN_ARES_DE" name="en ares de" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <token regexp="yes">ares|ara</token>
+                    <token regexp="yes">a</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>en ares de</suggestion>
+                <example correction="en ares de">Ho va sacrificar tot <marker>en ares a</marker> la seva amistat.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <token>ara</token>
+                    <token regexp="yes">de|d'</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>en ares \3</suggestion>
+                <example correction="en ares de">Ho va sacrificar tot <marker>en ara de</marker> la seva amistat.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <token>ares</token>
+                    <token>de</token>
+                </pattern>
+                <message>Aquesta locució és admissible amb el sentit de <suggestion>en nom \3</suggestion>, <suggestion>en honor \3</suggestion>, però en incorrecta en el sentit de <suggestion>per a</suggestion>, <suggestion>amb l'objectiu \3</suggestion></message>
+                <example correction="en nom de|en honor de|per a|amb l'objectiu de">Ho va fer <marker>en ares de</marker>ls beneficis.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <token>ares</token>
+                    <token>d'</token>
+                </pattern>
+                <message>Aquesta locució és admissible amb el sentit de <suggestion>en nom \3</suggestion>, <suggestion>en honor \3</suggestion>, però en incorrecta en el sentit de <suggestion>per a </suggestion>, <suggestion>amb l'objectiu \3</suggestion></message>
+                <example correction="en nom d'|en honor d'|per a |amb l'objectiu d'">Ho va fer <marker>en ares d'</marker>uns bons resultats.</example>
+            </rule>
+        </rulegroup>
         <rule id="A_DATA_DE" name="*a data de">
             <antipattern>
                 <token skip="4" postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">&exceptions_ALS_TRES_MESOS;<exception regexp="yes">remuntada|remuntades</exception></token>
