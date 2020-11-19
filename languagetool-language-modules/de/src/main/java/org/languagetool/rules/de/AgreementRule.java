@@ -311,6 +311,12 @@ public class AgreementRule extends Rule {
       token("?")
     ),
     Arrays.asList(
+       // "War das Zufall, dass es ging?"
+      token("das"),
+      tokenRegex("Zufall|Sinn|Spaß"),
+      token(",")
+    ),
+    Arrays.asList(
       token("in"),
       tokenRegex("d(ies)?em"),
       token("Fall"),
