@@ -238,17 +238,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Nos veremos en el Primavera Sound.</example>
             <example>¿Primavera u otoño?</example>
         </rule>
-        <rule id="HOMO" name="homo/Homo">
-            <pattern>
-                <marker>
-                    <token case_sensitive="yes">homo</token>
-                </marker>
-                <token regexp="yes">antecessor|erectus|ergaster|habilis|heidelbergensis|neanderthalensis|rhodesiensis|rudolfensis|sapiens</token>
-            </pattern>
-            <message>Se escribe con mayúscula.</message>
-            <suggestion>Homo</suggestion>
-            <example correction="Homo">Es propio del <marker>homo</marker> sapiens.</example>
-        </rule>
+        <rulegroup id="HOMO" name="homo/Homo">
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Homo</token>
+                    <token regexp="yes">antecessor|cepranensis|erectus|ergaster|floresiensis|gautengensis|habilis|heidelbergensis|naledi|neanderthalensis|rhodesiensis|rudolfensis|sapiens|sp|spp|tsaichangensis</token>
+                </antipattern>
+                <pattern>
+                    <token>homo</token>
+                    <token regexp="yes">antecessor|cepranensis|erectus|ergaster|floresiensis|gautengensis|habilis|heidelbergensis|naledi|neanderthalensis|rhodesiensis|rudolfensis|sapiens|sp|spp|tsaichangensis</token>
+                </pattern>
+                <message>Nombre científico: primera palabra en mayúscula y la segunda en minúscula.</message>
+                <suggestion>Homo <match no="2" case_conversion="alllower"/></suggestion>
+                <example correction="Homo sapiens">Es propio del <marker>homo sapiens</marker>.</example>
+                <example correction="Homo habilis">Es propio del <marker>Homo Habilis</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Homo</token>
+                    <token>sapiens</token>
+                    <token regexp="yes">sapiens|idaltu</token>
+                </antipattern>
+                <pattern>
+                    <token>homo</token>
+                    <token>sapiens</token>
+                    <token regexp="yes">sapiens|idaltu</token>
+                </pattern>
+                <message>Nombre científico: primera palabra en mayúscula y el resto en minúscula.</message>
+                <suggestion>Homo <match no="2" case_conversion="alllower"/> <match no="3" case_conversion="alllower"/></suggestion>
+                <example correction="Homo sapiens sapiens">Es propio del <marker>homo sapiens Sapiens</marker>.</example>
+                <example correction="Homo sapiens idaltu">Es propio del <marker>Homo sapiens Idaltu</marker>.</example>
+            </rule>
+        </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
         <rule id="SAO_PAULO" name="São Paulo">
