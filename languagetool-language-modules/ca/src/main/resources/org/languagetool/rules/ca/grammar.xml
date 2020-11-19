@@ -25813,6 +25813,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="wifi">Allà no arriba el <marker>wi-fi</marker>.</example>
                 <example correction="wifis">Les <marker>Wi-Fis</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>power</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">points?</token>
+                </pattern>
+                <message>S'escriu junt.</message>
+                <suggestion>PowerPoint</suggestion>
+                <example correction="PowerPoint">He d'escriure un <marker>power point</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="CONTRACCIONS" name="contraccions">
             <antipattern>
@@ -50044,9 +50054,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>l'</token>
-                    <token regexp="yes">al-Àndalus|Alandalús</token>
+                    <token regexp="yes">al-Àndalus|Alandalús|(?-i)Andalus</token>
                 </pattern>
-                <message>S'escriu sense article al davant.</message>
+                <message>Forma preferida actualment.</message>
                 <suggestion>al-Àndalus</suggestion>
                 <example correction="al-Àndalus">Un estudi sobre <marker>l'al-Àndalus</marker>.</example>
             </rule>
