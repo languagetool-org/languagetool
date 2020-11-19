@@ -45992,6 +45992,25 @@ Andere Projekte</example>
                 <example>Du hast doch den Link zu web.de eingesetzt.</example>
                 <example>Bell erfand das Telefon nicht alleine.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">haben<exception>gehabt</exception></token>
+                    <token inflected="yes">haben<exception>gehabt</exception></token>
+                </pattern>
+                <message>Fehlt hier evtl. ein Komma?</message>
+                <suggestion>\1, \2</suggestion>
+                <example correction="habe, hat">Als ich sie gesehen <marker>habe hat</marker> sie sich weggedreht.</example>
+                <example>Nachdem ich sie gesehen <marker>hatte, habe</marker> sie gegrüßt.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">werden<exception regexp="yes">geworden|werden</exception></token>
+                    <token inflected="yes">werden<exception>geworden</exception></token>
+                </pattern>
+                <message>Fehlt hier evtl. ein Komma?</message>
+                <suggestion>\1, \2</suggestion>
+                <example correction="wurde, werde">Weil sie dort gesehen <marker>wurde werde</marker> ich mit ihr sprechen.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="FEHLERHAFTES_KOMMA_ALLG" name="Fehlerhaftes Komma">
             <url>https://www.duden.de/sprachwissen/rechtschreibregeln/komma</url>
