@@ -53,7 +53,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY common_english_nouns_masculine "Club|TM|UD|UE|SD|Team|Day|Center|Centre|Hilton|Group|Museum">
 <!ENTITY context_ano "anal|culo|cáncer|rectal|estómago|intestino|defecación|defecar|digestivo|sistema|tracto|hez|mierda|excremento|orificio|excretar|cagar">
 <!ENTITY denominacion "elemento|palabra|término|expresión|vocablo|nombre|tipo|denominación">
-<!ENTITY wrong_as_pron_verb "a|amplia|continua|dió|esta|estan|este|esten|frió|hacia|hecha|rió|tenia|tenias|venia|venias|vera">
+<!ENTITY wrong_as_pron_verb "estas|a|amplia|continua|dió|esta|estan|este|esten|frió|hacia|hecha|rió|tenia|tenias|venia|venias|vera">
 <!ENTITY wrong_as_pron_verb2 "de|e">
 <!-- also: de, e-->
 <!ENTITY colors_invariable "burdeos|naranja|rosa|violeta|añil|carmesí">
@@ -3716,13 +3716,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>se</token>
                     <token regexp="yes" min="0">&pronombre_personal_atono;</token>
                     <marker>
-                        <token regexp="yes">estan?</token>
+                        <token regexp="yes">esta[ns]?</token>
                     </marker>
                 </pattern>
                 <message>Falta una tilde.</message>
-                <suggestion><match no="3" regexp_match="(?iu)(est)a(n?)" regexp_replace="$1á$2"/></suggestion>
+                <suggestion><match no="3" regexp_match="(?iu)(est)a([ns]?)" regexp_replace="$1á$2"/></suggestion>
                 <example correction="está">Se <marker>esta</marker> bien aquí.</example>
                 <example correction="están">Se le <marker>estan</marker> cayendo.</example>
+                <example correction="estás">Se lo <marker>estas</marker> facilitando.</example>
             </rule>
             <rule>
                 <pattern>
@@ -14384,11 +14385,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Posible confusión.</message>
                 <suggestion>en</suggestion>
                 <suggestion>él</suggestion>
-                <example correction="en|él">Fue <marker>el</marker> la plaza.</example>
-                <example correction="en|él">Viven <marker>el</marker> las calles.</example>
-                <example correction="en|él">Ocurrió <marker>el</marker> la fecha histórica del 23 de abril.</example>
-                <example correction="en|él">estudiar doctorado <marker>el</marker> la rea de sociología.</example>
-                <example correction="en|él">usados <marker>el</marker> la práctica de karate</example>
+                <suggestion>es</suggestion>
+                <example correction="en|él|es">Fue <marker>el</marker> la plaza.</example>
+                <example correction="en|él|es">Viven <marker>el</marker> las calles.</example>
+                <example correction="en|él|es">Ocurrió <marker>el</marker> la fecha histórica del 23 de abril.</example>
+                <example correction="en|él|es">estudiar doctorado <marker>el</marker> la rea de sociología.</example>
+                <example correction="en|él|es">usados <marker>el</marker> la práctica de karate</example>
                 <example>El la del diapasón.</example>
                 <example>El la sobreagudo.</example>
                 <example>En el La a 440Hz.</example>
