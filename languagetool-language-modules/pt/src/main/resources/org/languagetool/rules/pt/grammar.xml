@@ -8215,6 +8215,82 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="nas vistas">Procura não dar <marker>na vista</marker>.</example>
     </rule>
 
+    <!-- 	DENTRO DE/DA(S)/DO(S) em/na(s)/no(s) -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-19 (21-OCT-2020+)     -->
+    <rulegroup id='DENTRO_DE_DA_DAS_DO_DOS_EM_NA_NAS_NO_NOS' name="Dentro de/da(s)/do(s) > em/na(s)/no(s)">
+	
+	    <!-- DE/EM -->
+		<rule>
+			<pattern>
+				<token negate="yes" regexp='yes'>de|e|para|por|sempre</token>
+				<marker>
+					<token regexp='no'>dentro</token>
+					<token regexp='no'>de</token>
+				</marker>
+				<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+			</pattern>		
+			<message>Substitua por <suggestion>em</suggestion>.</message>
+			<example correction="em">Estes conflitos ocorrem <marker>dentro de</marker> cidades.</example>  
+		</rule>
+		
+	    <!-- DA/NA -->
+		<rule>
+			<pattern>
+				<token negate="yes" regexp='yes'>de|e|para|por|sempre</token>
+				<marker>
+					<token regexp='no'>dentro</token>
+					<token regexp='no'>da</token>
+				</marker>
+				<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+			</pattern>		
+			<message>Substitua por <suggestion>na</suggestion>.</message>
+			<example correction="na">Estes conflitos ocorrem <marker>dentro da</marker> cidade.</example>  
+		</rule>
+
+	    <!-- DAS/NAS -->
+		<rule>
+			<pattern>
+				<token negate="yes" regexp='yes'>de|e|para|por|sempre</token>
+				<marker>
+					<token regexp='no'>dentro</token>
+					<token regexp='no'>das</token>
+				</marker>
+				<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+			</pattern>		
+			<message>Substitua por <suggestion>nas</suggestion>.</message>
+			<example correction="nas">Estes conflitos ocorrem <marker>dentro das</marker> cidades.</example>  
+		</rule>
+
+	    <!-- DO/NO -->
+		<rule>
+			<pattern>
+				<token negate="yes" regexp='yes'>de|e|para|por|sempre</token>
+				<marker>
+					<token regexp='no'>dentro</token>
+					<token regexp='no'>do</token>
+				</marker>
+				<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+			</pattern>		
+			<message>Substitua por <suggestion>no</suggestion>.</message>
+			<example correction="no">Estes conflitos ocorrem <marker>dentro do</marker> território.</example>  
+		</rule>
+
+	    <!-- DOS/NOS -->
+		<rule>
+			<pattern>
+				<token negate="yes" regexp='yes'>de|e|para|por|sempre</token>
+				<marker>
+					<token regexp='no'>dentro</token>
+					<token regexp='no'>dos</token>
+				</marker>
+				<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+			</pattern>		
+			<message>Substitua por <suggestion>nos</suggestion>.</message>
+			<example correction="nos">Estes conflitos ocorrem <marker>dentro dos</marker> territórios.</example>  
+		</rule>
+
+	</rulegroup>
+
     <!-- DE N EM N a cada N -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-22 (21-OCT-2020+)     -->
 	<rule id='DE_N_EM_N-A_CADA_N' name="A cada N">
