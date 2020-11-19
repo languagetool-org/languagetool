@@ -9553,6 +9553,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="el Sena|el SENA">Estudio en <marker>el sena</marker></example>
             </rule>
             <rule>
+                <antipattern case_sensitive="yes">
+                    <token>La</token>
+                    <token>Rioja</token>
+                </antipattern>
+                <pattern>
+                    <token>la</token>
+                    <token>rioja</token>
+                </pattern>
+                <message>Si es un nombre propio, se escribe con mayúsculas iniciales.</message>
+                <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>
+                <example correction="La Rioja">Vengo de <marker>la rioja</marker>.</example>
+            </rule>
+            <rule>
                 <pattern>
                         <token regexp="yes">el|al|del|un|este|ese</token>
                         <marker>
@@ -9645,7 +9658,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token>cada</token>
-                    <token regexp="yes">\d+°</token>
+                    <token regexp="yes">\d+°|cuantos|cuantas|cuántos|cuántas</token>
                 </antipattern>
                 <antipattern>
                     <!-- triggers another rule -->
