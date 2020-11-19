@@ -106,7 +106,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
     // It creates 2 tokens: <token>Emporta</token><token>'t</token>
     // ^(.+[^cbfhjkovwyzCBFHJKOVWYZ])
     patterns[6] = Pattern.compile("^([lnmtsd]['’])(.{2,})"+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-    patterns[7] = Pattern.compile("^(.{2,})"+PF+"$",Pattern.UNICODE_CASE);
+    patterns[7] = Pattern.compile("^(.+[^wo])"+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
     // d'emportar
     patterns[8] = Pattern.compile("^([lnmtsd]['’])(.*)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);

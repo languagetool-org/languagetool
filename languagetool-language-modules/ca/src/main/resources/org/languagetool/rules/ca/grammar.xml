@@ -32489,17 +32489,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="1" case_conversion="alllower"/></suggestion>
             <example correction="paracetamol">He comprat <marker>Paracetamol</marker>.</example>
         </rule>
-        <rule id="HOMO" name="homo/Homo">
-            <pattern>
-                <marker>
-                    <token case_sensitive="yes">homo</token>
-                </marker>
-                <token regexp="yes">antecessor|cepranensis|erectus|ergaster|floresiensis|gautengensis|habilis|heidelbergensis|naledi|neanderthalensis|rhodesiensis|rudolfensis|sapiens|sp|spp|tsaichangensis</token>
-            </pattern>
-            <message>Aquest nom científic s'escriu en majúscula.</message>
-            <suggestion>Homo</suggestion>
-            <example correction="Homo">És propi de l'<marker>homo</marker> sapiens.</example>
-        </rule>
+        <rulegroup id="HOMO" name="homo/Homo">
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Homo</token>
+                    <token regexp="yes">antecessor|cepranensis|erectus|ergaster|floresiensis|gautengensis|habilis|heidelbergensis|naledi|neanderthalensis|rhodesiensis|rudolfensis|sapiens|sp|spp|tsaichangensis</token>
+                </antipattern>
+                <pattern>
+                    <token>homo</token>
+                    <token regexp="yes">antecessor|cepranensis|erectus|ergaster|floresiensis|gautengensis|habilis|heidelbergensis|naledi|neanderthalensis|rhodesiensis|rudolfensis|sapiens|sp|spp|tsaichangensis</token>
+                </pattern>
+                <message>Nom científic: primera paraula en majúscula i segona en minúscula.</message>
+                <suggestion>Homo <match no="2" case_conversion="alllower"/></suggestion>
+                <example correction="Homo sapiens">És propi de l'<marker>homo sapiens</marker>.</example>
+                <example correction="Homo habilis">És propi de l'<marker>Homo Habilis</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Homo</token>
+                    <token>sapiens</token>
+                    <token regexp="yes">sapiens|idaltu</token>
+                </antipattern>
+                <pattern>
+                    <token>homo</token>
+                    <token>sapiens</token>
+                    <token regexp="yes">sapiens|idaltu</token>
+                </pattern>
+                <message>Nom científic: primera paraula en majúscula i la resta en minúscula.</message>
+                <suggestion>Homo <match no="2" case_conversion="alllower"/> <match no="3" case_conversion="alllower"/></suggestion>
+                <example correction="Homo sapiens sapiens">És propi de l'<marker>homo sapiens Sapiens</marker>.</example>
+                <example correction="Homo sapiens idaltu">És propi de l'<marker>Homo sapiens Idaltu</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="VILA_REAL" name="Vila-Real / Vila-real">
             <pattern case_sensitive="yes">
                 <token>Vila</token>
