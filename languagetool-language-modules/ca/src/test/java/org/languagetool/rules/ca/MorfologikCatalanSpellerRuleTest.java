@@ -85,6 +85,8 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("Fa una temperatura de 30°C")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("Fa una temperatura de 30 °C")).length);
         assertEquals(1, rule.match(langTool.getAnalyzedSentence("Any2010")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("−0,4 %, −0,4%.")).length); // minus sign
+        
         
         //tests for mixed case words
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("pH")).length);
