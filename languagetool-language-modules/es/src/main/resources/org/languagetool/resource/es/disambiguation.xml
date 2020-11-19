@@ -1991,6 +1991,15 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filter" postag="N.*"/>
     </rule>
+    <rule id="diferencia" name="diferencia">
+        <pattern>
+            <token inflected="yes" regexp="yes">más|menos|mayor|menor</token>
+            <marker>
+                <token regexp="yes">diferencia</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.*"/>
+    </rule>
     <rulegroup id="quedar_participio" name="quedar + participio">
         <rule>
             <pattern>
