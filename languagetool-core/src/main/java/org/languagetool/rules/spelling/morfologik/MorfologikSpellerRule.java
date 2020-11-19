@@ -19,6 +19,8 @@
 
 package org.languagetool.rules.spelling.morfologik;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.vdurmont.emoji.EmojiManager;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -39,6 +41,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -424,56 +427,77 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
     if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 
         || ruleMatchesSoFar.size() <= userConfig.getMaxSpellingSuggestions()) {
-      List<SuggestedReplacement> defaultSuggestions = SuggestedReplacement.convert(speller1.getSuggestionsFromDefaultDicts(word));
-      List<SuggestedReplacement> userSuggestions = SuggestedReplacement.convert(speller1.getSuggestionsFromUserDicts(word));
-      //System.out.println("speller1: " + suggestions);
-      boolean onlyCaseDiffers = false;
-      if (defaultSuggestions.size() > 0 && word.equalsIgnoreCase(defaultSuggestions.get(0).getReplacement())) {
-        // We have no good concept yet for showing both translations and standard suggestions, so
-        // use a hack to fix e.g. "muslims" not suggesting "Muslims" (https://github.com/languagetool-org/languagetool/issues/3333)
-        onlyCaseDiffers = true;
+      if (translationSuggestionCount > 0) {
+        ruleMatch = new RuleMatch(ruleMatch.getRule(), ruleMatch.getSentence(), ruleMatch.getFromPos(), ruleMatch.getToPos(),
+          messages.getString("spelling") + " Translations to English are also offered.");
       }
-      if (word.length() >= 3 && (onlyCaseDiffers || fullResults || defaultSuggestions.isEmpty())) {
-        // speller1 uses a maximum edit distance of 1, it won't find suggestion for "garentee", "greatful" etc.
-        //System.out.println("speller2: " + speller2.getSuggestions(word));
-        defaultSuggestions.addAll(SuggestedReplacement.convert(speller2.getSuggestionsFromDefaultDicts(word)));
-        userSuggestions.addAll(SuggestedReplacement.convert(speller2.getSuggestionsFromUserDicts(word)));
-        if (word.length() >= 5 && (fullResults || defaultSuggestions.isEmpty())) {
-          //System.out.println("speller3: " + speller3.getSuggestions(word));
-          defaultSuggestions.addAll(SuggestedReplacement.convert(speller3.getSuggestionsFromDefaultDicts(word)));
-          userSuggestions.addAll(SuggestedReplacement.convert(speller3.getSuggestionsFromUserDicts(word)));
-        }
-      }
-      //System.out.println("getAdditionalTopSuggestions(suggestions, word): " + getAdditionalTopSuggestions(suggestions, word));
-      List<SuggestedReplacement> topSuggestions = getAdditionalTopSuggestions(defaultSuggestions, word);
-      topSuggestions.forEach(s -> s.setType(SuggestedReplacement.SuggestionType.Curated));
-      defaultSuggestions.addAll(0, topSuggestions);
-      //System.out.println("getAdditionalSuggestions(suggestions, word): " + getAdditionalSuggestions(suggestions, word));
-      defaultSuggestions.addAll(getAdditionalSuggestions(defaultSuggestions, word));
 
-      if (!(defaultSuggestions.isEmpty() && userSuggestions.isEmpty()) && !preventFurtherSuggestions) {
-        defaultSuggestions = filterSuggestions(defaultSuggestions);
-        userSuggestions = filterDupes(userSuggestions);
-        defaultSuggestions = orderSuggestions(defaultSuggestions, word);
-        
-        defaultSuggestions = joinBeforeAfterSuggestions(defaultSuggestions, beforeSuggestionStr, afterSuggestionStr);
-        userSuggestions = joinBeforeAfterSuggestions(userSuggestions, beforeSuggestionStr, afterSuggestionStr);
-        // use suggestionsOrderer only w/ A/B - Testing or manually enabled experiments
-        addSuggestionsToRuleMatch(word, userSuggestions, defaultSuggestions, null, ruleMatch);
-        if (translationSuggestionCount > 0 && ruleMatch.getSuggestedReplacements().size() > translationSuggestionCount) {
-          RuleMatch newRuleMatch = new RuleMatch(ruleMatch.getRule(), ruleMatch.getSentence(), ruleMatch.getFromPos(), ruleMatch.getToPos(),
-            messages.getString("spelling") + " Translations to English are also offered.");
-          newRuleMatch.setSuggestedReplacementObjects(ruleMatch.getSuggestedReplacementObjects());
-          ruleMatch = newRuleMatch;
-        }
+      if (!preventFurtherSuggestions) {
+        ruleMatch.setLazySuggestedReplacements(appendLazySuggestions(word, beforeSuggestionStr, afterSuggestionStr,
+          fullResults, ruleMatch.getSuggestedReplacementObjects()));
       }
     } else {
       // limited to save CPU
       ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));
     }
- 
+
     ruleMatches.add(ruleMatch);
     return ruleMatches;
+  }
+
+  private Supplier<List<SuggestedReplacement>> appendLazySuggestions(String word, String beforeSuggestionStr, String afterSuggestionStr, boolean fullResults, List<SuggestedReplacement> prev) {
+    return () -> {
+      List<SuggestedReplacement> joined;
+      try {
+        synchronized (this) { // spellers are thread-unsafe
+          List<SuggestedReplacement> fromSpeller = calcSpellerSuggestions(word, fullResults);
+          joined = joinBeforeAfterSuggestions(fromSpeller, beforeSuggestionStr, afterSuggestionStr);
+        }
+      } catch (IOException e) {
+        joined = Collections.singletonList(new SuggestedReplacement("Internal error: " + e.getMessage()));
+        logger.error("Error while calculating speller suggestions", e);
+      }
+      return Lists.newArrayList(Iterables.concat(prev, joined));
+    };
+  }
+
+  private List<SuggestedReplacement> calcSpellerSuggestions(String word, boolean fullResults) throws IOException {
+    List<SuggestedReplacement> defaultSuggestions = SuggestedReplacement.convert(speller1.getSuggestionsFromDefaultDicts(word));
+    List<SuggestedReplacement> userSuggestions = SuggestedReplacement.convert(speller1.getSuggestionsFromUserDicts(word));
+    //System.out.println("speller1: " + suggestions);
+    boolean onlyCaseDiffers = false;
+    if (defaultSuggestions.size() > 0 && word.equalsIgnoreCase(defaultSuggestions.get(0).getReplacement())) {
+      // We have no good concept yet for showing both translations and standard suggestions, so
+      // use a hack to fix e.g. "muslims" not suggesting "Muslims" (https://github.com/languagetool-org/languagetool/issues/3333)
+      onlyCaseDiffers = true;
+    }
+    if (word.length() >= 3 && (onlyCaseDiffers || fullResults || defaultSuggestions.isEmpty())) {
+      // speller1 uses a maximum edit distance of 1, it won't find suggestion for "garentee", "greatful" etc.
+      //System.out.println("speller2: " + speller2.getSuggestions(word));
+      defaultSuggestions.addAll(SuggestedReplacement.convert(speller2.getSuggestionsFromDefaultDicts(word)));
+      userSuggestions.addAll(SuggestedReplacement.convert(speller2.getSuggestionsFromUserDicts(word)));
+      if (word.length() >= 5 && (fullResults || defaultSuggestions.isEmpty())) {
+        //System.out.println("speller3: " + speller3.getSuggestions(word));
+        defaultSuggestions.addAll(SuggestedReplacement.convert(speller3.getSuggestionsFromDefaultDicts(word)));
+        userSuggestions.addAll(SuggestedReplacement.convert(speller3.getSuggestionsFromUserDicts(word)));
+      }
+    }
+    //System.out.println("getAdditionalTopSuggestions(suggestions, word): " + getAdditionalTopSuggestions(suggestions, word));
+    List<SuggestedReplacement> topSuggestions = getAdditionalTopSuggestions(defaultSuggestions, word);
+    topSuggestions.forEach(s -> s.setType(SuggestedReplacement.SuggestionType.Curated));
+    defaultSuggestions.addAll(0, topSuggestions);
+    //System.out.println("getAdditionalSuggestions(suggestions, word): " + getAdditionalSuggestions(suggestions, word));
+    defaultSuggestions.addAll(getAdditionalSuggestions(defaultSuggestions, word));
+
+    if (defaultSuggestions.isEmpty() && userSuggestions.isEmpty()) {
+      return Collections.emptyList();
+    }
+
+    defaultSuggestions = filterSuggestions(defaultSuggestions);
+    userSuggestions = filterDupes(userSuggestions);
+    defaultSuggestions = orderSuggestions(defaultSuggestions, word);
+
+    return Lists.newArrayList(Iterables.concat(userSuggestions, defaultSuggestions));
   }
 
   @NotNull
