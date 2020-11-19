@@ -236,17 +236,10 @@ public class PatternRule extends AbstractPatternRule {
 
   @Override
   public final RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    try {
-      RuleMatcher matcher;
-      if (patternTokens != null) {
-        if (canBeIgnoredFor(sentence)) return RuleMatch.EMPTY_ARRAY;
+    if (canBeIgnoredFor(sentence)) return RuleMatch.EMPTY_ARRAY;
 
-        matcher = new PatternRuleMatcher(this, useList);
-      } else if (regex != null) {
-        matcher = new RegexPatternRule(getId(), getDescription(), getMessage(), getShortMessage(), getSuggestionsOutMsg(), language, regex, regexMark);
-      } else {
-        throw new IllegalStateException("Neither pattern tokens nor regex set for rule " + getId());
-      }
+    try {
+      RuleMatcher matcher = new PatternRuleMatcher(this, useList);
       return checkForAntiPatterns(sentence, matcher, matcher.match(sentence));
     } catch (IOException e) {
       throw new IOException("Error analyzing sentence: '" + sentence + "'", e);

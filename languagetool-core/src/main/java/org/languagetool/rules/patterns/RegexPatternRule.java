@@ -49,9 +49,10 @@ public class RegexPatternRule extends AbstractPatternRule implements RuleMatcher
   private final Pattern pattern;
   private final int markGroup;
   private final String shortMessage;
+  private RegexRuleFilter regexFilter;
 
   public RegexPatternRule(String id, String description, String message, String shortMessage, String suggestionsOutMsg, Language language, Pattern regex, int regexpMark) {
-    super(id, description, language, regex, regexpMark);
+    super(id, description, language);
     this.message = message;
     this.pattern = regex;
     this.shortMessage = shortMessage == null ? "" : shortMessage;
@@ -61,6 +62,10 @@ public class RegexPatternRule extends AbstractPatternRule implements RuleMatcher
 
   public Pattern getPattern() {
     return pattern;
+  }
+
+  void setRegexFilter(RegexRuleFilter filter) {
+    regexFilter = filter;
   }
 
   @Override
@@ -88,8 +93,8 @@ public class RegexPatternRule extends AbstractPatternRule implements RuleMatcher
         boolean startsWithUpperCase = patternMatcher.start() == 0 && Character.isUpperCase(sentenceObj.getText().charAt(patternMatcher.start()));
         RuleMatch ruleMatch = new RuleMatch(this, sentenceObj, markStart, markEnd, patternMatcher.start(), patternMatcher.end(),
                 processedMessage, shortMessage, startsWithUpperCase, processedSuggestionsOutMsg);
-        if (getRegexFilter() != null) {
-          RegexRuleFilterEvaluator ruleFilterEvaluator = new RegexRuleFilterEvaluator(getRegexFilter());
+        if (regexFilter != null) {
+          RegexRuleFilterEvaluator ruleFilterEvaluator = new RegexRuleFilterEvaluator(regexFilter);
           RuleMatch filteredMatch = ruleFilterEvaluator.runFilter(getFilterArguments(), ruleMatch, sentenceObj, patternMatcher);
           if (filteredMatch != null) {
             matches.add(ruleMatch);

@@ -626,12 +626,12 @@ public class XMLRuleHandler extends DefaultHandler {
     resetToken();
   }
   
-  protected void setRuleFilter(String filterClassName, String filterArgs, AbstractPatternRule rule) {
+  protected static void setRuleFilter(String filterClassName, String filterArgs, AbstractPatternRule rule) {
     if (filterClassName != null && filterArgs != null) {
       if (rule instanceof RegexPatternRule) {
         RegexRuleFilterCreator creator = new RegexRuleFilterCreator();
         RegexRuleFilter filter = creator.getFilter(filterClassName);
-        rule.setRegexFilter(filter);
+        ((RegexPatternRule) rule).setRegexFilter(filter);
         rule.setFilterArguments(filterArgs);
       } else if (rule instanceof PatternRule || rule instanceof DisambiguationPatternRule) {
         RuleFilterCreator creator = new RuleFilterCreator();
