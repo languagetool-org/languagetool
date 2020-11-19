@@ -359,6 +359,21 @@ USA
       <example correction="on the weekend">I like to play soccer <marker>at the weekend</marker>.</example>
     </rule>
 
+        <rule id="IN_FUTURE" name="Missing definite article referring to a time period">
+            <pattern>
+                <marker>
+                    <token>in</token>
+                    <token>future</token>
+                </marker>
+                <token regexp='yes'>[,\.:;]</token>
+            </pattern>
+            <message>The phrase '\1 \2' is British English. Did you mean: <suggestion><match no="1"/> the <match no="2"/></suggestion>?</message>
+            <url>https://www.merriam-webster.com/dictionary/in%20future</url>
+            <short>Missing definite article</short>
+            <example correction="In the future"><marker>In future</marker>, we will do better.</example>
+            <example><marker>In the future</marker>, we will do better.</example>
+        </rule>
+
     </category>
 
     <category id="SEMANTICS" name="Semantics" type="inconsistency">
