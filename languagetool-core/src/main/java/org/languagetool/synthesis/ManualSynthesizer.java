@@ -18,10 +18,10 @@
  */
 package org.languagetool.synthesis;
 
-import gnu.trove.THashMap;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.tagging.ManualTagger;
 import org.languagetool.tagging.TaggedWord;
+import org.languagetool.tools.MostlySingularMultiMap;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -42,13 +42,13 @@ import java.util.function.Function;
  */
 public final class ManualSynthesizer {
 
-  /** a map with the key composed by the lemma and POS. The values are arrays of inflected forms. */
-  private final Map<TaggedWord, String[]> mapping;
+  /** a map with the key composed by the lemma and POS. The values are inflected forms. */
+  private final MostlySingularMultiMap<TaggedWord, String> mapping;
   private final Set<String> possibleTags;
 
   public ManualSynthesizer(InputStream inputStream) throws IOException {
     HashSet<String> tags = new HashSet<>();
-    mapping = loadMapping(inputStream, tags);
+    mapping = new MostlySingularMultiMap<>(loadMapping(inputStream, tags));
     possibleTags = Collections.unmodifiableSet(tags);
   }
 
@@ -69,11 +69,10 @@ public final class ManualSynthesizer {
    */
   @Nullable
   public List<String> lookup(String lemma, String posTag) {
-    String[] array = mapping.get(new TaggedWord(lemma, posTag));
-    return array == null ? null : Arrays.asList(array);
+    return mapping.getList(new TaggedWord(lemma, posTag));
   }
 
-  private static Map<TaggedWord, String[]> loadMapping(InputStream inputStream, Set<String> outTags) throws IOException {
+  private static Map<TaggedWord, List<String>> loadMapping(InputStream inputStream, Set<String> outTags) throws IOException {
     Map<String, String> internedStrings = new HashMap<>();
     Map<TaggedWord, List<String>> mapping = new HashMap<>();
     try (Scanner scanner = new Scanner(inputStream, "utf8")) {
@@ -99,11 +98,7 @@ public final class ManualSynthesizer {
         outTags.add(posTag);
       }
     }
-    Map<TaggedWord, String[]> compressed = new THashMap<>(mapping.size());
-    for (Map.Entry<TaggedWord, List<String>> entry : mapping.entrySet()) {
-      compressed.put(entry.getKey(), entry.getValue().toArray(new String[0]));
-    }
-    return compressed;
+    return mapping;
   }
 
 }
