@@ -18,9 +18,9 @@
  */
 package org.languagetool.tagging;
 
-import gnu.trove.THashMap;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.synthesis.ManualSynthesizer;
+import org.languagetool.tools.MostlySingularMultiMap;
 import org.languagetool.tools.StringTools;
 
 import java.io.BufferedReader;
@@ -41,17 +41,17 @@ import java.util.*;
  * @see ManualSynthesizer
  */
 public class ManualTagger implements WordTagger {
-  private final Map<String, TaggedWord[]> mapping;
+  private final MostlySingularMultiMap<String, TaggedWord> mapping;
 
   public ManualTagger(InputStream inputStream) throws IOException {
     this(inputStream, false);
   }
 
   public ManualTagger(InputStream inputStream, boolean internTags) throws IOException {
-    mapping = loadMapping(inputStream, internTags);
+    mapping = new MostlySingularMultiMap<>(loadMapping(inputStream, internTags));
   }
 
-  private static Map<String, TaggedWord[]> loadMapping(InputStream inputStream, boolean internTags) throws IOException {
+  private static Map<String, List<TaggedWord>> loadMapping(InputStream inputStream, boolean internTags) throws IOException {
     Map<String, List<TaggedWord>> map = new HashMap<>();
     try (
       InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
@@ -76,11 +76,7 @@ public class ManualTagger implements WordTagger {
         map.computeIfAbsent(form, __ -> new ArrayList<>()).add(new TaggedWord(lemma, internTags ? tag.intern() : tag));
       }
     }
-    Map<String, TaggedWord[]> compressed = new THashMap<>(map.size());
-    for (Map.Entry<String, List<TaggedWord>> entry : map.entrySet()) {
-      compressed.put(entry.getKey(), entry.getValue().toArray(new TaggedWord[0]));
-    }
-    return compressed;
+    return map;
   }
 
   /**
@@ -88,9 +84,9 @@ public class ManualTagger implements WordTagger {
    */
   @Override
   public List<TaggedWord> tag(String word) {
-    TaggedWord[] lookedUpTerms = mapping.get(word);
+    List<TaggedWord> lookedUpTerms = mapping.getList(word);
     if (lookedUpTerms != null) {
-      return Collections.unmodifiableList(Arrays.asList(lookedUpTerms));
+      return Collections.unmodifiableList(lookedUpTerms);
     } else {
       return Collections.emptyList();
     }
