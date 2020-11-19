@@ -7,7 +7,8 @@
     <!ENTITY apostrophe "['’`´‘]">
     <!ENTITY months "January|February|March|April|May|Ju(ne|ly)|August|September|October|November|December">
     <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Ju[ln]|Aug|Sept?|Oct|Nov|Dec">
-    <!ENTITY file_name_extensions "ai|aspx?|avi|ba[kt]|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|docx?|dll|eps|exe|flv|gif|html?|ibooks|ico|ini|jar|jpe?g|jsp?|lnk|mdb?|mid|mov|mp[34ag]|ods|pdf|php|pl|png|pp[st]|psd?|py|rar|rss|sh|shtml|sql|svg|sys|tar|tiff?|tmp|txt|wav|wma|xhtml|xlsx?|xsl|xml|yaml|yml|zipx?">    <!ENTITY subject_pronouns "I|you|he|she|it|we|they|one">
+    <!ENTITY file_name_extensions "ai|aspx?|avi|ba[kt]|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|docx?|dll|eps|exe|flv|gif|html?|ibooks|ico|ini|jar|jpe?g|jsp?|lnk|mdb?|mid|mov|mp[34ag]|ods|pdf|php|pl|png|pp[st]|psd?|py|rar|rss|sh|scss|shtml|sql|svg|sys|tar|tiff?|tmp|ts|txt|wav|wma|xhtml|xlsx?|xsl|xml|yaml|yml|zipx?">
+    <!ENTITY subject_pronouns "I|you|he|she|it|we|they|one">
     <!ENTITY object_pronouns "me|you|him|her|it|us|them|one">
     <!ENTITY hispanic_nnp "Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Días|Di?os|Nacional|Villas|Cinco|Rancho|Cerro|Universidad|Copa|Academia|Plaza|Facultad|Torre|Camino|Club|Tapas|Palma|Águas|Costa">
     <!ENTITY plural_adjectival_nouns "angry|blind|deaf|destitute|dead|dying|elderly|faithful|homeless|injured|insane|jobless|old|poor|rich|sick|squeamish|wealthy|wicked|wounded|young"><!-- One-word terms only, only after the word 'the': www.oxfordlearnersdictionaries.com/definition/english/rich, www.englishgrammar.org/adjectives-nouns/ -->
@@ -4758,6 +4759,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>few</token>
             <token>more</token>
         </antipattern>
+        <antipattern><!-- all six -->
+            <token>all</token>
+            <token postag="CD" />
+        </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"/>
             <token postag="JJ.*|VBG" postag_regexp="yes"><exception postag="RB"/><exception regexp="yes">being|one</exception></token>
@@ -4777,6 +4782,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="quality[quality/JJ,quality/NN:UN]" outputform="quality[quality/NN:UN]">Sorry for the poor <marker>quality</marker>.</example>
         <example type="untouched">These real English are nice.</example>
         <example type="untouched">You are just being stupid.</example>
+        <example type="untouched">Over two years later all six were producing clotting factor.</example>
         <example type="untouched">Adverb. The dog was still barking <marker>outside</marker>.</example>
         <example type="untouched">Adjective. ...there won't be a single building left standing.</example>
         <example type="untouched">This room is twelve feet by twenty four.</example><!-- twenty-four is usually hyphenated, but, 'four' is still CD in this context. -->
@@ -5061,7 +5067,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </antipattern>
             <pattern>
                 <token postag="DT|PRP\$" postag_regexp="yes">
-                    <exception regexp="yes">th[eo]se|no|much</exception>
+                    <exception regexp="yes">th[eo]se|all|no|much</exception>
                 </token>
                 <marker>
                     <unify>

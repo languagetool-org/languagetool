@@ -368,10 +368,18 @@ public class AdverbFilter extends RuleFilter {
     put("unbelievably", "unbelievable");
     put("merrily", "merry");
     put("beneath", "below"); // special case
+    put("lest", "least"); // special case
     put("nasally", "nasal");
     put("concretely", "concrete");
     put("intuitively", "intuitive");
     put("please", "pleasing");
+    put("intermediately", "intermediate");
+    put("powerfully", "powerful");
+    put("fairly", "fair");
+    put("wholly", "whole");
+    put("keenly", "keen");
+    put("unconsciously", "unconscious");
+    put("consciously", "conscious");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
