@@ -35986,7 +35986,7 @@ though, and has since been slightly modified)-->
             <exception postag="N m s">est</exception>
           </token>
           <token spacebefore="yes">
-            <exception regexp="yes">vous|nous|mieux|faire|en|donnant|couvent|ho|olé|Bora|roses?|vroum|Zsa</exception><match no="0"/>
+            <exception regexp="yes">sapiens|vous|nous|mieux|faire|en|donnant|couvent|ho|olé|Bora|roses?|vroum|Zsa</exception><match no="0"/>
           </token>
         </pattern>
         <message>Faute de frappe possible : un mot est répété : \1 \2. Correction : <suggestion>\1</suggestion>.</message>
@@ -36002,6 +36002,7 @@ though, and has since been slightly modified)-->
         <example>Les poules du couvent couvent.</example>
         <example>Un film un peu olé olé.</example>
         <example>Je suis allé à Bora Bora.</example>
+        <example>Homo sapiens sapiens</example>
       </rule>
       <rule>
         <pattern>
@@ -36461,4 +36462,38 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:  -->
+  <category name="majuscules" id="CASING">
+    <rulegroup id="HOMO" name="homo/Homo" default="temp_off">
+      <rule>
+        <antipattern case_sensitive="yes">
+          <token>Homo</token>
+          <token regexp="yes">antecessor|cepranensis|erectus|ergaster|floresiensis|gautengensis|habilis|heidelbergensis|naledi|neanderthalensis|rhodesiensis|rudolfensis|sapiens|sp|spp|tsaichangensis</token>
+        </antipattern>
+        <pattern>
+          <token>homo</token>
+          <token regexp="yes">antecessor|cepranensis|erectus|ergaster|floresiensis|gautengensis|habilis|heidelbergensis|naledi|neanderthalensis|rhodesiensis|rudolfensis|sapiens|sp|spp|tsaichangensis</token>
+        </pattern>
+        <message>Nom scientifique : premier mot avec une majuscule et le deuxième en minuscules.</message>
+        <suggestion>Homo <match no="2" case_conversion="alllower"/></suggestion>
+        <example correction="Homo sapiens">C'est un <marker>homo sapiens</marker>.</example>
+        <example correction="Homo habilis">C'est un <marker>Homo Habilis</marker>.</example>
+      </rule>
+      <rule>
+        <antipattern case_sensitive="yes">
+          <token>Homo</token>
+          <token>sapiens</token>
+          <token regexp="yes">sapiens|idaltu</token>
+        </antipattern>
+        <pattern>
+          <token>homo</token>
+          <token>sapiens</token>
+          <token regexp="yes">sapiens|idaltu</token>
+        </pattern>
+        <message>Nom scientifique : premier mot avec une majuscule et le reste en minuscules.</message>
+        <suggestion>Homo <match no="2" case_conversion="alllower"/> <match no="3" case_conversion="alllower"/></suggestion>
+        <example correction="Homo sapiens sapiens">C'est un <marker>homo sapiens Sapiens</marker>.</example>
+        <example correction="Homo sapiens idaltu">C'est un <marker>Homo sapiens Idaltu</marker>.</example>
+      </rule>
+    </rulegroup>
+  </category>
 </rules>
