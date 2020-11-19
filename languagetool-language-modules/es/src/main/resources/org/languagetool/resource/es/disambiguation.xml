@@ -1313,6 +1313,15 @@ Copyright (C) 2011 Juan Martorell
     <rulegroup id="nombre_aposicion" name="nombre en aposición">
         <rule>
             <pattern>
+                <marker>
+                    <token postag="NC.*" postag_regexp="yes" inflected="yes">libro</token>
+                    <token postag="NC.*" postag_regexp="yes" regexp="yes">entrevista|resumen|documento|testimonio</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <token inflected="yes" regexp="yes">sala|salón|habitación|cocina</token>
                 <marker>
                     <token>comedor</token>
