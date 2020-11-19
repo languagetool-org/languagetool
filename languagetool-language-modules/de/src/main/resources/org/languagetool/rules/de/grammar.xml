@@ -27103,13 +27103,138 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token inflected="yes" regexp="yes">klein|gro(ß|ss)</token>
+                        <token regexp="yes">kleine[nr]?|gro(ß|ss)e[nr]?</token>
                     </marker>
                     <token regexp="yes">Walachei|Belts?</token>
                 </pattern>
                 <message>Geografische Eigennamen schreibt man groß. Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2?</message>
                 <url>https://grammis.ids-mannheim.de/rechtschreibung/6195</url>
                 <example correction="Große">Die <marker>große</marker> Walachei ist eine historische Landschaft im Süden Rumäniens.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">(holsteinisch|fränkisch)e[mnrs]?</token>
+                    </marker>
+                    <token>Schweiz</token>
+                </pattern>
+                <message>Geografische Eigennamen schreibt man groß. Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2?</message>
+                <url>https://grammis.ids-mannheim.de/rechtschreibung/6195</url>
+                <example correction="Fränkischen">Wir machten Urlaub in der <marker>fränkischen</marker> Schweiz.</example>
+				<example>Wir machten Urlaub in der <marker>Fränkischen</marker> Schweiz.</example>
+            </rule>
+            <rule  default="temp_off">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">sächsische[mnrs]?</token>
+                    </marker>
+                    <token>Schweiz</token>
+                </pattern>
+                <message>Geografische Eigennamen schreibt man groß. Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2?</message>
+                <url>https://grammis.ids-mannheim.de/rechtschreibung/6195</url>
+                <example correction="Sächsischen">Wir machten Urlaub in der <marker>sächsischen</marker> Schweiz.</example>
+				<example>Wir machten Urlaub in der <marker>Sächsischen</marker> Schweiz.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">transsibirische[mnrs]?</token>
+                    </marker>
+                    <token>Eisenbahn</token>
+                </pattern>
+                <message>In mehrteiligen Eigennamen schreibt man Adjektive groß.</message>
+				<suggestion><match case_conversion="startupper" no="1"/></suggestion>
+                <url>https://grammis.ids-mannheim.de/rechtschreibung/6195</url>
+                <example correction="Transsibirischen">Wir machten Urlaub mit der <marker>transsibirischen</marker> Eisenbahn.</example>
+				<example>Wir machten Urlaub mit der <marker>Transsibirischen</marker> Eisenbahn.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">bayerische[mnrs]?</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">Fernsehen|Fußballverband|Landesamt|Motorenwerke|Rhön|Rundfunk|Staatskanzlei|Verwaltungsgericht(shof)?|Verfassung|Wald</token>
+                </pattern>
+                <message>In mehrteiligen Eigennamen schreibt man Adjektive groß.</message>
+				<suggestion><match case_conversion="startupper" no="1"/></suggestion>
+                <url>https://grammis.ids-mannheim.de/rechtschreibung/6195</url>
+                <example correction="Bayerischen">Es lief gestern im <marker>bayerischen</marker> Fernsehen.</example>
+				<example>Es lief gestern im <marker>Bayerischen</marker> Fernsehen.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">dominikanische[nr]?|(tschech|türk)isch(e[nrs]?)</token>
+                    </marker>
+                    <token>Republik</token>
+                </pattern>
+                <message>In mehrteiligen Eigennamen schreibt man Adjektive groß.</message>
+				<suggestion><match case_conversion="startupper" no="1"/></suggestion>
+                <url>https://grammis.ids-mannheim.de/rechtschreibung/6195</url>
+                <example correction="Türkischen">Er ist Präsident der <marker>türkischen</marker> Republik.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">demokratische[n]?</token>
+                    </marker>
+                    <token>Republik</token>
+                    <token regexp="yes">Timor.*|Kongos?|Sri</token>
+                </pattern>
+                <message>In mehrteiligen Eigennamen schreibt man Adjektive groß.</message>
+				<suggestion><match case_conversion="startupper" no="1"/></suggestion>
+                <url>https://grammis.ids-mannheim.de/rechtschreibung/6195</url>
+                <example correction="Demokratischen">Er ist Präsident der <marker>demokratischen</marker> Republik Kongo.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">demokratische[n]?</token>
+                    </marker>
+                    <token>Volksrepublik</token>
+                    <token regexp="yes">Algeriens?|Koreas?|Laos</token>
+                </pattern>
+                <message>In mehrteiligen Eigennamen schreibt man Adjektive groß.</message>
+				<suggestion><match case_conversion="startupper" no="1"/></suggestion>
+                <url>https://grammis.ids-mannheim.de/rechtschreibung/6195</url>
+                <example correction="Demokratischen">Er ist Präsident der <marker>demokratischen</marker> Volksrepublik Algerien.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">islamische[n]?</token>
+                    </marker>
+                    <token>Republik</token>
+                    <token regexp="yes">Irans?|Mauretaniens?|Pakistans?</token>
+                </pattern>
+                <message>In mehrteiligen Eigennamen schreibt man Adjektive groß.</message>
+				<suggestion><match case_conversion="startupper" no="1"/></suggestion>
+                <url>https://grammis.ids-mannheim.de/rechtschreibung/6195</url>
+                <example correction="Islamischen">Er ist Präsident der <marker>islamischen</marker> Republik Iran.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">deutsche[nr]?</token>
+                    </marker>
+                    <token regexp="yes">Bank|Bundestags?|Gewerkschaftsbund(s|es)?</token>
+                </pattern>
+                <message>In mehrteiligen Eigennamen schreibt man Adjektive groß.</message>
+				<suggestion><match case_conversion="startupper" no="1"/></suggestion>
+                <url>https://grammis.ids-mannheim.de/rechtschreibung/6195</url>
+                <example correction="Deutschen">Er ist Vorstandsvorsitzender der <marker>deutschen</marker> Bank.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">hohe[n]?</token>
+                    </marker>
+                    <token>Tatra</token>
+                </pattern>
+                <message>In mehrteiligen Eigennamen schreibt man Adjektive groß.</message>
+				<suggestion><match case_conversion="startupper" no="1"/></suggestion>
+                <url>https://grammis.ids-mannheim.de/rechtschreibung/6195</url>
+                <example correction="Hohen">Er ist heimisch in der <marker>hohen</marker> Tatra.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
