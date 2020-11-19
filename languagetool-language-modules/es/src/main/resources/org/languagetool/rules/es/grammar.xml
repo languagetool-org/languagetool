@@ -9528,6 +9528,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.rae.es/dpd/plural#22</url>
             <example correction="mapuches">Algunos <marker>mapuche</marker>.</example>
         </rule>
+        <rulegroup id="AGREEMENT_DET_NOUN_EXCEPTIONS" name="Concordancias determinante y sustantivo (excepciones)" default="on">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">el|al|del|río</token>
+                        <token case_sensitive="yes">amazonas</token>
+                    </marker>
+                </pattern>
+                <message>Si es nombre propio, se escribe con mayúscula inicial.</message>
+                <suggestion>\1 Amazonas</suggestion>
+                <example correction="el Amazonas">En <marker>el amazonas</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">el|al|del|río</token>
+                        <token case_sensitive="yes">sena</token>
+                    </marker>
+                </pattern>
+                <message>Si es nombre propio, se escribe con mayúscula inicial.</message>
+                <suggestion>\1 Sena</suggestion>
+                <suggestion>\1 SENA</suggestion>
+                <example correction="el Sena|el SENA">Estudio en <marker>el sena</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                        <token regexp="yes">el|al|del|un|este|ese</token>
+                        <marker>
+                            <token>rut<exception case_sensitive="yes">RUT</exception></token>
+                        </marker>
+                </pattern>
+                <message>Si es una sigla (Chile, Uruguay, Colombia), se escribe con mayúsculas.</message>
+                <suggestion><match no="2" case_conversion="allupper"/></suggestion>
+                <example correction="RUT">Este es el <marker>Rut</marker> del titular.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AGREEMENT_DET_NOUN" name="Concordancias determinante y sustantivo" default="on">
             <antipattern>
                 <token regexp="yes">el|un|los|unos</token>
@@ -9606,31 +9642,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*|\d+|[,'"‘’“”«»]<exception case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</exception></token>
                 <token case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</token>
             </antipattern>
-            <!--exceptions with other suggestions-->
-            <rule>
-                <pattern>
-                    <marker>
-                        <token regexp="yes">el|al|del|río</token>
-                        <token case_sensitive="yes">amazonas</token>
-                    </marker>
-                </pattern>
-                <message>Si es nombre propio, se escribe con mayúscula inicial.</message>
-                <suggestion>\1 Amazonas</suggestion>
-                <example correction="el Amazonas">En <marker>el amazonas</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token regexp="yes">el|al|del|río</token>
-                        <token case_sensitive="yes">sena</token>
-                    </marker>
-                </pattern>
-                <message>Si es nombre propio, se escribe con mayúscula inicial.</message>
-                <suggestion>\1 Sena</suggestion>
-                <suggestion>\1 SENA</suggestion>
-                <example correction="el Sena|el SENA">Estudio en <marker>el sena</marker></example>
-            </rule>
-            <!-- end of exceptions -->
             <rule>
                 <antipattern>
                     <token>cada</token>
