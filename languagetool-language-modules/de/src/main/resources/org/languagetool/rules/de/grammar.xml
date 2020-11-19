@@ -36443,10 +36443,8 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <marker>
-                        <token regexp="yes">ans|fürs|über[ms]|unter[ms]|hinter[ms]|durchs|ins|vor[ms]|beim|zum</token>
-                        <token postag="ART:(IND|DEF):.+|PRO:(POS|DEM):.+" postag_regexp="yes"><exception regexp="yes">einen?|alles</exception></token>
-                    </marker>
+                    <token regexp="yes">ans|fürs|über[ms]|unter[ms]|hinter[ms]|durchs|ins|vor[ms]|beim|zum</token>
+                    <token postag="ART:(IND|DEF):.+|PRO:(POS|DEM):.+" postag_regexp="yes"><exception regexp="yes">einen?|alles</exception></token>
                 </pattern>
                 <message>Prüfen Sie, ob hier die Folge von '\1' und '\2' korrekt ist.</message>
                 <suggestion><match no="1" regexp_match="[ms]$" regexp_replace=""/> \2</suggestion>
@@ -36457,12 +36455,31 @@ Andere Projekte</example>
                 <example>Er entschied sich, beim alles entscheidenden Punkt anzusetzen.</example>
                 <example correction="an die">Gehen wir konservativ <marker>ans die</marker> Sache heran.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>aufm</token>
+                    <token postag="ART:(IND|DEF):.+|PRO:(POS|DEM):.+" postag_regexp="yes"><exception regexp="yes">einen?|alles</exception></token>
+                </pattern>
+                <message>Prüfen Sie, ob hier die Folge von '\1' und '\2' korrekt ist.</message>
+                <suggestion>auf \2</suggestion>
+                <example correction="Auf einem"><marker>Aufm einem</marker> Ast saß ein fetter Vogel.</example>
+            </rule>
+            <!--
+            FA: "... die erste städtische Autobuslinie, die vom den Strassenbahnen angegliederten Kraftwagenbetrieb der Städtischen Strassenbahn Zürich betrieben wurde."
+            <rule default="temp_off">
+                <pattern>
+                    <token>vom</token>
+                    <token postag="ART:(IND|DEF):.+|PRO:(POS|DEM):.+" postag_regexp="yes"><exception regexp="yes">einen?|alles</exception></token>
+                </pattern>
+                <message>Prüfen Sie, ob hier die Folge von '\1' und '\2' korrekt ist.</message>
+                <suggestion>von \2</suggestion>
+                <example correction="von einem">Der Affe sprang <marker>vom einem</marker> Ast zum nächsten.</example>
+            </rule>
+            -->
             <rule>
                 <pattern>
-                    <marker>
-                        <token regexp="yes">[ai]m</token>
-                        <token postag="ART:(IND|DEF):.+|PRO:(POS|DEM):.+" postag_regexp="yes"><exception>einen</exception></token>
-                    </marker>
+                    <token regexp="yes">[ai]m</token>
+                    <token postag="ART:(IND|DEF):.+|PRO:(POS|DEM):.+" postag_regexp="yes"><exception>einen</exception></token>
                 </pattern>
                 <message>Prüfen Sie, ob hier die Folge von '\1' und '\2' korrekt ist.</message>
                 <suggestion><match no="1" regexp_match="m$" regexp_replace="n"/> \2</suggestion>
