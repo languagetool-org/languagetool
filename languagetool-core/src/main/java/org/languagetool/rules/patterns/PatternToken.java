@@ -72,8 +72,7 @@ public class PatternToken implements Cloneable {
 
   /** The reference to another element in the pattern. **/
   private Match tokenReference;
-  /** True when the element stores a formatted reference to another element of the pattern. */
-  private String referenceString;
+
   /** String ID of the phrase the element is in. **/
   private String phraseName;
 
@@ -505,18 +504,15 @@ public class PatternToken implements Cloneable {
 
   private void doCompile(AnalyzedTokenReadings token, Synthesizer synth) throws IOException {
     MatchState matchState = tokenReference.createState(synth, token);
-    if (StringTools.isEmpty(referenceString)) {
-      referenceString = textMatcher.pattern;
-    }
     String reference = "\\" + tokenReference.getTokenRef();
     if (tokenReference.setsPos()) {
       String posReference = matchState.getTargetPosTag();
       if (posReference != null) {
         setPosToken(new PosToken(posReference, tokenReference.posRegExp(), negation));
       }
-      setStringElement(referenceString.replace(reference, ""));
+      setStringElement(getString().replace(reference, ""));
     } else {
-      setStringElement(referenceString.replace(reference, matchState.toTokenString()));
+      setStringElement(getString().replace(reference, matchState.toTokenString()));
     }
   }
 
