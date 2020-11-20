@@ -144,6 +144,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="VERTREIB_VERTRIEB" name="der Vertreib (Vertrieb)" default="temp_off">
+            <pattern>
+                <token regexp="yes">der|ein</token>
+                <marker>
+                    <token case_sensitive="yes">Vertreib</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>Vertrieb</suggestion>?</message>
+            <example correction="Vertrieb">Der <marker>Vertreib</marker> der Wohnungen hat schon begonnen.</example>
+        </rule>
         <rule id="HEER_HERR" name="Heer (Herr) Müller">
             <pattern>
                 <token regexp="yes">Hallo|Lieber|Tag|Morgen|Abend|geehrter</token>
