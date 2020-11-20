@@ -34415,25 +34415,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
-        <rule id="TIRAR_A_BAIX" name="*tirar a baix" default="temp_off">
-            <pattern>
-                <token inflected="yes" skip="5">tirar</token>
-                <token>a</token>
-                <token>baix</token>
-            </pattern>
-            <message>Expressió segurament incorrecta.</message>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">tombar</match></suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="none">fer</match> <match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="VMN00000" include_skipped="all">caure</match></suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">tirar</match> a terra</suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">enderrocar</match></suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">demolir</match></suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">capgirar</match></suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">abatre</match></suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="none">engegar</match> a <match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="VMN00000" include_skipped="all">rodar</match></suggestion>
-            <example correction="Tombaren la porta|Feren caure la porta|Tiraren la porta a terra|Enderrocaren la porta|Demoliren la porta|Capgiraren la porta|Abateren la porta|Engegaren a rodar la porta"><marker>Tiraren la porta a baix</marker>.</example>
-            <example correction="Tombaren|Feren caure|Tiraren a terra|Enderrocaren|Demoliren|Capgiraren|Abateren|Engegaren a rodar"><marker>Tiraren a baix</marker> la porta.</example>
-            <example correction="tomben la porta|fan caure la porta|tiren la porta a terra|enderroquen la porta|demoleixen la porta|capgiren la porta|abaten la porta|engeguen a rodar la porta">En qualsevol moment ens <marker>tiren la porta a baix</marker>.</example>
-        </rule>
+        <rulegroup id="TIRAR_A_BAIX" name="*tirar a baix" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes">tirar</token>
+                    <token postag="&pronom_feble;" postag_regexp="yes" spacebefore="no"/>
+                    <token>a</token>
+                    <token>baix</token>
+                </pattern>
+                <message>Expressió segurament incorrecta.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">tombar</match>\2</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="none">fer</match>\2 <match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="VMN00000">caure</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">tirar</match>\2 a terra</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">enderrocar</match>\2</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">demolir</match>\2</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">capgirar</match>\2</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">abatre</match>\2</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">engegar</match>\2 a <match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="VMN00000">rodar</match></suggestion>
+                <example correction="tombar-la|fer-la caure|tirar-la a terra|enderrocar-la|demolir-la|capgirar-la|abatre-la|engegar-la a rodar">Caldria <marker>tirar-la a baix</marker>.</example>
+                <example correction="tombant-la|fent-la caure|tirant-la a terra|enderrocant-la|demolint-la|capgirant-la|abatent-la|engegant-la a rodar">Van acabar <marker>tirant-la a baix</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="5">tirar</token>
+                    <token>a</token>
+                    <token>baix</token>
+                </pattern>
+                <message>Expressió segurament incorrecta.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">tombar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="none">fer</match> <match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="VMN00000" include_skipped="all">caure</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">tirar</match> a terra</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">enderrocar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">demolir</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">capgirar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">abatre</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="none">engegar</match> a <match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="VMN00000" include_skipped="all">rodar</match></suggestion>
+                <example correction="Tombaren la porta|Feren caure la porta|Tiraren la porta a terra|Enderrocaren la porta|Demoliren la porta|Capgiraren la porta|Abateren la porta|Engegaren a rodar la porta"><marker>Tiraren la porta a baix</marker>.</example>
+                <example correction="Tombaren|Feren caure|Tiraren a terra|Enderrocaren|Demoliren|Capgiraren|Abateren|Engegaren a rodar"><marker>Tiraren a baix</marker> la porta.</example>
+                <example correction="tomben la porta|fan caure la porta|tiren la porta a terra|enderroquen la porta|demoleixen la porta|capgiren la porta|abaten la porta|engeguen a rodar la porta">En qualsevol moment ens <marker>tiren la porta a baix</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="EN_ARES_DE" name="en ares de">
             <rule>
                 <pattern>
