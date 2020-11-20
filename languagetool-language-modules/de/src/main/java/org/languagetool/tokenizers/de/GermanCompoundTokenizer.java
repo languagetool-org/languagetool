@@ -171,6 +171,16 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Hauptakteurin", asList("Haupt", "akteurin"));
     wordSplitter.addException("Kleiderecke", asList("Kleider", "ecke"));
     wordSplitter.addException("Kleiderecken", asList("Kleider", "ecken"));
+    wordSplitter.addException("Abwehrecke", asList("Abwehr", "ecke"));
+    wordSplitter.addException("Abwehrecken", asList("Abwehr", "ecken"));
+    wordSplitter.addException("Dichterecke", asList("Dichter", "ecke"));
+    wordSplitter.addException("Dichterecken", asList("Dichter", "ecken"));
+    wordSplitter.addException("Kellerecke", asList("Keller", "ecke"));
+    wordSplitter.addException("Kellerecken", asList("Keller", "ecken"));
+    wordSplitter.addException("Kinderecke", asList("Kinder", "ecke"));
+    wordSplitter.addException("Kinderecken", asList("Kinder", "ecken"));
+    wordSplitter.addException("Silberecke", asList("Silber", "ecke"));
+    wordSplitter.addException("Silberecken", asList("Silber", "ecken"));
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }
