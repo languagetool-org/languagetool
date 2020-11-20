@@ -11619,7 +11619,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>com<exception postag="allow_com"/></token>
                     </marker>
-                    <token regexp="yes">&precedits_per_COM_A;<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
+                    <token regexp="yes">&precedits_per_COM_A;|&carrecs;<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <short>Possible error</short>
@@ -27387,6 +27387,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si equival a "quina cosa", cal escriure <suggestion>què</suggestion>.</message>
                 <example correction="Què"><marker>Que</marker> us sembla això que ha passat?</example>
                 </rule>-->
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">jo|tu|ell|ella|vostè|vosté|nosaltres|vosaltres|ells|elles|vostès|vostés|vós</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token inflected="yes">saber</token>
+                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Amb el sentit de 'quina cosa', s'escriu amb accent.</message>
+                <suggestion>què</suggestion>
+                <example correction="què">Jo <marker>que</marker> sé, no m'agrada gens.</example>
+                <example correction="què">I tu <marker>que</marker> saps?</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SON" name="son/són">
             <antipattern>
@@ -34401,12 +34415,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
-        <rulegroup id="EN_ARES_DE" name="en ares de" default="temp_off">
+        <rule id="TIRAR_A_BAIX" name="*tirar a baix" default="temp_off">
+            <pattern>
+                <token inflected="yes" skip="5">tirar</token>
+                <token>a</token>
+                <token>baix</token>
+            </pattern>
+            <message>Expressió segurament incorrecta.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">tombar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="none">fer</match> <match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="VMN00000" include_skipped="all">caure</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">tirar</match> a terra</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">enderrocar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">demolir</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">capgirar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">abatre</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="none">engegar</match> a <match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="VMN00000" include_skipped="following">rodar</match></suggestion>
+            <example correction="Tombaren la porta|Feren caure la porta|Tiraren la porta a terra|Enderrocaren la porta|Demoliren la porta|Capgiraren la porta|Abateren la porta|Engegaren a la porta"><marker>Tiraren la porta a baix</marker>.</example>
+            <example correction="Tombaren|Feren caure|Tiraren a terra|Enderrocaren|Demoliren|Capgiraren|Abateren|Engegaren a rodar"><marker>Tiraren a baix</marker> la porta.</example>
+            <example correction="tomben la porta|fan caure la porta|tiren la porta a terra|enderroquen la porta|demoleixen la porta|capgiren la porta|abaten la porta|engeguen a la porta">En qualsevol moment ens <marker>tiren la porta a baix</marker>.</example>
+        </rule>
+        <rulegroup id="EN_ARES_DE" name="en ares de">
             <rule>
                 <pattern>
                     <token>en</token>
                     <token regexp="yes">ares|ara</token>
-                    <token regexp="yes">a</token>
+                    <token>a</token>
                 </pattern>
                 <message>Expressió incorrecta.</message>
                 <suggestion>en ares de</suggestion>
