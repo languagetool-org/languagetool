@@ -9070,6 +9070,37 @@ though, and has since been slightly modified)-->
         <example correction="trois fois par semaine">Je joue au Softball <marker>trois fois au semaine</marker>.</example>
       </rule>
       <!-- End of additions -->
+      <rule id="PRES_SPACIAL" name="prés au lieu de près" default="temp_off">
+          <antipattern>
+              <token inflected="yes" regexp="yes" postag="V.*ppa.*" postag_regexp="yes">(dé)?nommer|intituler|dire|appeller|surnommer|baptiser|désigner</token>
+              <token regexp="yes">prés?</token>
+          </antipattern>
+          <antipattern>
+              <token case_sensitive="yes" regexp="yes">Prés?</token>
+          </antipattern>
+          <pattern>
+              <token postag="V.*" postag_regexp="yes"/>
+              <marker>
+                  <token regexp="yes">prés?</token>
+              </marker>
+              <token regexp="yes">d[eu''ʾ′ˊˈꞌ'ʿ‵ˋ] </token>
+          </pattern>
+          <message>S'il s'agit d'une indication de proximité, utilisez l'adverbe <suggestion>près</suggestion>.</message>
+          <example correction="près">Personnes qui travaillent à Montpellier, mais qui habitent <marker>prés</marker> du Castelnau-le-Lez.</example>
+          <example>L'endroit est désormais le lieu-dit nommé Pré de la mosaïque.</example>
+      </rule>
+      <rule id="FAITS_ACTUELS" name="accord d'actuel" default="temp_off">
+          <pattern>
+              <token>faits</token>
+              <marker>
+                  <token regexp="yes" inflected="yes">divers|actuel
+                      <exception postag=".* m p" postag_regexp="yes"/>
+                  </token>
+              </marker>
+          </pattern>
+          <message>Dans cet idiome, <suggestion><match no="2" postag="(.*) [mfe] (sp|[sp])" postag_regexp="yes" postag_replace="$1 m p"/></suggestion> s'accorde toujours avec «faits»</message>
+          <example correction="actuels">Problématique et faits <marker>actuelles</marker>.</example>
+      </rule>
       <rule id="VOUS_LE_PPA_1ER_GROUPE" name="s manquant à vous le ppa">
           <pattern>
               <token>vous</token>
