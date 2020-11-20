@@ -5416,6 +5416,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>one</token>
             <token postag_regexp="yes" postag="NNS"/>
         </antipattern>
+        <antipattern><!-- #3898 IT budgets -->
+            <token chunk="I-NP-plural" case_sensitive="yes">IT</token>
+            <token chunk="E-NP-plural" postag_regexp="yes" postag="NNS"/>
+        </antipattern>
         <pattern>
             <token regexp="yes" postag="PRP|WP" postag_regexp="yes">it|he|she|(some)?one|nobody|who</token>
             <marker>
@@ -5431,6 +5435,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Incorrect grammar. More than one <marker>tests</marker> is necessary.</example>
         <example type="untouched">Incorrect grammar. When you are fishing, more than one <marker>flies</marker> is necessary, I think.</example>
         <example type="untouched">There is one dogs.</example><!-- #3515 -->
+        <example type="untouched">With many IT budgets being frozen or reduced...</example><!-- #3898 -->
+        <example type="untouched">There were several IT teams (your local IT Support as well as...</example><!-- #3898 -->
         <example type="ambiguous" inputform="trusts[trust/NNS,trust/VBZ]" outputform="trusts[trust/VBZ]">No one <marker>trusts</marker> him any more.</example>
         <example type="ambiguous" inputform="dreams[dream/NNS,dream/VBZ]" outputform="dreams[dream/VBZ]">It has more options than one <marker>dreams</marker> is necessary.</example><!-- dreams/E-NP-plural thus cannot use the chunker. -->
        <example type="ambiguous" inputform="samples[sample/NNS,sample/VBZ]" outputform="samples[sample/VBZ]">... and more than one <marker>samples</marker> the data. The results of the analyses are then compared...</example>
