@@ -22536,7 +22536,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <!-- english-->
                     <token>public</token>
-                    <token regexp="yes">health|schools?|theater|finance|hero|domain|license|licence|opinion|choice|key|law|enemy|space|policy|service|offices?|library|international|administration|broadcasting|house</token>
+                    <token regexp="yes">health|schools?|theater|finance|hero|domain|license|licence|opinion|choice|key|law|enemy|space|policy|service|offices?|library|international|administration|broadcasting|house|affairs|interest</token>
                 </antipattern>
                 <antipattern>
                     <token postag="RG|LOC_ADV" postag_regexp="yes"/>
@@ -30881,6 +30881,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="us"><marker>vos</marker> sembla bé</example>
                 <example>vós sou l'únic sant</example>
                 <example>Déu vos guard</example>
+                <example>ANIMEU-VOS A PARTICIPAR.</example>
             </rule>
             <rule>
                 <pattern>
@@ -34734,6 +34735,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Em va dir que escombraria ell.</example>
         </rule>
         <rulegroup name="plural de sigles" id="SIGLES">
+            <antipattern>
+                <token postag="V.N.*" postag_regexp="yes" regexp="yes">.*E</token>
+                <token>'s</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
