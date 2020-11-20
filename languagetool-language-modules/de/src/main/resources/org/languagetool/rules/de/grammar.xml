@@ -26931,6 +26931,15 @@ Andere Projekte</example>
             <example correction="Anraten">Auf <marker>anraten</marker> meines Arztes treibe ich mehr Sport.</example>
             <example correction="Betreiben">Auf <marker>betreiben</marker> der Eltern studierte er Medizin.</example>
         </rule>
+        <rule id="VON_PRIVAT" name="von Privat (privat)" default="temp_off">
+            <pattern>
+                <token regexp="yes">an|von</token>
+                <marker><token case_sensitive="yes">Privat</token></marker>
+            </pattern>
+            <message>In dieser Wendung wird <suggestion><match no="2" case_conversion="startlower"/></suggestion> kleingeschrieben.</message>
+            <url>https://www.korrekturen.de/beliebte_fehler/von_privat.shtml</url>
+            <example correction="privat">Von <marker>Privat</marker> zu verkaufen.</example>
+        </rule>
         <!-- Großgeschrieben wird das nominalisierte Adjektiv, wenn es im Sinne von »deutsche Sprache« verwendet wird:
           http://www.duden.de/rechtschreibung/deutsch
           Großgeschrieben werden ferner Sprachbezeichnungen nach einer Präposition
@@ -35210,6 +35219,14 @@ Andere Projekte</example>
                 <example>12 ko(s)mische Szenen in einer schwül-heißen Sommernacht geträumt von Siegfried Carl.</example>
             </rule>
         </rulegroup>
+        <rule id="HERZ_KREISLAUFERKRAKUNG" name="Herz-Kreislauferkrankung (Herz-Kreislauf-Erkrankung)" default="temp_off">
+            <pattern>
+                <token regexp="yes">Herz-Kreislauferkrankung(en)?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="aufer" regexp_replace="auf-Er"/></suggestion>?</message>
+            <url>https://www.korrekturen.de/beliebte_fehler/herz-kreislauferkrankung.shtml</url>
+            <example correction="Herz-Kreislauf-Erkrankung">Sie leidet an einer <marker>Herz-Kreislauferkrankung</marker>.</example>
+        </rule>
         <rulegroup id="ZUSAMMENSEIN" name="zusammensein (zusammen sein)">
             <url>https://www.korrekturen.de/wortliste/zusammen_sein.shtml</url>
             <rule>
