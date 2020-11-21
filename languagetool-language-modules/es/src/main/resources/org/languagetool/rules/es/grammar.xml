@@ -2102,18 +2102,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Estas no son las preguntas que pensábamos hacer.</example>
             </rule>
         </rulegroup>
-        <rule id="QUE_TILDE" name="que -> qué">
-            <pattern>
-                <token postag="SP.*|LOC_PREP" postag_regexp="yes"/>
-                <marker>
-                    <token>que</token>
-                </marker>
-                <token regexp="yes">[.?!]</token>
-            </pattern>
-            <message>Si equivale a 'qué cosa', se escribe con tilde.</message>
-            <suggestion>qué</suggestion>
-            <example correction="qué">Quiero saber a cambio de <marker>que</marker>.</example>
-        </rule>
+        <rulegroup id="QUE_TILDE" name="que -> qué">
+            <rule>
+                <pattern>
+                    <token postag="SP.*|LOC_PREP" postag_regexp="yes"/>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token regexp="yes">[.?!]</token>
+                </pattern>
+                <message>Si equivale a 'qué cosa', se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="qué">Quiero saber a cambio de <marker>que</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">yo|tú|él|ella|usted|nosotros|nosotras|vosotros|vosotras|ellos|ellas|ustedes|vos</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">saber|decir|pensar|explicar|contar</token>
+                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si equivale a 'qué cosa', se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="qué">Yo <marker>que</marker> sé, no me gusta nada.</example>
+                <example correction="qué">¿I tú <marker>que</marker> cuentas?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QUE_SIN_TILDE" name="qué -> que">
             <antipattern>
                 <token regexp="yes">el|del|al</token>
