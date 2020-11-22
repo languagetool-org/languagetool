@@ -369,6 +369,7 @@ public class AdverbFilter extends RuleFilter {
     put("merrily", "merry");
     put("beneath", "below"); // special case
     put("lest", "least"); // special case
+    put("either", "other"); // special case
     put("nasally", "nasal");
     put("concretely", "concrete");
     put("intuitively", "intuitive");
@@ -380,6 +381,12 @@ public class AdverbFilter extends RuleFilter {
     put("keenly", "keen");
     put("unconsciously", "unconscious");
     put("consciously", "conscious");
+    put("humanely", "humane");
+    put("honorably", "honorable");
+    put("rudely", "rude");
+    put("incorrectly", "incorrect");
+    put("mistakenly", "mistaken");
+    put("wrongly", "wrong");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
