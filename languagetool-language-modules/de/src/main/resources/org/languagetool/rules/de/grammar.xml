@@ -36577,7 +36577,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">ans|fürs|über[ms]|unter[ms]|hinter[ms]|durchs|ins|vor[ms]|beim|zum</token>
+                    <token regexp="yes">ans|fürs|über[ms]|unter[ms]|hinter[ms]|durchs|ins|vor[ms]|beim|zum|aufm</token>
                     <token postag="ART:(IND|DEF):.+|PRO:(POS|DEM):.+" postag_regexp="yes"><exception regexp="yes">einen?|alles</exception></token>
                 </pattern>
                 <message>Prüfen Sie, ob hier die Folge von '\1' und '\2' korrekt ist.</message>
@@ -36588,14 +36588,6 @@ Andere Projekte</example>
                 <example correction="Zu dem"><marker>Zum dem</marker> Bild möchte ich mich nicht äußern.</example>
                 <example>Er entschied sich, beim alles entscheidenden Punkt anzusetzen.</example>
                 <example correction="an die">Gehen wir konservativ <marker>ans die</marker> Sache heran.</example>
-            </rule>
-            <rule default="temp_off">
-                <pattern>
-                    <token>aufm</token>
-                    <token postag="ART:(IND|DEF):.+|PRO:(POS|DEM):.+" postag_regexp="yes"><exception regexp="yes">einen?|alles</exception></token>
-                </pattern>
-                <message>Prüfen Sie, ob hier die Folge von '\1' und '\2' korrekt ist.</message>
-                <suggestion>auf \2</suggestion>
                 <example correction="Auf einem"><marker>Aufm einem</marker> Ast saß ein fetter Vogel.</example>
             </rule>
             <!--
