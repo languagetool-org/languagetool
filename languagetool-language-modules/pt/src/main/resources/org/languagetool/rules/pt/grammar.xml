@@ -8407,6 +8407,20 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="a morar em">Foram bons os 20 anos <marker>em que moro em</marker> Lisboa.</example>
     </rule>
 
+    <!-- 	ESTA está-->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-23 (21-OCT-2020+)     -->
+    <rule id='ESTA_está' name="Confusão: esta > está">
+		<pattern>
+			<token postag='AQ.+|NC.+|NP.+|CS' postag_regexp='yes'/>
+			<marker>
+				<token regexp='no'>esta</token>				
+			</marker>
+			<token postag='VMP00S[FM]' postag_regexp='yes'/>
+		</pattern>		
+		<message>Substitua por <suggestion>está</suggestion>.</message>
+		<example correction="está">Vê na etiqueta que <marker>esta</marker> agarrada ao cabaz.</example>  
+	</rule>
+
     <rule id='ESTAR_DE_ACORDO' name="concordar">
     <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-30 (2-JUL-2020+)     -->
       <pattern>
