@@ -44,10 +44,7 @@ import java.io.PrintStream;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.*;
 import java.util.function.Function;
 import java.util.jar.Manifest;
 import java.util.regex.Matcher;
@@ -547,6 +544,7 @@ public class JLanguageTool {
     } catch (Exception e) {
       throw new RuntimeException("Could not load language model capable rules.", e);
     }
+    ruleSetCache.clear();
   }
 
   /**
@@ -559,6 +557,7 @@ public class JLanguageTool {
     ResourceBundle messages = getMessageBundle(language);
     List<Rule> rules = language.getRelevantNeuralNetworkModels(messages, modelDir);
     userRules.addAll(rules);
+    ruleSetCache.clear();
   }
 
   /**
@@ -612,6 +611,7 @@ public class JLanguageTool {
     Function<Rule, Rule> enhanced = language.getRemoteEnhancedRules(getMessageBundle(language), configs, userConfig, motherTongue, altLanguages, inputLogging);
     transformRules(enhanced, builtinRules);
     transformRules(enhanced, userRules);
+    ruleSetCache.clear();
   }
 
   /**
@@ -658,6 +658,7 @@ public class JLanguageTool {
     throws ParserConfigurationException, SAXException, IOException {
     String falseFriendRulesFilename = JLanguageTool.getDataBroker().getRulesDir() + "/" + FALSE_FRIEND_FILE;
     userRules.addAll(loadFalseFriendRules(falseFriendRulesFilename));
+    ruleSetCache.clear();
   }
 
   /**
@@ -676,6 +677,7 @@ public class JLanguageTool {
    */
   public void addRule(Rule rule) {
     userRules.add(rule);
+    ruleSetCache.clear();
   }
 
   /**
@@ -687,6 +689,7 @@ public class JLanguageTool {
   public void disableRule(String ruleId) {
     disabledRules.add(ruleId);
     enabledRules.remove(ruleId);
+    ruleSetCache.clear();
   }
 
   /**
@@ -698,6 +701,7 @@ public class JLanguageTool {
   public void disableRules(List<String> ruleIds) {
     disabledRules.addAll(ruleIds);
     enabledRules.removeAll(ruleIds);
+    ruleSetCache.clear();
   }
 
   /**
@@ -710,6 +714,7 @@ public class JLanguageTool {
   public void disableCategory(CategoryId id) {
     disabledRuleCategories.add(id);
     enabledRuleCategories.remove(id);
+    ruleSetCache.clear();
   }
 
   /**
@@ -748,6 +753,7 @@ public class JLanguageTool {
   public void enableRule(String ruleId) {
     disabledRules.remove(ruleId);
     enabledRules.add(ruleId);
+    ruleSetCache.clear();
   }
 
   /**
@@ -760,6 +766,7 @@ public class JLanguageTool {
   public void enableRuleCategory(CategoryId id) {
     disabledRuleCategories.remove(id);
     enabledRuleCategories.add(id);
+    ruleSetCache.clear();
   }
 
   /**
@@ -899,17 +906,13 @@ public class JLanguageTool {
       sentences = new ArrayList<>();
       sentences.add(annotatedText.getPlainText());
     }
-    List<Rule> allRules = getAllRules();
+    List<Rule> allRules = getActiveRulesForLevel(level);
     if (printStream != null) {
       printIfVerbose(allRules.size() + " rules activated for language " + language);
     }
 
     unknownWords = new HashSet<>();
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
-
-    if (level == Level.DEFAULT) {
-      allRules = allRules.stream().filter(rule -> !rule.hasTag(Tag.picky)).collect(Collectors.toList());
-    }
 
     List<RuleMatch> remoteMatches = new LinkedList<>();
     List<FutureTask<RemoteRuleResult>> remoteRuleTasks = null;
@@ -956,6 +959,15 @@ public class JLanguageTool {
     ruleMatches = applyCustomFilters(ruleMatches, annotatedText);
 
     return ruleMatches;
+  }
+
+  private final Map<Level, List<Rule>> ruleSetCache = new ConcurrentHashMap<>();
+
+  private List<Rule> getActiveRulesForLevel(Level level) {
+    return ruleSetCache.computeIfAbsent(level, l -> {
+      List<Rule> allRules = getAllActiveRules();
+      return l == Level.DEFAULT ? allRules.stream().filter(rule -> !rule.hasTag(Tag.picky)).collect(Collectors.toList()) : allRules;
+    });
   }
 
   protected void fetchRemoteRuleResults(Mode mode, Level level, List<AnalyzedSentence> analyzedSentences, List<RuleMatch> remoteMatches,
@@ -1055,7 +1067,7 @@ public class JLanguageTool {
       cacheKeys.add(cacheKey);
     }
     for (Rule r : allRules) {
-      if (r instanceof RemoteRule && !ignoreRule(r)) {
+      if (r instanceof RemoteRule) {
         RemoteRule rule = (RemoteRule) r;
         remoteRules.add(rule);
         FutureTask<RemoteRuleResult> task;
@@ -1145,7 +1157,8 @@ public class JLanguageTool {
 
   protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
                                          List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, Mode mode, Level level) throws IOException {
-    return performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText, null, mode, level, true);
+    List<Rule> nonIgnored = allRules.stream().filter(r -> !ignoreRule(r)).collect(Collectors.toList());
+    return performCheck(analyzedSentences, sentences, nonIgnored, paraMode, annotatedText, null, mode, level, true);
   }
 
   /**
@@ -1201,7 +1214,8 @@ public class JLanguageTool {
    */
   public List<RuleMatch> checkAnalyzedSentence(ParagraphHandling paraMode,
                                                List<Rule> rules, AnalyzedSentence analyzedSentence) throws IOException {
-    return checkAnalyzedSentence(paraMode, rules, analyzedSentence, false);
+    List<Rule> nonIgnored = rules.stream().filter(r -> !ignoreRule(r)).collect(Collectors.toList());
+    return checkAnalyzedSentence(paraMode, nonIgnored, analyzedSentence, false);
   }
 
   /**
@@ -1222,9 +1236,6 @@ public class JLanguageTool {
         continue;
       }
       if (!checkRemoteRules && rule instanceof RemoteRule) {
-        continue;
-      }
-      if (ignoreRule(rule)) {
         continue;
       }
       if (paraMode == ParagraphHandling.ONLYPARA) {
@@ -1719,7 +1730,7 @@ public class JLanguageTool {
         if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) {
           break;
         }
-        if (rule instanceof TextLevelRule && !ignoreRule(rule) && paraMode != ParagraphHandling.ONLYNONPARA) {
+        if (rule instanceof TextLevelRule && paraMode != ParagraphHandling.ONLYNONPARA) {
           if (analyzedSentences == null) {
             analyzedSentences = sentences.stream().map(s -> s.analyzed).collect(Collectors.toList());
           }
