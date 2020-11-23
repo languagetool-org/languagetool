@@ -6308,13 +6308,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="STRICKTE" name="strickte (strikte)">
             <rule>
                 <pattern case_sensitive="yes">
-                    <marker><token regexp="yes">strickte?</token></marker>
-                    <token regexp="yes" inflected="yes">Beachtung|Bettruhe|Diät|einhalten|Einhaltung|Gegenteil|Geheimhaltung|Prinzip|Regel|Verbot|ver(bieten|meiden)</token>
+                    <marker><token regexp="yes">strickt(en?)?</token></marker>
+                    <token regexp="yes" inflected="yes">beachten|Anweisung|Gehorsam|Beachtung|Bettruhe|Diät|einhalten|Einhaltung|Gegenteil|Geheimhaltung|Prinzip|Regel|Verbot|ver(bieten|meiden)</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="ick" regexp_replace="ik"/></suggestion>?</message>
                 <short>&verw;</short>
                 <example correction="strikte">Er benötigt <marker>strickte</marker> Bettruhe.</example>
                 <example correction="strikt">Das Gesetz ist <marker>strickt</marker> einzuhalten.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <marker><token>strickt</token></marker>
+                    <token regexp="yes" inflected="yes">für|gegen|dagegen</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="ick" regexp_replace="ik"/></suggestion>?</message>
+                <short>&verw;</short>
+                <example correction="strikt">Er ist nicht <marker>strickt</marker> gegen diese Vorgabe.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUF_WUSCH" name="auf Wusch (Wunsch)">
