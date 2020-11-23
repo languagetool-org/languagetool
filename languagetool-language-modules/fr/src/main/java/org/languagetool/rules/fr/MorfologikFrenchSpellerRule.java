@@ -176,6 +176,9 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
   }
 
   private List<String> getAdditionalTopSuggestionsString(List<String> suggestions, String word) throws IOException {
+    if (word.equals("voulai")) {
+      return Arrays.asList("voulais", "voulait");
+    }
     /*
      * if (word.length() < 5) { return Collections.emptyList(); }
      */
