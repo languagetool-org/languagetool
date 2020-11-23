@@ -27397,6 +27397,19 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
+                    <token regexp="yes">Hotel|[Ii](m|ns)</token>
+                    <marker>
+                        <token regexp="yes">vier</token>
+                    </marker>
+                    <token>Jahreszeiten</token>
+                </pattern>
+                <message>In mehrteiligen Eigennamen schreibt man Adjektive groß.</message>
+                <suggestion><match case_conversion="startupper" no="2"/></suggestion>
+                <url>https://grammis.ids-mannheim.de/rechtschreibung/6195</url>
+                <example correction="Vier">Was kostet eine Nacht im <marker>vier</marker> Jahreszeiten.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
                     <marker>
                         <token regexp="yes">rote[nr]?</token>
                     </marker>
@@ -35423,7 +35436,7 @@ Andere Projekte</example>
         </rule>
         <rule id="AUSSAGEKRAEFTIG" name="aussage kräftig (aussagekräftig)" default="temp_off">
             <pattern>
-                <token>aussage</token>
+                <token regexp="yes">aussage|tat</token>
                 <token inflected="yes">kräftig</token>
             </pattern>
             <message>Meinten Sie <suggestion><match no="1" case_conversion="startlower"/>\2</suggestion>?</message>
