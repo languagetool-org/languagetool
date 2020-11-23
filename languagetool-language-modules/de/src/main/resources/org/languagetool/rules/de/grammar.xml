@@ -192,6 +192,66 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="entschieden|entscheidend">Für ihn war es <marker>entscheiden</marker>, dass sie kommt.</example>
             <example>Zuerst entscheiden wir, was notwendig ist zu entscheiden.</example>
         </rule>
+        <rulegroup id="BEWENDEN_BEENDEN" name="beenden (bewenden) lassen"> 
+            <rule default="temp_off">
+                <pattern>
+                    <token skip="4" inflected="yes">dabei<exception scope="next" postag="PKT"></exception></token>
+                    <marker><token>beenden</token></marker>
+                    <token inflected="yes">lassen</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>bewenden</suggestion>?</message>
+                <short>&typo;</short>
+                <example correction="bewenden">Er wollte es dabei nicht <marker>beenden</marker> lassen.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes" skip="2">lassen<exception scope="next" postag="PKT"></exception></token>
+                    <token skip="4" inflected="yes">dabei<exception scope="next" postag="PKT"></exception></token>
+                    <marker><token>beenden</token></marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>bewenden</suggestion>?</message>
+                <short>&typo;</short>
+                <example correction="bewenden">Lassen wir es dabei nicht <marker>beenden</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VERENDEN_VERSENDEN" name="verenden (versenden/verwenden)"> 
+            <rule default="temp_off">
+                <pattern>
+                    <marker><token inflected="yes">verenden</token></marker>
+                    <token inflected="yes">werden</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="eren" regexp_replace="erwen"/></suggestion> oder <suggestion><match no="1" regexp_match="eren" regexp_replace="ersen"/></suggestion>?</message>
+                <short>&typo;</short>
+                <example correction="verwendet|versendet">Sind die Briefe schon <marker>verendet</marker> worden?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token skip="4" inflected="yes">werden<exception scope="next" regexp="yes">[,:]</exception></token>
+                    <marker><token>verendet</token></marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="eren" regexp_replace="erwen"/></suggestion> oder <suggestion><match no="2" regexp_match="eren" regexp_replace="ersen"/></suggestion>?</message>
+                <short>&typo;</short>
+                <example correction="verwendet|versendet">Die Briefe wurden schon <marker>verendet</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker><token>geendet</token></marker>
+                    <token inflected="yes">werden</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="end" regexp_replace="send"/></suggestion>?</message>
+                <short>&typo;</short>
+                <example correction="gesendet">Sind die Mails schon <marker>geendet</marker> worden?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token skip="4" inflected="yes">werden<exception scope="next" regexp="yes">[,:]</exception></token>
+                    <marker><token>geendet</token></marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>gesendet</suggestion> oder <suggestion>gewendet</suggestion>?</message>
+                <short>&typo;</short>
+                <example correction="gesendet|gewendet">Die Mails wurden schon <marker>geendet</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="SCHALL_UND_RAUCH" name="Schal">
             <pattern case_sensitive="yes">
                 <marker><token>Schal</token></marker>
@@ -27319,7 +27379,7 @@ Andere Projekte</example>
                     <marker>
                         <token regexp="yes">deutsche[nr]?</token>
                     </marker>
-                    <token regexp="yes">Bahn|Bank|Bundes(rat|tag)s?|Gewerkschaftsbund(s|es)?|Fußnall-Bund(e?s)?</token>
+                    <token regexp="yes">Ba(hn|nk)|Bundes(rat|tag)s?|Gewerkschaftsbund(e?s)?|Fußball-Bund(e?s)?</token>
                 </pattern>
                 <message>In mehrteiligen Eigennamen schreibt man Adjektive groß.</message>
                 <suggestion><match case_conversion="startupper" no="1"/></suggestion>
@@ -35343,6 +35403,23 @@ Andere Projekte</example>
             <message>Meinten Sie <suggestion><match no="1" regexp_match="aufer" regexp_replace="auf-Er"/></suggestion>?</message>
             <url>https://www.korrekturen.de/beliebte_fehler/herz-kreislauferkrankung.shtml</url>
             <example correction="Herz-Kreislauf-Erkrankung">Sie leidet an einer <marker>Herz-Kreislauferkrankung</marker>.</example>
+        </rule>
+        <rule id="RUND_UM_SORGLOS" name="Rundum-Sorglos- (Rund-um-Sorglos-)">
+            <pattern>
+                <token regexp="yes">Rund-um-Sorglos-[A-ZÄÖÜ].+</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="Rund-um" regexp_replace="Rundum"/></suggestion>?</message>
+            <url>https://www.korrekturen.de/beliebte_fehler/rund-um-sorglos-paket.shtml</url>
+            <example correction="Rundum-Sorglos-Paket">Er wählte das <marker>Rund-um-Sorglos-Paket</marker>.</example>
+        </rule>
+        <rule id="AUSSAGEKRAEFTIG" name="aussage kräftig (aussagekräftig)" default="temp_off">
+            <pattern>
+                <token>aussage</token>
+                <token inflected="yes">kräftig</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" case_conversion="startlower"/>\2</suggestion>?</message>
+            <example correction="aussagekräftiger">Ein <marker>aussage kräftiger</marker> Bericht.</example>
+            <example correction="aussagekräftiger">Ein <marker>Aussage kräftiger</marker> Bericht.</example>
         </rule>
         <rulegroup id="ZUSAMMENSEIN" name="zusammensein (zusammen sein)">
             <url>https://www.korrekturen.de/wortliste/zusammen_sein.shtml</url>
