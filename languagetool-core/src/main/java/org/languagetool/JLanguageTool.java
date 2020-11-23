@@ -1155,6 +1155,10 @@ public class JLanguageTool {
     }
   }
 
+  /**
+   * @deprecated use {@link #performCheck(List, List, List, ParagraphHandling, AnnotatedText, RuleMatchListener, Mode, Level, boolean)}
+   */
+  @Deprecated
   protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
                                          List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, Mode mode, Level level) throws IOException {
     List<Rule> nonIgnored = allRules.stream().filter(r -> !ignoreRule(r)).collect(Collectors.toList());
@@ -1207,11 +1211,12 @@ public class JLanguageTool {
   }
 
   /**
-   * This is an internal method that's public only for technical reasons, please use one
-   * of the {@link #check(String)} methods instead.
+   * This is an internal method that's public only for technical reasons.
    *
    * @since 2.3
+   * @deprecated use one of the {@link #check} methods instead.
    */
+  @Deprecated
   public List<RuleMatch> checkAnalyzedSentence(ParagraphHandling paraMode,
                                                List<Rule> rules, AnalyzedSentence analyzedSentence) throws IOException {
     List<Rule> nonIgnored = rules.stream().filter(r -> !ignoreRule(r)).collect(Collectors.toList());
