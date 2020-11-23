@@ -151,6 +151,7 @@ public class AgreementRuleTest {
     assertGood("Das reicht bis weit ins heutige Hessen.");
     assertGood("Die Customer Journey.");
     assertGood("Für dich gehört Radfahren zum perfekten Urlaub dazu?");
+    assertGood(":D:D Leute, bitte!");
     //assertGood("... der zu dieser Zeit aber ohnehin schon allen Einfluss verloren hatte.");
 
     assertGood("Wir machen das Januar.");

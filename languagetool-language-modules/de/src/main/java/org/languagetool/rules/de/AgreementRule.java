@@ -811,6 +811,18 @@ public class AgreementRule extends Rule {
       tokenRegex("Office|Microsoft"),
       csToken("365")
     ),
+    Arrays.asList(
+      csToken("Prinz"),
+      tokenRegex("Charles|William")
+    ),
+    Arrays.asList(
+      token(":"),
+      csToken("D")
+    ),
+    Arrays.asList( // Eine Android Watch
+      csToken("Android"),
+      tokenRegex("Wear|Watch(es)?|Smartwatch(es)?|OS|Apps?")
+    ),
     Arrays.asList( // "Bitte öffnen Sie die CAD.pdf"
       tokenRegex("\\w+"),
       new PatternTokenBuilder().token(".").setIsWhiteSpaceBefore(false).build(),
