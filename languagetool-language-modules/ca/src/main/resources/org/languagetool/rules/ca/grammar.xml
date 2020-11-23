@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
     <!ENTITY carrecs "governador|delegat|president|ministre|fiscal|jutge|director|secretari|vicepresident|viceministre|vicesecretari|conseller|síndic|portaveu|alcalde|alcaldessa|batl?le|batl?lessa|regidor|rector|vicerector|diputat|senador|eurodiputat|bisbe|arquebisbe|lletrat|magistrat|comte|mossèn|sor|fra|professor|registrador|notari|tresorer|tinent"> <!-- senyor, rei -->
-    <!ENTITY expressio_DOS_NOMS "aliatge|associació|binomi|concordança|connexió|corpus|correció|corrector|debat|diccionari|dualitat|figura|interpretació|paral·lel|parell|parella|relació|ràtio|traducció|traductor">
+    <!ENTITY expressio_DOS_NOMS "aliatge|associació|binomi|concordança|connexió|corpus|correció|corrector|debat|diccionari|dualitat|figura|interpretació|paral·lel|parell|parella|relació|ràtio|traducció|traductor|eix">
     <!ENTITY denominacio "element|paraula|mot|terme|expressió|vocable|nom|tipus|denominació|gentilici|terminació|arrel">
     <!ENTITY apostrophe "['’´]">
     <!ENTITY common_english_nouns_feminine "University|Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation|Conference|Agency">
@@ -49,8 +49,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY estacions "primavera|estiu|tardor|hivern">
     <!ENTITY excep_exceptions_BE "ben|prou|tan|que|si|ara|molt|per|i|o|ni|més|['-].+">
     <!ENTITY exceptions_A_DIT_HA_DIT "concedir|crèdit|selecció|subvenció|atorgar|designar|designació|contractar|contractació|contracte|plaça|assignar|assignació|nomenar|nomenament|col·locar|col·locació|adjudicar|adjudicació|càrrec|elegir|escollir|triar|assenyalar">
-    <!ENTITY exceptions_A_L_ANY "relatiu|esperar|tornar|arribar|equivaler|equivalent|portar|atribuir|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir|proper|pròxim|pertànyer|remetre|previ|referència|referent|prèviament">
-    <!ENTITY exceptions_AL_FRONT "(?-i)clapa|picar|matar|pelat|pelada|arruga|cabellera|cabell|cop|suor|petó|bes|besada|visera|taca|ditada|cara|mirada|lepra|cendra|marca|marcar|batalla|besar|voluntari|corona|bony|militar|enviar|caos|disparar|mocador|lligar|incorpor.*|ferir|expressió|cicatriu|exèrcit|mobilitzar|aigua|clavar|mà|col?p|guerra|soldat|desaparèixer|afusell.*|empreson.*|reclut.*|morir|mort|vidu|orfe|viudo|traum.*">
+    <!ENTITY exceptions_A_L_ANY "recular|relatiu|esperar|tornar|arribar|equivaler|equivalent|portar|atribuir|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir|proper|pròxim|pertànyer|remetre|previ|referència|referent|prèviament">
+    <!ENTITY exceptions_AL_FRONT "(?-i)clapa|picar|matar|pelat|pelada|arruga|cabellera|cabell|cop|suor|petó|bes|besada|visera|taca|ditada|cara|mirada|lepra|cendra|marca|marcar|batalla|besar|voluntari|corona|bony|militar|enviar|caos|disparar|mocador|lligar|incorpor.*|ferir|expressió|cicatriu|exèrcit|guerra|servir|mobilitzar|aigua|clavar|mà|col?p|guerra|soldat|desaparèixer|afusell.*|empreson.*|reclut.*|morir|mort|vidu|orfe|viudo|traum.*">
     <!ENTITY exceptions_ALS_TRES_MESOS "per|fins|cap|arribada|arribar|corresponent|proper|pròxim|inferior|superior|referència|següent|posterior|anterior|acostar|aproximar|apropar|correspondre|retrotreure|remuntar">
     <!ENTITY exceptions_A_MANS_DE "espoli|espoliació|anar|sotmetre|submissió|desapoderar|desapoderament|sofrir|vèncer|pallissa|apallissar|desgastar|parar|passar|arribar|retornar|tornar|perdre|morir|pèrdua|matança|mort1|patir|vexació|vexar|tortura|torturar|derrota|derrotar|fi2|assassinar|assassinat|homicidi|saqueig|saquejar">
     <!ENTITY exceptions_ASSENTAR_ASSEURE "criteri|igualtat|idea|fenomen|suport|geològi.*|pilar|bàvar|eslau|roca|ciutat|pedra|morter|tossal|muralla|castell|fonament|sòcol|plana|agricultor|poblat|sedentari.*|mite|història|sistema|producció|cultura|creença|judici|juí|teoria|illa|sobirania|fet|austral|base1|categoria|colon|colonitz.*|colònia|comarca|comunitat|errant|est|fermament|habitant|hàbitat|medi|meridional|natural|nord|nord-est|nord-oest|nucli|nòmada|occident|occidental|oest|organització|orient|oriental|península|població|poblador|poblament|poblar|poble|província|puig|recurs|regió|regne|residència|rural|septentrional|societat|sud|sud-est|sud-oest|terra|territori|tribu|turó|tècnica|vall|vida|zona|ètnia|ètnic|principi|conducta|establir|distribució|genital|estructura|recinte|esplanada|pla|superfície">
@@ -17697,7 +17697,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="VENTES_VENDES" name="ventes/vendes">
             <pattern>
-                <token>ventes<exception postag="_possible_nompropi"/><exception scope="previous" regexp="yes">em|li|ens|els|el|la|hi|'n|ho|tu|si|quan</exception></token>
+                <token>ventes<exception postag="_possible_nompropi"/><exception scope="previous" regexp="yes">em|et|li|ens|els|el|la|hi|'n|ho|tu|si|quan</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>vendes</suggestion>? Una "venta" pot ser un hostal al País Valencià. Correcte si és del v. 'ventar'.</message>
             <example correction="Vendes"><marker>Ventes</marker> de cotxes.</example>
@@ -17706,6 +17706,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Li'n ventes quatre.</example>
             <example>Si els ventes un poc, millor.</example>
             <example>Va passar a les Ventes.</example>
+            <example>Et ventes les mosques.</example>
         </rule>
         <rule id="DESORBITANT" name="desorbitant/desorbitat">
             <pattern>
@@ -40114,6 +40115,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>accediren a enviar Francesc de Tamarit al front d'una nova lleva de soldats</example>
                 <example>Va anar directament al front, on va ser ferit.</example>
                 <example>després de sortir Willhaus cap al front,</example>
+                <example>Va servir al front durant la Segona Guerra Mundial.</example>
                 <!-- <example correction="Al davant|Al capdavant">La ciutat de Tunis va posar <marker>al front</marker> el cap militar Abd al-Hakk</example>  -->
                 <!-- dóna error, si es posa 'militar' en la llista -->
             </rule>
@@ -57999,6 +58001,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Passa entre les dones músiques.</example>
                 <example>En qualsevol dels 4 formats diferents segons pes i forma previstos.</example>
                 <example>Ha premiat els últims anys novel·les molt notables.</example>
+                <example>Una entrevista via mail.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FALTA_ELEMENT_ENTRE_GN" name="Falta un element entre grups nominals" default="off">
