@@ -28144,7 +28144,7 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token negate_pos="yes" postag="SENT_START"/>
                     <marker>
-                        <token regexp="yes">Olympisch(e|en)?</token>
+                        <token regexp="yes">Olympisch(e|e[mns])?</token>
                     </marker>
                     <token regexp="yes">(Gedanke(ns?)?|Feuers?|Eid[es]?)</token>
                 </pattern>
@@ -28221,6 +28221,17 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Sorge">Keine <marker>sorge</marker>!</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>sorgen</token>
+                    </marker>
+                    <token>um</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Sorgen">Hat er sich <marker>sorgen</marker> um mich gemacht?</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
