@@ -429,7 +429,7 @@ abstract class TextChecker {
     List<RuleMatch> hiddenMatches = new ArrayList<>();
     if (config.getHiddenMatchesServer() != null && params.enableHiddenRules &&
       config.getHiddenMatchesLanguages().contains(lang)) {
-      if(config.getHiddenMatchesServerFailTimeout() > 0 && lastHiddenMatchesServerTimeout != -1 &&
+      if (config.getHiddenMatchesServerFailTimeout() > 0 && lastHiddenMatchesServerTimeout != -1 &&
         System.currentTimeMillis() - lastHiddenMatchesServerTimeout < config.getHiddenMatchesServerFailTimeout()) {
         ServerMetricsCollector.getInstance().logHiddenServerStatus(false);
         ServerMetricsCollector.getInstance().logHiddenServerRequest(false);
@@ -537,7 +537,7 @@ abstract class TextChecker {
   private Map<String, Integer> getRuleValues(Map<String, String> parameters) {
     Map<String, Integer> ruleValues = new HashMap<>();
     String parameterString = parameters.get("ruleValues");
-    if(parameterString == null) {
+    if (parameterString == null) {
       return ruleValues;
     }
     String[] pairs = parameterString.split("[,]");
