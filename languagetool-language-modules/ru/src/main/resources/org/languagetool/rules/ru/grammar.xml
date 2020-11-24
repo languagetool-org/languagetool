@@ -715,7 +715,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="4">цифра</token>
                     <token>занижена</token>
                 </pattern>            
-                <message>Вместо выражения: «цифра занижена» необходимо употреблять: «количество (значение, ...)  занижено».</message>
+                <message>Вместо выражения: «цифра занижена» необходимо употреблять: «количество (значение, ...) занижено».</message>
                 <short>Логическая ошибка</short>
                 <example correction="">Эта <marker>цифра в отчёте занижена</marker>.</example>
             </rule>
@@ -7558,7 +7558,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">оба|обоих|обоим|обоими</token>
                     <token postag="NN:.*:Fem:.*" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:Fem:.*" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>Числительное «оба» (обоих, обоим, обоими) употребляется  только с существительными мужского рода: <suggestion><match no="1" postag="Num:.*:(.*)" postag_regexp="yes" postag_replace="Num:Fem:$1"></match> <match no="2"></match></suggestion>.</message>
+                <message>Числительное «оба» (обоих, обоим, обоими) употребляется только с существительными мужского рода: <suggestion><match no="1" postag="Num:.*:(.*)" postag_regexp="yes" postag_replace="Num:Fem:$1"></match> <match no="2"></match></suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
                 <short>Грамматическая ошибка</short>
                 <example>По обеим сторонам.</example>
@@ -7583,7 +7583,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">обе|обеих|обеим|обеими</token>
                     <token postag="NN:.*:Masc:.*" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:Masc:.*" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>Числительное «обе» (обеих, обеим, обеими) употребляется  только с существительными женского рода: <suggestion><match no="1" postag="Num:.*:(.*)" postag_regexp="yes" postag_replace="Num:Masc:$1"></match> <match no="2"></match></suggestion>.</message>
+                <message>Числительное «обе» (обеих, обеим, обеими) употребляется только с существительными женского рода: <suggestion><match no="1" postag="Num:.*:(.*)" postag_regexp="yes" postag_replace="Num:Masc:$1"></match> <match no="2"></match></suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
                 <short>Грамматическая ошибка</short>
                 <example>На обоих столах.</example>
@@ -9026,7 +9026,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>об</token>
                     <token regexp="yes">всём|всей|всех|всем</token>
                 </pattern>
-                <message>Неправильная форма предлога. Исправление: <suggestion>обо \2</suggestion>  или  <suggestion>о \2</suggestion>.</message>
+                <message>Неправильная форма предлога. Исправление: <suggestion>обо \2</suggestion> или <suggestion>о \2</suggestion>.</message>
                 <short>Неправильная форма предлога</short>
                 <example>Обо всём.</example>
                 <example correction="Обо всём|О всём"><marker>Об всём</marker>.</example>
@@ -9396,8 +9396,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
                 args="no:1 regexp:(.*)ься postag_regexp:UNKNOWN   negate_pos:yes"/>     <!-- Test if word without "ь" exist --> 
-            <message>Глагол должен быть в личной форме, мягкий знак не нужен: <suggestion><match no="1" postag="VB:INF:.*" postag_regexp="yes" postag_replace="VB:.*:.*:Sin:P3"/></suggestion>
-            </message>
+            <message>Глагол должен быть в личной форме, мягкий знак не нужен: <suggestion><match no="1" postag="VB:INF:.*" postag_regexp="yes" postag_replace="VB:.*:.*:Sin:P3"/></suggestion></message>
             <url>http://tsya.ru/</url>
             <short>Глагол должен быть в личной форме</short>
             <example>Но вот мой друг очень положительно относится к спорту.</example>
@@ -10871,7 +10870,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Стиль</short>
             <example correction="имеет вид">Результат вычисления целевой функции <marker>получается в виде</marker> скаляра.</example>
         </rule>
-        <rule id="Style_gipoteza_soglasno_kotoroj" name="Стиль: «гипотеза, что для создания»"> <!-- гипотеза, согласно которой -->
+        <rule id="Style_gipoteza_ssno_kotoroj" name="Стиль: «гипотеза, что для создания»"> <!-- гипотеза, согласно которой -->
             <pattern>
                 <token inflected="yes">гипотеза</token>
                 <token>,</token>
@@ -11332,9 +11331,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception postag="NN:.*:.*:D" postag_regexp="yes"></exception>
                     </token>
                 </pattern>
-                <message>Этот предлог должен употребляться с дательным падежом (<match no="1"></match> чему), а не с родительным (<match no="1"></match> чего):
-                    <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):R" postag_regexp="yes" postag_replace="NN:$1:$2:$3:D"></match></suggestion>
-                </message>
+                <message>Этот предлог должен употребляться с дательным падежом (<match no="1"></match> чему), а не с родительным (<match no="1"></match> чего): <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):R" postag_regexp="yes" postag_replace="NN:$1:$2:$3:D"></match></suggestion></message>
                 <short>Требуется дательный падеж</short>
                 <example>Отправление поезда согласно расписанию.</example>
                 <example>Скорость марсоходов увеличится благодаря системе автономной навигации.</example>
@@ -11382,9 +11379,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">о|об</token>
                     <token postag="NN:.*:.*:.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Глагол «\1» с предлогом «о» не употребляется. Возможная замена:
-                    <suggestion><match no="1"></match> на <match no="3" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:V"></match></suggestion>
-                </message>
+                <message>Глагол «\1» с предлогом «о» не употребляется. Возможная замена: <suggestion><match no="1"></match> на <match no="3" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:V"></match></suggestion></message>
                 <short>С предлогом «о» не употребляется</short>
                 <example>Указать на ошибку.</example>
                 <example correction="Указать на ошибку"><marker>Указать об ошибке</marker>.</example>
@@ -11845,8 +11840,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="NN:Anim:.*" postag_regexp="yes"></exception>
                 </token>
             </pattern>
-            <message>Имя пишется с большой буквы: <suggestion><match no="1" case_conversion="startupper"></match></suggestion>
-            </message>
+            <message>Имя пишется с большой буквы: <suggestion><match no="1" case_conversion="startupper"></match></suggestion></message>
             <url>http://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F_%D0%B1%D1%83%D0%BA%D0%B2%D0%B0</url>
             <short>Заглавные буквы</short>
             <example>Он – <marker>Иван</marker>.</example>
@@ -11862,8 +11856,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="NN:Anim:.*" postag_regexp="yes"></exception>
                 </token>
             </pattern>
-            <message>Отчество пишется с большой буквы: <suggestion><match no="1" case_conversion="startupper"></match></suggestion>
-            </message>
+            <message>Отчество пишется с большой буквы: <suggestion><match no="1" case_conversion="startupper"></match></suggestion></message>
             <url>http://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F_%D0%B1%D1%83%D0%BA%D0%B2%D0%B0</url>
             <short>Заглавные буквы</short>
             <example>Он – <marker>Иванович</marker>.</example>
@@ -11881,8 +11874,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </token>
                     </marker>
             </pattern>
-            <message>Фамилия пишется с большой буквы: <suggestion><match no="2" case_conversion="startupper"></match></suggestion>
-            </message>
+            <message>Фамилия пишется с большой буквы: <suggestion><match no="2" case_conversion="startupper"></match></suggestion></message>
             <url>http://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F_%D0%B1%D1%83%D0%BA%D0%B2%D0%B0</url>
             <short>Заглавные буквы</short>
             <example>Он – Иван <marker>Иванов</marker>.</example>
@@ -12226,7 +12218,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>докторша</token>
                 </pattern>
-                <message>Названия лиц по профессии, должности, званию сохраняют форму мужского рода  даже тогда, когда относятся к женщине</message>
+                <message>Названия лиц по профессии, должности, званию сохраняют форму мужского рода даже тогда, когда относятся к женщине</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
                 <short>Требуется мужской род</short>
                 <example correction="">Это <marker>докторша</marker> Петрова.</example>
@@ -12237,7 +12229,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>лаборантка</token>
                 </pattern>
-                <message>Названия лиц по профессии, должности, званию сохраняют форму мужского рода  даже тогда, когда относятся к женщине</message>          
+                <message>Названия лиц по профессии, должности, званию сохраняют форму мужского рода даже тогда, когда относятся к женщине</message>          
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>           
                 <short>Требуется мужской род</short>
                 <example correction=""><marker>Лаборантка</marker> Иванова в отпуске.</example>
