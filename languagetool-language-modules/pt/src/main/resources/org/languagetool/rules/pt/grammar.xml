@@ -10699,11 +10699,14 @@ MARCOAGPINTO 2020-02-18 -->
     </rule>
 
     <rule id='TORNAR_MAIS_DIFICIL' name="Dificultar">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-24 (21-OCT-2020+)     -->
       <pattern>
+		<marker>
           <token inflected='yes'>tornar</token>
-		  <token>mais</token>
+		  <token min="0" max="1" regexp='no'>mais</token>
 		  <token>difícil</token>
+		</marker>
+		<token postag='DA.+|V.+|SPS.+' postag_regexp='yes'/>
       </pattern>
       <message>Substitua por <match no='1' postag='V.+' postag_regexp='yes'>dificultar</match>.</message>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dificultar</match></suggestion>
@@ -10711,14 +10714,45 @@ MARCOAGPINTO 2020-02-18 -->
     </rule>
 
     <rule id='TORNAR_MAIS_FACIL' name="Facilitar">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-24 (21-OCT-2020+)     -->
       <pattern>
+		<marker>
           <token inflected='yes'>tornar</token>
-		  <token>mais</token>
+		  <token min="0" max="1" regexp='no'>mais</token>
 		  <token>fácil</token>
+		</marker>
+		<token postag='DA.+|V.+|SPS.+' postag_regexp='yes'/>
       </pattern>
       <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>facilitar</match></suggestion></message>
       <example correction="facilitar">As regras vão <marker>tornar mais fácil</marker> o jogo.</example>
+    </rule>
+	
+    <rule id='TORNAR_MAIS_FORTE' name="Fortelecer">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-24 (21-OCT-2020+)     -->
+      <pattern>
+	      <marker>
+			<token inflected='yes'>tornar</token>
+			<token min="0" max="1" regexp='no'>mais</token>
+			<token>forte</token>
+		  </marker>
+		  <token postag='DA.+|V.+|SPS.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fortalecer</match></suggestion></message>
+      <example correction="fortalecer">As regras vão <marker>tornar mais forte</marker> o acordo.</example>
+    </rule>
+
+    <rule id='TORNAR_MAIS_FRACO' name="Enfraquecer">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-24 (21-OCT-2020+)     -->
+      <pattern>
+		<marker>
+          <token inflected='yes'>tornar</token>
+		  <token min="0" max="1" regexp='no'>mais</token>
+		  <token regexp='yes'>fraca|fraco</token>
+		</marker>
+		<token postag='DA.+|V.+|SPS.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>enfraquecer</match></suggestion></message>
+      <example correction="enfraquecer">As regras vão <marker>tornar mais fraco</marker> o acordo.</example>
     </rule>
 	
     <rule id='TRABALHO_PAGO' name="trabalho remunerado">
