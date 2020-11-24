@@ -821,7 +821,7 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList( // Eine Android Watch
       csToken("Android"),
-      tokenRegex("Wear|Watch(es)?|Smartwatch(es)?|OS|Apps?")
+      tokenRegex("Wear|Watch(es)?|Smartwatch(es)?|OS")
     ),
     Arrays.asList( // "Bitte öffnen Sie die CAD.pdf"
       tokenRegex("\\w+"),
