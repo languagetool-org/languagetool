@@ -454,8 +454,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           joined = joinBeforeAfterSuggestions(fromSpeller, beforeSuggestionStr, afterSuggestionStr);
         }
       } catch (IOException e) {
-        joined = Collections.singletonList(new SuggestedReplacement("Internal error: " + e.getMessage()));
-        logger.error("Error while calculating speller suggestions", e);
+        throw new RuntimeException(e);
       }
       return Lists.newArrayList(Iterables.concat(prev, joined));
     };

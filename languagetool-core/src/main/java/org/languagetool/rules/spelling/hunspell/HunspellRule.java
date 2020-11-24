@@ -29,8 +29,6 @@ import org.languagetool.rules.Categories;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -52,8 +50,6 @@ import java.util.stream.Collectors;
  * @author Marcin Miłkowski
  */
 public class HunspellRule extends SpellingCheckRule {
-  private static final Logger logger = LoggerFactory.getLogger(HunspellRule.class);
-
   public static final String RULE_ID = "HUNSPELL_RULE";
 
   protected static final String FILE_EXTENSION = ".dic";
@@ -187,8 +183,7 @@ public class HunspellRule extends SpellingCheckRule {
                   return calcSuggestions(word, cleanWord);
                 }
               } catch (IOException e) {
-                logger.error("Error while calculating speller suggestions", e);
-                return Collections.singletonList(new SuggestedReplacement("Internal error: " + e.getMessage()));
+                throw new RuntimeException(e);
               }
             });
           } else {
