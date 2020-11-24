@@ -87,14 +87,16 @@ public class MorfologikSpeller {
   }
 
   public boolean isMisspelled(String word) {
-    return word.length() > 0 
-            && !SpellingCheckRule.LANGUAGETOOL.equals(word)
-            && !SpellingCheckRule.LANGUAGETOOLER.equals(word)
-            && speller.isMisspelled(word);
+    if (word.isEmpty() || SpellingCheckRule.LANGUAGETOOL.equals(word) || SpellingCheckRule.LANGUAGETOOLER.equals(word)) {
+      return false;
+    }
+    synchronized (this) {
+      return speller.isMisspelled(word);
+    }
   }
 
-  public Speller getSpeller() {
-    return speller;
+  public synchronized List<String> findReplacements(String word) {
+    return speller.findReplacements(word);
   }
 
   public List<WeightedSuggestion> getSuggestions(String word) {
@@ -164,7 +166,7 @@ public class MorfologikSpeller {
     return "dist=" + maxEditDistance;
   }
 
-  public int getFrequency(String word) {
+  public synchronized int getFrequency(String word) {
     int freq = speller.getFrequency(word);
     if (freq == 0 && !word.equals(word.toLowerCase())) {
       freq = speller.getFrequency(word.toLowerCase());

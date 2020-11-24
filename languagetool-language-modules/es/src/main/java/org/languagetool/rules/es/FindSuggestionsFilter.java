@@ -18,11 +18,6 @@
  */
 package org.languagetool.rules.es;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.RuleMatch;
@@ -30,6 +25,11 @@ import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.tagging.es.SpanishTagger;
 import org.languagetool.tools.StringTools;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class FindSuggestionsFilter extends RuleFilter {
   
@@ -66,10 +66,7 @@ public class FindSuggestionsFilter extends RuleFilter {
       if (atrWord.isTagged()) {
         wordToCheck = makeWrong(atrWord.getToken());
       }
-      List<String> suggestions = new ArrayList<>();
-      synchronized (speller) { 
-        suggestions = speller.getSpeller().findReplacements(wordToCheck);
-      }
+      List<String> suggestions = speller.findReplacements(wordToCheck);
       if (suggestions.size() > 0) {
         boolean isCapitalized = StringTools.isCapitalizedWord(wordToCheck);
         //TODO: do not tag capitalized words with tags for lower case
