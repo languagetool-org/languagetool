@@ -3459,6 +3459,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="la_torna" name="la torna">
+        <pattern>
+            <token inflected="yes">ser</token>
+            <marker>
+                <token postag="DA0FS0">la</token>
+                <token postag="NCFS000">torna</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule id="tornar_a" name="tornar a/sobre">
         <pattern>
             <token><exception postag="SPS00"/></token>
@@ -9849,7 +9859,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="NCFP000">costes</token>
             </marker>
         </pattern>
-        <disambig action="filterall"></disambig>
+        <disambig action="filterall"/>
     </rule>
     <rulegroup id="verbnom_verb" name="verb/nom + verb">
         <!-- verb/nom + verb  El diu és un dispostiu, Aquella era havia estat -->
@@ -9897,6 +9907,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <!-- el pare no hi és; la porta ja s'havia tancat-->
+            <antipattern>
+                <token>si</token>
+                <token min="0">no</token>
+                <token postag="&pronom_feble;" postag_regexp="yes"/>
+                <token postag="V.[IS].*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token postag="D[DAI].*" postag_regexp="yes"/>
                 <marker>
