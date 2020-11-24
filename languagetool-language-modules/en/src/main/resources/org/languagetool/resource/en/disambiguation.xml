@@ -12793,9 +12793,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="ignore_spelling"/>
     </rule>
 
-        <rule id="SECTION_SIGN_LETTER_SPELLING" name="Ignore spelling of '§ + uppercase letter'">
+    <rule id="SECTION_SIGN_LETTER_SPELLING" name="Ignore spelling of '§ + uppercase letter'">
         <pattern case_sensitive="yes">
             <token regexp="yes">§[A-Z]</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="AD_HOMINEM_SPELLING" name="Ignore spelling of 'ad hominem'">
+        <pattern>
+            <token>ad</token>
+            <token>hominem</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -12815,5 +12823,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">@[a-z0-9]+</token>
         </pattern>
         <disambig postag="NNP" />
+    </rule>
+
+    <rule id="ABOUT_TURN" name="About Turn (NN)">
+        <pattern>
+            <marker>
+                <token>about</token>
+            </marker>
+            <token regexp="yes">turns?</token>
+        </pattern>
+        <disambig action="add"><wd pos="NN"/></disambig>
     </rule>
 </rules>
