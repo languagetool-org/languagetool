@@ -11137,6 +11137,8 @@ onwaarschijnlijk
 	<category id="CONSTRUCTIEFOUT" name="Constructiefout">
 
 		<rulegroup id="DES_TE-VREEMD" name="Vreemd woord na des te">
+			
+
 			<antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="BNW.*"/><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
 			<antipattern><token>des</token><token>te</token><token postag_regexp="yes" postag="BNW:VGR:(ONV|VRB)"/></antipattern>
 			<antipattern><token>des</token><token>te</token><token regexp="yes">meer|eerder|minder</token></antipattern>
@@ -11224,7 +11226,9 @@ onwaarschijnlijk
 		</rulegroup>
 		
 		<rulegroup id="TE-VREEMD" name="Vreemd woord na 'te'">
-			<antipattern><token>te</token><token postag="UNKNOWN"/></antipattern>
+			<antipattern><token>Nooit</token><token>ofte</token><token>nimmer</token></antipattern>
+			<antipattern><token>nooit</token><token>en</token><token>te</token><token>nimmer</token></antipattern>
+			<antipattern><token>te</token><token postag_regexp="yes" postag="UNKNOWN|ENM:LOC.*"/></antipattern>
 			<antipattern case_sensitive="yes"><token>te</token><token>Den</token><token regexp="yes">[A-Z].*</token></antipattern>
 			<antipattern><token>des</token><token>te</token><token postag="BNW:VGR:ONV"/></antipattern>
 			<antipattern><token>te</token><token postag_regexp="yes" postag="BNW:STL:VRB|BYW:JES|WKW:(VTD|ODW):VRB"/></antipattern>
@@ -11232,7 +11236,7 @@ onwaarschijnlijk
 			<antipattern><token>te</token><token postag="AHL:OPN"/></antipattern>
 			<antipattern><token>te</token><token postag_regexp="yes" postag="BNW:STL:ONV|WKW:VTD:ONV"/></antipattern>
 			<antipattern><token>te</token><token postag_regexp="yes" postag="ENM:LOC:.*"/></antipattern>
-			<antipattern><token>te</token><token regexp="yes">elfder|voet|paard|woord|meer|weinig|veel|werk|gronde|pletter|koop|huur|ruil|hulp|boven|gast|bed|buiten|hooi|pas|onpas|gras|binnen|grabbel|lijf|stade|velde|dezen|haren|allen|bekwamer|bestemder|kwader|leen|vaak|rade|niet|hoop|boek|water|kijk|beurt|over|berde|weeg|dikwijls|vriend|land|wapen|baat|vondeling|schande|makken</token></antipattern>
+			<antipattern><token>te</token><token regexp="yes">elfder|voet|paard|woord|meer|weinig|veel|werk|gronde|pletter|koop|huur|ruil|hulp|boven|gast|bed|buiten|hooi|pas|onpas|gras|binnen|grabbel|lijf|stade|velde|dezen|haren|allen|bekwamer|bestemder|kwader|leen|vaak|rade|niet|hoop|boek|water|kijk|beurt|over|berde|weeg|dikwijls|vriend|land|wapen|baat|vondeling|schande|makken|gelde</token></antipattern>
 			
 			<antipattern><token>te</token><token regexp="yes">rug|voorschijn|voren</token></antipattern><!-- frequente fouten -->
 			<antipattern><token>mis</token><token>te</token><token>verstane</token></antipattern>
