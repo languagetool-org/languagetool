@@ -79,7 +79,7 @@ public class RuleMatchesAsJsonSerializer {
    */
   public String ruleMatchesToJson(List<RuleMatch> matches, List<RuleMatch> hiddenMatches, String text, int contextSize,
                                   DetectedLanguage detectedLang, String incompleteResultsReason) {
-    return ruleMatchesToJson(matches, hiddenMatches, new AnnotatedTextBuilder().addText(text).build(), contextSize, detectedLang, incompleteResultsReason);
+    return ruleMatchesToJson(matches, hiddenMatches, new AnnotatedTextBuilder().addText(text).build(), contextSize, detectedLang, incompleteResultsReason, false);
   }
 
   /**
@@ -88,7 +88,7 @@ public class RuleMatchesAsJsonSerializer {
    * @since 4.3
    */
   public String ruleMatchesToJson(List<RuleMatch> matches, List<RuleMatch> hiddenMatches, AnnotatedText text, int contextSize,
-                                  DetectedLanguage detectedLang, String incompleteResultsReason) {
+                                  DetectedLanguage detectedLang, String incompleteResultsReason, boolean showPremiumHint) {
     ContextTools contextTools = new ContextTools();
     contextTools.setEscapeHtml(false);
     contextTools.setContextSize(contextSize);
@@ -97,7 +97,7 @@ public class RuleMatchesAsJsonSerializer {
     try {
       try (JsonGenerator g = factory.createGenerator(sw)) {
         g.writeStartObject();
-        writeSoftwareSection(g);
+        writeSoftwareSection(g, showPremiumHint);
         writeWarningsSection(g, incompleteResultsReason);
         writeLanguageSection(g, detectedLang);
         writeMatchesSection("matches", g, matches, text, contextTools);
@@ -112,7 +112,7 @@ public class RuleMatchesAsJsonSerializer {
     return sw.toString();
   }
 
-  private void writeSoftwareSection(JsonGenerator g) throws IOException {
+  private void writeSoftwareSection(JsonGenerator g, boolean showPremiumHint) throws IOException {
     if (compactMode == 1) {
       return;
     }
@@ -122,7 +122,7 @@ public class RuleMatchesAsJsonSerializer {
     g.writeStringField("buildDate", JLanguageTool.BUILD_DATE);
     g.writeNumberField("apiVersion", API_VERSION);
     g.writeBooleanField("premium", JLanguageTool.isPremiumVersion());
-    if (!JLanguageTool.isPremiumVersion()) {
+    if (showPremiumHint) {
       g.writeStringField("premiumHint", PREMIUM_HINT);
     }
     g.writeStringField("status", STATUS);

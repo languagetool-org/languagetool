@@ -51,9 +51,9 @@ class V2TextChecker extends TextChecker {
 
   @Override
   protected String getResponse(AnnotatedText text, Language usedLang, DetectedLanguage lang, Language motherTongue, List<RuleMatch> matches,
-                               List<RuleMatch> hiddenMatches, String incompleteResultsReason, int compactMode) {
+                               List<RuleMatch> hiddenMatches, String incompleteResultsReason, int compactMode, boolean showPremiumHint) {
     RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer(compactMode, usedLang);
-    return serializer.ruleMatchesToJson(matches, hiddenMatches, text, CONTEXT_SIZE, lang, incompleteResultsReason);
+    return serializer.ruleMatchesToJson(matches, hiddenMatches, text, CONTEXT_SIZE, lang, incompleteResultsReason, showPremiumHint);
   }
 
   @NotNull
