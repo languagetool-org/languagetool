@@ -46395,11 +46395,13 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token inflected="yes">werden<exception regexp="yes">geworden|werden</exception></token>
-                    <token inflected="yes">werden<exception>geworden</exception></token>
+                    <token inflected="yes">werden<exception>geworden</exception><exception scope="next" regexp="yes">\p{P}</exception></token>
                 </pattern>
                 <message>Fehlt hier evtl. ein Komma?</message>
                 <suggestion>\1, \2</suggestion>
                 <example correction="wurde, werde">Weil sie dort gesehen <marker>wurde werde</marker> ich mit ihr sprechen.</example>
+                <example>Ich denke, das wird werden.</example>
+                <example>Wenn der jüngste Tag wird werden, ...</example>
             </rule>
         </rulegroup>
         <rulegroup id="FEHLERHAFTES_KOMMA_ALLG" name="Fehlerhaftes Komma">
