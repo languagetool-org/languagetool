@@ -19,6 +19,7 @@
 package org.languagetool.tools;
 
 import com.google.common.xml.XmlEscapers;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -156,7 +157,8 @@ public final class StringTools {
    * @param str input string
    * @return true if word starts with an uppercase letter and all other letters are lowercase
    */
-  public static boolean isCapitalizedWord(String str) {
+  @Contract("null -> false")
+  public static boolean isCapitalizedWord(@Nullable String str) {
     if (!isEmpty(str) && Character.isUpperCase(str.charAt(0))) {
       for (int i = 1; i < str.length(); i++) {
         char c = str.charAt(i);
@@ -196,8 +198,9 @@ public final class StringTools {
    * characters, such as quotes or parentheses, the first character is 
    * determined as the first alphabetic character.
    */
+  @Contract("!null -> !null")
   @Nullable
-  public static String uppercaseFirstChar(String str) {
+  public static String uppercaseFirstChar(@Nullable String str) {
     return changeFirstCharCase(str, true);
   }
 
@@ -207,8 +210,9 @@ public final class StringTools {
    * @param language the language, will be ignored if it's {@code null}
    * @since 2.7
    */
+  @Contract("!null, _ -> !null")
   @Nullable
-  public static String uppercaseFirstChar(String str, Language language) {
+  public static String uppercaseFirstChar(@Nullable String str, Language language) {
     if (language != null && "nl".equals(language.getShortCode()) && str != null && str.toLowerCase().startsWith("ij")) {
       // hack to fix https://github.com/languagetool-org/languagetool/issues/148
       return "IJ" + str.substring(2);
@@ -223,8 +227,9 @@ public final class StringTools {
    * characters, such as quotes or parentheses, the first character is 
    * determined as the first alphabetic character.
    */
+  @Contract("!null -> !null")
   @Nullable
-  public static String lowercaseFirstChar(String str) {
+  public static String lowercaseFirstChar(@Nullable String str) {
     return changeFirstCharCase(str, false);
   }
 
@@ -233,7 +238,9 @@ public final class StringTools {
    * otherwise return modified <code>str</code> so that its first character
    * is now a lowercase character.
    */
-  public static String lowercaseFirstCharIfCapitalized(String str) {
+  @Contract("!null, -> !null")
+  @Nullable
+  public static String lowercaseFirstCharIfCapitalized(@Nullable String str) {
     if (!isCapitalizedWord(str)) return str;
     return changeFirstCharCase(str, false);
   }
@@ -245,8 +252,9 @@ public final class StringTools {
    * characters, such as quotes or parentheses, the first character is 
    * determined as the first alphabetic character.
    */
+  @Contract("!null, _ -> !null")
   @Nullable
-  private static String changeFirstCharCase(String str, boolean toUpperCase) {
+  private static String changeFirstCharCase(@Nullable String str, boolean toUpperCase) {
     if (isEmpty(str)) {
       return str;
     }
@@ -456,7 +464,7 @@ public final class StringTools {
    * @param str String to check
    * @return true if string is empty or {@code null}
    */
-  public static boolean isEmpty(String str) {
+  public static boolean isEmpty(@Nullable String str) {
     return str == null || str.length() == 0;
   }
 
