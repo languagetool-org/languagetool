@@ -129,6 +129,8 @@ public class LanguageSpecificTest {
   private final static Map<String, Integer> idToExpectedMatches = new HashMap<>();
   static {
     idToExpectedMatches.put("STYLE_REPEATED_WORD_RULE_DE", 2);
+    idToExpectedMatches.put("STYLE_REPEATED_SHORT_SENTENCES", 3);
+    idToExpectedMatches.put("STYLE_REPEATED_SENTENCE_BEGINNING", 3);
   }
   private void testJavaRules(String onlyRunCode) throws IOException {
     Map<String,String> idsToClassName = new HashMap<>();
