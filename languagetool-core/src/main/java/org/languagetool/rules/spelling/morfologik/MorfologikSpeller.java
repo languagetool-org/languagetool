@@ -99,6 +99,14 @@ public class MorfologikSpeller {
     return speller.findReplacements(word);
   }
 
+  /**
+   * @deprecated use (or introduce) other methods to this class which would take care of the necessary synchronization
+   */
+  @Deprecated
+  public Speller getSpeller() {
+    return speller;
+  }
+
   public List<WeightedSuggestion> getSuggestions(String word) {
     List<WeightedSuggestion> suggestions = new ArrayList<>();
     // needs to be reset every time, possible bug: HMatrix for distance computation is not reset;
