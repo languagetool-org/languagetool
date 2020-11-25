@@ -98,7 +98,7 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
   @Override
   protected boolean isTokenException(AnalyzedTokenReadings atr) {
     // proper nouns tagged in multiwords are exceptions
-    return atr.hasPosTagStartingWith("NP") || atr.isImmunized() || atr.isIgnoredBySpeller();
+    return atr.hasPosTagStartingWith("NP") || atr.isImmunized();
   }
 
 }

@@ -5830,7 +5830,7 @@ MARCOAGPINTO 2020-02-18 -->
         </marker>
           <token negate_pos='yes' postag_regexp='yes' postag='V.[^P].+'/>
       </pattern>
-      <message>Certos pronomes relativos, conjunções subordinativas e advérbios  devem ser seguidos de próclise.</message>
+      <message>Certos pronomes relativos, conjunções subordinativas e advérbios devem ser seguidos de próclise.</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> \5 \3</suggestion>
       <example correction='Quem lhe contou'><marker>Quem contou-lhe</marker> essa notícia?</example>
       <example correction='que ela lhe tenha'>É natural <marker>que ela tenha-lhe</marker> dado notícia.</example>
@@ -6056,7 +6056,8 @@ MARCOAGPINTO 2020-02-18 -->
           <token inflected="yes" regexp="yes"><!--seguro|certo|farto-->alegre|triste|entristecer|surpreender|convencer|preocupar|cansar|aborrecer</token>
           <token>que</token>
       </pattern>
-      <message>Neste contexto, o verbo é seguido normalmente da preposição 'de':  <suggestion>\1 \2 de \3</suggestion></message>
+      <message>Neste contexto, o verbo é seguido normalmente da preposição 'de'.</message>
+      <suggestion>\1 \2 de \3</suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/uso-de-de-que-de-novo-queismo-e-dequeismo/19156</url>
       <short>Possível queísmo</short>
       <example correction="Estamos alegres de que"><marker>Estamos alegres que</marker> falta pouco para acabar.</example>
@@ -6070,7 +6071,8 @@ MARCOAGPINTO 2020-02-18 -->
             <exception postag="VM..3.." postag_regexp="yes"/></token>
           <token>que</token>
       </pattern>
-      <message>Neste contexto, o verbo é seguido normalmente da preposição 'de':  <suggestion>\1 \2 de que</suggestion></message>
+      <message>Neste contexto, o verbo é seguido normalmente da preposição 'de'.</message>
+      <suggestion>\1 \2 de que</suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/uso-de-de-que-de-novo-queismo-e-dequeismo/19156</url>
       <short>Possível queísmo</short>
       <example correction="Me preocupo de que"><marker>Me preocupo que</marker> haja comida para todos.</example>
@@ -32372,7 +32374,11 @@ TODO Write better examples
         <token />
         <token>-</token>
         <token spacebefore="no" regexp="yes">(?:&barbarismos;|&barbarismos2;|&barbarismos3;)s?</token>
-      </antipattern>	  
+      </antipattern>
+      <antipattern>
+        <token>curriculum</token>
+        <token>vitae</token>
+      </antipattern>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:&barbarismos;|&barbarismos2;|&barbarismos3;)s?
             <exception regexp='yes'>(?:bit|kilo(?:bit|byte|volt|watt)|giga(?:byte|watt)|quilohertz|out)s?|versus</exception></token><!-- XXX remove after regenerating regexp -->
@@ -32529,7 +32535,7 @@ TODO Write better examples
           <token>gente</token>
         </marker>
       </pattern>
-      <message>O uso de "a gente" pode ser interpretado como desrespeitoso. Considere remover  ou substituí-lo pelo pronome de tratamente mais adequado.</message>
+      <message>O uso de "a gente" pode ser interpretado como desrespeitoso. Considere remover ou substituí-lo pelo pronome de tratamente mais adequado.</message>
         <suggestion>nós</suggestion>
         <suggestion/>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/connosco-com-a-gente-e-com-nos-no-portugues-europeu/26842</url>
@@ -32548,7 +32554,7 @@ TODO Write better examples
         </marker>
           <token postag="V.+" postag_regexp='yes'/>
       </pattern>
-      <message>O uso de "a gente" pode ser interpretado como desrespeitoso. Considere remover  ou substituí-lo pelo pronome de tratamente mais adequado.</message>
+      <message>O uso de "a gente" pode ser interpretado como desrespeitoso. Considere remover ou substituí-lo pelo pronome de tratamente mais adequado.</message>
         <suggestion/>
         <suggestion>nós</suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/connosco-com-a-gente-e-com-nos-no-portugues-europeu/26842</url>
