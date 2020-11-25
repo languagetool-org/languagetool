@@ -18,9 +18,6 @@
  */
 package org.languagetool.rules;
 
-import com.google.common.base.Suppliers;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
@@ -31,10 +28,8 @@ import org.languagetool.tools.StringTools;
 
 import java.net.URL;
 import java.util.*;
-import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * Information about an error rule that matches text and the position of the match.
@@ -54,7 +49,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   private OffsetPosition offsetPosition;
   private LinePosition linePosition = new LinePosition(-1, -1);
   private ColumnPosition columnPosition = new ColumnPosition(-1, -1);
-  private Supplier<List<SuggestedReplacement>> suggestedReplacements;
+  private List<SuggestedReplacement> suggestedReplacements = new ArrayList<>();
   private URL url;
   private Type type = Type.Other;
   private SortedMap<String, Float> features = Collections.emptySortedMap();
@@ -143,14 +138,13 @@ public class RuleMatch implements Comparable<RuleMatch> {
     if (toPos <= fromPos) {
       throw new IllegalArgumentException("fromPos (" + fromPos + ") must be less than toPos (" + toPos + ")");
     }
-    patternPosition = new PatternPosition(patternFromPos, patternToPos);
-    offsetPosition = new OffsetPosition(fromPos, toPos);
+    this.patternPosition = new PatternPosition(patternFromPos, patternToPos);
+    this.offsetPosition = new OffsetPosition(fromPos, toPos);
     this.message = Objects.requireNonNull(message);
     this.shortMessage = shortMessage;
     // extract suggestion from <suggestion>...</suggestion> in message:
     Matcher matcher = SUGGESTION_PATTERN.matcher(message + suggestionsOutMsg);
     int pos = 0;
-    LinkedHashSet<SuggestedReplacement> replacements = new LinkedHashSet<>();
     while (matcher.find(pos)) {
       pos = matcher.end();
       String replacement = matcher.group(1);
@@ -160,7 +154,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
       if (startWithUppercase) {
         replacement = StringTools.uppercaseFirstChar(replacement);
       }
-      replacements.add(new SuggestedReplacement(replacement));
+      SuggestedReplacement repl = new SuggestedReplacement(replacement);
       /*if (getRule() instanceof AbstractPatternRule) {
         String covered = sentence.getText().substring(fromPos, toPos);
         if (covered.equals(repl.getReplacement()) && ((AbstractPatternRule) getRule()).getFilter() == null) {
@@ -169,40 +163,40 @@ public class RuleMatch implements Comparable<RuleMatch> {
           System.out.println("WARN: suggestion == covered text for rule " + getRule().getFullId());
         }
       }*/
+      if (!suggestedReplacements.contains(repl)) {
+        suggestedReplacements.add(repl);
+      }
     }
     this.sentence = sentence;
-
-    suggestedReplacements = Suppliers.ofInstance(new ArrayList<>(replacements));
   }
 
-  @SuppressWarnings("CopyConstructorMissesField")
   public RuleMatch(RuleMatch clone) {
     this(clone.getRule(), clone.getSentence(), clone.getFromPos(), clone.getToPos(), clone.getMessage(), clone.getShortMessage());
-    setPatternPosition(clone.getPatternFromPos(), clone.getPatternToPos());
-    suggestedReplacements = clone.suggestedReplacements;
-    setAutoCorrect(clone.isAutoCorrect());
-    setFeatures(clone.getFeatures());
-    setUrl(clone.getUrl());
-    setType(clone.getType());
-    setLine(clone.getLine());
-    setEndLine(clone.getEndLine());
-    setColumn(clone.getColumn());
-    setEndColumn(clone.getEndColumn());
+    this.setPatternPosition(clone.getPatternFromPos(), clone.getPatternToPos());
+    this.setSuggestedReplacementObjects(clone.getSuggestedReplacementObjects());
+    this.setAutoCorrect(clone.isAutoCorrect());
+    this.setFeatures(clone.getFeatures());
+    this.setUrl(clone.getUrl());
+    this.setType(clone.getType());
+    this.setLine(clone.getLine());
+    this.setEndLine(clone.getEndLine());
+    this.setColumn(clone.getColumn());
+    this.setEndColumn(clone.getEndColumn());
   }
   
   //clone with new replacements
   public RuleMatch(RuleMatch clone, List<String> replacements) {
     this(clone.getRule(), clone.getSentence(), clone.getFromPos(), clone.getToPos(), clone.getMessage(), clone.getShortMessage());
-    setPatternPosition(clone.getPatternFromPos(), clone.getPatternToPos());
-    setSuggestedReplacements(replacements);
-    setAutoCorrect(clone.isAutoCorrect());
-    setFeatures(clone.getFeatures());
-    setUrl(clone.getUrl());
-    setType(clone.getType());
-    setLine(clone.getLine());
-    setEndLine(clone.getEndLine());
-    setColumn(clone.getColumn());
-    setEndColumn(clone.getEndColumn());
+    this.setPatternPosition(clone.getPatternFromPos(), clone.getPatternToPos());
+    this.setSuggestedReplacements(replacements);
+    this.setAutoCorrect(clone.isAutoCorrect());
+    this.setFeatures(clone.getFeatures());
+    this.setUrl(clone.getUrl());
+    this.setType(clone.getType());
+    this.setLine(clone.getLine());
+    this.setEndLine(clone.getEndLine());
+    this.setColumn(clone.getColumn());
+    this.setEndColumn(clone.getEndColumn());
   }
 
   @NotNull
@@ -269,7 +263,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * @deprecated (deprecated since 3.5)
    */
   public void setColumn(int column) {
-    columnPosition = new ColumnPosition(column, columnPosition.getEnd());
+    this.columnPosition = new ColumnPosition(column, columnPosition.getEnd());
   }
 
   /**
@@ -285,7 +279,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * @deprecated (deprecated since 3.5)
    */
   public void setEndColumn(int endColumn) {
-    columnPosition = new ColumnPosition(columnPosition.getStart(), endColumn);
+    this.columnPosition = new ColumnPosition(columnPosition.getStart(), endColumn);
   }
 
   /**
@@ -361,14 +355,19 @@ public class RuleMatch implements Comparable<RuleMatch> {
   
   public void addSuggestedReplacement(String replacement) {
     Objects.requireNonNull(replacement, "replacement may be empty but not null");
-    addSuggestedReplacements(Collections.singletonList(replacement));
+    List<String> l = new ArrayList<>();
+    for (SuggestedReplacement repl : suggestedReplacements) {
+      l.add(repl.getReplacement());
+    }
+    l.add(replacement);
+    setSuggestedReplacements(l);
   }
 
   public void addSuggestedReplacements(List<String> replacements) {
     Objects.requireNonNull(replacements, "replacements may be empty but not null");
-    Supplier<List<SuggestedReplacement>> prev = suggestedReplacements;
-    setLazySuggestedReplacements(() ->
-      Lists.newArrayList(Iterables.concat(prev.get(), Iterables.transform(replacements, SuggestedReplacement::new))));
+    for (String replacement : replacements) {
+      this.suggestedReplacements.add(new SuggestedReplacement(replacement));
+    }
   }
   /**
    * The text fragments which might be an appropriate fix for the problem. One
@@ -377,9 +376,11 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * @return unmodifiable list of String objects or an empty List
    */
   public List<String> getSuggestedReplacements() {
-    return Collections.unmodifiableList(
-      suggestedReplacements.get().stream().map(SuggestedReplacement::getReplacement).collect(Collectors.toList())
-    );
+    List<String> l = new ArrayList<>();
+    for (SuggestedReplacement repl : suggestedReplacements) {
+      l.add(repl.getReplacement());
+    }
+    return Collections.unmodifiableList(l);
   }
 
   /**
@@ -387,33 +388,21 @@ public class RuleMatch implements Comparable<RuleMatch> {
    */
   public void setSuggestedReplacements(List<String> replacements) {
     Objects.requireNonNull(replacements, "replacements may be empty but not null");
-    suggestedReplacements = Suppliers.ofInstance(
-      replacements.stream().map(SuggestedReplacement::new).collect(Collectors.toList())
-    );
+    this.suggestedReplacements.clear();
+    for (String replacement : replacements) {
+      this.suggestedReplacements.add(new SuggestedReplacement(replacement));
+    }
   }
 
   public List<SuggestedReplacement> getSuggestedReplacementObjects() {
-    return Collections.unmodifiableList(suggestedReplacements.get());
+    return Collections.unmodifiableList(suggestedReplacements);
   }
 
   /**
    * @see #getSuggestedReplacements()
    */
   public void setSuggestedReplacementObjects(List<SuggestedReplacement> replacements) {
-    Objects.requireNonNull(replacements, "replacements may be empty but not null");
-    suggestedReplacements = Suppliers.ofInstance(replacements);
-  }
-
-  /**
-   * Set a lazy supplier that will compute suggested replacements
-   * when {@link #getSuggestedReplacements()} or {@link #getSuggestedReplacementObjects()} is called.
-   * This can be used to speed up sentence analysis
-   * in cases when computationally expensive replacements won't necessarily be needed
-   * (e.g. for an IDE in the same process).
-   */
-  public void setLazySuggestedReplacements(@NotNull Supplier<List<SuggestedReplacement>> replacements) {
-    Objects.requireNonNull(replacements, "replacements may not be null");
-    suggestedReplacements = Suppliers.memoize(replacements::get);
+    this.suggestedReplacements = Objects.requireNonNull(replacements, "replacements may be empty but not null");
   }
 
   /**
@@ -442,7 +431,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * @since 4.3
    */
   public Type getType() {
-    return type;
+    return this.type;
   }
   
   /**
@@ -467,7 +456,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   /** Compare by start position. */
   @Override
-  public int compareTo(@NotNull RuleMatch other) {
+  public int compareTo(RuleMatch other) {
     Objects.requireNonNull(other);
     return Integer.compare(getFromPos(), other.getFromPos());
   }
@@ -481,13 +470,14 @@ public class RuleMatch implements Comparable<RuleMatch> {
         && Objects.equals(patternPosition, other.patternPosition)
         && Objects.equals(offsetPosition, other.offsetPosition)
         && Objects.equals(message, other.message)
+        && Objects.equals(suggestedReplacements, other.suggestedReplacements)
         && Objects.equals(sentence, other.sentence)
         && Objects.equals(type, other.type);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(rule.getId(), offsetPosition, patternPosition, message, sentence, type);
+    return Objects.hash(rule.getId(), offsetPosition, patternPosition, message, suggestedReplacements, sentence, type);
   }
 
   /**
