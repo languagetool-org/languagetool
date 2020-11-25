@@ -19,13 +19,15 @@
 
 package org.languagetool.rules;
 
-import java.text.MessageFormat;
-import java.util.*;
-import java.util.regex.Pattern;
-
+import com.google.common.base.Suppliers;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+
+import java.text.MessageFormat;
+import java.util.*;
+import java.util.function.Supplier;
+import java.util.regex.Pattern;
 
 /**
  * Rule that finds unpaired quotes, brackets etc.
@@ -172,16 +174,23 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
         }
       }
     }
+    Supplier<String> lazyFullText = Suppliers.memoize(() -> {
+      StringBuilder fullText = new StringBuilder();
+      for (AnalyzedSentence aSentence : sentences) {
+        fullText.append(aSentence.getText());
+      }
+      return fullText.toString();
+    });
     if (isSymmetric) {
       RuleMatch rMatch = createMatch(ruleMatches, ruleMatchStack, symbolStack.get(ssSize / 2).getStartPos(),
-          symbolStack.get(ssSize / 2).getSymbol(), symbolStack.get(ssSize / 2).getSentence(), sentences);
+          symbolStack.get(ssSize / 2).getSymbol(), symbolStack.get(ssSize / 2).getSentence(), lazyFullText);
       if (rMatch != null) {
         ruleMatches.add(rMatch);
       }
     } else {
       for (SymbolLocator sLoc : symbolStack) {
         RuleMatch rMatch = createMatch(ruleMatches, ruleMatchStack, sLoc.getStartPos(), sLoc.getSymbol(),
-            sLoc.getSentence(), sentences);
+            sLoc.getSentence(), lazyFullText);
         if (rMatch != null) {
           ruleMatches.add(rMatch);
         }
@@ -274,7 +283,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
   }
 
   @Nullable
-  private RuleMatch createMatch(List<RuleMatch> ruleMatches, UnsyncStack<SymbolLocator> ruleMatchStack, int startPos, String symbol, AnalyzedSentence sentence, List<AnalyzedSentence> sentences) {
+  private RuleMatch createMatch(List<RuleMatch> ruleMatches, UnsyncStack<SymbolLocator> ruleMatchStack, int startPos, String symbol, AnalyzedSentence sentence, Supplier<String> lazyFullText) {
     if (!ruleMatchStack.empty()) {
       int index = endSymbols.indexOf(symbol);
       if (index >= 0) {
@@ -291,10 +300,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     ruleMatchStack.push(new SymbolLocator(symbol, ruleMatches.size(), startPos, sentence));
     String otherSymbol = findCorrespondingSymbol(symbol);
     String message = MessageFormat.format(messages.getString("unpaired_brackets"), otherSymbol);
-    StringBuilder fullText =new StringBuilder();
-    for (AnalyzedSentence aSentence : sentences) {
-      fullText.append(aSentence.getText());
-    }
+    String fullText = lazyFullText.get();
     if (startPos + symbol.length() < fullText.length()) {
       if (startPos >= 2 && startPos + symbol.length() < fullText.length()) {
         String context = fullText.substring(startPos - 2, startPos + symbol.length());
