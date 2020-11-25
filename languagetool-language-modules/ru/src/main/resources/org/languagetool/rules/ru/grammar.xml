@@ -10451,9 +10451,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>по</token>
                 <token postag="VB:.*" postag_regexp="yes" ><exception postag="VB:.*" postag_regexp="yes" negate_pos="yes" ></exception><exception regexp="yes" >по(.*)</exception></token>
             </pattern>
+        <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
+                args="no:2 regexp:(.*) postag_regexp:(VB:.*) prefix:по suffix:  "/>      <!--   Test if word with "по" exist! -->
             <message>Пишется слитно: <suggestion>\1\2</suggestion></message>
             <short>Пишется слитно</short>
             <example>Южнокорейский консорциум может поучаствовать в проекте.</example>
+            <example>Он хочет по идти в кругосветное путешествие.</example> <!-- Incorrect example, but for another rules!!! -->
             <example correction="поучаствовать">Южнокорейский консорциум может <marker>по участвовать</marker> в проекте.</example>
         </rule>
         <rule id="Potok_and_Noun" name="Словосочетание: «поток» и существительное">
