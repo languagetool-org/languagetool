@@ -50,7 +50,6 @@ import java.util.stream.Collectors;
  * @author Marcin Miłkowski
  */
 public class HunspellRule extends SpellingCheckRule {
-  private static final Logger logger = LoggerFactory.getLogger(HunspellRule.class);
 
   public static final String RULE_ID = "HUNSPELL_RULE";
 
