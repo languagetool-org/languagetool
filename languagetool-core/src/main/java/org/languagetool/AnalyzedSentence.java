@@ -180,11 +180,21 @@ public final class AnalyzedSentence {
     return toString(readingDelimiter, false);
   }
 
+  private volatile String text;
+
   /**
    * Return the original text.
    * @since 2.7
    */
   public String getText() {
+    String result = text;
+    if (text == null) {
+      text = result = calcText();
+    }
+    return result;
+  }
+
+  private String calcText() {
     StringBuilder sb = new StringBuilder();
     for (AnalyzedTokenReadings element : tokens) {
       sb.append(element.getToken());
