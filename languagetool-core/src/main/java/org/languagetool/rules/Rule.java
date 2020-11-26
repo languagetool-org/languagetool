@@ -307,7 +307,7 @@ public abstract class Rule {
   /**
    * @return a category (never null since LT 3.4)
    */
-  public final Category getCategory() {
+  public Category getCategory() {
     return category;
   }
 
