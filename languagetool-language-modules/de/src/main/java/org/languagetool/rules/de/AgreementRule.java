@@ -819,6 +819,12 @@ public class AgreementRule extends Rule {
       token(":"),
       csToken("D")
     ),
+    Arrays.asList(
+      tokenRegex("ist|war(en)?|sind"),
+      csToken("das"),
+      csToken("reine"),
+      tokenRegex("Spekulation(en)?|Vorsichtsma(ß|ss)nahmen?|Makulatur(en)?")
+    ),
     Arrays.asList( // Eine Android Watch
       csToken("Android"),
       tokenRegex("Wear|Watch(es)?|Smartwatch(es)?|OS")

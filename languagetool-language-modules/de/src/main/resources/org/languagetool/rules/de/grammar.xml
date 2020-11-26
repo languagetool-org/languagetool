@@ -10146,12 +10146,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Browser-Add-on">Er hat das <marker>Browser Add on</marker> von LanguageTool installiert.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">addons?</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no" regexp="yes">[a-z0-9\-]+</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">Addons?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Add-<match no="1" regexp_match="(?i)add" regexp_replace="" case_conversion="alllower" /></suggestion> (= Erweiterung, Zubehörteil)?</message>
                 <short>Zusammenschreibung</short>
                 <example correction="Add-on">Er hat das <marker>AddOn</marker> von LanguageTool im Browser installiert.</example>
+                <example>Sie können es unter addons.mozilla.org installieren.</example>
             </rule>
             <rule>
                 <pattern>
@@ -35280,6 +35286,28 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="FUER_INBESONDERE" name="für inbesondere (für besonders)" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">für|(da)?mit|ohne|auf|unter</token>
+                    <token>insbesondere</token>
+                </marker>
+                <token postag="ADJ:.*" postag_regexp="yes" min="0" />
+                <token postag="SUB:.*" postag_regexp="yes" />
+            </pattern>
+            <message>Hier scheint die Wortreihenfolge nicht zu stimmen.</message>
+            <suggestion>\2 \1</suggestion>
+            <suggestion>\1 besonders</suggestion>
+            <example correction="insbesondere für|für besonders">Das ist der Fall <marker>für insbesondere</marker> schwere Aufgaben.</example>
+        </rule>
+        <rule id="INBESONDERS" name="inbesonders (inbesondere / besonders)" default="temp_off">
+            <pattern>
+                <token>insbesonders</token>
+            </pattern>
+            <message>Bei "\1" handelt es sich um eine nicht korrekte Kontamination (Verschmelzung) aus <suggestion>insbesondere</suggestion> und <suggestion>besonders</suggestion>.</message>
+            <url>https://www.korrekturen.de/beliebte_fehler/insbesonders.shtml</url>
+            <example correction="insbesondere|besonders">Er fiel ihnen auf, <marker>insbesonders</marker> durch sein verdächtiges Verhalten.</example>
+        </rule>
         <rule id="ZAL_MAL" name="Fehlender Bindestrich in '10 mal'">
             <antipattern>
                 <token regexp="yes">\d+</token>
