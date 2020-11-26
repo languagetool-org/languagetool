@@ -9596,6 +9596,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Требуется родительный падеж</short>
             <example correction="избежал встречи">Он <marker>избежал встречу</marker>.</example>
         </rule>
+        
+        <rule id="Verb_and_PNN_Nom" name="Глагольное управление (местоимение)" default="temp_off">
+            <pattern>
+                <token postag="VB:Real:TRANS:IMPFV:.*:.*"  postag_regexp="yes"></token>
+                <token postag="PNN:.*:Nom:P3" postag_regexp="yes" ></token>
+            </pattern>
+            <message>Неверное управление</message>
+            <example correction=""><marker>Люблю он</marker></example>
+            <example>Люблю его</example>
+        </rule>
         <rule id="Verb_and_wo_P" name="Глагольное управление (падеж)">
         <!--TODO   необходимо использовать грамматические характеристики глагола (переходный/непереходный) -->            
 	        <antipattern>
@@ -11021,7 +11031,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>А с XII в. — шнеккеры.</example>
             <example>А с XII в.</example>
         </rule>
-        <rule id="PNN_ON_END" name="Местоимение в конце предложения">
+        <rule id="PNN_ON_END" name="Местоимение в конце предложения" tags="picky">
             <!--      Заканчивать предложение местоимением – дурной стиль, не для этого оно.  -->
             <pattern case_sensitive="yes">
                 <token regexp="yes">он|она|оно<exception postag='VB:.*' postag_regexp='yes' scope='previous'></exception><exception scope='previous'>как</exception></token>
@@ -11034,7 +11044,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ты ужасный человек, - сказала она.</example>
             <example>Сделать меня таким, как он.</example>
         </rule>
-        <rulegroup default="on" id="missing_noun_at_end" name="Опущено существительное">
+        <rulegroup default="on" id="missing_noun_at_end" name="Опущено существительное" tags="picky">
             <rule>
                 <antipattern>
                         <token postag="VB:.*" postag_regexp="yes"></token>
