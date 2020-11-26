@@ -75,5 +75,7 @@ public class SpanishWordTokenizerTest {
     assertEquals(tokens.size(), 7);
     assertEquals("[11.as,  , Jornadas,  , de,  , Estudio]", tokens.toString());
     
+    tokens = wordTokenizer.tokenize("al-Ándalus");
+    assertEquals(tokens.size(), 1);
   }
 }

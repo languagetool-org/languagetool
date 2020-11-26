@@ -18,15 +18,14 @@
  */
 package org.languagetool.tokenizers.es;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.languagetool.JLanguageTool;
-import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
+import org.languagetool.tagging.es.SpanishTagger;
 import org.languagetool.tokenizers.WordTokenizer;
 
 /**
@@ -36,10 +35,7 @@ import org.languagetool.tokenizers.WordTokenizer;
  * @author Juan Martorell
  */
 public class SpanishWordTokenizer extends WordTokenizer {
-
-  protected MorfologikSpeller speller;
-
-  private static final String DICT_FILENAME = "/es/es-ES.dict";
+  
   //decimal point between digits
   private static final Pattern DECIMAL_POINT= Pattern.compile("([\\d])\\.([\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   // decimal comma between digits
@@ -47,15 +43,10 @@ public class SpanishWordTokenizer extends WordTokenizer {
   // ordinals
   private static final Pattern ORDINAL_POINT= Pattern.compile("\\b([\\d]+)\\.(º|ª|o|a|er|os|as)\\b",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   
+  private final SpanishTagger tagger; 
 
   public SpanishWordTokenizer() {
-    if (JLanguageTool.getDataBroker().resourceExists(DICT_FILENAME)) {
-      try {
-        speller = new MorfologikSpeller(DICT_FILENAME);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-    }
+    tagger = new SpanishTagger();
   }
 
   @Override
@@ -102,7 +93,7 @@ public class SpanishWordTokenizer extends WordTokenizer {
           l.add(s);
         } else {
           // words containing hyphen (-) are looked up in the dictionary
-          if (!speller.isMisspelled(s.replace("’", "'"))) {
+          if (tagger.tag(Arrays.asList(s.replace("’", "'"))).get(0).isTagged()) {
             l.add(s);
           }
           // some camel-case words containing hyphen (is there any better fix?)
