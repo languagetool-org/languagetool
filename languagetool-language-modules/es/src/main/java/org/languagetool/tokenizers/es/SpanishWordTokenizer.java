@@ -44,6 +44,9 @@ public class SpanishWordTokenizer extends WordTokenizer {
   private static final Pattern DECIMAL_POINT= Pattern.compile("([\\d])\\.([\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   // decimal comma between digits
   private static final Pattern DECIMAL_COMMA= Pattern.compile("([\\d]),([\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  // ordinals
+  private static final Pattern ORDINAL_POINT= Pattern.compile("\\b([\\d]+)\\.(º|ª|o|a|er|os|as)\\b",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  
 
   public SpanishWordTokenizer() {
     if (JLanguageTool.getDataBroker().resourceExists(DICT_FILENAME)) {
@@ -61,9 +64,11 @@ public class SpanishWordTokenizer extends WordTokenizer {
     String auxText=text;
 
     Matcher matcher=DECIMAL_POINT.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001CA_DECIMALPOINT\u0001\u0001$2");
+    auxText = matcher.replaceAll("$1\u0001\u0001ES_DECIMAL_POINT\u0001\u0001$2");
     matcher = DECIMAL_COMMA.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001CA_DECIMALCOMMA\u0001\u0001$2");
+    auxText = matcher.replaceAll("$1\u0001\u0001ES_DECIMAL_COMMA\u0001\u0001$2");
+    matcher = ORDINAL_POINT.matcher(auxText);
+    auxText = matcher.replaceAll("$1\u0001\u0001ES_ORDINAL_POINT\u0001\u0001$2");
 
     StringTokenizer st = new StringTokenizer(auxText, "\u0020\u00A0\u115f\u1160\u1680"
         + "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007" 
@@ -79,8 +84,9 @@ public class SpanishWordTokenizer extends WordTokenizer {
 
     while (st.hasMoreElements()) {
       s = st.nextToken()
-              .replace("\u0001\u0001CA_DECIMALPOINT\u0001\u0001", ".")
-              .replace("\u0001\u0001CA_DECIMALCOMMA\u0001\u0001", ",");
+              .replace("\u0001\u0001ES_DECIMAL_POINT\u0001\u0001", ".")
+              .replace("\u0001\u0001ES_DECIMAL_COMMA\u0001\u0001", ",")
+              .replace("\u0001\u0001ES_ORDINAL_POINT\u0001\u0001", ".");
       l.addAll(wordsToAdd(s));   
       
     }
