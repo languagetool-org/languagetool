@@ -6627,6 +6627,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="sputen">Ich muss mich jetzt <marker>spurten</marker>!</example>
             <example correction="sputen">Ich muss mich jetzt aber <marker>spurten</marker>!</example>
         </rule>
+        <rulegroup id="ZU_TUN" name="zu tun (Zutun)">
+		    <url>https://de.wiktionary.org/wiki/Zutun</url>
+            <rule default="temp_off">
+                <pattern>
+                    <token>ohne</token>
+                    <token min="0" inflected="yes" regexp="yes">mein|eigen</token>
+                    <marker>
+                        <token>zu</token>
+                        <token>tun</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;hier das Nomen <suggestion>Zutun</suggestion> (=Hilfe) stehen sollte.</message>
+                <short>&getrennt;.</short>
+				<example correction="Zutun">Ohne sein <marker>zu tun</marker> hätte ich es nicht geschafft.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>ohne</token>
+                    <token min="0" inflected="yes" regexp="yes">mein|eigen</token>
+                    <marker><token case_sensitive="yes">zutun</token></marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Zutun</suggestion>&subende;</message>
+				<short>&prgk;.</short>
+                <example correction="Zutun">Ohne sein <marker>zutun</marker> hätte ich es nicht geschafft.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ZUPASSKOMMEN" name="zu Pass kommen (zupasskomen)">
             <!--<url>http://www.canoonet.eu/inflection/zupassekommen:V:sein:New-Only:Adv+V</url>-->
             <rule>
@@ -21192,6 +21218,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.korrekturen.de/beliebte_fehler/auf_halbmast.shtml</url>
             <example correction="halbmast">Die Flagge weht auf <marker>Halbmast</marker>.</example>
         </rule>
+        <rulegroup id="DER_ERSTE" name="der erste (Erste)">
+            <url>https://grammis.ids-mannheim.de/rechtschreibung/6194#par57-1</url>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes" regexp="yes">der|jed<exception scope="previous" regexp="yes">[;:]</exception></token>
+                    <token postag="ADV:MOD" min="0"></token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|zehn)te</token>
+                    </marker>
+                    <token postag="PKT"/>
+                    <token postag_regexp="yes" postag="PRO.+|ADV:PRO"></token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <example correction="Erste">Das <marker>erste</marker>, worauf er achtet, ist dein Benehmen.</example>
+                <example correction="Erste">Das wirklich <marker>erste</marker>, worauf er achtet, ist dein Benehmen.</example>
+                <example>1912 endete der zweite, beschränkte Wettbewerb.</example>
+                <example>1883 wird sein erster Sohn Leopoldo geboren, 1887 der zweite, Adolfo.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token skip="1" regexp="yes">[,;:]</token>
+                    <token inflected="yes" regexp="yes">der|jed</token>
+                    <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun)te</token>
+                    <token regexp="yes">[.?!,]</token>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes" regexp="yes">der|jed</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun)te</token>
+                    </marker>
+                    <token regexp="yes">[.?!,]|im</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <example correction="Dritte">Wenn zwei sich streiten, freut sich der <marker>dritte</marker>.</example>
+                <example>1421 war die erste Schlacht, 1434 die zweite.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ZUM_EINEN" name="zum Einen (einen), zum Anderen (anderen)">
             <url>https://www.korrekturen.de/beliebte_fehler/zum_einen_zum_anderen.shtml</url>
             <rule>
