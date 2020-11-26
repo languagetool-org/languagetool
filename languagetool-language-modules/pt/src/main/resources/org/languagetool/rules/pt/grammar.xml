@@ -34639,6 +34639,97 @@ TODO Write better examples
 		<example correction="ao sentir|por sentir">Comentei o sucedido <marker>porque senti</marker> os efeitos rapidamente.</example>  
 	</rule>
 	
+    <rulegroup id='QUE_VERBO' name='Que + Verbo > Verbo_inf'>
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-26 (21-OCT-2020+)     -->
+<!--
+=EU=
+Afirmei a minha inocência alegando que era canhoto.
+=TU=
+Afirmaste a tua inocência alegando que eras canhoto.
+=NÓS=
+Afirmámos a nossa inocência alegando que éramos canhotos.
+=VÓS/VOCÊS/ELES=
+Afirmaram a vossa inocência alegando que eram canhotos.
+-->	
+
+	  <!-- EU/ELE -> QUE ERA -->
+	  <rule>
+		<antipattern>
+			<token postag='SPS.+|NC.+|AQ.+' postag_regexp='yes'>
+			<exception>ser</exception></token>
+			<token regexp='no'>que</token>
+			<token postag='V.+' postag_regexp='yes'/>
+		</antipattern>
+		<pattern>
+			<token postag='V.+' postag_regexp='yes'/>
+			<marker>
+				<token regexp='no'>que</token>
+				<token postag='VMII[13]S0' postag_regexp='yes'/>
+			</marker>	
+		</pattern>
+		<message>Substitua por <suggestion><match no='3' postag='VMII[123]S0' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>.</message>
+		<example correction='ser'>Afirmei a minha inocência alegando <marker>que era</marker> canhoto.</example>
+      </rule>
+
+	  <!-- TU -> QUE ERAS -->
+	  <rule>
+		<antipattern>
+			<token postag='SPS.+|NC.+|AQ.+' postag_regexp='yes'>
+			<exception>ser</exception></token>
+			<token regexp='no'>que</token>
+			<token postag='V.+' postag_regexp='yes'/>
+		</antipattern>
+		<pattern>
+			<token postag='V.+' postag_regexp='yes'/>
+			<marker>
+				<token regexp='no'>que</token>
+				<token postag='VMII2S0' postag_regexp='no'/>
+			</marker>	
+		</pattern>
+		<message>Substitua por <suggestion><match no='3' postag='VMII2S0' postag_regexp="yes" postag_replace='VMN02S0'/></suggestion>.</message>
+		<example correction='seres'>Afirmaste a tua inocência alegando <marker>que eras</marker> canhoto.</example>
+      </rule>
+
+	  <!-- NÓS -> QUE ÉRAMOS -->
+	  <rule>
+		<antipattern>
+			<token postag='SPS.+|NC.+|AQ.+' postag_regexp='yes'>
+			<exception>ser</exception></token>
+			<token regexp='no'>que</token>
+			<token postag='V.+' postag_regexp='yes'/>
+		</antipattern>
+		<pattern>
+			<token postag='V.+' postag_regexp='yes'/>
+			<marker>
+				<token regexp='no'>que</token>
+				<token postag='VMII1P0' postag_regexp='no'/>
+			</marker>	
+		</pattern>
+		<message>Substitua por <suggestion><match no='3' postag='VMII1P0' postag_regexp="yes" postag_replace='VMN01P0'/></suggestion>.</message>
+		<example correction='sermos'>Afirmámos a nossa inocência alegando <marker>que éramos</marker> canhotos.</example>
+      </rule>
+
+	  <!-- VÓS/VOCÊS/ELES -> QUE ERAM -->
+	  <rule>
+		<antipattern>
+			<token postag='SPS.+|NC.+|AQ.+' postag_regexp='yes'>
+			<exception>ser</exception></token>
+			<token regexp='no'>que</token>
+			<token postag='V.+' postag_regexp='yes'/>
+		</antipattern>  
+		<pattern>
+			<token postag='V.+' postag_regexp='yes'/>
+			<marker>
+				<token regexp='no'>que</token>
+				<token postag='VMII3P0' postag_regexp='no'/>
+			</marker>	
+		</pattern>
+		<message>Substitua por <suggestion><match no='3' postag='VMII3P0' postag_regexp="yes" postag_replace='VMN03P0'/></suggestion>.</message>
+		<example correction='serem'>Afirmaram a vossa inocência inocência alegando <marker>que eram</marker> canhotos.</example>
+      </rule>
+	  
+	</rulegroup>
+
     <rule id='SEXTA_DE_VIME' name="Calinada: Sexta de vime">
     <!-- Created by Marco A.G.Pinto -->
       <pattern>
