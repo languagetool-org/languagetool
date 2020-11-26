@@ -9070,7 +9070,7 @@ though, and has since been slightly modified)-->
         <example correction="trois fois par semaine">Je joue au Softball <marker>trois fois au semaine</marker>.</example>
       </rule>
       <!-- End of additions -->
-      <rule id="PRES_SPACIAL" name="prés au lieu de près" default="temp_off">
+      <rule id="PRES_SPACIAL_" name="prés au lieu de près" default="temp_off">
           <antipattern>
               <token inflected="yes" regexp="yes" postag="V.*ppa.*" postag_regexp="yes">(dé)?nommer|intituler|dire|appeller|surnommer|baptiser|désigner</token>
               <token regexp="yes">prés?</token>
@@ -9083,7 +9083,7 @@ though, and has since been slightly modified)-->
               <marker>
                   <token regexp="yes">prés?</token>
               </marker>
-              <token regexp="yes">d[eu''ʾ′ˊˈꞌ'ʿ‵ˋ] </token>
+              <token regexp="yes">d[eu']</token>
           </pattern>
           <message>S'il s'agit d'une indication de proximité, utilisez l'adverbe <suggestion>près</suggestion>.</message>
           <example correction="près">Personnes qui travaillent à Montpellier, mais qui habitent <marker>prés</marker> du Castelnau-le-Lez.</example>
@@ -15564,7 +15564,7 @@ though, and has since been slightly modified)-->
          </antipattern>
          <pattern>
            <marker>
-             <token><exception postag="V.* (ind|sub|imp|con).*" postag_regexp="yes"/></token> <!-- TODO: a different rule for imperative, and remove subjuntive -->
+             <token><exception postag="V.* (ind|sub|imp|con).*|R.*" postag_regexp="yes"/></token> <!-- TODO: a different rule for imperative, and remove subjuntive -->
              <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-.+</token>
            </marker>
          </pattern>
@@ -15585,6 +15585,7 @@ though, and has since been slightly modified)-->
          <example>Le soldat de garde se mit au garde-à-vous.</example>
          <example>Tant de fiel entre-t-il dans les âmes ?</example>
          <example>C'est mon petit chez-moi.</example>
+         <example>Ils racontent leur parcours : moi-toi, moi-toi, chacun se donne la parole.</example>
       </rule>
       <rule id="IMPERATIVE_PRONOUN" name="Verb impératif + pronom" default="temp_off">
         <antipattern>
