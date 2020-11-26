@@ -50,7 +50,6 @@ import java.util.stream.Collectors;
  * @author Marcin Miłkowski
  */
 public class HunspellRule extends SpellingCheckRule {
-
   public static final String RULE_ID = "HUNSPELL_RULE";
 
   protected static final String FILE_EXTENSION = ".dic";
@@ -151,10 +150,7 @@ public class HunspellRule extends SpellingCheckRule {
           continue;
         }
         if (isMisspelled(word)) {
-          String cleanWord = word;
-          if (word.endsWith(".")) {
-            cleanWord = word.substring(0, word.length()-1);
-          }
+          String cleanWord = word.endsWith(".") ? word.substring(0, word.length() - 1) : word;
           if (i > 0 && prevStartPos != -1) {
             String prevWord = tokens[i-1];
             boolean ignoreSplitting = false;
@@ -189,59 +185,13 @@ public class HunspellRule extends SpellingCheckRule {
             messages.getString("desc_spelling_short"));
           ruleMatch.setType(RuleMatch.Type.UnknownWord);
           if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatches.size() <= userConfig.getMaxSpellingSuggestions()) {
-            List<SuggestedReplacement> suggestions = SuggestedReplacement.convert(getSuggestions(cleanWord));
-            if (word.endsWith(".")) {
-              int pos = 1;
-              for (String suggestion : getSuggestions(word)) {
-                if (!suggestions.contains(suggestion)) {
-                  suggestions.add(Math.min(pos, suggestions.size()), new SuggestedReplacement(suggestion.substring(0, suggestion.length()-1)));
-                  pos += 2;  // we mix the lists, as we don't know which one is the better one
-                }
+            ruleMatch.setLazySuggestedReplacements(() -> {
+              try {
+                return calcSuggestions(word, cleanWord);
+              } catch (IOException e) {
+                throw new RuntimeException(e);
               }
-            }
-            List<SuggestedReplacement> additionalTopSuggestions = getAdditionalTopSuggestions(suggestions, cleanWord);
-            if (additionalTopSuggestions.isEmpty() && word.endsWith(".")) {
-              additionalTopSuggestions = getAdditionalTopSuggestions(suggestions, word).
-                stream()
-                .map(sugg -> {
-                  if (sugg.getReplacement().endsWith(".")) {
-                    return sugg;
-                  } else {
-                    SuggestedReplacement newSugg = new SuggestedReplacement(sugg);
-                    newSugg.setReplacement(sugg.getReplacement() + ".");
-                    return newSugg;
-                  }
-                }).collect(Collectors.toList());
-            }
-            Collections.reverse(additionalTopSuggestions);
-            for (SuggestedReplacement additionalTopSuggestion : additionalTopSuggestions) {
-              if (!cleanWord.equals(additionalTopSuggestion.getReplacement())) {
-                suggestions.add(0, additionalTopSuggestion);
-              }
-            }
-            List<SuggestedReplacement> additionalSuggestions = getAdditionalSuggestions(suggestions, cleanWord);
-            for (SuggestedReplacement additionalSuggestion : additionalSuggestions) {
-              if (!cleanWord.equals(additionalSuggestion.getReplacement())) {
-                suggestions.addAll(additionalSuggestions);
-              }
-            }
-            suggestions = filterDupes(filterSuggestions(suggestions));
-            // Find potentially missing compounds with privacy-friendly logging: we only log a single unknown word with no
-            // meta data and only if it's made up of two valid words, similar to the "UNKNOWN" logging in
-            // GermanSpellerRule:
-            /*if (language.getShortCode().equals("de")) {
-              String covered = sentence.getText().substring(len, len + cleanWord.length());
-              if (suggestions.stream().anyMatch(
-                    k -> k.getReplacement().contains(" ") &&
-                    StringTools.uppercaseFirstChar(k.getReplacement().replaceAll(" ", "").toLowerCase()).equals(covered) &&
-                    k.getReplacement().length() > 6 && k.getReplacement().length() < 25 &&
-                    k.getReplacement().matches("[a-zA-ZÖÄÜöäüß -]+")
-                  )) {
-                logger.info("COMPOUND: " + covered);
-              }
-            }*/
-            // TODO user suggestions
-            addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions, null, ruleMatch);
+            });
           } else {
             // limited to save CPU
             ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));
@@ -257,6 +207,62 @@ public class HunspellRule extends SpellingCheckRule {
       }
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private List<SuggestedReplacement> calcSuggestions(String word, String cleanWord) throws IOException {
+    List<SuggestedReplacement> suggestions = SuggestedReplacement.convert(getSuggestions(cleanWord));
+    if (word.endsWith(".")) {
+      int pos = 1;
+      for (String suggestion : getSuggestions(word)) {
+        if (suggestions.stream().noneMatch(sr -> suggestion.equals(sr.getReplacement()))) {
+          suggestions.add(Math.min(pos, suggestions.size()), new SuggestedReplacement(suggestion.substring(0, suggestion.length()-1)));
+          pos += 2;  // we mix the lists, as we don't know which one is the better one
+        }
+      }
+    }
+    List<SuggestedReplacement> additionalTopSuggestions = getAdditionalTopSuggestions(suggestions, cleanWord);
+    if (additionalTopSuggestions.isEmpty() && word.endsWith(".")) {
+      additionalTopSuggestions = getAdditionalTopSuggestions(suggestions, word).
+        stream()
+        .map(sugg -> {
+          if (sugg.getReplacement().endsWith(".")) {
+            return sugg;
+          } else {
+            SuggestedReplacement newSugg = new SuggestedReplacement(sugg);
+            newSugg.setReplacement(sugg.getReplacement() + ".");
+            return newSugg;
+          }
+        }).collect(Collectors.toList());
+    }
+    Collections.reverse(additionalTopSuggestions);
+    for (SuggestedReplacement additionalTopSuggestion : additionalTopSuggestions) {
+      if (!cleanWord.equals(additionalTopSuggestion.getReplacement())) {
+        suggestions.add(0, additionalTopSuggestion);
+      }
+    }
+    List<SuggestedReplacement> additionalSuggestions = getAdditionalSuggestions(suggestions, cleanWord);
+    for (SuggestedReplacement additionalSuggestion : additionalSuggestions) {
+      if (!cleanWord.equals(additionalSuggestion.getReplacement())) {
+        suggestions.addAll(additionalSuggestions);
+      }
+    }
+    suggestions = filterDupes(filterSuggestions(suggestions));
+    // Find potentially missing compounds with privacy-friendly logging: we only log a single unknown word with no
+    // meta data and only if it's made up of two valid words, similar to the "UNKNOWN" logging in
+    // GermanSpellerRule:
+    /*if (language.getShortCode().equals("de")) {
+      String covered = sentence.getText().substring(len, len + cleanWord.length());
+      if (suggestions.stream().anyMatch(
+            k -> k.getReplacement().contains(" ") &&
+            StringTools.uppercaseFirstChar(k.getReplacement().replaceAll(" ", "").toLowerCase()).equals(covered) &&
+            k.getReplacement().length() > 6 && k.getReplacement().length() < 25 &&
+            k.getReplacement().matches("[a-zA-ZÖÄÜöäüß -]+")
+          )) {
+        logger.info("COMPOUND: " + covered);
+      }
+    }*/
+    // TODO user suggestions
+    return suggestions;
   }
 
   private static String cutOffDot(String s) {
