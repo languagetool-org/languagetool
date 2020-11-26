@@ -28,10 +28,13 @@ import org.languagetool.tools.StringTools;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.util.Collections;
 import java.util.HashSet;
 
 import static org.hamcrest.core.Is.is;
@@ -60,6 +63,29 @@ public class HTTPServerTest {
       runTranslatedMessageTest();
       runTestsV2();
       runDataTests();
+    } finally {
+      server.stop();
+      assertFalse(server.isRunning());
+    }
+  }
+
+  @Test
+  public void translationSuggestions() throws Exception {
+    File configFile = File.createTempFile("translationSuggestions", "txt");
+    configFile.deleteOnExit();
+
+    File beolingus = new File("../languagetool-standalone/src/test/resources/beolingus_test.txt");
+    assertTrue(beolingus.exists());
+    Files.write(configFile.toPath(), Collections.singletonList("beolingusFile=" + beolingus.getAbsolutePath()));
+
+    HTTPServer server = new HTTPServer(new HTTPServerConfig(new String[]{
+      "--port", String.valueOf(HTTPTools.getDefaultPort()),
+      "--config", configFile.getPath()
+    }));
+    server.run();
+    try {
+      String resultWithTranslation = checkV2(new AmericanEnglish(), new GermanyGerman(), "Please let us meet in my Haus");
+      assertTrue(resultWithTranslation, resultWithTranslation.contains("house"));
     } finally {
       server.stop();
       assertFalse(server.isRunning());
@@ -412,7 +438,7 @@ public class HTTPServerTest {
   }
 
   private String check(String typeName, String urlPrefix, Language lang, Language motherTongue, String text, String parameters) throws IOException {
-    String urlOptions = urlPrefix + "?language=" + (lang == null ? "auto" : lang.getShortCode());
+    String urlOptions = urlPrefix + "?language=" + (lang == null ? "auto" : lang.getShortCodeWithCountryAndVariant());
     urlOptions += "&disabledRules=HUNSPELL_RULE&" + typeName + "=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     if (motherTongue != null) {
       urlOptions += "&motherTongue=" + motherTongue.getShortCode();
