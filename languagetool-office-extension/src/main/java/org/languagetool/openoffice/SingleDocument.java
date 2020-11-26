@@ -108,6 +108,7 @@ class SingleDocument {
   private boolean useQueue = true;                //  true: use queue to check text level rules (will be overridden by config)
   private boolean disposed = false;               //  true: document with this docId is disposed - SingleDocument shall be removed
   private String lastSinglePara = null;           //  stores the last paragraph which is checked as single paragraph
+  private boolean isFixedLanguage = false;
   private Language docLanguage = null;
   private LanguageToolMenus ltMenus = null;
   int[] footnotePositions = null;
@@ -295,6 +296,7 @@ class SingleDocument {
     if(ltMenus != null) {
       ltMenus.setConfigValues(config);
     }
+    isFixedLanguage = !config.getUseDocLanguage();
     if (config.noBackgroundCheck() || numParasToCheck == 0) {
       setFlatParagraphTools(xComponent);
     }
@@ -392,7 +394,8 @@ class SingleDocument {
       docCursor = new DocumentCursorTools(xComponent);
     }
     setFlatParagraphTools(xComponent);
-    DocumentCache newCache = new DocumentCache(docCursor, flatPara, defaultParaCheck);
+    DocumentCache newCache = new DocumentCache(docCursor, flatPara, defaultParaCheck, 
+        isFixedLanguage ? LinguisticServices.getLocale(docLanguage) : null);
     if (!newCache.isEmpty()) {
       docCache = newCache;
     }
@@ -504,7 +507,8 @@ class SingleDocument {
 
     if (docCache == null) {
       docCursor = new DocumentCursorTools(xComponent);
-      docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck);
+      docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck,
+          isFixedLanguage ? LinguisticServices.getLocale(docLanguage) : null);
       if (debugMode > 0) {
         MessageHandler.printToLogFile("+++ resetAllParas (docCache == null): docCache.size: " + docCache.size()
                 + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
@@ -713,7 +717,8 @@ class SingleDocument {
     if (docCursor == null) {
       docCursor = new DocumentCursorTools(xComponent);
     }
-    docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck);
+    docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck,
+        isFixedLanguage ? LinguisticServices.getLocale(docLanguage) : null);
     if (docCache.isEmpty()) {
       docCache = null;
       return -1;

@@ -58,6 +58,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.gui.Configuration;
 import org.languagetool.gui.Tools;
 
 import com.sun.star.beans.PropertyState;
@@ -153,7 +154,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
       } else {
         flatPara.init();
       }
-      docCache = new DocumentCache(docCursor, flatPara, -1);
+      Configuration config = documents.getConfiguration();
+      docCache = new DocumentCache(docCursor, flatPara, -1, config == null ? null : LinguisticServices.getLocale(config.getDefaultLanguage()));
     }
     return docCache;
   }

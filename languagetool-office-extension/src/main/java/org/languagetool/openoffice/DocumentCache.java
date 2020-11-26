@@ -46,20 +46,20 @@ public class DocumentCache implements Serializable {
   private int defaultParaCheck;
   private boolean isReset = false;
 
-  DocumentCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, int defaultParaCheck) {
+  DocumentCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, int defaultParaCheck, Locale docLocale) {
     debugMode = OfficeTools.DEBUG_MODE_DC;
     this.defaultParaCheck = defaultParaCheck;
-    reset(docCursor, flatPara);
+    reset(docCursor, flatPara, docLocale);
   }
   
-  public void reset(DocumentCursorTools docCursor, FlatParagraphTools flatPara) {
+  public void reset(DocumentCursorTools docCursor, FlatParagraphTools flatPara, Locale docLocale) {
     try {
       isReset = true;
       List<String> textParas = docCursor.getAllTextParagraphs();
       ParagraphContainer paragraphContainer = null;
       if (textParas != null) {
         chapterBegins = docCursor.getParagraphHeadings();
-        paragraphContainer = flatPara.getAllFlatParagraphs();
+        paragraphContainer = flatPara.getAllFlatParagraphs(docLocale);
         if (paragraphContainer == null) {
           MessageHandler.printToLogFile("paragraphContainer == null - ParagraphCache not initialised");
           paragraphs = null;
@@ -373,6 +373,14 @@ public class DocumentCache implements Serializable {
    *  and changes of language to the chapter begins
    */
   private void prepareChapterBegins() {
+    List<Integer> tmpChapterBegins = new ArrayList<Integer>();
+    for (int nPara : chapterBegins) {
+      int nText = getNumberOfTextParagraph(nPara);
+      if (nText >= 0) {
+        tmpChapterBegins.add(nText);
+      }
+    }
+    chapterBegins = tmpChapterBegins;
     List<Integer> prepChBegins = new ArrayList<Integer>(chapterBegins);
     for (int begin : chapterBegins) {
       if (!prepChBegins.contains(begin + 1)) {
@@ -382,11 +390,15 @@ public class DocumentCache implements Serializable {
     if (locales.size() > 0) {
       SerialLocale lastLocale = locales.get(0);
       for (int i = 1; i < locales.size(); i++) {
-        if (!locales.get(i).equalsLocale(lastLocale)) {
-          if (!prepChBegins.contains(i)) {
-            prepChBegins.add(i);
+        if (locales != null && !locales.get(i).equalsLocale(lastLocale)) {
+          int nText = getNumberOfTextParagraph(i);
+          if (nText >= 0 && !prepChBegins.contains(nText)) {
+            prepChBegins.add(nText);
           }
           lastLocale = locales.get(i);
+          if (debugMode) {
+            MessageHandler.printToLogFile("Paragraph("  + i + "): Locale changed to: " + lastLocale.Language + (lastLocale.Country == null ? "" : ("-" + lastLocale.Country)));
+          }
         }
       }
     }
