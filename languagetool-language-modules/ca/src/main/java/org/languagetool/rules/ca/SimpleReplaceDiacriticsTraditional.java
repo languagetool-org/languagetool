@@ -72,7 +72,7 @@ public class SimpleReplaceDiacriticsTraditional extends AbstractSimpleReplaceRul
   
   @Override
   public String getMessage(String tokenStr,List<String> replacements) {
-    return "Falta l'accent diacrític.";
+    return "Hi falta l'accent diacrític (segons les normes tradicionals; desactiveu la regla si voleu les normes noves).";
   }
   
   @Override

@@ -138,10 +138,10 @@ public class CatalanUnpairedBracketsRuleTest {
             + "[Ací hi ha un claudàtor. Amb algun text.] i ací continua.\n");
     assertEquals(0, matches.size());
     matches = tool
-        .check("\"Sóc la teva filla. El corcó no et rosegarà més.\"\n\n");
+        .check("\"Era la teva filla. El corcó no et rosegarà més.\"\n\n");
     assertEquals(0, matches.size());
     matches = tool
-        .check("\"Sóc la teva filla. El corcó no et rosegarà més\".\n\n");
+        .check("\"Era la teva filla. El corcó no et rosegarà més\".\n\n");
     assertEquals(0, matches.size());
     matches = tool
         .check("Aquesta és una sentència múltiple amb claudàtors: "
