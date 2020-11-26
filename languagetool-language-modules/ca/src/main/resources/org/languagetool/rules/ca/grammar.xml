@@ -32499,7 +32499,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="MEDICAMENTS" name="medicaments en minúscula">
             <pattern>
                 <and>
-                    <token regexp="yes" inflected="yes">remdesivir|paracetamol|acetaminofèn|favipiravir|fenetil·lina|amoxicil·lina|povidona|clorazepat|almagat|dexametasona|hidroxicloroquina|azitromicina|cefalosporina|cloramfenicol|eritromicina|nandrolona|vancomicina|tetracilicna|espectinomicina|penicil·lina|ampicil·lina|amoxicil·lina|probenecid|tiamfenicol|doxiciclina|trimetoprim|sulfametoxazole<exception scope="previous" postag="SENT_START"/></token>
+                    <token regexp="yes" inflected="yes">remdesivir|paracetamol|acetaminofèn|favipiravir|fenetil·lina|amoxicil·lina|povidona|clorazepat|almagat|dexametasona|hidroxicloroquina|azitromicina|cefalosporina|cloramfenicol|eritromicina|nandrolona|vancomicina|tetracilicna|espectinomicina|penicil·lina|ampicil·lina|probenecid|tiamfenicol|doxiciclina|trimetoprim|sulfametoxazole<exception scope="previous" postag="SENT_START"/></token>
                     <token regexp="yes">\p{Lu}.+</token>
                 </and>
             </pattern>
@@ -42254,22 +42254,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="tindrà efecte|produirà efecte|farà efecte|donarà resultat|esdevindrà efectiu|esdevindrà efectiva">la vacuna <marker>sortirà efecte</marker> al cap d'una setmana</example>
             <example>la vacuna <marker>farà efecte</marker> al cap d'una setmana</example>
         </rule>
-        <rule id="STATU_QUO" name="variants incorrectes de 'statu quo'">
-            <antipattern>
-                <marker>
-                    <token>statu</token>
+        <rulegroup id="STATU_QUO" name="variants incorrectes de 'statu quo'">
+            <rule>
+                <antipattern>
+                    <token regexp="yes">status?</token>
                     <token>quo</token>
-                </marker>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">status|estatu|estatus|statu</token>
-                <token regexp="yes">quo|cuo</token>
-            </pattern>
-            <message>Expressió mal escrita.</message>
-            <suggestion>statu quo</suggestion>
-            <example correction="statu quo">Volien canviar l'<marker>status quo</marker>.</example>
-            <example>Canviem l'statu quo.</example>
-        </rule>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">status|estatu|estatus|statu</token>
+                    <token regexp="yes">quo|cuo</token>
+                </pattern>
+                <message>Expressió mal escrita.</message>
+                <suggestion>statu quo</suggestion>
+                <example correction="statu quo">Volien canviar l'<marker>estatus cuo</marker>.</example>
+                <example>Canviem l'statu quo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>status</token>
+                    <token>quo</token>
+                </pattern>
+                <message>Froma preferible.</message>
+                <suggestion>statu quo</suggestion>
+                <example correction="statu quo">Volien canviar l'<marker>status quo</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="UNA_VEGADA_I_UNA_ALTRA" name="una i altra vegada/una vegada i una altra">
             <rule>
                 <pattern>
