@@ -32498,7 +32498,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="MEDICAMENTS" name="medicaments en minúscula">
             <pattern>
-                <token regexp="yes" case_sensitive="yes">Remdesivir|Paracetamol|Acetaminofèn|Favipiravir|Fenetil·lina|Amoxicil·lina|Povidona|Clorazepat|Almagat|Dexametasona|Hidroxicloroquina|Azitromicina|Cefalosporina|Cloramfenicol|Eritromicina|Nandrolona|Vancomicina<exception scope="previous" postag="SENT_START"/></token>
+                <and>
+                    <token regexp="yes" inflected="yes">remdesivir|paracetamol|acetaminofèn|favipiravir|fenetil·lina|amoxicil·lina|povidona|clorazepat|almagat|dexametasona|hidroxicloroquina|azitromicina|cefalosporina|cloramfenicol|eritromicina|nandrolona|vancomicina|tetracilicna|espectinomicina|penicil·lina|ampicil·lina|amoxicil·lina|probenecid|tiamfenicol|doxiciclina|trimetoprim|sulfametoxazole<exception scope="previous" postag="SENT_START"/></token>
+                    <token regexp="yes">\p{Lu}.+</token>
+                </and>
             </pattern>
             <message>Els noms dels principis actius de les medicines s'escriuen en minúscula.</message>
             <suggestion><match no="1" case_conversion="alllower"/></suggestion>
