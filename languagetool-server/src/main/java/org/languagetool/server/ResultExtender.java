@@ -201,7 +201,7 @@ class ResultExtender {
     return l;
   }
   
-  class HiddenRule extends Rule {
+  static class HiddenRule extends Rule {
     final String categoryId;
     final String categoryName;
     final ITSIssueType itsType;
