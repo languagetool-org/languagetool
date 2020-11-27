@@ -25998,8 +25998,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category id="DIACRITICS_TRADITIONAL" name="Z) Accents diacrítics tradicionals" type="misspelling" default="on">
-        <rulegroup id="DIACRITICS_TRADITIONAL_RULES" name="accents diacrítics tradicionals">
+    <category id="DIACRITICS_TRADITIONAL" name="Z) Accents diacrítics segons les normes tradicionals" type="misspelling" default="on">
+        <rulegroup id="DIACRITICS_TRADITIONAL_RULES" name="Accents diacrítics segons les normes tradicionals">
             <antipattern>
                 <token regexp="yes">homes|nens|infants|nenes|xiquets|xiquetes|nois|noies</token>
                 <token regexp="yes">i|o|ni|-|que|com</token>
@@ -26880,6 +26880,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Nós"><marker>Nos</marker>, rei d'Aragó.</example>
                 <example>Déu nos guard</example>
                 <example>Déu nos en guard</example>
+            </rule>
+            <!-- Paraules que s'escriuen amb accent diacrític sempre segons la norma tradicional -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">adeu-siau|adeu|adeus|besnet|besneta|besnetes|besnets|marededeu|marededeus|pregadeu|pregadeus|quadrinet|quadrineta|quadrinetes|quadrinets|rebesnet|rebesneta|rebesnetes|rebesnets|redeu|renet|reneta|renetes|renets|semideu|semideus|vicedeu|vicedeus</token>
+                </pattern>
+                <message>Hi falta l'accent diacrític (segons les normes tradicionals; desactiveu la regla si voleu les normes noves).</message>
+                <suggestion><match no="1" regexp_match="(?iu)(ad|besn|mareded|pregad|quadrin|rebesn|red|ren|semid|viced)e" regexp_replace="$1é" case_conversion="preserve"></match></suggestion>
+                <example correction="Semidéus"><marker>Semideus</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">contrapel|cotomopel|cotompels|empel|repel|repels</token>
+                </pattern>
+                <message>Hi falta l'accent diacrític (segons les normes tradicionals; desactiveu la regla si voleu les normes noves).</message>
+                <suggestion><match no="1" regexp_match="(?iu)(contrap|cotomp|emp|rep)e" regexp_replace="$1è" case_conversion="preserve"></match></suggestion>
+                <example correction="contrapèl">A <marker>contrapel</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">almon|coms|inframon|matamon|rodamon|submon</token>
+                </pattern>
+                <message>Hi falta l'accent diacrític (segons les normes tradicionals; desactiveu la regla si voleu les normes noves).</message>
+                <suggestion><match no="1" regexp_match="(?iu)(alm|c|infram|matam|rodam|subm)o" regexp_replace="$1ó" case_conversion="preserve"></match></suggestion>
+                <example correction="inframón">En l'<marker>inframon</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">arenosol|arenosols|entresol|entresols|litosol|litosols|mol·lisol|mol·lisols|paleosol|paleosols|pergelisol|pergelisols|regosol|regosols|remolt|remolta|remoltes|remolts|sobresol|sobresols|subsol|subsols|vertisol|vertisols</token>
+                </pattern>
+                <message>Hi falta l'accent diacrític (segons les normes tradicionals; desactiveu la regla si voleu les normes noves).</message>
+                <suggestion><match no="1" regexp_match="(?iu)(arenos|entres|litos|mol·lis|paleos|pergelis|regos|rem|sobres|subs|vertis)o" regexp_replace="$1ò" case_conversion="preserve"></match></suggestion>
+                <example correction="Arenosòls"><marker>Arenosols</marker></example>
             </rule>
         </rulegroup>
     </category>

@@ -91,7 +91,6 @@ public class Catalan extends Language {
             new ReplaceOperationNamesRule(messages, this),
             new SimpleReplaceDNVRule(messages, this), // can be removed here after updating dictionaries
             new SimpleReplaceDiacriticsIEC(messages),
-            new SimpleReplaceDiacriticsTraditional(messages),
             new SimpleReplaceAnglicism(messages), 
             new PronomFebleDuplicateRule(messages)
             //REMEMBER TO ADD RULES TO ValencianCatalan!!

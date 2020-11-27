@@ -62,7 +62,7 @@ public class SimpleReplaceDiacriticsIEC extends AbstractSimpleReplaceRule {
 
  @Override
   public String getDescription() {
-    return "Diacrítics eliminats en la reforma del 2017.";
+    return "Accents diacrítics segons les normes noves (2017)";
   }
 
   @Override
