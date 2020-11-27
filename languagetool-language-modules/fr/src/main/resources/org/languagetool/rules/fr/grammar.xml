@@ -15550,7 +15550,22 @@ though, and has since been slightly modified)-->
        <example>Sont-elles canadiennes ?</example>
       </rule>
     </rulegroup>
-    <rulegroup id="NONVERB_PRON" name="verb non valide + pronom">
+    <rulegroup id="VERB_PRONOUN" name="verbe impératif/interrogatif + pronom">
+        <antipattern>
+          <!-- note de musique -->
+          <token regexp="yes">do|ré|mi|fa|sol|si</token>
+          <token>-la</token>
+        </antipattern>
+        <antipattern>
+          <!-- toponyms -->
+          <token postag="Z.*" postag_regexp="yes"/>
+          <token regexp="yes">-le|-la</token> 
+        </antipattern>
+      <antipattern>
+         <!--toponyms, more greedy fix-->
+        <token regexp="yes">-le|-la</token> 
+        <token regexp="yes">\p{Lu}.*</token>
+      </antipattern>
         <antipattern>
             <token regexp="yes">«|"</token>
             <token/>
@@ -15569,7 +15584,7 @@ though, and has since been slightly modified)-->
            </marker>
          </pattern>
          <filter class="org.languagetool.rules.fr.InterrogativeVerbFilter" args="PronounFrom:2 VerbFrom:1"/>
-         <message>« \1 » n’est pas un verbe valide.</message>
+         <message>Il semble y avoir une faute de frappe dans la forme verbale « \1 ».</message>
          <example correction="partis-tu|parus-tu|pars-tu|paras-tu|pares-tu">Quand <marker>parts-tu</marker> ?</example>
          <example correction="partis-tu|parus-tu|pars-tu|paras-tu|pares-tu">Quand <marker>pärts-tu</marker> ?</example>
          <example correction="trompai-je|trompè-je|trompais-je|trempè-je">Me <marker>trompé-je</marker> ?</example>
@@ -15586,8 +15601,10 @@ though, and has since been slightly modified)-->
          <example>Tant de fiel entre-t-il dans les âmes ?</example>
          <example>C'est mon petit chez-moi.</example>
          <example>Ils racontent leur parcours : moi-toi, moi-toi, chacun se donne la parole.</example>
+         <example>MARSEILLE-LA VALENTINE</example>
+         <example>Aix les Milles-la Pioline</example>
       </rule>
-      <rule id="IMPERATIVE_PRONOUN" name="Verb impératif + pronom" default="temp_off">
+      <rule default="temp_off">
         <antipattern>
           <token postag="V.* (ind|con|sub).* 2 p" postag_regexp="yes"/>
           <token>-vous</token>
@@ -15598,8 +15615,8 @@ though, and has since been slightly modified)-->
         </antipattern>
         <pattern>
           <marker>
-            <token postag="V.*" postag_regexp="yes"><exception postag="V.* (imp).*" postag_regexp="yes"/></token>
-            <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-([mt]oi|l(a|es?)|lui|[nv]ous|leur|en|y)</token>
+            <token postag="V.*" postag_regexp="yes"><exception postag="V.* imp.*" postag_regexp="yes"/></token>
+            <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-([mt]oi|l(a|es?)|lui|[nv]ous|leur)</token>
           </marker>
         </pattern>
         <filter class="org.languagetool.rules.fr.InterrogativeVerbFilter" args="PronounFrom:2 VerbFrom:1"/>
@@ -15610,6 +15627,55 @@ though, and has since been slightly modified)-->
         <example>Pourquoi ne mangeriez-vous pas aussi ?</example>
         <example>Fassiez-vous ne serait-ce qu'un seul pas en arrière, et je vous tirerai dessus.</example>
         <example>Ils racontent leur parcours : moi-toi, moi-toi, chacun se donne la parole.</example>
+      </rule>
+      <rule default="temp_off">
+        <antipattern>
+          <token postag="V.* (ind|con|sub).* 2 p" postag_regexp="yes"/>
+          <token>-vous</token>
+        </antipattern>
+        <antipattern>
+          <token postag="V.* (ind|con|sub).* 1 p" postag_regexp="yes"/>
+          <token>-nous</token>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token postag="V.*" postag_regexp="yes"><exception postag="V.* imp.*|V.* ind pres 2 s" postag_regexp="yes"/></token>
+            <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-(en|y)</token>
+          </marker>
+        </pattern>
+        <filter class="org.languagetool.rules.fr.InterrogativeVerbFilter" args="PronounFrom:2 VerbFrom:1"/>
+        <message>Il semble y avoir une faute de frappe dans la forme de l'impératif.</message>
+        <example correction="Allez-y"><marker>Aller-y</marker>"</example>
+        <example>Manges-y.</example>
+        <example>Participes-y.</example>
+        <example>Apportes-en deux.</example>
+        <example>Vas-y lentement.</example>
+      </rule>
+      <rule default="temp_off">
+        <antipattern>
+          <token postag="V.* (ind|con|sub).* 2 p" postag_regexp="yes"/>
+          <token>-vous</token>
+        </antipattern>
+        <antipattern>
+          <token postag="V.* (ind|con|sub).* 1 p" postag_regexp="yes"/>
+          <token>-nous</token>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token postag="V.* imp pres 2 s" postag_regexp="yes"><exception regexp="yes">.*s</exception></token>
+            <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-(en|y)</token>
+          </marker>
+        </pattern>
+        <message>Si le verbe se terminant par -es est suivi de « -en » ou de « -y » à l’impératif, on conservera son « s »</message>
+        <suggestion><match no="1" postag="V.* imp.*" postag_regexp="yes" postag_replace="V.* ind pres 2 s"/>\2</suggestion>
+        <url>https://bescherelle.ca/imperatif/</url>
+        <example correction="Participes-y"><marker>Participe-y</marker>.</example>
+        <example correction="Vas-y"><marker>Va-y</marker> lentement</example>
+        <example correction="Apportes-en"><marker>Apporte-en</marker> deux.</example>
+        <example>Manges-y.</example>
+        <example>Participes-y.</example>
+        <example>Apportes-en deux.</example>
+        <example>Vas-y lentement.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_NOM_VERBE" name="Accord" default="off">
