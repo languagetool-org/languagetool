@@ -5729,12 +5729,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     
         
 
-        <rule id="LC_AFTER_PERIOD_RU" name="После точки идёт слово, начинающееся со строчной буквы" default="temp_off">
+        <rule id="LC_AFTER_PERIOD_RU" name="После точки идёт слово, начинающееся со строчной буквы" >
             <!-- https://github.com/languagetool-org/languagetool/issues/3655 -->
             <antipattern>
                 <token regexp="yes" case_sensitive="yes">.*[a-zа-яё]$</token>
                 <token>.</token>
-                <token regexp="yes">de|com|net|org|ru|by|ua|kz|su|рф|рус</token>
+                <token regexp="yes">de|com|net|org|ru|by|ua|kz|su|рф|рус|онлайн|сайт|москва</token>
             </antipattern>
             <pattern>
                 <token spacebefore="yes" regexp="yes" case_sensitive="yes">.*[a-zа-яё]$</token>
