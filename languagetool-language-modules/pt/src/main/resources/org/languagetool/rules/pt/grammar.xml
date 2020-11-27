@@ -34639,8 +34639,8 @@ TODO Write better examples
 		<example correction="ao sentir|por sentir">Comentei o sucedido <marker>porque senti</marker> os efeitos rapidamente.</example>  
 	</rule>
 	
-    <rulegroup id='QUE_VERBO' name='Que + Verbo > Verbo_inf'>
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-26 (21-OCT-2020+)     -->
+    <rulegroup id='QUE_VERBO' name="Que + Verbo > Verbo_inf">
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-26 + 2020-11-27 (21-OCT-2020+)     -->
 <!--
 =EU=
 Afirmei a minha inocência alegando que era canhoto.
@@ -34655,15 +34655,15 @@ Afirmaram a vossa inocência alegando que eram canhotos.
 -->	
 
 	  <!-- EU/ELE -> QUE ERA -->
-	  <rule>
+	  <rule> 
 		<antipattern>
-			<token postag='SPS.+|NC.+|AQ.+' postag_regexp='yes'>
-			<exception>ser</exception></token>
+			<token postag='SPS.+|NC.+|AQ.+' postag_regexp='yes'/>
 			<token regexp='no'>que</token>
 			<token postag='V.+' postag_regexp='yes'/>
 		</antipattern>
 		<pattern>
-			<token postag='V.+' postag_regexp='yes'/>
+			<token postag='V.+' postag_regexp='yes'>
+			<exception regexp='yes'>é|ser</exception></token>
 			<marker>
 				<token regexp='no'>que</token>
 				<token postag='VMII[13]S0' postag_regexp='yes'/>
@@ -34676,13 +34676,13 @@ Afirmaram a vossa inocência alegando que eram canhotos.
 	  <!-- TU -> QUE ERAS -->
 	  <rule>
 		<antipattern>
-			<token postag='SPS.+|NC.+|AQ.+' postag_regexp='yes'>
-			<exception>ser</exception></token>
+			<token postag='SPS.+|NC.+|AQ.+' postag_regexp='yes'/>
 			<token regexp='no'>que</token>
 			<token postag='V.+' postag_regexp='yes'/>
 		</antipattern>
 		<pattern>
-			<token postag='V.+' postag_regexp='yes'/>
+			<token postag='V.+' postag_regexp='yes'>
+			<exception regexp='yes'>é|ser</exception></token>
 			<marker>
 				<token regexp='no'>que</token>
 				<token postag='VMII2S0' postag_regexp='no'/>
@@ -34695,13 +34695,13 @@ Afirmaram a vossa inocência alegando que eram canhotos.
 	  <!-- NÓS -> QUE ÉRAMOS -->
 	  <rule>
 		<antipattern>
-			<token postag='SPS.+|NC.+|AQ.+' postag_regexp='yes'>
-			<exception>ser</exception></token>
+			<token postag='SPS.+|NC.+|AQ.+' postag_regexp='yes'/>
 			<token regexp='no'>que</token>
 			<token postag='V.+' postag_regexp='yes'/>
 		</antipattern>
 		<pattern>
-			<token postag='V.+' postag_regexp='yes'/>
+			<token postag='V.+' postag_regexp='yes'>
+			<exception regexp='yes'>é|ser</exception></token>
 			<marker>
 				<token regexp='no'>que</token>
 				<token postag='VMII1P0' postag_regexp='no'/>
@@ -34714,13 +34714,13 @@ Afirmaram a vossa inocência alegando que eram canhotos.
 	  <!-- VÓS/VOCÊS/ELES -> QUE ERAM -->
 	  <rule>
 		<antipattern>
-			<token postag='SPS.+|NC.+|AQ.+' postag_regexp='yes'>
-			<exception>ser</exception></token>
+			<token postag='SPS.+|NC.+|AQ.+' postag_regexp='yes'/>
 			<token regexp='no'>que</token>
 			<token postag='V.+' postag_regexp='yes'/>
 		</antipattern>  
 		<pattern>
-			<token postag='V.+' postag_regexp='yes'/>
+			<token postag='V.+' postag_regexp='yes'>
+			<exception regexp='yes'>é|ser</exception></token>
 			<marker>
 				<token regexp='no'>que</token>
 				<token postag='VMII3P0' postag_regexp='no'/>
