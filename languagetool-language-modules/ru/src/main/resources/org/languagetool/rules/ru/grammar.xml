@@ -5727,8 +5727,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     
-        
-
         <rule id="LC_AFTER_PERIOD_RU" name="После точки идёт слово, начинающееся со строчной буквы" >
             <!-- https://github.com/languagetool-org/languagetool/issues/3655 -->
             <antipattern>
@@ -5743,9 +5741,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no" regexp="yes" case_sensitive="yes">[a-zа-яёA-ZА-ЯЁ].+<exception postag="UNKNOWN"/><exception regexp="yes">bat|de|dat|doc|pro|php|med|xls|docx|xlsx|odt|ods|sxc|sxw|txt</exception></token>
                 </marker>
             </pattern>
-            <message>Если здесь начинается новое предложение, то поставьте пробел после точки и пишите следующее слово с большой буквы.</message>
-            <suggestion> <match no="3" case_conversion="startupper"/></suggestion>
-            <example correction=" Только">LanguageTool предоставляет проверку грамматики, стиля и орфографии.<marker>только</marker> вставьте текст сюда.</example>
+            <message>Поставьте пробел после точки, и если пропущено начало предложения, то пишите следующее слово с большой буквы:  <suggestion> <match no="3" case_conversion="startupper"/></suggestion> или  <suggestion> <match no="3"/></suggestion></message>
+            <short>Пропущен пробел</short>
+            <example correction=" Только| только">LanguageTool предоставляет проверку грамматики, стиля и орфографии.<marker>только</marker> вставьте текст сюда.</example>
         </rule>
           
         
@@ -11243,7 +11241,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ни в коем случае">Но <marker>не в коем случае</marker> нельзя забывать об этом.</example>
             </rule>
         </rulegroup>
-        <rule id="Logical_bolee_menee" name="Устойчивое выражение: «более или менее»">
+        <rule id="Logical_bolee_menee" name="Устойчивое выражение: «более или менее»" tags="picky">
             <pattern>
                 <token>более-менее</token>
             </pattern>
