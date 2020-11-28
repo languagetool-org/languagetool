@@ -15557,16 +15557,6 @@ though, and has since been slightly modified)-->
           <token>-la</token>
         </antipattern>
         <antipattern>
-          <!-- toponyms -->
-          <token postag="Z.*" postag_regexp="yes"/>
-          <token regexp="yes">-le|-la</token> 
-        </antipattern>
-      <antipattern>
-         <!--toponyms, more greedy fix-->
-        <token regexp="yes">-le|-la</token> 
-        <token regexp="yes">\p{Lu}.*</token>
-      </antipattern>
-        <antipattern>
             <token regexp="yes">«|"</token>
             <token/>
             <token regexp="yes">»|"</token>
@@ -15580,6 +15570,16 @@ though, and has since been slightly modified)-->
         <token>-nous</token>
       </antipattern>
        <rule>
+         <antipattern>
+           <!-- toponyms -->
+           <token postag="Z.*" postag_regexp="yes"/>
+           <token regexp="yes">-le|-la|-les</token> 
+         </antipattern>
+         <antipattern>
+           <!--toponyms, more greedy fix-->
+           <token regexp="yes">-le|-la|-les</token> 
+           <token regexp="yes">\p{Lu}.*</token>
+         </antipattern>
          <antipattern>
            <token postag="V .*" postag_regexp="yes"/>
            <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-.+</token>
@@ -15611,6 +15611,7 @@ though, and has since been slightly modified)-->
          <example>Ils racontent leur parcours : moi-toi, moi-toi, chacun se donne la parole.</example>
          <example>MARSEILLE-LA VALENTINE</example>
          <example>Aix les Milles-la Pioline</example>
+         <example>Saint-Vincent-et-les Grenadines</example>
       </rule>
       <rule default="temp_off">
         <pattern>
