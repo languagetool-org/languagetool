@@ -9968,7 +9968,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <!--              PREP в -> NN:.*:.*:V или NN:.*:P NN:.*:2R    исключение для "в учителя,... -->
                 <token>в<exception postag="&lt;ADV&gt;"/></token>
-                <token postag="ADJ:.*:(V|P)" postag_regexp="yes" min="1" max="2"><exception postag="PT:.*" postag_regexp="yes"></exception></token> 
+                <token postag="ADJ:.*:(V|P)" postag_regexp="yes" min="1" max="2">
+                    <exception postag="PT:.*" postag_regexp="yes"></exception>
+                    <exception inflected="yes">который</exception>
+                </token> 
                 <marker>
                 <token postag="NN:.*:.*:.*" postag_regexp="yes">
                     <exception regexp="yes">тысяча|миллион</exception>
@@ -9984,6 +9987,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Он смотрел в новое окно.</example>
             <example>В предусмотренных конституцией случаях.</example>
             <example>Он всегда смотрит в будущее.</example>
+            <example>в котором писатель предсказал такие блага современной цивилизации как мобильные телефоны, принтеры и прочие технические устройства.</example>
             <example>Это наблюдается в одной такой группе</example>
             <example correction="группе">Это наблюдается в одной такой <marker>группой</marker></example>
           </rule>
