@@ -21269,21 +21269,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token skip="1" regexp="yes">[,;:]</token>
+                    <token skip="1" regexp="yes">[,;:]|als</token>
                     <token inflected="yes" regexp="yes">der|jed</token>
-                    <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun)te</token>
+                    <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|letz)te</token>
                     <token regexp="yes">[.?!,]</token>
                 </antipattern>
                 <antipattern>
                     <token inflected="yes" regexp="yes">der|jed</token>
-                    <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun)te</token>
+                    <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|letz)te</token>
                     <token>,</token>
 					<token><exception regexp="yes" inflected="yes">der|welch|wo.+</exception></token>
                 </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes">der|jed</token>
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun)te</token>
+                        <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|letz)te</token>
                     </marker>
                     <token regexp="yes">[.?!,]|im</token>
                 </pattern>
@@ -21293,6 +21293,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<example>Der erste Sohn, Max Keller, wurde 1840 geboren. Der <marker>zweite</marker>, Friedrich Keller, kam 1843 zur Welt.</example>
 				<example>Schulfrei für die <marker>erste</marker>, zweite und dritte Klasse!</example>
 				<example>An der Holzstraße befand sich das <marker>zweite</marker>, ebenfalls streng bewachte, Tor.</example>
+				<example>Das erste Lied gefällt mir besser als das <marker>letzte</marker>, das wir gehört haben.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZUM_EINEN" name="zum Einen (einen), zum Anderen (anderen)">
