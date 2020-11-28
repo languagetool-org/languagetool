@@ -947,6 +947,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Krankenbruders?", "bruder", "pfleger");
     putRepl("Krankenbrüdern?", "brüder", "pfleger");
     putRepl("Lan-(Kabel[ns]?|Verbindung)", "Lan", "LAN");
+    putRepl("[pP]erfektest(e[mnrs]?)?", "est", "");
+    putRepl("[gG]leichtig(e[mnrs]?)?", "tig", "zeitig");
     put("[wW]elan", w -> Arrays.asList("WLAN", "W-LAN"));
     put("Pinn", w -> Arrays.asList("Pin", "PIN"));
     put("Geldmachung", w -> Arrays.asList("Geltendmachung", "Geldmacherei"));

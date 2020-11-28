@@ -461,6 +461,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("augensichtlich", "augenscheinlich", rule, lt);
     assertFirstSuggestion("Krankenbrüdern", "Krankenpflegern", rule, lt);
     assertFirstSuggestion("Lan-Kabel", "LAN-Kabel", rule, lt);
+    assertFirstSuggestion("perfekteste", "perfekte", rule, lt);
+    assertFirstSuggestion("gleichtig", "gleichzeitig", rule, lt);
   }
 
   @Test
