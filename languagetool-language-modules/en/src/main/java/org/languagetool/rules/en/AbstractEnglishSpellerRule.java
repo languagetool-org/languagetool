@@ -162,6 +162,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("ultra ") &&
                    !k.getReplacement().toLowerCase().startsWith("mini ") &&
                    !k.getReplacement().toLowerCase().startsWith("hyper ") &&
+                   !k.getReplacement().toLowerCase().startsWith("counter ") &&
                    !k.getReplacement().toLowerCase().startsWith("fore ") &&
                    !k.getReplacement().toLowerCase().startsWith("pseudo ") &&
                    !k.getReplacement().toLowerCase().startsWith("lo ") &&
@@ -303,6 +304,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     Map<String, List<String>> s = new HashMap<>();
     s.put("electronical", Arrays.asList("electronic", "electronically"));
     s.put("Electronical", Arrays.asList("Electronic", "Electronically"));
+    s.put("unpolite", Arrays.asList("impolite"));
     s.put("tarrif", Arrays.asList("tariff"));
     s.put("Tarrif", Arrays.asList("Tariff"));
     s.put("tarrifs", Arrays.asList("tariffs"));

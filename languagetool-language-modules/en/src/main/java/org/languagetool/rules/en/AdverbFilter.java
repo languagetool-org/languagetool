@@ -387,6 +387,11 @@ public class AdverbFilter extends RuleFilter {
     put("incorrectly", "incorrect");
     put("mistakenly", "mistaken");
     put("wrongly", "wrong");
+    put("morosely", "morose");
+    put("worryingly", "worrying");
+    put("drastically", "drastical");
+    put("willingly", "willing");
+    put("additively", "additive");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
