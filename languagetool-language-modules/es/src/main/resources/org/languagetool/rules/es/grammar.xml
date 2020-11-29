@@ -12750,6 +12750,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rulegroup id="PODAR_PODER" name="podar/poder" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>podes</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Posible confusión.</message>
+                <suggestion>podés</suggestion>
+                <suggestion>podéis</suggestion>
+                <suggestion>puedes</suggestion>
+                <example correction="podés|podéis|puedes">Y <marker>podes</marker> pensar lo que quieras.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">podar<exception inflected="yes">poder</exception></token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Posible confusión.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">poder</match></suggestion>
+                <example correction="puedo">Y <marker>podo</marker> pensar lo que quiera.</example>
+            </rule>
+        </rulegroup>
         <rule id="ORA_HORA" name="ora/hora">
             <antipattern>
                 <token skip="-1">ora</token>
