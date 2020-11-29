@@ -802,6 +802,13 @@ public class GermanSpellerRuleTest {
     assertTrue(rule.isMisspelled("Spielzugcomputern"));
     assertFalse(rule.isMisspelled("Spielzug"));
     assertFalse(rule.isMisspelled("Spielzugs"));
+
+    assertTrue(rule.isMisspelled("Studentenschafte"));
+    assertTrue(rule.isMisspelled("Steuereigenschafte"));
+    assertFalse(rule.isMisspelled("Studentenschaften"));
+    assertFalse(rule.isMisspelled("Steuereigenschaften"));
+    assertFalse(rule.isMisspelled("Eigenschaften"));
+    assertFalse(rule.isMisspelled("wirtschafte"));
   }
   
   @Test

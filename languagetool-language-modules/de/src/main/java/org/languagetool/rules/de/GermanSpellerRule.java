@@ -1294,6 +1294,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if (word.startsWith("Standart") && !word.equals("Standarte") && !word.equals("Standarten") && !word.startsWith("Standartenträger") && !word.startsWith("Standartenführer")) {
       return true;
     }
+    if (word.endsWith("schafte") && word.matches("[A-ZÖÄÜ][a-zöäß-]+schafte")) {
+      return true;
+    }
     return super.isMisspelled(word);
   }
 
