@@ -9863,6 +9863,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rulegroup id="verbnom_verb" name="verb/nom + verb">
         <!-- verb/nom + verb  El diu és un dispostiu, Aquella era havia estat -->
+        <antipattern>
+            <token>si</token>
+            <token min="0">no</token>
+            <token postag="&pronom_feble;" postag_regexp="yes"/>
+            <token postag="V.[IS].*" postag_regexp="yes"/>
+        </antipattern>
         <rule>
             <pattern>
                 <token postag="D[DAI].*" postag_regexp="yes"/>
@@ -9907,12 +9913,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <!-- el pare no hi és; la porta ja s'havia tancat-->
-            <antipattern>
-                <token>si</token>
-                <token min="0">no</token>
-                <token postag="&pronom_feble;" postag_regexp="yes"/>
-                <token postag="V.[IS].*" postag_regexp="yes"/>
-            </antipattern>
             <pattern>
                 <token postag="D[DAI].*" postag_regexp="yes"/>
                 <marker>
