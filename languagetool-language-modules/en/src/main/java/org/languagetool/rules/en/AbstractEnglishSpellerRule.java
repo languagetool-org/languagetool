@@ -151,6 +151,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("inter ") &&
                    !k.getReplacement().toLowerCase().startsWith("anti ") &&
                    !k.getReplacement().toLowerCase().startsWith("photo ") &&
+                   !k.getReplacement().toLowerCase().startsWith("ma ") &&
                    !k.getReplacement().startsWith("sub ") &&
                    !k.getReplacement().toLowerCase().startsWith("auto ") &&
                    !k.getReplacement().startsWith("sh ") &&
@@ -302,6 +303,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   protected static Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
+    s.put("pro-bono", Arrays.asList("pro bono"));
+    s.put("Pro-bono", Arrays.asList("Pro bono"));
     s.put("electronical", Arrays.asList("electronic", "electronically"));
     s.put("Electronical", Arrays.asList("Electronic", "Electronically"));
     s.put("unpolite", Arrays.asList("impolite"));
