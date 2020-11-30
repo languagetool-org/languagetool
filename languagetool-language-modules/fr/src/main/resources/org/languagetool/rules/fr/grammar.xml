@@ -35305,11 +35305,22 @@ though, and has since been slightly modified)-->
     <rule id="POWER_POINT" name="PowerPoint">
       <pattern>
         <token>Power</token>
-        <token>Point</token>
+        <token min="0">-</token>
+        <token regexp="yes">Points?</token>
       </pattern>
-      <message>Voulez-vous écrire <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (= logiciel de présentation) ?</message>
+      <message>Voulez-vous écrire <suggestion>PowerPoint</suggestion> (= logiciel de présentation) ?</message>
       <url>https://fr.wikipedia.org/wiki/Microsoft_PowerPoint</url>
       <example correction="PowerPoint"><marker>Power Point</marker> est un logiciel de présentation édité par Microsoft.</example>
+    </rule>
+    <rule id="LANGUAGE_TOOL" name="LanguageTool">
+      <pattern>
+        <token>language</token>
+        <token min="0">-</token>
+        <token>tool</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>LanguageTool</suggestion> (= logiciel de vérification des textes) ?</message>
+      <url>https://languagetool.org/fr</url>
+      <example correction="LanguageTool">J'ai installé le <marker>Language-tool</marker> pour LibreOffice.</example>
     </rule>
     <rule id="EMMANUEL_MACRON" name="Emmanuel Macron">
       <antipattern case_sensitive="yes">
