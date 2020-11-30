@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.function.Function;
 
 /**
  * A tagger that reads the POS information from a plain (UTF-8) text file. This
@@ -53,6 +54,7 @@ public class ManualTagger implements WordTagger {
 
   private static Map<String, List<TaggedWord>> loadMapping(InputStream inputStream, boolean internTags) throws IOException {
     Map<String, List<TaggedWord>> map = new HashMap<>();
+    Map<String, String> interned = new HashMap<>();
     try (
       InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
       BufferedReader br = new BufferedReader(reader)
@@ -71,6 +73,7 @@ public class ManualTagger implements WordTagger {
 
         String lemma = parts[1];
         if (lemma.equals(form)) lemma = form;
+        lemma = interned.computeIfAbsent(lemma, Function.identity());
 
         String tag = parts[2].trim();
         map.computeIfAbsent(form, __ -> new ArrayList<>()).add(new TaggedWord(lemma, internTags ? tag.intern() : tag));
