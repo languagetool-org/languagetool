@@ -1832,7 +1832,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token>¿</token>
-                    <token min="0" max="2" postag="SPS00|CC" postag_regexp="yes"/>
                     <marker>
                         <token>que</token>
                     </marker>
@@ -1841,14 +1840,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--<url>https://blog.lengua-e.com/2011/que-con-tilde-y-que-sin-tilde/</url>-->
                 <suggestion>qué</suggestion>
                 <example correction="Qué">¿<marker>Que</marker> quieres que te diga?</example>
-                <example correction="qué">¿Para <marker>que</marker> sirve?</example>
-                <example correction="qué">¿Y de <marker>que</marker> servirá?</example>
-                <example correction="qué">¿Por <marker>que</marker> has venido?</example>
                 <example correction="Qué">¿<marker>Que</marker> te has dejado en casa?</example>
                 <example type="triggers_error">¿Que te has dejado las llaves en casa?</example>
                 <!--This can't be detected, but infrequent-->
                 <example type="triggers_error">¿Que los alemanes no tienen sentido del humor?</example>
                 <!--This can't be detected, but infrequent-->
+                <example>¡Que te diviertas!</example>
+                <example>¿A que no?</example>
+                <example>¿Que cuántos tengo?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>a</token>
+                    <token>que</token>
+                    <token>no</token>
+                </antipattern>
+                <antipattern>
+                    <token>que</token>
+                    <token>si</token>
+                </antipattern>
+                <antipattern>
+                    <token>que</token>
+                    <token regexp="yes">cómo|cuántos?|cuándo|quién|quiénes|cuál|cuáles</token>
+                </antipattern>
+                <pattern>
+                    <token>¿</token>
+                    <token min="1" max="2" postag="SPS00|CC" postag_regexp="yes"/>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Si es interrogativo (=qué cosa), se escribe con tilde.</message>
+                <!--<url>https://blog.lengua-e.com/2011/que-con-tilde-y-que-sin-tilde/</url>-->
+                <suggestion>qué</suggestion>
+                <example correction="qué">¿Para <marker>que</marker> sirve?</example>
+                <example correction="qué">¿Y de <marker>que</marker> servirá?</example>
+                <example correction="qué">¿Por <marker>que</marker> has venido?</example>
                 <example>¡Que te diviertas!</example>
                 <example>¿A que no?</example>
                 <example>¿Que cuántos tengo?</example>
@@ -8478,6 +8505,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="por qué|porque">No puedo comprender <marker>porqué</marker> no vino.</example>
                 <example>Quiero saber el porqué.</example>
                 <example>Aún no se sabe la razón del porqué no va.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes" inflected="yes">ansioso|deseoso|optar|preocupación|preocupar</token>
+                    <token>por</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>por</token>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Si es una conjunción causal se escribe junto.</message>
+                <suggestion>porque</suggestion>
+                <example correction="porque">No le gustan <marker>por que</marker> sabe que son malos.</example>
+                <example>Optaron por que no hubiera elecciones.</example>
+                <example>Estaban ansiosos por que vinieran.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PREP_VERB" name="Combinación imposible: preposición + verbo conjugado">
