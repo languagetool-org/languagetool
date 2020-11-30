@@ -75,6 +75,7 @@ public final class ManualSynthesizer {
   private static Map<TaggedWord, List<String>> loadMapping(InputStream inputStream, Set<String> outTags) throws IOException {
     Map<String, String> internedStrings = new HashMap<>();
     Map<TaggedWord, List<String>> mapping = new HashMap<>();
+    Map<String, String> interned = new HashMap<>();
     try (Scanner scanner = new Scanner(inputStream, "utf8")) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
@@ -91,6 +92,7 @@ public final class ManualSynthesizer {
 
         String lemma = parts[1];
         if (form.equals(lemma)) form = lemma;
+        lemma = interned.computeIfAbsent(lemma, Function.identity());
 
         String posTag = internedStrings.computeIfAbsent(parts[2], Function.identity());
 
