@@ -820,7 +820,7 @@ public class AgreementRule extends Rule {
       csToken("D")
     ),
     Arrays.asList(
-      tokenRegex("ist|war(en)?|sind"),
+      tokenRegex("ist|war(en)?|sind|wird|werden"),
       csToken("das"),
       csToken("reine"),
       tokenRegex("Spekulation(en)?|Vorsichtsma(ß|ss)nahmen?|Makulatur(en)?")
