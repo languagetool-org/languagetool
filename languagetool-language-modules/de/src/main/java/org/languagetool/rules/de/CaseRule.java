@@ -683,7 +683,7 @@ public class CaseRule extends Rule {
       csRegex("Mo|Di|Mi|Do|Fr|Sa"),
       token("."),
       csRegex("&|und|oder"),
-      csToken("So")
+      csToken("So"),
       token(".")
     ),
     Arrays.asList( // Es hatte 10,5 Ah
@@ -700,7 +700,7 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList( // Namen mit "Matt" (e.g. Matt Gaetz)
       csToken("Matt"),
-      new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-Z].+").build(),
+      new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-Z].+").build()
     ),
     Arrays.asList( // Autohaus Dornig GmbH
       new PatternTokenBuilder().posRegex("EIG:.+|SUB:.+").csTokenRegex("[A-Z].+").build(),
