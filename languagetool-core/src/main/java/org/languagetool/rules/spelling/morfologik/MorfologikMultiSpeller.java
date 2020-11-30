@@ -129,7 +129,7 @@ public class MorfologikMultiSpeller {
     List<MorfologikSpeller> spellers = new ArrayList<>();
     MorfologikSpeller userDictSpeller = getUserDictSpellerOrNull(userWords, binaryDictPath, maxEditDistance);
     if (userDictSpeller != null) {
-      // add this first, as otherwise suggestions from user's won dictionary might drown in the mass of other suggestions
+      // add this first, as otherwise suggestions from user's own dictionary might drown in the mass of other suggestions
       spellers.add(userDictSpeller);
       userDictSpellers = Collections.singletonList(userDictSpeller);
     } else {
