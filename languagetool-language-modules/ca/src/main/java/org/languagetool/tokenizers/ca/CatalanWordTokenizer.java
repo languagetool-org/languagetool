@@ -18,15 +18,15 @@
  */
 package org.languagetool.tokenizers.ca;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.languagetool.JLanguageTool;
-import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
+import org.languagetool.language.Catalan;
+import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tokenizers.WordTokenizer;
 
 
@@ -44,8 +44,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
   private static final int maxPatterns = 11;
   private final Pattern[] patterns = new Pattern[maxPatterns];
   
-  private static final String DICT_FILENAME = "/ca/ca-ES-valencia.dict";
-  protected MorfologikSpeller speller;
+  private final CatalanTagger tagger;
 
   //Patterns to avoid splitting words in certain special cases
   // allows correcting typographical errors in "ela geminada"
@@ -73,16 +72,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
 
   public CatalanWordTokenizer() {
 
-    // lazy init
-    if (speller == null) {
-      if (JLanguageTool.getDataBroker().resourceExists(DICT_FILENAME)) {
-        try {
-          speller = new MorfologikSpeller(DICT_FILENAME);
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-      }
-    }
+    tagger = new CatalanTagger(new Catalan());
 
     // Apostrophe at the beginning of a word. Ex.: l'home, s'estima, n'omple, hivern, etc.
     // It creates 2 tokens: <token>l'</token><token>home</token>
@@ -211,7 +201,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
           l.add(s);
         } else {
           // words containing hyphen (-) are looked up in the dictionary
-          if (!speller.isMisspelled(s.replace("’", "'"))) {
+          if (tagger.tag(Arrays.asList(s.replace("’", "'"))).get(0).isTagged()) {
             l.add(s);
           }
           // some camel-case words containing hyphen (is there any better fix?)
@@ -221,7 +211,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
             l.add(s);
           }
           // words with "ela geminada" with typo: col-legi (col·legi)
-          else if (!speller.isMisspelled(s.replace("l-l", "l·l"))) {
+          else if (tagger.tag(Arrays.asList(s.replace("l-l", "l·l"))).get(0).isTagged()) {
             l.add(s);
           } else {
             // if not found, the word is split
