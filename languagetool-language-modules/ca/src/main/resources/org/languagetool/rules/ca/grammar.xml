@@ -92,7 +92,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY sigles_apostrofen "MI5|MI6|FP|FBI|FMI|IEC|IULA|RNA|HTML|IES|IEA|NBA|NBC|SPD|FTP|F1|IAE|LSD|FDP|FMLN|IPC|IRPF|NPD|SME|SMI|SPLA|Spartak?|XML|UNICEF|(?-i)IRA|FM">
     <!ENTITY sigles_no_apostrofen "(?-i)SGAE|FNAC|ITV|Scala">
     <!ENTITY apostrofen_ela "Slesvig|Slesvig-Holstein|striptease|Sporting|statu|scherzo|ftalat|snack|Stradivarius|zwitterió|Hble">
-    <!ENTITY unitats "cc|aC|dC|AM|PM|MB|GB|TB|mm|cm|dm|m|km|d|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|K|pts|ptes|[£€$]|(mm|cm|dm|m|km)[23²³]">
+    <!ENTITY unitats "cc|aC|dC|AM|PM|MB|GB|TB|M|mm|cm|dm|m|km|d|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|K|pts|ptes|[£€$]|(mm|cm|dm|m|km)[23²³]">
     <!ENTITY unitats_SI "(da|h|k|M|G|T|P|E|Z|Y|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|cd|mol|Hz|N|Pa|J|W|Wh|C|V|Ω|S|F|T|Wb|H|rad|sr|lm|lx|Bq|Gy|Sv|kat|l|L)[²³23]?">
     <!ENTITY unitats_temps "segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|decenni|segle|mil·lenni|mil·lenari">
     <!ENTITY verbs_no_apostrofen "halar|ioditzar|iotitzar|iodurar|iodar|hackejar">
@@ -33035,7 +33035,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">\d+|\d{1,3}([\. &#8239;&#160;]\d\d\d)+<exception scope="previous" regexp="yes">.*[º°h]</exception></token>
                 <token spacebefore="no" regexp="yes">['`’‘]</token>
-                <token spacebefore="no" regexp="yes">\d+(%|&unitats;)?</token>
+                <token spacebefore="no" regexp="yes" case_sensitive="yes">\d+(%|&unitats;)?</token>
             </pattern>
             <message>Per a separar els decimals, useu una coma.</message>
             <suggestion>\1,\3</suggestion>
@@ -34520,6 +34520,135 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="DONARSELI_BE" name="*donar-se-li bé">
+            <rule>
+                <pattern>
+                    <token>se</token>
+                    <token>'m</token>
+                    <token postag="V.[IS]P3..." postag_regexp="yes" inflected="yes">donar</token>
+                    <token>bé</token>
+                </pattern>
+                <message>Calc del castellà.</message>
+                <suggestion><match no="2" regexp_match="'" regexp_replace="e"/> <match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">anar</match> \4</suggestion>
+                <suggestion><match no="3" postag="(V.[IS].)3.(..)" postag_regexp="yes" postag_replace="$11S$2">tenir</match> traça per a</suggestion>
+                <suggestion><match no="3" postag="(V.[IS].)3.(..)" postag_regexp="yes" postag_replace="$11S$2">tenir</match> facilitat per a</suggestion>
+                <example correction="em va bé|tinc traça per a|tinc facilitat per a">No <marker>se'm dona bé</marker> les matemàtiques.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>se</token>
+                    <token>'t</token>
+                    <token postag="V.[IS]P3..." postag_regexp="yes" inflected="yes">donar</token>
+                    <token>bé</token>
+                </pattern>
+                <message>Calc del castellà.</message>
+                <suggestion><match no="2" regexp_match="'" regexp_replace="e"/> <match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">anar</match> \4</suggestion>
+                <suggestion><match no="3" postag="(V.[IS].)3.(..)" postag_regexp="yes" postag_replace="$12S$2">tenir</match> traça per a</suggestion>
+                <suggestion><match no="3" postag="(V.[IS].)3.(..)" postag_regexp="yes" postag_replace="$12S$2">tenir</match> facilitat per a</suggestion>
+                <example correction="et va bé|tens traça per a|tens facilitat per a">No <marker>se't dona bé</marker> la química.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>se</token>
+                    <token>'m</token>
+                    <token postag="V.[IS].3..." postag_regexp="yes" inflected="yes">donar</token>
+                    <token>bé</token>
+                </pattern>
+                <message>Calc del castellà.</message>
+                <suggestion>m'<match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">anar</match> \4</suggestion>
+                <suggestion><match no="3" postag="(V.[IS].)3.(..)" postag_regexp="yes" postag_replace="$11S$2">tenir</match> traça per a</suggestion>
+                <suggestion><match no="3" postag="(V.[IS].)3.(..)" postag_regexp="yes" postag_replace="$11S$2">tenir</match> facilitat per a</suggestion>
+                <example correction="m'anaven bé|tenia traça per a|tenia facilitat per a">No <marker>se'm donaven bé</marker> les matemàtiques.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>se</token>
+                    <token>'t</token>
+                    <token postag="V.[IS].3..." postag_regexp="yes" inflected="yes">donar</token>
+                    <token>bé</token>
+                </pattern>
+                <message>Calc del castellà.</message>
+                <suggestion>t'<match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">anar</match> \4</suggestion>
+                <suggestion><match no="3" postag="(V.[IS].)3.(..)" postag_regexp="yes" postag_replace="$12S$2">tenir</match> traça per a</suggestion>
+                <suggestion><match no="3" postag="(V.[IS].)3.(..)" postag_regexp="yes" postag_replace="$12S$2">tenir</match> facilitat per a</suggestion>
+                <example correction="t'anaven bé|tenies traça per a|tenies facilitat per a">No <marker>se't donaven bé</marker> les matemàtiques.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>se</token>
+                    <token>li</token>
+                    <token postag="V.[IS].3..." postag_regexp="yes" inflected="yes">donar</token>
+                    <token>bé</token>
+                </pattern>
+                <message>Calc del castellà.</message>
+                <suggestion><match no="2" regexp_match="'" regexp_replace="e"/> <match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">anar</match> \4</suggestion>
+                <suggestion><match no="3" postag="(V.[IS].)3.(..)" postag_regexp="yes" postag_replace="$13S$2">tenir</match> traça per a</suggestion>
+                <suggestion><match no="3" postag="(V.[IS].)3.(..)" postag_regexp="yes" postag_replace="$13S$2">tenir</match> facilitat per a</suggestion>
+                <example correction="li anaven bé|tenia traça per a|tenia facilitat per a">No <marker>se li donaven bé</marker> les matemàtiques.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>se</token>
+                    <token>'ns</token>
+                    <token postag="V.[IS].3..." postag_regexp="yes" inflected="yes">donar</token>
+                    <token>bé</token>
+                </pattern>
+                <message>Calc del castellà.</message>
+                <suggestion><match no="2" regexp_match="'" regexp_replace="e"/> <match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">anar</match> \4</suggestion>
+                <suggestion><match no="3" postag="(V.[IS].)3.(..)" postag_regexp="yes" postag_replace="$11P$2">tenir</match> traça per a</suggestion>
+                <suggestion><match no="3" postag="(V.[IS].)3.(..)" postag_regexp="yes" postag_replace="$11P$2">tenir</match> facilitat per a</suggestion>
+                <example correction="ens anaven bé|teníem traça per a|teníem facilitat per a">No <marker>se'ns donaven bé</marker> les matemàtiques.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>se</token>
+                    <token regexp="yes">us|vos</token>
+                    <token postag="V.[IS].3..." postag_regexp="yes" inflected="yes">donar</token>
+                    <token>bé</token>
+                </pattern>
+                <message>Calc del castellà.</message>
+                <suggestion><match no="2" regexp_match="'" regexp_replace="e"/> <match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">anar</match> \4</suggestion>
+                <suggestion><match no="3" postag="(V.[IS].)3.(..)" postag_regexp="yes" postag_replace="$12P$2">tenir</match> traça per a</suggestion>
+                <suggestion><match no="3" postag="(V.[IS].)3.(..)" postag_regexp="yes" postag_replace="$12P$2">tenir</match> facilitat per a</suggestion>
+                <example correction="us anaven bé|teníeu traça per a|teníeu facilitat per a">No <marker>se us donaven bé</marker> les matemàtiques.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>se</token>
+                    <token>'ls</token>
+                    <token postag="V.[IS].3..." postag_regexp="yes" inflected="yes">donar</token>
+                    <token>bé</token>
+                </pattern>
+                <message>Calc del castellà.</message>
+                <suggestion><match no="2" regexp_match="'" regexp_replace="e"/> <match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">anar</match> \4</suggestion>
+                <suggestion><match no="3" postag="(V.[IS].)3.(..)" postag_regexp="yes" postag_replace="$13P$2">tenir</match> traça per a</suggestion>
+                <suggestion><match no="3" postag="(V.[IS].)3.(..)" postag_regexp="yes" postag_replace="$13P$2">tenir</match> facilitat per a</suggestion>
+                <example correction="els anaven bé|tenien traça per a|tenien facilitat per a">No <marker>se'ls donaven bé</marker> les matemàtiques.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>se</token>
+                    <token regexp="yes">'t|'m|li|'ns|us|vos|'ls</token>
+                    <token postag="V.[IS].3..." postag_regexp="yes" inflected="yes" skip="1">donar</token>
+                    <token regexp="yes">bé|malament|millor|pitjor</token>
+                </pattern>
+                <message>Calc del castellà.</message>
+                <suggestion><match no="2" regexp_match="'" regexp_replace="e"/> <match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">anar</match> \4</suggestion>
+                <example correction="li anaven gens bé">No <marker>se li donaven gens bé</marker> les matemàtiques.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>se</token>
+                    <token regexp="yes">'t|'m|li|'ns|us|vos|'ls</token>
+                    <token postag="V.[IS].3..." postag_regexp="yes" inflected="yes" regexp="yes">haver|anar</token>
+                    <token postag="V.[PN].*" postag_regexp="yes" inflected="yes" skip="1">donar</token>
+                    <token regexp="yes">bé|malament|millor|pitjor</token>
+                </pattern>
+                <message>Calc del castellà.</message>
+                <suggestion><match no="2" regexp_match="'" regexp_replace="e"/> \3 <match no="4" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">anar</match> \5</suggestion>
+                <example correction="li han anat gens bé">No <marker>se li han donat gens bé</marker> les matemàtiques.</example>
+            </rule>
+        </rulegroup>
         <rule id="EMES" name="emes/emès" default="temp_off">
             <antipattern>
                 <token postag="D..FP." postag_regexp="yes"/>
@@ -51632,7 +51761,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!--  <rule id="NO_DONAR_TEMPS" name="no donar temps/no tenir temps/no haver-hi">
             <pattern>
             <token>no</token>
-            <token min="0" regexp="yes">em|et|m'|t'li|ens|us|vos|els</token>
+            <token min="0" regexp="yes">em|et|m'|t'|li|ens|us|vos|els</token>
             <token regexp="yes">dóna|donava|donà</token>
             <token>temps</token>
             </pattern>
