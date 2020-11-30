@@ -10567,6 +10567,22 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="Caso"><marker>Se caso</marker> eles vierem, não os atenda.</example>
     </rule>
 
+    <!-- 	QUE NUNCA MAIS ACABA(M) sem fim -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-30 (21-OCT-2020+)     -->
+    <rule id='SEM_FIM' name="Sem fim">
+		<pattern>
+			<token postag='NC.+|AQ.+' postag_regexp='yes'/>			
+		    <marker>
+				<token>que</token>
+				<token>nunca</token>
+				<token>mais</token>
+				<token regexp='yes'>acabam?</token>				
+			</marker>
+		</pattern>		
+		<message>Substitua por <suggestion>sem fim</suggestion>.</message>
+		<example correction="sem fim">Temos livros <marker>que nunca mais acabam</marker>.</example>  
+	</rule>
+
     <rule id='SERVIR_A_FAZER' name="Servir para fazer">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
