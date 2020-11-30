@@ -34510,6 +34510,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="EMES" name="emes/emès" default="temp_off">
+            <antipattern>
+                <token postag="D..FP." postag_regexp="yes"/>
+                <token>emes</token>
+            </antipattern>
+            <pattern>
+                <token>emes</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>emès</suggestion> (del v. 'emetre')? "Emes" pot ser el plural de la lletra ema.</message>
+            <suggestion>emés</suggestion>
+            <example correction="emès|emés">Un informe <marker>emes</marker> pel Parlament.</example>
+            <example>Li costa molt pronunciar les emes.</example>
+        </rule>
         <rulegroup id="TIRAR_A_BAIX" name="*tirar a baix">
             <rule>
                 <pattern>
