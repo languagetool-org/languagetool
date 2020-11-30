@@ -798,6 +798,15 @@ public class MultiDocumentsHandler {
       }
     }
   }
+  
+  /**
+   * Reset document cache of all documents
+   */
+  void resetDocumentCaches() {
+    for (SingleDocument document : documents) {
+      document.resetDocumentCache();
+    }
+  }
 
   /**
    * Get current locale language
@@ -1226,6 +1235,7 @@ public class MultiDocumentsHandler {
               checkDialog.setTextViewCursor(0, 0, viewCursor, docCursor);
             }
           }
+          resetDocumentCaches();
           resetDocument();
         }
         if (debugMode) {

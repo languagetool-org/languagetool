@@ -387,6 +387,12 @@ class SingleDocument {
     return docCache;
   }
   
+  /** reset document cache of the document
+   */
+  void resetDocumentCache() {
+    docCache = null;
+  }
+  
   /** Update document cache and get it
    */
   DocumentCache getUpdatedDocumentCache() {

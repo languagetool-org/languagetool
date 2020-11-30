@@ -302,7 +302,7 @@ public class DocumentCache implements Serializable {
         break;
       }
     }
-    if (headingAfter < numCurPara || headingAfter > toParaMapping.size()) {
+    if (headingAfter <= numCurPara || headingAfter > toParaMapping.size()) {
       headingAfter = toParaMapping.size();
     }
     if (parasToCheck < 0) {
@@ -373,14 +373,6 @@ public class DocumentCache implements Serializable {
    *  and changes of language to the chapter begins
    */
   private void prepareChapterBegins() {
-    List<Integer> tmpChapterBegins = new ArrayList<Integer>();
-    for (int nPara : chapterBegins) {
-      int nText = getNumberOfTextParagraph(nPara);
-      if (nText >= 0) {
-        tmpChapterBegins.add(nText);
-      }
-    }
-    chapterBegins = tmpChapterBegins;
     List<Integer> prepChBegins = new ArrayList<Integer>(chapterBegins);
     for (int begin : chapterBegins) {
       if (!prepChBegins.contains(begin + 1)) {
@@ -392,10 +384,12 @@ public class DocumentCache implements Serializable {
       for (int i = 1; i < locales.size(); i++) {
         if (locales != null && !locales.get(i).equalsLocale(lastLocale)) {
           int nText = getNumberOfTextParagraph(i);
-          if (nText >= 0 && !prepChBegins.contains(nText)) {
-            prepChBegins.add(nText);
+          if (nText >= 0) {
+            if (!prepChBegins.contains(nText)) {
+              prepChBegins.add(nText);
+            }
+            lastLocale = locales.get(i);
           }
-          lastLocale = locales.get(i);
           if (debugMode) {
             MessageHandler.printToLogFile("Paragraph("  + i + "): Locale changed to: " + lastLocale.Language + (lastLocale.Country == null ? "" : ("-" + lastLocale.Country)));
           }
