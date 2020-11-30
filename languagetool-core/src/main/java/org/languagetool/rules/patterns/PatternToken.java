@@ -51,20 +51,10 @@ public class PatternToken implements Cloneable {
   private boolean whitespaceBefore;
   private boolean isInsideMarker = true;
 
-  /**  List of exceptions that are valid for the current token and / or some next tokens. */
-  private List<PatternToken> exceptionList;
+  private Exceptions exceptions;
 
   /** True if scope=="next". */
   private boolean exceptionValidNext;
-
-  /** True if any exception with a scope=="current" or scope=="next" is set for the element. */
-  private boolean exceptionSet;
-
-  /** True if attribute scope=="previous". */
-  private boolean exceptionValidPrevious;
-
-  /** List of exceptions that are valid for a previous token. */
-  private List<PatternToken> previousExceptionList;
 
   private byte skip;
   private boolean mayBeOmitted;
@@ -137,8 +127,8 @@ public class PatternToken implements Cloneable {
    * @return True if any of the exceptions matches (logical disjunction).
    */
   public boolean isExceptionMatched(AnalyzedToken token) {
-    if (exceptionSet) {
-      for (PatternToken testException : exceptionList) {
+    if (exceptions != null && exceptions.currentAndNext != null) {
+      for (PatternToken testException : exceptions.currentAndNext) {
         if (!testException.exceptionValidNext && testException.isMatched(token)) {
           return true;
         }
@@ -226,8 +216,8 @@ public class PatternToken implements Cloneable {
    * @return True if any of the exceptions matches.
    */
   public boolean isMatchedByScopeNextException(AnalyzedToken token) {
-    if (exceptionSet) {
-      for (PatternToken testException : exceptionList) {
+    if (exceptions != null && exceptions.currentAndNext != null) {
+      for (PatternToken testException : exceptions.currentAndNext) {
         if (testException.exceptionValidNext && testException.isMatched(token)) {
           return true;
         }
@@ -243,8 +233,8 @@ public class PatternToken implements Cloneable {
    * @return True if any of the exceptions matches.
    */
   public boolean isMatchedByPreviousException(AnalyzedToken token) {
-    if (exceptionValidPrevious) {
-      for (PatternToken testException : previousExceptionList) {
+    if (hasPreviousException()) {
+      for (PatternToken testException : exceptions.previous) {
         if (!testException.exceptionValidNext && testException.isMatched(token)) {
           return true;
         }
@@ -325,25 +315,10 @@ public class PatternToken implements Cloneable {
     exception.setNegation(negation);
     exception.setPosToken(new PosToken(posToken, posRegExp, posNegation));
     exception.exceptionValidNext = scopeNext;
-    setException(exception, scopePrevious);
-  }
-
-  private void setException(PatternToken pToken, boolean scopePrevious) {
-    exceptionValidPrevious |= scopePrevious;
-    if (exceptionList == null && !scopePrevious) {
-      exceptionList = new ArrayList<>();
+    if (exceptions == null) {
+      exceptions = new Exceptions();
     }
-    if (previousExceptionList == null && scopePrevious) {
-      previousExceptionList = new ArrayList<>();
-    }
-    if (scopePrevious) {
-      previousExceptionList.add(pToken);
-    } else {
-      if (!exceptionSet) {
-        exceptionSet = true;
-      }
-      exceptionList.add(pToken);
-    }
+    exceptions.addException(exception, scopePrevious);
   }
 
   /**
@@ -439,7 +414,7 @@ public class PatternToken implements Cloneable {
    * @return True if the element has a previous token matching exception.
    */
   public boolean hasPreviousException() {
-    return exceptionValidPrevious;
+    return exceptions != null && exceptions.previous != null;
   }
 
   /**
@@ -672,11 +647,10 @@ public class PatternToken implements Cloneable {
    * @param isWhite If true, the space before exception is required.
    */
   public void setExceptionSpaceBefore(boolean isWhite) {
-    if (previousExceptionList != null && exceptionValidPrevious) {
-      previousExceptionList.get(previousExceptionList.size() - 1).setWhitespaceBefore(isWhite);
-    } else {
-      if (exceptionList != null) {
-        exceptionList.get(exceptionList.size() - 1).setWhitespaceBefore(isWhite);
+    if (exceptions != null) {
+      List<PatternToken> list = hasPreviousException() ? exceptions.previous : exceptions.currentAndNext;
+      if (list != null) {
+        list.get(list.size() - 1).setWhitespaceBefore(isWhite);
       }
     }
   }
@@ -689,19 +663,13 @@ public class PatternToken implements Cloneable {
    * @return A List of Exceptions. Used for testing.
    * @since 1.0.0
    */
+  @Nullable
   public List<PatternToken> getExceptionList() {
-    return exceptionList;
-  }
-
-  /**
-   * @return List of previous exceptions. Used for testing.
-   */
-  public List<PatternToken> getPreviousExceptionList() {
-    return previousExceptionList;
+    return exceptions == null ? null : exceptions.currentAndNext;
   }
 
   public boolean hasExceptionList() {
-    return exceptionList != null || previousExceptionList != null;
+    return exceptions != null;
   }
 
   /**
@@ -768,6 +736,7 @@ public class PatternToken implements Cloneable {
       sb.append('/');
       sb.append(chunkTag);
     }
+    List<PatternToken> exceptionList = getExceptionList();
     if (exceptionList != null) {
       sb.append("/exceptions=");
       sb.append(exceptionList);
@@ -799,4 +768,27 @@ public class PatternToken implements Cloneable {
       return posTag;
     }
   }
+
+  private static class Exceptions {
+    /**  List of exceptions that are valid for the current token and / or some next tokens. */
+    private List<PatternToken> currentAndNext;
+
+    /** List of exceptions that are valid for a previous token. */
+    private List<PatternToken> previous;
+
+    private void addException(PatternToken pToken, boolean scopePrevious) {
+      if (scopePrevious) {
+        if (previous == null) {
+          previous = new ArrayList<>();
+        }
+        previous.add(pToken);
+      } else {
+        if (currentAndNext == null) {
+          currentAndNext = new ArrayList<>();
+        }
+        currentAndNext.add(pToken);
+      }
+    }
+  }
+
 }
