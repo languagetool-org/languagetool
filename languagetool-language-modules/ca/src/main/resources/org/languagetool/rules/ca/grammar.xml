@@ -34627,26 +34627,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>se</token>
-                    <token regexp="yes">'t|'m|li|'ns|us|vos|'ls</token>
-                    <token postag="V.[IS].3..." postag_regexp="yes" inflected="yes" skip="1">donar</token>
+                    <marker>
+                        <token>se</token>
+                        <token regexp="yes">'t|'m|li|'ns|us|vos|'ls</token>
+                        <token postag="V.[IS].3..." postag_regexp="yes" inflected="yes" skip="2">donar</token>
+                    </marker>
                     <token regexp="yes">bé|malament|millor|pitjor</token>
                 </pattern>
                 <message>Calc del castellà.</message>
-                <suggestion><match no="2" regexp_match="'" regexp_replace="e"/> <match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">anar</match> \4</suggestion>
-                <example correction="li anaven gens bé">No <marker>se li donaven gens bé</marker> les matemàtiques.</example>
+                <suggestion><match no="2" regexp_match="'" regexp_replace="e"/> <match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">anar</match></suggestion>
+                <example correction="li anaven">No <marker>se li donaven</marker> gens bé les matemàtiques.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>se</token>
-                    <token regexp="yes">'t|'m|li|'ns|us|vos|'ls</token>
-                    <token postag="V.[IS].3..." postag_regexp="yes" inflected="yes" regexp="yes">haver|anar</token>
-                    <token postag="V.[PN].*" postag_regexp="yes" inflected="yes" skip="1">donar</token>
+                    <marker>
+                        <token>se</token>
+                        <token regexp="yes">'t|'m|li|'ns|us|vos|'ls</token>
+                        <token postag="V.[IS].3..." postag_regexp="yes" inflected="yes" regexp="yes">haver|anar</token>
+                        <token postag="V.[PN].*" postag_regexp="yes" inflected="yes" skip="2">donar</token>
+                    </marker>
                     <token regexp="yes">bé|malament|millor|pitjor</token>
                 </pattern>
                 <message>Calc del castellà.</message>
-                <suggestion><match no="2" regexp_match="'" regexp_replace="e"/> \3 <match no="4" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">anar</match> \5</suggestion>
-                <example correction="li han anat gens bé">No <marker>se li han donat gens bé</marker> les matemàtiques.</example>
+                <suggestion><match no="2" regexp_match="'" regexp_replace="e"/> \3 <match no="4" postag="(V.*)" postag_regexp="yes" postag_replace="$1">anar</match></suggestion>
+                <example correction="li han anat">No <marker>se li han donat</marker> mai gens bé les matemàtiques.</example>
             </rule>
         </rulegroup>
         <rule id="EMES" name="emes/emès" default="temp_off">
@@ -51758,19 +51762,112 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Tenia"><marker>Comptava amb</marker> 3.500 h.</example>
             <example correction="Té"><marker>Compta amb</marker> 3.500 habitants.</example>
         </rule>
-        <!--  <rule id="NO_DONAR_TEMPS" name="no donar temps/no tenir temps/no haver-hi">
-            <pattern>
-            <token>no</token>
-            <token min="0" regexp="yes">em|et|m'|t'|li|ens|us|vos|els</token>
-            <token regexp="yes">dóna|donava|donà</token>
-            <token>temps</token>
-            </pattern>
-            <message>Probablement val més usar una altra expressió.</message>
-            <suggestion>no hi <match no="3" postag="VMI(.)3S00" postag_regexp="yes" postag_replace="VAI$13S00">haver</match> temps</suggestion>
-            <suggestion>no (tenir) temps</suggestion>
-            <example correction="No hi ha temps|No (tenir) temps"><marker>No dóna temps</marker>.</example>
-            <example correction="No hi ha temps|No (tenir) temps"><marker>No em dóna temps</marker> de fer-ho.</example>
-            </rule> -->
+        <rulegroup id="DONAR_TEMPS" name="no donar temps/no tenir temps/no haver-hi" default="temp_off">
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=donar+temps&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=11785&amp;idHit=11785&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27donar+temps%27+o+%27tenir+temps%27%3F&amp;tematica=&amp;tipusCerca=cerca.tot</url>
+            <antipattern>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                <token min="1" max="5" postag="_GN_.*|N.*|P.*" postag_regexp="yes" ><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|vegada|volta|cop|&noms_collectius;</exception><exception regexp="yes">.*%</exception></token>
+                <token min="0" max="2" postag="&pronom_feble;|R." postag_regexp="yes"/>
+                <token inflected="yes">donar</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>em</token>
+                    <token postag="V...3S.." postag_regexp="yes" inflected="yes">donar</token>
+                    <token>temps</token>
+                </pattern>
+                <message>Expressió incorrecta si equival a alguna de les següents.</message>
+                <suggestion>hi <match no="2" postag="VMI(.)3S00" postag_regexp="yes" postag_replace="VAI$13S00">haver</match> temps</suggestion>
+                <suggestion><match no="2" postag="(VM..)3S(..)" postag_regexp="yes" postag_replace="$11S$2">tenir</match> temps</suggestion>
+                <example correction="hi ha temps|tinc temps">No <marker>em dóna temps</marker> de fer-ho.</example>
+                <example correction="hi ha temps|tinc temps">Aquest mes no <marker>em dóna temps</marker> de fer-ho.</example>
+                <example correction="hi haurà temps|tindré temps">Enguany no <marker>em donarà temps</marker> de fer-ho.</example>
+                <example>El professor em dona temps per a acabar l'examen.</example>
+                <example>El professor no em donava temps per a acabar l'examen.</example>
+                <example>El professor sempre em donava temps per a acabar l'examen.</example>
+                <example>Joan sempre em donava temps per a acabar l'examen.</example>
+                <example>Ell sempre em donava temps per a acabar l'examen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>et</token>
+                    <token postag="V...3S.." postag_regexp="yes" inflected="yes">donar</token>
+                    <token>temps</token>
+                </pattern>
+                <message>Expressió incorrecta si equival a alguna de les següents.</message>
+                <suggestion>hi <match no="2" postag="VMI(.)3S00" postag_regexp="yes" postag_replace="VAI$13S00">haver</match> temps</suggestion>
+                <suggestion><match no="2" postag="(VM..)3S(..)" postag_regexp="yes" postag_replace="$12S$2">tenir</match> temps</suggestion>
+                <example correction="hi ha temps|tens temps">No <marker>et dóna temps</marker> de fer-ho.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>li</token>
+                    <token postag="V...3S.." postag_regexp="yes" inflected="yes">donar</token>
+                    <token>temps</token>
+                </pattern>
+                <message>Expressió incorrecta si equival a alguna de les següents.</message>
+                <suggestion>hi <match no="2" postag="VMI(.)3S00" postag_regexp="yes" postag_replace="VAI$13S00">haver</match> temps</suggestion>
+                <suggestion><match no="2" postag="(VM..)3S(..)" postag_regexp="yes" postag_replace="$13S$2">tenir</match> temps</suggestion>
+                <example correction="hi ha temps|té temps">No <marker>li dóna temps</marker> de fer-ho.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ens</token>
+                    <token postag="V...3S.." postag_regexp="yes" inflected="yes">donar</token>
+                    <token>temps</token>
+                </pattern>
+                <message>Expressió incorrecta si equival a alguna de les següents.</message>
+                <suggestion>hi <match no="2" postag="VMI(.)3S00" postag_regexp="yes" postag_replace="VAI$13S00">haver</match> temps</suggestion>
+                <suggestion><match no="2" postag="(VM..)3S(..)" postag_regexp="yes" postag_replace="$11P$2">tenir</match> temps</suggestion>
+                <example correction="hi ha temps|tenim temps">No <marker>ens dóna temps</marker> de fer-ho.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">vos|us</token>
+                    <token postag="V...3S.." postag_regexp="yes" inflected="yes">donar</token>
+                    <token>temps</token>
+                </pattern>
+                <message>Expressió incorrecta si equival a alguna de les següents.</message>
+                <suggestion>hi <match no="2" postag="VMI(.)3S00" postag_regexp="yes" postag_replace="VAI$13S00">haver</match> temps</suggestion>
+                <suggestion><match no="2" postag="(VM..)3S(..)" postag_regexp="yes" postag_replace="$12P$2">tenir</match> temps</suggestion>
+                <example correction="hi ha temps|teniu temps">No <marker>us dóna temps</marker> de fer-ho.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>els</token>
+                    <token postag="V...3S.." postag_regexp="yes" inflected="yes">donar</token>
+                    <token>temps</token>
+                </pattern>
+                <message>Expressió incorrecta si equival a alguna de les següents.</message>
+                <suggestion>hi <match no="2" postag="VMI(.)3S00" postag_regexp="yes" postag_replace="VAI$13S00">haver</match> temps</suggestion>
+                <suggestion><match no="2" postag="(VM..)3S(..)" postag_regexp="yes" postag_replace="$13P$2">tenir</match> temps</suggestion>
+                <example correction="hi ha temps|tenen temps">No <marker>els dóna temps</marker> de fer-ho.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">em|et|m'|t'|li|ens|us|vos|els</token>
+                    <token postag="V...3S.." postag_regexp="yes" inflected="yes">donar</token>
+                    <token>temps</token>
+                </pattern>
+                <message>Expressió incorrecta si equival a alguna de les següents.</message>
+                <suggestion>hi <match no="2" postag="VMI(.)3S00" postag_regexp="yes" postag_replace="VAI$13S00">haver</match> temps</suggestion>
+                <suggestion>(tenir) temps</suggestion>
+                <example correction="hi ha temps|(tenir) temps">No <marker>em dóna temps</marker> de fer-ho.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">em|et|m'|t'|li|ens|us|vos|els</token>
+                    <token postag="V...3S.." postag_regexp="yes" inflected="yes" regexp="yes">anar|haver</token>
+                    <token postag="V.[NP].*" postag_regexp="yes" inflected="yes">donar</token>
+                    <token>temps</token>
+                </pattern>
+                <message>Expressió incorrecta si equival a alguna de les següents.</message>
+                <suggestion>hi \2 <match no="3" postag="VM(.*)" postag_regexp="yes" postag_replace="VA$1">haver</match> temps</suggestion>
+                <suggestion>(tenir) temps</suggestion>
+                <example correction="hi va haver temps|(tenir) temps">No <marker>em va donar temps</marker> de fer-ho.</example>
+                <example correction="hi ha hagut temps|(tenir) temps">No <marker>m'ha donat temps</marker> de fer-ho.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="EN_LLOGUER" name="en lloguer">
             <rule>
                 <pattern>
