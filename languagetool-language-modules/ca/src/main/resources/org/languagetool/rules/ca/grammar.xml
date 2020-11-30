@@ -28578,6 +28578,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="més">Un <marker>mes</marker> que els altres.</example>
                 <example>Un mes que ens ha deixat exhausts.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>mes</token>
+                    </marker>
+                    <token>a</token>
+                    <token regexp="yes">menys|manco</token>
+                </pattern>
+                <message>S'accentua quan és adjectiu.</message>
+                <suggestion>més</suggestion>
+                <example correction="més">Cal anar de <marker>mes</marker> a menys.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">menys|manco</token>
+                    <token>a</token>
+                    <marker>
+                        <token>mes</token>
+                    </marker>
+                </pattern>
+                <message>S'accentua quan és adjectiu.</message>
+                <suggestion>més</suggestion>
+                <example correction="més">Cal anar de menys a <marker>mes</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="MES2" name="*més>mes">
             <rule>
@@ -34520,6 +34544,71 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="LIAT" name="*liat">
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="3">estar</token>
+                    <marker>
+                        <token regexp="yes">liat|liats|liada|liades</token>
+                    </marker>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion><match no="2" regexp_match="(?iu)li" regexp_replace="enfein"/></suggestion>
+                <suggestion><match no="2" regexp_match="(?iu)li" regexp_replace="atabal"/></suggestion>
+                <suggestion><match no="2" regexp_match="(?iu)li" regexp_replace="ocup"/></suggestion>
+                <suggestion><match no="2" regexp_match="(?iu)li" regexp_replace="aclapar"/></suggestion>
+                <suggestion><match no="2" regexp_match="(?iu)li" regexp_replace="embolic"/></suggestion>
+                <suggestion><match no="2" regexp_match="(?iu)li" regexp_replace="emmerd"/></suggestion>
+                <suggestion><match no="2" regexp_match="(?iu)li" regexp_replace="desbord"/></suggestion>
+                <suggestion><match no="2" regexp_match="(?iu)li" regexp_replace="afaen"/></suggestion>
+                <example correction="enfeinat|atabalat|ocupat|aclaparat|embolicat|emmerdat|desbordat|afaenat">Ara estic sempre molt <marker>liat</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>la</token>
+                    <token inflected="yes">anar</token>
+                    <marker>
+                        <token>liar</token>
+                    </marker>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>fer bona</suggestion>
+                <suggestion>fer grossa</suggestion>
+                <suggestion>cagar</suggestion>
+                <suggestion>fer com un cove</suggestion>
+                <example correction="fer bona|fer grossa|cagar|fer com un cove">La vau <marker>liar</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">la|l'</token>
+                    <token inflected="yes">haver</token>
+                    <marker>
+                        <token>liada</token>
+                    </marker>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>feta bona</suggestion>
+                <suggestion>feta grossa</suggestion>
+                <suggestion>cagada</suggestion>
+                <suggestion>feta com un cove</suggestion>
+                <example correction="feta bona|feta grossa|cagada|feta com un cove">L'has <marker>liada</marker>, eh?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>liar</token>
+                        <token>-la</token>
+                    </marker>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>fer-la bona</suggestion>
+                <suggestion>fer-la grossa</suggestion>
+                <suggestion>cagar-la</suggestion>
+                <suggestion>fer-la com un cove</suggestion>
+                <suggestion>embolicar-la</suggestion>
+                <example correction="fer-la bona|fer-la grossa|cagar-la|fer-la com un cove|embolicar-la">Ara volem <marker>liar-la</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DONARSELI_BE" name="*donar-se-li bé">
             <rule>
                 <pattern>
@@ -36450,19 +36539,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">adonar</match></suggestion>?</message>
             <example correction="adones">No et <marker>dónes conter</marker>?</example>
         </rule>
-        <rule id="OLORAR_A" name="*olorar a/fer olor de">
-            <pattern>
-                <marker>
-                    <token inflected="yes">olorar</token>
-                    <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
-                </marker>
-                <token><exception regexp="yes">intervals|estones</exception></token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.[^M].*)" postag_regexp="yes" postag_replace="$1">fer</match> olor de</suggestion>?</message>
-            <example correction="feien olor de">Els xiquets <marker>oloraven a</marker> colònia.</example>
-            <example correction="fa olor de">Què <marker>olora a</marker> pintura?</example>
-            <example>olorava al voltant de la séquia</example>
-        </rule>
+        <rulegroup id="OLORAR_A" name="*olorar a/fer olor de">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">olorar</token>
+                        <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token><exception regexp="yes">intervals|estones</exception></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(V.[^M].*)" postag_regexp="yes" postag_replace="$1">fer</match> olor de</suggestion>?</message>
+                <example correction="feien olor de">Els xiquets <marker>oloraven a</marker> colònia.</example>
+                <example correction="fa olor de">Què <marker>olora a</marker> pintura?</example>
+                <example>olorava al voltant de la séquia</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.[SI].3..." postag_regexp="yes" inflected="yes" regexp="yes">olorar|ensumar</token>
+                    <token>millor</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(V.[SI].*)" postag_regexp="yes" postag_replace="$1">fer</match> més bona olor</suggestion></message>
+                <example correction="feia més bona olor">Allò cada dia <marker>ensumava millor</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.[SI].3..." postag_regexp="yes" inflected="yes" regexp="yes">olorar|ensumar</token>
+                    <token>pitjor</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(V.[SI].*)" postag_regexp="yes" postag_replace="$1">fer</match> més mala olor</suggestion></message>
+                <suggestion><match no="1" postag="(V.[SI].*)" postag_regexp="yes" postag_replace="$1">fer</match> més pudor</suggestion>
+                <example correction="feia més mala olor|feia més pudor">Cada dia <marker>olorava pitjor</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="PINTAR_BASTOS" name="pintar bastos">
             <pattern>
                 <token inflected="yes">pintar</token>
@@ -51766,7 +51874,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=donar+temps&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=11785&amp;idHit=11785&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27donar+temps%27+o+%27tenir+temps%27%3F&amp;tematica=&amp;tipusCerca=cerca.tot</url>
             <antipattern>
                 <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
-                <token min="1" max="5" postag="_GN_.*|N.*|P.*" postag_regexp="yes" ><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|vegada|volta|cop|&noms_collectius;</exception><exception regexp="yes">.*%</exception></token>
+                <token min="1" max="5" postag="_GN_.*|N.*|P.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|vegada|volta|cop|&noms_collectius;</exception><exception regexp="yes">.*%</exception></token>
                 <token min="0" max="2" postag="&pronom_feble;|R." postag_regexp="yes"/>
                 <token inflected="yes">donar</token>
             </antipattern>
