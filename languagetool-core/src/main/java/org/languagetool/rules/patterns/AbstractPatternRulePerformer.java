@@ -19,14 +19,14 @@
  */
 package org.languagetool.rules.patterns;
 
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.chunking.ChunkTag;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.chunking.ChunkTag;
 
 /**
  * @since 2.3
@@ -201,8 +201,7 @@ public abstract class AbstractPatternRulePerformer {
     int maxSkip = 0;
     int maxOccurrences = elem.getPatternToken().getMaxOccurrence() == -1 ? Integer.MAX_VALUE : elem.getPatternToken().getMaxOccurrence();
     for (int j = 1; j < maxOccurrences && m+j < tokens.length - remainingElems; j++) {
-      boolean nextAllElementsMatch = !tokens[m+j].isImmunized() &&
-          testAllReadings(tokens, elem, prevElement, m+j, firstMatchToken, prevSkipNext);
+      boolean nextAllElementsMatch = testAllReadings(tokens, elem, prevElement, m+j, firstMatchToken, prevSkipNext);
       if (nextAllElementsMatch) {
         maxSkip++;
       } else {
