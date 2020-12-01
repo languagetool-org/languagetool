@@ -201,25 +201,6 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     return true;
   }
 
-  /* (non-Javadoc)
-   * @see org.languagetool.rules.patterns.AbstractPatternRulePerformer#skipMaxTokens(org.languagetool.AnalyzedTokenReadings[], org.languagetool.rules.patterns.PatternTokenMatcher, int, int, org.languagetool.rules.patterns.PatternTokenMatcher, int, int)
-   */
-  @Override
-  protected int skipMaxTokens(AnalyzedTokenReadings[] tokens, PatternTokenMatcher matcher, int firstMatchToken, int prevSkipNext, PatternTokenMatcher prevElement, int m, int remainingElems) throws IOException {
-    int maxSkip = 0;
-    int maxOccurrences = matcher.getPatternToken().getMaxOccurrence() == -1 ? Integer.MAX_VALUE : matcher.getPatternToken().getMaxOccurrence();
-    for (int j = 1; j < maxOccurrences && m+j < tokens.length - remainingElems; j++) {
-      boolean nextAllElementsMatch = testAllReadings(tokens, matcher, prevElement, m+j, firstMatchToken, prevSkipNext);
-      if (nextAllElementsMatch) {
-        maxSkip++;
-      } else {
-        break;
-      }
-    }
-    return maxSkip;
-  }
-
-
   private AnalyzedTokenReadings[] executeAction(AnalyzedSentence sentence,
                                                 AnalyzedTokenReadings[] whiteTokens,
                                                 AnalyzedTokenReadings[] unifiedTokens,

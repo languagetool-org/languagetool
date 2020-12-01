@@ -99,13 +99,13 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
         }
         int maxTok = Math.min(nextPos + prevSkipNext, tokens.length - (patternSize - k) + minOccurCorrection);
         for (int m = nextPos; m <= maxTok; m++) {
-          allElementsMatch = !tokens[m].isImmunized() && testAllReadings(tokens, pTokenMatcher, prevTokenMatcher, m, firstMatchToken, prevSkipNext);
+          allElementsMatch = testAllReadings(tokens, pTokenMatcher, prevTokenMatcher, m, firstMatchToken, prevSkipNext);
 
           if (pTokenMatcher.getPatternToken().getMinOccurrence() == 0) {
             boolean foundNext = false;
             for (int k2 = k + 1; k2 < patternSize; k2++) {
               PatternTokenMatcher nextElement = patternTokenMatchers.get(k2);
-              boolean nextElementMatch = !tokens[m].isImmunized() && testAllReadings(tokens, nextElement, pTokenMatcher, m,
+              boolean nextElementMatch = testAllReadings(tokens, nextElement, pTokenMatcher, m,
                 firstMatchToken, prevSkipNext);
               if (nextElementMatch) {
                 // this element doesn't match, but it's optional so accept this and continue
@@ -190,6 +190,13 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
     void consume(List<Integer> tokenPositions,
                  int firstMatchToken,
                  int lastMatchToken, int firstMarkerMatchToken, int lastMarkerMatchToken) throws IOException;
+  }
+
+  @Override
+  protected boolean testAllReadings(AnalyzedTokenReadings[] tokens, PatternTokenMatcher matcher, PatternTokenMatcher prevElement, int tokenNo, int firstMatchToken, int prevSkipNext) throws IOException {
+    if (tokens[tokenNo].isImmunized()) return false;
+
+    return super.testAllReadings(tokens, matcher, prevElement, tokenNo, firstMatchToken, prevSkipNext);
   }
 
   @Nullable
