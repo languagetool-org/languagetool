@@ -43,93 +43,6 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     super(rule, rule.getLanguage().getDisambiguationUnifier());
   }
 
-  private void doMatch2(List<PatternTokenMatcher> patternTokenMatchers, AnalyzedTokenReadings[] tokens, MatchConsumer2 consumer) throws IOException {
-    int[] tokenPositions = new int[patternTokenMatchers.size()];
-    int patternSize = patternTokenMatchers.size();
-    int limit = Math.max(0, tokens.length - patternSize + 1);
-    PatternTokenMatcher pTokenMatcher = null;
-    int i = 0;
-    int minOccurCorrection = getMinOccurrenceCorrection();
-    while (i < limit + minOccurCorrection && !(rule.isSentStart() && i > 0)) {
-      int skipShiftTotal = 0;
-      boolean allElementsMatch = false;
-      unifiedTokens = null;
-      int matchingTokens = 0;
-      int firstMatchToken = -1;
-      int lastMatchToken = -1;
-      int firstMarkerMatchToken = -1;
-      int lastMarkerMatchToken = -1;
-      int prevSkipNext = 0;
-      if (rule.isTestUnification()) {
-        unifier.reset();
-      }
-      int minOccurSkip = 0;
-      for (int k = 0; k < patternSize; k++) {
-        PatternTokenMatcher prevTokenMatcher = pTokenMatcher;
-        pTokenMatcher = patternTokenMatchers.get(k);
-        pTokenMatcher.resolveReference(firstMatchToken, tokens, rule.getLanguage());
-        int nextPos = i + k + skipShiftTotal - minOccurSkip;
-        prevMatched = false;
-        if (prevSkipNext + nextPos >= tokens.length || prevSkipNext < 0) { // SENT_END?
-          prevSkipNext = tokens.length - (nextPos + 1);
-        }
-        int maxTok = Math.min(nextPos + prevSkipNext, tokens.length - (patternSize - k) + minOccurCorrection);
-        for (int m = nextPos; m <= maxTok; m++) {
-          allElementsMatch = testAllReadings(tokens, pTokenMatcher, prevTokenMatcher, m, firstMatchToken, prevSkipNext);
-
-          if (pTokenMatcher.getPatternToken().getMinOccurrence() == 0) {
-            boolean foundNext = false;
-            for (int k2 = k + 1; k2 < patternSize; k2++) {
-              PatternTokenMatcher nextElement = patternTokenMatchers.get(k2);
-              boolean nextElementMatch = testAllReadings(tokens, nextElement, pTokenMatcher, m,
-                firstMatchToken, prevSkipNext);
-              if (nextElementMatch) {
-                // this element doesn't match, but it's optional so accept this and continue
-                allElementsMatch = true;
-                minOccurSkip++;
-                tokenPositions[matchingTokens++] = 0;
-                foundNext = true;
-                break;
-              } else if (nextElement.getPatternToken().getMinOccurrence() > 0) {
-                break;
-              }
-            }
-            if (foundNext) {
-              break;
-            }
-          }
-
-          if (allElementsMatch) {
-            int skipForMax = skipMaxTokens(tokens, pTokenMatcher, firstMatchToken, prevSkipNext,
-              prevTokenMatcher, m, patternSize - k - 1);
-            lastMatchToken = m + skipForMax;
-            int skipShift = lastMatchToken - nextPos;
-            tokenPositions[matchingTokens++] = skipShift + 1;
-            prevSkipNext = pTokenMatcher.getPatternToken().getSkipNext();
-            skipShiftTotal += skipShift;
-            if (firstMatchToken == -1) {
-              firstMatchToken = lastMatchToken - skipForMax;
-            }
-            if (firstMarkerMatchToken == -1 && pTokenMatcher.getPatternToken().isInsideMarker()) {
-              firstMarkerMatchToken = lastMatchToken - skipForMax;
-            }
-            if (pTokenMatcher.getPatternToken().isInsideMarker()) {
-              lastMarkerMatchToken = lastMatchToken;
-            }
-            break;
-          }
-        }
-        if (!allElementsMatch) {
-          break;
-        }
-      }
-      if (allElementsMatch && matchingTokens == patternSize) {
-        consumer.consume(tokenPositions, matchingTokens, firstMatchToken, lastMatchToken, lastMarkerMatchToken);
-      }
-      i++;
-    }
-  }
-
   public final AnalyzedSentence replace(AnalyzedSentence sentence)
       throws IOException {
     List<PatternTokenMatcher> patternTokenMatchers = createElementMatchers();
@@ -139,7 +52,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     AnalyzedTokenReadings[][] whTokens = {sentence.getTokens()};
     boolean[] changed = {false};
 
-    doMatch2(patternTokenMatchers, tokens, (tokenPositions, matchingTokens, firstMatchToken, lastMatchToken, lastMarkerMatchToken) -> {
+    doMatch(patternTokenMatchers, tokens, (tokenPositions, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken) -> {
       int ruleMatchFromPos = -1;
       int ruleMatchToPos = -1;
       int tokenCount = 0;
@@ -152,7 +65,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         }
         tokenCount++;
       }
-      matchingTokens -= Arrays.stream(tokenPositions).filter(i -> i == 0).count();
+      int matchingTokens = (int)Arrays.stream(tokenPositions).filter(i -> i != 0).count();
       if (keepDespiteFilter(tokens, tokenPositions, firstMatchToken, lastMatchToken) && keepByDisambig(sentence, ruleMatchFromPos, ruleMatchToPos)) {
         whTokens[0] = executeAction(sentence, whTokens[0], unifiedTokens, firstMatchToken, lastMarkerMatchToken, matchingTokens, tokenPositions);
         changed[0] = true;
@@ -162,10 +75,6 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       return new AnalyzedSentence(whTokens[0], preDisambigTokens);
     }
     return sentence;
-  }
-
-  private interface MatchConsumer2 {
-    void consume(int[] tokenPositions, int matchingTokens, int firstMatchToken, int lastMatchToken, int lastMarkerMatchToken) throws IOException;
   }
 
   private boolean keepByDisambig(AnalyzedSentence sentence, int ruleMatchFromPos, int ruleMatchToPos) throws IOException {
