@@ -21006,7 +21006,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <!-- hier allgemein Adjekte zu matchen führt zu vielen Fehlalarmen,
                          z.B. bei "Amerikanische Küchen sind größer als japanische." -->
-                    <token regexp="yes" case_sensitive="yes">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes|zehntes|elftes|zwölftes|nächstes</token>
+                    <token regexp="yes" case_sensitive="yes">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes|zehntes|elftes|zwölftes|nächstes|letztes</token>
                 </marker>
                 <token regexp="yes" case_sensitive="yes">[a-zöäü!?.]+<exception postag="ADJ:.*" postag_regexp="yes" /><exception postag="PA2:.*" postag_regexp="yes" /><exception postag="UNKNOWN"/></token>
             </pattern>
@@ -21017,6 +21017,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Als <marker>Erstes</marker> prüfen wir die Stromzufuhr.</example>
             <example>Gegründet 1899 als <marker>erstes</marker> japanisches Joint Venture...</example>
             <example>Als drittes und letztes Schiff wurde die Britannic fertiggestellt.</example>
+            <example correction="Letztes">Als <marker>letztes</marker> muss die Lampe wieder angeschlossen werden.</example>
             <example>Sie gilt zum Beispiel als <marker>erstes</marker> neugotisches Kunstwerk.</example>
             <example>Bis nach Schweich als <marker>drittes</marker> und viertes Gleis entlang der bestehenden Moselstrecke.</example>
             <example type="triggers_error">Der Borgward Hansa 1500, der 1949 als erstes nach dem Krieg neu konstruiertes deutsches Auto eingeführt worden war.</example>
@@ -21237,6 +21238,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token postag="SUB.+" postag_regexp="yes"/>
                     <token inflected="yes">sein</token>
+                    <token min="0">nicht</token>
                     <token inflected="yes" regexp="yes">der|jed</token>
                     <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|zehn|letz)te</token>
                 </antipattern>
@@ -21297,6 +21299,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wenn die Schafsherde kehrtmacht, ist der letzte Hammel der erste.</example>
                 <example>Eine Stimme besteht aus einem Dur- oder Moll-Dreiklang, die zweite ist die Melodiestimme, die nicht zwingend in derselben Tonart steht wie die erste.</example>
                 <example>Es ist der fünfte Tag der Woche, nach jüdischer, christlicher und islamischer Zählung der sechste.</example>
+                <example>Das Hubble-Teleskop war nicht das erste, das man in den Weltraum beförderte.</example>
             </rule>
             <rule default="temp_off">
                 <antipattern>
@@ -21321,6 +21324,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token postag="SUB.+" postag_regexp="yes"/>
                     <token inflected="yes">sein</token>
+                    <token min="0">nicht</token>
                     <token inflected="yes" regexp="yes">der|jed</token>
                     <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|zehn|letz)te</token>
                 </antipattern>
@@ -21382,10 +21386,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>1892 erhielt er die erste, das Gesamtgebiet der Prähistorischen Archäologie umfassende Lehrbefugnis Europas.</example>
                 <example>1870 wurde ihm in Galway ein Ehrendoktorat verliehen, das erste, das von seiner Universität vergeben wurde.</example>
                 <example>Diese Kerze, die du hier siehst, ist die letzte, die ich habe.</example>
+                <example>Das Hubble-Teleskop war nicht das erste, das man in den Weltraum beförderte.</example>
             </rule>
             <rule default="temp_off">
                 <pattern case_sensitive="yes">
-                    <token>Rechte</token>
+                    <token regexp="yes">Rechte|lachender</token>
                     <marker>
                         <token>dritter</token>
                     </marker>
@@ -21393,6 +21398,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <example correction="Dritter">Das verletzt die Rechte <marker>dritter</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">an|lachende</token>
+                    <marker>
+                        <token>dritte</token>
+                    </marker>
+                    <token><exception postag="SUB.+" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <example correction="Dritte">Die Weitergabe an <marker>dritte</marker> ist verboten.</example>
             </rule>
             <rule default="temp_off">
                 <pattern case_sensitive="yes">
@@ -27656,7 +27672,7 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">Hotel|[Ii](m|ns)</token>
                     <marker>
-                        <token regexp="yes">vier</token>
+                        <token>vier</token>
                     </marker>
                     <token>Jahreszeiten</token>
                 </pattern>
