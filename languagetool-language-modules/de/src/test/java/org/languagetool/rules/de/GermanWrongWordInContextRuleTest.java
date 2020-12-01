@@ -126,6 +126,12 @@ public class GermanWrongWordInContextRuleTest {
     assertGood("Eine blutende Wunde");
     assertBad("Es kamen Keime in die Winde.");
     assertBad("Möglicherweise wehen die Wunde gerade nicht günstig.");
+
+    // betäuben/bestäuben
+    assertGood("Er war durch die Narkose betäubt.");
+    assertGood("Die Biene bestäubt die Blume.");
+    assertBad("Den Kuchen mit Puderzucker betäuben.");
+    assertBad("Von Drogen bestäubt spürte er keine Schmerzen.");
   }
 
   private void assertGood(String sentence) throws IOException {
