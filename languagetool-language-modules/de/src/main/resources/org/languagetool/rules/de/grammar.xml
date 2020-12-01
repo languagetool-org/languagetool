@@ -21224,9 +21224,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.korrekturen.de/beliebte_fehler/auf_halbmast.shtml</url>
             <example correction="halbmast">Die Flagge weht auf <marker>Halbmast</marker>.</example>
         </rule>
-        <rulegroup id="DER_ERSTE" name="der erste (Erste)" default="temp_off">
+        <rulegroup id="DER_ERSTE" name="der erste (Erste)">
             <url>https://grammis.ids-mannheim.de/rechtschreibung/6194#par57-1</url>
-            <rule>
+            <rule default="temp_off">
                 <antipattern>
                     <token inflected="yes">sein<exception>sein</exception></token>
                     <token postag="PRO.+" postag_regexp="yes"/>
@@ -21241,6 +21241,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|zehn|letz)te</token>
                 </antipattern>
                 <antipattern>
+                    <token postag="SUB.+" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">der|jed</token>
+                    <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|zehn|letz)te</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SUB.+" postag_regexp="yes"/>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <token inflected="yes">sein</token>
+                    <token inflected="yes" regexp="yes">der|jed</token>
+                    <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|zehn|letz)te</token>
+                </antipattern>
+                <antipattern>
                     <token>,</token>
                     <token inflected="yes" regexp="yes">der|jed</token>
                     <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|zehn|letz)te</token>
@@ -21248,7 +21261,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes">der|jed</token>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes">der|jed<exception scope="previous" regexp="yes">[;:]</exception></token>
+                    <token inflected="yes" regexp="yes">der|jed<exception scope="previous" regexp="yes">[;:]|als</exception></token>
                     <token postag="ADV:MOD" min="0"></token>
                     <marker>
                         <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|zehn|letz)te</token>
@@ -21266,8 +21279,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tut sich irgendwo ein Fettnäpfchen auf, so ist mein Fuß der erste, der darin landet!</example>
                 <example>1892 erhielt er die erste, das Gesamtgebiet der Prähistorischen Archäologie umfassende Lehrbefugnis Europas.</example>
                 <example>1870 wurde ihm in Galway ein Ehrendoktorat verliehen, das erste, das von seiner Universität vergeben wurde.</example>
+                <example>Diese Kerze, die du hier siehst, ist die letzte, die ich habe.</example>
+                <example correction="Letzte">Das <marker>letzte</marker>, was wir verlieren, ist die Hoffnung.</example>
+                <example>Berechtigt ist die Frage, ob dieses Mittel tatsächlich das letzte ist.</example>
+                <example>1421 war die erste Schlacht, 1434 die zweite.</example>
+                <example>Der erste Sohn, Max Keller, wurde 1840 geboren. Der <marker>zweite</marker>, Friedrich Keller, kam 1843 zur Welt.</example>
+                <example>Schulfrei für die <marker>erste</marker>, zweite und dritte Klasse!</example>
+                <example>Schulfrei für die <marker>erste</marker>, die zweite und die dritte Klasse!</example>
+                <example>Schulfrei für die <marker>erste</marker> und die zweite Klasse!</example>
+                <example>Schulfrei für die <marker>erste</marker> und zweite Klasse!</example>
+                <example>An der Holzstraße befand sich das <marker>zweite</marker>, ebenfalls streng bewachte, Tor.</example>
+                <example>Das erste Lied gefällt mir besser als das <marker>letzte</marker>, das wir gehört haben.</example>
+                <example>Jener Kranich war der <marker>letzte</marker>, den sie faltete.</example>
+                <example>Für Keel – er hatte 1952 den Diogenes Verlag gegründet – war es das zweite Buch; für Loriot das erste.</example>
+                <example>Der aus Finnland stammende Marutei Tsurunen ist der erste im Ausland geborene Abgeordnete der japanischen Geschichte.</example>
+                <example>Auf die fünfzehnte Indiktion folgt also wieder die erste.</example>
+                <example>Wenn die Schafsherde kehrtmacht, ist der letzte Hammel der erste.</example>
+                <example>Eine Stimme besteht aus einem Dur- oder Moll-Dreiklang, die zweite ist die Melodiestimme, die nicht zwingend in derselben Tonart steht wie die erste.</example>
+                <example>Es ist der fünfte Tag der Woche, nach jüdischer, christlicher und islamischer Zählung der sechste.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <antipattern>
                     <token skip="1" regexp="yes">[,;:]|als</token>
                     <token inflected="yes" regexp="yes">der|jed</token>
@@ -21278,7 +21309,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes">der|jed</token>
                     <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|letz)te</token>
                     <token>,</token>
-					<token><exception regexp="yes" inflected="yes">der|welch|wo.+</exception></token>
+                    <token><exception regexp="yes" inflected="yes">der|welch|wo.+</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">der|jed</token>
+                    <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|letz)te</token>
+                    <token regexp="yes">,|und</token>
+                    <token inflected="yes" regexp="yes" min="0">der|jed</token>
+                    <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|letz)te</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SUB.+" postag_regexp="yes"/>
+                    <token inflected="yes">sein</token>
+                    <token inflected="yes" regexp="yes">der|jed</token>
+                    <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|zehn|letz)te</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">der|jed</token>
+                    <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|zehn|letz)te</token>
+                    <token skip="2">im<exception scope="next">,</exception></token>
+                    <token postag="PA2.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|.+zehn|letz)te</token>
+                    <token postag="SUB.+|UNKNOWN" postag_regexp="yes" skip="-1"/>
+                    <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|.+zehn|letz)te</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SUB.+" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">der|jed</token>
+                    <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|zehn|letz)te</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|.+zehn|letz)te</token>
+                    <token inflected="yes" skip="-1">sein</token>
+                    <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|.+zehn|letz)te</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">der|jed</token>
+                    <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|letz)te</token>
+                    <token skip="-1">,</token>
+                    <token postag="SUB.+" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes">der|jed</token>
@@ -21290,10 +21361,63 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <example correction="Dritte">Wenn zwei sich streiten, freut sich der <marker>dritte</marker>.</example>
                 <example>1421 war die erste Schlacht, 1434 die zweite.</example>
-				<example>Der erste Sohn, Max Keller, wurde 1840 geboren. Der <marker>zweite</marker>, Friedrich Keller, kam 1843 zur Welt.</example>
-				<example>Schulfrei für die <marker>erste</marker>, zweite und dritte Klasse!</example>
-				<example>An der Holzstraße befand sich das <marker>zweite</marker>, ebenfalls streng bewachte, Tor.</example>
-				<example>Das erste Lied gefällt mir besser als das <marker>letzte</marker>, das wir gehört haben.</example>
+                <example>Der erste Sohn, Max Keller, wurde 1840 geboren. Der <marker>zweite</marker>, Friedrich Keller, kam 1843 zur Welt.</example>
+                <example>Schulfrei für die <marker>erste</marker>, zweite und dritte Klasse!</example>
+                <example>Schulfrei für die <marker>erste</marker>, die zweite und die dritte Klasse!</example>
+                <example>Schulfrei für die <marker>erste</marker> und die zweite Klasse!</example>
+                <example>Schulfrei für die <marker>erste</marker> und zweite Klasse!</example>
+                <example>An der Holzstraße befand sich das <marker>zweite</marker>, ebenfalls streng bewachte, Tor.</example>
+                <example>Das erste Lied gefällt mir besser als das <marker>letzte</marker>, das wir gehört haben.</example>
+                <example>Jener Kranich war der <marker>letzte</marker>, den sie faltete.</example>
+                <example>Für Keel – er hatte 1952 den Diogenes Verlag gegründet – war es das zweite Buch; für Loriot das erste.</example>
+                <example>Der aus Finnland stammende Marutei Tsurunen ist der erste im Ausland geborene Abgeordnete der japanischen Geschichte.</example>
+                <example>Auf die fünfzehnte Indiktion folgt also wieder die erste.</example>
+                <example>Wenn die Schafsherde kehrtmacht, ist der letzte Hammel der erste.</example>
+                <example>Eine Stimme besteht aus einem Dur- oder Moll-Dreiklang, die zweite ist die Melodiestimme, die nicht zwingend in derselben Tonart steht wie die erste.</example>
+                <example>Es ist der fünfte Tag der Woche, nach jüdischer, christlicher und islamischer Zählung der sechste.</example>
+                <example>1912 endete der zweite, beschränkte Wettbewerb.</example>
+                <example>1883 wird sein erster Sohn Leopoldo geboren, 1887 der zweite, Adolfo.</example>
+                <example>Mein Fuß war der erste, der dieses Zimmer betrat.</example>
+                <example>Tut sich irgendwo ein Fettnäpfchen auf, so ist mein Fuß der erste, der darin landet!</example>
+                <example>1892 erhielt er die erste, das Gesamtgebiet der Prähistorischen Archäologie umfassende Lehrbefugnis Europas.</example>
+                <example>1870 wurde ihm in Galway ein Ehrendoktorat verliehen, das erste, das von seiner Universität vergeben wurde.</example>
+                <example>Diese Kerze, die du hier siehst, ist die letzte, die ich habe.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <token>Rechte</token>
+                    <marker>
+                        <token>dritter</token>
+                    </marker>
+                    <token><exception postag="SUB.+" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <example correction="Dritter">Das verletzt die Rechte <marker>dritter</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|letz)ten?</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">der|jed</token>
+                    <token>Monats</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
+                <example correction="Ersten">Am <marker>ersten</marker> jedes Monats ist die Miete fällig.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">werden</token>
+                    <token min="0" postag="PRO:PER.+" postag_regexp="yes"></token>
+                    <token min="0" postag="ADV.+" postag_regexp="yes"></token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|letz)ter?</token>
+                    </marker>
+                    <token regexp="yes">[.?]</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="4" case_conversion="startupper"/></suggestion>&subende;</message>
+                <example correction="Erste">Sie wurde trotzdem <marker>erste</marker>.</example>
+                <example correction="Letzter">Wurde er wirklich <marker>letzter</marker>?</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZUM_EINEN" name="zum Einen (einen), zum Anderen (anderen)">
