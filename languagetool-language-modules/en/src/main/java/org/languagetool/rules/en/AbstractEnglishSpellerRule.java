@@ -180,7 +180,11 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" sh") &&
                    !k.getReplacement().endsWith(" ward") &&
                    !k.getReplacement().endsWith(" en") && // "Antwerpen" suggests "Antwerp en"
-                   !k.getReplacement().endsWith(" ed"))
+                   !k.getReplacement().endsWith(" ed") &&
+                   !k.getReplacement().endsWith(" al") &&
+                   !k.getReplacement().endsWith(" de") &&
+                   !k.getReplacement().endsWith(" re") &&
+                   !k.getReplacement().endsWith(" ma"))
       .collect(Collectors.toList());
   }
 
