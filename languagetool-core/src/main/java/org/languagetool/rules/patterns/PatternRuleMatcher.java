@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
+import com.google.common.primitives.Ints;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.*;
@@ -69,7 +70,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
   }
 
   private void doMatch(List<PatternTokenMatcher> patternTokenMatchers, AnalyzedTokenReadings[] tokens, MatchConsumer consumer) throws IOException {
-    List<Integer> tokenPositions = new ArrayList<>(tokens.length + 1);
+    int[] tokenPositions = new int[patternTokenMatchers.size()];
     int patternSize = patternTokenMatchers.size();
     int limit = Math.max(0, tokens.length - patternSize + 1);
     PatternTokenMatcher pTokenMatcher = null;
@@ -78,6 +79,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
     while (i < limit + minOccurCorrection && !(rule.isSentStart() && i > 0)) {
       int skipShiftTotal = 0;
       boolean allElementsMatch = false;
+      int matchingTokens = 0;
       int firstMatchToken = -1;
       int lastMatchToken = -1;
       int firstMarkerMatchToken = -1;
@@ -86,7 +88,6 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
       if (rule.isTestUnification()) {
         unifier.reset();
       }
-      tokenPositions.clear();
       int minOccurSkip = 0;
       for (int k = 0; k < patternSize; k++) {
         PatternTokenMatcher prevTokenMatcher = pTokenMatcher;
@@ -111,7 +112,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
                 // this element doesn't match, but it's optional so accept this and continue
                 allElementsMatch = true;
                 minOccurSkip++;
-                tokenPositions.add(0);
+                tokenPositions[matchingTokens++] = 0;
                 foundNext = true;
                 break;
               } else if (nextElement.getPatternToken().getMinOccurrence() > 0) {
@@ -128,7 +129,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
               prevTokenMatcher, m, patternSize - k - 1);
             lastMatchToken = m + skipForMax;
             int skipShift = lastMatchToken - nextPos;
-            tokenPositions.add(skipShift + 1);
+            tokenPositions[matchingTokens++] = skipShift + 1;
             prevSkipNext = translateElementNo(pTokenMatcher.getPatternToken().getSkipNext());
             skipShiftTotal += skipShift;
             if (firstMatchToken == -1) {
@@ -147,7 +148,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
           break;
         }
       }
-      if (allElementsMatch && tokenPositions.size() == patternSize) {
+      if (allElementsMatch && matchingTokens == patternSize) {
         consumer.consume(tokenPositions, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken);
       }
       i++;
@@ -187,7 +188,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
   }
 
   protected interface MatchConsumer {
-    void consume(List<Integer> tokenPositions,
+    void consume(int[] tokenPositions,
                  int firstMatchToken,
                  int lastMatchToken, int firstMarkerMatchToken, int lastMarkerMatchToken) throws IOException;
   }
@@ -200,7 +201,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
   }
 
   @Nullable
-  private RuleMatch createRuleMatch(List<Integer> tokenPositions,
+  private RuleMatch createRuleMatch(int[] tokenPositions,
                                     AnalyzedTokenReadings[] tokens, int firstMatchToken,
                                     int lastMatchToken, int firstMarkerMatchToken, int lastMarkerMatchToken,
                                     AnalyzedSentence sentence) throws IOException {
@@ -213,8 +214,8 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
             firstMatchToken, rule.getSuggestionsOutMsg(), rule.getSuggestionMatchesOutMsg());
     int correctedStPos = 0;
     if (rule.startPositionCorrection > 0) {
-      for (int l = 0; l <= Math.min(rule.startPositionCorrection, tokenPositions.size() - 1); l++) {
-        correctedStPos += tokenPositions.get(l);
+      for (int l = 0; l <= Math.min(rule.startPositionCorrection, tokenPositions.length - 1); l++) {
+        correctedStPos += tokenPositions[l];
       }
       correctedStPos--;
     }
@@ -267,7 +268,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
         if (rule.getFilter() != null) {
           RuleFilterEvaluator evaluator = new RuleFilterEvaluator(rule.getFilter());
           AnalyzedTokenReadings[] patternTokens = Arrays.copyOfRange(tokens, firstMatchToken, lastMatchToken + 1);
-          return evaluator.runFilter(rule.getFilterArguments(), ruleMatch, patternTokens, firstMatchToken, tokenPositions);
+          return evaluator.runFilter(rule.getFilterArguments(), ruleMatch, patternTokens, firstMatchToken, Ints.asList(tokenPositions));
         } else {
           return ruleMatch; 
         }
@@ -323,7 +324,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
    * @return String Formatted message.
    */
   private String formatMatches(AnalyzedTokenReadings[] tokenReadings,
-      List<Integer> positions, int firstMatchTok, String errorMsg,
+      int[] positions, int firstMatchTok, String errorMsg,
       List<Match> suggestionMatches) throws IOException {
     String errorMessage = errorMsg;
     int matchCounter = 0;
@@ -354,11 +355,11 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
             + numLen)) - 1;
         int repTokenPos = 0;
         int nextTokenPos = 0;
-        for (int l = 0; l <= Math.min(j, positions.size() - 1); l++) {
-          repTokenPos += positions.get(l);
+        for (int l = 0; l <= Math.min(j, positions.length - 1); l++) {
+          repTokenPos += positions[l];
         }
-        if (j + 1 < positions.size()) {
-          nextTokenPos = firstMatchTok + repTokenPos + positions.get(j + 1);
+        if (j + 1 < positions.length) {
+          nextTokenPos = firstMatchTok + repTokenPos + positions[j + 1];
         }
 
         if (suggestionMatches != null && suggestionMatches.size() > 0) {
@@ -366,9 +367,9 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
             numbersToMatches[j] = matchCounter;
             // if token is optional remove it from suggestions:
             String[] matches;
-            if (j >= positions.size()) {
+            if (j >= positions.length) {
               matches = concatMatches(matchCounter, j, firstMatchTok + repTokenPos, tokenReadings, nextTokenPos, suggestionMatches);
-            } else if (positions.get(j) != 0) {
+            } else if (positions[j] != 0) {
               matches = concatMatches(matchCounter, j, firstMatchTok + repTokenPos, tokenReadings, nextTokenPos, suggestionMatches);
             } else {
               matches = new String[] { "" };
