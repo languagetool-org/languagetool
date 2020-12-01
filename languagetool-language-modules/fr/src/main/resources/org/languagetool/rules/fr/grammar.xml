@@ -15585,6 +15585,13 @@ though, and has since been slightly modified)-->
            <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-.+</token>
            <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-.+</token>
          </antipattern>
+         <antipattern>
+           <and>
+             <token postag="V ppa m s" regexp="yes">.*é</token>
+             <token inflected="yes" regexp="yes">.*er</token>
+           </and>
+           <token>-je</token>
+         </antipattern>
          <pattern>
            <marker>
              <token><exception postag="V.* (ind|sub|imp|con).*|R.*" postag_regexp="yes"/></token> <!-- TODO: a different rule for imperative, and remove subjuntive -->
@@ -15595,7 +15602,7 @@ though, and has since been slightly modified)-->
          <message>Il semble y avoir une faute de frappe dans la forme verbale « \1 ».</message>
          <example correction="partis-tu|parus-tu|pars-tu|paras-tu|pares-tu">Quand <marker>parts-tu</marker> ?</example>
          <example correction="partis-tu|parus-tu|pars-tu|paras-tu|pares-tu">Quand <marker>pärts-tu</marker> ?</example>
-         <example correction="trompai-je|trompè-je|trompais-je|trempè-je">Me <marker>trompé-je</marker> ?</example>
+         <example correction="trompè-je|trempè-je|trompai-je">Me <marker>trompei-je</marker> ?</example>
          <example correction="Dépêche-toi|Repêche-toi|Dépèce-toi|Dépoche-toi|Dépêchez-toi"><marker>Depeche-toi</marker> !</example>
          <example correction="Donne-moi|Donnez-moi"><marker>Doner-moi</marker> une prove.</example>
          <example correction="Allez-y|Alèse-y"><marker>Alles-y</marker>.</example>
@@ -15612,6 +15619,9 @@ though, and has since been slightly modified)-->
          <example>MARSEILLE-LA VALENTINE</example>
          <example>Aix les Milles-la Pioline</example>
          <example>Saint-Vincent-et-les Grenadines</example>
+         <example>Que pensè-je ?</example>
+         <example>Que pensé-je ?</example>
+         <example>Me trompé-je ?</example>
       </rule>
       <rule default="temp_off">
         <pattern>
@@ -15661,6 +15671,35 @@ though, and has since been slightly modified)-->
         <example>Participes-y.</example>
         <example>Apportes-en deux.</example>
         <example>Vas-y lentement.</example>
+      </rule>
+      <rule default="temp_off">
+        <pattern>
+          <marker>
+            <token postag="V ind pres 1 s" regexp="yes">.*e</token>
+          </marker>
+          <token>-je</token>
+        </pattern>        
+        <message>Il semble y avoir une faute de frappe dans la forme verbale « \1 ».</message>
+        <suggestion><match no="1" regexp_match="(?iu)e$" regexp_replace="è"/></suggestion>
+        <suggestion><match no="1" regexp_match="(?iu)e$" regexp_replace="é"/></suggestion>
+        <example correction="pensè|pensé">Que <marker>pense</marker>-je</example>
+      </rule>
+      <rule default="temp_off">
+        <antipattern>
+          <token postag="V ind pres 1 s" regexp="yes">.*è</token>
+          <token>-je</token>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token postag="V ind pres 1 s" regexp="yes">.*è</token>
+          </marker>
+        </pattern>        
+        <message>Il semble y avoir une faute de frappe dans la forme verbale « \1 ».</message>
+        <suggestion><match no="1" regexp_match="(?iu)è$" regexp_replace="e"/></suggestion>
+        <suggestion><match no="1" regexp_match="(?iu)è$" regexp_replace="é"/></suggestion>
+        <example correction="pense|pensé">Que <marker>pensè</marker> son ami ?</example>
+        <example>Que pensè-je ?</example>
+        <example>Me trompè-je ?</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_NOM_VERBE" name="Accord" default="off">
