@@ -62,6 +62,7 @@ public abstract class AbstractPatternRulePerformer {
     while (i < limit + minOccurCorrection && !(rule.isSentStart() && i > 0)) {
       int skipShiftTotal = 0;
       boolean allElementsMatch = false;
+      unifiedTokens = null;
       int matchingTokens = 0;
       int firstMatchToken = -1;
       int lastMatchToken = -1;
@@ -280,10 +281,7 @@ public abstract class AbstractPatternRulePerformer {
     return minOccurCorrection;
   }
 
-  /**
-   * @since 2.5
-   */
-  protected int skipMaxTokens(AnalyzedTokenReadings[] tokens, PatternTokenMatcher elem, int firstMatchToken, int prevSkipNext, PatternTokenMatcher prevElement, int m, int remainingElems) throws IOException {
+  private int skipMaxTokens(AnalyzedTokenReadings[] tokens, PatternTokenMatcher elem, int firstMatchToken, int prevSkipNext, PatternTokenMatcher prevElement, int m, int remainingElems) throws IOException {
     int maxSkip = 0;
     int maxOccurrences = elem.getPatternToken().getMaxOccurrence() == -1 ? Integer.MAX_VALUE : elem.getPatternToken().getMaxOccurrence();
     for (int j = 1; j < maxOccurrences && m+j < tokens.length - remainingElems; j++) {
