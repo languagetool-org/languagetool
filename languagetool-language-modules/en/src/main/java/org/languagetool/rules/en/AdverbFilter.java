@@ -392,6 +392,14 @@ public class AdverbFilter extends RuleFilter {
     put("drastically", "drastical");
     put("willingly", "willing");
     put("additively", "additive");
+    put("drolly", "droll");
+    put("statically", "statical");
+    put("hopefully", "hopeful");
+    put("untruthfully", "untruthful");
+    put("truthfully", "truthful");
+    put("attractively", "attractive");
+    put("supposedly", "supposed");
+    put("overwhelmingly", "overwhelming");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
