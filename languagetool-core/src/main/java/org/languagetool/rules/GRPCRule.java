@@ -311,9 +311,9 @@ public abstract class GRPCRule extends RemoteRule {
     };
   }
 
-  public static List<GRPCRule> createAll(List<RemoteRuleConfig> configs, boolean inputLogging, String defaultDescription) {
+  public static List<GRPCRule> createAll(List<RemoteRuleConfig> configs, boolean inputLogging, String prefix, String defaultDescription) {
     return configs.stream()
-      .filter(cfg -> cfg.getRuleId().startsWith("AI_"))
+      .filter(cfg -> cfg.getRuleId().startsWith(prefix))
       .map(cfg -> create(cfg, inputLogging, cfg.getRuleId(), defaultDescription, Collections.emptyMap()))
       .collect(Collectors.toList());
   }
