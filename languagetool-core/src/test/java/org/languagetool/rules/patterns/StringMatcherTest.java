@@ -21,6 +21,9 @@ package org.languagetool.rules.patterns;
 import com.google.common.collect.Sets;
 import org.junit.Test;
 
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.languagetool.rules.patterns.StringMatcher.getPossibleRegexpValues;
@@ -38,11 +41,24 @@ public class StringMatcherTest {
     assertNull(getPossibleRegexpValues("[^a]"));
     assertNull(getPossibleRegexpValues("a[a-z]"));
     assertNull(getPossibleRegexpValues("(?=a)"));
+    assertNull(getPossibleRegexpValues("tú|?"));
 
     assertPossibleValues("aa|bb", "aa", "bb");
     assertPossibleValues("aa", "aa");
     assertPossibleValues("aa?", "aa", "a");
     assertPossibleValues("[abc]", "a", "b", "c");
+    assertPossibleValues("[abc]", "a", "b", "c");
+    assertPossibleValues("a(bc)?", "a", "abc");
+    assertPossibleValues("a(b|c)", "ab", "ac");
+    assertPossibleValues("(a|b)(c|d)", "ac", "ad", "bc", "bd");
+    assertPossibleValues("\\.|\\-", ".", "-");
+    assertPossibleValues("[\\.\\-]", ".", "-");
+    assertPossibleValues("are|is|w(?:as|ere)", "are", "is", "was", "were");
+    assertPossibleValues("[,;:-]", ",", ";", ":", "-");
+    assertPossibleValues("(?:[-‑])", "-", "‑");
+    assertPossibleValues("[0-9]", IntStream.range(0, 10).mapToObj(String::valueOf).toArray(String[]::new));
+    assertPossibleValues("[0-9X]", Stream.concat(IntStream.range(0, 10).mapToObj(String::valueOf), Stream.of("X")).toArray(String[]::new));
+    assertPossibleValues("tú|\\?", "tú", "?");
   }
 
   private static void assertPossibleValues(String regexp, String... expected) {
