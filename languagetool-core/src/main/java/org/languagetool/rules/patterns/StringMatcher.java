@@ -20,7 +20,6 @@ package org.languagetool.rules.patterns;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Sets;
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.tools.InterruptibleCharSequence;
@@ -29,6 +28,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * An object encapsulating a text pattern and the way it's matched (case-sensitivity / regular expression),
@@ -130,40 +130,127 @@ abstract class StringMatcher {
     };
   }
 
+  private static final String unsupported = "?$^{}*+.";
+  private static final String finishing = ")|";
+  private static final String starting = "([\\";
+  private static final String nonLiteral = finishing + unsupported + starting;
+
   @Nullable
   @VisibleForTesting
-  static Set<String> getPossibleRegexpValues(String stringToken) {
-    if (StringUtils.containsAny(stringToken, "()*+.\\^${}")) {
-      return null;
-    }
-    Set<String> result = new HashSet<>();
-    Queue<String> unprocessed = new ArrayDeque<>(Arrays.asList(stringToken.split("\\|")));
-    while (!unprocessed.isEmpty()) {
-      String regex = unprocessed.poll();
-      int lBracket = regex.indexOf('[');
-      if (lBracket >= 0) {
-        int rBracket = regex.indexOf(']', lBracket + 1);
-        if (rBracket < 0) {
-          return null;
+  static Set<String> getPossibleRegexpValues(String regexp) {
+    return new Object() {
+      int pos;
+
+      private Stream<String> disjunction() {
+        Stream<String> result = Stream.empty();
+        while (true) {
+          result = Stream.concat(result, concatenation());
+          if (pos >= regexp.length() || regexp.charAt(pos) != '|') {
+            return result;
+          }
+          pos++;
         }
-        for (int i = lBracket + 1; i < rBracket; i++) {
-          char c = regex.charAt(i);
-          if (c == '-') return null;
-          unprocessed.add(regex.substring(0, lBracket) + c + regex.substring(rBracket + 1));
-        }
-        continue;
       }
 
-      int question = regex.indexOf('?');
-      if (question <= 0) {
-        result.add(regex);
-      } else {
-        unprocessed.add(regex.substring(0, question) + regex.substring(question + 1));
-        unprocessed.add(regex.substring(0, question - 1) + regex.substring(question + 1));
+      private Stream<String> concatenation() {
+        Stream<String> result = Stream.of("");
+
+        while (pos < regexp.length()) {
+          int literalStart = pos;
+          while (pos < regexp.length() && nonLiteral.indexOf(regexp.charAt(pos)) < 0) pos++;
+          if (literalStart < pos && pos < regexp.length() && regexp.charAt(pos) == '?') pos--;
+          if (literalStart < pos) {
+            String literal = regexp.substring(literalStart, pos);
+            result = result.map(s -> s + literal);
+            continue;
+          }
+
+          char c = regexp.charAt(pos);
+          if (finishing.indexOf(c) >= 0) break;
+          if (unsupported.indexOf(c) >= 0) throw TooComplexRegexp.INSTANCE;
+
+          List<String> groupResults = atom().collect(Collectors.toList());
+          if (pos < regexp.length() && regexp.charAt(pos) == '?') {
+            pos++;
+            result = result.flatMap(s1 -> Stream.concat(Stream.of(s1), groupResults.stream().map(s2 -> s1 + s2)));
+          } else {
+            result = result.flatMap(s1 -> groupResults.stream().map(s2 -> s1 + s2));
+          }
+        }
+        return result;
       }
-    }
-    return result;
+
+      private Stream<String> atom() {
+        switch (regexp.charAt(pos)) {
+          case '(':
+            if (regexp.charAt(++pos) == '?') {
+              if (regexp.charAt(++pos) != ':') {
+                throw TooComplexRegexp.INSTANCE;
+              }
+              pos++;
+            }
+            Stream<String> group = disjunction();
+            if (regexp.charAt(pos++) != ')') throw TooComplexRegexp.INSTANCE;
+            return group;
+          case '[':
+            pos++;
+            int start = pos;
+            List<String> options = new ArrayList<>();
+            while (true) {
+              char c1 = regexp.charAt(pos++);
+              if (c1 == ']') break;
+
+              if (c1 == '-' && pos != start + 1 && regexp.charAt(pos) != ']') {
+                char last = options.get(options.size() - 1).charAt(0);
+                char next = regexp.charAt(pos++);
+                if (next == '\\' || next - last > 10) {
+                  throw TooComplexRegexp.INSTANCE;
+                }
+                for (int c = last + 1; c <= next; c++) {
+                  options.add(String.valueOf((char)c));
+                }
+              } else if (c1 == '^' || c1 == '[') {
+                throw TooComplexRegexp.INSTANCE;
+              } else {
+                options.add(String.valueOf(c1 == '\\' ? escape() : c1));
+              }
+            }
+            return options.stream();
+          case '\\':
+            pos++;
+            return Stream.of(String.valueOf(escape()));
+          default:
+            return Stream.of(String.valueOf(regexp.charAt(pos++)));
+        }
+      }
+
+      private char escape() {
+        char next = regexp.charAt(pos++);
+        if (Character.isLetterOrDigit(next)) throw TooComplexRegexp.INSTANCE;
+        return next;
+      }
+
+      @Nullable
+      Set<String> getPossibleValues() {
+        try {
+          return disjunction().collect(Collectors.toSet());
+        } catch (TooComplexRegexp e) {
+          return null;
+        } catch (IndexOutOfBoundsException e) {
+          ensureCorrectRegexp(regexp);
+          throw e;
+        }
+      }
+    }.getPossibleValues();
   }
 
+  private static void ensureCorrectRegexp(String regexp) {
+    //noinspection ResultOfMethodCallIgnored
+    Pattern.compile(regexp);
+  }
+
+  private static class TooComplexRegexp extends RuntimeException {
+    private static final TooComplexRegexp INSTANCE = new TooComplexRegexp();
+  }
 
 }
