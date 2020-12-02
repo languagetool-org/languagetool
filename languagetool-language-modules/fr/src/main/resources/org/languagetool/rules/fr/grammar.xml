@@ -15551,6 +15551,24 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="VERB_PRONOUN" name="verbe impératif/interrogatif + pronom">
+      <antipattern>
+        <!-- English -->
+        <token regexp="yes">roll|sign</token>
+        <token>-on</token>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">.</token>
+        <token regexp="yes">-.*</token>
+      </antipattern>
+      <antipattern>
+        <token spacebefore="no">-</token>
+        <token spacebefore="no" regexp="yes">.{1,3}</token>
+        <token spacebefore="no" regexp="yes">-.*</token>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">voilà|voici</token>
+        <token>-t-il</token>
+      </antipattern>
         <antipattern>
           <!-- note de musique -->
           <token regexp="yes">do|ré|mi|fa|sol|si</token>
@@ -15594,7 +15612,7 @@ though, and has since been slightly modified)-->
          </antipattern>
          <pattern>
            <marker>
-             <token><exception postag="V.* (ind|sub|imp|con).*|R.*" postag_regexp="yes"/></token> <!-- TODO: a different rule for imperative, and remove subjuntive -->
+             <token><exception postag="V.* (ind|sub|imp|con).*|R.*|P" postag_regexp="yes"/></token> 
              <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-.+</token>
            </marker>
          </pattern>
@@ -15622,6 +15640,8 @@ though, and has since been slightly modified)-->
          <example>Que pensè-je ?</example>
          <example>Que pensé-je ?</example>
          <example>Me trompé-je ?</example>
+         <example>EU-LE TREPORT-MERS LES BAINS</example>
+         <example>Ne voilà-t-il pas qu’ils oublient d’aller voter.</example>
       </rule>
       <rule default="temp_off">
         <pattern>
@@ -15688,6 +15708,10 @@ though, and has since been slightly modified)-->
         <antipattern>
           <token postag="V ind pres 1 s" regexp="yes">.*è</token>
           <token>-je</token>
+        </antipattern>
+        <antipattern>
+          <token><exception postag="SENT_START"/></token>
+          <token regexp="yes">\p{Lu}.*</token>
         </antipattern>
         <pattern>
           <marker>
@@ -16844,6 +16868,10 @@ though, and has since been slightly modified)-->
         <token>-</token>
         <token regexp="yes">il|elle|on|ils|elles</token>
       </antipattern>
+      <antipattern>
+        <token regexp="yes">voilà|voici</token>
+        <token>-t-il</token>
+      </antipattern>
       <rule>
         <pattern>
           <token regexp="yes">.*[dt]</token>
@@ -16860,7 +16888,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">.*[^ae]<exception regexp="yes">(?:convainc|voilà)</exception></token>
           <token regexp="yes">-t-(?:il|elle|on)</token>
         </pattern>
-        <message>Le -t- euphonique n’est possible qu’avec les verbes se terminant en a ou e et avec le verbe convaincre.</message>
+        <message>Le -t- euphonique n’est possible qu’avec les verbes se terminant en a ou e et avec le verbe 'convaincre'.</message>
         <suggestion>\1 <match no="2" regexp_match="-t-" regexp_replace=""/></suggestion>
         <url>https://www.projet-voltaire.fr/regles-orthographe/mentend-il-ou-mentend-t-il/</url>
         <example correction="arriveras il">Quand <marker>arriveras-t-il</marker> ?</example>
