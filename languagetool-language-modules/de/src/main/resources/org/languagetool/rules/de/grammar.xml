@@ -21243,7 +21243,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|zehn|letz)te</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SUB.+" postag_regexp="yes"/>
+                    <token postag="SUB.+|UNKOWN" postag_regexp="yes"/>
                     <token inflected="yes" regexp="yes">der|jed</token>
                     <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|zehn|letz)te</token>
                 </antipattern>
@@ -21262,8 +21262,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>,</token>
                     <token inflected="yes" regexp="yes">der|jed</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="ADV:INR"/>
+                    <token postag="PRO:DEM.+" postag_regexp="yes"/>
+                    <token postag="SUB.+" postag_regexp="yes"/>
+                    <token min="0" postag="ADV:MOD"></token>
+                    <token inflected="yes" regexp="yes">der|jed</token>
+                    <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|zehn|letz)te</token>
+                </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes">der|jed<exception scope="previous" regexp="yes">[;:]|als</exception></token>
+                    <token inflected="yes" regexp="yes">der|jed<exception scope="previous" regexp="yes">[;:]|als|rechts|links</exception></token>
                     <token postag="ADV:MOD" min="0"></token>
                     <marker>
                         <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|zehn|letz)te</token>
@@ -21300,6 +21308,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Eine Stimme besteht aus einem Dur- oder Moll-Dreiklang, die zweite ist die Melodiestimme, die nicht zwingend in derselben Tonart steht wie die erste.</example>
                 <example>Es ist der fünfte Tag der Woche, nach jüdischer, christlicher und islamischer Zählung der sechste.</example>
                 <example>Das Hubble-Teleskop war nicht das erste, das man in den Weltraum beförderte.</example>
+                <example>Die zwei fehlenden Adressbits steuert der zweite im C64 verbaute CIA6526-Chip bei.</example>
+                <example>Die oberen zwei Linien bilden sich hierbei aus den Oberkanten von Kleinbuchstaben mit (k, h, b etc.) und ohne Oberlänge (x, o, a etc.), deren gemeinsame Unterkante – die Grundlinie – bildet die dritte Linie, und die Unterkante der Kleinbuchstaben mit Unterlänge (q, p, g etc.) bildet die vierte.</example>
+                <example>Vorne rechts die erste.</example>
+                <example>Die sowjetische Sonde Wenera-7 („Venus 7“) war die erste, welche auf der Venus landete.</example>
+                <example>Dabei ist in heutigen Gesellschaften vor, in und nach einem Krieg meist heftig umstritten, ob und wann dieses Mittel tatsächlich das letzte, der Krieg also wirklich unvermeidbar war und ist.</example>
             </rule>
             <rule default="temp_off">
                 <antipattern>
@@ -21322,9 +21335,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|letz)te</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SUB.+" postag_regexp="yes"/>
+                    <token postag="SUB.+|UNKNOWN" postag_regexp="yes"/>
                     <token inflected="yes">sein</token>
                     <token min="0">nicht</token>
+                    <token inflected="yes" regexp="yes">der|jed</token>
+                    <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|zehn|letz)te</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="ADV:INR"/>
+                    <token postag="PRO:DEM.+" postag_regexp="yes"/>
+                    <token postag="SUB.+" postag_regexp="yes"/>
+                    <token min="0" postag="ADV:MOD"></token>
                     <token inflected="yes" regexp="yes">der|jed</token>
                     <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|zehn|letz)te</token>
                 </antipattern>
@@ -21356,7 +21377,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SUB.+" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes">der|jed</token>
+                    <token inflected="yes" regexp="yes">der|jed<exception scope="previous" regexp="yes">links|rechts</exception></token>
                     <marker>
                         <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|letz)te</token>
                     </marker>
@@ -21387,6 +21408,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>1870 wurde ihm in Galway ein Ehrendoktorat verliehen, das erste, das von seiner Universität vergeben wurde.</example>
                 <example>Diese Kerze, die du hier siehst, ist die letzte, die ich habe.</example>
                 <example>Das Hubble-Teleskop war nicht das erste, das man in den Weltraum beförderte.</example>
+                <example>Die zwei fehlenden Adressbits steuert der zweite im C64 verbaute CIA6526-Chip bei.</example>
+                <example>Die oberen zwei Linien bilden sich hierbei aus den Oberkanten von Kleinbuchstaben mit (k, h, b etc.) und ohne Oberlänge (x, o, a etc.), deren gemeinsame Unterkante – die Grundlinie – bildet die dritte Linie, und die Unterkante der Kleinbuchstaben mit Unterlänge (q, p, g etc.) bildet die vierte.</example>
+                <example>Vorne rechts die erste.</example>
+                <example>Die sowjetische Sonde Wenera-7 („Venus 7“) war die erste, welche auf der Venus landete.</example>
+                <example>Dabei ist in heutigen Gesellschaften vor, in und nach einem Krieg meist heftig umstritten, ob und wann dieses Mittel tatsächlich das letzte, der Krieg also wirklich unvermeidbar war und ist.</example>
             </rule>
             <rule default="temp_off">
                 <pattern case_sensitive="yes">
