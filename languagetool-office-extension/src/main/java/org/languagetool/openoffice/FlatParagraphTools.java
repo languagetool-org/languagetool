@@ -19,7 +19,6 @@
 package org.languagetool.openoffice;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -306,7 +305,7 @@ public class FlatParagraphTools {
     }
     Locale locale3 = getParagraphLanguage(flatPara, 2*len/3, len/3);
     if (OfficeTools.isEqualLocale(locale2, locale3)) {
-      MessageHandler.printToLogFile("len = " + len + "; locale: " + locale2.Language);
+//      MessageHandler.printToLogFile("len = " + len + "; locale: " + locale2.Language);
       return locale2;
     }
 //    MessageHandler.printToLogFile("len = " + len + "; locale: " + locale1.Language);
@@ -616,6 +615,9 @@ public class FlatParagraphTools {
         int nTextPara = docCache.getNumberOfTextParagraph(num);
         if (changedParas.containsKey(num)) {
           addMarksToOneParagraph(tmpFlatPara, changedParas.get(num), nTextPara < 0 ? null : cursor, override);
+          if (debugMode) {
+            MessageHandler.printToLogFile("mark Paragraph: " + num + ", Text: " + tmpFlatPara.getText());
+          }
           nMarked++;
         }
         if (override && cursor != null && nTextPara >= 0) {

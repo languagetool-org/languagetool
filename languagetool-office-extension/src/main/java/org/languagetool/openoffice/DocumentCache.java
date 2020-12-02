@@ -110,7 +110,7 @@ public class DocumentCache implements Serializable {
           }
           MessageHandler.printToLogFile("\n\ntoTextMapping:");
           for (int i = 0; i < toTextMapping.size(); i++) {
-            MessageHandler.printToLogFile("Flat: " + i + " Doc: " + toTextMapping.get(i));
+            MessageHandler.printToLogFile("Flat: " + i + " Doc: " + toTextMapping.get(i) + " locale: " + locales.get(i).Language + "-" + locales.get(i).Country);
   //        if (toTextMapping.get(i) == -1) {
   //          MessageHandler.printToLogFile("'" + paragraphs.get(i) + "'");
   //        }
@@ -389,9 +389,9 @@ public class DocumentCache implements Serializable {
               prepChBegins.add(nText);
             }
             lastLocale = locales.get(i);
-          }
-          if (debugMode) {
-            MessageHandler.printToLogFile("Paragraph("  + i + "): Locale changed to: " + lastLocale.Language + (lastLocale.Country == null ? "" : ("-" + lastLocale.Country)));
+            if (debugMode) {
+              MessageHandler.printToLogFile("Paragraph("  + i + "): Locale changed to: " + lastLocale.Language + (lastLocale.Country == null ? "" : ("-" + lastLocale.Country)));
+            }
           }
         }
       }
