@@ -490,8 +490,10 @@ public class English extends Language implements AutoCloseable {
     List<Rule> rules = new ArrayList<>(super.getRelevantRemoteRules(
       messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages, inputLogging));
 
-    // matches should be based on automatically created rules with descriptions provided by remote server
-    rules.addAll(GRPCRule.createAll(configs, inputLogging,
+    // no description needed - matches based on automatically created rules with descriptions provided by remote server
+    rules.addAll(GRPCRule.createAll(configs, inputLogging, "AI_EN_",
+      "INTERNAL - dynamically loaded rule supported by remote server"));
+    rules.addAll(GRPCRule.createAll(configs, inputLogging, "AI_HYDRA_LEO",
       "INTERNAL - dynamically loaded rule supported by remote server"));
 
     return rules;
