@@ -12841,4 +12841,60 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="add"><wd pos="NN"/></disambig>
     </rule>
+
+    <rulegroup id="DIRECTLY_RB" name="directly (RB)">
+        <!-- Remove CC from directly/now -->
+        <rule><!-- She directly goes to bed -->
+            <pattern>
+                <token postag="PRP|NNP" postag_regexp="yes" />
+                <marker>
+                    <token regexp="yes">directly|now</token>
+                </marker>
+                <token postag="VB.*|MD" postag_regexp="yes" />
+            </pattern>
+            <disambig action="remove"><wd pos="CC"/></disambig>
+        </rule>
+        <rule><!-- I would directly go to bed -->
+            <pattern>
+                <token postag="MD" />
+                <marker>
+                    <token regexp="yes">directly|now</token>
+                </marker>
+                <token postag="VB" />
+            </pattern>
+            <disambig action="remove"><wd pos="CC"/></disambig>
+            <example type="ambiguous" inputform="directly[directly/CC,directly/RB]" outputform="directly[directly/RB]">I would <marker>directly</marker> go to bed.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">&apostrophe;</token>
+                <token spacebefore="no">t</token>
+                <marker>
+                    <token regexp="yes">directly|now</token>
+                </marker>
+                <token postag="VB" />
+            </pattern>
+          <disambig action="remove"><wd pos="CC"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">do|have|be|will|should|shall|can|must</token>
+                <token>not</token>
+                <marker>
+                    <token regexp="yes">directly|now</token>
+                </marker>
+                <token postag="VB.*" postag_regexp="yes" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="remove"><wd pos="CC"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">directly|now</token>
+                </marker>
+                <token postag="SENT_END" regexp="yes">\p{P}</token>
+            </pattern>
+            <disambig action="remove"><wd pos="CC"/></disambig>
+        </rule>
+    </rulegroup>
 </rules>
