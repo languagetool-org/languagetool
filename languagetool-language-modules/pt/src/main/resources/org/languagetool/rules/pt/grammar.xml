@@ -10426,6 +10426,20 @@ MARCOAGPINTO 2020-02-18 -->
 	<!-- É NECESSÁRIO ESTAR PRESENTE é presencial -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-02 (21-OCT-2020+)  *START*   -->
     <rulegroup id='PRESENTE_PRESENCIAL' name="é presencial">
+	
+	  <rule>
+		<pattern>
+			<token>é</token>
+			<token>necessário</token>
+			<token>estar</token>
+			<token min="0" max="1" regexp='yes'>fisicamente|pessoalmente|presencialmente</token>
+			<token>presente</token>
+			<token regexp='yes'>[.,!?]</token>
+		</pattern>
+		<message>Substitua por <suggestion>é presencial\6</suggestion>.</message>
+		<example correction="É presencial?"><marker>É necessário estar presente?</marker></example>
+	  </rule>	
+	
 	  <rule>
 		<pattern>
 			<token>é</token>
