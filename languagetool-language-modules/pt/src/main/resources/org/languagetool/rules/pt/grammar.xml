@@ -10423,6 +10423,67 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="gosto em convidá">Terei o maior <marker>prazer em convidá</marker>-los para a festa.</example>
     </rule>
 
+	<!-- É NECESSÁRIO ESTAR PRESENTE é presencial -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-02 (21-OCT-2020+)  *START*   -->
+    <rulegroup id='PRESENTE_PRESENCIAL' name="é presencial">
+	  <rule>
+		<pattern>
+			<token>é</token>
+			<token>necessário</token>
+			<token>estar</token>
+			<token min="0" max="1" regexp='yes'>fisicamente|pessoalmente|presencialmente</token>
+			<token>presente</token>
+			<token>na</token>
+			<token postag='NC.+' postag_regexp='yes'/>
+		</pattern>
+		<message>Substitua por <suggestion>a \7 é presencial</suggestion>.</message>
+		<example correction="A reunião é presencial"><marker>É necessário estar presente na reunião</marker>?</example>
+	  </rule>
+	  
+	  <rule>
+		<pattern>
+			<token>é</token>
+			<token>necessário</token>
+			<token>estar</token>
+			<token min="0" max="1" regexp='yes'>fisicamente|pessoalmente|presencialmente</token>
+			<token>presente</token>
+			<token>nas</token>
+			<token postag='NC.+' postag_regexp='yes'/>
+		</pattern>
+		<message>Substitua por <suggestion>as \7 são presenciais</suggestion>.</message>
+		<example correction="As aulas são presenciais"><marker>É necessário estar presente nas aulas</marker>?</example>
+	  </rule>	  
+	  
+	  <rule>
+		<pattern>
+			<token>é</token>
+			<token>necessário</token>
+			<token>estar</token>
+			<token min="0" max="1" regexp='yes'>fisicamente|pessoalmente|presencialmente</token>
+			<token>presente</token>
+			<token>no</token>
+			<token postag='NC.+' postag_regexp='yes'/>
+		</pattern>
+		<message>Substitua por <suggestion>o \7 é presencial</suggestion>.</message>
+		<example correction="O curso é presencial"><marker>É necessário estar presente no curso</marker>?</example>
+	  </rule> 
+	
+	  <rule>
+		<pattern>
+			<token>é</token>
+			<token>necessário</token>
+			<token>estar</token>
+			<token min="0" max="1" regexp='yes'>fisicamente|pessoalmente|presencialmente</token>
+			<token>presente</token>
+			<token>nos</token>
+			<token postag='NC.+' postag_regexp='yes'/>
+		</pattern>
+		<message>Substitua por <suggestion>os \7 são presenciais</suggestion>.</message>
+		<example correction="Os cursos são presenciais"><marker>É necessário estar presente nos cursos</marker>?</example>
+	  </rule> 
+	
+    </rulegroup>
+
     <rule id='PROBLEMA_BASILAR' name="problema básico">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
