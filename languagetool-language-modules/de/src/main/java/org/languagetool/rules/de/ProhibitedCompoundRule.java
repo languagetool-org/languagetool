@@ -398,6 +398,7 @@ public class ProhibitedCompoundRule extends Rule {
           "Vorzelt",
           "Vorzelte",
           "Supportleitung", // vs leistung
+          "Kursname",
           "Feuchtmann" //name
   ));
 

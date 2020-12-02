@@ -37954,7 +37954,7 @@ Andere Projekte</example>
                     <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.+" postag_regexp="yes"/></token>
                     <marker>
                         <token regexp="yes">abseits|abzüglich|angelegentlich|angesichts|anhand|anlässlich|anstelle|aufgrund|aufseiten|ausgangs|außerhalb|ausserhalb|ausweislich|behufs|beiderseits|beidseits|betreffs|bezüglich|dank|diesseits|eingangs|eingedenk|einschließlich|einschliesslich|fernab|hinsichtlich|infolge|inklusive|inmitten|innerhalb|innert|inpuncto|jenseits|kraft|längs|längsseits|mangels|mithilfe|mittels|namens|nördlich|oberhalb|östlich|rücksichtlich|seitens|seitlich|seitwärts|südlich|trotz|unbeschadet|uneingedenk|unerachtet|unfern|ungeachtet|ungerechnet|unterhalb|unweit|vermittels(t)|vermöge|vonseiten|vorbehaltlich|vorbehältlich|wegen|weitab|willen|zeit|zugunsten|zuhanden|zulasten|zuseiten|zuungunsten|zuzüglich|zwecks</token>
-                        <token regexp="yes">den|[Ii]hrem|[Ddms]?einen|unseren|diesen|jenen|[Ee]uren</token>
+                        <token regexp="yes">den|[Ii]hre[nm]|[Ddms]?einen|unseren|diesen|jenen|[Ee]uren</token>
                         <token postag="ADJ:DAT:SIN:NEU:GRU:IND" min="0" />
                         <token postag="SUB:(GEN|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes">
                             <exception scope="next" postag="SUB:GEN:SIN:(MAS|FEM|NEU)" postag_regexp="yes" />
@@ -37988,6 +37988,24 @@ Andere Projekte</example>
                 <example correction="anhand ihrer Spektra|anhand ihrer Spektren">1905 und 1907 veröffentlichte er heute klassische Artikel „Zur Strahlung der Sterne“ über seine Versuche, die Lichtstärke von Sternen <marker>anhand ihren Spektren</marker> auszumessen.</example>
                 <example>1923 legte er des fortgeschrittenen Alters wegen den Führerposten nieder und trat ihn an 0berstraßenmeister Plehn ab, der ihn bis 1929 innehatte.</example>
                 <example>1874 kaufte der Psychiater Ludwig Binswanger (1820–1880) das Schloss einschließlich des dazugehörenden landwirtschaftlichen Betriebs und gab ihm der Brunnen wegen den Namen Brunnegg.</example>
+            </rule>
+
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.+" postag_regexp="yes"/></token>
+                    <marker>
+                        <token regexp="yes">abseits|abzüglich|angelegentlich|angesichts|anhand|anlässlich|anstelle|aufgrund|aufseiten|ausgangs|außerhalb|ausserhalb|ausweislich|behufs|beiderseits|beidseits|betreffs|bezüglich|dank|diesseits|eingangs|eingedenk|einschließlich|einschliesslich|fernab|hinsichtlich|infolge|inklusive|inmitten|innerhalb|innert|inpuncto|jenseits|kraft|längs|längsseits|mangels|mithilfe|mittels|namens|nördlich|oberhalb|östlich|rücksichtlich|seitens|seitlich|seitwärts|südlich|trotz|unbeschadet|uneingedenk|unerachtet|unfern|ungeachtet|ungerechnet|unterhalb|unweit|vermittels(t)|vermöge|vonseiten|vorbehaltlich|vorbehältlich|wegen|weitab|willen|zeit|zugunsten|zuhanden|zulasten|zuseiten|zuungunsten|zuzüglich|zwecks</token>
+                        <token regexp="yes">den|[Ii]hre[nm]|[Ddms]?eine[mn]|unsere[mn]|diese[mn]|jene[mn]|[Ee]ure[mn]</token>
+                        <token postag="ADJ:DAT:PLU:NEU:GRU:IND" min="0" />
+                        <token postag="SUB:(GEN|NOM|AKK|DAT):PLU:(MAS|FEM|NEU)" postag_regexp="yes">
+                            <exception scope="next" postag="SUB:GEN:PLU:(MAS|FEM|NEU)" postag_regexp="yes" />
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Die Präposition '\2' erfordert in der Regel den Genitiv.</message>
+                <suggestion suppress_misspelled="yes">\2 <match no="3" regexp_match="[mn]$" regexp_replace="r" /> \4 <match no="5" postag="SUB:GEN:PLU:.+" postag_regexp="yes" /></suggestion>
+                <example correction="inklusive der Fahrten">Der Urlaub ist <marker>inklusive den Fahrten</marker> vom und zum Flughafen gebucht.</example>
+                <example correction="trotz der versöhnlichen Worte|trotz der versöhnlichen Wörter">Er war immer noch verärgert über den Unfall, <marker>trotz den versöhnlichen Worten</marker> seiner Frau.</example>
             </rule>
             <rule>
                 <antipattern>
