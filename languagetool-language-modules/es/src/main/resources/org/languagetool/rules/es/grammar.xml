@@ -1832,6 +1832,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token>¿</token>
+                    <token min="0">a</token>
                     <marker>
                         <token>que</token>
                     </marker>
@@ -1844,6 +1845,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="triggers_error">¿Que te has dejado las llaves en casa?</example>
                 <!--This can't be detected, but infrequent-->
                 <example type="triggers_error">¿Que los alemanes no tienen sentido del humor?</example>
+                <example correction="qué" type="triggers_error">¿A <marker>que</marker> hoy hace viento?</example>
                 <!--This can't be detected, but infrequent-->
                 <example>¡Que te diviertas!</example>
                 <example>¿A que no?</example>
@@ -8510,10 +8512,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Quiero saber el porqué.</example>
                 <example>Aún no se sabe la razón del porqué no va.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
-                    <token regexp="yes" inflected="yes">ansioso|deseoso|optar|preocupación|preocupar|motivo|razón</token>
+                    <token regexp="yes" inflected="yes">ansioso|deseoso|optar|preocupación|preocupar|rezar</token>
                     <token>por</token>
+                    <token skip="5">que</token>
+                    <token postag="V.S.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" inflected="yes">motivo|razón</token>
+                    <token>por</token>
+                    <token>que</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -8521,12 +8530,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>que</token>
                     </marker>
                 </pattern>
-                <message>Si es una conjunción causal se escribe junto.</message>
+                <message>Si es una conjunción causal ('por causa de que'), se escribe junto.</message>
                 <suggestion>porque</suggestion>
                 <example correction="porque">No le gustan <marker>por que</marker> sabe que son malos.</example>
                 <example>Optaron por que no hubiera elecciones.</example>
                 <example>Estaban ansiosos por que vinieran.</example>
                 <example>El motivo por que vinimos no es este.</example>
+                <example>Nos expresó su preocupación por que los niños pudieran irse.</example>
                 <example correction="porque" type="triggers_error">Los premios <marker>por que</marker> competían eran atractivos.</example>
             </rule>
         </rulegroup>
@@ -12810,7 +12820,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rulegroup id="PODAR_PODER" name="podar/poder" default="temp_off">
+        <rulegroup id="PODAR_PODER" name="podar/poder">
             <rule>
                 <pattern>
                     <marker>
