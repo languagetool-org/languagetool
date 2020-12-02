@@ -25229,6 +25229,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="vistiplau">El <marker>vist-i-plau</marker> del president</example>
                 <example>El vistiplau del president</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>kung</token>
+                    <token min="0">-</token>
+                    <token>fu</token>
+                </pattern>
+                <message>S'escriu junt.</message>
+                <suggestion>kungfu</suggestion>
+                <example correction="kungfu">Van apuntar els nens a <marker>kung-fu</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>tai</token>
+                    <token min="0">-</token>
+                    <token>txi</token>
+                </pattern>
+                <message>S'escriu junt.</message>
+                <suggestion>taitxí</suggestion>
+                <example correction="taitxí">Van apuntar els nens a <marker>tai txi</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>tai</token>
+                    <token min="0">-</token>
+                    <token>txi</token>
+                    <token min="0">-</token>
+                    <token>txuan</token>
+                </pattern>
+                <message>S'escriu junt.</message>
+                <suggestion>taitxitxuan</suggestion>
+                <example correction="taitxitxuan">Van apuntar els nens a <marker>tai-txi-txuan</marker>.</example>
+            </rule>
             <rule id="PREFIXOS_SENSE_GUIONET_NOMSADJECTIUS" name="prefixos sense guionet: *vice-president">
                 <pattern>
                     <token regexp="yes">arxi|bes|plus|per|post|pre|pro|pseudo|quasi|semi|sobre|sots|sub|ultra|vice|auto|greco|mini|micro|multi|anti|gal·lo|super</token>
@@ -25341,11 +25373,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">super|súper</token>
                     <token min="0">-</token>
-                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">8|16|35</token>
                 </pattern>
-                <message>Grafia preferible</message>
+                <message>Grafia preferible.</message>
                 <suggestion>súper-\3</suggestion>
                 <example correction="súper-8">Estava feta en <marker>super 8</marker>.</example>
+                <example>És del Club Super 3.</example>
             </rule>
             <rule>
                 <pattern>
@@ -26131,6 +26164,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>dona</token>
                 <token>compte</token>
             </antipattern>
+            <antipattern>
+                <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/>
+                <token postag="D..FP.|PX.FP.*" postag_regexp="yes" min="0" max="2"/>
+                <token>dones</token>
+                <token><exception>compte</exception></token>
+            </antipattern>
+            <antipattern>
+                <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"><exception>en</exception></token>
+                <token postag="D..FP.|PX.FP.*" postag_regexp="yes" min="0" max="2"/>
+                <token>dones</token>
+                <token>compte</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="_GN_.*|PD.*|_PUNCT.*|C.*|PR.*" postag_regexp="yes"/>
@@ -26424,7 +26469,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="dóna">Aquesta <marker>dona</marker> fruit.</example>
                 <example>Donar a les dones accés al crèdit.</example>
             </rule>
-            <rule default="temp_off">
+            <rule id="DONA" name="dona un" default="temp_off">
                 <antipattern>
                     <token postag="D[^D].FS." postag_regexp="yes"/>
                     <token>dona</token>
@@ -26437,7 +26482,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">dona|dones</token>
                     </marker>
-                    <token postag="_GN_.*" postag_regexp="yes"/>
+                    <token postag="D.*" postag_regexp="yes"/>
                 </pattern>
                 <message>S'accentua si és del v. 'donar' (segons les normes tradicionals; desactiveu la regla si voleu les normes noves).</message>
                 <suggestion><match no="1" regexp_match="(?i).+(a|es)" regexp_replace="dón$1"/></suggestion>
@@ -51936,7 +51981,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>temps</token>
                 </pattern>
                 <message>Expressió incorrecta si equival a alguna de les següents.</message>
-                <suggestion>hi <match no="2" postag="VMI(.)3S00" postag_regexp="yes" postag_replace="VAI$13S00">haver</match> temps</suggestion>
+                <suggestion>hi <match no="2" postag="VM(..3S..)" postag_regexp="yes" postag_replace="VA$1">haver</match> temps</suggestion>
                 <suggestion><match no="2" postag="(VM..)3S(..)" postag_regexp="yes" postag_replace="$11S$2">tenir</match> temps</suggestion>
                 <example correction="hi ha temps|tinc temps">No <marker>em dóna temps</marker> de fer-ho.</example>
                 <example correction="hi ha temps|tinc temps">Aquest mes no <marker>em dóna temps</marker> de fer-ho.</example>
@@ -51954,7 +51999,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>temps</token>
                 </pattern>
                 <message>Expressió incorrecta si equival a alguna de les següents.</message>
-                <suggestion>hi <match no="2" postag="VMI(.)3S00" postag_regexp="yes" postag_replace="VAI$13S00">haver</match> temps</suggestion>
+                <suggestion>hi <match no="2" postag="VM(..3S..)" postag_regexp="yes" postag_replace="VA$1">haver</match> temps</suggestion>
                 <suggestion><match no="2" postag="(VM..)3S(..)" postag_regexp="yes" postag_replace="$12S$2">tenir</match> temps</suggestion>
                 <example correction="hi ha temps|tens temps">No <marker>et dóna temps</marker> de fer-ho.</example>
             </rule>
@@ -51965,7 +52010,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>temps</token>
                 </pattern>
                 <message>Expressió incorrecta si equival a alguna de les següents.</message>
-                <suggestion>hi <match no="2" postag="VMI(.)3S00" postag_regexp="yes" postag_replace="VAI$13S00">haver</match> temps</suggestion>
+                <suggestion>hi <match no="2" postag="VM(..3S..)" postag_regexp="yes" postag_replace="VA$1">haver</match> temps</suggestion>
                 <suggestion><match no="2" postag="(VM..)3S(..)" postag_regexp="yes" postag_replace="$13S$2">tenir</match> temps</suggestion>
                 <example correction="hi ha temps|té temps">No <marker>li dóna temps</marker> de fer-ho.</example>
             </rule>
@@ -51976,7 +52021,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>temps</token>
                 </pattern>
                 <message>Expressió incorrecta si equival a alguna de les següents.</message>
-                <suggestion>hi <match no="2" postag="VMI(.)3S00" postag_regexp="yes" postag_replace="VAI$13S00">haver</match> temps</suggestion>
+                <suggestion>hi <match no="2" postag="VM(..3S..)" postag_regexp="yes" postag_replace="VA$1">haver</match> temps</suggestion>
                 <suggestion><match no="2" postag="(VM..)3S(..)" postag_regexp="yes" postag_replace="$11P$2">tenir</match> temps</suggestion>
                 <example correction="hi ha temps|tenim temps">No <marker>ens dóna temps</marker> de fer-ho.</example>
             </rule>
@@ -51987,7 +52032,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>temps</token>
                 </pattern>
                 <message>Expressió incorrecta si equival a alguna de les següents.</message>
-                <suggestion>hi <match no="2" postag="VMI(.)3S00" postag_regexp="yes" postag_replace="VAI$13S00">haver</match> temps</suggestion>
+                <suggestion>hi <match no="2" postag="VM(..3S..)" postag_regexp="yes" postag_replace="VA$1">haver</match> temps</suggestion>
                 <suggestion><match no="2" postag="(VM..)3S(..)" postag_regexp="yes" postag_replace="$12P$2">tenir</match> temps</suggestion>
                 <example correction="hi ha temps|teniu temps">No <marker>us dóna temps</marker> de fer-ho.</example>
             </rule>
@@ -51998,7 +52043,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>temps</token>
                 </pattern>
                 <message>Expressió incorrecta si equival a alguna de les següents.</message>
-                <suggestion>hi <match no="2" postag="VMI(.)3S00" postag_regexp="yes" postag_replace="VAI$13S00">haver</match> temps</suggestion>
+                <suggestion>hi <match no="2" postag="VM(..3S..)" postag_regexp="yes" postag_replace="VA$1">haver</match> temps</suggestion>
                 <suggestion><match no="2" postag="(VM..)3S(..)" postag_regexp="yes" postag_replace="$13P$2">tenir</match> temps</suggestion>
                 <example correction="hi ha temps|tenen temps">No <marker>els dóna temps</marker> de fer-ho.</example>
             </rule>
@@ -52009,7 +52054,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>temps</token>
                 </pattern>
                 <message>Expressió incorrecta si equival a alguna de les següents.</message>
-                <suggestion>hi <match no="2" postag="VMI(.)3S00" postag_regexp="yes" postag_replace="VAI$13S00">haver</match> temps</suggestion>
+                <suggestion>hi <match no="2" postag="VM(..3S..)" postag_regexp="yes" postag_replace="VA$1">haver</match> temps</suggestion>
                 <suggestion>(tenir) temps</suggestion>
                 <example correction="hi ha temps|(tenir) temps">No <marker>em dóna temps</marker> de fer-ho.</example>
             </rule>
