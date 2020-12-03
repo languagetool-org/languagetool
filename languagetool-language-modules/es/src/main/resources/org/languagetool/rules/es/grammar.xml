@@ -10916,7 +10916,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token>justo</token>
-                <token regexp="yes">a|al|afuera|adentro|fuera|dentro|aquí|allí|ahí|allá</token>
+                <token regexp="yes">a|al|afuera|adentro|fuera|dentro|aquí|allí|ahí|allá|en|como</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">producto|objeto|fruto</token>
@@ -11385,6 +11385,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ves resultados mejores.</example>
             <example>Va por el camino en línea recta.</example>
             <example>Lo demás cobra sentido.</example>
+            <example>A continuación adjunto el fichero.</example>
             <!-- 
                 La eternidad dura harto.
                 Ella fue al concierto acompañada de una amiga.
@@ -12832,6 +12833,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="DEBIDO_QUE" name="debido (a) que" default="temp_off">
+            <pattern>
+                <token>debido</token>
+                <token>que</token>
+            </pattern>
+            <message>¿Quería de decir <suggestion>debido a que</suggestion>?</message>
+            <example correction="debido a que">No lo trajeron <marker>debido que</marker> no estaba acabado.</example>
+        </rule>
         <rulegroup id="PODAR_PODER" name="podar/poder">
             <rule>
                 <pattern>
