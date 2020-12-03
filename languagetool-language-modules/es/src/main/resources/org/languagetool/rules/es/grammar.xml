@@ -1816,6 +1816,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="QUE" name="que/qué">
             <url>https://www.rae.es/consultas/tilde-en-que-cuales-quienes-como-cuan-cuantoaosas-cuando-donde-y-adonde</url>
+            <antipattern>
+                <token>a</token>
+                <token>que</token>
+                <token regexp="yes">sí|no</token>
+                <token>?</token>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token>a</token>
@@ -1829,6 +1835,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>que</token>
                     <token regexp="yes">cómo|cuántos?|cuándo|quién|quiénes|cuál|cuáles</token>
+                </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token skip="2">que</token>
+                    <token inflected="yes" regexp="yes">ser|estar|molar|conocer|hacer|divertir</token>
                 </antipattern>
                 <pattern>
                     <token>¿</token>
@@ -1845,11 +1856,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="triggers_error">¿Que te has dejado las llaves en casa?</example>
                 <!--This can't be detected, but infrequent-->
                 <example type="triggers_error">¿Que los alemanes no tienen sentido del humor?</example>
-                <example correction="qué" type="triggers_error">¿A <marker>que</marker> hoy hace viento?</example>
-                <!--This can't be detected, but infrequent-->
+                <example>¿A que hoy hace viento?</example>
                 <example>¡Que te diviertas!</example>
                 <example>¿A que no?</example>
-                <example>¿Que cuántos tengo?</example>
+                <example>Tom es muy popular, ¿a que sí? </example>
+                <example>¿A que te he hecho reír?</example>
             </rule>
             <rule>
                 <antipattern>
