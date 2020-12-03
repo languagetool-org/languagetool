@@ -35275,6 +35275,15 @@ though, and has since been slightly modified)-->
         <example>Y'a pas mal de gens.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="Y_AVAIT" name="Expression familière y'avait" default="temp_off">
+      <rule>
+        <pattern>
+          <token postag="UNKNOWN" regexp="yes">y'(avait|aurait|eut|aura|ait|eût|ayant)</token>
+        </pattern>
+        <message> Vouliez-vous dire <suggestion><match no="1" regexp_match="'" regexp_replace=" "/></suggestion> ?</message>
+        <example correction="Y avait"><marker>Y'avait</marker>-il des étoiles dans le ciel?</example>
+      </rule>
+    </rulegroup>
     <rule id="CHIFFRE_SIECLE" name="Chiffre suivi du mot siècle">
       <antipattern>
         <token regexp="yes">en|durant|pendant</token>
