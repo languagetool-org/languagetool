@@ -30,8 +30,11 @@ import org.languagetool.tokenizers.WordTokenizer;
  */
 public class EnglishWordTokenizer extends WordTokenizer {
 
-  private static final String[] EXCEPTIONS = {"fo'c'sle"};
-  private static final String[] EXCEPTION_REPLACEMENT = {"fo\u2626c\u2626sle"};
+  private static final String[] EXCEPTIONS = {"fo'c'sle",
+    "!Kung", "!Xun", "!Xoo", "!Xóõ", "!Xoon", "!Khong"};
+  // Caution: replacement should never be a plausible token on its own.
+  private static final String[] EXCEPTION_REPLACEMENT = {"fo\u2626c\u2626sle",
+    "\u2626ǃKung", "\u2626ǃXun", "\u2626ǃXoo", "\u2626ǃXóõ", "\u2626ǃXoon", "\u2626ǃKhong"};
 
   @Override
   public String getTokenizingCharacters() {
