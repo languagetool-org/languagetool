@@ -25912,6 +25912,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes">video|vídeo</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">..+</token>
+                </pattern>
+                <message suppress_misspelled="yes">S'escriu junt.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="video$1"/></suggestion>
+                <example correction="videotrucada">Fem una <marker>video trucada</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>nacional</token>
                     <token min="0">-</token>
                     <token inflected="yes" regexp="yes">populisme|populista|catòlic|socialisme|catolicisme|sindicalisme|sindicalista</token>
