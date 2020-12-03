@@ -21264,7 +21264,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token case_sensitive="yes" regexp="yes">(ers|zwei|drit|vier|fünf|sechs|sieb|ach|neun|zehn|letz)te</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SUB.+" postag_regexp="yes"/>
+                    <token postag="SUB.+|UNKNOWN" postag_regexp="yes"/>
                     <token inflected="yes">sein</token>
                     <token min="0">nicht</token>
                     <token inflected="yes" regexp="yes">der|jed</token>
@@ -21306,12 +21306,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="PKT"/>
                     <token postag_regexp="yes" postag="PRO.+|ADV:PRO" skip="-1"></token>
-                    <token postag="VER:.*1.+" postag_regexp="yes"></token>
+                    <token postag="VER:.*[123].+" postag_regexp="yes"></token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
                 <example correction="Erste">Das <marker>erste</marker>, worauf er achtet, ist dein Benehmen.</example>
                 <example correction="Erste">Das wirklich <marker>erste</marker>, worauf er achtet, ist dein Benehmen.</example>
+                <example correction="Erste">Tom war nicht der <marker>erste</marker>, der mir diese Frage gestellt hat.</example>
                 <example>1912 endete der zweite, beschränkte Wettbewerb.</example>
+                <example correction="Erste">Ich bin die <marker>erste</marker>, die einen solchen Vorschlag unterstützt.</example>
                 <example>1883 wird sein erster Sohn Leopoldo geboren, 1887 der zweite, Adolfo.</example>
                 <example>Mein Fuß war der erste, der dieses Zimmer betrat.</example>
                 <example>Tut sich irgendwo ein Fettnäpfchen auf, so ist mein Fuß der erste, der darin landet!</example>
@@ -21342,7 +21344,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Die sowjetische Sonde Wenera-7 („Venus 7“) war die erste, welche auf der Venus landete.</example>
                 <example>Dabei ist in heutigen Gesellschaften vor, in und nach einem Krieg meist heftig umstritten, ob und wann dieses Mittel tatsächlich das letzte, der Krieg also wirklich unvermeidbar war und ist.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token skip="1" regexp="yes">[,;:]|als</token>
                     <token inflected="yes" regexp="yes">der|jed</token>
@@ -21760,13 +21762,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern case_sensitive="yes">
                     <token regexp="yes">[iI]m</token>
-                    <token regexp="yes">wesentlichen|voraus|ungewissen|speziellen|klaren|guten|ganzen|dunkeln|argen|besonderen|übrigen|trüben|grünen|einzelnen</token>
+                    <token regexp="yes">wesentlichen|voraus|ungewissen|speziellen|klaren|guten|ganzen|dunkeln|argen|besonderen|übrigen|trüben|grünen|einzelnen|weitesten|entferntesten</token>
                     <token postag="ADV:.+" postag_regexp="yes"><exception postag="ZUS"/></token>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]m</token>
                     <marker>
-                        <token regexp="yes">wesentlichen|voraus|ungewissen|speziellen|klaren|guten|ganzen|dunkeln|argen|besonderen|übrigen|trüben|grünen|einzelnen</token>
+                        <token regexp="yes">wesentlichen|voraus|ungewissen|speziellen|klaren|guten|ganzen|dunkeln|argen|besonderen|übrigen|trüben|grünen|einzelnen|weitesten|entferntesten</token>
                     </marker>
                     <token><exception postag="(SUB|ADJ|EIG):.*|UNKNOWN" postag_regexp="yes"/></token>
                 </pattern>
@@ -35174,7 +35176,7 @@ Andere Projekte</example>
                         <token regexp="yes">mit|und</token>
                         <token case_sensitive="yes" regexp="yes">&farbadj;</token>
                     </marker>
-                    <token inflected="yes">mischen</token>
+                    <token inflected="yes" regexp="yes">(ver)?mischen</token>
                 </pattern>
                 <message>In dieser Wendung scheinen die Farbnamen als Nomen gebraucht zu werden und sind deshalb großzuschreiben.</message>
                 <suggestion><match case_conversion="startupper" no="1"/> \2 <match case_conversion="startupper" no="3"/></suggestion>
@@ -35183,7 +35185,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes">mischen</token>
+                    <token inflected="yes" regexp="yes">(ver)?mischen</token>
                     <marker>
                         <token regexp="yes">&farbadj;</token>
                         <token regexp="yes">mit|und</token>
