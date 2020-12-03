@@ -21026,12 +21026,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>als</token>
                 <token regexp="yes" case_sensitive="yes">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes|zehntes|elftes|zwölftes</token>
-                <token skip="2">und</token>
+                <token skip="3">und</token>
                 <token regexp="yes" case_sensitive="yes">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes|zehntes|elftes|zwölftes|letztes|einziges</token>
             </antipattern>
             <antipattern><!-- Als erstes der drei Neuen Tore wurde das Paulstor saniert.-->
-                <token regexp="yes" skip="2">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes|zehntes|elftes|zwölftes|nächstes|letztes</token>
-                <token postag="ART:.*:GEN:.*" postag_regexp="yes"/>
+                <token regexp="yes">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes|zehntes|elftes|zwölftes|nächstes|letztes</token>
+                <token postag="(PRO:POS|ART).*:GEN:.*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <token>als</token>
@@ -21056,6 +21056,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Nächstes">Was kommt als <marker>nächstes</marker>?</example>
             <example>Als letztes der natürlich vorkommenden Edelgase wurde 1900 von Friedrich Ernst Dorn das Radon entdeckt.</example>
             <example>Die „Graf Zeppelin“ umfuhr als erstes und bis heute einziges Luftschiff die Welt.</example>
+            <example>Als erstes seiner drei Häuser kam das Anwesen am Viktualienmarkt unter den Hammer.</example>
+            <example>So hat XY als erstes und nach wie vor einziges Unternehmen ...</example>
         </rule>
         <rule id="ANS_KLEINES_NOMEN" name="ans/fürs/... + kleingeschriebenes Nomen">
             <antipattern>
