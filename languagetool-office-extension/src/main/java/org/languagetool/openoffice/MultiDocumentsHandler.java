@@ -27,11 +27,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.SystemUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -1075,16 +1072,29 @@ public class MultiDocumentsHandler {
    * Runs LT options dialog box.
    */
   public void runOptionsDialog() {
-    Configuration config = getConfiguration();
-    Language lang = config.getDefaultLanguage();
-    if (lang == null) {
-      lang = getLanguage();
+    try {
+      Configuration config = getConfiguration();
+      Language lang = config.getDefaultLanguage();
+//      MessageHandler.showMessage("Default Language: " + (lang == null ? "null" : lang.getShortCodeWithCountryAndVariant()));
+      if (lang == null) {
+        lang = getLanguage();
+//        MessageHandler.showMessage("Default Language: " + (lang == null ? "null" : lang.getShortCodeWithCountryAndVariant()));
+      }
+      if (lang == null) {
+        return;
+      }
+      SwJLanguageTool lTool = langTool;
+      if (!lang.equals(docLanguage)) {
+        docLanguage = lang;
+        lTool = initLanguageTool();
+        initCheck(lTool, LinguisticServices.getLocale(lang));
+        config = this.config;
+      }
+      ConfigThread configThread = new ConfigThread(lang, config, lTool, this);
+      configThread.start();
+    } catch (Throwable t) {
+      MessageHandler.showError(t);
     }
-    if (lang == null) {
-      return;
-    }
-    ConfigThread configThread = new ConfigThread(lang, config, this);
-    configThread.start();
   }
 
   /**
