@@ -61814,6 +61814,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
+                    <token min="0">molt</token>
                     <marker>
                         <token regexp="yes">bon|bona|bones</token>
                         <token regexp="yes">dia|vespre|vesprada|tarda|nit|nadal|festes</token>
@@ -61824,6 +61825,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\3 \4,</suggestion>
                 <example correction="Bon dia,"><marker>Bon dia</marker> Joan.</example>
                 <example correction="Bona nit,"><marker>Bona nit</marker> Clara.</example>
+                <example correction="bona nit,">Molt <marker>bona nit</marker> Clara.</example>
                 <example>Hola a tothom.</example>
                 <example>Bon dia pel matí!</example>
                 <example>Bon dia i enhorabona</example>
@@ -61847,6 +61849,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\2, \3</suggestion>
                 <example correction="besos, guapo">Molts <marker>besos guapo</marker>.</example>
                 <example>Un fons de pantalla preciós.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="nombre"/>
+                        <feature id="genere"/>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <marker>    
+                            <token postag="A.*" postag_regexp="yes" inflected="yes" regexp="yes">senyor</token>
+                        </marker>
+                    </unify>
+                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Probablement hi falta una coma.</message>
+                <suggestion>, \2</suggestion>
+                <example correction=", senyora">Als seus peus<marker> senyora</marker>.</example>
             </rule>
             <rule>
                 <pattern>

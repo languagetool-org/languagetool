@@ -201,7 +201,7 @@ public class Catalan extends Language {
       case "REGIONAL_VERBS": return -10;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
       case "MUNDAR": return -50;
-      case "AGREEMENT_POSTPONED_ADJ_": return -50;
+      case "AGREEMENT_POSTPONED_ADJ": return -50;
       case "NOMBRES_ROMANS": return -90;
       case "MORFOLOGIK_RULE_CA_ES": return -100;
       case "EXIGEIX_ACCENTUACIO_VALENCIANA": return -120;
