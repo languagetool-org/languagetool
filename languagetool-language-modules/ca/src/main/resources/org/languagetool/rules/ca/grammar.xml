@@ -26469,7 +26469,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="dóna">Aquesta <marker>dona</marker> fruit.</example>
                 <example>Donar a les dones accés al crèdit.</example>
             </rule>
-            <rule id="DONA" name="dona un" default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="D[^D].FS." postag_regexp="yes"/>
                     <token>dona</token>
@@ -51692,11 +51692,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=%22anar+a%22&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12062&amp;idHit=12062&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=8&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27Anar+a%27+%28o+%27per%27%29+%2B+infinitiu+%2F+Per%EDfrasis+d%27immin%E8ncia+%2F+Nova+gram%E0tica&amp;tematica=&amp;tipusCerca=cerca.traduir</url>
             <rule>
                 <antipattern>
-                    <marker>
-                        <token>aneu</token>
-                        <token>a</token>
-                        <token>saber</token>
-                    </marker>
+                    <token>aneu</token>
+                    <token>a</token>
+                    <token regexp="yes">saber|pastar</token>
                 </antipattern>
                 <pattern>
                     <token><exception inflected="yes" regexp="yes">en|hi</exception></token>
