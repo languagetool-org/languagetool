@@ -95,7 +95,24 @@ public class AvsAnRuleTest {
     assertCorrect("Anyone for an XMR-based writer?");
 
     //Test on apostrophes
-    assertCorrect("Its name in English is a[1] (), plural A's, As, as, or a's.");
+    assertCorrect("Its name in English is a[1] (), plural A's, As, as, a’s, or a's.");
+
+    //Test diacritics:
+    assertCorrect("This is an Édouard Manet painting.");
+    assertIncorrect("This is a Édouard Manet painting.");
+    assertCorrect("This is an étude.");
+    assertIncorrect("This is a étude.");
+    assertCorrect("This is a Čakavian dialect, not a Štokavian dialect.");
+    assertIncorrect("This is an Čakavian dialect, not a Štokavian dialect.");
+    assertIncorrect("This is a Čakavian dialect, not an Štokavian dialect.");
+    assertCorrect("This is an ʻaʻā lava flow.");
+    assertIncorrect("This is a ʻaʻā lava flow.");
+    assertCorrect("This is an ‘a‘ā lava flow.");
+    assertIncorrect("This is a ‘a‘ā lava flow.");
+    assertCorrect("This is an 'a'ā lava flow.");
+    assertIncorrect("This is a 'a'ā lava flow.");
+    assertCorrect("This is an ōzeki.");
+    assertIncorrect("This is a ōzeki.");
 
     // Both are correct according to Merriam Webster (http://www.merriam-webster.com/dictionary/a%5B2%5D),
     // although some people disagree (http://www.theslot.com/a-an.html):

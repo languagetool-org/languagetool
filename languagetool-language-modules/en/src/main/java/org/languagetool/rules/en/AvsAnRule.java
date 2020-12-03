@@ -25,6 +25,7 @@ import org.languagetool.tools.StringTools;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static org.apache.commons.lang3.StringUtils.stripAccents;
 import static org.languagetool.rules.en.AvsAnData.getWordsRequiringA;
 import static org.languagetool.rules.en.AvsAnData.getWordsRequiringAn;
 
@@ -114,6 +115,9 @@ public class AvsAnRule extends Rule {
         prevTokenIndex = i;
       } else if (token.getToken().matches("[-\"()\\[\\]]+")) {
         // skip e.g. the quote in >>an "industry party"<<
+      } else if (token.getToken().matches("['‘]") && token.isWhitespaceBefore()) {
+        // skip the opening quote (preceded by whitespace) in e.g. an 'a'ā,
+        // but not the apostrophe (in the same word)       in e.g. A's
       } else {
         prevTokenIndex = 0;
       }
@@ -147,6 +151,10 @@ public class AvsAnRule extends Rule {
       word = parts[0];
     }
     if (token.isWhitespaceBefore() || !"-".equals(word)) { // e.g., 'a- or anti- are prefixes'
+      // strip diacritics from letters (e.g. Édouard → Edouard);
+      // without this, the cleanup line would give "douard," changing the initial vowel
+      word = stripAccents(word);
+
       word = cleanupPattern.matcher(word).replaceAll("");         // e.g. >>an "industry party"<<
       if (StringTools.isEmpty(word)) {
         return Determiner.UNKNOWN;
