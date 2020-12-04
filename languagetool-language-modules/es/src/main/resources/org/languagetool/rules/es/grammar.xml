@@ -1839,7 +1839,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>a</token>
                     <token skip="2">que</token>
-                    <token inflected="yes" regexp="yes">ser|estar|molar|conocer|hacer|divertir</token>
+                    <token inflected="yes" regexp="yes">ser|molar|conocer|hacer|divertir</token>
+                </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token skip="2">que</token>
+                    <token inflected="yes">estar</token>
+                    <token><exception postag="V.G.*" postag_regexp="yes"/></token>
                 </antipattern>
                 <pattern>
                     <token>¿</token>
@@ -1853,6 +1859,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>qué</suggestion>
                 <example correction="Qué">¿<marker>Que</marker> quieres que te diga?</example>
                 <example correction="Qué">¿<marker>Que</marker> te has dejado en casa?</example>
+                <example correction="qué">¿A <marker>que</marker> está jugando aquel hombre alto?</example>
                 <example type="triggers_error">¿Que te has dejado las llaves en casa?</example>
                 <!--This can't be detected, but infrequent-->
                 <example type="triggers_error">¿Que los alemanes no tienen sentido del humor?</example>
@@ -1878,7 +1885,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token>¿</token>
-                    <token min="1" max="2" postag="SPS00|CC" postag_regexp="yes"/>
+                    <token min="1" max="2" postag="SPS00|CC" postag_regexp="yes"><exception>a</exception></token>
                     <marker>
                         <token>que</token>
                     </marker>
@@ -1892,6 +1899,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¡Que te diviertas!</example>
                 <example>¿A que no?</example>
                 <example>¿Que cuántos tengo?</example>
+                <example>¿A que hoy hace viento?</example>
+                <example>¡Que te diviertas!</example>
+                <example>¿A que no?</example>
+                <example>Tom es muy popular, ¿a que sí? </example>
+                <example>¿A que te he hecho reír?</example>
             </rule>
             <rule>
                 <pattern>
@@ -4695,6 +4707,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>-</token>
                     <token regexp="yes" case_sensitive="yes">\p{Lu}.+</token>
                 </antipattern>
+                <antipattern>
+                    <token>el</token>
+                    <token>campo</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>el<exception postag="_GN_MS|LOC_.*" postag_regexp="yes"/></token>
@@ -4800,6 +4816,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Le odio con cada fibra de mi ser.</example>
                 <example>Con mi 1,80 m.</example>
                 <example>lo que hago en mi día a día</example>
+                <example>El campo a través es una carrera de fondo.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MI_SIN_TILDE" name="mí > mi">
@@ -12833,12 +12850,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="DEBIDO_QUE" name="debido (a) que" default="temp_off">
+        <rule id="DEBIDO_QUE" name="debido (a) que">
             <pattern>
                 <token>debido</token>
                 <token>que</token>
             </pattern>
-            <message>¿Quería de decir <suggestion>debido a que</suggestion>?</message>
+            <message>¿Quería decir <suggestion>debido a que</suggestion>?</message>
             <example correction="debido a que">No lo trajeron <marker>debido que</marker> no estaba acabado.</example>
         </rule>
         <rulegroup id="PODAR_PODER" name="podar/poder">
@@ -15098,6 +15115,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Buenas noches y adiós.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>la</token>
+                    <token>mayoría</token>
+                </antipattern>
                 <pattern>
                     <unify negate="yes">
                         <feature id="numero"/>
@@ -15116,6 +15137,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=", señora">¡A sus órdenes<marker> señora</marker>!</example>
                 <example>de la Asociación Amigos de la Catedral</example>
                 <example>Fue recibido por Augusto Chicas, director de Desarrollo Sostenible.</example>
+                <example>Aparecieron cien personas, la mayoría niños.</example>
             </rule>
             <rule>
                 <pattern>
@@ -15125,26 +15147,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <feature id="genero"/>
                         <marker>
                             <token postag="N.*" postag_regexp="yes" regexp="yes">fiestas|fiesta|día|días|dia|dias|tardes?|noches?</token>
-                            <token postag="A.*" postag_regexp="yes"/>
                         </marker>
+                        <token postag="A.*" postag_regexp="yes"/>
                     </unify>
                 </pattern>
                 <message>Probablemente falta una coma.</message>
-                <suggestion>\2, \3</suggestion>
-                <example correction="días, chicas">¡Buenos <marker>días chicas</marker>!</example>
+                <suggestion>\2,</suggestion>
+                <example correction="días,">¡Buenos <marker>días</marker> chicas!</example>
             </rule>
             <rule>
                 <pattern>
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
-                        <token postag="N.*" postag_regexp="yes" regexp="yes">adiós|gracias|saludos</token>
+                        <marker>
+                            <token postag="N.*" postag_regexp="yes" regexp="yes">adiós|gracias|saludos</token>
+                        </marker>
                         <token postag="A.*" postag_regexp="yes"/>
                     </unify>
                 </pattern>
                 <message>Probablemente falta una coma.</message>
-                <suggestion>\1, \2</suggestion>
-                <example correction="Adiós, chicos"><marker>Adiós chicos</marker>.</example>
+                <suggestion>\1,</suggestion>
+                <example correction="Adiós,"><marker>Adiós</marker> chicos.</example>
             </rule>
             <rule>
                 <pattern>
@@ -15152,15 +15176,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
+                        <token postag="N.*" postag_regexp="yes"/>
                         <marker>
-                            <token postag="N.*" postag_regexp="yes"/>
                             <token postag="A.*" postag_regexp="yes" inflected="yes">precioso</token>
                         </marker>
                     </unify>
                 </pattern>
                 <message>Probablemente falta una coma.</message>
                 <suggestion>\2, \3</suggestion>
-                <example correction="besos, preciosa">¡Muchos <marker>besos preciosa</marker>!</example>
+                <example correction=", preciosa">¡Muchos besos<marker> preciosa</marker>!</example>
                 <example>Una hoja de cálculo preciosa.</example>
             </rule>
         </rulegroup>
