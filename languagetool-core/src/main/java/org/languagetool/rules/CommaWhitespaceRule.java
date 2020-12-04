@@ -120,7 +120,7 @@ public class CommaWhitespaceRule extends Rule {
           if (i + 1 < tokens.length && getCommaCharacter().equals(tokens[i+1].getToken())) {
             msg = null;
           }
-          if (i + 1 < tokens.length && !tokens[i+1].isWhitespaceBefore() ) {
+          if (i + 1 < tokens.length && !tokens[i+1].isWhitespace()) {
             suggestionText = getCommaCharacter() + " ";
           }
         } else if (token.equals(".") && !isDomain(tokens, i+1) && !isFileExtension(tokens, i+1)) {
