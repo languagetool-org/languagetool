@@ -34,6 +34,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Supplier;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.pos;
@@ -426,6 +427,7 @@ public class UpperCaseNgramRule extends Rule {
 
   private final Language lang;
   private final LanguageModel lm;
+  private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
   public UpperCaseNgramRule(ResourceBundle messages, LanguageModel lm, Language lang, UserConfig userConfig) {
     super(messages);
@@ -435,6 +437,8 @@ public class UpperCaseNgramRule extends Rule {
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("This <marker>Prototype</marker> was developed by Miller et al."),
                    Example.fixed("This <marker>prototype</marker> was developed by Miller et al."));
+    antiPatterns = cacheAntiPatterns(lang, ANTI_PATTERNS);
+
     if (userConfig != null && linguServices == null) {
       linguServices = userConfig.getLinguServices();
       initTrie();
@@ -465,7 +469,7 @@ public class UpperCaseNgramRule extends Rule {
 
   @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
-    return makeAntiPatterns(ANTI_PATTERNS, lang);
+    return antiPatterns.get();
   }
 
   @Override

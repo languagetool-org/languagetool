@@ -36,6 +36,7 @@ import org.languagetool.tools.Tools;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
@@ -164,11 +165,10 @@ public class SubjectVerbAgreementRule extends Rule {
   );
 
   private final GermanTagger tagger;
-  private final German language;
+  private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
   public SubjectVerbAgreementRule(ResourceBundle messages, German language) {
     super.setCategory(Categories.GRAMMAR.getCategory(messages));
-    this.language = language;
     tagger = (GermanTagger) language.getTagger();
     for (SingularPluralPair pair : PAIRS) {
       singular.add(pair.singular);
@@ -176,6 +176,7 @@ public class SubjectVerbAgreementRule extends Rule {
     }
     addExamplePair(Example.wrong("Die Autos <marker>ist</marker> schnell."),
                    Example.fixed("Die Autos <marker>sind</marker> schnell."));
+    antiPatterns = cacheAntiPatterns(language, ANTI_PATTERNS);
   }
 
   @Override
@@ -195,7 +196,7 @@ public class SubjectVerbAgreementRule extends Rule {
 
   @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
-    return makeAntiPatterns(ANTI_PATTERNS, language);
+    return antiPatterns.get();
   }
 
   @Override

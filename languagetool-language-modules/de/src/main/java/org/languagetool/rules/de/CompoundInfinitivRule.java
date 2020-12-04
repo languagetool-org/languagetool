@@ -18,33 +18,23 @@
  */
 package org.languagetool.rules.de;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-
+import morfologik.speller.Speller;
+import morfologik.stemming.Dictionary;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.LinguServices;
-import org.languagetool.UserConfig;
-import org.languagetool.rules.Categories;
-import org.languagetool.rules.Example;
-import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.*;
+import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.Tools;
 
-import morfologik.speller.Speller;
-import morfologik.stemming.Dictionary;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.function.Supplier;
 
 /**
  * Checks the compound spelling of infinitive clause (Erweiterter Infinitiv mit zu)
@@ -58,6 +48,7 @@ public class CompoundInfinitivRule extends Rule {
   
   private final LinguServices linguServices;
   private final Language lang;
+  private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
   private Speller speller = null;
 
@@ -115,6 +106,8 @@ public class CompoundInfinitivRule extends Rule {
       linguServices = null;
     }
     setUrl(Tools.getUrl("https://www.duden.de/sprachwissen/sprachratgeber/Infinitiv-mit-zu"));
+    antiPatterns = cacheAntiPatterns(lang, ANTI_PATTERNS);
+
   }
 
   @NotNull
@@ -228,7 +221,7 @@ public class CompoundInfinitivRule extends Rule {
 
   @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
-    return makeAntiPatterns(ANTI_PATTERNS, lang);
+    return antiPatterns.get();
   }
 
   @Override

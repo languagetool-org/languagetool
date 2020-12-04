@@ -77,7 +77,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
   private final int grams;
   private final Language language;
   private final List<String> exceptions;
-  private final List<List<PatternToken>> antiPatterns;
+  private final List<DisambiguationPatternRule> antiPatterns;
 
   public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     this(messages, languageModel, language, 3);
@@ -110,7 +110,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
     }
     this.grams = grams;
     this.exceptions = exceptions;
-    this.antiPatterns = Objects.requireNonNull(antiPatterns);
+    this.antiPatterns = makeAntiPatterns(antiPatterns, language);
   }
 
   @NotNull
@@ -340,7 +340,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
-    return makeAntiPatterns(antiPatterns, language);
+    return antiPatterns;
   }
 
   private static class PathAndLanguage {

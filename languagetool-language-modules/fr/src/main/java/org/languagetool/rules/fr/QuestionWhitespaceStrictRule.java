@@ -18,13 +18,6 @@
  */
 package org.languagetool.rules.fr;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
@@ -35,6 +28,14 @@ import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.function.Supplier;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A rule that matches spaces before ?,:,; and ! (required for correct French
@@ -50,8 +51,6 @@ public class QuestionWhitespaceStrictRule extends Rule {
   // space before and after colon ':' in URL with common schemes.
   private static final Pattern urlPattern = Pattern.compile("^(file|s?ftp|finger|git|gopher|hdl|https?|shttp|imap|mailto|mms|nntp|s?news(post|reply)?|prospero|rsync|rtspu|sips?|svn|svn\\+ssh|telnet|wais)$");
 
-  private final Language FRENCH;
-
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
           Arrays.asList( // ignore smileys, such as :-)
                   new PatternTokenBuilder().tokenRegex("[:;]").build(),
@@ -63,15 +62,16 @@ public class QuestionWhitespaceStrictRule extends Rule {
                   new PatternTokenBuilder().tokenRegex("[\\(\\)D]").setIsWhiteSpaceBefore(false).build()
           )
   );
+  private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
   @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
-    return makeAntiPatterns(ANTI_PATTERNS, FRENCH);
+    return antiPatterns.get();
   }
 
   public QuestionWhitespaceStrictRule(ResourceBundle messages, Language language) {
     super.setCategory(Categories.MISC.getCategory(messages));
-    FRENCH = language;
+    antiPatterns = cacheAntiPatterns(language, ANTI_PATTERNS);
     setDefaultOff();
   }
 

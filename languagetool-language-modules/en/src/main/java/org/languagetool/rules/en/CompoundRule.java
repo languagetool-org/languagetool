@@ -36,8 +36,7 @@ public class CompoundRule extends AbstractCompoundRule {
   // static to make sure this gets loaded only once:
   private static volatile CompoundRuleData compoundData;
   private static final Language AMERICAN_ENGLISH = Languages.getLanguageForShortCode("en-US");
-  private static List<DisambiguationPatternRule> antiDisambiguationPatterns = null;
-  private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+  private static final List<DisambiguationPatternRule> ANTI_PATTERNS = makeAntiPatterns(Arrays.asList(
       Arrays.asList(
         new PatternTokenBuilder().tokenRegex("['’`´‘]").build(),
         new PatternTokenBuilder().token("re").build()
@@ -66,7 +65,7 @@ public class CompoundRule extends AbstractCompoundRule {
         new PatternTokenBuilder().tokenRegex("cleans?|cleaned|cleaning").build(),
         new PatternTokenBuilder().tokenRegex("up|the|my|our|his|her").build()
       )
-  );
+  ), AMERICAN_ENGLISH);
 
   public CompoundRule(ResourceBundle messages) throws IOException {    
     super(messages,
@@ -105,9 +104,6 @@ public class CompoundRule extends AbstractCompoundRule {
 
   @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
-    if (antiDisambiguationPatterns == null) {
-      antiDisambiguationPatterns = makeAntiPatterns(ANTI_PATTERNS, AMERICAN_ENGLISH);
-    }
-    return antiDisambiguationPatterns;
+    return ANTI_PATTERNS;
   }
 }
