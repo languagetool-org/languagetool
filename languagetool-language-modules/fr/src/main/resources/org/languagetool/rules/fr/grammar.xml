@@ -35683,6 +35683,19 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_MAJUSCULES" name="Majuscules">
+    <rule id="CHINE_AVEC_MAJUSCULE" name="Chine avec majuscule" default="temp_off"><!-- French contributor, 2020-12-03 -->
+      <antipattern>
+        <token regexp="yes">le|du|un</token>
+        <token>chine</token>
+      </antipattern>
+      <pattern case_sensitive='yes'>
+          <token>chine</token>
+      </pattern>
+      <message>Si vous vous référez au pays, celui-ci s'écrit avec majuscule.</message>
+      <suggestion><match no="1" case_conversion="startupper"/></suggestion>
+      <example correction='Chine'>La <marker>chine</marker> est un pays.</example>
+      <example>Le chine est un papier de luxe grisâtre.</example>
+    </rule>
     <rule id="SKYPE" name="skype/Skype">
       <antipattern>
         <token regexp="yes">je|il|elle</token>
