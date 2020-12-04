@@ -21033,6 +21033,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes|zehntes|elftes|zwölftes|nächstes|letztes</token>
                 <token postag="(PRO:POS|ART).*:GEN:.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern><!-- Wird es dieses Jahr mehr schneien als letztes? -->
+                <token postag="PRO:DEM:AKK:SIN:.*" postag_regexp="yes"/>
+                <token postag="SUB:AKK:SIN:.*" postag_regexp="yes" skip="2"/>
+                <token>als</token>
+                <token>letztes</token>
+            </antipattern>
             <pattern>
                 <token>als</token>
                 <marker>
@@ -21058,6 +21064,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Die „Graf Zeppelin“ umfuhr als erstes und bis heute einziges Luftschiff die Welt.</example>
             <example>Als erstes seiner drei Häuser kam das Anwesen am Viktualienmarkt unter den Hammer.</example>
             <example>So hat XY als erstes und nach wie vor einziges Unternehmen ...</example>
+            <example>Wird es dieses Jahr mehr schneien als letztes?</example>
         </rule>
         <rule id="ANS_KLEINES_NOMEN" name="ans/fürs/... + kleingeschriebenes Nomen">
             <antipattern>
@@ -21263,7 +21270,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="DER_ERSTE" name="der erste (Erste)">
             <url>https://grammis.ids-mannheim.de/rechtschreibung/6194#par57-1</url>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token inflected="yes">sein<exception>sein</exception></token>
                     <token postag="PRO.+" postag_regexp="yes"/>
