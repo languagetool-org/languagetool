@@ -29545,8 +29545,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                <token>hi</token>
-                <token>a</token>
+                    <token>hi</token>
+                    <token>a</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>hi ha</suggestion>?</message>
                 <example correction="hi ha">No <marker>hi a</marker> temps.</example>
@@ -33696,32 +33696,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="ESPAI_DESPRES_DE_PUNT" name="Comprova que hi ha espai després de punt.">
             <antipattern>
-                <marker>
-                    <token>.</token>
-                    <token spacebefore="no" postag="UNKNOWN" regexp="yes">\p{Ll}.+<exception>von</exception></token>
-                </marker>
+                <token>.</token>
+                <token spacebefore="no" postag="UNKNOWN" regexp="yes">\p{Ll}.+<exception>von</exception></token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token>www</token>
-                    <token spacebefore="no">.</token>
-                    <token spacebefore="no"/>
-                </marker>
+                <token>www</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no"/>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token spacebefore="no">.</token>
-                    <token spacebefore="no" regexp="yes">\p{Ll}.+</token>
-                    <token spacebefore="no">.</token>
-                    <token spacebefore="no" regexp="yes">\p{Ll}.+</token>
-                </marker>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">\p{Ll}.+</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">\p{Ll}.+</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token inflected="yes" regexp="yes">format|fitxer|arxiu|paquet|extensió|plataforma</token>
-                    <token spacebefore="yes">.</token>
-                    <token spacebefore="no" regexp="yes" case_sensitive="yes">[a-z][a-z0-9]+|[A-Z][A-Z0-9]+</token>
-                </marker>
+                <token inflected="yes" regexp="yes">format|fitxer|arxiu|paquet|extensió|plataforma</token>
+                <token spacebefore="yes">.</token>
+                <token spacebefore="no" regexp="yes" case_sensitive="yes">[a-z][a-z0-9]+|[A-Z][A-Z0-9]+</token>
             </antipattern>
             <antipattern>
                 <token>.</token>
@@ -33737,10 +33729,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>.</token>
                 <token case_sensitive="yes" spacebefore="no">NET</token>
             </antipattern>
+            <antipattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">[A-Z]</token>
+                    <token spacebefore="no">.</token>
+                </marker>
+                <token regexp="yes">[A-Z]</token>
+                <token spacebefore="no">.</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes" spacebefore="no">[.!?…]<exception postag="SENT_END"/></token>
-                    <token spacebefore="no" regexp="yes">([\p{L}·'-]{2,}|[¿¡])<exception>von</exception></token>
+                    <token spacebefore="no" regexp="yes">([\p{L}·'-]+|[¿¡])<exception>von</exception></token>
                 </pattern>
                 <message>Falta un espai després del punt.</message>
                 <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
@@ -33750,6 +33750,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="? Sempre">És així<marker>?Sempre</marker>.</example>
                 <example correction="… Sempre">És així<marker>…Sempre</marker>!</example>
                 <example correction=". Čerenkov">amb P.A<marker>.Čerenkov</marker></example>
+                <example correction=". I">Això és una cosa<marker>.I</marker> això n'és una altra.</example>
                 <example>És així. Sempre.</example>
                 <example>És així.</example>
                 <example>És així...</example>
@@ -61880,7 +61881,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <feature id="nombre"/>
                         <feature id="genere"/>
                         <token postag="N.*" postag_regexp="yes"/>
-                        <marker>    
+                        <marker>
                             <token postag="A.*" postag_regexp="yes" inflected="yes">senyor</token>
                         </marker>
                     </unify>

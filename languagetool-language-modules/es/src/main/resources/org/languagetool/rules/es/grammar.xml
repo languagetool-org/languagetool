@@ -15539,10 +15539,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no" regexp="yes" case_sensitive="yes">[a-z][a-z0-9]+|[A-Z][A-Z0-9]+</token>
                 </marker>
             </antipattern>
+            <antipattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">[A-Z]</token>
+                    <token spacebefore="no">.</token>
+                </marker>
+                <token regexp="yes">[A-Z]</token>
+                <token spacebefore="no">.</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes" spacebefore="no">[.!?…]<exception postag="SENT_END"/></token>
-                    <token spacebefore="no" regexp="yes">([\p{L}·'-]{2,}|[¿¡])</token>
+                    <token spacebefore="no" regexp="yes">([\p{L}·'-]+|[¿¡])</token>
                 </pattern>
                 <message>Falta un espacio tras el punto.</message>
                 <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
@@ -15552,6 +15560,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="? Siempre">Es así<marker>?Siempre</marker>.</example>
                 <example correction="… Siempre">Es así<marker>…Siempre</marker>!</example>
                 <example correction=". Čerenkov">con P.A<marker>.Čerenkov</marker></example>
+                <example correction=". Y">Una frase<marker>.Y</marker> otra.</example>
                 <example>Es así. Sempre.</example>
                 <example>Es así.</example>
                 <example>Es así...</example>
