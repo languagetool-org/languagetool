@@ -66,6 +66,8 @@ abstract class StringMatcher {
       return stringEquals(pattern, isRegExp, caseSensitive);
     }
 
+    ensureCorrectRegexp(pattern);
+
     Set<String> possibleRegexpValues = getPossibleRegexpValues(pattern);
     if (possibleRegexpValues != null) {
       Set<String> set = possibleRegexpValues.stream().map(internString).collect(Collectors.toSet());
