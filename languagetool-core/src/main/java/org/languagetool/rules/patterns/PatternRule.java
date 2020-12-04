@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -37,19 +36,12 @@ import java.util.stream.Collectors;
  * 
  * @author Daniel Naber
  */
-public class PatternRule extends AbstractPatternRule {
+public class PatternRule extends AbstractTokenBasedRule {
 
   private final String shortMessage;
 
   // A list of elements as they appear in XML file (phrases count as single tokens in case of matches or skipping).
   private final List<Integer> elementNo;
-
-  // Tokens used for fast checking whether a rule can ever match.
-  @Nullable
-  private final String[] inflectedRuleTokens;
-
-  @Nullable
-  private final String[][] formHints;
 
   // This property is used for short-circuiting evaluation of the elementNo list order:
   private final boolean useList;
@@ -82,12 +74,7 @@ public class PatternRule extends AbstractPatternRule {
     int loopCnt = 0;
     boolean tempUseList = false;
 
-    Set<String> inflectedRuleTokens = new HashSet<>();
-    List<String[]> formHints = new ArrayList<>();
-
-    List<PatternToken> tokens = this.patternTokens;
-    for (int i = 0; i < tokens.size(); i++) {
-      PatternToken pToken = tokens.get(i);
+    for (PatternToken pToken : patternTokens) {
       if (pToken.isPartOfPhrase()) {
         curName = pToken.getPhraseName();
         if (StringTools.isEmpty(prevName) || prevName.equals(curName)) {
@@ -110,23 +97,8 @@ public class PatternRule extends AbstractPatternRule {
         elementNo.add(1);
         loopCnt++;
       }
-
-      if (pToken.isInflected() && !pToken.getNegation() && pToken.hasStringThatMustMatch() && !pToken.isRegularExpression()) {
-        inflectedRuleTokens.add(Objects.requireNonNull(pToken.getString()).toLowerCase());
-      }
-      Set<String> hints = pToken.calcFormHints();
-      if (hints != null) {
-        formHints.add(hints.stream().map(String::toLowerCase).toArray(String[]::new));
-      }
     }
     useList = tempUseList;
-
-    this.inflectedRuleTokens = inflectedRuleTokens.isEmpty() ? null : inflectedRuleTokens.toArray(new String[0]);
-    this.formHints = formHints.isEmpty() ? null : formHints.stream()
-      .sorted(Comparator
-        .comparing((String[] a) -> a.length)
-        .thenComparing((String[] a) -> -Arrays.stream(a).mapToInt(String::length).min().orElse(0)))
-      .toArray(String[][]::new);
   }
   
   public PatternRule(String id, Language language,
@@ -256,38 +228,6 @@ public class PatternRule extends AbstractPatternRule {
       }
     }
     return matches;
-  }
-
-  /**
-   * A fast check whether this rule can be ignored for the given sentence
-   * because it can never match. Used for performance optimization.
-   */
-  private boolean canBeIgnoredFor(AnalyzedSentence sentence) {
-    if (inflectedRuleTokens != null) {
-      for (String token : inflectedRuleTokens) {
-        if (!sentence.getLemmaSet().contains(token)) {
-          return true;
-        }
-      }
-    }
-    if (formHints != null) {
-      Set<String> tokenSet = sentence.getTokenSet();
-      for (String[] hints : formHints) {
-        if (!containsAny(tokenSet, hints)) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  private static boolean containsAny(Set<String> set, String[] elements) {
-    for (String hint : elements) {
-      if (set.contains(hint)) {
-        return true;
-      }
-    }
-    return false;
   }
 
   List<Integer> getElementNo() {
