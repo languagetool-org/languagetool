@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules;
 
+import com.google.common.base.Suppliers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
@@ -27,6 +28,7 @@ import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.function.Supplier;
 
 /**
  * Abstract rule class. A Rule describes a language error and can test whether a
@@ -205,10 +207,11 @@ public abstract class Rule {
   }
 
   /**
-   * Helper for implementing {@link #getAntiPatterns()}.
+   * Helper for implementing {@link #getAntiPatterns()}. The result of this method should better be cached, please see
+   * {@link #cacheAntiPatterns} which does that.
    * @since 3.1
    */
-  protected List<DisambiguationPatternRule> makeAntiPatterns(List<List<PatternToken>> patternList, Language language) {
+  protected static List<DisambiguationPatternRule> makeAntiPatterns(List<List<PatternToken>> patternList, Language language) {
     List<DisambiguationPatternRule> rules = new ArrayList<>();
     for (List<PatternToken> patternTokens : patternList) {
       rules.add(new DisambiguationPatternRule("INTERNAL_ANTIPATTERN", "(no description)", language,
@@ -216,7 +219,16 @@ public abstract class Rule {
     }
     return rules;
   }
-  
+
+  /**
+   * @return a memoizing supplier that caches the result of {@link #makeAntiPatterns}. It makes sense
+   * to store the returned value, e.g. in a field.
+   * @since 5.2
+   */
+  protected static Supplier<List<DisambiguationPatternRule>> cacheAntiPatterns(Language language, List<List<PatternToken>> antiPatterns) {
+    return Suppliers.memoize(() -> makeAntiPatterns(antiPatterns, language));
+  }
+
   /**
    * Whether this rule can be used for text in the given language.
    * Since LanguageTool 2.6, this also works {@link org.languagetool.rules.patterns.PatternRule}s

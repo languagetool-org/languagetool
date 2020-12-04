@@ -18,15 +18,6 @@
  */
 package org.languagetool.rules.de;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Set;
-
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -45,6 +36,10 @@ import org.languagetool.tagging.de.GermanToken.POSType;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.function.Supplier;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 import static org.languagetool.tools.StringTools.startsWithUppercase;
@@ -68,6 +63,7 @@ import static org.languagetool.tools.StringTools.startsWithUppercase;
 public class AgreementRule extends Rule {
 
   private final German language;
+  private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
   private JLanguageTool lt;
 
@@ -975,6 +971,7 @@ public class AgreementRule extends Rule {
     super.setCategory(Categories.GRAMMAR.getCategory(messages));
     addExamplePair(Example.wrong("<marker>Der Haus</marker> wurde letztes Jahr gebaut."),
                    Example.fixed("<marker>Das Haus</marker> wurde letztes Jahr gebaut."));
+    antiPatterns = cacheAntiPatterns(language, ANTI_PATTERNS);
   }
 
   @Override
@@ -1105,7 +1102,7 @@ public class AgreementRule extends Rule {
 
   @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
-    return makeAntiPatterns(ANTI_PATTERNS, language);
+    return antiPatterns.get();
   }
 
   private boolean isNonPredicativeAdjective(AnalyzedTokenReadings tokensReadings) {

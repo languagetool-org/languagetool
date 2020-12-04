@@ -37,9 +37,8 @@ import org.languagetool.tools.Tools;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.regex.Pattern;
-
-import javax.annotation.RegEx;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 
@@ -1355,12 +1354,12 @@ public class CaseRule extends Rule {
   }
 
   private final GermanTagger tagger;
-  private final German german;
+  private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
   public CaseRule(ResourceBundle messages, German german) {
-    this.german = german;
     super.setCategory(Categories.CASING.getCategory(messages));
-    this.tagger = (GermanTagger) german.getTagger();
+    tagger = (GermanTagger) german.getTagger();
+    antiPatterns = cacheAntiPatterns(german, ANTI_PATTERNS);
     addExamplePair(Example.wrong("<marker>Das laufen</marker> fällt mir schwer."),
                    Example.fixed("<marker>Das Laufen</marker> fällt mir schwer."));
   }
@@ -1518,7 +1517,7 @@ public class CaseRule extends Rule {
 
   @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
-    return makeAntiPatterns(ANTI_PATTERNS, german);
+    return antiPatterns.get();
   }
 
   // e.g. "Ein Kaninchen, das zaubern kann" - avoid false alarm here
