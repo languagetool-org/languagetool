@@ -205,6 +205,7 @@ public class Catalan extends Language {
       case "NOMBRES_ROMANS": return -90;
       case "MORFOLOGIK_RULE_CA_ES": return -100;
       case "EXIGEIX_ACCENTUACIO_VALENCIANA": return -120;
+      case "PHRASE_REPETITION": return -150;
       case "SUBSTANTIUS_JUNTS": return -150;
       case "FALTA_ELEMENT_ENTRE_VERBS": return -200;
       case "UPPERCASE_SENTENCE_START": return -500;

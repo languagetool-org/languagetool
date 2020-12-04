@@ -6117,7 +6117,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token case_sensitive="yes" regexp="yes">.*\p{Ll}</token>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">(ERE)S<exception postag="N,*" postag_regexp="yes"/></token>
+                        <token case_sensitive="yes">ERES<exception postag="N,*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>El plural de las siglas no se marca gráficamente.</message>
@@ -16745,6 +16745,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Repetición probablemente incorrecta.</message>
                 <suggestion>\1 \2</suggestion>
                 <example correction="a mi">Vuelvo <marker>a mi a</marker> madriguera.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PHRASE_REPETITION" name="Repetición de dos palabras ('en case en casa')" default="temp_off">
+            <!--  made more general-->
+            <rule>
+                <antipattern>
+                        <token>ni</token>
+                        <token>demasiado</token>
+                        <token inflected="yes">poco</token>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token regexp="yes">la|los|las</token>
+                    <token>de</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">sea|sean</token>
+                    <token regexp="yes">quien|quienes</token>
+                </antipattern>
+                <pattern>
+                    <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>y</exception><exception postag="allow_repetition">de</exception>[\p{L}·'-]+</token>
+                    <token regexp="yes" spacebefore="yes">[\p{L}·'-]+<exception>y</exception><exception postag=".*LOC.*" postag_regexp="yes">en</exception></token>
+                    <token><match no="0"/><exception postag=".*LOC.*" postag_regexp="yes" regexp="yes">poco|más|tanto|paso</exception><exception postag="LOC_.*" postag_regexp="yes"/></token>
+                    <token><match no="1"/><exception postag=".*LOC.*" postag_regexp="yes" regexp="yes">poco|más|bueno</exception><exception postag="LOC_.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Frase duplicada.</message>
+                <suggestion><match no="1"/> <match no="2"/></suggestion>
+                <example correction="a casa">Bienvenidos <marker>a casa a casa</marker>.</example>
+                <example correction="como un">Lo pongo <marker>como un como un</marker> ejemplo.</example>
+                <example correction="el americano">Es <marker>el americano el americano</marker>.</example>
+                <example>Solo quería mirar y mirar y mirar.</example>
+                <example>A diferència de los de los pájaros.</example>
+                <example>Sube paso a paso a la montaña.</example>
+                <example>Sea quien sea quien venga.</example>
+                <example>De heredero a heredero a través de generaciones.</example>
+                <example>De dos en dos en el árbol.</example>
+                <example>No había ni demasiado ni demasiado pocos.</example>
             </rule>
         </rulegroup>
     </category>
