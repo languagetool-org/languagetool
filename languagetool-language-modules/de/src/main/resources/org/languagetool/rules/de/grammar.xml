@@ -35598,6 +35598,46 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rulegroup id="OUT_OF_THE_BOX" name="out of the box" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>out</token>
+                    <token>of</token>
+                    <token>the</token>
+                    <token>box</token>
+                    <token regexp="yes">Lösung(en)?</token>
+                </pattern>
+                <message>Der Anglizismus <suggestion>Out-of-the-box-<match no="5" case_conversion="startupper" /></suggestion> wird mit Bindestrichen getrennt geschrieben.</message>
+                <example correction="Out-of-the-box-Lösung">Der Provider bietet eine <marker>Out of the Box Lösung</marker> an.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token postag="SENT_START" />
+                    <token>Out</token>
+                    <token>of</token>
+                    <token>the</token>
+                    <token>box</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token>out</token>
+                    <token>of</token>
+                    <token>the</token>
+                    <token>box</token>
+                </antipattern>
+                <antipattern>
+                    <token>box</token>
+                    <token postag="UNKNOWN" regexp="yes">.*[a-z].*</token>
+                </antipattern>
+                <pattern>
+                    <token>out</token>
+                    <token>of</token>
+                    <token>the</token>
+                    <token>box</token>
+                </pattern>
+                <message>Der Anglizismus <suggestion>out of the box</suggestion> wird in der Regel kleingeschrieben.</message>
+                <example correction="out of the box">Das System funktioniert <marker>out of the Box</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="FUER_INBESONDERE" name="für inbesondere (für besonders)">
             <pattern>
                 <marker>
