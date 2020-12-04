@@ -132,6 +132,12 @@ public class GermanWrongWordInContextRuleTest {
     assertGood("Die Biene bestäubt die Blume.");
     assertBad("Den Kuchen mit Puderzucker betäuben.");
     assertBad("Von Drogen bestäubt spürte er keine Schmerzen.");
+
+    // ver(r)eisen
+    assertGood("Er verreist stets mit leichtem Gepäck.");
+    assertGood("Die Warze wurde vereist.");
+    assertBad("Nach Diktat vereist.");
+    assertBad("Die Tragfläche war verreist.");
   }
 
   private void assertGood(String sentence) throws IOException {
