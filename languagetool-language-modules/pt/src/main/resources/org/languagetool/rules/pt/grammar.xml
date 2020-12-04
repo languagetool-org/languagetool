@@ -13145,6 +13145,12 @@ MARCOAGPINTO 2020-02-18 -->
 
   <rulegroup id='FINAL_STOPS' name="Pontuação: pontuação final em falta" default='on'>
     <!-- Created by Tiago F. Santos, Portuguese rule, -->
+    <antipattern>
+      <token postag='SENT_START'/>
+      <token postag='DP.+' postag_regexp='yes'/>
+      <token min="1" max="3" postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
+      <token postag='SENT_END' regexp='yes'>[,]</token>
+    </antipattern>
     <rule>
       <antipattern>
         <marker>
