@@ -181,7 +181,8 @@ public abstract class ConfusionProbabilityRule extends Rule {
                 String term2 = confusionPair.getTerms().get(1).getString();
                 String id = getId() + "_" + cleanId(term1) +  "_" + cleanId(term2);
                 String desc = getDescription(term1, term2);
-                RuleMatch match = new RuleMatch(new SpecificIdRule(id, desc, messages, lm, language), sentence, googleToken.startPos, googleToken.endPos, message);
+                String shortDesc = Tools.i18n(messages, "statistics_suggest_short_desc");
+                RuleMatch match = new RuleMatch(new SpecificIdRule(id, desc, messages, lm, language), sentence, googleToken.startPos, googleToken.endPos, message, shortDesc);
                 match.setSuggestedReplacements(suggestions);
                 matches.add(match);
               }
