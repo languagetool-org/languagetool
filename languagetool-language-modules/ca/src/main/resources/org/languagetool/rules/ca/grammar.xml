@@ -43752,6 +43752,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="RARE_WORDS" name="paraules molt infreqüents">
             <rule>
                 <pattern>
+                    <token inflected="yes">custodir</token>
+                </pattern>
+                <message>¿Esteu segur que volíeu dir "\1"? "Custodir" és un verb antic poc usual.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">custodiar</match></suggestion>
+                <example correction="custodiada">Fou <marker>custodida</marker> per les autoritats.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token inflected="yes">transir<exception regexp="yes">transit|transits</exception></token>
                 </pattern>
                 <message>¿Esteu segur que volíeu dir "\1"? "Transir" és un verb poc usual.</message>
