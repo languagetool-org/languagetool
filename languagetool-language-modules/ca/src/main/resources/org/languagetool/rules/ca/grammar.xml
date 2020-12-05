@@ -25920,6 +25920,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="video$1"/></suggestion>
                 <example correction="videotrucada">Fem una <marker>video trucada</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>sobre</token>
+                    <token min="0">-</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </pattern>
+                <message suppress_misspelled="yes">S'escriu junt.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="sobre$1"/></suggestion>
+                <example correction="sobrepassen">Aquets <marker>sobre passen</marker> les expectatives.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>nacional</token>
@@ -33399,7 +33409,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">\d+</token>
                     <token spacebefore="no">.</token>
-                    <token regexp="yes" spacebefore="no">[aèérnt]|rs|ns|rs|ts|ns|es</token>
+                    <token regexp="yes" spacebefore="no">[aèérnt]|rs|ns|ts|es</token>
                 </pattern>
                 <message>Els ordinals s'escriuen sense punt.</message>
                 <suggestion>\1\3</suggestion>
@@ -59003,13 +59013,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token><exception regexp="yes">a|de|per|aquí|ací|allí|allà</exception></token>
+                    <token regexp="yes">sobre|sota<exception postag="_GN_MS"/></token>
                     <marker>
-                        <token regexp="yes">sobre|sota<exception postag="_GN_MS"/></token>
-                        <token postag="V.[MSIG].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="V.[MSIG].*|_GV_" postag_regexp="yes" negate_pos="yes"/></token>
+                        <token postag="V.[MSIG].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="V.[MSIG].*|_GV_|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
                     </marker>
                 </pattern>
+                <filter class="org.languagetool.rules.ca.FindSuggestionsFilter" args="WordFrom:3 DesiredPostag:NC.*|A.*|V.[PN].*"/>
                 <message>Combinació impossible: preposició+verb conjugat.</message>
-                <example correction="">serres que <marker>sobre passen</marker> els mil metres</example>
+                <example correction="passat|passar|passa|passant|passes|possés">serres que sobre <marker>passen</marker> els mil metres</example>
+                <example correction="custòdia|custodi|custodiat|custodiar|custodida|custodir|custodis|custodit">Estava sota <marker>custodia</marker>.</example>
                 <example>Aquell sobre tenia un document.</example>
                 <example>Els paquets d'aquí sota necessiten ser revisats.</example>
             </rule>
