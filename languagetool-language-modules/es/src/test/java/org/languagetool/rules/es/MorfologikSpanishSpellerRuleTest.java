@@ -83,7 +83,7 @@ public class MorfologikSpanishSpellerRuleTest {
     assertEquals(0, matches.length);
     
     matches = rule.match(langTool.getAnalyzedSentence("DECANTACION."));
-    assertEquals("Decantación", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("DECANTACIÓN", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(langTool.getAnalyzedSentence("distopia"));
     assertEquals("distopía", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(langTool.getAnalyzedSentence("Aministraciones"));
