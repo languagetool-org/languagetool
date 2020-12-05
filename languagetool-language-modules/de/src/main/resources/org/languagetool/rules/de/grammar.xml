@@ -19944,16 +19944,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Das <marker>schöne</marker> Wochenende.</example>
                 <example>Das <marker>letzte</marker> der drei Bücher gefiel mir nicht.</example>
             </rule>
-            <rule default="temp_off"> 
+            <rule>
                 <pattern case_sensitive="yes">
                     <token>Das</token>
                     <marker>
-                        <token postag="ADJ:NOM:SIN:FEM:GRU:IND" case_sensitive="yes" ></token>
+                        <token postag="ADJ:NOM:SIN:FEM:GRU:IND" case_sensitive="yes"><exception postag="VER.*[123].*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="PRP:LOK.+|ADV:PRO" postag_regexp="yes"></token>
+                    <token postag="PRO.+" postag_regexp="yes"></token>
                 </pattern>
                 <message>In dieser Wendung scheint <suggestion><match case_conversion="startupper" no="2"/></suggestion> als Nomen gebraucht zu werden und ist deshalb großzuschreiben.</message>
                 <example correction="Wichtige">Das <marker>wichtige</marker> an seinem Vorschlag war ...</example>
+                <example>Das reiche aus, um alles zu verlieren.</example>
+                <example>Das erste dadurch abgetrennte und am Flammenspektrum nachgewiesene Element war dabei das Krypton</example>
             </rule>
         </rulegroup>
         <rule id="ZU_ALLEM" name="zu Allem (allem)">
@@ -35247,10 +35250,10 @@ Andere Projekte</example>
                 <example correction="Blaue">Er versprach ihr das <marker>blaue</marker> vom Himmel.</example>
                 <example correction="Gelbe">Das ist aber nicht das <marker>gelbe</marker> vom Ei.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="(ADJ|PA1):NOM:SIN:NEU:GRU:SOL.*" postag_regexp="yes"></token>
-                    <marker><token case_sensitive="yes" regexp="yes">&farbadj;<exception>rosa</exception></token></marker>
+                    <marker><token case_sensitive="yes" regexp="yes">&farbadj;<exception regexp="yes">rosa|weiß</exception></token></marker>
                 </pattern>
                 <message>In dieser Wendung scheint der Farbname als Nomen gebraucht zu werden und ist deshalb großzuschreiben.</message>
                 <suggestion><match case_conversion="startupper" no="2"/></suggestion>
@@ -35258,6 +35261,8 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Grün">Das ist ein grelles <marker>grün</marker>.</example>
                 <example>Ich sah ein wunderschönes rosa Backsteinhaus.</example>
+                <example>Letztes weiß ich gewiß:...</example>
+                <example>...frag den, der ein einziges weiß.</example>
             </rule>
         </rulegroup>
         <rule id="DAS_FARBE_GENITIV" name="das + 'Farbe' + Genitiv ('das Weiß ihres Kleides')">
