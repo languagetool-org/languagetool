@@ -33737,10 +33737,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">[A-Z]</token>
                 <token spacebefore="no">.</token>
             </antipattern>
+            <antipattern>
+                <token>.</token>
+                <token regexp="yes">.</token>
+                <token>)</token>
+            </antipattern>
+            <antipattern>
+                <token spacebefore="no">.</token>
+                <token regexp="yes">[a-z]</token>
+                <token spacebefore="no">.</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">.</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes" spacebefore="no">.</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes" spacebefore="no">[.!?…]<exception postag="SENT_END"/></token>
-                    <token spacebefore="no" regexp="yes">([\p{L}·'-]+|[¿¡])<exception>von</exception></token>
+                    <token spacebefore="no" regexp="yes">\p{L}[\p{L}·'-]*|[¿¡]<exception regexp="yes">von|[ºª]</exception></token>
                 </pattern>
                 <message>Falta un espai després del punt.</message>
                 <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
@@ -33766,12 +33781,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El document no conté «maindoc.xml2».</example>
                 <example>Un paquet .zip.</example>
                 <example>L'extensió .doc.</example>
+                <example>5.- Casos especials: plurals irregulars</example>
+                <example>Penya Saganta (723 m.s.n.m.)</example>
+                <example>Des de les 9:00 a.m. fins a les las 8:00 p.m.</example>
+                <example>3200 a.C.– 1600 a.C.</example>
+                <example>3200 a. C.– 1600 a. C.</example>
+                <example>Versió 1.x</example>
             </rule>
             <rule>
                 <pattern>
                     <token/>
                     <token regexp="yes" spacebefore="yes">[.!?…]<exception postag="SENT_END"/></token>
-                    <token spacebefore="no" regexp="yes">([\p{L}·'-]{2,}|[¿¡])<exception>von</exception></token>
+                    <token spacebefore="no" regexp="yes">\p{L}[\p{L}·'-]*|[¿¡]<exception regexp="yes">von|[ºª]</exception></token>
                 </pattern>
                 <message>Falta un espai després del punt i no abans.</message>
                 <suggestion><match no="1"/><match no="2"/> <match no="3" case_conversion="startupper"/></suggestion>
@@ -35637,10 +35658,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token inflected="yes">posar</token>
-                    <token>la</token>
+                    <token min="0">la</token>
                     <token>taula</token>
                 </pattern>
-                <message>En el sentit de 'disposar les coses per a menjar' cal dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">parar</match> taula</suggestion>. Pot ser correcta en altres sentits.</message>
+                <message>En el sentit de 'disposar les coses per a menjar' cal dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">parar</match> taula</suggestion>. Pot ser correcte en altres sentits.</message>
                 <example correction="pararem taula">Ara <marker>posarem la taula</marker>.</example>
             </rule>
             <rule>

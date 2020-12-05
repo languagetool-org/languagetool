@@ -15561,10 +15561,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">[A-Z]</token>
                 <token spacebefore="no">.</token>
             </antipattern>
+            <antipattern>
+                <token>.</token>
+                <token regexp="yes">.</token>
+                <token>)</token>
+            </antipattern>
+            <antipattern>
+                <token spacebefore="no">.</token>
+                <token regexp="yes">[a-z]</token>
+                <token spacebefore="no">.</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">.</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes" spacebefore="no">.</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes" spacebefore="no">[.!?…]<exception postag="SENT_END"/></token>
-                    <token spacebefore="no" regexp="yes">([\p{L}·'-]+|[¿¡])</token>
+                    <token spacebefore="no" regexp="yes">\p{L}[\p{L}·'-]*|[¿¡]<exception regexp="yes">von|[ºª]</exception></token>
                 </pattern>
                 <message>Falta un espacio tras el punto.</message>
                 <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
@@ -15590,12 +15605,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El documento no contiene «maindoc.xml2».</example>
                 <example>Un paquete .zip.</example>
                 <example>La extensión .doc.</example>
+                <example>5.- Casos especiales: plurales irregulares</example>
+                <example>Peñón Verde (723 m.s.n.m.)</example>
+                <example>Desde las 9:00 a.m. hasta las 8:00 p.m.</example>
+                <example>3200 a.C.– 1600 a.C.</example>
+                <example>3200 a. C.– 1600 a. C.</example>
+                <example>Versión 1.x</example>
             </rule>
             <rule>
                 <pattern>
                     <token/>
                     <token regexp="yes" spacebefore="yes">[.!?…]<exception postag="SENT_END"/></token>
-                    <token spacebefore="no" regexp="yes">([\p{L}·'-]{2,}|[¿¡])</token>
+                    <token spacebefore="no" regexp="yes">\p{L}[\p{L}·'-]*|[¿¡]<exception regexp="yes">von|[ºª]</exception></token>
                 </pattern>
                 <message>Falta un espacio tras el punto, no antes.</message>
                 <suggestion><match no="1"/><match no="2"/> <match no="3" case_conversion="startupper"/></suggestion>
@@ -15620,6 +15641,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El documento no contiene «maindoc.xml2».</example>
                 <example>Un paquete .zip.</example>
                 <example>La extensión .doc.</example>
+                <example>5.- Casos especiales: plurales irregulares</example>
+                <example>Peñón Verde (723 m.s.n.m.)</example>
+                <example>Desde las 9:00 a.m. hasta las 8:00 p.m.</example>
+                <example>3200 a.C.– 1600 a.C.</example>
+                <example>3200 a. C.– 1600 a. C.</example>
+                <example>Versión 1.x</example>
             </rule>
         </rulegroup>
         <rulegroup id="ES_INITIAL_QUESTION_MARK" name="Signos de exclamación/interrogación desparejados">
