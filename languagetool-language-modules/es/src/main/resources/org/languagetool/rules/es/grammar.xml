@@ -16788,13 +16788,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="a mi">Vuelvo <marker>a mi a</marker> madriguera.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PHRASE_REPETITION" name="Repetición de dos palabras ('en case en casa')" default="temp_off">
+        <rulegroup id="PHRASE_REPETITION" name="Repetición de dos palabras ('en casa en casa')">
             <!--  made more general-->
             <rule>
                 <antipattern>
-                        <token>ni</token>
-                        <token>demasiado</token>
-                        <token inflected="yes">poco</token>
+                    <token>ni</token>
+                    <token>demasiado</token>
+                    <token inflected="yes">poco</token>
                 </antipattern>
                 <antipattern>
                     <token>de</token>
@@ -16804,6 +16804,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token regexp="yes">sea|sean</token>
                     <token regexp="yes">quien|quienes</token>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token/>
+                    <token>en</token>
+                    <token><match no="1"/></token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">uno|una</token>
+                    <token>a</token>
+                    <token><match no="0"/></token>
                 </antipattern>
                 <pattern>
                     <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>y</exception><exception postag="allow_repetition">de</exception>[\p{L}·'-]+</token>
@@ -16823,6 +16834,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>De heredero a heredero a través de generaciones.</example>
                 <example>De dos en dos en el árbol.</example>
                 <example>No había ni demasiado ni demasiado pocos.</example>
+                <example>Dejándolas de una en una en las casillas siguientes.</example>
+                <example>No marcan uno a uno a sus oponentes.</example>
             </rule>
         </rulegroup>
     </category>
