@@ -33395,6 +33395,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="1es">Les <marker>1res</marker> jornades.</example>
                 <example>Les 4es jornades.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+</token>
+                    <token spacebefore="no">.</token>
+                    <token regexp="yes" spacebefore="no">[aèérnt]|rs|ns|rs|ts|ns|es</token>
+                </pattern>
+                <message>Els ordinals s'escriuen sense punt.</message>
+                <suggestion>\1\3</suggestion>
+                <example correction="56è">El batalló <marker>56.è</marker></example>
+            </rule>
         </rulegroup>
         <rule id="KELVIN" name="kelvin (no graus)">
             <regexp>[&espais;]*[º°][&espais;]*K\b</regexp>
