@@ -192,7 +192,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="entschieden|entscheidend">Für ihn war es <marker>entscheiden</marker>, dass sie kommt.</example>
             <example>Zuerst entscheiden wir, was notwendig ist zu entscheiden.</example>
         </rule>
-        <rulegroup id="BEWENDEN_BEENDEN" name="beenden (bewenden) lassen"> 
+        <rulegroup id="BELEIBT_BELIEBT" name="beliebt (beleibt)">
+            <rule>
+                <pattern>
+                    <marker><token>beleibt</token></marker>
+                    <token regexp="yes">beim?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>beliebt</suggestion>?</message>
+                <short>&typo;</short>
+                <example correction="beliebt">Er war <marker>beleibt</marker> bei Jung und Alt.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BEWENDEN_BEENDEN" name="beenden (bewenden) lassen">
             <rule>
                 <pattern>
                     <token skip="4" inflected="yes">dabei<exception scope="next" postag="PKT"></exception></token>
@@ -214,7 +225,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="bewenden">Lassen wir es dabei nicht <marker>beenden</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="VERENDEN_VERSENDEN" name="verenden (versenden/verwenden)"> 
+        <rulegroup id="VERENDEN_VERSENDEN" name="verenden (versenden/verwenden)">
             <rule>
                 <pattern>
                     <marker><token inflected="yes">verenden</token></marker>
