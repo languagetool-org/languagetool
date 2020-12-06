@@ -6351,21 +6351,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Quiero que te apartes de estos peligros.</example>
         </rule>
         <rulegroup id="EN_TORNO" name="entorno/en torno" default="temp_off">
+            <url>https://www.fundeu.es/recomendacion/entorno-no-es-lo-mismo-que-en-torno-967/</url>
             <antipattern>
                 <token postag="D..[MC]S." postag_regexp="yes"/>
                 <token>entorno</token>
             </antipattern>
             <rule>
                 <pattern>
-                    <token>entorno</token>
-                    <token regexp="yes">a|al</token>
+                    <token>entorno<exception postag="LOC_PREP"/></token>
+                    <token regexp="yes">a|al|de|del</token>
                 </pattern>
                 <message>Con el sentido de 'alrededor de' se escribe separado.</message>
                 <suggestion>en torno \3</suggestion>
                 <example correction="en torno a">Se presentaron <marker>entorno a</marker> cinquenta personas.</example>
+                <example correction="en torno del">No todo gira <marker>entorno del</marker> presupuesto</example>
                 <example>Adaptarán el entorno a los animales.</example>
                 <example>Para el entorno a otras personas.</example>
                 <example>De su entorno a los otros.</example>
+                <example>En el entorno de la familia.</example>
+                <example>El entorno de la familia.</example>
             </rule>
             <rule>
                 <pattern>
@@ -6385,6 +6389,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="en torno">Mirando <marker>entorno</marker>.</example>
                 <example>Adaptarán el entorno a los animales.</example>
                 <example>Para el entorno a otras personas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D..[MC]S." postag_regexp="yes"/>
+                    <marker>
+                        <token>en</token>
+                        <token>torno</token>
+                    </marker>
+                </pattern>
+                <message>Como sustantivo que significa 'ambiente, lo que rodea' se escribe junto</message>
+                <suggestion>entorno</suggestion>
+                <example correction="entorno">Se palpaba en el <marker>en torno</marker></example>
+                <example correction="entorno">Se palpaba en su <marker>en torno</marker></example>
             </rule>
         </rulegroup>
         <rule id="APARTE" name="a parte/aparte">
