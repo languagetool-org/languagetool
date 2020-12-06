@@ -34701,6 +34701,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="EN_ALLO_RELATIU_A" name="*en allò relatiu a">
+            <pattern>
+                <token>en</token>
+                <token regexp="yes">allò|el</token>
+                <token>relatiu</token>
+                <token>a</token>
+            </pattern>
+            <message>Calc del castellà.</message>
+            <suggestion>pel que fa a</suggestion>
+            <suggestion>quant a</suggestion>
+            <suggestion>relativament a</suggestion>
+            <suggestion>respecte a</suggestion>
+            <example correction="Pel que fa a|Quant a|Relativament a|Respecte a"><marker>En allò relatiu a</marker> política exterior.</example>
+        </rule>
         <rulegroup id="NO_PODER_AMB" name="no poder amb">
             <rule>
                 <pattern>
@@ -56809,8 +56823,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Expressió admesa només en alguns diccionaris.</message>
                 <suggestion><match no="2" postag="VM([^M].*)" postag_regexp="yes" postag_replace="VS$1">ser</match> impagable</suggestion>
                 <suggestion>n'hi <match no="2" postag="VM([^M].*)" postag_regexp="yes" postag_replace="VA$1">haver</match> per a sucar-hi pa</suggestion>
+                <suggestion>\1 \2 pèrdua</suggestion>
                 <short>Expressió preferible</short>
-                <example correction="És impagable|N'hi ha per a sucar-hi pa"><marker>No té desperdici</marker>.</example>
+                <example correction="És impagable|N'hi ha per a sucar-hi pa|No té pèrdua"><marker>No té desperdici</marker>.</example>
                 <example>Desperdicis</example>
             </rule>
             <rule>
@@ -56823,8 +56838,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Expressió admesa només en alguns diccionaris.</message>
                 <suggestion><match no="2"/> <match no="3" postag="VM([^M].*)" postag_regexp="yes" postag_replace="VS$1">ser</match> impagable</suggestion>
                 <suggestion>n'hi <match no="2"/> <match no="3" postag="VM([^M].*)" postag_regexp="yes" postag_replace="VA$1">haver</match> per a sucar-hi pa</suggestion>
-                <example correction="Ha estat impagable|Ha sigut impagable|N'hi ha hagut per a sucar-hi pa"><marker>No ha tingut desperdici</marker>.</example>
-                <example correction="Va ser impagable|N'hi va haver per a sucar-hi pa"><marker>No va tindre desperdici</marker>.</example>
+                <suggestion>\1 \2 \3 pèrdua</suggestion>
+                <example correction="Ha estat impagable|Ha sigut impagable|N'hi ha hagut per a sucar-hi pa|No ha tingut pèrdua"><marker>No ha tingut desperdici</marker>.</example>
+                <example correction="Va ser impagable|N'hi va haver per a sucar-hi pa|No va tindre pèrdua"><marker>No va tindre desperdici</marker>.</example>
                 <example>Desperdicis</example>
             </rule>
             <rule id="DESPERDICI" name="desperdici">
