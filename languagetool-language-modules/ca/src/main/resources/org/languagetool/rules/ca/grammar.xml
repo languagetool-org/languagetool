@@ -23456,6 +23456,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="REPETITIONS" name="Repeticions" type="duplication">
+        <rulegroup id="AIXO_AIXO" name="això (repetit)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>no</token>
+                        <token>obstant</token>
+                        <token skip="5">això</token>
+                    </marker>
+                    <token>això</token>
+                </pattern>
+                <message>Eviteu la repetició de 'això'.</message>
+                <suggestion>tanmateix</suggestion>
+                <suggestion>així i tot</suggestion>
+                <example correction="Tanmateix|Així i tot"><marker>No obstant això</marker>, això no podia ser.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>això</token>
+                        <token>no</token>
+                        <token skip="5">obstant</token>
+                    </marker>
+                    <token>això</token>
+                </pattern>
+                <message>Eviteu la repetició de 'això'.</message>
+                <suggestion>tanmateix</suggestion>
+                <suggestion>així i tot</suggestion>
+                <example correction="Tanmateix|Així i tot"><marker>Això no obstant</marker>, això no podia ser.</example>
+            </rule>
+        </rulegroup>
         <rule id="QUE_QUE" name="que i que">
             <pattern>
                 <token>que</token>
@@ -48742,7 +48772,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>plau</token>
                 </marker>
             </pattern>
-            <message>¿Volíeu dir <suggestion>vistiplau</suggestion>?</message>
+            <message>Com a substantiu s'escriu junt.</message>
+            <suggestion>vistiplau</suggestion>
             <example correction="vistiplau">un <marker>vist i plau</marker></example>
             <example correction="vistiplau">el nostre <marker>vist-i plau</marker></example>
             <example correction="vistiplau">el <marker>vist i plau</marker></example>
