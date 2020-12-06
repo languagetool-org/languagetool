@@ -20252,12 +20252,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="PRP.*DAT" postag_regexp="yes"><exception regexp="yes">am|vo[mn]|zum</exception></token>
                     <marker>
-                        <token postag="ADJ:DAT:PLU:MAS:GRU:SOL" case_sensitive="yes" ></token>
+                        <token postag="ADJ:DAT:PLU:MAS:GRU:SOL" case_sensitive="yes"><exception regexp="yes">anderen|vielen</exception></token>
                     </marker>
                     <token postag="SENT_END" regexp="yes">[.?!]</token>
                 </pattern>
                 <message>In dieser Wendung scheint <suggestion><match case_conversion="startupper" no="2"/></suggestion> als Nomen gebraucht zu werden und ist deshalb großzuschreiben.</message>
                 <example correction="Unbekannten">Geh nicht mit <marker>unbekannten</marker>!</example>
+                <example>Vergleicht euch nicht mit anderen.</example>
             </rule>
         </rulegroup>
         <rule id="SEIT_BEGINN" name="'seit beginn (seit Beginn)'">
