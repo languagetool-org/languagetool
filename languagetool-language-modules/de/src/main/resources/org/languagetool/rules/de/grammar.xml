@@ -9859,6 +9859,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="ZWEI_KLASSEN_GESELLSCHAFT" name="Zwei-Klassen-Gesellschaft" default="temp_off">
+            <pattern>
+                <token regexp="yes">2|zwei</token>
+                <token>Klassen</token>
+                <token regexp="yes">Gesellschaft|Medizin|Impfung|Justiz|Gesundheitssystem</token>
+            </pattern>
+            <message>Das Nomen <suggestion>Zwei-Klassen-<match no="3" /></suggestion> wird zusammengeschrieben.</message>
+            <short>Zusammenschreibung</short>
+            <example correction="Zwei-Klassen-Gesellschaft">Wir leben in einer <marker>2 Klassen Gesellschaft</marker>.</example>
+        </rule>
         <rule id="NOM_GEN_COMPOUND" name="wegen des iPhone Angebots (iPhone-Angebots)">
             <pattern>
                     <token regexp="yes">Wegen|(Ab|Zu)züglich|Angesichts|Abseits|Anhand|Aufgrund|Infolge|Innerhalb|Außerhalb|Ausserhalb|Jenseits|Kraft|Mithilfe|Namens|Seitens|Unfern|Zwecks|Hinsichtlich</token>
@@ -35623,7 +35633,7 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rulegroup id="OUT_OF_THE_BOX" name="out of the box" default="temp_off">
+        <rulegroup id="OUT_OF_THE_BOX" name="out of the box">
             <rule>
                 <pattern>
                     <token>out</token>
