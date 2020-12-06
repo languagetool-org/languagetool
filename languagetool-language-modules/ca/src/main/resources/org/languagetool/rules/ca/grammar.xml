@@ -43814,6 +43814,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
+        <rule id="CORNER" name="corner/córner">
+            <pattern>
+                <token regexp="yes">corners?</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)o" regexp_replace="ó" case_conversion="preserve"/></suggestion> (emprat en futbol) en comptes de "\1" (nom d'un arbust)?</message>
+            <example correction="córners">Es van xiular quatre <marker>corners</marker> en tot el partit.</example>
+        </rule>
         <rule id="INDIVIDUO" name="individuo/individu">
             <pattern>
                 <token>individuo</token>
