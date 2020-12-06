@@ -41,7 +41,8 @@ public class ArabicHunspellSpellerRuleTest {
 
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("السلام عليييكم."));
     assertThat(matches.length, is(1));
-    assertTrue(matches[0].getSuggestedReplacements().contains("عليميكم"));
+    String exp = "عليميكم";
+    assertTrue("Expected '" + exp + "', got: " + matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().contains(exp));
 
     matches = rule.match(langTool.getAnalyzedSentence("هذه العباره فيها أغلاط."));
     assertThat(matches.length, is(1));
