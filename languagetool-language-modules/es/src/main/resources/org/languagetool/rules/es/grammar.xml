@@ -6350,6 +6350,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>En los apartes de esta obra.</example>
             <example>Quiero que te apartes de estos peligros.</example>
         </rule>
+        <rulegroup id="EN_TORNO" name="entorno/en torno" default="temp_off">
+            <antipattern>
+                <token postag="D..[MC]S." postag_regexp="yes"/>
+                <token>entorno</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>entorno</token>
+                    <token regexp="yes">a|al</token>
+                </pattern>
+                <message>Con el sentido de 'alrededor de' se escribe separado.</message>
+                <suggestion>en torno \3</suggestion>
+                <example correction="en torno a">Se presentaron <marker>entorno a</marker> cinquenta personas.</example>
+                <example>Adaptarán el entorno a los animales.</example>
+                <example>Para el entorno a otras personas.</example>
+                <example>De su entorno a los otros.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.[SING].*|_GV_" postag_regexp="yes"/>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <marker>
+                        <token>entorno</token>
+                    </marker>
+                </pattern>
+                <message>Con el sentido de 'alrededor' se escribe separado.</message>
+                <suggestion>en torno</suggestion>
+                <example correction="en torno">Corrían <marker>entorno</marker> de la mesa.</example>
+                <example correction="en torno">Miraban <marker>entorno</marker> suyo.</example>
+                <example correction="en torno">Habían mirado <marker>entorno</marker> suyo.</example>
+                <example correction="en torno">Van a mirar <marker>entorno</marker>.</example>
+                <example correction="en torno">Tienen que mirar <marker>entorno</marker>.</example>
+                <example correction="en torno">Mirando <marker>entorno</marker>.</example>
+                <example>Adaptarán el entorno a los animales.</example>
+                <example>Para el entorno a otras personas.</example>
+            </rule>
+        </rulegroup>
         <rule id="APARTE" name="a parte/aparte">
             <!-- Many true positives expected -->
             <antipattern>
