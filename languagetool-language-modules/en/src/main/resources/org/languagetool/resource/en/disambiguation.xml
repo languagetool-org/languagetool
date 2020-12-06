@@ -3307,6 +3307,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VBZ" />
             <token postag="TO|IN" postag_regexp="yes" />
         </antipattern>
+        <antipattern><!-- the other loses -->
+            <token postag="DT" />
+            <token>other</token>
+            <token postag="VBZ" />
+            <token postag="PCT|IN|CC" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception><exception scope="previous">of</exception></token>
             <token postag="JJ"><exception postag="RB|NNPS?|NN:U|PRP" postag_regexp="yes"/></token>
@@ -4930,6 +4936,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VBZ" />
             <token>like</token>
         </antipattern>
+        <antipattern><!-- The important thing is not to win, but that the other loses. -->
+            <token>the</token>
+            <token>other</token>
+            <token postag="VBZ" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -4949,6 +4960,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="red[red/JJ,red/NN:UN]" outputform="red[red/JJ]">I have a lot of <marker>red</marker> wine.</example>
         <example type="ambiguous" inputform="period[period/JJ,period/NN]" outputform="period[period/JJ]">This is a splendid collection of fine <marker>period</marker> furniture.</example>
         <example type="untouched">This is a nice machine.</example>
+        <example type="untouched">The important thing is not to win, but that the other loses.</example>
         <example type="untouched">Is much powerful and wondrous <marker>magic necessary for</marker> Harry Potter to fly?</example>
         <example type="untouched">The circus will come to <marker>town</marker> tomorrow.</example>
         <example type="untouched">Noun. The persons who guessed the <marker>number</marker> won.</example>
@@ -9001,6 +9013,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>a</token>
             <token>few</token>
             <token postag="VB" chunk_re=".*NP-singular" />
+        </antipattern>
+        <antipattern><!-- We have cards the other wants. -->
+            <token>the</token>
+            <token>other</token>
+            <token regexp="yes">wants|needs</token>
         </antipattern>
         <pattern>
             <marker>
