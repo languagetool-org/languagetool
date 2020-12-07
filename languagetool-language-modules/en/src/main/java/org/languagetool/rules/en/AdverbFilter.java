@@ -400,6 +400,12 @@ public class AdverbFilter extends RuleFilter {
     put("attractively", "attractive");
     put("supposedly", "supposed");
     put("overwhelmingly", "overwhelming");
+    put("imperfectly", "imperfect");
+    put("deftly", "deft");
+    put("wildly", "wild");
+    put("sheepishly", "sheepish");
+    put("hotly", "hot");
+    put("genetically", "genetic");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

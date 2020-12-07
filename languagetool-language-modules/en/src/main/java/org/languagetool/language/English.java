@@ -362,6 +362,8 @@ public class English extends Language implements AutoCloseable {
       case "SEEM_SEEN":                 return 1;   // higher prio than HAVE_PART_AGREEMENT, PRP_HAVE_VB, MD_BASEFORM and PRP_PAST_PART
       case "BORN_IN":                   return 1;   // higher prio than PRP_PAST_PART
       case "DO_TO":                     return 1;   // higher prio than HAVE_PART_AGREEMENT
+      case "CURIOS_CURIOUS":            return 1;   // higher prio than A_NNS and POSSESSIVE_APOSTROPHE
+      case "INCORRECT_POSSESSIVE_APOSTROPHE": return 1;   // higher prio than THIS_NNS
       case "THIS_YEARS_POSSESSIVE_APOSTROPHE": return 1;    // higher prio than THIS_NNS
       case "IN_THIS_REGARDS":           return 1;   // higher prio than THIS_NNS
       case "NO_WHERE":                  return 1;   // higher prio than NOW
