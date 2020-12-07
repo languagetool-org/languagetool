@@ -9,6 +9,7 @@ bridj.jar: Copyright (c) 2010-2015 Olivier Chafik, BSD License (BSD.txt), https:
 catalan-pos-dict.jar: Creative Commons Attribution-ShareAlike 4.0 International, https://creativecommons.org/licenses/by-sa/4.0/legalcode
 cjftransform.jar: Apache License 2.0, http://code.google.com/p/cjftransform/
 commons-*: Apache License 2.0, http://commons.apache.org/lang/
+emoji-java.jar: MIT License, https://github.com/vdurmont/emoji-java
 german-pos-dict.jar: Creative Commons Attribution-ShareAlike 4.0 International, https://creativecommons.org/licenses/by-sa/4.0/legalcode
 guava.jar: Apache License 2.0, https://code.google.com/p/guava-libraries/
 hamcrest-core.jar: BSD License, https://github.com/hamcrest

@@ -18,23 +18,75 @@
  */
 package org.languagetool.rules.en;
 
+import org.junit.Ignore;
 import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.TestTools;
+import org.languagetool.*;
+import org.languagetool.broker.ResourceDataBroker;
+import org.languagetool.rules.ConfusionPair;
+import org.languagetool.rules.ConfusionSetLoader;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.ngrams.FakeLanguageModel;
+import org.languagetool.rules.patterns.AbstractPatternRule;
+import org.languagetool.rules.patterns.FalseFriendRuleLoader;
+import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.tools.StringTools;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.InputStream;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
+import static org.languagetool.JLanguageTool.FALSE_FRIEND_FILE;
 
 public class EnglishForL2SpeakersFalseFriendRuleTest {
+
+  @Test
+  @Ignore("had problems with running it locally (false-friends.xml not found)")
+  public void testMessageDetailData() throws IOException {
+    List<String> langs = Arrays.asList("nl", "de", "fr", "es");
+    //List<String> langs = Arrays.asList("es");
+    Language en = Languages.getLanguageForShortCode("en");
+    ShortDescriptionProvider descProvider = new ShortDescriptionProvider();
+    for (String lang : langs) {
+      Map<String, List<ConfusionPair>> ngramData = getFalseFriendNgramData(en, lang);
+      Set<String> falseFriendsDetailData = getFalseFriendsDetailData(en, lang);
+      for (String s : ngramData.keySet()) {
+        String desc = descProvider.getShortDescription(s, en);
+        boolean entryInXml = falseFriendsDetailData.contains(s) || falseFriendsDetailData.contains(StringTools.uppercaseFirstChar(s));
+        if (desc == null && !entryInXml)  {
+          System.out.println("[" + lang + "] WARNING: no entry for '" + s + "' found in en/word_definitions.txt or false-friends.xml, " +
+                  "user will get a less useful message for false friends");
+        }
+      }
+    }
+  }
+
+  private Map<String, List<ConfusionPair>> getFalseFriendNgramData(Language en, String lang) throws IOException {
+    String path = "/en/confusion_sets_l2_" + lang + ".txt";
+    ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(en);
+    ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+    try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(path)) {
+      return confusionSetLoader.loadConfusionPairs(confusionSetStream);
+    }
+  }
+
+  private Set<String> getFalseFriendsDetailData(Language en, String l1Code) throws IOException {
+    Language l1 = Languages.getLanguageForShortCode(l1Code);
+    FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader(l1);
+    String ffFilename = JLanguageTool.getDataBroker().getRulesDir() + "/" + FALSE_FRIEND_FILE;
+    List<AbstractPatternRule> rules = ruleLoader.getRules(new File(ffFilename), en, l1);
+    Set<String> patternsWithDetails = new HashSet<>();
+    for (AbstractPatternRule rule : rules) {
+      for (PatternToken patternToken : rule.getPatternTokens()) {
+        String[] parts = patternToken.getString().split("\\|");
+        Collections.addAll(patternsWithDetails, parts);
+      }
+    }
+    return patternsWithDetails;
+  }
 
   @Test
   public void testRule() throws IOException {

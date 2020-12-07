@@ -68,7 +68,8 @@ RB => Règles Brutes
 
   <rule id="ROMAN_NUMBER" name="roman number">
     <pattern>
-      <token regexp="yes" case_sensitive="yes">(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)
+      <!--(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)-->
+      <token regexp="yes" case_sensitive="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})
         <exception scope="next" regexp="yes">&apostrophe;</exception>
       </token>
     </pattern>
@@ -131,14 +132,13 @@ RB => Règles Brutes
   <rule id="PREFIXES" name="prefixes">
     <pattern>
       <marker>
-        <token regexp="yes">pré|nord|sud|néo|méga|ultra|pro|inter|micro|macro|sous|haut|auto|ré|super|vice|hyper|proto|grand|pseudo</token>
+        <token regexp="yes">anti|pré|nord|sud|néo|méga|ultra|pro|inter|micro|macro|sous|haut|auto|ré|super|vice|hyper|proto|grand|pseudo|multi</token>
       </marker>
       <token spacebefore="no">-</token>
       <token spacebefore="no"/>
     </pattern>
     <disambig action="replace"><wd lemma="prefix" pos="A"/></disambig>
   </rule>
-  
   <rule name="nom" id="NOM">
     <pattern>
       <token postag="SENT_START"/>
@@ -257,6 +257,20 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="D f s"/>
   </rule>
+  
+  <rule id="A_PRIORI" name="a priori (noun/loc adverbial)">
+    <pattern>
+      <token regexp="yes">ce|cet|un|le</token>
+      <marker>
+        <token>a</token>
+        <token>priori</token>
+      </marker>
+    </pattern>
+    <disambig action="replace">
+      <wd lemma="a priori" pos="N m s"/>
+      <wd lemma="a priori" pos="J m s"/>
+    </disambig>
+  </rule>
 
   <!-- So that word "faute" (etc) as in "des faute", "une fautes" is marked as
  a noun and not a verb, otherwise we don't find the incorrect
@@ -289,12 +303,22 @@ RB => Règles Brutes
     </rule>
     <rule>
       <pattern>
-        <token regexp="yes">chaque|des?|maint|mêmes|moult|nul|plusieurs|quelques<exception scope="previous" regexp="yes">&apostrophe;</exception></token>
+        <token regexp="yes">chaque|sans|des?|maint|mêmes|moult|nul|plusieurs|quelques<exception scope="previous" regexp="yes">&apostrophe;</exception></token>
         <marker>
           <token postag="N.*" postag_regexp="yes"><exception regexp="yes">est|multiples|si|petite?s?|mauvais|pires?</exception><exception inflected="yes">bon</exception><exception postag="K"/></token>
         </marker>
       </pattern>
-      <disambig action="filter" postag="N.*"/>
+      <disambig action="remove" postag="V.* (imp|sub|ind) .*"/>
+    </rule>
+    <rule>
+      <!-- "du monde", but du/dû lire-->
+      <pattern>
+        <token regexp="yes">du|de|d'</token>
+        <marker>
+          <token postag="N.*" postag_regexp="yes"><exception regexp="yes">est|multiples|si|petite?s?|mauvais|pires?</exception><exception inflected="yes">bon</exception><exception postag="K|V.* inf" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="V.* (imp|sub|ind) .*"/>
     </rule>
   </rulegroup>
   <rulegroup name="été (nom)" id="ETE">
@@ -1068,6 +1092,18 @@ RB => Règles Brutes
     </rule>
   </rulegroup>
   
+  <rule id="LE_POUVOIR" name="le pouvoir">
+    <antipattern>
+      <token>pouvoir</token>
+      <token postag="V .*inf" postag_regexp="yes"/>
+    </antipattern>
+    <pattern>
+      <token postag="D m s">le</token>
+      <token postag="N m s">pouvoir</token>
+    </pattern>
+    <disambig action="filterall"></disambig>
+  </rule>
+  
   <rulegroup id="PRONOM_SUJET_VERB" name="pronom sujet + verb">
     <rule>
       <pattern>
@@ -1104,14 +1140,19 @@ RB => Règles Brutes
     </rule>
   </rulegroup>
   <rule name="RP : Det + Nom ambigu" id="RP-D_N_AMBIG">
+    <antipattern>
+      <token postag="R pers .*" postag_regexp="yes"/>
+      <token postag="V .*inf" postag_regexp="yes"/>
+    </antipattern>
     <pattern>
       <unify> <feature id="number"/> <feature id="gender"/>
         <token postag="D.*" postag_regexp="yes"><exception>même</exception><exception postag="P"/></token>
-        <token postag="N.*|J.*|V ppa.*" postag_regexp="yes"><exception regexp="yes">a|dans|envers|si|fut|plus|avoir</exception><exception postag="K"/></token>
+        <token postag="N.*|J.*|V ppa.*" postag_regexp="yes"><exception regexp="yes">a|dans|envers|si|fut|plus|avoir|fait</exception><exception postag="K"/></token>
       </unify>
     </pattern>
     <disambig action="filterall"/>
     <example type="untouched">Ils sont parti.</example>
+    <example type="untouched">Ça le fait.</example>
     <example type="ambiguous" inputform="livre[livre/N e s,livrer/V imp pres 2 s,livrer/V ind pres 1 s,livrer/V ind pres 3 s,livrer/V sub pres 1 s,livrer/V sub pres 3 s]" outputform="livre[livre/N e s]">Il a enfin publié son <marker>livre</marker>.</example>
   </rule>
   <!-- TODO: tu ne l'as; l'avoir rencontrée -->
@@ -1150,6 +1191,15 @@ RB => Règles Brutes
       <disambig postag="V inf"/>
     </rule>
   </rulegroup>
+  
+  <rule id="avoir_trait_a" name="avoir trait à">
+    <pattern>
+      <token inflected="yes">avoir</token>
+      <token postag="N m s">trait</token>
+      <token postag="P">à</token>
+    </pattern>
+    <disambig action="filterall"></disambig>
+  </rule>
 
   <rulegroup name="RP : Etre/avoir + participe passé ambigu" id="RP-ETRE_AVOIR_VPPA_AMBIG">
     <rule>
@@ -1207,7 +1257,7 @@ RB => Règles Brutes
       <pattern>
         <token postag="N.*" postag_regexp="yes"/>
         <marker>
-          <token regexp="yes">que|qu</token>
+          <token regexp="yes">que|qu'</token>
         </marker>
       </pattern>
       <disambig postag="R rel e sp"/>
@@ -1216,7 +1266,7 @@ RB => Règles Brutes
       <pattern>
         <token postag="V.*|A" postag_regexp="yes"/>
         <marker>
-          <token regexp="yes">que|qu</token>
+          <token regexp="yes">que|qu'</token>
         </marker>
       </pattern>
       <disambig postag="C sub"/>
@@ -1282,11 +1332,15 @@ RB => Règles Brutes
     </rule>
   </rulegroup>
   <rule name="RB : le la les" id="RB-LE_LA_LES">
+    <antipattern>
+      <token postag="R pers .*" postag_regexp="yes"/>
+      <token postag="V .*inf" postag_regexp="yes"/>
+    </antipattern>
     <pattern>
       <marker>
         <token postag="D.*" postag_regexp="yes" regexp="yes">l|la|le|les</token>
       </marker>
-      <token postag="[NJ].*" postag_regexp="yes"/>
+      <token postag="[NJ].*" postag_regexp="yes"><exception>fait</exception></token>
     </pattern>
     <disambig><match no="1" postag_regexp="yes" postag="D.*"/></disambig>
   </rule>
@@ -1298,6 +1352,23 @@ RB => Règles Brutes
       <token postag="V (sub|ind|con).*" postag_regexp="yes"><exception>fait</exception><exception postag="N.*" postag_regexp="yes"/></token>
     </pattern>
     <disambig action="remove" postag="P"></disambig>
+  </rule>
+  
+  <rule id="du_dessous" name="dessous (not preposition)">
+    <pattern>
+      <token postag="P.*" postag_regexp="yes"/>
+      <marker>
+        <token>dessous</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="P"/>
+  </rule>
+  <rule id="entre" name="entre-t-il, entre (not preposition)">
+    <pattern>
+      <token postag="V.*" postag_regexp="yes"></token>
+      <token postag="R .*" postag_regexp="yes" regexp="yes">-.*</token>
+    </pattern>
+    <disambig action="filterall"></disambig>
   </rule>
   <rule name="RB : Préposition" id="RB-PREPOSITION">
     <pattern>
@@ -1375,6 +1446,60 @@ RB => Règles Brutes
       <disambig action="filter" postag="V.* 3 p"/>
     </rule>
   </rulegroup>
+  
+  <rulegroup id="imperative" name="imperative">
+    <rule>
+      <pattern>
+        <token postag="SENT_START"/>
+        <token inflected="yes">ne</token>
+        <token min="0" max="1" regexp="yes">[lmt][e']|[nv]ous|les|la|leur|lui</token>
+        <marker>
+          <token postag_regexp="yes" postag="V.* (imp|ppr).*"/>
+        </marker>
+        <token regexp="yes">pas|plus|jamais|rien</token>
+      </pattern>
+      <disambig action="filter" postag="V.* (imp|ppr).*"></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="SENT_START"/>
+        <token inflected="yes">ne</token>
+        <!-- 2 token (not all combinations are possible) -->
+        <token postag="R pers obj.*" postag_regexp="yes" min="1" max="2"/>
+        <marker>
+          <token postag_regexp="yes" postag="V.* (imp|ppr).*"/>
+        </marker>
+        <token regexp="yes">pas|plus</token>
+      </pattern>
+      <disambig action="filter" postag="V.* (imp|ppr).*"></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="SENT_START"/>
+        <token>ne</token>
+        <!-- 3 token -->
+        <token regexp="yes">[mtl]'</token>
+        <token regexp="yes">y|en</token>
+        <marker>
+          <token postag_regexp="yes" postag="V.* (imp|ppr).*"/>
+        </marker>
+        <token regexp="yes">pas|plus</token>
+      </pattern>
+      <disambig action="filter" postag="V.* (imp|ppr).*"></disambig>
+    </rule>
+  </rulegroup>
+  
+  <rulegroup id="not_imperative" name="not imperative">
+    <rule>
+      <pattern>
+        <token postag="R pers.*" postag_regexp="yes"><exception regexp="yes">-.*</exception></token>
+        <marker>
+          <token postag="V .*" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="V.* imp .*"/>
+    </rule>
+  </rulegroup>
 
   <rule name="RD : ambig J/N" id="RD-ADJ_NOM">
     <pattern>
@@ -1405,15 +1530,46 @@ RB => Règles Brutes
       <disambig action="remove" postag="P"/>
     </rule>
   </rulegroup>
+  
+  <rulegroup id="SI" name="si (noun, adverb, conjunction...)">
+    <!-- TODO: needs to be improved -->
+    <rule>
+      <pattern>
+       <marker>
+         <token>si</token>
+       </marker>
+      <token postag="J.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="C sub">si</token>
+        </marker>
+        <token postag="R.*" postag_regexp="yes" min="1" max="4"/>
+        <token postag="V.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filter" postag="C sub"/>
+    </rule>
+    <!-- default: A (it seems the most usual) -->
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="A">si</token>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="A"/>
+    </rule>
+  </rulegroup>
+   
 
   <rule name="RB : adverbes" id="RB-ADVERBES">
+    <!-- TODO: very poor rule -->
     <pattern>
       <marker>
         <token postag="A">
-            <exception>causa</exception>
-            <exception>puis</exception>
-            <exception>soit</exception>
-          <exception>comme</exception>
+            <exception regexp="yes">causa|puis|soit|comme|si</exception>
         </token>
       </marker>
     </pattern>
@@ -1589,14 +1745,24 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="D f p"/>
   </rule>
-  <rule id="FAIT" name="fait">
-    <pattern>
-      <token regexp="yes">qui|il|elle|on|lui|[mtns]e</token>
-      <token min="0" max="1" regexp="yes">les?|la|[mts]e|[nv]ous|leur</token>
-      <marker><token>fait</token></marker>
-    </pattern>
-    <disambig postag="V ind pres 3 s"/>
-  </rule>
+  <rulegroup id="FAIT" name="fait">
+    <!-- TODO: "le fait" is ambiguous -->
+    <rule>
+       <pattern>
+         <token regexp="yes">qui|il|elle|on|lui|[mtns]e</token>
+         <token min="0" max="1" regexp="yes">les?|la|[mts]e|[nv]ous|leur</token>
+         <marker><token>fait</token></marker>
+       </pattern>
+       <disambig postag="V ind pres 3 s"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token>ce</token>
+        <marker><token>fait</token></marker>
+      </pattern>
+      <disambig postag="N m s"/>
+    </rule>
+  </rulegroup>
   <rule id="FORTE" name="forte">
     <pattern>
       <marker><token>forte</token></marker>
@@ -2168,8 +2334,47 @@ RB => Règles Brutes
     <rule>
       <pattern>
         <marker>
-          <token>-</token>
           <token regexp="yes">[\d+\.,]</token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes">[\d\., ]+[%$€£º°]?</token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes">[\d\., ]+⁄[\d\., ]+</token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes">[12][0-9]([\.,][0-5][0-9])?(h|hr|hrs)?</token> <!-- TODO: rules suggesting proper formatting -->
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes">[$€£][\d\., ]+</token> <!-- TODO: create rule suggesting another format -->
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes">[\d\., ]+[º°][CF]</token>
         </marker>
       </pattern>
       <disambig action="ignore_spelling"/>
@@ -2197,6 +2402,15 @@ RB => Règles Brutes
       <pattern>
         <marker>
           <token regexp="yes" case_sensitive="yes">[\d,.]+[€$£¥¤]-[\d,.]+[€$£¥¤]</token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <!-- Dollar price ("$1M") -->
+      <pattern>
+        <marker>
+          <token regexp="yes">[€$£¥¤]\d+[MK]</token>
         </marker>
       </pattern>
       <disambig action="ignore_spelling"/>
@@ -2238,12 +2452,42 @@ RB => Règles Brutes
     </pattern>
     <disambig action="ignore_spelling"/>
   </rule>
-
+  
+  <rulegroup id="IMMUNIZE_ANGLICISMS" name="exceptions to anglicism rules">
+    <rule>
+      <pattern>
+        <token regexp="yes">guitar|Charleston</token>
+        <token regexp="yes">slides?</token>
+      </pattern>
+      <disambig action="immunize"></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token>fake</token>
+        <token>news</token>
+      </pattern>
+      <disambig action="immunize"></disambig>
+    </rule>
+  </rulegroup>
 
   <rule name="Ignore spelling of d'1" id="IGNORE_SPELLING_OF_D_UN">
     <pattern>
         <token>d'</token>
         <token spacebefore="no">1</token><!-- not sure if this the best way to fix this -->
+    </pattern>
+    <disambig action="ignore_spelling"/>
+  </rule>
+
+  <rule name="Ignore spelling of N°" id="IGNORE_SPELLING_OF_N">
+    <pattern>
+        <token regexp="yes">N°\d?</token>
+    </pattern>
+    <disambig action="ignore_spelling"/>
+  </rule>
+
+    <rule name="Ignore spelling of punctuation characters" id="IGNORE_SPELLING_OF_PUNCTUATION">
+    <pattern>
+        <token regexp="yes">[_\^]+</token>
     </pattern>
     <disambig action="ignore_spelling"/>
   </rule>
@@ -2256,4 +2500,25 @@ RB => Règles Brutes
     </pattern>
     <disambig action="ignore_spelling"/>
   </rule>
+
+  <rulegroup name="Ignore number strings" id="IGNORE_NUMBERS">
+    <rule>
+      <!-- minus sign -->
+      <pattern>
+        <token regexp="yes">−?[\d .,]+%?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">
+          [\dA-z\.\,éèëöïîôêàùûçœæÂÊÎÔÛÄËÏÖÜÙÀÆÇÉÈŒ—–‒-⇐⇔βα→↓↑←]+°?\d[\dA-z\.\,éèëöïîôêàçœæùûÂÊÎÔÛÄËÏÖÜÙÀÆÇÉÈŒ–—‒-⇐⇔βα→↓↑←]+
+          <exception regexp="yes">[A-z\.\,éèëöïîôêàçœæùûÂÊÎÔÛÄËÏÖÜÙÀÆÇÉÈŒ]+\d[A-z\.\,éèëöïîôêàçœæùûÂÊÎÔÛÄËÏÖÜÀÙÆÇÉÈŒ]+</exception>
+          <exception regexp="yes">\d+</exception>
+          <exception regexp="yes" case_sensitive="yes">[A-Z\.\,ÂÊÎÔÛÄËÏÖÜÙÀÆÇÉÈŒ]+</exception>
+        </token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+  </rulegroup>
 </rules>

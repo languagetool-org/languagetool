@@ -65,6 +65,7 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("(Пізніше Вальтер став першим");
     assertEmptyMatch("складовою успіху");
     assertEmptyMatch("про екс-першого віце-спікера.");
+    assertEmptyMatch("Маю лишній квиток і подумав за свого найкращого друга");
 
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("скрутна справі")).length);
@@ -90,6 +91,9 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("перша ступінь")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("друга ступінь")).length);
 
+    assertHasError("встановлена Верховної Радою 17 січня 2017 року");
+    assertHasError("фракцію у Верховні Раді й мати");
+    
     // не працює через іменник "французька" (мова)
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("французька політик")).length);
 
@@ -99,6 +103,27 @@ public class TokenAgreementAdjNounRuleTest {
         matches0[0].getMessage().contains("[ч.р.: родовий, знахідний]"));
     assertEquals(Arrays.asList("російських винищувачів", "російського винищувача"), matches0[0].getSuggestedReplacements());
 
+    assertEmptyMatch("Засвідчувана досить часто наукою «гнучкість» — один із коренів\n" + 
+        "паранаукових явищ на кшталт «нової хронології» Фоменка.");
+
+    // skip adv after adjp
+    assertEmptyMatch("прикрита швидко рука");
+    assertHasError("прикрита швидко руку");
+    assertEmptyMatch("надана як раз");
+    assertEmptyMatch("прикрита отруйливо гарячим");
+    assertEmptyMatch("після короткого резюме справи");
+    assertEmptyMatch("білий як полотно");
+    assertHasError("відкинутий набагато років назад"); // should be "на багато"
+    assertEmptyMatch("розділеного вже чверть століття");
+    assertEmptyMatch("розділеного третину століття");
+    assertEmptyMatch("заклопотані чимало людей");
+    assertEmptyMatch("заклопотані дуже обмаль людей");
+//    assertEmptyMatch("З усіх опитаних майже половина відверто");
+    assertEmptyMatch("заданою відносно спостерігача");
+    assertEmptyMatch("опублікований увечері понеділка");
+    
+    assertEmptyMatch("зареєстровані зокрема БЮТівець Микола Булатецький та самовисуванець");
+    
     // from real examples
     
     // і-и
@@ -736,6 +761,8 @@ public class TokenAgreementAdjNounRuleTest {
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("на довгих місяця")).length);
 
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("продукту, а просунути український фільми")).length);
+    
     // plural
     
     // adj:.:p + multiple nouns
@@ -750,7 +777,7 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("називає й традиційні корупцію, «відкати», хабарі");
     assertEmptyMatch("державні Ощадбанк, «Укргазбанк»");
     assertEmptyMatch("коринфський з іонійським ордери");
-    assertEmptyMatch("можуть зробити доступнішими фосфор чи калій");
+//    assertEmptyMatch("можуть зробити доступнішими фосфор чи калій");
     assertEmptyMatch("зв'язаних ченця з черницею");
     assertEmptyMatch("на зарубаних матір з двома синами");
     assertEmptyMatch("повоєнні Австрія з Фінляндією");

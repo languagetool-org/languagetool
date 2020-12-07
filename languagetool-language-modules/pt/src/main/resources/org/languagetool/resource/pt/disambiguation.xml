@@ -383,17 +383,37 @@
     </rule>
   </rulegroup>
 
-    <rule id="PP_D_V" name="Pronome + Pronome + Verbo">
+    <rulegroup id="PP_D_V" name="Pronome + Pronome + Verbo">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-15  -->
-      <pattern>
-          <token regexp='yes'>&pronomes_retos;</token>
-        <marker>
-          <token regexp='yes'>[nv]?[ao]s?</token>
-        </marker>
-          <token postag="V.+" postag_regexp="yes"/>
-      </pattern>
-      <disambig action="filter" postag="PP.+"/>
-    </rule>
+        <antipattern>
+            <token regexp='yes'>em|entre|por</token>
+            <token regexp='yes'>&pronomes_retos;|mim|ti|si</token>
+            <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|[ao]s?|[nv]os</token>
+            <token postag='V.+|AQ0[CFM][SP]0|NC[CFM][SP]000|NP[CFM][SP][0GS]00' postag_regexp='yes'/>
+            <token negate="yes" regexp='yes'>nas?|nos?|em|pelos?|pelas?|como|tal|tais</token>
+        </antipattern>
+      <rule>
+        <pattern>
+            <token regexp='yes'>&pronomes_retos;</token>
+          <marker>    
+            <token regexp='yes'>[nv]?[ao]s?</token>
+              <token postag="V.+" postag_regexp="yes"/>
+          </marker>       
+        </pattern>
+        <disambig action="filterall"/>
+      </rule>
+        <rule>
+            <pattern>
+                <token regexp='yes'>&pronomes_retos;</token>
+                <token>nem</token>
+                <marker>    
+                    <token regexp='yes'>[nv]?[ao]s?</token>
+                    <token postag="V.+" postag_regexp="yes"/>
+                </marker>       
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
 
   <!--rulegroup id="SUBJUNCTIVES" name="Verbos no conjuntivo"-->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2019-03-24  >
@@ -754,8 +774,8 @@
     </rule>
   </rulegroup>
 
-  <rulegroup id="DE_FORMA_ADJECTIVE" name="De forma + adjectivo">
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-10-04  -->
+  <!--<rulegroup id="DE_FORMA_ADJECTIVE" name="De forma + adjectivo">
+    Created by Tiago F. Santos, Portuguese rule, 2017-10-04 
     <rule>
       <pattern>
           <token>de</token>
@@ -772,7 +792,7 @@
       </pattern>
       <disambig action="replace"><wd pos="RG"/><wd pos="RG"/><wd pos="RG"/></disambig>
     </rule>
-  </rulegroup>
+  </rulegroup>-->
 
     <rule id="ADV_E_ADVMENTE" name="Advérbio curto + conjunção + advérbio de modo">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2019-08-19  -->
@@ -790,7 +810,7 @@
       <pattern>
           <token postag="D.+" postag_regexp="yes"/>
         <marker>
-          <token postag="R.+" postag_regexp="yes"/>
+          <token postag="R.+" postag_regexp="yes"><exception postag="A.*" postag_regexp="yes"/></token>
         </marker>
           <token postag="N.+" postag_regexp="yes">
             <exception>são</exception>
@@ -815,6 +835,33 @@
       <disambig action="filter" postag="N.*"/>
     </rule>
   </rulegroup>
+    
+    <rulegroup id="PRON_VERB" name="não + pron + verb">
+        <antipattern>
+            <token postag="D..[MC][SN]." postag_regexp="yes"/>
+            <token postag="NC[MC][SN]000" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token postag="D..[FC][SN]." postag_regexp="yes"/>
+            <token postag="NC[FC][SN]000" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token postag="D..[MC][PN]." postag_regexp="yes"/>
+            <token postag="NC[MC][PN]000" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token postag="D..[FC][PN]." postag_regexp="yes"/>
+            <token postag="NC[FC][PN]000" postag_regexp="yes"/>
+        </antipattern>
+        <rule>
+            <pattern>
+                <token postag="RN|RG" postag_regexp="yes"><exception postag="CS"></exception></token>
+                <token postag="P[^I].*" postag_regexp="yes"/>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
 
     <!-- DDN : Determinante possesivo + Determinante indefinido + Nome -->
     <!-- 		based on Spanish disambiguation.xml by Tiago F. Santos		-->
@@ -822,7 +869,7 @@
     <rule>
       <antipattern>
           <token postag="D.+" postag_regexp="yes"/>
-          <token postag="D[^P].+" postag_regexp="yes"/>
+          <token postag="D.+" postag_regexp="yes"/> <!-- it was D[^P].+ -->
           <token postag="A.+" postag_regexp="yes"/>
           <token postag="N.+" postag_regexp="yes"/>
       </antipattern>

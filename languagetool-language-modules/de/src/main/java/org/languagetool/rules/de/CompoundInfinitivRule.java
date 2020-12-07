@@ -72,6 +72,11 @@ public class CompoundInfinitivRule extends Rule {
       token("zu")
     ),
     Arrays.asList(
+      token("kurz"),
+      token("zu"),
+      token("machen")
+    ),
+    Arrays.asList(
       // "ohne die Erlaubnis dazu zu haben"
       token("dazu"),
       token("zu"),
@@ -141,7 +146,7 @@ public class CompoundInfinitivRule extends Rule {
     } else if (linguServices != null) {
       return !linguServices.isCorrectSpell(word, lang);
     }
-    return false;
+    throw new IllegalStateException("LinguServices or Speller must be not null to check spelling in CompoundInfinitivRule");
   }
 
   private boolean isRelevant(AnalyzedTokenReadings token) {

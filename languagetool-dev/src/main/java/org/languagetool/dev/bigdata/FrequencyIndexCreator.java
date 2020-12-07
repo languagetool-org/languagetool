@@ -45,7 +45,7 @@ import java.util.zip.GZIPInputStream;
  * the large amount of data. Indexing every line takes 3µs/doc, i.e. Lucene can 
  * index about 333,000 docs/s.
  * 
- * <p>Also see http://wiki.languagetool.org/finding-errors-using-big-data.
+ * <p>Also see https://dev.languagetool.org/finding-errors-using-n-gram-data.
  * @since 2.7
  */
 public class FrequencyIndexCreator {
@@ -357,7 +357,7 @@ public class FrequencyIndexCreator {
       System.out.println("Usage: " + FrequencyIndexCreator.class.getSimpleName() + " <text|lucene> <inputDir> <outputDir>");
       System.out.println("    <text|lucene> 'text' will write plain text files, 'lucene' will write Lucene indexes");
       System.out.println("    <inputDir> is the Google ngram data, optionally already aggregated by Hive (lucene mode),");
-      System.out.println("               please see http://wiki.languagetool.org/finding-errors-using-big-data");
+      System.out.println("               please see https://dev.languagetool.org/finding-errors-using-n-gram-data");
       System.exit(1);
     }
     Mode mode;

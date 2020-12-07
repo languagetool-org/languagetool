@@ -45,7 +45,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
   private static final String SUGGESTION_START_TAG = "<suggestion>";
   private static final String SUGGESTION_END_TAG = "</suggestion>";
 
-  private static final String allowedChars = "[^<>\\(\\)]*?";
+  private static final String allowedChars = "[^<>()]*?";
   private static final Pattern SUGGESTION_PATTERN_SUPPRESS = Pattern
       .compile(SUGGESTION_START_TAG + PatternRuleHandler.PLEASE_SPELL_ME 
           + allowedChars + "(\\(" + allowedChars + "\\)|" + MISTAKE + ")" + allowedChars  
@@ -54,7 +54,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
   private final boolean useList;
   private final List<PatternTokenMatcher> patternTokenMatchers;
   //private final Integer slowMatchThreshold;
-  private final boolean monitorRules;
+  private static final boolean monitorRules = System.getProperty("monitorActiveRules") != null;
 
   PatternRuleMatcher(PatternRule rule, boolean useList) {
     super(rule, rule.getLanguage().getUnifier());
@@ -62,7 +62,6 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
     this.patternTokenMatchers = createElementMatchers();
     //String slowMatchThresholdStr = System.getProperty("slowMatchThreshold");
     //slowMatchThreshold = slowMatchThresholdStr != null ? Integer.parseInt(slowMatchThresholdStr) : null;
-    this.monitorRules = System.getProperty("monitorActiveRules") != null;
   }
 
   public static Map<String, Integer> getCurrentRules() {
@@ -71,10 +70,10 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    long startTime = System.currentTimeMillis();
+//    long startTime = System.currentTimeMillis();
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    String key = rule.getFullId() + ": " + sentence.getText();
-    if (monitorRules) {
+    String key = monitorRules ? rule.getFullId() + ": " + sentence.getText() : null;
+    if (key != null) {
       currentlyActiveRules.compute(key, (k, v) -> v == null ? 1 : v + 1);
     }
     try {
@@ -176,7 +175,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
       }
     }*/return filteredMatches.toArray(new RuleMatch[0]);
     } finally {
-      if (monitorRules) {
+      if (key != null) {
         currentlyActiveRules.computeIfPresent(key, (k, v) -> v - 1 > 0 ? v - 1 : null);
       }
     }
@@ -224,7 +223,8 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
     }
     int fromPos = tokens[firstMarkerMatchToken].getStartPos();
     // FIXME: this is fishy, assumes that comma should always come before whitespace:
-    if (errMessage.contains(SUGGESTION_START_TAG + ",") && firstMarkerMatchToken >= 1) {
+    if (firstMarkerMatchToken >= 1 && (errMessage.contains(SUGGESTION_START_TAG + ",") 
+        || suggestionsOutMsg.contains(SUGGESTION_START_TAG + ","))) {
       fromPos = tokens[firstMarkerMatchToken - 1].getStartPos()
           + tokens[firstMarkerMatchToken - 1].getToken().length();
     }

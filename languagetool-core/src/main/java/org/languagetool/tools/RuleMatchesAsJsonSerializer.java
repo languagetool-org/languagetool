@@ -22,6 +22,8 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.Tag;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
@@ -45,16 +47,25 @@ public class RuleMatchesAsJsonSerializer {
   private static final JsonFactory factory = new JsonFactory();
   
   private final int compactMode;
+  private final Language lang;
 
   public RuleMatchesAsJsonSerializer() {
-    this.compactMode = 0;
+    this(0, null);
   }
 
   /**
    * @since 4.7
    */
   public RuleMatchesAsJsonSerializer(int compactMode) {
+    this(compactMode, null);
+  }
+
+  /**
+   * @since 5.1
+   */
+  public RuleMatchesAsJsonSerializer(int compactMode, Language lang) {
     this.compactMode = compactMode;
+    this.lang = lang;
   }
 
   public String ruleMatchesToJson(List<RuleMatch> matches, String text, int contextSize, DetectedLanguage detectedLang) {
@@ -68,7 +79,7 @@ public class RuleMatchesAsJsonSerializer {
    */
   public String ruleMatchesToJson(List<RuleMatch> matches, List<RuleMatch> hiddenMatches, String text, int contextSize,
                                   DetectedLanguage detectedLang, String incompleteResultsReason) {
-    return ruleMatchesToJson(matches, hiddenMatches, new AnnotatedTextBuilder().addText(text).build(), contextSize, detectedLang, incompleteResultsReason);
+    return ruleMatchesToJson(matches, hiddenMatches, new AnnotatedTextBuilder().addText(text).build(), contextSize, detectedLang, incompleteResultsReason, false);
   }
 
   /**
@@ -77,17 +88,16 @@ public class RuleMatchesAsJsonSerializer {
    * @since 4.3
    */
   public String ruleMatchesToJson(List<RuleMatch> matches, List<RuleMatch> hiddenMatches, AnnotatedText text, int contextSize,
-                                  DetectedLanguage detectedLang, String incompleteResultsReason) {
+                                  DetectedLanguage detectedLang, String incompleteResultsReason, boolean showPremiumHint) {
     ContextTools contextTools = new ContextTools();
     contextTools.setEscapeHtml(false);
     contextTools.setContextSize(contextSize);
-    contextTools.setErrorMarkerStart(START_MARKER);
-    contextTools.setErrorMarkerEnd("");
+    contextTools.setErrorMarker(START_MARKER, "");
     StringWriter sw = new StringWriter();
     try {
       try (JsonGenerator g = factory.createGenerator(sw)) {
         g.writeStartObject();
-        writeSoftwareSection(g);
+        writeSoftwareSection(g, showPremiumHint);
         writeWarningsSection(g, incompleteResultsReason);
         writeLanguageSection(g, detectedLang);
         writeMatchesSection("matches", g, matches, text, contextTools);
@@ -102,7 +112,7 @@ public class RuleMatchesAsJsonSerializer {
     return sw.toString();
   }
 
-  private void writeSoftwareSection(JsonGenerator g) throws IOException {
+  private void writeSoftwareSection(JsonGenerator g, boolean showPremiumHint) throws IOException {
     if (compactMode == 1) {
       return;
     }
@@ -112,7 +122,7 @@ public class RuleMatchesAsJsonSerializer {
     g.writeStringField("buildDate", JLanguageTool.BUILD_DATE);
     g.writeNumberField("apiVersion", API_VERSION);
     g.writeBooleanField("premium", JLanguageTool.isPremiumVersion());
-    if (!JLanguageTool.isPremiumVersion()) {
+    if (showPremiumHint) {
       g.writeStringField("premiumHint", PREMIUM_HINT);
     }
     g.writeStringField("status", STATUS);
@@ -178,7 +188,11 @@ public class RuleMatchesAsJsonSerializer {
   }
 
   private String cleanSuggestion(String s) {
-    return s.replace("<suggestion>", "\"").replace("</suggestion>", "\"");
+    if (lang != null) {
+      return lang.toAdvancedTypography(s.replaceAll("<suggestion>", lang.getOpeningDoubleQuote()).replaceAll("</suggestion>", lang.getClosingDoubleQuote()));
+    } else {
+      return s.replace("<suggestion>", "\"").replace("</suggestion>", "\"");
+    }
   }
   
   private void writeReplacements(JsonGenerator g, RuleMatch match) throws IOException {
@@ -259,6 +273,13 @@ public class RuleMatchesAsJsonSerializer {
       g.writeEndArray();
     }
     writeCategory(g, rule.getCategory());
+    if (rule.getTags().size() > 0) {
+      g.writeArrayFieldStart("tags");
+      for (Tag tag : rule.getTags()) {
+        g.writeString(tag.name());
+      }
+      g.writeEndArray();
+    }
     g.writeEndObject();
   }
 

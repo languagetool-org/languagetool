@@ -493,6 +493,12 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rulegroup id="UNIFY_PRP_DET_SUB" name="NP with preposition unify">
         <rule>
             <antipattern>
+                <!-- "Es gibt ein Sprichwort, dem zufolge der tägliche Genuss einer Mandel dem Gedächtnis förderlich sei." -->
+                <token>dem</token>
+                <token>zufolge</token>
+                <token>der</token>
+            </antipattern>
+            <antipattern>
                 <!-- "Was ist denn das für ein ungewöhnlicher Name?" -->
                 <token regexp="yes">der|die|das</token>
                 <token>für</token>
@@ -646,7 +652,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
                 <!-- "Am Strand stehen schöne Häuser"-->
                 <token postag="ADJ:.*" postag_regexp="yes"><exception regexp="yes">liebe|scheuen</exception></token>
-                <token postag="SUB:.*" postag_regexp="yes"><exception postag="ADJ:.+:SOL" postag_regexp="yes" regexp="yes">[A-Z].+</exception></token>
+                <token postag="SUB:.*" postag_regexp="yes">
+                    <exception postag="ADJ:.+:SOL" postag_regexp="yes" regexp="yes">[A-Z].+</exception>
+                    <exception postag="EIG:.+" postag_regexp="yes" />
+                </token>
             </unify>
         </pattern>
         <disambig action="unify"/>
@@ -874,6 +883,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </marker>
         </pattern>
         <disambig action="remove" postag=".+"/>
+    </rule>
+    <rule name="EIN_AM_SATZENDE" id="EIN_AM_SATZENDE">
+        <pattern case_sensitive="yes">
+            <token/>
+            <marker>
+                <token>ein</token>
+            </marker>
+            <token postag="SENT_END" regexp="yes">[\!\.\?]</token>
+        </pattern>
+        <disambig postag="ZUS"></disambig>
     </rule>
     <rule name="FIDEL" id="FIDEL">
         <pattern case_sensitive="yes">
@@ -1155,6 +1174,19 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="remove" postag="VER.*:(3|IMP):.+"/>
             <example type="ambiguous" inputform="sage[sagen/VER:1:SIN:KJ1:SFT,sagen/VER:1:SIN:PRÄ:SFT,sagen/VER:3:SIN:KJ1:SFT,sagen/VER:IMP:SIN:SFT]" outputform="sage[sagen/VER:1:SIN:KJ1:SFT,sagen/VER:1:SIN:PRÄ:SFT]">Weil sie es wollte, <marker>sage</marker> ich ihr diw Wahrheit.</example>
         </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token postag="EIG:NOM:SIN.+" postag_regexp="yes"></token>
+                <marker>
+                    <token postag="VER:.*3:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
+                </marker>
+                <token><exception>ich</exception></token>
+            </pattern>
+            <disambig action="remove" postag="VER.*:1:.+"/>
+            <example type="ambiguous" inputform="ginge[gehen/VER:1:SIN:KJ2:NON,gehen/VER:3:SIN:KJ2:NON]" outputform="ginge[gehen/VER:3:SIN:KJ2:NON]">Jeremy <marker>ginge</marker> jetzt, wenn er noch den Heimweg fände.</example>
+            <example type="untouched">Tom traue ich mehr als Maria.</example>
+        </rule>
     </rulegroup>
     <rulegroup id="TASCHENMESSER" name="Taschenmesser">
         <rule>
@@ -1339,6 +1371,38 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token spacebefore="no">/</token>
             <token spacebefore="no" min="0">/</token>
             <token spacebefore="no" regexp="yes">[a-z0-9\-]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="IPv4/6" id="IPVx">
+        <pattern>
+            <token regexp="yes">IPv[46]-(Adressen?|Adressraum(s|es)?|Verbindung|Standard|Präfix|Netzwerke?|Netzwerke[ns]|Paket(e|en|s|es)?|Einstellung|Implementierung|Header|Host|Routing|Gerät(s|es|e|en)?|Kommunikation|fähig(e|er|es|en|em)?)</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="1.x" id="ZAHL_X">
+        <pattern>
+            <!-- Versionsnummern wie "2.x" -->
+            <token regexp="yes">\d+</token>
+            <token spacebefore="no">.</token>
+            <token spacebefore="no">x</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="x-karätig" id="KARAETIG1">
+        <pattern>
+            <token regexp="yes">\d+-karätig(e[rnms]?)?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="x,y-karätig" id="KARAETIG2">
+        <pattern>
+            <token regexp="yes">\d+</token>
+            <token>,</token>
+            <token regexp="yes">\d+-karätig(e[rnms]?)?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1820,7 +1884,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Big Ben" id="BIG_BEN">
         <pattern>
             <token>Big</token>
-            <token regexp="yes">Apple|B(en|an[dg]|rother)s?|Datas?|Macs?|Points?|Pushs?|Vegans?|Business</token>
+            <token regexp="yes">Apple|B(en|an[dg]|rother)s?|Datas?|Macs?|Points?|Pushs?|Vegans?|Business|Player[sn]?|Tech|Four</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1828,7 +1892,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Chief" id="CHIEF"><!-- common job titles -->
       <pattern case_sensitive="yes">
         <token>Chief</token>
-        <token regexp="yes">Executive|Growth|Product|Technology|Technical|Digital|Design|Data|Operating|Financial|Sales|Business|Administrative|Analytics|Brand(ing)?|Information|Investment|Learning|Petty|People|Customer|Communications?|Creative|Support|Commercial|Procurement|Privacy|Project|Research|Risk|Strategy|Sales|Security|Visionary</token>
+        <token regexp="yes">Executive|Growth|Product|Technology|Technical|Digital|Design|Data|Operating|Operations?|Financial|Sales|Business|Administrative|Analytics|Brand(ing)?|Information|Investment|Learning|Petty|People|Customer|Communications?|Creative|Support|Commercial|Procurement|Privacy|Project|Research|Risk|Strategy|Sales|Security|Visionary</token>
         <token regexp="yes">Officers?</token>
       </pattern>
       <disambig action="ignore_spelling"/>
@@ -2764,7 +2828,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="per se" id="PER_SE">
         <pattern>
             <token>per</token>
-            <token regexp="yes">procura|rectum|saldo|se|pedes</token>
+            <token regexp="yes">annum|procura|rectum|saldo|se|pedes</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -3237,6 +3301,23 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
+    <rule name="School of" id="SCHOOL_OF">
+      <pattern case_sensitive="yes">
+        <token>School</token>
+        <token>of</token>
+        <token regexp="yes">Advanced|Aviation|Law|Medicine</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Doktortitel" id="PHD">
+      <pattern case_sensitive="yes">
+        <token>Dr</token>
+        <token spacebefore="no">.</token>
+        <token regexp="yes">iur|med|oec|phil|rer|theol</token>
+        <token spacebefore="no">.</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="68ern" id="ZAHL_ERN">
       <pattern case_sensitive="yes">
         <token regexp="yes">\d{2,4}ern?</token>
@@ -3447,6 +3528,13 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
+    <rule name="ARCHITECT" id="ARCHITECT"><!-- common job titles -->
+      <pattern case_sensitive="yes">
+        <token regexp="yes">Frontend|Backend|Software|Hardware</token>
+        <token regexp="yes">Architects?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="Director of XXX" id="DIRECTOR_OF"><!-- common job title -->
       <pattern case_sensitive="yes">
         <token>Director</token>
@@ -3486,7 +3574,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="SOCIAL" id="SOCIAL">
       <pattern case_sensitive="yes">
         <token>Social</token>
-        <token regexp="yes">Collaboration|Engineerings?|Learnings?|Networks?|Software|Sponsorings?|Bots?|Media|Costs?|Freezing|Responsibility|Entrepreneurships?|Taggings?|Business|Gamings?|Payments?|Security|Web|Distancings?|Marketings?</token>
+        <token regexp="yes">Collaboration|Engineerings?|Learnings?|Networks?|Software|Sponsorings?|Bots?|Media|Costs?|Freezing|Responsibility|Entrepreneurships?|Taggings?|Business|Gamings?|Payments?|Security|Web|Distancings?|Marketings?|Franchisings?|Investments?</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
@@ -3528,13 +3616,13 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <!-- https://de.wikipedia.org/wiki/Black -->
             <pattern case_sensitive="yes">
                 <token>Black</token>
-                <token regexp="yes">Fridays?|Mondays?|Rocks?|Angels?|Box(es)?|Panthers?|Power|Holes?|Tongues?|Mail|Metal|Jack|Sabbaths?|Lives|Site|Lakes?|Paintings?|Forests?|Mirrors?|Butlers?|Honeys?|Edition|Barbies?|Widows?|Tie|Hawk|Krims?|Hats?</token>
+                <token regexp="yes">Fridays?|Mondays?|Thursdays?|Rocks?|Angels?|Box(es)?|Panthers?|Power|Holes?|Tongues?|Mail|Metal|Jack|Sabbaths?|Lives|Site|Lakes?|Paintings?|Forests?|Mirrors?|Butlers?|Honeys?|Edition|Barbies?|Widows?|Tie|Hawk|Krims?|Hats?|Swan</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token regexp="yes">Adjutant|Montana|Jack</token>
+                <token regexp="yes">Adjutant|Montana|Jack|Jacob|Manhattan</token>
                 <token regexp="yes">Blacks?</token>
             </pattern>
             <disambig action="ignore_spelling"/>
@@ -3768,7 +3856,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
     <rule name="DAY" id="DAY">
         <pattern case_sensitive="yes">
-            <token regexp="yes">Boxing|Welcome|Prime</token>
+            <token regexp="yes">Boxing|Welcome|Prime|Community</token>
             <token regexp="yes">Days?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -3942,6 +4030,28 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern case_sensitive="yes">
             <token>İlkay</token>
             <token regexp="yes">Gündoğans?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="IP_V_6" name="Ignore spelling of 'IPv6'">
+        <pattern>
+            <token case_sensitive="yes" regexp="yes">IPv[46]</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="GRÜNE_NEUNE" name="Grüne Neune">
+        <pattern>
+            <token>grüne</token>
+            <marker><token case_sensitive="yes">Neune</token></marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="ALLE_NEUNE" name="Alle neune">
+        <pattern>
+            <token>alle</token>
+            <marker><token case_sensitive="yes">neune</token></marker>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

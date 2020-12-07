@@ -94,6 +94,18 @@ USA
 <rules lang="en-GB" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category id="AMERICAN_ENGLISH" name="American English phrases" type="locale-violation">
+        <rule id="DRIVERS_LICENSE" name="driver's licence/driving licence">
+            <pattern>
+                <token>driver</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>s</token>
+                <token regexp="yes">licences?</token>
+            </pattern>
+            <message>This term is chiefly North American English. Consider a replacement.</message>
+            <suggestion>driving \4</suggestion>
+            <url>https://www.lexico.com/definition/driving_licence</url>
+            <example correction="driving licence">I've got a full, clean <marker>driver's licence</marker>.</example>
+        </rule>
         <rule id="EGGPLANT" name="eggplant/aubergine">
             <pattern>
                 <token regexp="yes">eggplants?</token>
@@ -321,11 +333,11 @@ USA
             <url>http://dialectblog.com/2012/07/26/take-have-a-bath/</url>
             <short>Collocation error</short>
             <example correction="had">John <marker>took</marker> a nap after lunch.</example>
-            <example correction="have|haven">You can't <marker>take</marker> your bath now because I'm cleaning the bathroom.</example><!-- LT suggestion is not correct. -->
+            <example correction="have">You can't <marker>take</marker> your bath now because I'm cleaning the bathroom.</example><!-- LT suggestion is not correct. -->
             <example correction="have">Mary will <marker>take</marker> her vacation in Paris.</example>
             <example correction="having">I was thinking about <marker>taking</marker> a rest, but I decided to complete the work.</example>
             <example correction="having">While I was <marker>taking</marker> a bath, I thought about how to lay the bedroom carpet.</example>
-            <example correction="have|haven">Does she <marker>take</marker> a bath in her vacation home or only a shower?</example>
+            <example correction="have">Does she <marker>take</marker> a bath in her vacation home or only a shower?</example>
             <example correction="had">Who <marker>took</marker> a bath in the morning?</example>
             <example>John <marker>had</marker> a nap after lunch.</example>
         </rule>
@@ -343,7 +355,7 @@ USA
             <pattern>
                 <token>anymore</token>
             </pattern>
-            <message>In British English, the spelling '\1' is sometimes considered incorrect. Did you mean <suggestion>any more</suggestion>.</message>
+            <message>In British English, the spelling '\1' is sometimes considered incorrect. Did you mean <suggestion>any more</suggestion>?</message>
             <url>https://www.collinsdictionary.com/dictionary/english/anymore</url>
             <short>AmE/BrE: anymore/any more</short>
             <example correction="any more">I don't want to do this <marker>anymore</marker>.</example>
@@ -601,4 +613,20 @@ USA
             </rule>
         </rulegroup>
     </category>
+
+    <category id="STYLE" name="Style" type="style">
+
+        <rule id="AWAKED" name="awaked (awoke, awoken)"><!-- Premium #1795 -->
+            <pattern>
+                <token>awaked</token>
+            </pattern>
+            <message>Although '\1' is British English, the usual spelling is <suggestion>awoke</suggestion> (past tense) or <suggestion>awoken</suggestion> (past participle).</message>
+            <url>https://www.collinsdictionary.com/dictionary/english/awaked</url>
+            <short>Style: unusual spelling</short>
+            <example correction="awoke|awoken">Such a noise might have <marker>awaked</marker> the dead.</example>
+            <example>Such a noise might have <marker>awoken</marker> the dead.</example>
+        </rule>
+
+    </category>
+
 </rules>

@@ -72,7 +72,7 @@ public class SimpleReplaceBalearicRule extends AbstractSimpleReplaceRule {
   
   @Override
   public String getMessage(String tokenStr,List<String> replacements) {
-    return "Possible error ortogràfic (forma verbal vàlida en la variant balear).";
+    return "Possible error ortogràfic (forma verbal vàlida en la varietat balear).";
   }
   
   @Override

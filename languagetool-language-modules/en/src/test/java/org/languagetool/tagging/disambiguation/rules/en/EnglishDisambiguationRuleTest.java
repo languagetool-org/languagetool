@@ -66,10 +66,7 @@ public class EnglishDisambiguationRuleTest {
         "/[null]SENT_START He/[he]PRP  /[null]null is/[be]VBZ  /[null]null to/[to]IN|to/[to]TO  /[null]null blame/[blame]JJ|blame/[blame]NN:UN|blame/[blame]VB|blame/[blame]VBP ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disamb2);
     TestTools.myAssert("He is well known.",
-        "/[null]SENT_START He/[he]PRP  /[null]null is/[be]VBZ  /[null]null well/[well]RB  /[null]null known/[known]JJ ./[.]PCT", 
-        tokenizer, sentenceTokenizer, tagger, disambiguator);
-    TestTools.myAssert("He is well known.",
-        "/[null]SENT_START He/[he]PRP  /[null]null is/[be]VBZ  /[null]null well/[well]NN|well/[well]RB|well/[well]UH|well/[well]VB|well/[well]VBP  /[null]null known/[know]VBN|known/[known]NN ./[null]null", 
+        "/[null]SENT_START He/[he]PRP  /[null]null is/[be]VBZ  /[null]null well/[well]JJ|well/[well]NN|well/[well]RB|well/[well]UH|well/[well]VB|well/[well]VBP  /[null]null known/[know]VBN|known/[known]NN ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disamb2);
     TestTools.myAssert("The quid pro quo.",
         "/[null]SENT_START The/[the]DT  /[null]null quid/[quid pro quo]NN  /[null]null pro/[quid pro quo]NN  /[null]null quo/[quid pro quo]NN ./[.]PCT", 

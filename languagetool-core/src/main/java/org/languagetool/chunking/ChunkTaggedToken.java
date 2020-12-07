@@ -37,17 +37,17 @@ public class ChunkTaggedToken {
   /**
    * @param readings may be null, caused by differences in tokenization we don't always have a 1:1 mapping
    */
-  ChunkTaggedToken(String token, List<ChunkTag> chunkTags, AnalyzedTokenReadings readings) {
+  public ChunkTaggedToken(String token, List<ChunkTag> chunkTags, AnalyzedTokenReadings readings) {
     this.token = Objects.requireNonNull(token);
     this.chunkTags = Objects.requireNonNull(chunkTags);
     this.readings = readings;
   }
 
-  String getToken() {
+  public String getToken() {
     return token;
   }
 
-  List<ChunkTag> getChunkTags() {
+  public List<ChunkTag> getChunkTags() {
     return chunkTags;
   }
 
@@ -55,7 +55,7 @@ public class ChunkTaggedToken {
    * @return readings or {@code null}
    */
   @Nullable
-  AnalyzedTokenReadings getReadings() {
+  public AnalyzedTokenReadings getReadings() {
     return readings;
   }
 

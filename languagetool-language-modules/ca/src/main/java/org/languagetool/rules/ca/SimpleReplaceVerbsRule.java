@@ -154,6 +154,16 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
               }
             }
           }
+          if (analyzedTokenReadings == null && lexeme.endsWith("g")) {
+            infinitive = lexeme.concat("uir");
+            if (wrongWords.containsKey(infinitive)) {
+              List<String> wordAsArray = Arrays.asList("serv".concat(desinence)); // servir
+              List<AnalyzedTokenReadings> analyzedTokenReadingsList = tagger.tag(wordAsArray);
+              if (analyzedTokenReadingsList.get(0).getAnalyzedToken(0).getPOSTag() != null) {
+                analyzedTokenReadings = analyzedTokenReadingsList.get(0);
+              }
+            }
+          }
           if (analyzedTokenReadings == null) {
             infinitive = lexeme.concat("èixer");
             if (wrongWords.containsKey(infinitive)) {

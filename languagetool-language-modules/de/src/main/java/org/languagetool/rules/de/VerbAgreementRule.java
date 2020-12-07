@@ -207,6 +207,12 @@ public class VerbAgreementRule extends TextLevelRule {
      token("sie"),
      token("hätte"),
      token("ich")
+    ),
+    Arrays.asList( // Geh du mal!
+      pos(JLanguageTool.SENTENCE_START_TAGNAME),
+      posRegex("VER:IMP:SIN.+"),
+      csToken("du"),
+      new PatternTokenBuilder().csToken("?").negate().build()
     )
   );
 
@@ -297,7 +303,7 @@ public class VerbAgreementRule extends TextLevelRule {
       }
       partialSentence = new AnalyzedSentence(Arrays.copyOfRange(tokens, idx, tokens.length));
       ruleMatches.addAll(match(partialSentence, pos));
-      pos += sentence.getText().length();
+      pos += sentence.getCorrectedTextLength();
     }
     return toRuleMatchArray(ruleMatches);
   }
@@ -389,12 +395,14 @@ public class VerbAgreementRule extends TextLevelRule {
       
     // "ich", "du", and "wir" must be subject (no other interpretation possible)
     // "ich", "du", "er", and "wir" must have a matching verb
-    
+
     if (posVer1Sin != -1 && posIch == -1 && !isQuotationMark(tokens[posVer1Sin-1])) { // 1st pers sg verb but no "ich"
       ruleMatches.add(ruleMatchWrongVerb(tokens[posVer1Sin], pos, sentence));
     } else if (posIch > 0 && !isNear(posPossibleVer1Sin, posIch) // check whether verb next to "ich" is 1st pers sg
-               && (tokens[posIch].getToken().equals("ich") || tokens[posIch].getStartPos() <= 1) // ignore "lyrisches Ich" etc.
-               && (!isQuotationMark(tokens[posIch-1])  || posIch < 3 || (posIch > 1 && tokens[posIch-2].getToken().equals(":")))) {
+               && (tokens[posIch].getToken().equals("ich") || tokens[posIch].getStartPos() <= 1 ||
+                   (tokens[posIch].getToken().equals("Ich") && posIch >= 2 && tokens[posIch-2].getToken().equals(":")) ||
+                   (tokens[posIch].getToken().equals("Ich") && posIch >= 1 && tokens[posIch-1].getToken().equals(":"))) // ignore "lyrisches Ich" etc.
+               && (!isQuotationMark(tokens[posIch-1]) || posIch < 3 || (posIch > 1 && tokens[posIch-2].getToken().equals(":")))) {
       int plus1 = ((posIch + 1) == tokens.length) ? 0 : +1; // prevent posIch+1 segfault
       BooleanAndFiniteVerb check = verbDoesMatchPersonAndNumber(tokens[posIch - 1], tokens[posIch + plus1], "1", "SIN", finiteVerb);
       if (!check.verbDoesMatchPersonAndNumber && !nextButOneIsModal(tokens, posIch) && !"äußerst".equals(check.finiteVerb.getToken())) {

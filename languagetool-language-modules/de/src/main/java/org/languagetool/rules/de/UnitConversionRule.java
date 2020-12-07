@@ -123,7 +123,7 @@ public class UnitConversionRule extends AbstractUnitConversionRule {
   protected String getShortMessage(Message message) {
     switch(message) {
       case CHECK:
-        return "Falsche Umrechung. Automatisch korrigieren?";
+        return "Falsche Umrechnung. Automatisch korrigieren?";
       case SUGGESTION:
         return "Metrisches Äquivalent hinzufügen?";
       case CHECK_UNKNOWN_UNIT:

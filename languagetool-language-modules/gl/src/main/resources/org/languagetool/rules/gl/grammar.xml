@@ -1105,7 +1105,7 @@
     <!-- Localized from German by Tiago F. Santos, Portuguese rule, 2017-09-29 -->
     <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/simbolos-de-unidades/11572</url TODO localize -->
     <rule>
-      <regexp case_sensitive='yes'>(\-?[0-9]+[0-9,\.]*(°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))\b</regexp>
+      <regexp case_sensitive='yes'>(\-?[0-9]+[0-9,\.]{0,10}(°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))\b</regexp>
       <message>Debe dar un espazo entre o valor e a unidade de medida: <suggestion><match no="1" regexp_match="((\-)?[0-9]+[0-9,.]*{1,})" regexp_replace="$1 "/></suggestion></message>
     <!-- url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/simbolos-de-unidades/11572</url TODO localize -->
       <example correction="25 °C">Fan <marker>25°C</marker>.</example>
@@ -1131,7 +1131,7 @@
       <example>jbo:1901moi</example>
     </rule>
     <rule>
-      <regexp>((\-)?[0-9]+[0-9.,]*{1,}) (°[^CFK])</regexp>
+      <regexp>((\-)?[0-9]+[0-9.,]{1,10}) (°[^CFK])</regexp>
       <message>Non existe espaçamento a preceder o símbolo de grao. Utilice <suggestion>\1°</suggestion> ou adicione a unidade de medida térmica (p.ex. <suggestion>\1 °C</suggestion>).</message>
       <example correction="25°|25 °C">O ángulo é <marker>25 ° </marker></example>
       <example correction="-25,5°|-25,5 °C">Fan <marker>-25,5 ° </marker>de temperatura.</example>
@@ -1140,7 +1140,7 @@
       <example correction="-25°|-25 °C">Fan <marker>-25 ° </marker>de temperatura.</example>
     </rule>
     <rule>
-      <regexp>((\-)?[0-9]+[0-9.,]{1,}) (″)</regexp>
+      <regexp>((\-)?[0-9]+[0-9.,]{1,10}) (″)</regexp>
       <message>O sinal de segundos (\2) non é espaçado.</message>
         <suggestion>\1\2\3</suggestion>
       <example>3°14′ 45,54″</example>
@@ -4904,7 +4904,7 @@
     </rule -->
 
  </category>
- 
+
  <category id='DEVELOPMENT' name="Desenvolvemento" type="grammar" default='off'>
 
     <rule id="UNKNOWN_WORD" name="Desenvolvemento: palabra sen POS">

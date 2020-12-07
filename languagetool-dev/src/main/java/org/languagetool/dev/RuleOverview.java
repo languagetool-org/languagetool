@@ -102,7 +102,7 @@ public final class RuleOverview {
         variantsText = "<br/><span class='langVariants'>Variants for: " + String.join(", ", variants) + "</span>";
       }
       if (langSpecificWebsites.contains(langCode)) {
-        System.out.print("<td valign=\"top\"><a href=\"../" + langCode + "/\">" + lang.getName() + "</a>" + variantsText + "</td>");
+        System.out.print("<td valign=\"top\"><a href=\"https://languagetool.org/" + langCode + "/\">" + lang.getName() + "</a>" + variantsText + "</td>");
       } else {
         System.out.print("<td valign=\"top\">" + lang.getName() + " " + variantsText + "</td>");
       }
@@ -159,10 +159,10 @@ public final class RuleOverview {
       int width = (int) Math.max(commits * 0.5, 1);
       String images = "";
       if (width > 50) {
-        images += "<img title='" + commits + " commits in the last 6 months' src='../images/bar-end.png' width='22' height='10'/>";
+        images += "<img title='" + commits + " commits in the last 6 months' src='images/bar-end.png' width='22' height='10'/>";
         width = 50;
       }
-      images += "<img title='" + commits + " commits in the last 6 months' src='../images/bar.png' width='" + width + "' height='10'/>";
+      images += "<img title='" + commits + " commits in the last 6 months' src='images/bar.png' width='" + width + "' height='10'/>";
       System.out.print("<td valign=\"top\" align=\"right\"><span style='display:none'>" + commits + "</span>" + images + "</td>");
       
       // maintainer information:
@@ -170,7 +170,7 @@ public final class RuleOverview {
       String maintainerText;
       boolean greyOutMaintainer = false;
       if (lang.getMaintainedState() != LanguageMaintainedState.ActivelyMaintained) {
-        maintainerText = "<span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for maintainer</a></span> - ";
+        maintainerText = "<span class='maintainerNeeded'><a href='https://dev.languagetool.org/tasks-for-language-maintainers'>Looking for maintainer</a></span> - ";
         greyOutMaintainer = true;
       } else {
         maintainerText = "";

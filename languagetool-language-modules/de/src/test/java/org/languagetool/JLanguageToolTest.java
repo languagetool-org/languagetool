@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.junit.Test;
+import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 
 public class JLanguageToolTest {
@@ -68,6 +69,18 @@ public class JLanguageToolTest {
     // Juxtaposed errors in "TRGS - Technische" should not be removed.
     List<RuleMatch> matches = tool.check("TRGS - Technische Regeln für Gefahrstoffe");
     assertEquals(3, matches.size());
+  }
+  
+  @Test
+  public void testAdvancedTypography() {
+    Language lang = new GermanyGerman();
+    assertEquals(lang.toAdvancedTypography("Das ist..."), "Das ist…");
+    assertEquals(lang.toAdvancedTypography("Meinten Sie \"entschieden\" oder \"entscheidend\"?"), "Meinten Sie „entschieden“ oder „entscheidend“?");
+    assertEquals(lang.toAdvancedTypography("Meinten Sie \'entschieden\' oder \'entscheidend\'?"), "Meinten Sie ‚entschieden‘ oder ‚entscheidend‘?");
+    
+    assertEquals(lang.toAdvancedTypography("z. B."), "z.\u00a0B.");
+    assertEquals(lang.toAdvancedTypography("z.B."), "z.\u00a0B.");
+    
   }
   
   

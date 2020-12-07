@@ -84,6 +84,33 @@ public class MixedAlphabetsRuleTest {
     assertEquals("Вжито кириличну літеру замість латинської", matches[0].getMessage());
     assertEquals("I", matches[0].getSuggestedReplacements().get(0));
 
+    matches = rule.match(langTool.getAnalyzedSentence("сибірську колекцію Петра І.\n\n Всім")); // cyrillic І
+    assertEquals(1, matches.length);
+    assertEquals("Вжито кириличну літеру замість латинської", matches[0].getMessage());
+    assertEquals("I.", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(langTool.getAnalyzedSentence("Миколая І.")); // cyrillic І
+    assertEquals(1, matches.length);
+    assertEquals("Вжито кириличну літеру замість латинської", matches[0].getMessage());
+    assertEquals("I.", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(langTool.getAnalyzedSentence("У І кварталі")); // cyrillic І
+    assertEquals(1, matches.length);
+    assertEquals("Вжито кириличну літеру замість латинської", matches[0].getMessage());
+    assertEquals("I", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(langTool.getAnalyzedSentence("ЗА І ПРОТИ")); // cyrillic І
+    assertEquals(0, matches.length);
+
+    // ambiguous without semantics:
+    // російський хемік Александр І. Опарін (1894–1980)
+    
+    matches = rule.match(langTool.getAnalyzedSentence("Ленін В. І."));
+    assertEquals(0, matches.length);
+
+    matches = rule.match(langTool.getAnalyzedSentence("Тому І.    Вишенський радить "));
+    assertEquals(0, matches.length);
+
     matches = rule.match(langTool.getAnalyzedSentence("у І ст.")); // cyrillic І
     assertEquals(1, matches.length);
     assertEquals("Вжито кириличну літеру замість латинської", matches[0].getMessage());
@@ -139,10 +166,18 @@ public class MixedAlphabetsRuleTest {
     assertEquals(1, matches.length);
     assertEquals("Вжито кириличну літеру замість латинської", matches[0].getMessage());
     assertEquals("0,6°C", matches[0].getSuggestedReplacements().get(0));
-
-
-
-    
   }
 
+  @Test
+  public void testCombiningChars() throws IOException {
+    final MixedAlphabetsRule rule = new MixedAlphabetsRule(TestTools.getMessages("uk"));
+    final JLanguageTool langTool = new JLanguageTool(new Ukrainian());
+
+    // й and ї are done via combining characters: и + U+0306, ї + U+308
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Білоруський - українці"));
+    assertEquals(2, matches.length);
+    assertEquals("Білоруський", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("українці", matches[1].getSuggestedReplacements().get(0));
+  }
+  
 }

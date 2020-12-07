@@ -41,6 +41,8 @@ public class MorfologikSpanishSpellerRuleTest {
     
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hagámosle, deme, démelo, europeízate, homogenéizalo.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Veíanse")).length); //This is archaic
+
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("En la p. 25, pp. 33-45. Ctrl+A")).length);
     
     // ignore tagged words not in the speller dictionary ("anillos")
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Del libro de los cinco anillos")).length);
@@ -94,6 +96,9 @@ public class MorfologikSpanishSpellerRuleTest {
     
     matches = rule.match(langTool.getAnalyzedSentence("finga"));
     assertEquals("finja", matches[0].getSuggestedReplacements().get(0));
+    
+    matches = rule.match(langTool.getAnalyzedSentence("esque"));
+    assertEquals("es que", matches[0].getSuggestedReplacements().get(0));
     
     //currencies
     matches = rule.match(langTool.getAnalyzedSentence("$100"));

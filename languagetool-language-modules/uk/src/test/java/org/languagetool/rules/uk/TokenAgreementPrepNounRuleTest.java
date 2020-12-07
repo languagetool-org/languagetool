@@ -19,6 +19,7 @@
 package org.languagetool.rules.uk;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -70,6 +71,7 @@ public class TokenAgreementPrepNounRuleTest {
 
     assertEmptyMatch("піти в президенти");
     assertEmptyMatch("піти межі люди");
+    assertEmptyMatch("вивів в люде");
 
     assertEmptyMatch("що то була за людина");
     assertEmptyMatch("що за людина");
@@ -89,7 +91,6 @@ public class TokenAgreementPrepNounRuleTest {
 
     assertEquals(1, ruleMatch("що, незважаючи стислі терміни візиту").length);
 
-    //TODO:
     assertEmptyMatch("залежно що вважати перемогою");
 
     //TODO: temporary until we have a better logic
@@ -98,7 +99,6 @@ public class TokenAgreementPrepNounRuleTest {
 
     assertEmptyMatch("окрім як українці");
     assertEmptyMatch("за двісті метрів");
-    assertEmptyMatch("переходить у Фрідріх Штрассе");
     assertEmptyMatch("від мінус 1 до плюс 1");
     assertEmptyMatch("до мінус сорока град");
     assertEmptyMatch("до мінус шістдесяти");
@@ -143,6 +143,20 @@ public class TokenAgreementPrepNounRuleTest {
     assertEquals(3, matches[0].getFromPos());
     assertEquals(9, matches[0].getToPos());
     assertEquals(Arrays.asList("нервах", "нерви"), matches[0].getSuggestedReplacements());
+
+    matches = ruleMatch("по швидко напруженим рукам");
+    // check match positions:
+    assertEquals(1, matches.length);
+
+    matches = ruleMatch("до не властиву");
+    assertEquals(1, matches.length);
+
+    matches = ruleMatch("до не дуже властиву");
+    assertEquals(1, matches.length);
+
+    assertEmptyMatch("На сьогодні рослинна їжа");
+    
+    
     
     assertEquals(1, ruleMatch("в п'ятьом людям").length);
     assertEquals(1, ruleMatch("в понад п'ятьом людям").length);
@@ -173,25 +187,23 @@ public class TokenAgreementPrepNounRuleTest {
     assertEmptyMatch("на Кульчицької");
     assertEmptyMatch("на Правди");
     assertEmptyMatch("на Ломоносова");
+    assertEmptyMatch("переходить у Фрідріх Штрассе");
     // invert
     assertEmptyMatch("як на Кучми іменини");
     // ім'я, прізвище
     assertEmptyMatch("змінив ім'я на Фріц Ланг");
     assertEmptyMatch("Бо заміна прізвища Горбатий на Щербань передбачає i зміну ситуації.");
 //    assertEmptyMatch("поміняв Юрій Володимирович на Георгій Вурдалакович.");
+//  assertEmptyMatch("змінили з № 20 на 20-а");
+//  assertEmptyMatch("парні номери від 84-а до 104 включно");
 
     assertEmptyMatch("З одного боку на щастя сім’я Ющенків нарешті з’їжджає з державної дачі.");
 
-//    assertEmptyMatch("змінили з № 20 на 20-а");
-//    assertEmptyMatch("парні номери від 84-а до 104 включно");
     
     assertEmptyMatch("До сьогодні українська влада намагалася");
     
-    
-    //TODO:
-//    assertEmptyMatch("Так висловлюються про екс-першого віце-спікера.");
+    assertEmptyMatch("Так висловлюються про екс-першого віце-спікера.");
 
-    
     matches = ruleMatch("спиралося на місячної давнини рішенням");
     assertEquals(1, matches.length);
 
@@ -204,9 +216,8 @@ public class TokenAgreementPrepNounRuleTest {
     matches = ruleMatch("зацікавлених у ви користанні");
     assertEquals(1, matches.length);
 
+    // TODO: ignored due to adj:v_zna "мінський"
 //    matches = ruleMatch("колега з Мінську");
-//    System.out.println(langTool.getAnalyzedSentence("колега з Мінську"));
-//    // check match positions:
 //    assertEquals(1, matches.length);
 
     matches = ruleMatch("В йому заграла кров.");
@@ -216,6 +227,9 @@ public class TokenAgreementPrepNounRuleTest {
     assertEquals(1, matches.length);
 
     matches = ruleMatch("І от «В йому заграла кров».");
+    assertEquals(1, matches.length);
+
+    matches = ruleMatch("похвалила при йому вкраїнську мову");
     assertEquals(1, matches.length);
 
     matches = ruleMatch("думає на тим, як");
@@ -237,9 +251,7 @@ public class TokenAgreementPrepNounRuleTest {
   public void testRuleFlexibleOrder() throws IOException {
 
     assertEquals(1, ruleMatch("по бодай маленьким справам").length);
-
-    // we ignore adv, otherwise logic gets too complicated
-//    assertEquals(1, ruleMatch("по смішно маленьким справам").length);
+    assertEquals(1, ruleMatch("по смішно маленьким справам").length);
 
     assertEmptyMatch("спиралося на місячної давнини рішення");
 
@@ -254,6 +266,8 @@ public class TokenAgreementPrepNounRuleTest {
     assertEmptyMatch("завдяки саме цим сімом голосам");
     assertEmptyMatch("на мохом стеленому дні");
     assertEmptyMatch("який до речі вони присягалися");
+    
+    assertEmptyMatch("на нічого не вартий папірець");
     //TODO:
 //    assertEmptyMatch("до ледве що не членства");
 
@@ -267,6 +281,13 @@ public class TokenAgreementPrepNounRuleTest {
 
     assertEmptyMatch("чи не проти я тієї церковної стройки");
     assertEmptyMatch("З точністю до навпаки ви все це побачите");
+    
+    assertEmptyMatch("Усупереч не те що лихим");
+    assertEmptyMatch("весь світ замість спершу самому засвоїти");
+    assertEmptyMatch("Йдеться про вже всім добре відому");
+    
+    assertEquals(1, ruleMatch("кинулися до мені перші з них").length);
+    assertEquals(1, ruleMatch("Замість лимону можна брати").length);
   }
 
   private RuleMatch[] ruleMatch(String text) throws IOException {
@@ -308,6 +329,26 @@ public class TokenAgreementPrepNounRuleTest {
     RuleMatch[] matches = ruleMatch(txt);
     assertEquals(0, matches.length);
 
+  }
+
+  @Test
+  public void testWithAdv() throws IOException {
+    RuleMatch[] match = ruleMatch("гречка у двічі дешевша ніж");
+    assertEquals(1, match.length);
+    assertTrue(match[0].getMessage().contains("Можливо, прийменник і прислівник"));
+  }
+  
+  @Test
+  public void testIsCapitalized() {
+    assertFalse(LemmaHelper.isCapitalized("боснія"));
+    assertTrue(LemmaHelper.isCapitalized("Боснія"));
+    assertTrue(LemmaHelper.isCapitalized("Боснія-Герцеговина"));
+    assertFalse(LemmaHelper.isCapitalized("По-перше"));
+    assertFalse(LemmaHelper.isCapitalized("ПаП"));
+    assertTrue(LemmaHelper.isCapitalized("П'ятниця"));
+    assertFalse(LemmaHelper.isCapitalized("П'ЯТНИЦЯ"));
+    assertTrue(LemmaHelper.isCapitalized("EuroGas"));
+    assertTrue(LemmaHelper.isCapitalized("Рясна-2"));
   }
 
 }

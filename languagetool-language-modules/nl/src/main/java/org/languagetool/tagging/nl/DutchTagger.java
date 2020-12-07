@@ -44,26 +44,31 @@ public class DutchTagger extends BaseTagger {
 
     for (String word : sentenceTokens) {
       boolean ignoreSpelling = false;
+      // make treatment of weird apostrophes same as in tokenizer (R. Baars, 2020-11-06)
+      String originalWord=word;
+      word=word.replace("`","'").replace("’","'").replace("‘","'").replace("´","'");
+      
       final List<AnalyzedToken> l = new ArrayList<>();
       final String lowerWord = word.toLowerCase(locale);
       final boolean isLowercase = word.equals(lowerWord);
       final boolean isMixedCase = StringTools.isMixedCase(word);
       final boolean isAllUpper = StringTools.isAllUppercase(word);
-      List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(word));
+      //List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
 
       // normal case:
       addTokens(taggerTokens, l);
       // tag non-lowercase (alluppercase or startuppercase), but not mixedcase
       // word with lowercase word tags:
       if (!isLowercase && !isMixedCase) {
-        List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(lowerWord));
+        List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(lowerWord));
         addTokens(lowerTaggerTokens, l);
       }
 
       // tag all-uppercase proper nouns
       if (l.isEmpty() && isAllUpper) {
         final String firstUpper = StringTools.uppercaseFirstChar(lowerWord);
-        List<AnalyzedToken> firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(word,
+        List<AnalyzedToken> firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(originalWord,
             getWordTagger().tag(firstUpper));
         addTokens(firstupperTaggerTokens, l);
       }
@@ -78,7 +83,7 @@ public class DutchTagger extends BaseTagger {
         word2 = word2.replaceAll("([a-z])-([a-z])", "$1$2");
         
         if (!word2.equals(word)) {
-          List<AnalyzedToken> l2 = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word2));
+          List<AnalyzedToken> l2 = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(word2));
           if (l2 != null) {
             addTokens(l2, l);
 
@@ -114,8 +119,11 @@ public class DutchTagger extends BaseTagger {
         }
       }
 
+      // set word to original
+      word = originalWord;
+      
       if (l.isEmpty()) {
-        l.add(new AnalyzedToken(word, null, null));
+        l.add(new AnalyzedToken(originalWord, null, null));
       }
 
       AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);
@@ -124,9 +132,10 @@ public class DutchTagger extends BaseTagger {
       }
 
       tokenReadings.add(atr);
+      
       pos += word.length();
     }
-
+    
     return tokenReadings;
   }
 

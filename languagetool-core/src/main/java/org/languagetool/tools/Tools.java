@@ -44,7 +44,7 @@ public final class Tools {
    */
   public static String i18n(ResourceBundle messages, String key, Object... messageArguments) {
     MessageFormat formatter = new MessageFormat("");
-    formatter.applyPattern(messages.getString(key).replaceAll("'", "''"));
+    formatter.applyPattern(messages.getString(key));
     return formatter.format(messageArguments);
   }
 
@@ -64,7 +64,7 @@ public final class Tools {
                                             List<BitextRule> bRules) throws IOException {
     AnalyzedSentence srcText = srcLt.getAnalyzedSentence(src);
     AnalyzedSentence trgText = trgLt.getAnalyzedSentence(trg);
-    List<Rule> nonBitextRules = trgLt.getAllRules();
+    List<Rule> nonBitextRules = trgLt.getAllActiveRules();
     List<RuleMatch> ruleMatches = trgLt.checkAnalyzedSentence(JLanguageTool.ParagraphHandling.NORMAL, nonBitextRules, trgText, true);
     for (BitextRule bRule : bRules) {
       RuleMatch[] curMatch = bRule.match(srcText, trgText);

@@ -42,16 +42,17 @@ public class RegexPatternRule extends AbstractPatternRule implements RuleMatcher
   private static final Pattern matchPattern = Pattern.compile("\\\\\\d");
 
   // in suggestions tokens are numbered from 1, anywhere else tokens are numbered from 0.
-  // see: http://wiki.languagetool.org/development-overview#toc17
+  // see: https://dev.languagetool.org/development-overview
   // But most of the rules tend to use 1 to refer the first capturing group, so keeping that behavior as default
   private static final int MATCHES_IN_SUGGESTIONS_NUMBERED_FROM = 0;
 
   private final Pattern pattern;
   private final int markGroup;
   private final String shortMessage;
+  private RegexRuleFilter regexFilter;
 
   public RegexPatternRule(String id, String description, String message, String shortMessage, String suggestionsOutMsg, Language language, Pattern regex, int regexpMark) {
-    super(id, description, language, regex, regexpMark);
+    super(id, description, language);
     this.message = message;
     this.pattern = regex;
     this.shortMessage = shortMessage == null ? "" : shortMessage;
@@ -61,6 +62,10 @@ public class RegexPatternRule extends AbstractPatternRule implements RuleMatcher
 
   public Pattern getPattern() {
     return pattern;
+  }
+
+  void setRegexFilter(RegexRuleFilter filter) {
+    regexFilter = filter;
   }
 
   @Override
@@ -88,7 +93,15 @@ public class RegexPatternRule extends AbstractPatternRule implements RuleMatcher
         boolean startsWithUpperCase = patternMatcher.start() == 0 && Character.isUpperCase(sentenceObj.getText().charAt(patternMatcher.start()));
         RuleMatch ruleMatch = new RuleMatch(this, sentenceObj, markStart, markEnd, patternMatcher.start(), patternMatcher.end(),
                 processedMessage, shortMessage, startsWithUpperCase, processedSuggestionsOutMsg);
-        matches.add(ruleMatch);
+        if (regexFilter != null) {
+          RegexRuleFilterEvaluator ruleFilterEvaluator = new RegexRuleFilterEvaluator(regexFilter);
+          RuleMatch filteredMatch = ruleFilterEvaluator.runFilter(getFilterArguments(), ruleMatch, sentenceObj, patternMatcher);
+          if (filteredMatch != null) {
+            matches.add(ruleMatch);
+          }
+        } else {
+          matches.add(ruleMatch);
+        }
 
         startPos = patternMatcher.end();
       } catch (IndexOutOfBoundsException e){

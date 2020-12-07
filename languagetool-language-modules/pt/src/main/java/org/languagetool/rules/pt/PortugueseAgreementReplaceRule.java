@@ -49,7 +49,7 @@ public class PortugueseAgreementReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public PortugueseAgreementReplaceRule(ResourceBundle messages) throws IOException {
+  public PortugueseAgreementReplaceRule(ResourceBundle messages) {
     super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
@@ -59,7 +59,7 @@ public class PortugueseAgreementReplaceRule extends AbstractSimpleReplaceRule {
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return PORTUGUESE_AGREEMENT_REPLACE_RULE;
   }
 
@@ -75,7 +75,7 @@ public class PortugueseAgreementReplaceRule extends AbstractSimpleReplaceRule {
   
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return tokenStr + " é uma forma do antigo acordo ortográfico. No novo acordo ortográfico, a palavra escreve-se assim: "
+    return "'" + tokenStr + "' é uma forma do antigo acordo ortográfico. No novo acordo ortográfico, a palavra escreve-se assim: "
         + String.join(", ", replacements) + ".";
   }
 

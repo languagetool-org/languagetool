@@ -57,6 +57,10 @@ public class CommaWhitespaceRuleTest {
     assertMatches("- [ ] A checkbox at GitHub", 0);
     assertMatches("- [x] A checked checkbox at GitHub", 0);
     assertMatches("A sentence 'with' ten \"correct\" examples of ’using’ quotation “marks” at «once» in it.", 0);
+    assertMatches("I'd recommend resaving the .DOC as a PDF file.", 0);
+    assertMatches("I'd recommend resaving the .mp3 as a WAV file.", 0);
+    assertMatches("I'd suggest buying the .org domain.", 0);
+    assertMatches("I live in .Los Angeles", 1);
 
     // errors:
     assertMatches("This,is a test sentence.", 1);
@@ -81,6 +85,17 @@ public class CommaWhitespaceRuleTest {
     assertEquals(6, matches[0].getToPos());
     assertEquals(11, matches[1].getFromPos());
     assertEquals(13, matches[1].getToPos());
+    
+    matches = rule.match(langTool.getAnalyzedSentence("This ,"));
+    assertEquals(1, matches.length);
+    assertEquals(",", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(langTool.getAnalyzedSentence("This ,is a test sentence."));
+    assertEquals(2, matches.length);
+    assertEquals(", ", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(langTool.getAnalyzedSentence("This , is a test sentence."));
+    assertEquals(1, matches.length);
+    assertEquals(",", matches[0].getSuggestedReplacements().get(0));
+    
 
     assertMatches("Ellipsis . . . as suggested by The Chicago Manual of Style", 3);
     assertMatches("Ellipsis . . . . as suggested by The Chicago Manual of Style", 4);

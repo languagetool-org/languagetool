@@ -38,8 +38,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
 
   private static final int maxPatterns = 7;
   private final Pattern[] patterns = new Pattern[maxPatterns];
-
-  FrenchTagger tagger;
+  private final FrenchTagger tagger;
 
   // Patterns to avoid splitting words in certain special cases
 
@@ -72,13 +71,10 @@ public class FrenchWordTokenizer extends WordTokenizer {
 
   public FrenchWordTokenizer() {
     
-    // lazy init
-    if (tagger == null) {
-      tagger = new FrenchTagger();
-    }
+    tagger = new FrenchTagger();
 
     // words not to be split
-    patterns[0] = Pattern.compile("^(rendez-vous|garde-à-vous)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    patterns[0] = Pattern.compile("^(add-on|add-ons|rendez-vous|garde-à-vous|chez-eux|chez-moi|chez-nous|chez-soi|chez-toi|chez-vous)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[1] = Pattern.compile(
         "^(c['’]|j['’]|n['’]|m['’]|t['’]|s['’]|l['’]|d['’]|qu['’]|jusqu['’]|lorsqu['’]|puisqu['’]|quoiqu['’])([^\\-]*)(-ce|-elle|-t-elle|-elles|-t-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
         Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
@@ -91,7 +87,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
         "^([^\\-]*)(-ce|-t-elle|-t-elles|-elle|-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)(-ce|-elle|-t-elle|-elles|-t-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
         Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[4] = Pattern.compile(
-        "^([^\\-]*)(-t|-m)('en|'y)$",
+        "^([^\\-]*)(-t|-m)(['’]en|['’]y)$",
         Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[5] = Pattern.compile(
         "^(.*)(-t-elle|-t-elles|-t-il|-t-ils|-t-on)$",
@@ -144,7 +140,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
             + "\u2028\u2029\u202a\u202b\u202c\u202d\u202e\u202f"
             + "\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
             + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb"
-            + "|,.;()[]{}=*#∗+×÷<>!?:~/\\\"'«»„”“‘’`´…¿¡\t\n\r-·"
+            + "|,.;()[]{}=*#∗+×÷<>!?:~/\\\"'«»„”“‘’`´…¿¡\t\n\r-·™®"
             + "\u2032", // prime...
         true);
     String s;
@@ -191,7 +187,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
           else if (s.equalsIgnoreCase("mers-cov") || s.equalsIgnoreCase("mcgraw-hill")
               || s.equalsIgnoreCase("sars-cov-2") || s.equalsIgnoreCase("sars-cov") || s.equalsIgnoreCase("ph-metre")
               || s.equalsIgnoreCase("ph-metres") || s.equalsIgnoreCase("anti-ivg") || s.equalsIgnoreCase("anti-uv")
-              || s.equalsIgnoreCase("anti-vih")) {
+              || s.equalsIgnoreCase("anti-vih") || s.equalsIgnoreCase("al-qaïda")) {
             l.add(s);
           } else {
             // if not found, the word is split

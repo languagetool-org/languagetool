@@ -22,10 +22,15 @@ import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
 import org.languagetool.rules.Example;
+import org.languagetool.rules.patterns.PatternToken;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
 
 /**
  * @since 2.7
@@ -35,6 +40,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
   private static final List<String> EXCEPTIONS = Arrays.asList(
       // Use all-lowercase, matches will be case-insensitive.
       // See https://github.com/languagetool-org/languagetool/issues/1678
+      "your (",   // ... so your (English) signature gets ...
       "your slack profile",
       "host to five",   // "... is host to five classical music orchestras"
       "had I known",
@@ -86,6 +92,17 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "good cause",
       "big butt",
       "news debate",
+      "news debates",
+      "news leader", // vs new
+      "news leaders",
+      "news teller",
+      "news tellers",
+      "news outlet",
+      "news outlets",
+      "news event",
+      "news events",
+      "news station",
+      "news stations",
       "verify you own",
       "ensure you own",
       "happy us!",
@@ -105,7 +122,6 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "let me know",
       "this way the",
       "save you money",
-      "way better",
       "so your plan",
       "the news man",
       "created us equally",
@@ -122,18 +138,6 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "he proofs",
       "he needs",
       "1 thing",
-      "way easier",
-      "way faster",
-      "way harder",
-      "way quicker",
-      "way more",
-      "way less",
-      "way outside",
-      "way before",
-      "way smaller",
-      "way bigger",
-      "way longer",
-      "way shorter",
       "I now don't",
       "once your return is",
       "can we text",
@@ -156,45 +160,79 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "on twitter", // vs in
       "enjoy us being", // vs is
       "If your use of", // vs you
-      "way too", // vs was
       "then,", // vs than
       "then?", // vs than
       "no it doesn", // vs know
+      "no it does not", // vs know
       "no it isn",
+      "no it is not",
       "no it wasn",
+      "no it was not",
       "no it hasn",
+      "no it has not",
       "no it can't",
+      "no it cannot",
+      "no it can not",
       "no it won't",
+      "no it will not",
       "no it wouldn",
+      "no it would not",
       "no it couldn",
+      "no it could not",
       "no it shouldn",
+      "no it should not",
       "no that's not", // vs know
       "provided my country",
       "no i don't",
+      "no i do not",
       "no i can't",
+      "no i cannot",
+      "no i can not",
       "no i won't",
+      "no i will not",
       "no i wasn",
+      "no i was not",
       "no i haven",
+      "no i have not",
       "no i wouldn",
+      "no i would not",
       "no i couldn",
+      "no i could not",
       "no i shouldn",
+      "no i should not",
       "no you don't",
+      "no you do not",
       "no you can't",
+      "no you cannot",
+      "no you can not",
       "no you won't",
+      "no you will not",
       "no you weren",
+      "no you were not",
       "no you haven",
+      "no you have not",
       "no you wouldn",
+      "no you would not",
       "no you couldn",
+      "no you could not",
       "no you shouldn",
+      "no you should not",
+      "no they don",
+      "no they do not",
+      "no they weren",
       "no they were not",
       "no there was no",
       "no there was not",
       "no there wasn",
       "no there is no",
       "no there is not",
+      "no there's no",
+      "no there's not",
       "no there isn",
       "no there are no",
       "no there are not",
+      "no there're no",
+      "no there're not",
       "no there aren",
       "no there were no",
       "no there were not",
@@ -202,11 +240,17 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "no this is not",
       "no that is not",
       "no we were not",
+      "no we are not",
+      "no we're not",
+      "no they're not",
+      "no they had not",
+      "no they hadn",
       "no all good",
       "no everything alright",
       "no everything good",
       "no everything fine",
       "no we don't",
+      "no dont",
       "for your recharge", // vs you
       "all you kids", // vs your
       "thanks for the patience", // vs patients
@@ -254,8 +298,6 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "[t]he", // vs the
       "the role at", // vs add
       "same false alarm", // vs some
-      "why is he relevant", // vs the
-      "why is he famous", // vs the
       "then that would", // vs than
       "was he part of", // vs the
       "is he right now", // vs the
@@ -265,16 +307,34 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "news headlines",
       "news title",
       "news titles",
+      "news article",
+      "news articles",
       "news site",
       "news sites",
       "news website",
       "news websites",
       "news channel",
       "news channels",
+      "news source",
+      "news sources",
       "news organization",
       "news organizations",
       "news organisation",
       "news organisations",
+      "news platform",
+      "news platforms",
+      "news data",
+      "the news cover",
+      "the news covers",
+      "news documentary",
+      "all the news check",
+      "all the news checked",
+      "all the news report",
+      "all the news reported",
+      "all the news mention",
+      "all the news mentioned",
+      "all the news are",
+      "news documentaries",
       "scene in a movie",
       "mr.bean", // vs been
       "mr. bean", // vs been
@@ -304,17 +364,197 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "appreciate you choosing me",
       "wand wood", // vs want
       "my order", // vs by
-      "of you being her" // vs your
+      "of you being her", // vs your
+      "ad free",
+      "ad rates",
+      "your call is", // vs you
+      "you want do", // vs your ("want do" is caught by MISSING_TO_BEFORE_A_VERB)
+      "on his butt",
+      "message us today",
+      "sent you the invite",
+      "appreciate you fowarding",
+      "appreciate you cooking",
+      "appreciate you sending",
+      "appreciate you talking",
+      "appreciate you taking",
+      "that now means",
+      "fiscal school", // vs physical
+      "covid-19 cases", // vs causes
+      "corona cases", // vs causes
+      "your need can", // vs you
+      "know the customer", // vs now
+      "know what type", // vs now
+      "your pulled pork", // vs you
+      "dear management", // vs deer
+      "way in advance", // vs was
+      "that way", // vs was
+      "way back when", // vs was
+      "way back then", // vs was
+      "way much more", // vs was
+      "the other way",
+      "way to much", // different error (already caught)
+      "your to do", // vs you
+      "when your zoom", // vs you
+      "once your zoom", // vs you
+      "if your zoom", // vs you
+      "keep you day and night", // vs your
+      "your hunt for", // vs you
+      "if your bolt fits", // vs you
+      "the go to", // vs to (caught by GO_TO_HYPHEN)
+      "text my number", // vs by
+      "why was he", // vs the
+      "what was he", // vs the
+      "was he sick", // vs the
+      "why is he", // vs the
+      "what is he", // vs the
+      "is he happy", // vs the
+      "he kind of", // vs the
+      "logged out", // vs our
+      "signed out", // vs our
+      "same seems to", // vs some
+      "am I cold", // vs could
+      "is he cold", // vs could
+      "was he cold", // vs could
+      "is she cold", // vs could
+      "was she cold", // vs could
+      "is it cold", // vs could
+      "was it cold", // vs could
+      "are you cold", // vs could
+      "were you cold", // vs could
+      "are they cold", // vs could
+      "were they cold", // vs could
+      "are we cold", // vs could
+      "were we cold", // vs could
+      "us three", // vs is
+      "way to go", // vs was
+      "way won't", // was
+      "and now him", // vs know
+      "and now us,", // vs is
+      "to control us", // vs is
+      "are way not", // vs was
+      "the invite", // vs to invite
+      "is there way to", // vs was
+      "a way doing", // vs was
+      "way different" // vs was
     );
-    
+
+  private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(
+      // "Those wee changes made a big difference"
+      tokenRegex("the|these|those"),
+      token("wee"),
+      posRegex("NNS")
+    ),
+    Arrays.asList(
+      // way vs was: This way a person could learn ....
+      token("this"),
+      token("way"),
+      posRegex("DT|PRP\\$"),
+      posRegex("NN.*")
+    ),
+    Arrays.asList(
+      // way vs was: This way a person could learn ....
+      token("way"),
+      token("too"),
+      posRegex("JJ")
+    ),
+    Arrays.asList(
+      // "from ... to ..." (to/the)
+      posRegex("NNP|UNKNOWN"),
+      tokenRegex("to"),
+      posRegex("NNP|UNKNOWN")
+    ),
+    Arrays.asList(
+      // "Meltzer taught Crim for Section 5 last year." (taught/thought)
+      // "Sami threw Layla down and started to beat her.""	(threw/through)
+      posRegex("NNP|UNKNOWN"),
+      tokenRegex("taught|threw"),
+      posRegex("NNP|UNKNOWN")
+    ),
+    Arrays.asList(
+      // "Were you never taught to say your prayers?" (taught/thought)
+      token("taught"),
+      token("to"),
+      tokenRegex("say|do|make|be|become|treat")
+    ),
+    Arrays.asList(
+      // "way easier" (was/way)
+      token("way"),
+      posRegex("JJR|RBR")
+    ),
+    Arrays.asList(
+      // "He acts way different" (was/way)
+      posRegex("VB.*"),
+      token("way"),
+      token("different")
+    ),
+    Arrays.asList(
+      // "way much easier" (was/way)
+      token("way"),
+      token("much"),
+      posRegex("JJR")
+    ),
+    Arrays.asList(
+      // "way out of" (was/way)
+      token("way"),
+      token("out"),
+      tokenRegex("of|in|on")
+    ),
+    Arrays.asList(
+      // "way to long" (was/way)
+      token("way"),
+      token("to"),
+      posRegex("JJ")
+    ),
+    Arrays.asList(
+      // "He was there way before" (was/way)
+      token("way"),
+      tokenRegex("before|after|outside|inside|back")
+    ),
+    Arrays.asList(
+      // "In a logic way" (was/way)
+      token("in"),
+      tokenRegex("an?"),
+      posRegex("JJ"),
+      token("way")
+    ),
+    Arrays.asList(
+      // They "awarded" us a contract ...
+      posRegex("VB.*"),
+      tokenRegex("[\"”“]"),
+      token("us") // vs "is"
+    ),
+    Arrays.asList(
+      // Text us at (410) 4535
+      tokenRegex("message(s|d)?|text(s|ed)?|DM"),
+      token("us"), // vs "is"
+      posRegex("PCT|IN|TO|CC|DT")
+    ),
+    Arrays.asList(
+      // Clinton will pay us based on actuals.
+      posRegex("VB.*"),
+      token("us"), // vs "is"
+      tokenRegex("based|depending"),
+      token("on")
+    ),
+    Arrays.asList(
+      // How Apple and FB do events:
+      token("how"),
+      posRegex("NNP"),
+      tokenRegex("and|&"),
+      posRegex("NNP"),
+      token("do") // vs 'to'
+    )
+  );
+
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     this(messages, languageModel, language, 3);
   }
 
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams) {
-    super(messages, languageModel, language, grams, EXCEPTIONS);
-    addExamplePair(Example.wrong("I did not <marker>now</marker> where it came from."),
-                   Example.fixed("I did not <marker>know</marker> where it came from."));
+    super(messages, languageModel, language, grams, EXCEPTIONS, ANTI_PATTERNS);
+    addExamplePair(Example.wrong("Don't forget to put on the <marker>breaks</marker>."),
+                   Example.fixed("Don't forget to put on the <marker>brakes</marker>."));
   }
 
   @Override

@@ -26,7 +26,6 @@ import org.languagetool.language.GermanyGerman;
 import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
-import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,12 +39,24 @@ import static org.languagetool.tools.StringTools.*;
  */
 public class ProhibitedCompoundRule extends Rule {
 
-  /** @since 4.3 */
+  /**
+   * @since 4.3
+   * @deprecated each pair has its own id since LT 5.1
+   */
   public static final String RULE_ID = "DE_PROHIBITED_COMPOUNDS";
   // have objects static for better performance (rule gets initialized for every check)
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("traum", "Erleben während des Schlafes", "trauma", "Verletzung"),
+          new Pair("name", "Bezeichnung (z.B. 'Vorname')", "nahme", "zu 'nehmen' (z.B. 'Teilnahme')"),
+          new Pair("bart", "Haarbewuchs im Gesicht", "dart", "Wurfpfeil"),
+          new Pair("hart", "fest", "dart", "Wurfpfeil"),
+          new Pair("speiche", "Verbindung zwischen Nabe und Felge beim Rad", "speicher", "Lagerraum"),
+          new Pair("speichen", "Verbindung zwischen Nabe und Felge beim Rad", "speicher", "Lagerraum"),
+          new Pair("kart", "Gokart (Fahrzeug)", "karte", "Fahrkarte, Postkarte, Landkarte, ..."),
+          new Pair("karts", "Kart = Gokart (Fahrzeug)", "karte", "Fahrkarte, Postkarte, Landkarte, ..."),
+          new Pair("kurz", "Gegenteil von 'lang'", "kur", "medizinische Vorsorge und Rehabilitation"),
           new Pair("kiefer", "knöcherner Teil des Schädels", "kiefern", "Kieferngewächse (Baum)"),
           new Pair("gel", "dickflüssige Masse", "geld", "Zahlungsmittel"),
           new Pair("flucht", "Entkommen, Fliehen", "frucht", "Ummantelung des Samens einer Pflanze"),
@@ -86,10 +97,26 @@ public class ProhibitedCompoundRule extends Rule {
   private static LinguServices linguServices;
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<String> blacklistRegex = Arrays.asList(
+    "gra(ph|f)ische?",  // kosmografisch etc.
+    "gra(ph|f)ische[rsnm]",  // kosmografischen etc.
+    "gra(ph|f)s?$",  // Elektrokardiograph
+    "gra(ph|f)en",  // Elektrokardiographen
+    "gra(ph|f)ik",  // Kunstgrafik
     "gra(ph|f)ie",  // Geographie
     "Gra(ph|f)it"   // Grafit/Graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Schutzname",
+          "Schutznamen",
+          "Gebrauchsname",
+          "Gebrauchsnamen",
+          "Erbname",
+          "Erbnamen",
+          "Datenname",
+          "Datennamen",
+          "Geldnahme",
+          "Geldnahmen",
+          "Kreispokal",
           "Gründertag",
           "Korrekturlösung",
           "Regelschreiber",
@@ -98,8 +125,6 @@ public class ProhibitedCompoundRule extends Rule {
           "Brandschutz",
           "Testbahn",
           "Testbahnen",
-          "Reiszwecke",
-          "Reiszwecken",
           "Startglocke",
           "Startglocken",
           "Ladepunkte",
@@ -123,7 +148,7 @@ public class ProhibitedCompoundRule extends Rule {
           "Ermittlungsgesetz",
           "Lindeverfahren",
           "Stromspender",
-          "Turmvverlag",  // eigtl. Turm-Verlag, muss hier als Ausnahme aber so stehen
+          "Turmverlag",  // eigtl. Turm-Verlag, muss hier als Ausnahme aber so stehen
           "Bäckerlunge",
           "Reisbeutel",
           "Reisbeuteln",
@@ -155,7 +180,7 @@ public class ProhibitedCompoundRule extends Rule {
           "Lagekosten",
           "hineinfeiern",
           "Maskenhersteller", // vs Marken
-          "Wabendesign",  // vs. Marken
+          "Wabendesign",
           "Maskenherstellers",
           "Maskenherstellern",
           "Firmenvokabular",
@@ -187,7 +212,195 @@ public class ProhibitedCompoundRule extends Rule {
           "Wettprogramm", // vs Welt
           "Wettprogramme", // vs Welt
           "Zählerwechsel",
-          "Zählerwechsels"
+          "Zählerwechsels",
+          "Nährstoffleitungen",  // vs ...leistungen
+          "Verhandlungskreise",
+          "Verhandlungskreisen",
+          "Mietsuchenden",
+          "Mietsuchende",
+          "Mietsuchender",
+          "Autoboss",
+          "Autobossen",
+          "Testmonat",
+          "Testmonats",
+          "Testmonate",
+          "Naturseife",
+          "Naturseifen",
+          "Ankerkraut", // Firmenname (Lebensmittel)
+          "Ankerkrauts",
+          "Bewerbungstool",
+          "Bewerbungstools",
+          "Elektromarke",
+          "Elektromarken",
+          "Ankerkraut",
+          "Testuser",
+          "Testangeboten",
+          "Testangebots",
+          "Testangebotes",
+          "verkeimt",
+          "verkeimte",
+          "verkeimter",
+          "verkeimtes",
+          "verkeimten",
+          "verkeimtem",
+          "Flugscham", // vs. Flugschau
+          "Kurseinführung",
+          "Januar-Miete",
+          "Februar-Miete",
+          "März-Miete",
+          "April-Miete",
+          "Mai-Miete",
+          "Juni-Miete",
+          "Juli-Miete",
+          "August-Miete",
+          "September-Miete",
+          "Oktober-Miete",
+          "November-Miete",
+          "Dezember-Miete",
+          "Suchindices",
+          "Kirchenfreizeit",
+          "Kirchenfreizeiten",
+          "Erklärbär",
+          "Wettart",
+          "Wettarten",
+          "Einzelwette",
+          "Einzelwetten",
+          "Artikelzeile",
+          "Artikelzeilen",
+          "Echtgeld",
+          "Kartenansicht",
+          "Kartenansichten",
+          "Systemwette",
+          "Systemwetten",
+          "Dachzelt",
+          "Dachzelte",
+          "Badeloch",
+          "Bonusaktion",
+          "Bonusaktionen",
+          "Projektannahme",
+          "Pollenbelastung",
+          "Fastenfenster",
+          "Bauchtasche",
+          "Bauchtaschen",
+          "Zahloption",
+          "Zahloptionen",
+          "Zeckenschutz",
+          "Vertragskonto",
+          "Zeichengrenze",
+          "Zeichengrenzen",
+          "Kartontasche",
+          "Kartontaschen",
+          "Mietbestätigung",
+          "Mietbestätigungen",
+          "Tunnelzelt",
+          "Tunnelzelts",
+          "Tunnelzelte",
+          "Dichtleistung",
+          "Dichtleistungen",
+          "Testkonto",
+          "Testkontos",
+          "Konzernnummer",
+          "Konzernnummern",
+          "Vertragsstunde",
+          "Vertragsstunden",
+          "Zaunträger",
+          "Zaunträgern",
+          "Zaunträgers",
+          "Hallenschuh",
+          "Hallenschuhs",
+          "Hallenschuhe",
+          "Rekrutierungsausgabe",
+          "Rekrutierungsausgaben",
+          "geruchsfreies",
+          "Tafelfolie",
+          "Gartenservice",
+          "Gartenservices",
+          "Rollgerüste",
+          "Rollgerüsten",
+          "Grasabfall",
+          "Grasabfällen",
+          "Ketogrippe",
+          "Gerätehülle",
+          "kaltweiß",
+          "Maskenbefreiung",
+          "Lusttropfen",
+          "Kundenstimme",
+          "Deichschafen",
+          "Industriehefe",
+          "Freizeitschuhe",
+          "Freizeitschuhen",
+          "Trainingsschuhe",
+          "Trainingsschuhen",
+          "Schuhblatt",
+          "Nachbacken",
+          "Wassermelder",
+          "Schutzsegen",
+          "Fischversteigerung",
+          "Fischversteigerungen",
+          "Konfigurationsteile",
+          "Konfigurationsteilen",
+          "Wasserbauch",
+          "Wasserbauchs",
+          "Stadtrad",
+          "Stadtrads",
+          "Seniorenrad",
+          "Seniorenrads",
+          "Bodenplane",
+          "Schwimmschuhe",
+          "Familienstrand",
+          "versiegelbaren",
+          "Überraschungsfeier",
+          "Überraschungsfeiern",
+          "ballseitig",
+          "Genussgarten",
+          "Genussgartens",
+          "Edelsteingarten",
+          "Edelsteingartens",
+          "Insektengarten",
+          "Insektengartens",
+          "Klimakurs",
+          "Klimakurses",
+          "Kursperioden",
+          "Musikreise",
+          "Musikreisen",
+          "Ziegenhof",
+          "Ziegenhofs",
+          "Außendecke",
+          "Außendecken",
+          "Bewegungsbarriere",
+          "Bewegungsbarrieren",
+          "Gerichtsantrag",
+          "Gerichtsantrags",
+          "Gerichtsanträge",
+          "Spezialwette",
+          "Spezialwetten",
+          "Geldmagnet",
+          "Testartikel",
+          "Testartikeln",
+          "Testartikels",
+          "folierte",
+          "foliert",
+          "folierten",
+          "foliertes",
+          "foliertem",
+          "Implementierungsvorgaben",
+          "Bücherzelle",
+          "Bücherzellen",
+          "Cuttermesser",
+          "Cuttermessern",
+          "Cuttermessers",
+          "Kabelsammlung",
+          "Kabelsammlungen",
+          "Schleifschwamm",
+          "Schleifschwamms",
+          "Schleifschwämme",
+          "Teemarke",
+          "Teemarken",
+          "Vorzelt",
+          "Vorzelte",
+          "Supportleitung", // vs leistung
+          "Kursname",
+          "Feuchtmann" //name
   ));
 
   // have per-class static list of these and reference that in instance
@@ -218,10 +431,10 @@ public class ProhibitedCompoundRule extends Rule {
 
   private static void addUpperCaseVariants(List<Pair> pairs) {
     for (Pair lcPair : lowercasePairs) {
-      if (StringTools.startsWithUppercase(lcPair.part1)) {
+      if (startsWithUppercase(lcPair.part1)) {
         throw new IllegalArgumentException("Use all-lowercase word in " + ProhibitedCompoundRule.class + ": " + lcPair.part1);
       }
-      if (StringTools.startsWithUppercase(lcPair.part2)) {
+      if (startsWithUppercase(lcPair.part2)) {
         throw new IllegalArgumentException("Use all-lowercase word in " + ProhibitedCompoundRule.class + ": " + lcPair.part2);
       }
       addAllCaseVariants(pairs, lcPair);
@@ -281,12 +494,15 @@ public class ProhibitedCompoundRule extends Rule {
   private Pair confusionPair = null; // specify single pair for evaluation
 
   public ProhibitedCompoundRule(ResourceBundle messages, LanguageModel lm, UserConfig userConfig) {
+    super(messages);
     this.lm = (BaseLanguageModel) Objects.requireNonNull(lm);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     this.ahoCorasickDoubleArrayTrie = prohibitedCompoundRuleSearcher;
     this.pairMap = prohibitedCompoundRulePairMap;
     linguServices = userConfig != null ? userConfig.getLinguServices() : null;
     spellerRule = linguServices == null ? new GermanSpellerRule(JLanguageTool.getMessageBundle(), german, null, null) : null;
+    addExamplePair(Example.wrong("Da steht eine <marker>Lehrzeile</marker> zu viel."),
+                   Example.fixed("Da steht eine <marker>Leerzeile</marker> zu viel."));
   }
 
   @Override
@@ -361,7 +577,7 @@ public class ProhibitedCompoundRule extends Rule {
       long wordCount = lm.getCount(wordPart);
       long variantCount = lm.getCount(variant);
       //float factor = variantCount / (float)Math.max(wordCount, 1);
-      //System.out.println("word: " + word + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
+      //System.out.println("word: " + wordPart + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
       if (variantCount > 0 && wordCount == 0 && !blacklist.contains(wordPart) && !isMisspelled(variant) && blacklistRegex.stream().noneMatch(k -> wordPart.matches(".*" + k + ".*"))) {
         String msg;
         if (pair.part1Desc != null && pair.part2Desc != null) {
@@ -371,7 +587,8 @@ public class ProhibitedCompoundRule extends Rule {
         }
         int fromPos = readings.getStartPos() + partsStartPos;
         int toPos = fromPos + wordPart.length() + toPosCorrection;
-        RuleMatch match = new RuleMatch(this, sentence, fromPos, toPos, msg);
+        String id = getId() + "_" + cleanId(pair.part1) + "_" + cleanId(pair.part2);
+        RuleMatch match = new RuleMatch(new SpecificIdRule(id, pair.part1, pair.part2, messages, lm), sentence, fromPos, toPos, msg);
         match.setSuggestedReplacement(variant);
         ruleMatches.add(match);
         break;
@@ -379,6 +596,10 @@ public class ProhibitedCompoundRule extends Rule {
     }
     partsStartPos += wordPart.length() + 1;
     return partsStartPos;
+  }
+
+  private String cleanId(String id) {
+    return id.toUpperCase().replace("Ä", "AE").replace("Ü", "UE").replace("Ö", "OE");
   }
 
   /**
@@ -397,7 +618,11 @@ public class ProhibitedCompoundRule extends Rule {
       StringBuilder sb = new StringBuilder();
       int i = 0;
       for (String part : parts) {
-        sb.append(i == 0 ? part : StringTools.lowercaseFirstChar(part));
+        if (part.length() <= 1) {
+          // don't: S-Bahn -> Sbahn
+          return null;
+        }
+        sb.append(i == 0 ? part : lowercaseFirstChar(part));
         i++;
       }
       return sb.toString();
@@ -421,5 +646,22 @@ public class ProhibitedCompoundRule extends Rule {
       return part1 + "/" + part2;
     }
   }
-  
+
+  static class SpecificIdRule extends ProhibitedCompoundRule {
+    private final String id;
+    private final String desc;
+    SpecificIdRule(String id, String part1, String part2, ResourceBundle messages, LanguageModel lm) {
+      super(messages, lm, null);
+      this.id = Objects.requireNonNull(id);
+      this.desc = "Markiert wahrscheinlich falsche Komposita mit Teilwort '" + uppercaseFirstChar(part1) + "' statt '" + uppercaseFirstChar(part2) + "' und umgekehrt";
+    }
+    @Override
+    public String getId() {
+      return id;
+    }
+    @Override
+    public String getDescription() {
+      return desc;
+    }
+  }
 }

@@ -18,12 +18,17 @@
  */
 package org.languagetool.rules.de;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.synthesis.Synthesizer;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Expand lines according to their suffix, e.g. {@code foo/S} becomes {@code [foo, foos]}.
@@ -31,7 +36,40 @@ import java.util.*;
  */
 public class LineExpander implements org.languagetool.rules.LineExpander {
 
-  private final static Synthesizer synthesizer = Objects.requireNonNull(new GermanyGerman().getSynthesizer());
+  private static final Synthesizer synthesizer = Objects.requireNonNull(new GermanyGerman().getSynthesizer());
+
+  private static final LoadingCache<String, List<String>> cache = CacheBuilder.newBuilder()
+    .expireAfterAccess(10, TimeUnit.MINUTES)
+    .build(new CacheLoader<String, List<String>>() {
+      @Override
+      public List<String> load(@NotNull String line) {
+        List<String> result = new ArrayList<>();
+        String[] parts = cleanTagsAndEscapeChars(line).split("_");
+        if (parts.length != 2) {
+          throw new IllegalArgumentException("Unexpected line format, expected at most one '_': " + line);
+        }
+        if (parts[0].contains("/") || parts[1].contains("/")) {
+          throw new IllegalArgumentException("Unexpected line format, '_' cannot be combined with '/': " + line);
+        }
+        try {
+          String[] forms = synthesizer.synthesize(new AnalyzedToken(parts[1], "FAKE", parts[1]), "VER:.*", true);
+          if (forms.length == 0) {
+            throw new RuntimeException("Could not expand '" + parts[1] + "' from line '" + line + "', no forms found");
+          }
+          Set<String> formSet = new HashSet<>(Arrays.asList(forms));
+          for (String form : formSet) {
+            if (!form.contains("ß") && form.length() > 0 && Character.isLowerCase(form.charAt(0))) {
+              // skip these, it's too risky to introduce old spellings like "gewußt" from the synthesizer
+              result.add(parts[0] + form);
+            }
+          }
+          result.add(parts[0] + "zu" + parts[1]);  //  "zu<verb>" is not part of forms from synthesizer
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+        return result;
+      }
+    });
 
   @Override
   public List<String> expandLine(String line) {
@@ -47,39 +85,17 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
   }
 
   private boolean isLineWithFlag(String line) {
-    int idx = line.indexOf("/");
+    int idx = line.indexOf('/');
     return !line.startsWith("#") && idx > 0 && line.charAt(idx-1) != '\\';
   }
 
   private boolean isLineWithVerbPrefix(String line) {
-    int idx = line.indexOf("_");
+    int idx = line.indexOf('_');
     return !line.startsWith("#") && idx > 0 && line.charAt(idx-1) != '\\';
   }
 
   private void handleLineWithPrefix(String line, List<String> result) {
-    String[] parts = cleanTagsAndEscapeChars(line).split("_");
-    if (parts.length != 2) {
-      throw new IllegalArgumentException("Unexpected line format, expected at most one '_': " + line);
-    }
-    if (parts[0].contains("/") || parts[1].contains("/")) {
-      throw new IllegalArgumentException("Unexpected line format, '_' cannot be combined with '/': " + line);
-    }
-    try {
-      String[] forms = synthesizer.synthesize(new AnalyzedToken(parts[1], "FAKE", parts[1]), "VER:.*", true);
-      if (forms.length == 0) {
-        throw new RuntimeException("Could not expand '" + parts[1] + "' from line '" + line + "', no forms found");
-      }
-      Set<String> formSet = new HashSet<>(Arrays.asList(forms));
-      for (String form : formSet) {
-        if (!form.contains("ß")) {
-          // skip these, it's too risky to introduce old spellings like "gewußt" from the synthesizer
-          result.add(parts[0] + form);
-        }
-      }
-      result.add(parts[0] + "zu" + parts[1]);  //  "zu<verb>" is not part of forms from synthesizer
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    result.addAll(cache.getUnchecked(line));
   }
 
   private void handleLineWithFlags(String line, List<String> result) {
@@ -130,7 +146,7 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
   }
 
   // ignore "#..." so it can be used as a tag:
-  private String cleanTagsAndEscapeChars(String s) {
+  private static String cleanTagsAndEscapeChars(String s) {
     int idx = s.indexOf('#');
     if (idx != -1) {
       s = s.substring(0, idx);

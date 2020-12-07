@@ -18,25 +18,24 @@
  */
 package org.languagetool.rules.patterns;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.tuple.Triple;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.ErrorTriggeringExample;
 import org.languagetool.rules.IncorrectExample;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import java.util.*;
+import java.util.function.Function;
 
 /**
  * XML rule handler that loads rules from XML and throws
@@ -60,6 +59,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected static final String ON = "on";
   protected static final String POSTAG = "postag";
   protected static final String CHUNKTAG = "chunk";
+  protected static final String CHUNKTAG_REGEXP = "chunk_re";
   protected static final String POSTAG_REGEXP = "postag_regexp";
   protected static final String REGEXP = "regexp";
   protected static final String NEGATE = "negate";
@@ -415,7 +415,7 @@ public class XMLRuleHandler extends DefaultHandler {
     exceptionStringInflected = YES.equals(attrs.getValue(INFLECTED));
 
     if (attrs.getValue(POSTAG) != null) {
-      exceptionPosToken = attrs.getValue(POSTAG);
+      exceptionPosToken = internString(attrs.getValue(POSTAG));
       exceptionPosRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));
       exceptionPosNegation = YES.equals(attrs.getValue(NEGATE_POS));
     }
@@ -440,12 +440,12 @@ public class XMLRuleHandler extends DefaultHandler {
       if (tokenLevelCaseSet) {
         tokenCase = tokenLevelCaseSensitive;
       }
-      patternToken = new PatternToken(elements.toString(), tokenCase, regExpression, tokenInflected);
+      patternToken = new PatternToken(tokenInflected, internMatcher(elements.toString().trim(), regExpression, tokenCase));
       exceptionSet = true;
     }
     patternToken.setNegation(tokenNegated);
     if (!StringTools.isEmpty(exceptions.toString()) || exceptionPosToken != null) {
-      patternToken.setStringPosException(exceptions.toString(), exceptionStringRegExp,
+      patternToken.setStringPosException(internString(exceptions.toString().trim()), exceptionStringRegExp,
           exceptionStringInflected, exceptionStringNegation, exceptionValidNext, exceptionValidPrev,
           exceptionPosToken, exceptionPosRegExp, exceptionPosNegation, exceptionLevelCaseSensitive);
       exceptionPosToken = null;
@@ -457,7 +457,7 @@ public class XMLRuleHandler extends DefaultHandler {
     resetException();
   }
 
-  protected void setToken(Attributes attrs) {
+  protected void setToken(Attributes attrs) throws SAXException {
     inToken = true;
 
     if (lastPhrase) {
@@ -479,12 +479,17 @@ public class XMLRuleHandler extends DefaultHandler {
     elements = new StringBuilder();
     // POSElement creation
     if (attrs.getValue(POSTAG) != null) {
-      posToken = attrs.getValue(POSTAG);
+      posToken = internString(attrs.getValue(POSTAG));
       posRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));
       posNegation = YES.equals(attrs.getValue(NEGATE_POS));
     }
+    if (attrs.getValue(CHUNKTAG) != null && attrs.getValue(CHUNKTAG_REGEXP) != null) {
+      throw new SAXException("You cannot set both 'chunk' and 'chunk_re' for " + id);
+    }
     if (attrs.getValue(CHUNKTAG) != null) {
-      chunkTag = new ChunkTag(attrs.getValue(CHUNKTAG));
+      chunkTag = new ChunkTag(internString(attrs.getValue(CHUNKTAG)));
+    } else if (attrs.getValue(CHUNKTAG_REGEXP) != null) {
+      chunkTag = new ChunkTag(internString(attrs.getValue(CHUNKTAG_REGEXP)), true);
     }
     regExpression = YES.equals(attrs.getValue(REGEXP));
 
@@ -544,17 +549,16 @@ public class XMLRuleHandler extends DefaultHandler {
     return sugMatch;
   }
 
-  protected void finalizeTokens() throws SAXException {
+  protected void finalizeTokens(UnifierConfiguration unifierConfiguration) throws SAXException {
     if (!exceptionSet || patternToken == null) {
       boolean tokenCase = caseSensitive;
       if (tokenLevelCaseSet) {
         tokenCase = tokenLevelCaseSensitive;
       }
-      patternToken = new PatternToken(elements.toString(),
-          tokenCase, regExpression, tokenInflected);
+      patternToken = new PatternToken(tokenInflected, internMatcher(elements.toString().trim(), regExpression, tokenCase));
       patternToken.setNegation(tokenNegated);
     } else {
-      patternToken.setStringElement(elements.toString());
+      patternToken.setTextMatcher(internMatcher(elements.toString().trim(), patternToken.isRegularExpression(), patternToken.isCaseSensitive()));
     }
     if (skipPos != 0) {
       patternToken.setSkipNext(skipPos);
@@ -568,7 +572,8 @@ public class XMLRuleHandler extends DefaultHandler {
       maxOccurrence = 1;
     }
     if (posToken != null) {
-      patternToken.setPosToken(new PatternToken.PosToken(posToken, posRegExp, posNegation));
+      patternToken.setPosToken(internedPos.computeIfAbsent(Triple.of(posToken, posRegExp, posNegation),
+        t -> new PatternToken.PosToken(t.getLeft(), t.getMiddle(), t.getRight())));
       posToken = null;
     }
     if (chunkTag != null) {
@@ -612,7 +617,7 @@ public class XMLRuleHandler extends DefaultHandler {
     }
     patternToken.setInsideMarker(inMarker);
     if (inUnificationDef) {
-      language.getUnifierConfiguration().setEquivalence(uFeature, uType, patternToken);
+      unifierConfiguration.setEquivalence(uFeature, uType, patternToken);
       patternTokens.clear();
     }
     if (tokenSpaceBeforeSet) {
@@ -621,13 +626,38 @@ public class XMLRuleHandler extends DefaultHandler {
     resetToken();
   }
   
-  protected void setRuleFilter(String filterClassName, String filterArgs, AbstractPatternRule rule) {
+  protected static void setRuleFilter(String filterClassName, String filterArgs, AbstractPatternRule rule) {
     if (filterClassName != null && filterArgs != null) {
-      RuleFilterCreator creator = new RuleFilterCreator();
-      RuleFilter filter = creator.getFilter(filterClassName);
-      rule.setFilter(filter);
-      rule.setFilterArguments(filterArgs);
+      if (rule instanceof RegexPatternRule) {
+        RegexRuleFilterCreator creator = new RegexRuleFilterCreator();
+        RegexRuleFilter filter = creator.getFilter(filterClassName);
+        ((RegexPatternRule) rule).setRegexFilter(filter);
+        rule.setFilterArguments(filterArgs);
+      } else if (rule instanceof PatternRule || rule instanceof DisambiguationPatternRule) {
+        RuleFilterCreator creator = new RuleFilterCreator();
+        RuleFilter filter = creator.getFilter(filterClassName);
+        rule.setFilter(filter);
+        rule.setFilterArguments(filterArgs);
+      } else {
+        throw new RuntimeException("Rule " + rule.getFullId() + " of type " + rule.getClass() + " cannot have a filter (" + filterClassName + ")");
+      }
     }
   }
+
+  private final Map<String, String> internedStrings = new HashMap<>();
+
+  protected String internString(String s) {
+    return internedStrings.computeIfAbsent(s, Function.identity());
+  }
+
+  private final Map<Triple<String, Boolean, Boolean>, StringMatcher> internedMatchers = new HashMap<>();
+
+  private StringMatcher internMatcher(String text, boolean regexp, boolean caseSensitive) {
+    text = internString(PatternToken.normalizeTextPattern(text));
+    return internedMatchers.computeIfAbsent(Triple.of(text, regexp, caseSensitive), t ->
+      StringMatcher.create(t.getLeft(), t.getMiddle(), t.getRight(), this::internString));
+  }
+
+  private final Map<Triple<String, Boolean, Boolean>, PatternToken.PosToken> internedPos = new HashMap<>();
 
 }

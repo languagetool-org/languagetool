@@ -39,7 +39,14 @@ import java.util.*;
 
 public class Dutch extends Language {
 
+  private static final Language NETHERLANDS_DUTCH = new Dutch();
+
   private LanguageModel languageModel;
+
+  @Override
+  public Language getDefaultLanguageVariant() {
+    return NETHERLANDS_DUTCH;
+  }
 
   @Override
   public String getName() {
@@ -111,7 +118,8 @@ public class Dutch extends Language {
             new DutchWrongWordInContextRule(messages),
             new WordCoherencyRule(messages),
             new SimpleReplaceRule(messages),
-            new LongSentenceRule(messages, userConfig, -1, true),
+            new LongSentenceRule(messages, userConfig, 35, true, true),
+            new LongParagraphRule(messages, this, userConfig),
             new PreferredWordRule(messages),
             new SpaceInCompoundRule(messages),
             new SentenceWhitespaceRule(messages)
@@ -132,12 +140,49 @@ public class Dutch extends Language {
     languageModel = initLanguageModel(indexDir, languageModel);
     return languageModel;
   }
+  
+  /** @since 5.1 */
+  @Override
+  public String getOpeningDoubleQuote() {
+    return "“";
+  }
+
+  /** @since 5.1 */
+  @Override
+  public String getClosingDoubleQuote() {
+    return "”";
+  }
+  
+  /** @since 5.1 */
+  @Override
+  public String getOpeningSingleQuote() {
+    return "‘";
+  }
+
+  /** @since 5.1 */
+  @Override
+  public String getClosingSingleQuote() {
+    return "’";
+  }
+  
+  /** @since 5.1 */
+  @Override
+  public boolean isAdvancedTypographyEnabled() {
+    return true;
+  }
 
   @Override
   protected int getPriorityForId(String id) {
+    if (id.startsWith(SimpleReplaceRule.DUTCH_SIMPLE_REPLACE_RULE)) {
+      return 1;
+    }
     switch (id) {
-      case SimpleReplaceRule.DUTCH_SIMPLE_REPLACE_RULE: return 1;
       case LongSentenceRule.RULE_ID: return -1;
+      case "KORT_1": return -5;
+      case "KORT_2": return -5;  //so that spelling errors are recognized first
+      case "EINDE_ZIN_ONVERWACHT": return -5;  //so that spelling errors are recognized first
+      case "TOO_LONG_PARAGRAPH": return -15;
+      case "DE_ONVERWACHT": return -20;  // below spell checker and simple replace rule
     }
     return super.getPriorityForId(id);
   }
@@ -146,6 +191,7 @@ public class Dutch extends Language {
   public List<String> getRuleFileNames() {
     List<String> ruleFileNames = super.getRuleFileNames();
     String dirBase = JLanguageTool.getDataBroker().getRulesDir() + "/" + getShortCode() + "/";
+    ruleFileNames.add(dirBase + "nl-NL/grammar.xml");
     ruleFileNames.add(dirBase + "grammar-test-1.xml");
     return ruleFileNames;
   }

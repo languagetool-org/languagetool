@@ -25,31 +25,42 @@ class RuleMatchDiff {
   private final Status status;
   private final LightRuleMatch oldMatch;
   private final LightRuleMatch newMatch;
+  private final LightRuleMatch replacedBy;  // the added match that a removed match (maybe) was replaced by
+  private LightRuleMatch replaces;    // the removed match that this match (maybe) replaces
 
   enum Status {
     ADDED, REMOVED, MODIFIED
   }
 
   static RuleMatchDiff added(LightRuleMatch newMatch) {
-    return new RuleMatchDiff(Status.ADDED, null, newMatch);
+    return new RuleMatchDiff(Status.ADDED, null, newMatch, null);
   }
   
   static RuleMatchDiff removed(LightRuleMatch oldMatch) {
-    return new RuleMatchDiff(Status.REMOVED, oldMatch, null);
+    return new RuleMatchDiff(Status.REMOVED, oldMatch, null, null);
   }
   
+  static RuleMatchDiff removed(LightRuleMatch oldMatch, LightRuleMatch replacedBy) {
+    return new RuleMatchDiff(Status.REMOVED, oldMatch, null, replacedBy);
+  }
+
   static RuleMatchDiff modified(LightRuleMatch oldMatch, LightRuleMatch newMatch) {
-    return new RuleMatchDiff(Status.MODIFIED, oldMatch, newMatch);
+    return new RuleMatchDiff(Status.MODIFIED, oldMatch, newMatch, null);
   }
   
-  private RuleMatchDiff(Status status, LightRuleMatch oldMatch, LightRuleMatch newMatch) {
+  private RuleMatchDiff(Status status, LightRuleMatch oldMatch, LightRuleMatch newMatch, LightRuleMatch replacedBy) {
     this.status = Objects.requireNonNull(status);
     this.oldMatch = oldMatch;
     this.newMatch = newMatch;
+    this.replacedBy = replacedBy;
   }
 
   Status getStatus() {
     return status;
+  }
+
+  String getMarkedText() {
+    return newMatch == null ? oldMatch.getCoveredText() : newMatch.getCoveredText();
   }
 
   LightRuleMatch getOldMatch() {
@@ -59,7 +70,19 @@ class RuleMatchDiff {
   LightRuleMatch getNewMatch() {
     return newMatch;
   }
-  
+
+  LightRuleMatch getReplacedBy() {
+    return replacedBy;
+  }
+
+  void setReplaces(LightRuleMatch oldMatch) {
+    replaces = oldMatch;
+  }
+
+  LightRuleMatch getReplaces() {
+    return replaces;
+  }
+
   @Override
   public String toString() {
     return status +

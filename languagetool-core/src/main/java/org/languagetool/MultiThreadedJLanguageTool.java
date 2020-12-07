@@ -18,15 +18,18 @@
  */
 package org.languagetool;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * A variant of {@link JLanguageTool} that uses several threads for rule matching.
@@ -121,6 +124,10 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   
   @Override
   protected List<AnalyzedSentence> analyzeSentences(List<String> sentences) throws IOException {
+    if (sentences.size() < 2) {
+      return super.analyzeSentences(sentences);
+    }
+
     List<AnalyzedSentence> analyzedSentences = new ArrayList<>();
     
     ExecutorService executorService = getExecutorService();
@@ -154,43 +161,37 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   
   
   @Override
-  protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
+  protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentenceTexts,
                                          List<Rule> allRules, ParagraphHandling paraMode,
-                                         AnnotatedText annotatedText, RuleMatchListener listener, Mode mode, boolean checkRemoteRules) {
-    int charCount = 0;
-    int lineCount = 0;
-    int columnCount = 1;
+                                         AnnotatedText annotatedText, RuleMatchListener listener, Mode mode, Level level, boolean checkRemoteRules) {
+    List<SentenceData> sentences = computeSentenceData(analyzedSentences, sentenceTexts);
+    AtomicInteger ruleIndex = new AtomicInteger();
+    Map<Integer, List<RuleMatch>> ruleMatches = new TreeMap<>();
+    List<Future<?>> futures = IntStream.range(0, getThreadPoolSize()).mapToObj(__ -> getExecutorService().submit(() -> {
+      while (true) {
+        int index = ruleIndex.getAndIncrement();
+        if (index >= allRules.size()) return null;
 
-    List<RuleMatch> ruleMatches = new ArrayList<>();
-    
-    ExecutorService executorService = getExecutorService();
+        // less need for special treatment of remote rules when execution is already parallel
+        List<RuleMatch> matches = new TextCheckCallable(Collections.singletonList(allRules.get(index)), sentences,
+          paraMode, annotatedText, listener, mode, level, true).call();
+        if (!matches.isEmpty()) {
+          synchronized (ruleMatches) {
+            ruleMatches.put(index, matches);
+          }
+        }
+      }
+    })).collect(Collectors.toList());
+
     try {
-      List<Callable<List<RuleMatch>>> callables =
-              createTextCheckCallables(paraMode, annotatedText, analyzedSentences, sentences, allRules, charCount, lineCount, columnCount, listener, mode);
-      List<Future<List<RuleMatch>>> futures = executorService.invokeAll(callables);
-      for (Future<List<RuleMatch>> future : futures) {
-        ruleMatches.addAll(future.get());
+      for (Future<?> future : futures) {
+        future.get();
       }
     } catch (InterruptedException | ExecutionException e) {
       throw new RuntimeException(e);
     }
-    
-    return applyCustomFilters(ruleMatches, annotatedText);
-  }
 
-  private List<Callable<List<RuleMatch>>> createTextCheckCallables(ParagraphHandling paraMode,
-       AnnotatedText annotatedText, List<AnalyzedSentence> analyzedSentences, List<String> sentences, 
-       List<Rule> allRules, int charCount, int lineCount, int columnCount, RuleMatchListener listener, Mode mode) {
-
-    List<Callable<List<RuleMatch>>> callables = new ArrayList<>();
- 
-    for (Rule rule: allRules) {
-      // less need for special treatment of remote rules when execution is already parallel
-      callables.add(new TextCheckCallable(Arrays.asList(rule), sentences, analyzedSentences, paraMode, 
-          annotatedText, charCount, lineCount, columnCount, listener, mode, true));
-    }
-
-    return callables;
+    return applyCustomFilters(Lists.newArrayList(Iterables.concat(ruleMatches.values())), annotatedText);
   }
 
   private class AnalyzeSentenceCallable implements Callable<AnalyzedSentence> {
@@ -213,13 +214,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
 
     @Override
     public AnalyzedSentence call() throws Exception {
-      AnalyzedSentence analyzedSentence = super.call();
-      AnalyzedTokenReadings[] anTokens = analyzedSentence.getTokens();
-      anTokens[anTokens.length - 1].setParagraphEnd();
-      AnalyzedTokenReadings[] preDisambigAnTokens = analyzedSentence.getPreDisambigTokens();
-      preDisambigAnTokens[anTokens.length - 1].setParagraphEnd();
-      analyzedSentence = new AnalyzedSentence(anTokens, preDisambigAnTokens);  ///TODO: why???
-      return analyzedSentence;
+      return markAsParagraphEnd(super.call());
     }
   }
 }

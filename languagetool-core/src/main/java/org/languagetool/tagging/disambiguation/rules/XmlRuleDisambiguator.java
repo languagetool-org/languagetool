@@ -19,17 +19,18 @@
 
 package org.languagetool.tagging.disambiguation.rules;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-
-import javax.xml.parsers.ParserConfigurationException;
-
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Rule-based disambiguator.
@@ -43,6 +44,24 @@ public class XmlRuleDisambiguator extends AbstractDisambiguator {
 
   private final List<DisambiguationPatternRule> disambiguationRules;
 
+  /**
+   * A map containing indices rules with form hints,
+   * which are only called when the analyzed sentence contains any of the word forms that the rules have provided.
+   * The keys of the map are the known word forms, the values are sets of indices in {@link #disambiguationRules} list.
+   */
+  private final Map<String, BitSet> hintedRulesSensitive = new HashMap<>();
+
+  /**
+   * Same as {@link #hintedRulesSensitive}, but case-insensitively.
+   */
+  private final Map<String, BitSet> hintedRulesInsensitive = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+
+  /**
+   * Indices in {@link #disambiguationRules} that correspond to rules without form hints, which fall into
+   * neither {@link #hintedRulesSensitive} nor {@link #hintedRulesInsensitive}.
+   */
+  private final BitSet unhintedRules = new BitSet();
+
   public XmlRuleDisambiguator(Language language) {
     Objects.requireNonNull(language);
     String disambiguationFile = language.getShortCode() + "/" + DISAMBIGUATION_FILE;
@@ -51,15 +70,66 @@ public class XmlRuleDisambiguator extends AbstractDisambiguator {
     } catch (Exception e) {
       throw new RuntimeException("Problems with loading disambiguation file: " + disambiguationFile, e);
     }
+    for (int i = 0; i < disambiguationRules.size(); i++) {
+      registerHints(disambiguationRules.get(i), i);
+    }
+  }
+
+  /**
+   * Classifies the given rule into {@link #unhintedRules}, {@link #hintedRulesInsensitive} or {@link #hintedRulesSensitive},
+   * based on the form hints provided by its token patterns.
+   */
+  private void registerHints(DisambiguationPatternRule rule, int index) {
+    for (PatternToken token : rule.getPatternTokens()) {
+      Set<String> hints = token.calcFormHints();
+      if (hints != null) {
+        Map<String, BitSet> map = token.isCaseSensitive() ? hintedRulesSensitive : hintedRulesInsensitive;
+        for (String hint : hints) {
+          map.computeIfAbsent(hint, __ -> new BitSet()).set(index);
+        }
+        return;
+      }
+    }
+    unhintedRules.set(index);
   }
 
   @Override
   public AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException {
+    BitSet toCheck = getRelevantRules(input);
     AnalyzedSentence sentence = input;
-    for (DisambiguationPatternRule patternRule : disambiguationRules) {
-      sentence = patternRule.replace(sentence);
+    int i = -1;
+    while (true) {
+      i = toCheck.nextSetBit(i + 1);
+      if (i < 0) break;
+      sentence = disambiguationRules.get(i).replace(sentence);
     }
     return sentence;
+  }
+
+  /**
+   * @return rules that have a chance to be triggered by the given sentence: the ones whose form hints
+   * (see {@link PatternToken#calcFormHints()}) occur in the sentence and the ones without form hints ({@link #unhintedRules}).
+   */
+  @NotNull
+  private BitSet getRelevantRules(AnalyzedSentence input) {
+    BitSet toCheck = unhintedRules;
+    for (AnalyzedTokenReadings readings : input.getTokensWithoutWhitespace()) {
+      BitSet rules = hintedRulesSensitive.get(readings.getToken());
+      if (rules != null) {
+        if (toCheck == unhintedRules) {
+          toCheck = (BitSet) toCheck.clone();
+        }
+        toCheck.or(rules);
+      }
+      rules = hintedRulesInsensitive.get(readings.getToken());
+      if (rules != null) {
+        if (toCheck == unhintedRules) {
+          toCheck = (BitSet) toCheck.clone();
+        }
+        toCheck.or(rules);
+      }
+    }
+    return toCheck;
   }
 
   /**

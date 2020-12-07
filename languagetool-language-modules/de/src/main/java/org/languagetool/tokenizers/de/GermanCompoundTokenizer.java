@@ -118,6 +118,20 @@ public class GermanCompoundTokenizer implements Tokenizer {
       words.add("genetische");
       words.add("genetischen");
       words.add("genetisches");
+      words.add("premium");
+      words.add("kontrolleurin");
+      words.add("konstrukteurin");
+      words.add("importeurin");
+      words.add("requisiteurin");
+      words.add("akteurin");
+      words.add("masseurin");
+      words.add("profiteurin");
+      words.add("charmeurin");
+      words.add("medailleurin");
+      words.add("exporteurin");
+      words.add("rechercheurin");
+      words.add("poseurin");
+      words.add("auskommentieren");
       return words;
     }
   }
@@ -139,6 +153,34 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Siebengestirnen", asList("Sieben", "gestirnen"));
     wordSplitter.addException("Siebengestirns", asList("Sieben", "gestirns"));
     wordSplitter.addException("Siebengestirnes", asList("Sieben", "gestirnes"));
+    wordSplitter.addException("Alpinforum", asList("Alpin", "forum"));
+    wordSplitter.addException("Rollerskate", asList("Rollerskate"));
+    wordSplitter.addException("Baumeisterarbeiten", asList("Baumeister", "arbeiten"));
+    wordSplitter.addException("Bilderarbeiten", asList("Bilder", "arbeiten"));
+    wordSplitter.addException("Dachdeckerarbeiten", asList("Dachdecker", "arbeiten"));
+    wordSplitter.addException("Handlangerarbeiten", asList("Handlanger", "arbeiten"));
+    wordSplitter.addException("Handwerkerarbeiten", asList("Handwerker", "arbeiten"));
+    wordSplitter.addException("Kinderarbeiten", asList("Kinder", "arbeiten"));
+    wordSplitter.addException("Masterarbeiten", asList("Master", "arbeiten"));
+    wordSplitter.addException("Meisterarbeiten", asList("Meister", "arbeiten"));
+    wordSplitter.addException("Putzerarbeiten", asList("Putzer", "arbeiten"));
+    wordSplitter.addException("Schlosserarbeiten", asList("Schlosser", "arbeiten"));
+    wordSplitter.addException("Schneiderarbeiten", asList("Schneider", "arbeiten"));
+    wordSplitter.addException("Wanderarbeiten", asList("Wander", "arbeiten"));
+    wordSplitter.addException("Taucherarbeiten", asList("Taucher", "arbeiten"));
+    wordSplitter.addException("Hauptakteurin", asList("Haupt", "akteurin"));
+    wordSplitter.addException("Kleiderecke", asList("Kleider", "ecke"));
+    wordSplitter.addException("Kleiderecken", asList("Kleider", "ecken"));
+    wordSplitter.addException("Abwehrecke", asList("Abwehr", "ecke"));
+    wordSplitter.addException("Abwehrecken", asList("Abwehr", "ecken"));
+    wordSplitter.addException("Dichterecke", asList("Dichter", "ecke"));
+    wordSplitter.addException("Dichterecken", asList("Dichter", "ecken"));
+    wordSplitter.addException("Kellerecke", asList("Keller", "ecke"));
+    wordSplitter.addException("Kellerecken", asList("Keller", "ecken"));
+    wordSplitter.addException("Kinderecke", asList("Kinder", "ecke"));
+    wordSplitter.addException("Kinderecken", asList("Kinder", "ecken"));
+    wordSplitter.addException("Silberecke", asList("Silber", "ecke"));
+    wordSplitter.addException("Silberecken", asList("Silber", "ecken"));
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }

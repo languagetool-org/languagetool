@@ -20,18 +20,29 @@ package org.languagetool.rules.es;
 
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
+import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @since 2.8
  */
 public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
-    
-  public MorfologikSpanishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+
+  private static final Pattern PREFIX_WITH_WHITESPACE = Pattern.compile(
+      "^(auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans|re) (..+)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern PARTICULA_FINAL = Pattern.compile("^(..+) (que|cual)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+
+  public MorfologikSpanishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
+      List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
     this.setIgnoreTaggedWords();
   }
@@ -45,12 +56,30 @@ public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
   public final String getId() {
     return "MORFOLOGIK_RULE_ES";
   }
-  
+
   @Override
   // Use this rule in LO/OO extension despite being a spelling rule
   public boolean useInOffice() {
     return true;
   }
- 
+
+  @Override
+  protected List<SuggestedReplacement> orderSuggestions(List<SuggestedReplacement> suggestions, String word) {
+    List<SuggestedReplacement> newSuggestions = new ArrayList<>();
+    for (int i = 0; i < suggestions.size(); i++) {
+      // remove wrong split prefixes
+      if (PREFIX_WITH_WHITESPACE.matcher(suggestions.get(i).getReplacement()).matches()) {
+        continue;
+      }
+      // move some split words to first place
+      Matcher matcher = PARTICULA_FINAL.matcher(suggestions.get(i).getReplacement());
+      if (matcher.matches()) {
+        newSuggestions.add(0, suggestions.get(i));
+        continue;
+      }
+      newSuggestions.add(suggestions.get(i));
+    }
+    return newSuggestions;
+  }
 
 }

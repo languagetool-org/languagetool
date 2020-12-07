@@ -49,8 +49,9 @@ import java.util.concurrent.TimeUnit;
 public abstract class AbstractSimpleReplaceRule2 extends Rule {
 
   private final Language language;
+  private boolean subRuleSpecificIds;
 
-  public abstract String getFileName();
+  public abstract List<String> getFileNames();
   @Override
   public abstract String getId();
   @Override
@@ -71,12 +72,17 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
    */
   public abstract Locale getLocale();
 
-  private static final LoadingCache<PathAndLanguage, List<Map<String, SuggestionWithMessage>>> cache = CacheBuilder.newBuilder()
+  private static final LoadingCache<PathsAndLanguage, List<Map<String, SuggestionWithMessage>>> cache = CacheBuilder.newBuilder()
           .expireAfterWrite(30, TimeUnit.MINUTES)
-          .build(new CacheLoader<PathAndLanguage, List<Map<String, SuggestionWithMessage>>>() {
+          .build(new CacheLoader<PathsAndLanguage, List<Map<String, SuggestionWithMessage>>>() {
             @Override
-            public List<Map<String, SuggestionWithMessage>> load(@NotNull PathAndLanguage lap) throws IOException {
-              return loadWords(lap.path, lap.lang, lap.caseSensitive);
+            public List<Map<String, SuggestionWithMessage>> load(@NotNull PathsAndLanguage lap) throws IOException {
+              List<Map<String, SuggestionWithMessage>> maps = new ArrayList<>();
+              for (String path : lap.paths) {
+                List<Map<String, SuggestionWithMessage>> l = loadWords(path, lap.lang, lap.caseSensitive);
+                maps.addAll(l);
+              }
+              return maps;
             }
           });
 
@@ -87,6 +93,14 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   }
 
   /**
+   * If this is set, each replacement pair will have its own rule ID, making rule deactivations more specific.
+   * @since 5.1
+   */
+  public void useSubRuleSpecificIds() {
+    subRuleSpecificIds = true;
+  }
+
+  /**
    * use case-sensitive matching.
    */
   public boolean isCaseSensitive() {
@@ -94,11 +108,11 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   }
 
   /**
-   * @return the list of wrong words for which this rule can suggest correction. The list cannot be modified.
+   * @return the list of wrong words for which this rule can suggest corrections. The list cannot be modified.
    */
   public List<Map<String, SuggestionWithMessage>> getWrongWords() {
     try {
-      return cache.get(new PathAndLanguage(getFileName(), language, isCaseSensitive()));
+      return cache.get(new PathsAndLanguage(getFileNames(), language, isCaseSensitive()));
     } catch (ExecutionException e) {
       throw new RuntimeException(e);
     }
@@ -176,6 +190,13 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     }
   }
 
+  /**
+   * Used if each input form the replacement file has its specific id.
+   */
+  public String getDescription(String details) {
+    return null;
+  }
+
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
@@ -200,6 +221,9 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
         sb.insert(0, prevTokensList.get(j).getToken());
         variants.add(0, sb.toString());
       }
+      if (isTokenException(tokens[i])) {
+        continue;
+      }
       int len = variants.size(); // prevTokensList and variants have now the same length
       for (int j = 0; j < len; j++) { // longest words first
         String crt = variants.get(j);
@@ -222,7 +246,14 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           }
           int startPos = prevTokensList.get(len - crtWordCount).getStartPos();
           int endPos = prevTokensList.get(len - 1).getEndPos();
-          RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
+          RuleMatch ruleMatch;
+          if (subRuleSpecificIds) {
+            String desc = getDescription(crt + " / " + msgSuggestions.replace("<suggestion>", "").replace("</suggestion>", ""));
+            String id = StringTools.toId(getId() + "_" + crt);
+            ruleMatch = new RuleMatch(new SpecificIdRule(id, desc, messages), sentence, startPos, endPos, msg, getShort());
+          } else {
+            ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
+          }
           if (!isCaseSensitive() && StringTools.startsWithUppercase(crt)) {
             for (int k = 0; k < replacements.size(); k++) {
               replacements.set(k, StringTools.uppercaseFirstChar(replacements.get(k)));
@@ -230,6 +261,14 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           }
           ruleMatch.setSuggestedReplacements(replacements);
           if (!isException(sentence.getText().substring(startPos, endPos))) {
+            //keep only the longest match
+            if (ruleMatches.size() > 0) {
+              RuleMatch lastRuleMatch = ruleMatches.get(ruleMatches.size() - 1);
+              if (lastRuleMatch.getFromPos() == ruleMatch.getFromPos()
+                  && lastRuleMatch.getToPos() < ruleMatch.getToPos()) {
+                ruleMatches.remove(ruleMatches.size() - 1);
+              }
+            }
             ruleMatches.add(ruleMatch);
           }
           break;
@@ -242,13 +281,18 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   protected boolean isException(String matchedText) {
     return false;
   }
+  
+  protected boolean isTokenException(AnalyzedTokenReadings atr) {
+    return false;
+  }
 
-  static class PathAndLanguage {
-    final String path;
+  static class PathsAndLanguage {
+    final List<String> paths;
     final Language lang;
     final boolean caseSensitive;
-    PathAndLanguage(String fileName, Language language, boolean caseSensitive) {
-      this.path = Objects.requireNonNull(fileName);
+
+    PathsAndLanguage(List<String> fileNames, Language language, boolean caseSensitive) {
+      this.paths = Objects.requireNonNull(fileNames);
       this.lang = Objects.requireNonNull(language);
       this.caseSensitive = caseSensitive;
     }
@@ -257,13 +301,36 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     public boolean equals(Object o) {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
-      PathAndLanguage that = (PathAndLanguage) o;
-      return path.equals(that.path) && lang.equals(that.lang) && caseSensitive == that.caseSensitive;
+      PathsAndLanguage that = (PathsAndLanguage) o;
+      return paths.equals(that.paths) && lang.equals(that.lang) && caseSensitive == that.caseSensitive;
     }
 
     @Override
     public int hashCode() {
-      return Objects.hash(path, lang, caseSensitive);
+      return Objects.hash(paths, lang, caseSensitive);
     }
   }
+
+  static class SpecificIdRule extends AbstractSimpleReplaceRule {
+    private final String id;
+    private final String desc;
+    SpecificIdRule(String id, String desc, ResourceBundle messages) {
+      super(messages);
+      this.id = Objects.requireNonNull(id);
+      this.desc = desc;
+    }
+    @Override
+    protected Map<String, List<String>> getWrongWords() {
+      throw new RuntimeException("not implemented");
+    }
+    @Override
+    public String getId() {
+      return id;
+    }
+    @Override
+    public String getDescription() {
+      return desc;
+    }
+  }
+
 }

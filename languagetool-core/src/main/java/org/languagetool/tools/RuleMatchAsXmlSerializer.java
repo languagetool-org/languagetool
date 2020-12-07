@@ -47,7 +47,7 @@ public class RuleMatchAsXmlSerializer {
   public String getXmlStart(Language lang, Language motherTongue) {
     StringBuilder xml = new StringBuilder(CAPACITY);
     xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
-            .append("<!-- THIS OUTPUT IS DEPRECATED, PLEASE SEE http://wiki.languagetool.org/http-server FOR A BETTER APPROACH -->\n")
+            .append("<!-- THIS OUTPUT IS DEPRECATED, PLEASE SEE https://dev.languagetool.org/http-server FOR A BETTER APPROACH -->\n")
             .append("<matches software=\"LanguageTool\" version=\"" + JLanguageTool.VERSION + "\"" + " buildDate=\"")
             .append(JLanguageTool.BUILD_DATE).append("\">\n");
     if (lang != null || motherTongue != null) {
@@ -91,8 +91,7 @@ public class RuleMatchAsXmlSerializer {
     contextTools.setEscapeHtml(false);
     contextTools.setContextSize(contextSize);
     String startMarker = "__languagetool_start_marker";
-    contextTools.setErrorMarkerStart(startMarker);
-    contextTools.setErrorMarkerEnd("");
+    contextTools.setErrorMarker(startMarker, "");
 
     for (RuleMatch match : ruleMatches) {
       String subId = "";

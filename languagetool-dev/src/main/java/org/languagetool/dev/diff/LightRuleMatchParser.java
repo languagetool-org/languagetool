@@ -79,6 +79,7 @@ class LightRuleMatchParser {
     String ruleId = rule.get("id").asText();
     String fullRuleId = rule.get("subId") != null ? ruleId + "[" + rule.get("subId").asText() + "]" : ruleId;
     String message = match.get("message").asText();
+    String category = rule.get("category") != null ? rule.get("category").get("name").asText() : "(unknown)";
     int contextOffset = match.get("context").get("offset").asInt();
     int contextLength = match.get("context").get("length").asInt();
     String context = match.get("context").get("text").asText();
@@ -110,7 +111,14 @@ class LightRuleMatchParser {
     if (rule.get("tempOff") != null && rule.get("tempOff").asBoolean()) {
       status = LightRuleMatch.Status.temp_off;
     }
-    return new LightRuleMatch(0, offset, fullRuleId, message, context, coveredText, suggestions, ruleSource, title, status);
+    JsonNode jsonTags = rule.get("tags");
+    List<String> tags = new ArrayList<>();
+    if (jsonTags != null) {
+      for (JsonNode tag : jsonTags) {
+        tags.add(tag.asText());
+      }
+    }
+    return new LightRuleMatch(0, offset, fullRuleId, message, category, context, coveredText, suggestions, ruleSource, title, status, tags);
   }
 
   List<LightRuleMatch> parseOutput(Reader reader) {
@@ -146,8 +154,8 @@ class LightRuleMatchParser {
         context = line;
       } else if (coverMatcher.matches() && line.contains("^")) {
         String cover = coverMatcher.group(1);
-        int startMarkerPos = cover.indexOf("^");
-        int endMarkerPos = cover.lastIndexOf("^") + 1;
+        int startMarkerPos = cover.indexOf('^');
+        int endMarkerPos = cover.lastIndexOf('^') + 1;
         String coveredText;
         String origContext = context;
         try {
@@ -162,7 +170,8 @@ class LightRuleMatchParser {
           coveredText = "???";
         }
         String cleanId = ruleId.replace("[off]", "").replace("[temp_off]", "");
-        result.add(makeMatch(lineNum, columnNum, ruleId, cleanId, message, suggestion, context, coveredText, title, source));
+        List<String> tags = new ArrayList<>();  // not supported yet...
+        result.add(makeMatch(lineNum, columnNum, ruleId, cleanId, message, suggestion, context, coveredText, title, source, tags));
         lineNum = -1;
         columnNum = -1;
         ruleId = null;
@@ -179,7 +188,7 @@ class LightRuleMatchParser {
   @NotNull
   private String getContextWithSpan(String context, int startMarkerPos, int maxEnd) {
     context = context.substring(0, startMarkerPos) +
-      "<span class='marker'> " +
+      "<span class='marker'>" +
       context.substring(startMarkerPos, maxEnd) +
       "</span>" +
       context.substring(maxEnd);
@@ -187,9 +196,9 @@ class LightRuleMatchParser {
   }
 
   private LightRuleMatch makeMatch(int line, int column, String ruleId, String cleanId, String message, String suggestions,
-                                   String context, String coveredText, String title, String source) {
+                                   String context, String coveredText, String title, String source, List<String> tags) {
     LightRuleMatch.Status s = ruleId.contains("[temp_off]") ? LightRuleMatch.Status.temp_off : LightRuleMatch.Status.on;
-    return new LightRuleMatch(line, column, cleanId, message, context, coveredText, suggestions, source, title, s);
+    return new LightRuleMatch(line, column, cleanId, message, "", context, coveredText, suggestions, source, title, s, tags);
   }
   
 }

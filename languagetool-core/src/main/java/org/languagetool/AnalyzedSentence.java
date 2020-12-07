@@ -180,16 +180,42 @@ public final class AnalyzedSentence {
     return toString(readingDelimiter, false);
   }
 
+  private volatile String text;
+
   /**
    * Return the original text.
    * @since 2.7
    */
   public String getText() {
+    String result = text;
+    if (text == null) {
+      text = result = calcText();
+    }
+    return result;
+  }
+
+  private String calcText() {
     StringBuilder sb = new StringBuilder();
     for (AnalyzedTokenReadings element : tokens) {
       sb.append(element.getToken());
     }
     return sb.toString();
+  }
+
+  /** Text length taking position fixes (for removed soft hyphens etc.) into account, so
+   * this is _not_ always equal to {@code getText()}.
+   * @since 5.1
+   */
+  public int getCorrectedTextLength() {
+    int len = 0;
+    for (int i = 0; i < tokens.length; i++) {
+      AnalyzedTokenReadings element = tokens[i];
+      len += element.getCleanToken().length();
+      if (i == tokens.length - 1) {  // only apply at end, so the position fix at every token doesn't add up
+        len += element.getPosFix();
+      }
+    }
+    return len;
   }
 
   /**

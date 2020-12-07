@@ -102,7 +102,7 @@ public class WordRepeatBeginningRule extends TextLevelRule {
         beforeLastToken = lastToken;
         lastToken = token;
       }
-      pos += sentence.getText().length();
+      pos += sentence.getCorrectedTextLength();
     }
     return toRuleMatchArray(ruleMatches);
   }

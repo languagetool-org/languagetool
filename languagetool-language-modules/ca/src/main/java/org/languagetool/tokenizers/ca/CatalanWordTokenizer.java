@@ -18,15 +18,15 @@
  */
 package org.languagetool.tokenizers.ca;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.languagetool.JLanguageTool;
-import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
+import org.languagetool.language.Catalan;
+import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tokenizers.WordTokenizer;
 
 
@@ -44,8 +44,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
   private static final int maxPatterns = 11;
   private final Pattern[] patterns = new Pattern[maxPatterns];
   
-  private static final String DICT_FILENAME = "/ca/ca-ES-valencia.dict";
-  protected MorfologikSpeller speller;
+  private final CatalanTagger tagger;
 
   //Patterns to avoid splitting words in certain special cases
   // allows correcting typographical errors in "ela geminada"
@@ -73,16 +72,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
 
   public CatalanWordTokenizer() {
 
-    // lazy init
-    if (speller == null) {
-      if (JLanguageTool.getDataBroker().resourceExists(DICT_FILENAME)) {
-        try {
-          speller = new MorfologikSpeller(DICT_FILENAME);
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-      }
-    }
+    tagger = new CatalanTagger(new Catalan());
 
     // Apostrophe at the beginning of a word. Ex.: l'home, s'estima, n'omple, hivern, etc.
     // It creates 2 tokens: <token>l'</token><token>home</token>
@@ -106,7 +96,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
     // It creates 2 tokens: <token>Emporta</token><token>'t</token>
     // ^(.+[^cbfhjkovwyzCBFHJKOVWYZ])
     patterns[6] = Pattern.compile("^([lnmtsd]['’])(.{2,})"+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-    patterns[7] = Pattern.compile("^(.{2,})"+PF+"$",Pattern.UNICODE_CASE);
+    patterns[7] = Pattern.compile("^(.+[^wo])"+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
     // d'emportar
     patterns[8] = Pattern.compile("^([lnmtsd]['’])(.*)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
@@ -164,10 +154,12 @@ public class CatalanWordTokenizer extends WordTokenizer {
                     + "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007"
                     + "\u2008\u2009\u200A\u200B\u200c\u200d\u200e\u200f"
                     + "\u2012\u2013\u2014\u2015\u2022"
+                    + "\u2500\u3161" // other dashes
                     + "\u2028\u2029\u202a\u202b\u202c\u202d\u202e\u202f"
-                    + "\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
+                    + "\u203C\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
                     + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb"
-                    + "|,.;()[]{}=*#∗+×÷<>!?:~/\\\"'«»„”“‘’`´…¿¡\t\n\r-", true); // Not included: middle dot (·)
+                    + "\u2B9A" // arrows
+                    + "|,.;()[]{}=*#∗+×÷<>!?:~/\\\"'«»„”“‘’`´…¿¡\t\n\r-™®", true); // Not included: middle dot (·)
     String s;
     String groupStr;
 
@@ -209,7 +201,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
           l.add(s);
         } else {
           // words containing hyphen (-) are looked up in the dictionary
-          if (!speller.isMisspelled(s.replace("’", "'"))) {
+          if (tagger.tag(Arrays.asList(s.replace("’", "'"))).get(0).isTagged()) {
             l.add(s);
           }
           // some camel-case words containing hyphen (is there any better fix?)
@@ -219,7 +211,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
             l.add(s);
           }
           // words with "ela geminada" with typo: col-legi (col·legi)
-          else if (!speller.isMisspelled(s.replace("l-l", "l·l"))) {
+          else if (tagger.tag(Arrays.asList(s.replace("l-l", "l·l"))).get(0).isTagged()) {
             l.add(s);
           } else {
             // if not found, the word is split

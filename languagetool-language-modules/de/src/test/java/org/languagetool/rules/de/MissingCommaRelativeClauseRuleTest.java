@@ -49,6 +49,8 @@ public class MissingCommaRelativeClauseRuleTest {
     assertNoMatch("Ebenso darf keine schwerere Strafe als die zum Zeitpunkt der Begehung der strafbaren Handlung angedrohte Strafe verhängt werden.", rule, lt);
     assertNoMatch("Als dritte Gruppe lassen sich Aminosäuren fassen, die der Organismus anstelle dieser in Proteine einbaut.", rule, lt);
     assertNoMatch("Selbst wenn das alles perfekt verlustfrei wäre, hätte ich nichts gewonnen.", rule, lt);
+    assertNoMatch("Die Studenten, deren Urteil am stärksten von dem der Profis abwich, waren sich sicher, einen guten von einem schlechten unterscheiden zu können.", rule, lt);
+    assertNoMatch("Die Studenten, deren Urteil am stärksten durch das der Profis beeinflusst wurde, waren sich sicher, einen guten von einem schlechten unterscheiden zu können.", rule, lt);
 
     rule = new MissingCommaRelativeClauseRule(TestTools.getMessages("de"), true);
     

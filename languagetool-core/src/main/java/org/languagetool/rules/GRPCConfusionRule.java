@@ -23,32 +23,25 @@ package org.languagetool.rules;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.rules.ml.MLServerProto;
-import org.languagetool.tools.Tools;
 
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class GRPCConfusionRule extends GRPCRule {
 
-  public GRPCConfusionRule(ResourceBundle messages, RemoteRuleConfig config) {
-    super(messages, config);
+  public GRPCConfusionRule(ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
+    super(messages, config, inputLogging);
   }
 
   @Override
   protected String getMessage(MLServerProto.Match match, AnalyzedSentence sentence) {
-    String matched = sentence.getText().substring(match.getOffset(), match.getOffset() + match.getLength());
-    List<String> suggestions = match.getSuggestionsList();
-    if (suggestions == null || suggestions.isEmpty()) {
-      return Tools.i18n(messages, "confpairs_rule_message_no_suggestion", matched);
-    } else if (suggestions.size() == 1) {
-      return Tools.i18n(messages, "confpairs_rule_message_one_suggestion", matched, suggestions.get(0));
-    } else {
-      return Tools.i18n(messages, "confpairs_rule_message_more_suggestions", matched);
-    }
+    // fallback, should be provided by server
+    String covered = sentence.getText().substring(match.getOffset(), match.getOffset() + match.getLength());
+    return "You might be confusing '" + covered + "' with another word.";
   }
 
   @Override
   public String getDescription() {
-    return messages.getString("confpairs_rule_description");
+    // fallback, should be provided by server
+    return "This rule discerns confusion pairs.";
   }
 }

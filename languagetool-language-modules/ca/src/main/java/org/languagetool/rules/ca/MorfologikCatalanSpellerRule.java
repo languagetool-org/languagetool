@@ -23,6 +23,7 @@ import org.languagetool.*;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tagging.ca.CatalanTagger;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
@@ -39,7 +40,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       "^(no|en|a|els?|als?|pels?|dels?|de|per|uns?|una|unes|la|les|[tms]eus?) (..+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern PREFIX_AMB_ESPAI = Pattern.compile(
-      "^(des|avant|auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans) (..+)$",
+      "^(des|avant|auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans|pro) (..+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([lnts])(h?[aeiouàéèíòóú].*)$",
@@ -50,7 +51,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_INICI_NOM_PLURAL = Pattern.compile("^(d)(h?[aeiouàéèíòóú].+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern APOSTROF_FINAL = Pattern.compile("^(.+[aei])(l|ls|m|ns|n|t)$",
+  private static final Pattern APOSTROF_FINAL = Pattern.compile("^(...+[aei])(l|ls|m|ns|n|t)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_FINAL_S = Pattern.compile("^(.+e)(s)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
@@ -119,6 +120,12 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
           continue;
         }
       }
+      
+      String suggWithoutDiacritics = StringTools.removeDiacritics(suggestions.get(i).getReplacement());
+      if (word.equalsIgnoreCase(suggWithoutDiacritics) && suggestions.get(0).getReplacement().contains("'")) {
+        newSuggestions.add(0, suggestions.get(i));
+        continue;
+      }
 
       // move words with apostrophe or hyphen to second position
       String cleanSuggestion = suggestions.get(i).getReplacement().replaceAll("'", "").replaceAll("-", "");
@@ -177,7 +184,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     if (matcher.matches()) {
       String newSuggestion = matcher.group(suggestionPosition);
       AnalyzedTokenReadings newatr = tagger.tag(Arrays.asList(newSuggestion)).get(0);
-      if (!newatr.hasPosTag("VMIP1S0B") && matchPostagRegexp(newatr, postagPattern)) {
+      if ((!newatr.hasPosTag("VMIP1S0B") || newSuggestion.equals("fer")) && matchPostagRegexp(newatr, postagPattern)) {
         return matcher.group(1) + separator + matcher.group(2);
       }
       if (recursive) {
@@ -185,9 +192,9 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
         if (moresugg.size() > 0) {
           String newWord;
           if (suggestionPosition == 1) {
-            newWord = moresugg.get(0) + matcher.group(2);
+            newWord = moresugg.get(0).toLowerCase() + matcher.group(2);
           } else {
-            newWord = matcher.group(1) + moresugg.get(0);
+            newWord = matcher.group(1) + moresugg.get(0).toLowerCase();
           }
           return findSuggestion(suggestion, newWord, wordPattern, postagPattern, suggestionPosition, separator, false);
         }

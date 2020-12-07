@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.JLanguageTool;
 
 import java.util.Collections;
@@ -45,7 +46,7 @@ final class CaseRuleExceptions {
   public static Set<Pattern[]> getExceptionPatterns() {
     HashSet<Pattern[]> exceptionPatterns = new HashSet<>(250);
     for (String phrase : exceptions) {
-      String[] parts = phrase.split(" ");
+      String[] parts = StringUtils.split(phrase, ' ');
       Pattern[] patterns = new Pattern[parts.length];
       for (int j = 0; j < parts.length; j++) {
         patterns[j] = Pattern.compile(parts[j]);
@@ -63,7 +64,7 @@ final class CaseRuleExceptions {
         if (line.isEmpty() || line.startsWith("#")) {
           continue;
         }
-        if (line.matches("^\\s.*") || line.matches(".*\\s$")) {
+        if (Character.isWhitespace(line.charAt(0)) || Character.isWhitespace(line.charAt(line.length()-1))) {
           throw new IllegalArgumentException("Invalid line in " + path + ", starts or ends with whitespace: '" + line + "'");
         }
         result.add(line);

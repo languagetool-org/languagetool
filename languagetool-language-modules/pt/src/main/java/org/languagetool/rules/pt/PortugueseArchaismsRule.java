@@ -21,15 +21,11 @@ package org.languagetool.rules.pt;
 import org.languagetool.language.Portuguese;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
-import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * A rule that matches words which should not be used and suggests correct ones instead. 
@@ -48,11 +44,11 @@ public class PortugueseArchaismsRule extends AbstractSimpleReplaceRule2 {
   private final String path;
 
   @Override
-  public final String getFileName() {
-    return path;
+  public final List<String> getFileNames() {
+    return Collections.singletonList(path);
   }
 
-  public PortugueseArchaismsRule(ResourceBundle messages, String path) throws IOException {
+  public PortugueseArchaismsRule(ResourceBundle messages, String path) {
     super(messages, new Portuguese());
     this.path = Objects.requireNonNull(path);
     super.setCategory(Categories.STYLE.getCategory(messages));
@@ -62,7 +58,7 @@ public class PortugueseArchaismsRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return PT_ARCHAISMS_REPLACE;
   }
 

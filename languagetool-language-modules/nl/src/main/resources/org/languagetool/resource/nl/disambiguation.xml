@@ -4,10 +4,17 @@ Disambiguation Rules for LanguageTool
 Copyright (C) 2008-2018 Ruud Baars, TaalTik
 -->
 <!DOCTYPE rules [
-<!ENTITY Start '<token postag_regexp="yes" postag="SENT_START|START"/>'>
+<!ENTITY weekdays "maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag">
+<!ENTITY abbrevWeekdays "ma|di|wo|do|za|zo">
+<!ENTITY months "januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december">
+<!ENTITY abbrevMonths "jan|feb|(maa|mar|mrt)|apr|jun|jul|aug|sep|oct|nov|dec">
+<!ENTITY Maand '<token regexp="yes">&months;|&abbrevMonths;</token>'>
+<!ENTITY WeekDag '<token regexp="yes">&weekdays;</token>'>
+<!-- shorthand for sentence start and both types of sentence ends -->
+<!ENTITY Start '<token postag_regexp="yes" postag="SENT_START|START"/><token min="0" max="1" regexp="yes">maar|en|of|dus|want</token>'>
 <!ENTITY VrgTkn '<token postag="SENT_END" spacebefore="no">?</token>'>
-<!ENTITY Punt '<token postag="SENT_END" regexp="yes" spacebefore="no">[.!]</token>'>
-<!ENTITY Hij '<token regexp="yes">hij|u|men|zij|ze|#|iedereen|menigeen|n?iemand|n?iets</token>'>
+<!ENTITY Punt '<token postag="SENT_END" regexp="yes" spacebefore="no">[.!;]</token>'>
+<!ENTITY Hij '<token regexp="yes">hij|u|men|zij|ze|iedereen|menigeen|n?iemand|n?iets</token>'>
 <!ENTITY Ik "<token >ik</token >">
 <!ENTITY Wij '<token regexp="yes">wij|we|zij|ze|allen|velen|jullie</token>'>
 <!ENTITY Jij '<token regexp="yes">je|jij</token>'>
@@ -16,22 +23,24 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 <!ENTITY WkwHij '<token postag_regexp="yes" postag="WKW:VLT:1EP.*|WKW:TGW:3EP.*"/>'>
 <!ENTITY WkwWij '<token postag_regexp="yes" postag="WKW:(TGW|VLT):INF.*"/>'>
 <!ENTITY WkwTgw '<token postag_regexp="yes" postag="WKW:TGW:INF.*|WKW:INF:ZNW:HET"/>'>
-<!ENTITY WkwGij '<token postag_regexp="yes" postag="WKW:VLT:GIJ|WKW:TGW:3EP"/>'>
+<!ENTITY WkwGij '<token postag_regexp="yes" postag="WKW:(VLT|TGW):GIJ.*"/>'>
 <!ENTITY WkwVtd '<token postag="WKW:VTD:ONV"/>'>
 <!ENTITY ZnwEkv '<token postag_regexp="yes" postag="ZNW:EKV.*"/>'>
 <!ENTITY ZnwEkvDe '<token postag_regexp="yes" postag="ZNW:EKV:DE_|ZNW:EKV"/>'>
 <!ENTITY ZnwEkvHet '<token postag_regexp="yes" postag="ZNW:.*:HET|ZNW:EKV"/>'>
-<!ENTITY ZnwMrv '<token postag_regexp="yes" postag="ZNW:MRV:DE_|ZNW:MRV:VRK:DE_|(WKW|BNW):.*:MRV:DE_"/>'>
+<!ENTITY ZnwMrv '<token postag_regexp="yes" postag=".*MRV.*"/>'>
 <!-- names have a very bad overlap with other normal words, so it is better to only use words that are only names --><!ENTITY AlleenNaam '<token postag_regexp="yes" postag="ENM:PER:LST:NIX|ENM:PER:FST" case_sensitive="yes" regexp="yes">[A-Z].*<exception negate_pos="yes" postag_regexp="yes" postag="ENM:PER:LST:NIX|ENM:PER:FST"/></token>'>
 <!ENTITY Naam '<token postag_regexp="yes" postag="ENM.*" case_sensitive="yes" regexp="yes">[A-Z].*</token>'>
 <!ENTITY NaamPers '<token min="1" max="5" postag="NAME_PART"/>'>
 <!ENTITY Bnw '<token postag_regexp="yes" postag="BNW:(STL|VGR|OVR|ALR):(ONV|VRB)|WKW:(ODW|VTD):(ONV|VRB)|BNW:STF|GET:RNG"/>'>
-<!ENTITY BnwOnv '<token postag_regexp="yes" postag="BNW:(STL|VGR|OVR|ALR):ONV|WKW:(ODW|VTD):ONV|BNW:STF|GET:RNG"/>'>
-<!ENTITY BnwVrb '<token postag_regexp="yes" postag="BNW:(STL|VGR|OVR|ALR):VRB|WKW:(ODW|VTD):VRB|BNW:STF|GET:RNG"/>'>
+<!ENTITY BnwOnv '<token postag_regexp="yes" postag="BNW:(STL|VGR|OVR|ALR):ONV|WKW:(ODW|VTD):ONV|BNW:STF|GET:RNG|VNW:OBP:ONV"/>'>
+<!ENTITY BnwVrb '<token postag_regexp="yes" postag="BNW:(STL|VGR|OVR|ALR):VRB|WKW:(ODW|VTD):VRB|BNW:STF|GET:RNG|VNW:OBP:VRB"/>'>
 <!ENTITY BnwStf '<token postag="BNW:STF"/>'>
 <!ENTITY BnwVgr '<token postag="BNW:VGR:ONV"/>'>
-<!ENTITY BezOnv '<token regexp="yes">ons|zijn|haar|hun|uw|mijn|jullie|je|jouw</token>'>
-<!ENTITY BezVrb '<token regexp="yes">onze|zijn|haar|hun|uw|mijn|jullie|je|jouw</token>'>
+<!ENTITY BnwIets '<token postag_regexp="yes" postag="BNW:.*:IET"/>'>
+<!ENTITY BezOnv "<token regexp='yes'>ons|zijn|z'n|haar|hun|uw|mijn|m'n|jullie|je|jouw</token>">
+<!ENTITY BezVrb "<token regexp='yes'>onze|zijn|z'n|haar|hun|uw|mijn|m'n|jullie|je|jouw</token>">
+<!ENTITY BezEnm "<token postag='ENM:BEZ'/>">
 <!ENTITY Ieder '<token regexp="yes">ieder|elk|menig</token>'>
 <!ENTITY Iedere '<token regexp="yes">iedere|elke|sommige</token>'>
 <!ENTITY Hem '<token regexp="yes">hem|haar|u|hen|ons|ze|mij|me|je|jou|jezelf|jullie|jijzelf|zich|zichzelf|mezelf|haarzelf|uzelf|henzelf|elkaar|n?iemand|iedereen|allen</token>'>
@@ -47,14 +56,27 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 <!ENTITY Er "<token >er</token>">
 <!ENTITY Als '<token regexp="yes">als|indien|wanneer</token>'>
 <!ENTITY EnOf '<token regexp="yes">en|of</token>'>
-<!ENTITY Niets '<token regexp="yes">niets|iets|alles|wat|niks</token>'>
+<!ENTITY Niets '<token regexp="yes">n?iets|alles|wat|niks</token>'>
 <!ENTITY Get '<token postag_regexp="yes" postag="GET:(EKV|MRV)"/>'>
 <!ENTITY GetRom '<token regexp="yes">[1-9][0-9]*|(^(?=[MDCLXVI])M*(C[MD]|D?C{0,3})(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})$)</token>'>
 <!ENTITY VrgVnw '<token regexp="yes">Wie|Wat|Wanneer|Waar(om|door|heen|naar|van|op|in){0,1}|Hoe(veel|lang){0,1}</token>'>
-<!ENTITY Groep '<token regexp="yes">vlucht|aantal|paar|hoeveelheid|dozijn|heleboel</token>'>
-<!ENTITY Maar '<token regexp="yes">maar|en|of|dus|want</token>'>
+<!ENTITY Groep '<token regexp="yes">vlucht|aantal|paar|hoeveelheid|dozijn|heleboel|reeks|school|groep|bos|tientallen</token>'>
+<!ENTITY Dag '<token regexp="yes">van(ochtend|avond|morgen|nacht|middag)|vandaag|(over)?morgen(ochtend|avond|nacht|middag)?|(eer)?gister(en)?(avond|ochtend|morgen|nacht|middag)?</token>'>
 <!ENTITY Daarom '<token regexp="yes">(daar|hier)(bij|in|om|op|door|voor|mee|na|van|tegen|onder|aan|naast|over|toe)</token>'>
-<!ENTITY Unknown '<token postag="UNKNOWN"/>'>
+<!ENTITY VrbMrv '<token regexp="yes">alle|iedere|elke|sommige|weinig|veel|beide|zulke|dezelfde|meerdere</token>'>
+<!ENTITY VrbEkv '<token regexp="yes">iedere|elke</token>'>
+<!ENTITY OnvEkv '<token regexp="yes">ieder|elk</token>'>
+<!ENTITY Tsw '<token postag="TSW"/>'>
+<!ENTITY Koop '<token regexp="yes">koop|huur|leen|voet|paard</token>'>
+<!ENTITY Dvw '<token regexp="yes">aan|af|voor|mee|in|op|over|weg|door|uit|tegen|binnen|na|voort|toe|achter|teleur|om|open|onder|samen|langs</token>'>
+<!ENTITY Te "<token>te</token>">
+<!ENTITY Geen "<token>geen</token>">
+<!ENTITY Meh '<token regexp="yes">kilo|(milli|centi|deci|hecto|kilo)?(meter|gram)|pond|ons|yen|gulden|euro</token>'>
+<!ENTITY BijwGrd '<token postag="BYW:GRD" />'>
+<!ENTITY ZijnHaar '<token regexp="yes">zijn|haar</token>'>
+<!ENTITY Deze '<token regexp="yes">deze|die</token>'>
+<!ENTITY OND_WW '<token postag="CHNK_ONDWW_B"/><token postag="CHNK_ONDWW_E"/>'>
+<!ENTITY WW_OND '<token postag="CHNK_WWOND_B"/><token postag="CHNK_WWOND_E"/>'>
 ]>
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lang="nl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
 
@@ -215,7 +237,17 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<rule name="AFKO_SAMENSTELLING" id="AFKO_SAMENSTELLING"><pattern><token postag="DVS"/><token regexp="yes">en|of</token></pattern><disambig action="ignore_spelling"/></rule>
 
 	<!-- disabling error report for longer string of unknown words (foreign quotes) ;--> 
- 	<rule name="FOREIGN" id="SOME_UNKNOWN_WORDS"><pattern><marker><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/></marker></pattern><disambig action="ignore_spelling"/></rule>
+ 	<rule name="FOREIGN" id="SOME_UNKNOWN_WORDS">
+		<pattern>
+			<marker>
+				<token postag="UNKNOWN|FOREIGN" postag_regexp="yes" regexp="yes">.*[a-z][a-z].*</token>
+				<token postag="UNKNOWN|FOREIGN" postag_regexp="yes" regexp="yes">.*[a-z][a-z].*</token>
+				<token postag="UNKNOWN|FOREIGN" postag_regexp="yes" regexp="yes">.*[a-z][a-z].*</token>
+				<token postag="UNKNOWN|FOREIGN" postag_regexp="yes" regexp="yes">.*[a-z][a-z].*</token>
+			</marker>
+		</pattern>
+		<disambig action="ignore_spelling"/>
+	</rule>
 
 	<!-- INTERPUNCTIE -->
 	<rule name="punctuation" id="KOMMA">
@@ -834,14 +866,6 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<disambig action="filterall"/>
 	</rule>
 
-	<rule id="KOMMA_VGW" name="-">
-		<pattern>
-			<token>,</token>
-			<token postag="VGW"/>
-		</pattern>
-		<disambig action="filterall"/>
-	</rule>
-
 	<rule id="MEN_X" name="-">
 		<pattern>
 			<token postag="VNW:PER:3EP:EKV:ACT">men</token>
@@ -923,35 +947,34 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	
 	
 	<!-- disambiguations -->
+	<!--
+    <rule id="_f6801" name=""><pattern>&Start;&De;&ZnwEkvDe;&Vrz;&De;&ZnwEkvDe;&WkwHij;</pattern><disambig action="filterall"/></rule>
+    <rule id="_81735" name=""><pattern>&Start;&De;&BnwOnv;&BnwVrb;&ZnwEkvDe;&WkwHij;</pattern><disambig action="filterall"/></rule>
+    <rule id="_12c96" name=""><pattern>&Start;&De;&BnwVrb;&ZnwEkvDe;&WkwHij;</pattern><disambig action="filterall"/></rule>
+    <rule id="_1e76a" name=""><pattern>&Start;&De;&BnwOnv;&BnwVrb;&ZnwMrv;&WkwWij;</pattern><disambig action="filterall"/></rule>
     <rule id="_0f335" name=""><pattern>&Start;&Het;&BnwVrb;&ZnwEkvHet;&Vrz;&Het;&ZnwEkvHet;&WkwHij;</pattern><disambig action="filterall"/></rule>
     <rule id="_4c3e7" name=""><pattern>&Start;&Het;&BnwVrb;&ZnwEkvHet;&Vrz;&De;&ZnwEkvDe;&WkwHij;</pattern><disambig action="filterall"/></rule>
-    <rule id="_bd71a" name=""><pattern>&Start;&BnwVrb;&ZnwMrv;&Vrz;&De;&ZnwEkvDe;&WkwWij;</pattern><disambig action="filterall"/></rule>
     <rule id="_1936e" name=""><pattern>&Start;&Het;&ZnwEkvHet;&Vrz;&De;&ZnwEkvDe;&WkwHij;</pattern><disambig action="filterall"/></rule>
+    <rule id="_4c251" name=""><pattern>&Start;&Het;&ZnwEkvHet;&Vrz;&Het;&ZnwEkvHet;&WkwHij;</pattern><disambig action="filterall"/></rule>
+    <rule id="_3606f" name=""><pattern>&Start;&Het;&BnwOnv;&BnwVrb;&ZnwEkvHet;&WkwHij;</pattern><disambig action="filterall"/></rule>
     <rule id="_88af3" name=""><pattern>&Start;&Een;&ZnwEkvHet;&Vrz;&De;&ZnwEkvDe;&WkwHij;</pattern><disambig action="filterall"/></rule>
     <rule id="_0849a" name=""><pattern>&Start;&Een;&ZnwEkvDe;&Vrz;&De;&ZnwEkvDe;&WkwHij;</pattern><disambig action="filterall"/></rule>
     <rule id="_2a0c8" name=""><pattern>&Start;&Een;&ZnwEkvDe;&Vrz;&Het;&ZnwEkvHet;&WkwHij;</pattern><disambig action="filterall"/></rule>
     <rule id="_fa859" name=""><pattern>&Start;&Een;&ZnwEkvHet;&Vrz;&Het;&ZnwEkvHet;&WkwHij;</pattern><disambig action="filterall"/></rule>
-    <rule id="_4c251" name=""><pattern>&Start;&Het;&ZnwEkvHet;&Vrz;&Het;&ZnwEkvHet;&WkwHij;</pattern><disambig action="filterall"/></rule>
-    <rule id="_f6801" name=""><pattern>&Start;&De;&ZnwEkvDe;&Vrz;&De;&ZnwEkvDe;&WkwHij;</pattern><disambig action="filterall"/></rule>
-    <rule id="_37d38" name=""><pattern>&Start;&BnwVrb;&ZnwMrv;&Vrz;&Het;&ZnwEkvHet;&WkwWij;</pattern><disambig action="filterall"/></rule>
     <rule id="_d0ae4" name=""><pattern>&Start;&Een;&BnwOnv;&BnwVrb;&ZnwEkvDe;&WkwHij;</pattern><disambig action="filterall"/></rule>
     <rule id="_b01a7" name=""><pattern>&Start;&Een;<token>van</token>&De;&ZnwMrv;&WkwHij;</pattern><disambig action="filterall"/></rule>
-    <rule id="_81735" name=""><pattern>&Start;&De;&BnwOnv;&BnwVrb;&ZnwEkvDe;&WkwHij;</pattern><disambig action="filterall"/></rule>
-    <rule id="_a4ae8" name=""><pattern>&Start;&Een;<token>van</token>&BezVrb;&ZnwMrv;&WkwHij;</pattern><disambig action="filterall"/></rule>
-    <rule id="_71b79" name=""><pattern>&Start;&BezOnv;&BnwOnv;&BnwVrb;&ZnwEkvHet;&WkwHij;</pattern><disambig action="filterall"/></rule>
-    <rule id="_1e76a" name=""><pattern>&Start;&De;&BnwOnv;&BnwVrb;&ZnwMrv;&WkwWij;</pattern><disambig action="filterall"/></rule>
     <rule id="_8febe" name=""><pattern>&Start;&Een;&BnwOnv;&BnwOnv;&ZnwEkvHet;&WkwHij;</pattern><disambig action="filterall"/></rule>
-    <rule id="_3606f" name=""><pattern>&Start;&Het;&BnwOnv;&BnwVrb;&ZnwEkvHet;&WkwHij;</pattern><disambig action="filterall"/></rule>
+    <rule id="_4dd3c" name=""><pattern>&Start;&Een;&BnwOnv;&ZnwEkvHet;&WkwHij;</pattern><disambig action="filterall"/></rule>
+    <rule id="_74c56" name=""><pattern>&Start;&Een;&BnwVrb;&ZnwEkvDe;&WkwHij;</pattern><disambig action="filterall"/></rule>
+    <rule id="_a4ae8" name=""><pattern>&Start;&Een;<token>van</token>&BezVrb;&ZnwMrv;&WkwHij;</pattern><disambig action="filterall"/></rule>
+    <rule id="_6181f" name=""><pattern>&Start;&BnwOnv;&BnwVrb;&ZnwMrv;&WkwWij;</pattern><disambig action="filterall"/></rule>
+    <rule id="_37d38" name=""><pattern>&Start;&BnwVrb;&ZnwMrv;&Vrz;&Het;&ZnwEkvHet;&WkwWij;</pattern><disambig action="filterall"/></rule>
+    <rule id="_bd71a" name=""><pattern>&Start;&BnwVrb;&ZnwMrv;&Vrz;&De;&ZnwEkvDe;&WkwWij;</pattern><disambig action="filterall"/></rule>
+    <rule id="_71b79" name=""><pattern>&Start;&BezOnv;&BnwOnv;&BnwVrb;&ZnwEkvHet;&WkwHij;</pattern><disambig action="filterall"/></rule>
+    <rule id="_51ae4" name=""><pattern>&Start;&BezOnv;&BnwVrb;&ZnwEkvHet;&WkwHij;</pattern><disambig action="filterall"/></rule>
     <rule id="_62909" name=""><pattern>&Start;&BezVrb;&BnwOnv;&BnwVrb;&ZnwEkvDe;&WkwHij;</pattern><disambig action="filterall"/></rule>
     <rule id="_96ce2" name=""><pattern>&Start;&BezVrb;&BnwVrb;&ZnwEkvDe;&WkwHij;</pattern><disambig action="filterall"/></rule>
-    <rule id="_12c96" name=""><pattern>&Start;&De;&BnwVrb;&ZnwEkvDe;&WkwHij;</pattern><disambig action="filterall"/></rule>
-    <rule id="_51ae4" name=""><pattern>&Start;&BezOnv;&BnwVrb;&ZnwEkvHet;&WkwHij;</pattern><disambig action="filterall"/></rule>
-    <rule id="_6181f" name=""><pattern>&Start;&BnwOnv;&BnwVrb;&ZnwMrv;&WkwWij;</pattern><disambig action="filterall"/></rule>
-    <rule id="_4dd3c" name=""><pattern>&Start;&Een;&BnwOnv;&ZnwEkvHet;&WkwHij;</pattern><disambig action="filterall"/></rule>
-	<!--    <rule id="_109dc" name=""><pattern>&Start;&De;&BnwVrb;&ZnwMrv;&WkwWij;</pattern><disambig action="filterall"/></rule> -->
-	<!--    <rule id="_d8be8" name=""><pattern>&Start;&Het;&BnwVrb;&ZnwEkvHet;&WkwHij;</pattern><disambig action="filterall"/></rule> -->
-    <rule id="_74c56" name=""><pattern>&Start;&Een;&BnwVrb;&ZnwEkvDe;&WkwHij;</pattern><disambig action="filterall"/></rule>
-
+	-->
 
 	<!-- SPELLING IGNORES FOR ABGREVIATIONS TO HAVE SUGGESTIONS FOR THOSE (LIMITATIONS OF SPELL CHECKER) -->
 	<rule name="_242_omroep" id="_242_omroep"><pattern><token>242-omroep</token></pattern><disambig action="ignore_spelling"/></rule>
@@ -1110,49 +1133,332 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<disambig action="ignore_spelling"/>
 	</rule>
 
-	<!-- voeg tags voor eigennamen toe -->
-	<rule id="VOETBAL_INTERNATIONAL" name="">
+    <!-- meld geen spelfouten als er () in een woord staat -->
+	<rule id="HAAKJES_IN_WOORD_1" name="">
 		<pattern case_sensitive="yes">
-			<marker><token>Voetbal</token><token>International</token></marker>
-    </pattern>
-		<disambig action="add"><wd pos="NAME_PART"/><wd pos="NAME_PART"/></disambig>
+            <marker>
+                <token spacebefore="yes">(</token>
+                <token spacebefore="no" regexp="yes">.*[a-zA-Z].*</token>
+                <token spacebefore="no">)</token>
+                <token spacebefore="no" regexp="yes">.*[a-zA-Z].*</token>
+            </marker>
+        </pattern>
+		<disambig action="ignore_spelling"/>
+	</rule>
+	<rule id="HAAKJES_IN_WOORD_2" name="">
+		<pattern case_sensitive="yes">
+            <marker>
+                <token spacebefore="yes" regexp="yes">.*[a-zA-Z].*</token>
+                <token spacebefore="no">(</token>
+                <token spacebefore="no" regexp="yes">.*[a-zA-Z].*</token>
+                <token spacebefore="no">)</token>
+                <token spacebefore="no" regexp="yes">.*[a-zA-Z].*</token>
+            </marker>
+        </pattern>
+		<disambig action="ignore_spelling"/>
+	</rule>
+	<rule id="HAAKJES_IN_WOORD_3" name="">
+		<pattern case_sensitive="yes">
+            <marker>
+                <token spacebefore="yes" regexp="yes">.*[a-zA-Z].*</token>
+                <token spacebefore="no">(</token>
+                <token spacebefore="no" regexp="yes">.*[a-zA-Z].*</token>
+                <token spacebefore="no">)</token>
+            </marker>
+        </pattern>
+		<disambig action="ignore_spelling"/>
+	</rule>
+    
+	
+	<!-- define start and end elements to ignore -->
+	<rule id="START_IGNORE_01" name="">
+		<pattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<marker>
+				<token regexp="yes">[‘’“'"„”]</token>
+			</marker>
+		</pattern>
+		<disambig action="add"><wd pos="START"/></disambig>
+	</rule>
+	<rule id="START_IGNORE_02" name="">
+		<pattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<marker>
+				<token regexp="yes">en|maar</token>
+			</marker>
+		</pattern>
+		<disambig action="add"><wd pos="START"/></disambig>
+	</rule>
+	<rule id="END_IGNORE_01" name="">
+		<pattern>
+			<marker>
+				<token/>
+			</marker>
+			<token postag_regexp="yes" postag="SENT_END|END" regexp="yes">[‘’“'"„”]</token>
+			</pattern>
+		<disambig action="add"><wd pos="END"/></disambig>
+	</rule>
+	<rule id="END_IGNORE_03" name="">
+		<pattern>
+			<marker>
+				<token regexp="yes">[.!?]</token>
+			</marker>
+			<token regexp="yes">[.!?]</token>
+			</pattern>
+		<disambig action="add"><wd pos="END"/></disambig>
+	</rule>
+
+	<!-- voegt gij-vorm toe; heeft nog uitzonderingen nodig -->
+	<!--
+	<rule id="GIJ_VORM_01" name="">
+		<pattern><marker><token postag="WKW:TGW:3EP"><exception regexp="yes">zal|is|.*mag$|.*geeft$</exception></token></marker></pattern>
+		<disambig action="add"><wd pos="WKW:TGW:GIJ"/></disambig>
+	</rule>
+	<rule id="GIJ_VORM_02" name="">
+		<pattern><marker><token postag="WKW:TGW:3EP:LOS"><exception regexp="yes">zal|is|.*mag$|.*geeft$</exception></token></marker></pattern>
+		<disambig action="add"><wd pos="WKW:TGW:GIJ:LOS"/></disambig>
+	</rule>
+	-->
+	
+	<!-- Wees een goed mens etc. -->
+
+	<rule id="WEES_01" name="">
+		<pattern><token postag_regexp="yes" postag="SENT_START|START"/><marker><token>wees</token></marker></pattern>
+		<disambig action="add"><wd pos="WKW:TGW:1EP"/></disambig>
+	</rule>
+
+	<!-- define 'chunks' -->
+
+	<rule id="IK_LOOP" name="">
+		<pattern><marker>&Ik;&WkwIk;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ONDWW_B"/><wd pos="CHNK_ONDWW_E"/></disambig>
+	</rule>
+	<rule id="HIJ_LOOPT" name="">
+		<pattern><marker>&Hij;&WkwHij;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ONDWW_B"/><wd pos="CHNK_ONDWW_E"/></disambig>
+	</rule>
+	<rule id="GIJ_LOOPT" name="">
+		<pattern><marker>&Gij;&WkwGij;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ONDWW_B"/><wd pos="CHNK_ONDWW_E"/></disambig>
+	</rule>
+	<rule id="WIJ_LOPEN" name="">
+		<pattern><marker>&Wij;&WkwWij;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ONDWW_B"/><wd pos="CHNK_ONDWW_E"/></disambig>
+	</rule>
+	<rule id="JIJ_LOOPT" name="">
+		<pattern><marker>&Jij;&WkwHij;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ONDWW_B"/><wd pos="CHNK_ONDWW_E"/></disambig>
+	</rule>
+	<rule id="JIJ_ZULT" name="">
+		<pattern><marker>&Jij;<token regexp="yes">zult|kunt</token></marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ONDWW_B"/><wd pos="CHNK_ONDWW_E"/></disambig>
+	</rule>
+
+	<rule id="LOOP_IK" name="">
+		<pattern><marker>&WkwIk;&Ik;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_WWOND_B"/><wd pos="CHNK_WWOND_E"/></disambig>
+	</rule>
+	<rule id="LOOPT_HIJ" name="">
+		<pattern><marker>&WkwHij;&Hij;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_WWOND_B"/><wd pos="CHNK_WWOND_E"/></disambig>
+	</rule>
+	<rule id="LOOPT_GIJ" name="">
+		<pattern><marker>&WkwGij;&Gij;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_WWOND_B"/><wd pos="CHNK_WWOND_E"/></disambig>
+	</rule>
+	<rule id="LOPEN_WIJ" name="">
+		<pattern><marker>&WkwWij;&Wij;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_WWOND_B"/><wd pos="CHNK_WWOND_E"/></disambig>
+	</rule>
+	<rule id="LOOP_JIJ" name="">
+		<pattern><marker>&WkwIk;&Jij;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_WWOND_B"/><wd pos="CHNK_WWOND_E"/></disambig>
+	</rule>
+	<rule id="LOOP_JIJ_2" name="">
+		<pattern><marker><token regexp="yes">zul|kun</token>&Jij;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_WWOND_B"/><wd pos="CHNK_WWOND_E"/></disambig>
 	</rule>
 	
-	<!-- aanhalingstekens openen 
-	<rule id="AANHAAL_OPN_1" name="">
-        <pattern><token>‘</token></pattern>
-        <disambig action="add"><wd lemma="‘" pos="AHL:OPN">‘</wd></disambig>        
-	</rule>	
-	<rule id="AANHAAL_OPN_2" name="">
-        <pattern><token>“</token></pattern>
-        <disambig action="add"><wd lemma="“" pos="AHL:OPN">“</wd></disambig>        
-	</rule>	
-	<rule id="AANHAAL_OPN_3" name="">
-        <pattern><token>'</token></pattern>
-        <disambig action="add"><wd lemma="'" pos="AHL:OPN">'</wd></disambig>        
-	</rule>	
-	<rule id="AANHAAL_OPN_4" name="">
-        <pattern><token>"</token></pattern>
-        <disambig action="add"><wd lemma="&quot;" pos="AHL:OPN">"</wd></disambig>        
-	</rule>	
-	-->
-    <!-- aanhalingstekens sluiten 
-	<rule id="AANHAAL_SLT_1" name="">
-        <pattern><token>’</token></pattern>
-        <disambig action="add"><wd lemma="’" pos="AHL:SLT">’</wd></disambig>        
-	</rule>	
-	<rule id="AANHAAL_SLT_2" name="">
-        <pattern><token>”</token></pattern>
-        <disambig action="add"><wd lemma="”" pos="AHL:SLT">”</wd></disambig>        
-	</rule>	
-	<rule id="AANHAAL_SLT_3" name="">
-        <pattern><token>'</token></pattern>
-        <disambig action="add"><wd lemma="'" pos="AHL:SLT">'</wd></disambig>        
-	</rule>	
-	<rule id="AANHAAL_SLT_4" name="">
-        <pattern><token>"</token></pattern>
-        <disambig action="add"><wd lemma="&quot;" pos="AHL:SLT">"</wd></disambig>        
-	</rule>	
-	-->
+	<rule id="PUNTKOMMA_END" name="">
+		<pattern>
+			<marker><token>;</token></marker>
+		</pattern>
+		<disambig action="add"><wd pos="SENT_END"/></disambig>
+	</rule>
 
+	<rule id="NRC" name="">
+		<pattern><marker><token>NRC</token><token>Handelsblad</token></marker></pattern>
+		<disambig action="add"><wd pos="CHNK_NAME_ORG_B"/><wd pos="CHNK_NAME_ORG_E"/></disambig>
+	</rule>
+	<rule id="RADIO_X" name="">
+		<pattern><marker><token>Radio</token><token>Okapi</token></marker></pattern>
+		<disambig action="add"><wd pos="CHNK_NAME_ORG_B"/><wd pos="CHNK_NAME_ORG_E"/></disambig>
+	</rule>
+	<rule id="DYNAMO_KIEV" name="">
+		<pattern><marker><token>Dynamo</token><token>Kiev</token></marker></pattern>
+		<disambig action="add"><wd pos="CHNK_NAME_ORG_B"/><wd pos="CHNK_NAME_ORG_E"/></disambig>
+	</rule>
+	<rule id="RTL_BOULEVARD" name="">
+		<pattern><marker><token>RTL</token><token>Boulevard</token></marker></pattern>
+		<disambig action="add"><wd pos="CHNK_NAME_ORG_B"/><wd pos="CHNK_NAME_ORG_E"/></disambig>
+	</rule>
+	<rule id="VOETBAL_INTERNATIONAL" name="">
+		<pattern><marker><token>Voetbal</token><token>International</token></marker></pattern>
+		<disambig action="add"><wd pos="CHNK_NAME_ORG_B"/><wd pos="CHNK_NAME_ORG_E"/></disambig>
+	</rule>
+	<rule id="SAN_FRANSISCO" name="">
+		<pattern><marker><token>San</token><token>Fransico</token></marker></pattern>
+		<disambig action="add"><wd pos="CHNK_NAME_PLC_B"/><wd pos="CHNK_NAME_PLC_E"/></disambig>
+	</rule>
+
+<!--
+	<rule id="ZNW_DE_01" name="">
+		<pattern><marker>&De;&BnwOnv;&BnwVrb;&ZnwEkvDe;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_DE_B"/><wd pos="CHNK_ZNW_DE"/><wd pos="CHNK_ZNW_DE"/><wd pos="CHNK_ZNW_DE_E"/></disambig>
+	</rule>
+	<rule id="ZNW_DE_02" name="">
+		<pattern><marker>&De;&BnwVrb;&ZnwEkvDe;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_DE_B"/><wd pos="CHNK_ZNW_DE"/><wd pos="CHNK_ZNW_DE_E"/></disambig>
+	</rule>
+	<rule id="ZNW_DE_03" name="">
+		<antipattern>&De;&BnwVrb;&ZnwEkvDe;</antipattern>
+		<pattern><marker>&De;&ZnwEkvDe;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_DE_B"/><wd pos="CHNK_ZNW_DE_E"/></disambig>
+	</rule>
+	<rule id="ZNW_DE_04" name="">
+		<pattern><marker>&BezVrb;&BnwVrb;&ZnwEkvDe;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_DE_B"/><wd pos="CHNK_ZNW_DE"/><wd pos="CHNK_ZNW_DE_E"/></disambig>
+	</rule>
+	<rule id="ZNW_DE_05" name="">
+		<antipattern>&BezVrb;&BnwVrb;&ZnwEkvDe;</antipattern>
+		<pattern><marker>&BezVrb;&ZnwEkvDe;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_DE_B"/><wd pos="CHNK_ZNW_DE_E"/></disambig>
+	</rule>
+	<rule id="ZNW_DE_06" name="">
+		<antipattern>&Een;&BnwVrb;&ZnwEkvDe;</antipattern>
+		<pattern><marker>&Een;&ZnwEkvDe;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_DE_B"/><wd pos="CHNK_ZNW_DE_E"/></disambig>
+	</rule>
+	<rule id="ZNW_DE_07" name="">
+		<pattern><marker>&Een;&BnwVrb;&ZnwEkvDe;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_DE_B"/><wd pos="CHNK_ZNW_DE"/><wd pos="CHNK_ZNW_DE_E"/></disambig>
+	</rule>
+	<rule id="ZNW_DE_08" name="">
+		<pattern><marker>&Geen;&ZnwEkvDe;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_DE_B"/><wd pos="CHNK_ZNW_DE_E"/></disambig>
+	</rule>
+	<rule id="ZNW_DE_09" name="">
+		<pattern><marker>&Geen;&BnwVrb;&ZnwEkvDe;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_DE_B"/><wd pos="CHNK_ZNW_DE"/><wd pos="CHNK_ZNW_DE_E"/></disambig>
+	</rule>
+	<rule id="ZNW_DE_10" name="">
+		<pattern><marker>&BezEnm;&ZnwEkvDe;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_DE_B"/><wd pos="CHNK_ZNW_DE_E"/></disambig>
+	</rule>
+	<rule id="ZNW_DE_11" name="">
+		<pattern><marker>&BezEnm;&BnwVrb;&ZnwEkvDe;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_DE_B"/><wd pos="CHNK_ZNW_DE"/><wd pos="CHNK_ZNW_DE_E"/></disambig>
+	</rule>
+
+	<rule id="ZNW_HET_01" name="">
+		<pattern><marker>&Het;&BnwOnv;&BnwVrb;&ZnwEkvHet;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_HET_B"/><wd pos="CHNK_ZNW_HET"/><wd pos="CHNK_ZNW_HET"/><wd pos="CHNK_ZNW_HET_E"/></disambig>
+	</rule>
+	<rule id="ZNW_HET_02" name="">
+		<pattern><marker>&Het;&BnwVrb;&ZnwEkvHet;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_HET_B"/><wd pos="CHNK_ZNW_HET"/><wd pos="CHNK_ZNW_HET_E"/></disambig>
+	</rule>
+	<rule id="ZNW_HET_03" name="">
+		<antipattern><marker>&Het;&BnwVrb;&ZnwEkvHet;</marker></antipattern>
+		<pattern><marker>&Het;&ZnwEkvHet;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_HET_B"/><wd pos="CHNK_ZNW_HET_E"/></disambig>
+	</rule>
+	<rule id="ZNW_HET_04" name="">
+		<pattern><marker>&BezOnv;&BnwVrb;&ZnwEkvHet;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_HET_B"/><wd pos="CHNK_ZNW_HET"/><wd pos="CHNK_ZNW_HET_E"/></disambig>
+	</rule>
+	<rule id="ZNW_HET_05" name="">
+		<pattern><marker>&BezOnv;&ZnwEkvHet;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_HET_B"/><wd pos="CHNK_ZNW_HET_E"/></disambig>
+	</rule>
+	<rule id="ZNW_HET_06" name="">
+		<antipattern><marker>&Een;&BnwVrb;&ZnwEkvDe;</marker></antipattern>
+		<antipattern><marker>&Een;&BnwOnv;&ZnwEkvHet;</marker></antipattern>
+		<pattern><marker>&Een;&ZnwEkvHet;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_HET_B"/><wd pos="CHNK_ZNW_HET_E"/></disambig>
+	</rule>
+	<rule id="ZNW_HET_07" name="">
+		<pattern><marker>&Een;&BnwOnv;&ZnwEkvHet;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_HET_B"/><wd pos="CHNK_ZNW_HET"/><wd pos="CHNK_ZNW_HET_E"/></disambig>
+	</rule>
+	<rule id="ZNW_HET_08" name="">
+		<pattern><marker>&Een;&ZnwEkvHet;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_HET_B"/><wd pos="CHNK_ZNW_HET_E"/></disambig>
+	</rule>
+	<rule id="ZNW_HET_09" name="">
+		<pattern><marker>&Geen;&BnwOnv;&ZnwEkvHet;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_HET_B"/><wd pos="CHNK_ZNW_HET"/><wd pos="CHNK_ZNW_HET_E"/></disambig>
+	</rule>
+	<rule id="ZNW_HET_10" name="">
+		<pattern><marker>&Geen;&ZnwEkvHet;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_HET_B"/><wd pos="CHNK_ZNW_HET_E"/></disambig>
+	</rule>
+	<rule id="ZNW_HET_11" name="">
+		<pattern><marker>&BezEnm;&ZnwEkvHet;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_HET_B"/><wd pos="CHNK_ZNW_HET_E"/></disambig>
+	</rule>
+
+	<rule id="ZNW_MRV_01" name="">
+		<pattern><marker>&De;&BnwOnv;&BnwVrb;&ZnwMrv;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_MRV_B"/><wd pos="CHNK_ZNW_MRV"/><wd pos="CHNK_ZNW_MRV"/><wd pos="CHNK_ZNW_MRV_E"/></disambig>
+	</rule>
+	<rule id="ZNW_MRV_02" name="">
+		<pattern><marker>&De;&BnwVrb;&ZnwMrv;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_MRV_B"/><wd pos="CHNK_ZNW_MRV"/><wd pos="CHNK_ZNW_MRV_E"/></disambig>
+	</rule>
+	<rule id="ZNW_MRV_03" name="">
+		<antipattern><marker>&De;&BnwVrb;&ZnwMrv;</marker></antipattern>
+		<pattern><marker>&De;&ZnwMrv;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_MRV_B"/><wd pos="CHNK_ZNW_MRV_E"/></disambig>
+	</rule>
+	<rule id="ZNW_MRV_04" name="">
+		<pattern><marker>&BezVrb;&BnwOnv;&ZnwMrv;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_MRV_B"/><wd pos="CHNK_ZNW_MRV"/><wd pos="CHNK_ZNW_MRV_E"/></disambig>
+	</rule>
+	<rule id="ZNW_MRV_05" name="">
+		<antipattern><marker>&BezVrb;&BnwOnv;&ZnwMrv;</marker></antipattern>
+		<pattern><marker>&BezVrb;&ZnwMrv;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_MRV_B"/><wd pos="CHNK_ZNW_MRV_E"/></disambig>
+	</rule>
+	<rule id="ZNW_MRV_06" name="">
+		<pattern><marker>&Geen;&ZnwMrv;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_MRV_B"/><wd pos="CHNK_ZNW_MRV_E"/></disambig>
+	</rule>
+	<rule id="ZNW_MRV_07" name="">
+		<pattern><marker>&Geen;&BnwVrb;&ZnwMrv;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_MRV_B"/><wd pos="CHNK_ZNW_MRV"/><wd pos="CHNK_ZNW_MRV_E"/></disambig>
+	</rule>
+	<rule id="ZNW_MRV_08" name="">
+		<pattern><marker>&BezEnm;&ZnwMrv;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_MRV_B"/><wd pos="CHNK_ZNW_MRV_E"/></disambig>
+	</rule>
+	<rule id="ZNW_MRV_09" name="">
+		<pattern><marker>&BezEnm;&BnwVrb;&ZnwEkvDe;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_MRV_B"/><wd pos="CHNK_ZNW_MRV"/><wd pos="CHNK_ZNW_MRV_E"/></disambig>
+	</rule>
+	<rule id="ZNW_MRV_10" name="">
+		<pattern><marker>&Een;&Groep;&ZnwMrv;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_MRV_B"/><wd pos="CHNK_ZNW_MRV"/><wd pos="CHNK_ZNW_MRV_E"/></disambig>
+	</rule>
+	<rule id="ZNW_MRV_11a" name="">
+		<antipattern><token postag="CHNK_ZNW_MRV_E"/></antipattern>
+		<pattern><marker>&ZnwMrv;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_MRV_B"/></disambig>
+	</rule>
+	<rule id="ZNW_MRV_11b" name="">
+		<antipattern><token postag="CHNK_ZNW_MRV_E"/></antipattern>
+		<pattern><marker>&ZnwMrv;</marker></pattern>
+		<disambig action="add"><wd pos="CHNK_ZNW_MRV_E"/></disambig>
+	</rule>
+	-->
 </rules>

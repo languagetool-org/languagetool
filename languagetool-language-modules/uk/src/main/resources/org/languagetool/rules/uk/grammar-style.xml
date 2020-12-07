@@ -83,6 +83,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         </rulegroup>
     -->
+
     <rulegroup id="BILSHE_WITH_TIME_NOUNS" name="Більш з числівниками та іменниками часу">
       <rule>
         <pattern>
@@ -410,7 +411,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       то тоді треба прийменника: старший за мене, цей стілець вищий від того тощо -->
       <example>старший працездатного віку</example>
     </rule>
-    </rulegroup>
+  </rulegroup>
 
     <!--
         <rulegroup name="Канцелярзми" id="KANZ">
@@ -508,8 +509,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token>в</token>
           </marker>
-          <token regexp="yes">2.*|[бгґджзйклмнпрстхчцшщqwrpsghkjlzxcbnm]ь?[вфvfw].*
+          <token regexp="yes">2.*|[бгґджзйклмнпрстхчцшщqwrpsghkjlzcxbnm]ь?[вфvfw].*
             <exception postag_regexp="yes" postag=".*:abbr"/>
+            <exception case_sensitive="yes" regexp="yes">[XVIХІ]+</exception>
           </token>
         </pattern>
         <message>Перед словами, що починаються на в, ф або збігом приголосних із в, ф пишемо у: <suggestion>у</suggestion> \2</message>
@@ -519,6 +521,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="у">парад <marker>в</marker> зворотному напрямку</example>
         <example correction="у">таких ознак <marker>в</marker> двійнятах</example>
         <example>В МВС.</example>
+        <example>в XV столітті.</example>
       </rule>
 
       <rule>
@@ -532,6 +535,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token regexp="yes">[8вфvfw].*
             <exception postag_regexp="yes" postag=".*:abbr"/>
+            <exception case_sensitive="yes" regexp="yes">[XVIХІ]+</exception>
           </token>
         </pattern>
         <message>Перед словами, що починаються на в, ф або збігом приголосних із в, ф пишемо у: <suggestion>у</suggestion> \3</message>
@@ -544,7 +548,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>перевагу в швидкості</example>
         <example>сингулярності в квантовій</example>
         <example>В МВС.</example>
+        <example>в V столітті.</example>
       </rule>
+
       <!--
           <rule>
           <pattern>
@@ -614,7 +620,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         </rulegroup>
     -->
-    <rulegroup id="EUPHONY_CONJ_I_Y" name="Милозвучність">
+    <rulegroup id="EUPHONY_CONJ_I_Y" name="Милозвучність: і/й">
       <!-- TODO: і-/й- на початку слів лише для іти/йти, імовірність/ймовірність, імення/ймення, іменувати/йменуватися??? -->
 
       <!-- сполучники і/й -->
@@ -692,7 +698,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 
     <!-- сполучники зі/із/з -->
-    <rulegroup id="EUPHONY_PREP_Z_IZ_ZI" name="Милозвучність">
+    <rulegroup id="EUPHONY_PREP_Z_IZ_ZI" name="Милозвучність: з/зі/із">
       <rule>
         <pattern>
           <marker>
@@ -716,7 +722,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token regexp="yes">зі|із</token>
           </marker>
           <token regexp="yes">[^зсшщ].*
-            <exception regexp="yes">(мн|вс|ст).*|1[0-9][0-9](-[а-яіїєґ]{1,3})?</exception>
+            <exception regexp="yes">(мн|вс|ль[вн]).*|1[0-9][0-9](-[а-яіїєґ]{1,3})?</exception>
           </token>
         </pattern>
         <message>Після голосної та на початку речення перед приголосною (крім с, ш) вживаємо з: <suggestion>з</suggestion> \3</message>
@@ -724,8 +730,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="З"><marker>Із</marker> її приходом.</example>
         <example>3 її приходом</example>
         <example>Зі всієї.</example>
+        <example>Зі старшим.</example>
         <example>Зі мною.</example>
         <example>Зі 104 стрічками.</example>
+        <example>зі Львова</example>
       </rule>
       <!--
           <rule>
@@ -769,15 +777,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <exception regexp="yes">\p{Lu}\p{Lu}.*</exception>
           </token>
         </pattern>
-        <message>Перед сполученням приголосних із початковим свистячим або шиплячим пишемо зі: <suggestion>зі</suggestion> \2</message>
+        <message>Перед сполученням приголосних із початковим свистячим або шиплячим пишемо: <suggestion>зі</suggestion></message>
         <url>https://r2u.org.ua/pravopys/pravXXI/13.html</url>
+        <example correction="зі">Бере книжку <marker>із</marker> стола.</example>
+        <example correction="зі">Бере книжку <marker>з</marker> стола.</example>
+        <example correction="Зі"><marker>З</marker> 104 інновацій.</example>
         <example>Бере книжку зі стола.</example>
         <example>Висновок із цього.</example>
         <example>Балада зі знаком запитання.</example>
         <example>Організація з США підкуплена.</example>
-        <example correction="зі">Бере книжку <marker>із</marker> стола.</example>
-        <example correction="зі">Бере книжку <marker>з</marker> стола.</example>
-        <example correction="Зі"><marker>З</marker> 104 інновацій.</example>
+        <example>з Львова</example>
       </rule>
     </rulegroup>
 
@@ -843,6 +852,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="би">Гуляв <marker>б</marker> усюди.</example>
         <example>Гуділи б голосно.</example>
       </rule>
+
       <rule>
         <antipattern>
           <token>би</token>
@@ -860,6 +870,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Тікав би звідси.</example>
         <example>Могло би бути.</example>
         <example>Стався би скандал.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">.*[баеєиіїоюя]</token>
+          <marker>
+            <token>би</token>
+          </marker>
+          <token regexp="yes">[бпдткґ].*|[бвгґджзйклмнпрстфхцчшщ]{2}.*</token>
+        </pattern>
+        <message>Згідно з чинним правописом, після голосної пишемо <suggestion>б</suggestion>. Однак «би» дозволяє уникати збігу приголосних б та б/п/д/т/к/ґ або двох приголосних.</message>
+        <example correction="б">Стався <marker>би</marker> скандал.</example>
+        <example correction="б">Могло <marker>би</marker> бути.</example>
       </rule>
     </rulegroup>
 
@@ -1095,17 +1118,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <marker>
             <token inflected="yes">жилий</token>
-            <token inflected="yes">будівництво</token>
           </marker>
+          <token inflected="yes" regexp="yes">будівництво|фонд</token>
         </pattern>
-        <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion>житлове будівництво</suggestion>?</message>
-        <short>Правильно «житлове будівництво»</short>
-        <example correction="житлове будівництво">Постанова про індивідуальне <marker>жиле будівництво</marker>.</example>
-        <example>Постанова про індивідуальне житлове будівництво.</example>
+        <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion>житловий</suggestion>?</message>
+        <short>Правильно «житловий»</short>
+        <example correction="житловий">Постанова про індивідуальне <marker>жиле</marker> будівництво.</example>
+        <example>Постанова про індивідуальне жилий будинок.</example>
       </rule>
     </rulegroup>
 
-<!-- 
+<!--
     <rulegroup id="poverhnevyi_vs_poverhovyi" name="Поверхневий і поверховий">
       <rule>
         <pattern>
@@ -1136,6 +1159,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Науковий ступінь</example>
       </rule>
     </rulegroup>
+
+    <rule id="vchenyi_stupin" name="Вчений ступінь">
+      <pattern>
+        <marker>
+          <token inflected='yes' regexp='yes'>[ву]чений</token>
+        </marker>
+        <token inflected='yes' regexp="yes">ступінь|степінь</token>
+      </pattern>
+      <message>Правильно: <suggestion>науковий</suggestion></message>
+      <example correction="науковий"><marker>вчений</marker> ступінь</example>
+    </rule>
 
     <rule id="zirka_vs_zorya" name="Зірка і зоря">
       <pattern>
@@ -1453,6 +1487,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token postag_regexp="yes" postag=".*:slang.*">
           <exception negate_pos="yes" postag_regexp="yes" postag=".*:slang.*|SENT_END|PARA_END"/>
+          <exception inflected="yes">чарт</exception>
         </token>
       </pattern>
       <message>Це слово є жаргонним</message>
@@ -1792,6 +1827,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token case_sensitive="yes" regexp="yes">Мо|Сю</token>
         <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'-]+</token>
       </antipattern>
+      <antipattern>
+        <token>ні</token>
+        <token>з</token>
+        <token>сього</token>
+      </antipattern>
       <pattern>
         <token postag_regexp="yes" postag=".*:arch.*">
           <exception negate_pos="yes" postag_regexp="yes" postag=".*:arch.*|.*_END"/>
@@ -1803,6 +1843,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Анголи</example>
       <example>китаянку Сю Ян</example>
       <example>бігуна Мо Кейна</example>
+      <example>ні з того ні з сього</example>
     </rule>
 
     <rule id="vulgar" name="Вульгаризми">
@@ -1817,6 +1858,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
 
     <rule id="vocative_inanim" name="Кличний для неістот">
+      <antipattern>
+        <token>,</token>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+          <token postag_regexp="yes" postag="adj:.:v_kly.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:inanim:.:v_kly.*"/>
+        </unify>
+        <token>!</token>
+      </antipattern>
       <antipattern>
         <token postag_regexp="yes" postag="verb.*?:impr:.*"/>
         <token>,</token>
@@ -1849,7 +1900,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </antipattern>
       <pattern>
         <token postag_regexp="yes" postag="noun:inanim:.:v_kly.*">
-          <exception negate_pos="yes" postag_regexp="yes" postag="noun:inanim:.:v_kly.*|.*_END"/>
+          <exception negate_pos="yes" postag_regexp="yes" postag="noun:inanim:.:v_kly.*|verb.*subst.*|.*_END"/>
           <exception regexp="yes">народе|батьківщино|У?країно|(не)?доле|громадо|вітре|надіє|гол[оі]вонько|святосте|достойносте|красо|діброво|(все)?світе|лишко|братіє|вітчизно|мордо|квітко|зіронько|зірочко|святине|годинонько|хвилинонько|маро|зброє|весно|ноче|редакціє|(ред)?колегіє|думо|націє|владо|верше|душко</exception>
           <!-- рідкіші
           <exception regexp="yes">трояндо|долино|книго|суде|радосте|скорбото|красо|шкуро|втіхо|завірюхо|чарочко|кровиночко|холеро|шкапо|луже|вельможносте|веснонько|лапко|пучино|долино|молитво|хвиле|хмаро|згубо|славо|ніченько|березо|вербо|розпуко|худобо|вітре|морозе</exception>
@@ -1861,12 +1912,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Форми кличного відмінку для неістот мають обмежене вживання.</message>
       <example correction=""><marker>автокомісійко</marker>.</example>
       <example correction=""><marker>аберометре</marker></example>
+      <example correction=""><marker>роде</marker></example>
       <example>того.</example>
       <example>Матіоло.</example>
       <example>ПАСЕ</example>
       <example>прощавай, стара імперіє</example>
       <example>ой, хато ти моя</example>
       <example>агов тумане</example>
+      <example>Вітання, спільното!</example>
     </rule>
 
     <rule id="u_znak_vdiachnosti" name="У знак вдячності">
@@ -2090,6 +2143,96 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="торік|минулого року|того року"><marker>в минулому році</marker></example>
     </rule>
 
+    <rule id="vuhan" name="Вухань">
+      <pattern>
+        <token inflected="yes">Ухань</token>
+      </pattern>
+      <message>За системою транскрипції Кірносової-Цісар, має бути <suggestion>Вухань</suggestion></message>
+      <url>https://uk.wikipedia.org/wiki/%D0%A1%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0_%D0%9A%D1%96%D1%80%D0%BD%D0%BE%D1%81%D0%BE%D0%B2%D0%BE%D1%97%E2%80%94%D0%A6%D1%96%D1%81%D0%B0%D1%80</url>
+      <example correction="Вухань"><marker>Ухань</marker></example>
+    </rule>
+
+    <rule id="korotshe_kazhychy" name="Коротше кажучи">
+      <pattern>
+        <token>коротше</token>
+        <token>кажучи</token>
+      </pattern>
+      <message>Краще: <suggestion>коротко кажучи</suggestion></message>
+      <suggestion>(одним) словом</suggestion>
+      <example correction="Коротко кажучи|(Одним) словом"><marker>Коротше кажучи</marker></example>
+      <example>Коротко кажучи</example>
+    </rule>
+
+
+    <!-- suggestions supported only by some (albeit popular) sources -->
+
+    <rulegroup id="buty_pravym" name="Бути правим">
+      <rule>
+        <antipattern>
+          <token inflected="yes">право</token>
+          <token postag_regexp="yes" postag="noun:.*:v_rod.*">
+          <!--
+            <exception postag_regexp="yes" postag="noun:.*:v_(naz|oru).*"/>
+          -->
+          </token>
+        </antipattern>
+        <antipattern>
+          <token inflected="yes">право</token>
+          <token>на</token>
+          <token postag_regexp="yes" postag="noun:.*:v_naz.*"/>
+        </antipattern>
+        <pattern>
+          <marker>
+            <unify>
+              <feature id="number"/>
+
+              <token inflected="yes" postag_regexp="yes" negate_pos="yes" postag="verb:imperf:.*?:n(:.*|$)">бути
+                <exception>суть</exception>
+              </token>
+              <token regexp="yes" min="0">би?</token>
+              <token inflected="yes" postag_regexp="yes" postag="adj:.:v_(naz|oru).*">правий</token>
+            </unify>
+          </marker>
+          <token>
+            <exception regexp="yes" inflected="yes" postag_regexp="yes" postag="noun.*?:v_(naz|oru).*">рука|політик|партія|сила|консерватор</exception>
+            <exception inflected="yes">качати</exception>
+            <exception postag_regexp="yes" postag="verb:.*?:inf.*"/>
+          </token>
+        </pattern>
+        <message>Деякі мовознавці вважають, що у значенні «такий, що правильно мислить, діє» правильно: <suggestion>мати рацію</suggestion></message>
+        <suggestion>мати слушність</suggestion>
+        <suggestion>(чиясь) правда</suggestion>
+        <example correction="мати рацію|мати слушність|(чиясь) правда">може <marker>бути правим</marker> лише тому.</example>
+        <example correction="мати рацію|мати слушність|(чиясь) правда">класики <marker>були праві</marker>.</example>
+        <example correction="мати рацію|мати слушність|(чиясь) правда">він <marker>був правий</marker>.</example>
+        <!--
+        <example correction="мати рацію|мати слушність|(чиясь) правда">вона <marker>буде права</marker>.</example>
+        -->
+        <example>співак є правою рукою дизайнера Анни</example>
+        <example>зверху була права рука</example>
+        <example>не було правого сидіння</example>
+        <example>буде права качати</example>
+        <example>у них не було права</example>
+        <example>у них були права й привілеї</example>
+        <example>завтра не буде права нарікати</example>
+        <example>у них не було права на смерть</example>
+        <example>найважливішими є права людини</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="liky_vid" name="Ліки від">
+      <pattern>
+        <token inflected="yes">ліки</token>
+        <marker>
+          <token>від</token>
+        </marker>
+      </pattern>
+      <message>На думку Антоненка-Давидовича правильно: <suggestion>проти</suggestion>, але в мовній практиці переважає «від»</message>
+      <url>http://yak-my-hovorymo.wikidot.com/pryjmennyky#vid-proty-na-proty</url>
+      <example correction="проти">ліки <marker>від</marker> усяких хвороб</example>
+      <example>ліки проти усяких хвороб</example>
+    </rule>
+
     <rule id="na_protyazi" name="На протязі">
       <pattern>
         <marker>
@@ -2110,14 +2253,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>той стояв на протязі кілька хвилин.</example>
     </rule>
 
-    <rule id="vuhan" name="Вухань">
+    <rule id="pry_bazhanni" name="При бажанні">
       <pattern>
-        <token inflected="yes">Ухань</token>
+        <token>при</token>
+        <token>бажанні</token>
       </pattern>
-      <message>За системою транскрипції Кірносової-Цісар, має бути <suggestion>Вухань</suggestion></message>
-      <url>https://uk.wikipedia.org/wiki/%D0%A1%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0_%D0%9A%D1%96%D1%80%D0%BD%D0%BE%D1%81%D0%BE%D0%B2%D0%BE%D1%97%E2%80%94%D0%A6%D1%96%D1%81%D0%B0%D1%80</url>
-      <example correction="Вухань"><marker>Ухань</marker></example>
+      <message>На думку деяких мовознавців, слід вживати <suggestion>якщо є охота (бажання)</suggestion>, <suggestion>якщо (коли) маєш (маєте) бажання (охоту)</suggestion></message>
+      <example correction="Якщо є охота (бажання)|Якщо (коли) маєш (маєте) бажання (охоту)"><marker>При бажанні</marker> Блохін може залишитися в Динамо</example>
+      <example>Якщо Блохін має бажання він може залишитися в Динамо</example>
     </rule>
+
+    <rulegroup id="vyglyadaty_vs_maty_vyglyad" name="Виглядати і мати вигляд">
+      <rule>
+        <pattern>
+         <token regexp='yes'>(не)?погано|(не)?добре|(не)?гарно|інакше|щасливо|смішно|чудово|страшно|розумно|краще|файно|кепсько</token>
+         <token inflected='yes'>виглядати</token>
+        </pattern>
+        <message>На думку деяких мовознавців, «виглядати» в цьому значенні вживати недоречно, але в загальній мовній практиці вживають обидва вислови.</message>
+        <suggestion>мати (який) вигляд (подобу, постать)</suggestion>
+        <example correction="мати (який) вигляд (подобу, постать)">Вона <marker>гарно виглядає</marker>.</example>
+        <example>Вона виглядає з вікна.</example>
+      </rule>
+      
+      <rule>
+        <pattern>
+          <token inflected='yes'>виглядати</token>
+          <token regexp='yes'>(не)?погано|(не)?добре|(не)?гарно|інакше|щасливо|смішно|чудово|страшно|розумно|краще|файно|кепсько</token>
+        </pattern>
+        <message>На думку деяких мовознавців, «виглядати» в цьому значенні вживати недоречно, але в загальній мовній практиці вживають обидва вислови.</message>
+        <suggestion>мати (який) вигляд (подобу, постать)</suggestion>
+       <example correction="мати (який) вигляд (подобу, постать)">Вона <marker>виглядає гарно</marker>.</example>
+        <example>Вона виглядає з вікна.</example>
+      </rule>
+    </rulegroup>
 
 <!--
     схоже, «відсутній» не має такого чіткого розділення

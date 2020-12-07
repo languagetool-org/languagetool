@@ -21,11 +21,13 @@ package org.languagetool.rules;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Tag;
 import org.languagetool.UserConfig;
 
 /**
@@ -41,9 +43,9 @@ public class LongSentenceRule extends Rule {
   protected int maxWords = DEFAULT_MAX_WORDS;
 
   /**
-   * @since 4.2
+   * @since 5.1
    */
-  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords, boolean defaultActive) {
+  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords, boolean defaultActive, boolean picky) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     if (!defaultActive) {
@@ -59,6 +61,16 @@ public class LongSentenceRule extends Rule {
       }
     }
     setLocQualityIssueType(ITSIssueType.Style);
+    if (picky) {
+      setTags(Collections.singletonList(Tag.picky));
+    }
+  }
+
+  /**
+   * @since 4.2
+   */
+  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords, boolean defaultActive) {
+    this(messages, userConfig, defaultWords, defaultActive, false);
   }
 
   /**

@@ -31,7 +31,7 @@ import java.util.List;
  */
 public class CleanOverlappingFilter implements RuleMatchFilter {
 
-  private Language language;
+  private final Language language;
   
   public CleanOverlappingFilter(Language lang) {
     this.language = lang;

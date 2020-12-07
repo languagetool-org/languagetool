@@ -123,8 +123,8 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
               RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, 
                   messages.getString("punctuation_mark_paragraph_end_msg"));
               List<String> replacements = new ArrayList<>();
-              for (String PUNCTUATION_MARK : PUNCTUATION_MARKS) {
-                replacements.add(tokens[lastNWToken].getToken() + PUNCTUATION_MARK);
+              for (String mark : PUNCTUATION_MARKS) {
+                replacements.add(tokens[lastNWToken].getToken() + mark);
               }
               ruleMatch.setSuggestedReplacements(replacements);
               ruleMatches.add(ruleMatch);
@@ -133,7 +133,7 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
         }
         lastPara = n;
       }
-      pos += sentence.getText().length();
+      pos += sentence.getCorrectedTextLength();
     }
     return toRuleMatchArray(ruleMatches);
   }

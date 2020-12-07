@@ -28,7 +28,6 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.Experimental;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 
@@ -40,7 +39,6 @@ import morfologik.fsa.FSA;
 import morfologik.fsa.builders.CFSA2Serializer;
 import morfologik.fsa.builders.FSABuilder;
 import morfologik.stemming.Dictionary;
-import org.languagetool.tools.StringTools;
 
 /**
  * Morfologik speller that merges results from binary (.dict) and plain text (.txt) dictionaries.
@@ -55,15 +53,15 @@ public class MorfologikMultiSpeller {
           .build(new CacheLoader<BufferedReaderWithSource, List<byte[]>>() {
             @Override
             public List<byte[]> load(@NotNull BufferedReaderWithSource reader) throws IOException {
-              List<byte[]> lines = getLines(reader.reader);
+              List<byte[]> lines = getLines(reader.reader, reader.readerPath);
               if (reader.languageVariantReader != null) {
-                lines.addAll(getLines(reader.languageVariantReader));
+                lines.addAll(getLines(reader.languageVariantReader, reader.readerPath));
                 lines.add(SpellingCheckRule.LANGUAGETOOL.getBytes());  // adding here so it's also used for suggestions
               }
               return lines;
             }
 
-            private List<byte[]> getLines(BufferedReader br) throws IOException {
+            private List<byte[]> getLines(BufferedReader br, String path) throws IOException {
               List<byte[]> lines = new ArrayList<>();
               String line;
               while ((line = br.readLine()) != null) {
@@ -131,7 +129,7 @@ public class MorfologikMultiSpeller {
     List<MorfologikSpeller> spellers = new ArrayList<>();
     MorfologikSpeller userDictSpeller = getUserDictSpellerOrNull(userWords, binaryDictPath, maxEditDistance);
     if (userDictSpeller != null) {
-      // add this first, as otherwise suggestions from user's won dictionary might drown in the mass of other suggestions
+      // add this first, as otherwise suggestions from user's own dictionary might drown in the mass of other suggestions
       spellers.add(userDictSpeller);
       userDictSpellers = Collections.singletonList(userDictSpeller);
     } else {

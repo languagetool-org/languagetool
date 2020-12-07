@@ -74,7 +74,7 @@ public class SimpleReplaceSpelling1992Rule extends AbstractSimpleReplaceRule {
   }
 
   @Override
-  public RuleMatch[] match(AnalyzedSentence sentence) {
+  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     RuleMatch[] match = super.match(sentence);
     if( match.length == 0 ) {
       match = findTagged1922(sentence);
@@ -109,7 +109,7 @@ public class SimpleReplaceSpelling1992Rule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return tokenStr + " — написання не відповідає чинній версії правопису, виправлення: "
+    return "«" + tokenStr + "» — написання не відповідає чинній версії правопису, виправлення: "
         + StringUtils.join(replacements, ",") + ".";
   }
 

@@ -27,13 +27,11 @@ import org.languagetool.rules.RuleMatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.net.ssl.SSLHandshakeException;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -45,7 +43,7 @@ import java.util.*;
  */
 public class GrammalecteRule extends Rule {
 
-  private static Logger logger = LoggerFactory.getLogger(GrammalecteRule.class);
+  private static final Logger logger = LoggerFactory.getLogger(GrammalecteRule.class);
   private static final int TIMEOUT_MILLIS = 500;
   private static final long DOWN_INTERVAL_MILLISECONDS = 5000;
 
@@ -95,7 +93,10 @@ public class GrammalecteRule extends Rule {
     "esp_insécables_multiples", // temp disabled, unsure how this works with the browser add-ons
     "typo_espace_manquant_après1", // false alarm in urls (e.g. '&rk=...')
     "typo_espace_manquant_après2", // false alarm in urls (e.g. '&rk=...')
-    "typo_espace_manquant_après3" // false alarm in file names (e.g. 'La teaser.zip')
+    "typo_espace_manquant_après3", // false alarm in file names (e.g. 'La teaser.zip')
+    "typo_tiret_incise2",  // picky
+    "eepi_écriture_épicène_singulier",
+    "g1__eleu_élisions_manquantes__b1_a1_1" // picky
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {
@@ -145,13 +146,6 @@ public class GrammalecteRule extends Rule {
       InputStream input = huc.getInputStream();
       List<RuleMatch> ruleMatches = parseJson(input);
       return toRuleMatchArray(ruleMatches);
-    } catch (SSLHandshakeException | SocketTimeoutException e) {
-      // "hard" errors that will probably not resolve themselves easily:
-      lastRequestError = System.currentTimeMillis();
-      // still fail silently, better to return partial results than an error
-      //throw e;
-      logger.warn("Warn: Failed to query Grammalecte server at " + serverUrl + ": " + e.getClass() + ": " + e.getMessage());
-      e.printStackTrace();
     } catch (Exception e) {
       lastRequestError = System.currentTimeMillis();
       // These are issue that can be request-specific, like wrong parameters. We don't throw an
@@ -168,6 +162,9 @@ public class GrammalecteRule extends Rule {
   private List<RuleMatch> parseJson(InputStream inputStream) throws IOException {
     Map map = mapper.readValue(inputStream, Map.class);
     List matches = (ArrayList) map.get("data");
+    if (matches == null) {
+      throw new RuntimeException("No 'data' found in grammalecte JSON: " + map);  // handled in match()
+    }
     List<RuleMatch> result = new ArrayList<>();
     for (Object match : matches) {
       List<RuleMatch> remoteMatches = getMatches((Map<String, Object>)match);
@@ -204,9 +201,9 @@ public class GrammalecteRule extends Rule {
     return remoteMatches;
   }
 
-  class GrammalecteInternalRule extends Rule {
-    private String id;
-    private String desc;
+  static class GrammalecteInternalRule extends Rule {
+    private final String id;
+    private final String desc;
 
     GrammalecteInternalRule(String id, String desc) {
       this.id = id;

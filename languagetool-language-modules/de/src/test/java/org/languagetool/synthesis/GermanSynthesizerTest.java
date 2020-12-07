@@ -46,10 +46,12 @@ public class GermanSynthesizerTest {
 
   @Test
   public void testSynthesize() throws IOException {
+    assertThat(synth("Buschfeuer", "SUB:GEN:SIN:NEU"), is("[Buschfeuers]"));
     assertThat(synth("Äußerung", "SUB:NOM:PLU:FEM"), is("[Äußerungen]"));
     assertThat(synth("Äußerung", "SUB:NOM:PLU:MAS"), is("[]"));
     assertThat(synth("Haus", "SUB:AKK:PLU:NEU"), is("[Häuser]"));
     assertThat(synth("Haus", ".*", true), is("[Häuser, Haus, Häusern, Haus, Hause, Häuser, Hauses, Häuser, Haus]"));
+    assertThat(synthesizer.synthesize(new AnalyzedToken("fake", "FAKE", null), "FAKE", false).length, is(0));  // could happen with soft hyphen in the input
   }
 
   @Test

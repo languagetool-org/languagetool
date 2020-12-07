@@ -37,16 +37,18 @@ class ConfigThread extends Thread {
 
   private final Language docLanguage;
   private final Configuration config;
+  private final SwJLanguageTool langTool;
   private final MultiDocumentsHandler documents;
   private final ConfigurationDialog cfgDialog;
   
-  ConfigThread(Language docLanguage, Configuration config, MultiDocumentsHandler documents) {
+  ConfigThread(Language docLanguage, Configuration config, SwJLanguageTool langTool, MultiDocumentsHandler documents) {
     if (config.getDefaultLanguage() == null) {
       this.docLanguage = docLanguage;
     } else {
       this.docLanguage = config.getDefaultLanguage();
     }
     this.config = config;
+    this.langTool = langTool;
     this.documents = documents; 
     cfgDialog = new ConfigurationDialog(null, true, config);
   }
@@ -57,13 +59,13 @@ class ConfigThread extends Thread {
       return;
     }
     try {
-      List<Rule> allRules = documents.getLanguageTool().getAllRules();
+      List<Rule> allRules = langTool.getAllRules();
       Set<String> disabledRulesUI = documents.getDisabledRules();
       config.addDisabledRuleIds(disabledRulesUI);
       boolean configChanged = cfgDialog.show(allRules);
       if (configChanged) {
         Set<String> disabledRules = config.getDisabledRuleIds();
-        for(String ruleId : disabledRulesUI) {
+        for (String ruleId : disabledRulesUI) {
           if(!disabledRules.contains(ruleId)) {
             disabledRulesUI.remove(ruleId);
           }
@@ -71,6 +73,7 @@ class ConfigThread extends Thread {
         documents.setDisabledRules(disabledRulesUI);
         config.removeDisabledRuleIds(disabledRulesUI);
         config.saveConfiguration(docLanguage);
+        documents.resetDocumentCaches();
         documents.resetConfiguration();
       } else {
         config.removeDisabledRuleIds(documents.getDisabledRules());

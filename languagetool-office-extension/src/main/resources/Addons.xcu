@@ -5,7 +5,7 @@
         <node oor:name="Images">
             <node oor:name="org.languagetool.openoffice.Main.imageLtCheck" oor:op="replace">
                 <prop oor:name="URL" oor:type="xs:string">
-                    <value>.uno:SpellingAndGrammarDialog</value>
+                    <value>service:org.languagetool.openoffice.Main?checkDialog</value>
                 </prop>
                 <node oor:name="UserDefinedImages">
                     <prop oor:name="ImageSmallURL">
@@ -18,7 +18,7 @@
             </node>
             <node oor:name="org.languagetool.openoffice.Main.imageLtCheckAgain" oor:op="replace">
                 <prop oor:name="URL" oor:type="xs:string">
-                    <value>.uno:RecheckDocument</value>
+                    <value>service:org.languagetool.openoffice.Main?checkAgainDialog</value>
                 </prop>
                 <node oor:name="UserDefinedImages">
                     <prop oor:name="ImageSmallURL">
@@ -42,6 +42,19 @@
                     </prop>
                 </node>
             </node>
+            <node oor:name="org.languagetool.openoffice.Main.imageLtNext" oor:op="replace">
+                <prop oor:name="URL" oor:type="xs:string">
+                    <value>service:org.languagetool.openoffice.Main?nextError</value>
+                </prop>
+                <node oor:name="UserDefinedImages">
+                    <prop oor:name="ImageSmallURL">
+                        <value>vnd.sun.star.extension://org.openoffice.languagetool.oxt/images/LanguageToolNextSmall.png</value>
+                    </prop>
+                    <prop oor:name="ImageBigURL">
+                        <value>vnd.sun.star.extension://org.openoffice.languagetool.oxt/images/LanguageToolNextBig.png</value>
+                    </prop>
+                </node>
+            </node>
         </node>
 
         <node oor:name="OfficeToolBar">
@@ -51,7 +64,24 @@
                 </prop>
                 <node oor:name="T1" oor:op="replace">
                     <prop oor:name="URL" oor:type="xs:string">
-                        <value>.uno:SpellingAndGrammarDialog</value>
+                        <value>service:org.languagetool.openoffice.Main?nextError</value>
+                    </prop>
+                    <prop oor:name="Target" oor:type="xs:string">
+                        <value>_self</value>
+                    </prop>
+                    <prop oor:name="Context" oor:type="xs:string">
+                        <value>com.sun.star.text.TextDocument</value>
+                    </prop>
+                    <prop oor:name="Title" oor:type="xs:string">
+                    <value xml:lang="en-US">Next spelling or grammar mistake</value>
+                    <value xml:lang="de">Nächster Rechtschreib- oder Grammatikfehler</value>
+                    <value xml:lang="ru">Следующая грамматическая или орфографическая ошибка</value>
+					<value xml:lang="pt">Próximo erro ortográfico ou gramatical</value>
+                    </prop>
+                </node>
+                <node oor:name="T2" oor:op="replace">
+                    <prop oor:name="URL" oor:type="xs:string">
+                        <value>service:org.languagetool.openoffice.Main?checkDialog</value>
                     </prop>
                     <prop oor:name="Target" oor:type="xs:string">
                         <value>_self</value>
@@ -87,9 +117,9 @@
                     <value xml:lang="sr">Провера правописа</value>
                     </prop>
                 </node>
-                <node oor:name="T2" oor:op="replace">
+                <node oor:name="T3" oor:op="replace">
                     <prop oor:name="URL" oor:type="xs:string">
-                        <value>.uno:RecheckDocument</value>
+                        <value>service:org.languagetool.openoffice.Main?checkAgainDialog</value>
                     </prop>
                     <prop oor:name="Target" oor:type="xs:string">
                         <value>_self</value>
@@ -123,7 +153,7 @@
                     <value xml:lang="sr">Поново проверити документ</value>
                     </prop>
                 </node>
-                <node oor:name="T3" oor:op="replace">
+                <node oor:name="T4" oor:op="replace">
                     <prop oor:name="URL" oor:type="xs:string">
                         <value>service:org.languagetool.openoffice.Main?configure</value>
                     </prop>
@@ -204,7 +234,25 @@
               <node oor:name="Submenu">
                 <node oor:name="M1" oor:op="replace">
                   <prop oor:name="URL" oor:type="xs:string">
-                    <value>.uno:SpellingAndGrammarDialog</value>
+                    <value>service:org.languagetool.openoffice.Main?nextError</value>
+                  </prop>
+                  <prop oor:name="Title" oor:type="xs:string">
+                    <value/>
+                    <value xml:lang="en-US">Next spelling or grammar mistake</value>
+                    <value xml:lang="de">Nächster Rechtschreib- oder Grammatikfehler</value>
+                    <value xml:lang="ru">Следующая ошибка</value>
+                  </prop>
+                  <prop oor:name="Target" oor:type="xs:string">
+                    <value>_self</value>
+                  </prop>
+                  <prop oor:name="Context" oor:type="xs:string">
+                    <value>com.sun.star.text.TextDocument</value>
+                  </prop>
+                </node>
+                <node oor:name="M2" oor:op="replace">
+                  <prop oor:name="URL" oor:type="xs:string">
+                    <value>service:org.languagetool.openoffice.Main?checkDialog</value>
+<!--                     <value>.uno:SpellingAndGrammarDialog</value>  -->
                   </prop>
                   <prop oor:name="Title" oor:type="xs:string">
                     <value/>
@@ -241,9 +289,10 @@
                     <value>com.sun.star.text.TextDocument</value>
                   </prop>
                 </node>
-                <node oor:name="M2" oor:op="replace">
+                <node oor:name="M3" oor:op="replace">
                   <prop oor:name="URL" oor:type="xs:string">
-                    <value>.uno:RecheckDocument</value>
+                    <value>service:org.languagetool.openoffice.Main?checkAgainDialog</value>
+<!--                    <value>.uno:RecheckDocument</value>    -->
                   </prop>
                   <prop oor:name="Title" oor:type="xs:string">
                     <value/>
@@ -278,7 +327,7 @@
                     <value>com.sun.star.text.TextDocument</value>
                   </prop>
                 </node>
-                <node oor:name="M3" oor:op="replace">
+                <node oor:name="M4" oor:op="replace">
                   <prop oor:name="URL" oor:type="xs:string">
                     <value>service:org.languagetool.openoffice.Main?switchOff</value>
                   </prop>
@@ -302,7 +351,7 @@
                     <value>com.sun.star.text.TextDocument</value>
                   </prop>
                 </node>
-                <node oor:name="M4" oor:op="replace">
+                <node oor:name="M5" oor:op="replace">
                   <prop oor:name="URL" oor:type="xs:string">
                     <value>service:org.languagetool.openoffice.Main?configure</value>
                   </prop>
@@ -341,7 +390,7 @@
                     <value>com.sun.star.text.TextDocument</value>
                   </prop>
                 </node>
-                <node oor:name="M5" oor:op="replace">
+                <node oor:name="M6" oor:op="replace">
                   <prop oor:name="URL" oor:type="xs:string">
                     <value>service:org.languagetool.openoffice.Main?about</value>
                   </prop>

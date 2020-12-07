@@ -70,7 +70,9 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
           "mRNA",
           "iHeartRadio",
           "iMessage",
-          "iFood"
+          "iFood",
+          "x86",
+          "reCAPTCHA"
   ));
 
   private final Language language;
@@ -181,8 +183,8 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
           ruleMatches.add(ruleMatch);
         }
       }
-      pos += sentence.getText().length();
-      // Plain text lists like this are not properly split into sentences, we 
+      pos += sentence.getCorrectedTextLength();
+      // Plain text lists like this are not properly split into sentences, we
       // work around that here so the items don't create an error when starting lowercase:
       // 1. item one
       // 2. item two
@@ -221,7 +223,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
   }
 
   private boolean isQuoteStart(String word) {
-    return StringUtils.equalsAny(word, "\"", "'", "„", "»", "«", "“", "‘");
+    return StringUtils.equalsAny(word, "\"", "'", "„", "»", "«", "“", "‘", "¡", "¿");
   }
 
   @Override

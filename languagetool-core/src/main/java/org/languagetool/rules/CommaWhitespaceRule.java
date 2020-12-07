@@ -120,7 +120,10 @@ public class CommaWhitespaceRule extends Rule {
           if (i + 1 < tokens.length && getCommaCharacter().equals(tokens[i+1].getToken())) {
             msg = null;
           }
-        } else if (token.equals(".")) {
+          if (i + 1 < tokens.length && !tokens[i+1].isWhitespace()) {
+            suggestionText = getCommaCharacter() + " ";
+          }
+        } else if (token.equals(".") && !isDomain(tokens, i+1) && !isFileExtension(tokens, i+1)) {
           msg = messages.getString("no_space_before_dot");
           suggestionText = ".";
           // exception case for figures such as ".5" and ellipsis
@@ -145,6 +148,14 @@ public class CommaWhitespaceRule extends Rule {
     }
 
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private boolean isDomain(AnalyzedTokenReadings[] tokens, int i) {
+    return i < tokens.length && tokens[i].getToken().matches("(com|org|net|int|edu|gov|mil|[a-z]{2})");
+  }
+
+  private boolean isFileExtension(AnalyzedTokenReadings[] tokens, int i) {
+    return i < tokens.length && tokens[i].getToken().matches("[a-z]{3,4}|[A-Z]{3,4}|ai|mp[34]");
   }
 
   private static boolean isWhitespaceToken(AnalyzedTokenReadings token) {

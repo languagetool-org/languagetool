@@ -43,12 +43,10 @@ public class Main extends WeakBase implements XJobExecutor,
   // Service name required by the OOo API && our own name.
   private static final String[] SERVICE_NAMES = {
           "com.sun.star.linguistic2.Proofreader",
-          "org.languagetool.openoffice.Main" };
+          OfficeTools.LT_SERVICE_NAME };
 
   private XComponentContext xContext;
-  
-  private MultiDocumentsHandler documents = null;
-
+  private MultiDocumentsHandler documents;
 
   public Main(XComponentContext xCompContext) {
     changeContext(xCompContext);

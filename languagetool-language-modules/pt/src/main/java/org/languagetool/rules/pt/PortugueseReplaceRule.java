@@ -50,7 +50,7 @@ public class PortugueseReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public PortugueseReplaceRule(ResourceBundle messages) throws IOException {
+  public PortugueseReplaceRule(ResourceBundle messages) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
@@ -59,7 +59,7 @@ public class PortugueseReplaceRule extends AbstractSimpleReplaceRule {
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return PORTUGUESE_SIMPLE_REPLACE_RULE;
   }
 
@@ -75,7 +75,7 @@ public class PortugueseReplaceRule extends AbstractSimpleReplaceRule {
   
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return tokenStr + " é um estrangeirismo. Em Português é mais comum usar: "
+    return "'" + tokenStr + "' é um estrangeirismo. Em Português é mais comum usar: "
         + String.join(", ", replacements) + ".";
   }
 

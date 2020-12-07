@@ -22,10 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Experimental;
-import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +68,11 @@ class ResultExtender {
     for (RemoteRuleMatch extensionMatch : extensionMatches) {
       if (!extensionMatch.isTouchedByOneOf(matches)) {
         AnalyzedSentence sentence = new AnalyzedSentence(new AnalyzedTokenReadings[]{});
-        HiddenRule hiddenRule = new HiddenRule(extensionMatch.getLocQualityIssueType().orElse(null), extensionMatch.estimatedContextForSureMatch());
+        String catId = extensionMatch.getCategoryId().orElse(Categories.MISC.getId().toString());
+        HiddenRule hiddenRule = new HiddenRule(catId,
+                extensionMatch.getCategory().orElse("(unknown)"),
+                extensionMatch.getLocQualityIssueType().orElse(null),
+                extensionMatch.estimatedContextForSureMatch());
         RuleMatch hiddenRuleMatch = new RuleMatch(hiddenRule, sentence, extensionMatch.getErrorOffset(),
                 extensionMatch.getErrorOffset()+extensionMatch.getErrorLength(), "(hidden message)");
         filteredExtMatches.add(hiddenRuleMatch);
@@ -119,7 +120,7 @@ class ResultExtender {
     } catch (Exception e) {
       // These are issue that can be request-specific, like wrong parameters. We don't throw an
       // exception, as the calling code would otherwise assume this is a persistent error:
-      logger.warn("Warn: Failed to query hidden matches server at " + url + ": " + e.getClass() + ": " + e.getMessage() + ", input was " + plainText.length() + " characters");
+      logger.warn("Warn: Failed to query hidden matches server at " + url + ": " + e.getClass() + ": " + e.getMessage() + ", input was " + plainText.length() + " characters - request-specific error, ignoring");
       return Collections.emptyList();
     } finally {
       huc.disconnect();
@@ -200,12 +201,19 @@ class ResultExtender {
     return l;
   }
   
-  class HiddenRule extends Rule {
+  static class HiddenRule extends Rule {
+    final String categoryId;
+    final String categoryName;
     final ITSIssueType itsType;
     final int estimatedContextForSureMatch;
-    HiddenRule(String type, int estimatedContextForSureMatch) {
+    HiddenRule(String categoryId, String categoryName, String type, int estimatedContextForSureMatch) {
+      this.categoryId = categoryId;
+      this.categoryName = categoryName;
       itsType = type != null ? ITSIssueType.getIssueType(type) : ITSIssueType.Uncategorized;
       this.estimatedContextForSureMatch = estimatedContextForSureMatch;
+    }
+    public final Category getCategory() {
+      return new Category(new CategoryId(categoryId), categoryName);
     }
     @Override
     public String getId() {

@@ -72,6 +72,8 @@ public class FrenchTaggerTest {
     TestTools.myAssert("Penses-tu","Penses/[penser]V ind pres 2 s|Penses/[penser]V sub pres 2 s -- -tu/[tu]R pers suj 2 s", tokenizer, tagger);
     TestTools.myAssert("Strauss-Kahn", "Strauss-Kahn/[Strauss-Kahn]Z e sp", tokenizer, tagger);
     TestTools.myAssert("va-t'en", "va/[aller]V imp pres 2 s|va/[aller]V ind pres 3 s -- -t/[te]R pers obj 2 s -- 'en/[en]R pers obj 3 sp", tokenizer, tagger);
+        
+    TestTools.myAssert("Al-Qaïda","Al-Qaïda/[Al-Qaïda]Z f sp", tokenizer, tagger);
   }
 
 }

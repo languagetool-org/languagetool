@@ -52,7 +52,7 @@ public final class Languages {
    */
   public static Language addLanguage(String name, String code, File dictPath) {
     Language lang;
-    if (dictPath.getName().endsWith(".dict")) {
+    if (dictPath.getName().endsWith(JLanguageTool.DICTIONARY_FILENAME_EXTENSION)) {
       lang = new DynamicMorfologikLanguage(name, code, dictPath);
     } else if (dictPath.getName().endsWith(".dic")) {
       lang = new DynamicHunspellLanguage(name, code, dictPath);
@@ -216,7 +216,7 @@ public final class Languages {
         Collections.sort(codes);
         throw new IllegalArgumentException("'" + langCode + "' is not a language code known to LanguageTool." +
                 " Supported language codes are: " + String.join(", ", codes) + ". The list of languages is read from " + PROPERTIES_PATH +
-                " in the Java classpath. See http://wiki.languagetool.org/java-api for details.");
+                " in the Java classpath. See https://dev.languagetool.org/java-api for details.");
       }
     }
     return language;

@@ -50,6 +50,7 @@ import org.languagetool.rules.TextLevelRule;
  * @author Fred Kruse
  */
 class LORemoteLanguageTool {
+
   private static final String BLANK = " ";
   private static final String SERVER_URL = "https://languagetool.org/api";
   private static final int SERVER_LIMIT = 20000;
@@ -115,6 +116,7 @@ class LORemoteLanguageTool {
       configBuilder.ruleValues(ruleValues);
       configBuilder.mode("allButTextLevelOnly");
     }
+    configBuilder.level("picky");
     CheckConfiguration remoteConfig = configBuilder.build();
     int limit;
     for (int nStart = 0; text.length() > nStart; nStart += limit) {

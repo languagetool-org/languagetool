@@ -70,7 +70,7 @@ public class CastWordsRule extends AbstractSimpleReplaceRule {
   
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return tokenStr + " é un castelanismo. Empregue no seu sitio: "
+    return "'" + tokenStr + "' é un castelanismo. Empregue no seu sitio: "
         + String.join(", ", replacements) + ".";
   }
 

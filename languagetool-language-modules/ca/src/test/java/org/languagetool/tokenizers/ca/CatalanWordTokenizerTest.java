@@ -134,6 +134,12 @@ public class CatalanWordTokenizerTest {
     assertEquals(tokens.size(), 1);
     assertEquals("[$1]", tokens.toString());
     
+    tokens = wordTokenizer.tokenize("AVALUA'T");
+    assertEquals(tokens.size(), 2);
+    assertEquals("[AVALUA, 'T]", tokens.toString());
+    tokens = wordTokenizer.tokenize("Tel-Aviv");
+    assertEquals(tokens.size(), 1);
+    assertEquals("[Tel-Aviv]", tokens.toString());
 
   }
 }

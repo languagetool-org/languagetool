@@ -45,14 +45,34 @@ public class CompoundRule extends AbstractCompoundRule {
       Arrays.asList(
         new PatternTokenBuilder().tokenRegex("and|&").build(),
         new PatternTokenBuilder().token("co").build()
+      ),
+      Arrays.asList( // off-key
+        new PatternTokenBuilder().token("power").build(),
+        new PatternTokenBuilder().token("off").build(),
+        new PatternTokenBuilder().token("key").build()
+      ),
+      Arrays.asList( // year end
+        new PatternTokenBuilder().tokenRegex("senior|junior").build(),
+        new PatternTokenBuilder().token("year").build(),
+        new PatternTokenBuilder().token("end").build()
+      ),
+      Arrays.asList( // under investment 
+        new PatternTokenBuilder().token("under").build(),
+        new PatternTokenBuilder().token("investment").build(),
+        new PatternTokenBuilder().token("banking").build()
+      ),
+      Arrays.asList( // spring clean
+        new PatternTokenBuilder().token("spring").build(),
+        new PatternTokenBuilder().tokenRegex("cleans?|cleaned|cleaning").build(),
+        new PatternTokenBuilder().tokenRegex("up|the|my|our|his|her").build()
       )
   );
 
   public CompoundRule(ResourceBundle messages) throws IOException {    
     super(messages,
-            "This word is normally spelled with hyphen.", 
+            "This word is normally spelled with a hyphen.",
             "This word is normally spelled as one.", 
-            "This expression is normally spelled as one or with hyphen.",
+            "This expression is normally spelled as one or with a hyphen.",
             "Hyphenation problem");
     addExamplePair(Example.wrong("I now have a <marker>part time</marker> job."),
                    Example.fixed("I now have a <marker>part-time</marker> job."));

@@ -52,6 +52,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
 
   private final List<DisambiguationPatternRule> rulegroupAntiPatterns = new ArrayList<>();
   private final List<DisambiguationPatternRule> ruleAntiPatterns = new ArrayList<>();
+  private final List<String> categoryTags = new ArrayList<>();
+  private final List<String> ruleGroupTags = new ArrayList<>();
+  private final List<String> ruleTags = new ArrayList<>();
 
   private int subId;
   private boolean interpretPosTagsPreDisambiguation;
@@ -114,6 +117,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (attrs.getValue(TYPE) != null) {
           categoryIssueType = attrs.getValue(TYPE);
         }
+        if (attrs.getValue("tags") != null) {
+          categoryTags.addAll(Arrays.asList(attrs.getValue("tags").split(" ")));
+        }
         break;
       case "rules":
         String languageStr = attrs.getValue("lang");
@@ -173,6 +179,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
           ruleIssueType = attrs.getValue(TYPE);
         }
         isRuleSuppressMisspelled = false;
+        if (attrs.getValue("tags") != null) {
+          ruleTags.addAll(Arrays.asList(attrs.getValue("tags").split(" ")));
+        }
         break;
       case PATTERN:
         startPattern(attrs);
@@ -291,6 +300,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (attrs.getValue(TYPE) != null) {
           ruleGroupIssueType = attrs.getValue(TYPE);
         }
+        if (attrs.getValue("tags") != null) {
+          ruleGroupTags.addAll(Arrays.asList(attrs.getValue("tags").split(" ")));
+        }
         break;
       case MATCH:
         setMatchElement(attrs, inSuggestion && (isSuggestionSupressMisspelled || isRuleSuppressMisspelled));
@@ -339,6 +351,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
     switch (qName) {
       case "category":
         categoryIssueType = null;
+        categoryTags.clear();
         break;
       case "regexp":
         inRegex = false;
@@ -380,6 +393,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         inRule = false;
         filterClassName = null;
         filterArgs = null;
+        ruleTags.clear();
         break;
       case EXCEPTION:
         finalizeExceptions();
@@ -395,7 +409,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         tokenCounter++;
         break;
       case TOKEN:
-        finalizeTokens();
+        finalizeTokens(language.getUnifierConfiguration());
         break;
       case PATTERN:
         inPattern = false;
@@ -441,8 +455,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
           correctExamples.add(new CorrectExample(correctExample.toString()));
         } else if (inIncorrectExample) {
           IncorrectExample example;
-          List<String> corrections = new ArrayList<>();
-          corrections.addAll(Arrays.asList(exampleCorrection.toString().split("\\|")));
+          List<String> corrections = new ArrayList<>(Arrays.asList(exampleCorrection.toString().split("\\|")));
           if (corrections.size() > 0) {
             if (exampleCorrection.toString().endsWith("|")) {  // split() will ignore trailing empty items
               corrections.add("");
@@ -506,6 +519,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         ruleGroupDefaultTempOff = false;
         defaultOff = false;
         defaultTempOff = false;
+        ruleGroupTags.clear();
         break;
       case MARKER:
         if (inCorrectExample) {
@@ -577,8 +591,11 @@ public class PatternRuleHandler extends XMLRuleHandler {
       AbstractPatternRule rule;
       if (tmpPatternTokens.size() > 0) {
         rule = new PatternRule(id, language, tmpPatternTokens, name,
-                message.toString(), shortMessage,
-                suggestionsOutMsg.toString(), phrasePatternTokens.size() > 1, interpretPosTagsPreDisambiguation);
+                internString(message.toString()), internString(shortMessage),
+                internString(suggestionsOutMsg.toString()), phrasePatternTokens.size() > 1, interpretPosTagsPreDisambiguation);
+        rule.addTags(ruleTags);
+        rule.addTags(ruleGroupTags);
+        rule.addTags(categoryTags);
         rule.setSourceFile(sourceFile);
       } else if (regex.length() > 0) {
         int flags = regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE;
@@ -670,8 +687,11 @@ public class PatternRuleHandler extends XMLRuleHandler {
       rule.setAntiPatterns(ruleAntiPatterns);
       ruleAntiPatterns.clear();
     }
+    rule.addTags(ruleTags);
+    rule.addTags(ruleGroupTags);
+    rule.addTags(categoryTags);
     if (inRuleGroup) {
-      rule.setSubId(Integer.toString(subId));
+      rule.setSubId(internString(Integer.toString(subId)));
     } else {
       rule.setSubId("1");
     }
@@ -697,13 +717,14 @@ public class PatternRuleHandler extends XMLRuleHandler {
     }
     if (url != null && url.length() > 0) {
       try {
-        rule.setUrl(new URL(url.toString()));
+        String s = url.toString();
+        rule.setUrl(internUrl(s));
       } catch (MalformedURLException e) {
         throw new RuntimeException("Could not parse URL for rule: " + rule + ": '" + url + "'", e);
       }
     } else if (urlForRuleGroup != null && urlForRuleGroup.length() > 0) {
       try {
-        rule.setUrl(new URL(urlForRuleGroup.toString()));
+        rule.setUrl(internUrl(urlForRuleGroup.toString()));
       } catch (MalformedURLException e) {
         throw new RuntimeException("Could not parse URL for rule: " + rule + ": '" + urlForRuleGroup + "'", e);
       }
@@ -716,6 +737,17 @@ public class PatternRuleHandler extends XMLRuleHandler {
     } else if (categoryIssueType != null) {
       rule.setLocQualityIssueType(ITSIssueType.getIssueType(categoryIssueType));
     }
+  }
+
+  private final Map<String, URL> internedUrls = new HashMap<>();
+
+  private URL internUrl(String s) throws MalformedURLException {
+    URL url = internedUrls.get(s);
+    if (url == null) {
+      url = new URL(s);
+      internedUrls.put(s, url);
+    }
+    return url;
   }
 
   @Override

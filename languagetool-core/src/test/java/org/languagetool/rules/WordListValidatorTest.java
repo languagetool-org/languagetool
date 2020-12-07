@@ -43,6 +43,7 @@ public class WordListValidatorTest {
   // allow them in general:
   private static final Set<String> VALID_WORDS = new HashSet<>(Arrays.asList(
           "Będzin",
+          "Aydın",
           "Bhagavad-gītā",
           "Sønderjylland/S",
           "Božena/S",
@@ -109,6 +110,12 @@ public class WordListValidatorTest {
           "V&D",
           "İlkay",
           "Gündoğan",
+          "Ñuñoa",
+          "Ibišević",
+          "Fríður",
+          "Łódź",
+          "Ørsted",
+          "Mirotić",
           // Greek letters / Mathematics and physics variables
           "Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο", "Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω", 
           "α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι", "κ", "λ", "μ", "ν", "ξ", "ο", "π", "ρ", "σ", "τ", "υ", "φ", "χ", "ψ", "ω"          

@@ -46,7 +46,9 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
 
   private AnalyzedToken[] anTokReadings;
   private int startPos;
+  private int fixPos;
   private String token;
+  private String cleanToken;
   private List<ChunkTag> chunkTags = Collections.emptyList();
   private boolean isSentEnd;
   private boolean isParaEnd;
@@ -115,7 +117,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     addHistoricalAnnotations(oldAtr.toString(), ruleApplied); 
   }
 
-  AnalyzedTokenReadings(AnalyzedToken token) {
+  public AnalyzedTokenReadings(AnalyzedToken token) {
     this(Collections.singletonList(token), 0);
   }
 
@@ -451,6 +453,16 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     startPos = position;
   }
 
+  /** @since 5.1 */
+  public void setPosFix(int fix) {
+    fixPos = fix;
+  }
+
+  /** @since 5.1 */
+  public int getPosFix() {
+    return fixPos;
+  }
+
   public String getToken() {
     return token;
   }
@@ -698,5 +710,21 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
         throw new UnsupportedOperationException();
       }
     };
+  }
+
+  /**
+   * @since 5.1
+   */
+  @Experimental
+  public void setCleanToken(String cleanToken) {
+    this.cleanToken = cleanToken;
+  }
+
+  /**
+   * @since 5.1
+   */
+  @Experimental
+  public String getCleanToken() {
+    return cleanToken != null ? cleanToken : token;
   }
 }

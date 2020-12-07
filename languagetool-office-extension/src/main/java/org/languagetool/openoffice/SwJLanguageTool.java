@@ -26,13 +26,17 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.UserConfig;
+import org.languagetool.JLanguageTool.Level;
+import org.languagetool.JLanguageTool.Mode;
 import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.gui.Configuration;
 import org.languagetool.markup.AnnotatedText;
+import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -45,10 +49,12 @@ import org.languagetool.rules.RuleMatch;
 public class SwJLanguageTool {
   
   private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
-  private boolean isMultiThread;
-  private boolean isRemote;
+
   private final MultiThreadedJLanguageTool mlt;
   private final LORemoteLanguageTool rlt;
+
+  private boolean isMultiThread;
+  private boolean isRemote;
   private JLanguageTool lt;
   private boolean doReset;
 
@@ -57,17 +63,17 @@ public class SwJLanguageTool {
     isMultiThread = config.isMultiThread();
     isRemote = config.doRemoteCheck() && !testMode;
     doReset = false;
-    if(isRemote) {
+    if (isRemote) {
       lt = null;
       mlt = null;
       rlt = new LORemoteLanguageTool(language, motherTongue, config, extraRemoteRules);
-      if(!rlt.remoteRun()) {
+      if (!rlt.remoteRun()) {
         MessageHandler.showMessage(MESSAGES.getString("loRemoteSwitchToLocal"));
         isRemote = false;
         isMultiThread = false;
         lt = new JLanguageTool(language, motherTongue, null, userConfig);
       }
-    } else if(isMultiThread) {
+    } else if (isMultiThread) {
       lt = null;
       mlt = new MultiThreadedJLanguageTool(language, motherTongue, userConfig);
       rlt = null;
@@ -83,9 +89,9 @@ public class SwJLanguageTool {
   }
 
   public List<Rule> getAllRules() {
-    if(isRemote) {
+    if (isRemote) {
       return rlt.getAllRules();
-    } else if(isMultiThread) {
+    } else if (isMultiThread) {
       return mlt.getAllRules(); 
     } else {
       return lt.getAllRules(); 
@@ -93,9 +99,9 @@ public class SwJLanguageTool {
   }
 
   public List<Rule> getAllActiveOfficeRules() {
-    if(isRemote) {
+    if (isRemote) {
       return rlt.getAllActiveOfficeRules();
-    } else if(isMultiThread) {
+    } else if (isMultiThread) {
         return mlt.getAllActiveOfficeRules(); 
     } else {
       return lt.getAllActiveOfficeRules(); 
@@ -103,9 +109,9 @@ public class SwJLanguageTool {
   }
 
   public void enableRule(String ruleId) {
-    if(isRemote) {
+    if (isRemote) {
       rlt.enableRule(ruleId);
-    } else if(isMultiThread) {
+    } else if (isMultiThread) {
       mlt.enableRule(ruleId); 
     } else {
       lt.enableRule(ruleId); 
@@ -113,9 +119,9 @@ public class SwJLanguageTool {
   }
 
   public void disableRule(String ruleId) {
-    if(isRemote) {
+    if (isRemote) {
       rlt.disableRule(ruleId);
-    } else if(isMultiThread) {
+    } else if (isMultiThread) {
       mlt.disableRule(ruleId); 
     } else {
       lt.disableRule(ruleId); 
@@ -123,9 +129,9 @@ public class SwJLanguageTool {
   }
 
   public Set<String> getDisabledRules() {
-    if(isRemote) {
+    if (isRemote) {
       return rlt.getDisabledRules();
-    } else if(isMultiThread) {
+    } else if (isMultiThread) {
         return mlt.getDisabledRules(); 
     } else {
       return lt.getDisabledRules(); 
@@ -133,9 +139,9 @@ public class SwJLanguageTool {
   }
 
   public void disableCategory(CategoryId id) {
-    if(isRemote) {
+    if (isRemote) {
       rlt.disableCategory(id);
-    } else if(isMultiThread) {
+    } else if (isMultiThread) {
         mlt.disableCategory(id); 
     } else {
       lt.disableCategory(id); 
@@ -143,8 +149,8 @@ public class SwJLanguageTool {
   }
 
   public void activateLanguageModelRules(File indexDir) throws IOException {
-    if(!isRemote) {
-      if(isMultiThread) {
+    if (!isRemote) {
+      if (isMultiThread) {
         mlt.activateLanguageModelRules(indexDir); 
       } else {
         lt.activateLanguageModelRules(indexDir); 
@@ -153,8 +159,8 @@ public class SwJLanguageTool {
   }
 
   public void activateWord2VecModelRules(File indexDir) throws IOException {
-    if(!isRemote) {
-      if(isMultiThread) {
+    if (!isRemote) {
+      if (isMultiThread) {
         mlt.activateWord2VecModelRules(indexDir); 
       } else {
         lt.activateWord2VecModelRules(indexDir); 
@@ -163,46 +169,64 @@ public class SwJLanguageTool {
   }
 
   public List<RuleMatch> check(String text, boolean tokenizeText, ParagraphHandling paraMode) throws IOException {
-    if(isRemote) {
+    if (isRemote) {
       List<RuleMatch> ruleMatches = rlt.check(text, paraMode);
-      if(ruleMatches == null) {
+      if (ruleMatches == null) {
         doReset = true;
-        ruleMatches = new ArrayList<RuleMatch>();
+        ruleMatches = new ArrayList<>();
       }
       return ruleMatches;
-    } else if(isMultiThread) {
-      return mlt.check(text, tokenizeText, paraMode); 
     } else {
-      return lt.check(text, tokenizeText, paraMode); 
+      return this.check(new AnnotatedTextBuilder().addText(text).build(), tokenizeText, paraMode);
     }
   }
 
   public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode) throws IOException {
-    if(isRemote) {
+    if (isRemote) {
       return rlt.check(annotatedText.getOriginalText(), paraMode); 
-    } else if(isMultiThread) {
-      synchronized(mlt) {
-        return mlt.check(annotatedText, tokenizeText, paraMode);
-      }
     } else {
-      return lt.check(annotatedText, tokenizeText, paraMode); 
+      Mode mode;
+      if (paraMode == ParagraphHandling.ONLYNONPARA) {
+        mode = Mode.ALL_BUT_TEXTLEVEL_ONLY;
+      } else if (paraMode == ParagraphHandling.ONLYPARA) {
+        mode = Mode.TEXTLEVEL_ONLY;
+      } else {
+        mode = Mode.ALL;
+      }
+      if (isMultiThread) {
+        synchronized(mlt) {
+          return mlt.check(annotatedText, tokenizeText, paraMode, null, mode, Level.PICKY);
+        }
+      } else {
+        return lt.check(annotatedText, tokenizeText, paraMode, null, mode, Level.PICKY);
+      }
     }
   }
 
   public List<String> sentenceTokenize(String text) {
-    if(isRemote) {
+    if (isRemote) {
       return lt.sentenceTokenize(text);   // This is only a dummy; don't use it for call of remote server
-    } else if(isMultiThread) {
+    } else if (isMultiThread) {
         return mlt.sentenceTokenize(text); 
     } else {
       return lt.sentenceTokenize(text); 
     }
   }
 
+  public AnalyzedSentence getAnalyzedSentence(String sentence) throws IOException {
+    if (isRemote) {
+      return lt.getAnalyzedSentence(sentence);   // This is only a dummy; don't use it for call of remote server
+    } else if (isMultiThread) {
+        return mlt.getAnalyzedSentence(sentence); 
+    } else {
+      return lt.getAnalyzedSentence(sentence); 
+    }
+  }
+
   public Language getLanguage() {
-    if(isRemote) {
+    if (isRemote) {
       return rlt.getLanguage();
-    } else if(isMultiThread) {
+    } else if (isMultiThread) {
       return mlt.getLanguage(); 
     } else {
       return lt.getLanguage(); 

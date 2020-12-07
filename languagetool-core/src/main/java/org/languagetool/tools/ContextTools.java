@@ -18,6 +18,8 @@
  */
 package org.languagetool.tools;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Helper class to mark errors in text.
  */
@@ -32,30 +34,25 @@ public class ContextTools {
   }
 
   public String getContext(int fromPos, int toPos, String contents) {
-    String text = contents.replace('\n', ' ');
     // calculate context region:
     int startContent = fromPos - contextSize;
     String prefix = "...";
     String postfix = "...";
-    String markerPrefix = "   ";
     if (startContent < 0) {
       prefix = "";
-      markerPrefix = "";
       startContent = 0;
     }
     int endContent = toPos + contextSize;
-    int textLength = text.length();
+    int textLength = contents.length();
     if (endContent > textLength) {
       postfix = "";
       endContent = textLength;
     }
-    StringBuilder marker = getMarker(fromPos, toPos, textLength + prefix.length());
     // now build context string plus marker:
     StringBuilder sb = new StringBuilder();
     sb.append(prefix);
-    sb.append(text, startContent, endContent);
-    String markerStr = markerPrefix
-        + marker.substring(startContent, endContent);
+    sb.append(contents.substring(startContent, endContent).replace('\n', ' '));
+    String markerStr = getMarker(fromPos, toPos, startContent, endContent, prefix);
     sb.append(postfix);
     int startMark = markerStr.indexOf('^');
     int endMark = markerStr.lastIndexOf('^');
@@ -81,25 +78,32 @@ public class ContextTools {
    * @since 2.3
    */
   public String getPlainTextContext(int fromPos, int toPos, String contents) {
-    String text = contents.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ');
     // calculate context region:
     int startContent = fromPos - contextSize;
     String prefix = "...";
     String postfix = "...";
-    String markerPrefix = "   ";
     if (startContent < 0) {
       prefix = "";
-      markerPrefix = "";
       startContent = 0;
     }
     int endContent = toPos + contextSize;
-    if (endContent > text.length()) {
+    if (endContent > contents.length()) {
       postfix = "";
-      endContent = text.length();
+      endContent = contents.length();
     }
-    StringBuilder marker = getMarker(fromPos, toPos, text.length() + prefix.length());
-    // now build context string plus marker:
-    return prefix + text.substring(startContent, endContent) + postfix + '\n' + markerPrefix + marker.substring(startContent, endContent);
+    return prefix +
+           contents.substring(startContent, endContent).replace('\n', ' ').replace('\r', ' ').replace('\t', ' ') +
+           postfix + '\n' +
+           getMarker(fromPos, toPos, startContent, endContent, prefix);
+  }
+
+  /**
+   * Set the string used to mark the beginning and end of an error, e.g. {@code <span class="error">} and {@code </span>}
+   * @since 5.1
+   */
+  public void setErrorMarker(String start, String end) {
+    errorMarkerStart = start;
+    errorMarkerEnd = end;
   }
 
   /**
@@ -131,16 +135,9 @@ public class ContextTools {
     this.escapeHtml = escapeHtml;
   }
 
-  private StringBuilder getMarker(int fromPos, int toPos, int textLength) {
-    // make "^" marker. inefficient but robust implementation:
-    StringBuilder marker = new StringBuilder();
-    for (int i = 0; i < textLength; i++) {
-      if (i >= fromPos && i < toPos) {
-        marker.append('^');
-      } else {
-        marker.append(' ');
-      }
-    }
-    return marker;
+  private static String getMarker(int fromPos, int toPos, int startContent, int endContent, String prefix) {
+    return StringUtils.repeat(' ', prefix.length() + fromPos - startContent) +
+           StringUtils.repeat('^', toPos - fromPos) +
+           StringUtils.repeat(' ', endContent - toPos);
   }
 }

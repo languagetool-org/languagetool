@@ -56,7 +56,6 @@ public class ConfusionProbabilityRuleTest {
     };
     assertGood("Their are new ideas to explore.", ruleWithException);
     assertGood("\"Their are new ideas to explore.\"", ruleWithException);
-    assertMatch("İm dabei gut auszusehen.");  // bug with the special char 'İ' which, when lowercased becomes  a regular 'i'
     assertGood("But İm dabei gut auszusehen.");
   }
 
@@ -94,6 +93,10 @@ public class ConfusionProbabilityRuleTest {
     }
     private FakeRule(LanguageModel languageModel, Language language, List<String> exceptions) {
       super(JLanguageTool.getMessageBundle(), languageModel, language, 3, exceptions);
+    }
+    @Override
+    public String getDescription() {
+      return null;
     }
   }
 

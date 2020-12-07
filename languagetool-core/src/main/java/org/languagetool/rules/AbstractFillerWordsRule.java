@@ -175,7 +175,7 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
         endPos = new ArrayList<>();
         relevantSentences = new ArrayList<>();
       }
-      pos += sentence.getText().length();
+      pos += sentence.getCorrectedTextLength();
     }
     if (wordCount > 0) {
       percent = startPos.size() * 100.0 / wordCount;

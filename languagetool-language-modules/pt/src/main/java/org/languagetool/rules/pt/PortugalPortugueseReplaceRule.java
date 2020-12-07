@@ -50,7 +50,7 @@ public class PortugalPortugueseReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public PortugalPortugueseReplaceRule(ResourceBundle messages) throws IOException {
+  public PortugalPortugueseReplaceRule(ResourceBundle messages) {
     super(messages);
     super.setCategory(Categories.REGIONALISMS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
@@ -75,7 +75,7 @@ public class PortugalPortugueseReplaceRule extends AbstractSimpleReplaceRule {
   
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return tokenStr + " é uma expressão brasileira, em Português de Portugal utiliza-se: "
+    return "'" + tokenStr + "' é uma expressão brasileira, em Português de Portugal utiliza-se: "
         + String.join(", ", replacements) + ".";
   }
 

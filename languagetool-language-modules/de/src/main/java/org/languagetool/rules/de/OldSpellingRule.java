@@ -82,7 +82,7 @@ public class OldSpellingRule extends Rule {
       }
       if (!ignore) {
         RuleMatch match = new RuleMatch(this, sentence, hit.begin, hit.end,
-          "Diese Schreibweise war nur in der alten Rechtschreibung korrekt.", "alte Rechtschreibung");
+          "Diese Schreibweise war nur in der alten Rechtschreibung korrekt.", "Alte Rechtschreibung");
         String[] suggestions = hit.value.split("\\|");
         match.setSuggestedReplacements(Arrays.asList(suggestions));
         matches.add(match);

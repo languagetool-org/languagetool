@@ -47,7 +47,7 @@ public class CompoundRule extends AbstractCompoundRule {
 
   @Override
   public String getDescription() {
-    return "Woorden die aaneen geschreven horen, bijvoorbeeld 'zee-egel' i.p.v. 'zee egel'";
+    return "Woorden die aaneengeschreven horen, bijvoorbeeld 'zee-egel' i.p.v. 'zee egel'";
   }
 
   @Override

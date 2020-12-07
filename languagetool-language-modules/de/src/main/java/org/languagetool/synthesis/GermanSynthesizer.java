@@ -65,7 +65,10 @@ public class GermanSynthesizer extends BaseSynthesizer {
 
   @NotNull
   private String[] getCompoundForms(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException {
-    List<String> parts = splitter.tokenize(token.getToken());
+    List<String> parts = splitter.tokenize(token.getLemma());
+    if (parts.size() == 0) {
+      return parts.toArray(new String[0]);
+    }
     String firstPart = String.join("", parts.subList(0, parts.size() - 1));
     String lastPart = StringTools.uppercaseFirstChar(parts.get(parts.size() - 1));
     AnalyzedToken lastPartToken = new AnalyzedToken(lastPart, posTag, lastPart);

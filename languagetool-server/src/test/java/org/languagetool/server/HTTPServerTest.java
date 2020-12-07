@@ -22,15 +22,19 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.language.*;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.util.Collections;
 import java.util.HashSet;
 
 import static org.hamcrest.core.Is.is;
@@ -56,12 +60,50 @@ public class HTTPServerTest {
     try {
       server.run();
       assertTrue(server.isRunning());
+      runTranslatedMessageTest();
       runTestsV2();
       runDataTests();
     } finally {
       server.stop();
       assertFalse(server.isRunning());
     }
+  }
+
+  @Test
+  public void translationSuggestions() throws Exception {
+    File configFile = File.createTempFile("translationSuggestions", "txt");
+    configFile.deleteOnExit();
+
+    File beolingus = new File("../languagetool-standalone/src/test/resources/beolingus_test.txt");
+    assertTrue(beolingus.exists());
+    Files.write(configFile.toPath(), Collections.singletonList("beolingusFile=" + beolingus.getAbsolutePath()));
+
+    HTTPServer server = new HTTPServer(new HTTPServerConfig(new String[]{
+      "--port", String.valueOf(HTTPTools.getDefaultPort()),
+      "--config", configFile.getPath()
+    }));
+    server.run();
+    try {
+      String resultWithTranslation = checkV2(new AmericanEnglish(), new GermanyGerman(), "Please let us meet in my Haus");
+      assertTrue(resultWithTranslation, resultWithTranslation.contains("house"));
+    } finally {
+      server.stop();
+      assertFalse(server.isRunning());
+    }
+  }
+
+  void runTranslatedMessageTest() throws IOException {
+    String result1 = checkV2(Languages.getLanguageForShortCode("fr"), "C'est unx");
+    assertTrue(result1.contains("Faute de frappe possible trouvée"));
+    assertFalse(result1.contains("Possible spelling mistake found"));
+
+    String result2 = checkV2(Languages.getLanguageForShortCode("es"), "unx");
+    assertTrue(result2.contains("Se ha encontrado un posible error ortográfico."));
+    assertFalse(result2.contains("Possible spelling mistake found"));
+
+    String result3 = checkV2(Languages.getLanguageForShortCode("nl"), "unx");
+    assertTrue(result3.contains("Er is een mogelijke spelfout gevonden."));
+    assertFalse(result3.contains("Possible spelling mistake found"));
   }
 
   void runTestsV2() throws IOException, SAXException, ParserConfigurationException {
@@ -107,8 +149,8 @@ public class HTTPServerTest {
     // tests for mother tongue (copy from link {@link FalseFriendRuleTest})
     //assertTrue(checkV2(english, german, "My handy is broken.").contains("EN_FOR_DE_SPEAKERS_FALSE_FRIENDS"));  // only works with ngrams
     assertFalse(checkV2(english, german, "We will berate you").contains("BERATE"));  // not active anymore now that we have EN_FOR_DE_SPEAKERS_FALSE_FRIENDS
-    assertTrue(checkV2(german, english, "Man sollte ihn nicht so beraten.").contains("BERATE"));
-    assertTrue(checkV2(polish, english, "To jest frywolne.").contains("FRIVOLOUS"));
+    assertTrue(plainTextCheck("/v2/check", german, english, "Man sollte ihn nicht so beraten.", "&level=picky").contains("BERATE"));
+    assertTrue(plainTextCheck("/v2/check", polish, english, "To jest frywolne.", "&level=picky").contains("FRIVOLOUS"));
       
     //test for no changed if no options set
     String[] nothing = {};
@@ -396,7 +438,7 @@ public class HTTPServerTest {
   }
 
   private String check(String typeName, String urlPrefix, Language lang, Language motherTongue, String text, String parameters) throws IOException {
-    String urlOptions = urlPrefix + "?language=" + (lang == null ? "auto" : lang.getShortCode());
+    String urlOptions = urlPrefix + "?language=" + (lang == null ? "auto" : lang.getShortCodeWithCountryAndVariant());
     urlOptions += "&disabledRules=HUNSPELL_RULE&" + typeName + "=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     if (motherTongue != null) {
       urlOptions += "&motherTongue=" + motherTongue.getShortCode();

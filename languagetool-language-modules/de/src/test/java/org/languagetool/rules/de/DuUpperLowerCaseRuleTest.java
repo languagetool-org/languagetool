@@ -43,6 +43,7 @@ public class DuUpperLowerCaseRuleTest {
     assertErrors("Du bist noch jung, du bist noch fit.", 0);
     assertErrors("Aber du bist noch jung, du bist noch fit.", 0);
     assertErrors("Aber du bist noch jung, dir ist das egal.", 0);
+    assertErrors("Hast Du ihre Brieftasche gesehen?", 0);
 
     assertErrors("Aber Du bist noch jung, du bist noch fit.", 1);
     assertErrors("Aber Du bist noch jung, dir ist das egal.", 1);

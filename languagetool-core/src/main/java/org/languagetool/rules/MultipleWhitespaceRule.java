@@ -88,7 +88,7 @@ public class MultipleWhitespaceRule extends TextLevelRule {
           for (i++; i < tokens.length && isRemovableWhite(tokens[i]); i++);
         }
       }
-      pos += sentence.getText().length();
+      pos += sentence.getCorrectedTextLength();
     }
     return toRuleMatchArray(ruleMatches);
   }

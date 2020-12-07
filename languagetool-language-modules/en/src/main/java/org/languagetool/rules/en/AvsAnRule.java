@@ -45,7 +45,7 @@ public class AvsAnRule extends Rule {
     A, AN, A_OR_AN, UNKNOWN
   }
 
-  private static final Pattern cleanupPattern = Pattern.compile("[^αa-zA-Z0-9\\.;,:']");
+  private static final Pattern cleanupPattern = Pattern.compile("[^αa-zA-Z0-9.;,:']");
 
   public AvsAnRule(ResourceBundle messages) {
     super.setCategory(Categories.MISC.getCategory(messages));
@@ -97,11 +97,11 @@ public class AvsAnRule extends Rule {
         if (equalsA && determiner == Determiner.AN) {
           String replacement = StringTools.startsWithUppercase(prevTokenStr) ? "An" : "an";
           msg = "Use <suggestion>" + replacement + "</suggestion> instead of '" + prevTokenStr + "' if the following "+
-                  "word starts with a vowel sound, e.g. 'an article', 'an hour'";
+                  "word starts with a vowel sound, e.g. 'an article', 'an hour'.";
         } else if (equalsAn && determiner == Determiner.A) {
           String replacement = StringTools.startsWithUppercase(prevTokenStr) ? "A" : "a";
           msg = "Use <suggestion>" + replacement + "</suggestion> instead of '" + prevTokenStr + "' if the following "+
-                  "word doesn't start with a vowel sound, e.g. 'a sentence', 'a university'";
+                  "word doesn't start with a vowel sound, e.g. 'a sentence', 'a university'.";
         }
         if (msg != null) {
           RuleMatch match = new RuleMatch(

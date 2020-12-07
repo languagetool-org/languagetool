@@ -98,7 +98,7 @@ public class SpecificCaseRule extends Rule {
           } else {
             msg = "If the term is a proper noun, use the suggested capitalization.";
           }
-          RuleMatch match = new RuleMatch(this, sentence, tokens[i].getStartPos(), tokens[i+j-1].getEndPos(), msg);
+          RuleMatch match = new RuleMatch(this, sentence, tokens[i].getStartPos(), tokens[i+j-1].getEndPos(), msg, "Proper noun");
           match.setSuggestedReplacement(properSpelling);
           matches.add(match);
         }

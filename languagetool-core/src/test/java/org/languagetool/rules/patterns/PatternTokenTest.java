@@ -19,11 +19,11 @@
 
 package org.languagetool.rules.patterns;
 
+import com.google.common.collect.Sets;
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.languagetool.JLanguageTool.*;
 import static org.languagetool.rules.patterns.PatternToken.UNKNOWN_TAG;
 
@@ -150,4 +150,31 @@ public class PatternTokenTest {
 
   }
 
+  @Test
+  public void testFormHints() {
+    PatternToken token = new PatternTokenBuilder().tokenRegex("an?|the|th[eo]se").build();
+    assertEquals(Sets.newHashSet("a", "an", "the", "these", "those"), token.calcFormHints());
+
+    token = new PatternTokenBuilder().token("foo").build();
+    assertEquals(Sets.newHashSet("foo"), token.calcFormHints());
+
+    token = new PatternTokenBuilder().tokenRegex("(foo)?.*").build();
+    assertNull(token.calcFormHints());
+
+    token = new PatternTokenBuilder().csTokenRegex("a|b").build();
+    assertEquals(Sets.newHashSet("a", "b"), token.calcFormHints());
+
+    token = new PatternTokenBuilder().token("a").min(0).build();
+    assertNull(token.calcFormHints());
+
+    token = new PatternTokenBuilder().tokenRegex("an|the").build();
+    token.setOrGroupElement(new PatternTokenBuilder().tokenRegex("foo|bar").build());
+    assertEquals(Sets.newHashSet("an", "the", "foo", "bar"), token.calcFormHints());
+    token.setOrGroupElement(new PatternTokenBuilder().tokenRegex("foo.*|bar").build());
+    assertNull(token.calcFormHints());
+
+    token = new PatternTokenBuilder().tokenRegex("an|the").build();
+    token.setAndGroupElement(new PatternTokenBuilder().tokenRegex("foo|an").build());
+    assertEquals(Sets.newHashSet("an"), token.calcFormHints());
+  }
 }

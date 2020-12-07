@@ -78,6 +78,13 @@ public class UpperCaseNgramRuleTest {
     assertGood("His name is Carp.");
     assertGood("Victor or Rabbit as everyone calls him.");
     assertGood("Think I'm Tripping?");
+    assertGood("Music and Concepts.");
+    assertGood("It is called Ranked mode.");
+    assertGood("I was into Chronicle of a Death Foretold.");
+    assertGood("I talked with Engineering.");
+    assertGood("They used Draft.js to solve it.");
+    assertGood("And mine is Wed.");
+    assertGood("I would support Knicks rather than Hawks.");
     // TODO:
     //assertGood("Best Regards.");
     //assertGood("USB Port.");

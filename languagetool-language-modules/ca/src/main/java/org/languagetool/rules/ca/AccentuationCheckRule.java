@@ -165,12 +165,10 @@ public class AccentuationCheckRule extends Rule {
             && !matchPostagRegexp(tokens[i], INFINITIU)) {
           replacement = relevantWords.get(token).getToken();
         }
-        else if (i > 2 && tokens[i - 2].hasPosTag("SPS00") 
-            && !tokens[i - 2].hasPosTag("RG")
+        else if (i > 2 && tokens[i - 2].hasPosTag("SPS00") && !tokens[i - 2].hasPosTag("RG")
             && !matchPostagRegexp(tokens[i - 2], DETERMINANT)
-            && (matchPostagRegexp(tokens[i - 1], DETERMINANT) 
-                || mArticleELMS.matches() || mArticleELFS.matches() 
-                || mArticleELMP.matches() || mArticleELFP.matches() )
+            && ((matchPostagRegexp(tokens[i - 1], DETERMINANT) && !tokens[i - 1].hasLemma("numeral"))
+                || mArticleELMS.matches() || mArticleELFS.matches() || mArticleELMP.matches() || mArticleELFP.matches())
             && !matchPostagRegexp(tokens[i], INFINITIU)) {
           replacement = relevantWords.get(token).getToken();
         }

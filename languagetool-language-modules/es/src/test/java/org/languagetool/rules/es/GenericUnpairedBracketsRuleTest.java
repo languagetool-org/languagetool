@@ -40,6 +40,10 @@ public class GenericUnpairedBracketsRuleTest {
     rule = org.languagetool.rules.GenericUnpairedBracketsRuleTest.getBracketsRule(langTool);
     // correct sentences:
     assertMatches("Soy un hombre (muy honrado).", 0);
+    assertMatches("D'Hondt.", 0);
+    assertMatches("D’Hondt.", 0);
+    assertMatches("L’Équipe", 0);
+    assertMatches("rock ’n’ roll", 0);
     // incorrect sentences:
     assertMatches("Soy un hombre muy honrado).", 1);
     assertMatches("Soy un hombre (muy honrado.", 1);

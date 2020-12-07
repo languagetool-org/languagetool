@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.pt;
 
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.Portuguese;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
@@ -25,10 +26,7 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 
-import java.io.IOException;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import java.net.URL;
 
@@ -49,11 +47,11 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
   private final String path;
 
   @Override
-  public final String getFileName() {
-    return path;
+  public List<String> getFileNames() {
+    return Collections.singletonList(path);
   }
 
-  public PortugueseBarbarismsRule(ResourceBundle messages, String path) throws IOException {
+  public PortugueseBarbarismsRule(ResourceBundle messages, String path) {
     super(messages, new Portuguese());
     this.path = Objects.requireNonNull(path);
     super.setCategory(Categories.STYLE.getCategory(messages));
@@ -63,7 +61,7 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return PT_BARBARISMS_REPLACE;
   }
 
@@ -95,6 +93,12 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
   @Override
   public Locale getLocale() {
     return PT_LOCALE;
+  }
+  
+  @Override
+  protected boolean isTokenException(AnalyzedTokenReadings atr) {
+    // proper nouns tagged in multiwords are exceptions
+    return atr.hasPosTagStartingWith("NP") || atr.isImmunized();
   }
 
 }

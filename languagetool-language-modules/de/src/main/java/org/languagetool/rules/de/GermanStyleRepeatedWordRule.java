@@ -113,14 +113,21 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
     }
     return false;
   }
+  
+  private boolean isFalsePair(String token1, String token2, String equalWord, String containedWord) {
+    return ((token1.equals(equalWord) && token2.contains(containedWord)) || token2.equals(equalWord) && token1.contains(containedWord));
+  }
 
   @Override
   protected boolean isPartOfWord(String testTokenText, String tokenText) {
-    return ((testTokenText.startsWith(tokenText) || testTokenText.endsWith(tokenText)
-        || tokenText.startsWith(testTokenText) || tokenText.endsWith(testTokenText))
-        && (testTokenText.length() == tokenText.length() || testTokenText.length() < tokenText.length() - 3
-        || testTokenText.length() > tokenText.length() + 3)
-        || testTokenText.equals(tokenText + "s") || tokenText.equals(testTokenText + "s"));
+    return (
+          (testTokenText.startsWith(tokenText) || testTokenText.endsWith(tokenText)
+          || tokenText.startsWith(testTokenText) || tokenText.endsWith(testTokenText))
+          && (!isFalsePair(testTokenText, tokenText, "lang", "klang"))
+          && (testTokenText.length() == tokenText.length() || testTokenText.length() < tokenText.length() - 3
+          || testTokenText.length() > tokenText.length() + 3)
+          || testTokenText.equals(tokenText + "s") || tokenText.equals(testTokenText + "s")
+        );
   }
 
   /* 

@@ -42,9 +42,11 @@ import com.sun.star.uno.UnoRuntime;
 class DocumentCursorTools {
   
   private final XParagraphCursor xPCursor;
+  private final XTextCursor xTextCursor;
   private final List<Integer> headerNumbers = new ArrayList<Integer>();
   
   DocumentCursorTools(XComponent xComponent) {
+    xTextCursor = getCursor(xComponent);
     xPCursor = getParagraphCursor(xComponent);
   }
 
@@ -84,11 +86,10 @@ class DocumentCursorTools {
   @Nullable
   private XParagraphCursor getParagraphCursor(XComponent xComponent) {
     try {
-      XTextCursor xCursor = getCursor(xComponent);
-      if (xCursor == null) {
+      if (xTextCursor == null) {
         return null;
       }
-      return UnoRuntime.queryInterface(XParagraphCursor.class, xCursor);
+      return UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
@@ -96,9 +97,17 @@ class DocumentCursorTools {
   }
   
   /** 
+   * Returns the TextCursor of the Document
+   * Returns null if it fails
+   */
+  @Nullable
+  public XTextCursor getTextCursor() {
+    return xTextCursor;
+  }
+  
+  /** 
    * Returns ParagraphCursor from TextCursor 
    * Returns null if it fails
-   * @return 
    */
   @Nullable
   public XParagraphCursor getParagraphCursor() {
@@ -168,11 +177,12 @@ class DocumentCursorTools {
     try {
       XPropertySet xParagraphPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xPCursor.getStart());
       paraStyleName = (String) xParagraphPropertySet.getPropertyValue("ParaStyleName");
+//      MessageHandler.printToLogFile("!!! Properties: ParaStyleName: " + paraStyleName);
     } catch (Throwable e) {
       MessageHandler.printException(e);
       return false;
     }
-    return (paraStyleName.startsWith("Heading") || paraStyleName.equals("Title") || paraStyleName.equals("Subtitle"));
+    return (paraStyleName.startsWith("Heading") || paraStyleName.startsWith("Contents") || paraStyleName.equals("Title") || paraStyleName.equals("Subtitle"));
   }
   
   /**

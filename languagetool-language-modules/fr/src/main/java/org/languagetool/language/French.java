@@ -103,18 +103,18 @@ public class French extends Language implements AutoCloseable {
                     Arrays.asList("]", ")", "}"
                          /*"»", French dialog can contain multiple sentences. */
                          /*"’" used in "d’arm" and many other words */)),
-            // very fast, but no suggestions:
-            //new HunspellNoSuggestionRule(messages, this, Example.wrong("Le <marker>chein</marker> noir"), Example.fixed("Le <marker>chien</marker> noir")),
-            // slower than HunspellNoSuggestionRule but with suggestions:
-            new FrenchCompoundAwareHunspellRule(messages, this, userConfig, altLanguages),
+            new MorfologikFrenchSpellerRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
+            new LongSentenceRule(messages, userConfig, 35, true, true),
+            new LongParagraphRule(messages, this, userConfig),
             // specific to French:
             new CompoundRule(messages),
             new QuestionWhitespaceStrictRule(messages, this),
             new QuestionWhitespaceRule(messages, this),
-            new SimpleReplaceRule(messages)
+            new SimpleReplaceRule(messages),
+            new AnglicismReplaceRule(messages)
     );
   }
 
@@ -141,6 +141,71 @@ public class French extends Language implements AutoCloseable {
     languageModel = initLanguageModel(indexDir, languageModel);
     return languageModel;
   }
+  
+  /** @since 5.1 */
+  @Override
+  public String getOpeningDoubleQuote() {
+    return "«";
+  }
+
+  /** @since 5.1 */
+  @Override
+  public String getClosingDoubleQuote() {
+    return "»";
+  }
+  
+  /** @since 5.1 */
+  @Override
+  public String getOpeningSingleQuote() {
+    return "‘";
+  }
+
+  /** @since 5.1 */
+  @Override
+  public String getClosingSingleQuote() {
+    return "’";
+  }
+  
+  /** @since 5.1 */
+  @Override
+  public boolean isAdvancedTypographyEnabled() {
+    return true;
+  }
+  
+  @Override
+  public String toAdvancedTypography (String input) {
+    String output = super.toAdvancedTypography(input);
+  
+    // special cases: apostrophe + quotation marks
+    String beforeApostrophe = "([cjnmtsldCJNMTSLD]|qu|jusqu|lorsqu|puisqu|quoiqu|Qu|Jusqu|Lorsqu|Puisqu|Quoiqu|QU|JUSQU|LORSQU|PUISQU|QUOIQU)";
+    output = output.replaceAll("(\\b"+beforeApostrophe+")'", "$1’");
+    output = output.replaceAll("(\\b"+beforeApostrophe+")’\"", "$1’" + getOpeningDoubleQuote());
+    output = output.replaceAll("(\\b"+beforeApostrophe+")’'", "$1’" + getOpeningSingleQuote());
+    
+    // non-breaking (thin) space 
+    // according to https://fr.wikipedia.org/wiki/Espace_ins%C3%A9cable#En_France
+    output = output.replaceAll("\u00a0;", "\u202f;");
+    output = output.replaceAll("\u00a0!", "\u202f!");
+    output = output.replaceAll("\u00a0\\?", "\u202f?");
+    output = output.replaceAll(";", "\u202f;");
+    output = output.replaceAll("!", "\u202f!");
+    output = output.replaceAll("\\?", "\u202f?");
+    
+    output = output.replaceAll(":", "\u00a0:");
+    output = output.replaceAll("»", "\u00a0»");
+    output = output.replaceAll("«", "«\u00a0");
+    
+    //remove duplicate spaces
+    output = output.replaceAll("\u00a0\u00a0", "\u00a0");
+    output = output.replaceAll("\u202f\u202f", "\u202f");
+    output = output.replaceAll("  ", " ");
+    output = output.replaceAll("\u00a0 ", "\u00a0");
+    output = output.replaceAll(" \u00a0", "\u00a0");
+    output = output.replaceAll(" \u202f", "\u202f");
+    output = output.replaceAll("\u202f ", "\u202f");
+    
+    return output;
+  }
 
   /**
    * Closes the language model, if any. 
@@ -160,7 +225,9 @@ public class French extends Language implements AutoCloseable {
 
   @Override
   protected int getPriorityForId(String id) {
-    switch (id) {
+    switch (id) { 
+      case "DU_DU": return 10; // greater than DU_LE
+      case "ACCORD_CHAQUE": return 10; // greater than ACCORD_NOMBRE
       case "CEST_A_DIRE": return 10; // greater than A_A_ACCENT
       case "ESPACE_UNITES": return 1; // needs to have higher priority than spell checker
       case "BYTES": return 1; // needs to be higher than spell checker for 10MB style matches
@@ -168,11 +235,15 @@ public class French extends Language implements AutoCloseable {
       case "A_A_ACCENT": return 1; // triggers false alarms for IL_FAUT_INF if there is no a/à correction
       case "FRENCH_WHITESPACE_STRICT": return 1;  // default off, but if on, it should overwrite FRENCH_WHITESPACE 
       case "FRENCH_WHITESPACE": return 0;
-      case "ELISION": return 0; // should be lower in priority than spell checker
       case "JE_SUI": return 1;  // needs higher priority than spell checker
+      case "TOO_LONG_PARAGRAPH": return -15;
+      case "VERB_PRONOUN": return -50; // greater than FR_SPELLING_RULE; less than ACCORD_V_QUESTION
+      case "FR_SPELLING_RULE": return -100;
+      case "ELISION": return -200; // should be lower in priority than spell checker
+      case "UPPERCASE_SENTENCE_START": return -300;
     }
     if (id.startsWith("grammalecte_")) {
-      return -1;
+      return -150;
     }
     return super.getPriorityForId(id);
   }

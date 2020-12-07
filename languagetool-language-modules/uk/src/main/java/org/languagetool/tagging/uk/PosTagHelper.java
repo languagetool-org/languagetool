@@ -63,6 +63,10 @@ public final class PosTagHelper {
     map3.put("p", "мн.");
     PERSON_MAP = Collections.unmodifiableMap(map3);
   }
+  public static final Pattern NOUN_V_NAZ_PATTERN = Pattern.compile("noun.*:v_naz.*");
+  public static final Pattern ADJ_V_NAZ_PATTERN = Pattern.compile("adj:.:v_naz.*");
+  public static final Pattern VERB_INF_PATTERN = Pattern.compile("verb.*:inf.*");
+  public static final Pattern ADJ_V_KLY_PATTERN = Pattern.compile("adj:.:v_kly.*");
   
   private PosTagHelper() {
   }
@@ -195,10 +199,15 @@ public final class PosTagHelper {
 
   public static boolean hasPosTagStart(List<AnalyzedToken> analyzedTokenReadings, String posTagPart) {
     for(AnalyzedToken analyzedToken: analyzedTokenReadings) {
-      if( analyzedToken.getPOSTag() != null && analyzedToken.getPOSTag().startsWith(posTagPart) )
+      if( hasPosTagStart(analyzedToken, posTagPart) )
         return true;
     }
     return false;
+  }
+
+  public static boolean hasPosTagStart(AnalyzedToken analyzedToken, String posTagPart) {
+    return analyzedToken.getPOSTag() != null 
+        && analyzedToken.getPOSTag().startsWith(posTagPart);
   }
 
   public static boolean hasPosTagPart2(List<TaggedWord> taggedWords, String posTagPart) {
@@ -217,15 +226,7 @@ public final class PosTagHelper {
     return false;
   }
 
-  public static boolean startsWithPosTag2(List<AnalyzedToken> analyzedTokenReadings, String posTagPart) {
-    for(AnalyzedToken analyzedToken: analyzedTokenReadings) {
-      if( analyzedToken.getPOSTag() != null && analyzedToken.getPOSTag().startsWith(posTagPart) )
-        return true;
-    }
-    return false;
-  }
-
-  public static boolean startsWithPosTag(List<TaggedWord> taggedWords, String posTagPart) {
+  public static boolean hasPosTagStart2(List<TaggedWord> taggedWords, String posTagPart) {
     for(TaggedWord analyzedToken: taggedWords) {
       if( analyzedToken.getPosTag() != null && analyzedToken.getPosTag().startsWith(posTagPart) )
         return true;
@@ -239,7 +240,7 @@ public final class PosTagHelper {
     StringBuilder sb = new StringBuilder(4);
     for (AnalyzedToken tokenReading: tokenReadings) {
       String posTag = tokenReading.getPOSTag();
-      if( posTagPattern.matcher(posTag).matches() ) {
+      if( posTag != null && posTagPattern.matcher(posTag).matches() ) {
         String gender = getGender(posTag);
         if( sb.indexOf(gender) == -1 ) {
           sb.append(gender);

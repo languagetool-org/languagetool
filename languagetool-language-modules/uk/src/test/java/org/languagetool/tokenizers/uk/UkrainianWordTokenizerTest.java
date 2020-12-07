@@ -24,6 +24,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -263,6 +264,9 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("проф.\u00A0Артюхов");
     assertEquals(Arrays.asList("проф.", "\u00A0", "Артюхов"), testList);
 
+    testList = w.tokenize("Ів. Франко");
+    assertEquals(Arrays.asList("Ів.", " ", "Франко"), testList);
+
     testList = w.tokenize("кутю\u00A0— щедру");
     assertEquals(Arrays.asList("кутю", "\u00A0", "—", " ", "щедру"), testList);
 
@@ -466,6 +470,15 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("-У певному");
     assertEquals(Arrays.asList("-", "У", " ", "певному"), testList);
-    
+  }
+  
+  @Test
+  public void testSpecialChars() {
+    String text = "РЕАЛІЗАЦІЇ \u00AD\n" + "СІЛЬСЬКОГОСПОДАРСЬКОЇ";
+
+    List<String> testList = w.tokenize(text).stream()
+        .map(s -> s.replace("\n", "\\n").replace("\u00AD", "\\xAD"))
+        .collect(Collectors.toList());
+    assertEquals(Arrays.asList("РЕАЛІЗАЦІЇ", " ", "\\xAD", "\\n", "СІЛЬСЬКОГОСПОДАРСЬКОЇ"), testList);
   }
 }

@@ -191,6 +191,10 @@ public class UpperCaseNgramRule extends Rule {
       token("BBC"),
       token("Culture")
     ),
+    Arrays.asList(
+      token("Time"),
+      tokenRegex("magazines?")
+    ),
     Arrays.asList( // name of TV series
       token("Dublin"),
       token("Murders")
@@ -202,6 +206,10 @@ public class UpperCaseNgramRule extends Rule {
     Arrays.asList( // Company name
       token("Volvo"),
       token("Buses")
+    ),
+    Arrays.asList( // video game
+      token("Heavy"),
+      token("Rain")
     ),
     Arrays.asList(
       csRegex("[A-Z].+"),
@@ -216,7 +224,7 @@ public class UpperCaseNgramRule extends Rule {
     Arrays.asList( // "He plays games at Games.co.uk."
       csRegex("[A-Z].+"),
       token("."),
-      tokenRegex("com?|de|us|gov|net|info|org|es|mx|ca|uk|at|ch|it|pl|ru|nl|ie|be|fr")
+      tokenRegex("com?|de|us|gov|net|info|org|es|mx|ca|uk|at|ch|it|pl|ru|nl|ie|be|fr|ai|dev|io|pt|mil|club|jp|es|se|dk|no")
     ),
     Arrays.asList(
       tokenRegex("[A-Z].+"),  // He's Ben (Been)
@@ -328,6 +336,16 @@ public class UpperCaseNgramRule extends Rule {
       token("it|him|her|them|me|us|that|this"),
       tokenRegex("[A-Z].+")
     ),
+    Arrays.asList( // ... to something called Faded
+      tokenRegex("some(thing|body|one)"),
+      tokenRegex("called|named"),
+      csRegex("[A-Z].+")
+    ),
+    Arrays.asList( // It is called Ranked mode
+      csRegex("is|was|been|were|are"),
+      csRegex("calls?|called|calling|name[ds]?|naming"),
+      csRegex("[A-Z].+")
+    ),
     Arrays.asList( // What is Foreshadowing?
       tokenRegex("Who|What"),
       tokenRegex("is|are|was|were"),
@@ -352,8 +370,57 @@ public class UpperCaseNgramRule extends Rule {
       tokenRegex("or|and|&"),
       tokenRegex("[A-Z].*")
     ),
+    Arrays.asList( // Hashtags
+      token("#"),
+      tokenRegex("[A-Z].*")
+    ),
     Arrays.asList(
-      tokenRegex("Teams|Maps|Canvas|Remind|Switch|Gems?|Glamour|Divvy|Solo|Splash") // Microsoft Teams, Google Maps, Remind App, Nintendo Switch (not tagged as NNP), Gems (Ruby Gems)
+      tokenRegex("Teams|Maps|Canvas|Remind|Switch|Gems?|Glamour|Divvy|Solo|Splash|Phrase|Beam") // Microsoft Teams, Google Maps, Remind App, Nintendo Switch (not tagged as NNP), Gems (Ruby Gems)
+    ),
+    Arrays.asList(
+      pos("SENT_START"), // Music and Concepts.
+      tokenRegex("[A-Z].*"),
+      tokenRegex("or|and|&"),
+      tokenRegex("[A-Z].*"),
+      pos("SENT_END")
+    ),
+    Arrays.asList( // Please click Send
+      csRegex("click(ed|s)?|type(d|s)|hit"),
+      tokenRegex("[A-Z].*")
+    ),
+    Arrays.asList( // Please click on Send
+      csRegex("click(ed|s)?"),
+      tokenRegex("on|at"),
+      tokenRegex("[A-Z].*")
+    ),
+    Arrays.asList( // Chronicle of a Death Foretold
+      csRegex("Chronicle"),
+      token("of"),
+      tokenRegex("the|an?"),
+      tokenRegex("[A-Z].*")
+    ),
+    Arrays.asList( // Please see Question 2, 
+      csRegex("[A-Z].*"),
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList( // Please see Question #2, 
+      csRegex("[A-Z].*"),
+      token("#"),
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList( // company departments used like proper nouns
+      csRegex("Finance|Marketing|Engineering|Controlling|Support|Accounting")
+    ),
+    Arrays.asList( // They used Draft.js to solve it.
+      csRegex("[A-Z].*"),
+      token("."),
+      tokenRegex("js")
+    ),
+    Arrays.asList( // And mine is Wed.
+      csRegex("Wed")
+    ),
+    Arrays.asList( // Keys
+      csRegex("Enter|Return|Escape|Shift")
     )
   );
 
@@ -441,9 +508,9 @@ public class UpperCaseNgramRule extends Rule {
           && !nextIsOneOfThenUppercase(tokens, i, Arrays.asList("of"))
           && !tokenStr.matches("I")
           && !exceptions.contains(tokenStr)
-          && !isMisspelled(StringTools.lowercaseFirstChar(tokenStr))    // e.g. "German" is correct, "german" isn't
           && !trieMatches(sentence.getText(), token)
           && !maybeTitle(tokens, i)
+          && !isMisspelled(StringTools.lowercaseFirstChar(tokenStr))    // e.g. "German" is correct, "german" isn't
       ) {
         if (i + 1 < tokens.length) {
           List<String> ucList = Arrays.asList(tokens[i - 1].getToken(), tokenStr, tokens[i + 1].getToken());
@@ -468,7 +535,9 @@ public class UpperCaseNgramRule extends Rule {
   }
   
   boolean isMisspelled(String word) throws IOException {
-    return (linguServices == null ? spellerRule.isMisspelled(word) : !linguServices.isCorrectSpell(word, lang));
+    synchronized (spellerRule) {
+      return linguServices == null ? spellerRule.isMisspelled(word) : !linguServices.isCorrectSpell(word, lang);
+    }
   }
 
   // a very rough guess whether the word at the given position might be part of a title

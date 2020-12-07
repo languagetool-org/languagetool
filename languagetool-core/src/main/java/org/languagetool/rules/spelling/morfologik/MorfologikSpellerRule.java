@@ -19,30 +19,13 @@
 
 package org.languagetool.rules.spelling.morfologik;
 
-import static org.languagetool.JLanguageTool.getDataBroker;
-
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.vdurmont.emoji.EmojiManager;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Experimental;
-import org.languagetool.GlobalConfig;
-import org.languagetool.Language;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
@@ -55,9 +38,19 @@ import org.languagetool.rules.translation.Translator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.function.Supplier;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import static org.languagetool.JLanguageTool.getDataBroker;
+
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
-  private static Logger logger = LoggerFactory.getLogger(MorfologikSpellerRule.class);
+  private static final Logger logger = LoggerFactory.getLogger(MorfologikSpellerRule.class);
 
   protected MorfologikMultiSpeller speller1;
   protected MorfologikMultiSpeller speller2;
@@ -101,7 +94,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     this.userConfig = userConfig;
     this.motherTongue = motherTongue;
     super.setCategory(Categories.TYPOS.getCategory(messages));
-    this.conversionLocale = conversionLocale != null ? conversionLocale : Locale.getDefault();
+    conversionLocale = conversionLocale != null ? conversionLocale : Locale.getDefault();
     init();
     setLocQualityIssueType(ITSIssueType.Misspelling);
   }
@@ -138,11 +131,12 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       // if we use token.getToken() we'll get ignored characters inside and speller will choke
       String word = token.getAnalyzedToken(0).getToken();
       int newRuleIdx = ruleMatches.size();
-      if (tokenizingPattern() == null) {
+      Pattern pattern = tokenizingPattern();
+      if (pattern == null) {
         ruleMatches.addAll(getRuleMatches(word, startPos, sentence, ruleMatches, idx, tokens));
       } else {
         int index = 0;
-        Matcher m = tokenizingPattern().matcher(word);
+        Matcher m = pattern.matcher(word);
         while (m.find()) {
           String match = word.subSequence(index, m.start()).toString();
           ruleMatches.addAll(getRuleMatches(match, startPos + index, sentence, ruleMatches, idx, tokens));
@@ -176,7 +170,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
   @Nullable
-  protected Translator getTranslator(GlobalConfig globalConfig) throws IOException {
+  protected Translator getTranslator(GlobalConfig globalConfig) {
     return null;
   }
 
@@ -260,7 +254,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     return true;
   }
   
-  protected int getFrequency(MorfologikMultiSpeller speller, String word) {
+  private static int getFrequency(MorfologikMultiSpeller speller, String word) {
     return speller.getFrequency(word);
   }
 
@@ -285,7 +279,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     // Check for split word with previous word
     if (idx > 0 && tokens[idx].isWhitespaceBefore()) {
       String prevWord = tokens[idx - 1].getToken();
-      if (prevWord.length() > 0 && !prevWord.matches(".*\\d.*")
+      if (prevWord.length() > 0 && !StringUtils.containsAny(prevWord, "0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
           && getFrequency(speller1, prevWord) < MAX_FREQUENCY_FOR_SPLITTING) {
         int prevStartPos = tokens[idx - 1].getStartPos();
         // "thanky ou" -> "thank you"
@@ -298,10 +292,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           beforeSuggestionStr = prevWord + " ";
         }
         // "than kyou" -> "thank you" ; but not "She awaked" -> "Shea waked"
-        String sugg2a = prevWord + word.substring(0, 1);
+        String sugg2a = prevWord + word.charAt(0);
         String sugg2b = word.substring(1);
-        if (sugg2a.length() > 1 && sugg2b.length() > 2 && !isMisspelled(speller1, sugg2a)
-            && !isMisspelled(speller1, sugg2b)) {
+        if (sugg2b.length() > 2 && !isMisspelled(speller1, sugg2a) && !isMisspelled(speller1, sugg2b)) {
           if (ruleMatch == null) {
             if (getFrequency(speller1, sugg2a) + getFrequency(speller1, sugg2b) > getFrequency(speller1, prevWord)) {
               ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg2a, sugg2b,
@@ -336,7 +329,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     // Check for split word with next word
     if (ruleMatch == null && idx < tokens.length - 1 && tokens[idx + 1].isWhitespaceBefore()) {
       String nextWord = tokens[idx + 1].getToken();
-      if (nextWord.length() > 0 && !StringUtils.containsAny(nextWord, "0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
+      if (nextWord.length() > 0 && !StringUtils.containsAny(nextWord, '0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
           && getFrequency(speller1, nextWord) < MAX_FREQUENCY_FOR_SPLITTING) {
         int nextStartPos = tokens[idx + 1].getStartPos();
         String sugg1a = word.substring(0, word.length() - 1);
@@ -346,9 +339,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg1a, sugg1b, startPos);
           afterSuggestionStr = " " + nextWord;
         }
-        String sugg2a = word + nextWord.substring(0, 1);
+        String sugg2a = word + nextWord.charAt(0);
         String sugg2b = nextWord.substring(1);
-        if (sugg2a.length() > 1 && sugg2b.length() > 2 && !isMisspelled(speller1, sugg2a) && !isMisspelled(speller1, sugg2b)) {
+        if (sugg2b.length() > 2 && !isMisspelled(speller1, sugg2a) && !isMisspelled(speller1, sugg2b)) {
           if (ruleMatch == null) {
             if (getFrequency(speller1, sugg2a) + getFrequency(speller1, sugg2b) > getFrequency(speller1, nextWord)) {
               ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg2a, sugg2b, startPos);
@@ -434,54 +427,80 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
     if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 
         || ruleMatchesSoFar.size() <= userConfig.getMaxSpellingSuggestions()) {
-      List<SuggestedReplacement> defaultSuggestions = SuggestedReplacement.convert(speller1.getSuggestionsFromDefaultDicts(word));
-      List<SuggestedReplacement> userSuggestions = SuggestedReplacement.convert(speller1.getSuggestionsFromUserDicts(word));
-      //System.out.println("speller1: " + suggestions);
-      if (word.length() >= 3 && (fullResults || defaultSuggestions.isEmpty())) {
-        // speller1 uses a maximum edit distance of 1, it won't find suggestion for "garentee", "greatful" etc.
-        //System.out.println("speller2: " + speller2.getSuggestions(word));
-        defaultSuggestions.addAll(SuggestedReplacement.convert(speller2.getSuggestionsFromDefaultDicts(word)));
-        userSuggestions.addAll(SuggestedReplacement.convert(speller2.getSuggestionsFromUserDicts(word)));
-        if (word.length() >= 5 && (fullResults || defaultSuggestions.isEmpty())) {
-          //System.out.println("speller3: " + speller3.getSuggestions(word));
-          defaultSuggestions.addAll(SuggestedReplacement.convert(speller3.getSuggestionsFromDefaultDicts(word)));
-          userSuggestions.addAll(SuggestedReplacement.convert(speller3.getSuggestionsFromUserDicts(word)));
-        }
+      if (translationSuggestionCount > 0) {
+        List<SuggestedReplacement> prev = ruleMatch.getSuggestedReplacementObjects();
+        ruleMatch = new RuleMatch(ruleMatch.getRule(), ruleMatch.getSentence(), ruleMatch.getFromPos(), ruleMatch.getToPos(),
+          messages.getString("spelling") + " Translations to English are also offered.");
+        ruleMatch.setSuggestedReplacementObjects(prev);
       }
-      //System.out.println("getAdditionalTopSuggestions(suggestions, word): " + getAdditionalTopSuggestions(suggestions, word));
-      List<SuggestedReplacement> topSuggestions = getAdditionalTopSuggestions(defaultSuggestions, word);
-      topSuggestions.forEach(s -> s.setType(SuggestedReplacement.SuggestionType.Curated));
-      defaultSuggestions.addAll(0, topSuggestions);
-      //System.out.println("getAdditionalSuggestions(suggestions, word): " + getAdditionalSuggestions(suggestions, word));
-      defaultSuggestions.addAll(getAdditionalSuggestions(defaultSuggestions, word));
 
-      if (!(defaultSuggestions.isEmpty() && userSuggestions.isEmpty()) && !preventFurtherSuggestions) {
-        defaultSuggestions = filterSuggestions(defaultSuggestions, sentence, idx);
-        userSuggestions = filterDupes(userSuggestions);
-        defaultSuggestions = orderSuggestions(defaultSuggestions, word);
-        
-        defaultSuggestions = joinBeforeAfterSuggestions(defaultSuggestions, beforeSuggestionStr, afterSuggestionStr);
-        userSuggestions = joinBeforeAfterSuggestions(userSuggestions, beforeSuggestionStr, afterSuggestionStr);
-        // use suggestionsOrderer only w/ A/B - Testing or manually enabled experiments
-        addSuggestionsToRuleMatch(word, userSuggestions, defaultSuggestions, null, ruleMatch);
-        if (translationSuggestionCount > 0 && ruleMatch.getSuggestedReplacements().size() > translationSuggestionCount) {
-          RuleMatch newRuleMatch = new RuleMatch(ruleMatch.getRule(), ruleMatch.getSentence(), ruleMatch.getFromPos(), ruleMatch.getToPos(),
-            messages.getString("spelling") + " Translations to English are also offered.");
-          newRuleMatch.setSuggestedReplacementObjects(ruleMatch.getSuggestedReplacementObjects());
-          ruleMatch = newRuleMatch;
-        }
+      if (!preventFurtherSuggestions) {
+        ruleMatch.setLazySuggestedReplacements(appendLazySuggestions(word, beforeSuggestionStr, afterSuggestionStr,
+          fullResults, ruleMatch.getSuggestedReplacementObjects()));
       }
     } else {
       // limited to save CPU
       ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));
     }
- 
+
     ruleMatches.add(ruleMatch);
     return ruleMatches;
   }
 
+  private Supplier<List<SuggestedReplacement>> appendLazySuggestions(String word, String beforeSuggestionStr, String afterSuggestionStr, boolean fullResults, List<SuggestedReplacement> prev) {
+    return () -> {
+      List<SuggestedReplacement> joined;
+      try {
+        List<SuggestedReplacement> fromSpeller = calcSpellerSuggestions(word, fullResults);
+        joined = joinBeforeAfterSuggestions(fromSpeller, beforeSuggestionStr, afterSuggestionStr);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+      return Lists.newArrayList(Iterables.concat(prev, joined));
+    };
+  }
+
+  private List<SuggestedReplacement> calcSpellerSuggestions(String word, boolean fullResults) throws IOException {
+    List<SuggestedReplacement> defaultSuggestions = SuggestedReplacement.convert(speller1.getSuggestionsFromDefaultDicts(word));
+    List<SuggestedReplacement> userSuggestions = SuggestedReplacement.convert(speller1.getSuggestionsFromUserDicts(word));
+    //System.out.println("speller1: " + suggestions);
+    boolean onlyCaseDiffers = false;
+    if (defaultSuggestions.size() > 0 && word.equalsIgnoreCase(defaultSuggestions.get(0).getReplacement())) {
+      // We have no good concept yet for showing both translations and standard suggestions, so
+      // use a hack to fix e.g. "muslims" not suggesting "Muslims" (https://github.com/languagetool-org/languagetool/issues/3333)
+      onlyCaseDiffers = true;
+    }
+    if (word.length() >= 3 && (onlyCaseDiffers || fullResults || defaultSuggestions.isEmpty())) {
+      // speller1 uses a maximum edit distance of 1, it won't find suggestion for "garentee", "greatful" etc.
+      //System.out.println("speller2: " + speller2.getSuggestions(word));
+      defaultSuggestions.addAll(SuggestedReplacement.convert(speller2.getSuggestionsFromDefaultDicts(word)));
+      userSuggestions.addAll(SuggestedReplacement.convert(speller2.getSuggestionsFromUserDicts(word)));
+      if (word.length() >= 5 && (fullResults || defaultSuggestions.isEmpty())) {
+        //System.out.println("speller3: " + speller3.getSuggestions(word));
+        defaultSuggestions.addAll(SuggestedReplacement.convert(speller3.getSuggestionsFromDefaultDicts(word)));
+        userSuggestions.addAll(SuggestedReplacement.convert(speller3.getSuggestionsFromUserDicts(word)));
+      }
+    }
+    //System.out.println("getAdditionalTopSuggestions(suggestions, word): " + getAdditionalTopSuggestions(suggestions, word));
+    List<SuggestedReplacement> topSuggestions = getAdditionalTopSuggestions(defaultSuggestions, word);
+    topSuggestions.forEach(s -> s.setType(SuggestedReplacement.SuggestionType.Curated));
+    defaultSuggestions.addAll(0, topSuggestions);
+    //System.out.println("getAdditionalSuggestions(suggestions, word): " + getAdditionalSuggestions(suggestions, word));
+    defaultSuggestions.addAll(getAdditionalSuggestions(defaultSuggestions, word));
+
+    if (defaultSuggestions.isEmpty() && userSuggestions.isEmpty()) {
+      return Collections.emptyList();
+    }
+
+    defaultSuggestions = filterSuggestions(defaultSuggestions);
+    userSuggestions = filterDupes(userSuggestions);
+    defaultSuggestions = orderSuggestions(defaultSuggestions, word);
+
+    return Lists.newArrayList(Iterables.concat(userSuggestions, defaultSuggestions));
+  }
+
   @NotNull
-  private List<SuggestedReplacement> mergeSuggestionsWithSameTranslation(List<SuggestedReplacement> l) {
+  private static List<SuggestedReplacement> mergeSuggestionsWithSameTranslation(List<SuggestedReplacement> l) {
     List<SuggestedReplacement> mergedRepl = new ArrayList<>();
     Set<String> handledReplacements = new HashSet<>();
     for (SuggestedReplacement repl : l) {
@@ -490,9 +509,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         .filter(k -> k.getSuffix() == null || (k.getSuffix() != null && k.getSuffix().equals(repl.getSuffix())))
         .collect(Collectors.toList());
       if (sameRepl.size() > 1) {
-        if (handledReplacements.contains(repl.getReplacement())) {
-          // skip
-        } else {
+        if (!handledReplacements.contains(repl.getReplacement())) {
           List<String> joinedRepls = new ArrayList<>();
           for (SuggestedReplacement r : sameRepl) {
             joinedRepls.add("* " + r.getShortDescription());
@@ -542,18 +559,14 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
   /**
-   * Checks whether a given String consists only of surrogate pairs.
+   * Checks whether a given String is an Emoji with a string length larger 1.
    * @param word to be checked
    * @since 4.2
    */
-  protected boolean isSurrogatePairCombination (String word) {
-    if (word.length() > 1 && word.length() % 2 == 0 && word.codePointCount(0, word.length()) != word.length()) {
+  protected static boolean isEmoji(String word) {
+    if (word.length() > 1 && word.codePointCount(0, word.length()) != word.length()) {
       // some symbols such as emojis (😂) have a string length that equals 2
-      boolean isSurrogatePairCombination = true;
-      for (int i = 0; i < word.length() && isSurrogatePairCombination; i += 2) {
-        isSurrogatePairCombination &= Character.isSurrogatePair(word.charAt(i), word.charAt(i + 1));
-      }
-      return isSurrogatePairCombination;
+      return EmojiManager.isOnlyEmojis(word);
     }
     return false;
   }
@@ -565,7 +578,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
    */
   @Override
   protected boolean ignoreWord(String word) throws IOException {
-    return super.ignoreWord(word) || isSurrogatePairCombination(word);
+    return super.ignoreWord(word) || isEmoji(word);
   }
   
   /**
@@ -575,8 +588,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
    * Ex. to thow > tot how | to throw
    * 
    */
-  private List<SuggestedReplacement> joinBeforeAfterSuggestions(List<SuggestedReplacement> suggestionsList, String beforeSuggestionStr,
-      String afterSuggestionStr) {
+  private static List<SuggestedReplacement> joinBeforeAfterSuggestions(List<SuggestedReplacement> suggestionsList, String beforeSuggestionStr,
+                                                                       String afterSuggestionStr) {
     List<SuggestedReplacement> newSuggestionsList = new ArrayList<>();
     for (SuggestedReplacement suggestion : suggestionsList) {
       String str = suggestion.getReplacement();

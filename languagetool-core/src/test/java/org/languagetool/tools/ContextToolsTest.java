@@ -82,8 +82,7 @@ public class ContextToolsTest {
   @Test
   public void testMarkers() throws Exception {
     ContextTools contextTools = new ContextTools();
-    contextTools.setErrorMarkerStart("<X>");
-    contextTools.setErrorMarkerEnd("</X>");
+    contextTools.setErrorMarker("<X>", "</X>");
     String context = contextTools.getContext(0, 2, "Hi, this is it.");
     assertEquals("<X>Hi</X>, this is it.", context);
   }

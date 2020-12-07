@@ -28,7 +28,6 @@ import com.google.common.collect.Streams;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.bert.RemoteLanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.slf4j.Logger;
@@ -45,6 +44,7 @@ import java.util.stream.Collectors;
  */
 public class BERTSuggestionRanking extends RemoteRule {
 
+  // only for RemoteRuleConfig
   public static final String RULE_ID = "BERT_SUGGESTION_RANKING";
 
   private static final Logger logger = LoggerFactory.getLogger(BERTSuggestionRanking.class);
@@ -73,18 +73,16 @@ public class BERTSuggestionRanking extends RemoteRule {
   private final RemoteLanguageModel model;
   private final Rule wrappedRule;
 
-  public BERTSuggestionRanking(Rule rule, RemoteRuleConfig config, UserConfig userConfig) {
-    super(rule.messages, config);
+  public BERTSuggestionRanking(Rule rule, RemoteRuleConfig config, boolean inputLogging) {
+    super(rule.messages, config, inputLogging, rule.getId());
     this.wrappedRule = rule;
     super.setCategory(wrappedRule.getCategory());
     synchronized (models) {
       RemoteLanguageModel model = null;
-      if (getId().equals(userConfig.getAbTest())) {
-        try {
-          model = models.get(serviceConfiguration);
-        } catch (Exception e) {
-          logger.error("Could not connect to BERT service at " + serviceConfiguration + " for suggestion reranking", e);
-        }
+      try {
+        model = models.get(serviceConfiguration);
+      } catch (Exception e) {
+        logger.error("Could not connect to BERT service at " + serviceConfiguration + " for suggestion reranking", e);
       }
       this.model = model;
     }
@@ -114,31 +112,17 @@ public class BERTSuggestionRanking extends RemoteRule {
   }
 
   @Override
-  protected RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText) {
+  protected RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText, Long textSessionId) {
     List<RuleMatch> matches = new LinkedList<>();
     List<RemoteLanguageModel.Request> requests = new LinkedList<>();
     try {
-      int offset = 0;
       for (AnalyzedSentence sentence : sentences) {
         RuleMatch[] sentenceMatches = wrappedRule.match(sentence);
         for (RuleMatch match : sentenceMatches) {
           match.setSuggestedReplacementObjects(prepareSuggestions(match.getSuggestedReplacementObjects()));
-          // build request before correcting offset, as we send only sentence as text
           requests.add(buildRequest(match));
-          int fromPos;
-          int toPos;
-          if (annotatedText != null) {
-            fromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos() + offset, false);
-            toPos = annotatedText.getOriginalTextPositionFor(match.getToPos() + offset - 1, true) + 1;
-          } else {
-            // TODO: when can annotatedText be null?
-            fromPos = match.getFromPos() + offset;
-            toPos = match.getToPos() + offset;
-          }
-          match.setOffsetPosition(fromPos, toPos);
         }
         Collections.addAll(matches, sentenceMatches);
-        offset += sentence.getText().length();
       }
       return new MatchesForReordering(matches, requests);
     } catch (IOException e) {
@@ -149,7 +133,7 @@ public class BERTSuggestionRanking extends RemoteRule {
 
   @Override
   protected RemoteRuleResult fallbackResults(RemoteRequest request) {
-    return new RemoteRuleResult(false, ((MatchesForReordering) request).matches);
+    return new RemoteRuleResult(false, false, ((MatchesForReordering) request).matches);
   }
 
   @Override
@@ -167,44 +151,30 @@ public class BERTSuggestionRanking extends RemoteRule {
       requests = requests.stream().filter(Objects::nonNull).collect(Collectors.toList());
 
       if (requests.isEmpty()) {
-        return new RemoteRuleResult(false, matches);
+        return new RemoteRuleResult(false, true, matches);
       } else {
         List<List<Double>> results = model.batchScore(requests);
         // put curated at the top, then compare probabilities
-        Comparator<Pair<SuggestedReplacement, Double>> suggestionOrdering = (a, b) -> {
-          if (a.getKey().getType() != b.getKey().getType()) {
-            if (a.getKey().getType() == SuggestedReplacement.SuggestionType.Curated) {
-              return 1;
-            } else if (b.getKey().getType() == SuggestedReplacement.SuggestionType.Curated) {
-              return -1;
-            } else {
-              return a.getRight().compareTo(b.getRight());
-            }
-          } else {
-            return a.getRight().compareTo(b.getRight());
-          }
-        };
-        suggestionOrdering = suggestionOrdering.reversed();
-
         for (int i = 0; i < indices.size(); i++) {
           List<Double> scores = results.get(i);
-          RemoteLanguageModel.Request req = requests.get(i);
+          String userWord = requests.get(i).text.substring(requests.get(i).start, requests.get(i).end);
           RuleMatch match = matches.get(indices.get(i).intValue());
-          String error = req.text.substring(req.start, req.end);
-          logger.info("Scored suggestions for '{}': {} -> {}", error, match.getSuggestedReplacements(), Streams
-            .zip(match.getSuggestedReplacementObjects().stream(), scores.stream(), Pair::of)
-            .sorted(suggestionOrdering)
-            .map(scored -> String.format("%s (%e)", scored.getLeft().getReplacement(), scored.getRight()))
-            .collect(Collectors.toList()));
+          //RemoteLanguageModel.Request req = requests.get(i);
+          //String error = req.text.substring(req.start, req.end);
+          //logger.info("Scored suggestions for '{}': {} -> {}", error, match.getSuggestedReplacements(), Streams
+          //  .zip(match.getSuggestedReplacementObjects().stream(), scores.stream(), Pair::of)
+          //  .sorted(new CuratedAndSameCaseComparator(userWord))
+          //  .map(scored -> String.format("%s (%e)", scored.getLeft().getReplacement(), scored.getRight()))
+          //  .collect(Collectors.toList()));
           List<SuggestedReplacement> ranked = Streams
             .zip(match.getSuggestedReplacementObjects().stream(), scores.stream(), Pair::of)
-            .sorted(suggestionOrdering)
+            .sorted(new CuratedAndSameCaseComparator(userWord))
             .map(Pair::getLeft)
             .collect(Collectors.toList());
           //logger.info("Reordered correction for '{}' from {} to {}", error, req.candidates, ranked);
           match.setSuggestedReplacementObjects(ranked);
         }
-        return new RemoteRuleResult(true, matches);
+        return new RemoteRuleResult(true, true, matches);
       }
     };
   }
@@ -222,11 +192,39 @@ public class BERTSuggestionRanking extends RemoteRule {
 
   @Override
   public String getId() {
-    return RULE_ID;
+    // return values of wrapped rule so that enabling/disabling rules works
+    return wrappedRule.getId();
   }
 
   @Override
   public String getDescription() {
-    return "Suggestion reordering based on the BERT model";
+    return wrappedRule.getDescription();
   }
+
+  private static class CuratedAndSameCaseComparator implements Comparator<Pair<SuggestedReplacement, Double>> {
+    private final String userWord;
+    CuratedAndSameCaseComparator(String userWord) {
+      this.userWord = userWord;
+    }
+    @Override
+    public int compare(Pair<SuggestedReplacement, Double> a, Pair<SuggestedReplacement, Double> b) {
+      //System.out.println(userWord + " -- " + b.getKey().getReplacement());
+      if (a.getKey().getReplacement().equalsIgnoreCase(userWord)) {
+        return -1;
+      } else if (b.getKey().getReplacement().equalsIgnoreCase(userWord)) {
+        return 1;
+      } else if (a.getKey().getType() != b.getKey().getType()) {
+        if (a.getKey().getType() == SuggestedReplacement.SuggestionType.Curated) {
+          return -1;
+        } else if (b.getKey().getType() == SuggestedReplacement.SuggestionType.Curated) {
+          return 1;
+        } else {
+          return b.getRight().compareTo(a.getRight());
+        }
+      } else {
+        return b.getRight().compareTo(a.getRight());
+      }
+    }
+  }
+
 }
