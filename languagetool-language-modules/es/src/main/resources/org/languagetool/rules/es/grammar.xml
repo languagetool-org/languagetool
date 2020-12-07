@@ -6354,12 +6354,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.fundeu.es/recomendacion/entorno-no-es-lo-mismo-que-en-torno-967/</url>
             <antipattern>
                 <token postag="D..[MC]S." postag_regexp="yes"/>
+                <token postag="A..[MC][SN].|V.P..SM" postag_regexp="yes" min="0"/>
                 <token>entorno</token>
             </antipattern>
             <rule>
                 <pattern>
                     <token>entorno<exception postag="LOC_PREP"/></token>
-                    <token regexp="yes">a|al|de|del</token>
+                    <token regexp="yes">a|al|de|del<exception postag="LOC_.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Con el sentido de 'alrededor de' se escribe separado.</message>
                 <suggestion>en torno \3</suggestion>
@@ -6370,6 +6371,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>De su entorno a los otros.</example>
                 <example>En el entorno de la familia.</example>
                 <example>El entorno de la familia.</example>
+                <example>Alguien de su propio entorno a veces es el responsable.</example>
+                <example>Con alguien de su propia casa o entorno a fin de que se solucione.</example>
             </rule>
             <rule>
                 <pattern>
