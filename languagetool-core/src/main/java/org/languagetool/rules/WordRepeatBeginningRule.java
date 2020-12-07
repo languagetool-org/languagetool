@@ -74,12 +74,10 @@ public class WordRepeatBeginningRule extends TextLevelRule {
         // avoid "..." etc. to be matched:
         boolean isWord = true;
         if (token.length() == 1) {
-          char c = token.charAt(0);
-          if (!Character.isLetter(c)) {
+          if (!Character.isLetter(token.charAt(0))) {
             isWord = false;
           }
         }
-
         if (isWord && lastToken.equals(token)
                 && !isException(token) && !isException(tokens[2].getToken()) && !isException(tokens[3].getToken())) {
           String shortMsg;
@@ -90,7 +88,6 @@ public class WordRepeatBeginningRule extends TextLevelRule {
           } else {
             shortMsg = "";
           }
-
           if (!shortMsg.isEmpty()) {
             String msg = shortMsg + " " + messages.getString("desc_repetition_beginning_thesaurus");
             int startPos = analyzedToken.getStartPos();
