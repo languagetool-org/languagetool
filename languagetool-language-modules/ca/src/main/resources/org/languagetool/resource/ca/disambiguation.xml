@@ -6192,6 +6192,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="V.*"/>
         </rule>
     </rulegroup>
+    <rule id="dir" name="dir (infinitiu)">
+        <pattern>
+            <token inflected="yes" regexp="yes" skip="20">escoltar|sentir</token>
+            <marker>
+                <token>dir</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NCMS000"/>
+    </rule>
     <rule id="fins_nom" name="fins nom">
         <pattern>
             <token postag="D..MP.|V.P..PM." postag_regexp="yes"/>

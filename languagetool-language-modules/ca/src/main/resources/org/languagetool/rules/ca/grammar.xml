@@ -22772,6 +22772,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
+                        <token regexp="yes">optim(a|es)</token>
+                    </marker>
+                </pattern>
+                <message>Si és un adjectiu, s'ha d'accentuar. Correcte si és del v. 'optimar'.</message>
+                <suggestion><match no="1" regexp_match="(?iu)o" regexp_replace="ò" case_conversion="preserve"/></suggestion>
+                <example correction="òptimes">Són <marker>optimes</marker>.</example>
+                <example correction="Òptimes"><marker>Optimes</marker> prestacions.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
                         <token regexp="yes">acid(a|es)</token>
                     </marker>
                 </pattern>
@@ -45917,6 +45928,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="sentir">És difícil <marker>escoltar</marker> gent parlar valencià.</example>
                 <example correction="sentir">Acabe d'<marker>escoltar</marker> un home de Foios de 71 anys cantar.</example>
                 <example correction="sentit">Heu <marker>escoltat</marker> alguna vegada al MHP Puigdemont dir això.</example>
+                <example correction="sento">No <marker>escolto</marker> la fiscal general de l'estat dir res sobre això.</example>
                 <example>Escoltam atentament per no perdre cap detall.</example>
                 <example>Vam escoltar amb atenció per no perdre'ns ni una paraula.</example>
             </rule>
