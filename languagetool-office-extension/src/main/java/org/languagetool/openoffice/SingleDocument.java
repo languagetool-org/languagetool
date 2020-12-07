@@ -1315,7 +1315,7 @@ class SingleDocument {
           docCursor = new DocumentCursorTools(xComponent);
         }
         setFlatParagraphTools(xComponent);
-/*
+
         if(override) {
           List<Integer> tmpChangedParas;
           tmpChangedParas = paragraphsCache.get(cacheNum).differenceInCaches(oldCache);
@@ -1332,7 +1332,7 @@ class SingleDocument {
             remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara);
           }
         } else {
-*/        
+        
 //          Map<Integer, SingleProofreadingError[]> changedParasMap;
           if (debugMode > 1) {
             MessageHandler.printToLogFile("Mark paragraphs from " + startPara + " to " + endPara);
@@ -1354,7 +1354,7 @@ class SingleDocument {
             remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara);
           }
 //          flatPara.markParagraphs(changedParasMap, docCache, false, docCursor.getParagraphCursor());
-//        }
+        }
       }
     } catch (Throwable t) {
       MessageHandler.showError(t);
