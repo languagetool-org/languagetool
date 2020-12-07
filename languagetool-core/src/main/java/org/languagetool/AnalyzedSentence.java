@@ -188,7 +188,7 @@ public final class AnalyzedSentence {
    */
   public String getText() {
     String result = text;
-    if (text == null) {
+    if (result == null) {
       text = result = calcText();
     }
     return result;
