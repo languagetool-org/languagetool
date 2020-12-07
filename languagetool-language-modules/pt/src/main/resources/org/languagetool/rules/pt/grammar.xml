@@ -20312,6 +20312,21 @@ o tomate'>
       <example correction="às vezes">É que <marker>hás vezes</marker> temos de tomar decisões.</example>
     </rule>
 
+	<!-- NA não -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-07 (21-OCT-2020+)  *START*   -->
+    <rule id='NA_NÃO' name="Confusão: na - não">
+      <pattern>
+		  <token postag='RG' postag_regexp='no'/>
+		  <marker>
+			<token>na</token>
+		  </marker>
+          <token postag='V.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='N.+|AQ.+|DP.+'/></token>
+      </pattern>
+      <message>Substitua por <suggestion>não</suggestion>.</message>
+      <example correction="não">Mas lá dentro <marker>na</marker> tinha carvão, mas outros artigos.</example>
+    </rule>
+
   <rulegroup id='TRAZ_TRÁS' name="Confusão: traz - trás">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
     <rule>
