@@ -66,6 +66,7 @@ public class WordRepeatBeginningRule extends TextLevelRule {
     String beforeLastToken = "";
     List<RuleMatch> ruleMatches = new ArrayList<>();
     int pos = 0;
+    AnalyzedSentence prevSentence = null;
     for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
       if (tokens.length > 3) {
@@ -79,7 +80,8 @@ public class WordRepeatBeginningRule extends TextLevelRule {
           }
         }
         if (isWord && lastToken.equals(token)
-                && !isException(token) && !isException(tokens[2].getToken()) && !isException(tokens[3].getToken())) {
+                && !isException(token) && !isException(tokens[2].getToken()) && !isException(tokens[3].getToken())
+                && prevSentence != null && prevSentence.getText().trim().matches(".+[.?!]$")) {  // no matches for e.g. table cells
           String shortMsg;
           if (isAdverb(analyzedToken)) {
             shortMsg = messages.getString("desc_repetition_beginning_adv");
@@ -100,6 +102,7 @@ public class WordRepeatBeginningRule extends TextLevelRule {
         lastToken = token;
       }
       pos += sentence.getCorrectedTextLength();
+      prevSentence = sentence;
     }
     return toRuleMatchArray(ruleMatches);
   }
