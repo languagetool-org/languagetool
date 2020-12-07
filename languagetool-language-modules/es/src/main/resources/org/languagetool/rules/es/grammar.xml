@@ -13521,7 +13521,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>No ve nada allá abajo.</example>
             <example>Todo lo que ve despierta su curiosidad.</example>
         </rule>
-        <rulegroup id="A_VER_HABER" name="a ver/haber">
+        <rulegroup id="A_VER_HABER" name="a ver->haber">
             <antipattern>
                 <token inflected="yes" regexp="yes">ir|acudir|correr</token>
                 <token>a</token>
@@ -13546,6 +13546,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Quería decir <suggestion><match no="2" regexp_match="(?iu)v" regexp_replace="hab"/></suggestion>?</message>
                 <example correction="haber">Podría, sin duda, <marker>a ver</marker> sido peor.</example>
                 <example correction="haberlo">Podría, sin duda, <marker>a verlo</marker> hecho peor.</example>
+                <example correction="Haber">¡<marker>A ver</marker> estudiado!</example>
                 <example>Voy a verlos contento del esfuerzo.</example>
             </rule>
             <rule>
@@ -13562,6 +13563,72 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="haberlos">Podría <marker>a verlos</marker>.</example>
                 <example correction="haberlos">Tenía que <marker>a verlos</marker> dicho esto.</example>
                 <example correction="habérselo">Tenía que <marker>a vérselo</marker> dicho.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HABER_A_VER" name="haber->a ver" default="temp_off">
+            <antipattern>
+                <token>que</token>
+                <token>haber</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>haber</token>
+                    </marker>
+                    <token regexp="yes">[,!?]</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>a ver</suggestion>?</message>
+                <example correction="A ver"><marker>Haber</marker>, ¿qué te pasa?</example>
+                <example>¡Tiene que haber!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>haber</token>
+                    </marker>
+                    <token>si</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>a ver</suggestion>?</message>
+                <example correction="A ver"><marker>Haber</marker> si lo conseguimos.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">ir</token>
+                    <marker>
+                        <token>haber</token>
+                    </marker>
+                    <token regexp="yes">a|al</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>a ver</suggestion>?</message>
+                <example correction="a ver">Fue <marker>haber</marker> a su abuela.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">empezar|comenzar|llevar|ir</token>
+                    <marker>
+                        <token>haber</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>a ver</suggestion>?</message>
+                <suggestion>a haber</suggestion>
+                <example correction="a ver|a haber">Las llevaron <marker>haber</marker> una película.</example>
+                <example correction="a ver|a haber">Empezó <marker>haber</marker> la serie.</example>
+                <example correction="a ver|a haber">Empieza <marker>haber</marker> buenos melones.</example>
+                <example correction="a ver|a haber">¡Vamos <marker>haber</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>haber</token>
+                    </marker>
+                    <token min="0" postag="SPS00"/>
+                    <token inflected="yes" regexp="yes">quién|qué|cuánto|cuándo|cómo</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>a ver</suggestion>?</message>
+                <example correction="A ver"><marker>Haber</marker> quién viene.</example>
+                <example correction="A ver"><marker>Haber</marker> cuántos hay.</example>
+                <example correction="A ver"><marker>Haber</marker> por qué tiene que ser así.</example>
+                <example>¡Tiene que haber quién lo diga!</example>
             </rule>
         </rulegroup>
         <rulegroup id="PUDE_PUEDE" name="pude/puede">
