@@ -1308,22 +1308,39 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern case_sensitive="yes">
                 <token regexp="yes">[A-ZÄÖÜ][a-zäöüß]{3,}beamte</token>
             </pattern>
-            <disambig postag="SUB:NOM:SIN:MAS"></disambig> 
+            <disambig postag="SUB:NOM:SIN:MAS"></disambig>
             <example type="ambiguous" inputform="Schalterbeamte[Schalterbeamte/SUB:NOM:SIN:MAS:ADJ]" outputform="Schalterbeamte[Schalterbeamte/SUB:NOM:SIN:MAS]">Beamte, <marker>Schalterbeamte</marker>.</example>
         </rule>
         <rule>
             <pattern case_sensitive="yes">
                 <token regexp="yes">[A-ZÄÖÜ][a-zäöüß]{3,}beamte</token>
             </pattern>
-            <disambig action="add"><wd pos="SUB:AKK:PLU:MAS"/></disambig> 
+            <disambig action="add"><wd pos="SUB:AKK:PLU:MAS"/></disambig>
             <example type="ambiguous" inputform="Schalterbeamte[Schalterbeamte/SUB:NOM:SIN:MAS:ADJ]" outputform="Schalterbeamte[Schalterbeamte/SUB:AKK:PLU:MAS,Schalterbeamte/SUB:NOM:SIN:MAS:ADJ]">Beamte, <marker>Schalterbeamte</marker>.</example>
         </rule>
         <rule>
             <pattern case_sensitive="yes">
                 <token regexp="yes">[A-ZÄÖÜ][a-zäöüß]{3,}beamte</token>
             </pattern>
-            <disambig action="add"><wd pos="SUB:NOM:PLU:MAS"/></disambig> 
+            <disambig action="add"><wd pos="SUB:NOM:PLU:MAS"/></disambig>
             <example type="ambiguous" inputform="Schalterbeamte[Schalterbeamte/SUB:NOM:SIN:MAS:ADJ]" outputform="Schalterbeamte[Schalterbeamte/SUB:NOM:PLU:MAS,Schalterbeamte/SUB:NOM:SIN:MAS:ADJ]">Beamte, <marker>Schalterbeamte</marker>.</example>
+        </rule>
+    </rulegroup>
+    <rulegroup id="WEISS" name="Verb/Adjektiv: weiß">
+        <rule>
+            <pattern>
+                <token regexp="yes">ich|er|sie<exception scope="previous" inflected="yes" regexp="yes">werden|sein</exception></token>
+                <marker><token case_sensitive="yes">weiß<exception scope="next" inflected="yes">streichen</exception></token></marker>
+            </pattern>
+            <disambig action="remove" postag="ADJ:PRD:GRU"/>
+            <example type="untouched">Ich glaube, dass er weiß streichen wird.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">sein</token>
+                <marker><token case_sensitive="yes">weiß</token></marker>
+            </pattern>
+            <disambig action="remove" postag="VER:[13]:.+"/>
         </rule>
     </rulegroup>
     <rulegroup id="PA2_PRT_VERB" name="Entferne Präteritum von Partizip">
