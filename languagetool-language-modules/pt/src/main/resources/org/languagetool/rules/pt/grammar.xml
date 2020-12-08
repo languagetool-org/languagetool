@@ -12348,6 +12348,26 @@ MARCOAGPINTO 2020-02-18 -->
     </rule>
   </rulegroup>
 
+	<!-- VÍRGULA A MAIS -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-08 (21-OCT-2020+)  *START*   -->
+    <rule id='VERB_COMMA_NOT_NEEDED' name="Vírgula não necessária">
+      <pattern>
+	    <marker>
+		  <token postag='VMM03S0|VMSP[13]S0' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='SPS.+'/></token>
+		  <token min="0" max="1" postag='SPS.+|DA.+' postag_regexp='yes'/>
+		  <token postag='PI.+' postag_regexp='yes'/>
+		  <token regexp='yes' spacebefore='no'>[,]</token>
+		  <token postag='V.+' postag_regexp='yes'/>
+		  <token regexp='no' spacebefore='no'>-</token>
+		  <token regexp='yes' spacebefore='no'>la|lo|lhes?|te|vos</token>
+		</marker>		
+      </pattern>
+      <message>Vírgula não necessária.</message>
+	  <suggestion>\1 \2 \3 \5\6\7</suggestion>
+      <example correction="deixe ninguém usá-la">Não <marker>deixe ninguém, usá-la</marker> com você e ganhar o jogo.</example>
+    </rule>
+
   <rulegroup id='VERB_COMMA_CONJUNCTION' name="Locuções entre vírgulas: portanto, por exemplo, na verdade">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-25 -->
     <!-- <url>http://www.lpeu.com.br/q/v73qc</url>               -->
