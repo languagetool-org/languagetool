@@ -34972,6 +34972,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="SISTEMA_INMUNITARI" name="sistema *inmunològic/immunitari" default="temp_off">
+            <pattern>
+                <token inflected="yes">sistema</token>
+                <token inflected="yes">immunològic</token>
+            </pattern>
+            <message>Expressión inadequada.</message>
+            <suggestion>\1 <match no="2" postag="(A.*)" postag_regexp="yes" postag_replace="$1">immunitari</match></suggestion>
+            <url>https://www.termcat.cat/ca/cercaterm/fitxa/MjkwOTI0OQ%3D%3D</url>
+            <example correction="Sistemes immunitaris"><marker>Sistemes immunològics</marker>.</example>
+        </rule>
         <rule id="EN_ALLO_RELATIU_A" name="*en allò relatiu a">
             <pattern>
                 <token>en</token>
