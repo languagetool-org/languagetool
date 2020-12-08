@@ -6350,7 +6350,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>En los apartes de esta obra.</example>
             <example>Quiero que te apartes de estos peligros.</example>
         </rule>
-        <rulegroup id="EN_TORNO" name="entorno/en torno" default="temp_off">
+        <rulegroup id="EN_TORNO" name="entorno/en torno">
             <url>https://www.fundeu.es/recomendacion/entorno-no-es-lo-mismo-que-en-torno-967/</url>
             <antipattern>
                 <token postag="SP.*|D..[MC]S." postag_regexp="yes"/>
@@ -7960,7 +7960,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" regexp_match="(?iu)h(.*)" regexp_replace="$1"/></suggestion>
                 <example correction="echas">Porque si <marker>hechas</marker> cuenta salen caras.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">hecho|hecha|hechas</token>
@@ -13582,9 +13582,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="haber">Sin <marker>a ver</marker> alguien más, no se puede.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="HABER_A_VER" name="haber->a ver" default="temp_off">
+        <rulegroup id="HABER_A_VER" name="haber->a ver">
             <antipattern>
-                <token>que</token>
+                <token inflected="yes" regexp="yes">soler|poder|deber|querer|desear|tener|parecer|sin|que|por</token>
+                <token>haber</token>
+            </antipattern>
+            <antipattern>
+                <token postag="D..[CM]S." postag_regexp="yes"/>
                 <token>haber</token>
             </antipattern>
             <rule>
@@ -13597,6 +13601,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Quería decir <suggestion>a ver</suggestion>?</message>
                 <example correction="A ver"><marker>Haber</marker>, ¿qué te pasa?</example>
                 <example>¡Tiene que haber!</example>
+                <example>A ver, ¿cuántas casas tienes en tu haber?</example>
+                <example>¿Qué otra explicación puede haber?</example>
+                <example>es lo que hay, y no debería haber, en el encuentro de las mujeres</example>
+                <example>con la mejor lana habida y por haber,</example>
             </rule>
             <rule>
                 <pattern>
@@ -13637,6 +13645,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="a ver|a haber">Empieza <marker>haber</marker> buenos melones.</example>
                 <example correction="a ver|a haber">¡Vamos <marker>haber</marker>!</example>
                 <example>Lo que más me molestó fue haber sido engañado.</example>
+                <example>su éxito fue haber seguido al pie de la letra una estrategia</example>
             </rule>
             <rule>
                 <pattern>
@@ -13644,7 +13653,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>haber</token>
                     </marker>
                     <token min="0" postag="SPS00"/>
-                    <token inflected="yes" regexp="yes">quién|qué|cuánto|cuándo|cómo</token>
+                    <token inflected="yes" regexp="yes">quién|qué|cuánto|cuándo|cómo|cuál</token>
                 </pattern>
                 <message>¿Quería decir <suggestion>a ver</suggestion>?</message>
                 <example correction="A ver"><marker>Haber</marker> quién viene.</example>
