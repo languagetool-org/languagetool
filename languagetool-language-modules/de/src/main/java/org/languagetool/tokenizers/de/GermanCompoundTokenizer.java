@@ -181,6 +181,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Kinderecken", asList("Kinder", "ecken"));
     wordSplitter.addException("Silberecke", asList("Silber", "ecke"));
     wordSplitter.addException("Silberecken", asList("Silber", "ecken"));
+    wordSplitter.addException("Schreibart", asList("Schreib", "art"));
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }
