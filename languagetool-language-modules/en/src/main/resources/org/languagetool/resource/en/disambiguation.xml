@@ -7927,16 +7927,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">plenty|lots?|bunch|number|tons?|hundreds?|couple</token>
             <token>of</token>
             <token postag="NNS" />
-            <token>all</token>
-            <token postag="IN" /> 
         </antipattern>
         <antipattern><!-- #3320 He had a lot of severe bruises all over his body -->
             <token regexp="yes">plenty|lots?|bunch|number|tons?|hundreds?|couple</token>
             <token>of</token>
             <token postag="JJ.*" postag_regexp="yes" />
             <token postag="NNS" />
-            <token>all</token>
-            <token postag="IN" /> 
         </antipattern>
         <antipattern><!-- #3346 are having classes this week -->
             <token chunk="I-VP" postag="VBG"/>
@@ -7971,6 +7967,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig postag="VBZ"/>
         <example type="untouched">This is work.</example>
+        <example type="untouched">On a number of occasions the thing happens..</example>
         <example type="untouched">It has an advantage compared to objects that make something.</example>
         <example type="untouched">For more than one year there was <marker>updates</marker> every day.</example><!-- Refer to grammar THERE_WAS_MANY. -->
         <example type="untouched">... and there was <marker>weeds</marker> all round the grave.</example>
@@ -8198,6 +8195,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="JJ">all</token>
             <token postag="VBZ" />
             <token postag="JJ|PCT" postag_regexp="yes" />
+        </antipattern>
+        <antipattern><!-- that the other loses -->
+            <token>the</token>
+            <token postag="JJ">other</token>
+            <token postag="VBZ" />
         </antipattern>
         <pattern>
             <token postag="JJ">
@@ -9018,6 +9020,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>the</token>
             <token>other</token>
             <token regexp="yes">wants|needs</token>
+        </antipattern>
+        <antipattern><!-- We have cards the other wants. -->
+            <token>the</token>
+            <token>other</token>
+            <token postag="VBZ" />
         </antipattern>
         <pattern>
             <marker>
