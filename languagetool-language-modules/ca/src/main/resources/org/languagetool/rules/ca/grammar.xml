@@ -33703,6 +33703,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes">anys?|mitjan</token>
+                    <token regexp="yes">\d\.?\d{3}</token>
+                    <token regexp="yes">i|a|\-</token>
+                    <marker>
+                        <token regexp="yes">\d\.\d{3}</token>
+                    </marker>
+                </pattern>
+                <message>Els anys s'escriuen sense punt.</message>
+                <suggestion><match no="4" regexp_match="(.)\.(...)" regexp_replace="$1$2"/></suggestion>
+                <short>Error ortotipogràfic</short>
+                <example correction="1989">Dels anys 1988-<marker>1.989</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">&mesos_any;</token>
                     <token>de</token>
                     <token min="0">l</token>
@@ -33731,20 +33745,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">pàgina|pàgines</token>
                     <marker>
                         <token regexp="yes">\d{1,3}\.\d{3}</token>
                     </marker>
+                    <token regexp="yes">[ad]</token>
+                    <token>.</token>
+                    <token>C</token>
                 </pattern>
-                <message>Els números de pàgina s'escriuen sense punt.</message>
-                <suggestion><match no="2" regexp_match="(.)\.(...)" regexp_replace="$1$2"/></suggestion>
+                <message>Els anys s'escriuen sense punt.</message>
+                <suggestion><match no="1" regexp_match="(.*)\.(...)" regexp_replace="$1$2"/></suggestion>
                 <short>Error ortotipogràfic</short>
-                <example correction="1989">La pàgina <marker>1.989</marker>.</example>
+                <example correction="1989">És del <marker>1.989</marker> d. C.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">p|pàg|pag|pàgs|pags</token>
-                    <token>.</token>
+                    <token regexp="yes">pàgina|pàginesp|p[àa]gs?|p|pp</token>
+                    <token min="0">.</token>
                     <marker>
                         <token regexp="yes">\d{1,3}\.\d{3}</token>
                     </marker>
@@ -33753,6 +33769,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(.)\.(...)" regexp_replace="$1$2"/></suggestion>
                 <short>Error ortotipogràfic</short>
                 <example correction="1989">La p. <marker>1.989</marker>.</example>
+                <example correction="1989">La pàgina <marker>1.989</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">pàgina|pàgines|p[àa]gs?|p|pp</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">\d{1,3}\.?\d{3}</token>
+                    <token regexp="yes">i|a|\-</token>
+                    <marker>
+                        <token regexp="yes">\d{1,3}\.\d{3}</token>
+                    </marker>
+                </pattern>
+                <message>Els números de pàgina s'escriuen sense punt.</message>
+                <suggestion><match no="5" regexp_match="(.)\.(...)" regexp_replace="$1$2"/></suggestion>
+                <short>Error ortotipogràfic</short>
+                <example correction="1989">Entre les pàgines 1888 i <marker>1.989</marker>.</example>
+                <example correction="1989">3a edició, p. 1800-<marker>1.989</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="COMA_ETC" name="coma abans de 'etc.'">
