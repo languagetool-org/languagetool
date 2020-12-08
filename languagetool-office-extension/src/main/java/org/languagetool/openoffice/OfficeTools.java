@@ -120,7 +120,7 @@ class OfficeTools {
   static XComponent getCurrentComponent(XComponentContext xContext) {
     try {
       XDesktop xdesktop = getDesktop(xContext);
-      if(xdesktop == null) {
+      if (xdesktop == null) {
         return null;
       }
       else return xdesktop.getCurrentComponent();
@@ -187,7 +187,10 @@ class OfficeTools {
     }
   }
 
-
+  /**
+   * Get the menu bar of LO/OO
+   * Returns null if it fails
+   */
   static XMenuBar getMenuBar(XComponentContext xContext) {
     try {
       XDesktop desktop = OfficeTools.getDesktop(xContext);
@@ -256,7 +259,9 @@ class OfficeTools {
     return dispatchCmd((".uno:" + cmd), new PropertyValue[0], xContext);
   } 
 
-
+  /**
+   * Dispatch a internal LO/OO command
+   */
   public static boolean dispatchCmd(String cmd, PropertyValue[] props, XComponentContext xContext) {
     try {
       if (xContext == null) {
@@ -407,26 +412,25 @@ class OfficeTools {
     return cacheDir;
   }
 
-
-/**
- * Handle logLevel for debugging and development
- */
+  /**
+   * Handle logLevel for debugging and development
+   */
   static void setLogLevel(String logLevel) {
     if (logLevel != null) {
       String[] levels = logLevel.split(LOG_DELIMITER);
       for (String level : levels) {
-        if(level.equals("1") || level.equals("2") || level.equals("3") || level.startsWith("all:")) {
+        if (level.equals("1") || level.equals("2") || level.equals("3") || level.startsWith("all:")) {
           int numLevel;
           if (level.startsWith("all:")) {
             String[] levelAll = level.split(":");
-            if(levelAll.length != 2) {
+            if (levelAll.length != 2) {
               continue;
             }
             numLevel = Integer.parseInt(levelAll[1]);
           } else {
             numLevel = Integer.parseInt(level);
           }
-          if(numLevel > 0) {
+          if (numLevel > 0) {
             DEBUG_MODE_MD = true;
             DEBUG_MODE_TQ = true;
             DEBUG_MODE_FP = true;
@@ -438,32 +442,32 @@ class OfficeTools {
             DEBUG_MODE_DC = true;
             DEBUG_MODE_LM = true;
           }
-        } else if(level.startsWith("sd:")) {
+        } else if (level.startsWith("sd:")) {
           String[] levelSD = level.split(":");
-          if(levelSD.length != 2) {
+          if (levelSD.length != 2) {
             continue;
           }
           int numLevel = Integer.parseInt(levelSD[1]);
           if (numLevel > 0) {
             DEBUG_MODE_SD = numLevel;
           }
-        } else if(level.equals("md")) {
+        } else if (level.equals("md")) {
           DEBUG_MODE_MD = true;
-        } else if(level.equals("dc")) {
+        } else if (level.equals("dc")) {
           DEBUG_MODE_DC = true;
-        } else if(level.equals("fp")) {
+        } else if (level.equals("fp")) {
           DEBUG_MODE_FP = true;
-        } else if(level.equals("lm")) {
+        } else if (level.equals("lm")) {
           DEBUG_MODE_LM = true;
-        } else if(level.equals("tq")) {
+        } else if (level.equals("tq")) {
           DEBUG_MODE_TQ = true;
-        } else if(level.equals("ld")) {
+        } else if (level.equals("ld")) {
           DEBUG_MODE_LD = true;
-        } else if(level.equals("cd")) {
+        } else if (level.equals("cd")) {
           DEBUG_MODE_CD = true;
-        } else if(level.equals("io")) {
+        } else if (level.equals("io")) {
           DEBUG_MODE_IO = true;
-        } else if(level.equals("dev")) {
+        } else if (level.equals("dev")) {
           DEVELOP_MODE = true;
         }
       }

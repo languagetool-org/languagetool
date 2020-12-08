@@ -80,7 +80,7 @@ public class TextLevelCheckQueue {
         return;
       }
       synchronized(textRuleQueue) {
-        for(int i = 0; i < textRuleQueue.size(); i++) {
+        for (int i = 0; i < textRuleQueue.size(); i++) {
           QueueEntry entry = textRuleQueue.get(i);
           if (entry.equals(queueEntry)) {
             if (overrideRunning && !entry.overrideRunning) {
@@ -197,7 +197,7 @@ public class TextLevelCheckQueue {
     interruptCheck = true;
     wakeupQueue();
     int n = 0;
-    while(interruptCheck && n < MAX_WAIT) {
+    while (interruptCheck && n < MAX_WAIT) {
       try {
         Thread.sleep(1);
         n++;
@@ -229,7 +229,6 @@ public class TextLevelCheckQueue {
       if (multiDocHandler.hasLocale(locale)) {
         return multiDocHandler.getLanguage(locale);
       }
-//      return document.getLanguage();
     }
     return null;
   }
@@ -269,7 +268,7 @@ public class TextLevelCheckQueue {
   QueueEntry getNextQueueEntry(int nPara, int nCache, String docId) {
     List<SingleDocument> documents = multiDocHandler.getDocuments();
     int nDoc = 0;
-    for(int n = 0; n < documents.size(); n++) {
+    for (int n = 0; n < documents.size(); n++) {
       if (docId.equals(documents.get(n).getDocID()) && !documents.get(n).isDisposed()) {
         QueueEntry queueEntry = documents.get(n).getNextQueueEntry(nPara, nCache);
         if (queueEntry != null) {
@@ -279,7 +278,7 @@ public class TextLevelCheckQueue {
         break;
       }
     }
-    for(int i = nDoc + 1; i < documents.size(); i++) {
+    for (int i = nDoc + 1; i < documents.size(); i++) {
       if (!documents.get(i).isDisposed()) {
         QueueEntry queueEntry = documents.get(i).getNextQueueEntry(-1, nCache);
         if (queueEntry != null) {
@@ -287,7 +286,7 @@ public class TextLevelCheckQueue {
         }
       }
     }
-    for(int i = 0; i < nDoc; i++) {
+    for (int i = 0; i < nDoc; i++) {
       if (!documents.get(i).isDisposed()) {
         QueueEntry queueEntry = documents.get(i).getNextQueueEntry(-1, nCache);
         if (queueEntry != null) {
@@ -326,18 +325,30 @@ public class TextLevelCheckQueue {
     QueueEntry() {
     }
 
+    /**
+     * Set reset flag
+     */
     void setReset() {
       special = TextLevelCheckQueue.RESET_FLAG;
     }
     
+    /**
+     * Set stop flag
+     */
     void setStop() {
       special = TextLevelCheckQueue.STOP_FLAG;
     }
     
+    /**
+     * Set dispose flag
+     */
     void setDispose(String docId) {
       special = TextLevelCheckQueue.DISPOSE_FLAG;
     }
     
+    /**
+     * Define equal queue entries
+     */
     @Override
     public boolean equals(Object o) {
       if (o == null || !(o instanceof QueueEntry)) {
@@ -373,6 +384,9 @@ public class TextLevelCheckQueue {
     public QueueIterator() {
     }
     
+    /**
+     * initialize languagetool for text level iteration
+     */
     public void initLangtool(Language language) {
       if (debugMode) {
         MessageHandler.printToLogFile("queue: InitLangtool: language = " + language.getShortCodeWithCountryAndVariant());
@@ -382,6 +396,9 @@ public class TextLevelCheckQueue {
       multiDocHandler.activateTextRulesByIndex(1, langTool);
     }
     
+    /**
+     * Run queue for check with text
+     */
     @Override
     public void run() {
       try {
@@ -389,7 +406,7 @@ public class TextLevelCheckQueue {
         if (debugMode) {
           MessageHandler.printToLogFile("queue started");
         }
-        for(;;) {
+        for (;;) {
           queueWaits = false;
           interruptCheck = false;
           if (textRuleQueue.isEmpty()) {

@@ -61,11 +61,9 @@ public class CacheIO implements Serializable {
     documentPath = getDocumentPath(xComponent);
   }
   
-  
-  
   /** 
-   * Returns the text cursor (if any)
-   * Returns null if it fails
+   * returns the text cursor (if any)
+   * returns null if it fails
    */
   private static String getDocumentPath(XComponent xComponent) {
     try {
@@ -99,6 +97,11 @@ public class CacheIO implements Serializable {
     }
   }
 
+  /**
+   * get the path to the cache file
+   * if create == true: a new file is created if the file does not exist
+   * if create == false: null is returned if the file does not exist
+   */
   private String getCachePath(boolean create) {
     if (documentPath == null) {
       MessageHandler.printToLogFile("getCachePath: documentPath == null!");
@@ -122,14 +125,11 @@ public class CacheIO implements Serializable {
       MessageHandler.printToLogFile("cacheFilePath: " + cacheFilePath.getAbsolutePath());
     }
     return cacheFilePath.getAbsolutePath();
-/*    
-    int nDot = path.lastIndexOf(".");
-    path = path.substring(0, nDot + 1);
-    path = path + CACHEFILE_EXTENSION;
-    return path;
-*/
   }
   
+  /**
+   * save all caches (document cache, all result caches) to cache file
+   */
   private void saveAllCaches(String cachePath) {
     try {
       GZIPOutputStream fileOut = new GZIPOutputStream(new FileOutputStream(cachePath));
@@ -146,8 +146,10 @@ public class CacheIO implements Serializable {
     }
   }
   
+  /**
+   * save all caches if the document exceeds the defined minimum of paragraphs
+   */
   public void saveCaches(XComponent xComponent, DocumentCache docCache, ResultCache sentencesCache, List<ResultCache> paragraphsCache) {
-//    documentPath = getDocumentPath(xComponent);
     String cachePath = getCachePath(true);
     if (cachePath != null) {
       try {
@@ -166,6 +168,9 @@ public class CacheIO implements Serializable {
     }
   }
   
+  /**
+   * read all caches (document cache, all result caches) from cache file if it exists
+   */
   public boolean readAllCaches() {
     String cachePath = getCachePath(false);
     if (cachePath == null) {
@@ -191,22 +196,37 @@ public class CacheIO implements Serializable {
     return false;
   }
   
+  /**
+   * get document cache
+   */
   public DocumentCache getDocumentCache() {
     return allCaches.docCache;
   }
   
+  /**
+   * get sentences cache (results for check of sentences)
+   */
   public ResultCache getSentencesCache() {
     return allCaches.sentencesCache;
   }
   
+  /**
+   * get paragraph caches (results for check of paragraphes)
+   */
   public List<ResultCache> getParagraphsCache() {
     return allCaches.paragraphsCache;
   }
   
+  /**
+   * set all caches to null
+   */
   public void resetAllCache() {
     allCaches = null;
   }
   
+  /**
+   * print debug information of caches to log file
+   */
   private void printCacheInfo() {
     MessageHandler.printToLogFile("Document Cache: Number of paragraphs: " + allCaches.docCache.size());
     MessageHandler.printToLogFile("Sentences Cache: Number of paragraphs: " + allCaches.sentencesCache.getNumberOfParas() 
@@ -256,6 +276,11 @@ public class CacheIO implements Serializable {
     
   }
 
+  /**
+   * Class to to handle the cache files
+   * cache files are stored in the LT configuration directory subdirectory 'cache'
+   * the paths of documents are mapped to cache files and stored in the cache map
+   */
   class CacheFile implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -281,6 +306,9 @@ public class CacheIO implements Serializable {
       }
     }
 
+    /**
+     * read the cache map from file
+     */
     public void read() {
       try {
         FileInputStream fileIn = new FileInputStream(cacheMapFile);
@@ -296,6 +324,9 @@ public class CacheIO implements Serializable {
       }
     }
 
+    /**
+     * write the cache map to file
+     */
     public void write(CacheMap cacheMap) {
       try {
         FileOutputStream fileOut = new FileOutputStream(cacheMapFile);
@@ -311,7 +342,11 @@ public class CacheIO implements Serializable {
       }
     }
     
-    public String getCacheFileName(String docPath, boolean create) {
+    /**
+     * get the cache file name for a given document path
+     * if create == true: create a cache file if it not exists 
+     */
+   public String getCacheFileName(String docPath, boolean create) {
       int orgSize = cacheMap.size();
       String cacheFileName = cacheMap.getOrCreateCacheFile(docPath, create);
       if (cacheMap.size() != orgSize) {
@@ -320,14 +355,21 @@ public class CacheIO implements Serializable {
       return cacheFileName;
     }
     
+   /**
+    * remove unused files from cache directory
+    */
     public void cleanUp() {
       CacheCleanUp cacheCleanUp = new CacheCleanUp(cacheMap);
       cacheCleanUp.start();
     }
     
+    /**
+     * Class to create and handle the cache map
+     * the clean up process is run in a separate parallel thread
+     */
     class CacheMap implements Serializable {
       private static final long serialVersionUID = 1L;
-      private Map<String, String> cacheNames;
+      private Map<String, String> cacheNames;     //  contains the mapping from document paths to cache file names
       
       CacheMap() {
         cacheNames = new HashMap<>();
@@ -338,38 +380,61 @@ public class CacheIO implements Serializable {
         cacheNames.putAll(in.getCacheNames());
       }
 
+      /**
+       * get the cache map that contains the mapping from document paths to cache file names 
+       */
       private Map<String, String> getCacheNames() {
         return cacheNames;
       }
 
+      /**
+       * get the size of the cache map
+       */
       public int size() {
         return cacheNames.keySet().size();
       }
       
+      /**
+       * return true if the map contains the cache file name
+       */
       public boolean containsValue(String value) {
         return cacheNames.containsValue(value);
       }
       
+      /**
+       * get all document paths contained in the map
+       */
       public Set<String> keySet() {
         return cacheNames.keySet();
       }
       
+      /**
+       * get the cache file name from a document path
+       */
       public String get(String key) {
         return cacheNames.get(key);
       }
       
+      /**
+       * remove a document paths from the map (inclusive the mapped cache file name)
+       */
       public String remove(String key) {
         return cacheNames.remove(key);
       }
       
+      /**
+       * get the cache file name for a document paths
+       * if create == true:  create the file if not exist
+       * if create == false: return null if not exist
+       */
       public String getOrCreateCacheFile(String docPath, boolean create) {
         if (DEBUG_MODE) {
           MessageHandler.printToLogFile("getOrCreateCacheFile: docPath=" + docPath);
-          for(String file : cacheNames.keySet()) {
+          for (String file : cacheNames.keySet()) {
             MessageHandler.printToLogFile("cacheNames: docPath=" + file + ", cache=" + cacheNames.get(file));
           }
         }
-        if(cacheNames.containsKey(docPath)) {
+        if (cacheNames.containsKey(docPath)) {
           return cacheNames.get(docPath);
         }
         if (!create) {
@@ -386,6 +451,12 @@ public class CacheIO implements Serializable {
       }
     }
     
+    /**
+     * class to clean up cache
+     * delete cache files for not existent document paths
+     * remove not existent document paths and cache files from map
+     * the clean up process is ran in a separate thread 
+     */
     class CacheCleanUp extends Thread implements Serializable {
       private static final long serialVersionUID = 1L;
       private CacheMap cacheMap;
@@ -394,6 +465,9 @@ public class CacheIO implements Serializable {
         cacheMap = new CacheMap(in);
       }
       
+      /**
+       * run clean up process
+       */
       @Override
       public void run() {
         try {
@@ -439,11 +513,7 @@ public class CacheIO implements Serializable {
           MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
         }
       }
-      
     }
-
   }
-  
-  
   
 }

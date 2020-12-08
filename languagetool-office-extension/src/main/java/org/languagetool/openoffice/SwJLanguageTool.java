@@ -84,10 +84,16 @@ public class SwJLanguageTool {
     }
   }
   
+  /**
+   * Return true if check is done by a remote server
+   */
   public boolean isRemote() {
     return isRemote;
   }
 
+  /**
+   * Get all rules
+   */
   public List<Rule> getAllRules() {
     if (isRemote) {
       return rlt.getAllRules();
@@ -98,6 +104,9 @@ public class SwJLanguageTool {
     }
   }
 
+  /**
+   * Get all active office rules
+   */
   public List<Rule> getAllActiveOfficeRules() {
     if (isRemote) {
       return rlt.getAllActiveOfficeRules();
@@ -108,6 +117,9 @@ public class SwJLanguageTool {
     }
   }
 
+  /**
+   * Enable a rule by ID
+   */
   public void enableRule(String ruleId) {
     if (isRemote) {
       rlt.enableRule(ruleId);
@@ -118,6 +130,9 @@ public class SwJLanguageTool {
     }
   }
 
+  /**
+   * Disable a rule by ID
+   */
   public void disableRule(String ruleId) {
     if (isRemote) {
       rlt.disableRule(ruleId);
@@ -128,6 +143,9 @@ public class SwJLanguageTool {
     }
   }
 
+  /**
+   * Get disabled rules
+   */
   public Set<String> getDisabledRules() {
     if (isRemote) {
       return rlt.getDisabledRules();
@@ -138,6 +156,9 @@ public class SwJLanguageTool {
     }
   }
 
+  /**
+   * Disable a category by ID
+   */
   public void disableCategory(CategoryId id) {
     if (isRemote) {
       rlt.disableCategory(id);
@@ -148,6 +169,9 @@ public class SwJLanguageTool {
     }
   }
 
+  /**
+   * Activate language model (ngram) rules
+   */
   public void activateLanguageModelRules(File indexDir) throws IOException {
     if (!isRemote) {
       if (isMultiThread) {
@@ -158,6 +182,9 @@ public class SwJLanguageTool {
     }
   }
 
+  /**
+   * Activate word2vec rules
+   */
   public void activateWord2VecModelRules(File indexDir) throws IOException {
     if (!isRemote) {
       if (isMultiThread) {
@@ -168,6 +195,9 @@ public class SwJLanguageTool {
     }
   }
 
+  /**
+   * check text by LT
+   */
   public List<RuleMatch> check(String text, boolean tokenizeText, ParagraphHandling paraMode) throws IOException {
     if (isRemote) {
       List<RuleMatch> ruleMatches = rlt.check(text, paraMode);
@@ -181,6 +211,9 @@ public class SwJLanguageTool {
     }
   }
 
+  /**
+   * check annotated text by LT
+   */
   public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode) throws IOException {
     if (isRemote) {
       return rlt.check(annotatedText.getOriginalText(), paraMode); 
@@ -203,6 +236,9 @@ public class SwJLanguageTool {
     }
   }
 
+  /**
+   * Get a list of tokens from a sentence
+   */
   public List<String> sentenceTokenize(String text) {
     if (isRemote) {
       return lt.sentenceTokenize(text);   // This is only a dummy; don't use it for call of remote server
@@ -213,6 +249,9 @@ public class SwJLanguageTool {
     }
   }
 
+  /**
+   * Analyze sentence
+   */
   public AnalyzedSentence getAnalyzedSentence(String sentence) throws IOException {
     if (isRemote) {
       return lt.getAnalyzedSentence(sentence);   // This is only a dummy; don't use it for call of remote server
@@ -223,6 +262,9 @@ public class SwJLanguageTool {
     }
   }
 
+  /**
+   * Get the language from LT
+   */
   public Language getLanguage() {
     if (isRemote) {
       return rlt.getLanguage();
@@ -233,6 +275,9 @@ public class SwJLanguageTool {
     }
   }
   
+  /**
+   * Set reset flag
+   */
   public boolean doReset() {
     return doReset;
   }

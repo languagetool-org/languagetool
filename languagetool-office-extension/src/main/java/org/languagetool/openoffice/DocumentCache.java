@@ -27,7 +27,7 @@ import org.languagetool.openoffice.FlatParagraphTools.ParagraphContainer;
 import com.sun.star.lang.Locale;
 
 /**
- * Class to store the Text of a LO document 
+ * Class to store the Text of a LO document (document cache)
  * @since 5.0
  * @author Fred Kruse
  */
@@ -35,12 +35,12 @@ public class DocumentCache implements Serializable {
   
   private static final long serialVersionUID = 2L;
 
-  private static boolean debugMode;         //  should be false except for testing
+  private static boolean debugMode;                         //  should be false except for testing
 
-  private List<String> paragraphs = null;            //  stores the flat paragraphs of document
-  private List<Integer> chapterBegins = null;             //  stores the paragraphs formated as headings; is used to subdivide the document in chapters
-  private List<SerialLocale> locales = null;         //  stores the language of the paragraphs;
-  private List<int[]> footnotes = null;              //  stores the footnotes of the paragraphs;
+  private List<String> paragraphs = null;                   //  stores the flat paragraphs of document
+  private List<Integer> chapterBegins = null;               //  stores the paragraphs formated as headings; is used to subdivide the document in chapters
+  private List<SerialLocale> locales = null;                //  stores the language of the paragraphs;
+  private List<int[]> footnotes = null;                     //  stores the footnotes of the paragraphs;
   private List<Integer> toTextMapping = new ArrayList<>();  //  Mapping from FlatParagraph to DocumentCursor
   private List<Integer> toParaMapping = new ArrayList<>();  //  Mapping from DocumentCursor to FlatParagraph
   private int defaultParaCheck;
@@ -52,6 +52,10 @@ public class DocumentCache implements Serializable {
     reset(docCursor, flatPara, docLocale);
   }
   
+  /**
+   * reset the document cache
+   * load the actual state of the document into the cache
+   */
   public void reset(DocumentCursorTools docCursor, FlatParagraphTools flatPara, Locale docLocale) {
     try {
       isReset = true;
@@ -111,9 +115,6 @@ public class DocumentCache implements Serializable {
           MessageHandler.printToLogFile("\n\ntoTextMapping:");
           for (int i = 0; i < toTextMapping.size(); i++) {
             MessageHandler.printToLogFile("Flat: " + i + " Doc: " + toTextMapping.get(i) + " locale: " + locales.get(i).Language + "-" + locales.get(i).Country);
-  //        if (toTextMapping.get(i) == -1) {
-  //          MessageHandler.printToLogFile("'" + paragraphs.get(i) + "'");
-  //        }
           }
           MessageHandler.printToLogFile("\n\nheadings:");
           for (int i = 0; i < chapterBegins.size(); i++) {
@@ -159,6 +160,9 @@ public class DocumentCache implements Serializable {
     paragraphs.set(n, sPara);
   }
     
+  /**
+   * set Flat Paragraph and Locale at Index
+   */
   public void setFlatParagraph(int n, String sPara, Locale locale) {
     paragraphs.set(n, sPara);
     locales.set(n, new SerialLocale(locale));

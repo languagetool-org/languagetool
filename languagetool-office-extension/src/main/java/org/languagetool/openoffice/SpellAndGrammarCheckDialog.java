@@ -311,19 +311,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
     SingleProofreadingError gError = null;
     if (checkType != 2) {
       sError = getNextSpellErrorInParagraph (x, nFPara, text, locale, ignoredSpellMatches);
-/**
- *    TODO: Delete after tests
- *    
-      int y = docCache.getNumberOfTextParagraph(nFPara);
-      if (debugMode) {
-        MessageHandler.printToLogFile("getNextErrorInParagraph: nFPara = " + nFPara + ", y = " + y);
-      }
-      if (y < 0) {
-        sError = getNextSpellErrorInParagraph (x, nFPara, text, locale, ignoredSpellMatches);
-      } else {
-        sError = getNextSpellErrorInParagraph (x, y, locale, docTools, ignoredSpellMatches);
-      }
-*/
     }
     if (checkType != 1) {
       gError = getNextGrammatikErrorInParagraph(x, nFPara, text, footnotePosition, locale, document);
@@ -339,29 +326,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
       return null;
     }
   }
-  
-/**
-   * Get the first spelling error in the text paragraph y at or after character position x
- *   TODO: Delete after tests
-  private CheckError getNextSpellErrorInParagraph (int x, int y, Locale locale,
-      DocumentCursorTools cursorTools, Map<Integer, Set<Integer>> ignoredSpellMatches) {
-    List<CheckError>  spellErrors = spellChecker.getSpellErrors(y, locale, cursorTools, ignoredSpellMatches);
-    if (debugMode) {
-      MessageHandler.printToLogFile("getNextSpellErrorInParagraph: y = " + y + ", nErrors = " + spellErrors.size());
-    }
-    if (spellErrors != null) {
-      for (CheckError spellError : spellErrors) {
-        if (spellError.error != null && spellError.error.nErrorStart >= x) {
-          if (debugMode) {
-            MessageHandler.printToLogFile("Next Error: ErrorStart == " + spellError.error.nErrorStart + ", x: " + x);
-          }
-          return spellError;
-        }
-      }
-    }
-    return null;
-  }
-*/
   
   /**
    * Get the first spelling error in the flat paragraph nPara at or after character position x
@@ -458,7 +422,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         for (int i = 0; i < tokens.length; i++) {
           AnalyzedTokenReadings token = tokens[i];
           String sToken = token.getToken();
-          if(!token.isNonWord() && sToken.length() > 1) {
+          if (!token.isNonWord() && sToken.length() > 1) {
             if (i < tokens.length - 1 && tokens[i + 1].getToken().equals(".")) {
               sToken += ".";
             }
@@ -468,7 +432,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             if (locale == null) {
               locale = lang;
             }
-            if(!linguServices.isCorrectSpell(sToken, locale)) {
+            if (!linguServices.isCorrectSpell(sToken, locale)) {
               SingleProofreadingError aError = new SingleProofreadingError();
               if (debugMode) {
                 MessageHandler.printToLogFile("Error: Word: " + sToken 
@@ -518,9 +482,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
           if (locale == null) {
             locale = lang;
           }
-//          if (word .equals("Panty")) {
-            MessageHandler.printToLogFile("getSpellErrors: Word: " + word + "(" + locale.Language + "): " + linguServices.isCorrectSpell(word, locale));
-//          }
           if (!linguServices.isCorrectSpell(word, locale)) {
             if (word.charAt(wordLength - 1) == '.') {
               word = word.substring(0, wordLength - 1);
@@ -1451,7 +1412,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         color = Color.RED;
       } else {
         PropertyValue[] properties = error.aProperties;
-        for(PropertyValue property : properties) {
+        for (PropertyValue property : properties) {
           if ("LineColor".equals(property.Name)) {
             color = new Color((int) property.Value);
             break;
@@ -1472,7 +1433,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private String getUrl(SingleProofreadingError error) {
       if (!isSpellError) {
         PropertyValue[] properties = error.aProperties;
-        for(PropertyValue property : properties) {
+        for (PropertyValue property : properties) {
           if ("FullCommentURL".equals(property.Name)) {
             String url = new String((String) property.Value);
             return url;
@@ -1812,7 +1773,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         Map<Integer, List<Integer>> orgParas = spellChecker.replaceAllWordsInText(word, replace, docCursor, flatPara);
         if (orgParas != null) {
           addChangeUndo(lastFlatPara < 0 ? docCache.getFlatParagraphNumber(y) : lastFlatPara, word, replace, orgParas);
-          for(int nFlat : orgParas.keySet()) {
+          for (int nFlat : orgParas.keySet()) {
             currentDocument.removeResultCache(nFlat);
           }
         }
@@ -1954,7 +1915,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
           FlatParagraphTools flatPara = currentDocument.getFlatParagraphTools();
           Map<Integer, List<Integer>> paras = lastUndo.orgParas;
           short length = (short) lastUndo.ruleId.length();
-          for(int nFlat : paras.keySet()) {
+          for (int nFlat : paras.keySet()) {
             int n = docCache.getNumberOfTextParagraph(nFlat);
             List<Integer> xStarts = paras.get(nFlat);
             if (debugMode) {
@@ -1962,10 +1923,10 @@ public class SpellAndGrammarCheckDialog extends Thread {
             }
             if (n >= 0) {
               pCursor.gotoStart(false);
-              for(int i = 0; i < n; i++) {
+              for (int i = 0; i < n; i++) {
                 pCursor.gotoNextParagraph(false);
               }
-              for(int i = xStarts.size() - 1; i >= 0; i --) {
+              for (int i = xStarts.size() - 1; i >= 0; i --) {
                 int xStart = xStarts.get(i);
                 pCursor.gotoStartOfParagraph(false);
                 pCursor.goRight((short)xStart, false);
@@ -1974,7 +1935,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
               }
             } else {
               String para = docCache.getFlatParagraph(nFlat);
-              for(int i = xStarts.size() - 1; i >= 0; i --) {
+              for (int i = xStarts.size() - 1; i >= 0; i --) {
                 int xStart = xStarts.get(i);
                 para = para.substring(0, xStart) + lastUndo.word + para.substring(xStart + length);
                 flatPara.changeTextOfParagraph(nFlat, xStart, length, lastUndo.word);

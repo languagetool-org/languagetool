@@ -46,6 +46,9 @@ public class LtDictionary {
     debugMode = OfficeTools.DEBUG_MODE_LD;
   }
 
+  /**
+   * Add a non permanent dictionary to LO/OO that contains additional words defined in LT
+   */
   public boolean setLtDictionary(XComponentContext xContext, Locale locale, LinguisticServices linguServices) {
     XSearchableDictionaryList searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);
     if (searchableDictionaryList == null) {
@@ -56,12 +59,6 @@ public class LtDictionary {
       XDictionary[] dictionaryList = searchableDictionaryList.getDictionaries();
       listIgnoredWords = dictionaryList[dictionaryList.length - 1];
     }
-/*
-    MessageHandler.printToLogFile("Dictionaries:");
-    for (XDictionary dictionary : searchableDictionaryList.getDictionaries()) {
-      MessageHandler.printToLogFile(dictionary.getName() + " (" + dictionary.getLocale().Language + ")");
-    }
-*/
     String shortCode = locale.Language;
     String dictionaryName = "__LT_" + shortCode + "_internal.dic";
     if (!dictionaryList.contains(dictionaryName)) {
@@ -83,28 +80,13 @@ public class LtDictionary {
     return false;
   }
   
+  /**
+   * get the list of words out of spelling.txt files defined by LT
+   */
   private List<String> getManualWordList(Locale locale, LinguisticServices linguServices) {
     List<String> words = new ArrayList<>();
     String shortLangCode = locale.Language;
     String path;
-/*
- *  Deactivated because of discussion in issue #3202
- *  
-    path = "/" + shortLangCode + "/added.txt";
-    if (JLanguageTool.getDataBroker().resourceExists(path)) {
-      List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
-      if (lines != null) {
-        for (String line : lines) {
-          if (!line.isEmpty() && !line.startsWith("#")) {
-            String[] lineWords = line.trim().split("\\h");
-            if (!words.contains(lineWords[0]) && !linguServices.isCorrectSpell(lineWords[0], locale)) {
-              words.add(lineWords[0]);
-            }
-          }
-        }
-      }
-    }
-*/
     for (int i = 0; i < 4; i++) {
       if (i == 0) {
         path = "/" + shortLangCode + "/spelling.txt";
@@ -134,6 +116,9 @@ public class LtDictionary {
     return words;
   }
   
+  /**
+   * Remove the non permanent LT dictionaries 
+   */
   public boolean removeLtDictionaries(XComponentContext xContext) {
     if (!dictionaryList.isEmpty()) {
       XSearchableDictionaryList searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);

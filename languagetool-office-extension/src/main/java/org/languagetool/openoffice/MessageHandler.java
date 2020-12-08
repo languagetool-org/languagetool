@@ -61,12 +61,18 @@ class MessageHandler {
     }
   }
   
+  /**
+   * Initialize MessageHandler
+   */
   static void init(String homeDir, String logFileName) {
     MessageHandler.homeDir = homeDir;
     MessageHandler.logFileName = logFileName;
     initLogFile();
   }
 
+  /**
+   * Show an error in a dialog
+   */
   static void showError(Throwable e) {
     if (testMode) {
       throw new RuntimeException(e);
@@ -86,7 +92,7 @@ class MessageHandler {
   }
 
   /**
-   * write to log-file
+   * Write to log-file
    */
   static void printToLogFile(String str) {
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(getLogPath(), true))) {
@@ -103,15 +109,18 @@ class MessageHandler {
    printToLogFile(Tools.getFullStackTrace(t));
   }
 
+  /**
+   * Get the path to log-file
+   */
   private static String getLogPath() {
     String xdgDataHome = System.getenv().get("XDG_DATA_HOME");
     String logHome = xdgDataHome != null ? xdgDataHome + "/LanguageTool" : homeDir;
     String path = logHome + "/" + logFileName;
     File parentDir = new File(path).getParentFile();
     if (parentDir != null && !testMode) {
-      if(!parentDir.exists()) {
+      if (!parentDir.exists()) {
         boolean success = parentDir.mkdirs();
-        if(!success) {
+        if (!success) {
           showMessage("Can't create directory: " + parentDir);
         }
       }
@@ -142,6 +151,9 @@ class MessageHandler {
     dt.run();
   }
 
+  /**
+   * class to run a dialog in a separate thread
+   */
   private static class DialogThread extends Thread {
     private final String text;
     private boolean isException;

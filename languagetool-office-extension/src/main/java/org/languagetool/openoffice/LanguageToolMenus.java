@@ -66,21 +66,16 @@ public class LanguageToolMenus {
   private Configuration config;
   private boolean switchOff;
   private boolean isRemote;
-  private LTHeadMenu ltHeadMenu;
-  private ContextMenuInterceptor ltContextMenu;
 
   LanguageToolMenus(XComponentContext xContext, SingleDocument document, Configuration config) {
     debugMode = OfficeTools.DEBUG_MODE_LM;
     this.document = document;
     this.xContext = xContext;
     setConfigValues(config);
-    ltHeadMenu = new LTHeadMenu();
-    ltContextMenu = new ContextMenuInterceptor(xContext);
   }
   
   void setConfigValues(Configuration config) {
     this.config = config;
-//    switchOff = config.isSwitchedOff();
     switchOff = config.noBackgroundCheck();
     isRemote = config.doRemoteCheck();
   }
@@ -169,11 +164,19 @@ public class LanguageToolMenus {
       
     }
     
+    /**
+     * remove the listeners set by LT
+     * currently not used
+     */
     public void removeListener() {
 //      xProfileMenu.removeMenuListener(this);
 //      toolsMenu.removeMenuListener(this);
     }
     
+    /**
+     * Set the dynamic parts of the LT menu
+     * placed as submenu at the LO/OO tools menu
+     */
     private void setLtMenu() {
       if (switchOff) {
         ltMenu.checkItem(switchOffId, true);
@@ -188,6 +191,10 @@ public class LanguageToolMenus {
       setProfileItems();
     }
       
+    /**
+     * Set the profile menu
+     * if there are more than one profiles defined at the LT configuration file
+     */
     private void setProfileMenu(short profilesId, short profilesPos) {
       ltMenu.insertItem(profilesId, MESSAGES.getString("loMenuChangeProfiles"), MenuItemStyle.AUTOCHECK, profilesPos);
       xProfileMenu = OfficeTools.getPopupMenu(xContext);
@@ -201,6 +208,10 @@ public class LanguageToolMenus {
       ltMenu.setPopupMenu(profilesId, xProfileMenu);
     }
     
+    /**
+     * Set the items for different profiles 
+     * if there are more than one defined at the LT configuration file
+     */
     private void setProfileItems() {
       currentProfile = config.getCurrentProfile();
       definedProfiles = config.getDefinedProfiles();
@@ -231,6 +242,9 @@ public class LanguageToolMenus {
       }
     }
 
+    /**
+     * Run the actions defined in the profile menu
+     */
     private void runProfileAction(String profile) {
       List<String> definedProfiles = config.getDefinedProfiles();
       if (profile != null && (definedProfiles == null || !definedProfiles.contains(profile))) {
@@ -324,6 +338,9 @@ public class LanguageToolMenus {
       }
     }
   
+    /**
+     * Add LT items to context menu
+     */
     @Override
     public ContextMenuInterceptorAction notifyContextMenuExecute(ContextMenuExecuteEvent aEvent) {
       try {
@@ -343,7 +360,7 @@ public class LanguageToolMenus {
           }
           if (str != null && IGNORE_ONCE_URL.equals(str)) {
             int n;  
-            for(n = i + 1; n < count; n++) {
+            for (n = i + 1; n < count; n++) {
               a = (Any) xContextMenu.getByIndex(n);
               XPropertySet tmpProps = (XPropertySet) a.getObject();
               if (tmpProps.getPropertySetInfo().hasPropertyByName("CommandURL")) {
@@ -420,6 +437,9 @@ public class LanguageToolMenus {
       return ContextMenuInterceptorAction.IGNORED;
     }
     
+    /**
+     * Print properties in debug mode
+     */
     private void printProperties(XPropertySet props) throws UnknownPropertyException, WrappedTargetException {
       Property[] propInfo = props.getPropertySetInfo().getProperties();
       for (Property property : propInfo) {
