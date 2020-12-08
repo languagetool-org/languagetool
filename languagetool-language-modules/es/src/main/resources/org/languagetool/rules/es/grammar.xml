@@ -15211,6 +15211,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PUNCTUATION" name="Puntuación">
+        <rule id="MISSING_POINT" name="falta de punto" default="temp_off">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[A-Z]</token>
+                <token>.</token>
+                <marker>
+                    <token regexp="yes">[A-Z]</token>
+                </marker>
+                <token><exception>.</exception></token>
+            </pattern>
+            <message>Probablemente falta un punto.</message>
+            <suggestion>\3.</suggestion>
+            <example correction="F.">El N.I.<marker>F</marker> es el 333333333F.</example>
+            <example correction="K.">El nuevo libro de J. <marker>K</marker> Rowling.</example>
+            <example>N.I.F.</example>
+            <example>J. K. Rowling.</example>
+        </rule>
         <rulegroup id="MISSING_COMMA" name="falta de coma">
             <url>https://www.fundeu.es/recomendacion/vocativos-entre-comas/</url>
             <antipattern>

@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY context_OS_noaccent "moll|medul·la|esquelet|collaret|collar|artritis|fractura|càncer">
     <!ENTITY context_MORA_accent "silvestre|fruit.*|baia|pastís|melmelada|esbarzer.*|sarsa|sarsaparrella|arbust|punxa|menja.*">
     <!ENTITY context_MORA_noaccent "pagament|administra.*">
-    <!ENTITY context_BOTA_accent "verema|criança|ferment.*|macerar|maceració|dipòsit|litre|roure|sardina|congreny.*|bodega|doga|cèrcol|diàmetre|barril|vaixell|vi|racó|celler|nas|oli|ferment.*|envell.+">
+    <!ENTITY context_BOTA_accent "verema|criança|macerar|maceració|dipòsit|litre|roure|sardina|congreny.*|bodega|doga|cèrcol|diàmetre|barril|vaixell|vi|racó|celler|nas|oli|ferment.*|envell.+">
     <!ENTITY context_BOTA_noaccent "peu|calça.*|calce.*|muntar|enllustr.*|roba|pantaló|mitjó">
     <!ENTITY context_COMPTE "obrir|tancar|registre|inici|sessió|registrar|usuari|dispositiu|correu|e-mail|email|adreça|banc|caixa|targeta|electrònic|bancari|corrent|contrasenya|accedir|sistema|xarxa|Twitter|Facebook|Gmail|Amazon|Yahoo|Hotmail|LinkedIn">
     <!ENTITY context_CONTE "educatiu|follet|obra|comèdia|sàtira|humor|humorístic|satíric|dormir|assaig|teatre|teatral|recull|Alí|Babà|popular|autor|novel·la|frase|estrofa|publicació|publicar|volum|explicar|contar|dibuix|dibuixar|escola|escriptura|escriure|il·lustrar|infant|infantil|juvenil|lectura|llegir|llibre|naració|nen|petit|por|relat|taller|terror|xiquet">
@@ -62060,6 +62060,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>És un cos celeste sòlid semblant als asteroides però amb diferent composició, i descriuen òrbites allargades.</example>
             </rule>
         </rulegroup>
+        <rule id="MISSING_POINT" name="punt en sigles" default="temp_off">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[A-Z]</token>
+                <token>.</token>
+                <marker>
+                    <token regexp="yes">[A-Z]</token>
+                </marker>
+                <token><exception>.</exception></token>
+            </pattern>
+            <message>Probablement hi falta un punt.</message>
+            <suggestion>\3.</suggestion>
+            <example correction="F.">El N.I.<marker>F</marker> és el 333333333F.</example>
+            <example correction="K.">El nou llibre de J. <marker>K</marker> Rowling.</example>
+            <example>N.I.F.</example>
+            <example>J. K. Rowling.</example>
+        </rule>
         <rulegroup id="MISSING_COMMA" name="coma en vocatius">
             <antipattern>
                 <token regexp="yes">salutacions|felicitats|felicitacions|dia|vespre|vesprada|tarda|nit</token>
