@@ -19,8 +19,10 @@
 package org.languagetool.rules.patterns;
 
 import com.google.common.collect.Sets;
+import org.jetbrains.annotations.Nullable;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import java.util.stream.IntStream;
@@ -40,7 +42,6 @@ public class StringMatcherTest {
   public void testGetPossibleValues() {
     assertPossibleValues("x.*");
     assertPossibleValues("x+");
-    assertPossibleValues("^x$");
     assertPossibleValues("a.c");
     assertPossibleValues("a{2}");
     assertPossibleValues("[a-z]");
@@ -48,8 +49,11 @@ public class StringMatcherTest {
     assertPossibleValues("a[a-z]");
     assertPossibleValues("(?=a)");
 
+    assertPossibleValues("", "");
+    assertPossibleValues("^x$", "x");
     assertPossibleValues("aa|bb", "aa", "bb");
     assertPossibleValues("aa", "aa");
+    assertPossibleValues("aa|", "aa", "");
     assertPossibleValues("aa?", "aa", "a");
     assertPossibleValues("[abc]", "a", "b", "c");
     assertPossibleValues("[abc]", "a", "b", "c");
@@ -92,4 +96,37 @@ public class StringMatcherTest {
       Pattern.compile(regexp, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE).matcher(s).matches());
   }
 
+  @Test
+  public void requiredSubstrings() {
+    assertRequiredSubstrings("", "[]");
+    assertRequiredSubstrings("foo", "[foo]");
+    assertRequiredSubstrings("foo|bar", null);
+    assertRequiredSubstrings("\\w", null);
+    assertRequiredSubstrings("\\bZünglein an der (Wage)\\b", "[Zünglein an der Wage]");
+    assertRequiredSubstrings("(ökumenische[rn]?) (.*Messen?)", "[ökumenische,  , Messe)");
+    assertRequiredSubstrings("(CO2|Kohlendioxid|Schadstoff)\\-?Emulsion(en)?", "(Emulsion)");
+    assertRequiredSubstrings("\\bder (\\w*(Verkehrs|Verbots|Namens|Hinweis|Warn)schild)", "[der , schild]");
+    assertRequiredSubstrings("\\bvon Seiten\\b", "[von Seiten]");
+    assertRequiredSubstrings("((\\-)?[0-9]+[0-9.,]{0,15})(?:[\\s  ]+)(°[^CFK])", "(°)");
+    assertRequiredSubstrings("\\b(teils\\s[^,]+\\steils)\\b", "[teils, teils]");
+    assertRequiredSubstrings("§ ?(\\d+[a-z]?)", "[§)");
+  }
+
+  private static void assertRequiredSubstrings(String regexp, @Nullable String expected) {
+    Substrings actual = StringMatcher.getRequiredSubstrings(regexp);
+    assertEquals(expected, actual == null ? null : actual.toString());
+
+    trySomeMutations(regexp, regexp);
+    if (expected != null) {
+      trySomeMutations(regexp, expected);
+      trySomeMutations(regexp, expected.substring(1, expected.length() - 1));
+    }
+    if (actual != null) {
+      for (String separator: Arrays.asList("", "a", "0", " ")) {
+        trySomeMutations(regexp, String.join(separator, actual.substrings));
+        trySomeMutations(regexp, separator + String.join(separator, actual.substrings));
+        trySomeMutations(regexp, String.join(separator, actual.substrings) + separator);
+      }
+    }
+  }
 }

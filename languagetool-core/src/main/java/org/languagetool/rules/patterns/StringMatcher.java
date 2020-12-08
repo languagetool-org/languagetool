@@ -66,7 +66,8 @@ abstract class StringMatcher {
       return stringEquals(pattern, isRegExp, caseSensitive);
     }
 
-    ensureCorrectRegexp(pattern);
+    // always compile the pattern to check it's well-formed
+    Pattern compiled = Pattern.compile(pattern, caseSensitive ? 0 : Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
     Set<String> possibleRegexpValues = getPossibleRegexpValues(pattern);
     if (possibleRegexpValues != null) {
@@ -102,7 +103,11 @@ abstract class StringMatcher {
       };
     }
 
-    Pattern compiled = Pattern.compile(pattern, caseSensitive ? 0 : Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    Substrings required = getRequiredSubstrings(pattern);
+    Substrings exhaustive = required == null ? null : required.checkCanReplaceRegex(pattern);
+    boolean substringsAreSufficient = exhaustive != null;
+    Substrings substrings = substringsAreSufficient ? exhaustive : required;
+
     return new StringMatcher(pattern, true, caseSensitive) {
       @Nullable
       @Override
@@ -112,6 +117,8 @@ abstract class StringMatcher {
 
       @Override
       boolean matches(String s) {
+        if (substrings != null && !substrings.matches(s, caseSensitive)) return false;
+        if (substringsAreSufficient) return true;
         return compiled.matcher(new InterruptibleCharSequence(s)).matches();
       }
     };
@@ -132,123 +139,245 @@ abstract class StringMatcher {
     };
   }
 
-  private static final String unsupported = "?$^{}*+.";
-  private static final String finishing = ")|";
-  private static final String starting = "([\\";
-  private static final String nonLiteral = finishing + unsupported + starting;
+  /**
+   * @return the substrings that any text would necessarily contain or start/end with if it matches the given regexp,
+   * or {@code null} if no such substrings can be found
+   */
+  @Nullable
+  static Substrings getRequiredSubstrings(String regexp) {
+    Substrings UNKNOWN = new Substrings(false, false, new String[0]);
 
+    RegexpParser<Substrings> parser = new RegexpParser<Substrings>(regexp) {
+      @Override
+      Substrings handleConcatenation(Substrings left, Substrings right) {
+        return left.concat(right);
+      }
+
+      @Override
+      Substrings handleOr(Substrings left, Substrings right) {
+        return UNKNOWN;
+      }
+
+      @Override
+      protected Substrings optional(Substrings groupResults, char op) {
+        return UNKNOWN;
+      }
+
+      @Override
+      protected Substrings unknown() {
+        return UNKNOWN;
+      }
+
+      @Override
+      protected Substrings literal(String literal) {
+        return new Substrings(true, true, new String[]{literal});
+      }
+    };
+    try {
+      Substrings result = parser.disjunction();
+      return result.substrings.length == 0 ? null : result;
+    } catch (TooComplexRegexp e) {
+      return null;
+    }
+  }
+
+  /**
+   * @return all strings that the given regexp can ever match, or {@code null} if such set couldn't be enumerated
+   */
   @Nullable
   @VisibleForTesting
   static Set<String> getPossibleRegexpValues(String regexp) {
-    return new Object() {
-      int pos;
-
-      private Stream<String> disjunction() {
-        Stream<String> result = Stream.empty();
-        while (true) {
-          result = Stream.concat(result, concatenation());
-          if (pos >= regexp.length() || regexp.charAt(pos) != '|') {
-            return result;
-          }
-          pos++;
-        }
+    RegexpParser<Stream<String>> parser = new RegexpParser<Stream<String>>(regexp) {
+      @Override
+      Stream<String> handleConcatenation(Stream<String> left, Stream<String> right) {
+        List<String> groupResults = right.collect(Collectors.toList());
+        return left.flatMap(s1 -> groupResults.stream().map(s2 -> s1 + s2));
       }
 
-      private Stream<String> concatenation() {
-        Stream<String> result = Stream.of("");
-
-        while (pos < regexp.length()) {
-          int literalStart = pos;
-          while (pos < regexp.length() && nonLiteral.indexOf(regexp.charAt(pos)) < 0) pos++;
-          if (literalStart < pos && pos < regexp.length() && regexp.charAt(pos) == '?') pos--;
-          if (literalStart < pos) {
-            String literal = regexp.substring(literalStart, pos);
-            result = result.map(s -> s + literal);
-            continue;
-          }
-
-          char c = regexp.charAt(pos);
-          if (finishing.indexOf(c) >= 0) break;
-          if (unsupported.indexOf(c) >= 0) throw TooComplexRegexp.INSTANCE;
-
-          List<String> groupResults = atom().collect(Collectors.toList());
-          if (pos < regexp.length() && regexp.charAt(pos) == '?') {
-            pos++;
-            result = result.flatMap(s1 -> Stream.concat(Stream.of(s1), groupResults.stream().map(s2 -> s1 + s2)));
-          } else {
-            result = result.flatMap(s1 -> groupResults.stream().map(s2 -> s1 + s2));
-          }
-        }
-        return result;
+      @Override
+      Stream<String> handleOr(Stream<String> left, Stream<String> right) {
+        return Stream.concat(left, right);
       }
 
-      private Stream<String> atom() {
-        switch (regexp.charAt(pos)) {
-          case '(':
-            if (regexp.charAt(++pos) == '?') {
-              if (regexp.charAt(++pos) != ':') {
-                throw TooComplexRegexp.INSTANCE;
-              }
-              pos++;
-            }
-            Stream<String> group = disjunction();
-            if (regexp.charAt(pos++) != ')') throw TooComplexRegexp.INSTANCE;
-            return group;
-          case '[':
-            pos++;
-            int start = pos;
-            List<String> options = new ArrayList<>();
-            while (true) {
-              char c1 = regexp.charAt(pos++);
-              if (c1 == ']') break;
-
-              if (c1 == '-' && pos != start + 1 && regexp.charAt(pos) != ']') {
-                char last = options.get(options.size() - 1).charAt(0);
-                char next = regexp.charAt(pos++);
-                if (next == '\\' || next - last > 10) {
-                  throw TooComplexRegexp.INSTANCE;
-                }
-                for (int c = last + 1; c <= next; c++) {
-                  options.add(String.valueOf((char)c));
-                }
-              } else if (c1 == '^' || c1 == '[') {
-                throw TooComplexRegexp.INSTANCE;
-              } else {
-                options.add(String.valueOf(c1 == '\\' ? escape() : c1));
-              }
-            }
-            return options.stream();
-          case '\\':
-            pos++;
-            return Stream.of(String.valueOf(escape()));
-          default:
-            return Stream.of(String.valueOf(regexp.charAt(pos++)));
-        }
+      @Override
+      protected Stream<String> optional(Stream<String> groupResults, char op) {
+        return op == '?' ? Stream.concat(Stream.of(""), groupResults) : unknown();
       }
 
-      private char escape() {
-        char next = regexp.charAt(pos++);
-        if (Character.isLetterOrDigit(next)) throw TooComplexRegexp.INSTANCE;
-        return next;
+      @Override
+      protected Stream<String> unknown() {
+        throw TooComplexRegexp.INSTANCE;
       }
 
-      @Nullable
-      Set<String> getPossibleValues() {
-        try {
-          return disjunction().collect(Collectors.toSet());
-        } catch (TooComplexRegexp e) {
-          return null;
-        } catch (IndexOutOfBoundsException e) {
-          ensureCorrectRegexp(regexp);
-          throw e;
-        }
+      @Override
+      protected Stream<String> literal(String literal) {
+        return Stream.of(literal);
       }
-    }.getPossibleValues();
+    };
+    try {
+      return parser.disjunction().collect(Collectors.toSet());
+    } catch (TooComplexRegexp e) {
+      return null;
+    }
   }
 
-  private static void ensureCorrectRegexp(String regexp) {
-    //noinspection ResultOfMethodCallIgnored
-    Pattern.compile(regexp);
+  private static abstract class RegexpParser<T> {
+    private static final String unsupported = "?$^{}*+.";
+    private static final String finishing = ")|";
+    private static final String starting = "([\\";
+    private static final String nonLiteral = finishing + unsupported + starting;
+
+    private final String regexp;
+    private int pos;
+
+    RegexpParser(String regexp) {
+      if (regexp.startsWith("\\b")) {
+        regexp = regexp.substring(2);
+      }
+      if (regexp.startsWith("^")) {
+        regexp = regexp.substring(1);
+      }
+      if (regexp.endsWith("\\b")) {
+        regexp = regexp.substring(0, regexp.length() - 2);
+      }
+      if (regexp.endsWith("$")) {
+        regexp = regexp.substring(0, regexp.length() - 1);
+      }
+      this.regexp = regexp;
+    }
+
+    T disjunction() {
+      T result = concatenation();
+      while (true) {
+        if (pos >= regexp.length() || regexp.charAt(pos) != '|') {
+          return result;
+        }
+        pos++;
+        result = handleOr(result, concatenation());
+      }
+    }
+
+    abstract T handleOr(T left, T right);
+
+    abstract T handleConcatenation(T left, T right);
+
+    protected abstract T optional(T groupResults, char op);
+
+    protected abstract T literal(String literal);
+
+    protected abstract T unknown();
+
+    private T concatenation() {
+      T result = postfix();
+
+      while (pos < regexp.length()) {
+        char c = regexp.charAt(pos);
+        if (finishing.indexOf(c) >= 0) break;
+        if (unsupported.indexOf(c) >= 0) throw TooComplexRegexp.INSTANCE;
+
+        result = handleConcatenation(result, postfix());
+      }
+      return result;
+    }
+
+    private T postfix() {
+      T groupResults = atom();
+      if (pos < regexp.length()) {
+        char next = regexp.charAt(pos);
+        if (next == '{') {
+          int closing = regexp.indexOf('}', pos + 1);
+          if (closing < 0) throw new AssertionError("Closing } expected after " + pos);
+          pos = closing + 1;
+          groupResults = unknown();
+          if (pos >= regexp.length()) {
+            return groupResults;
+          }
+          next = regexp.charAt(pos);
+        }
+        if ("*+?".indexOf(next) >= 0) {
+          pos++;
+          return optional(groupResults, next);
+        }
+      }
+      return groupResults;
+    }
+
+    private T atom() {
+      if (pos >= regexp.length()) return literal("");
+      
+      switch (regexp.charAt(pos)) {
+        case '(':
+          if (regexp.charAt(++pos) == '?') {
+            if (regexp.charAt(++pos) != ':') {
+              throw TooComplexRegexp.INSTANCE;
+            }
+            pos++;
+          }
+          T group = disjunction();
+          if (regexp.charAt(pos++) != ')') throw TooComplexRegexp.INSTANCE;
+          return group;
+        case '[':
+          return squareBracketGroup();
+        case '\\':
+          pos++;
+          return charLiteral(escape());
+        case '.':
+          pos++;
+          return unknown();
+        default:
+          int literalStart = pos;
+          while (pos < regexp.length() && nonLiteral.indexOf(regexp.charAt(pos)) < 0) pos++;
+          if (literalStart + 1 < pos && pos < regexp.length() && regexp.charAt(pos) == '?') pos--;
+          return literal(regexp.substring(literalStart, pos));
+      }
+    }
+
+    private T squareBracketGroup() {
+      int start = ++pos;
+      List<Character> options = new ArrayList<>();
+      while (true) {
+        char c1 = regexp.charAt(pos++);
+        if (c1 == ']') break;
+
+        if (c1 == '-' && pos != start + 1 && regexp.charAt(pos) != ']') {
+          Character last = options == null ? null : options.get(options.size() - 1);
+          char next = regexp.charAt(pos++);
+          if (last == null || next == '\\' || next - last > 10) {
+            options = null;
+          }
+          if (options != null) {
+            for (int c = last + 1; c <= next; c++) {
+              options.add((char) c);
+            }
+          }
+        } else if (c1 == '^') {
+          options = null;
+        } else if (c1 == '[') {
+          throw TooComplexRegexp.INSTANCE;
+        } else {
+          Character simpleChar = c1 == '\\' ? escape() : (Character) c1;
+          if (options != null) {
+            options.add(simpleChar);
+          }
+        }
+      }
+      return options == null
+             ? unknown()
+             : options.stream().map(c -> charLiteral(c)).reduce(this::handleOr).orElseThrow(() -> TooComplexRegexp.INSTANCE);
+    }
+
+    private T charLiteral(@Nullable Character c) {
+      return c == null ? unknown() : literal(String.valueOf(c));
+    }
+
+    @Nullable
+    private Character escape() {
+      char next = regexp.charAt(pos++);
+      if ("0xucpP".indexOf(next) >= 0) throw TooComplexRegexp.INSTANCE;
+      if (Character.isLetterOrDigit(next)) return null;
+      return next;
+    }
+
   }
 
   private static class TooComplexRegexp extends RuntimeException {
