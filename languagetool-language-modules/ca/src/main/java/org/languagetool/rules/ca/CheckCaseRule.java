@@ -25,8 +25,6 @@ import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.rules.AbstractCheckCaseRule;
-import org.languagetool.rules.Categories;
-import org.languagetool.rules.ITSIssueType;
 
 public class CheckCaseRule  extends AbstractCheckCaseRule {
 

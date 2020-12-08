@@ -47642,19 +47642,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="fatigar">Em vaig <marker>fadigar</marker> molt.</example>
             <example>fatigar</example>
         </rule>
-        <rule id="ESTELA" name="estela">
-            <pattern>
-                <token inflected="yes">seguir</token>
-                <token regexp="yes">l'|la</token>
-                <token postag="AQ.*" postag_regexp="yes" min="0"/>
-                <token>estela</token>
-            </pattern>
-            <message>Expressió incorrecta si vol dir <suggestion><match no="1"/> les petjades</suggestion>.</message>
-            <suggestion><match no="1"/> el rastre</suggestion>
-            <short>Expressió incorrecta</short>
-            <example correction="Segueix les petjades|Segueix el rastre"><marker>Segueix l'estela</marker> del campió.</example>
-            <example>una estela funerària</example>
-        </rule>
+        <rulegroup id="ESTELA" name="estela">
+            <rule>
+                <pattern>
+                    <token inflected="yes">seguir</token>
+                    <token regexp="yes">l'|la</token>
+                    <token postag="AQ.*" postag_regexp="yes" min="0"/>
+                    <token>estela</token>
+                </pattern>
+                <message>Expressió incorrecta si vol dir <suggestion><match no="1"/> les petjades</suggestion>.</message>
+                <suggestion><match no="1"/> el rastre</suggestion>
+                <short>Expressió incorrecta</short>
+                <example correction="Segueix les petjades|Segueix el rastre"><marker>Segueix l'estela</marker> del campió.</example>
+                <example>una estela funerària</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="7" inflected="yes">estela</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">avió|vaixell|motor|jet</token>
+                </pattern>
+                <message>Expressió incorrecta si vol dir <suggestion><match no="1" postag="NCF(.)000" postag_regexp="yes" postag_replace="NCM$1000">deixant</match></suggestion>.</message>
+                <suggestion><match no="1" postag="NCF(.)000" postag_regexp="yes" postag_replace="NCM$1000">solc</match></suggestion>
+                <example correction="deixant|solc">Això és l'<marker>estela</marker> d'un motor de reació.</example>
+            </rule>
+        </rulegroup>
         <rule id="PROCESSAT" name="processat/processament">
             <pattern>
                 <token><exception postag="RG_anteposat|N.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">tenir|resultar</exception></token>
