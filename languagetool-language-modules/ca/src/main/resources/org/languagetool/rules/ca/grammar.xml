@@ -27,10 +27,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY adverbis_temps_lloc "entra(t|ts|da|des)|passa(t|ts|da|des)|tocad(a|es)|arran|enfront|per|durant|llavors|tard|aviat|pròximament|properament|prompte|avui|abans|després|hui|ara|demà|ahir|abans-d'ahir|despús-ahir|despús-demà|aquí|ací|allí|allà|ahí|aleshores|recentment|posteriorment|mai">
     <!ENTITY context_ALOS "Isil|Àneu|Pallars|Sobirà">
     <!ENTITY context_OS_accent "caverna|bru|grizzly|polar|hibern.*|banc|formiguer|marsupial|negre|panda|rentador">
-    <!ENTITY context_OS_noaccent "moll|medul·la|esquelet|collaret|collar">
+    <!ENTITY context_OS_noaccent "moll|medul·la|esquelet|collaret|collar|artritis|fractura|càncer">
     <!ENTITY context_MORA_accent "silvestre|fruit.*|baia|pastís|melmelada|esbarzer.*|sarsa|sarsaparrella|arbust|punxa|menja.*">
     <!ENTITY context_MORA_noaccent "pagament|administra.*">
-    <!ENTITY context_BOTA_accent "sardina|congreny.*|bodega|doga|cèrcol|diàmetre|barril|vaixell|vi|racó|celler|nas|oli|ferment.*|envell.+">
+    <!ENTITY context_BOTA_accent "verema|criança|ferment.*|macerar|maceració|dipòsit|litre|roure|sardina|congreny.*|bodega|doga|cèrcol|diàmetre|barril|vaixell|vi|racó|celler|nas|oli|ferment.*|envell.+">
     <!ENTITY context_BOTA_noaccent "peu|calça.*|calce.*|muntar|enllustr.*|roba|pantaló|mitjó">
     <!ENTITY context_COMPTE "obrir|tancar|registre|inici|sessió|registrar|usuari|dispositiu|correu|e-mail|email|adreça|banc|caixa|targeta|electrònic|bancari|corrent|contrasenya|accedir|sistema|xarxa|Twitter|Facebook|Gmail|Amazon|Yahoo|Hotmail|LinkedIn">
     <!ENTITY context_CONTE "educatiu|follet|obra|comèdia|sàtira|humor|humorístic|satíric|dormir|assaig|teatre|teatral|recull|Alí|Babà|popular|autor|novel·la|frase|estrofa|publicació|publicar|volum|explicar|contar|dibuix|dibuixar|escola|escriptura|escriure|il·lustrar|infant|infantil|juvenil|lectura|llegir|llibre|naració|nen|petit|por|relat|taller|terror|xiquet">
@@ -22840,7 +22840,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Si és nom, s'ha d'accentuar. Correcte si és del v. 'formular'.</message>
-                <suggestion><match no="1" regexp_match="(?iu)o" regexp_replace="ó"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)o" regexp_replace="ó" case_conversion="preserve"/></suggestion>
                 <example correction="Fórmules"><marker>Formules</marker> màgiques.</example>
                 <example>Si ho formules així.</example>
             </rule>
@@ -22863,7 +22863,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Si és nom, s'ha d'accentuar. Correcte si és del v. 'nominar'.</message>
-                <suggestion><match no="1" regexp_match="(?iu)o" regexp_replace="ò"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)o" regexp_replace="ò" case_conversion="preserve"/></suggestion>
                 <example correction="Nòmines"><marker>Nomines</marker> d'octubre.</example>
                 <example>L'Acadèmia nomina les millors pel·lícules de l'any.</example>
             </rule>
@@ -25967,15 +25967,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="video$1"/></suggestion>
                 <example correction="videotrucada">Fem una <marker>video trucada</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
-                    <token>sobre</token>
+                    <token>sobre<exception scope="previous" postag="SPS00|LOC_.*" postag_regexp="yes"/></token>
                     <token min="0">-</token>
                     <token postag="V.*" postag_regexp="yes"/>
                 </pattern>
                 <message suppress_misspelled="yes">S'escriu junt.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="sobre$1"/></suggestion>
                 <example correction="sobrepassen">Aquets <marker>sobre passen</marker> les expectatives.</example>
+                <example>A sobre poseu-hi el formatge.</example>
             </rule>
             <rule>
                 <pattern>
@@ -27162,6 +27163,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <!-- os -->
             <rule>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes" inflected="yes" skip="-1">&context_OS_noaccent;</token>
+                    <token postag="SENT_END"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes" skip="-1">os|ossos</token>
@@ -27172,6 +27178,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Óssos"><marker>Ossos</marker> bruns.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes" inflected="yes" skip="-1">&context_OS_noaccent;</token>
+                    <token postag="SENT_END"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" inflected="yes" skip="-1">&context_OS_accent;</token>
                     <marker>
@@ -43978,11 +43989,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="RARE_WORDS" name="paraules molt infreqüents">
             <rule>
                 <pattern>
-                    <token inflected="yes">custodir</token>
+                    <token inflected="yes">custodir<exception inflected="yes">custodiar</exception></token>
                 </pattern>
                 <message>¿Esteu segur que volíeu dir "\1"? "Custodir" és un verb antic poc usual.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">custodiar</match></suggestion>
                 <example correction="custodiada">Fou <marker>custodida</marker> per les autoritats.</example>
+                <example>Custodia la ciutadella.</example>
             </rule>
             <rule>
                 <pattern>

@@ -6353,9 +6353,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="EN_TORNO" name="entorno/en torno" default="temp_off">
             <url>https://www.fundeu.es/recomendacion/entorno-no-es-lo-mismo-que-en-torno-967/</url>
             <antipattern>
-                <token postag="D..[MC]S." postag_regexp="yes"/>
+                <token postag="SP.*|D..[MC]S." postag_regexp="yes"/>
                 <token postag="A..[MC][SN].|V.P..SM" postag_regexp="yes" min="0"/>
                 <token>entorno</token>
+            </antipattern>
+            <antipattern>
+                <token>entorno</token>
+                <token>de</token>
+                <token regexp="yes">desarrollo|trabajo|bosques?|jardín|jardines</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -6373,8 +6378,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El entorno de la familia.</example>
                 <example>Alguien de su propio entorno a veces es el responsable.</example>
                 <example>Con alguien de su propia casa o entorno a fin de que se solucione.</example>
+                <example>juego de caracteres básico del entorno de ejecución</example>
+                <example>las variables de entorno de ejecución</example>
+                <example>completo entorno de desarrollo visual</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">decir|llamar</token>
+                    <token>entorno</token>
+                </antipattern>
                 <pattern>
                     <token postag="V.[SING].*|_GV_" postag_regexp="yes"/>
                     <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
@@ -6392,6 +6404,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="en torno">Mirando <marker>entorno</marker>.</example>
                 <example>Adaptarán el entorno a los animales.</example>
                 <example>Para el entorno a otras personas.</example>
+                <example>Cuando digo entorno me refiero incluso a la pareja y al médico.</example>
             </rule>
             <rule>
                 <pattern>
@@ -13607,6 +13620,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="a ver">Fue <marker>haber</marker> a su abuela.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>haber</token>
+                    <token postag="V.P..SM" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes">empezar|comenzar|llevar|ir</token>
                     <marker>
@@ -13619,6 +13636,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="a ver|a haber">Empezó <marker>haber</marker> la serie.</example>
                 <example correction="a ver|a haber">Empieza <marker>haber</marker> buenos melones.</example>
                 <example correction="a ver|a haber">¡Vamos <marker>haber</marker>!</example>
+                <example>Lo que más me molestó fue haber sido engañado.</example>
             </rule>
             <rule>
                 <pattern>
