@@ -378,7 +378,12 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList( // Die Präsent AG ("Theater AG" is found via DE_COMPOUNDS)
       csRegex("[A-ZÄÖÜ].+"),
-      token("AG")
+      csRegex("AG|GmbH")
+    ),
+    Arrays.asList( // Die Otto Christ AG 
+      csRegex("[A-ZÄÖÜ].+"),
+      csRegex("[A-ZÄÖÜ].+"),
+      csRegex("AG|GmbH")
     ),
     Arrays.asList(
       pos(JLanguageTool.SENTENCE_START_TAGNAME),
