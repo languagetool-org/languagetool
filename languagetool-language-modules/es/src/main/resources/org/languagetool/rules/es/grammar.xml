@@ -15211,6 +15211,95 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PUNCTUATION" name="Puntuación">
+        <rulegroup id="ANOS_SIN_PUNTO" name="años y números de página sin punto: *1.950" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">años?</token>
+                    <marker>
+                        <token regexp="yes">\d\.\d{3}</token>
+                    </marker>
+                </pattern>
+                <message>Los años se escriben sin punto.</message>
+                <suggestion><match no="2" regexp_match="(.)\.(...)" regexp_replace="$1$2"/></suggestion>
+                <example correction="1989">Es del año <marker>1.989</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">años?</token>
+                    <token regexp="yes">\d\.?\d{3}</token>
+                    <token regexp="yes">-|y|a</token>
+                    <marker>
+                        <token regexp="yes">\d\.\d{3}</token>
+                    </marker>
+                </pattern>
+                <message>Los años se escriben sin punto.</message>
+                <suggestion><match no="4" regexp_match="(.)\.(...)" regexp_replace="$1$2"/></suggestion>
+                <example correction="1989">Es de los años 1986 y <marker>1.989</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&meses_ano;</token>
+                    <token regexp="yes">de|del</token>
+                    <marker>
+                        <token regexp="yes">\d{1,2}\.\d{3}</token>
+                    </marker>
+                </pattern>
+                <message>Los años se escriben sin punto.</message>
+                <suggestion><match no="4" regexp_match="(.*)\.(...)" regexp_replace="$1$2"/></suggestion>
+                <example correction="1989">Es de diciembre del <marker>1.989</marker>.</example>
+                <example correction="2007">Es de mayo de <marker>2.007</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d{1,3}\.\d{3}</token>
+                    </marker>
+                    <token regexp="yes">aC|dC</token>
+                </pattern>
+                <message>Los años se escriben sin punto.</message>
+                <suggestion><match no="1" regexp_match="(.*)\.(...)" regexp_replace="$1$2"/></suggestion>
+                <example correction="1989">Ell es de <marker>1.989</marker> aC.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d{1,3}\.\d{3}</token>
+                    </marker>
+                    <token regexp="yes">[ad]</token>
+                    <token>.</token>
+                    <token>C</token>
+                </pattern>
+                <message>Los años se escriben sin punto.</message>
+                <suggestion><match no="1" regexp_match="(.*)\.(...)" regexp_replace="$1$2"/></suggestion>
+                <example correction="1989">Ell es del <marker>1.989</marker> a. C.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">pp|p|p[áa]gs?|páginas?</token>
+                    <token min="0">.</token>
+                    <marker>
+                        <token regexp="yes">\d{1,3}\.\d{3}</token>
+                    </marker>
+                </pattern>
+                <message>Los números de página se escriben sin punto.</message>
+                <suggestion><match no="3" regexp_match="(.)\.(...)" regexp_replace="$1$2"/></suggestion>
+                <example correction="1989">La p. <marker>1.989</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">pp|p|p[áa]gs?|páginas?</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">\d{1,3}\.?\d{3}</token>
+                    <token regexp="yes">-|y|a</token>
+                    <marker>
+                        <token regexp="yes">\d{1,3}\.\d{3}</token>
+                    </marker>
+                </pattern>
+                <message>Los números de página se escriben sin punto.</message>
+                <suggestion><match no="5" regexp_match="(.)\.(...)" regexp_replace="$1$2"/></suggestion>
+                <example correction="1989">La págs. 1981-<marker>1.989</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DECIMAL_COMMA" name="Coma y no punto en números decimales" default="temp_off">
             <antipattern>
                 <!-- más de un punto -->
