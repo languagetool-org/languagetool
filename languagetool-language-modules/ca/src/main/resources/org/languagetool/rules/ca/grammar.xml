@@ -32320,7 +32320,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">\d{1,3},\d{3}\.\d+</token>
                 </pattern>
-                <message>Per a separar els decimals, useu una coma.</message>
+                <message>Useu una coma per a separar els decimals i un punt per als milers.</message>
                 <suggestion><match no="1" regexp_match="(.+),(...)\.(.+)" regexp_replace="$1.$2,$3"/></suggestion>
                 <example correction="9.349,5"><marker>9,349.5</marker></example>
             </rule>
@@ -32328,7 +32328,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">\d{1,3},\d{3},\d{3}.\d+</token>
                 </pattern>
-                <message>Per a separar els decimals, useu una coma.</message>
+                <message>Useu una coma per a separar els decimals i punts per als milers.</message>
                 <suggestion><match no="1" regexp_match="(.+),(...),(...)\.(.+)" regexp_replace="$1.$2.$3,$4"/></suggestion>
                 <example correction="21.999.349,56"><marker>21,999,349.56</marker></example>
             </rule>
@@ -33731,7 +33731,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>pàgina</token>
+                    <token regexp="yes">pàgina|pàgines</token>
                     <marker>
                         <token regexp="yes">\d{1,3}\.\d{3}</token>
                     </marker>
@@ -33743,7 +33743,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>p</token>
+                    <token regexp="yes">p|pàg|pag|pàgs|pags</token>
                     <token>.</token>
                     <marker>
                         <token regexp="yes">\d{1,3}\.\d{3}</token>
