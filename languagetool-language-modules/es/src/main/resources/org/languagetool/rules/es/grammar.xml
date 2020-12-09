@@ -7373,6 +7373,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Probablemente hay que escribir <suggestion>haya</suggestion> (v. haber). Correcto si es del v. 'hallar' (=encuentra).</message>
                 <example correction="haya">Para que <marker>halla</marker> climatización.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>halla</token>
+                    <token regexp="yes">lo|la|el|los|las</token>
+                    <token>que</token>
+                    <token>halla</token>
+                </pattern>
+                <message>Incorrecto si es del v. 'haber'. Correcto si es del v. 'hallar' (encontrar).</message>
+                <suggestion>haya \2 que haya</suggestion>
+                <example correction="haya lo que haya">Creo que me gustará <marker>halla lo que halla</marker>.</example>
+            </rule>
             <rule id="SE_HALLA_SE_HAYA" name="se halla / se haya" default="off">
                 <!-- This will cause a lot of false alarms, but it could be a useful warning -->
                 <antipattern>
@@ -15402,7 +15413,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" spacebefore="no">\d+\.\d+</token>
                 </marker>
             </antipattern>
-            <rule  default="temp_off">
+            <rule default="temp_off">
                 <pattern>
                     <token regexp="yes">(\d+|\d{1,3}([ &#8239;&#160;]\d\d\d)+)\.\d+<exception regexp="yes">\d{1,3}(\.\d\d\d)+</exception></token>
                 </pattern>
