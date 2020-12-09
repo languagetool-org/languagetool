@@ -400,6 +400,10 @@ public class ProhibitedCompoundRule extends Rule {
           "Vorzelte",
           "Supportleitung", // vs leistung
           "Kursname",
+          "Schmucksorte",
+          "Schmucksorten",
+          "Farbsorte",
+          "Farbsorten",
           "Feuchtmann" //name
   ));
 
