@@ -406,6 +406,11 @@ public class AdverbFilter extends RuleFilter {
     put("sheepishly", "sheepish");
     put("hotly", "hot");
     put("genetically", "genetic");
+    put("inexplicably", "inexplicable");
+    put("explicably", "explicable");
+    put("secondly", "second");
+    put("domestically", "domestical");
+    put("invisibly", "invisible");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
