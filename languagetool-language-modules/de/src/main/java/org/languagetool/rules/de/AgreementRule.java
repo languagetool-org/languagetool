@@ -809,6 +809,11 @@ public class AgreementRule extends Rule {
       csToken("Bayern")
     ),
     Arrays.asList(
+      csToken("Toyota"), // Die FC Bayern München Hymne (Vorschlag macht keinen Sinn "FC-Bayern")
+      csToken("Motor"),
+      tokenRegex("Corp(oration)?|Company")
+    ),
+    Arrays.asList(
       tokenRegex("Office|Microsoft"),
       csToken("365")
     ),
@@ -861,6 +866,12 @@ public class AgreementRule extends Rule {
       csToken("Junior"),
       tokenRegex("Suite[sn]?")
     ),
+    Arrays.asList( // Deine Abt.
+      tokenRegex("die|eine|unsere|meine|ihre|eure|diese|seine|deine"),
+      csToken("Abt"),
+      token("."),
+      tokenRegex(".+")
+    ),
     Arrays.asList(
       new PatternTokenBuilder().tokenRegex("Junior|Senior").build(),
       new PatternTokenBuilder().tokenRegex("Journeys?").build()
@@ -871,7 +882,7 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList(
       tokenRegex("Vitamin|Buchstabe"),
-      token("D")
+      tokenRegex("D|B|B[1-9]|B12")
     ),
     Arrays.asList( // "Bei uns im Krankenhaus betrifft das Operationssäle."
       new PatternTokenBuilder().token("betreffen").matchInflectedForms().build(),
