@@ -182,6 +182,12 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Silberecke", asList("Silber", "ecke"));
     wordSplitter.addException("Silberecken", asList("Silber", "ecken"));
     wordSplitter.addException("Schreibart", asList("Schreib", "art"));
+    wordSplitter.addException("Prüfungsorte", asList("Prüfungs", "orte"));
+    wordSplitter.addException("Prüfungsorten", asList("Prüfungs", "orten"));
+    wordSplitter.addException("Ölsorte", asList("Öl", "sorte"));
+    wordSplitter.addException("Ölsorten", asList("Öl", "sorten"));
+    wordSplitter.addException("Pflanzenölsorte", asList("Pflanzenöl", "sorte"));
+    wordSplitter.addException("Pflanzenölsorten", asList("Pflanzenöl", "sorten"));
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }
