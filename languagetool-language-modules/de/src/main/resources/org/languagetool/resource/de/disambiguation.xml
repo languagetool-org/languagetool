@@ -1330,10 +1330,11 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule>
             <pattern>
                 <token regexp="yes">ich|er|sie<exception scope="previous" inflected="yes" regexp="yes">werden|sein</exception></token>
-                <marker><token case_sensitive="yes">weiß<exception scope="next" inflected="yes">streichen</exception></token></marker>
+                <marker><token case_sensitive="yes">weiß<exception scope="next" postag="VER:.*(INF|1|3).*" postag_regexp="yes"></exception></token></marker>
             </pattern>
             <disambig action="remove" postag="ADJ:PRD:GRU"/>
             <example type="untouched">Ich glaube, dass er weiß streichen wird.</example>
+            <example type="untouched">Wir lesen beide Tag und Nacht die Bibel, aber Sie lesen dort schwarz, wo ich weiß lese.</example>
         </rule>
         <rule>
             <pattern>
