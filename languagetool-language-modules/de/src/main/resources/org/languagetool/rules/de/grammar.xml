@@ -20270,6 +20270,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Unbekannten">Geh nicht mit <marker>unbekannten</marker>!</example>
                 <example>Vergleicht euch nicht mit anderen.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <token>Das</token>
+                    <marker><token postag="ADJ:NOM:SIN:NEU:GRU:DEF" regexp="yes">[a-zäöüß]+<exception>meiste</exception></token></marker>
+                    <token postag="PRP:.+" postag_regexp="yes"></token>
+                </pattern>
+                <message>In dieser Wendung scheint <suggestion><match case_conversion="startupper" no="2"/></suggestion> als Nomen gebraucht zu werden und ist deshalb großzuschreiben.</message>
+                <example correction="Ausschlaggebende">Das <marker>ausschlaggebende</marker> für seine Entscheidung war das Gutachten.</example>
+            </rule>
         </rulegroup>
         <rule id="SEIT_BEGINN" name="'seit beginn (seit Beginn)'">
             <pattern>
