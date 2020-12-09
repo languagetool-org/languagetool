@@ -78,7 +78,7 @@ public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getSuggestion() {
+  public String getMessage() {
     return "«$match» — просторечие, исправление: $suggestions";
   }
 

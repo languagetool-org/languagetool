@@ -79,7 +79,7 @@ public class ArabicSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
    * shown to the user.
    */
   @Override
-  public String getSuggestion() {
+  public String getMessage() {
     return "قل $suggestions";
   }
 

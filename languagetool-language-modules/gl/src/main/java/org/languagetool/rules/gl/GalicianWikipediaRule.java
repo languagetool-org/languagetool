@@ -77,7 +77,7 @@ public class GalicianWikipediaRule extends AbstractSimpleReplaceRule2 {
   }
   
   @Override
-  public String getSuggestion() {
+  public String getMessage() {
     return "'$match' é un erro. Considere utilizar $suggestions";
   }
 

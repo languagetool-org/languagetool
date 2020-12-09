@@ -76,7 +76,7 @@ public class PortugueseClicheRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getSuggestion() {
+  public String getMessage() {
     return "'$match' é uma frase-feita. É preferível dizer $suggestions";
   }
 

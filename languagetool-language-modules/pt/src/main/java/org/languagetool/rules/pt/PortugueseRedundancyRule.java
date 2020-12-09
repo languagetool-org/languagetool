@@ -75,7 +75,7 @@ public class PortugueseRedundancyRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getSuggestion() {
+  public String getMessage() {
     return "'$match' é um pleonasmo. É preferível dizer $suggestions";
   }
 
