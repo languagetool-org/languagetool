@@ -8501,7 +8501,7 @@ MARCOAGPINTO 2020-02-18 -->
 	
     <!-- EM QUE _verboeu_ EM a _verboinfinitivo_ em -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-26 (21-OCT-2020+)     -->
-    <rule id='EM_QUE_VERBOEU_EM' name="A + Verbo Infinitivo + em">
+    <rule id='EM_QUE_VERBOEU_EM' name="A + Verbo Infinitivo + em" type="style">
       <pattern>
           <token>em</token>
 		  <token>que</token>
@@ -8509,7 +8509,8 @@ MARCOAGPINTO 2020-02-18 -->
 		  <token postag='VMIP1S0' postag_regexp='no'/>
 		  <token>em</token>
       </pattern>
-      <message>Substitua por <suggestion>a <match no='4' postag='VMIP1S0' postag_regexp="yes" postag_replace='VMN0000'/> em</suggestion>.</message>
+      <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+	  <suggestion>a <match no='4' postag='VMIP1S0' postag_regexp="yes" postag_replace='VMN0000'/> em</suggestion>
       <example correction="a morar em">Foram bons os 20 anos <marker>em que moro em</marker> Lisboa.</example>
     </rule>
 
@@ -8554,7 +8555,7 @@ MARCOAGPINTO 2020-02-18 -->
 
     <!-- ESTAR À ESPERA esperar -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-13 (2-JUL-2020+)     -->
-    <rule id='ESTAR_A_ESPERA' name="Esperar">
+    <rule id='ESTAR_A_ESPERA' name="Esperar" type="style">
       <pattern>
 		  <token inflected='yes'>estar</token>
 		  <token regexp="yes">nas?|nos?|em</token>
@@ -8562,13 +8563,14 @@ MARCOAGPINTO 2020-02-18 -->
 		  <token regexp="no">à</token>
 		  <token inflected='yes'>esperar</token>
       </pattern>
-      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>esperar</match> \2 \3</suggestion>.</message>
+      <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>esperar</match> \2 \3</suggestion>
       <example correction="esperar na fila">O Rui optou por <marker>estar na fila à espera</marker>.</example>
     </rule>
 
     <!-- ESTAR A VERB_INFINITIVE verb (verb1 person)-->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-19 (2-JUL-2020+)     -->	
-    <rulegroup id='ESTAR_A_VERB-INFINITIVE' name="Estar + a + Verbo_Infinitivo">
+    <rulegroup id='ESTAR_A_VERB-INFINITIVE' name="Estar + a + Verbo_Infinitivo" type="style">
 	  <rule>
 		<pattern>
 			<and>
@@ -8578,7 +8580,8 @@ MARCOAGPINTO 2020-02-18 -->
 			<token regexp="no">a</token>
 			<token postag='VMN0000' postag_regexp='no'/>
 		</pattern>
-		<message>Substitua por <suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMII3S0'/></suggestion>.</message>
+		<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+		<suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMII3S0'/></suggestion>
 		<example correction="tomava">O Rui <marker>estava a tomar</marker> café.</example>
 	  </rule>
 	  <rule>
@@ -8590,14 +8593,15 @@ MARCOAGPINTO 2020-02-18 -->
 			<token regexp="no">a</token>
 			<token postag='VMN0000' postag_regexp='no'/>
 		</pattern>
-		<message>Substitua por <suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMII3P0|VMIM3P0|VMIS3P0'/></suggestion>.</message>
+		<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+		<suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMII3P0|VMIM3P0|VMIS3P0'/></suggestion>
 		<example correction="tomaram|tomavam">O Rui e Ana <marker>estavam a tomar</marker> café.</example>
 	  </rule>
 	</rulegroup>
 
     <!-- 	ESTAR + ADVÉRBIO + A + VERBO verbo + advérbio -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-05 (21-OCT-2020+)     -->
-    <rulegroup id='ESTAR_ADVÉRBIO_A_VERBO_VERBO_ADVÉRBIO' name="Estar + Advérbio + A + Verbo > Verbo + Advérbio">
+    <rulegroup id='ESTAR_ADVÉRBIO_A_VERBO_VERBO_ADVÉRBIO' name="Estar + Advérbio + A + Verbo > Verbo + Advérbio" type="style">
 	
 	    <!-- ESTOU -->
 		<rule>
@@ -8607,7 +8611,8 @@ MARCOAGPINTO 2020-02-18 -->
 				<token>a</token>				
 				<token postag='V.+' postag_regexp='yes'/>
 			</pattern>		
-			<message>Substitua por <suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMIP1S0'/> \2</suggestion>.</message>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMIP1S0'/> \2</suggestion>
 			<example correction="treino atualmente">Por isso <marker>estou atualmente a treinar</marker> para a guerra.</example> 
 		</rule>
 
@@ -8619,7 +8624,8 @@ MARCOAGPINTO 2020-02-18 -->
 				<token>a</token>				
 				<token postag='V.+' postag_regexp='yes'/>
 			</pattern>		
-			<message>Substitua por <suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMIP2S0'/> \2</suggestion>.</message>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMIP2S0'/> \2</suggestion>
 			<example correction="treinas atualmente">Por isso <marker>estás atualmente a treinar</marker> para a guerra.</example> 
 		</rule>
 
@@ -8631,7 +8637,8 @@ MARCOAGPINTO 2020-02-18 -->
 				<token>a</token>				
 				<token postag='V.+' postag_regexp='yes'/>
 			</pattern>		
-			<message>Substitua por <suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMIP3S0|VMM02S0'/> \2</suggestion>.</message>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMIP3S0|VMM02S0'/> \2</suggestion>
 			<example correction="treina atualmente|treines atualmente">Por isso <marker>está atualmente a treinar</marker> para a guerra.</example> 
 		</rule>
 		
@@ -8643,7 +8650,8 @@ MARCOAGPINTO 2020-02-18 -->
 				<token>a</token>				
 				<token postag='V.+' postag_regexp='yes'/>
 			</pattern>		
-			<message>Substitua por <suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMIP1P0'/> \2</suggestion>.</message>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMIP1P0'/> \2</suggestion>
 			<example correction="treinamo atualmente|treinamos atualmente">Por isso <marker>estamos atualmente a treinar</marker> para a guerra.</example> 
 		</rule>		
 
@@ -8655,7 +8663,8 @@ MARCOAGPINTO 2020-02-18 -->
 				<token>a</token>				
 				<token postag='V.+' postag_regexp='yes'/>
 			</pattern>		
-			<message>Substitua por <suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMIP2P0'/> \2</suggestion>.</message>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMIP2P0'/> \2</suggestion>
 			<example correction="treinai atualmente|treinais atualmente">Por isso <marker>estais atualmente a treinar</marker> para a guerra.</example> 
 		</rule>		
 	
@@ -8667,7 +8676,8 @@ MARCOAGPINTO 2020-02-18 -->
 				<token>a</token>				
 				<token postag='V.+' postag_regexp='yes'/>
 			</pattern>		
-			<message>Substitua por <suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMIP3P0'/> \2</suggestion>.</message>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMIP3P0'/> \2</suggestion>
 			<example correction="treinam atualmente">Por isso <marker>estão atualmente a treinar</marker> para a guerra.</example> 
 		</rule>		
 	
@@ -10720,14 +10730,15 @@ MARCOAGPINTO 2020-02-18 -->
 	
     <!-- SÃO/É PARA SER/SEREM PARTPASSADO são para Infinitivo -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-15 (2-JUL-2020+)     -->
-    <rule id='SAO-E_PARA_SER-SEREM_PARTPASSADO' name="São/É + para + Verbo Infinitivo">
+    <rule id='SAO-E_PARA_SER-SEREM_PARTPASSADO' name="São/É + para + Verbo Infinitivo" type="style">
       <pattern>
 		  <token inflected='yes'>ser</token>
 		  <token regexp="no">para</token>
 		  <token inflected='yes'>ser</token>
 		  <token postag='VMP00[SP][FM]' postag_regexp='yes'/>
       </pattern>
-      <message>Substitua por <suggestion>\1 \2 <match no='4' postag='VMP00[SP][FM]' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>.</message>
+      <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+	  <suggestion>\1 \2 <match no='4' postag='VMP00[SP][FM]' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
       <example correction="são para usar">Os anéis <marker>são para serem usados</marker> de manhã.</example>
     </rule>
 
@@ -10777,7 +10788,7 @@ MARCOAGPINTO 2020-02-18 -->
 
     <!-- SER + QUEM + VERB_ESSE + WORD era quem chegasse primeiro -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-29 (21-OCT-2020+)     -->
-    <rule id='SER_QUEM_VERB-ESSE_WORD' name="Ser + quem + Verbo -esse + Palavra > Verbo Ser + Verbo -esse_inf + Palavra">
+    <rule id='SER_QUEM_VERB-ESSE_WORD' name="Ser + quem + Verbo -esse + Palavra > Verbo Ser + Verbo -esse_inf + Palavra" type="style">
       <pattern>
 	      <token></token>
 		  <marker>
@@ -10787,7 +10798,8 @@ MARCOAGPINTO 2020-02-18 -->
 		  </marker>
 		  <token negate="yes" regexp='yes'>[.,!?]</token>
       </pattern>
-      <message>Substitua por <suggestion>\2 <match no='4' postag='VMSI[13][SP]0' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>.</message>
+      <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+	  <suggestion>\2 <match no='4' postag='VMSI[13][SP]0' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
       <example correction="era chegar">A vitória na guerra <marker>era quem chegasse</marker> primeiro à bandeira inimiga.</example>
     </rule>
 
@@ -11025,7 +11037,7 @@ MARCOAGPINTO 2020-02-18 -->
 	
     <!-- 	QUE + VERB + COM verb_inf + com -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-02 + 2020-11-14 (21-OCT-2020+)     -->
-    <rulegroup id='QUE_VERB_COM_VERBINF_COM' name="Que + Verbo + Com > Verbo_inf + com">
+    <rulegroup id='QUE_VERB_COM_VERBINF_COM' name="Que + Verbo + Com > Verbo_inf + com" type="style">
 		<rule>
 			<pattern>	
 				<token postag='V.+|RG' postag_regexp='yes'>
@@ -11038,7 +11050,8 @@ MARCOAGPINTO 2020-02-18 -->
 				</marker>
 				<token>com</token>
 			</pattern>		
-			<message>Substitua por <suggestion><match no='3' postag='VMII1S0|VMII3S0' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>.</message>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion><match no='3' postag='VMII1S0|VMII3S0' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
 			<example correction="estar">O Rui disse <marker>que estava</marker> com pressa.</example>  
 		</rule>
 		<rule>
@@ -11053,7 +11066,8 @@ MARCOAGPINTO 2020-02-18 -->
 				</marker>
 				<token>com</token>
 			</pattern>		
-			<message>Substitua por <suggestion><match no='3' postag='VMII3P0' postag_regexp="yes" postag_replace='VMN03P0'/></suggestion>.</message>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion><match no='3' postag='VMII3P0' postag_regexp="yes" postag_replace='VMN03P0'/></suggestion>
 			<example correction="estarem">Uns clientes disseram <marker>que estavam</marker> com pressa.</example>  
 		</rule>
 	</rulegroup>
@@ -11091,7 +11105,7 @@ MARCOAGPINTO 2020-02-18 -->
 
     <!-- 	VERB + QUE + É verb + ser(em) -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-02 + 2020-11-06 (21-OCT-2020+)     -->
-    <rulegroup id='VERB_QUE_É_VERB_SER' name="Que é/são > ser(em)">
+    <rulegroup id='VERB_QUE_É_VERB_SER' name="Que é/são > ser(em)" type="style">
 		<rule>
 			<pattern>
 				<token postag='V.+' postag_regexp='yes'>
@@ -11105,7 +11119,8 @@ MARCOAGPINTO 2020-02-18 -->
 					<exception postag_regexp="no" postag='CS'/>
 				</token>
 			</pattern>		
-			<message>Substitua por <suggestion>ser</suggestion>.</message>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion>ser</suggestion>
 			<example correction="ser">Mas depende sempre daquilo que consideras <marker>que é</marker> o problema.</example>  
 		</rule>
 		<rule>
@@ -11121,14 +11136,15 @@ MARCOAGPINTO 2020-02-18 -->
 					<exception postag_regexp="no" postag='CS'/>
 				</token>				
 			</pattern>		
-			<message>Substitua por <suggestion>serem</suggestion>.</message>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion>serem</suggestion>
 			<example correction="serem">Mas depende sempre daquilo que consideras <marker>que são</marker> os problemas.</example>  
 		</rule>		
 	</rulegroup>
 
     <!-- VERBO1 QUE VERBO2 VERBO3 O QUE verbo2_infinitivo verbo3_infinitivo o que -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-23 + 2020-11-17 (21-OCT-2020+)     -->
-	<rule id='VERBO1_QUE_VERBO2_VERBO3_O_QUE' name="verbo2 + verbo3_infinitivo">
+	<rule id='VERBO1_QUE_VERBO2_VERBO3_O_QUE' name="verbo2 + verbo3_infinitivo" type="style">
 		<antipattern>
 			<token postag='V.+' postag_regexp='yes'/>			
 			<token>que</token>
@@ -11147,13 +11163,14 @@ MARCOAGPINTO 2020-02-18 -->
 			<token>o</token>
 			<token>que</token>			
 		</pattern>
-		<message>Substitua por <suggestion><match no='3' postag='V.+' postag_regexp="yes" postag_replace='VMN03[SP]0'/> \4</suggestion></message>
+		<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+		<suggestion><match no='3' postag='V.+' postag_regexp="yes" postag_replace='VMN03[SP]0'/> \4</suggestion>
 		<example correction="ir ver|irem ver">Falei com o Rui que me disse <marker>que ia ver</marker> o que se passava com o software.</example>
     </rule>
 	
     <!-- 	VERBO_ESTAR + A + VERBO_INF verbo -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-11 (21-OCT-2020+)     -->
-    <rulegroup id='VERBO_ESTAR_A_VERBO_INF' name="Verbo estar + a + Verbo_inf > Verbo">
+    <rulegroup id='VERBO_ESTAR_A_VERBO_INF' name="Verbo estar + a + Verbo_inf > Verbo" type="style">
 	
 	    <!-- estou -->
 		<rule>
@@ -11162,7 +11179,8 @@ MARCOAGPINTO 2020-02-18 -->
 				<token>a</token>
 				<token postag='VMN0000' postag_regexp='no'/>
 			</pattern>		
-			<message>Substitua por <suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP1S0'/></suggestion>.</message>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP1S0'/></suggestion>
 			<example correction="oriento">Temos diferentes perspetivas mediante a lógica pela qual me <marker>estou a orientar</marker>.</example>
 		</rule>
 
@@ -11173,7 +11191,8 @@ MARCOAGPINTO 2020-02-18 -->
 				<token>a</token>
 				<token postag='VMN0000' postag_regexp='no'/>
 			</pattern>		
-			<message>Substitua por <suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP2S0'/></suggestion>.</message>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP2S0'/></suggestion>
 			<example correction="orientas">Temos diferentes perspetivas mediante a lógica pela qual me <marker>estás a orientar</marker>.</example>
 		</rule>
 
@@ -11184,7 +11203,8 @@ MARCOAGPINTO 2020-02-18 -->
 				<token>a</token>
 				<token postag='VMN0000' postag_regexp='no'/>
 			</pattern>		
-			<message>Substitua por <suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP3S0|VMM02S0'/></suggestion>.</message>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP3S0|VMM02S0'/></suggestion>
 			<example correction="orienta|orientes">Temos diferentes perspetivas mediante a lógica pela qual me <marker>está a orientar</marker>.</example>
 		</rule>
 
@@ -11195,7 +11215,8 @@ MARCOAGPINTO 2020-02-18 -->
 				<token>a</token>
 				<token postag='VMN0000' postag_regexp='no'/>
 			</pattern>		
-			<message>Substitua por <suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP1P0'/></suggestion>.</message>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP1P0'/></suggestion>
 			<example correction="orientamo|orientamos">Temos diferentes perspetivas mediante a lógica pela qual nos <marker>estamos a orientar</marker>.</example>
 		</rule>
 
@@ -11206,7 +11227,8 @@ MARCOAGPINTO 2020-02-18 -->
 				<token>a</token>
 				<token postag='VMN0000' postag_regexp='no'/>
 			</pattern>		
-			<message>Substitua por <suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP2P0'/></suggestion>.</message>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP2P0'/></suggestion>
 			<example correction="orientai|orientais">Temos diferentes perspetivas mediante a lógica pela qual nos <marker>estais a orientar</marker>.</example>
 		</rule>
 
@@ -11217,7 +11239,8 @@ MARCOAGPINTO 2020-02-18 -->
 				<token>a</token>
 				<token postag='VMN0000' postag_regexp='no'/>
 			</pattern>		
-			<message>Substitua por <suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP3P0'/></suggestion>.</message>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP3P0'/></suggestion>
 			<example correction="orientam">Temos diferentes perspetivas mediante a lógica pela qual nos <marker>estão a orientar</marker>.</example>
 		</rule>
 
@@ -11225,13 +11248,14 @@ MARCOAGPINTO 2020-02-18 -->
 
     <!-- 	VERB TER + PARTICÍPIO PASSADO Pret. Perf. Ind. de Part_Passado -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-04 (21-OCT-2020+)     -->
-    <rulegroup id='VERB_TER_MAIS_PARTICIPIO_PASSADO' name="Verbo Ter + Part_Passado > Verbo Pret. Perf. Ind. de Part_Passado">
+    <rulegroup id='VERB_TER_MAIS_PARTICIPIO_PASSADO' name="Verbo Ter + Part_Passado > Verbo Pret. Perf. Ind. de Part_Passado" type="style">
 		<rule>
 			<pattern>
 				<token>tinha</token>
 				<token postag='VMP00SM' postag_regexp='no'/>
 			</pattern>		
-			<message>Substitua por <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS1S0|VMIS3S0|VMIM3S0'/></suggestion>.</message>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS1S0|VMIS3S0|VMIM3S0'/></suggestion>
 			<example correction="foi|fora|fui">Essa honra <marker>tinha sido</marker> entregue a Ernest Hemingway.</example> 
 		</rule>
 		<rule>
@@ -11239,7 +11263,8 @@ MARCOAGPINTO 2020-02-18 -->
 				<token>tinham</token>
 				<token postag='VMP00SM' postag_regexp='no'/>
 			</pattern>		
-			<message>Substitua por <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIM3P0|VMIS3P0'/></suggestion>.</message>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIM3P0|VMIS3P0'/></suggestion>
 			<example correction="foram">Essas honras <marker>tinham sido</marker> entregues a Ernest Hemingway.</example>  
 		</rule>		
 	</rulegroup>
