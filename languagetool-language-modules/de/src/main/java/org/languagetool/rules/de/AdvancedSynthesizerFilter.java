@@ -17,13 +17,13 @@
  * USA
  */
 
-package org.languagetool.rules.es;
+package org.languagetool.rules.de;
 
 
-import org.languagetool.language.Spanish;
+import org.languagetool.language.German;
 import org.languagetool.rules.AbstractAdvancedSynthesizerFilter;
 import org.languagetool.synthesis.Synthesizer;
-import org.languagetool.synthesis.es.SpanishSynthesizer;
+import org.languagetool.synthesis.GermanSynthesizer;
 
 /*
  * Synthesize suggestions using the lemma from one token (lemma_from) 
@@ -34,7 +34,7 @@ import org.languagetool.synthesis.es.SpanishSynthesizer;
  */
 public class AdvancedSynthesizerFilter extends AbstractAdvancedSynthesizerFilter {
 
-  private final SpanishSynthesizer synth = new SpanishSynthesizer(new Spanish());
+  private final GermanSynthesizer synth = new GermanSynthesizer(new German());
   
   @Override
   protected Synthesizer getSynthesizer() {
