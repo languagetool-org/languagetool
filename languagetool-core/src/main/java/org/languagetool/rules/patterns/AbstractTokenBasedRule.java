@@ -32,10 +32,10 @@ import java.util.stream.Collectors;
 public abstract class AbstractTokenBasedRule extends AbstractPatternRule {
   // Tokens used for fast checking whether a rule can ever match.
   @Nullable
-  private final String[] inflectedRuleTokens;
+  final String[] inflectedRuleTokens;
 
   @Nullable
-  private final String[][] formHints;
+  final String[][] formHints;
 
   protected AbstractTokenBasedRule(String id, String description, Language language, List<PatternToken> patternTokens, boolean getUnified) {
     super(id, description, language, patternTokens, getUnified);

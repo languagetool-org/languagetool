@@ -677,7 +677,7 @@ public class PatternToken implements Cloneable {
    * This is used internally for performance optimizations.
    */
   @Nullable
-  public Set<String> calcFormHints() {
+  Set<String> calcFormHints() {
     Set<String> result = inflected ? null : calcOwnPossibleStringValues();
     if (result == null) return null;
 
