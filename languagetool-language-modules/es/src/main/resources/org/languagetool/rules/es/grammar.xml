@@ -4246,6 +4246,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <marker>
+                        <token regexp="yes">optimas?|optimo</token>
+                    </marker>
+                </pattern>
+                <message>Si es un adjetivo, se escribe con tilde. Correcto si es del v. 'optimar'.</message>
+                <suggestion><match no="1" regexp_match="(?iu)^o" regexp_replace="ó" case_conversion="preserve"/></suggestion>
+                <example correction="óptimas">Son <marker>optimas</marker>.</example>
+                <example correction="Óptimas"><marker>Optimas</marker> prestaciones.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">dolar(es)?</token>
                 </pattern>
                 <message>El nombre de la moneda se escribe con tilde.</message>
