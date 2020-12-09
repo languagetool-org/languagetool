@@ -4678,7 +4678,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>el</token>
                     <token min="0" max="4" postag_regexp="yes" postag="R.|LOC_ADV|_QM_OPEN"/>
                     <!-- _PUNCT_CONT-->
-                    <token postag="N.[MC][SN].*|A..[MC][SN].|_GN_MS|DN.*|UNKNOWN|_possible_NP|V.N.*|V.P..SM" postag_regexp="yes"/>
+                    <token postag="N.[MC][SN].*|A..[MC][SN].|_GN_MS|DN.*|UNKNOWN|_abrev_biblia|_possible_NP|V.N.*|V.P..SM" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token>el</token>
@@ -15211,7 +15211,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PUNCTUATION" name="Puntuación">
-        <rulegroup id="ANOS_SIN_PUNTO" name="años y números de página sin punto: *1.950" default="temp_off">
+        <rulegroup id="ANOS_SIN_PUNTO" name="años y números de página sin punto: *1.950">
             <rule>
                 <pattern>
                     <token regexp="yes">años?</token>
@@ -15300,7 +15300,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="1989">La págs. 1981-<marker>1.989</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DECIMAL_COMMA" name="Coma y no punto en números decimales" default="temp_off">
+        <rulegroup id="DECIMAL_COMMA" name="Coma y no punto en números decimales">
             <antipattern>
                 <!-- más de un punto -->
                 <token regexp="yes">\d+\.\d+</token>
@@ -15391,7 +15391,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" spacebefore="no">\d+\.\d+</token>
                 </marker>
             </antipattern>
-            <rule>
+            <rule  default="temp_off">
                 <pattern>
                     <token regexp="yes">(\d+|\d{1,3}([ &#8239;&#160;]\d\d\d)+)\.\d+<exception regexp="yes">\d{1,3}(\.\d\d\d)+</exception></token>
                 </pattern>
@@ -15436,7 +15436,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="21.999.349,56"><marker>21,999,349.56</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="THOUSANDS_SEPARATOR" name="separador de millares" default="temp_off">
+        <rulegroup id="THOUSANDS_SEPARATOR" name="separador de millares">
             <rule>
                 <pattern>
                     <token regexp="yes">\d{1,3}\,000</token>
@@ -15458,7 +15458,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="5.500.300|5&#160;500&#160;300">Más de <marker>5,500,300</marker> caracteres</example>
             </rule>
         </rulegroup>
-        <rule id="MISSING_POINT" name="falta de punto" default="temp_off">
+        <rule id="MISSING_POINT" name="falta de punto">
+            <antipattern>
+                <token>.</token>
+                <token spacebefore="yes" regexp="yes" case_sensitive="yes">Y|A|O</token>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token regexp="yes">[A-Z]</token>
                 <token>.</token>
