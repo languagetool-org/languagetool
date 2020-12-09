@@ -53,7 +53,7 @@ public class ShortDescriptionProviderTest {
         continue;
       }
       ShortDescriptionProvider provider = new ShortDescriptionProvider();
-      Map<String, String> map = provider.getAllDescriptions(lang);
+      Map<String, String> map = ShortDescriptionProvider.getAllDescriptions(lang);
       for (Map.Entry<String, String> entry : map.entrySet()) {
         String desc = entry.getValue();
         int len = desc.length();
