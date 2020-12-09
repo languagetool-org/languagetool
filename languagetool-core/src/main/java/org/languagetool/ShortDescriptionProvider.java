@@ -18,10 +18,12 @@
  */
 package org.languagetool;
 
+import com.google.common.annotations.VisibleForTesting;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.broker.ResourceDataBroker;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Provide short (up to ~ 40 characters) descriptions for words.
@@ -29,85 +31,37 @@ import java.util.*;
  * @since 4.5
  */
 public class ShortDescriptionProvider {
-
-  private final static Map<Key,String> wordToDef = new HashMap<>();
-  private final static Set<Language> initializedLangs = new HashSet<>();
-  private final static List<String> filenames = Arrays.asList(
-    "word_definitions.txt"
-  );
-
-  public ShortDescriptionProvider() {
-  }
+  private final static Map<Language, Map<String, String>> descriptions = new ConcurrentHashMap<>();
 
   @Nullable
   public String getShortDescription(String word, Language lang) {
-    if (!initializedLangs.contains(lang)) {
-      init(lang);
-    }
-    return wordToDef.get(new Key(word, lang));
+    return getAllDescriptions(lang).get(word);
   }
 
-  /**
-   * For testing only.
-   */
-  public Map<String, String> getAllDescriptions(Language lang) {
-    if (!initializedLangs.contains(lang)) {
-      init(lang);
-    }
-    Map<String,String> result = new HashMap<>();
-    for (Map.Entry<Key, String> entry : wordToDef.entrySet()) {
-      if (entry.getKey().lang.equals(lang)) {
-        result.put(entry.getKey().word, entry.getValue());
-      }
-    }
-    return result;
+  @VisibleForTesting
+  static Map<String, String> getAllDescriptions(Language lang) {
+    return descriptions.computeIfAbsent(lang, ShortDescriptionProvider::init);
   }
 
-  private void init(Language lang) {
+  private static Map<String, String> init(Language lang) {
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
-    for (String filename : filenames) {
-      String path = "/" + lang.getShortCode() + "/" + filename;
-      if (!dataBroker.resourceExists(path)) {
+    String path = "/" + lang.getShortCode() + "/word_definitions.txt";
+    if (!dataBroker.resourceExists(path)) {
+      return Collections.emptyMap();
+    }
+    Map<String, String> wordToDef = new HashMap<>();
+    List<String> lines = dataBroker.getFromResourceDirAsLines(path);
+    for (String line : lines) {
+      if (line.startsWith("#") || line.trim().isEmpty()) {
         continue;
       }
-      List<String> lines = dataBroker.getFromResourceDirAsLines(path);
-      for (String line : lines) {
-        if (line.startsWith("#") || line.trim().isEmpty()) {
-          continue;
-        }
-        String[] parts = line.split("\t");
-        if (parts.length != 2) {
-          throw new RuntimeException("Format in " + path + " not expected, expected 2 tab-separated columns: '" + line + "'");
-        }
-        wordToDef.put(new Key(parts[0], lang), parts[1]);
+      String[] parts = line.split("\t");
+      if (parts.length != 2) {
+        throw new RuntimeException("Format in " + path + " not expected, expected 2 tab-separated columns: '" + line + "'");
       }
+      wordToDef.put(parts[0], parts[1]);
     }
-    initializedLangs.add(lang);
+    return wordToDef;
   }
 
-  private static class Key {
-    String word;
-    Language lang;
-    Key(String word, Language lang) {
-      this.word = Objects.requireNonNull(word);
-      this.lang = Objects.requireNonNull(lang);
-    }
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) return true;
-      if (o == null || getClass() != o.getClass()) return false;
-      Key key = (Key) o;
-      return word.equals(key.word) &&
-        lang.equals(key.lang);
-    }
-    @Override
-    public int hashCode() {
-      return Objects.hash(word, lang);
-    }
-
-    @Override
-    public String toString() {
-      return word + "@" + lang.getShortCodeWithCountryAndVariant();
-    }
-  }
 }
