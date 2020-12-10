@@ -6,6 +6,11 @@
   * There's now support for Belgian Dutch (`nl-BE`). "Dutch" (`nl`) is
     still the default. nl-BE-specific rules can be added to `nl-BE/grammar.xml`
 
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
+
 #### General
   * There's now `RegexAntiPatternFilter` which can be used to have antipatterns
     for `<regexp>` rules. Use like this:     
