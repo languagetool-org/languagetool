@@ -21,7 +21,6 @@ package org.languagetool.rules.de;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
@@ -46,18 +45,6 @@ public class GermanWordRepeatBeginningRuleTest {
     assertEquals(0, lt.check("Außerdem ist das ein neuer Text.").size());
     // only consider 'real' sentences that end in [.!?]:
     assertEquals(0, lt.check("Außerdem ist das ein neuer Text\n\nAußerdem noch mehr ohne Punkt\n\nAußerdem schon wieder").size());
-
-    // ascii arrow
-    assertEquals(0, lt.check("➡️ Ein Satz.\n\n➡️ Noch ein Satz.\n\n➡️ Und noch ein Satz.").size());
-    // emoji
-    assertEquals(0, lt.check("👪 Ein Satz.\n\n👪 Noch ein Satz.\n\n👪 Und noch ein Satz.").size());
-
-    // math equation
-    String[] rulesDisabled = {
-        "UPPERCASE_SENTENCE_START"
-    };
-    lt.disableRules(Arrays.asList(rulesDisabled));
-    assertEquals(0, lt.check("x = 2.\nx = 5.\nx = 6.").size());
   }
 
 }
