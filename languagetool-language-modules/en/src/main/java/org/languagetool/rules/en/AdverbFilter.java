@@ -411,6 +411,10 @@ public class AdverbFilter extends RuleFilter {
     put("secondly", "second");
     put("domestically", "domestical");
     put("invisibly", "invisible");
+    put("visibly", "visible");
+    put("noteworthily", "noteworthy");
+    put("unexpectably", "unexpectable");
+    put("expectably", "expectable");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

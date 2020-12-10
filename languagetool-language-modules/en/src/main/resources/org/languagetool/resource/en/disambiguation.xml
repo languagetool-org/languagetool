@@ -12966,4 +12966,88 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="remove"><wd pos="JJR"/></disambig>
         </rule>
     </rulegroup>
+
+    <rulegroup id="VERY_RB" name="Remove JJ from 'very'">
+        <rule>
+            <antipattern>
+                <token postag="DT" />
+                <token>very</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>very</token>
+                </marker>
+                <token postag="JJ">
+                    <exception postag="NN.*" postag_regexp="yes" />
+                </token>
+            </pattern>
+            <disambig action="remove"><wd pos="JJ"/></disambig>
+        </rule>
+        <rule>
+            <antipattern>
+                <token postag="DT" />
+                <token>very</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token chunk_re="[BI]-NP-.*">very</token>
+                </marker>
+                <token postag="JJ" chunk_re="I-NP-.*" />
+                <token postag="NN.*" chunk_re="E-NP-.*">
+                    <exception postag="NN.*" postag_regexp="yes" />
+                </token>
+            </pattern>
+            <disambig action="remove"><wd pos="JJ"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">be|look|seem</token>
+                <marker>
+                    <token chunk="B-ADJP">very</token>
+                </marker>
+                <token postag="JJ" chunk="I-ADJP" />
+            </pattern>
+            <disambig action="remove"><wd pos="JJ"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>very</token>
+                </marker>
+                <token regexp="yes">much|cool|awesome|kind|bad|nice|pretty|georgeous|important|good|great|easy|simple|beautiful|essential|common|helpful|pretty|quiet|true|wrong|delicious</token>
+            </pattern>
+            <disambig action="remove"><wd pos="JJ"/></disambig>
+        </rule>
+    </rulegroup>
+
+    <rule id="MAJORITY_NN" name="Remove JJ from 'majority'">
+        <pattern>
+            <marker>
+                <token>majority</token>
+            </marker>
+            <token>of</token>
+        </pattern>
+        <disambig action="remove"><wd pos="JJ"/></disambig>
+    </rule>
+
+    <rulegroup id="VERY_WELL" name="Remove VB from 'well' in 'very well">
+        <rule>
+            <pattern>
+                <token>very</token>
+                <marker>
+                    <token>well</token>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd pos="VB"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>very</token>
+                <marker>
+                    <token>well</token>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd pos="VBP"/></disambig>
+        </rule>
+    </rulegroup>
 </rules>
