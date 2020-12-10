@@ -9859,17 +9859,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rulegroup id="EINE_ORIGINAL_RECHNUNG" name="Eine original Rechnung (Originalrechnung)" default="temp_off">
+        <rulegroup id="EINE_ORIGINAL_RECHNUNG" name="Eine original Rechnung (Originalrechnung)">
+            <short>Zusammenschreibung</short>
             <!-- ähnlich wie MEIN_KLEIN_HAUS, nur dass Vorschläge für spezielle/häufige Fälle geliefert werden -->
             <rule>
-                <antipattern>
-                    <token>direkt</token>
-                    <token>Kontakt</token>
-                    <token regexp="yes" inflected="yes">aufnehmen|herstellen</token>
-                </antipattern>
                 <pattern>
                     <token>direkt</token>
-                    <token regexp="yes">verkauf(es|s)?|vertriebs?|nachricht|akquise|bestellung|buchung|lieferung|versicherung|versicherers?|bank|kandidat(es|s)?|kandidatur|mandat(es|s)?|saft(es|s)?|vergabe|vermarktung|kontakt(es|s)?|marketings?|investition|werbung|verbindung|bezug(es|s)?|hilfe|vergleich(es|s)?|kauf(es|s)?|einspritzers?|wahl|beteiligung|zahlung|wahlkreis(es)?|abnahme</token>
+                    <token regexp="yes">verkauf(es|s)?|vertriebs?|nachricht|akquise|bestellung|buchung|lieferung|versicherung|versicherers?|bank|kandidat(es|s)?|kandidatur|mandat(es|s)?|saft(es|s)?|vergabe|vermarktung|marketings?|investition|werbung|verbindung|bezug(es|s)?|hilfe|vergleich(es|s)?|kauf(es|s)?|einspritzers?|wahl|beteiligung|zahlung|wahlkreis(es)?|abnahme</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Direkt<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Direktvertrieb">Das Unternehmen bot auch einen <marker>direkt Vertrieb</marker> an.</example>
@@ -9937,7 +9933,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">englisch|deutsch|spanisch|französisch|portugiesisch</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">englisch|deutsch|spanisch|französisch</token>
+                    <token regexp="yes">englisch|deutsch|spanisch|französisch|heft(es|s)?|buch(es|s)?</token>
                     <token regexp="yes">lehrer[sn]?|hausaufgaben?|unterricht(es|s)?|kurs|dozent|professors?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Deutsch-<match no="2" case_conversion="startupper" /></suggestion>?</message>
@@ -9960,12 +9956,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Extremsituation">Er befindet sich in einer <marker>extrem Situation</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="GROSS_FLAECHIG" name="groß zügig (großzügig)" default="temp_off">
+        <rule id="BLAU_ÄUGIG" name="blau äugig (blauäugig)" default="temp_off">
+            <pattern>
+                <token regexp="yes">blau|grün|rot|schwarz|grau|zwei|drei|vier|mehr</token>
+                <token regexp="yes">äugig(e[snrm]?)?</token>
+            </pattern>
+            <message>Das Adjektiv <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
+            <short>Zusammenschreibung</short>
+            <example correction="blauäugiges">Sie ist ein hübsches <marker>blau äugiges</marker> Mädchen.</example>
+        </rule>
+        <rule id="GROSS_FLAECHIG" name="groß zügig (großzügig)">
             <pattern>
                 <token regexp="yes">gro(ß|ss)</token>
                 <token inflected="yes" regexp="yes">flächig|mütig|räumig|zügig|denkend|herzig|kotzig|mächtig|maschig|mäulig|spurig|städtisch|wüchsig|artig|järig</token>
             </pattern>
             <message>Das Adjektiv <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion> wird in der Regel zusammengeschrieben.</message>
+            <short>Zusammenschreibung</short>
             <example correction="großartige">Das ist eine <marker>groß artige</marker> Idee!</example>
             <example correction="großzügig">Mein Vate ist sehr <marker>groß zügig</marker> zu mir.</example>
         </rule>
