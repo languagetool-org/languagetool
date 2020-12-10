@@ -122,7 +122,8 @@ public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
   }
 
   private boolean isPunctuationStart(String word) {
-    return StringUtils.equalsAny(word, "\"", "'", "„", "»", "«", "“", "‘", "¡", "¿", "-", "–", "—", "―", "‒");
+    return StringUtils.getDigits(word).length() > 0 // e.g. postal codes
+        || StringUtils.equalsAny(word, "\"", "'", "„", "»", "«", "“", "‘", "¡", "¿", "-", "–", "—", "―", "‒");
   }
 
 

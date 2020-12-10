@@ -47,6 +47,7 @@ public class CheckCaseRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("‒ 'Da Vinci'")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("‒ ¡'Da Vinci'!")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("El Prat de Llobregat")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("08820 - El Prat de Llobregat")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("el Prat de Llobregat")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Da Vinci")).length);
     
