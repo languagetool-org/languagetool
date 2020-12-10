@@ -73,13 +73,13 @@ public class WordRepeatBeginningRule extends TextLevelRule {
         AnalyzedTokenReadings analyzedToken = tokens[1];
         String token = analyzedToken.getToken();
         // avoid "..." etc. to be matched:
-        boolean isWord = true;
-        if (token.length() == 1) {
-          if (!Character.isLetter(token.charAt(0))) {
-            isWord = false;
+        boolean isCapitalizedWord = true;
+        if (token.length() > 0) {
+          if (!Character.isLetter(token.charAt(0)) || !Character.isUpperCase(token.charAt(0))) {
+            isCapitalizedWord = false;
           }
         }
-        if (isWord && lastToken.equals(token)
+        if (isCapitalizedWord && lastToken.equals(token)
                 && !isException(token) && !isException(tokens[2].getToken()) && !isException(tokens[3].getToken())
                 && prevSentence != null && prevSentence.getText().trim().matches(".+[.?!]$")) {  // no matches for e.g. table cells
           String shortMsg;
