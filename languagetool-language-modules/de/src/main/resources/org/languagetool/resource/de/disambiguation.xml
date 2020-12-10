@@ -1205,6 +1205,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="remove" postag="ADJ:.+|PA2:.+"/>
         </rule>
     </rulegroup>
+    <rulegroup id="REICHEN" name="Entferne Adjektivform von 'reiche'">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token postag_regexp="yes" postag="ART:.+"/>
+                <marker><token>reiche</token></marker>
+                <token regexp="yes">aus|von</token>
+            </pattern>
+            <disambig action="remove" postag="ADJ:.+"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="KEIN_IMPERATIV" name="Entferne Imperativ am Satzende langer Sätze">
         <rule>
             <pattern case_sensitive="yes">
