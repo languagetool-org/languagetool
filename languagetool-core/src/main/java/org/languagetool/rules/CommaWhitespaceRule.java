@@ -34,6 +34,7 @@ import static org.languagetool.tools.StringTools.isEmpty;
  * 
  * @author Daniel Naber
  */
+/* need better messages */
 public class CommaWhitespaceRule extends Rule {
 
   private boolean quotesWhitespaceCheck;
