@@ -73,6 +73,13 @@ public class SubjectVerbAgreementRule extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      // "Das andere Ende war am rechten vorderen Bettpfosten."
+      posRegex("ART:DEF:NOM:SIN:.*"),
+      posRegex("ADJ:NOM:SIN:.*"),
+      posRegex("SUB:NOM:SIN:.*"),
+      token("war")
+    ),
+    Arrays.asList(
       // "Zwei Schülern war aufgefallen, dass man im Fernsehen..."
       pos("ZAL"),
       posRegex("SUB:DAT:PLU:.*"),
