@@ -15297,13 +15297,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">pp|p|p[áa]gs?|páginas?</token>
+                    <token regexp="yes">pp|p|p[áa]gs?|páginas?|cp</token>
                     <token min="0">.</token>
                     <marker>
                         <token regexp="yes">\d{1,3}\.\d{3}</token>
                     </marker>
                 </pattern>
-                <message>Los números de página se escriben sin punto.</message>
+                <message>Los números de página o de código postal se escriben sin punto.</message>
                 <suggestion><match no="3" regexp_match="(.)\.(...)" regexp_replace="$1$2"/></suggestion>
                 <example correction="1989">La p. <marker>1.989</marker>.</example>
             </rule>
@@ -15484,6 +15484,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>.</token>
                 <token spacebefore="yes" regexp="yes" case_sensitive="yes">Y|A|O</token>
+                <token><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
             </antipattern>
             <pattern case_sensitive="yes">
                 <token regexp="yes">[A-Z]</token>
@@ -15497,6 +15498,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>\3.</suggestion>
             <example correction="F.">El N.I.<marker>F</marker> es el 333333333F.</example>
             <example correction="K.">El nuevo libro de J. <marker>K</marker> Rowling.</example>
+            <example correction="A.">Editorial Tarraco, S. <marker>A</marker>, 1969.</example>
             <example>N.I.F.</example>
             <example>J. K. Rowling.</example>
         </rule>
