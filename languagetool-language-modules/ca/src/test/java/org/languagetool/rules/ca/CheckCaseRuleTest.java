@@ -50,13 +50,15 @@ public class CheckCaseRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("08820 - El Prat de Llobregat")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("el Prat de Llobregat")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Da Vinci")).length);
-    
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Amb Joan Pau i Josep Maria.")).length);
     
     // incorrect sentences:
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Joan pau"));
     assertEquals(1, matches.length);
     assertEquals("Joan Pau", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(langTool.getAnalyzedSentence("Expedient de Regulació Temporal d'Ocupació"));
+    assertEquals(1, matches.length);
+    assertEquals("Expedient de regulació temporal d'ocupació", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(langTool.getAnalyzedSentence("Em vaig entrevistar amb Joan maria"));
     assertEquals(1, matches.length);
     assertEquals("Joan Maria", matches[0].getSuggestedReplacements().get(0));

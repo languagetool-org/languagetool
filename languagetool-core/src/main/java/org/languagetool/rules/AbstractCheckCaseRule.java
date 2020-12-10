@@ -102,6 +102,10 @@ public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
           } else {
             ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
           }
+          if (crtWordCount + sentStart == i) {
+            // Capitalize suggestion at the sentence start
+            correctPhrase = StringTools.uppercaseFirstChar(correctPhrase);
+          }
           ruleMatch.addSuggestedReplacement(correctPhrase);
           if (!isException(sentence.getText().substring(startPos, endPos))) {
             // keep only the longest match
