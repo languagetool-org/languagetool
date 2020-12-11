@@ -2,6 +2,10 @@
 
 ## 5.2 (released planned for 2020-12-29)
  
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.13)
+
 #### Dutch
   * There's now support for Belgian Dutch (`nl-BE`). "Dutch" (`nl`) is
     still the default. nl-BE-specific rules can be added to `nl-BE/grammar.xml`
@@ -10,6 +14,10 @@
   * added and improved rules
   * added words and POS data
   * fixed tons of false positives
+
+#### Spanish
+  * added and improved rules
+  * updated dictionary (spanish-pos-dict-0.9)
 
 #### General
   * There's now `RegexAntiPatternFilter` which can be used to have antipatterns
