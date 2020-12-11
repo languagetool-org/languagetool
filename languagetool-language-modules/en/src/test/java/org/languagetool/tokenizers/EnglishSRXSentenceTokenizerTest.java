@@ -113,6 +113,10 @@ public class EnglishSRXSentenceTokenizerTest {
     testSplit("Yahoo!", "What is it?");
     
     testSplit("This is a sentence.\u0002 ", "And this is another one.");  // footnotes in LibOO/OOo look like this
+    
+    testSplit("Other good editions are in vol. 4.");
+    testSplit("Other good editions are in vol. IX.");
+    testSplit("Other good editions are in vol. I think."); // ambiguous
   }
 
   private void testSplit(String... sentences) {
@@ -120,3 +124,4 @@ public class EnglishSRXSentenceTokenizerTest {
   }
   
 }
+
