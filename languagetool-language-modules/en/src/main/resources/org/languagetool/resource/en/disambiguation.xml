@@ -13008,7 +13008,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                     <token chunk_re="[BI]-NP-.*">very</token>
                 </marker>
                 <token postag="JJ" chunk_re="I-NP-.*" />
-                <token postag="NN.*" chunk_re="E-NP-.*">
+                <token postag="NN.*" postag_regexp="yes" chunk_re="E-NP-.*">
                     <exception postag="NN.*" postag_regexp="yes" />
                 </token>
             </pattern>
@@ -13029,7 +13029,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <marker>
                     <token>very</token>
                 </marker>
-                <token regexp="yes">much|cool|awesome|kind|bad|nice|pretty|georgeous|important|good|great|easy|simple|beautiful|essential|common|helpful|pretty|quiet|true|wrong|delicious</token>
+                <token regexp="yes">much|cool|awesome|kind|bad|nice|handsome|pretty|georgeous|important|good|great|easy|small|big|large|huge|hard|soft|busy|simple|beautiful|essential|common|helpful|quiet|true|wrong|delicious</token>
             </pattern>
             <disambig action="remove"><wd pos="JJ"/></disambig>
         </rule>
@@ -13076,6 +13076,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag="VB" chunk="I-VP" />
             </pattern>
             <disambig action="filter" postag="RB"/>
+            <example type="ambiguous" inputform="Please[please/RB,please/VB,please/VBP]" outputform="Please[please/RB]"><marker>Please</marker> do this.</example>
+            <example type="untouched">They please her.</example>
         </rule>
         <rule>
             <pattern>
@@ -13099,6 +13101,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag="VB" chunk="I-VP" />
             </pattern>
             <disambig action="filter" postag="RB"/>
+            <example type="ambiguous" inputform="please[please/RB,please/VB,please/VBP]" outputform="please[please/RB]">Could you <marker>please</marker> take care of this?</example>
+            <example type="untouched">You please her.</example>
         </rule>
     </rulegroup>
 </rules>

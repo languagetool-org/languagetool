@@ -415,6 +415,17 @@ public class AdverbFilter extends RuleFilter {
     put("noteworthily", "noteworthy");
     put("unexpectably", "unexpectable");
     put("expectably", "expectable");
+    put("foreseeably", "foreseeable");
+    put("unforeseeably", "unforeseeable");
+    put("distinctly", "distinct");
+    put("unequivocally", "unequivocal");
+    put("signally", "signal");
+    put("medically", "medical");
+    put("certainly", "certain");
+    put("beautifully", "beautiful");
+    put("firmly", "firm");
+    put("electrically", "electrical");
+    put("gradually", "gradual");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
