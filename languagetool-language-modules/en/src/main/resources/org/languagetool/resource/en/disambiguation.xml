@@ -1956,18 +1956,33 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>this</token>
             <token postag="VBZ"/>
         </antipattern>
+        <antipattern>
+            <token regexp="yes">about|of|from</token>
+            <token>this</token>
+            <token postag="VBZ" />
+            <token regexp="yes">me|you|it|them|us|him|her</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">about|of|from</token>
+            <token>this</token>
+            <token postag="VBZ" />
+            <token postag="IN" />
+            <token postag="DT|PRP\$" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <token postag="IN"/>
             <token regexp="yes">th(is|ese)</token>
             <marker>
                 <and>
                     <token postag="NNS"/>
-                    <token postag="VBZ"><exception regexp="yes">means|works|shows|leads|takes|lies|goes|stems|gives|ma(ke|tter)s|does</exception></token>
+                    <token postag="VBZ"><exception regexp="yes">means|works|shows|leads|takes|lies|goes|stems|gives|ma(ke|tter)s|does|looks</exception></token>
                 </and>
             </marker>
         </pattern>
         <disambig postag="NNS"/>
       <example type="untouched">Add "short" between "product" and "description", unless this causes a problem.</example>
+      <example type="untouched">Something about this concerns me.</example>
+      <example type="untouched">Please help assure that execution of this fits into the larger credit picture as well.</example>
     </rule>
 
     <rule id="DURING_VBZ_NNS" name="during + verb 3sg.NNS =>NNS">
@@ -13048,6 +13063,42 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 </marker>
             </pattern>
             <disambig action="remove"><wd pos="VBP"/></disambig>
+        </rule>
+    </rulegroup>
+
+    <rulegroup id="PLEASE_RB" name="Remove VB from 'please'">
+        <rule>
+            <pattern>
+                <token postag="SENT_START|PCT|CC" postag_regexp="yes" />
+                <marker>
+                    <token chunk="B-VP">please</token>
+                </marker>
+                <token postag="VB" chunk="I-VP" />
+            </pattern>
+            <disambig action="filter" postag="RB"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START|PCT|CC" postag_regexp="yes" />
+                <marker>
+                    <token>please</token>
+                </marker>
+                <token>don</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+            </pattern>
+            <disambig action="filter" postag="RB"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="MD" />
+                <token regexp="yes">you|they|s?he|it|we|I</token>
+                <marker>
+                    <token chunk="B-VP">please</token>
+                </marker>
+                <token postag="VB" chunk="I-VP" />
+            </pattern>
+            <disambig action="filter" postag="RB"/>
         </rule>
     </rulegroup>
 </rules>

@@ -365,6 +365,7 @@ public class English extends Language implements AutoCloseable {
       case "CURIOS_CURIOUS":            return 1;   // higher prio than A_NNS and POSSESSIVE_APOSTROPHE
       case "INCORRECT_POSSESSIVE_APOSTROPHE": return 1;   // higher prio than THIS_NNS
       case "THIS_YEARS_POSSESSIVE_APOSTROPHE": return 1;    // higher prio than THIS_NNS
+      case "SPURIOUS_APOSTROPHE": return 1;    // higher prio than THIS_NNS
       case "IN_THIS_REGARDS":           return 1;   // higher prio than THIS_NNS
       case "NO_WHERE":                  return 1;   // higher prio than NOW
       case "APOSTROPHE_VS_QUOTE":       return 1;   // higher prio than EN_QUOTES
