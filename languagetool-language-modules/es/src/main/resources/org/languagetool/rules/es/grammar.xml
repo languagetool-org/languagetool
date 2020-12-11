@@ -5639,16 +5639,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="la hacía">Esa bota <marker>la hacia</marker> otra compañía.</example>
             <example>Depende de lo hacia abajo que apuntes.</example>
         </rule>
-        <rule id="MAS" name="mas/más">
-            <pattern>
-                <token>mas</token>
-            </pattern>
-            <message>Si no equivale a 'pero' o 'sino', se escribe con tilde.</message>
-            <suggestion>más</suggestion>
-            <url>https://www.fundeu.es/recomendacion/mas-tilde-acento/</url>
-            <example correction="más">No hay <marker>mas</marker>.</example>
-            <example correction="más" type="triggers_error" reason="archaic or formal">Me gusta, <marker>mas</marker> no lo quiero.</example>
-        </rule>
+        <rulegroup id="MAS" name="mas/más">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>mas</token>
+                    </marker>
+                    <token>que</token>
+                </pattern>
+                <message>La expresión 'más que' se escribe siempre con tilde.</message>
+                <suggestion>más</suggestion>
+                <url>https://www.fundeu.es/recomendacion/mas-que-uso-de-la-tilde/</url>
+                <example correction="más">No hay <marker>mas</marker> que decir.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>mas</token>
+                </pattern>
+                <message>Si no equivale a 'pero' o 'sino', se escribe con tilde.</message>
+                <suggestion>más</suggestion>
+                <url>https://www.fundeu.es/recomendacion/mas-tilde-acento/</url>
+                <example correction="más">No hay <marker>mas</marker>.</example>
+                <example correction="más" type="triggers_error" reason="archaic or formal">Me gusta, <marker>mas</marker> no lo quiero.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AUN" name="aún/aun">
             <rule>
                 <pattern>
