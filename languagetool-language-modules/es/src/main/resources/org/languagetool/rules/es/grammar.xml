@@ -37,6 +37,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY meses_ano "enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre">
 <!ENTITY meses_ano_abrv "ene|feb|mar|abrl|may|jun|jul|ago|sep|set|oct|nov|dic">
 <!ENTITY estaciones_ano "primavera|verano|otoño|invierno">
+<!ENTITY exceptions_DECIMAL_COMMA "cláusula|cuadro|epígrafe|revisión|versión|resolución|decreto|ley|sección|capítulo|apartado|partida|tabla|imagen|fotografía|gráfica|gráfico|foto|mapa|punto|artículo|ver|figura|iPhone|firmware|hardware|software|doi|(?-i).*OS|X">
 <!ENTITY unidades "GB|TB|MB|MBps|Mbps|AM|PM|M|am|pm|m?[lL]|mm|cm|dm|m|km|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|pts|ptes|[£€$]|(mm|cm|dm|m|km)[23²³]">
 <!ENTITY unidades_SI "(da|h|k|M|G|T|P|E|Z|Y|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|cd|mol|Hz|N|Pa|J|W|Wh|C|V|Ω|S|F|T|Wb|H|rad|sr|lm|lx|Bq|Gy|Sv|kat|l|L)[²³23]?">
 <!--TODO: check case of abbreviations-->
@@ -15338,25 +15339,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="DECIMAL_COMMA" name="Coma y no punto en números decimales">
             <antipattern>
+                <token regexp="yes">[a-z]+</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes" spacebefore="no">\d+\.\d+</token>
+            </antipattern>
+            <antipattern>
                 <!-- más de un punto -->
                 <token regexp="yes">\d+\.\d+</token>
                 <token spacebefore="no">.<exception postag="SENT_END"/></token>
             </antipattern>
             <antipattern>
+                <token>:</token>
+                <token regexp="yes">\d+\.\d+</token>
+            </antipattern>
+            <!--<antipattern>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no" regexp="yes">\d+\.\d+</token>
+            </antipattern>-->
+            <antipattern>
                 <!-- Enumeración a principio de frase -->
-                <marker>
-                    <token postag="SENT_START"/>
-                    <token regexp="yes">\d+\.\d+</token>
-                    <token spacebefore="no" regexp="yes">[.:)]</token>
-                </marker>
+                <token postag="SENT_START"/>
+                <token regexp="yes">\d+\.\d+</token>
+                <token spacebefore="no" regexp="yes">[.:)]</token>
             </antipattern>
             <antipattern>
                 <!-- Enumeración a principio de frase -->
-                <marker>
-                    <token postag="SENT_START"/>
-                    <token regexp="yes">\d+\.\d+</token>
-                    <token spacebefore="yes"/>
-                </marker>
+                <token postag="SENT_START"/>
+                <token regexp="yes">\d+\.\d+</token>
+                <token spacebefore="yes"/>
             </antipattern>
             <antipattern>
                 <!-- horas -->
@@ -15367,73 +15377,80 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">([01]?[0-9]|2[0-4])\.\d{2}</token>
                 <token regexp="yes" min="1" max="2">y|a|hasta|-|/</token>
                 <token regexp="yes">([01]?[0-9]|2[0-4])\.\d{2}</token>
-                <token regexp="yes">h|hr|hrs|horas|am|pm</token>
+                <!--<token regexp="yes">h|hr|hrs|horas|am|pm</token>-->
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">([01]?[0-9]|2[0-4])\.\d{2}</token>
+                <token regexp="yes" min="1" max="2">y|a|hasta|-|/</token>
+                <token regexp="yes">([01]?[0-9]|2[0-4])(\.\d{2})?</token>
+                <!--<token regexp="yes">h|hr|hrs|horas|am|pm</token>-->
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">([01]?[0-9]|2[0-4])(\.\d{2})?</token>
+                <token regexp="yes" min="1" max="2">y|a|hasta|-|/</token>
+                <token regexp="yes">([01]?[0-9]|2[0-4])\.\d{2}</token>
+                <!--<token regexp="yes">h|hr|hrs|horas|am|pm</token>-->
             </antipattern>
             <antipattern>
                 <token regexp="yes" skip="2">([01]?[0-9]|2[0-4])\.\d{2}</token>
                 <token regexp="yes">&partes_dia;</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token>las</token>
-                    <token regexp="yes">([01]?[0-9]|2[0-4])\.\d{2}</token>
-                </marker>
+                <token>las</token>
+                <token regexp="yes">([01]?[0-9]|2[0-4])\.\d{2}</token>
             </antipattern>
             <antipattern>
                 <!-- tablas, etc  -->
-                <marker>
-                    <token inflected="yes" regexp="yes">cuadro|epígrafe|revisión|versión|resolución|decreto|ley|sección|capítulo|apartado|partida|tabla|imagen|fotografía|gráfica|gráfico|foto|mapa|punto|artículo|ver|figura</token>
-                    <token min="0" regexp="yes" inflected="yes">actual|anterior|antiguo|nuevo</token>
-                    <token regexp="yes">\d+\.\d+</token>
-                </marker>
+                <token inflected="yes" skip="1" regexp="yes">&exceptions_DECIMAL_COMMA;</token>
+                <token regexp="yes">\d+\.\d+</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token inflected="yes" regexp="yes">cuadro|epígrafe|revisión|versión|resolución|decreto|ley|sección|capítulo|apartado|partida|tabla|imagen|fotografía|gráfica|gráfico|foto|mapa|punto|artículo|ver|figura</token>
-                    <token regexp="yes">\d+\.\d+</token>
-                    <token regexp="yes">y|o|,</token>
-                    <token regexp="yes">\d+\.\d+</token>
-                </marker>
+                <token inflected="yes" regexp="yes" skip="1">&exceptions_DECIMAL_COMMA;</token>
+                <token regexp="yes">\d+\.\d+</token>
+                <token regexp="yes" min="0">y|o|,</token>
+                <token regexp="yes">\d+\.\d+</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token regexp="yes">arts?|figs?|caps?|ap|s|v|vd|§|cf|\p{Lu}.+|web</token>
-                    <token min="0">.</token>
-                    <token regexp="yes">\d+\.\d+</token>
-                </marker>
+                <token regexp="yes" skip="1">arts?|figs?|caps?|ap|s|v|vd|§|cf|web|https?</token>
+                <token regexp="yes">\d+\.\d+</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token regexp="yes">arts?|figs?|caps?|ap|s|v|vd|§|cf</token>
-                    <token min="0">.</token>
-                    <token regexp="yes">\d+\.\d+</token>
-                    <token regexp="yes">y|o|,</token>
-                    <token regexp="yes">\d+\.\d+</token>
-                </marker>
+                <token regexp="yes">\p{Lu}.+</token>
+                <token regexp="yes">\d+\.\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="1">arts?|figs?|caps?|ap|s|v|vd|§|cf</token>
+                <token regexp="yes">\d+\.\d+</token>
+                <token regexp="yes">y|o|,</token>
+                <token regexp="yes">\d+\.\d+</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="-1">versión</token>
+                <token regexp="yes">\d+\.\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d+\.\d+</token>
+                <token regexp="yes">\p{Lu}+</token>
             </antipattern>
             <antipattern>
                 <!--  libros de la Biblia -->
-                <marker>
-                    <token postag="_abrev_biblia"/>
-                    <token min="0" max="4" regexp="yes">[\d.,-]+<exception regexp="yes">\d+\.\d+</exception></token>
-                    <token regexp="yes">\d+\.\d+</token>
-                </marker>
+                <token postag="_abrev_biblia"/>
+                <token min="0" max="4" regexp="yes">[\d.,-]+<exception regexp="yes">\d+\.\d+</exception></token>
+                <token regexp="yes">\d+\.\d+</token>
             </antipattern>
             <antipattern>
                 <!--  versiones -->
-                <marker>
-                    <token regexp="yes">[\d\.]+</token>
-                    <token spacebefore="no">.</token>
-                    <token regexp="yes" spacebefore="no">\d+\.\d+</token>
-                </marker>
+                <token regexp="yes">[\d\.]+</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes" spacebefore="no">\d+\.\d+</token>
             </antipattern>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">(\d+|\d{1,3}([ &#8239;&#160;]\d\d\d)+)\.\d+<exception regexp="yes">\d{1,3}(\.\d\d\d)+</exception></token>
                 </pattern>
                 <message>Para separar los decimales, use una coma.</message>
                 <suggestion><match no="1" regexp_match="(.+)\.(.+)" regexp_replace="$1,$2"/></suggestion>
-                <example correction="9,5">És de <marker>9.5</marker>.</example>
+                <example correction="9,5">Es de <marker>9.5</marker>.</example>
                 <example correction="9349,5"><marker>9349.5</marker></example>
                 <example correction="349,56">1 999 <marker>349.56</marker></example>
                 <example>9.5 El futuro de las pensiones</example>
@@ -15454,6 +15471,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La versión 5.6.3.4 de LibreOffice.</example>
                 <example>La versión 5.6.3 de LibreOffice.</example>
                 <example>Desde 15.30 hasta 16.30 h.</example>
+                <example>De lunes a jueves de 9 a 14.00 y de 16 a 19 y los viernes de 09.00 a 14.00.</example>
+                <example>«Hypertext Transfer Protocol -- HTTP/1.0»</example>
+                <example>un motor de gasolina 1.4 TSI</example>
+                <example>OS X 10.9 Mavericks</example>
+                <example>Los lunes y jueves de 10.30 a 11.30 con grupos abiertos.</example>
             </rule>
             <rule>
                 <pattern>
