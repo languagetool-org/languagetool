@@ -33,8 +33,9 @@ import java.util.*;
  * See readme.txt for details, the POS tagset is described in tagset.txt
  */
 public class RussianTagger extends BaseTagger {
+  public static final RussianTagger INSTANCE = new RussianTagger();
 
-  public RussianTagger() {
+  private RussianTagger() {
     super("/ru/russian.dict", new Locale("ru"));
   }
 
