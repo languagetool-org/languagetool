@@ -19,14 +19,14 @@
 
 package org.languagetool.tagging.disambiguation.ru;
 
-import java.io.IOException;
-
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.language.Russian;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
+
+import java.io.IOException;
 
 /**
  * Hybrid chunker-disambiguator for Russian.
@@ -35,6 +35,7 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
  */
 
 public class RussianHybridDisambiguator extends AbstractDisambiguator {
+  public static final RussianHybridDisambiguator INSTANCE = new RussianHybridDisambiguator();
 
   private final Disambiguator chunker = new MultiWordChunker("/ru/multiwords.txt");
   private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Russian());

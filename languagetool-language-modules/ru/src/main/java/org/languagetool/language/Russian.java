@@ -65,12 +65,12 @@ public class Russian extends Language implements AutoCloseable {
   @NotNull
   @Override
   public Tagger createDefaultTagger() {
-    return new RussianTagger();
+    return RussianTagger.INSTANCE;
   }
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new RussianHybridDisambiguator();
+    return RussianHybridDisambiguator.INSTANCE;
   }
 
   @Nullable
