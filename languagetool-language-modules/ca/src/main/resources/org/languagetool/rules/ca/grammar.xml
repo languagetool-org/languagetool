@@ -37317,6 +37317,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Demà farem cagar el tió.</example>
                 <example>Caga, tió, avellanes i torró.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">cagatió</token>
+                </pattern>
+                <message>Incorrecte en el sentit de 'tronc, tió'. Denominació admissible si es refereix a l'acte o la tradició de fer cagar el tió. </message>
+                <suggestion><match no="1" regexp_match="(?i)caga" regexp_replace=""/></suggestion>
+                <suggestion>fer cagar el tió</suggestion>
+                <example correction="tió|fer cagar el tió">Clavaven bastonades molt fortes al <marker>cagatió</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="TIRA_I_ARRONSA" name="tira-i-arronsa">
             <pattern>
@@ -43931,6 +43940,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
+        <rule id="NIT_VELLA" name="*nit vella">
+            <pattern>
+                <token>nit</token>
+                <token>vella</token>
+            </pattern>
+            <message>Expressió incorrecta si vol dir <suggestion><match no="1" case_conversion="alllower"/> de Cap d'Any</suggestion></message>
+            <example correction="nit de Cap d'Any">Farem una festa la <marker>Nit Vella</marker>.</example>
+        </rule>
+        <rule id="NIT_BONA" name="*nit bona">
+            <antipattern case_sensitive="yes">
+                <token>una</token>
+                <token>nit</token>
+                <token>bona</token>
+            </antipattern>
+            <pattern>
+                <token>nit</token>
+                <token>bona</token>
+            </pattern>
+            <message>Expressió incorrecta si vol dir <suggestion><match no="1" case_conversion="alllower"/> de Nadal</suggestion></message>
+            <example correction="nit de Nadal">Farem una festa la <marker>Nit Bona</marker>.</example>
+            <example correction="nit de Nadal">Una <marker>Nit Bona</marker> de fa molts anys.</example>
+            <example>Fa una nit bona avui.</example>
+        </rule>
         <rule id="COREA" name="corea/coreà|Corea">
             <antipattern>
                 <token postag="SENT_START" skip="-1"/>
