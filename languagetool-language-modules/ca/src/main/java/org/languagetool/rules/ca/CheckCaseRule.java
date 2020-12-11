@@ -34,7 +34,6 @@ public class CheckCaseRule  extends AbstractCheckCaseRule {
   
   public CheckCaseRule(ResourceBundle messages, Language language) {
     super(messages, language);
-    this.setDefaultTempOff();
   }
 
   @Override
