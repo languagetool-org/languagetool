@@ -27622,6 +27622,24 @@ TODO Write better examples
     <!-- Based on Lightproof by Tiago F. Santos, 2017-07-03 -->
       <url>https://pt.wikipedia.org/wiki/Paron%C3%ADmia</url>
       <short>Nesta situação acentua-se a palavra</short>
+<!-- MARCOAGPINTO 2020-12-11 (21-OCT-2020+) *START* -->
+    <rule>
+      <antipattern case_sensitive='yes'>
+          <token>Ministério</token>
+          <token>da</token>
+          <token>Educação</token>
+      </antipattern>
+      <pattern>
+          <token regexp='yes'>(?:[A-Za-z]+dade|[A-Za-z]+ência|[A-Za-z]+[sç]ão|[A-Za-z]+ária|[A-Za-z]+mente|à|a(?:dvocacia|genda|legria|lma|ntipatia)|[\xc1á]rea|a(?:rte|ula|ura)|b(?:astante|em|iblioteca|riga)|c(?:abine|adeia|adeira|ampanha|areira|arta|asa|ausa|ena|ensura|erimônia|iência|isterna|ivil|oisa|om|onfiança|onsulta|onversa|ousa|rítica)|d(?:a|e|efensora|efensoria|efesa|emanda|enúncia|esgraça|esonra|esordem|espedida|espesa|isputa|ívida)|é|e(?:conomia|m|missora|mpresa|ncomenda)|ênfase|e(?:ntrada|ra|scola|scritura|sfera|stá|státua|steira|stima|vento)|expec?tativa|f(?:ace|azem|azenda|é|eira|esta|ez|igura|inanceira|ita|onte|ora|oram|orça|orma|ortuna|osse|otografia)|g(?:arantia|astança)|higiene|h(?:istória|omenagem|onra|ospitalar)|i(?:magem|ncerteza|ndiferença|nfraestrutura|niciativa|nsegurança)|justiça|l(?:eitura|impeza|inguagem|ivraria|uz)|mais|m(?:áquina|edicina|emória|entira|esa|iséria|issa|odéstia|oral|orte|ulher|useologia)|n(?:amorada|atureza|otícia)|o(?:bra|ferta|pinião|rdem|rgia)|palavra|p(?:alestra|arceria|arte|arvalheira|asmaceira|az|ela|enal|erformance|essoa|ista|olêmica|olítica|ose|oupança|raça|referissem|reguiça|restando|rofessora|rofissional|romessa|romotora|romotoria|rova)|q(?:ueixa|uestão)|razão|r(?:eceita|ede|elevância|epugnância|etórica|eunião|iqueza|uptura)|saúde|s(?:ecretaria|egurança|eja|er|erá|erventia|ervidora|ido|impatia|ocial|olene|uspeita)|t(?:anto|ão|arifa|elefônica|irania|olerância|omada|orna|ornada|ornado|ornar|ornasse|ornava|ornei|ornou|rajetória|ribuna)|venda|v(?:ergonha|ia|iagem|ida|igilância|irtude|isita|istoria)|voze?)s?</token>
+        <marker>
+          <token regexp='yes'>especificas?</token>
+        </marker>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+        <suggestion>específica<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction="específica">tornou <marker>especifica</marker></example>
+    </rule>
+<!-- MARCOAGPINTO 2020-12-11 (21-OCT-2020+) *END* -->	
     <rule>
       <pattern>
           <token regexp='yes'>(?:À|a(?:lguma|ntiga|quela)?|àquela|autêntica|c(?:ada|hamavam|om)|d(?:a|aquela|e|écima|essa|esta|ita|uma)|É|e(?:m|ssa|sta|studa|xtensa)?|fechar|f(?:oi|utura)|grande|g(?:rossa|rosseira)|histórica|i(?:mensa|mportante|nternacional)|m(?:aior|aravilhosa|elhor|esma|ortífera|últipla)|n(?:a|aquela|esta|ona|ossa|ova|uma)|o(?:itava|u|utra)|p(?:ela|equena|rimeira|rópria)|q(?:ualquer|uarta|uerem|uinta)|r(?:eal|ecente|eferida|ica)|s(?:egunda|em|étima|exta|ua)|tanta|t(?:enho|erá|erceira)|última|uma?|única|velha|verdadeira)s?</token>
