@@ -43931,6 +43931,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
+        <rule id="COREA" name="corea/coreà|Corea">
+            <antipattern>
+                <token postag="SENT_START" skip="-1"/>
+                <token regexp="yes" skip="-1" inflected="yes">Sydenham|malaltia|trombosi|atetosi|cerebral|epilèptic|renal|tic|abdominal|anticardiolipina|anticossos|convulsió</token>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes">corea</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>Corea</suggestion>? En minúscula és correcte com a nom d'una malaltia.</message>
+            <suggestion>coreà</suggestion>
+            <example correction="Corea|coreà">Vinc d'un viatge a <marker>corea</marker></example>
+            <example>Sydenham va descriure la corea aguda infantil.</example>
+        </rule>
+        <rule id="BASQUET" name="basquet/bàsquet">
+            <antipattern>
+                <token postag="SENT_START" skip="-1"/>
+                <token regexp="yes" skip="-1" inflected="yes">taronja|poma|pruna|mandarina|meló|síndira|plàtan|hortalissa|fruita<exception>taronja</exception></token>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <pattern>
+                <token>basquet</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>bàsquet</suggestion> (esport)? "Basquet" és correcte en el sentit de 'caixa'.</message>
+            <example correction="bàsquet">El club de <marker>basquet</marker> taronja.</example>
+            <example>Vaig portar un basquet de taronges.</example>
+        </rule>
+        <rule id="MASCARA" name="mascara/màscara">
+            <antipattern>
+                <token postag="&pronom_feble;" postag_regexp="yes"/>
+                <token regexp="yes">mascara|mascares</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">mascara|mascares</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)ma" regexp_replace="mà"/></suggestion>? "Mascara" és correcte en el sentit de 'polsim negre' o com a forma del v. 'mascarar'.</message>
+            <example correction="màscara">Hem sortit de casa sense <marker>mascara</marker>.</example>
+        </rule>
         <rule id="CORNER" name="corner/córner">
             <pattern>
                 <token regexp="yes">corners?</token>
