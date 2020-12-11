@@ -32243,14 +32243,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <!-- taules, etc  -->
                 <marker>
-                    <token inflected="yes" regexp="yes">epígraf|revisió|versió|resolució|decret|llei|secció|capítol|apartat|partida|taula|imatge|fotografia|gràfica?|foto|mapa|punt|article|veure|figura</token>
+                    <token inflected="yes" regexp="yes">quadre|epígraf|revisió|versió|resolució|decret|llei|secció|capítol|apartat|partida|taula|imatge|fotografia|gràfica?|foto|mapa|punt|article|veure|figura</token>
                     <token min="0" regexp="yes" inflected="yes">actual|anterior|antiga|nova</token>
                     <token regexp="yes">\d+\.\d+</token>
                 </marker>
             </antipattern>
             <antipattern>
                 <marker>
-                    <token inflected="yes" regexp="yes">epígraf|revisió|versió|resolució|decret|llei|secció|capítol|apartat|partida|taula|imatge|fotografia|gràfica?|foto|mapa|punt|article|veure|figura</token>
+                    <token inflected="yes" regexp="yes">quadre|epígraf|revisió|versió|resolució|decret|llei|secció|capítol|apartat|partida|taula|imatge|fotografia|gràfica?|foto|mapa|punt|article|veure|figura</token>
                     <token regexp="yes">\d+\.\d+</token>
                     <token regexp="yes">i|o|,</token>
                     <token regexp="yes">\d+\.\d+</token>
@@ -32333,7 +32333,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="21.999.349,56"><marker>21,999,349.56</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="THOUSANDS_SEPARATOR" name="separador de millares">
+        <rulegroup id="THOUSANDS_SEPARATOR" name="separador de milers">
             <rule>
                 <pattern>
                     <token regexp="yes">\d{1,3}\,000</token>
@@ -49060,8 +49060,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes">nombrar</token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" regexp_match="nombr(.*)" regexp_replace="nomen$1"/></suggestion> en comptes de "<match no="1" case_conversion="alllower"/>" (afegir fils a l'ordit d'un teixit)?</message>
-            <example correction="nomenada">quan fou <marker>nombrada</marker>.</example>
-            <example correction="nomenés">que la <marker>nombrés</marker> per al càrrec.</example>
+            <suggestion><match no="1" regexp_match="nombr(.*)" regexp_replace="anomen$1"/></suggestion>
+            <suggestion><match no="1" regexp_match="nombr(.*)" regexp_replace="mencion$1"/></suggestion>
+            <suggestion><match no="1" regexp_match="nombr(.*)" regexp_replace="esment$1"/></suggestion>
+            <example correction="nomenada|anomenada|mencionada|esmentada">quan fou <marker>nombrada</marker>.</example>
+            <example correction="nomenés|anomenés|mencionés|esmentés">que la <marker>nombrés</marker> per al càrrec.</example>
             <example>El nomenà president.</example>
         </rule>
         <rulegroup id="APRESSAR" name="apressar/capturar">
