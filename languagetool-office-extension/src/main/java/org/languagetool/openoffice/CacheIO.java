@@ -28,11 +28,15 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
+
+import org.languagetool.JLanguageTool;
+import org.languagetool.gui.Configuration;
 
 import com.sun.star.frame.XController;
 import com.sun.star.frame.XModel;
@@ -51,7 +55,7 @@ public class CacheIO implements Serializable {
   private static final String CACHEFILE_MAP = "LtCacheMap";
   private static final String CACHEFILE_PREFIX = "LtCache";
   private static final String CACHEFILE_EXTENSION = "lcz";
-  private static final int MIN_PARAGRAPHS_TO_SAVE_CACHE = 30;
+  private static final int MIN_PARAGRAPHS_TO_SAVE_CACHE = 50;
   private static final boolean DEBUG_MODE = OfficeTools.DEBUG_MODE_IO;
   
   private String documentPath;
@@ -149,12 +153,18 @@ public class CacheIO implements Serializable {
   /**
    * save all caches if the document exceeds the defined minimum of paragraphs
    */
-  public void saveCaches(XComponent xComponent, DocumentCache docCache, ResultCache sentencesCache, List<ResultCache> paragraphsCache) {
+  public void saveCaches(XComponent xComponent, DocumentCache docCache, ResultCache sentencesCache, List<ResultCache> paragraphsCache,
+      Configuration config, MultiDocumentsHandler mDocHandler) {
     String cachePath = getCachePath(true);
     if (cachePath != null) {
       try {
         if (docCache.size() >= MIN_PARAGRAPHS_TO_SAVE_CACHE) {
-          allCaches = new AllCaches(docCache, sentencesCache, paragraphsCache);
+          Set<String> disabledRuleIds = new HashSet<String>(config.getDisabledRuleIds());
+          for (String ruleId : mDocHandler.getDisabledRules()) {
+            disabledRuleIds.add(ruleId);
+          }
+          allCaches = new AllCaches(docCache, sentencesCache, paragraphsCache, 
+              disabledRuleIds, config.getDisabledCategoryNames(), config.getEnabledRuleIds(), JLanguageTool.VERSION);
           saveAllCaches(cachePath);
         } else {
           File file = new File( cachePath );
@@ -163,7 +173,10 @@ public class CacheIO implements Serializable {
           }
         }
       } catch (Throwable t) {
-        MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+        MessageHandler.printToLogFile(t.getMessage());
+        if (DEBUG_MODE) {
+          MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+        }
       }
     }
   }
@@ -171,7 +184,7 @@ public class CacheIO implements Serializable {
   /**
    * read all caches (document cache, all result caches) from cache file if it exists
    */
-  public boolean readAllCaches() {
+  public boolean readAllCaches(Configuration config, MultiDocumentsHandler mDocHandler) {
     String cachePath = getCachePath(false);
     if (cachePath == null) {
       return false;
@@ -188,12 +201,53 @@ public class CacheIO implements Serializable {
         if (DEBUG_MODE) {
           printCacheInfo();
         }
-        return true;
+        if (runSameRules(config, mDocHandler)) {
+          return true;
+        } else {
+          MessageHandler.printToLogFile("Version or active rules have changed: Cache rejected (Cache Version: " 
+                + allCaches.ltVersion + ", actual LT Version: " + JLanguageTool.VERSION + ")");
+          return false;
+        }
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
     }
     return false;
+  }
+  
+  /**
+   * Test if cache was created with same rules
+   */
+  private boolean runSameRules(Configuration config, MultiDocumentsHandler mDocHandler) {
+    if (!allCaches.ltVersion.equals(JLanguageTool.VERSION)) {
+      return false;
+    }
+    if (config.getEnabledRuleIds().size() != allCaches.enabledRuleIds.size() || config.getDisabledCategoryNames().size() != allCaches.disabledCategories.size()) {
+      return false;
+    }
+    for (String ruleId : config.getEnabledRuleIds()) {
+      if (!allCaches.enabledRuleIds.contains(ruleId)) {
+        return false;
+      }
+    }
+    for (String category : config.getDisabledCategoryNames()) {
+      if (!allCaches.disabledCategories.contains(category)) {
+        return false;
+      }
+    }
+    Set<String> disabledRuleIds = new HashSet<String>(config.getDisabledRuleIds());
+    for (String ruleId : mDocHandler.getDisabledRules()) {
+      disabledRuleIds.add(ruleId);
+    }
+    if (disabledRuleIds.size() != allCaches.disabledRuleIds.size()) {
+      return false;
+    }
+    for (String ruleId : disabledRuleIds) {
+      if (!allCaches.disabledRuleIds.contains(ruleId)) {
+        return false;
+      }
+    }
+    return true;
   }
   
   /**
@@ -262,16 +316,34 @@ public class CacheIO implements Serializable {
 
   class AllCaches implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     DocumentCache docCache;                 //  cache of paragraphs
     ResultCache sentencesCache;             //  Cache for matches of sentences rules
     List<ResultCache> paragraphsCache;      //  Cache for matches of text rules
+    List<String> disabledRuleIds;
+    List<String> disabledCategories;
+    List<String> enabledRuleIds;
+    String ltVersion;
     
-    AllCaches(DocumentCache docCache, ResultCache sentencesCache, List<ResultCache> paragraphsCache) {
+    AllCaches(DocumentCache docCache, ResultCache sentencesCache, List<ResultCache> paragraphsCache, 
+        Set<String> disabledRuleIds, Set<String> disabledCategories, Set<String> enabledRuleIds, String ltVersion) {
       this.docCache = docCache;
       this.sentencesCache = sentencesCache;
       this.paragraphsCache = paragraphsCache;
+      this.disabledRuleIds = new ArrayList<String>();
+      for (String ruleID : disabledRuleIds) {
+        this.disabledRuleIds.add(ruleID);
+      }
+      this.disabledCategories = new ArrayList<String>();
+      for (String category : disabledCategories) {
+        this.disabledCategories.add(category);
+      }
+      this.enabledRuleIds = new ArrayList<String>();
+      for (String ruleID : enabledRuleIds) {
+        this.enabledRuleIds.add(ruleID);
+      }
+      this.ltVersion = ltVersion;
     }
     
   }
@@ -346,7 +418,10 @@ public class CacheIO implements Serializable {
      * get the cache file name for a given document path
      * if create == true: create a cache file if it not exists 
      */
-   public String getCacheFileName(String docPath, boolean create) {
+    public String getCacheFileName(String docPath, boolean create) {
+      if (cacheMap == null) {
+        return null;
+      }
       int orgSize = cacheMap.size();
       String cacheFileName = cacheMap.getOrCreateCacheFile(docPath, create);
       if (cacheMap.size() != orgSize) {

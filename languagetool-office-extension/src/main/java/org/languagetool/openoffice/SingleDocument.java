@@ -421,7 +421,7 @@ class SingleDocument {
   void readCaches() {
     if (numParasToCheck != 0) {
       cacheIO = new CacheIO(xComponent);
-      boolean cacheExist = cacheIO.readAllCaches();
+      boolean cacheExist = cacheIO.readAllCaches(config, mDocHandler);
       if (cacheExist) {
         docCache = cacheIO.getDocumentCache();
         sentencesCache = cacheIO.getSentencesCache();
@@ -436,7 +436,7 @@ class SingleDocument {
    */
   void writeCaches() {
     if (numParasToCheck != 0) {
-      cacheIO.saveCaches(xComponent, docCache, sentencesCache, paragraphsCache);
+      cacheIO.saveCaches(xComponent, docCache, sentencesCache, paragraphsCache, config, mDocHandler);
     }
   }
   
