@@ -3352,6 +3352,26 @@ Basta colar uma lista de e-mails abaixo para enviar convites a todas elas.
 		  <token postag='NC[CFM]P000' postag_regexp='yes'/>
       </antipattern>  	  
 <!-- MARCOAGPINTO 2020-07-06 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-12-11 (21-OCT-2020+) *START* -->
+<!--
+O meu Horácio sai de casa e está temporadas sem pôr cá os pés.
+Tu sais de casa e estás temporadas sem pôr cá os pés.
+-->
+      <antipattern>
+          <token postag='VMIP3S0|VMM02S0|VMIP2S0' postag_regexp='yes'/>
+		  <token postag='NC.P000|NP.P[0GS]00|AQ0.P0' postag_regexp='yes'/>
+		  <token negate_pos="yes" postag='NC.P000|NP.P[0GS]00|AQ0.P0' postag_regexp='yes'>
+			<exception negate="no" regexp='yes'>[.,!?]</exception></token>
+      </antipattern>
+<!--
+O plural de cavalo é cavalos.
+-->	  
+      <antipattern>
+          <token postag='VMIP3S0|VMM02S0|VMIP2S0' postag_regexp='yes'/>
+		  <token postag='NC.P000|NP.P[0GS]00|AQ0.P0' postag_regexp='yes'/>
+		  <token regexp='yes'>[.,!?]</token>
+      </antipattern>	  
+<!-- MARCOAGPINTO 2020-12-11 (21-OCT-2020+) *END* -->
       <pattern case_sensitive='yes'>
           <token inflected='yes' postag_regexp='yes' postag='V....S.+' regexp='yes'>&verbos_de_ligacao;
             <exception postag_regexp='yes' postag='V.[NP].+'/>
@@ -3366,7 +3386,7 @@ Basta colar uma lista de e-mails abaixo para enviar convites a todas elas.
         <suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag="(NC|A..|V.P.)(.)P(.+)" postag_replace='$1$2S$3' postag_regexp="yes"/></suggestion>
         <suggestion><match no='1' postag="(V....)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/></suggestion>
     <!--<example correction='é rosa|são rosas'>Isto <marker>é rosas</marker>, Senhor. São rosas.</example>--><!-- TODO rosas? also from verb Rosar - Disambiguate colors/verbs -->
-      <example correction='é trevo|são trevos'>Isto <marker>é trevos</marker>, Senhor. São trevos.</example>
+    <!--  <example correction='é trevo|são trevos'>Isto <marker>é trevos</marker>, Senhor. São trevos.</example> -->
     <!--example correction='é muito pouco trevo|são muito pouco trevos'>Isto <marker>é muito pouco trevos</marker>, Senhor. São muito pouco trevos.</example XXX wrong suggestion due to min + max bug -->
       <example correction='Foi corrigido|Foram corrigidos'><marker>Foi corrigidos</marker> o valor da fatura.</example>
     <!--example correction="são funcionais|é funcional">Os correctores gramaticais <marker>é funcionais</marker>.</example XXX add after disambiguating funcionais-->
@@ -3374,6 +3394,8 @@ Basta colar uma lista de e-mails abaixo para enviar convites a todas elas.
       <example>Eles têm sido bons vizinhos até hoje.</example>
       <example>Nós devemos aprender a viver juntos como irmãos, ou vamos morrer juntos como tolos.</example>
       <example>O nosso País foi sempre dependente das importações dos países vizinhos.</example>
+	  <example type='correct'>O meu Horácio sai de casa e <marker>está temporadas</marker> sem pôr cá os pés.</example>
+	  <example type='correct'>Tu sais de casa e <marker>estás temporadas</marker> sem pôr cá os pés.</example>	  
     </rule>
     <rule>
 <!-- MARCOAGPINTO 2020-07-02 (2-JUL-2020+) *START* -->
