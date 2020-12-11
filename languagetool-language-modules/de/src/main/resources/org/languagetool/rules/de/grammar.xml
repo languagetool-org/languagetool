@@ -9872,20 +9872,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Eventuell muss man mit denen direkt Kontakt aufnehmen.</example>
             </rule>
             <rule>
+                <antipattern><!-- Das Original hülle ich erst ...-->
+                    <token>original</token>
+                    <token case_sensitive="yes">hülle</token>
+                </antipattern>
                 <pattern>
                     <token>original</token>
-                    <token regexp="yes">verpackung|zubehörs?|zustand(es|s)?|rechnung|angebot(es|s)?|werk(es|s)?|(kauf)?urkunde|unterlagen?|grö(ß|ss)e|aufnahme|ausgabe|beitrag(es|s)?|besetzung|bild(es|s)?|videos?|dokument(es|s)?|datei|fassung|packung|rezept(es|s)?|text(es|s)?|titels?|tons?|version|zeichnung</token>
+                    <token regexp="yes">verpackung|zubehörs?|zustand(es|s)?|rechnung|angebot(es|s)?|werk(es|s)?|(kauf)?urkunde|unterlagen?|grö(ß|ss)e|aufnahme|ausgabe|beitrag(es|s)?|besetzung|bild(es|s)?|videos?|dokument(es|s)?|datei|fassung|packung|rezept(es|s)?|text(es|s)?|titels?|tons?|version|zeichnung|kartons?|hülle</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Original<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Originalrechnung">Sie hatte die <marker>original Rechnung</marker> nicht mehr, um das Produkt umzutauschen.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>gesamt</token>
-                    <token regexp="yes">(kunst)?werk(es|s)?|bei?trags?|kosten|(verkaufs)?preis|umsatz(es)?|gewinns?|schule|schulden|volumen|bevölkerung|einkommens?|höhe|jahr(es|s)?|menge|paket(es|s)?|länge|situation|wert(es|s)?|fläche|schaden|produktion|gewicht(es|s)?|betriebsrat(es|s)?|unterricht(es|s)?|auflage|bild(es|s)?|eindruck(es|s)?|ergebnis(ses)?|erscheinung|interesse|wertung</token>
-                </pattern>
-                <message>Meinten Sie das Nomen <suggestion>Gesamt<match no="2" case_conversion="alllower" /></suggestion>?</message>
-                <example correction="Gesamtkunstwerk">Sie betrachtete das <marker>gesamt Kunstwerk</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -9950,13 +9946,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>extrem</token>
-                    <token>Situation</token>
+                    <token regexp="yes" case_sensitive="yes">Situation|Fall|Fälle</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Extrem<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Extremsituation">Er befindet sich in einer <marker>extrem Situation</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="BLAU_ÄUGIG" name="blau äugig (blauäugig)" default="temp_off">
+        <rule id="BLAU_ÄUGIG" name="blau äugig (blauäugig)">
             <pattern>
                 <token regexp="yes">blau|grün|rot|schwarz|grau|zwei|drei|vier|mehr</token>
                 <token regexp="yes">äugig(e[snrm]?)?</token>
