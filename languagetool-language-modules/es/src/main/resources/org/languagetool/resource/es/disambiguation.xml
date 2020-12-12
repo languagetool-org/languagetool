@@ -1480,7 +1480,7 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes">evento|escuela|planta|centro|proyecto|propuesta|piso|apartamento|casa|prueba|capítulo|vivienda</token>
+                <token inflected="yes" regexp="yes">línea|evento|escuela|planta|centro|proyecto|propuesta|piso|apartamento|casa|prueba|capítulo|vivienda</token>
                 <marker>
                     <token>piloto</token>
                 </marker>
@@ -5531,6 +5531,14 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+    <rule id="monedas" name="monedas">
+        <pattern>
+            <token regexp="yes">M[£€$]</token>
+        </pattern>
+        <disambig action="add">
+            <wd lemma="euros" pos="NCMS000"/>
+        </disambig>
+    </rule>
     <rule name="Ignore spelling of url protocols" id="URI_PROTOCOL">
         <pattern>
             <!-- chrome://, ftp://, file:// -->
