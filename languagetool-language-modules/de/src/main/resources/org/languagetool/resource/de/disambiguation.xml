@@ -547,6 +547,11 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="unify"/>
     </rule>
     <rule name="NP unify 1b" id="UNIFY_DET_SUB2">
+        <antipattern>
+            <token postag="ART:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[ED].+</token>
+            <token postag="ADJ:.*" postag_regexp="yes"></token>
+            <token postag="SUB:.*" postag_regexp="yes"></token>
+        </antipattern>
          <pattern>
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
@@ -556,6 +561,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </unify>
         </pattern>
         <disambig action="unify"/>
+        <example type="untouched">Das andere Gebäude war um ein Beträchtliches höher.</example>
     </rule>
     <!-- TODO: this would fix false alarm for 'die ältere der beiden Töchter' but causes other problems
     <rule name="NP unify 1c" id="UNIFY_DET_ADJ">
