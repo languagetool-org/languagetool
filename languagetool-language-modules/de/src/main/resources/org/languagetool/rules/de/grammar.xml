@@ -20064,25 +20064,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </or>
                     <token>das</token>
                     <marker>
-                        <token postag="ADJ:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zöäü]+</token>
+                        <token postag="ADJ:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zöäü]+<exception regexp="yes">andere|viele|meiste</exception></token>
                     </marker>
-                    <token regexp="yes">dar[ai]n|a[nm]|vo[nm]|beim?|i[mn]</token>
+                    <token regexp="yes" skip="4">dar[ai]n|a[nm]|vo[nm]|beim?|i[mn]<exception scope="next" postag="ADJ:.+|PA2:.+"/></token>
+                    <token postag="VER:.*[123].+" postag_regexp="yes"/>
                 </pattern>
                 <message>Das Adjektiv scheint hier als Nomen benutzt zu werden und muss, falls es sich nicht auf ein vorheriges/nachstehendes Nomen bezieht, großgeschrieben werden.</message>
                 <suggestion><match no="3" case_conversion="startupper"/></suggestion>
                 <short>&prgk;.</short>
-                <example correction="Schöne">Das <marker>schöne</marker> daran ist, dass es funktioniert.</example>
+                <example correction="Schöne">Das <marker>schöne</marker> daran  ist, dass es funktioniert.</example>
                 <example correction="Schöne">Das <marker>schöne</marker> am Wochenende ist der Samstag.</example>
                 <example correction="Schönste">Das <marker>schönste</marker> im Park sind die Bäume.</example>
                 <example correction="Schöne">Groß-/Kleinschreibung: Das <marker>schöne</marker> daran ist, dass es funktioniert.</example>
                 <example>Das <marker>schöne</marker> Wochenende.</example>
                 <example>Das <marker>letzte</marker> der drei Bücher gefiel mir nicht.</example>
+                <example>Das alte von Sea Land eingeführte Containermaß von 35 ft ist weggefallen.</example>
+                <example>Das andere in der Nähe befindliche Gebäude der WestLB ist ein Hochhauskomplex.</example>
+                <example>Das erste mit glagolitischen Lettern gedruckte Buch, ein Missale, erschien 1483 in Venedig.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token>Das</token>
                     <marker>
-                        <token postag="ADJ:NOM:SIN:FEM:GRU:IND" case_sensitive="yes"><exception postag="VER.*[123].*" postag_regexp="yes"/></token>
+                        <token postag="ADJ:NOM:SIN:FEM:GRU:IND" case_sensitive="yes">
+                            <exception postag="VER.*[123].*" postag_regexp="yes"/>
+                            <exception regexp="yes">andere|viele|meiste</exception>
+                        </token>
                     </marker>
                     <token postag="PRP:LOK.+|ADV:PRO" postag_regexp="yes"></token>
                     <token postag="PRO.+" postag_regexp="yes"></token>
@@ -20091,6 +20098,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Wichtige">Das <marker>wichtige</marker> an seinem Vorschlag war ...</example>
                 <example>Das reiche aus, um alles zu verlieren.</example>
                 <example>Das erste dadurch abgetrennte und am Flammenspektrum nachgewiesene Element war dabei das Krypton</example>
+                <example>Das alte von Sea Land eingeführte Containermaß von 35 ft ist weggefallen.</example>
+                <example>Das andere in der Nähe befindliche Gebäude der WestLB ist ein Hochhauskomplex.</example>
+                <example>Das erste mit glagolitischen Lettern gedruckte Buch, ein Missale, erschien 1483 in Venedig.</example>
             </rule>
         </rulegroup>
         <rule id="ZU_ALLEM" name="zu Allem (allem)">
@@ -20180,7 +20190,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>1938 starb das letzte in einem Zoo gehaltene Exemplar.</example>
                 <example>Deshalb kämen auch andere Préludes, z. B. das sechste in h-Moll, als Regentropfen-Prélude in Frage.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern case_sensitive="yes">
                     <token>Das</token>
                     <marker><token postag="ADJ:NOM:SIN:NEU:GRU:DEF" regexp="yes">[a-zäöüß]+<exception regexp="yes">andere|viele|meiste</exception></token></marker>
@@ -37597,6 +37607,9 @@ Andere Projekte</example>
             <example>Ich fürchte, dass das lauter Lügen sind.</example>
             <example>Seit 811 markierte die einige Kilometer südlich fließende Eider die Grenze zum Frankenreich.</example>
             <example>Damit ähnelt die Altersstruktur der europäischer Städte.</example>
+            <example>Seit 811 markierte die einige Kilometer südlich fließende Eider die Grenze zum Frankenreich, was die Bedeutung Haithabus noch vergrößerte.</example>
+            <example>Sie arbeitete als Kellnerin, verkaufte Donuts und machte Nacktaufnahmen (die wenige Jahre später in Millionenauflage in den Magazinen Playboy und Penthouse erschienen).</example>
+            <example>Die wenige Kilometer langen Gräben gehen in einer Umgebung, die etwa 90 Meter Wassertiefe hat, auf 230 Meter hinunter.</example>
         </rule>
         <rule id="VERB_IST" name="Verb 1./3. Person (statt Partizip) + 'ist'">
             <pattern>
@@ -40658,6 +40671,7 @@ Andere Projekte</example>
                 <example>Sie hat ihn nicht wegen seines vielen Geldes genommen.</example>
                 <example>Tom überforderte die viele Arbeit, die er zu erledigen hatte.</example>
                 <example>Wie viele CDs hast du?</example>
+                <example>In den 1950ern kam es zu einem Dixieland-Revival, der einige Titel in die Spitze der Plattenverkäufe brachte.</example>
             </rule>
             <rule>
                 <pattern>
