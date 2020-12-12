@@ -97,7 +97,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY verbendirekterede "be(fehlen|haupten)|denken|fragen|rufen|sagen|versichern|flüstern|sprechen|schreien|antworten|säuseln|flehen">
     <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend|ärgerlich|enttäuscht|genervt|empört|entrüstet|erbost">
     <!ENTITY fragewoerter "inwie(fern|weit)|wa(nn|rum|s)|we[mnr]|wes(halb|sen|wegen)|wie(so)?|wo(durch|für|gegen|h(er|in)|mit|nach|ran|rauf|raus|rüber|runter|von|zu)?"><!-- TODO: why is "welche/welcher/welches" missing? -->
-    <!ENTITY farbadj "grau|weiß|weiss|schwarz|grün|rot|gelb|blau|lila|orange|beige|rosa">
+    <!ENTITY farbadj "gr(au|ün)|wei(ß|ss)|schwarz|rot|gelb|blau|lila|orange|beige|rosa|braun">
     <!--
     for local testing of an external file - also see below:
     <!ENTITY UserRules SYSTEM "file:///lt/git/languagetool/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar-test.xml">
@@ -144,7 +144,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
-        <rule id="VERTREIB_VERTRIEB" name="der Vertreib (Vertrieb)" default="temp_off">
+        <rule id="VERTREIB_VERTRIEB" name="der Vertreib (Vertrieb)">
             <pattern>
                 <token regexp="yes">der|ein</token>
                 <marker>
@@ -160,7 +160,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0">,</token>
                 <marker>
                     <token>Heer</token>
-                    <token postag_regexp="yes" postag="UNKNOWN|EIG:.*"></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|EIG:.*|ABK:(Professor|Doktor):SUB"></token>
                 </marker>
             </pattern>
             <message>Meinten Sie <suggestion>Herr \4</suggestion> (Anrede)?</message>
@@ -168,6 +168,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Herr Meier">Hallo, <marker>Heer Meier</marker>!</example>
             <example correction="Herr Willenborg">Hallo <marker>Heer Willenborg</marker>!</example>
             <example correction="Herr Meier">Sehr geehrter <marker>Heer Meier</marker>...</example>
+            <example correction="Herr Prof">Sehr geehrter <marker>Heer Prof</marker>. Meier...</example>
         </rule>
         <rule id="GESETZT_GESETZ" name="Gesetzt (Gesetz)">
             <antipattern>

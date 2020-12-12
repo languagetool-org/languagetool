@@ -851,6 +851,20 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <example type="ambiguous" inputform="um[um/ADV:TMP+MOD,um/KON:INF,um/KON:PRI,um/PRP:LOK+TMP+CAU:AKK,um/ZUS]" outputform="um[um/KON:INF]">Sie tat dies, <marker>um</marker> seine Freilassung sicherzustellen.</example>
         </rule>
     </rulegroup>
+    <rulegroup name="kein Nominativ nach 'Ich habe'/'Du hast'" id="KEIN_NOMINATIV">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token postag="SENT_START"></token>
+                <token postag="PRO:PER:NOM:.+" postag_regexp="yes"><exception postag="PRO:PER:NOM:.+" postag_regexp="yes" negate_pos="yes"/></token>
+                <token inflected="yes">haben</token>
+                <token postag="ADV.*" postag_regexp="yes" min="0"></token>
+                <marker>
+                    <token postag="ART.*:NOM:.+" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="ART.*NOM.+"/>
+        </rule>
+    </rulegroup>
     <rulegroup name="Präposition / Verbzusatz" id="PRP_ZUS">
         <rule>
             <pattern case_sensitive="yes">
@@ -1238,7 +1252,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern case_sensitive="yes">
                 <token regexp="yes">(Rettungs|Kranken)wagen|[A-Z][a-zäöüß]{4,}(schmerzen|strecken)</token>
             </pattern>
-            <disambig action="remove" postag="SUB:.+:SIN:NEU:INF"/>
+            <disambig action="remove" postag="SUB:.+:SIN:NEU.*"/>
         </rule>
     </rulegroup>
     <rulegroup id="PRP_NOM" name="kein Nominativ nach Präposition">
