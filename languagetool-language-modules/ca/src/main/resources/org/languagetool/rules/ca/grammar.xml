@@ -33,6 +33,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY context_BOTA_accent "verema|criança|macerar|maceració|dipòsit|litre|roure|sardina|congreny.*|bodega|doga|cèrcol|diàmetre|barril|vaixell|vi|racó|celler|nas|oli|ferment.*|envell.+">
     <!ENTITY context_BOTA_noaccent "peu|calça.*|calce.*|muntar|enllustr.*|roba|pantaló|mitjó">
     <!ENTITY context_COMPTE "obrir|tancar|registre|inici|sessió|registrar|usuari|dispositiu|correu|e-mail|email|adreça|banc|caixa|targeta|electrònic|bancari|corrent|contrasenya|accedir|sistema|xarxa|Twitter|Facebook|Gmail|Amazon|Yahoo|Hotmail|LinkedIn">
+    <!ENTITY context_CONSOL_noaccent "afecte|alegria|buscar|bàlsam|bàlsem|cabell|capellà|cercar|compassió|consolar|cor|criatura|demanar|dolor|déu|espatlla|esperança|esperit|espiritual|fe|font|greu|mare|oferir|paraula|pensament|perdre|persona|plorar|raó|refugi|religió|sentir|servir|somriure|trist|tristesa|tristor|trobar|ànima">
+    <!ENTITY context_CONSOL_accent "aC|alemany.*|Alexandria|ambaixador|americà|Andorra|arquebisbe|assemblea|autoritat|Barcelona|batle|batlle|belga|bisbe|Bonaparte|britànic|candidat|català|Ciceró|ciutadà|civil|confraria|conseller|consular|cras|càrrec|dC|dictador|diplomàtic|electe|elegir|Escipió|espanyol|estonià|francès|gai|governador|Hispània|honorable|honorari|italià|Itàlia|jurisdicció|letó|lituà|llotja|luci|magistrat|Mallorca|Marc|marroquí|marítim|membre|mercader|mercantil|municipal|màxim|Napoleó|nomenar|ordinació|Pompeu|portuguès|prefecte|pretor|privilegi|procurador|prohom|quint|republicà|república|Roma|romà|rus|secretari|senat|territori|vicecònsol">
     <!ENTITY context_CONTE "educatiu|follet|obra|comèdia|sàtira|humor|humorístic|satíric|dormir|assaig|teatre|teatral|recull|Alí|Babà|popular|autor|novel·la|frase|estrofa|publicació|publicar|volum|explicar|contar|dibuix|dibuixar|escola|escriptura|escriure|il·lustrar|infant|infantil|juvenil|lectura|llegir|llibre|naració|nen|petit|por|relat|taller|terror|xiquet">
     <!ENTITY context_PASTAR "aigua|bol|canyella|cera|coca|dit|farina|ingredient|llet|llevat|llimona|mà|mantega|massa|min|minuts|mona|oli|ou|panificadora|sucre">
     <!ENTITY context_TAXA "a?baixar|acceleració|acceptació|alcohol.*|anual|a?pujar|atur|augment|augmentar|bit|canvi|consum|convergència|conversió|creixement|dada|defunció|descomptar|descompte|desocupació|disminució|disminuir|duana|fecunditat|flux|impost|incidència|índex|interès|IPC|mensual|migració|mortalitat|mutació|natalitat|nupcialitat|reacció|recuperació|rendiment|renovació|reposició|retorn|supervivència|transferència|vacant|velocitat">
@@ -17557,7 +17559,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="MARIA" name="Maria/María">
             <rule>
                 <pattern>
-                    <token regexp="yes">José|Luis|Pedro|Antonio|Juan</token>
+                    <token regexp="yes">José|Luis|Pedro|Antonio|Juan|Ana</token>
                     <marker>
                         <token>Maria</token>
                     </marker>
@@ -34972,6 +34974,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="DOTZE_RAIMS" name="dotze raïms">
+            <pattern>
+                <token>dotze</token>
+                <token>raïms</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>dotze grans de raïm</suggestion>
+            <suggestion>dotze grans</suggestion>
+            <example correction="dotze grans de raïm|dotze grans">Hem de preparar els <marker>dotze raïms</marker>.</example>
+        </rule>
         <rule id="SISTEMA_INMUNITARI" name="sistema *inmunològic/immunitari">
             <pattern>
                 <token inflected="yes">sistema</token>
@@ -43940,6 +43952,77 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
+        <rulegroup id="CONSOL" name="consol/cònsol">
+            <antipattern>
+                <token regexp="yes">cònsols?</token>
+                <token regexp="yes">\p{Lu}.*</token>
+            </antipattern>
+            <antipattern>
+                <token postag="DN..P.*" postag_regexp="yes"/>
+                <token regexp="yes">cònsols?</token>
+            </antipattern>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes" inflected="yes" skip="-1">&context_CONSOL_noaccent;</token>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" skip="-1">consols?</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">&context_CONSOL_accent;</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)^co" regexp_replace="cò" case_conversion="preserve"/></suggestion> (diplomàtic, magistrat) en comptes de "\1" (conhort)?</message>
+                <example correction="cònsol">Es presentà el <marker>consol</marker> romà.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes" inflected="yes" skip="-1">&context_CONSOL_noaccent;</token>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" inflected="yes" skip="-1">&context_CONSOL_accent;</token>
+                    <marker>
+                        <token regexp="yes">consols?</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?iu)^co" regexp_replace="cò" case_conversion="preserve"/></suggestion> (diplomàtic, magistrat) en comptes de "\1" (conhort)?</message>
+                <example correction="cònsol">Es presentà l'ambaixador i el <marker>consol</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes" inflected="yes" skip="-1">&context_CONSOL_accent;</token>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" skip="-1">cònsols?</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">&context_CONSOL_noaccent;</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)ò" regexp_replace="o" case_conversion="preserve"/></suggestion> (conhort) en comptes de "\1" (diplomàtic, magistrat)?</message>
+                <example correction="consol">Cercava el <marker>cònsol</marker> en la religió.</example>
+                <example>Els déus van demanar el sacrifici d'un dels dos cònsols.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes" inflected="yes" skip="-1">&context_CONSOL_accent;</token>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" inflected="yes" skip="-1">&context_CONSOL_noaccent;</token>
+                    <marker>
+                        <token regexp="yes">cònsols?</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?iu)ò" regexp_replace="o" case_conversion="preserve"/></suggestion> (conhort) en comptes de "\1" (diplomàtic, magistrat)?</message>
+                <example correction="consol">En la religió va trobar el <marker>cònsol</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="NIT_VELLA" name="*nit vella">
             <pattern>
                 <token>nit</token>
