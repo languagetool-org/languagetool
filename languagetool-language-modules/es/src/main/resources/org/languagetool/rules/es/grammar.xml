@@ -5649,7 +5649,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>que</token>
                 </pattern>
                 <message>La expresión 'más que' se escribe siempre con tilde.</message>
-                <suggestion>más</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <url>https://www.fundeu.es/recomendacion/mas-que-uso-de-la-tilde/</url>
                 <example correction="más">No hay <marker>mas</marker> que decir.</example>
             </rule>
@@ -5658,7 +5658,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>mas</token>
                 </pattern>
                 <message>Si no equivale a 'pero' o 'sino', se escribe con tilde.</message>
-                <suggestion>más</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <url>https://www.fundeu.es/recomendacion/mas-tilde-acento/</url>
                 <example correction="más">No hay <marker>mas</marker>.</example>
                 <example correction="más" type="triggers_error" reason="archaic or formal">Me gusta, <marker>mas</marker> no lo quiero.</example>
@@ -15349,8 +15349,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="no">.<exception postag="SENT_END"/></token>
             </antipattern>
             <antipattern>
-                <token>:</token>
-                <token regexp="yes">\d+\.\d+</token>
+                <token spacebefore="no">:</token>
+                <token regexp="yes" spacebefore="no">\d+\.\d+</token>
             </antipattern>
             <!--<antipattern>
                 <token spacebefore="no">-</token>
@@ -15417,6 +15417,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token regexp="yes">\p{Lu}.+</token>
                 <token regexp="yes">\d+\.\d+</token>
+                <token><exception regexp="yes" case_sensitive="yes">&unidades;</exception><exception regexp="yes" case_sensitive="yes">&unidades_SI;</exception></token>
             </antipattern>
             <antipattern>
                 <token regexp="yes" skip="1">arts?|figs?|caps?|ap|s|v|vd|§|cf</token>
@@ -15453,6 +15454,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="9,5">Es de <marker>9.5</marker>.</example>
                 <example correction="9349,5"><marker>9349.5</marker></example>
                 <example correction="349,56">1 999 <marker>349.56</marker></example>
+                <example correction="1,4">Peso <marker>1.4</marker> kg</example>
+                <example correction="1,4">peso <marker>1.4</marker> kg</example>
+                <example correction="1,4">Peso: <marker>1.4</marker> kg</example>
+                <example correction="1,4">peso: <marker>1.4</marker> kg</example>
                 <example>9.5 El futuro de las pensiones</example>
                 <example>1.231</example>
                 <example>1.231.437</example>
