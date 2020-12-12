@@ -57,8 +57,16 @@ public class FindSuggestionsFilter extends RuleFilter {
     String wordFrom = getRequired("WordFrom", arguments);
     String desiredPostag = getRequired("DesiredPostag", arguments);
     
-    if (wordFrom != null && desiredPostag != null) {
-      int posWord = Integer.parseInt(wordFrom);
+    if (wordFrom != null  && desiredPostag != null) {
+      int posWord = 0; 
+      if (wordFrom.equals("marker")) {
+        while (posWord < patternTokens.length && patternTokens[posWord].getStartPos() < match.getFromPos()) {
+          posWord++;
+        }
+        posWord++;
+      } else {
+        posWord = Integer.parseInt(wordFrom);  
+      }
       if (posWord < 1 || posWord > patternTokens.length) {
         throw new IllegalArgumentException("FindSuggestionsFilter: Index out of bounds in " + match.getRule().getFullId()
             + ", PronounFrom: " + posWord);
