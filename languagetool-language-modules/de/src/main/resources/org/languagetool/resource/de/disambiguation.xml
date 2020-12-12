@@ -859,7 +859,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token inflected="yes">haben</token>
                 <token postag="ADV.*" postag_regexp="yes" min="0"></token>
                 <marker>
-                    <token postag="ART.*:NOM:.+" postag_regexp="yes"></token>
+                    <and>
+                        <token postag="ART.*:NOM:.+" postag_regexp="yes"></token>
+                        <token postag="ART.*:(DAT|AKK).+" postag_regexp="yes"></token>
+                    </and>
                 </marker>
             </pattern>
             <disambig action="remove" postag="ART.*NOM.+"/>
