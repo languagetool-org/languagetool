@@ -4953,113 +4953,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion>verwirrt</suggestion>?</message>
             <example correction="verwirrt">Sie war sehr <marker>verirrt</marker>, als man sie auffand.</example>
         </rule>
-        <rule id="GEGEN_CHECKEN" name="gegen checken (gegenchecken)">
-            <pattern>
-                <token>gegen</token>
-                <token inflected="yes" regexp="yes">checken|prüfen</token>
-            </pattern>
-            <message><suggestion>\1\2</suggestion> (überprüfen) wird zusammengeschrieben.</message>
-            <example correction="gegenchecken">Er lässt die gemeldeten Fehler mit sauberen Wikipedia-Texten <marker>gegen checken</marker>.</example>
-            <example correction="gegengecheckt">Sie hat die Texten <marker>gegen gecheckt</marker>.</example>
-        </rule>
-        <rule id="NAHEGESTANDEN" name="nahe gestanden (nahegestanden)">
-            <pattern>
-                <marker>
-                    <token>nahe<exception scope="previous">zu</exception></token>
-                    <token inflected="yes" regexp="yes">bringen|kommen|legen|stehen|treten</token>
-                </marker>
-                <token postag="SENT_END"/>
-            </pattern>
-            <message>In übertragener Bedeutung wird <suggestion>\1\2</suggestion> zusammengeschrieben.</message>
-            <example correction="nahegestanden">Er hat ihr sehr <marker>nahe gestanden</marker>.</example>
-            <example correction="nahegetreten">Er ist mir damit sehr <marker>nahe getreten</marker>.</example>
-            <example>Das der Fabrik <marker>nahe stehende</marker> Haus wird bald abgerissen.</example>
-            <example>Ich möchte Ihnen nicht zu <marker>nahe treten</marker>.</example>
-        </rule>
-        <rule id="MEISTGELESEN" name="meist gelesen (meistgelesen)">
-            <pattern>
-                <marker>
-                    <token regexp="yes">meist|viel</token>
-                    <token inflected="yes">gelesen</token>
-                </marker>
-                <token postag_regexp="yes" postag="SUB:.+"/>
-            </pattern>
-            <message><suggestion>\1\2</suggestion> wird zusammengeschrieben.</message>
-            <example correction="meistgelesene">Er hat das <marker>meist gelesene</marker> Buch des Jahres verfasst.</example>
-            <example correction="vielgelesener">Er ist ein <marker>viel gelesener</marker> Autor.</example>
-            <example>Sie hat früher viel gelesen.</example>
-        </rule>
-        <rulegroup id="GROSSSCHREIBEN" name="groß / klein schreiben (großschreiben / kleinschreiben)">
-            <rule>
-                <pattern>
-                    <token regexp="yes">groß|gross|klein</token>
-                    <token inflected="yes">schreiben</token>
-                </pattern>
-                <message>Ist hier die Groß-/Kleinschreibung von Wörtern gemeint (nicht bezogen auf die Schriftgröße)? Dann schreiben Sie beide Wörter zusammen.</message>
-                <suggestion>\1\2</suggestion>
-                <example correction="großgeschrieben">Substanitive werden immer <marker>groß geschrieben</marker>.</example>
-                <example correction="kleingeschrieben">Verben werden meist <marker>klein geschrieben</marker>.</example>
-                <example>Du musst größer schreiben.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token>zusammen<exception scope="previous" postag=".*DAT.*" postag_regexp="yes"/></token>
-                    <token inflected="yes">schreiben</token>
-                </pattern>
-                <message>Ist hier die Getrennt-/Zusammenschreibung von Wörtern gemeint? Dann schreiben Sie beide Wörter zusammen.</message>
-                <suggestion>\1\2</suggestion>
-                <example correction="zusammengeschrieben">Zusammenschreiben wird <marker>zusammen geschrieben</marker>.</example>
-                <example>Wir haben Oma zusammen geschrieben.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="ALLEINLASSEN" name="allein lassen (alleinlassen)">
-            <url>https://www.korrekturen.de/wortliste/allein_lassen.shtml</url>
-            <rule>
-                <pattern>
-                    <token inflected="yes" skip="6">fühlen<exception scope="next" regexp="yes">[,;:]</exception></token>
-                    <marker>
-                        <token>allein</token>
-                        <token>gelassen</token>
-                    </marker>
-                </pattern>
-                <message>In der übertragenen Bedeutung von 'im Stich gelassen' wird <suggestion>alleingelassen</suggestion> zusammengeschrieben.</message>
-                <example correction="alleingelassen">Er fühlte sich von seinen Freunden wirklich <marker>allein gelassen</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>allein</token>
-                        <token>gelassen</token>
-                    </marker>
-                    <token inflected="yes">fühlen</token>
-                </pattern>
-                <message>In der übertragenen Bedeutung von 'im Stich gelassen' wird <suggestion>alleingelassen</suggestion> zusammengeschrieben.</message>
-                <example correction="alleingelassen">Weil er sich <marker>allein gelassen</marker> fühlte, rächte er sich an ihnen.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="INFOLGEDESSEN" name="infolge dessen (infolgedessen)">
-            <url>https://www.korrekturen.de/beliebte_fehler/infolge_dessen.shtml</url>
-            <rule>
-                <pattern>
-                    <token>in</token>
-                    <token>folge</token>
-                    <token>dessen</token>
-                </pattern>
-                <message>Schreiben Sie das Adverb <suggestion>\1<match no="2" case_conversion="startlower"/>\3</suggestion> zusammen.</message>
-                <example correction="infolgedessen">Der Unfall, <marker>in Folge dessen</marker> er ins Krankenhaus musste...</example>
-            </rule>
-        </rulegroup>
-        <rule id="OPEN_OFFICE" name="Open Office (OpenOffice)">
-            <pattern>
-                <marker>
-                    <token regexp="yes">open|libre|star</token>
-                    <token>office</token>
-                </marker>
-                <token regexp="yes">dok(umente?n?)?|download|plugin|installation|calc|draw|presentation|writer|online|impress|portable|alternatives?|(spread)?sheets?|programm|software|tool|files?|datei(en)?|projects?|projekte?n?|templates?|vorlagen?|word|formate?n?|odts?|pdfs?</token>
-            </pattern>
-            <message>Meinten Sie <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (= Software)?</message>
-            <example correction="LibreOffice">Das <marker>Libre Office</marker> Dokument enthielt alle Änderungen.</example>
-        </rule>
         <rulegroup id="JOUR_FIXE" name="Schreibweise 'Der Jour fixe'">
             <url>https://www.duden.de/rechtschreibung/Jour_fixe</url>
             <rule>
@@ -9955,6 +9848,120 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Extremsituation">Er befindet sich in einer <marker>extrem Situation</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="GEGEN_CHECKEN" name="gegen checken (gegenchecken)">
+            <pattern>
+                <token>gegen</token>
+                <token inflected="yes" regexp="yes">checken|prüfen</token>
+            </pattern>
+            <message><suggestion>\1\2</suggestion> (überprüfen) wird zusammengeschrieben.</message>
+            <short>&getrennt;.</short>
+            <example correction="gegenchecken">Er lässt die gemeldeten Fehler mit sauberen Wikipedia-Texten <marker>gegen checken</marker>.</example>
+            <example correction="gegengecheckt">Sie hat die Texten <marker>gegen gecheckt</marker>.</example>
+        </rule>
+        <rule id="NAHEGESTANDEN" name="nahe gestanden (nahegestanden)">
+            <pattern>
+                <marker>
+                    <token>nahe<exception scope="previous" regexp="yes">ganz|zu</exception></token>
+                    <token inflected="yes" regexp="yes">bringen|kommen|legen|stehen|treten</token>
+                </marker>
+                <token postag="SENT_END"/>
+            </pattern>
+            <message>In übertragener Bedeutung wird <suggestion>\1\2</suggestion> zusammengeschrieben.</message>
+            <url>https://grammis.ids-mannheim.de/rechtschreibung/6153</url>
+            <short>&getrennt;.</short>
+            <example correction="nahegestanden">Er hat ihr sehr <marker>nahe gestanden</marker>.</example>
+            <example correction="nahegetreten">Er ist mir damit sehr <marker>nahe getreten</marker>.</example>
+            <example>Das der Fabrik <marker>nahe stehende</marker> Haus wird bald abgerissen.</example>
+            <example>Ich möchte Ihnen nicht zu <marker>nahe treten</marker>.</example>
+            <example>Sie sind sich ganz nahe gekommen</example>
+        </rule>
+        <rule id="MEISTGELESEN" name="meist gelesen (meistgelesen)">
+            <pattern>
+                <marker>
+                    <token regexp="yes">meist|viel</token>
+                    <token inflected="yes">gelesen</token>
+                </marker>
+                <token postag_regexp="yes" postag="SUB:.+"/>
+            </pattern>
+            <message><suggestion>\1\2</suggestion> wird zusammengeschrieben.</message>
+            <example correction="meistgelesene">Er hat das <marker>meist gelesene</marker> Buch des Jahres verfasst.</example>
+            <example correction="vielgelesener">Er ist ein <marker>viel gelesener</marker> Autor.</example>
+            <example>Sie hat früher viel gelesen.</example>
+        </rule>
+        <rulegroup id="GROSSSCHREIBEN" name="groß / klein schreiben (großschreiben / kleinschreiben)">
+            <short>&getrennt;.</short>
+            <rule>
+                <pattern>
+                    <token regexp="yes">groß|gross|klein</token>
+                    <token inflected="yes">schreiben</token>
+                </pattern>
+                <message>Ist hier die Groß-/Kleinschreibung von Wörtern gemeint (nicht bezogen auf die Schriftgröße)? Dann schreiben Sie beide Wörter zusammen.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="großgeschrieben">Substanitive werden immer <marker>groß geschrieben</marker>.</example>
+                <example correction="kleingeschrieben">Verben werden meist <marker>klein geschrieben</marker>.</example>
+                <example>Du musst größer schreiben.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>zusammen<exception scope="previous" postag=".*DAT.*" postag_regexp="yes"/></token>
+                    <token inflected="yes">schreiben</token>
+                </pattern>
+                <message>Ist hier die Getrennt-/Zusammenschreibung von Wörtern gemeint? Dann schreiben Sie beide Wörter zusammen.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="zusammengeschrieben">Zusammenschreiben wird <marker>zusammen geschrieben</marker>.</example>
+                <example>Wir haben Oma zusammen geschrieben.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ALLEINLASSEN" name="allein lassen (alleinlassen)">
+            <url>https://www.korrekturen.de/wortliste/allein_lassen.shtml</url>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="6">fühlen<exception scope="next" regexp="yes">[,;:]</exception></token>
+                    <marker>
+                        <token>allein</token>
+                        <token>gelassen</token>
+                    </marker>
+                </pattern>
+                <message>In der übertragenen Bedeutung von 'im Stich gelassen' wird <suggestion>alleingelassen</suggestion> zusammengeschrieben.</message>
+                <example correction="alleingelassen">Er fühlte sich von seinen Freunden wirklich <marker>allein gelassen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>allein</token>
+                        <token>gelassen</token>
+                    </marker>
+                    <token inflected="yes">fühlen</token>
+                </pattern>
+                <message>In der übertragenen Bedeutung von 'im Stich gelassen' wird <suggestion>alleingelassen</suggestion> zusammengeschrieben.</message>
+                <example correction="alleingelassen">Weil er sich <marker>allein gelassen</marker> fühlte, rächte er sich an ihnen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="INFOLGEDESSEN" name="infolge dessen (infolgedessen)">
+            <url>https://www.korrekturen.de/beliebte_fehler/infolge_dessen.shtml</url>
+            <short>&getrennt;.</short>
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <token>folge</token>
+                    <token>dessen</token>
+                </pattern>
+                <message>Schreiben Sie das Adverb <suggestion>\1<match no="2" case_conversion="startlower"/>\3</suggestion> zusammen.</message>
+                <example correction="infolgedessen">Der Unfall, <marker>in Folge dessen</marker> er ins Krankenhaus musste...</example>
+            </rule>
+        </rulegroup>
+        <rule id="OPEN_OFFICE" name="Open Office (OpenOffice)">
+            <pattern>
+                <marker>
+                    <token regexp="yes">open|libre|star</token>
+                    <token>office</token>
+                </marker>
+                <token regexp="yes">dok(umente?n?)?|download|plugin|installation|calc|draw|presentation|writer|online|impress|portable|alternatives?|(spread)?sheets?|programm|software|tool|files?|datei(en)?|projects?|projekte?n?|templates?|vorlagen?|word|formate?n?|odts?|pdfs?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (= Software)?</message>
+            <short>&getrennt;.</short>
+            <example correction="LibreOffice">Das <marker>Libre Office</marker> Dokument enthielt alle Änderungen.</example>
+        </rule>
         <rule id="BLAU_ÄUGIG" name="blau äugig (blauäugig)">
             <pattern>
                 <token regexp="yes">blau|grün|rot|schwarz|grau|zwei|drei|vier|mehr</token>
