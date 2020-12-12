@@ -649,7 +649,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="NP unify 3b" id="UNIFY_ADJ_SUB">
         <antipattern>
             <!-- sonst falsche Tags für z.B. "Sie hatten keine Chance gegen das kleinere Preußen." -->
-            <token postag="ART:.*" postag_regexp="yes"/>
+            <!-- sonst falsche Tags für z.B. "Er ist mein jüngerer Bruder." -->
+            <token postag="ART:.*|PRO:POS:.+" postag_regexp="yes"/>
             <token postag="ADJ:.*" postag_regexp="yes"/>
             <token postag="SUB:.*" postag_regexp="yes"/>
         </antipattern>
