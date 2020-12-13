@@ -950,6 +950,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Lan-(Kabel[ns]?|Verbindung)", "Lan", "LAN");
     putRepl("[pP]erfektest(e[mnrs]?)?", "est", "");
     putRepl("[gG]leichtig(e[mnrs]?)?", "tig", "zeitig");
+    putRepl("[uU]n(her)?vorgesehen(e[mnrs]?)?", "(her)?vor", "vorher");
+    putRepl("([cC]orona|[gG]rippe)viruss?es", "viruss?es", "virus");
+    put("laufte", "lief");
+    put("lauften", "liefen");
+    put("malzeit", "Mahlzeit");
+    put("[wW]ahts?app", "WhatsApp");
     put("[wW]elan", w -> Arrays.asList("WLAN", "W-LAN"));
     put("Pinn", w -> Arrays.asList("Pin", "PIN"));
     put("Geldmachung", w -> Arrays.asList("Geltendmachung", "Geldmacherei"));
