@@ -58,6 +58,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY espais "&#8239;| |&#8201;|&#160;">
     <!ENTITY estacions "primavera|estiu|tardor|hivern">
     <!ENTITY excep_exceptions_BE "ben|prou|tan|que|si|ara|molt|per|i|o|ni|més|['-].+">
+    <!ENTITY exceptions_DECIMAL_COMA "annex|quadre|epígraf|revisió|versió|resolució|decret|llei|secció|capítol|apartat|partida|taula|imatge|fotografia|gràfica?|foto|mapa|punt|article|veure|figura">
     <!ENTITY exceptions_A_DIT_HA_DIT "concedir|crèdit|selecció|subvenció|atorgar|designar|designació|contractar|contractació|contracte|plaça|assignar|assignació|nomenar|nomenament|col·locar|col·locació|adjudicar|adjudicació|càrrec|elegir|escollir|triar|assenyalar">
     <!ENTITY exceptions_A_L_ANY "recular|relatiu|esperar|tornar|arribar|equivaler|equivalent|portar|atribuir|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir|proper|pròxim|pertànyer|remetre|previ|referència|referent|prèviament">
     <!ENTITY exceptions_AL_FRONT "(?-i)clapa|picar|matar|pelat|pelada|arruga|cabellera|cabell|cop|suor|petó|bes|besada|visera|taca|ditada|cara|mirada|lepra|cendra|marca|marcar|batalla|besar|voluntari|corona|bony|militar|enviar|caos|disparar|mocador|lligar|incorpor.*|ferir|expressió|cicatriu|exèrcit|guerra|servir|mobilitzar|aigua|clavar|mà|col?p|guerra|soldat|desaparèixer|afusell.*|empreson.*|reclut.*|morir|mort|vidu|orfe|viudo|traum.*">
@@ -2016,6 +2017,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En l'article 4 bis</example>
                 <example>Anava vestit de vint-i-un botó.</example>
                 <example>01 valor numèric 20</example>
+                <example>Hi van invertir 1 M€.</example>
+                <example>Hi van invertir 200 M$.</example>
             </rule>
             <!-- Hauria de ser la regla ComplexAdjectiveConcordance. Però prèviament cal haver desambiguat bé el nombre. -->
             <!-- <example>la comissió de vint-i-quatre encarregada</example>-->
@@ -32245,14 +32248,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <!-- taules, etc  -->
                 <marker>
-                    <token inflected="yes" regexp="yes">quadre|epígraf|revisió|versió|resolució|decret|llei|secció|capítol|apartat|partida|taula|imatge|fotografia|gràfica?|foto|mapa|punt|article|veure|figura</token>
+                    <token inflected="yes" regexp="yes">&exceptions_DECIMAL_COMA;</token>
                     <token min="0" regexp="yes" inflected="yes">actual|anterior|antiga|nova</token>
                     <token regexp="yes">\d+\.\d+</token>
                 </marker>
             </antipattern>
             <antipattern>
                 <marker>
-                    <token inflected="yes" regexp="yes">quadre|epígraf|revisió|versió|resolució|decret|llei|secció|capítol|apartat|partida|taula|imatge|fotografia|gràfica?|foto|mapa|punt|article|veure|figura</token>
+                    <token inflected="yes" regexp="yes">&exceptions_DECIMAL_COMA;</token>
                     <token regexp="yes">\d+\.\d+</token>
                     <token regexp="yes">i|o|,</token>
                     <token regexp="yes">\d+\.\d+</token>
@@ -59166,6 +59169,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En qualsevol dels 4 formats diferents segons pes i forma previstos.</example>
                 <example>Ha premiat els últims anys novel·les molt notables.</example>
                 <example>Una entrevista via mail.</example>
+                <example>L'esforç que les grans empreses fan són l'altre aspecte.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FALTA_ELEMENT_ENTRE_GN" name="Falta un element entre grups nominals" default="off">
@@ -59273,7 +59277,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
                     </marker>
                 </pattern>
-                <message>Falta algun element entre verbs: coma, conjunció, pronom relatiu, etc.</message>
+                <message>Probablement falta algun element entre aquest verb i l'anterior: coma, conjunció, pronom relatiu, etc.</message>
                 <example correction="">Hi ha una cosa <marker>és</marker> clara.</example>
                 <example correction="">Doncs ixo em <marker>passa</marker> sovint.</example>
                 <example correction="">Ens ha comunicat una cosa <marker>és</marker> clara.</example>

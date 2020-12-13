@@ -321,6 +321,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
     </rulegroup>
     <rulegroup id="NUMERALS" name="numerals i ordinals">
+        <antipattern>
+            <token>R</token>
+            <token>+</token>
+            <token>D</token>
+        </antipattern>
+        <antipattern>
+            <token>R</token>
+            <token>+</token>
+            <token>D</token>
+            <token>+</token>
+            <token>I</token>
+        </antipattern>
         <rule>
             <pattern>
                 <marker>
@@ -7675,7 +7687,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <and>
                     <token postag="V.[GIMS].*" postag_regexp="yes"/>
-                    <token postag="NC.*|A.*|V.P.*|PX.*" postag_regexp="yes"/>
+                    <token postag="NC.*|A.*|V.P.*|PX.*" postag_regexp="yes"><exception>fan</exception></token>
                 </and>
             </marker>
             <token min="0" max="3" postag="&pronom_feble;|RN" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
@@ -16648,7 +16660,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes" case_sensitive="yes">[A-Z]+\d+<exception>CO2</exception></token>
+                <token regexp="yes" case_sensitive="yes">[A-Z]+\d+<exception regexp="yes">CO2|COVID19</exception></token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
@@ -16684,7 +16696,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token regexp="yes">M[£€$]</token>
         </pattern>
         <disambig action="add">
-            <wd lemma="euros" pos="NCMS000"/>
+            <wd lemma="euros" pos="NCMN000"/>
         </disambig>
     </rule>
     <rulegroup id="onomatopeies" name="algunes onomatopeies">
