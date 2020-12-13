@@ -12536,6 +12536,24 @@ MARCOAGPINTO 2020-02-18 -->
           <token regexp="yes">[\.!?]</token>
           <token regexp="yes" spacebefore='no'>”|»|&quot;</token>
       </antipattern>
+	  
+	<!-- POR FAVOR por favor, -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-13 (21-OCT-2020+)  *START*   -->
+    <rule>
+      <pattern>
+        <marker>
+		  <token postag='SENT_START' postag_regexp='no'/>
+          <token>por</token>
+          <token>favor</token>
+        </marker>
+          <token>
+            <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\2 \3,</suggestion>
+      <example correction="Por favor,"><marker>Por favor</marker> faça tudo bem feito.</example>
+    </rule>
+	
     <rule>
       <antipattern>
           <token regexp='yes'>&quot;</token>
