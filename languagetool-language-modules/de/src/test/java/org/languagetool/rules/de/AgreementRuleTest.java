@@ -172,7 +172,6 @@ public class AgreementRuleTest {
     assertGood("Er war müde vom vielen Laufen.");
     assertGood("Sind das echte Diamanten?");
     assertGood("Es wurde eine Verordnung erlassen, der zufolge jeder Haushalt Energie einsparen muss.");
-    assertGood("Das waren beides Kanadier.");
     //assertGood("... der zu dieser Zeit aber ohnehin schon allen Einfluss verloren hatte.");
 
     assertGood("Wir machen das Januar.");

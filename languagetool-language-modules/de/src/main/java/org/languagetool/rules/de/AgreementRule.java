@@ -533,7 +533,7 @@ public class AgreementRule extends Rule {
       csToken("Hut")
     ),
     Arrays.asList( // Texas und New Mexico, beides spanische Kolonien, sind
-      regex("sind|waren|,"),
+      csToken(","),
       csToken("beides"),
       new PatternTokenBuilder().posRegex("ADJ:NOM:PLU.+").min(0).build(),
       posRegex("SUB:NOM:PLU.+"),
