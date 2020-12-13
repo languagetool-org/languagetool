@@ -98,11 +98,11 @@ public class CatalanWordTokenizerTest {
     assertEquals(tokens.size(), 6);
     assertEquals("[Se, 'n,  , dóna,  , vergonya]", tokens.toString());
     tokens = wordTokenizer.tokenize("Emília-Romanya");
-    assertEquals(tokens.size(), 3);
-    assertEquals("[Emília, -, Romanya]", tokens.toString());
+    assertEquals(tokens.size(), 1);
+    assertEquals("[Emília-Romanya]", tokens.toString());
     tokens = wordTokenizer.tokenize("L'Emília-Romanya");
-    assertEquals(tokens.size(), 4);
-    assertEquals("[L', Emília, -, Romanya]", tokens.toString());
+    assertEquals(tokens.size(), 2);
+    assertEquals("[L', Emília-Romanya]", tokens.toString());
     tokens = wordTokenizer.tokenize("col·laboració");
     assertEquals(tokens.size(), 1);
     tokens = wordTokenizer.tokenize("col.laboració");
