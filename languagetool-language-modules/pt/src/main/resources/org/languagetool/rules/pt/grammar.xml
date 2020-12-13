@@ -12537,6 +12537,29 @@ MARCOAGPINTO 2020-02-18 -->
           <token regexp="yes" spacebefore='no'>”|»|&quot;</token>
       </antipattern>
 	  
+	<!-- ÀS VEZES às vezes -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-13 (21-OCT-2020+)  *START*   -->
+    <rule>
+      <pattern>
+		<marker>
+			<token postag='V.+' postag_regexp='yes'>
+			 <exception regexp='no'>é</exception>
+			 <exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+		</marker>	
+		<token regexp='no'>às</token>
+		<token postag='RG' postag_regexp='no'>
+			<exception postag_regexp='no' postag='CC'/></token>
+		<token postag='V.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='NC.+|AQ.+|CS'/></token>
+		<token postag='V.+|DI.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='NC.+|AQ.+|CS'/></token>			
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\1,</suggestion>
+      <example correction="funcionam,">Os números <marker>funcionam</marker> às vezes podem é estar em baixo.</example>
+	  <example type='correct'>Os números <marker>funcionam,</marker> às vezes podem é estar em baixo.</example>
+    </rule>
+	  
 	<!-- POR FAVOR por favor, -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-13 (21-OCT-2020+)  *START*   -->
     <rule>
