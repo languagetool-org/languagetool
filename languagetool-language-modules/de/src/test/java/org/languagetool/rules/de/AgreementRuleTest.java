@@ -168,6 +168,11 @@ public class AgreementRuleTest {
     assertGood("Wenn sie eine andere Größe benötigen, teilen uns ihre speziellen Wünsche mit und wir unterbreiten ihnen ein Angebot über Preis und Lieferung.");
     assertGood("Dabei wird in einer Vakuumkammer eine einige Mikrometer dicke CVD-Diamantschicht auf den Substraten abgeschieden.");
     assertGood("1916 versuchte Gilbert Newton Lewis, die chemische Bindung durch Wechselwirkung der Elektronen eines Atoms mit einem anderen Atomen zu erklären.");
+    assertGood("Vom einen Ende der Straße zum anderen.");
+    assertGood("Er war müde vom vielen Laufen.");
+    assertGood("Sind das echte Diamanten?");
+    assertGood("Es wurde eine Verordnung erlassen, der zufolge jeder Haushalt Energie einsparen muss.");
+    assertGood("Das waren beides Kanadier.");
     //assertGood("... der zu dieser Zeit aber ohnehin schon allen Einfluss verloren hatte.");
 
     assertGood("Wir machen das Januar.");

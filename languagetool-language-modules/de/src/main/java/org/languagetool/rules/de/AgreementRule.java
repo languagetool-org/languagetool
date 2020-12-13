@@ -373,7 +373,8 @@ public class AgreementRule extends Rule {
     Arrays.asList(
       csRegex("Ist|Sind|Macht|Wird"),
       token("das"),
-      posRegex("SUB:.*"),
+      new PatternTokenBuilder().posRegex("ADJ:NOM.*").min(0).build(),
+      posRegex("SUB:NOM.*"),
       posRegex("PKT|KON:NEB|ZUS")// "Ist das Kunst?" / "Ist das Kunst oder Abfall?" / "Sind das Eier aus Bodenhaltung"
     ),
     Arrays.asList( // Die Präsent AG ("Theater AG" is found via DE_COMPOUNDS)
@@ -532,11 +533,11 @@ public class AgreementRule extends Rule {
       csToken("Hut")
     ),
     Arrays.asList( // Texas und New Mexico, beides spanische Kolonien, sind
-      csToken(","),
+      regex("sind|waren|,"),
       csToken("beides"),
-      posRegex("ADJ:NOM:PLU.+"),
+      new PatternTokenBuilder().posRegex("ADJ:NOM:PLU.+").min(0).build(),
       posRegex("SUB:NOM:PLU.+"),
-      csToken(",")
+      pos("PKT")
     ),
     Arrays.asList(
       tokenRegex("[dD]e[rn]"),
@@ -829,7 +830,7 @@ public class AgreementRule extends Rule {
       tokenRegex("ist|war(en)?|sind|wird|werden"),
       csToken("das"),
       csToken("reine"),
-      tokenRegex("Spekulation(en)?|Vorsichtsma(ß|ss)nahmen?|Makulatur(en)?")
+      posRegex("SUB:NOM:.*")
     ),
     Arrays.asList( // Eine Android Watch
       csToken("Android"),

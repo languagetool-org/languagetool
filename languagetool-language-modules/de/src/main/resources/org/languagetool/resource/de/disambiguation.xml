@@ -494,9 +494,9 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule>
             <antipattern>
                 <!-- "Es gibt ein Sprichwort, dem zufolge der tägliche Genuss einer Mandel dem Gedächtnis förderlich sei." -->
-                <token>dem</token>
+                <token regexp="yes">de[mr]</token>
                 <token>zufolge</token>
-                <token>der</token>
+                <token inflected="yes" regexp="yes">der|jed</token>
             </antipattern>
             <antipattern>
                 <!-- "Was ist denn das für ein ungewöhnlicher Name?" -->
@@ -866,6 +866,20 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 </marker>
             </pattern>
             <disambig action="remove" postag="ART.*NOM.+"/>
+        </rule>
+    </rulegroup>
+    <rulegroup name="Dativ Singular für Pronomen" id="PRP_DAT_PRO_IND">
+        <rule>
+            <pattern>
+                <token regexp="yes">am|dem|im|vom</token>
+                <marker>
+                    <token case_sensitive="yes" postag="PRO:IND:.*" postag_regexp="yes" regexp="yes">
+                        [a-zäöü]+en<exception postag="PRO:IND:DAT:SIN.*" postag_regexp="yes"/>
+                    </token>
+                </marker>
+                <token postag="SUB:DAT:SIN:NEU.*" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="add"><wd pos="PRO:IND:DAT:SIN:NEU"/></disambig>
         </rule>
     </rulegroup>
     <rulegroup name="Präposition / Verbzusatz" id="PRP_ZUS">
