@@ -76,7 +76,8 @@ public class SubjectVerbAgreementRule extends Rule {
       // "Zwei Schülern war aufgefallen, dass man im Fernsehen..."
       pos("ZAL"),
       posRegex("SUB:DAT:PLU:.*"),
-      token("war")
+      csRegex("war|ist"),
+      new PatternTokenBuilder().posRegex("NEG|PA2:.+").build()
     ),
     Arrays.asList(
       // "Auch die Zehn Gebote sind Ausdruck davon."
@@ -152,8 +153,14 @@ public class SubjectVerbAgreementRule extends Rule {
       tokenRegex("d(as|er)|eine?")
     ),
     Arrays.asList(
+      posRegex("SUB:NOM:PLU:.+"),
+      csToken("vor"),
+      csToken("Ort"),
+      tokenRegex("sind|waren")
+    ),
+    Arrays.asList(
       token("zu"),
-      csToken("Fuß"),
+      csRegex("Fuß|Hause"),
       tokenRegex("sind|waren")
     ),
     Arrays.asList( //Eltern ist der bisherige Kita-Öffnungsplan zu unkonkret
