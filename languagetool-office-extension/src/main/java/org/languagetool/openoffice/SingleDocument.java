@@ -557,11 +557,20 @@ class SingleDocument {
       return -1;
     }
     // try to get next position from last FlatParagraph position (for performance reasons)
+    MessageHandler.printToLogFile("Number of Paragraph: ???, start: " + startPos);
+    if (startPos != 0 && proofInfo == OfficeTools.PROOFINFO_MARK_PARAGRAPH) {
+      if (debugMode > 0) {
+        MessageHandler.printToLogFile("From FlatParagraph: Number of Paragraph: " + numLastFlPara 
+            + " (proofInfo == " + OfficeTools.PROOFINFO_MARK_PARAGRAPH + ")" + OfficeTools.LOG_LINE_BREAK);
+      }
+      return numLastFlPara;
+    }
     int nPara = findNextParaPos(numLastFlPara, chPara, locale, startPos);
     if (nPara >= 0) {
       numLastFlPara = nPara;
       if (debugMode > 0) {
-        MessageHandler.printToLogFile("From last FlatPragraph Position: Number of Paragraph: " + nPara + OfficeTools.LOG_LINE_BREAK);
+        MessageHandler.printToLogFile("From last FlatPragraph Position: Number of Paragraph: " + nPara 
+            + ", start: " + startPos + OfficeTools.LOG_LINE_BREAK);
       }
       return nPara;
     }
@@ -569,19 +578,47 @@ class SingleDocument {
     // number of paragraphs has changed? --> Update the internal information
     nPara = changesInNumberOfParagraph(true);
     if (nPara < 0) {
-      //  problem with automatic iteration - try to get ViewCursor position
-      return getParaFromViewCursorOrDialog(chPara, locale);
+      if (proofInfo == OfficeTools.PROOFINFO_UNKNOWN) {
+        //  problem with automatic iteration - try to get ViewCursor position
+        return getParaFromViewCursorOrDialog(chPara, locale);
+      } else {
+        return -1;
+      }
     }
-
+    int nTPara = docCache.getNumberOfTextParagraph(nPara); 
+    if (proofInfo == OfficeTools.PROOFINFO_MARK_PARAGRAPH) {
+      if (nTPara < 0) {
+        docCache.setFlatParagraph(nPara, chPara, locale);
+        return nPara;
+      }
+    }
     String curFlatParaText = flatPara.getCurrentParaText();
-    if (curFlatParaText != null && !curFlatParaText.equals(chPara) && curFlatParaText.equals(docCache.getFlatParagraph(nPara))) {
-      //  wrong flat paragraph - try to get ViewCursor position
-      return getParaFromViewCursorOrDialog(chPara, locale);
+    if (debugMode > 0) {
+      MessageHandler.printToLogFile("curFlatParaText: " + curFlatParaText + OfficeTools.LOG_LINE_BREAK
+          + "chPara: " + chPara + OfficeTools.LOG_LINE_BREAK + "getFlatParagraph: " + docCache.getFlatParagraph(nPara) + OfficeTools.LOG_LINE_BREAK);
     }
-
-    //  test real flat paragraph rather then the one given by Proofreader - it could be changed meanwhile
-    if (curFlatParaText != null) {
-      chPara = curFlatParaText;
+    if (proofInfo == OfficeTools.PROOFINFO_UNKNOWN) {
+      if (curFlatParaText != null && !curFlatParaText.equals(chPara) && curFlatParaText.equals(docCache.getFlatParagraph(nPara))) {
+        //  wrong flat paragraph - try to get ViewCursor position
+        return getParaFromViewCursorOrDialog(chPara, locale);
+      }
+      //  test real flat paragraph rather then the one given by Proofreader - it could be changed meanwhile
+      if (curFlatParaText != null) {
+        chPara = curFlatParaText;
+      }
+    } else {
+      if (curFlatParaText != null && !curFlatParaText.equals(docCache.getFlatParagraph(nPara))) {
+        //  wrong flat paragraph - try to get paragraph from cache
+        int n = getParaFromDocCache(chPara, locale, nPara);
+        if (n >= 0) {
+          numLastFlPara = n;
+          if (debugMode > 0) {
+            MessageHandler.printToLogFile("From document cache: Number of Paragraph: " + n 
+                + ", start: " + startPos + OfficeTools.LOG_LINE_BREAK);
+          }
+          return n;
+        }
+      }
     }
 
     // find position from changed paragraph
@@ -631,6 +668,25 @@ class SingleDocument {
       cache.remove(nPara);
     }
   }
+  
+  /**
+   * Get number of flat paragraph from document cache
+   * start with a known paragraph
+   * return -1 if fails
+   */
+  private int getParaFromDocCache(String chPara, Locale locale, int nStart) {
+    for (int i = nStart; i < docCache.size(); i++) {
+      if (docCache.isEqual(i, chPara, locale)) {
+        return i;
+      }
+    }
+    for (int i = nStart - 1; i >= 0; i--) {
+      if (docCache.isEqual(i, chPara, locale)) {
+        return i;
+      }
+    }
+    return -1;
+  }
 
   /** 
    * Get the Position of Paragraph if result is ordered by right mouse click or spelling dialog
@@ -644,41 +700,28 @@ class SingleDocument {
     if (viewCursor == null) {
       viewCursor = new ViewCursorTools(xContext);
     }
-    int nParas = viewCursor.getViewCursorParagraph();
-    if (nParas >= 0 && nParas < docCache.textSize() && docCache.isEqual(docCache.getFlatParagraphNumber(nParas), chPara, locale)) {
-      numLastVCPara = nParas;
+    int nPara = viewCursor.getViewCursorParagraph();
+    if (nPara >= 0 && nPara < docCache.textSize() && docCache.isEqual(docCache.getFlatParagraphNumber(nPara), chPara, locale)) {
+      nPara = docCache.getFlatParagraphNumber(nPara);
+      numLastVCPara = nPara;
       if (debugMode > 0) {
-        MessageHandler.printToLogFile("From View Cursor: Number of Paragraph: " + nParas + OfficeTools.LOG_LINE_BREAK);
+        MessageHandler.printToLogFile("From View Cursor: Number of Paragraph: " + nPara + OfficeTools.LOG_LINE_BREAK);
       }
-      nParas = docCache.getFlatParagraphNumber(nParas);
 //      isDialogRequest.add(nParas);
-      return nParas;
+      return nPara;
     }
     // try to get next position from last ViewCursor position (proof per dialog box)
-    if (numLastVCPara >= docCache.textSize()) {
+    if (numLastVCPara >= docCache.size()) {
       numLastVCPara = 0;
     }
-    for (int i = numLastVCPara; i < docCache.textSize(); i++) {
-      if (docCache.isEqual(docCache.getFlatParagraphNumber(i), chPara, locale)) {
-        numLastVCPara = i;
-        if (debugMode > 0) {
-          MessageHandler.printToLogFile("From Dialog: Number of Paragraph: " + i + OfficeTools.LOG_LINE_BREAK);
-        }
-        nParas = docCache.getFlatParagraphNumber(numLastVCPara);
-//        isDialogRequest.add(nParas);
-        return nParas;
+    nPara = getParaFromDocCache(chPara, locale, numLastVCPara);
+    if (nPara >= 0) {
+      numLastVCPara = nPara;
+      if (debugMode > 0) {
+        MessageHandler.printToLogFile("From Dialog: Number of Paragraph: " + nPara + OfficeTools.LOG_LINE_BREAK);
       }
-    }
-    for (int i = 0; i < numLastVCPara; i++) {
-      if (docCache.isEqual(docCache.getFlatParagraphNumber(i), chPara, locale)) {
-        numLastVCPara = i;
-        if (debugMode > 0) {
-          MessageHandler.printToLogFile("From Dialog: Number of Paragraph: " + i + OfficeTools.LOG_LINE_BREAK);
-        }
-        nParas = docCache.getFlatParagraphNumber(numLastVCPara);
-//        isDialogRequest.add(nParas);
-        return nParas;
-      }
+//    isDialogRequest.add(nParas);
+    return nPara;
     }
     if (debugMode > 0) {
       MessageHandler.printToLogFile("From Dialog: Paragraph not found: return -1" + OfficeTools.LOG_LINE_BREAK);
