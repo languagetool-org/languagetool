@@ -5167,6 +5167,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="B-NP-plural" postag="NN"/>
             <token chunk="E-NP-plural" postag="NNS"/>
         </antipattern>
+        <antipattern><!-- Premium #2117, chunker error: is where does that put... ? -->
+            <token inflected="yes">be</token>
+            <token postag="WRB"/>
+            <token>does</token>
+            <token regexp="yes">that|which</token>
+            <token skip="-1" postag="VBP"/>
+            <token>?</token>
+        </antipattern>
         <pattern>
             <token postag="NNS"/>
             <token postag="WDT"/>
@@ -5181,7 +5189,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">I didn't know that they were happy.</example>
         <example type="untouched">moved to the BAA and won that league's 1948 title.</example>
         <example type="untouched">He states that spot sales in the Pacific Northwest...</example><!--- #2760 -->
+        <example type="untouched">The next question is where does that put the cash?</example><!-- Premium #2117, does/E-NP-plural -->
         <example type="ambiguous" inputform="lay[lay/JJ,lay/NN,lay/VB,lay/VBP,lie/VBD]" outputform="lay[lay/VBP,lie/VBD]">Certain frogs that <marker>lay</marker> eggs underground have unpigmented eggs.</example>
+        <example type="ambiguous" inputform="find[find/NN,find/VB,find/VBP]" outputform="find[find/VBP]">We also notice occasionally where does that <marker>find</marker> the same grazing area are often genetically related, they...</example><!-- does[doe/NNS, do/VBZ,B-VP] -->
     </rule>
 
     <rule name="till (verb) -&gt; till/IN" id="TILL_IN">
