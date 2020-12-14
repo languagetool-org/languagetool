@@ -5250,6 +5250,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="ESTAS_TILDE" name="estas/estás">
             <antipattern>
+                <token><exception>si</exception></token>
                 <token>estas</token>
                 <token min="1" max="4" postag="R.|A.*|V.P.*|PP.*" postag_regexp="yes"/>
                 <token postag="V.[MSI].*" postag_regexp="yes"/>
@@ -5272,6 +5273,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>estás</suggestion>
                 <example correction="Estás">¿<marker>Estas</marker> bien?</example>
                 <example correction="estás">Ahora <marker>estas</marker> cansado.</example>
+                <example correction="estás">Si <marker>estas</marker> interesado escríbeme.</example>
                 <example>Alguien desordena estas rosas.</example>
                 <example>Estas características añadidas son:</example>
                 <example>Estas ahora no están.</example>
@@ -9888,7 +9890,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="AGREEMENT_DET_NOUN" name="Concordancias determinante y sustantivo" default="on">
             <antipattern>
-                <token regexp="yes">el|un|los|unos</token>
+                <token regexp="yes">del|el|un|los|unos</token>
                 <token>/</token>
                 <token regexp="yes">la|una|las|unas</token>
             </antipattern>
@@ -9914,7 +9916,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>bien</token>
             </antipattern>
             <antipattern>
-                <token>mas</token>
+                <token regexp="yes">mas|i</token>
             </antipattern>
             <antipattern>
                 <and>
@@ -10343,7 +10345,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="AGREEMENT_DET_ADJ" name="Concordancias determinante y adjetivo">
             <antipattern>
-                <token regexp="yes">el|un|los|unos</token>
+                <token regexp="yes">del|el|un|los|unos</token>
                 <token>/</token>
                 <token regexp="yes">la|una|las|unas</token>
             </antipattern>
