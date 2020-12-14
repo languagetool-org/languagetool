@@ -3359,6 +3359,19 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
     <!-- NOMINAL GROUPS -->
+    <rule id="MEGA" name="mega">
+        <antipattern>
+            <token>mega</token>
+            <token postag="[NA].*|V.P.*" postag_regexp="yes"/>
+        </antipattern>
+        <pattern>
+            <token postag="D.*" postag_regexp="yes"/>
+            <marker>
+                <token>mega</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="AQ0CN0"/>
+    </rule>
     <rulegroup id="verb_improbable" name="verbo improbable">
         <rule>
             <pattern>
