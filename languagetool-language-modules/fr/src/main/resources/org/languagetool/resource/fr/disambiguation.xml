@@ -1562,8 +1562,30 @@ RB => Règles Brutes
       <disambig action="filter" postag="A"/>
     </rule>
   </rulegroup>
-   
+  
+  <rulegroup id="TOUTES_LES" name="toutes les">
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected="yes">tout</token>
+        </marker>
+        <token inflected="yes">le</token>
+      </pattern>
+      <disambig action="remove" postag="A"></disambig>      
+    </rule>
+    <rule>
+      <pattern>
+        <unify>
+          <feature id="gender"/>
+          <feature id="number"/>
+        <token postag="D.*" postag_regexp="yes" inflected="yes">tout</token>
+        <token postag="D.*" postag_regexp="yes" inflected="yes">le</token>
+        </unify>
+      </pattern>
+      <disambig action="filterall"></disambig>      
+    </rule>
 
+  </rulegroup>
   <rule name="RB : adverbes" id="RB-ADVERBES">
     <!-- TODO: very poor rule -->
     <pattern>
@@ -1897,6 +1919,16 @@ RB => Règles Brutes
       <marker><token>Java</token></marker>
     </pattern>
     <disambig postag="Z m s"/>
+  </rule>
+  <rule id="MAIS" name="mais">
+    <antipattern>
+      <token postag="D (e|m) p" postag_regexp="yes"/>
+      <token>mais</token>
+    </antipattern>
+    <pattern>
+      <token>mais</token>
+    </pattern>
+    <disambig action="remove" postag="N m p"/>
   </rule>
   <rule id="VIRGINIE" name="Virginie">
     <pattern case_sensitive="yes">

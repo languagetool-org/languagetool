@@ -10,6 +10,12 @@
   * There's now support for Belgian Dutch (`nl-BE`). "Dutch" (`nl`) is
     still the default. nl-BE-specific rules can be added to `nl-BE/grammar.xml`
 
+#### French
+  * added and improved rules
+  * updated spell checker and POS dictionary (unified in one dictionay) to lexique-gramalecte 7-0 
+    (source: https://grammalecte.net/download.php?prj=fr), 
+    as an external dependency (source: https://github.com/languagetool-org/french-pos-dict)
+
 #### Portuguese
   * added and improved rules
   * added words and POS data
