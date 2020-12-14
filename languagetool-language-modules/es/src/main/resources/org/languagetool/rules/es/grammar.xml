@@ -7126,6 +7126,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://languagetool.org/es</url>
                 <example correction="LanguageTool">Me instalé el <marker>Language tool</marker> para Microsoft Word.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>mega</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">..+</token>
+                </pattern>
+                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="mega$1"/></suggestion>
+                <example correction="megabytes">Son <marker>mega-bytes</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SUPER" name="super/súper/super-">
             <url>https://www.fundeu.es/recomendacion/super-superestrella-superheroe-coalicion-prefijo-815/</url>
