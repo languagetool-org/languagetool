@@ -19163,15 +19163,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="A manera de"><marker>A mena de</marker> conclusió.</example>
             <example>a manera de</example>
         </rule>
-        <rule id="RAPIT_RAPID" name="rapit/ràpid">
-            <pattern>
-                <token regexp="yes">rapits?</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>ràpid</suggestion>? "Rapit" és participi del verb rapir.</message>
-            <short>Possible confusió</short>
-            <example correction="ràpid"><marker>rapit</marker></example>
-            <example>ràpid</example>
-        </rule>
         <rule id="TANTS_SOLS" name="tants sols / tan sols">
             <pattern>
                 <token>tants</token>
@@ -44231,6 +44222,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="aire|aspecte|aparença">L'entrevista va agafar <marker>visos</marker> de paròdia.</example>
         </rule>
         <rulegroup id="RARE_WORDS" name="paraules molt infreqüents">
+            <rule>
+                <pattern>
+                    <token regexp="yes">rapits?</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)rapit" regexp_replace="ràpid"/></suggestion>? "Rapit" és participi del verb rapir.</message>
+                <short>Possible confusió</short>
+                <example correction="Ràpid"><marker>Rapit</marker></example>
+                <example correction="ràpids">Eren <marker>rapits</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">rapida|rapides</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)rap" regexp_replace="ràp"/></suggestion>? "Rapit" és participi del verb rapir.</message>
+                <short>Possible confusió</short>
+                <example correction="Ràpida"><marker>Rapida</marker></example>
+                <example correction="ràpides">Eren <marker>rapides</marker>.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token inflected="yes">custodir<exception inflected="yes">custodiar</exception></token>
