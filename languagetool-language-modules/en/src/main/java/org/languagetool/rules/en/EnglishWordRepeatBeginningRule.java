@@ -61,4 +61,15 @@ public class EnglishWordRepeatBeginningRule extends WordRepeatBeginningRule {
     return ADVERBS.contains(token.getToken());
   }
 
+  @Override
+  protected List<String> getSuggestions(AnalyzedTokenReadings token) {
+    if (token.hasPosTag("PRP")) {
+      return Arrays.asList(
+              "Furthermore, " + token.getToken(),
+              "Likewise, " + token.getToken(),
+              "Not only that, but " + token.getToken());
+    }
+    return Collections.emptyList();
+  }
+
 }

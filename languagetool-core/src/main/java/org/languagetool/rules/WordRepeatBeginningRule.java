@@ -20,6 +20,7 @@ package org.languagetool.rules;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -95,6 +96,10 @@ public class WordRepeatBeginningRule extends TextLevelRule {
             int startPos = analyzedToken.getStartPos();
             int endPos = startPos + token.length();
             RuleMatch ruleMatch = new RuleMatch(this, sentence, pos+startPos, pos+endPos, msg, shortMsg);
+            List<String> suggestions = getSuggestions(analyzedToken);
+            if (suggestions.size() > 0) {
+              ruleMatch.setSuggestedReplacements(suggestions);
+            }
             ruleMatches.add(ruleMatch);
           }
         }
@@ -105,6 +110,10 @@ public class WordRepeatBeginningRule extends TextLevelRule {
       prevSentence = sentence;
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  protected List<String> getSuggestions(AnalyzedTokenReadings analyzedToken) {
+    return Collections.emptyList();
   }
 
   @Override
