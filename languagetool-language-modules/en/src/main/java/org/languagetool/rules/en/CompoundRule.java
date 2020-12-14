@@ -72,7 +72,7 @@ public class CompoundRule extends AbstractCompoundRule {
             "This word is normally spelled with a hyphen.",
             "This word is normally spelled as one.", 
             "This expression is normally spelled as one or with a hyphen.",
-            "Hyphenation problem");
+            "Compound");
     addExamplePair(Example.wrong("I now have a <marker>part time</marker> job."),
                    Example.fixed("I now have a <marker>part-time</marker> job."));
   }
