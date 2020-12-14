@@ -8580,15 +8580,17 @@ MARCOAGPINTO 2020-02-18 -->
 		<example correction="está">Vê na etiqueta que <marker>esta</marker> agarrada ao cabaz.</example>  
 	</rule>
 
-    <rule id='ESTAR_DE_ACORDO' name="concordar">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-30 (2-JUL-2020+)     -->
+    <rule id='ESTAR_DE_ACORDO' name="concordar/corresponder">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-30 + 2020-12-14 (2-JUL-2020+)     -->
       <pattern>
           <token inflected='yes'>estar</token>
           <token regexp="no">de</token>
           <token regexp="no">acordo</token>
       </pattern>
-      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>concordar</match></suggestion>.</message>
-      <example correction="concordam">Os responsáveis <marker>estão de acordo</marker>.</example>
+      <message>Substitua por</message>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>concordar</match></suggestion>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>corresponder</match></suggestion>
+	  <example correction="concordam|correspondem">Os resultados <marker>estão de acordo</marker> com o estipulado.</example>
     </rule>
 
     <!-- ESTAR À ESPERA esperar -->
