@@ -485,7 +485,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(terratrémol|ségol|pésol|trévol|cércol|bérbol|vérbol|télex|trémolo)s?|(térbol|grévol)(s|a|es)?|estéreos?|trémens|sémens|térbolament|séver|asséver|(téni|vérbol)(a|es)</token>
+                    <token regexp="yes">(émbol|terratrémol|ségol|pésol|trévol|cércol|bérbol|vérbol|télex|trémolo)s?|(térbol|grévol)(s|a|es)?|estéreos?|trémens|sémens|térbolament|séver|asséver|(téni|vérbol)(a|es)</token>
                 </pattern>
                 <message>Useu accentuació general.</message>
                 <suggestion><match no="1" regexp_match="(?iu)(.+)é(.+)" regexp_replace="$1è$2"/></suggestion>
@@ -543,10 +543,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(terratrèmol|sègol|pèsol|trèvol|cèrcol|bèrbol|vèrbol|tèlex|trèmolo)s?|(tèrbol|grèvol)(s|a|es)?|estèreos?|trèmens|sèmens|tèrbolament|sèver|assèver|(tèni|vèrbol)(a|es)</token>
+                    <token regexp="yes">(èmbol|terratrèmol|sègol|pèsol|trèvol|cèrcol|bèrbol|vèrbol|tèlex|trèmolo)s?|(tèrbol|grèvol)(s|a|es)?|estèreos?|trèmens|sèmens|tèrbolament|sèver|assèver|(tèni|vèrbol)(a|es)</token>
                 </pattern>
                 <message>Useu accentuació valenciana.</message>
-                <suggestion><match no="1" regexp_match="(?iu)(.+)è(.+)" regexp_replace="$1é$2"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(.*)è(.+)" regexp_replace="$1é$2"/></suggestion>
                 <short>Accentuació valenciana</short>
                 <example correction="terratrémol">El <marker>terratrèmol</marker>.</example>
                 <example>El <marker>terratrémol</marker>.</example>
@@ -44222,6 +44222,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="aire|aspecte|aparença">L'entrevista va agafar <marker>visos</marker> de paròdia.</example>
         </rule>
         <rulegroup id="RARE_WORDS" name="paraules molt infreqüents">
+            <rule>
+                <pattern>
+                    <token regexp="yes">cords?</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)d" regexp_replace="t"/></suggestion>? "\1" és una paraula molt infreqüent.</message>
+                <short>Possible confusió</short>
+                <example correction="cort">A la <marker>cord</marker> del rei Artús.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">remols?</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)e" regexp_replace="è"/></suggestion> (peix)? "\1" pot ser una forma del v. 'remoldre'.</message>
+                <short>Possible confusió</short>
+                <example correction="rèmol">Vull un <marker>remol</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">rinxols?</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)i" regexp_replace="í"/></suggestion>? "Rinxol" (paraula aguda) és un sinònim de 'ronc'.</message>
+                <short>Possible confusió</short>
+                <example correction="rínxols">Té molts <marker>rinxols</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">equivocs?</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)i" regexp_replace="í"/></suggestion>? "Equivoc" (paraula aguda) és un sinònim de 'equivocació'.</message>
+                <short>Possible confusió</short>
+                <example correction="equívoc">Ha estat un <marker>equivoc</marker></example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">rapits?</token>
