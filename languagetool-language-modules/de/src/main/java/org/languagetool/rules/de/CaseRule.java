@@ -1530,7 +1530,7 @@ public class CaseRule extends Rule {
   }
 
   private boolean isSalutation(String token) {
-    return StringUtils.equalsAny(token, "Herr", "Herrn", "Frau", "Fräulein");
+    return StringUtils.equalsAny(token, "Herr", "Hr", "Herrn", "Frau", "Fr", "Fräulein");
   }
 
   private boolean isCompany(String token) {

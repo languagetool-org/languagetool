@@ -810,6 +810,10 @@ public class AgreementRule extends Rule {
       csToken("Bayern")
     ),
     Arrays.asList(
+      csToken("Super"), 
+      csToken("Mario")
+    ),
+    Arrays.asList(
       csToken("Toyota"), // Die FC Bayern München Hymne (Vorschlag macht keinen Sinn "FC-Bayern")
       csToken("Motor"),
       tokenRegex("Corp(oration)?|Company")

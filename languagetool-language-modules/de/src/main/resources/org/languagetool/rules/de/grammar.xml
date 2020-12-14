@@ -9755,6 +9755,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="ZAL_ER_NUSS_COMPOUND" name="Ein 10er Steckschlüssel (10er-Steckschlüssel)" default="temp_off">
+            <pattern>
+                <token regexp="yes">\d+er</token>
+                <token case_sensitive="yes" regexp="yes">Nuss|Nüsse|Langnuss|Langnüssen?|Schlüsseln?|Steckschlüsseln?|Tickets?|Dübeln?|Bohrern?|Schrauben?</token>
+            </pattern>
+            <message>Dieses Nomen wird in der Regel mit Bindestrich geschrieben.</message>
+            <suggestion>\1-\2</suggestion>
+            <short>Zusammenschreibung</short>
+            <example correction="10er-Schlüssel">Mit dem <marker>10er Schlüssel</marker> konnte ich die Schraube lösen.</example>
+        </rule>
         <rulegroup id="EINE_ORIGINAL_RECHNUNG" name="Eine original Rechnung (Originalrechnung)">
             <short>Zusammenschreibung</short>
             <!-- ähnlich wie MEIN_KLEIN_HAUS, nur dass Vorschläge für spezielle/häufige Fälle geliefert werden -->
@@ -9774,7 +9784,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token>original</token>
-                    <token regexp="yes">verpackung|zubehörs?|zustand(es|s)?|rechnung|angebot(es|s)?|werk(es|s)?|(kauf)?urkunde|unterlagen?|grö(ß|ss)e|aufnahme|ausgabe|beitrag(es|s)?|besetzung|bild(es|s)?|videos?|dokument(es|s)?|datei|fassung|packung|rezept(es|s)?|text(es|s)?|titels?|tons?|version|zeichnung|kartons?|hülle</token>
+                    <token regexp="yes">verpackung|zubehörs?|zustand(es|s)?|rechnung|angebot(es|s)?|werk(es|s)?|(kauf)?urkunde|unterlagen?|grö(ß|ss)e|aufnahme|ausgabe|beitrag(es|s)?|besetzung|bild(es|s)?|videos?|dokument(es|s)?|datei|fassung|packung|rezept(es|s)?|text(es|s)?|titels?|tons?|version|zeichnung|kartons?|hülle|inhalt(es|s)?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Original<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Originalrechnung">Sie hatte die <marker>original Rechnung</marker> nicht mehr, um das Produkt umzutauschen.</example>
@@ -11000,11 +11010,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">[0-9]+</token>
-                    <token regexp="yes">(wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag)ig(e[mnrs]?)?</token>
+                    <token regexp="yes">(wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag|seit)ig(e[mnrs]?)?</token>
                 </pattern>
-                <message><suggestion>\1-\2</suggestion> wird mit Bindestrich geschrieben.</message>
+                <message><suggestion>\1-<match no="2" case_conversion="alllower" /></suggestion> wird mit Bindestrich geschrieben.</message>
                 <short>Zusammenschreibung</short>
                 <example correction='7-teiliges'>Ich biete ein <marker>7 teiliges</marker> Set zum Verkauf an.</example>
+                <example correction="8-seitigen">Ich arbeite an einem <marker>8 Seitigen</marker> Aufsatz.</example>
             </rule>
             <rule>
                 <pattern>
