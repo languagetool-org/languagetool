@@ -3842,6 +3842,19 @@ though, and has since been slightly modified)-->
         <example correction="John Entwistle"><marker>John Entwhistle</marker> est né en 1944.</example>
       </rule>
       <rule>
+        <antipattern case_sensitive="yes">
+          <token>Johns</token>
+          <token>Hopkins</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Johns?</token>
+          <token regexp="yes">Hop?kins?</token>
+        </pattern>
+        <message>Écrivez <suggestion>Johns Hopkins</suggestion> s’il s’agit de le nom d'une université américaine.</message>
+        <url>https://www.jhu.edu/</url>
+        <example correction="Johns Hopkins"><marker>John Hopkins</marker>.</example>
+      </rule>
+      <rule>
         <antipattern>
           <token>Micky</token>
           <token>Dolenz</token>

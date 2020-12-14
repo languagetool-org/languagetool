@@ -15334,6 +15334,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="JOHNS_HOPKINS" name="Johns Hopkins">
+            <antipattern case_sensitive="yes">
+                <token>Johns</token>
+                <token>Hopkins</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Johns?</token>
+                <token regexp="yes">Hop?kins?</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>Johns Hopkins</suggestion> (nom d'una universitat americana)?</message>
+            <url>https://www.jhu.edu/</url>
+            <example correction="Johns Hopkins"><marker>John Hopkins</marker> University.</example>
+        </rule>
         <rule id="CONSTAT_CONSTANT" name="constat/constant">
             <antipattern>
                 <token inflected="yes">haver</token>
