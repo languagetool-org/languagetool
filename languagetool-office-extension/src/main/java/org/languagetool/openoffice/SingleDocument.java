@@ -557,7 +557,6 @@ class SingleDocument {
       return -1;
     }
     // try to get next position from last FlatParagraph position (for performance reasons)
-    MessageHandler.printToLogFile("Number of Paragraph: ???, start: " + startPos);
     if (startPos != 0 && proofInfo == OfficeTools.PROOFINFO_MARK_PARAGRAPH) {
       if (debugMode > 0) {
         MessageHandler.printToLogFile("From FlatParagraph: Number of Paragraph: " + numLastFlPara 
