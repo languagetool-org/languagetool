@@ -1590,6 +1590,16 @@ title="Easy editing stylesheet" ?>
       <example correction='infra-acústico'>O som foi produzido no espetro <marker>infra acústico</marker>.</example>
     </rule>
     <rule>
+<!-- MARCOAGPINTO 2020-12-14 (21-OCT-2020+) *START* -->
+<!--
+O Extra está desativado.
+-->
+      <antipattern>
+	      <token regexp='yes'>extra|in(?:fra|tra)|supra|ultra|mega</token>
+		  <token postag='V.+' postag_regexp='yes'>
+		  <exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-12-14 (21-OCT-2020+) *END* -->
       <pattern>
           <token regexp='yes'>extra|in(?:fra|tra)|supra|ultra|mega</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
@@ -1599,6 +1609,7 @@ title="Easy editing stylesheet" ?>
       <message>Este prefixo não é hifenizado neste contexto.</message>
         <suggestion>\1<match no='3' case_conversion="startlower"/></suggestion>
       <example correction='megalítico'>O artefato encontrado provém do período <marker>mega lítico</marker> altos.</example>
+	  <example type='correct'>O <marker>Extra está</marker> desativado.</example>
     </rule>
     <rule>
       <antipattern>
