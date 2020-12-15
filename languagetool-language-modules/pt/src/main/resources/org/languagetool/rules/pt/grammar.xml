@@ -4326,6 +4326,21 @@ MARCOAGPINTO 2020-02-18 -->
 		<token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-08-12 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-12-15 (21-OCT-2020+) *START* -->
+<!--
+Temos saudades de vocês como era de esperar.
+Temos saudades de vocês como era expetável.
+Temos saudades de vocês como era bom.
+Temos saudades de vocês como seria de esperar.
+Temos saudades de vocês como seria expetável.
+-->
+      <antipattern>
+		  <token postag='PP.+|DP.+' postag_regexp='yes'/>
+		  <token postag='CS|RG' postag_regexp='yes'/>
+		  <token postag='VMII[123]S0|VMIP3S0|VMM02S0|VMIC1S0|VMIC3S0' postag_regexp='yes'/>
+	      <token postag='AQ0.S0|NC.S000|SPS.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-12-15 (21-OCT-2020+) *END* -->
       <pattern>
           <token regexp='yes'>el[ea]s|vocês</token>
           <token min="0" max="3" postag='R.+' postag_regexp='yes'>
@@ -4347,6 +4362,10 @@ MARCOAGPINTO 2020-02-18 -->
 	  <example type='correct'>Entre eles <marker>há</marker> duas torres de escritórios.</example>
 	  <example type='correct'>Com <marker>ela mede</marker> uma probabilidade.</example>
 	  <example type='correct'>Com <marker>elas mede</marker> uma probabilidade.</example>
+	  <example type='correct'>Temos saudades de <marker>vocês como era</marker> de esperar.</example>
+	  <example type='correct'>Temos saudades de <marker>vocês como seria</marker> de esperar.</example>
+	  <example type='correct'>Temos saudades de <marker>vocês como era</marker> expetável.</example>
+	  <example type='correct'>Temos saudades de <marker>vocês como seria</marker> expetável.</example>
     </rule>
     <rule>
       <antipattern>
