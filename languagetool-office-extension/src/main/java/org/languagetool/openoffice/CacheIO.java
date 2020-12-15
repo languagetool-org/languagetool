@@ -52,11 +52,13 @@ import com.sun.star.uno.UnoRuntime;
 public class CacheIO implements Serializable {
 
   private static final long serialVersionUID = 1L;
-  private static final String CACHEFILE_MAP = "LtCacheMap";
-  private static final String CACHEFILE_PREFIX = "LtCache";
-  private static final String CACHEFILE_EXTENSION = "lcz";
-  private static final int MIN_PARAGRAPHS_TO_SAVE_CACHE = 50;
   private static final boolean DEBUG_MODE = OfficeTools.DEBUG_MODE_IO;
+
+  private static final long MAX_CACHE_TIME = 365 * 24 * 3600000;      //  Save cache files maximal one year
+  private static final String CACHEFILE_MAP = "LtCacheMap";           //  Name of cache map file
+  private static final String CACHEFILE_PREFIX = "LtCache";           //  Prefix for cache files (simply a number is added for file name)
+  private static final String CACHEFILE_EXTENSION = "lcz";            //  extension of the files name (Note: cache files are in zip format)
+  private static final int MIN_CHARACTERS_TO_SAVE_CACHE = 25000;      //  Minimum characters of document for saving cache 
   
   private String documentPath;
   private AllCaches allCaches;
@@ -123,7 +125,7 @@ public class CacheIO implements Serializable {
     }
     File cacheFilePath = new File(cacheDir, cacheFileName);
     if (!create) {
-      cacheFile.cleanUp();
+      cacheFile.cleanUp(cacheFileName);
     }
     if (DEBUG_MODE) {
       MessageHandler.printToLogFile("cacheFilePath: " + cacheFilePath.getAbsolutePath());
@@ -151,6 +153,21 @@ public class CacheIO implements Serializable {
   }
   
   /**
+   * returns true if the number of characters of a document exceeds 
+   * the minimal number of characters to save the cache
+   */
+  private boolean exceedsSaveSize(DocumentCache docCache) {
+    int nChars = 0;
+    for (int i = 0; i < docCache.size(); i++) {
+      nChars += docCache.getFlatParagraph(i).length();
+      if (nChars > MIN_CHARACTERS_TO_SAVE_CACHE) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  /**
    * save all caches if the document exceeds the defined minimum of paragraphs
    */
   public void saveCaches(XComponent xComponent, DocumentCache docCache, ResultCache sentencesCache, List<ResultCache> paragraphsCache,
@@ -158,7 +175,7 @@ public class CacheIO implements Serializable {
     String cachePath = getCachePath(true);
     if (cachePath != null) {
       try {
-        if (docCache.size() >= MIN_PARAGRAPHS_TO_SAVE_CACHE) {
+        if (exceedsSaveSize(docCache)) {
           Set<String> disabledRuleIds = new HashSet<String>(config.getDisabledRuleIds());
           for (String ruleId : mDocHandler.getDisabledRules()) {
             disabledRuleIds.add(ruleId);
@@ -433,8 +450,8 @@ public class CacheIO implements Serializable {
    /**
     * remove unused files from cache directory
     */
-    public void cleanUp() {
-      CacheCleanUp cacheCleanUp = new CacheCleanUp(cacheMap);
+    public void cleanUp(String curCacheFile) {
+      CacheCleanUp cacheCleanUp = new CacheCleanUp(cacheMap, curCacheFile);
       cacheCleanUp.start();
     }
     
@@ -535,9 +552,11 @@ public class CacheIO implements Serializable {
     class CacheCleanUp extends Thread implements Serializable {
       private static final long serialVersionUID = 1L;
       private CacheMap cacheMap;
+      private String currentFile;
       
-      CacheCleanUp(CacheMap in) {
+      CacheCleanUp(CacheMap in, String curFile) {
         cacheMap = new CacheMap(in);
+        currentFile = curFile;
       }
       
       /**
@@ -546,6 +565,7 @@ public class CacheIO implements Serializable {
       @Override
       public void run() {
         try {
+          long systemTime = System.currentTimeMillis();
           boolean mapChanged = false;
           File cacheDir = OfficeTools.getCacheDir();
           List<String> mapedDocs = new ArrayList<String>();
@@ -554,12 +574,14 @@ public class CacheIO implements Serializable {
           }
           for (String doc : mapedDocs) {
             File docFile = new File(doc);
-            File cacheFile = new File(cacheDir, cacheMap.get(doc));
+            String cacheFileName = cacheMap.get(doc);
+            File cacheFile = new File(cacheDir, cacheFileName);
             if (DEBUG_MODE) {
               MessageHandler.printToLogFile("CacheMap: docPath=" + doc + ", docFile exist: " + (docFile == null ? "null" : docFile.exists()) + 
                   ", cacheFile exist: " + (cacheFile == null ? "null" : cacheFile.exists()));
             }
-            if (docFile == null || !docFile.exists() || cacheFile == null || !cacheFile.exists()) {
+            if (docFile == null || !docFile.exists() || cacheFile == null || !cacheFile.exists() 
+                || (systemTime - cacheFile.lastModified() > MAX_CACHE_TIME && !cacheFileName.equals(currentFile))) {
               cacheMap.remove(doc);
               mapChanged = true;
               MessageHandler.printToLogFile("Remove Path from CacheMap: " + doc);
