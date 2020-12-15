@@ -85,6 +85,9 @@ public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
         if (crtWordCount + sentStart == i && originalPhrase.equals(capitalizedCorrect)) {
           continue;
         }
+        if (originalPhrase.equals(originalPhrase.toUpperCase())) {
+          continue;
+        }
 
         if (correctPhrase != null && !correctPhrase.equals(originalPhrase)) {
           // the rule matches

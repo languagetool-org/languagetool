@@ -51,6 +51,7 @@ public class CheckCaseRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("el Prat de Llobregat")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Da Vinci")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Amb Joan Pau i Josep Maria.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("ESTAT D'ALARMA")).length);
     
     // incorrect sentences:
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Joan pau"));
