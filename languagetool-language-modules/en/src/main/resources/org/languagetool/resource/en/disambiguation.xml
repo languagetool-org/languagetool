@@ -5092,6 +5092,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag="VBG" />
                 <token postag="SENT_END|JJ|RB" postag_regexp="yes" />
             </antipattern>
+            <antipattern><!-- #4024 it'll last longer. -->
+                <token postag="MD"/>
+                <token postag_regexp="yes" postag="VBP?"/>
+                <token postag="JJR"/>
+                <token postag="SENT_END"/>
+            </antipattern>
             <pattern>
                 <token postag="DT|PRP\$" postag_regexp="yes">
                     <exception regexp="yes">th[eo]se|all|no|much</exception>
@@ -5130,6 +5136,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">I'm sore all over.</example><!-- #3376 -->
             <example type="untouched">Does this mean its working?</example><!-- #3326 -->
             <example type="untouched">.... but might using this work?</example><!-- #3326 word/E-NP-singular -->
+            <example type="untouched">Take a picture, it'll last longer.</example><!-- #4024 -->
             <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">How about we do this <marker>work</marker>?</example>
             <example type="ambiguous" inputform="business[business/JJ,business/NN:UN]" outputform="business[business/NN:UN]">My <marker>business</marker> is great!</example>
         </rule>
