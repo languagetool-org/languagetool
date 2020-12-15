@@ -1030,6 +1030,7 @@ public class CaseRule extends Rule {
     "Belange",
     "Geistlicher",
     "Google",
+    "Hu", // name
     "Jenseits",
     "Abends",
     "Abgeordneter",
