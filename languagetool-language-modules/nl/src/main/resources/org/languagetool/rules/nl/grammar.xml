@@ -17124,7 +17124,7 @@ steenwijk;Steenwijk
 				<example correction="werd, verwaarloost|werd verwaarloosd">Het restaurant <marker>werd verwaarloost</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="VINDT_IK" name="verkeerde werkwoordvorm" >
+		<rulegroup id="VINDT_IK" name="verkeerde werkwoordvorm">
 			<rule>
 				<antipattern><token>je</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
 				<antipattern><token>je</token><token postag_regexp="yes" postag="BNW.*"/><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
@@ -17132,7 +17132,10 @@ steenwijk;Steenwijk
 				<pattern>
 					<token postag="SENT_START"/>
 					<marker>
-						<token postag_regexp="yes" postag="WKW:TGW:3EP.*"><exception postag_regexp="yes" postag="WKW:TGW:1EP.*|WKW:VTD:1EP.*"/></token>
+						<token postag_regexp="yes" postag="WKW:TGW:3EP.*">
+							<exception>want</exception>
+							<exception postag_regexp="yes" postag="WKW:TGW:1EP.*|WKW:VTD:1EP.*"/>
+						</token>
 					</marker>
 					<token regexp="yes">ik|je|jij</token>
 				</pattern>
