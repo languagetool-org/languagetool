@@ -33,13 +33,13 @@ import java.util.concurrent.ArrayBlockingQueue;
  * @author Jaume Ortolà
  */
 public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
-  
+
   public AbstractCheckCaseRule(ResourceBundle messages, Language language) {
     super(messages, language);
     super.setLocQualityIssueType(ITSIssueType.Typographical);
     super.setCategory(Categories.CASING.getCategory(messages));
   }
- 
+
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
@@ -50,12 +50,10 @@ public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
       return toRuleMatchArray(ruleMatches);
     }
     Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<>(wrongWords.size());
-
     int sentStart = 0;
     while (sentStart + 1 < tokens.length && isPunctuationStart(tokens[sentStart + 1].getToken())) {
       sentStart++;
     }
-
     for (int i = 1; i < tokens.length; i++) {
       addToQueue(tokens[i], prevTokens);
       StringBuilder sb = new StringBuilder();
@@ -80,19 +78,24 @@ public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
           continue;
         }
         String correctPhrase = suggMess.getSuggestion();
-            
         String capitalizedCorrect = StringTools.uppercaseFirstChar(correctPhrase);
-        if (crtWordCount + sentStart == i && originalPhrase.equals(capitalizedCorrect)) {
+        int startPos = prevTokensList.get(len - crtWordCount).getStartPos();
+        int endPos = prevTokensList.get(len - 1).getEndPos();
+        if ((crtWordCount + sentStart == i && originalPhrase.equals(capitalizedCorrect))
+            || correctPhrase.equals(originalPhrase)) {
+          // remove last match if is contained in a correct phrase
+          if (ruleMatches.size() > 0) {
+            RuleMatch lastRuleMatch = ruleMatches.get(ruleMatches.size() - 1);
+            if (lastRuleMatch.getToPos() > startPos) {
+              ruleMatches.remove(ruleMatches.size() - 1);
+            }
+          }
           continue;
         }
         if (originalPhrase.equals(originalPhrase.toUpperCase())) {
           continue;
         }
-
         if (correctPhrase != null && !correctPhrase.equals(originalPhrase)) {
-          // the rule matches
-          int startPos = prevTokensList.get(len - crtWordCount).getStartPos();
-          int endPos = prevTokensList.get(len - 1).getEndPos();
           RuleMatch ruleMatch;
           String msg = suggMess.getMessage();
           if (msg == null) {
@@ -132,8 +135,5 @@ public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
     return StringUtils.getDigits(word).length() > 0 // e.g. postal codes
         || StringUtils.equalsAny(word, "\"", "'", "„", "»", "«", "“", "‘", "¡", "¿", "-", "–", "—", "―", "‒");
   }
-
-
-  
 
 }

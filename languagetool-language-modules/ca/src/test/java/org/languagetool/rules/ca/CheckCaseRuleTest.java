@@ -52,6 +52,10 @@ public class CheckCaseRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Da Vinci")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Amb Joan Pau i Josep Maria.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("ESTAT D'ALARMA")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("educació secundària")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Educació Secundària Obligatòria")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Educació Secundària obligatòria")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("d'educació secundària obligatòria")).length);
     
     // incorrect sentences:
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Joan pau"));
