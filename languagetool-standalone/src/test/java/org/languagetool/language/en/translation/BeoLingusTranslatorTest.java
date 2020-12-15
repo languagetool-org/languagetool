@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -129,6 +130,7 @@ public class BeoLingusTranslatorTest {
     assertThat(translator.cleanTranslationForReplace("to go", "to"), CoreMatchers.is("go"));
     assertThat(translator.cleanTranslationForReplace("foo (bar) {mus}", null), CoreMatchers.is("foo"));
     assertThat(translator.cleanTranslationForReplace("some thing [Br.], something", null), CoreMatchers.is("some thing , something"));  // not quite clean yet...
+    assertThat(translator.cleanTranslationForReplace("Friday /Fri/", null), CoreMatchers.is("Friday"));
   }
 
   @Test

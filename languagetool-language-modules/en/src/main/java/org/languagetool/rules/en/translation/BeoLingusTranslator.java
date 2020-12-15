@@ -279,6 +279,7 @@ public class BeoLingusTranslator implements Translator {
       .replace("sth.", "")
       .replace("sb.", "")
       .replaceAll("/[A-Z]+/", "")    // e.g. "heavy goods vehicle /HGV/"
+      .replaceAll(" /[A-Z][a-z]+\\.?/", "")    // e.g. "Tuesday /Tue/", "station /Sta./"
       .trim();
     if ("to".equals(prevWord) && clean.startsWith("to ")) {
       return clean.substring(3);
