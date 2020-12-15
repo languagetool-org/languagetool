@@ -39,11 +39,16 @@ public class EnglishWordRepeatBeginningRuleTest {
     assertEquals(0, lt.check("This is good. This is good, too.").size());
     assertEquals(0, lt.check("The car. The bicycle. The third sentence with 'the'.").size());
     // errors:
-    List<RuleMatch> matches = lt.check("I think so. I have seen that before. I don't like it.");
-    assertEquals(1, matches.size());
-    assertThat(matches.get(0).getSuggestedReplacements().get(0), is("Furthermore, I"));
-    assertThat(matches.get(0).getSuggestedReplacements().get(1), is("Likewise, I"));
-    assertThat(matches.get(0).getSuggestedReplacements().get(2), is("Not only that, but I"));
+    List<RuleMatch> matches1 = lt.check("I think so. I have seen that before. I don't like it.");
+    assertEquals(1, matches1.size());
+    assertThat(matches1.get(0).getSuggestedReplacements().get(0), is("Furthermore, I"));
+    assertThat(matches1.get(0).getSuggestedReplacements().get(1), is("Likewise, I"));
+    assertThat(matches1.get(0).getSuggestedReplacements().get(2), is("Not only that, but I"));
+    List<RuleMatch> matches2 = lt.check("He thinks so. He has seen that before. He doesn't like it.");
+    assertEquals(1, matches2.size());
+    assertThat(matches2.get(0).getSuggestedReplacements().get(0), is("Furthermore, he"));
+    assertThat(matches2.get(0).getSuggestedReplacements().get(1), is("Likewise, he"));
+    assertThat(matches2.get(0).getSuggestedReplacements().get(2), is("Not only that, but he"));
   }
 
 }
