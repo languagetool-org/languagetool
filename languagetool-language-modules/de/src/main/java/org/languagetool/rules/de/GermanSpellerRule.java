@@ -1449,7 +1449,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (hunspell.spell(suggestion)) {
         return Collections.singletonList(suggestion);
       }
-    } else if (word.matches("koregier.+")) {
+    } else if (word.startsWith("koregier.+")) {
       suggestion = word.replace("reg", "rrig");
       if (hunspell.spell(suggestion)) {
         return Collections.singletonList(suggestion);
@@ -1459,12 +1459,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (hunspell.spell(suggestion)) {
         return Collections.singletonList(suggestion);
       }
-    } else if (word.matches(".*eiss.*")) {
+    } else if (word.contains("eiss")) {
       suggestion = word.replace("eiss", "eiß");
       if (hunspell.spell(suggestion)) {
         return Collections.singletonList(suggestion);
       }
-    } else if (word.matches(".*uess.*")) {
+    } else if (word.contains("uess")) {
       suggestion = word.replace("uess", "üß");
       if (hunspell.spell(suggestion)) {
         return Collections.singletonList(suggestion);
@@ -1566,7 +1566,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Danke");
     } else if (word.equals("Zynik")) {
       return Collections.singletonList("Zynismus");
-    } else if (word.matches("Email[a-zäöü]{5,}")) {
+    } else if (word.length() > 9 && word.startsWith("Email")) {
       String suffix = word.substring(5);
       if (!hunspell.spell(suffix)) {
         List<String> suffixSuggestions = hunspell.suggest(StringTools.uppercaseFirstChar(suffix));
