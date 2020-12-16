@@ -43,16 +43,13 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     super(rule, rule.getLanguage().getDisambiguationUnifier());
   }
 
-  public final AnalyzedSentence replace(AnalyzedSentence sentence)
-      throws IOException {
-    List<PatternTokenMatcher> patternTokenMatchers = createElementMatchers();
-
+  AnalyzedSentence replace(AnalyzedSentence sentence) throws IOException {
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     AnalyzedTokenReadings[] preDisambigTokens = sentence.getTokens();
     AnalyzedTokenReadings[][] whTokens = {sentence.getTokens()};
     boolean[] changed = {false};
 
-    doMatch(patternTokenMatchers, tokens, (tokenPositions, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken) -> {
+    doMatch(sentence, tokens, (tokenPositions, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken) -> {
       int ruleMatchFromPos = -1;
       int ruleMatchToPos = -1;
       int tokenCount = 0;
