@@ -4980,6 +4980,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
+                    <token>corrent</token>
+                    <token>alterna</token>
+                </pattern>
+                <message>"Corrent" és un substantiu masculí.</message>
+                <suggestion>corrent altern</suggestion>
+                <example correction="corrent altern">De <marker>corrent alterna</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>corrent</token>
+                    <token regexp="yes">continua|contínua</token>
+                </pattern>
+                <message>"Corrent" és un substantiu masculí.</message>
+                <suggestion>corrent continu</suggestion>
+                <example correction="corrent continu">De <marker>corrent contínua</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
                         <token postag="D[^R].F.*" postag_regexp="yes"/>
                     </marker>
@@ -43969,6 +43987,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
+        <rulegroup id="XINO" name="xino" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>xino</token>
+                </pattern>
+                <message>Forma col·loquial de <suggestion>xinès</suggestion></message>
+                <suggestion>xinés</suggestion>
+                <example correction="xinès|xinés">El barri <marker>xino</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>xinos</token>
+                </pattern>
+                <message>Forma col·loquial de <suggestion>xinesos</suggestion></message>
+                <example correction="xinesos">Els súpers <marker>xinos</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">xina</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>Xina</suggestion> (país) o <suggestion>xinesa</suggestion> (gentilici). Correcte com a forma del v. 'xinar'.</message>
+                <example correction="Xina|xinesa">La <marker>xina</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">xines</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>xinesa</suggestion> (gentilici). Correcte com a forma del v. 'xinar'.</message>
+                <example correction="xinesa">Els amigues <marker>xines</marker> de la meva filla.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CONSOL" name="consol/cònsol">
             <antipattern>
                 <token regexp="yes">cònsols?</token>
@@ -59374,6 +59423,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- casos particulars tractats per altres regles -->
                 <token>retràs</token>
             </antipattern>
+            <antipattern>
+                <token>no</token>
+                <token>sé</token>
+                <token regexp="yes">què|quants?|quan|quin|quina|quins|quines</token>
+            </antipattern>
+            <antipattern>
+                <token>obra</token>
+                <token inflected="yes">de</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <or>
@@ -59382,13 +59440,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </or>
                     <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">com|perquè|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
                     <marker>
-                        <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception regexp="yes">di|cap</exception><exception scope="previous" postag="&pronom_feble;" postag_regexp="yes"/><exception regexp="yes" inflected="yes">ser|estar|haver|semblar|parèixer|anar</exception></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception regexp="yes">di|cap</exception><exception scope="previous" postag="&pronom_feble;" postag_regexp="yes"/><exception regexp="yes" inflected="yes">ser|estar|haver|semblar|parèixer|anar|tenir</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.FindSuggestionsFilter" args="WordFrom:marker DesiredPostag:NC.*|A.*|V.[PN].* Mode:diacritics"/>
                 <message>Possible confusió. Si és un nom o un adjectiu, s'escriu amb accent.</message>
                 <example correction="arbitrària">Es tractava d'una àrea de visualització <marker>arbitraria</marker>.</example>
                 <example correction="específica">És una qüestió molt <marker>especifica</marker>.</example>
+                <example>És una de les cançons en català més maques que s’han escrit</example>
+                <example>Richard estaria dient a sota veu.</example>
             </rule>
             <rule>
                 <pattern>
@@ -59489,6 +59549,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No hi ha tasques d'impressió actives</example>
                 <example>L'islam és la religió no cristiana més important.</example>
                 <example>Més dura encara ha estat la resolució.</example>
+                <example>És una de les cançons en català més maques que s’han escrit</example>
+                <example>Richard estaria dient a sota veu i lentament.</example>
+                <example>¿Fa no sé quants segles?</example>
+                <example>Aconseguí el rècord mundial sobre terra el 1967.</example>
+                <example>Destaquen les cases d'estiueig obra de l'arquitecte Ferran.</example>
                 <!-- without period -->
             </rule>
         </rulegroup>

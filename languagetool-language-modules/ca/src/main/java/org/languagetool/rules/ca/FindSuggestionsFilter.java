@@ -60,10 +60,13 @@ public class FindSuggestionsFilter extends RuleFilter {
     String mode = getOptional("Mode", arguments);
     boolean diacriticsMode = (mode != null) && mode.equals("diacritics");
 
-    if (diacriticsMode) {
+    /*if (diacriticsMode) {
       int ii = 0;
       ii++;
-    }
+      if (match.getSentence().getText().contains("maques")) {
+        ii++;
+      }
+    }*/
 
     if (wordFrom != null && desiredPostag != null) {
       int posWord = 0;
@@ -94,7 +97,8 @@ public class FindSuggestionsFilter extends RuleFilter {
         // TODO: do not tag capitalized words with tags for lower case
         List<AnalyzedTokenReadings> analyzedSuggestions = tagger.tag(suggestions);
         for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
-          if (analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {
+          if (!analyzedSuggestion.getToken().equals(atrWord.getToken()) 
+              && analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {
             if (!replacements.contains(analyzedSuggestion.getToken())
                 && !replacements.contains(analyzedSuggestion.getToken().toLowerCase())
                 && (!diacriticsMode || equalWithoutDiacritics(analyzedSuggestion.getToken(), atrWord.getToken()))) {
