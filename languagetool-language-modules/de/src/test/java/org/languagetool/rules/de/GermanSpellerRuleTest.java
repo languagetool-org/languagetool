@@ -18,21 +18,11 @@
  */
 package org.languagetool.rules.de;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.stream.Stream;
-
+import morfologik.fsa.FSA;
+import morfologik.fsa.builders.CFSA2Serializer;
+import morfologik.fsa.builders.FSABuilder;
+import morfologik.speller.Speller;
+import morfologik.stemming.Dictionary;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
@@ -45,11 +35,16 @@ import org.languagetool.language.SwissGerman;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
-import morfologik.fsa.FSA;
-import morfologik.fsa.builders.CFSA2Serializer;
-import morfologik.fsa.builders.FSABuilder;
-import morfologik.speller.Speller;
-import morfologik.stemming.Dictionary;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.stream.Stream;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.*;
 
 public class GermanSpellerRuleTest {
 
@@ -598,7 +593,7 @@ public class GermanSpellerRuleTest {
   private static class MyGermanSpellerRule extends GermanSpellerRule {
     MyGermanSpellerRule(ResourceBundle messages, German language) throws IOException {
       super(messages, language, null, null);
-      init();
+      ensureInitialized();
     }
     boolean doIgnoreWord(String word) throws IOException {
       return super.ignoreWord(Collections.singletonList(word), 0);
