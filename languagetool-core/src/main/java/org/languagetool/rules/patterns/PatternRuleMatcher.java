@@ -53,14 +53,12 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
           + SUGGESTION_END_TAG);
 
   private final boolean useList;
-  private final List<PatternTokenMatcher> patternTokenMatchers;
   //private final Integer slowMatchThreshold;
   private static final boolean monitorRules = System.getProperty("monitorActiveRules") != null;
 
   PatternRuleMatcher(PatternRule rule, boolean useList) {
     super(rule, rule.getLanguage().getUnifier());
     this.useList = useList;
-    this.patternTokenMatchers = createElementMatchers();
     //String slowMatchThresholdStr = System.getProperty("slowMatchThreshold");
     //slowMatchThreshold = slowMatchThresholdStr != null ? Integer.parseInt(slowMatchThresholdStr) : null;
   }
@@ -78,9 +76,10 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
       currentlyActiveRules.compute(key, (k, v) -> v == null ? 1 : v + 1);
     }
     try {
-      boolean isPreDisambigMatch = rule instanceof PatternRule && ((PatternRule)rule).isInterpretPosTagsPreDisambiguation();
-      AnalyzedTokenReadings[] tokens = isPreDisambigMatch ? sentence.getPreDisambigTokensWithoutWhitespace() : sentence.getTokensWithoutWhitespace();
-      doMatch(patternTokenMatchers, tokens, (tokenPositions, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken) -> {
+      AnalyzedTokenReadings[] tokens = isInterpretPosTagsPreDisambiguation()
+                                       ? sentence.getPreDisambigTokensWithoutWhitespace()
+                                       : sentence.getTokensWithoutWhitespace();
+      doMatch(sentence, tokens, (tokenPositions, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken) -> {
         RuleMatch ruleMatch = createRuleMatch(tokenPositions, tokens, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken, sentence);
         if (ruleMatch != null) {
           ruleMatches.add(ruleMatch);

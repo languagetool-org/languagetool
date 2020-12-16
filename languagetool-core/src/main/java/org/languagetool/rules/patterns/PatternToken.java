@@ -678,14 +678,27 @@ public class PatternToken implements Cloneable {
    */
   @Nullable
   Set<String> calcFormHints() {
-    Set<String> result = inflected ? null : calcOwnPossibleStringValues();
+    return calcStringHints(false);
+  }
+
+  /**
+   * @return all possible forms that this token pattern can accept, or {@code null} if such set is unknown/unbounded.
+   * This is used internally for performance optimizations.
+   */
+  @Nullable
+  Set<String> calcLemmaHints() {
+    return calcStringHints(true);
+  }
+
+  private Set<String> calcStringHints(boolean inflected) {
+    Set<String> result = inflected != this.inflected ? null : calcOwnPossibleStringValues();
     if (result == null) return null;
 
     if (andGroupList != null) {
       result = new HashSet<>(result);
 
       for (PatternToken token : andGroupList) {
-        Set<String> hints = token.calcFormHints();
+        Set<String> hints = token.calcStringHints(inflected);
         if (hints != null) {
           result.retainAll(hints);
         }
@@ -694,14 +707,14 @@ public class PatternToken implements Cloneable {
       result = new HashSet<>(result);
 
       for (PatternToken token : orGroupList) {
-        Set<String> hints = token.calcFormHints();
+        Set<String> hints = token.calcStringHints(inflected);
         if (hints == null) return null;
 
         result.addAll(hints);
       }
     }
 
-    return result;
+    return result.isEmpty() ? null : result;
   }
 
   @Nullable

@@ -85,23 +85,22 @@ public abstract class RuleSet {
     BitSet unclassified = new BitSet();
     for (int i = 0; i < allRules.size(); i++) {
       Rule rule = allRules.get(i);
+      boolean classified = false;
       if (rule instanceof AbstractTokenBasedRule) {
-        String[] inflectedRuleTokens = new String[0];
-        if (withLemmaHints) {
-          inflectedRuleTokens = ((AbstractTokenBasedRule) rule).inflectedRuleTokens;
-          if (inflectedRuleTokens != null) {
-            byLemma.computeIfAbsent(inflectedRuleTokens[0], __ -> new BitSet()).set(i);
+        AbstractTokenBasedRule.TokenHint[] tokenHints = ((AbstractTokenBasedRule) rule).tokenHints;
+        AbstractTokenBasedRule.TokenHint firstHint =
+          tokenHints == null ? null :
+          withLemmaHints ? tokenHints[0] :
+          Arrays.stream(tokenHints).filter(th -> !th.inflected).findFirst().orElse(null);
+        if (firstHint != null) {
+          classified = true;
+          Map<String, BitSet> map = firstHint.inflected ? byLemma : byToken;
+          for (String hint : firstHint.lowerCaseValues) {
+            map.computeIfAbsent(hint, __ -> new BitSet()).set(i);
           }
         }
-        String[][] formHints = ((AbstractTokenBasedRule) rule).formHints;
-        if (formHints != null) {
-          for (String token : formHints[0]) {
-            byToken.computeIfAbsent(token, __ -> new BitSet()).set(i);
-          }
-        } else if (inflectedRuleTokens == null || !withLemmaHints) {
-          unclassified.set(i);
-        }
-      } else {
+      }
+      if (!classified) {
         unclassified.set(i);
       }
     }
