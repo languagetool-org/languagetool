@@ -37,6 +37,9 @@ class UnicodeBasedLangIdentifier {
   }
 
   List<String> getDominantLangCodes(String str) {
+    // For a more complete list of script/language relations,
+    // see https://unicode-org.github.io/cldr-staging/charts/37/supplemental/scripts_and_languages.html
+    // Another more complete approach might be to use Character.UnicodeScript.of() for each character.
     int arabicChars = 0;
     int cyrillicChars = 0;
     int cjkChars = 0;
