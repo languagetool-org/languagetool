@@ -36153,6 +36153,27 @@ Andere Projekte</example>
                 <example correction="Déjà-vus">Ich hatte heute schon 2 <marker>Dejavüs</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="DOPPELTER_NOMINATIV" name="doppelter Nominativ ('ich du'/'wir ich')" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token regexp="yes">wäre?s?t?</token>
+                    <token postag="PRO:PER:NOM:.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="PRO:PER:NOM:.+" postag_regexp="yes"/>
+                    <token regexp="yes">wäre?s?t?</token>
+                </antipattern>
+                <pattern>
+                    <token postag="PRO:PER:NOM:.+" postag_regexp="yes"><exception postag="PRO:PER:NOM:.+" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="PRO:PER:NOM:.+" postag_regexp="yes"><exception postag="PRO:PER:NOM:.+" postag_regexp="yes" negate_pos="yes"/></token>
+                </pattern>
+                <message>Bitte prüfen Sie diese Wortgruppe. Fehlt hier ein Komma?</message>
+                <example correction="">Wenn <marker>wir ich</marker> komme, dann gehst du.</example>
+                <example>Wenn ich es schaffe, schaffst du es auch.</example>
+                <example>Er hat so getan, als wäre er ich.</example>
+                <example>Wenn ich du wäre, wäre ich lieber ich.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DATIV_PRP_PA1_SUB" name="mit wachsenden (wachsendem) Garten">
             <rule>
                 <pattern>
