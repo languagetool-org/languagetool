@@ -320,6 +320,11 @@ public class AgreementRuleTest {
     assertGood("Das letzte Mal war das Anfang der 90er Jahre des vergangenen Jahrhunderts");
     assertGood("Der vom Rat der Justizminister gefasste Beschluss zur Aufnahme von Vertriebenen...");
     assertGood("Der letzte Woche vom Rat der Justizminister gefasste Beschluss zur Aufnahme von Vertriebenen...");
+    assertGood("Was war sie nur für eine dumme Person!");
+    assertGood("Was war ich für ein Idiot!");
+    assertGood("Was für ein Idiot!");
+    assertGood("Was für eine blöde Kuh!");
+    assertGood("Was ist sie nur für eine blöde Kuh!");
 
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");

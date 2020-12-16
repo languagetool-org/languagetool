@@ -103,7 +103,7 @@ public class AgreementRule extends Rule {
       posRegex("SUB:.*:PLU:.*")
     ),
     Arrays.asList(
-      tokenRegex("der|des"),   // "Die dauerhafte Abgrenzung des später Niedersachsen genannten Gebietes"
+      tokenRegex("de[rs]"),   // "Die dauerhafte Abgrenzung des später Niedersachsen genannten Gebietes"
       posRegex("ADJ:.*"),
       posRegex("EIG:.*"),
       posRegex("PA2:.*")
@@ -893,6 +893,36 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().token("betreffen").matchInflectedForms().build(),
       csToken("das"),
       posRegex("SUB:AKK:PLU:.*")
+    ),
+    Arrays.asList( // "Was für ein Narr"
+      token("was"),
+      csToken("für"),
+      csToken("ein"),
+      new PatternTokenBuilder().posRegex("ADJ:NOM:SIN:(MAS|NEU).*").min(0).build(),
+      posRegex("SUB:NOM:SIN:(MAS|NEU)")
+    ),
+    Arrays.asList( // "Was für ein liebe Frau"
+      token("was"),
+      csToken("für"),
+      csToken("eine"),
+      new PatternTokenBuilder().posRegex("ADJ:NOM:SIN:FEM.*").min(0).build(),
+      pos("SUB:NOM:SIN:FEM")
+    ),
+    Arrays.asList( // "Was war ich für ein Narr"
+      token("was"),
+      new PatternTokenBuilder().token("sein").matchInflectedForms().setSkip(2).build(),
+      csToken("für"),
+      csToken("ein"),
+      new PatternTokenBuilder().posRegex("ADJ:NOM:SIN:(MAS|NEU).*").min(0).build(),
+      posRegex("SUB:NOM:SIN:(MAS|NEU)")
+    ),
+    Arrays.asList( // "Was war sie nur für eine dumme Person"
+      token("was"),
+      new PatternTokenBuilder().token("sein").matchInflectedForms().setSkip(2).build(),
+      csToken("für"),
+      csToken("eine"),
+      new PatternTokenBuilder().posRegex("ADJ:NOM:SIN:FEM.*").min(0).build(),
+      pos("SUB:NOM:SIN:FEM")
     )
   );
 
