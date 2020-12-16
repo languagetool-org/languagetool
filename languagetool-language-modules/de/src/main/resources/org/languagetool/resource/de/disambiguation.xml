@@ -789,6 +789,19 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </pattern>
             <disambig action="remove" postag="SUB:.*:NEU"/>
         </rule>
+        <!-- similar: werte, reiche, vertraute -->
+        <rule>
+            <pattern case_sensitive="yes">
+                <token>Ich</token>
+                <marker>
+                    <and>
+                        <token regexp="yes" postag="VER:1.+" postag_regexp="yes">[a-zäöüß]+e</token>
+                        <token regexp="yes" postag="PA2.+|ADJ.+" postag_regexp="yes"/>
+                    </and>
+                 </marker>
+            </pattern>
+            <disambig action="remove" postag="ADJ:.+|PA2:.+"/>
+        </rule>
     </rulegroup>
     <rulegroup name="VER -> PA2" id="VER_PA2">
         <rule>
@@ -1231,15 +1244,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token inflected="yes">Taschenmesser</token>
             </pattern>
             <disambig action="remove" postag="SUB:.*:MAS"/>
-        </rule>
-    </rulegroup>
-    <rulegroup id="ICH_LIEBE" name="ich liebe ... (liebe als Verb)">
-        <rule>
-            <pattern case_sensitive="yes">
-                <token>Ich</token>
-                <marker><token regexp="yes">liebe|vertraute</token></marker>
-            </pattern>
-            <disambig action="remove" postag="ADJ:.+|PA2:.+"/>
         </rule>
     </rulegroup>
     <rulegroup id="REICHEN" name="Entferne Adjektivform von 'reiche'">
