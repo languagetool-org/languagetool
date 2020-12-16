@@ -12612,6 +12612,24 @@ Temos saudades de vocês como seria expetável.
 	  <example type='correct'>Os números <marker>funcionam,</marker> por vezes podem é estar em baixo.</example>
     </rule>
 	  
+	<!-- Fizeram hacking à tua conta Rui. > Fizeram hacking à tua conta, Rui. -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-16 (21-OCT-2020+)  *START*   -->
+    <rule>
+      <pattern>
+		<token regexp='yes'>às?|aos?</token>
+		<token postag='DP.+' postag_regexp='yes'/>
+		<marker>
+			<token postag='NC.+|AQ.+' postag_regexp='yes'>
+				<exception postag_regexp='no' postag='RG'/></token>
+		</marker>
+		<token postag='NP.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\3,</suggestion>
+      <example correction="conta,">Fizeram hacking à tua <marker>conta</marker> Rui.</example>
+	  <example type='correct'>Fizeram hacking à tua <marker>conta,</marker> Rui.</example>
+    </rule>
+	  
 	<!-- POR FAVOR por favor, -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-13 (21-OCT-2020+)  *START*   -->
     <rule>
