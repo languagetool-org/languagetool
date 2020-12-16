@@ -36,7 +36,7 @@ class UnicodeBasedLangIdentifier {
     this.maxCheckLength = maxCheckLength;
   }
 
-  List<String> getAdditionalLangCodes(String str) {
+  List<String> getDominantLangCodes(String str) {
     int arabicChars = 0;
     int cyrillicChars = 0;
     int cjkChars = 0;
@@ -48,7 +48,7 @@ class UnicodeBasedLangIdentifier {
     int significantChars = 0;
     for (int i = 0; i < Math.min(str.length(), maxCheckLength); i++) {
       int val = str.charAt(i);
-      if (!Character.isWhitespace(val) && !Character.isDigit(val)) {
+      if (!Character.isWhitespace(val) && !Character.isDigit(val) && val != '.') {
         significantChars++;
       }
       if (val >= 0x0600 && val <= 0x06FF) {
@@ -111,6 +111,11 @@ class UnicodeBasedLangIdentifier {
     if ((float)thaiChars / significantChars >= THRESHOLD) {
       langCodes.add("th");
     }
+    //
+    // NOTE: if you add languages here that LT doesn't support, also update LanguageIdentifier.detectLanguage()
+    //       so it makes use of the fact that we have safely detected a language by its character set
+    //       (we can then directly assume it's not supported)
+    //
     return langCodes;
   }
 

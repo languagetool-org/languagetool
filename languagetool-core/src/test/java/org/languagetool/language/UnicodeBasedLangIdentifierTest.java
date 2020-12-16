@@ -28,7 +28,7 @@ public class UnicodeBasedLangIdentifierTest {
   private final UnicodeBasedLangIdentifier ident = new UnicodeBasedLangIdentifier(100);
 
   @Test
-  public void testGetAdditionalLangCodes() {
+  public void testGetDominantLangCodes() {
     String arabic = "[ar, fa]";
     String cyrillic = "[ru, uk, be]";
     String cjk = "[zh, ja]";
@@ -94,6 +94,6 @@ public class UnicodeBasedLangIdentifierTest {
   }
 
   private String codes(String s) {
-    return ident.getAdditionalLangCodes(s).toString();
+    return ident.getDominantLangCodes(s).toString();
   }
 }

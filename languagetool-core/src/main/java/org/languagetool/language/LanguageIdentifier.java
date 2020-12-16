@@ -26,6 +26,7 @@ import com.optimaize.langdetect.profiles.LanguageProfileReader;
 import com.optimaize.langdetect.text.*;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.noop.NoopLanguage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -209,9 +210,16 @@ public class LanguageIdentifier {
     if (!preferredLangs.contains("ru") && !preferredLangs.contains("uk") && !preferredLangs.contains("be") && !preferredLangs.contains("zh") &&
         !preferredLangs.contains("hi") && !preferredLangs.contains("mr")) {
       // Cyrillic and Chinese are so different from Latin characters that we try to detect it even with preferredLangs not properly set:
-      List<String> additionalLangCodes = unicodeIdentifier.getAdditionalLangCodes(text);
-      preferredLangs.addAll(additionalLangCodes);
-      additionalLangs.addAll(additionalLangCodes);
+      List<String> domLangCodes = unicodeIdentifier.getDominantLangCodes(text);
+      if (domLangCodes.size() == 1 && domLangCodes.get(0).equals("th")) {
+        // more than 50% of characters are Thai, so assume we don't support this text
+        return new DetectedLanguage(null, new NoopLanguage());
+      } else if (domLangCodes.size() == 2 && domLangCodes.get(0).equals("hi") && domLangCodes.get(1).equals("mr")) {
+        // more than 50% of characters are Hindi or Marathi, so assume we don't support this text
+        return new DetectedLanguage(null, new NoopLanguage());
+      }
+      preferredLangs.addAll(domLangCodes);
+      additionalLangs.addAll(domLangCodes);
     }
     Map.Entry<String,Double> result = null;
     if (fastText != null || ngram != null) {

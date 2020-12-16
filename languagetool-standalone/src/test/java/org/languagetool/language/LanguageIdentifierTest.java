@@ -73,6 +73,10 @@ public class LanguageIdentifierTest {
     langAssert("km", "អ្នក\u200Bអាច\u200Bជួយ\u200Bលើក\u200Bស្ទួយ\u200Bវិគីភីឌាភាសាខ្មែរ\u200Bនេះ\u200Bឱ្យ\u200Bមាន\u200Bលក្ខណៈ");
     // not yet in language-detector 0.5:
     langAssert("eo", "Imperiestraj pingvenoj manĝas ĉefe krustacojn kaj malgrandajn ...");
+    // detected as not supported by the unicode characters used:
+    langAssert("zz", "ลินุกซ์ (อังกฤษ: Linux)");  // Thai
+    langAssert("zz", "यूएसबी (अंग्रेज़ी: Live ...)");  // Hindi
+    langAssert("zz", "लिनक्स (इंग्लिश: Linux)");  // Marathi
   }
 
   @Test
