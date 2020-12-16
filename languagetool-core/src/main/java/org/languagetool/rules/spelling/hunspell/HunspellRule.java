@@ -54,8 +54,8 @@ public class HunspellRule extends SpellingCheckRule {
 
   protected static final String FILE_EXTENSION = ".dic";
 
-  protected boolean needsInit = true;
-  protected Hunspell hunspell = null;
+  private volatile boolean needsInit = true;
+  protected volatile Hunspell hunspell = null;
 
   private static final ConcurrentLinkedQueue<String> activeChecks = new ConcurrentLinkedQueue<>();
   private static final String NON_ALPHABETIC = "[^\\p{L}]";
@@ -119,9 +119,7 @@ public class HunspellRule extends SpellingCheckRule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    if (needsInit) {
-      init();
-    }
+    ensureInitialized();
     if (hunspell == null) {
       // some languages might not have a dictionary, be silent about it
       return toRuleMatchArray(ruleMatches);
@@ -275,9 +273,7 @@ public class HunspellRule extends SpellingCheckRule {
   @Override
   public boolean isMisspelled(String word) {
     try {
-      if (needsInit) {
-        init();
-      }
+      ensureInitialized();
       boolean isAlphabetic = true;
       if (word.length() == 1) { // hunspell dictionaries usually do not contain punctuation
         isAlphabetic = Character.isAlphabetic(word.charAt(0));
@@ -294,9 +290,7 @@ public class HunspellRule extends SpellingCheckRule {
   }
 
   public List<String> getSuggestions(String word) throws IOException {
-    if (needsInit) {
-      init();
-    }
+    ensureInitialized();
     return hunspell.suggest(word);
   }
 
@@ -340,6 +334,20 @@ public class HunspellRule extends SpellingCheckRule {
     return sb.toString();
   }
 
+  protected final void ensureInitialized() throws IOException {
+    if (needsInit) {
+      synchronized (this) {
+        if (needsInit) {
+          try {
+            init();
+          } finally {
+            needsInit = false;
+          }
+        }
+      }
+    }
+  }
+
   @Override
   protected synchronized void init() throws IOException {
     super.init();
@@ -380,7 +388,6 @@ public class HunspellRule extends SpellingCheckRule {
       
     }
     nonWordPattern = Pattern.compile(wordChars + NON_ALPHABETIC);
-    needsInit = false;
   }
 
   @NotNull
