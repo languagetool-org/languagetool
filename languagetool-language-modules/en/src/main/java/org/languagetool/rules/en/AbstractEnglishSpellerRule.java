@@ -149,6 +149,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().startsWith("ins ") && // instable (ins table)
                    !k.getReplacement().toLowerCase().startsWith("pre ") &&
                    !k.getReplacement().toLowerCase().startsWith("inter ") &&
+                   !k.getReplacement().toLowerCase().startsWith("uni ") &&
                    !k.getReplacement().toLowerCase().startsWith("anti ") &&
                    !k.getReplacement().toLowerCase().startsWith("photo ") &&
                    !k.getReplacement().toLowerCase().startsWith("ma ") &&
@@ -182,6 +183,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" ize") && // "advertize"
                    !k.getReplacement().endsWith(" sh") &&
                    !k.getReplacement().endsWith(" ward") &&
+                   !k.getReplacement().endsWith(" cal") &&
                    !k.getReplacement().endsWith(" ted") && // "bursted"
                    !k.getReplacement().endsWith(" like") && // "ribbonlike"
                    !k.getReplacement().endsWith(" full") && // do not suggest "use full" for "useful"
@@ -356,6 +358,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("endevor", Arrays.asList("endeavor"));
     s.put("countrys", Arrays.asList("countries", "country's", "country"));
     s.put("Countrys", Arrays.asList("Countries", "Country's", "Country"));
+    s.put("ladys", Arrays.asList("ladies", "lady's", "lady"));
+    s.put("Ladys", Arrays.asList("Ladies", "Lady's", "Lady"));
     s.put("citys", Arrays.asList("cities", "city's", "city"));
     s.put("Citys", Arrays.asList("Cities", "City's", "City"));
     s.put("batterys", Arrays.asList("batteries", "battery's", "battery"));
