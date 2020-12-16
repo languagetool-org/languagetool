@@ -41119,6 +41119,18 @@ Andere Projekte</example>
                 <example>1790 erhielt die Abtei noch einmal den Blutbann, das heißt, die gesamte Gerichtsbarkeit lag beim Abt und seinem Konvent.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="FEHLENDES_NOMEN" name="fehlendes Nomen">
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes" skip="-1">zu[mr]|ans|ins|vors|durchs|hinters
+                        <exception scope="next" postag="SUB:.+|EIG:.+|UNKNOWN|VER:(INF|EIZ).+|ADJ.+" postag_regexp="yes"></exception></token>
+                    <token postag="SENT_END"></token>
+                </pattern>
+                <message>Fehlt hier ein Nomen?</message>
+                <example correction="">Er ging <marker>zur und trank.</marker></example>
+                <example>Er ging vom einen Ende der Straße <marker>zum anderen.</marker></example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
@@ -43895,6 +43907,21 @@ Andere Projekte</example>
                 <message>Gleichrangige Wortgruppen grenzt man mit einem Komma voneinander ab.</message>
                 <suggestion>\2,</suggestion>
                 <example correction="weit,">So <marker>weit</marker> so gut.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="KOMMA_STATT_PUNKT" name="Komma statt Punkt">
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">\d+</token>
+                        <token spacebefore="no">.</token>
+                        <token regexp="yes">\d\d?</token>
+                    </marker>
+                    <token regexp="yes">[cdkm]?m|h?l|s(ec)?|k?g|Kilogramm|Gramm|Metern?|Sekunden?|Litern?|(Kilo|Dezi|Milli|Zenti)metern?|%|€|\$|¥|°[CF]</token>
+                </pattern>
+                <message>Verwenden Sie ein Komma als Dezimaltrennzeichen.</message>
+                <suggestion>\1,\3</suggestion>
+                <example correction="9,82">Der Weltrekord liegt bei <marker>9.82</marker> s.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FEHLENDER_PUNKT_BEI_DATUM" name="Fehlender Punkt bei Datumsangabe (24.12)">
