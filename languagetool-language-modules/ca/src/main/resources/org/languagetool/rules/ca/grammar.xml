@@ -35086,7 +35086,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="SISTEMA_INMUNITARI" name="sistema *inmunològic/immunitari">
             <pattern>
-                <token inflected="yes">sistema</token>
+                <token inflected="yes" regexp="yes">sistema|resposta</token>
                 <token inflected="yes">immunològic</token>
             </pattern>
             <message>Expressión inadequada.</message>
@@ -44336,6 +44336,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="aire|aspecte|aparença">L'entrevista va agafar <marker>visos</marker> de paròdia.</example>
         </rule>
         <rulegroup id="RARE_WORDS" name="paraules molt infreqüents">
+            <rule>
+                <pattern>
+                    <token inflected="yes">turo</token>
+                </pattern>
+                <message>Possible error de picatge. "Turo" és un nom inusual.</message>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">turó</match></suggestion>
+                <example correction="turons">Els <marker>turos</marker> de la comarca.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>Mesopotamia</token>
