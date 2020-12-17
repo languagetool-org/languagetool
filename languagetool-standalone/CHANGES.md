@@ -1,6 +1,6 @@
 # LanguageTool Change Log
 
-## 5.2 (released planned for 2020-12-29)
+## 5.2 (release planned for 2020-12-29)
  
 #### Catalan
   * added and improved rules
