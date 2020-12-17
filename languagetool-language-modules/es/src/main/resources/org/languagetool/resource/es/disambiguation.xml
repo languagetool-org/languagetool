@@ -48,7 +48,7 @@ Copyright (C) 2011 Juan Martorell
     </unification>
     <unification feature="genero">
         <equivalence type="M">
-            <token postag="(N.|[ADP].{2}|V.{5})[CM].*|_GN_M." postag_regexp="yes"/>
+            <token postag="(N.|[ADP].{2}|V.{5})[CMN].*|_GN_M." postag_regexp="yes"/>
         </equivalence>
         <equivalence type="F">
             <token postag="(N.|[ADP].{2}|V.{5})[CF].*|_GN_F." postag_regexp="yes"/>
@@ -2207,6 +2207,31 @@ Copyright (C) 2011 Juan Martorell
                 <marker>
                     <token postag="SPS00">de</token>
                     <token postag="NCFS000">vuelta</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GV_"/>
+                <wd pos="_GV_"/>
+            </disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="tener_que" name="tener que">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">tener</token>
+                    <token postag="CS">que</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" skip="1">tener</token>
+                <marker>
+                    <token postag="CS">que</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <disambig action="add">
@@ -4387,6 +4412,17 @@ Copyright (C) 2011 Juan Martorell
             </marker>
         </pattern>
         <disambig action="remove" postag="N.*"/>
+    </rule>
+    <rule id="todo_lo" name="todo lo">
+        <pattern>
+            <unify>
+                <feature id="numero"/>
+                <feature id="genero"/>
+                <token postag="D.*" postag_regexp="yes" inflected="yes">todo</token>
+                <token postag="DA.*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
     <rule id="not_det_no_agreement" name="not determinant if no agreement">
         <pattern>

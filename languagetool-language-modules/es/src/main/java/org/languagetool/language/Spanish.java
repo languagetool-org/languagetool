@@ -190,6 +190,7 @@ public class Spanish extends Language implements AutoCloseable{
       case "MISSPELLING": return 40;  
       case "CONFUSIONS": return 40;
       case "NO_SEPARADO": return 40;
+      case "PARTICIPIO_MS": return 40;
       case "DIACRITICS": return 30;
       case "POR_CIERTO": return 30;
       case "LO_LOS": return 30;

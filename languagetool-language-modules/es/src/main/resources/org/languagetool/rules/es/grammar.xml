@@ -1027,7 +1027,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes" regexp="yes">dificultad|problema|vicisitud</token>
             </pattern>
             <message>Confusión entre «afrontar» y «afrentar».</message>
-            <suggestion><match no="1" postag="(.*)" postag_replace="$1">afrontar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_replace="$1">afrontar</match></suggestion>
             <url>http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_050.htm</url>
             <example correction="afrontar">Tuvo que <marker>afrentar</marker> muchos problemas con la mudanza.</example>
             <example>Afrontaron muchas dificultades en la travesía.</example>
@@ -4353,12 +4353,76 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">validas?</token>
+                    <token regexp="yes">que|si|cuando|porque|cual</token>
+                    <token>valida<exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
+                    <token postag="RG" min="0"/>
+                    <token postag="D.*|CC" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">que|si|cuando|porque|cual</token>
+                    <!-- min max doesn't work here-->
+                    <token postag="_GN_.*" postag_regexp="yes"/>
+                    <token postag="_GN_.*" postag_regexp="yes"/>
+                    <token>valida<exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
+                    <token postag="RG" min="0"/>
                     <token postag="D.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">le|les|lo|los|la|las|me|te|nos|os</token>
+                    <token regexp="yes">que|si|cuando|porque|cual</token>
+                    <!-- min max doesn't work here-->
+                    <token postag="_GN_.*" postag_regexp="yes"/>
+                    <token postag="_GN_.*" postag_regexp="yes"/>
+                    <token>valida<exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
+                    <token postag="RG" min="0"/>
+                    <token postag="CC" postag_regexp="yes"/>
+                    <token postag="CS|PR.*|V.I.3S." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="_GN_.*" postag_regexp="yes"/>
+                    <token postag="_GN_.*" postag_regexp="yes"/>
+                    <token>valida</token>
+                    <token postag="RG" min="0"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">,|;</token>
+                    <token>valida</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.I.3S." postag_regexp="yes"/>
+                    <token postag="CC"><exception>como</exception></token>
+                    <token>valida</token>
+                    <token postag="D.*|CC" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>la</token>
+                    <token postag="V.I.3S." postag_regexp="yes"/>
+                    <token postag="CC"><exception>como</exception></token>
+                    <token>la</token>
+                    <token>valida</token>
+                </antipattern>
+                <antipattern>
                     <token regexp="yes">validas?</token>
+                    <token skip="1" regexp="yes">de|del</token>
+                    <token regexp="yes">rey|reina</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">el|ella|ello|esto</token>
+                    <token>valida</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">le|les|lo|los|la|me|te|nos|os|se</token>
+                    <token>validas</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">le|les|lo|los|las|me|te|nos|os|se</token>
+                    <token>valida</token>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token regexp="yes">validas?</token>
+                    <token regexp="yes">de|del</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">validas?</token>
@@ -4366,7 +4430,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es adjetivo, se escribe con tilde.</message>
                 <suggestion><match no="1" regexp_match="(?i)(v)a(.*)" regexp_replace="$1á$2"/></suggestion>
                 <example correction="válidas">Son <marker>validas</marker>.</example>
+                <example correction="válida">una de las tres opciones es la <marker>valida</marker></example>
+                <example correction="válida">explica de una forma muy acertada y <marker>valida</marker> las características</example>
+                <example correction="válida">Aceptará como <marker>valida</marker> cualquier cosa.</example>
+                <example correction="válida">Proporciona una solución <marker>valida</marker> y satisfactoria.</example>
+                <example correction="válida">que dan por <marker>valida</marker> una tendencia</example>
+                <example correction="válida">No creemos que una relación <marker>valida</marker> y edificante pueda ser obtenida</example>
                 <example>Cuando les validas la cuenta.</example>
+                <example>justifica y valida lo que sea</example>
+                <example>la ajusta y la valida.</example>
+                <example>comprueba la certeza del diagnóstico, valida lo que dijo</example>
+                <example>El dispositivo se valida el 6 de diciembre.</example>
+                <example>condición interior que valida todo lo que se hace</example>
+                <example>que valida o invalida sus derechos territoriales</example>
+                <example>Comprueba el diagnóstico, valida lo que dijo antes.</example>
+                <example>porque valida su queja</example>
+                <example>no justifica ni valida el vínculo</example>
+                <example>un tipo de poder que la ley valida y que la justicia utiliza</example>
+                <example>un tipo de poder que la ley valida y justifica</example>
+                <example>La modernidad valida hoy esta teoría</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.[SI].*|_GV_" postag_regexp="yes"/>
+                    <token postag="N.*|_GN_.*|SPS00|LOC_PREP" postag_regexp="yes" skip="6"><exception scope="next" postag="N.*|_GN_.*|SPS00|LOC_PREP" postag_regexp="yes" negate="yes"/></token>
+                    <marker>
+                        <token>valida</token>
+                    </marker>
+                </pattern>
+                <message>Si es adjetivo, se escribe con tilde.</message>
+                <suggestion><match no="3" regexp_match="(?i)(v)a(.*)" regexp_replace="$1á$2"/></suggestion>
+                <example correction="válida">No es una objeción <marker>valida</marker> el que la ciencia diga.</example>
+                <example correction="válida">Yo elaboro una propuesta <marker>valida</marker> aproximadamente cada dos años.</example>
+                <example>La modernidad valida hoy esta teoría</example>
             </rule>
             <rule>
                 <antipattern>
@@ -13463,6 +13559,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>He de veras pensado en ello.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>que</token>
+                    <token inflected="yes">poder</token>
+                    <token>haber</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">haber<exception postag="V...3S.|V.[PG].*|_possible_NP|N.*" postag_regexp="yes"/></token>
                     <token>de</token>
@@ -13482,6 +13583,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>puede haber de hecho hasta tres cesuras</example>
                 <example>He de veras pensado en ello.</example>
                 <example>Porque entremedio hubo de todo.</example>
+                <example>Lo que pueda haber de exorbitante.</example>
                 <!-- Needs another suggestion: has de tu vida -->
             </rule>
         </rulegroup>
