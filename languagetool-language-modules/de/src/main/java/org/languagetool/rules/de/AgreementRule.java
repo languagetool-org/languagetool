@@ -235,7 +235,7 @@ public class AgreementRule extends Rule {
       posRegex("SUB:.*")
     ),
     Arrays.asList(  // "Ein Esel schimpft den anderen Langohr."
-      posRegex("VER:2:.*"),
+      posRegex("VER:3:.*"),
       regex("den|die|das"),
       regex("anderen?"),
       posRegex("SUB:.*")
@@ -276,8 +276,8 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList(  // "Dies erlaubt Forschern, ..."
       posRegex("PRO:DEM:.+"),
-      posRegex("PA2:.+"),
-      posRegex("SUB:.*:PLU.*")
+      posRegex("VER:3:.+"),
+      posRegex("SUB:DAT:PLU.*")
     ),
     Arrays.asList(  // "Wir bereinigen das nächsten Dienstag."
       posRegex("VER:.*|UNKNOWN"),
@@ -297,13 +297,13 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList(  // "Kannst du das nächsten Monat machen?"
       token("das"),
-      tokenRegex("(über)?nächste[ns]?|kommende[ns]?|(vor)?letzten"),
+      tokenRegex("(über)?nächste[ns]?|kommende[ns]?|(vor)?letzten|vorigen"),
       tokenRegex("Januar|Februar|März|April|Mai|Ju[nl]i|August|September|Oktober|November|Dezember|Montag|D(ien|onner)stag|Mittwoch|Freitag|S(ams|onn)tag|Sonnabend|Woche|Monat|Jahr|Morgens?|Abends|Übermorgen|Mittags?|Nachmittags?|Vormittags?|Spätabends?|Nachts?"),
       posRegex("VER:.*|UNKNOWN")
     ),
     Arrays.asList(
       token("das"),
-      tokenRegex("Zufall|Sinn|Spaß"),
+      tokenRegex("Zufall|Sinn|Spaß|Freude"),
       token("?")
     ),
     Arrays.asList(
@@ -331,7 +331,7 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList(
       // "Der letzte Woche vom Rat der Justizminister gefasste Beschluss..."
-      tokenRegex("der|die|das|den|dem"),
+      tokenRegex("de[mnr]|die|das"),
       tokenRegex("letzte[ns]?|vorige[ns]?"),
       tokenRegex("Woche|Monat|Jahr|Jahrzehnt|Jahrhundert"),
       posRegex("PRP:.*"),
@@ -342,16 +342,16 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList(
       token("für"),
-      tokenRegex("(viele|alle|[dm]ich|ihn|sie|uns|andere)"),
-      posRegex("ADJ:AKK:.*")  // "Ein für viele wichtiges Anliegen."
+      tokenRegex("(viele|alle|[dm]ich|ihn|sie|uns|andere|jeden)"),
+      posRegex("ADJ:NOM:.*")  // "Ein für viele wichtiges Anliegen."
     ),
     Arrays.asList(
       new PatternTokenBuilder().tokenRegex("flößen|machen|jagen").matchInflectedForms().build(),
-      token("einem"),
+      tokenRegex("einem|jedem|keinem"),
       token("Angst")  // "Dinge, die/ Etwas, das einem Angst macht"
     ),
     Arrays.asList(
-      token("einem"),
+      tokenRegex("einem|jedem|keinem"),
       token("Angst"),  // "Was einem Angst macht"
       new PatternTokenBuilder().tokenRegex("machen|ein(flößen|jagen)").matchInflectedForms().build()
     ),
@@ -367,7 +367,7 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList(
       tokenRegex("die|der|das"),
-      tokenRegex("Anfang|Ende"),
+      tokenRegex("Anfang|Mitte|Ende"),
       tokenRegex("Januar|Jänner|Februar|März|April|Mai|Ju[ln]i|August|September|Oktober|November|Dezember|[12][0-9]{3}")
     ),
     Arrays.asList(
@@ -375,7 +375,7 @@ public class AgreementRule extends Rule {
       token("das"),
       new PatternTokenBuilder().posRegex("ADJ:NOM.*").min(0).build(),
       posRegex("SUB:NOM.*"),
-      posRegex("PKT|KON:NEB|ZUS")// "Ist das Kunst?" / "Ist das Kunst oder Abfall?" / "Sind das Eier aus Bodenhaltung"
+      posRegex("PKT|KON:NEB|PRP.+")// "Ist das Kunst?" / "Ist das Kunst oder Abfall?" / "Sind das Eier aus Bodenhaltung"
     ),
     Arrays.asList( // Die Präsent AG ("Theater AG" is found via DE_COMPOUNDS)
       csRegex("[A-ZÄÖÜ].+"),
@@ -387,16 +387,8 @@ public class AgreementRule extends Rule {
       csRegex("AG|GmbH")
     ),
     Arrays.asList(
-      pos(JLanguageTool.SENTENCE_START_TAGNAME),
-      tokenRegex("Meist(ens)?|Oft(mals)?|Häufig|Selten"),
-      tokenRegex("sind|waren|ist"),
-      token("das"),
-      posRegex("SUB:.*") // Meistens sind das Frauen, die damit besser umgehen können.
-    ),
-    Arrays.asList(
       // like above, but with ":", as we don't interpret this as a sentence start (but it often is)
-      token(":"),
-      tokenRegex("Meist(ens)?|Oft(mals)?|Häufig|Selten"),
+      csRegex("Meist(ens)?|Oft(mals)?|Häufig|Selten"),
       tokenRegex("sind|waren|ist"),
       token("das"),
       posRegex("SUB:.*") // Meistens sind das Frauen, die damit besser umgehen können.
@@ -703,7 +695,7 @@ public class AgreementRule extends Rule {
       tokenRegex("macht|ergibt|stiftet|bringt")
     ),
     Arrays.asList(
-      tokenRegex("hat|hätte|kann|wird|dürfte|muss|sollte|soll|könnte|müsste|würde"),
+      tokenRegex("hat|hätte|kann|wird|dürfte|muss|soll(te)?|könnte|müsste|würde"),
       token("das"),
       token("Konsequenzen")
     ),

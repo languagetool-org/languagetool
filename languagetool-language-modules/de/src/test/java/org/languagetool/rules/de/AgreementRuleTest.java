@@ -248,6 +248,8 @@ public class AgreementRuleTest {
     assertGood("Ein Trainer, der zum einen Fußballspiele sehr gut lesen und analysieren kann");
     assertGood("Eine Massengrenze, bis zu der Lithium nachgewiesen werden kann.");
     assertGood("Bei uns im Krankenhaus betrifft das Operationssäle.");
+    assertGood("Macht dir das Freude?");
+    assertGood("Das macht jedem Angst.");
 
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");
