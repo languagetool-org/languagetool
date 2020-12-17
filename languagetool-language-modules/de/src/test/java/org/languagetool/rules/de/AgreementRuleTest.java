@@ -327,6 +327,7 @@ public class AgreementRuleTest {
     assertGood("Was für ein Idiot!");
     assertGood("Was für eine blöde Kuh!");
     assertGood("Was ist sie nur für eine blöde Kuh!");
+    assertGood("Wie viele Paar Stiefel brauche ich eigentlich?");
 
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");

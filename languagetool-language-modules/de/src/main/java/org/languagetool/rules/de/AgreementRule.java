@@ -206,7 +206,7 @@ public class AgreementRule extends Rule {
       regex("der|die|das"),
       regex("anderen?"),
       token("Recht"),
-      regex("hat|hatte|habe|haben|gehabt")
+      new PatternTokenBuilder().csToken("haben").matchInflectedForms().build()
     ),
     Arrays.asList(  // "als einziger ein für die anderen unsichtbares Wunder zu sehen."
       token("für"),
@@ -915,6 +915,11 @@ public class AgreementRule extends Rule {
       csToken("eine"),
       new PatternTokenBuilder().posRegex("ADJ:NOM:SIN:FEM.*").min(0).build(),
       pos("SUB:NOM:SIN:FEM")
+    ),
+    Arrays.asList( // "Wie viele Paar Schuhe braucht er?"
+      csRegex("vielen?|wenigen?|einigen?"),
+      csToken("Paar"),
+      posRegex("SUB:NOM:PLU:...")
     )
   );
 
@@ -1303,7 +1308,7 @@ public class AgreementRule extends Rule {
   private RuleMatch getRuleMatch(AnalyzedTokenReadings token1, AnalyzedSentence sentence, AnalyzedTokenReadings nextToken, String testPhrase, String hyphenTestPhrase) {
     try {
       initLt();
-      if (nextToken.getReadings().stream().allMatch(k -> k.getPOSTag() != null && !k.getPOSTag().startsWith("SUB:"))) {
+      if (nextToken.getReadings().stream().allMatch(k -> k.getPOSTag() != null && !k.getPOSTag().startsWith("SUB"))) {
         return null;
       }
       List<String> replacements = new ArrayList<>();
