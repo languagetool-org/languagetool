@@ -12664,6 +12664,30 @@ Temos saudades de vocês como seria expetável.
 	  <example type='correct'>Fizeram hacking à tua <marker>conta,</marker> Rui.</example>
     </rule>
 	  
+	<!-- PARABÉNS RUI. Parabéns, Rui. -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-17 (21-OCT-2020+)  *START*   -->
+<!--
+Parabéns, Rui.
+Muitos parabéns, Rui.
+Feliz natal, Rui.
+Boa páscoa, Rui.
+Bom aniversário, Rui.
+LATER ADD INTERJECTION NEGATE ON WORDS, AND CREATE A NEW RULE WITH INTERJECTON INSTEAD OF WORDS
+AND CHECK FOR PUNCTUATION BEFORE PÁSCOA AND OTHERS, SINCE THERE IS A PROPER NAME STARTING WITH PÁSCOA
+-->	
+    <rule>
+      <pattern>
+		<marker>
+			<token regexp='yes'>aniversário|natal|parabéns|páscoa</token>
+		</marker>
+		<token postag='NP.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\1,</suggestion>
+      <example correction="natal,">Feliz <marker>natal</marker> Rui.</example>
+	  <example type='correct'>Feliz <marker>natal,</marker> Rui.</example>
+    </rule>
+	  
 	<!-- POR FAVOR por favor, -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-13 (21-OCT-2020+)  *START*   -->
     <rule>
