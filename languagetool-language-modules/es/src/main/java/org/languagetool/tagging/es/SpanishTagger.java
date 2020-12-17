@@ -37,7 +37,7 @@ import java.util.regex.Pattern;
  */
 public class SpanishTagger extends BaseTagger {
 
-  private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF|A[QO].[FC][SN].");
+  private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF|A[QO].[FC]S.");
   private static final Pattern VERB = Pattern.compile("V.+");
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto)([^r]...+)",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);

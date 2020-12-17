@@ -305,6 +305,10 @@ public class MorfologikCatalanSpellerRuleTest {
         //assertEquals("Chicago", matches[0].getSuggestedReplacements().get(1));
         matches = rule.match(langTool.getAnalyzedSentence("Chile"));
         assertEquals("Xile", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("transment"));
+        assertEquals("transmet", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("nordment"));
+        assertEquals("normant", matches[0].getSuggestedReplacements().get(0));
         
         //matches = rule.match(langTool.getAnalyzedSentence("transtors"));
         //assertEquals("trastorns", matches[0].getSuggestedReplacements().get(0));

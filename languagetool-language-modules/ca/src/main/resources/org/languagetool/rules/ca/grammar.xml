@@ -16417,7 +16417,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="PUBIC_PUBLIC" name="púbic/públic">
             <pattern>
-                <!--<token inflected="yes" regexp="yes">espai|domini|relació|servei|administració|biblioteca|corporació|dret|educació|empresa|esfera|obra|opinió|sector|col·legi|escola|art|deute|enemic|jardí|ordre|transport|ens|interès|tresor|poder</token>-->
                 <token><exception inflected="yes" regexp="yes">cresta|articulació|símfisi|artèria|vena|escabiosi|espina|os|pèl|zona|regió|borrissol|triangle|vellós|arc|poll|moixí|pírcing|perruca|cabell</exception></token>
                 <marker>
                     <token inflected="yes">púbic</token>
@@ -16428,6 +16427,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="públiques">Treballa en relacions <marker>púbiques</marker>.</example>
             <example>El pèl púbic</example>
             <example>Un pírcing púbic</example>
+        </rule>
+        <rule id="XONA_ZONA" name="xona/zona">
+            <pattern>
+                <marker>
+                    <token inflected="yes">xona</token>
+                </marker>
+                <token inflected="yes" regexp="yes">nord|sud|est|oest|volcànic|desèrtic</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)x" regexp_replace="z"/></suggestion>?</message>
+            <example correction="zona">En la <marker>xona</marker> nord.</example>
         </rule>
         <rulegroup id="BEURE_VEURE" name="beure/veure">
             <antipattern>

@@ -37,7 +37,7 @@ import java.util.regex.Pattern;
  */
 public class CatalanTagger extends BaseTagger {
 
-  private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO].[FC][SN].");
+  private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO].[FC]S.");
   private static final Pattern VERB = Pattern.compile("V.+");
   //private static final Pattern NOUN = Pattern.compile("NC.+");
   private String variant;
