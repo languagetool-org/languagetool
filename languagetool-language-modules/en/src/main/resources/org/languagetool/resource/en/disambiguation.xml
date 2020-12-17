@@ -8418,6 +8418,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
 
         <rule id="PRP_MD_RB_VB" name="pronoun + modal + adverb + noun/verb > verb"><!-- #2396 -->
+            <antipattern>
+                <token>as</token>
+                <token>well</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">I|you|we|they|s?he|it</token>
                 <token chunk="B-VP" postag="MD"/>
@@ -8429,6 +8433,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig postag="VB"/>
             <example type="ambiguous" inputform="go[go/NN,go/VB,go/VBP]" outputform="go[go/VB]">They could maybe <marker>go</marker> and hang out.</example>
             <example type="ambiguous" inputform="try[try/NN,try/VB,try/VBP]" outputform="try[try/VB]">She might possibly <marker>try</marker> to do it.</example>
+            <example type="untouched">I could as well go there.</example>
         </rule>
 
         <rule id="PREPOSITIONAL_DT_VBZNNS_NNS" name="Prepositional quantifiers + noun plur/vb sg = >noun plur">
@@ -13115,6 +13120,21 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="filter" postag="RB"/>
             <example type="ambiguous" inputform="please[please/RB,please/VB,please/VBP]" outputform="please[please/RB]">Could you <marker>please</marker> take care of this?</example>
             <example type="untouched">You please her.</example>
+        </rule>
+    </rulegroup>
+
+    <rulegroup id="AS_WELL_RB" name="Set only RB on 'well'">
+        <rule>
+            <pattern>
+                <token postag="PRP|MD" postag_regexp="yes" />
+                <token>as</token>
+                <marker>
+                    <token>well</token>
+                </marker>
+                <token postag="VB.*" postag_regexp="yes" chunk="I-VP" />
+            </pattern>
+            <disambig action="filter" postag="RB"/>
+            <example type="ambiguous" inputform="well[well/JJ,well/NN,well/RB,well/UH,well/VB,well/VBP]" outputform="well[well/RB]">I could as <marker>well</marker> go there.</example>
         </rule>
     </rulegroup>
 </rules>

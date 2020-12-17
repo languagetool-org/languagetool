@@ -185,6 +185,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" ward") &&
                    !k.getReplacement().endsWith(" cal") &&
                    !k.getReplacement().endsWith(" ted") && // "bursted"
+                   !k.getReplacement().endsWith(" sphere") &&
                    !k.getReplacement().endsWith(" like") && // "ribbonlike"
                    !k.getReplacement().endsWith(" full") && // do not suggest "use full" for "useful"
                    !k.getReplacement().endsWith(" en") && // "Antwerpen" suggests "Antwerp en"
@@ -338,6 +339,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Ensuite", Arrays.asList("En suite"));
     s.put("insite", Arrays.asList("insight"));
     s.put("insites", Arrays.asList("insights"));
+    s.put("Insite", Arrays.asList("Insight"));
+    s.put("Insites", Arrays.asList("Insights"));
     s.put("thouraly", Arrays.asList("thoroughly"));
     s.put("heiaracky", Arrays.asList("hierarchy"));
     s.put("on-prem", Arrays.asList("on-premise"));
