@@ -1959,6 +1959,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Han posat en pràctica polítiques d'ocupació.</example>
             <example>Treuen a la llum artistes molt vàlids.</example>
             <example>En una nova etapa com a espai de creació pluridisciplinari.</example>
+            <example>Un embardissat correiol baixa fort en direcció al mar.</example>
             <!--<example>Són els elements distintius: tradició i història comunes.</example>-->
             <!-- TODO: 
                 Els costats superior i laterals.
@@ -3197,6 +3198,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>És segon tercera.</example>
                 <example>i el Club Esportiu Lleida Basquetbol</example>
                 <example>a les actuals Cambodja i Cotxinxina</example>
+                <example>la versió en català del joc que avui desperta passions aquí i allà</example>
+                <example>I només tens ganes de dormir.</example>
+                <example>Les cases tenen un nom, sempre tens referències.</example>
             </rule>
             <rule>
                 <pattern>
@@ -7376,6 +7380,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1 de dir</suggestion>
                 <suggestion>\1 \3</suggestion>
                 <example correction="Hem de dir|Hem dit"><marker>Hem de dit</marker> de tornar.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>hem</token>
+                    <token postag="V.[SI].3..." postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>em \2</suggestion>?</message>
+                <suggestion>hem de <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="V.N.*"/></suggestion>
+                <example correction="Em passa|Hem de passar"><marker>Hem passa</marker> el mateix.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -26017,6 +26030,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token>micro</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">..+</token>
+                </pattern>
+                <message suppress_misspelled="yes">S'escriu junt.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="micro$1"/></suggestion>
+                <example correction="microcàmeres">Van instal·lar-hi mil <marker>micro càmeres</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>mini</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">..+</token>
+                </pattern>
+                <message suppress_misspelled="yes">S'escriu junt.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="mini$1"/></suggestion>
+                <example correction="minicàmeres">Van instal·lar-hi mil <marker>mini-càmeres</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>nacional</token>
                     <token min="0">-</token>
                     <token inflected="yes" regexp="yes">populisme|populista|catòlic|socialisme|catolicisme|sindicalisme|sindicalista</token>
@@ -35029,6 +35062,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="PRENDRE_ACCIÓ" name="prendre acció (anglicisme)">
+            <pattern>
+                <token inflected="yes">prendre</token>
+                <token>acció</token>
+            </pattern>
+            <message>Calc de l'anglès que val més evitar.</message>
+            <suggestion>\1 mesures</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">passar</match> a l'acció</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">adoptar</match> mesures</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">actuar</match></suggestion>
+            <example correction="prendre mesures|passar a l'acció|adoptar mesures|actuar">Cal <marker>prendre acció</marker> com més aviat millor.</example>
+        </rule>
         <rule id="DOTZE_RAIMS" name="dotze raïms">
             <pattern>
                 <token>dotze</token>
@@ -59579,6 +59624,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>I recordo sovint converses paraula per paraula.</example>
                 <example>Es conserven tres poemes amorosos seus, en occità.</example>
                 <example>És del tot manifesta l'atracció que tenen sobre ell.</example>
+                <example>En cap cas l'organització suspendrà la prova per raons meteorològiques normals extremes.</example>
+                <example>La fira va tancar portes diumenge a les vuit del vespre.</example>
             </rule>
         </rulegroup>
         <rule id="FALTA_COMA_FRASE_CONDICIONAL" name="Coma en frase condicional" type="style">

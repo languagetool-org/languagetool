@@ -84,6 +84,15 @@ public class FindSuggestionsFilter extends RuleFilter {
       }
       AnalyzedTokenReadings atrWord = patternTokens[posWord - 1];
 
+      // Check if the original token (before disambiguation) meets the requirements 
+      List<String> originalWord = Collections.singletonList(atrWord.getToken());
+      List<AnalyzedTokenReadings> aOriginalWord = tagger.tag(originalWord);
+      for (AnalyzedTokenReadings atr : aOriginalWord) {
+        if (atr.matchesPosTagRegex(desiredPostag)) {
+          return null;
+        }
+      }
+
       AnalyzedTokenReadings[] auxPatternTokens = new AnalyzedTokenReadings[1];
       if (atrWord.isTagged()) {
         auxPatternTokens[0] = new AnalyzedTokenReadings(new AnalyzedToken(makeWrong(atrWord.getToken()), null, null));
@@ -92,6 +101,7 @@ public class FindSuggestionsFilter extends RuleFilter {
       }
       AnalyzedSentence sentence = new AnalyzedSentence(auxPatternTokens);
       RuleMatch[] matches = morfologikRule.match(sentence);
+      
       if (matches.length > 0) {
         List<String> suggestions = matches[0].getSuggestedReplacements();
         // TODO: do not tag capitalized words with tags for lower case
