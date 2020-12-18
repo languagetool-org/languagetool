@@ -511,6 +511,11 @@ public class UkrainianTaggerTest {
     assertNotTagged("напіви");
   }
 
+  @Test
+  public void testDynamicTaggingAdvPre() throws IOException {
+    TestTools.myAssert("гірко-прегірко", "гірко-прегірко/[гірко-прегірко]adv", tokenizer, tagger);
+  }
+  
   
   @Test
   public void testDynamicTaggingOWithAdj() throws IOException {

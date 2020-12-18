@@ -298,12 +298,25 @@ class CompoundTagger {
         }
       }
     }
-      
+
+    // гірко-прегірко
+    if( rightWord.startsWith("пре")
+        && leftWord.toLowerCase().equals(rightWord.substring(3).toLowerCase())
+        && PosTagHelper.hasPosTagStart2(leftWdList, "adv") ) {
+
+      List<AnalyzedToken> leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
+      return leftAnalyzedTokens.stream()
+          .filter(a -> a.getPOSTag() != null && a.getPOSTag().startsWith("adv") )
+          .map(a -> new AnalyzedToken(word, a.getPOSTag().replaceAll(":comp.|:&predic", ""), word))
+          .collect(Collectors.toList());
+    }
+
     if( rightWdList.isEmpty() ) {
       return null;
     }
 
     List<AnalyzedToken> rightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(rightWord, rightWdList);
+
 
     // Ш-подібний
     if( leftWord.length() == 1
@@ -622,7 +635,8 @@ class CompoundTagger {
       String posTag = analyzedToken.getPOSTag();
       if( posTag.startsWith( posTagStart )
             && ! posTag.contains("v_kly") ) {
-        newAnalyzedTokens.add(new AnalyzedToken(word, PosTagHelper.addIfNotContains(posTag, addTag), leftWord + "-" + analyzedToken.getLemma()));
+        posTag = PosTagHelper.addIfNotContains(posTag, addTag);
+        newAnalyzedTokens.add(new AnalyzedToken(word, posTag, leftWord + "-" + analyzedToken.getLemma()));
       }
     }
     return newAnalyzedTokens;
