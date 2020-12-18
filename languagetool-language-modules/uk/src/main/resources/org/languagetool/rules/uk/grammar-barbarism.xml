@@ -6837,17 +6837,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
 
     <rule id="po_naturi" name="по натурі">
-     <pattern>
-       <token>по</token>
-       <token>натурі</token>
-     </pattern>
-     <message>Краще: <suggestion>з природи (натури)</suggestion></message>
-     <suggestion>на вдачу (натуру)</suggestion>
-     <suggestion>(доброї тощо) вдачі</suggestion>
-     <suggestion>зроду</suggestion>
-     <suggestion>природою</suggestion>
-     <suggestion>натурою</suggestion>
-     <example correction="з природи (натури)|на вдачу (натуру)|(доброї тощо) вдачі|зроду|природою|натурою">Він добрий <marker>по натурі</marker>.</example>
+      <pattern>
+        <token>по</token>
+        <token>натурі</token>
+      </pattern>
+      <message>Краще: <suggestion>з природи (натури)</suggestion></message>
+      <suggestion>на вдачу (натуру)</suggestion>
+      <suggestion>(доброї тощо) вдачі</suggestion>
+      <suggestion>зроду</suggestion>
+      <suggestion>природою</suggestion>
+      <suggestion>натурою</suggestion>
+      <example correction="з природи (натури)|на вдачу (натуру)|(доброї тощо) вдачі|зроду|природою|натурою">Він добрий <marker>по натурі</marker>.</example>
     </rule>
 
     <rule id="za_smakom" name="За смаком">
@@ -6924,13 +6924,78 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 
     <rule id="drygymy_slovamy" name="другими словами">
-    <pattern>
-      <token>другими</token>
-      <token>словами</token>
-     </pattern>
-     <message>Правильно: <suggestion>інакше кажучи</suggestion>.</message>
-     <suggestion>іншими словами</suggestion>
-     <example correction="інакше кажучи|іншими словами"><marker>другими словами</marker>, вона це зробила.</example>
+      <pattern>
+        <token>другими</token>
+        <token>словами</token>
+      </pattern>
+      <message>Правильно: <suggestion>інакше кажучи</suggestion>.</message>
+      <suggestion>іншими словами</suggestion>
+      <example correction="інакше кажучи|іншими словами"><marker>другими словами</marker>, вона це зробила.</example>
+    </rule>
+
+    <rule id="korinnyi_zub" name="Корінний зуб">
+      <pattern>
+        <marker>
+          <token inflected="yes">корінний</token>
+        </marker>
+        <token inflected="yes">зуб</token>
+      </pattern>
+      <message>Правильно: <suggestion>кутній</suggestion>.</message>
+      <example correction="кутній"><marker>корінного</marker> зуба</example>
+    </rule>
+
+    <rule id="likuyichyi_likar" name="Лікуючий лікар">
+      <pattern>
+        <marker>
+          <token inflected="yes">лікуючий</token>
+        </marker>
+        <token inflected="yes">лікар</token>
+      </pattern>
+      <message>Правильно: <suggestion>особистий</suggestion>.</message>
+      <example correction="особистий"><marker>лікуючого</marker> лікаря</example>
+    </rule>
+
+    <rule id="namityty_orientyry" name="Намітити орієнтири">
+      <pattern>
+        <marker>
+          <token inflected="yes" regexp="yes">намітити|намічати</token>
+        </marker>
+        <token>орієнтири</token>
+      </pattern>
+      <message>Правильно: <suggestion>накреслювати</suggestion>.</message>
+      <suggestion>накреслити</suggestion>
+      <example correction="накреслювати|накреслити"><marker>намітив</marker> орієнтири</example>
+    </rule>
+
+    <rule id="vishaty_lapshu" name="Вішати лапшу">
+      <pattern>
+        <token inflected="yes" regexp="yes">вішати|навісити</token>
+        <token postag_regexp="yes" postag="noun.*v_dav.*" min="0"/>
+        <token regexp="yes">лапшу|локшину</token>
+        <token postag_regexp="yes" postag="noun.*v_dav.*" min="0"/>
+        <token>на</token>
+        <token>вуха</token>
+      </pattern>
+      <message>Правильно: <suggestion>замилювати очі</suggestion>.</message>
+      <suggestion>обманювати</suggestion>
+      <suggestion>дурити</suggestion>
+      <suggestion>водити за носа</suggestion>
+      <example correction="замилювати очі|обманювати|дурити|водити за носа">він <marker>вішав локшину на вуха</marker> усім</example>
+      <example correction="замилювати очі|обманювати|дурити|водити за носа">він <marker>вішав йому лапшу на вуха</marker></example>
+      <example correction="замилювати очі|обманювати|дурити|водити за носа">він <marker>вішав лапшу йому на вуха</marker></example>
+    </rule>
+
+    <rule id="prozhyvaty_po_vuluci" name="Проживати по вулиці">
+      <pattern>
+        <marker>
+          <token inflected="yes" regexp="yes">проживати|проживаючи</token>
+          <token>по</token>
+          <token>вулиці</token>
+        </marker>
+      </pattern>
+      <message>Краще: <suggestion>мешкати за адресою</suggestion></message>
+      <suggestion>\1 на вулиці</suggestion>
+      <example correction="мешкати за адресою|проживати на вулиці"><marker>проживати по вулиці</marker> Ушакова.</example>
     </rule>
 
 <!--  Too many false positives with надоїти, moved to replace.txt
