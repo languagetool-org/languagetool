@@ -376,6 +376,7 @@ public class AgreementRuleTest {
     //assertBad("Gemälde informieren uns über das Leben von den vergangenen Jahrhunderte…");
     assertBad("Die Partei, die bei den vorangegangen Wahlen noch seine Politik unterstützt hatte.");
     assertBad("Bei Zunahme der aufgelösten Mineralstoffen, bei denen...");
+    assertBad("Durch die große Vielfalt der verschiedene Linien ist für jeden Anspruch die richtige Brille im Portfolio.");
 
     assertBad("Des großer Mannes.");
 
