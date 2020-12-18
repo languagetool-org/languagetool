@@ -280,16 +280,28 @@ public class AgreementRule extends Rule {
       posRegex("VER:3:.+"),
       posRegex("SUB:(DAT|NOM):PLU.*")
     ),
-    Arrays.asList(  // "Dies erlaubt Forschern, ..." aber auch "Dieses versuchten Mathematiker ..."
+    Arrays.asList(  // "in denen Energie steckt"
       posRegex("PRP:.+"),
       posRegex("PRO:DEM:(DAT|AKK).+"),
-      posRegex("SUB:(DAT|AKK):.*")
+      posRegex("SUB:...:PLU.*")
     ),
     Arrays.asList(
       posRegex("PRP:.+"),
       posRegex("PRO:DEM:(DAT|AKK).+"),
       posRegex("PA2:(DAT|AKK).+"),
       posRegex("SUB:(DAT|AKK):.*")
+    ),
+    Arrays.asList( // Artikel 34 setzt dem bestimmte Formen gleich
+      posRegex("VER:.*[123].*"),
+      posRegex("PRO:DEM:DAT:SIN:NEU.*"),
+      posRegex("PA2:AKK:PLU.+"),
+      posRegex("SUB:AKK:PLU.+")
+    ),
+    Arrays.asList(
+      pos("ADJ:PRD:KOM"),
+      csToken("als"),
+      regex("d(er|ie|as)"),
+      posRegex(".+:GEN:.+")
     ),
     Arrays.asList(  // "Wir bereinigen das nächsten Dienstag."
       posRegex("VER:.*|UNKNOWN"),
