@@ -329,6 +329,13 @@ public class AgreementRuleTest {
     assertGood("Was für eine blöde Kuh!");
     assertGood("Was ist sie nur für eine blöde Kuh!");
     assertGood("Wie viele Paar Stiefel brauche ich eigentlich?");
+    assertGood("Dieses versuchten Mathematiker 400 Jahre lang vergeblich zu beweisen.");
+    assertGood("Bei dem Papierabzüge von Digitalbildern bestellt werden.");
+    assertGood("Gemälde informieren uns über das Leben von den vergangenen Jahrhunderten…");
+    assertGood("Die Partei, die bei den vorangegangenen Wahlen noch seine Politik unterstützt hatte.");
+    assertGood("Bei Zunahme der aufgelösten Mineralstoffe, bei denen...");
+    assertGood("Je mehr Muskelspindeln in einem Muskel vorhanden sind, desto feiner können die mit diesem verbundenen Bewegungen abgestimmt werden.");
+    assertGood("Diese datentechnischen Operationen werden durch Computerprogramme ausgelöst, d. h. über entsprechende, in diesen enthaltene Befehle (als Teil eines implementierten Algorithmus') vorgegeben.");
 
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");
@@ -355,6 +362,14 @@ public class AgreementRuleTest {
     assertBad("Die erwähnten Konferenz ist am Samstag.");
     assertBad("Die erwähnter Konferenz ist am Samstag.");
     assertBad("Die erwähntem Konferenz ist am Samstag.");
+    assertBad("Die gemessen Werte werden in die länderspezifische Höhe über dem Meeresspiegel umgerechnet.");
+    assertBad("Darüber hinaus haben wir das berechtigte Interessen, diese Daten zu verarbeiten.");
+    assertBad("Eine Amnestie kann den Hingerichteten nicht das Leben und dem heimgesuchten Familien nicht das Glück zurückgeben.");
+    //assertBad("Zu den gefährdeten Vögel Malis gehören der Strauß, Großtrappen und Perlhuhn.");
+    assertBad("Z. B. therapeutisches Klonen, um aus den gewonnen Zellen in vitro Ersatzorgane für den Patienten zu erzeugen");
+    //assertBad("Gemälde informieren uns über das Leben von den vergangenen Jahrhunderte…");
+    assertBad("Die Partei, die bei den vorangegangen Wahlen noch seine Politik unterstützt hatte.");
+    assertBad("Bei Zunahme der aufgelösten Mineralstoffen, bei denen...");
 
     assertBad("Des großer Mannes.");
 
@@ -463,8 +478,6 @@ public class AgreementRuleTest {
     assertBadWithMessage("Das Fahrräder.", "des Numerus");
     assertBadWithMessage("Die Tischen sind eckig.", "des Kasus");
     assertBadWithMessage("Die Tischen sind eckig.", "und Genus");
-    //TODO: input is actually correct
-    assertBadWithMessage("Bei dem Papierabzüge von Digitalbildern bestellt werden.", "des Kasus, Genus oder Numerus.");
   }
 
   @Test

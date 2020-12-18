@@ -274,10 +274,22 @@ public class AgreementRule extends Rule {
       token("einen"),
       pos("SUB:NOM:SIN:NEU")
     ),
-    Arrays.asList(  // "Dies erlaubt Forschern, ..."
+    Arrays.asList(  // "Dies erlaubt Forschern, ..." aber auch "Dieses versuchten Mathematiker ..."
+      pos("SENT_START"),
       posRegex("PRO:DEM:.+"),
       posRegex("VER:3:.+"),
-      posRegex("SUB:DAT:PLU.*")
+      posRegex("SUB:(DAT|NOM):PLU.*")
+    ),
+    Arrays.asList(  // "Dies erlaubt Forschern, ..." aber auch "Dieses versuchten Mathematiker ..."
+      posRegex("PRP:.+"),
+      posRegex("PRO:DEM:(DAT|AKK).+"),
+      posRegex("SUB:(DAT|AKK):.*")
+    ),
+    Arrays.asList(
+      posRegex("PRP:.+"),
+      posRegex("PRO:DEM:(DAT|AKK).+"),
+      posRegex("PA2:(DAT|AKK).+"),
+      posRegex("SUB:(DAT|AKK):.*")
     ),
     Arrays.asList(  // "Wir bereinigen das nächsten Dienstag."
       posRegex("VER:.*|UNKNOWN"),
