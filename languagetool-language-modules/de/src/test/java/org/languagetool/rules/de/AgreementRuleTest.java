@@ -173,7 +173,7 @@ public class AgreementRuleTest {
     assertGood("Sind das echte Diamanten?");
     assertGood("Es wurde eine Verordnung erlassen, der zufolge jeder Haushalt Energie einsparen muss.");
     assertGood("Im Jahr 1922 verlieh ihm König George V. den erblichen Titel eines Baronet. ");
-    //assertGood("... der zu dieser Zeit aber ohnehin schon allen Einfluss verloren hatte.");
+    assertGood("... der zu dieser Zeit aber ohnehin schon allen Einfluss verloren hatte.");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");
@@ -294,7 +294,7 @@ public class AgreementRuleTest {
     assertGood("Stell dich dem Leben lächelnd!");
     assertGood("Die Messe wird auf das vor der Stadt liegende Ausstellungsgelände verlegt.");
     assertGood("Sie sind ein den Frieden liebendes Volk.");
-    //assertGood("Zum Teil sind das Krebsvorstufen.");
+    assertGood("Zum Teil sind das Krebsvorstufen.");
     assertGood("Er sagt, dass das Rache bedeutet.");
     assertGood("Wenn das Kühe sind, bin ich ein Elefant.");
     assertGood("Karl sagte, dass sie niemandem Bescheid gegeben habe.");
@@ -336,6 +336,9 @@ public class AgreementRuleTest {
     assertGood("Bei Zunahme der aufgelösten Mineralstoffe, bei denen...");
     assertGood("Je mehr Muskelspindeln in einem Muskel vorhanden sind, desto feiner können die mit diesem verbundenen Bewegungen abgestimmt werden.");
     assertGood("Diese datentechnischen Operationen werden durch Computerprogramme ausgelöst, d. h. über entsprechende, in diesen enthaltene Befehle (als Teil eines implementierten Algorithmus') vorgegeben.");
+    assertGood("Aus diesen resultierten Konflikte wie der Bauernkrieg und der Pfälzische Erbfolgekrieg.");
+    assertGood("Die Staatshandlungen einer Mikronation und von dieser herausgegebene Ausweise, Urkunden und Dokumente gelten im Rechtsverkehr als unwirksam");
+    assertGood("Auf der Hohen See und auf den mit dieser verbundenen Gewässern gelten die internationalen Kollisionsverhütungsregeln.");
 
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");
@@ -365,7 +368,8 @@ public class AgreementRuleTest {
     assertBad("Die gemessen Werte werden in die länderspezifische Höhe über dem Meeresspiegel umgerechnet.");
     assertBad("Darüber hinaus haben wir das berechtigte Interessen, diese Daten zu verarbeiten.");
     assertBad("Eine Amnestie kann den Hingerichteten nicht das Leben und dem heimgesuchten Familien nicht das Glück zurückgeben.");
-    //assertBad("Zu den gefährdeten Vögel Malis gehören der Strauß, Großtrappen und Perlhuhn.");
+    //assertBad("Zu den gefährdete Vögeln Malis gehören der Strauß, Großtrappen und Perlhuhn.");
+    // assertBad("Zu den gefährdete Vögel Malis gehören der Strauß, Großtrappen und Perlhuhn.");
     assertBad("Z. B. therapeutisches Klonen, um aus den gewonnen Zellen in vitro Ersatzorgane für den Patienten zu erzeugen");
     //assertBad("Gemälde informieren uns über das Leben von den vergangenen Jahrhunderte…");
     assertBad("Die Partei, die bei den vorangegangen Wahlen noch seine Politik unterstützt hatte.");
