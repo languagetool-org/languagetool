@@ -85,11 +85,13 @@ public class FindSuggestionsFilter extends RuleFilter {
       AnalyzedTokenReadings atrWord = patternTokens[posWord - 1];
 
       // Check if the original token (before disambiguation) meets the requirements 
-      List<String> originalWord = Collections.singletonList(atrWord.getToken());
-      List<AnalyzedTokenReadings> aOriginalWord = tagger.tag(originalWord);
-      for (AnalyzedTokenReadings atr : aOriginalWord) {
-        if (atr.matchesPosTagRegex(desiredPostag)) {
-          return null;
+      if (diacriticsMode) {
+        List<String> originalWord = Collections.singletonList(atrWord.getToken());
+        List<AnalyzedTokenReadings> aOriginalWord = tagger.tag(originalWord);
+        for (AnalyzedTokenReadings atr : aOriginalWord) {
+          if (atr.matchesPosTagRegex(desiredPostag)) {
+            return null;
+          }
         }
       }
 
