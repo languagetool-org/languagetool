@@ -9516,6 +9516,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="RECENT" name="recent + adjectiu">
+            <url>http://esadir.cat/entrades/fitxa/node/recent</url>
             <rule>
                 <pattern>
                     <token><exception regexp="yes">més|cas|període</exception></token>
@@ -9529,7 +9530,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3"/> de poc</suggestion>
                 <suggestion><match no="3"/> de nou</suggestion>
                 <suggestion>recentment <match no="3"/></suggestion>
-                <url>http://esadir.cat/entrades/fitxa/node/recent</url>
                 <example correction="acabats d'elegir|elegits de poc|elegits de nou|recentment elegits"><marker>recent elegits</marker></example>
                 <example correction="acabat d'elegir|elegit de poc|elegit de nou|recentment elegit"><marker>recent elegit</marker></example>
                 <example>l'altre més recent viscut pels nostres pares</example>
@@ -9549,7 +9549,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3"/> de poc</suggestion>
                 <suggestion><match no="3"/> de nou</suggestion>
                 <suggestion>recentment <match no="3"/></suggestion>
-                <url>http://esadir.cat/entrades/fitxa/node/recent</url>
                 <example correction="acabats de pintar|pintats de poc|pintats de nou|recentment pintats"><marker>recent pintats</marker></example>
                 <example correction="acabat de pintar|pintat de poc|pintat de nou|recentment pintat"><marker>recent pintat</marker></example>
                 <example>l'altre més recent viscut pels nostres pares</example>
@@ -9587,13 +9586,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>nou<match no="3"/></suggestion>
                 <suggestion><match no="3" postag="V.P.*(.)(.)." postag_regexp="yes" postag_replace="NC$2$1.*">novençà</match></suggestion>
                 <suggestion><match no="3" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">acabar</match> de <match no="3" postag="V.N.*" postag_regexp="yes"/></suggestion>
-                <url>http://esadir.cat/entrades/fitxa/node/recent</url>
                 <example correction="noucasats|novençans|acabats de casar"><marker>recent casats</marker></example>
                 <!-- <example correction="noucasades|novençanes|acabades de casar"><marker>recent casades</marker></example> -->
                 <example correction="noucasat|novençà|acabat de casar"><marker>recent casat</marker></example>
                 <example>l'altre més recent viscut pels nostres pares</example>
                 <example>un cas recent lligat a un estímul admiratiu</example>
                 <example>en un període recent units de manera contínua</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">més|cas|període</exception></token>
+                    <marker>
+                        <token>recent</token>
+                        <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">llicenciat|graduat</token>
+                    </marker>
+                </pattern>
+                <message>"Recent" no és un adverbi.</message>
+                <suggestion><match no="3" postag="NC(.)(.).*" postag_regexp="yes" postag_replace="V.P..$2$1.">acabar</match> de <match no="3" regexp_match="(?iu)(t|ts|da|des)$" regexp_replace="r"/></suggestion>
+                <example correction="acabat de llicenciar">Un jove <marker>recent llicenciat</marker></example>
+                <example correction="acabada de graduar">Una jove <marker>recent graduada</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="TANT_TAN_A_DINS" name="tant/tan a dins">
@@ -35492,6 +35503,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="GRIMA" name="*grima">
+            <pattern>
+                <token inflected="yes" regexp="yes" skip="3">donar|fer</token>
+                <token>grima</token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> feredat</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> fredat</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">esgarrifar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">esborronar</match></suggestion>
+            <example correction="feia feredat|feia fredat|esgarrifava|esborronava">Allò <marker>donava molta grima</marker>.</example>
+            <example correction="feia feredat|feia fredat|esgarrifava|esborronava">Allò <marker>feia grima</marker>.</example>
+        </rule>
         <rule id="PRENDRE_ACCIÓ" name="prendre acció (anglicisme)">
             <pattern>
                 <token inflected="yes">prendre</token>
@@ -51924,6 +51948,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="1" regexp_match="(?iu)xorrad" regexp_replace="bajanad"/></suggestion>
             <url>https://esadir.cat/entrades/fitxa/node/xorrada</url>
             <example correction="collonades|parides|bestieses|animalades|poca-soltades|bajanades">Això són <marker>xorrades</marker>.</example>
+        </rule>
+        <rule id="FREDAT" name="fredat">
+            <pattern>
+                <token>fredat</token>
+            </pattern>
+            <message>Pronunciació col·loquial de <suggestion>feredat</suggestion>.</message>
+            <example correction="feredat">Fa <marker>fredat</marker>.</example>
         </rule>
         <rule id="TRASQUILAR" name="trasquilar/esquilar">
             <pattern>
