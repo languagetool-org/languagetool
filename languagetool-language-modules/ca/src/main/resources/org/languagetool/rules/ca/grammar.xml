@@ -112,6 +112,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY verbs_balears_ES "adès|avès|exprès|ingrès|procès|profès|progrès|regrès|reingrès|revès|travès">
     <!ENTITY vocabulari_menjar "xocolata|xocolate|allioli|aliment|all|amanida|arròs|bolet|carn|carxofa|cep|coriandre|fava|fetge|foie|formatge|gamba|j[ou]livert|llamàntol|llobregant|lluç|macarró|magret|mandonguilla|mango|menjar|mongeta|p[éè]sol|pa|pastís|porc|r[eo]nyó|safrà|tofu|verdura|vi|ànec">
     <!ENTITY pronom_feble "P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00">
+    <!ENTITY pronom_no_determinant "et|em|es|li|ens|us|vos|hi|m'|t'|s'">
     <!ENTITY os_animal "caverna|bru|grizzly|polar|hibern.*">
     <!ENTITY os_anatomia "moll|medul·la">
     <!ENTITY mora_fruit "silvestre|fruit.*|baia|pastís|melmelada|esbarzer.*|sarsa|sarsaparrella|arbust|punxa|menja.* pagament|administra.*">
@@ -128,18 +129,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
     <unification feature="nombre">
         <equivalence type="S">
-            <token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[SN0].*|.*_GN_.[SN].*" postag_regexp="yes"/>
+            <token postag="(P...|N.{2}|[ADP].{3}|V.{4})[SN0].*|.*_GN_.[SN].*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="P">
-            <token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[PN0].*|.*_GN_.[PN].*" postag_regexp="yes"/>
+            <token postag="(P...|N.{2}|[ADP].{3}|V.{4})[PN0].*|.*_GN_.[PN].*" postag_regexp="yes"/>
         </equivalence>
     </unification>
     <unification feature="genere">
         <equivalence type="M">
-            <token postag="(PX.|N.|[ADP].{2}|V.{5})[MC].*|.*_GN_[MC]..*" postag_regexp="yes"/>
+            <token postag="(P..|N.|[ADP].{2}|V.{5})[MC].*|.*_GN_[MC]..*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="F">
-            <token postag="(PX.|N.|[ADP].{2}|V.{5})[FC].*|.*_GN_[FC]..*" postag_regexp="yes"/>
+            <token postag="(P..|N.|[ADP].{2}|V.{5})[FC].*|.*_GN_[FC]..*" postag_regexp="yes"/>
         </equivalence>
     </unification>
     <unification feature="persona">
@@ -15364,6 +15365,415 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
+    <category id="ACCENTUACIO" name="accentuació">
+        <rulegroup id="ACCENTUATION_CHECK_NEW" name="noms i adjectius amb accent" default="temp_off">
+            <rule>
+                <!-- amb renuncies-->
+                <pattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="RG|_possible_nompropi" postag_regexp="yes"/></token>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\2 postag:[AN].*"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="indústria">Amb <marker>industria</marker>.</example>
+            </rule>
+            <rule>
+                <!-- amb les renuncies-->
+                <pattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="RG|_possible_nompropi" postag_regexp="yes"/></token>
+                    <token postag="D[AI].*|PP...A.." postag_regexp="yes"/>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\3 postag:[AN].* "/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="indústria">En la <marker>industria</marker>.</example>
+            </rule>
+            <rule>
+                <!-- amb les nostres pròpies renuncies-->
+                <pattern>
+                    <!--<token postag="SPS00|LOC_PREP|PR000000" postag_regexp="yes"><exception postag="RG|_possible_nompropi" postag_regexp="yes"/></token>-->
+                    <token postag="D[AI].*|PP...A00" postag_regexp="yes"/>
+                    <token postag="PX.*" postag_regexp="yes"/>
+                    <token inflected="yes" min="0">propi</token>
+                    <marker>
+                        <token postag="V.[SI].*" postag_regexp="yes"><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\4 postag:[AN].* gendernumber_from:1"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="indústria">En la nostra pròpia <marker>industria</marker>.</example>
+                <example correction="indústria">En la nostra <marker>industria</marker>.</example>
+                <example correction="desgràcia">Com la nostra <marker>desgracia</marker>.</example>
+                <example correction="influència">La seva <marker>influencia</marker> és gran.</example>
+                <example correction="contràries">Les seues <marker>contraries</marker>.</example>
+            </rule>
+            <rule>
+                <!-- de la tristament celebre-->
+                <pattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="RG|_possible_nompropi" postag_regexp="yes"/></token>
+                    <token postag="D[AI].*" postag_regexp="yes" min="0"/>
+                    <token postag="RG"/>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\4 postag:[AN].*"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="cèlebre">del tristament <marker>celebre</marker> episodi.</example>
+                <example correction="cèlebre">de la tristament <marker>celebre</marker> ocasió.</example>
+                <example>Almenys legitima una decisió.</example>
+            </rule>
+            <rule>
+                <!-- aquestes renuncies -->
+                <pattern>
+                    <token postag="D[^RTEN].*" postag_regexp="yes"><exception regexp="yes">el|lo|la</exception><exception postag="PP.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception regexp="yes">cantar|tenia|venia|continua|genera|faria</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\2 postag:NC.* gendernumber_from:1"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="renúncies">Aquestes <marker>renuncies</marker>.</example>
+                <example correction="circumstàncies">Unes <marker>circumstancies</marker></example>
+                <example correction="història">El millor d'aquesta <marker>historia</marker>.</example>
+                <example correction="ràdio">Vaig fer una <marker>radio</marker> que no va funcionar mai.</example>
+            </rule>
+            <rule>
+                <!-- La fabrica va produir-->
+                <pattern>
+                    <token postag="D[^RTEN].*|_GN_.*|PP...A.." postag_regexp="yes"/>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token min="0" max="2" postag_regexp="yes" postag="RN|&pronom_feble;"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\2 postag:NC.* gendernumber_from:1"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="fàbrica">La <marker>fabrica</marker> va produir les màquines.</example>
+                <example correction="màquina">L'estranya <marker>maquina</marker> s'enlairà.</example>
+                <example correction="primàries">Com sabeu les <marker>primaries</marker> s'han ajornat.</example>
+            </rule>
+            <rule>
+                <!--carrega d'arxius-->
+                <pattern>
+                    <marker>
+                        <token postag="V.[SI].*" postag_regexp="yes"><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception regexp="yes">tremolo|venia|venies|tenia|tenies|faria|faries|espero|continua|continues|cantar</exception><exception scope="previous" regexp="yes">que|qui|què</exception><exception scope="previous" postag="RG|LOC_ADV|VA.*|PP.*|P0.*|VSP.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token regexp="yes">de|d'<exception postag="LOC_.*" postag_regexp="yes"/></token>
+                    <token><exception postag="V.N.*" postag_regexp="yes"/></token>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\1 postag:NC.*"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="Càrrega"><marker>Carrega</marker> d'arxius.</example>
+                <example correction="circumstàncies">Són <marker>circumstancies</marker> d'un altre cas.</example>
+                <example correction="partícip">Fou <marker>particip</marker> de l'operació.</example>
+                <example>Vaig perdut, tremolo de por.</example>
+            </rule>
+            <rule>
+                <!--memoritzar les formules -->
+                <pattern>
+                    <token postag="V.[NIS].*|_GV_" postag_regexp="yes"/>
+                    <token postag="D[^RTEN].*|PP...A.." postag_regexp="yes"/>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\3 postag:NC.* gendernumber_from:2"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="fórmules">No és sols memoritzar les <marker>formules</marker>.</example>
+                <example correction="fórmules">Memoritzeu les <marker>formules</marker>.</example>
+                <example correction="màquina">Espereu un moment abans d'aturar la <marker>maquina</marker> perquè funcioni bé.</example>
+                <example correction="còpia">Nosaltres fem la <marker>copia</marker> i la compulsem.</example>
+                <example correction="fària">No em fumaré una <marker>faria</marker> com feia abans.</example>
+                <example correction="fària">M'he fumat una <marker>faria</marker>.</example>
+            </rule>
+            <rule>
+                <!-- Una nova formula que -->
+                <pattern>
+                    <unify>
+                        <feature id="genere"/>
+                        <feature id="nombre"/>
+                        <token postag="D.*" postag_regexp="yes"/>
+                        <token postag="A.*" postag_regexp="yes"/>
+                    </unify>
+                    <marker>
+                        <token><exception>estipula</exception></token>
+                    </marker>
+                    <token>que</token>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\3 postag:NC.* gendernumber_from:1"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="fórmula">Una nova <marker>formula</marker> que fou descoberta l'any passat.</example>
+                <example>Una nova estipula que no es pot fer.</example>
+                <example>L'informe estipula que ha de ser així.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D.*|PP...A..|P[DXI].*" postag_regexp="yes"><exception regexp="yes">&pronom_no_determinant;</exception></token>
+                    <marker>
+                        <token><exception>estipula</exception></token>
+                    </marker>
+                    <token regexp="yes">de|d'|que</token>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\2 postag:NC.* gendernumber_from:1"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="màquina">Una <marker>maquina</marker> del temps.</example>
+                <example correction="màquina">La <marker>maquina</marker> del temps.</example>
+                <example correction="fórmula">La <marker>formula</marker> d'inspiració.</example>
+                <example correction="crítica">La <marker>critica</marker> que fas no hi toca.</example>
+                <example correction="renúncia">La <marker>renuncia</marker> del president.</example>
+                <example correction="circumstàncies">Les <marker>circumstancies</marker> que ens envolten.</example>
+                <example>L'article 1 estipula que és així.</example>
+            </rule>
+            <!-- de postiva influencia -->
+            <rule>
+                <pattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="RG"/></token>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception regexp="yes">estipula|practica|practiques|pronuncia|espero|pronuncies|venia|venies|tenia|tenies|continua|continues|faria|faries|genera|figuri|anima</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\3 postag:NC.* gendernumber_from:2"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="influència">De positiva <marker>influencia</marker> en el resultat.</example>
+                <example correction="distància">Tren de llarga <marker>distancia</marker>.</example>
+                <example>Quina classe de política practica la UE.</example>
+            </rule>
+            <!-- adjectives -->
+            <rule>
+                <!-- disposicions explicites -->
+                <pattern>
+                    <token postag="NC[MF]P.*" postag_regexp="yes"/>
+                    <marker>
+                        <token/>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\2 postag:A.* gendernumber_from:1"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="explícites">Les disposicions <marker>explicites</marker> del director</example>
+                <example correction="específiques">Fas tasques <marker>especifiques</marker>.</example>
+            </rule>
+            <rule>
+                <!-- al seu preu íntegre -->
+                <pattern>
+                    <token postag="NCMS.*" postag_regexp="yes"/>
+                    <marker>
+                        <token/>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\2 postag:A.* gendernumber_from:1"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="íntegre">Al seu preu <marker>integre</marker>.</example>
+                <example correction="adúlter">Un home <marker>adulter</marker>.</example>
+                <example>L'home marra el camí.</example>
+            </rule>
+            <rule>
+                <!-- de forma integra -->
+                <pattern>
+                    <token>de</token>
+                    <token regexp="yes">forma|manera</token>
+                    <marker>
+                        <token/>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\3 postag:A.* gendernumber_from:2"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="íntegra">De forma <marker>integra</marker>.</example>
+                <example correction="òbvia">De manera <marker>obvia</marker>.</example>
+            </rule>
+            <rule>
+                <!-- La magnifica intervenció -->
+                <pattern>
+                    <unify>
+                        <feature id="genere"/>
+                        <feature id="nombre"/>
+                        <token postag="D.*|PP...A..|P[DXI].*" postag_regexp="yes"><exception regexp="yes">&pronom_no_determinant;</exception></token>
+                        <unify-ignore>
+                            <marker>
+                                <token><exception postag="[AN].*" postag_regexp="yes"/></token>
+                            </marker>
+                        </unify-ignore>
+                        <token postag="[NA].*" postag_regexp="yes"/>
+                    </unify>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\2 postag:A.* gendernumber_from:3"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="última">L'<marker>ultima</marker> intervenció.</example>
+                <example correction="sòlida">La meva <marker>solida</marker> formació.</example>
+                <example correction="magnífica">Aquella <marker>magnifica</marker> intervenció.</example>
+                <example correction="magnífica">La <marker>magnifica</marker> intervenció.</example>
+                <example correction="magnífica">Va fer una <marker>magnifica</marker> interpretació.</example>
+                <example correction="específica">Una <marker>especifica</marker> votació de diputats.</example>
+                <example correction="primàries">Com s'ha dit, les <marker>primaries</marker> autonòmiques s'han ajornat.</example>
+                <example correction="contínues">Les <marker>continues</marker> al·lusions a la victòria.</example>
+            </rule>
+            <rule>
+                <!-- ocupa amplies extensions-->
+                <pattern>
+                    <marker>
+                        <token postag="V.[SI].*" postag_regexp="yes"><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception regexp="yes">practica|practiques|venia|venies|tenia|tenies|faria|faries|espero|continua|continues|cantar</exception><exception scope="previous" regexp="yes">que|qui|què</exception><exception scope="previous" postag="RG|LOC_ADV|VA.*|PP.*|P0.*|VSP.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="NC.*" postag_regexp="yes"/>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\1 postag:A.* gendernumber_from:2"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="àmplies">Ocupa <marker>amplies</marker> extensions.</example>
+            </rule>
+            <rule>
+                <!-- fou particip de -->
+                <pattern>
+                    <token postag="V.[MSIN].*|_GV_" postag_regexp="yes"/>
+                    <marker>
+                        <token><exception postag="[AN].*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token regexp="yes">de|d'</token>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\2 postag:[AN].*"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="partícip">Va ser <marker>particip</marker> de l'operació.</example>
+            </rule>
+            <rule>
+                <!-- ha estat particip de -->
+                <pattern>
+                    <token postag="V.[MSI].*" postag_regexp="yes" inflected="yes">haver</token>
+                    <token postag="V.P..SM." postag_regexp="yes"/>
+                    <marker>
+                        <token/>
+                    </marker>
+                    <token regexp="yes">de|d'</token>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\3 postag:[AN].*"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="partícip">Ha estat <marker>particip</marker> de l'operació.</example>
+            </rule>
+            <rule>
+                <!-- ha estat més explicit -->
+                <pattern>
+                    <token inflected="yes" regexp="yes">estar|ser|fer<exception postag="_GN_MS"/></token>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <marker>
+                        <token><exception postag="RG|LOC_ADV|[NA].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\3 postag:[AN].*"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="explícit">Ha estat més <marker>explicit</marker> que els altres.</example>
+                <example correction="explícit">Fou <marker>explicit</marker>.</example>
+                <example correction="explícit">Va ser molt més <marker>explicit</marker>.</example>
+                <example>Ella és massa baixa.</example>
+                <example>En l'estat opera el nepotisme.</example>
+            </rule>
+            <rule>
+                <!-- Only noun + adj: with 2 errors: alivian la nauseas matutinas-->
+                <pattern>
+                    <token><exception regexp="yes">&pronom_no_determinant;|si</exception></token>
+                    <marker>
+                        <token><exception postag="RG|LOC_ADV|[NA].*" postag_regexp="yes"/><exception regexp="yes">practica|practiques|pronuncia|espero|pronuncies|venia|venies|tenia|tenies|continua|continues|faria|faries|genera|figuri|anima</exception></token>
+                    </marker>
+                    <token postag="AQ..P." postag_regexp="yes"><exception postag="D.*" postag_regexp="yes"/></token>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\2 postag:N.* gendernumber_from:3"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="màquines">Engeguen la <marker>maquines</marker> sistemàtiques.</example>
+                <example correction="vèrtebres">que les <marker>vertebres</marker> properes al crani</example>
+                <example>Tu practiques tècniques de ioga.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">tenir</token>
+                    <token postag="RG_before|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
+                    <marker>
+                        <token><exception postag="RG|LOC_ADV|[NA].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\3 postag:N.*"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="màquines">Tinc <marker>maquines</marker> per a tot això.</example>
+            </rule>
+            <rule>
+                <!-- destacat interpret de (only adjectives usually before the noun -->
+                <pattern>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">sant|referir|dir|nou|gran|destacar|mateix|apreciable</token>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception>estipula</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\2 postag:NC.* gendernumber_from:1"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="intèrpret">Un destacat <marker>interpret</marker> de música clàssica.</example>
+                <example>Una nova estipula que no es pot fer.</example>
+            </rule>
+            <rule>
+                <!-- destacats interprets (plural) -->
+                <pattern>
+                    <token postag="AQ..P.|V.P..P." postag_regexp="yes"/>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\2 postag:NC.* gendernumber_from:1"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="quilòmetres">Excepcionals <marker>quilometres</marker> de l'autopista.</example>
+            </rule>
+            <rule>
+                <!-- dues practiques -->
+                <pattern>
+                    <token postag="DN..P." postag_regexp="yes"/>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\2 postag:NC.[PN].*|A...[PN]."/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="pràctiques">Tinc 2 <marker>practiques</marker> més.</example>
+                <example correction="pràctiques">Tinc dues <marker>practiques</marker> més.</example>
+                <example>L'any 2010 practiques més.</example>
+            </rule>
+            <rule>
+                <!-- tota maquina -->
+                <pattern>
+                    <token>tota</token>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\2 postag:NCFS.*"/>
+                <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="màquina">A tota <marker>maquina</marker> cada dia.</example>
+            </rule>
+        </rulegroup>
+    </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
         <rule id="JOHNS_HOPKINS" name="Johns Hopkins">
             <antipattern case_sensitive="yes">
@@ -30186,7 +30596,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception postag="_possible_nompropi"/></token>
                 </pattern>
                 <message>Combinació incorrecta de pronoms febles.</message>
-                <example correction=""><marker>En el</marker> porten.</example>
+                <example correction=""><marker>n'el</marker> porten.</example>
                 <example>Ens el porten.</example>
                 <example>Per exemple, comprar-ne es pronuncia.</example>
                 <example>per primera vegada en la Fornica</example>
