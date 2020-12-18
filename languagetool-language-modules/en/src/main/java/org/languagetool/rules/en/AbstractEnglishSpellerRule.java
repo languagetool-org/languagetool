@@ -152,6 +152,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("uni ") &&
                    !k.getReplacement().toLowerCase().startsWith("anti ") &&
                    !k.getReplacement().toLowerCase().startsWith("photo ") &&
+                   !k.getReplacement().toLowerCase().startsWith("post ") &&
                    !k.getReplacement().toLowerCase().startsWith("ma ") &&
                    !k.getReplacement().startsWith("sub ") &&
                    !k.getReplacement().toLowerCase().startsWith("auto ") &&
@@ -361,6 +362,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("endevor", Arrays.asList("endeavor"));
     s.put("countrys", Arrays.asList("countries", "country's", "country"));
     s.put("Countrys", Arrays.asList("Countries", "Country's", "Country"));
+    s.put("bodys", Arrays.asList("bodies", "body's", "body"));
+    s.put("Bodys", Arrays.asList("Bodies", "Body's", "Body"));
     s.put("ladys", Arrays.asList("ladies", "lady's", "lady"));
     s.put("Ladys", Arrays.asList("Ladies", "Lady's", "Lady"));
     s.put("citys", Arrays.asList("cities", "city's", "city"));
