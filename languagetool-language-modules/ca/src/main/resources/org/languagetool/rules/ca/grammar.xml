@@ -15775,6 +15775,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="D_HA" name="d'ha/s'ha" default="temp_off">
+            <pattern>
+                <token>d'</token>
+                <token postag="V.[SIM].*" postag_regexp="yes" inflected="yes">haver</token>
+            </pattern>
+            <message>Possible confusió.</message>
+            <suggestion>s'\2</suggestion>
+            <suggestion>l'\2</suggestion>
+            <example correction="s'han|l'han">Ara <marker>d'han</marker> fet grans.</example>
+            <example>Hi han d'haver altres solucions.</example>
+        </rule>
         <rule id="JOHNS_HOPKINS" name="Johns Hopkins">
             <antipattern case_sensitive="yes">
                 <token>Johns</token>
@@ -60053,6 +60064,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>És del tot manifesta l'atracció que tenen sobre ell.</example>
                 <example>En cap cas l'organització suspendrà la prova per raons meteorològiques normals extremes.</example>
                 <example>La fira va tancar portes diumenge a les vuit del vespre.</example>
+                <example correction="">s'ha posat en <marker>dubta</marker> la naturalesa científica.</example>
             </rule>
         </rulegroup>
         <rule id="FALTA_COMA_FRASE_CONDICIONAL" name="Coma en frase condicional" type="style">
@@ -60168,9 +60180,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <filter class="org.languagetool.rules.ca.FindSuggestionsFilter" args="WordFrom:2 DesiredPostag:NC.*|A.*|V.[PN].*"/>
                 <message>Combinació impossible: preposició seguida de verb conjugat.</message>
                 <example correction="maltractar|maltractat">de greuge i de <marker>maltracta</marker>.</example>
-                <!-- <example correction="">s'ha posat <marker>en dubta</marker> la naturalesa científica.</example> -->
                 <example correction="cap|cas|mal|cel|val|cat|cau|sal|coll|ca">Repintades amb <marker>cal</marker> cada any.</example>
-                <!--<example correction="">Això no d'<marker>ha</marker> fet bé.</example>-->
+                <example correction="">Això no d'<marker>ha</marker> fet bé.</example>
                 <example correction="béns|bens|ens|bons|gens|nens|tens|vent|vers|veus">Ens van tractar com a <marker>vens</marker></example>
                 <example correction="refugiat">Optà per <marker>refugiant</marker>-se a casa.</example>
                 <example>de greuge i de maltractament.</example>
@@ -60199,7 +60210,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="resta|santa|trenta|lenta|renda|manta|menta|recta|pantà|randa">Fer la declaració de la <marker>renta</marker>.</example>
                 <example correction="coll|cul|culte|col|cola|colp|cove|colze|cols|culs">Tornant del <marker>cole</marker>.</example>
                 <example correction="desgràcia|desgraciat|desgraciar">donar part de la <marker>desgracia</marker></example>
-                <!--<example correction="dos|fons|cos|foc|fou">que facilitaven que fins al <marker>fos</marker> un centre</example>-->
+                <example correction="">que facilitaven que fins al <marker>fos</marker> un centre</example>
                 <example>Fer la declaració de la renda.</example>
                 <example>Segons m'han informat</example>
                 <example>El pa àzim o pa sense llevat s'elabora</example>

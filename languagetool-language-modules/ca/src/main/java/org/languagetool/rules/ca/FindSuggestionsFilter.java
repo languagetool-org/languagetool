@@ -59,6 +59,7 @@ public class FindSuggestionsFilter extends RuleFilter {
     // match is removed.
     String mode = getOptional("Mode", arguments);
     boolean diacriticsMode = (mode != null) && mode.equals("diacritics");
+    boolean generateSuggestions = true;
 
     /*if (diacriticsMode) {
       int ii = 0;
@@ -84,40 +85,44 @@ public class FindSuggestionsFilter extends RuleFilter {
       }
       AnalyzedTokenReadings atrWord = patternTokens[posWord - 1];
 
-      // Check if the original token (before disambiguation) meets the requirements 
-      if (diacriticsMode) {
-        List<String> originalWord = Collections.singletonList(atrWord.getToken());
-        List<AnalyzedTokenReadings> aOriginalWord = tagger.tag(originalWord);
-        for (AnalyzedTokenReadings atr : aOriginalWord) {
-          if (atr.matchesPosTagRegex(desiredPostag)) {
+      // Check if the original token (before disambiguation) meets the requirements
+      List<String> originalWord = Collections.singletonList(atrWord.getToken());
+      List<AnalyzedTokenReadings> aOriginalWord = tagger.tag(originalWord);
+      for (AnalyzedTokenReadings atr : aOriginalWord) {
+        if (atr.matchesPosTagRegex(desiredPostag)) {
+          if (diacriticsMode) {
             return null;
+          } else {
+            generateSuggestions = false;
           }
         }
       }
-
-      AnalyzedTokenReadings[] auxPatternTokens = new AnalyzedTokenReadings[1];
-      if (atrWord.isTagged()) {
-        auxPatternTokens[0] = new AnalyzedTokenReadings(new AnalyzedToken(makeWrong(atrWord.getToken()), null, null));
-      } else {
-        auxPatternTokens[0] = atrWord;
-      }
-      AnalyzedSentence sentence = new AnalyzedSentence(auxPatternTokens);
-      RuleMatch[] matches = morfologikRule.match(sentence);
       
-      if (matches.length > 0) {
-        List<String> suggestions = matches[0].getSuggestedReplacements();
-        // TODO: do not tag capitalized words with tags for lower case
-        List<AnalyzedTokenReadings> analyzedSuggestions = tagger.tag(suggestions);
-        for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
-          if (!analyzedSuggestion.getToken().equals(atrWord.getToken()) 
-              && analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {
-            if (!replacements.contains(analyzedSuggestion.getToken())
-                && !replacements.contains(analyzedSuggestion.getToken().toLowerCase())
-                && (!diacriticsMode || equalWithoutDiacritics(analyzedSuggestion.getToken(), atrWord.getToken()))) {
-              replacements.add(analyzedSuggestion.getToken());
-            }
-            if (replacements.size() >= MAX_SUGGESTIONS) {
-              break;
+      if (generateSuggestions) {
+        AnalyzedTokenReadings[] auxPatternTokens = new AnalyzedTokenReadings[1];
+        if (atrWord.isTagged()) {
+          auxPatternTokens[0] = new AnalyzedTokenReadings(new AnalyzedToken(makeWrong(atrWord.getToken()), null, null));
+        } else {
+          auxPatternTokens[0] = atrWord;
+        }
+        AnalyzedSentence sentence = new AnalyzedSentence(auxPatternTokens);
+        RuleMatch[] matches = morfologikRule.match(sentence);
+
+        if (matches.length > 0) {
+          List<String> suggestions = matches[0].getSuggestedReplacements();
+          // TODO: do not tag capitalized words with tags for lower case
+          List<AnalyzedTokenReadings> analyzedSuggestions = tagger.tag(suggestions);
+          for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
+            if (!analyzedSuggestion.getToken().equals(atrWord.getToken())
+                && analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {
+              if (!replacements.contains(analyzedSuggestion.getToken())
+                  && !replacements.contains(analyzedSuggestion.getToken().toLowerCase())
+                  && (!diacriticsMode || equalWithoutDiacritics(analyzedSuggestion.getToken(), atrWord.getToken()))) {
+                replacements.add(analyzedSuggestion.getToken());
+              }
+              if (replacements.size() >= MAX_SUGGESTIONS) {
+                break;
+              }
             }
           }
         }
@@ -135,21 +140,23 @@ public class FindSuggestionsFilter extends RuleFilter {
 
     List<String> definitiveReplacements = new ArrayList<>();
     boolean replacementsUsed = false;
-    for (String s : match.getSuggestedReplacements()) {
-      if (s.contains("{suggestion}")) {
-        replacementsUsed = true;
-        for (String s2 : replacements) {
-          if (definitiveReplacements.size() >= MAX_SUGGESTIONS) {
-            break;
+    if (generateSuggestions) {
+      for (String s : match.getSuggestedReplacements()) {
+        if (s.contains("{suggestion}")) {
+          replacementsUsed = true;
+          for (String s2 : replacements) {
+            if (definitiveReplacements.size() >= MAX_SUGGESTIONS) {
+              break;
+            }
+            definitiveReplacements.add(s.replace("{suggestion}", s2));
           }
-          definitiveReplacements.add(s.replace("{suggestion}", s2));
+        } else {
+          definitiveReplacements.add(s);
         }
-      } else {
-        definitiveReplacements.add(s);
       }
-    }
-    if (!replacementsUsed) {
-      definitiveReplacements.addAll(replacements);
+      if (!replacementsUsed) {
+        definitiveReplacements.addAll(replacements);
+      }
     }
 
     if (!definitiveReplacements.isEmpty()) {
