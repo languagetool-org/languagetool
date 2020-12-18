@@ -50,9 +50,9 @@ public class ConfusionCheckFilter extends RuleFilter {
     /*if (form.equals("titulo")) {
       form = form + "";
     }*/
-    String gendernumber_from = getOptional("gendernumber_from", arguments);
-    if (gendernumber_from != null) {
-      int i = Integer.parseInt(gendernumber_from);
+    String gendernumberFrom = getOptional("gendernumberFrom", arguments);
+    if (gendernumberFrom != null) {
+      int i = Integer.parseInt(gendernumberFrom);
       if (i < 1 || i > patternTokens.length) {
         throw new IllegalArgumentException(
             "ConfusionCheckFilter: Index out of bounds in " + match.getRule().getFullId() + ", value: " + i);
@@ -74,7 +74,7 @@ public class ConfusionCheckFilter extends RuleFilter {
             return null;
           }
           replacement = relevantWords.get(form).getToken();
-        } else if (gendernumber_from == null) {
+        } else if (gendernumberFrom == null) {
           // there is no desired gender number defined
           replacement = relevantWords.get(form).getToken();
         }

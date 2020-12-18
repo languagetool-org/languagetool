@@ -49,12 +49,12 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
 
-    String postagSelect = getRequired("postag_select", arguments);
-    String lemmaSelect = getRequired("lemma_select", arguments);
+    String postagSelect = getRequired("postagSelect", arguments);
+    String lemmaSelect = getRequired("lemmaSelect", arguments);
 
-    String postagFromStr = getOptional("postag_from", arguments);
+    String postagFromStr = getOptional("postagFrom", arguments);
     int postagFrom;
-    String lemmaFromStr = getOptional("lemma_from", arguments);
+    String lemmaFromStr = getOptional("lemmaFrom", arguments);
     int lemmaFrom;
     if (postagFromStr == null || lemmaFromStr == null) {
       return match;

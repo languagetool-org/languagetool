@@ -52,8 +52,8 @@ public class FindSuggestionsFilter extends RuleFilter {
       AnalyzedTokenReadings[] patternTokens) throws IOException {
 
     List<String> replacements = new ArrayList<>();
-    String wordFrom = getRequired("WordFrom", arguments);
-    String desiredPostag = getRequired("DesiredPostag", arguments);
+    String wordFrom = getRequired("wordFrom", arguments);
+    String desiredPostag = getRequired("desiredPostag", arguments);
     
     if (wordFrom != null && desiredPostag != null) {
       int posWord = Integer.parseInt(wordFrom);

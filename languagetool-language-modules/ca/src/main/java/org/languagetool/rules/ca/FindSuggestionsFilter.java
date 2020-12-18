@@ -53,8 +53,8 @@ public class FindSuggestionsFilter extends RuleFilter {
       AnalyzedTokenReadings[] patternTokens) throws IOException {
 
     List<String> replacements = new ArrayList<>();
-    String wordFrom = getRequired("WordFrom", arguments);
-    String desiredPostag = getRequired("DesiredPostag", arguments);
+    String wordFrom = getRequired("wordFrom", arguments);
+    String desiredPostag = getRequired("desiredPostag", arguments);
     // diacriticsMode: return only changes in diacritics. If there is none, the
     // match is removed.
     String mode = getOptional("Mode", arguments);
