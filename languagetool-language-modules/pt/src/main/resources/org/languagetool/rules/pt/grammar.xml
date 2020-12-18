@@ -12706,6 +12706,42 @@ AND CHECK FOR PUNCTUATION BEFORE PÁSCOA AND OTHERS, SINCE THERE IS A PROPER NAM
       <example correction="Por favor,"><marker>Por favor</marker> faça tudo bem feito.</example>
     </rule>
 	
+	<!-- SIM TIA ANA. Sim, tia Ana. -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-18 (21-OCT-2020+)  *START*   -->
+<!--
+Sim, tia Ana.
+-->	
+    <rule>
+	  <antipattern>
+		<token regexp='yes'>e|que|mas</token>
+		<token regexp='yes'>["“”«»]</token>
+		<token spacebefore="no" regexp='no'>sim</token>		
+		<token spacebefore="no" regexp='yes'>["“”«»]</token>	
+	  </antipattern>
+	  <antipattern>
+		<token regexp='no'>sim</token>		
+		<token max="1" spacebefore="no" regexp='yes'>["“”«»]</token>
+		<token spacebefore="no" regexp='yes'>[.,!?]</token>
+	  </antipattern>	  
+	  <antipattern>
+		<token max="1" regexp='yes'>["“”«»]</token>
+		<token spacebefore="no" regexp='no'>sim</token>		
+		<token max="1" spacebefore="no" regexp='yes'>["“”«»]</token>
+		<token regexp='yes'>e|ou</token>
+	  </antipattern>	  	  
+      <pattern>
+		<token negate="yes" regexp='yes'>e|que|mas</token>
+		<marker>		
+			<token regexp='no'>sim</token>
+		</marker>
+		<token negate="yes" regexp='yes'>[.,!?]</token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\2,</suggestion>
+      <example correction="Sim,"><marker>Sim</marker> tia Ana.</example>
+	  <example type='correct'><marker>Sim,</marker> tia Ana.</example>
+    </rule>
+	
     <rule>
       <antipattern>
           <token regexp='yes'>&quot;</token>
