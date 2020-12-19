@@ -13249,6 +13249,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
+        <rule id="TAJO_TRAJO" name="tajo/trajo" default="temp_off">
+            <pattern>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <marker>
+                    <token>tajo</token>
+                </marker>
+            </pattern>
+            <message>Posible confusión.</message>
+            <suggestion>trajo</suggestion>
+            <example correction="trajo">Se lo <marker>tajo</marker> del Japón.</example>
+        </rule>
         <rule id="DESDE_ERA" name="desde (que) era">
             <pattern>
                 <token>desde</token>
