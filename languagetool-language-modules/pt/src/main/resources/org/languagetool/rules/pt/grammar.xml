@@ -12707,7 +12707,7 @@ AND CHECK FOR PUNCTUATION BEFORE PÁSCOA AND OTHERS, SINCE THERE IS A PROPER NAM
     </rule>
 	
 	<!-- SIM TIA ANA. Sim, tia Ana. -->
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-18 (21-OCT-2020+)  *START*   -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-18 + 2020-12-19 (21-OCT-2020+)  *START*   -->
 <!--
 Sim, tia Ana.
 -->	
@@ -12724,11 +12724,18 @@ Sim, tia Ana.
 		<token spacebefore="no" regexp='yes'>[.,!?]</token>
 	  </antipattern>	  
 	  <antipattern>
+<!--	  
 		<token max="1" regexp='yes'>["“”«»]</token>
 		<token spacebefore="no" regexp='no'>sim</token>		
+-->		
+		<token regexp='no'>sim</token>
 		<token max="1" spacebefore="no" regexp='yes'>["“”«»]</token>
 		<token regexp='yes'>e|ou</token>
-	  </antipattern>	  	  
+	  </antipattern>
+	  <antipattern>
+		<token regexp='no'>sim</token>
+		<token regexp='yes'>e|ou</token>
+	  </antipattern>	 	  
       <pattern>
 		<token negate="yes" regexp='yes'>e|que|mas</token>
 		<marker>		
