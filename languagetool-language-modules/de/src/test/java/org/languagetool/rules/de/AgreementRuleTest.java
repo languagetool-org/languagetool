@@ -174,6 +174,7 @@ public class AgreementRuleTest {
     assertGood("Es wurde eine Verordnung erlassen, der zufolge jeder Haushalt Energie einsparen muss.");
     assertGood("Im Jahr 1922 verlieh ihm König George V. den erblichen Titel eines Baronet. ");
     assertGood("... der zu dieser Zeit aber ohnehin schon allen Einfluss verloren hatte.");
+    assertGood("Ein Geschenk, das Maßstäbe setzt");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");
