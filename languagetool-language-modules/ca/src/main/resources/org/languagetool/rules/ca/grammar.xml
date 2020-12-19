@@ -15377,13 +15377,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="ACCENTUACIO" name="accentuació">
-        <rulegroup id="ACCENTUATION_CHECK_NEW" name="noms i adjectius amb accent" default="temp_off">
+        <rulegroup id="ACCENTUATION_CHECK" name="noms i adjectius amb accent">
             <rule>
                 <!-- amb renuncies-->
                 <pattern>
                     <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="RG|_possible_nompropi" postag_regexp="yes"/></token>
                     <marker>
-                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*|_possible_nompropi" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\2 postag:[AN].*"/>
@@ -15429,18 +15429,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- de la tristament celebre-->
                 <pattern>
                     <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="RG|_possible_nompropi" postag_regexp="yes"/></token>
-                    <token postag="D[AI].*" postag_regexp="yes" min="0"/>
-                    <token postag="RG"/>
+                    <token postag="D[AI].*" postag_regexp="yes"/>
+                    <token postag="RG"><exception postag="CS|PR.*|PT.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception>tenia</exception></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\4 postag:[AN].*"/>
+                <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\4 postag:[AN].* gendernumberFrom:2"/>
                 <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="cèlebre">del tristament <marker>celebre</marker> episodi.</example>
                 <example correction="cèlebre">de la tristament <marker>celebre</marker> ocasió.</example>
                 <example>Almenys legitima una decisió.</example>
+                <example>de quan tenia quinze anys</example>
+                <example>D’on venia?</example>
             </rule>
             <rule>
                 <!-- aquestes renuncies -->
@@ -15479,7 +15481,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--carrega d'arxius-->
                 <pattern>
                     <marker>
-                        <token postag="V.[SI].*" postag_regexp="yes"><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception regexp="yes">tremolo|venia|venies|tenia|tenies|faria|faries|espero|continua|continues|cantar</exception><exception scope="previous" regexp="yes">que|qui|què</exception><exception scope="previous" postag="RG|LOC_ADV|VA.*|PP.*|P0.*|VSP.*" postag_regexp="yes"/></token>
+                        <token postag="V.[SI].*" postag_regexp="yes"><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception regexp="yes">copio|baixo|tremolo|tremoli|venia|venies|tenia|tenies|faria|faries|espero|continua|continues|cantar</exception><exception scope="previous" regexp="yes">que|qui|què</exception><exception scope="previous" postag="RG|LOC_ADV|VA.*|PP.*|P0.*|VSP.*" postag_regexp="yes"/></token>
                     </marker>
                     <token regexp="yes">de|d'<exception postag="LOC_.*" postag_regexp="yes"/></token>
                     <token><exception postag="V.N.*" postag_regexp="yes"/></token>
@@ -15491,6 +15493,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="circumstàncies">Són <marker>circumstancies</marker> d'un altre cas.</example>
                 <example correction="partícip">Fou <marker>particip</marker> de l'operació.</example>
                 <example>Vaig perdut, tremolo de por.</example>
+                <example>Que tot el que l'envolta tremoli de fred.</example>
             </rule>
             <rule>
                 <!--memoritzar les formules -->
@@ -15521,7 +15524,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="A.*" postag_regexp="yes"/>
                     </unify>
                     <marker>
-                        <token><exception>estipula</exception></token>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception>estipula</exception></token>
                     </marker>
                     <token>que</token>
                 </pattern>
@@ -15531,12 +15534,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="fórmula">Una nova <marker>formula</marker> que fou descoberta l'any passat.</example>
                 <example>Una nova estipula que no es pot fer.</example>
                 <example>L'informe estipula que ha de ser així.</example>
+                <example>Cinc vegades campió del Giro d'Itàlia.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">de|d'</token>
+                    <token min="0">una</token>
+                    <token regexp="yes">forma|manera</token>
+                </antipattern>
                 <pattern>
                     <token postag="D.*|PP...A..|P[DXI].*" postag_regexp="yes"><exception regexp="yes">&pronom_no_determinant;</exception></token>
                     <marker>
-                        <token><exception>estipula</exception></token>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception regexp="yes">estipula|diferencia|diferencies|venia|venies|tenia|tenies|faria|faries|continua|continues|cantar|distancia|distancies</exception></token>
                     </marker>
                     <token regexp="yes">de|d'|que</token>
                 </pattern>
@@ -15550,6 +15559,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="renúncia">La <marker>renuncia</marker> del president.</example>
                 <example correction="circumstàncies">Les <marker>circumstancies</marker> que ens envolten.</example>
                 <example>L'article 1 estipula que és així.</example>
+                <example>Cada un la continua d'una forma diferent.</example>
+                <example>Cada un la continua de manera diferent.</example>
+                <example>llur obra la diferencia del naturalisme de Caravaggio.</example>
             </rule>
             <!-- de postiva influencia -->
             <rule>
@@ -15587,7 +15599,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="NCMS.*" postag_regexp="yes"/>
                     <marker>
-                        <token/>
+                        <token postag="V.[ISM]....[BV]" postag_regexp="yes"><exception postag="V.*0" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\2 postag:A.* gendernumberFrom:1"/>
@@ -15596,6 +15608,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="íntegre">Al seu preu <marker>integre</marker>.</example>
                 <example correction="adúlter">Un home <marker>adulter</marker>.</example>
                 <example>L'home marra el camí.</example>
+                <example>L'avi contesta:</example>
+                <example>Joan Piqué Serra</example>
+                <example>Si quan et donen per mort un dia tornes.</example>
+                <example>Un bon dia tornes a fer clic.</example>
+                <example>molt millor que qualsevol informe PISA</example>
+                <example>El protagonista munta a caball</example>
+                <example>Un nen munta un espectacle.</example>
+                <example>dues barretes de ferro fines</example>
             </rule>
             <rule>
                 <!-- de forma integra -->
@@ -15643,7 +15663,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- ocupa amplies extensions-->
                 <pattern>
                     <marker>
-                        <token postag="V.[SI].*" postag_regexp="yes"><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception regexp="yes">practica|practiques|venia|venies|tenia|tenies|faria|faries|espero|continua|continues|cantar</exception><exception scope="previous" regexp="yes">que|qui|què</exception><exception scope="previous" postag="RG|LOC_ADV|VA.*|PP.*|P0.*|VSP.*" postag_regexp="yes"/></token>
+                        <token postag="V.[SI].*" postag_regexp="yes"><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception regexp="yes">indica|publica|puliques|practica|practiques|venia|venies|tenia|tenies|faria|faries|espero|continua|continues|cantar</exception><exception scope="previous" regexp="yes">que|qui|què</exception><exception scope="previous" postag="RG|LOC_ADV|VA.*|PP.*|P0.*|VSP.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="NC.*" postag_regexp="yes"/>
                 </pattern>
@@ -15651,11 +15671,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="àmplies">Ocupa <marker>amplies</marker> extensions.</example>
+                <example>Si és superior a 0,09 indica insuficiència renal.</example>
             </rule>
             <rule>
                 <!-- fou particip de -->
                 <pattern>
-                    <token postag="V.[MSIN].*|_GV_" postag_regexp="yes"/>
+                    <token postag="V.[MSIN].*|_GV_" postag_regexp="yes"><exception postag="&pronom_feble;" postag_regexp="yes"/></token>
                     <marker>
                         <token><exception postag="[AN].*" postag_regexp="yes"/></token>
                     </marker>
@@ -15665,6 +15686,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="partícip">Va ser <marker>particip</marker> de l'operació.</example>
+                <example>cosa que el diferencia dels invertebrats</example>
             </rule>
             <rule>
                 <!-- ha estat particip de -->
@@ -15672,7 +15694,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.[MSI].*" postag_regexp="yes" inflected="yes">haver</token>
                     <token postag="V.P..SM." postag_regexp="yes"/>
                     <marker>
-                        <token/>
+                        <token><exception postag="RG|LOC_ADV|[NA].*|V.P.*" postag_regexp="yes"/></token>
                     </marker>
                     <token regexp="yes">de|d'</token>
                 </pattern>
@@ -15685,9 +15707,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- ha estat més explicit -->
                 <pattern>
                     <token inflected="yes" regexp="yes">estar|ser|fer<exception postag="_GN_MS"/></token>
-                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"><exception postag="CS|PR.*|PT.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token><exception postag="RG|LOC_ADV|[NA].*" postag_regexp="yes"/></token>
+                        <token><exception postag="RG|LOC_ADV|[NA].*|V.P.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\3 postag:[AN].*"/>
@@ -15698,13 +15720,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="explícit">Va ser molt més <marker>explicit</marker>.</example>
                 <example>Ella és massa baixa.</example>
                 <example>En l'estat opera el nepotisme.</example>
+                <example>Així és com tanco jo.</example>
             </rule>
             <rule>
                 <!-- Only noun + adj: with 2 errors: alivian la nauseas matutinas-->
                 <pattern>
                     <token><exception regexp="yes">&pronom_no_determinant;|si</exception></token>
                     <marker>
-                        <token><exception postag="RG|LOC_ADV|[NA].*" postag_regexp="yes"/><exception regexp="yes">practica|practiques|pronuncia|espero|pronuncies|venia|venies|tenia|tenies|continua|continues|faria|faries|genera|figuri|anima</exception></token>
+                        <token><exception postag="RG|LOC_ADV|[NA].*|V.P.*" postag_regexp="yes"/><exception regexp="yes">practica|practiques|pronuncia|espero|pronuncies|venia|venies|tenia|tenies|continua|continues|faria|faries|genera|figuri|anima</exception></token>
                     </marker>
                     <token postag="AQ..P." postag_regexp="yes"><exception postag="D.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -15720,20 +15743,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">tenir</token>
                     <token postag="RG_before|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
                     <marker>
-                        <token><exception postag="RG|LOC_ADV|[NA].*" postag_regexp="yes"/></token>
+                        <token><exception postag="RG|LOC_ADV|[NA].*|V.P.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\3 postag:N.*"/>
                 <message>Si és un adjectiu o nom, s'escriu amb accent.</message>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="màquines">Tinc <marker>maquines</marker> per a tot això.</example>
+                <example correction="gènere">La novel·la no té <marker>genere</marker>.</example>
             </rule>
             <rule>
                 <!-- destacat interpret de (only adjectives usually before the noun -->
                 <pattern>
                     <token postag="AQ.*|V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">sant|referir|dir|nou|gran|destacar|mateix|apreciable</token>
                     <marker>
-                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception>estipula</exception></token>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception regexp="yes">estipula|tenia|tenies</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\2 postag:NC.* gendernumberFrom:1"/>
@@ -15741,6 +15765,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>{suggestion}</suggestion>
                 <example correction="intèrpret">Un destacat <marker>interpret</marker> de música clàssica.</example>
                 <example>Una nova estipula que no es pot fer.</example>
+                <example>el tossal de Sant Mauri</example>
             </rule>
             <rule>
                 <!-- destacats interprets (plural) -->
@@ -15786,7 +15811,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
-        <rule id="D_HA" name="d'ha/s'ha" default="temp_off">
+        <rule id="D_HA" name="d'ha/s'ha">
             <pattern>
                 <token>d'</token>
                 <token postag="V.[SIM].*" postag_regexp="yes" inflected="yes">haver</token>
@@ -44793,6 +44818,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="RARE_WORDS" name="paraules molt infreqüents">
             <rule>
                 <pattern>
+                    <token>penitenciaria</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>penitenciària</suggestion> (adj)? "Penitenciaria", més infreqüent, pot ser el nom d'un càrrec o un establiment.</message>
+                <example correction="penitenciària">La política <marker>penitenciaria</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token inflected="yes">turo</token>
                 </pattern>
                 <message>Possible error de picatge. "Turo" és un nom inusual.</message>
@@ -56046,7 +56078,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <!-- Italiano -->
-                    <token regexp="yes">dramma|commedia</token>
+                    <token regexp="yes">melodramma|dramma|commedia</token>
                     <token>per</token>
                     <token>musica</token>
                 </antipattern>
@@ -60150,14 +60182,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <token skip="-1">si<exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|C.*" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception><exception scope="previous" regexp="yes">com|sols|només|solament</exception></token>
+                <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes" skip="-1">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">com|perquè|que</exception><exception postag="C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_PUNCT.*" postag_regexp="yes" scope="next"/></token>
                 <marker>
-                    <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes" skip="-1">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">com|perquè|que</exception><exception postag="C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_PUNCT.*" postag_regexp="yes" scope="next"/></token>
                     <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
                 </marker>
             </pattern>
             <message>Potser falta una coma entre les oracions. Oració subordinada condicional avançada a l'oració principal.</message>
             <short>Potser falta una coma.</short>
-            <example correction="">Si <marker>volem pujar un semitò haurem</marker> de multiplicar la freqüència per dos.</example>
+            <example correction="">Si volem pujar un semitò <marker>haurem</marker> de multiplicar la freqüència per dos.</example>
             <example>Si volem pujar un semitò, haurem de multiplicar la freqüència per dos.</example>
             <example>festa que -si no perdem de vista els seus orígens- enalteix el grotesc</example>
             <example>Si busquem variants d'aquest gen més actives</example>
@@ -60176,7 +60208,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="PREP_VERB_CONJUGAT" name="combinació impossible: preposició seguida de verb conjugat">
             <antipattern>
                 <!-- té regla específica -->
-                <token regexp="yes">retràs|malgrat</token>
+                <token regexp="yes">retràs|malgrat|music|musica|musiques</token>
             </antipattern>
             <antipattern>
                 <token>en</token>
@@ -60237,7 +60269,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="V.[MSIG].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="[NA].*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.ca.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:NC.*|A.*|V.[PN].*"/>
+                <filter class="org.languagetool.rules.ca.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:NC.*|A.*|V.[PN].*|PX.*"/>
                 <message>Combinació impossible: preposició seguida de verb conjugat.</message>
                 <example correction="resta|santa|trenta|lenta|renda|manta|menta|recta|pantà|randa">Fer la declaració de la <marker>renta</marker>.</example>
                 <example correction="coll|cul|culte|col|cola|colp|cove|colze|cols|culs">Tornant del <marker>cole</marker>.</example>

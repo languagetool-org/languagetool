@@ -33,7 +33,6 @@ import org.languagetool.rules.LongSentenceRule;
 import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
-import org.languagetool.rules.ca.AccentuationCheckRule;
 import org.languagetool.rules.ca.CatalanUnpairedBracketsRule;
 import org.languagetool.rules.ca.CatalanUnpairedExclamationMarksRule;
 import org.languagetool.rules.ca.CatalanUnpairedQuestionMarksRule;
@@ -87,7 +86,6 @@ public class ValencianCatalan extends Catalan {
             new MorfologikCatalanSpellerRule(messages, this, userConfig, altLanguages),
             new CatalanUnpairedQuestionMarksRule(messages, this),
             new CatalanUnpairedExclamationMarksRule(messages, this),
-            new AccentuationCheckRule(messages),
             new CatalanWrongWordInContextRule(messages),
             new SimpleReplaceVerbsRule(messages, this),
             new SimpleReplaceBalearicRule(messages),

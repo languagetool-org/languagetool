@@ -126,6 +126,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
       if( JLanguageTool.SENTENCE_START_TAGNAME.equals(tokenReadings.getAnalyzedToken(0).getPOSTag()) ||
           tokenReadings.isImmunized() ||        //this rule is used mostly for spelling, so ignore both immunized
           tokenReadings.isIgnoredBySpeller() || //and speller-ignorable rules
+          isTokenException(tokenReadings) ||
           (ignoreTaggedWords && isTagged(tokenReadings))
       ) {
         continue;
@@ -243,5 +244,12 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   @Nullable
   public Synthesizer getSynthesizer() {
     return null;
+  }
+
+  /*
+   * @since 5.2
+   */
+  protected boolean isTokenException(AnalyzedTokenReadings atr) {
+    return false;
   }
 }

@@ -82,7 +82,6 @@ public class Catalan extends Language {
             new MorfologikCatalanSpellerRule(messages, this, userConfig, altLanguages),
             new CatalanUnpairedQuestionMarksRule(messages, this),
             new CatalanUnpairedExclamationMarksRule(messages, this),
-            new AccentuationCheckRule(messages),
             new CatalanWrongWordInContextRule(messages),
             new SimpleReplaceVerbsRule(messages, this),
             new SimpleReplaceBalearicRule(messages),
