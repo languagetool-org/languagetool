@@ -7509,7 +7509,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://languagetool.org/es</url>
                 <example correction="LanguageTool">Me instalé el <marker>Language tool</marker> para Microsoft Word.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>mega</token>
                     <token min="0">-</token>
@@ -13375,6 +13375,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="PARTICIPIO_GERUNDIO" name="confusión participio/gerundio" default="temp_off">
+            <!-- TODO: add exceptions -->
+            <pattern>
+                <token inflected="yes">ir</token>
+                <marker>
+                    <token postag="V.P..SM" postag_regexp="yes" regexp="yes">.*ado</token>
+                </marker>
+            </pattern>
+            <message>Posible confusión.</message>
+            <suggestion><match no="2" postag="V.P.*" postag_regexp="yes" postag_replace="V.G...."/></suggestion>
+            <example correction="aumentando">Ha ido <marker>aumentado</marker>.</example>
+        </rule>
         <rule id="JOHNS_HOPKINS" name="Johns Hopkins">
             <antipattern case_sensitive="yes">
                 <token>Johns</token>
