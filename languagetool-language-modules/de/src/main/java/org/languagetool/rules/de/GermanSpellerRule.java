@@ -1159,7 +1159,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     }*/
     List<String> suggestions = super.getSuggestions(word);
-    suggestions = suggestions.stream().filter(k -> !PREVENT_SUGGESTION.matcher(k).matches() && !k.endsWith("roulett")).collect(Collectors.toList());
+    suggestions = suggestions.stream().filter(k -> !PREVENT_SUGGESTION.matcher(k).matches()
+            && !k.endsWith("roulett")
+            && !k.endsWith("-s")   // https://github.com/languagetool-org/languagetool/issues/4042
+    ).collect(Collectors.toList());
     if (word.endsWith(".")) {
       // To avoid losing the "." of "word" if it is at the end of a sentence.
       suggestions.replaceAll(s -> s.endsWith(".") ? s : s + ".");
