@@ -12650,6 +12650,7 @@ Temos saudades de vocês como seria expetável.
 	<!-- BOM DIA ANA. Bom dia, Ana. -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-20 (21-OCT-2020+)  *START*   -->
 <!--
+Bom dia, chefe do coração.
 Bom dia, chefe.
 Bom dia, Ana.
 -->	
@@ -12657,14 +12658,15 @@ Bom dia, Ana.
       <pattern>
 		<token postag='SENT_START' postag_regexp='no'/>
 		<token postag='AQ.+' postag_regexp='yes'>
-			<exception postag_regexp='yes' postag='V.+|NP.+'/></token>
+			<exception postag_regexp='yes' postag='V.+|NP.+|RG|Z0[FM]P0'/></token>
 		<marker>
 			<token postag='NC.+' postag_regexp='yes'>
-				<exception postag_regexp='yes' postag='V.+|NP.+|AQ.+'/></token>
+				<exception postag_regexp='yes' postag='V.+|NP.+|AQ.+|RG|Z0[FM]P0'/></token>
 		</marker>
 		<token postag='NC.+|NP.+' postag_regexp='yes'>
-			<exception postag_regexp='yes' postag='V.+|AQ.+'/></token>
-		<token spacebefore="no" regexp='yes'>[.,!?]</token>
+			<exception postag_regexp='yes' postag='V.+|AQ.+|RG|Z0[FM]P0'/>
+			<exception regexp='yes'>das?|dos?</exception>
+			</token>
       </pattern>
       <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\3,</suggestion>
