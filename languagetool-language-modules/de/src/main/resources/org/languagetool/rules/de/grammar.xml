@@ -144,6 +144,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="ZUVIEL" name="zuviel (zu viel)" default="temp_off">
+            <antipattern>
+                <token regexp="yes">ein|das</token>
+                <token case_sensitive="yes">Zuviel</token>
+            </antipattern>
+            <pattern>
+                <token>zuviel</token>
+            </pattern>
+            <message><suggestion>zu viel</suggestion> im Sinne von 'im Überfluss' wird auseinandergeschrieben.</message>
+            <example correction="zu viel">Ich finde, wir haben <marker>zuviel</marker> eingekauft.</example>
+        </rule>
         <rule id="VERTREIB_VERTRIEB" name="der Vertreib (Vertrieb)">
             <pattern>
                 <token regexp="yes">der|ein</token>
