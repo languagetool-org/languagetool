@@ -289,6 +289,7 @@ public class AgreementRule extends Rule {
       posRegex("SUB:(DAT|NOM):PLU.*")
     ),
     Arrays.asList(  // "in denen Energie steckt"
+      new PatternTokenBuilder().posRegex("SENT_START|VER:AUX:[123].+").negate().build(),
       posRegex("PRP:.+"),
       posRegex("PRO:DEM:(DAT|AKK).+"),
       posRegex("SUB:...:PLU.*")

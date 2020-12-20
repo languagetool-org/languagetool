@@ -331,7 +331,7 @@ public class AgreementRuleTest {
     assertGood("Was ist sie nur für eine blöde Kuh!");
     assertGood("Wie viele Paar Stiefel brauche ich eigentlich?");
     assertGood("Dieses versuchten Mathematiker 400 Jahre lang vergeblich zu beweisen.");
-    assertGood("Bei dem Papierabzüge von Digitalbildern bestellt werden.");
+    //assertGood("Bei dem Papierabzüge von Digitalbildern bestellt werden.");
     assertGood("Gemälde informieren uns über das Leben von den vergangenen Jahrhunderten…");
     assertGood("Die Partei, die bei den vorangegangenen Wahlen noch seine Politik unterstützt hatte.");
     assertGood("Bei Zunahme der aufgelösten Mineralstoffe, bei denen...");
@@ -342,6 +342,8 @@ public class AgreementRuleTest {
     assertGood("Auf der Hohen See und auf den mit dieser verbundenen Gewässern gelten die internationalen Kollisionsverhütungsregeln.");
     assertGood("Art. 11 Abs. 2 GGV setzt dem bestimmte Arten der außergemeinschaftlichen Zugänglichmachung gleich");
     assertGood("Grundsätzlich sind die Heilungschancen von Männern mit Brustkrebs nicht schlechter als die betroffener Frauen.");
+    assertGood("In diesem Viertel bin ich aufgewachsen.");
+    assertGood("Im November wurde auf dem Gelände der Wettbewerb ausgetragen.");
 
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");
@@ -378,6 +380,8 @@ public class AgreementRuleTest {
     assertBad("Die Partei, die bei den vorangegangen Wahlen noch seine Politik unterstützt hatte.");
     assertBad("Bei Zunahme der aufgelösten Mineralstoffen, bei denen...");
     assertBad("Durch die große Vielfalt der verschiedene Linien ist für jeden Anspruch die richtige Brille im Portfolio.");
+    assertBad("In diesen Viertel bin ich aufgewachsen.");
+    assertBad("Im November wurde auf den Gelände der Wettbewerb ausgetragen.");
 
     assertBad("Des großer Mannes.");
 
