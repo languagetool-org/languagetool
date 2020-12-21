@@ -574,6 +574,24 @@ title="Easy editing stylesheet" ?>
 		  <token postag='AQ0[CFM][SP]0|NC[CFM][SP]000' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-10-27 (21-OCT-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-12-21 (21-OCT-2020+) *START* -->
+<!--
+Bom dia Ana.
+-->
+      <antipattern>
+		<token postag='SENT_START' postag_regexp='no'/>
+		<token postag='AQ.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='V.+|NP.+|RG|Z0[FM]P0'/></token>
+		<marker>
+			<token postag='NC.+' postag_regexp='yes'>
+				<exception postag_regexp='yes' postag='V.+|NP.+|AQ.+|RG|Z0[FM]P0'/></token>
+		</marker>
+		<token postag='NC.+|NP.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='V.+|AQ.+|RG|Z0[FM]P0'/>
+			<exception regexp='yes'>das?|dos?</exception>
+			</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-12-21 (21-OCT-2020+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
