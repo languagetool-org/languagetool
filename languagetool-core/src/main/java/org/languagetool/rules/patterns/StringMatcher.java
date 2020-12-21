@@ -237,10 +237,10 @@ abstract class StringMatcher {
       if (regexp.startsWith("^")) {
         regexp = regexp.substring(1);
       }
-      if (regexp.endsWith("\\b")) {
+      if (regexp.endsWith("\\b") && !regexp.endsWith("\\\\b")) {
         regexp = regexp.substring(0, regexp.length() - 2);
       }
-      if (regexp.endsWith("$")) {
+      if (regexp.endsWith("$") && !regexp.endsWith("\\$")) {
         regexp = regexp.substring(0, regexp.length() - 1);
       }
       this.regexp = regexp;

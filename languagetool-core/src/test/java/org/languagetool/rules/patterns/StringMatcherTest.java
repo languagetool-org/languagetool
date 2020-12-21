@@ -68,6 +68,8 @@ public class StringMatcherTest {
     assertPossibleValues("[0-9]", IntStream.range(0, 10).mapToObj(String::valueOf).toArray(String[]::new));
     assertPossibleValues("[0-9X]", Stream.concat(IntStream.range(0, 10).mapToObj(String::valueOf), Stream.of("X")).toArray(String[]::new));
     assertPossibleValues("tú|\\?", "tú", "?");
+    assertPossibleValues("NN|PRP\\$", "NN", "PRP$");
+    assertPossibleValues("\\\\b", "\\b");
   }
 
   private static void assertPossibleValues(String regexp, String... expected) {
