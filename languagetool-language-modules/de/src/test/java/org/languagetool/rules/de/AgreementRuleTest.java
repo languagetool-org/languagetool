@@ -344,7 +344,10 @@ public class AgreementRuleTest {
     assertGood("Grundsätzlich sind die Heilungschancen von Männern mit Brustkrebs nicht schlechter als die betroffener Frauen.");
     assertGood("In diesem Viertel bin ich aufgewachsen.");
     assertGood("Im November wurde auf dem Gelände der Wettbewerb ausgetragen.");
-
+    assertGood("Er ist Eigentümer des gleichnamigen Schemas und stellt dieses interessierten Domänen zur Verfügung.");
+    assertGood("Dort finden sie viele Informationen rund um die Themen Schwangerschaft, Geburt, Stillen, Babys und Kinder.");
+    assertGood("Die Galerie zu den Bildern findet sich hier.");
+    assertGood("Ganz im Gegensatz zu den Blättern des Brombeerstrauches.");
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");
     assertBad("Meiner Chef raucht.");
@@ -361,10 +364,13 @@ public class AgreementRuleTest {
     assertBad("Das Auto einem Mannes.", "einem Mann", "einem Manne", "eines Mannes");
     assertBad("Das Auto einer Mannes.", "eines Mannes");
     assertBad("Das Auto einen Mannes.", "einen Mann", "eines Mannes");
-
+    assertBad("Die Galerie zu den Bilder findet sich hier.");
+    assertBad("Ganz im Gegensatz zu den Blätter des Brombeerstrauches.");
     //assertBad("Das erwähnt Auto bog nach rechts ab.");    // TODO
     assertGood("Das erlaubt Forschern, neue Versuche durchzuführen.");
     assertGood("Dies ermöglicht Forschern, neue Versuche durchzuführen.");
+    assertGood("Je länger zugewartet wird, desto schwieriger dürfte es werden, die Jungtiere von den Elterntieren zu unterscheiden.");
+    assertGood("Er schrieb ein von 1237 bis 1358 reichendes Geschichtswerk, dessen Schwerpunkt auf den Ereignissen in der Lombardei liegt.");
     assertBad("Die erwähnt Konferenz ist am Samstag.");
     assertBad("Die erwähntes Konferenz ist am Samstag.");
     assertBad("Die erwähnten Konferenz ist am Samstag.");
@@ -382,7 +388,9 @@ public class AgreementRuleTest {
     assertBad("Durch die große Vielfalt der verschiedene Linien ist für jeden Anspruch die richtige Brille im Portfolio.");
     assertBad("In diesen Viertel bin ich aufgewachsen.");
     assertBad("Im November wurde auf den Gelände der Wettbewerb ausgetragen.");
-
+    assertBad("Dort finden sie Testberichte und viele Informationen rund um das Themen Schwangerschaft, Geburt, Stillen, Babys und Kinder.");
+    assertBad("Je länger zugewartet wird, desto schwieriger dürfte es werden, die Jungtiere von den Elterntiere zu unterscheiden.");
+    assertBad("Er schrieb ein von 1237 bis 1358 reichendes Geschichtswerk, dessen Schwerpunkt auf den Ereignisse in der Lombardei liegt.");
     assertBad("Des großer Mannes.");
 
     assertBad("Das Dach von meine Auto.", "mein Auto", "meine Autos", "meinem Auto");
@@ -516,7 +524,7 @@ public class AgreementRuleTest {
     assertGood("An der roten Ampel.");
     assertGood("Dann hat das natürlich Nachteile.");
     assertGood("Ihre erste Nr. 1");
-
+    assertGood("Wir bedanken uns bei allen Teams.");
     // incorrect sentences:
     assertBad("Es sind die riesigen Tisch.");
     //assertBad("Dort, die riesigen Tischs!");    // TODO: error not detected because of comma
@@ -532,7 +540,8 @@ public class AgreementRuleTest {
     assertBad("Er hatte eine sehr schweren Infektion.");
     assertBad("Ein fast 5 Meter hohem Haus.");
     assertBad("Ein fünf Meter hohem Haus.");
-    // TODO: not yet detected:
+    assertBad("Es wurden Karavellen eingesetzt, da diese für die flachen Gewässern geeignet waren.");
+    assertBad("Wir bedanken uns bei allem Teams.");
     //assertBad("An der rot Ampel.");
   }
 

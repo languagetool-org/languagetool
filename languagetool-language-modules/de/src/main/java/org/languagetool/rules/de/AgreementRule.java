@@ -291,7 +291,7 @@ public class AgreementRule extends Rule {
     Arrays.asList(  // "in denen Energie steckt"
       new PatternTokenBuilder().posRegex("SENT_START|VER:AUX:[123].+").negate().build(),
       posRegex("PRP:.+"),
-      posRegex("PRO:DEM:(DAT|AKK).+"),
+      new PatternTokenBuilder().posRegex("PRO:DEM:(DAT|AKK).+").tokenRegex("der|dies").matchInflectedForms().build(),
       posRegex("SUB:...:PLU.*")
     ),
     Arrays.asList(
@@ -305,6 +305,12 @@ public class AgreementRule extends Rule {
       posRegex("PRO:DEM:DAT:SIN:NEU.*"),
       posRegex("PA2:AKK:PLU.+"),
       posRegex("SUB:AKK:PLU.+")
+    ),
+    Arrays.asList( // Er stellt dieses interessierten Domänen zur Verfügung
+      posRegex("VER:.*[123].*"),
+      posRegex("PRO:DEM:AKK:SIN:NEU.*"),
+      posRegex("PA2:DAT:PLU.+"),
+      posRegex("SUB:DAT:PLU.+")
     ),
     Arrays.asList(
       pos("ADJ:PRD:KOM"),
