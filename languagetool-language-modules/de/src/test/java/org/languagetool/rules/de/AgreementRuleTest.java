@@ -348,6 +348,9 @@ public class AgreementRuleTest {
     assertGood("Dort finden sie viele Informationen rund um die Themen Schwangerschaft, Geburt, Stillen, Babys und Kinder.");
     assertGood("Die Galerie zu den Bildern findet sich hier.");
     assertGood("Ganz im Gegensatz zu den Blättern des Brombeerstrauches.");
+    assertGood("Er erzählte von den Leuten und den Dingen, die er auf seiner Reise gesehen hatte.");
+    assertGood("Diese Partnerschaft wurde 1989 nach dem Massaker auf dem Platz des Himmlischen Friedens eingefroren.");
+
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");
     assertBad("Meiner Chef raucht.");
@@ -392,6 +395,8 @@ public class AgreementRuleTest {
     assertBad("Je länger zugewartet wird, desto schwieriger dürfte es werden, die Jungtiere von den Elterntiere zu unterscheiden.");
     assertBad("Er schrieb ein von 1237 bis 1358 reichendes Geschichtswerk, dessen Schwerpunkt auf den Ereignisse in der Lombardei liegt.");
     assertBad("Des großer Mannes.");
+    assertBad("Er erzählte von den Leute und den Dingen, die er gesehen hatte.");
+    assertBad("Diese Partnerschaft wurde 1989 nach den Massaker auf dem Platz des Himmlischen Friedens eingefroren.");
 
     assertBad("Das Dach von meine Auto.", "mein Auto", "meine Autos", "meinem Auto");
     assertBad("Das Dach von meinen Auto.", "mein Auto", "meinem Auto", "meinen Autos");
@@ -525,6 +530,7 @@ public class AgreementRuleTest {
     assertGood("Dann hat das natürlich Nachteile.");
     assertGood("Ihre erste Nr. 1");
     assertGood("Wir bedanken uns bei allen Teams.");
+    assertGood("Als Heinrich versuchte, seinen Kandidaten für den Mailänder Bischofssitz durchzusetzen, reagierte der Papst sofort.");
     // incorrect sentences:
     assertBad("Es sind die riesigen Tisch.");
     //assertBad("Dort, die riesigen Tischs!");    // TODO: error not detected because of comma
