@@ -25,6 +25,11 @@
   * added and improved rules
   * updated dictionary (spanish-pos-dict-0.9)
 
+#### Ukrainian
+  * over 7000 new words in the POS dictionary
+  * added and improved rules
+  * improved tagging and disambiguation
+
 #### General
   * There's now `RegexAntiPatternFilter` which can be used to have antipatterns
     for `<regexp>` rules. Use like this:     
