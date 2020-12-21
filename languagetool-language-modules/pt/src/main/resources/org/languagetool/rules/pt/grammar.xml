@@ -12665,6 +12665,29 @@ Temos saudades de vocês como seria expetável.
 	  <example type='correct'>Os números <marker>funcionam,</marker> por vezes podem é estar em baixo.</example>
     </rule>
 	  
+	<!-- BOA TARDE ANA. Boa tarde, Ana. -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-21 (21-OCT-2020+)  *START*   -->
+<!--
+Boa tarde, Ana.
+-->	
+    <rule>
+      <pattern>
+		<token postag='SENT_START' postag_regexp='no'/>
+		<token postag='I' postag_regexp='no'/>
+		<marker>
+			<token postag='NC.+' postag_regexp='yes'/>
+		</marker>
+		<token postag='NC.+|NP.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='V.+|AQ.+|RG|Z0[FM]P0'/>
+			<exception regexp='yes'>das?|dos?</exception>
+			</token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\3,</suggestion>
+      <example correction="tarde,">Boa <marker>tarde</marker> Ana.</example>
+	  <example type='correct'>Boa <marker>tarde,</marker> Ana.</example>
+    </rule>
+	  
 	<!-- BOM DIA ANA. Bom dia, Ana. -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-20 (21-OCT-2020+)  *START*   -->
 <!--
