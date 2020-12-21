@@ -533,6 +533,7 @@ public class AgreementRuleTest {
     assertGood("Ihre erste Nr. 1");
     assertGood("Wir bedanken uns bei allen Teams.");
     assertGood("Als Heinrich versuchte, seinen Kandidaten für den Mailänder Bischofssitz durchzusetzen, reagierte der Papst sofort.");
+    assertGood("Den neuen Finanzierungsweg wollen sie daher Hand in Hand mit dem Leser gehen.");
     // incorrect sentences:
     assertBad("Es sind die riesigen Tisch.");
     //assertBad("Dort, die riesigen Tischs!");    // TODO: error not detected because of comma
@@ -550,6 +551,9 @@ public class AgreementRuleTest {
     assertBad("Ein fünf Meter hohem Haus.");
     assertBad("Es wurden Karavellen eingesetzt, da diese für die flachen Gewässern geeignet waren.");
     assertBad("Wir bedanken uns bei allem Teams.");
+    assertBad("Dabei geht es um das altbekannte Frage der Dynamiken der Eigenbildung..");
+    assertBad("Den neue Finanzierungsweg wollen sie daher Hand in Hand mit dem Leser gehen.");
+    assertBad("Den neuen Finanzierungsweg wollen sie daher Hand in Hand mit dem Lesern gehen.");
     //assertBad("An der rot Ampel.");
   }
 
