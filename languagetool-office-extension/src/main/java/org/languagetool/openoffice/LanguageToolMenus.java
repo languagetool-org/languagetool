@@ -66,12 +66,19 @@ public class LanguageToolMenus {
   private Configuration config;
   private boolean switchOff;
   private boolean isRemote;
+  private LTHeadMenu ltHeadMenu;
+  private ContextMenuInterceptor ltContextMenu;
 
   LanguageToolMenus(XComponentContext xContext, SingleDocument document, Configuration config) {
     debugMode = OfficeTools.DEBUG_MODE_LM;
     this.document = document;
     this.xContext = xContext;
     setConfigValues(config);
+    ltHeadMenu = new LTHeadMenu();
+    ltContextMenu = new ContextMenuInterceptor(xContext);
+    if (debugMode) {
+      MessageHandler.printToLogFile("LanguageToolMenus initialised");
+    }
   }
   
   void setConfigValues(Configuration config) {
