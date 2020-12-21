@@ -102,7 +102,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
   }
 
   private final static List<Pattern> antiPatterns = Arrays.asList(
-          Pattern.compile("\\d+-\\d+"),   // "3-5 pounds"
+          Pattern.compile("\\d+[-‐–]\\d+"),   // "3-5 pounds"
           Pattern.compile("\\d+/\\d+"),   // "1/4 mile"
           Pattern.compile("\\d+:\\d+"),   // "A 2:1 cup"
           Pattern.compile("\\d+⁄\\d+")    // "1⁄4 cup" (it's not the standard slash)
