@@ -44,6 +44,11 @@ public class UnitConversionRuleUSTest {
     helper.assertMatches("16 kilometers (10 miles)", 1, null, rule, lt);
     helper.assertMatches("16 kilometers (ca. 10 miles)", 0, null, rule, lt);
     helper.assertMatches("16 kilometers (9.94 mi)", 0, null, rule, lt);
+    // matched by antipattern;
+    helper.assertMatches("Use 3-5 pounds of butter.", 0, null, rule, lt);
+    helper.assertMatches("It's 1/4 mile away", 0, null, rule, lt);
+    helper.assertMatches("A 2:1 cup", 0, null, rule, lt);
+    helper.assertMatches("1⁄4 cup", 0, null, rule, lt);
   }
 
 }

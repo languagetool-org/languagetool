@@ -101,6 +101,13 @@ public abstract class AbstractUnitConversionRule extends Rule {
     UNIT_MISMATCH
   }
 
+  private final static List<Pattern> antiPatterns = Arrays.asList(
+          Pattern.compile("\\d+-\\d+"),   // "3-5 pounds"
+          Pattern.compile("\\d+/\\d+"),   // "1/4 mile"
+          Pattern.compile("\\d+:\\d+"),   // "A 2:1 cup"
+          Pattern.compile("\\d+⁄\\d+")    // "1⁄4 cup" (it's not the standard slash)
+  );
+
   private URL buildURLForExplanation(String original) {
     try {
       String query = URLEncoder.encode("convert " + original + " to metric", "utf-8");
@@ -580,7 +587,24 @@ public abstract class AbstractUnitConversionRule extends Rule {
         other == null ? match :
         match.getToPos() > other.getToPos() ? match : other);
     }
+    if (matches.size() > 0) {
+      removeAntiPatternMatches(sentence, matchesByStart);
+    }
     return matchesByStart.values().toArray(new RuleMatch[0]);
   }
-  
+
+  private void removeAntiPatternMatches(AnalyzedSentence sentence, Map<Integer, RuleMatch> matchesByStart) {
+    for (Pattern antiPattern : antiPatterns) {
+      Matcher matcher = antiPattern.matcher(sentence.getText());
+      int pos = 0;
+      while (matcher.find(pos)) {
+        matchesByStart.entrySet().removeIf(entry ->
+                matcher.start() <= entry.getValue().getFromPos() && matcher.end() >= entry.getValue().getFromPos() ||
+                matcher.start() <= entry.getValue().getToPos() && matcher.end() >= entry.getValue().getToPos()
+        );
+        pos = matcher.end() + 1;
+      }
+    }
+  }
+
 }
