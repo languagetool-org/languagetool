@@ -19,6 +19,7 @@
 package org.languagetool.rules.de;
 
 import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.broker.ResourceDataBroker;
@@ -90,7 +91,8 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("punk", "Jugendkultur", "punkt", "Satzzeichen"),
           new Pair("reis", "Nahrungsmittel", "eis", "gefrorenes Wasser"),
           new Pair("balkan", "Region in Südosteuropa", "balkon", "Plattform, die aus einem Gebäude herausragt"),
-          new Pair("haft", "Freiheitsentzug", "schaft", "-schaft (Element zur Wortbildung)")
+          new Pair("haft", "Freiheitsentzug", "schaft", "-schaft (Element zur Wortbildung)"),
+          new Pair("stande", "zu 'Stand'", "stange", "länglicher Gegenstand")
   );
   public static final GermanyGerman german = new GermanyGerman();
   private static GermanSpellerRule spellerRule;
@@ -566,6 +568,7 @@ public class ProhibitedCompoundRule extends Rule {
       addAllCaseVariants(candidatePairs, confusionPair);
     }
 
+    List<WeightedRuleMatch> weightedMatches = new ArrayList<>();
     for (Pair pair : candidatePairs) {
       String variant = null;
       if (wordPart.contains(pair.part1)) {
@@ -594,9 +597,12 @@ public class ProhibitedCompoundRule extends Rule {
         String id = getId() + "_" + cleanId(pair.part1) + "_" + cleanId(pair.part2);
         RuleMatch match = new RuleMatch(new SpecificIdRule(id, pair.part1, pair.part2, messages, lm), sentence, fromPos, toPos, msg);
         match.setSuggestedReplacement(variant);
-        ruleMatches.add(match);
-        break;
+        weightedMatches.add(new WeightedRuleMatch(variantCount, match));
       }
+    }
+    if (weightedMatches.size() > 0) {
+      Collections.sort(weightedMatches);  // sort by most popular alternative
+      ruleMatches.add(weightedMatches.get(0).match);
     }
     partsStartPos += wordPart.length() + 1;
     return partsStartPos;
@@ -632,6 +638,19 @@ public class ProhibitedCompoundRule extends Rule {
       return sb.toString();
     }
     return null;
+  }
+
+  static class WeightedRuleMatch implements Comparable<WeightedRuleMatch> {
+    long weight;
+    RuleMatch match;
+    WeightedRuleMatch(long weight, RuleMatch match) {
+      this.weight = weight;
+      this.match = match;
+    }
+    @Override
+    public int compareTo(@NotNull WeightedRuleMatch other) {
+      return Long.compare(other.weight, weight);
+    }
   }
 
   public static class Pair {
