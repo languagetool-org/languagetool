@@ -350,7 +350,9 @@ public class AgreementRuleTest {
     assertGood("Ganz im Gegensatz zu den Blättern des Brombeerstrauches.");
     assertGood("Er erzählte von den Leuten und den Dingen, die er auf seiner Reise gesehen hatte.");
     assertGood("Diese Partnerschaft wurde 1989 nach dem Massaker auf dem Platz des Himmlischen Friedens eingefroren.");
-
+    assertGood("Die Feuergefahr hingegen war für für die Londoner Teil des Alltags.");
+    assertGood("Was ist, wenn ein Projekt bei den Berliner Type Awards mit einem Diplom ausgezeichnet wird?");
+    assertGood("Was ist mit dem Liechtensteiner Kulturleben los?");
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");
     assertBad("Meiner Chef raucht.");

@@ -297,7 +297,7 @@ public class AgreementRule extends Rule {
     Arrays.asList(  // "für den Mailänder Bischofssitz"
       posRegex("PRP:.+"),
       new PatternTokenBuilder().posRegex("PRO:DEM:(DAT|AKK).+").tokenRegex("der|dies").matchInflectedForms().build(),
-      new PatternTokenBuilder().csTokenRegex("[A-ZÄÖÜ].+der").build(),
+      new PatternTokenBuilder().csTokenRegex("[A-ZÄÖÜ].+er").build(),
       new PatternTokenBuilder().posRegex("SUB.+").build()
     ),
     Arrays.asList(
