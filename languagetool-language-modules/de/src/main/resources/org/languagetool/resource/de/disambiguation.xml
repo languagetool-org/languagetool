@@ -708,16 +708,28 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="add"><wd pos="SUB:DAT:PLU:FEM"/></disambig>
     </rule>
     <rule name="60er -> SUB" id="NUMBER_COMPOUND_NOUN_3">
+        <antipattern>
+            <token postag="ART:.+" postag_regexp="yes"/>
+            <token regexp="yes">\d{2,4}er</token>
+            <token postag="SUB:.+" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <token regexp="yes">\d{2,4}er</token>
         </pattern>
         <disambig action="add"><wd pos="SUB:NOM:PLU:FEM"/></disambig>
+        <example type="untouched">Er sprach über die 80er Jahre.</example>
     </rule>
     <rule name="60er -> SUB" id="NUMBER_COMPOUND_NOUN_4">
+       <antipattern>
+            <token postag="ART:.+" postag_regexp="yes"/>
+            <token regexp="yes">\d{2,4}er</token>
+            <token postag="SUB:.+" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <token regexp="yes">\d{2,4}er</token>
         </pattern>
         <disambig action="add"><wd pos="SUB:GEN:PLU:FEM"/></disambig>
+        <example type="untouched">Er sprach über die 80er Jahre.</example>
     </rule>
     <!-- Treat "60er" in "in den 60er Jahren" as adjective -->
     <rule name="60er -> ADJ" id="NUMBER_COMPOUND_ADJ_1">
