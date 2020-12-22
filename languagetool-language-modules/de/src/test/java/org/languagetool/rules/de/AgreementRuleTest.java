@@ -69,7 +69,7 @@ public class AgreementRuleTest {
   @Test
   public void testDetNounRule() throws IOException {
     // correct sentences:
-	  assertGood("Die Einen sagen dies, die Anderen das.");
+    assertGood("Die Einen sagen dies, die Anderen das.");
     assertGood("So ist es in den USA.");
     assertGood("Das ist der Tisch.");
     assertGood("Das ist das Haus.");
@@ -264,7 +264,7 @@ public class AgreementRuleTest {
     assertBad("Gutenberg, die Genie.");
     //assertBad("Gutenberg, die größte Genie.");
     //assertBad("Gutenberg, die größte Genie aller Zeiten.");
-    //assertGood("Die wärmsten Monate sind August und September, die kältesten Januar und Februar.");
+    assertGood("Die wärmsten Monate sind August und September, die kältesten Januar und Februar.");
     // some of these used to cause false alarms:
     assertGood("Das Münchener Fest.");
     assertGood("Das Münchner Fest.");
@@ -385,7 +385,7 @@ public class AgreementRuleTest {
     assertBad("Darüber hinaus haben wir das berechtigte Interessen, diese Daten zu verarbeiten.");
     assertBad("Eine Amnestie kann den Hingerichteten nicht das Leben und dem heimgesuchten Familien nicht das Glück zurückgeben.");
     //assertBad("Zu den gefährdete Vögeln Malis gehören der Strauß, Großtrappen und Perlhuhn.");
-    // assertBad("Zu den gefährdete Vögel Malis gehören der Strauß, Großtrappen und Perlhuhn.");
+    //assertBad("Zu den gefährdete Vögel Malis gehören der Strauß, Großtrappen und Perlhuhn.");
     assertBad("Z. B. therapeutisches Klonen, um aus den gewonnen Zellen in vitro Ersatzorgane für den Patienten zu erzeugen");
     //assertBad("Gemälde informieren uns über das Leben von den vergangenen Jahrhunderte…");
     assertBad("Die Partei, die bei den vorangegangen Wahlen noch seine Politik unterstützt hatte.");
