@@ -1013,7 +1013,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token>altbekannte</token>
             </marker>
         </pattern>
-        <disambig action="remove" postag="PA2:.+"/>
+        <disambig action="remove" postag="(PA2|VER):.+"/>
     </rule>
     <rule id="RECHTSCHAFFEN" name="kein Verb: rechtschaffen">
         <pattern case_sensitive="yes">
@@ -1471,6 +1471,22 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token><exception>ihr</exception></token>
             </pattern>
             <disambig action="remove" postag="VER:.+"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="VER_3" name="Entferne 1./2. Person von Verb">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token postag="SENT_START"></token>
+                <token regexp="yes">D(a|ie)s|E[rs]|Sie</token>
+                <marker>
+                    <and>
+                       <token postag="VER:3:SIN.+" postag_regexp="yes"/>
+                       <token postag="VER:([12]|IMP):.+" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER:(IMP|[12]):.+"/>
+            <example type="ambiguous" inputform="geht[gehen/VER:2:PLU:PRÄ:NON,gehen/VER:3:SIN:PRÄ:NON,gehen/VER:IMP:PLU:NON]" outputform="geht[gehen/VER:3:SIN:PRÄ:NON]">Das <marker>geht</marker> selten gut aus.</example>
         </rule>
     </rulegroup>
     <!-- ============================================================================================================== -->
