@@ -66,7 +66,9 @@ public class LanguageToolMenus {
   private Configuration config;
   private boolean switchOff;
   private boolean isRemote;
+  @SuppressWarnings("unused")
   private LTHeadMenu ltHeadMenu;
+  @SuppressWarnings("unused")
   private ContextMenuInterceptor ltContextMenu;
 
   LanguageToolMenus(XComponentContext xContext, SingleDocument document, Configuration config) {

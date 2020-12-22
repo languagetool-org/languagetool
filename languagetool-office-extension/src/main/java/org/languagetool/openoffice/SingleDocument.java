@@ -107,6 +107,7 @@ class SingleDocument {
   private IgnoredMatches ignoredMatches;          //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called
   private boolean useQueue = true;                //  true: use queue to check text level rules (will be overridden by config)
   private boolean disposed = false;               //  true: document with this docId is disposed - SingleDocument shall be removed
+  private boolean resetDocCache= false;           //  true: the cache of the document should be reseted before the next check
   private String lastSinglePara = null;           //  stores the last paragraph which is checked as single paragraph
   private boolean isFixedLanguage = false;
   private Language docLanguage = null;
@@ -161,6 +162,10 @@ class SingleDocument {
     
     getPropertyValues(propertyValues);
 
+    if (resetDocCache) {
+      docCache = null;
+      resetDocCache = false;
+    }
     if (docLanguage == null) {
       docLanguage = langTool.getLanguage();
     }
@@ -390,7 +395,7 @@ class SingleDocument {
   /** reset document cache of the document
    */
   void resetDocumentCache() {
-    docCache = null;
+    resetDocCache = true;
   }
   
   /** Update document cache and get it
@@ -747,6 +752,9 @@ class SingleDocument {
       }
     }
     int nFParas = flatPara.getNumberOfAllFlatPara();
+    if (docCache == null) {
+      return -1;
+    }
     if (nFParas == docCache.size()) {
       return nPara;
     }
@@ -1244,7 +1252,7 @@ class SingleDocument {
     MultiDocumentsHandler mDH = mDocHandler;
     DocumentCursorTools docCursor = this.docCursor;
     DocumentCache docCache = this.docCache;
-    if (docCache == null) {
+    if (docCache == null || nFPara < 0 || nFPara >= docCache.size()) {
       return;
     }
     List<ResultCache> paragraphsCache = this.paragraphsCache;

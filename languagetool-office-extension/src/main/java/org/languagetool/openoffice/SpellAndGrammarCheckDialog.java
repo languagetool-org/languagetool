@@ -135,6 +135,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       return;
     }
     try {
+//      documents.setLtDialogIsRunning(true);
       LtCheckDialog checkDialog = new LtCheckDialog(xContext);
       checkDialog.show();
     } catch (Throwable e) {
@@ -1569,6 +1570,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       }
       undoList = null;
       documents.setLtDialog(null);
+      documents.setLtDialogIsRunning(false);
       dialog.setVisible(false);
     }
     

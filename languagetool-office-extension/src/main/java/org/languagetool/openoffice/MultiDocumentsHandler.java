@@ -98,6 +98,7 @@ public class MultiDocumentsHandler {
   private final List<Rule> extraRemoteRules;  //  store of rules supported by remote server but not locally
   private LtDictionary dictionary;            //  internal dictionary of LT defined words 
   private LtCheckDialog ltDialog = null;      //  LT spelling and grammar check dialog
+  private boolean dialogIsRunning = false;    //  The dialog was started     
   
   private XComponentContext xContext;         //  The context of the document
   private List<SingleDocument> documents;     //  The List of LO documents to be checked
@@ -244,6 +245,13 @@ public class MultiDocumentsHandler {
    */
   public void setLtDialog(LtCheckDialog dialog) {
     ltDialog = dialog;
+  }
+  
+  /**
+   *  Set Information LT spell and grammar check dialog was started
+   */
+  public void setLtDialogIsRunning(boolean running) {
+    this.dialogIsRunning = running;
   }
   
   /**
@@ -1162,7 +1170,10 @@ public class MultiDocumentsHandler {
       } else if ("checkDialog".equals(sEvent) || "checkAgainDialog".equals(sEvent)) {
         if (ltDialog != null) {
           ltDialog.closeDialog();
+        } else if (dialogIsRunning) {
+          return;
         }
+        setLtDialogIsRunning(true);
         SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
         if ("checkAgainDialog".equals(sEvent)) {
           SingleDocument document = getCurrentDocument();
@@ -1370,6 +1381,7 @@ public class MultiDocumentsHandler {
   /** class to start a separate thread to switch grammar check to LT
    * Experimental currently not used 
    */
+  @SuppressWarnings("unused")
   private class LtHelper extends Thread {
     @Override
     public void run() {

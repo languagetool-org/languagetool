@@ -52,6 +52,16 @@ public class DocumentCache implements Serializable {
     reset(docCursor, flatPara, docLocale);
   }
   
+  DocumentCache(DocumentCache in) {
+    paragraphs = new ArrayList<String>(in.paragraphs);
+    chapterBegins = new ArrayList<Integer>(in.chapterBegins);
+    locales = new ArrayList<SerialLocale>(in.locales);
+    footnotes = new ArrayList<int[]>(in.footnotes);
+    toTextMapping = new ArrayList<Integer>(in.toTextMapping);
+    toParaMapping = new ArrayList<Integer>(in.toParaMapping);
+    defaultParaCheck = in.defaultParaCheck;
+  }
+  
   /**
    * reset the document cache
    * load the actual state of the document into the cache
