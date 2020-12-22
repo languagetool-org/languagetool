@@ -13445,8 +13445,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ESTAR_PARTICIPIO_GERUNDIO" name="confusión participio/gerundio" default="temp_off">
             <rule>
                 <pattern>
-                    <token>se</token>
-                    <token postag="V.[SI].3.." postag_regexp="yes"/>
+                    <token regexp="yes">me|te|se|nos|os</token>
+                    <token postag="V.[SI]...." postag_regexp="yes"/>
                     <token regexp="yes" min="0">a|que|de</token>
                     <token regexp="yes">estar|estado</token>
                     <marker>
@@ -13458,11 +13458,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="variando">Se va a estar <marker>variado</marker>.</example>
                 <example correction="variando">Se tiene que estar <marker>variado</marker>.</example>
                 <example correction="variando">Se ha de estar <marker>variado</marker>.</example>
-                <example correction="variando">Se ha estado <marker>variado</marker>.</example>
+                <example correction="mirando">Te he estado <marker>mirado</marker>.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>se</token>
+                    <token regexp="yes">me|te|se|nos|os</token>
                     <token inflected="yes">estar</token>
                     <marker>
                         <token postag="V.P..SM" postag_regexp="yes" regexp="yes">.*ado<exception regexp="yes">\p{Lu}.*|&exceptions_ADO;</exception></token>
@@ -13471,20 +13471,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Posible confusión.</message>
                 <suggestion><match no="3" postag="V.P.*" postag_regexp="yes" postag_replace="V.G...."/></suggestion>
                 <example correction="variando">Se está <marker>variado</marker>.</example>
+                <example correction="acostumbrando">Me estoy <marker>acostumbrado</marker>.</example>
             </rule>
             <rule>
                 <pattern>
                     <token inflected="yes">estar<exception inflected="yes" regexp="yes">ser|ver</exception></token>
                     <marker>
-                        <token postag="V.P..SM" postag_regexp="yes" regexp="yes">.*ado<exception regexp="yes">\p{Lu}.*|&exceptions_ADO;|&excpetions_ADO2;</exception></token>
+                        <token regexp="yes">aumentado|acechado|acercado|actuado|agonizado|aguardado|ahogado|amenazado|apuntado|armado|atacado|ayudado|bailado|besado|bromeado|burlado|buscado|cambiado|caminado|cansado|cargado|causado|cazado|celebrado|cenado|charlado|colocado|comenzado|comportado|comprado|contado|contemplado|conversado|costado|cruzado|dado|dejado|delirado|demostrado|desarrollado|deseado|despertado|disfrutado|disparado|echado|empezado|engañado|enseñado|entrado|enviado|escapado|escuchado|esperado|espiado|estudiado|exagerado|examinado|experimentado|flotado|fumado|funcionado|ganado|golpeado|gritado|guardado|hablado|imaginado|insinuado|intentado|interrogado|inventado|investigado|jugado|lanzado|librado|limpiado|llegado|llenado|llevado|llorado|luchado|matado|meditado|mejorado|mirado|molestado|montado|mostrado|nadado|observado|ocultado|ocupado|pagado|paseado|peleado|pensado|pintado|pisado|practicado|preguntado|preparado|presenciado|prestado|provocado|quedado|quitado|realizado|recordado|reflexionado|respirado|resultado|revisado|rezado|robado|sangrado|soñado|sudado|sujetado|temblado|tirado|tocado|tomado|trabajado|tramado|tratado|usado|utilizado|viajado|vigilado|volado</token>
                     </marker>
                 </pattern>
-                <message>Posible confusión.</message>
-                <suggestion><match no="2" postag="V.P.*" postag_regexp="yes" postag_replace="V.G...."/></suggestion>
+                <message>Posible confusión. ¿Quería decir <suggestion><match no="2" postag="V.P.*" postag_regexp="yes" postag_replace="V.G...."/></suggestion>?</message>
                 <example correction="aumentando">Ha estado <marker>aumentado</marker>.</example>
                 <example correction="llegando">Está <marker>llegado</marker>.</example>
-                <!--<example>El coche está abandonado.</example>
-                <example>Está aceptado en el club.</example>-->
+                <example>El coche está abandonado.</example>
+                <example>Está aceptado en el club.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">estar<exception inflected="yes" regexp="yes">ser|ver</exception></token>
+                    <marker>
+                        <token postag="V.P..SM" postag_regexp="yes" regexp="yes">.*ado<exception regexp="yes">\p{Lu}.*</exception></token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Posible confusión. ¿Quería decir <suggestion><match no="2" postag="V.P.*" postag_regexp="yes" postag_replace="V.G...."/></suggestion>?</message>
+                <example correction="intentando">Ha estado <marker>intentado</marker> llamarte.</example>
             </rule>
         </rulegroup>
         <rule id="JOHNS_HOPKINS" name="Johns Hopkins">
