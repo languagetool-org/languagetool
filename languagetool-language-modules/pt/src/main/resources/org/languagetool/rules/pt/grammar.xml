@@ -12640,6 +12640,30 @@ Temos saudades de vocês como seria expetável.
           <token regexp="yes" spacebefore='no'>”|»|&quot;</token>
       </antipattern>
 	  
+	<!-- ALÉM DA PONTE FORAM Além da ponte, foram -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-22 (21-OCT-2020+)  *START*   -->
+<!--
+Além da ponte, foram construídas cercas nos dois lados da I-80.
+-->	
+    <rule>
+      <pattern>
+		<token regexp='no'>além</token>
+		<token regexp='yes'>das?|dos?|de</token>
+		<marker>
+			<token postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
+		</marker>
+		<token postag='V.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='CS|CC|VMP00[SP][MF]|AQ.+|NC.+|NP.+|SPS.+|RG'/>
+			<exception regexp='no'>é</exception>
+		</token>
+		<token negate="yes" regexp='yes'>[.,!?]</token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\3,</suggestion>
+      <example correction="ponte,">Além da <marker>ponte</marker> foram construídas cercas nos dois lados da I-80.</example>
+	  <example type='correct'>Além da <marker>ponte,</marker> foram construídas cercas nos dois lados da I-80.</example>
+    </rule>
+	  
 	<!-- ÀS VEZES às vezes -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-13 (21-OCT-2020+)  *START*   -->
     <rule>
