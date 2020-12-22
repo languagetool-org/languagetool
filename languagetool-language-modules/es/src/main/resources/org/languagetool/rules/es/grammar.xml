@@ -2362,7 +2362,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">saber|preguntar</token>
-                    <token postag="SPS00"><exception>por</exception></token>
+                    <token postag="SPS00"><exception regexp="yes">por|hasta</exception><exception postag="RG"/></token>
                     <marker>
                         <token>que</token>
                     </marker>
@@ -2372,6 +2372,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="qué">No sé a <marker>que</marker> estás esperando.</example>
                 <example correction="qué">No sabe de <marker>que</marker> le hablas.</example>
                 <example correction="qué">Me pregunto con <marker>que</marker> ideas vendrá.</example>
+                <example>No lo supe hasta que leí el periódico.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -13249,7 +13250,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
-        <rule id="TAJO_TRAJO" name="tajo/trajo" default="temp_off">
+        <rule id="TAJO_TRAJO" name="tajo/trajo">
             <pattern>
                 <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
                 <marker>
@@ -13389,14 +13390,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="PARTICIPIO_GERUNDIO" name="confusión participio/gerundio" default="temp_off">
             <!-- TODO: add exceptions -->
             <pattern>
-                <token inflected="yes">ir</token>
+                <token inflected="yes">ir<exception inflected="yes">ser</exception></token>
                 <marker>
-                    <token postag="V.P..SM" postag_regexp="yes" regexp="yes">.*ado</token>
+                    <token postag="V.P..SM" postag_regexp="yes" regexp="yes">.*ado<exception regexp="yes">\p{Lu}.*</exception></token>
                 </marker>
             </pattern>
             <message>Posible confusión.</message>
             <suggestion><match no="2" postag="V.P.*" postag_regexp="yes" postag_replace="V.G...."/></suggestion>
             <example correction="aumentando">Ha ido <marker>aumentado</marker>.</example>
+            <example>El coche fue abandonado.</example>
+            <example>Fui aceptado en el club.</example>    
         </rule>
         <rule id="JOHNS_HOPKINS" name="Johns Hopkins">
             <antipattern case_sensitive="yes">
