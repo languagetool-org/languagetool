@@ -106,9 +106,9 @@ public class AgreementRule extends Rule {
       token("Homburger")
     ),
     Arrays.asList(
-      tokenRegex("der|die|das"),   // "Lieber jemanden, der einem Tipps gibt."
-      csToken("einem"),
-      posRegex("SUB:.*:PLU:.*")
+      tokenRegex("der|die|das"),   // "Lieber jemanden, der einem Tipps/Hoffnung gibt." / "die 69er Revolte"
+      csRegex("einem|[0-9]+er"),
+      posRegex("SUB:.*")
     ),
     Arrays.asList(
       tokenRegex("de[rs]"),   // "Die dauerhafte Abgrenzung des später Niedersachsen genannten Gebietes"
