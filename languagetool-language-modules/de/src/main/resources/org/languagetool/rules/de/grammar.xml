@@ -145,20 +145,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
         <rulegroup id="ZUVIEL" name="zuviel (zu viel)" default="temp_off">
-            <rule><!--1: zuviel -->
-            <antipattern>
-                <token regexp="yes">ein|das</token>
-                <token case_sensitive="yes">Zuviel</token>
-            </antipattern>
-            <pattern>
-                <token>zuviel</token>
-            </pattern>
-            <message>'Zu viel' im Sinne von 'im Überfluss' wird getrennt geschrieben.</message>
-            <suggestion>zu viel</suggestion>
-            <example correction="zu viel">Ich finde, wir haben <marker>zuviel</marker> eingekauft.</example>
-            <example correction="Zu viel"><marker>Zuviel</marker> Kaffee ist gar nicht gesund.</example>
+            <url>https://www.korrekturen.de/wortliste/zuviel.shtml</url>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">zuviel</token>
+                </pattern>
+                <message>'Zu viel' im Sinne von 'im Überfluss' wird getrennt geschrieben.</message>
+                <suggestion>zu viel</suggestion>
+                <example correction="zu viel">Ich finde, wir haben <marker>zuviel</marker> eingekauft.</example>
+                <example>... dass man sich gleichzeitig abwenden möchte von diesem Zuviel.</example>
             </rule>
-            <rule><!--2: zuviele -->
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>Zuviel</token>
+                    </marker>
+                </pattern>
+                <message>'Zu viel' im Sinne von 'im Überfluss' wird getrennt geschrieben.</message>
+                <suggestion>zu viel</suggestion>
+                <example correction="Zu viel"><marker>Zuviel</marker> Futter darf man dem Hund aber auch nicht geben.</example>
+            </rule>
+            <rule>
                 <pattern>
                     <token>zuviele</token>
                 </pattern>
