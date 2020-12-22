@@ -534,6 +534,8 @@ public class AgreementRuleTest {
     assertGood("Wir bedanken uns bei allen Teams.");
     assertGood("Als Heinrich versuchte, seinen Kandidaten für den Mailänder Bischofssitz durchzusetzen, reagierte der Papst sofort.");
     assertGood("Den neuen Finanzierungsweg wollen sie daher Hand in Hand mit dem Leser gehen.");
+    assertGood("Lieber den Spatz in der Hand...");
+    assertGood("Wir wollen sein ein einzig Volk von Brüdern");
     // incorrect sentences:
     assertBad("Es sind die riesigen Tisch.");
     //assertBad("Dort, die riesigen Tischs!");    // TODO: error not detected because of comma
