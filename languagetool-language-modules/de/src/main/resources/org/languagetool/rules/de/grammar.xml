@@ -144,7 +144,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
-        <rule id="ZUVIEL" name="zuviel (zu viel)" default="temp_off">
+        <rulegroup id="ZUVIEL" name="zuviel (zu viel)" default="temp_off">
+            <rule><!--1: zuviel -->
             <antipattern>
                 <token regexp="yes">ein|das</token>
                 <token case_sensitive="yes">Zuviel</token>
@@ -152,9 +153,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>zuviel</token>
             </pattern>
-            <message><suggestion>zu viel</suggestion> im Sinne von 'im Überfluss' wird getrennt geschrieben.</message>
+            <message>'Zu viel' im Sinne von 'im Überfluss' wird getrennt geschrieben.</message>
+            <suggestion>zu viel</suggestion>
             <example correction="zu viel">Ich finde, wir haben <marker>zuviel</marker> eingekauft.</example>
-        </rule>
+            <example correction="Zu viel"><marker>Zuviel</marker> Kaffee ist gar nicht gesund.</example>
+            </rule>
+            <rule><!--2: zuviele -->
+                <pattern>
+                    <token>zuviele</token>
+                </pattern>
+                <message>'Zu viele' im Sinne von 'im Überfluss' wird getrennt geschrieben.</message>
+                <suggestion>zu viele</suggestion>
+                <example correction="Zu viele"><marker>Zuviele</marker> Eier sind gar nicht gesund.</example>
+            </rule>
+        </rulegroup>
         <rule id="VERTREIB_VERTRIEB" name="der Vertreib (Vertrieb)">
             <pattern>
                 <token regexp="yes">der|ein</token>
