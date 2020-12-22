@@ -296,7 +296,10 @@ RB => Règles Brutes
       <pattern>
         <token regexp="yes">aucuns?|certains?|différents?|divers|nombreux|touts?|un<exception scope="previous" regexp="yes">&apostrophe;</exception></token>
         <marker>
-          <token postag="N [me] .*" postag_regexp="yes"><exception regexp="yes">est|multiples|si|ayant</exception></token>
+          <token postag="N [me] .*" postag_regexp="yes">
+            <exception regexp="yes">est|multiples|si|ayant</exception>
+            <exception case_sensitive="yes">Paris</exception>
+          </token>
         </marker>
       </pattern>
       <disambig action="filter" postag="N [me].*"/>
@@ -1588,6 +1591,10 @@ RB => Règles Brutes
   </rulegroup>
   <rule name="RB : adverbes" id="RB-ADVERBES">
     <!-- TODO: very poor rule -->
+    <antipattern><!-- important to recognize "tout" as a D for common agreement errors, as in "toute homme"-->
+      <token inflected="yes">tout</token>
+      <token postag="N.*" postag_regexp="yes"/>
+    </antipattern>
     <pattern>
       <marker>
         <token postag="A">
