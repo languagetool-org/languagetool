@@ -814,6 +814,20 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </pattern>
             <disambig action="remove" postag="ADJ:.+|PA2:.+"/>
         </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"></token>
+                <token case_sensitive="yes">Das</token>
+                <marker>
+                    <and>
+                        <token postag="VER:.*1:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
+                        <token postag="VER:.*3:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes"></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*:(3|IMP):.+|PRO:POS:.+"/>
+            <example type="ambiguous" inputform="sage[sagen/VER:1:SIN:KJ1:SFT,sagen/VER:1:SIN:PRÄ:SFT,sagen/VER:3:SIN:KJ1:SFT,sagen/VER:IMP:SIN:SFT]" outputform="sage[sagen/VER:1:SIN:KJ1:SFT,sagen/VER:1:SIN:PRÄ:SFT]">Das <marker>sage</marker> ich dir nicht.</example>
+        </rule>
     </rulegroup>
     <rulegroup name="VER -> PA2" id="VER_PA2">
         <rule>
@@ -1484,9 +1498,11 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                        <token postag="VER:([12]|IMP):.+" postag_regexp="yes"/>
                     </and>
                 </marker>
+                <token><exception regexp="yes">ich|du|wir</exception></token>
             </pattern>
             <disambig action="remove" postag="VER:(IMP|[12]):.+"/>
             <example type="ambiguous" inputform="geht[gehen/VER:2:PLU:PRÄ:NON,gehen/VER:3:SIN:PRÄ:NON,gehen/VER:IMP:PLU:NON]" outputform="geht[gehen/VER:3:SIN:PRÄ:NON]">Das <marker>geht</marker> selten gut aus.</example>
+            <example type="untouched">Das dachte ich mir schon.</example>
         </rule>
     </rulegroup>
     <!-- ============================================================================================================== -->
