@@ -60,6 +60,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY colors_invariable "burdeos|naranja|rosa|violeta|añil|carmesí">
     <!ENTITY words_H_ASPIRADA2 "Higgs|high|Hildesheim|Hill|hijabs?|Hillary|Himmler|hip-hop|hippies|hippy|hipsters?|Hirado|His|hits?|Hubei|Hudson|Hunter|Husserl|Huygens|Utah|husky">
     <!ENTITY words_H_ASPIRADA "Harris|Harvey|Hunspell|Hassan|Haddock|Haarle[mn].*|Hainan|haendel.*|händel.*|habermas.*|hadits?|Hanuk?kà|hack.*|Harlem|Harper|Hartford|Haifa|haikus?|haima|haimes|Haikou|halal|halar|Halifax|Halmstad|halls?|Halle|Halley|Hallstatt|Hallstein|Halloweens?|Hals|herr|Herut|Hamadan|Hamas|Hamàs|hamilton.*|Hamlet.*|hammams?|Hammond|Hampton|hàmsters?|h[aà]ndicaps?|Hangzhou|Hannover|Hanoi|Hans|Hansa|hanseàti[cq].*|happenings?|Harbin|hardware|Haneke|harolds?|Hatay|Hamleigh |Harrisburg|Harrison|harrods?|harry|Hartley|Hartmann?|Hartree|Haruki|Har[td]?vard|Harz|hash.*|Hastings|Havel|Havilland|hawai.*|hawk.*|Hayek|Haydn.*|Hayworth|Heard|hearst|Heathrow|heav.*|hegel.*|Hebei|Hedmark|Heerenveen|Hedw.*|Heerlen|Hefei|Heidelberg|Heide[gn].*|Heilbronn|Heilongjiang|Heilig.*|hei[nk].*|Heisen.*|Heitz|Helmand|Helmholtz|Helen|Helsingborg|Hèlsinki|Heming.*|Henan|henna|hennes|Henry|Hepburn|herbert.*|Herder|Hereford|Herford|Herning|Hertfordshire|Herzog|Hesse|Hessen|Hewlett.*|Hezboll.+|high.*|hilbert.*|Hilda|Hillingdon|hinden.*|Hilton|hinterlands?|Hirsch.*|Hitch.*|hitler.*|Hilversum|Hobart|Hockenheim|Hodeida|Hohhot|Hokkaido|hobbes.*|hobby|Hogw.*|hobbies|Hodgkin|Hohen.*|Hölderlin|h[òo]ldings?|holy.*|hollywood.*|Holmes.*|Holstein|Hong|Hong-Kong|hongk.+|Honolu.+|Honsh[uū]|h[òo]bbits?|hooligan.*|hoover.*|hopkins|Hork.*|Horowitz|horst|H[ou]f.*|Houla|house|Houston|Howard|Hoyerswerda|Hunan|Huddersfield|Hunedoara|huskys?|huskies|hubs?|Hubble|humbold.*|Hume|hunting.*|Hussein|husseinit.+|university|united|(?-i)Hagen|Hamada">
+    <!ENTITY diacritics_00 "linea|lineas|entrelinea|entrelineas">
     <!ENTITY diacritics_01 "capitulo">
     <!ENTITY diacritics_02 "maquina">
     <!ENTITY diacritics_05 "maquina|ultimo|ultima|ultimas|arboles">
@@ -1895,7 +1896,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- TODO: solo me faltan 2 practicas más -->
                 <marker>
                     <token postag="V.[SI].*" postag_regexp="yes" regexp="yes"
-                        >maquina|capitulo|ada|adan|animo|arboles|aticulo|autentica|autenticas|autentico|azucares|barbara|calculo|canceres|capsula|capsulas|catalogo|circulo|cubica|cubicas|debito|deposito|diagnostico|dialogo|domestica|domesticas|domestico|ejercito|embolo|entrelinea|entrelineas|epitome|espontanea|estomago|genero|idolatra|idolatras|ignifuga|ignifugas|ignifugo|ilegitima|ilegitimas|ilegitimo|invalida|invalidas|invalido|lagrima|lagrimas|lamina|laminas|lastima|lastimas|legitima|legitimas|legitimo|lideres|linea|lineas|liquida|liquidas|liquido|maquinas|marques|matricula|medica|medicas|medico|modulo|nausea|nauseas|nomina|nominas|oleo|ovulo|oxido|oxigeno|pacifico|petroleo|pixeles|prestamos|prorroga|purpurea|purpureas|recamara|recamaras|reciproca|reciprocas|reciproco|retrograda|retrogradas|retrogrado|revalida|revalidas|rondo|simultanea|simultaneas|simultaneo|solida|solidas|solido|tempano|titulo|trafico|tramite|tramites|transito|tremolo|triangulo|ulcera|ulceras|vehiculo|victima|victimas|vinculo<exception
+                        >maquina|capitulo|ada|adan|animo|arboles|aticulo|autentica|autenticas|autentico|azucares|barbara|calculo|canceres|capsula|capsulas|catalogo|circulo|cubica|cubicas|debito|deposito|diagnostico|dialogo|domestica|domesticas|domestico|ejercito|embolo|entrelinea|entrelineas|epitome|espontanea|estomago|genero|idolatra|idolatras|ignifuga|ignifugas|ignifugo|ilegitima|ilegitimas|ilegitimo|invalida|invalidas|invalido|lagrima|lagrimas|lamina|laminas|lastima|lastimas|legitima|legitimas|legitimo|lideres|liquida|liquidas|liquido|maquinas|marques|matricula|medica|medicas|medico|modulo|nausea|nauseas|nomina|nominas|oleo|ovulo|oxido|oxigeno|pacifico|petroleo|pixeles|prestamos|prorroga|purpurea|purpureas|recamara|recamaras|reciproca|reciprocas|reciproco|retrograda|retrogradas|retrogrado|revalida|revalidas|rondo|simultanea|simultaneas|simultaneo|solida|solidas|solido|tempano|titulo|trafico|tramite|tramites|transito|tremolo|triangulo|ulcera|ulceras|vehiculo|victima|victimas|vinculo<exception
                         postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
@@ -1921,27 +1922,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>¿Qué clase de deportes practicas?</example>
         </rule>
         <!-- new rules diacritics -->
-        <!--<rule id="DIACRITICS_00" name="verbo/adj o nombre 01" default="temp_off">
-            <!-\-<antipattern>
-                <token regexp="yes">que|si</token>
-                <token min="0" max="3" postag="R.*|LOC_ADV" postag_regexp="yes"/>
-                <token regexp="yes">&diacritics_00;</token>
-            </antipattern>-\->
-            <antipattern>
-                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                <token>&diacritics_00;</token>
-            </antipattern>
+        <rule id="DIACRITICS_00" name="linea/línea">
             <pattern>
                 <marker>
-                    <token>&diacritics_00;</token>
+                    <token regexp="yes">&diacritics_00;</token>
                 </marker>
             </pattern>
             <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:[AN].*"/>
             <message>Si es adjetivo o nombre, se escribe con tilde.</message>
             <suggestion>{suggestion}</suggestion>
-            <example correction="Órdenes"><marker>Ordenes</marker>.</example>
-            <example>Haremos lo que nos ordenes.</example>
-        </rule>-->
+            <example correction="Líneas"><marker>Lineas</marker> de actuación.</example>
+        </rule>
         <rule id="DIACRITICS_01" name="verbo/adj o nombre 01" default="temp_off">
             <antipattern>
                 <token regexp="yes">que|si</token>
@@ -4757,8 +4748,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>tú</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">como</token>
-                    <token regexp="yes">ordenes|desordenes</token>
+                    <token>como</token>
+                    <token>ordenes</token>
                     <token postag="_PUNCT.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
