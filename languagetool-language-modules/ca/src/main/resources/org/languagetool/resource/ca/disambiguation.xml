@@ -3671,6 +3671,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="noms_aposicio" name="noms en aposició">
         <rule>
             <pattern>
+                <token regexp="yes">astre|esport|instrument</token>
+                <marker>
+                    <token>rei</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="rei" pos="AQ0CN0"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <token regexp="yes" inflected="yes">grup|classe|viatge|vol</token>
                 <marker>
                     <token>bombolla</token>
