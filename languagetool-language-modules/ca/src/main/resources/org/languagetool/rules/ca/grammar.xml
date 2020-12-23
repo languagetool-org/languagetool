@@ -52020,6 +52020,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rulegroup id="TORRO" name="torró fort/fluix">
+            <url>https://termcat.blog.gencat.cat/2014/12/18/quines-son-les-formes-catalanes-que-es-refereixen-a-la-duresa-dels-torrons/</url>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="3">torró</token>
+                    <marker>
+                        <token regexp="yes">durs?</token>
+                    </marker>
+                </pattern>
+                <message>Quan parlem de torró, és preferible dir <suggestion><match no="2" regexp_match="(?iu)dur" regexp_replace="fort"></match></suggestion>.</message>
+                <example correction="forts">M'agraden els torrons <marker>durs</marker> com els d'Alacant i Agramunt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="3">torró</token>
+                    <marker>
+                        <token regexp="yes" inflected="yes">tou|bla|blanet</token>
+                    </marker>
+                </pattern>
+                <message>Quan parlem de torró, és preferible dir <suggestion><match no="2" postag="(A.*)" postag_regexp="yes" postag_replace="$1">fluix</match></suggestion>.</message>
+                <example correction="fluixos">M'agraden els torrons <marker>blanets</marker> com els de Xixona i de massapà.</example>
+                <example correction="fluixos">M'agraden els torrons <marker>tous</marker> com els de Xixona i de massapà.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AL_ANDALUS" name="al-Àndalus">
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=al-%E0ndalus&amp;numPagina=1&amp;database=TERMCAT&amp;idFont=808158&amp;idHit=808158&amp;tipusFont=Diccionaris+terminol%F2gics+del+TERMCAT&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=al-%C0ndalus&amp;tematica=Ci%E8ncies+socials&amp;tipusCerca=cerca.tot</url>
             <antipattern case_sensitive="yes">
