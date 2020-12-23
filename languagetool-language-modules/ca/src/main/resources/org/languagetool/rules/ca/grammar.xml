@@ -23595,13 +23595,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>l'</token>
-                    <token>angles</token>
+                    <token postag="D..[MC]S." postag_regexp="yes"/>
+                    <marker>
+                        <token>angles</token>
+                    </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>l'anglès</suggestion>?</message>
-                <suggestion>l'anglés</suggestion>
-                <suggestion>l'angle</suggestion>
-                <example correction="l'anglès|l'anglés|l'angle"><marker>l'angles</marker></example>
+                <message>¿Volíeu dir <suggestion>anglès</suggestion>?</message>
+                <suggestion>anglés</suggestion>
+                <example correction="anglès|anglés">L'<marker>angles</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>angles</token>
+                    </marker>
+                    <token postag="V.P..SM.|A..[MC]S." postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>anglès</suggestion>?</message>
+                <suggestion>anglés</suggestion>
+                <example correction="anglès|anglés">Curs d'<marker>angles</marker> avançat.</example>
+                <example correction="anglès|anglés">Curs d'<marker>angles</marker> americà.</example>
             </rule>
             <rule>
                 <antipattern>
