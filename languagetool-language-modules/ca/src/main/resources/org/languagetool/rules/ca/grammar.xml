@@ -15851,6 +15851,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
+        <rule id="OBLIDA_T_OBLIDAT" name="ha *oblida't">
+            <pattern>
+                <token inflected="yes">haver</token>
+                <token postag="V.M.*" postag_regexp="yes"/>
+                <token>'t</token>
+            </pattern>
+            <message>Confusió.</message>
+            <suggestion>\1 <match no="2" postag="V.M.*" postag_regexp="yes" postag_replace="V.P..SM."/></suggestion>
+            <example correction="ha oblidat">Se'ns <marker>ha oblida't</marker></example>
+        </rule>
+        <rule id="ME_N" name="*m'he -> me">
+            <pattern>
+                <marker>
+                    <token regexp="yes">m'|t'</token>
+                    <token>he</token>
+                </marker>
+                <token regexp="yes">n'|l'</token>
+            </pattern>
+            <message>Condusió.</message>
+            <suggestion><match no="1" regexp_match="'" regexp_replace="e"/></suggestion>
+            <example correction="Me"><marker>M'he</marker> n'alegro.</example>
+        </rule>
         <rule id="DECIMES" name="dècimes" default="temp_off">
             <pattern>
                 <token regexp="yes">0[,\.]\d\d</token>
@@ -42001,7 +42023,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"><exception postag="_cometes_obertura"/></token>
                     <marker>
                         <token>com</token>
-                        <token postag="VMS.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">poder|voler|arpegi</exception><exception postag="V.I.*|_possible_nompropi" postag_regexp="yes"/></token>
+                        <token postag="VMS.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">poder|voler|arpegi|preferir|estimar</exception><exception postag="V.I.*|_possible_nompropi" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Construcció incorrecta: "com + subjuntiu" condicional.</message>
@@ -42010,6 +42032,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Si vens|Si véns"><marker>Com vinguis</marker>, m'enfadaré.</example>
                 <example>Si véns, m'enfadaré.</example>
                 <example>llevat que Booking.com tingui un interès legítim</example>
+                <example>Podem quedar presencialment o virtual, com prefereixis.</example>
+                <example>Podem quedar presencialment o virtual, com t'estimies més.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -42022,7 +42046,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"><exception postag="_cometes_obertura"/></token>
                     <marker>
                         <token skip="4">com<exception postag="RN|PP.*|P0.*|V.*|SENT_END|PARA_END|DA.*|_GV_|_reflexiu|_perfet|_es_.*" scope="next" postag_regexp="yes" negate_pos="yes"/></token>
-                        <token postag="VMS.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">poder|voler|arpegi</exception><exception postag="V.I.*|_possible_nompropi" postag_regexp="yes"/></token>
+                        <token postag="VMS.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">poder|voler|arpegi|preferir|estimar</exception><exception postag="V.I.*|_possible_nompropi" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Construcció incorrecta: "com + subjuntiu" condicional.</message>
