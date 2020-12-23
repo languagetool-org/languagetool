@@ -17152,11 +17152,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="PEL_QUE_FA_EL" name="pel que fa *el/al">
             <antipattern>
-                <marker>
-                    <token>fa</token>
-                    <token postag="RG.*|.*LOC_ADV.*|_PUNCT.*|CC" postag_regexp="yes" min="1" max="4"/>
-                    <token>a</token>
-                </marker>
+                <token>fa</token>
+                <token postag="RG.*|.*LOC_ADV.*|_PUNCT.*|CC" postag_regexp="yes" min="1" max="4"/>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token postag="[NAR].*|V.P.*|LOC_ADV" postag_regexp="yes"/>
+                <token>pe</token>
+                <token>l</token>
+                <token>que</token>
+                <token>fa</token>
+                <token postag="_PUNCT.*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <marker>
@@ -17172,6 +17178,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Pel que fa a"><marker>Pel que fa</marker> aquesta qüestió.</example>
             <example>Pel que fa més concretament a aquesta qüestió.</example>
             <example>Pel que fa, però, a la pobresa energètica</example>
+            <example>És castigat pel que fa.</example>
         </rule>
         <rulegroup id="ANTS_ANYS" name="*ants/anys">
             <rule>
@@ -52029,7 +52036,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">durs?</token>
                     </marker>
                 </pattern>
-                <message>Quan parlem de torró, és preferible dir <suggestion><match no="2" regexp_match="(?iu)dur" regexp_replace="fort"></match></suggestion>.</message>
+                <message>Quan parlem de torró, és preferible dir <suggestion><match no="2" regexp_match="(?iu)dur" regexp_replace="fort"/></suggestion>.</message>
                 <example correction="forts">M'agraden els torrons <marker>durs</marker> com els d'Alacant i Agramunt.</example>
             </rule>
             <rule>
