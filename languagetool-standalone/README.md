@@ -11,7 +11,8 @@ https://www.languagetool.org
 
 ## Requirements
 
-* Java 8 or later
+* Java 8 to Java 14 (see https://github.com/languagetool-org/languagetool/issues/4061
+  for support of Java 15 or later)
 * For LibreOffice/OpenOffice.org integration:
     * LibreOffice 4.2.4 (or later) or
     * Apache OpenOffice 4.1.2 (or later)
