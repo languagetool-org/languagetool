@@ -817,7 +817,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule>
             <pattern>
                 <token postag="SENT_START"></token>
-                <token case_sensitive="yes">Das</token>
+                <token case_sensitive="yes" regexp="yes">D(a|ie)s</token>
                 <marker>
                     <and>
                         <token postag="VER:.*1:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
@@ -1015,11 +1015,12 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern case_sensitive="yes">
             <token postag="VER:.+" postag_regexp="yes" skip="5"><exception scope="next" postag="PKT"/></token>
             <marker>
-                <token>einige</token>
+                <token regexp="yes">einige|Versuche</token>
             </marker>
         </pattern>
         <disambig action="remove" postag="VER:.+"/>
         <!-- Sie hat <marker>einige</marker> wichtige Dokumente vorbeigebracht-->
+        <!-- Er unternahm verzweifelte <marker>Versuche</marker>, ...-->
     </rule>
     <rule id="ALTBEKANNTE" name="kein Partizip: altbekannte">
         <pattern case_sensitive="yes">
