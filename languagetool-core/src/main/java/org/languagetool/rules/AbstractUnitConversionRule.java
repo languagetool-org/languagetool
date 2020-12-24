@@ -84,7 +84,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
   private static final int MAX_SUGGESTIONS = 5;
   private static final int WHITESPACE_LIMIT = 5;
 
-  protected Map<Pattern, Unit> unitPatterns = new HashMap<>();
+  protected Map<Pattern, Unit> unitPatterns = new LinkedHashMap<>();  // use LinkedHashMap for stable iteration order
 
   // for patterns that require a custom number parsing function
   protected Map<Pattern, Map.Entry<Unit, Function<MatchResult, Double>>> specialPatterns = new HashMap<>();
