@@ -4295,7 +4295,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Quería decir <suggestion>inglés</suggestion>?</message>
                 <example correction="inglés">Curso de <marker>ingles</marker> básico.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>ingles</token>
@@ -4916,7 +4916,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>vengo diciéndote que ordenes todo esto</example>
                 <example>Quiero que ordenes rápidamente la habitación.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>critica</token>
                     <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
@@ -6242,6 +6242,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="té">Quiero leche con <marker>te</marker> ahora.</example>
                 <example correction="té">Tomaré el <marker>te</marker> de tu madre.</example>
                 <example reason="triggers another rule">El te lo quería explicar.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>te<exception postag="N.*" postag_regexp="yes"/><exception scope="previous">no</exception></token>
+                </pattern>
+                <message>Si es un sustantivo (bebida), lleva tilde.</message>
+                <suggestion>té</suggestion>
+                <example correction="té">Quiero un <marker>te</marker> ahora.</example>
+                <example correction="té">Sé que él servía más <marker>te</marker> para mí.</example>
+                <example>Te quiero ver mañana.</example>
+                <example>Te Deum.</example>
+                <example>No te cortés el dedo.</example>
             </rule>
         </rulegroup>
         <rule id="SE_HACIA" name="Se + hacia / hacía" type="misspelling">

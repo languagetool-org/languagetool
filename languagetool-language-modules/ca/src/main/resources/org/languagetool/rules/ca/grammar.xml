@@ -52523,14 +52523,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">informe|anàlisi|pla|projecte</token>
+                    <token min="0" postag="RG"/>
                     <marker>
                         <token inflected="yes">realitzar</token>
                     </marker>
                 </pattern>
                 <message>Ús abusiu del v. 'realitzar'. Considereu una opció alternativa.</message>
-                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
-                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">elaborar</match></suggestion>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">elaborar</match></suggestion>
                 <example correction="fet|elaborat">I llavors han presentat l'informe <marker>realitzat</marker> per ells.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">activitat|actuació|projecte|pla|tasca</token>
+                    <token min="0" postag="RG"/>
+                    <marker>
+                        <token inflected="yes">realitzar</token>
+                    </marker>
+                </pattern>
+                <message>Ús abusiu del v. '<match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="V.N.*"/>'. Considereu una opció alternativa.</message>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">acomplir</match></suggestion>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">executar</match></suggestion>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">dur</match> a terme</suggestion>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
+                <example correction="acomplertes|acomplides|executades|dutes a terme|fetes">Les tasques actualment <marker>realitzades</marker> per humans.</example>
             </rule>
         </rulegroup>
         <rulegroup id="COLLE" name="col·le/escola">
