@@ -162,7 +162,7 @@ class SingleDocument {
     
     getPropertyValues(propertyValues);
 
-    if (resetDocCache) {
+    if (resetDocCache && nPara >= 0) {
       docCache = null;
       resetDocCache = false;
     }
@@ -740,6 +740,7 @@ class SingleDocument {
    */
   private int changesInNumberOfParagraph(boolean getCurNum) {
     // Test if Size of allParas is correct; Reset if not
+    DocumentCache docCache = this.docCache;
     if (docCache == null) {
       return -1;
     }
@@ -752,9 +753,6 @@ class SingleDocument {
       }
     }
     int nFParas = flatPara.getNumberOfAllFlatPara();
-    if (docCache == null) {
-      return -1;
-    }
     if (nFParas == docCache.size()) {
       return nPara;
     }
@@ -772,7 +770,7 @@ class SingleDocument {
     docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck,
         isFixedLanguage ? LinguisticServices.getLocale(docLanguage) : null);
     if (docCache.isEmpty()) {
-      docCache = null;
+      this.docCache = null;
       return -1;
     }
     int from = 0;
@@ -823,6 +821,7 @@ class SingleDocument {
     if (debugMode > 0) {
       MessageHandler.printToLogFile("Number FlatParagraphs: " + nFParas + "; docID: " + docID);
     }
+    this.docCache = docCache;
     if (nFParas < docCache.textSize()) {
       return -1;   // try to get ViewCursor position for proof info unknown
     }
