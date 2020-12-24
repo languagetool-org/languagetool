@@ -15873,7 +15873,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="1" regexp_match="'" regexp_replace="e"/></suggestion>
             <example correction="Me"><marker>M'he</marker> n'alegro.</example>
         </rule>
-        <rule id="DECIMES" name="dècimes" default="temp_off">
+        <rule id="DECIMES" name="dècimes">
             <pattern>
                 <token regexp="yes">0[,\.]\d\d</token>
                 <token>dècimes</token>
@@ -23609,7 +23609,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token>critica</token>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
                     <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>critica</token>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
+                    <token regexp="yes">a|que</token>
                 </antipattern>
                 <pattern>
                     <token postag="NCFS000|A..[FC]S." postag_regexp="yes"/>
@@ -23621,6 +23627,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>crítica</suggestion>
                 <example correction="crítica">Una solució <marker>critica</marker>.</example>
                 <example>Aquella persona critica la situació.</example>
+                <example>La presidenta critica també que no s'hagi arribat a un acord.</example>
             </rule>
             <rule>
                 <pattern>
@@ -23633,7 +23640,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>anglés</suggestion>
                 <example correction="anglès|anglés">L'<marker>angles</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>angles</token>
@@ -24069,7 +24076,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="REPETITIONS" name="Repeticions" type="duplication">
-        <rule id="ENCARA_QUE_ENCARA" name="encara (repetit)" default="temp_off">
+        <rule id="ENCARA_QUE_ENCARA" name="encara (repetit)">
             <pattern>
                 <marker>
                     <token>encara</token>
