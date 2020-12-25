@@ -1,6 +1,9 @@
 # LanguageTool Change Log
 
 ## 5.2 (release planned for 2020-12-29)
+
+#### English
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.91 - 2020-12-01)
  
 #### Catalan
   * added and improved rules
@@ -20,6 +23,11 @@
   * added and improved rules
   * added words and POS data
   * fixed tons of false positives
+
+#### Russian
+  * added and improved rules
+  * added new words and POS data for it
+  * improved suggestions algorithms for spellchecking
 
 #### Spanish
   * added and improved rules
