@@ -49,6 +49,8 @@ public class UnitConversionRuleUSTest {
     helper.assertMatches("It's 1/4 mile away", 0, null, rule, lt);
     helper.assertMatches("A 2:1 cup", 0, null, rule, lt);
     helper.assertMatches("1⁄4 cup", 0, null, rule, lt);
+    // matched by special case in the case as long as "x ft y inch" is not parsed properly:
+    helper.assertMatches("It is 0.76 metres (2 ft 6 inch)", 0, null, rule, lt);
   }
 
 }

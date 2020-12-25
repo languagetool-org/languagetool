@@ -483,6 +483,10 @@ public abstract class AbstractUnitConversionRule extends Rule {
         Double convertedValueInText;
         try {
           convertedValueInText = getNumberFormat().parse(convertedMatcher.group(1)).doubleValue();
+          if (convertedMatcher.group().trim().matches("\\(\\d+ (feet|ft) \\d+ inch\\)")) {
+            // e.g. "(2 ft 6 inch)" would be interpreted as just "2 ft", given a wrong suggestion
+            return;
+          }
         } catch (ParseException e) {
           return;
         }
