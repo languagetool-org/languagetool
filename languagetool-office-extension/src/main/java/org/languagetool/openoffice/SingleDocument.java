@@ -807,6 +807,7 @@ class SingleDocument {
     }
     resetTo++;
     sentencesCache.removeAndShift(from, to, docCache.size() - oldDocCache.size());
+    this.docCache = docCache;
     if (useQueue) {
       for (int i = 0; i < minToCheckPara.size(); i++) {
         if (minToCheckPara.get(i) != 0) {
@@ -821,7 +822,6 @@ class SingleDocument {
     if (debugMode > 0) {
       MessageHandler.printToLogFile("Number FlatParagraphs: " + nFParas + "; docID: " + docID);
     }
-    this.docCache = docCache;
     if (nFParas < docCache.textSize()) {
       return -1;   // try to get ViewCursor position for proof info unknown
     }
