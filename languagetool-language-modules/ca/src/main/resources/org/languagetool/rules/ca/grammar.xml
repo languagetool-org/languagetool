@@ -35674,13 +35674,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
         <rule id="EN_AQUI" name="*en aquí">
+            <antipattern>
+                <token>d'</token>
+                <token regexp="yes">ací|aquí|ahí|allí|allà</token>
+                <token>a</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">a|en</token>
-                <token regexp="yes">aquí|ací|ahí</token>
+                <token regexp="yes">aquí|ací|ahí|allí|allà</token>
             </pattern>
             <message>Expressió incorrecta.</message>
             <suggestion>\2</suggestion>
             <example correction="aquí">Hem arribat <marker>en aquí</marker> amb molt d'esforç.</example>
+            <example>Hem d'anar d'ací a allà.</example>
         </rule>
         <rule id="GRIMA" name="*grima">
             <pattern>
