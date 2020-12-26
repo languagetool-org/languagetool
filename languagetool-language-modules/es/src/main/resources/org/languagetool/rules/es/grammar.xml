@@ -2260,7 +2260,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>que</token>
-                    <token regexp="yes">cómo|cuántos?|cuándo|quién|quiénes|cuál|cuáles</token>
+                    <token postag="SPS00" min="0"/>
+                    <token regexp="yes">qué|cómo|cuántos?|cuándo|quién|quiénes|cuál|cuáles</token>
                 </antipattern>
                 <antipattern>
                     <token>a</token>
@@ -3764,7 +3765,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>tal</token>
-                    <token>o</token>
+                    <token regexp="yes">o|para</token>
                     <token>cual</token>
                 </antipattern>
                 <pattern>
@@ -5050,6 +5051,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="SERIA" name="seria/sería">
             <antipattern>
                 <token inflected="yes" regexp="yes">poner|ser|estar|parecer|volver</token>
+                <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="3"/>
                 <token regexp="yes">serias?</token>
             </antipattern>
             <rule>
@@ -5094,6 +5096,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
                     <token postag="V.[SI].*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes" max="3"/>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                    <token>seria</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>seria<exception postag="_GN_FS"/></token>
@@ -5104,6 +5112,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>sería</suggestion>
                 <example correction="sería">Creo que <marker>seria</marker> mejor utilizar otra cosa.</example>
                 <example>Una institución lingüística seria jamás censuraría</example>
+                <example>Ella se puso más seria todavía.</example>
             </rule>
             <rule>
                 <pattern>
@@ -5705,6 +5714,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>como</token>
                     <token>esta</token>
                 </antipattern>
+                <antipattern>
+                    <token>esta</token>
+                    <token min="0">todo</token>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>esta</token>
@@ -6243,9 +6258,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="té">Tomaré el <marker>te</marker> de tu madre.</example>
                 <example reason="triggers another rule">El te lo quería explicar.</example>
             </rule>
-            <rule default="temp_off">
+            <rule id="TE_TILDE_TEST" name="te tilde (test)" default="temp_off">
+                <antipattern>
+                    <token>te</token>
+                    <token postag="UNKNOWN|V.N.*|V.P.*|&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
-                    <token>te<exception postag="N.*" postag_regexp="yes"/><exception scope="previous">no</exception></token>
+                    <token>te<exception postag="N.*|LOC_.*" postag_regexp="yes"/><exception scope="previous">no</exception></token>
                 </pattern>
                 <message>Si es un sustantivo (bebida), lleva tilde.</message>
                 <suggestion>té</suggestion>
@@ -6254,6 +6273,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Te quiero ver mañana.</example>
                 <example>Te Deum.</example>
                 <example>No te cortés el dedo.</example>
+                <example>Tú dale que te dale.</example>
+                <example>Te agradrezco</example>
             </rule>
         </rulegroup>
         <rule id="SE_HACIA" name="Se + hacia / hacía" type="misspelling">
