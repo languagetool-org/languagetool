@@ -138,7 +138,7 @@ class SingleDocument {
     }
     resetCache();
     ignoredMatches = new IgnoredMatches();
-    if (config != null && config.saveLoCache() && xComponent != null) {
+    if (config != null && config.saveLoCache() && xComponent != null && !mDocHandler.isTestMode()) {
       readCaches();
     }
   }
