@@ -11746,7 +11746,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rule> -->
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">així|tant|tals?|vegades|voltes|cops|colps|pics</exception></token>
+                    <token><exception regexp="yes">així|tant|tals?|vegades|voltes|cops|colps|pics|càrrecs?</exception></token>
                     <marker>
                         <token>com<exception postag="allow_com"/></token>
                     </marker>
@@ -24078,6 +24078,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="REPETITIONS" name="Repeticions" type="duplication">
         <rulegroup id="ENCARA_QUE_ENCARA" name="encara (repetit)">
+            <antipattern>
+                <token>encara</token>
+                <token skip="4">que</token>
+                <token regexp="yes">,|:</token>
+                <token>encara</token>
+                <token>que</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
