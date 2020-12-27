@@ -51,12 +51,35 @@ class TypingSimulator {
   private static final int avgWaitMillis = 10;       // more real: 100   // don't set to 0, will cause endless loop
   private static final int checkAtMostEveryMillis = 10;  // more real: 1500
 
-  private final Random rnd = new Random(123);
-
   static class Stats {
+    private static final int stepSize = 50;
     private long totalTime = 0;
     private long totalChecks = 0;
     private long totalChecksSkipped = 0;
+    private final Map<Integer,Integer> sizeToChecks = new TreeMap<>();
+    private int sizeToChecksLarger = 0;
+    Stats() {
+      for (int i = 0; i <= 500; i+= stepSize) {
+        sizeToChecks.put(i, 0);
+      }
+    }
+    void trackRequestBySize(int size) {
+      if (size >= 550) {
+        sizeToChecksLarger++;
+      } else {
+        int key = size - size % stepSize;
+        sizeToChecks.put(key, sizeToChecks.get(key)+1);
+      }
+    }
+    void printRequestSizeSummary() {
+      System.out.println("Summary of request sizes sent ('0' means 0 to 49 chars):");
+      for (int i = 0; i <= 500; i+= stepSize) {
+        Integer checks = sizeToChecks.get(i);
+        float percent = (float)checks / (float)totalChecks * 100.0f;
+        System.out.printf(Locale.ENGLISH, "%s  -> %d (%.0f%%)\n", StringUtils.leftPad(String.valueOf(i), 3), checks, percent);
+      }
+      System.out.println("550+ -> " + sizeToChecksLarger);
+    }
   }
 
   public static void main(String[] args) throws IOException {
@@ -77,15 +100,19 @@ class TypingSimulator {
     List<Long> totalTimes = new ArrayList<>();
     List<Float> avgTimes = new ArrayList<>();
     int maxRuns = 3;  // keep at 3, the chart library needs 3 values for the error bars
+    Random rnd = new Random(123);  // not inside loop, so every loop gets its own random data (so we don't just measure cache)
     for (int i = 0; i < maxRuns; i++) {
       System.out.println("=== Run " + (i+1) + " of " + maxRuns + " =====================");
       Stats stats = new Stats();
+      // TODO: split docs in 3 same-sized parts and use one for every run
       for (String doc : docs) {
-        runOnDoc(doc, stats);
+        runOnDoc(doc, rnd, stats);
       }
       totalTimes.add(stats.totalTime);
       float avg = (float) stats.totalTime / (float) stats.totalChecks;
       avgTimes.add(avg);
+      stats.printRequestSizeSummary();
+      System.out.println();
     }
     totalTimes.sort(Long::compareTo);
     avgTimes.sort(Float::compareTo);
@@ -98,7 +125,7 @@ class TypingSimulator {
   }
 
   @SuppressWarnings("BusyWait")
-  private void runOnDoc(String doc, Stats stats) {
+  private void runOnDoc(String doc, Random rnd, Stats stats) {
     if (rnd.nextFloat() < copyPasteProb) {
       check(doc, stats);
     } else {
@@ -182,6 +209,7 @@ class TypingSimulator {
       } else {
         stats.totalChecks++;
         stats.totalTime += runTime;
+        stats.trackRequestBySize(text.length());
       }
     } catch (IOException e) {
       System.err.println("Got error from " + url + " (" + text.length() + " chars): "
