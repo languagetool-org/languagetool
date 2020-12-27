@@ -101,11 +101,25 @@ class TypingSimulator {
     List<Float> avgTimes = new ArrayList<>();
     int maxRuns = 3;  // keep at 3, the chart library needs 3 values for the error bars
     Random rnd = new Random(123);  // not inside loop, so every loop gets its own random data (so we don't just measure cache)
+    int delta = docs.size() % 3;
+    int docsUsed = docs.size() - delta;
+    int blockSize = docsUsed / 3;
+    System.out.printf("Using %d of the %d docs, %d in each run\n", docsUsed, docs.size(), blockSize);
     for (int i = 0; i < maxRuns; i++) {
       System.out.println("=== Run " + (i+1) + " of " + maxRuns + " =====================");
       Stats stats = new Stats();
-      // TODO: split docs in 3 same-sized parts and use one for every run
-      for (String doc : docs) {
+      List<String> tempDocs;
+      if (i == 0) {
+        tempDocs = docs.subList(0, blockSize);
+      } else if (i == 1) {
+        tempDocs = docs.subList(blockSize, blockSize*2);
+      } else if (i == 2) {
+        tempDocs = docs.subList(blockSize*2, blockSize*3);
+      } else {
+        throw new IllegalStateException();
+      }
+      //System.out.println("#" + i + " --> " +tempDocs);
+      for (String doc : tempDocs) {
         runOnDoc(doc, rnd, stats);
       }
       totalTimes.add(stats.totalTime);
