@@ -53,9 +53,11 @@ class TypingSimulator {
 
   private final Random rnd = new Random(123);
 
-  private long totalTime = 0;
-  private long totalChecks = 0;
-  private long totalChecksSkipped = 0;
+  static class Stats {
+    private long totalTime = 0;
+    private long totalChecks = 0;
+    private long totalChecksSkipped = 0;
+  }
 
   public static void main(String[] args) throws IOException {
     if (args.length != 1) {
@@ -77,14 +79,12 @@ class TypingSimulator {
     int maxRuns = 3;  // keep at 3, the chart library needs 3 values for the error bars
     for (int i = 0; i < maxRuns; i++) {
       System.out.println("=== Run " + (i+1) + " of " + maxRuns + " =====================");
-      totalChecks = 0;
-      totalTime = 0;
-      totalChecksSkipped = 0;
+      Stats stats = new Stats();
       for (String doc : docs) {
-        runOnDoc(doc);
+        runOnDoc(doc, stats);
       }
-      totalTimes.add(totalTime);
-      float avg = (float) totalTime / (float) totalChecks;
+      totalTimes.add(stats.totalTime);
+      float avg = (float) stats.totalTime / (float) stats.totalChecks;
       avgTimes.add(avg);
     }
     totalTimes.sort(Long::compareTo);
@@ -98,9 +98,9 @@ class TypingSimulator {
   }
 
   @SuppressWarnings("BusyWait")
-  private void runOnDoc(String doc) {
+  private void runOnDoc(String doc, Stats stats) {
     if (rnd.nextFloat() < copyPasteProb) {
-      check(doc);
+      check(doc, stats);
     } else {
       long lastCheck = 0;
       StringBuilder sb = new StringBuilder();
@@ -115,7 +115,7 @@ class TypingSimulator {
         }
         if (rnd.nextFloat() < backSpaceProb && i > 2) {
           sb.replace(sb.length()-1, sb.length(), "");
-          check(sb.toString());
+          check(sb.toString(), stats);
           i -= 2;
         } else {
           char c = doc.charAt(i);
@@ -123,7 +123,7 @@ class TypingSimulator {
         }
         long millisSinceLastCheck = System.currentTimeMillis() - lastCheck;
         if (millisSinceLastCheck > checkAtMostEveryMillis || i == doc.length()-1) {
-          check(sb.toString());
+          check(sb.toString(), stats);
           lastCheck = System.currentTimeMillis();
         }
         try {
@@ -142,16 +142,16 @@ class TypingSimulator {
     System.out.println();
   }
 
-  private void check(String doc) {
+  private void check(String doc, Stats stats) {
     try {
-      checkByPOST(doc, "textLevelOnly");
-      checkByPOST(doc, "allButTextLevelOnly");
+      checkByPOST(doc, "textLevelOnly", stats);
+      checkByPOST(doc, "allButTextLevelOnly", stats);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
   }
 
-  private void checkByPOST(String text, String mode) throws IOException {
+  private void checkByPOST(String text, String mode, Stats stats) throws IOException {
     long runTimeStart = System.currentTimeMillis();
     String postData =
             "&mode=" + mode +
@@ -176,12 +176,12 @@ class TypingSimulator {
       long runTime = System.currentTimeMillis() - runTimeStart;
       System.out.printf("%sms %s: %s\n", String.format("%1$5d", runTime), String.format("%1$20s", mode), text);
       //System.out.println("Checking " + text.length() + " chars took " + runTime + "ms");
-      if (totalChecksSkipped < warmUpChecks) {
+      if (stats.totalChecksSkipped < warmUpChecks) {
         System.out.println("Warm-up, ignoring result...");
-        totalChecksSkipped++;
+        stats.totalChecksSkipped++;
       } else {
-        totalChecks++;
-        totalTime += runTime;
+        stats.totalChecks++;
+        stats.totalTime += runTime;
       }
     } catch (IOException e) {
       System.err.println("Got error from " + url + " (" + text.length() + " chars): "
