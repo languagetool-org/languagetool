@@ -61,7 +61,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY words_H_ASPIRADA2 "Higgs|high|Hildesheim|Hill|hijabs?|Hillary|Himmler|hip-hop|hippies|hippy|hipsters?|Hirado|His|hits?|Hubei|Hudson|Hunter|Husserl|Huygens|Utah|husky">
     <!ENTITY words_H_ASPIRADA "Harris|Harvey|Hunspell|Hassan|Haddock|Haarle[mn].*|Hainan|haendel.*|händel.*|habermas.*|hadits?|Hanuk?kà|hack.*|Harlem|Harper|Hartford|Haifa|haikus?|haima|haimes|Haikou|halal|halar|Halifax|Halmstad|halls?|Halle|Halley|Hallstatt|Hallstein|Halloweens?|Hals|herr|Herut|Hamadan|Hamas|Hamàs|hamilton.*|Hamlet.*|hammams?|Hammond|Hampton|hàmsters?|h[aà]ndicaps?|Hangzhou|Hannover|Hanoi|Hans|Hansa|hanseàti[cq].*|happenings?|Harbin|hardware|Haneke|harolds?|Hatay|Hamleigh |Harrisburg|Harrison|harrods?|harry|Hartley|Hartmann?|Hartree|Haruki|Har[td]?vard|Harz|hash.*|Hastings|Havel|Havilland|hawai.*|hawk.*|Hayek|Haydn.*|Hayworth|Heard|hearst|Heathrow|heav.*|hegel.*|Hebei|Hedmark|Heerenveen|Hedw.*|Heerlen|Hefei|Heidelberg|Heide[gn].*|Heilbronn|Heilongjiang|Heilig.*|hei[nk].*|Heisen.*|Heitz|Helmand|Helmholtz|Helen|Helsingborg|Hèlsinki|Heming.*|Henan|henna|hennes|Henry|Hepburn|herbert.*|Herder|Hereford|Herford|Herning|Hertfordshire|Herzog|Hesse|Hessen|Hewlett.*|Hezboll.+|high.*|hilbert.*|Hilda|Hillingdon|hinden.*|Hilton|hinterlands?|Hirsch.*|Hitch.*|hitler.*|Hilversum|Hobart|Hockenheim|Hodeida|Hohhot|Hokkaido|hobbes.*|hobby|Hogw.*|hobbies|Hodgkin|Hohen.*|Hölderlin|h[òo]ldings?|holy.*|hollywood.*|Holmes.*|Holstein|Hong|Hong-Kong|hongk.+|Honolu.+|Honsh[uū]|h[òo]bbits?|hooligan.*|hoover.*|hopkins|Hork.*|Horowitz|horst|H[ou]f.*|Houla|house|Houston|Howard|Hoyerswerda|Hunan|Huddersfield|Hunedoara|huskys?|huskies|hubs?|Hubble|humbold.*|Hume|hunting.*|Hussein|husseinit.+|university|united|(?-i)Hagen|Hamada">
     <!ENTITY diacritics_00 "linea|lineas|entrelinea|entrelineas|arboles|lagrima|lagrimas|victima|victimas|solida|solidas|solido">
-    <!ENTITY diacritics_01 "capitulo|titulo|medico">
+    <!ENTITY diacritics_01 "capitulo|titulo|medico|nauseas|nausea|cubica|cubicas|cubico">
     <!ENTITY diacritics_02 "maquina|maquinas|ejercito">
     <!ENTITY diacritics_03 "incomoda|incomodas|lastima|lastimas|medica|medicas">
     <!ENTITY diacritics_04 "critica|criticas">
@@ -1929,7 +1929,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- TODO: solo me faltan 2 practicas más -->
                 <marker>
                     <token postag="V.[SI].*" postag_regexp="yes" regexp="yes"
-                        >maquina|capitulo|ada|adan|animo|aticulo|autentica|autenticas|autentico|azucares|barbara|calculo|canceres|capsula|capsulas|catalogo|circulo|cubica|cubicas|debito|deposito|diagnostico|dialogo|domestica|domesticas|domestico|embolo|entrelinea|entrelineas|epitome|espontanea|estomago|genero|idolatra|idolatras|ignifuga|ignifugas|ignifugo|ilegitima|ilegitimas|ilegitimo|invalida|invalidas|invalido|lamina|laminas|legitima|legitimas|legitimo|lideres|liquida|liquidas|liquido|maquinas|marques|matricula|medica|medicas|medico|modulo|nausea|nauseas|nomina|nominas|oleo|ovulo|oxido|oxigeno|pacifico|petroleo|pixeles|prestamos|prorroga|purpurea|purpureas|recamara|recamaras|reciproca|reciprocas|reciproco|retrograda|retrogradas|retrogrado|revalida|revalidas|rondo|simultanea|simultaneas|simultaneo|tempano|titulo|trafico|tramite|tramites|transito|tremolo|triangulo|ulcera|ulceras|vehiculo|vinculo<exception
+                        >maquina|capitulo|ada|adan|animo|aticulo|autentica|autenticas|autentico|azucares|barbara|calculo|canceres|capsula|capsulas|catalogo|circulo|debito|deposito|diagnostico|dialogo|domestica|domesticas|domestico|embolo|entrelinea|entrelineas|epitome|espontanea|estomago|genero|idolatra|idolatras|ignifuga|ignifugas|ignifugo|ilegitima|ilegitimas|ilegitimo|invalida|invalidas|invalido|lamina|laminas|legitima|legitimas|legitimo|lideres|liquida|liquidas|liquido|maquinas|marques|matricula|medica|medicas|medico|modulo|nomina|nominas|oleo|ovulo|oxido|oxigeno|pacifico|petroleo|pixeles|prestamos|prorroga|purpurea|purpureas|recamara|recamaras|reciproca|reciprocas|reciproco|retrograda|retrogradas|retrogrado|revalida|revalidas|rondo|simultanea|simultaneas|simultaneo|tempano|titulo|trafico|tramite|tramites|transito|tremolo|triangulo|ulcera|ulceras|vehiculo|vinculo<exception
                         postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
@@ -6202,6 +6202,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token case_sensitive="yes">TE</token>
             </antipattern>
+            <antipattern>
+                <token postag="N.*|LOC_.*|A.*" postag_regexp="yes">te</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -6243,6 +6246,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Te quiero ver mañana.</example>
                 <example>Te Deum.</example>
                 <example>No te cortés el dedo.</example>
+                <example>Corre que te pillo.</example>
             </rule>
             <rule>
                 <pattern>
@@ -6269,7 +6273,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">&wrong_as_pron_verb;|&wrong_as_pron_verb2;</token>
                 </antipattern>
                 <pattern>
-                    <token>te<exception postag="N.*|LOC_.*|A.*" postag_regexp="yes"/><exception scope="previous">no</exception></token>
+                    <token>te<exception scope="previous">no</exception></token>
                 </pattern>
                 <message>Posible confusión. Si es un sustantivo (bebida), lleva tilde.</message>
                 <suggestion>de</suggestion>
@@ -10722,7 +10726,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- que una espacio y tiempo (possible but rare) -->
             </rule>
             <rule>
-                <pattern>
+                 <pattern>
                     <marker>
                         <unify negate="yes">
                             <feature id="numero"/>
@@ -10788,6 +10792,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Con sus cerca de 20 millones de habitantes.</example>
                 <example>La misión del piel roja.</example>
                 <example>El IVA se aplica en caja.</example>
+                <example>En todos los cruces de ferrocarril.</example>
             </rule>
             <rule>
                 <pattern>
@@ -12285,6 +12290,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
                 <token regexp="yes">atrás|después</token>
             </antipattern>
+            <antipattern>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token postag="AQ.*" postag_regexp="yes"/>
+                    <token postag="AQ.*|NC.*" postag_regexp="yes"/>
+                </unify>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
+                <token regexp="yes">atrás|después|antes</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -12344,6 +12361,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">.*%</token>
                 </antipattern>
                 <antipattern>
+                    <!-- TODO: needs typograhical rule-->
+                    <token regexp="yes">.*º</token>
+                    <token regexp="yes">centígrados|grados</token>
+                </antipattern>
+                <antipattern>
                     <token>color</token>
                     <token postag="NC.*" postag_regexp="yes"/>
                 </antipattern>
@@ -12379,6 +12401,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>San Marcos.</example>
                 <example>Toque de queda nocturno.</example>
                 <example>Calma dolores.</example>
+                <example>algo parecido milenios antes</example>
             </rule>
             <rule default="temp_off">
                 <pattern>
@@ -12397,6 +12420,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="magnífica cuchara|magníficas cucharas|magníficas, cuchara">De <marker>magníficas cuchara</marker>.</example>
                 <example>Refrigerador vertical blanco cíclico.</example>
                 <example>Caso especial es el de las funciones miembro estáticas.</example>
+                <example>Yo no presto atención a esto.</example>
+                <example>Lo único constante en este mundo.</example>
+                <example>Mi esposo y yo solíamos escalar montañas juntos.</example>
             </rule>
             <rule default="temp_off">
                 <pattern>
@@ -12449,7 +12475,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
-                <token regexp="yes">atrás|después</token>
+                <token regexp="yes">atrás|después|antes</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -13528,6 +13554,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
+        <rule id="SE_LO_ENTREGADA" name="se lo *entregada/entregara" default="temp_off">
+            <pattern>
+                <token regexp="yes">me|te|se|nos|os</token>
+                <token regexp="yes">lo|la|le|los|las|les</token>
+                <marker>
+                    <token postag="V.P..SF" postag_regexp="yes" regexp="yes">.*da</token>
+                </marker>
+            </pattern>
+            <message>Posible confusión.</message>
+            <suggestion><match no="3" postag="(V.)P.*" postag_regexp="yes" postag_replace="$1SI[13]S0"/></suggestion>
+            <example correction="entregara|entregase">Me pidió que te lo <marker>entregada</marker>.</example>
+        </rule>
         <rule id="TAJO_TRAJO" name="tajo/trajo">
             <pattern>
                 <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
@@ -13717,7 +13755,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ve llegado su momento.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ESTAR_PARTICIPIO_GERUNDIO" name="confusión participio/gerundio" default="temp_off">
+        <!--<rulegroup id="ESTAR_PARTICIPIO_GERUNDIO" name="confusión participio/gerundio" default="off">
             <rule>
                 <pattern>
                     <token regexp="yes">me|te|se|nos|os</token>
@@ -13773,7 +13811,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Posible confusión. ¿Quería decir <suggestion><match no="2" postag="V.P.*" postag_regexp="yes" postag_replace="V.G...."/></suggestion>?</message>
                 <example correction="intentando">Ha estado <marker>intentado</marker> llamarte.</example>
             </rule>
-        </rulegroup>
+        </rulegroup>-->
         <rule id="JOHNS_HOPKINS" name="Johns Hopkins">
             <antipattern case_sensitive="yes">
                 <token>Johns</token>
@@ -15181,6 +15219,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Me horroriza lo mal que se portan esos niños.</example>
                 <example>Y lo bien que lo hizo.</example>
                 <example>Se lo ve ya mayor.</example>
+                <example>Lo dije charlando.</example>
+                <example>Le encanta todo lo irracional.</example>
             </rule>
             <!-- <rule default="off">
                 catch-all rule, no suggestions; exception: se
@@ -18125,6 +18165,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>a</token>
                     <token><match no="0"/></token>
                 </antipattern>
+                <antipattern>
+                    <token>boca</token>
+                    <token>a</token>
+                    <token>boca</token>
+                    <token>a</token>
+                </antipattern>
                 <pattern>
                     <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>y</exception><exception postag="allow_repetition">de</exception>[\p{L}·'-]+</token>
                     <token regexp="yes" spacebefore="yes">[\p{L}·'-]+<exception>y</exception><exception postag=".*LOC.*" postag_regexp="yes">en</exception></token>
@@ -18145,6 +18191,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No había ni demasiado ni demasiado pocos.</example>
                 <example>Dejándolas de una en una en las casillas siguientes.</example>
                 <example>No marcan uno a uno a sus oponentes.</example>
+                <example>Hizo el boca a boca a Mary.</example>
             </rule>
         </rulegroup>
     </category>

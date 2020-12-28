@@ -1989,6 +1989,16 @@ Copyright (C) 2011 Juan Martorell
                 <wd lemma="solar"/>
             </disambig>
         </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">soler</token>
+                <token min="0" postag="RG"/>
+                <marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V.N.*"/>
+        </rule>
     </rulegroup>
     <rule id="PODER" name="poder/pudrir (verb)">
         <pattern>
@@ -3146,13 +3156,13 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="remove" postag="V.[ISM].*"/>
     </rule>
-    <rulegroup id="la_planta" name="la planta (noun), exeption to next rule">
+    <rulegroup id="la_planta" name="la planta (noun), exception to next rule">
         <rule>
             <pattern>
                 <unify>
                     <feature id="genero"/>
                     <feature id="numero"/>
-                    <token postag="DA.*" postag_regexp="yes"><exception scope="previous" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
+                    <token postag="DA.*" postag_regexp="yes"><exception scope="previous" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/><exception>lo</exception></token>
                     <marker>
                         <and>
                             <token postag="NC.*" postag_regexp="yes"/>
@@ -3356,7 +3366,8 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <token postag="DA.*" postag_regexp="yes">la</token>
             <marker>
-                <token regexp="yes">calle|sangre</token> <!-- exceptions? -->
+                <token regexp="yes">calle|sangre</token>
+                <!-- exceptions? -->
             </marker>
         </pattern>
         <disambig action="remove" postag="V.[SIM].*"/>
@@ -3525,7 +3536,7 @@ Copyright (C) 2011 Juan Martorell
                 <marker>
                     <token postag="DI.*" postag_regexp="yes" inflected="yes">todo</token>
                     <token postag="D[AD].*" postag_regexp="yes"/>
-                    <token postag="N.*|PI.*" postag_regexp="yes"/>
+                    <token postag="N.*|PI.*|A.*" postag_regexp="yes"/>
                 </marker>
             </unify>
         </pattern>
@@ -4187,11 +4198,31 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
+    <rule id="ambos" name="ambos (det)">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="_GN_MP">ambos</token>
+                    <token postag="DI0MP0">ambos</token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="_GN_MP|DI0MP0"/>
+    </rule>
     <rule id="verb_notnoun" name="verb not noun: queda">
         <pattern>
             <token postag="V.*" postag_regexp="yes" regexp="yes">fija|quedo|queda|descargue|salga|vales?|ganas?|cerca|compruebas?|cuelgas?|figura|forma|tira|giras?<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[IS].*|_GV_" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="remove" postag="[AND].*"/>
+    </rule>
+    <rule id="presta" name="presta: verb/adj">
+        <pattern>
+            <marker>
+                <token postag="V.*" postag_regexp="yes" regexp="yes">presta|prestas|presto</token>
+            </marker>
+            <token postag="NC.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="V.*"/>
     </rule>
     <rule id="not_noun1" name="not noun">
         <pattern>
@@ -4427,18 +4458,36 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="remove" postag="N.*"/>
     </rule>
-    <rule id="todo_lo" name="todo lo">
-        <pattern>
-            <unify>
-                <feature id="numero"/>
-                <feature id="genero"/>
-                <token postag="D.*" postag_regexp="yes" inflected="yes">todo</token>
-                <token postag="DA.*" postag_regexp="yes"/>
-            </unify>
-            <token><exception postag="V.[SI].*" postag_regexp="yes"/></token>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
+    <rulegroup id="todo_lo" name="todo lo">
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="numero"/>
+                    <feature id="genero"/>
+                    <marker>
+                        <token postag="D.*" postag_regexp="yes" inflected="yes">todo</token>
+                    </marker>
+                    <token postag="DA.*" postag_regexp="yes"/>
+                </unify>
+                <token><exception postag="V.[SI].*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="filter" postag="D.*|_GN_.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="numero"/>
+                    <feature id="genero"/>
+                    <token postag="D.*" postag_regexp="yes" inflected="yes">todo</token>
+                    <marker>
+                        <token postag="DA.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+                <token><exception postag="V.[SI].*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="filter" postag="DA.*|_GN_.*"/>
+        </rule>
+    </rulegroup>
     <rule id="not_det_no_agreement" name="not determinant if no agreement">
         <pattern>
             <!-- These words would require specific rules for agreement-->
