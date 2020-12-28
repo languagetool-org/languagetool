@@ -112,6 +112,7 @@ class TypingSimulator {
       System.out.println("=== Run " + (i+1) + " of " + maxRuns + " =====================");
       Stats stats = new Stats();
       for (int j = 0; j < docsPerRun; j++) {
+        System.out.printf("Run %d, doc %d/%d...\n", i+1, j, docsPerRun);
         runOnDoc(docs.getDoc(), rnd, stats);
       }
       totalTimes.add(stats.totalTime);
