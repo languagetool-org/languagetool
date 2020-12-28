@@ -10726,7 +10726,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- que una espacio y tiempo (possible but rare) -->
             </rule>
             <rule>
-                 <pattern>
+                <pattern>
                     <marker>
                         <unify negate="yes">
                             <feature id="numero"/>
@@ -13755,8 +13755,56 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ve llegado su momento.</example>
             </rule>
         </rulegroup>
-        <!--<rulegroup id="ESTAR_PARTICIPIO_GERUNDIO" name="confusión participio/gerundio" default="off">
+        <rulegroup id="ESTAR_PARTICIPIO_GERUNDIO" name="confusión participio/gerundio" default="temp_off">
             <rule>
+                <antipattern>
+                    <token inflected="yes">haber</token>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token>intentado</token>
+                </antipattern>
+                <pattern>
+                    <!--<token inflected="yes">estar<exception inflected="yes" regexp="yes">ser|ver</exception></token>-->
+                    <marker>
+                        <token postag="V.P..SM" postag_regexp="yes">intentado</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Posible confusión. ¿Quería decir <suggestion><match no="1" postag="V.P.*" postag_regexp="yes" postag_replace="V.G...."/></suggestion>?</message>
+                <example correction="intentando">Ha estado <marker>intentado</marker> llamarte.</example>
+                <example correction="intentando">¿Estás <marker>intentado</marker> burlarte de mí?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token postag="V.[SI]...." postag_regexp="yes"/>
+                    <token regexp="yes" min="0">a|que|de</token>
+                    <token regexp="yes">estar|estado</token>
+                    <marker>
+                        <token regexp="yes">mirado|buscado|variado|acostumbrado|intentado|aumentado|bajado</token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión.</message>
+                <suggestion><match no="5" postag="V.P.*" postag_regexp="yes" postag_replace="V.G...."/></suggestion>
+                <example correction="variando">Se va a estar <marker>variado</marker>.</example>
+                <example correction="variando">Se tiene que estar <marker>variado</marker>.</example>
+                <example correction="variando">Se ha de estar <marker>variado</marker>.</example>
+                <example correction="mirando">Te he estado <marker>mirado</marker>.</example>
+                <example correction="buscando"> La ha estado <marker>buscado</marker> durante cinco horas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token inflected="yes">estar</token>
+                    <marker>
+                        <token regexp="yes">mirado|buscado|variado|acostumbrado|intentado|aumentado|bajado</token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión.</message>
+                <suggestion><match no="3" postag="V.P.*" postag_regexp="yes" postag_replace="V.G...."/></suggestion>
+                <example correction="variando">Se está <marker>variado</marker>.</example>
+                <example correction="acostumbrando">Me estoy <marker>acostumbrado</marker>.</example>
+            </rule>
+            <!--    <rule>
                 <pattern>
                     <token regexp="yes">me|te|se|nos|os</token>
                     <token postag="V.[SI]...." postag_regexp="yes"/>
@@ -13800,18 +13848,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El coche está abandonado.</example>
                 <example>Está aceptado en el club.</example>
             </rule>
-            <rule>
-                <pattern>
-                    <token inflected="yes">estar<exception inflected="yes" regexp="yes">ser|ver</exception></token>
-                    <marker>
-                        <token postag="V.P..SM" postag_regexp="yes" regexp="yes">.*ado<exception regexp="yes">\p{Lu}.*</exception></token>
-                    </marker>
-                    <token postag="V.N.*" postag_regexp="yes"/>
-                </pattern>
-                <message>Posible confusión. ¿Quería decir <suggestion><match no="2" postag="V.P.*" postag_regexp="yes" postag_replace="V.G...."/></suggestion>?</message>
-                <example correction="intentando">Ha estado <marker>intentado</marker> llamarte.</example>
-            </rule>
-        </rulegroup>-->
+            -->
+        </rulegroup>
         <rule id="JOHNS_HOPKINS" name="Johns Hopkins">
             <antipattern case_sensitive="yes">
                 <token>Johns</token>
