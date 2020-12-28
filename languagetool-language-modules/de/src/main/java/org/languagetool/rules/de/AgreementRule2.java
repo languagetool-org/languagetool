@@ -34,8 +34,7 @@ import java.util.*;
 import java.util.function.Supplier;
 
 import static java.util.Arrays.*;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 
 /**
  * Simple agreement checker for German noun phrases. Checks agreement in:
@@ -49,6 +48,9 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRege
 public class AgreementRule2 extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = asList(
+    asList(csToken("Regelmäßig"), posRegex("SUB:.*PLU.*")),  // "Regelmäßig Kiwis und Ananas zu essen..."
+    asList(token("lecker"), token("Essen")),  // "Lecker Essen an Weihnachten."
+    asList(token("erneut"), posRegex("SUB:.*")),  // "Erneut Ausgangssperre beschlossen"
     asList(token("Gesetzlich"), token("Krankenversicherte")),
     asList(token("weitgehend"), token("Einigkeit")),      // feste Phrase
     asList(token("Ernst")),      // Vorname
