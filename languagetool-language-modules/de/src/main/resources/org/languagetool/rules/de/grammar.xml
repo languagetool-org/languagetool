@@ -5353,6 +5353,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="WEIS_ICH" name="weis (weiß) ich">
             <rule>
                 <pattern>
+                    <marker>
+                        <token regexp="yes">weiß|weiss</token>
+                    </marker>
+                    <token>du</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>\1t</suggestion>, die Form des Verbs 'wissen'?</message>
+                <example correction="Weißt">Sie fragte: „<marker>Weiß</marker> du, ob er kommt?“</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>weis</token>
+                    </marker>
+                    <token min="0" postag="ADV:.*" postag_regexp="yes" />
+                    <token regexp="yes">nicht|kein(e[rsn]?)?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>weiß</suggestion>, die Form des Verbs 'wissen'?</message>
+                <example correction="Weiß"><marker>Weis</marker> wirklich nicht, was du meinst.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">ich|e[rs]|sie</token>
                     <marker>
                         <token>weis</token>
@@ -5370,16 +5391,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie <suggestion>weiß</suggestion>, die Form des Verbs 'wissen'? 'weis' ist die Befehlsform von 'weisen' (z.B. 'weis mich darauf hin').</message>
                 <example correction="weiß">Das war keine gute Idee, das <marker>weis</marker> ich ja auch.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token regexp="yes">weiß|weiss</token>
-                    </marker>
-                    <token>du</token>
-                </pattern>
-                <message>Meinten Sie <suggestion>\1t</suggestion>, die Form des Verbs 'wissen'?</message>
-                <example correction="Weißt">Sie fragte: „<marker>Weiß</marker> du, ob er kommt?“</example>
             </rule>
         </rulegroup>
         <rulegroup id="WESEN_WESSEN" name="Wesen/Wessen">

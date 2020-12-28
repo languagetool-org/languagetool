@@ -406,6 +406,7 @@ public class ProhibitedCompoundRule extends Rule {
           "Schmucksorten",
           "Farbsorte",
           "Farbsorten",
+          "Donaublick",
           "Feuchtmann" //name
   ));
 
