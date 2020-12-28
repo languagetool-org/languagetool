@@ -3352,6 +3352,15 @@ Copyright (C) 2011 Juan Martorell
             <example type="untouched">Él apenas leyó 10.</example>
         </rule>
     </rulegroup>
+    <rule id="la_not_verb" name="la + not verb">
+        <pattern>
+            <token postag="DA.*" postag_regexp="yes">la</token>
+            <marker>
+                <token regexp="yes">calle|sangre</token> <!-- exceptions? -->
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.[SIM].*"/>
+    </rule>
     <rule id="el_infinitivo" name="el + infinitivo">
         <pattern>
             <token regexp="yes">el|al|del</token>
