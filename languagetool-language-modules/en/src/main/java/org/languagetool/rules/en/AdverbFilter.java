@@ -442,6 +442,8 @@ public class AdverbFilter extends RuleFilter {
     put("longly", "long");
     put("politely", "polite");
     put("ethically", "ethical");
+    put("noticeably", "noticeable");
+    put("unnoticeably", "unnoticeable");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
