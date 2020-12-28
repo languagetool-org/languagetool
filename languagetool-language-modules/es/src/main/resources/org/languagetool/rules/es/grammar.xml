@@ -6196,6 +6196,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>te</token>
                 <token min="0" regexp="yes">lo|la|los|las|nos|os|me|se</token>
+                <token min="0" postag="_QM_OPEN"/>
                 <token postag="V.[SI].*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -6258,13 +6259,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="té">Tomaré el <marker>te</marker> de tu madre.</example>
                 <example reason="triggers another rule">El te lo quería explicar.</example>
             </rule>
-            <rule id="TE_TILDE_TEST" name="te tilde (test)" default="temp_off">
+            <rule id="TE_TILDE2" name="te tilde (test)" default="temp_off">
                 <antipattern>
                     <token>te</token>
                     <token postag="UNKNOWN|V.N.*|V.P.*|&pronombre_personal_atono_POS;" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token>te</token>
+                    <token regexp="yes">&wrong_as_pron_verb;|&wrong_as_pron_verb2;</token>
+                </antipattern>
                 <pattern>
-                    <token>te<exception postag="N.*|LOC_.*" postag_regexp="yes"/><exception scope="previous">no</exception></token>
+                    <token>te<exception postag="N.*|LOC_.*|A.*" postag_regexp="yes"/><exception scope="previous">no</exception></token>
                 </pattern>
                 <message>Posible confusión. Si es un sustantivo (bebida), lleva tilde.</message>
                 <suggestion>de</suggestion>
@@ -6275,6 +6280,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No te cortés el dedo.</example>
                 <example>Tú dale que te dale.</example>
                 <example>Te agradrezco</example>
+                <example>Se te "regresará".</example>
             </rule>
         </rulegroup>
         <rule id="SE_HACIA" name="Se + hacia / hacía" type="misspelling">
