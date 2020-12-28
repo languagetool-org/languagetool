@@ -37,11 +37,12 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Sends requests to a local LT server, simulating a real user of the browser add-on or languagetool.org.
- * TODO: use several threads; make input data more real, especially for document length
+ * TODO: use several threads
  */
 class TypingSimulator {
 
   private static final String apiUrl = "http://localhost:8081/v2/check";
+  private static final boolean dryMode = false;  // don't actually send requests in dry mode
   //private static final String apiUrl = "https://api.languagetool.org/v2/check";
   private static final int warmUpChecks = 20;        // checks at start-up not to be considered for calculation of average values
   private static final float copyPasteProb = 0.05f;  // per document
@@ -78,55 +79,46 @@ class TypingSimulator {
         float percent = (float)checks / (float)totalChecks * 100.0f;
         System.out.printf(Locale.ENGLISH, "%s  -> %d (%.0f%%)\n", StringUtils.leftPad(String.valueOf(i), 3), checks, percent);
       }
-      System.out.println("550+ -> " + sizeToChecksLarger);
+      float percent = (float)sizeToChecksLarger / (float)totalChecks * 100.0f;
+      System.out.printf(Locale.ENGLISH, "%s  -> %d (%.0f%%)\n", StringUtils.leftPad("550+", 3), sizeToChecksLarger, percent);
     }
   }
 
   public static void main(String[] args) throws IOException {
-    if (args.length != 1) {
-      System.out.println("Usage: " + TypingSimulator.class.getSimpleName() + " <input>");
+    if (args.length != 2) {
+      System.out.println("Usage: " + TypingSimulator.class.getSimpleName() + " <input> <docsPerRun>");
       System.exit(1);
     }
     if (avgWaitMillis < 2) {
       throw new RuntimeException("Set avgWaitMillis to > 1");
     }
-    List<String> lines = Files.readAllLines(Paths.get(args[0]));
-    //List<String> lines = Arrays.asList("Das hier ist ein Test"/*, "Hier kommt das zweite Dokument."*/);
-    new TypingSimulator().run(lines);
+    DocProvider docProvider = new DocProvider(Files.readAllLines(Paths.get(args[0])));
+    //DocProvider docProvider = new DocProvider(Arrays.asList("Das hier ist ein Test"/*, "Hier kommt das zweite Dokument."*/));
+    int docsPerRun = Integer.parseInt(args[1]);
+    if (docsPerRun < 1000) {
+      System.out.println("*** WARNING: use >= 1000 for docsPerRun or results will not be realistic (watch the size distribution printed at the end)");
+    }
+    new TypingSimulator().run(docProvider, docsPerRun);
   }
 
-  private void run(List<String> docs) {
+  private void run(DocProvider docs, int docsPerRun) {
     System.out.println("Using API at " + apiUrl);
     List<Long> totalTimes = new ArrayList<>();
     List<Float> avgTimes = new ArrayList<>();
     int maxRuns = 3;  // keep at 3, the chart library needs 3 values for the error bars
     Random rnd = new Random(123);  // not inside loop, so every loop gets its own random data (so we don't just measure cache)
-    int delta = docs.size() % 3;
-    int docsUsed = docs.size() - delta;
-    int blockSize = docsUsed / 3;
-    System.out.printf("Using %d of the %d docs, %d in each run\n", docsUsed, docs.size(), blockSize);
+    System.out.printf("Using %d docs per run\n", docsPerRun);
     for (int i = 0; i < maxRuns; i++) {
       System.out.println("=== Run " + (i+1) + " of " + maxRuns + " =====================");
       Stats stats = new Stats();
-      List<String> tempDocs;
-      if (i == 0) {
-        tempDocs = docs.subList(0, blockSize);
-      } else if (i == 1) {
-        tempDocs = docs.subList(blockSize, blockSize*2);
-      } else if (i == 2) {
-        tempDocs = docs.subList(blockSize*2, blockSize*3);
-      } else {
-        throw new IllegalStateException();
-      }
-      //System.out.println("#" + i + " --> " +tempDocs);
-      for (String doc : tempDocs) {
-        runOnDoc(doc, rnd, stats);
+      for (int j = 0; j < docsPerRun; j++) {
+        runOnDoc(docs.getDoc(), rnd, stats);
       }
       totalTimes.add(stats.totalTime);
       float avg = (float) stats.totalTime / (float) stats.totalChecks;
       avgTimes.add(avg);
       stats.printRequestSizeSummary();
-      System.out.println();
+      docs.reset();  // reset so that each run gets different docs, but of same length (to keep results comparable)
     }
     totalTimes.sort(Long::compareTo);
     avgTimes.sort(Float::compareTo);
@@ -138,7 +130,6 @@ class TypingSimulator {
     System.out.printf(Locale.ENGLISH, "CSV: %s,%s,%s\n", date, totalTimesStr, avgTimesStr);  // so results can easily be grepped into a CSV
   }
 
-  @SuppressWarnings("BusyWait")
   private void runOnDoc(String doc, Random rnd, Stats stats) {
     if (rnd.nextFloat() < copyPasteProb) {
       check(doc, stats);
@@ -146,7 +137,6 @@ class TypingSimulator {
       long lastCheck = 0;
       StringBuilder sb = new StringBuilder();
       for (int i = 0; i < doc.length(); i++) {
-        //System.out.println(i + ". " + doc.charAt(i));
         if (rnd.nextFloat() < typoProb) {
           if (rnd.nextBoolean()) {
             sb.append("x");  // simulate randomly inserted char
@@ -167,20 +157,25 @@ class TypingSimulator {
           check(sb.toString(), stats);
           lastCheck = System.currentTimeMillis();
         }
-        try {
-          int waitMillis;
-          do {
-            double val = rnd.nextGaussian() * avgWaitMillis + avgWaitMillis;
-            waitMillis = (int) Math.round(val);
-          } while (waitMillis <= 0);
-          //System.out.println("waiting " + waitMillis);
-          Thread.sleep(minWaitMillis + waitMillis);
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
+        sleep(rnd);
       }
     }
-    System.out.println();
+  }
+
+  private void sleep(Random rnd) {
+    if (!dryMode) {
+      try {
+        int waitMillis;
+        do {
+          double val = rnd.nextGaussian() * avgWaitMillis + avgWaitMillis;
+          waitMillis = (int) Math.round(val);
+        } while (waitMillis <= 0);
+        //System.out.println("waiting " + waitMillis);
+        Thread.sleep(minWaitMillis + waitMillis);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
   }
 
   private void check(String doc, Stats stats) {
@@ -213,12 +208,18 @@ class TypingSimulator {
     //System.out.println("Sending to " + apiUrl + ", " + mode + ": " + text);
     try {
       Map<String, String> map = new HashMap<>();
-      checkAtUrlByPost(url, postData, map);
+      if (!dryMode) {
+        checkAtUrlByPost(url, postData, map);
+      }
       long runTime = System.currentTimeMillis() - runTimeStart;
-      System.out.printf("%sms %s: %s\n", String.format("%1$5d", runTime), String.format("%1$20s", mode), text);
+      System.out.printf("%sms %s chars %s: %s %s\n", String.format("%1$5d", runTime), String.format("%1$5d", text.length()),
+              String.format("%1$10s", mode.replaceAll("[Tt]extLevelOnly", "TLO")), StringUtils.abbreviate(text, 100),
+              dryMode ? "[dryMode]": "");
       //System.out.println("Checking " + text.length() + " chars took " + runTime + "ms");
       if (stats.totalChecksSkipped < warmUpChecks) {
-        System.out.println("Warm-up, ignoring result...");
+        if (!dryMode) {
+          System.out.println("Warm-up, ignoring result...");
+        }
         stats.totalChecksSkipped++;
       } else {
         stats.totalChecks++;
