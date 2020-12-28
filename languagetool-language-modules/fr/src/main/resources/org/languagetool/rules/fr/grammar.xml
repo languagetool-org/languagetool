@@ -10321,7 +10321,7 @@ though, and has since been slightly modified)-->
             <token postag="[DJN] .* s" postag_regexp="yes" skip="1">
               <!-- Following exception skip words both singular/plural as well as adverbs -->
               <exception negate_pos="yes" postag="A|[JNZ] .* s?p|SENT_END" postag_regexp="yes" scope="next"/>
-              <exception postag="V (inf|con|ind|sub).*|[DJNZ] .* s?p" postag_regexp="yes" scope="current"/>
+              <exception postag="V (inf|con|ind|sub).*|[DJNZ] .* s?p|A" postag_regexp="yes"/>
               <exception regexp="yes" scope="previous">et|de|du|,|que</exception>
               <exception regexp="yes">air|car|juste|même|neuf|bonjour</exception>
               <exception scope="next">moins</exception>
@@ -10375,6 +10375,7 @@ though, and has since been slightly modified)-->
         <example>La campagne Black Lives Matter a été déclenchée par la mort de George Floyd en garde à vue aux États-Unis.</example>
         <example>un district militaire nommé Alpes Maritimæ</example>
         <example>le traité Questions naturelles et mystiques.</example>
+        <example>Êtes-vous toutes complètement folles ?</example>
       </rule>
       <rule name="pluriel suivi du singulier">
         <antipattern>
@@ -10425,14 +10426,15 @@ though, and has since been slightly modified)-->
               <token postag="[DJN] . p|P\+D e p" postag_regexp="yes" skip="1">
               <exception postag="K"/>
               <exception postag="V.*" postag_regexp="yes"/>
-              <exception postag=".* sp?" postag_regexp="yes" scope="current"/>
+              <exception postag=".* sp?" postag_regexp="yes"/>
               <!-- Following exception skip words both singular/plural as well as adverbs -->
               <exception negate_pos="yes" postag="A|[JN] . sp?|SENT_END" postag_regexp="yes" scope="next"/>
               <exception>ayants</exception>
+              <exception scope="next" regexp="yes">demain|ensemble</exception>
             </token>
               <token postag="[JN] .* s" postag_regexp="yes">
                 <exception postag="V .*|.* sp|A.*" postag_regexp="yes"/>
-                <exception regexp="yes">autour|bidon|cent|face|grâce|juste|internet|maximum|minimum|judoka|bleu|vert|jaune|rouge|noir|brun|gris|blanc|mauve|pourpre|violet|beige|châtain|rose|neuf</exception>
+                <exception regexp="yes">autour|bidon|cent|face|grâce|juste|internet|maximum|minimum|judoka|bleu|vert|jaune|rouge|noir|brun|gris|blanc|mauve|pourpre|violet|beige|châtain|rose|neuf|demain|ensemble</exception>
               </token>
             </marker>
           <token><exception>et</exception></token>
@@ -10489,6 +10491,7 @@ though, and has since been slightly modified)-->
         <example>Le nom que les Sud-Coréens donnent à leur pays est Hanguk.</example>
         <example>Les classes pré-professionnelles de niveau.</example>
         <example correction="">Les <marker>classes pré-professionnelle</marker> de niveau.</example> <!-- TODO: check is this is correct -->
+        <example>Nous nous rassemblerons tous demain soir.</example>
       </rule>
       <rule>
         <antipattern>
@@ -11062,7 +11065,7 @@ though, and has since been slightly modified)-->
           <token postag="[JNZ] m .*" postag_regexp="yes">
             <exception postag="[JN] [fe] .*|V .*(ppa [ef]|inf|ppr|ind|con|sub).*|C coor" postag_regexp="yes"/>
             <exception postag="Z.*" postag_regexp="yes"/>
-            <exception regexp="yes">.|fait|non|pas|(sud|nord)(-(est|ouest))?|est|ouest|sept|neuf</exception>
+            <exception regexp="yes">.|fait|non|pas|(sud|nord)(-(est|ouest))?|est|ouest|sept|neuf|demain|ensemble</exception>
           </token>
         </marker>
         </pattern>
