@@ -268,6 +268,7 @@ public class AdverbFilter extends RuleFilter {
     put("peacefully", "peaceful");
     put("thankfully", "thankful");
     put("reliably", "reliable");
+    put("unreliably", "unreliable");
     put("infinitesimally", "infinitesimal");
     put("hugely", "huge");
     put("strictly", "strict");
@@ -308,6 +309,7 @@ public class AdverbFilter extends RuleFilter {
     put("supremely", "supreme");
     put("initially", "initial");
     put("unjustly", "unjust");
+    put("justly", "just");
     put("plausibly", "plausible");
     put("amiably", "amiable");
     put("massively", "massive");
@@ -426,6 +428,20 @@ public class AdverbFilter extends RuleFilter {
     put("firmly", "firm");
     put("electrically", "electrical");
     put("gradually", "gradual");
+    put("grossly", "gross");
+    put("memorably", "memorable");
+    put("unmemorably", "unmemorable");
+    put("shelly", "shell");
+    put("strangely", "strange");
+    put("unhealthily", "unhealthy");
+    put("healthily", "healthy");
+    put("harshly", "harsh");
+    put("proudly", "proud");
+    put("lately", "late");
+    put("remotely", "remote");
+    put("longly", "long");
+    put("politely", "polite");
+    put("ethically", "ethical");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
