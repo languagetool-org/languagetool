@@ -1266,7 +1266,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes"
                             >porque|como|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
                     </marker>
-                    <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception regexp="yes">di|cap</exception><!--<exception scope="previous"
+                    <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception regexp="yes"
+                        >di|cap</exception><!--<exception scope="previous"
                         postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>--></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:[AN].*"/>
@@ -6291,6 +6292,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>te</token>
                     <token regexp="yes">&wrong_as_pron_verb;|&wrong_as_pron_verb2;</token>
+                </antipattern>
+                <antipattern>
+                    <token>te</token>
+                    <token>-</token>
+                </antipattern>
+                <antipattern>
+                    <token>-</token>
+                    <token>te</token>
                 </antipattern>
                 <pattern>
                     <token>te<exception scope="previous">no</exception></token>
