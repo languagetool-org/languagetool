@@ -21,6 +21,7 @@ package org.languagetool.openoffice;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.lang.Locale;
 import com.sun.star.linguistic2.ProofreadingResult;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -29,6 +30,7 @@ import static org.junit.Assert.assertTrue;
 public class MainTest {
 
   @Test
+  @Ignore("see https://github.com/languagetool-org/languagetool/issues/4064")
   public void testDoProofreading() {
     Main prog = new Main(null);
 //    Main.setTestMode(true);
@@ -57,6 +59,7 @@ public class MainTest {
     assertEquals(0, paRes2.nStartOfSentencePosition);
   }
 
+  @Ignore("see https://github.com/languagetool-org/languagetool/issues/4064")
   @Test
   public void testVariants() {
     Main prog = new Main(null);
