@@ -6,6 +6,29 @@ option java_outer_classname = "MLServerProto";
 
 service MLServer {
     rpc Match (MatchRequest) returns (MatchResponse) {}
+    rpc MatchAnalyzed (AnalyzedMatchRequest) returns (MatchResponse) {}
+}
+
+message AnalyzedMatchRequest {
+    repeated AnalyzedSentence sentences = 1;
+    bool inputLogging = 2; // allow logging of input on error
+    repeated int64 textSessionID = 3; // session ID, for partial rollout & A/B tests
+}
+
+message AnalyzedSentence {
+    string text = 1;
+    repeated AnalyzedTokenReadings tokens = 2;
+}
+
+message AnalyzedTokenReadings {
+    repeated AnalyzedToken readings = 1;
+    repeated string chunkTags = 2;
+}
+
+message AnalyzedToken {
+    string token = 1;
+    string posTag = 2;
+    string lemma = 3;
 }
 
 // for e.g. resorting suggestions
