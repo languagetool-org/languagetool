@@ -5962,12 +5962,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="A.*"/>
     </rule>
     <rulegroup id="el_pais" name="el país, el domini, l'equilibri (nom)">
+        <antipattern>
+            <token postag="&pronom_feble;" postag_regexp="yes"/>
+            <token postag="&pronom_feble;" postag_regexp="yes"/>
+            <token postag="V.[SI].*" postag_regexp="yes"/>
+        </antipattern>
         <rule>
             <pattern>
                 <unify>
                     <feature id="genere"/>
                     <feature id="nombre"/>
-                    <token postag="DA.*" postag_regexp="yes"><exception scope="previous" postag="&pronom_feble;" postag_regexp="yes"/></token>
+                    <token postag="DA.*" postag_regexp="yes"><exception scope="previous" postag="&pronom_feble;" postag_regexp="yes"/><exception>s'</exception></token>
                     <marker>
                         <!--<token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&nom_o_verb;</token>-->
                         <and>
@@ -5977,7 +5982,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     </marker>
                 </unify>
                 <token min="0">no</token>
-                <token postag="V.[SIP].*|AQ.*|&pronom_feble;" postag_regexp="yes"/>
+                <token postag="V.[SIP].*|AQ.*|&pronom_feble;" postag_regexp="yes"><exception>objecte</exception></token>
             </pattern>
             <disambig action="remove" postag="V.[SIM].*|RG|DI.*"/>
             <example type="untouched">Se la veu tranquil·la.</example>
@@ -5987,7 +5992,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <unify>
                     <feature id="genere"/>
                     <feature id="nombre"/>
-                    <token postag="DA.*" postag_regexp="yes"/>
+                    <token postag="DA.*" postag_regexp="yes"><exception>s'</exception></token>
                     <marker>
                         <!--<token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&nom_o_verb;</token>-->
                         <and>
@@ -6006,7 +6011,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <unify>
                     <feature id="genere"/>
                     <feature id="nombre"/>
-                    <token postag="DA.*" postag_regexp="yes"/>
+                    <token postag="DA.*" postag_regexp="yes"><exception>s'</exception></token>
                     <marker>
                         <!--<token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&nom_o_verb;</token>-->
                         <and>
