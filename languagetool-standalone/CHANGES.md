@@ -1,10 +1,7 @@
 # LanguageTool Change Log
 
-## 5.2 (release planned for 2020-12-29)
+## 5.2 (released 2020-12-29)
 
-#### English
-  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.91 - 2020-12-01)
- 
 #### Catalan
   * added and improved rules
   * updated dictionary (catalan-pos-dict-2.13)
@@ -13,9 +10,12 @@
   * There's now support for Belgian Dutch (`nl-BE`). "Dutch" (`nl`) is
     still the default. nl-BE-specific rules can be added to `nl-BE/grammar.xml`
 
+#### English
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.91 - 2020-12-01)
+ 
 #### French
   * added and improved rules
-  * updated spell checker and POS dictionary (unified in one dictionay) to lexique-gramalecte 7-0 
+  * updated spell checker and POS dictionary (unified in one dictionary) to lexique-gramalecte 7-0 
     (source: https://grammalecte.net/download.php?prj=fr), 
     as an external dependency (source: https://github.com/languagetool-org/french-pos-dict)
 
