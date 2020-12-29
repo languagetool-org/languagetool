@@ -9857,7 +9857,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>gesamt</token>
-                    <token regexp="yes">(kunst)?werk(es|s)?|bei?trags?|kosten|(verkaufs)?preis|umsatz(es)?|gewinns?|schule|schulden|volumen|bevölkerung|einkommens?|höhe|jahr(es|s)?|menge|paket(es|s)?|länge|situation|wert(es|s)?|fläche|schaden|produktion|gewicht(es|s)?|betriebsrat(es|s)?|unterricht(es|s)?|auflage|bild(es|s)?|eindruck(es|s)?|ergebnis(ses)?|erscheinung|interesse|wertung</token>
+                    <token regexp="yes">(kunst)?werk(es|s)?|bei?trags?|kosten|(verkaufs)?preis|umsatz(es)?|gewinns?|schule|schulden|volumen|bevölkerung|einkommens?|höhe|jahr(es|s)?|menge|paket(es|s)?|länge|situation|wert(es|s)?|fläche|schaden|produktion|gewicht(es|s)?|betriebsrat(es|s)?|unterricht(es|s)?|auflage|bild(es|s)?|eindruck(es|s)?|ergebnis(ses)?|erscheinung|interesse|wertung|mannschaft|zahl|vergrö(ß|ss)erung|budget</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Gesamt<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Gesamtkunstwerk">Sie betrachtete das <marker>gesamt Kunstwerk</marker>.</example>
@@ -9921,6 +9921,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Extrem<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Extremsituation">Er befindet sich in einer <marker>extrem Situation</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>flüssig</token>
+                    <token regexp="yes" case_sensitive="yes">Kunststoff(es|s)?|Klebers?|Gas</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Flüssig<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Flüssigkunststoff">Er verwendete für die Produktion <marker>flüssig Kunststoff</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">gro(ß|ss)</token>
+                    <token regexp="yes">Veranstaltung|Abnehmers?|Aktion</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Großveranstaltung">Das Konzert galt als <marker>groß Veranstaltung</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>fertig</token>
+                    <token regexp="yes" case_sensitive="yes">So(ß|ss)e|Haus(es)?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Fertig<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Fertighaus">Er kaufte ein <marker>fertig Haus</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>heilig</token>
+                    <token case_sensitive="yes">Abend</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Heilig<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Heiligabend">Er fuhr zu seiner Familie an <marker>heilig Abend</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>nackt</token>
+                    <token case_sensitive="yes" regexp="yes">Bild(es|s)?|Fotos?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Nackt<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Nacktfoto">Er versteigerte sein <marker>nackt Foto</marker> im Internet.</example>
             </rule>
         </rulegroup>
         <rule id="GEGEN_CHECKEN" name="gegen checken (gegenchecken)">
@@ -38566,7 +38606,7 @@ Andere Projekte</example>
         <rulegroup id="MEIN_KLEIN_HAUS" name="Unflektiertes Adjektiv statt flektierter Form (unvollständig!), z.B. 'mein klein (kleines) Haus' ">
             <antipattern>
                 <token>Smart</token>
-                <token regexp="yes">City|Trade|Shopping</token>
+                <token regexp="yes">City|Trade|Shopping|Apps?</token>
             </antipattern>
             <antipattern>
                 <token>National</token>
@@ -38581,13 +38621,21 @@ Andere Projekte</example>
                 <token>Brand</token>
             </antipattern>
             <antipattern>
+                <token>Urban</token>
+                <token>Sports</token>
+            </antipattern>
+            <antipattern>
                 <token>International</token>
                 <token>Business</token>
                 <token regexp="yes">Admin(istration)?</token>
             </antipattern>
+            <antipattern><!-- https://de.wikipedia.org/wiki/Permanent_Make-up-->
+                <token>Permanent</token>
+                <token regexp="yes">Make-ups?</token>
+            </antipattern>
             <antipattern>
                 <token case_sensitive="yes">real</token>
-                <token regexp="yes">(Super)?Markt|Kundenservice|Marktplatz|Kundenkonto</token>
+                <token regexp="yes">(Super)?Markt|Kunden(service|dienst|konto)|Marktplatz|GmbH</token>
             </antipattern>
             <rule>
                 <antipattern>
@@ -38608,6 +38656,10 @@ Andere Projekte</example>
                     <token>für</token>
                     <token>mächtig</token>
                     <token>Chaos</token>
+                </antipattern>
+                <antipattern>
+                    <token>entsprechend</token>
+                    <token regexp="yes">schnell|lang|klein</token>
                 </antipattern>
                 <antipattern>
                     <token>ohne</token>
