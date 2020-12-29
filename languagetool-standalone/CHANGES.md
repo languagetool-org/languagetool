@@ -7,11 +7,16 @@
   * updated dictionary (catalan-pos-dict-2.13)
 
 #### Dutch
+  * added and improved rules
   * There's now support for Belgian Dutch (`nl-BE`). "Dutch" (`nl`) is
     still the default. nl-BE-specific rules can be added to `nl-BE/grammar.xml`
 
 #### English
+  * added and improved rules
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.91 - 2020-12-01)
+ 
+#### German
+  * added and improved rules
  
 #### French
   * added and improved rules
