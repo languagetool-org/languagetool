@@ -23,6 +23,7 @@ import org.languagetool.rules.RuleMatch;
 /**
  * @since 3.7
  */
+@FunctionalInterface
 public interface RuleMatchListener {
 
   /**
