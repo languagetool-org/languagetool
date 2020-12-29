@@ -15502,6 +15502,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <!-- La fabrica va produir-->
+                <antipattern>
+                    <token>que</token>
+                    <token max="3" postag="_GN_.*" postag_regexp="yes"/>
+                    <token min="0" max="2" postag_regexp="yes" postag="RN|&pronom_feble;"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="D[^RTEN].*|_GN_.*|PP...A.." postag_regexp="yes"/>
                     <marker>
