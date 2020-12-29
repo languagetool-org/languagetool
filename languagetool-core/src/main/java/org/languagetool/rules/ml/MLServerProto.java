@@ -14,6 +14,3957 @@ public final class MLServerProto {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
+  public interface AnalyzedMatchRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:lt_ml_server.AnalyzedMatchRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+     */
+    java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedSentence> 
+        getSentencesList();
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+     */
+    org.languagetool.rules.ml.MLServerProto.AnalyzedSentence getSentences(int index);
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+     */
+    int getSentencesCount();
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+     */
+    java.util.List<? extends org.languagetool.rules.ml.MLServerProto.AnalyzedSentenceOrBuilder> 
+        getSentencesOrBuilderList();
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+     */
+    org.languagetool.rules.ml.MLServerProto.AnalyzedSentenceOrBuilder getSentencesOrBuilder(
+        int index);
+
+    /**
+     * <pre>
+     * allow logging of input on error
+     * </pre>
+     *
+     * <code>bool inputLogging = 2;</code>
+     * @return The inputLogging.
+     */
+    boolean getInputLogging();
+
+    /**
+     * <pre>
+     * session ID, for partial rollout &amp; A/B tests
+     * </pre>
+     *
+     * <code>repeated int64 textSessionID = 3;</code>
+     * @return A list containing the textSessionID.
+     */
+    java.util.List<java.lang.Long> getTextSessionIDList();
+    /**
+     * <pre>
+     * session ID, for partial rollout &amp; A/B tests
+     * </pre>
+     *
+     * <code>repeated int64 textSessionID = 3;</code>
+     * @return The count of textSessionID.
+     */
+    int getTextSessionIDCount();
+    /**
+     * <pre>
+     * session ID, for partial rollout &amp; A/B tests
+     * </pre>
+     *
+     * <code>repeated int64 textSessionID = 3;</code>
+     * @param index The index of the element to return.
+     * @return The textSessionID at the given index.
+     */
+    long getTextSessionID(int index);
+  }
+  /**
+   * Protobuf type {@code lt_ml_server.AnalyzedMatchRequest}
+   */
+  public static final class AnalyzedMatchRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:lt_ml_server.AnalyzedMatchRequest)
+      AnalyzedMatchRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use AnalyzedMatchRequest.newBuilder() to construct.
+    private AnalyzedMatchRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private AnalyzedMatchRequest() {
+      sentences_ = java.util.Collections.emptyList();
+      textSessionID_ = emptyLongList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new AnalyzedMatchRequest();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AnalyzedMatchRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                sentences_ = new java.util.ArrayList<org.languagetool.rules.ml.MLServerProto.AnalyzedSentence>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              sentences_.add(
+                  input.readMessage(org.languagetool.rules.ml.MLServerProto.AnalyzedSentence.parser(), extensionRegistry));
+              break;
+            }
+            case 16: {
+
+              inputLogging_ = input.readBool();
+              break;
+            }
+            case 24: {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                textSessionID_ = newLongList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              textSessionID_.addLong(input.readInt64());
+              break;
+            }
+            case 26: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
+                textSessionID_ = newLongList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                textSessionID_.addLong(input.readInt64());
+              }
+              input.popLimit(limit);
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          sentences_ = java.util.Collections.unmodifiableList(sentences_);
+        }
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+          textSessionID_.makeImmutable(); // C
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_AnalyzedMatchRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_AnalyzedMatchRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest.class, org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest.Builder.class);
+    }
+
+    public static final int SENTENCES_FIELD_NUMBER = 1;
+    private java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedSentence> sentences_;
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+     */
+    @java.lang.Override
+    public java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedSentence> getSentencesList() {
+      return sentences_;
+    }
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends org.languagetool.rules.ml.MLServerProto.AnalyzedSentenceOrBuilder> 
+        getSentencesOrBuilderList() {
+      return sentences_;
+    }
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+     */
+    @java.lang.Override
+    public int getSentencesCount() {
+      return sentences_.size();
+    }
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+     */
+    @java.lang.Override
+    public org.languagetool.rules.ml.MLServerProto.AnalyzedSentence getSentences(int index) {
+      return sentences_.get(index);
+    }
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+     */
+    @java.lang.Override
+    public org.languagetool.rules.ml.MLServerProto.AnalyzedSentenceOrBuilder getSentencesOrBuilder(
+        int index) {
+      return sentences_.get(index);
+    }
+
+    public static final int INPUTLOGGING_FIELD_NUMBER = 2;
+    private boolean inputLogging_;
+    /**
+     * <pre>
+     * allow logging of input on error
+     * </pre>
+     *
+     * <code>bool inputLogging = 2;</code>
+     * @return The inputLogging.
+     */
+    @java.lang.Override
+    public boolean getInputLogging() {
+      return inputLogging_;
+    }
+
+    public static final int TEXTSESSIONID_FIELD_NUMBER = 3;
+    private com.google.protobuf.Internal.LongList textSessionID_;
+    /**
+     * <pre>
+     * session ID, for partial rollout &amp; A/B tests
+     * </pre>
+     *
+     * <code>repeated int64 textSessionID = 3;</code>
+     * @return A list containing the textSessionID.
+     */
+    @java.lang.Override
+    public java.util.List<java.lang.Long>
+        getTextSessionIDList() {
+      return textSessionID_;
+    }
+    /**
+     * <pre>
+     * session ID, for partial rollout &amp; A/B tests
+     * </pre>
+     *
+     * <code>repeated int64 textSessionID = 3;</code>
+     * @return The count of textSessionID.
+     */
+    public int getTextSessionIDCount() {
+      return textSessionID_.size();
+    }
+    /**
+     * <pre>
+     * session ID, for partial rollout &amp; A/B tests
+     * </pre>
+     *
+     * <code>repeated int64 textSessionID = 3;</code>
+     * @param index The index of the element to return.
+     * @return The textSessionID at the given index.
+     */
+    public long getTextSessionID(int index) {
+      return textSessionID_.getLong(index);
+    }
+    private int textSessionIDMemoizedSerializedSize = -1;
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < sentences_.size(); i++) {
+        output.writeMessage(1, sentences_.get(i));
+      }
+      if (inputLogging_ != false) {
+        output.writeBool(2, inputLogging_);
+      }
+      if (getTextSessionIDList().size() > 0) {
+        output.writeUInt32NoTag(26);
+        output.writeUInt32NoTag(textSessionIDMemoizedSerializedSize);
+      }
+      for (int i = 0; i < textSessionID_.size(); i++) {
+        output.writeInt64NoTag(textSessionID_.getLong(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < sentences_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, sentences_.get(i));
+      }
+      if (inputLogging_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(2, inputLogging_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < textSessionID_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt64SizeNoTag(textSessionID_.getLong(i));
+        }
+        size += dataSize;
+        if (!getTextSessionIDList().isEmpty()) {
+          size += 1;
+          size += com.google.protobuf.CodedOutputStream
+              .computeInt32SizeNoTag(dataSize);
+        }
+        textSessionIDMemoizedSerializedSize = dataSize;
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest)) {
+        return super.equals(obj);
+      }
+      org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest other = (org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest) obj;
+
+      if (!getSentencesList()
+          .equals(other.getSentencesList())) return false;
+      if (getInputLogging()
+          != other.getInputLogging()) return false;
+      if (!getTextSessionIDList()
+          .equals(other.getTextSessionIDList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getSentencesCount() > 0) {
+        hash = (37 * hash) + SENTENCES_FIELD_NUMBER;
+        hash = (53 * hash) + getSentencesList().hashCode();
+      }
+      hash = (37 * hash) + INPUTLOGGING_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getInputLogging());
+      if (getTextSessionIDCount() > 0) {
+        hash = (37 * hash) + TEXTSESSIONID_FIELD_NUMBER;
+        hash = (53 * hash) + getTextSessionIDList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code lt_ml_server.AnalyzedMatchRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:lt_ml_server.AnalyzedMatchRequest)
+        org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_AnalyzedMatchRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_AnalyzedMatchRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest.class, org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest.Builder.class);
+      }
+
+      // Construct using org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getSentencesFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        if (sentencesBuilder_ == null) {
+          sentences_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          sentencesBuilder_.clear();
+        }
+        inputLogging_ = false;
+
+        textSessionID_ = emptyLongList();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_AnalyzedMatchRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest getDefaultInstanceForType() {
+        return org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest build() {
+        org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest buildPartial() {
+        org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest result = new org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest(this);
+        int from_bitField0_ = bitField0_;
+        if (sentencesBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            sentences_ = java.util.Collections.unmodifiableList(sentences_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.sentences_ = sentences_;
+        } else {
+          result.sentences_ = sentencesBuilder_.build();
+        }
+        result.inputLogging_ = inputLogging_;
+        if (((bitField0_ & 0x00000002) != 0)) {
+          textSessionID_.makeImmutable();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.textSessionID_ = textSessionID_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest) {
+          return mergeFrom((org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest other) {
+        if (other == org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest.getDefaultInstance()) return this;
+        if (sentencesBuilder_ == null) {
+          if (!other.sentences_.isEmpty()) {
+            if (sentences_.isEmpty()) {
+              sentences_ = other.sentences_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureSentencesIsMutable();
+              sentences_.addAll(other.sentences_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.sentences_.isEmpty()) {
+            if (sentencesBuilder_.isEmpty()) {
+              sentencesBuilder_.dispose();
+              sentencesBuilder_ = null;
+              sentences_ = other.sentences_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              sentencesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getSentencesFieldBuilder() : null;
+            } else {
+              sentencesBuilder_.addAllMessages(other.sentences_);
+            }
+          }
+        }
+        if (other.getInputLogging() != false) {
+          setInputLogging(other.getInputLogging());
+        }
+        if (!other.textSessionID_.isEmpty()) {
+          if (textSessionID_.isEmpty()) {
+            textSessionID_ = other.textSessionID_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureTextSessionIDIsMutable();
+            textSessionID_.addAll(other.textSessionID_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedSentence> sentences_ =
+        java.util.Collections.emptyList();
+      private void ensureSentencesIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          sentences_ = new java.util.ArrayList<org.languagetool.rules.ml.MLServerProto.AnalyzedSentence>(sentences_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          org.languagetool.rules.ml.MLServerProto.AnalyzedSentence, org.languagetool.rules.ml.MLServerProto.AnalyzedSentence.Builder, org.languagetool.rules.ml.MLServerProto.AnalyzedSentenceOrBuilder> sentencesBuilder_;
+
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+       */
+      public java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedSentence> getSentencesList() {
+        if (sentencesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(sentences_);
+        } else {
+          return sentencesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+       */
+      public int getSentencesCount() {
+        if (sentencesBuilder_ == null) {
+          return sentences_.size();
+        } else {
+          return sentencesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+       */
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedSentence getSentences(int index) {
+        if (sentencesBuilder_ == null) {
+          return sentences_.get(index);
+        } else {
+          return sentencesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+       */
+      public Builder setSentences(
+          int index, org.languagetool.rules.ml.MLServerProto.AnalyzedSentence value) {
+        if (sentencesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSentencesIsMutable();
+          sentences_.set(index, value);
+          onChanged();
+        } else {
+          sentencesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+       */
+      public Builder setSentences(
+          int index, org.languagetool.rules.ml.MLServerProto.AnalyzedSentence.Builder builderForValue) {
+        if (sentencesBuilder_ == null) {
+          ensureSentencesIsMutable();
+          sentences_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          sentencesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+       */
+      public Builder addSentences(org.languagetool.rules.ml.MLServerProto.AnalyzedSentence value) {
+        if (sentencesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSentencesIsMutable();
+          sentences_.add(value);
+          onChanged();
+        } else {
+          sentencesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+       */
+      public Builder addSentences(
+          int index, org.languagetool.rules.ml.MLServerProto.AnalyzedSentence value) {
+        if (sentencesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSentencesIsMutable();
+          sentences_.add(index, value);
+          onChanged();
+        } else {
+          sentencesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+       */
+      public Builder addSentences(
+          org.languagetool.rules.ml.MLServerProto.AnalyzedSentence.Builder builderForValue) {
+        if (sentencesBuilder_ == null) {
+          ensureSentencesIsMutable();
+          sentences_.add(builderForValue.build());
+          onChanged();
+        } else {
+          sentencesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+       */
+      public Builder addSentences(
+          int index, org.languagetool.rules.ml.MLServerProto.AnalyzedSentence.Builder builderForValue) {
+        if (sentencesBuilder_ == null) {
+          ensureSentencesIsMutable();
+          sentences_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          sentencesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+       */
+      public Builder addAllSentences(
+          java.lang.Iterable<? extends org.languagetool.rules.ml.MLServerProto.AnalyzedSentence> values) {
+        if (sentencesBuilder_ == null) {
+          ensureSentencesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, sentences_);
+          onChanged();
+        } else {
+          sentencesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+       */
+      public Builder clearSentences() {
+        if (sentencesBuilder_ == null) {
+          sentences_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          sentencesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+       */
+      public Builder removeSentences(int index) {
+        if (sentencesBuilder_ == null) {
+          ensureSentencesIsMutable();
+          sentences_.remove(index);
+          onChanged();
+        } else {
+          sentencesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+       */
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedSentence.Builder getSentencesBuilder(
+          int index) {
+        return getSentencesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+       */
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedSentenceOrBuilder getSentencesOrBuilder(
+          int index) {
+        if (sentencesBuilder_ == null) {
+          return sentences_.get(index);  } else {
+          return sentencesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+       */
+      public java.util.List<? extends org.languagetool.rules.ml.MLServerProto.AnalyzedSentenceOrBuilder> 
+           getSentencesOrBuilderList() {
+        if (sentencesBuilder_ != null) {
+          return sentencesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(sentences_);
+        }
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+       */
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedSentence.Builder addSentencesBuilder() {
+        return getSentencesFieldBuilder().addBuilder(
+            org.languagetool.rules.ml.MLServerProto.AnalyzedSentence.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+       */
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedSentence.Builder addSentencesBuilder(
+          int index) {
+        return getSentencesFieldBuilder().addBuilder(
+            index, org.languagetool.rules.ml.MLServerProto.AnalyzedSentence.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedSentence sentences = 1;</code>
+       */
+      public java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedSentence.Builder> 
+           getSentencesBuilderList() {
+        return getSentencesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          org.languagetool.rules.ml.MLServerProto.AnalyzedSentence, org.languagetool.rules.ml.MLServerProto.AnalyzedSentence.Builder, org.languagetool.rules.ml.MLServerProto.AnalyzedSentenceOrBuilder> 
+          getSentencesFieldBuilder() {
+        if (sentencesBuilder_ == null) {
+          sentencesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              org.languagetool.rules.ml.MLServerProto.AnalyzedSentence, org.languagetool.rules.ml.MLServerProto.AnalyzedSentence.Builder, org.languagetool.rules.ml.MLServerProto.AnalyzedSentenceOrBuilder>(
+                  sentences_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          sentences_ = null;
+        }
+        return sentencesBuilder_;
+      }
+
+      private boolean inputLogging_ ;
+      /**
+       * <pre>
+       * allow logging of input on error
+       * </pre>
+       *
+       * <code>bool inputLogging = 2;</code>
+       * @return The inputLogging.
+       */
+      @java.lang.Override
+      public boolean getInputLogging() {
+        return inputLogging_;
+      }
+      /**
+       * <pre>
+       * allow logging of input on error
+       * </pre>
+       *
+       * <code>bool inputLogging = 2;</code>
+       * @param value The inputLogging to set.
+       * @return This builder for chaining.
+       */
+      public Builder setInputLogging(boolean value) {
+        
+        inputLogging_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * allow logging of input on error
+       * </pre>
+       *
+       * <code>bool inputLogging = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearInputLogging() {
+        
+        inputLogging_ = false;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.Internal.LongList textSessionID_ = emptyLongList();
+      private void ensureTextSessionIDIsMutable() {
+        if (!((bitField0_ & 0x00000002) != 0)) {
+          textSessionID_ = mutableCopy(textSessionID_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <pre>
+       * session ID, for partial rollout &amp; A/B tests
+       * </pre>
+       *
+       * <code>repeated int64 textSessionID = 3;</code>
+       * @return A list containing the textSessionID.
+       */
+      public java.util.List<java.lang.Long>
+          getTextSessionIDList() {
+        return ((bitField0_ & 0x00000002) != 0) ?
+                 java.util.Collections.unmodifiableList(textSessionID_) : textSessionID_;
+      }
+      /**
+       * <pre>
+       * session ID, for partial rollout &amp; A/B tests
+       * </pre>
+       *
+       * <code>repeated int64 textSessionID = 3;</code>
+       * @return The count of textSessionID.
+       */
+      public int getTextSessionIDCount() {
+        return textSessionID_.size();
+      }
+      /**
+       * <pre>
+       * session ID, for partial rollout &amp; A/B tests
+       * </pre>
+       *
+       * <code>repeated int64 textSessionID = 3;</code>
+       * @param index The index of the element to return.
+       * @return The textSessionID at the given index.
+       */
+      public long getTextSessionID(int index) {
+        return textSessionID_.getLong(index);
+      }
+      /**
+       * <pre>
+       * session ID, for partial rollout &amp; A/B tests
+       * </pre>
+       *
+       * <code>repeated int64 textSessionID = 3;</code>
+       * @param index The index to set the value at.
+       * @param value The textSessionID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTextSessionID(
+          int index, long value) {
+        ensureTextSessionIDIsMutable();
+        textSessionID_.setLong(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * session ID, for partial rollout &amp; A/B tests
+       * </pre>
+       *
+       * <code>repeated int64 textSessionID = 3;</code>
+       * @param value The textSessionID to add.
+       * @return This builder for chaining.
+       */
+      public Builder addTextSessionID(long value) {
+        ensureTextSessionIDIsMutable();
+        textSessionID_.addLong(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * session ID, for partial rollout &amp; A/B tests
+       * </pre>
+       *
+       * <code>repeated int64 textSessionID = 3;</code>
+       * @param values The textSessionID to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllTextSessionID(
+          java.lang.Iterable<? extends java.lang.Long> values) {
+        ensureTextSessionIDIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, textSessionID_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * session ID, for partial rollout &amp; A/B tests
+       * </pre>
+       *
+       * <code>repeated int64 textSessionID = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTextSessionID() {
+        textSessionID_ = emptyLongList();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:lt_ml_server.AnalyzedMatchRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:lt_ml_server.AnalyzedMatchRequest)
+    private static final org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest();
+    }
+
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<AnalyzedMatchRequest>
+        PARSER = new com.google.protobuf.AbstractParser<AnalyzedMatchRequest>() {
+      @java.lang.Override
+      public AnalyzedMatchRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AnalyzedMatchRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<AnalyzedMatchRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AnalyzedMatchRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface AnalyzedSentenceOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:lt_ml_server.AnalyzedSentence)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string text = 1;</code>
+     * @return The text.
+     */
+    java.lang.String getText();
+    /**
+     * <code>string text = 1;</code>
+     * @return The bytes for text.
+     */
+    com.google.protobuf.ByteString
+        getTextBytes();
+
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+     */
+    java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings> 
+        getTokensList();
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+     */
+    org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings getTokens(int index);
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+     */
+    int getTokensCount();
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+     */
+    java.util.List<? extends org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder> 
+        getTokensOrBuilderList();
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+     */
+    org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder getTokensOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code lt_ml_server.AnalyzedSentence}
+   */
+  public static final class AnalyzedSentence extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:lt_ml_server.AnalyzedSentence)
+      AnalyzedSentenceOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use AnalyzedSentence.newBuilder() to construct.
+    private AnalyzedSentence(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private AnalyzedSentence() {
+      text_ = "";
+      tokens_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new AnalyzedSentence();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AnalyzedSentence(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              text_ = s;
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                tokens_ = new java.util.ArrayList<org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              tokens_.add(
+                  input.readMessage(org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          tokens_ = java.util.Collections.unmodifiableList(tokens_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_AnalyzedSentence_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_AnalyzedSentence_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.languagetool.rules.ml.MLServerProto.AnalyzedSentence.class, org.languagetool.rules.ml.MLServerProto.AnalyzedSentence.Builder.class);
+    }
+
+    public static final int TEXT_FIELD_NUMBER = 1;
+    private volatile java.lang.Object text_;
+    /**
+     * <code>string text = 1;</code>
+     * @return The text.
+     */
+    @java.lang.Override
+    public java.lang.String getText() {
+      java.lang.Object ref = text_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        text_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string text = 1;</code>
+     * @return The bytes for text.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTextBytes() {
+      java.lang.Object ref = text_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        text_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TOKENS_FIELD_NUMBER = 2;
+    private java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings> tokens_;
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+     */
+    @java.lang.Override
+    public java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings> getTokensList() {
+      return tokens_;
+    }
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder> 
+        getTokensOrBuilderList() {
+      return tokens_;
+    }
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+     */
+    @java.lang.Override
+    public int getTokensCount() {
+      return tokens_.size();
+    }
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+     */
+    @java.lang.Override
+    public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings getTokens(int index) {
+      return tokens_.get(index);
+    }
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+     */
+    @java.lang.Override
+    public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder getTokensOrBuilder(
+        int index) {
+      return tokens_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getTextBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, text_);
+      }
+      for (int i = 0; i < tokens_.size(); i++) {
+        output.writeMessage(2, tokens_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getTextBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, text_);
+      }
+      for (int i = 0; i < tokens_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, tokens_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof org.languagetool.rules.ml.MLServerProto.AnalyzedSentence)) {
+        return super.equals(obj);
+      }
+      org.languagetool.rules.ml.MLServerProto.AnalyzedSentence other = (org.languagetool.rules.ml.MLServerProto.AnalyzedSentence) obj;
+
+      if (!getText()
+          .equals(other.getText())) return false;
+      if (!getTokensList()
+          .equals(other.getTokensList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TEXT_FIELD_NUMBER;
+      hash = (53 * hash) + getText().hashCode();
+      if (getTokensCount() > 0) {
+        hash = (37 * hash) + TOKENS_FIELD_NUMBER;
+        hash = (53 * hash) + getTokensList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedSentence parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedSentence parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedSentence parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedSentence parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedSentence parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedSentence parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedSentence parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedSentence parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedSentence parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedSentence parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedSentence parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedSentence parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(org.languagetool.rules.ml.MLServerProto.AnalyzedSentence prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code lt_ml_server.AnalyzedSentence}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:lt_ml_server.AnalyzedSentence)
+        org.languagetool.rules.ml.MLServerProto.AnalyzedSentenceOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_AnalyzedSentence_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_AnalyzedSentence_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.languagetool.rules.ml.MLServerProto.AnalyzedSentence.class, org.languagetool.rules.ml.MLServerProto.AnalyzedSentence.Builder.class);
+      }
+
+      // Construct using org.languagetool.rules.ml.MLServerProto.AnalyzedSentence.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getTokensFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        text_ = "";
+
+        if (tokensBuilder_ == null) {
+          tokens_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          tokensBuilder_.clear();
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_AnalyzedSentence_descriptor;
+      }
+
+      @java.lang.Override
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedSentence getDefaultInstanceForType() {
+        return org.languagetool.rules.ml.MLServerProto.AnalyzedSentence.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedSentence build() {
+        org.languagetool.rules.ml.MLServerProto.AnalyzedSentence result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedSentence buildPartial() {
+        org.languagetool.rules.ml.MLServerProto.AnalyzedSentence result = new org.languagetool.rules.ml.MLServerProto.AnalyzedSentence(this);
+        int from_bitField0_ = bitField0_;
+        result.text_ = text_;
+        if (tokensBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            tokens_ = java.util.Collections.unmodifiableList(tokens_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.tokens_ = tokens_;
+        } else {
+          result.tokens_ = tokensBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof org.languagetool.rules.ml.MLServerProto.AnalyzedSentence) {
+          return mergeFrom((org.languagetool.rules.ml.MLServerProto.AnalyzedSentence)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(org.languagetool.rules.ml.MLServerProto.AnalyzedSentence other) {
+        if (other == org.languagetool.rules.ml.MLServerProto.AnalyzedSentence.getDefaultInstance()) return this;
+        if (!other.getText().isEmpty()) {
+          text_ = other.text_;
+          onChanged();
+        }
+        if (tokensBuilder_ == null) {
+          if (!other.tokens_.isEmpty()) {
+            if (tokens_.isEmpty()) {
+              tokens_ = other.tokens_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureTokensIsMutable();
+              tokens_.addAll(other.tokens_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.tokens_.isEmpty()) {
+            if (tokensBuilder_.isEmpty()) {
+              tokensBuilder_.dispose();
+              tokensBuilder_ = null;
+              tokens_ = other.tokens_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              tokensBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getTokensFieldBuilder() : null;
+            } else {
+              tokensBuilder_.addAllMessages(other.tokens_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.languagetool.rules.ml.MLServerProto.AnalyzedSentence parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (org.languagetool.rules.ml.MLServerProto.AnalyzedSentence) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object text_ = "";
+      /**
+       * <code>string text = 1;</code>
+       * @return The text.
+       */
+      public java.lang.String getText() {
+        java.lang.Object ref = text_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          text_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string text = 1;</code>
+       * @return The bytes for text.
+       */
+      public com.google.protobuf.ByteString
+          getTextBytes() {
+        java.lang.Object ref = text_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          text_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string text = 1;</code>
+       * @param value The text to set.
+       * @return This builder for chaining.
+       */
+      public Builder setText(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        text_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string text = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearText() {
+        
+        text_ = getDefaultInstance().getText();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string text = 1;</code>
+       * @param value The bytes for text to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTextBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        text_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings> tokens_ =
+        java.util.Collections.emptyList();
+      private void ensureTokensIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          tokens_ = new java.util.ArrayList<org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings>(tokens_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder> tokensBuilder_;
+
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+       */
+      public java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings> getTokensList() {
+        if (tokensBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(tokens_);
+        } else {
+          return tokensBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+       */
+      public int getTokensCount() {
+        if (tokensBuilder_ == null) {
+          return tokens_.size();
+        } else {
+          return tokensBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+       */
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings getTokens(int index) {
+        if (tokensBuilder_ == null) {
+          return tokens_.get(index);
+        } else {
+          return tokensBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+       */
+      public Builder setTokens(
+          int index, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings value) {
+        if (tokensBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTokensIsMutable();
+          tokens_.set(index, value);
+          onChanged();
+        } else {
+          tokensBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+       */
+      public Builder setTokens(
+          int index, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder builderForValue) {
+        if (tokensBuilder_ == null) {
+          ensureTokensIsMutable();
+          tokens_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          tokensBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+       */
+      public Builder addTokens(org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings value) {
+        if (tokensBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTokensIsMutable();
+          tokens_.add(value);
+          onChanged();
+        } else {
+          tokensBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+       */
+      public Builder addTokens(
+          int index, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings value) {
+        if (tokensBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTokensIsMutable();
+          tokens_.add(index, value);
+          onChanged();
+        } else {
+          tokensBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+       */
+      public Builder addTokens(
+          org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder builderForValue) {
+        if (tokensBuilder_ == null) {
+          ensureTokensIsMutable();
+          tokens_.add(builderForValue.build());
+          onChanged();
+        } else {
+          tokensBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+       */
+      public Builder addTokens(
+          int index, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder builderForValue) {
+        if (tokensBuilder_ == null) {
+          ensureTokensIsMutable();
+          tokens_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          tokensBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+       */
+      public Builder addAllTokens(
+          java.lang.Iterable<? extends org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings> values) {
+        if (tokensBuilder_ == null) {
+          ensureTokensIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, tokens_);
+          onChanged();
+        } else {
+          tokensBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+       */
+      public Builder clearTokens() {
+        if (tokensBuilder_ == null) {
+          tokens_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          tokensBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+       */
+      public Builder removeTokens(int index) {
+        if (tokensBuilder_ == null) {
+          ensureTokensIsMutable();
+          tokens_.remove(index);
+          onChanged();
+        } else {
+          tokensBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+       */
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder getTokensBuilder(
+          int index) {
+        return getTokensFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+       */
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder getTokensOrBuilder(
+          int index) {
+        if (tokensBuilder_ == null) {
+          return tokens_.get(index);  } else {
+          return tokensBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+       */
+      public java.util.List<? extends org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder> 
+           getTokensOrBuilderList() {
+        if (tokensBuilder_ != null) {
+          return tokensBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(tokens_);
+        }
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+       */
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder addTokensBuilder() {
+        return getTokensFieldBuilder().addBuilder(
+            org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+       */
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder addTokensBuilder(
+          int index) {
+        return getTokensFieldBuilder().addBuilder(
+            index, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 2;</code>
+       */
+      public java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder> 
+           getTokensBuilderList() {
+        return getTokensFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder> 
+          getTokensFieldBuilder() {
+        if (tokensBuilder_ == null) {
+          tokensBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder>(
+                  tokens_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          tokens_ = null;
+        }
+        return tokensBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:lt_ml_server.AnalyzedSentence)
+    }
+
+    // @@protoc_insertion_point(class_scope:lt_ml_server.AnalyzedSentence)
+    private static final org.languagetool.rules.ml.MLServerProto.AnalyzedSentence DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new org.languagetool.rules.ml.MLServerProto.AnalyzedSentence();
+    }
+
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedSentence getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<AnalyzedSentence>
+        PARSER = new com.google.protobuf.AbstractParser<AnalyzedSentence>() {
+      @java.lang.Override
+      public AnalyzedSentence parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AnalyzedSentence(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<AnalyzedSentence> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AnalyzedSentence> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public org.languagetool.rules.ml.MLServerProto.AnalyzedSentence getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface AnalyzedTokenReadingsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:lt_ml_server.AnalyzedTokenReadings)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+     */
+    java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedToken> 
+        getReadingsList();
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+     */
+    org.languagetool.rules.ml.MLServerProto.AnalyzedToken getReadings(int index);
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+     */
+    int getReadingsCount();
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+     */
+    java.util.List<? extends org.languagetool.rules.ml.MLServerProto.AnalyzedTokenOrBuilder> 
+        getReadingsOrBuilderList();
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+     */
+    org.languagetool.rules.ml.MLServerProto.AnalyzedTokenOrBuilder getReadingsOrBuilder(
+        int index);
+
+    /**
+     * <code>repeated string chunkTags = 2;</code>
+     * @return A list containing the chunkTags.
+     */
+    java.util.List<java.lang.String>
+        getChunkTagsList();
+    /**
+     * <code>repeated string chunkTags = 2;</code>
+     * @return The count of chunkTags.
+     */
+    int getChunkTagsCount();
+    /**
+     * <code>repeated string chunkTags = 2;</code>
+     * @param index The index of the element to return.
+     * @return The chunkTags at the given index.
+     */
+    java.lang.String getChunkTags(int index);
+    /**
+     * <code>repeated string chunkTags = 2;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the chunkTags at the given index.
+     */
+    com.google.protobuf.ByteString
+        getChunkTagsBytes(int index);
+  }
+  /**
+   * Protobuf type {@code lt_ml_server.AnalyzedTokenReadings}
+   */
+  public static final class AnalyzedTokenReadings extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:lt_ml_server.AnalyzedTokenReadings)
+      AnalyzedTokenReadingsOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use AnalyzedTokenReadings.newBuilder() to construct.
+    private AnalyzedTokenReadings(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private AnalyzedTokenReadings() {
+      readings_ = java.util.Collections.emptyList();
+      chunkTags_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new AnalyzedTokenReadings();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AnalyzedTokenReadings(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                readings_ = new java.util.ArrayList<org.languagetool.rules.ml.MLServerProto.AnalyzedToken>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              readings_.add(
+                  input.readMessage(org.languagetool.rules.ml.MLServerProto.AnalyzedToken.parser(), extensionRegistry));
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                chunkTags_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              chunkTags_.add(s);
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          readings_ = java.util.Collections.unmodifiableList(readings_);
+        }
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+          chunkTags_ = chunkTags_.getUnmodifiableView();
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_AnalyzedTokenReadings_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_AnalyzedTokenReadings_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.class, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder.class);
+    }
+
+    public static final int READINGS_FIELD_NUMBER = 1;
+    private java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedToken> readings_;
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+     */
+    @java.lang.Override
+    public java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedToken> getReadingsList() {
+      return readings_;
+    }
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends org.languagetool.rules.ml.MLServerProto.AnalyzedTokenOrBuilder> 
+        getReadingsOrBuilderList() {
+      return readings_;
+    }
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+     */
+    @java.lang.Override
+    public int getReadingsCount() {
+      return readings_.size();
+    }
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+     */
+    @java.lang.Override
+    public org.languagetool.rules.ml.MLServerProto.AnalyzedToken getReadings(int index) {
+      return readings_.get(index);
+    }
+    /**
+     * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+     */
+    @java.lang.Override
+    public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenOrBuilder getReadingsOrBuilder(
+        int index) {
+      return readings_.get(index);
+    }
+
+    public static final int CHUNKTAGS_FIELD_NUMBER = 2;
+    private com.google.protobuf.LazyStringList chunkTags_;
+    /**
+     * <code>repeated string chunkTags = 2;</code>
+     * @return A list containing the chunkTags.
+     */
+    public com.google.protobuf.ProtocolStringList
+        getChunkTagsList() {
+      return chunkTags_;
+    }
+    /**
+     * <code>repeated string chunkTags = 2;</code>
+     * @return The count of chunkTags.
+     */
+    public int getChunkTagsCount() {
+      return chunkTags_.size();
+    }
+    /**
+     * <code>repeated string chunkTags = 2;</code>
+     * @param index The index of the element to return.
+     * @return The chunkTags at the given index.
+     */
+    public java.lang.String getChunkTags(int index) {
+      return chunkTags_.get(index);
+    }
+    /**
+     * <code>repeated string chunkTags = 2;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the chunkTags at the given index.
+     */
+    public com.google.protobuf.ByteString
+        getChunkTagsBytes(int index) {
+      return chunkTags_.getByteString(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < readings_.size(); i++) {
+        output.writeMessage(1, readings_.get(i));
+      }
+      for (int i = 0; i < chunkTags_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, chunkTags_.getRaw(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < readings_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, readings_.get(i));
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < chunkTags_.size(); i++) {
+          dataSize += computeStringSizeNoTag(chunkTags_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getChunkTagsList().size();
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings)) {
+        return super.equals(obj);
+      }
+      org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings other = (org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings) obj;
+
+      if (!getReadingsList()
+          .equals(other.getReadingsList())) return false;
+      if (!getChunkTagsList()
+          .equals(other.getChunkTagsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getReadingsCount() > 0) {
+        hash = (37 * hash) + READINGS_FIELD_NUMBER;
+        hash = (53 * hash) + getReadingsList().hashCode();
+      }
+      if (getChunkTagsCount() > 0) {
+        hash = (37 * hash) + CHUNKTAGS_FIELD_NUMBER;
+        hash = (53 * hash) + getChunkTagsList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code lt_ml_server.AnalyzedTokenReadings}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:lt_ml_server.AnalyzedTokenReadings)
+        org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_AnalyzedTokenReadings_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_AnalyzedTokenReadings_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.class, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder.class);
+      }
+
+      // Construct using org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getReadingsFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        if (readingsBuilder_ == null) {
+          readings_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          readingsBuilder_.clear();
+        }
+        chunkTags_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_AnalyzedTokenReadings_descriptor;
+      }
+
+      @java.lang.Override
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings getDefaultInstanceForType() {
+        return org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings build() {
+        org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings buildPartial() {
+        org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings result = new org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings(this);
+        int from_bitField0_ = bitField0_;
+        if (readingsBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            readings_ = java.util.Collections.unmodifiableList(readings_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.readings_ = readings_;
+        } else {
+          result.readings_ = readingsBuilder_.build();
+        }
+        if (((bitField0_ & 0x00000002) != 0)) {
+          chunkTags_ = chunkTags_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.chunkTags_ = chunkTags_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings) {
+          return mergeFrom((org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings other) {
+        if (other == org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.getDefaultInstance()) return this;
+        if (readingsBuilder_ == null) {
+          if (!other.readings_.isEmpty()) {
+            if (readings_.isEmpty()) {
+              readings_ = other.readings_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureReadingsIsMutable();
+              readings_.addAll(other.readings_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.readings_.isEmpty()) {
+            if (readingsBuilder_.isEmpty()) {
+              readingsBuilder_.dispose();
+              readingsBuilder_ = null;
+              readings_ = other.readings_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              readingsBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getReadingsFieldBuilder() : null;
+            } else {
+              readingsBuilder_.addAllMessages(other.readings_);
+            }
+          }
+        }
+        if (!other.chunkTags_.isEmpty()) {
+          if (chunkTags_.isEmpty()) {
+            chunkTags_ = other.chunkTags_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureChunkTagsIsMutable();
+            chunkTags_.addAll(other.chunkTags_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedToken> readings_ =
+        java.util.Collections.emptyList();
+      private void ensureReadingsIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          readings_ = new java.util.ArrayList<org.languagetool.rules.ml.MLServerProto.AnalyzedToken>(readings_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          org.languagetool.rules.ml.MLServerProto.AnalyzedToken, org.languagetool.rules.ml.MLServerProto.AnalyzedToken.Builder, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenOrBuilder> readingsBuilder_;
+
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+       */
+      public java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedToken> getReadingsList() {
+        if (readingsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(readings_);
+        } else {
+          return readingsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+       */
+      public int getReadingsCount() {
+        if (readingsBuilder_ == null) {
+          return readings_.size();
+        } else {
+          return readingsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+       */
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedToken getReadings(int index) {
+        if (readingsBuilder_ == null) {
+          return readings_.get(index);
+        } else {
+          return readingsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+       */
+      public Builder setReadings(
+          int index, org.languagetool.rules.ml.MLServerProto.AnalyzedToken value) {
+        if (readingsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureReadingsIsMutable();
+          readings_.set(index, value);
+          onChanged();
+        } else {
+          readingsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+       */
+      public Builder setReadings(
+          int index, org.languagetool.rules.ml.MLServerProto.AnalyzedToken.Builder builderForValue) {
+        if (readingsBuilder_ == null) {
+          ensureReadingsIsMutable();
+          readings_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          readingsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+       */
+      public Builder addReadings(org.languagetool.rules.ml.MLServerProto.AnalyzedToken value) {
+        if (readingsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureReadingsIsMutable();
+          readings_.add(value);
+          onChanged();
+        } else {
+          readingsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+       */
+      public Builder addReadings(
+          int index, org.languagetool.rules.ml.MLServerProto.AnalyzedToken value) {
+        if (readingsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureReadingsIsMutable();
+          readings_.add(index, value);
+          onChanged();
+        } else {
+          readingsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+       */
+      public Builder addReadings(
+          org.languagetool.rules.ml.MLServerProto.AnalyzedToken.Builder builderForValue) {
+        if (readingsBuilder_ == null) {
+          ensureReadingsIsMutable();
+          readings_.add(builderForValue.build());
+          onChanged();
+        } else {
+          readingsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+       */
+      public Builder addReadings(
+          int index, org.languagetool.rules.ml.MLServerProto.AnalyzedToken.Builder builderForValue) {
+        if (readingsBuilder_ == null) {
+          ensureReadingsIsMutable();
+          readings_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          readingsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+       */
+      public Builder addAllReadings(
+          java.lang.Iterable<? extends org.languagetool.rules.ml.MLServerProto.AnalyzedToken> values) {
+        if (readingsBuilder_ == null) {
+          ensureReadingsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, readings_);
+          onChanged();
+        } else {
+          readingsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+       */
+      public Builder clearReadings() {
+        if (readingsBuilder_ == null) {
+          readings_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          readingsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+       */
+      public Builder removeReadings(int index) {
+        if (readingsBuilder_ == null) {
+          ensureReadingsIsMutable();
+          readings_.remove(index);
+          onChanged();
+        } else {
+          readingsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+       */
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedToken.Builder getReadingsBuilder(
+          int index) {
+        return getReadingsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+       */
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenOrBuilder getReadingsOrBuilder(
+          int index) {
+        if (readingsBuilder_ == null) {
+          return readings_.get(index);  } else {
+          return readingsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+       */
+      public java.util.List<? extends org.languagetool.rules.ml.MLServerProto.AnalyzedTokenOrBuilder> 
+           getReadingsOrBuilderList() {
+        if (readingsBuilder_ != null) {
+          return readingsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(readings_);
+        }
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+       */
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedToken.Builder addReadingsBuilder() {
+        return getReadingsFieldBuilder().addBuilder(
+            org.languagetool.rules.ml.MLServerProto.AnalyzedToken.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+       */
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedToken.Builder addReadingsBuilder(
+          int index) {
+        return getReadingsFieldBuilder().addBuilder(
+            index, org.languagetool.rules.ml.MLServerProto.AnalyzedToken.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .lt_ml_server.AnalyzedToken readings = 1;</code>
+       */
+      public java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedToken.Builder> 
+           getReadingsBuilderList() {
+        return getReadingsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          org.languagetool.rules.ml.MLServerProto.AnalyzedToken, org.languagetool.rules.ml.MLServerProto.AnalyzedToken.Builder, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenOrBuilder> 
+          getReadingsFieldBuilder() {
+        if (readingsBuilder_ == null) {
+          readingsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              org.languagetool.rules.ml.MLServerProto.AnalyzedToken, org.languagetool.rules.ml.MLServerProto.AnalyzedToken.Builder, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenOrBuilder>(
+                  readings_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          readings_ = null;
+        }
+        return readingsBuilder_;
+      }
+
+      private com.google.protobuf.LazyStringList chunkTags_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureChunkTagsIsMutable() {
+        if (!((bitField0_ & 0x00000002) != 0)) {
+          chunkTags_ = new com.google.protobuf.LazyStringArrayList(chunkTags_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <code>repeated string chunkTags = 2;</code>
+       * @return A list containing the chunkTags.
+       */
+      public com.google.protobuf.ProtocolStringList
+          getChunkTagsList() {
+        return chunkTags_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string chunkTags = 2;</code>
+       * @return The count of chunkTags.
+       */
+      public int getChunkTagsCount() {
+        return chunkTags_.size();
+      }
+      /**
+       * <code>repeated string chunkTags = 2;</code>
+       * @param index The index of the element to return.
+       * @return The chunkTags at the given index.
+       */
+      public java.lang.String getChunkTags(int index) {
+        return chunkTags_.get(index);
+      }
+      /**
+       * <code>repeated string chunkTags = 2;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the chunkTags at the given index.
+       */
+      public com.google.protobuf.ByteString
+          getChunkTagsBytes(int index) {
+        return chunkTags_.getByteString(index);
+      }
+      /**
+       * <code>repeated string chunkTags = 2;</code>
+       * @param index The index to set the value at.
+       * @param value The chunkTags to set.
+       * @return This builder for chaining.
+       */
+      public Builder setChunkTags(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureChunkTagsIsMutable();
+        chunkTags_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string chunkTags = 2;</code>
+       * @param value The chunkTags to add.
+       * @return This builder for chaining.
+       */
+      public Builder addChunkTags(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureChunkTagsIsMutable();
+        chunkTags_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string chunkTags = 2;</code>
+       * @param values The chunkTags to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllChunkTags(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureChunkTagsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, chunkTags_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string chunkTags = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearChunkTags() {
+        chunkTags_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string chunkTags = 2;</code>
+       * @param value The bytes of the chunkTags to add.
+       * @return This builder for chaining.
+       */
+      public Builder addChunkTagsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureChunkTagsIsMutable();
+        chunkTags_.add(value);
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:lt_ml_server.AnalyzedTokenReadings)
+    }
+
+    // @@protoc_insertion_point(class_scope:lt_ml_server.AnalyzedTokenReadings)
+    private static final org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings();
+    }
+
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<AnalyzedTokenReadings>
+        PARSER = new com.google.protobuf.AbstractParser<AnalyzedTokenReadings>() {
+      @java.lang.Override
+      public AnalyzedTokenReadings parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AnalyzedTokenReadings(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<AnalyzedTokenReadings> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AnalyzedTokenReadings> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface AnalyzedTokenOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:lt_ml_server.AnalyzedToken)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string token = 1;</code>
+     * @return The token.
+     */
+    java.lang.String getToken();
+    /**
+     * <code>string token = 1;</code>
+     * @return The bytes for token.
+     */
+    com.google.protobuf.ByteString
+        getTokenBytes();
+
+    /**
+     * <code>string posTag = 2;</code>
+     * @return The posTag.
+     */
+    java.lang.String getPosTag();
+    /**
+     * <code>string posTag = 2;</code>
+     * @return The bytes for posTag.
+     */
+    com.google.protobuf.ByteString
+        getPosTagBytes();
+
+    /**
+     * <code>string lemma = 3;</code>
+     * @return The lemma.
+     */
+    java.lang.String getLemma();
+    /**
+     * <code>string lemma = 3;</code>
+     * @return The bytes for lemma.
+     */
+    com.google.protobuf.ByteString
+        getLemmaBytes();
+  }
+  /**
+   * Protobuf type {@code lt_ml_server.AnalyzedToken}
+   */
+  public static final class AnalyzedToken extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:lt_ml_server.AnalyzedToken)
+      AnalyzedTokenOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use AnalyzedToken.newBuilder() to construct.
+    private AnalyzedToken(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private AnalyzedToken() {
+      token_ = "";
+      posTag_ = "";
+      lemma_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new AnalyzedToken();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AnalyzedToken(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              token_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              posTag_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              lemma_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_AnalyzedToken_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_AnalyzedToken_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.languagetool.rules.ml.MLServerProto.AnalyzedToken.class, org.languagetool.rules.ml.MLServerProto.AnalyzedToken.Builder.class);
+    }
+
+    public static final int TOKEN_FIELD_NUMBER = 1;
+    private volatile java.lang.Object token_;
+    /**
+     * <code>string token = 1;</code>
+     * @return The token.
+     */
+    @java.lang.Override
+    public java.lang.String getToken() {
+      java.lang.Object ref = token_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        token_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string token = 1;</code>
+     * @return The bytes for token.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTokenBytes() {
+      java.lang.Object ref = token_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        token_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int POSTAG_FIELD_NUMBER = 2;
+    private volatile java.lang.Object posTag_;
+    /**
+     * <code>string posTag = 2;</code>
+     * @return The posTag.
+     */
+    @java.lang.Override
+    public java.lang.String getPosTag() {
+      java.lang.Object ref = posTag_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        posTag_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string posTag = 2;</code>
+     * @return The bytes for posTag.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getPosTagBytes() {
+      java.lang.Object ref = posTag_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        posTag_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int LEMMA_FIELD_NUMBER = 3;
+    private volatile java.lang.Object lemma_;
+    /**
+     * <code>string lemma = 3;</code>
+     * @return The lemma.
+     */
+    @java.lang.Override
+    public java.lang.String getLemma() {
+      java.lang.Object ref = lemma_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        lemma_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string lemma = 3;</code>
+     * @return The bytes for lemma.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getLemmaBytes() {
+      java.lang.Object ref = lemma_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        lemma_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getTokenBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, token_);
+      }
+      if (!getPosTagBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, posTag_);
+      }
+      if (!getLemmaBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, lemma_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getTokenBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, token_);
+      }
+      if (!getPosTagBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, posTag_);
+      }
+      if (!getLemmaBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, lemma_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof org.languagetool.rules.ml.MLServerProto.AnalyzedToken)) {
+        return super.equals(obj);
+      }
+      org.languagetool.rules.ml.MLServerProto.AnalyzedToken other = (org.languagetool.rules.ml.MLServerProto.AnalyzedToken) obj;
+
+      if (!getToken()
+          .equals(other.getToken())) return false;
+      if (!getPosTag()
+          .equals(other.getPosTag())) return false;
+      if (!getLemma()
+          .equals(other.getLemma())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TOKEN_FIELD_NUMBER;
+      hash = (53 * hash) + getToken().hashCode();
+      hash = (37 * hash) + POSTAG_FIELD_NUMBER;
+      hash = (53 * hash) + getPosTag().hashCode();
+      hash = (37 * hash) + LEMMA_FIELD_NUMBER;
+      hash = (53 * hash) + getLemma().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedToken parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedToken parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedToken parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedToken parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedToken parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedToken parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedToken parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedToken parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedToken parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedToken parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedToken parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedToken parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(org.languagetool.rules.ml.MLServerProto.AnalyzedToken prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code lt_ml_server.AnalyzedToken}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:lt_ml_server.AnalyzedToken)
+        org.languagetool.rules.ml.MLServerProto.AnalyzedTokenOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_AnalyzedToken_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_AnalyzedToken_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.languagetool.rules.ml.MLServerProto.AnalyzedToken.class, org.languagetool.rules.ml.MLServerProto.AnalyzedToken.Builder.class);
+      }
+
+      // Construct using org.languagetool.rules.ml.MLServerProto.AnalyzedToken.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        token_ = "";
+
+        posTag_ = "";
+
+        lemma_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_AnalyzedToken_descriptor;
+      }
+
+      @java.lang.Override
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedToken getDefaultInstanceForType() {
+        return org.languagetool.rules.ml.MLServerProto.AnalyzedToken.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedToken build() {
+        org.languagetool.rules.ml.MLServerProto.AnalyzedToken result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedToken buildPartial() {
+        org.languagetool.rules.ml.MLServerProto.AnalyzedToken result = new org.languagetool.rules.ml.MLServerProto.AnalyzedToken(this);
+        result.token_ = token_;
+        result.posTag_ = posTag_;
+        result.lemma_ = lemma_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof org.languagetool.rules.ml.MLServerProto.AnalyzedToken) {
+          return mergeFrom((org.languagetool.rules.ml.MLServerProto.AnalyzedToken)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(org.languagetool.rules.ml.MLServerProto.AnalyzedToken other) {
+        if (other == org.languagetool.rules.ml.MLServerProto.AnalyzedToken.getDefaultInstance()) return this;
+        if (!other.getToken().isEmpty()) {
+          token_ = other.token_;
+          onChanged();
+        }
+        if (!other.getPosTag().isEmpty()) {
+          posTag_ = other.posTag_;
+          onChanged();
+        }
+        if (!other.getLemma().isEmpty()) {
+          lemma_ = other.lemma_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.languagetool.rules.ml.MLServerProto.AnalyzedToken parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (org.languagetool.rules.ml.MLServerProto.AnalyzedToken) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object token_ = "";
+      /**
+       * <code>string token = 1;</code>
+       * @return The token.
+       */
+      public java.lang.String getToken() {
+        java.lang.Object ref = token_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          token_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string token = 1;</code>
+       * @return The bytes for token.
+       */
+      public com.google.protobuf.ByteString
+          getTokenBytes() {
+        java.lang.Object ref = token_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          token_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string token = 1;</code>
+       * @param value The token to set.
+       * @return This builder for chaining.
+       */
+      public Builder setToken(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        token_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string token = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearToken() {
+        
+        token_ = getDefaultInstance().getToken();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string token = 1;</code>
+       * @param value The bytes for token to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTokenBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        token_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object posTag_ = "";
+      /**
+       * <code>string posTag = 2;</code>
+       * @return The posTag.
+       */
+      public java.lang.String getPosTag() {
+        java.lang.Object ref = posTag_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          posTag_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string posTag = 2;</code>
+       * @return The bytes for posTag.
+       */
+      public com.google.protobuf.ByteString
+          getPosTagBytes() {
+        java.lang.Object ref = posTag_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          posTag_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string posTag = 2;</code>
+       * @param value The posTag to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPosTag(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        posTag_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string posTag = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPosTag() {
+        
+        posTag_ = getDefaultInstance().getPosTag();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string posTag = 2;</code>
+       * @param value The bytes for posTag to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPosTagBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        posTag_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object lemma_ = "";
+      /**
+       * <code>string lemma = 3;</code>
+       * @return The lemma.
+       */
+      public java.lang.String getLemma() {
+        java.lang.Object ref = lemma_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          lemma_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string lemma = 3;</code>
+       * @return The bytes for lemma.
+       */
+      public com.google.protobuf.ByteString
+          getLemmaBytes() {
+        java.lang.Object ref = lemma_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          lemma_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string lemma = 3;</code>
+       * @param value The lemma to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLemma(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        lemma_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string lemma = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLemma() {
+        
+        lemma_ = getDefaultInstance().getLemma();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string lemma = 3;</code>
+       * @param value The bytes for lemma to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLemmaBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        lemma_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:lt_ml_server.AnalyzedToken)
+    }
+
+    // @@protoc_insertion_point(class_scope:lt_ml_server.AnalyzedToken)
+    private static final org.languagetool.rules.ml.MLServerProto.AnalyzedToken DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new org.languagetool.rules.ml.MLServerProto.AnalyzedToken();
+    }
+
+    public static org.languagetool.rules.ml.MLServerProto.AnalyzedToken getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<AnalyzedToken>
+        PARSER = new com.google.protobuf.AbstractParser<AnalyzedToken>() {
+      @java.lang.Override
+      public AnalyzedToken parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AnalyzedToken(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<AnalyzedToken> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AnalyzedToken> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public org.languagetool.rules.ml.MLServerProto.AnalyzedToken getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface PostProcessingRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:lt_ml_server.PostProcessingRequest)
       com.google.protobuf.MessageOrBuilder {
@@ -11036,6 +14987,26 @@ public final class MLServerProto {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_lt_ml_server_AnalyzedMatchRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_lt_ml_server_AnalyzedMatchRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_lt_ml_server_AnalyzedSentence_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_lt_ml_server_AnalyzedSentence_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_lt_ml_server_AnalyzedTokenReadings_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_lt_ml_server_AnalyzedTokenReadings_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_lt_ml_server_AnalyzedToken_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_lt_ml_server_AnalyzedToken_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_lt_ml_server_PostProcessingRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -11084,95 +15055,131 @@ public final class MLServerProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\017ml_server.proto\022\014lt_ml_server\"\201\001\n\025Post" +
-      "ProcessingRequest\022\021\n\tsentences\030\001 \003(\t\022(\n\007" +
-      "matches\030\002 \003(\0132\027.lt_ml_server.MatchList\022\024" +
-      "\n\014inputLogging\030\003 \001(\010\022\025\n\rtextSessionID\030\004 " +
-      "\003(\003\"N\n\014MatchRequest\022\021\n\tsentences\030\001 \003(\t\022\024" +
-      "\n\014inputLogging\030\002 \001(\010\022\025\n\rtextSessionID\030\003 " +
-      "\003(\003\"A\n\rMatchResponse\0220\n\017sentenceMatches\030" +
-      "\001 \003(\0132\027.lt_ml_server.MatchList\"1\n\tMatchL" +
-      "ist\022$\n\007matches\030\001 \003(\0132\023.lt_ml_server.Matc" +
-      "h\"\256\003\n\005Match\022\016\n\006offset\030\001 \001(\r\022\016\n\006length\030\002 " +
-      "\001(\r\022\n\n\002id\030\003 \001(\t\022\016\n\006sub_id\030\004 \001(\t\022\023\n\013sugge" +
-      "stions\030\005 \003(\t\022\027\n\017ruleDescription\030\006 \001(\t\022\030\n" +
-      "\020matchDescription\030\007 \001(\t\022\035\n\025matchShortDes" +
-      "cription\030\010 \001(\t\022\013\n\003url\030\t \001(\t\022A\n\025suggested" +
-      "Replacements\030\n \003(\0132\".lt_ml_server.Sugges" +
-      "tedReplacement\022\023\n\013autoCorrect\030\013 \001(\010\022+\n\004t" +
-      "ype\030\014 \001(\0162\035.lt_ml_server.Match.MatchType" +
-      "\022\033\n\023contextForSureMatch\030\r \001(\021\022 \n\004rule\030\016 " +
-      "\001(\0132\022.lt_ml_server.Rule\"1\n\tMatchType\022\017\n\013" +
-      "UnknownWord\020\000\022\010\n\004Hint\020\001\022\t\n\005Other\020\002\"\251\002\n\004R" +
-      "ule\022\022\n\nsourceFile\030\001 \001(\t\022\021\n\tissueType\030\002 \001" +
-      "(\t\022\017\n\007tempOff\030\003 \001(\010\022,\n\010category\030\004 \001(\0132\032." +
-      "lt_ml_server.RuleCategory\022\021\n\tisPremium\030\005" +
-      " \001(\010\022$\n\004tags\030\006 \003(\0162\026.lt_ml_server.Rule.T" +
-      "ag\"\201\001\n\003Tag\022\t\n\005picky\020\000\022\014\n\010academic\020\001\022\013\n\007c" +
-      "larity\020\002\022\020\n\014professional\020\003\022\014\n\010creative\020\004" +
-      "\022\014\n\010customer\020\005\022\n\n\006jobapp\020\006\022\r\n\tobjective\020" +
-      "\007\022\013\n\007elegant\020\010\"(\n\014RuleCategory\022\n\n\002id\030\001 \001" +
-      "(\t\022\014\n\004name\030\002 \001(\t\"\342\001\n\024SuggestedReplacemen" +
-      "t\022\023\n\013replacement\030\001 \001(\t\022\023\n\013description\030\002 " +
-      "\001(\t\022\016\n\006suffix\030\003 \001(\t\022\022\n\nconfidence\030\004 \001(\002\022" +
-      "?\n\004type\030\005 \001(\01621.lt_ml_server.SuggestedRe" +
-      "placement.SuggestionType\";\n\016SuggestionTy" +
-      "pe\022\013\n\007Default\020\000\022\017\n\013Translation\020\001\022\013\n\007Cura" +
-      "ted\020\0022N\n\010MLServer\022B\n\005Match\022\032.lt_ml_serve" +
-      "r.MatchRequest\032\033.lt_ml_server.MatchRespo" +
-      "nse\"\0002e\n\024PostProcessingServer\022M\n\007Process" +
-      "\022#.lt_ml_server.PostProcessingRequest\032\033." +
-      "lt_ml_server.MatchResponse\"\000B*\n\031org.lang" +
-      "uagetool.rules.mlB\rMLServerProtob\006proto3"
+      "\n\017ml_server.proto\022\014lt_ml_server\"v\n\024Analy" +
+      "zedMatchRequest\0221\n\tsentences\030\001 \003(\0132\036.lt_" +
+      "ml_server.AnalyzedSentence\022\024\n\014inputLoggi" +
+      "ng\030\002 \001(\010\022\025\n\rtextSessionID\030\003 \003(\003\"U\n\020Analy" +
+      "zedSentence\022\014\n\004text\030\001 \001(\t\0223\n\006tokens\030\002 \003(" +
+      "\0132#.lt_ml_server.AnalyzedTokenReadings\"Y" +
+      "\n\025AnalyzedTokenReadings\022-\n\010readings\030\001 \003(" +
+      "\0132\033.lt_ml_server.AnalyzedToken\022\021\n\tchunkT" +
+      "ags\030\002 \003(\t\"=\n\rAnalyzedToken\022\r\n\005token\030\001 \001(" +
+      "\t\022\016\n\006posTag\030\002 \001(\t\022\r\n\005lemma\030\003 \001(\t\"\201\001\n\025Pos" +
+      "tProcessingRequest\022\021\n\tsentences\030\001 \003(\t\022(\n" +
+      "\007matches\030\002 \003(\0132\027.lt_ml_server.MatchList\022" +
+      "\024\n\014inputLogging\030\003 \001(\010\022\025\n\rtextSessionID\030\004" +
+      " \003(\003\"N\n\014MatchRequest\022\021\n\tsentences\030\001 \003(\t\022" +
+      "\024\n\014inputLogging\030\002 \001(\010\022\025\n\rtextSessionID\030\003" +
+      " \003(\003\"A\n\rMatchResponse\0220\n\017sentenceMatches" +
+      "\030\001 \003(\0132\027.lt_ml_server.MatchList\"1\n\tMatch" +
+      "List\022$\n\007matches\030\001 \003(\0132\023.lt_ml_server.Mat" +
+      "ch\"\256\003\n\005Match\022\016\n\006offset\030\001 \001(\r\022\016\n\006length\030\002" +
+      " \001(\r\022\n\n\002id\030\003 \001(\t\022\016\n\006sub_id\030\004 \001(\t\022\023\n\013sugg" +
+      "estions\030\005 \003(\t\022\027\n\017ruleDescription\030\006 \001(\t\022\030" +
+      "\n\020matchDescription\030\007 \001(\t\022\035\n\025matchShortDe" +
+      "scription\030\010 \001(\t\022\013\n\003url\030\t \001(\t\022A\n\025suggeste" +
+      "dReplacements\030\n \003(\0132\".lt_ml_server.Sugge" +
+      "stedReplacement\022\023\n\013autoCorrect\030\013 \001(\010\022+\n\004" +
+      "type\030\014 \001(\0162\035.lt_ml_server.Match.MatchTyp" +
+      "e\022\033\n\023contextForSureMatch\030\r \001(\021\022 \n\004rule\030\016" +
+      " \001(\0132\022.lt_ml_server.Rule\"1\n\tMatchType\022\017\n" +
+      "\013UnknownWord\020\000\022\010\n\004Hint\020\001\022\t\n\005Other\020\002\"\251\002\n\004" +
+      "Rule\022\022\n\nsourceFile\030\001 \001(\t\022\021\n\tissueType\030\002 " +
+      "\001(\t\022\017\n\007tempOff\030\003 \001(\010\022,\n\010category\030\004 \001(\0132\032" +
+      ".lt_ml_server.RuleCategory\022\021\n\tisPremium\030" +
+      "\005 \001(\010\022$\n\004tags\030\006 \003(\0162\026.lt_ml_server.Rule." +
+      "Tag\"\201\001\n\003Tag\022\t\n\005picky\020\000\022\014\n\010academic\020\001\022\013\n\007" +
+      "clarity\020\002\022\020\n\014professional\020\003\022\014\n\010creative\020" +
+      "\004\022\014\n\010customer\020\005\022\n\n\006jobapp\020\006\022\r\n\tobjective" +
+      "\020\007\022\013\n\007elegant\020\010\"(\n\014RuleCategory\022\n\n\002id\030\001 " +
+      "\001(\t\022\014\n\004name\030\002 \001(\t\"\342\001\n\024SuggestedReplaceme" +
+      "nt\022\023\n\013replacement\030\001 \001(\t\022\023\n\013description\030\002" +
+      " \001(\t\022\016\n\006suffix\030\003 \001(\t\022\022\n\nconfidence\030\004 \001(\002" +
+      "\022?\n\004type\030\005 \001(\01621.lt_ml_server.SuggestedR" +
+      "eplacement.SuggestionType\";\n\016SuggestionT" +
+      "ype\022\013\n\007Default\020\000\022\017\n\013Translation\020\001\022\013\n\007Cur" +
+      "ated\020\0022\242\001\n\010MLServer\022B\n\005Match\022\032.lt_ml_ser" +
+      "ver.MatchRequest\032\033.lt_ml_server.MatchRes" +
+      "ponse\"\000\022R\n\rMatchAnalyzed\022\".lt_ml_server." +
+      "AnalyzedMatchRequest\032\033.lt_ml_server.Matc" +
+      "hResponse\"\0002e\n\024PostProcessingServer\022M\n\007P" +
+      "rocess\022#.lt_ml_server.PostProcessingRequ" +
+      "est\032\033.lt_ml_server.MatchResponse\"\000B*\n\031or" +
+      "g.languagetool.rules.mlB\rMLServerProtob\006" +
+      "proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         });
-    internal_static_lt_ml_server_PostProcessingRequest_descriptor =
+    internal_static_lt_ml_server_AnalyzedMatchRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
+    internal_static_lt_ml_server_AnalyzedMatchRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_lt_ml_server_AnalyzedMatchRequest_descriptor,
+        new java.lang.String[] { "Sentences", "InputLogging", "TextSessionID", });
+    internal_static_lt_ml_server_AnalyzedSentence_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_lt_ml_server_AnalyzedSentence_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_lt_ml_server_AnalyzedSentence_descriptor,
+        new java.lang.String[] { "Text", "Tokens", });
+    internal_static_lt_ml_server_AnalyzedTokenReadings_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_lt_ml_server_AnalyzedTokenReadings_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_lt_ml_server_AnalyzedTokenReadings_descriptor,
+        new java.lang.String[] { "Readings", "ChunkTags", });
+    internal_static_lt_ml_server_AnalyzedToken_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_lt_ml_server_AnalyzedToken_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_lt_ml_server_AnalyzedToken_descriptor,
+        new java.lang.String[] { "Token", "PosTag", "Lemma", });
+    internal_static_lt_ml_server_PostProcessingRequest_descriptor =
+      getDescriptor().getMessageTypes().get(4);
     internal_static_lt_ml_server_PostProcessingRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_lt_ml_server_PostProcessingRequest_descriptor,
         new java.lang.String[] { "Sentences", "Matches", "InputLogging", "TextSessionID", });
     internal_static_lt_ml_server_MatchRequest_descriptor =
-      getDescriptor().getMessageTypes().get(1);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_lt_ml_server_MatchRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_lt_ml_server_MatchRequest_descriptor,
         new java.lang.String[] { "Sentences", "InputLogging", "TextSessionID", });
     internal_static_lt_ml_server_MatchResponse_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_lt_ml_server_MatchResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_lt_ml_server_MatchResponse_descriptor,
         new java.lang.String[] { "SentenceMatches", });
     internal_static_lt_ml_server_MatchList_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_lt_ml_server_MatchList_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_lt_ml_server_MatchList_descriptor,
         new java.lang.String[] { "Matches", });
     internal_static_lt_ml_server_Match_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_lt_ml_server_Match_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_lt_ml_server_Match_descriptor,
         new java.lang.String[] { "Offset", "Length", "Id", "SubId", "Suggestions", "RuleDescription", "MatchDescription", "MatchShortDescription", "Url", "SuggestedReplacements", "AutoCorrect", "Type", "ContextForSureMatch", "Rule", });
     internal_static_lt_ml_server_Rule_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_lt_ml_server_Rule_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_lt_ml_server_Rule_descriptor,
         new java.lang.String[] { "SourceFile", "IssueType", "TempOff", "Category", "IsPremium", "Tags", });
     internal_static_lt_ml_server_RuleCategory_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_lt_ml_server_RuleCategory_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_lt_ml_server_RuleCategory_descriptor,
         new java.lang.String[] { "Id", "Name", });
     internal_static_lt_ml_server_SuggestedReplacement_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_lt_ml_server_SuggestedReplacement_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_lt_ml_server_SuggestedReplacement_descriptor,
