@@ -134,6 +134,8 @@ public class GermanCompoundTokenizer implements Tokenizer {
       words.add("auskommentieren");
       words.add("impfung");
       words.add("impfungen");
+      words.add("call");
+      words.add("cloud");
       return words;
     }
   }
