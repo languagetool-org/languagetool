@@ -21,6 +21,9 @@ package org.languagetool.dev.simulation;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -47,6 +50,17 @@ public class DocProviderTest {
       }
     }
     System.out.println("550+ -> " + rest);
+  }
+
+  @Ignore("for interactive use only")
+  @Test
+  public void testGetDoc() throws IOException {
+    DocProvider docProvider = new DocProvider(Files.readAllLines(Paths.get("/home/dnaber/data/corpus/tatoeba/20191014/tatoeba-sentences-de-20191014.txt")));
+    for (int i = 0; i < 100; i++) {
+      System.out.println("=========================================");
+      String next = docProvider.getDoc();
+      System.out.println(next);
+    }
   }
 
 }

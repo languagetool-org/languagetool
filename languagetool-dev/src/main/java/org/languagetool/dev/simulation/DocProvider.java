@@ -45,11 +45,18 @@ class DocProvider {
     int len = getWeightedRandomLength();
     synchronized (docs) {
       StringBuilder appended = new StringBuilder();
+      int paraSize = 0;
       while (appended.length() < len) {
         if (docs.size() == 0) {
           throw new RuntimeException("Not enough docs left to provide another document");
         }
-        appended.append(docs.get(0)).append(" ");
+        String doc = docs.get(0);
+        appended.append(doc).append(" ");
+        paraSize += doc.length();
+        if (paraSize > 250 && appended.toString().endsWith(". ")) {
+          appended.append(doc).append("\n\n");
+          paraSize = 0;
+        }
         docs.remove(0);
       }
       return appended.substring(0, len);
