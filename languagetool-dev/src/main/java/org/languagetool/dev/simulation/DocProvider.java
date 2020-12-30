@@ -26,7 +26,7 @@ import java.util.*;
  */
 class DocProvider {
 
-  private static final int MAX_VAL = 40_000;
+  private static final int MAX_VAL = 20_000;
 
   private final List<String> docs;
 
