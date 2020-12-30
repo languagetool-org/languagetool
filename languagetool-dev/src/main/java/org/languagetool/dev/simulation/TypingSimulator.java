@@ -133,7 +133,7 @@ class TypingSimulator {
 
   private void runOnDoc(String doc, Random rnd, Stats stats) {
     if (rnd.nextFloat() < copyPasteProb) {
-      check(doc, stats);
+      check(doc, stats, true);
     } else {
       long lastCheck = 0;
       StringBuilder sb = new StringBuilder();
@@ -147,7 +147,7 @@ class TypingSimulator {
         }
         if (rnd.nextFloat() < backSpaceProb && i > 2) {
           sb.replace(sb.length()-1, sb.length(), "");
-          check(sb.toString(), stats);
+          check(sb.toString(), stats, false);
           i -= 2;
         } else {
           char c = doc.charAt(i);
@@ -155,7 +155,7 @@ class TypingSimulator {
         }
         long millisSinceLastCheck = System.currentTimeMillis() - lastCheck;
         if (millisSinceLastCheck > checkAtMostEveryMillis || i == doc.length()-1) {
-          check(sb.toString(), stats);
+          check(sb.toString(), stats, false);
           lastCheck = System.currentTimeMillis();
         }
         sleep(rnd);
@@ -179,10 +179,19 @@ class TypingSimulator {
     }
   }
 
-  private void check(String doc, Stats stats) {
+  private void check(String doc, Stats stats, boolean checkCompleteText) {
     try {
+      if (checkCompleteText) {
+        checkByPOST(doc, "allButTextLevelOnly", stats);
+      } else {
+        String[] paras = doc.split("\n\n");
+        String lastPara = paras[paras.length-1];
+        //if (!lastPara.equals(doc)) {
+        //  System.out.println("doc/last: " + doc.length() + " / " + lastPara.length() + ": " + lastPara);
+        //}
+        checkByPOST(lastPara, "allButTextLevelOnly", stats);
+      }
       checkByPOST(doc, "textLevelOnly", stats);
-      checkByPOST(doc, "allButTextLevelOnly", stats);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -214,7 +223,7 @@ class TypingSimulator {
       }
       long runTime = System.currentTimeMillis() - runTimeStart;
       System.out.printf("%sms %s chars %s: %s %s\n", String.format("%1$5d", runTime), String.format("%1$5d", text.length()),
-              String.format("%1$10s", mode.replaceAll("[Tt]extLevelOnly", "TLO")), StringUtils.abbreviate(text, 100),
+              String.format("%1$10s", mode.replaceAll("[Tt]extLevelOnly", "TLO")), StringUtils.abbreviate(text.replace("\n", "\\n"), 100),
               dryMode ? "[dryMode]": "");
       //System.out.println("Checking " + text.length() + " chars took " + runTime + "ms");
       if (stats.totalChecksSkipped < warmUpChecks) {
