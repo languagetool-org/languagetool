@@ -36,6 +36,7 @@ public class FrenchSynthesizerTest {
     assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
     
     assertEquals("[nagent]", Arrays.toString(synth.synthesize(dummyToken("nager"), "V ind pres 3 p")));
+    assertEquals("[les]", Arrays.toString(synth.synthesize(dummyToken("le"), "D (m|e) (p|sp)", true)));
   }
 
   private AnalyzedToken dummyToken(String tokenStr) {

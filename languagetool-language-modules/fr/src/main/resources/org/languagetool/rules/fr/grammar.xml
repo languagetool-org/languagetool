@@ -62,6 +62,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <token postag=".* 3 .*" postag_regexp="yes"/>
     </equivalence>
   </unification>
+  <category name="Concordances" id="AGREEMENT">
+    <rulegroup id="NOM_AGREEMENT" name="Concordance entre articles, noms et adjectifs" default="temp_off">
+      <rule id="D_N" name="Concordance du déterminant avec le nom"><!-- 11018 ACCORD_GENRE[3]-->
+        <pattern>
+          <unify negate="yes">
+            <feature id="number"/>
+            <feature id="gender"/>
+            <token postag="(P\+)?D .*" postag_regexp="yes"/>
+            <token postag="N .*" postag_regexp="yes"/>
+          </unify>
+        </pattern>
+        <filter class="org.languagetool.rules.fr.WordWithDeterminerFilter" args="wordFrom:2 determinerFrom:1"/>
+        <message>'<match no="1" case_conversion="startupper"/>' et le nom '\2' ne semblent pas bien accordés.</message>
+        <example correction="Un homme|Des hommes"><marker>Une homme</marker> est entré il y a cinq minutes.</example>
+        <example correction="Le toit|Les toits"><marker>La toit</marker> fuit.</example>
+        <example correction="L'homme|Les hommes"><marker>La homme</marker> chante.</example>
+        <example correction="Cet homme|Ces hommes"><marker>Cette homme</marker> chante.</example>
+        <example correction="Aucun homme|Aucuns hommes"><marker>Aucune homme</marker> n'est venu.</example>
+        <example correction="Tout homme|Tous hommes"><marker>Toute homme</marker> doit se connaître.</example>
+        <example correction="à l'homme|aux hommes"><marker>aux homme</marker></example>
+        <example correction="à la femme|aux femmes"><marker>aux femme</marker></example>
+        <example correction="à la femme|aux femmes"><marker>au femme</marker></example>
+        <example correction="de la femme|des femmes"><marker>du femmes</marker></example>
+        <example correction="Le docteur|La docteure|La doctoresse|Les docteurs|Les docteures|Les doctoresses"><marker>La docteur</marker></example>
+        <example correction="le hibou|les hiboux"><marker>la hibou</marker></example>
+        <example correction="le hibou|les hiboux"><marker>les hibou</marker></example>
+      </rule>
+    </rulegroup>
+  </category>
   <category id="CAT_PLEONASMES" name="Pléonasmes">
     <!--The following rules were created by Hugo Voisard
 (the rule on "ajouter en plus"
@@ -8440,7 +8469,7 @@ though, and has since been slightly modified)-->
         <example>quelqu'une</example>
       </rule>
     </rulegroup>
-    <rule id="ELISION" name="Élision de le, la…">
+    <rulegroup id="ELISION" name="Élision de le, la…">
         <antipattern>
         <token>la</token>
         <token>une</token>
@@ -8469,6 +8498,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[dljmnst]e|la|jusque|que</token>
           <token regexp="yes" case_sensitive="yes">[A-ZÂÊÎÔÛÄËÏÖÜÀÆÇÉÈŒ].*<exception postag="Z.*" postag_regexp="yes"></exception></token>
         </antipattern>
+      <rule>
       <pattern>
         <token regexp="yes">[dljmnst]e|la|jusque|que</token>
         <token regexp="yes">&elision_regexp;
@@ -8520,7 +8550,36 @@ though, and has since been slightly modified)-->
       <example>Il se met à écouter de la house vers 17 ans.</example>
       <example correction="d’Airbus">Selon Dirk Hoke, directeur général <marker>de Airbus</marker> Defence and Space, l'achat de F-35...</example>
       <example>De Hugo ou de Henry, de Harvard.</example>
-    </rule>
+      </rule>
+      <rule default="temp_off">
+        <pattern>
+          <token>au</token>
+          <token regexp="yes">&elision_regexp;
+            <exception inflected="yes" regexp="yes">&exceptions_ELISION1;</exception>
+            <exception regexp="yes">&exceptions_ELISION2;</exception><!-- https://fr.wikipedia.org/wiki/La_Haye -->
+            <exception regexp="yes" inflected="yes">&H_ASPIRE;</exception>
+            <exception postag="UNKNOWN" regexp="yes">h.+</exception><!-- no error for unknown words or proper names -->
+          </token>
+        </pattern>
+        <message>« \1 \2 » s’élide en <suggestion>à l’\2</suggestion>.</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1745</url>
+        <example correction="À l’homme"><marker>Au homme</marker>.</example>
+      </rule>
+      <rule default="temp_off">
+        <pattern>
+          <token>du</token>
+          <token regexp="yes">&elision_regexp;
+            <exception inflected="yes" regexp="yes">&exceptions_ELISION1;</exception>
+            <exception regexp="yes">&exceptions_ELISION2;</exception><!-- https://fr.wikipedia.org/wiki/La_Haye -->
+            <exception regexp="yes" inflected="yes">&H_ASPIRE;</exception>
+            <exception postag="UNKNOWN" regexp="yes">h.+</exception><!-- no error for unknown words or proper names -->
+          </token>
+        </pattern>
+        <message>« \1 \2 » s’élide en <suggestion>de l’\2</suggestion>.</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1745</url>
+        <example correction="De l’homme"><marker>Du homme</marker>.</example>
+      </rule>
+    </rulegroup>
     <rule id="EL_SI" name="Élision de si">
       <pattern>
         <token>si</token>
