@@ -132,7 +132,7 @@ public class WordWithDeterminerFilter extends RuleFilter {
             r = r.replace("' ", "'");
             // remove suggestions with errors
             List<RuleMatch> matches = lt.check(r);
-            if (matches.size() == 0 ) { //|| matches.get(0).getRule().getFullId().equals("UPPERCASE_SENTENCE_START")
+            if (matches.size() == 0 && !replacements.contains(r)) {
               replacements.add(r);
             }
           }
