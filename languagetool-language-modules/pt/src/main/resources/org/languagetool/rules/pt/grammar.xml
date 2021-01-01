@@ -8906,6 +8906,28 @@ Temos saudades de vocês como seria expetável.
 		<example correction="usar os|recorrer aos">Vamos <marker>fazer uso dos</marker> computadores.</example>
 	   </rule>
     </rulegroup>
+	
+	<!-- FORNECER FEEDBACK dar feedback -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-01 (1-JAN-2021+)  *START*   -->
+<!--
+Precisamos que nos dê o feedback necessário.
+Precisamos que nos dê o maior feedback necessário.
+Precisamos que nos dê feedback.
+-->	
+    <rule id='FEEDBACK' name="feedback">
+      <pattern>
+		<marker>
+			<token skip="2" inflected='yes'>fornecer</token>
+		</marker>
+		<token regexp='yes'>feedbacks?</token>
+      </pattern>
+      <message>Substitua por</message>
+	    <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dar</match></suggestion>      
+      <example correction="dê">Precisamos que nos <marker>forneça</marker> o feedback necessário.</example>  
+	  <example type='correct'>Precisamos que nos <marker>dê</marker> o feedback necessário.</example>
+	  <example type='correct'>Precisamos que nos <marker>dê</marker> o maior feedback necessário.</example>
+	  <example type='correct'>Precisamos que nos <marker>dê</marker> feedback.</example>
+    </rule>
 
     <rule id='IMAGEM_DE_SATELITE' name="Imagem satélite -> Imagem de satélite">
     <!--      Created by Tiago F. Santos, 2019-09-07      -->
