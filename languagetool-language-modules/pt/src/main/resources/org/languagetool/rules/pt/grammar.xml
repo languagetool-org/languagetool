@@ -7306,6 +7306,24 @@ Temos saudades de vocês como seria expetável.
     </rule>
   </rulegroup>
 
+	<!-- TORNAR IMPOSSÍVEL impossibilitar -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-01 (1-JAN-2021+)  *START*   -->
+<!--
+Vamos impossibilitar os erros gramaticais.
+E assim impossibilitando falhar.
+-->	
+    <rule id='TORNAR_IMPOSSÍVEL_impossibilitar' name="Tornar Impossível → Impossibilitar">
+      <pattern>
+		<token inflected='yes'>tornar</token>
+		<token regexp='no'>impossível</token>
+      </pattern>
+      <message>Substitua por</message>
+	    <suggestion><match no='1' postag='V.+' postag_regexp='yes'>impossibilitar</match></suggestion>      
+      <example correction="impossibilitar">Vamos <marker>tornar impossível</marker> os erros gramaticais.</example>  
+	  <example type='correct'>Vamos <marker>impossibilitar</marker> os erros gramaticais.</example>
+	  <example type='correct'>E assim <marker>impossibilitando</marker> falhar.</example>
+    </rule>
+
  </category>
 
  <category id='SYNTAX' name='Sintaxe' type='grammar'>
