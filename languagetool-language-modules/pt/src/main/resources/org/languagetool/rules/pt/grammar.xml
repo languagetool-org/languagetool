@@ -1629,14 +1629,23 @@ Basta colar uma lista de e-mails abaixo para enviar convites a todas elas.
 <!-- MARCOAGPINTO 2021-01-01 (1-JAN-2021+) *START* -->
 <!--
 A campanha de vendas levou milhares deles a perdas de mais de 95%.
-A campanha de vendas levou eles a perdas de mais de 95%.
 -->
       <antipattern>
-		<token regexp='yes'>del[ae]s?|el[ae]s?</token>
+		<token regexp='yes'>del[ae]s?</token>
 		<token>a</token>
 		<token postag='NC.P000|AQ0.P0' postag_regexp='yes'/>
 		<token postag='SPS.+' postag_regexp='yes'/>
       </antipattern>
+<!--
+A campanha de vendas levou eles a perdas de mais de 95%.
+A campanha de vendas levou estes a perdas de mais de 95%.
+-->	  
+      <antipattern>
+		<token postag='PP.+|DD.+' postag_regexp='yes'/>
+		<token>a</token>
+		<token postag='NC.P000|AQ0.P0' postag_regexp='yes'/>
+		<token postag='SPS.+' postag_regexp='yes'/>
+      </antipattern>	    
 <!-- MARCOAGPINTO 2021-01-01 (1-JAN-2021+) *END* -->
       <pattern>
 			<token>a
@@ -1655,7 +1664,9 @@ A campanha de vendas levou eles a perdas de mais de 95%.
 	  <example type='correct'>Os arqueólogos dedicam-se cada vez mais <marker>a fases tardias</marker> da evolução humana.</example>
 	  <example type='correct'>O profeta, mas <marker>a evidências que</marker> apoiam que esta reivindicação é falsa.</example>
 	  <example type='correct'>A campanha de vendas levou milhares deles <marker>a perdas</marker> de mais de 95%.</example>
-	  <example type='correct'>A campanha de vendas levou eles <marker>a perdas</marker> de mais de 95%.</example>    </rule>
+	  <example type='correct'>A campanha de vendas levou eles <marker>a perdas</marker> de mais de 95%.</example> 
+	  <example type='correct'>A campanha de vendas levou estes <marker>a perdas</marker> de mais de 95%.</example>
+	</rule>
   </rulegroup>
 
   <rulegroup id='SER_ADJECTIVE_AGREEMENT' name="Erro de concordância: SER + adjetivo + nome">
@@ -2978,14 +2989,23 @@ A ilha está muitos quilômetros distante da costa.
 <!-- MARCOAGPINTO 2021-01-01 (1-JAN-2021+) *START* -->
 <!--
 A campanha de vendas levou milhares deles a perdas de mais de 95%.
-A campanha de vendas levou eles a perdas de mais de 95%.
 -->
       <antipattern>
-		<token regexp='yes'>del[ae]s?|el[ae]s?</token>
+		<token regexp='yes'>del[ae]s?</token>
 		<token>a</token>
 		<token postag='NC.P000|AQ0.P0' postag_regexp='yes'/>
 		<token postag='SPS.+' postag_regexp='yes'/>
       </antipattern>
+<!--
+A campanha de vendas levou eles a perdas de mais de 95%.
+A campanha de vendas levou estes a perdas de mais de 95%.
+-->	  
+      <antipattern>
+		<token postag='PP.+|DD.+' postag_regexp='yes'/>
+		<token>a</token>
+		<token postag='NC.P000|AQ0.P0' postag_regexp='yes'/>
+		<token postag='SPS.+' postag_regexp='yes'/>
+      </antipattern>	    
 <!-- MARCOAGPINTO 2021-01-01 (1-JAN-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
@@ -3015,7 +3035,9 @@ A campanha de vendas levou eles a perdas de mais de 95%.
       <example>Algo que nos une como plataforma a tantos continentes, a tantos oceanos, a tantas culturas, a tantas civilizações</example>
 	  <example type='correct'>O Rui quer enfrentar de <marker>forma eficaz ações entrópicas</marker>.</example>
 	  <example type='correct'>A campanha de vendas levou milhares deles <marker>a perdas</marker> de mais de 95%.</example>
-	  <example type='correct'>A campanha de vendas levou eles <marker>a perdas</marker> de mais de 95%.</example>    </rule>
+	  <example type='correct'>A campanha de vendas levou eles <marker>a perdas</marker> de mais de 95%.</example>  
+	  <example type='correct'>A campanha de vendas levou estes <marker>a perdas</marker> de mais de 95%.</example>	  
+	</rule>
     <rule>
       <antipattern>
           <token postag_regexp='yes' regexp='yes' postag='R.+'>&contracoes_FS;
