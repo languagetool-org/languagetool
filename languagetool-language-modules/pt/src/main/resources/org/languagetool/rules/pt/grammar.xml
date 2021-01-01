@@ -1626,6 +1626,17 @@ Basta colar uma lista de e-mails abaixo para enviar convites a todas elas.
 		  <token regexp="yes">que|na|no|maiores|menores|como|por|o|[.,?!]</token>
 	  </antipattern>
 <!-- MARCOAGPINTO 2020-10-05 + 2020-11-05 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2021-01-01 (1-JAN-2021+) *START* -->
+<!--
+A campanha de vendas levou milhares deles a perdas de mais de 95%.
+-->
+      <antipattern>
+		<token regexp='yes'>del[ae]s?</token>
+		<token>a</token>
+		<token postag='NC.P000|AQ0.P0' postag_regexp='yes'/>
+		<token postag='SPS.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-01-01 (1-JAN-2021+) *END* -->
       <pattern>
 			<token>a
 				<exception negate_pos='yes' postag_regexp='yes' postag='D.+'/>
@@ -1642,6 +1653,7 @@ Basta colar uma lista de e-mails abaixo para enviar convites a todas elas.
 	  <example type='correct'>Daí <marker>a duas</marker> semanas temos a festa.</example>
 	  <example type='correct'>Os arqueólogos dedicam-se cada vez mais <marker>a fases tardias</marker> da evolução humana.</example>
 	  <example type='correct'>O profeta, mas <marker>a evidências que</marker> apoiam que esta reivindicação é falsa.</example>
+	  <example type='correct'>A campanha de vendas levou milhares deles <marker>a perdas</marker> de mais de 95%.</example>
     </rule>
   </rulegroup>
 
@@ -2962,6 +2974,17 @@ A ilha está muitos quilômetros distante da costa.
 		  <token regexp="yes">que|na|no|maiores|menores|como|por|o|[.,?!]</token>
 	  </antipattern>
 <!-- MARCOAGPINTO 2020-10-05 + 2020-11-05 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2021-01-01 (1-JAN-2021+) *START* -->
+<!--
+A campanha de vendas levou milhares deles a perdas de mais de 95%.
+-->
+      <antipattern>
+		<token regexp='yes'>del[ae]s?</token>
+		<token>a</token>
+		<token postag='NC.P000|AQ0.P0' postag_regexp='yes'/>
+		<token postag='SPS.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-01-01 (1-JAN-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
@@ -2989,6 +3012,7 @@ A ilha está muitos quilômetros distante da costa.
       <example correction='bastante mesa|bastantes mesas|bastante, mesas'>Existem <marker>bastante mesas</marker>!</example>
       <example>Algo que nos une como plataforma a tantos continentes, a tantos oceanos, a tantas culturas, a tantas civilizações</example>
 	  <example type='correct'>O Rui quer enfrentar de <marker>forma eficaz ações entrópicas</marker>.</example>
+	  <example type='correct'>A campanha de vendas levou milhares deles <marker>a perdas</marker> de mais de 95%.</example>
     </rule>
     <rule>
       <antipattern>
