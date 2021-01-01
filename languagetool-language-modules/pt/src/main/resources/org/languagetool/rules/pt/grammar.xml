@@ -3415,6 +3415,27 @@ Basta colar uma lista de e-mails abaixo para enviar convites a todas elas.
 		<token postag='PP1CP000|PP2CP000|PP3CS000|PP3CP000|PP3FP000' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-12-08 (21-OCT-2020+) *END* -->
+<!-- MARCOAGPINTO 2021-01-01 (1-JAN-2021+) *START* -->
+<!--
+A campanha de vendas levou milhares deles a perdas de mais de 95%.
+-->
+      <antipattern>
+		<token regexp='yes'>del[ae]s?</token>
+		<token>a</token>
+		<token postag='NC.P000|AQ0.P0' postag_regexp='yes'/>
+		<token postag='SPS.+' postag_regexp='yes'/>
+      </antipattern>
+<!--
+A campanha de vendas levou eles a perdas de mais de 95%.
+A campanha de vendas levou estes a perdas de mais de 95%.
+-->	  
+      <antipattern>
+		<token postag='PP.+|DD.+' postag_regexp='yes'/>
+		<token>a</token>
+		<token postag='NC.P000|AQ0.P0' postag_regexp='yes'/>
+		<token postag='SPS.+' postag_regexp='yes'/>
+      </antipattern>	    
+<!-- MARCOAGPINTO 2021-01-01 (1-JAN-2021+) *END* -->
       <pattern>
           <unify negate="yes">
             <feature id="number"/>
@@ -3428,6 +3449,9 @@ Basta colar uma lista de e-mails abaixo para enviar convites a todas elas.
         <suggestion><match no='1' postag='D(...).(.+)' postag_replace='D$1S$2' postag_regexp='yes'/> <match no='2' postag='D(...).(.+)' postag_replace='D$1S$2' postag_regexp='yes'/></suggestion>
         <suggestion><match no='1' postag='D(...).(.+)' postag_replace='D$1P$2' postag_regexp='yes'/> <match no='2' postag='D(...).(.+)' postag_replace='D$1P$2' postag_regexp='yes'/></suggestion>
       <example correction="A nossa|As nossas"><marker>As nossa</marker> equipa de operações está muito focada nos campos de verão..</example>
+	  <example type='correct'>A campanha de vendas levou milhares deles <marker>a perdas</marker> de mais de 95%.</example>
+	  <example type='correct'>A campanha de vendas levou eles <marker>a perdas</marker> de mais de 95%.</example>
+	  <example type='correct'>A campanha de vendas levou estes <marker>a perdas</marker> de mais de 95%.</example>
     </rule>
   </rulegroup>
 
