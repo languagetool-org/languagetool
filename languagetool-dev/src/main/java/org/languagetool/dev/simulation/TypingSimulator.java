@@ -49,7 +49,7 @@ class TypingSimulator {
   private static final float backSpaceProb = 0.05f;  // per character
   private static final float typoProb = 0.03f;       // per character
   private static final int minWaitMillis = 0;        // more real: 10
-  private static final int avgWaitMillis = 10;       // more real: 100   // don't set to 0, will cause endless loop
+  private static final int avgWaitMillis = 0;        // more real: 100
   private static final int checkAtMostEveryMillis = 10;  // more real: 1500
 
   static class Stats {
@@ -89,8 +89,8 @@ class TypingSimulator {
       System.out.println("Usage: " + TypingSimulator.class.getSimpleName() + " <input> <docsPerRun>");
       System.exit(1);
     }
-    if (avgWaitMillis < 2) {
-      throw new RuntimeException("Set avgWaitMillis to > 1");
+    if (avgWaitMillis < 2 && avgWaitMillis != 0) {
+      throw new RuntimeException("Set avgWaitMillis to > 1 or to 0");
     }
     DocProvider docProvider = new DocProvider(Files.readAllLines(Paths.get(args[0])));
     //DocProvider docProvider = new DocProvider(Arrays.asList("Das hier ist ein Test"/*, "Hier kommt das zweite Dokument."*/));
@@ -98,7 +98,10 @@ class TypingSimulator {
     if (docsPerRun < 1000) {
       System.out.println("*** WARNING: use >= 1000 for docsPerRun or results will not be realistic (watch the size distribution printed at the end)");
     }
+    long startTime = System.currentTimeMillis();
     new TypingSimulator().run(docProvider, docsPerRun);
+    long endTime = System.currentTimeMillis();
+    System.out.println("Total time for " + TypingSimulator.class.getSimpleName() + ": " + (endTime-startTime) + "ms");
   }
 
   private void run(DocProvider docs, int docsPerRun) {
@@ -164,6 +167,9 @@ class TypingSimulator {
   }
 
   private void sleep(Random rnd) {
+    if (avgWaitMillis == 0) {
+      return;
+    }
     if (!dryMode) {
       try {
         int waitMillis;
