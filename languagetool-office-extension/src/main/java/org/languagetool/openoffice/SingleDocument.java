@@ -183,6 +183,9 @@ class SingleDocument {
       SingleProofreadingError[] sErrors = null;
       paraNum = getParaPos(nPara, paraText, locale, paRes.nStartOfSentencePosition);
       this.paraNum = paraNum;
+      if (paraNum >= docCache.size()) {
+        paraNum = -1;
+      }
       if (nPara >= 0) {
         isDialogRequest.add(paraNum);
         isIntern = true;
