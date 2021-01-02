@@ -7378,6 +7378,48 @@ Temos saudades de vocês como seria expetável.
     </rule>
   </rulegroup>
 
+	<!-- DO MUNDO REAL real/reais -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-02 (1-JAN-2021+)  *START*   -->
+<!--
+Isto permite lidar com uma situação real.
+Isto permite lidar com situações reais.
+Isto permite lidar com pobres reais.
+-->	
+    <rulegroup id='DO_MUNDO_REAL_real_reais' name="Do mundo real → Real/Reais">
+	  
+	  <!-- SINGULAR -->
+	  <rule>
+		<pattern>
+			<token postag='AQ0.S0|NC.S000' postag_regexp='yes'/>
+			<marker>
+				<token regexp='no'>do</token>
+				<token regexp='no'>mundo</token>
+				<token regexp='no'>real</token>
+			</marker>	
+		</pattern>
+		<message>Substitua por <suggestion>real</suggestion>.</message>
+		<example correction="real">Isto permite lidar com uma situação <marker>do mundo real</marker>.</example>  
+		<example type='correct'>Isto permite lidar com uma situação <marker>real</marker>.</example>
+	  </rule>
+	  
+	  <!-- PLURAL -->
+	  <rule>
+		<pattern>
+			<token postag='AQ0.P0|NC.P000' postag_regexp='yes'/>
+			<marker>
+				<token regexp='no'>do</token>
+				<token regexp='no'>mundo</token>
+				<token regexp='no'>real</token>
+			</marker>	
+		</pattern>
+		<message>Substitua por <suggestion>reais</suggestion>.</message>
+		<example correction="reais">Isto permite lidar com situações <marker>do mundo real</marker>.</example>  
+		<example type='correct'>Isto permite lidar com situações <marker>reais</marker>.</example>
+		<example type='correct'>Isto permite lidar com pobres <marker>reais</marker>.</example>
+	  </rule>
+	  
+    </rulegroup>
+
 	<!-- TORNAR IMPOSSÍVEL impossibilitar -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-01 (1-JAN-2021+)  *START*   -->
 <!--
