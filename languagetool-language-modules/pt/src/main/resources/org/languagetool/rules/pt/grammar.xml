@@ -9355,16 +9355,6 @@ Precisamos que nos dê feedback.
       <example correction="está bem na vida">O Rui <marker>está bom na vida</marker>.</example>
     </rule>
 
-    <rule id='CRIAM_QUERIAM' name="Queriam + Infinitivo">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-          <token inflected='yes'>criar</token>
-          <token postag="VMN0000"/>
-      </pattern>
-      <message>Substitua por <suggestion><match no='1' postag_regexp='yes' postag='V.+'>querer</match> \2</suggestion>.</message>
-      <example correction="queriam comprar">Eles <marker>criam comprar</marker> o livro.</example>
-    </rule>
-
     <rule id='DA_UM' name="Confusão: da um - dá um">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -20797,15 +20787,18 @@ o tomate'>
       <example correction="contando">Isto já <marker>contanto</marker> com o jantar.</example>
     </rule>
 
-    <rule id='EU_CRIA' name="Confusão: cria - queria">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
+	<!-- 	CRIAR querer -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-03 (Enhanced) (1-JAN-2021+)      -->
+    <rule id='CRIAR_QUERER' name="Confusão: Criar → Querer">    
+		<pattern>
           <token>eu</token>
-          <token>cria</token>
-      </pattern>
-      <message>Substitua por <suggestion>eu queria</suggestion>.</message>
-      <example correction="eu queria">É o que <marker>eu cria</marker> dizer.</example>
-    </rule>
+		  <marker>
+			<token>cria</token>
+		  </marker>
+		</pattern>
+		<message>Substitua por <suggestion>queria</suggestion>.</message>
+		<example correction="queria">É o que eu <marker>cria</marker> dizer.</example>	  
+	</rule>
 
     <rule id='HÁ_SUA' name="Confusão: há/à + DETERMINANTE POSSESSIVO">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
