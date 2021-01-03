@@ -20789,7 +20789,10 @@ o tomate'>
 
 	<!-- 	CRIAR querer -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-03 (Enhanced) (1-JAN-2021+)      -->
-    <rule id='CRIAR_QUERER' name="Confusão: Criar → Querer">    
+    <rulegroup id='CRIAR_QUERER' name="Confusão: Cria → Queria">    
+	
+	  <!-- EU CRIA -->
+	  <rule>
 		<pattern>
           <token>eu</token>
 		  <marker>
@@ -20797,8 +20800,24 @@ o tomate'>
 		  </marker>
 		</pattern>
 		<message>Substitua por <suggestion>queria</suggestion>.</message>
-		<example correction="queria">É o que eu <marker>cria</marker> dizer.</example>	  
-	</rule>
+		<example correction="queria">É o que eu <marker>cria</marker> dizer.</example>
+	  </rule>
+
+	  <!-- CRIAR + Infinitivo -->
+	  <rule>
+		<pattern>
+		  <marker>
+			<token inflected='yes'>criar</token>
+		  </marker>
+		  <token postag="VMN0000">
+			<exception postag_regexp='yes' postag='NC.+|AQ.+'/>
+		  </token>
+		</pattern>
+		<message>Substitua por <suggestion><match no='1' postag_regexp='yes' postag='V.+'>querer</match></suggestion>.</message>
+		<example correction="queriam">Eles <marker>criam</marker> comprar o livro.</example>
+	  </rule>	  
+	  
+	</rulegroup>
 
     <rule id='HÁ_SUA' name="Confusão: há/à + DETERMINANTE POSSESSIVO">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
