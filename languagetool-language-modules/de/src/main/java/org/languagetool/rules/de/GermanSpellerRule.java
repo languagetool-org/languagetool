@@ -1181,7 +1181,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       String langCode = language.getShortCode();
       String morfoFile = "/" + langCode + "/hunspell/" + langCode + "_" + language.getCountries()[0] + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
       if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {  // spell data will not exist in LibreOffice/OpenOffice context
-        List<String> paths = getSpellingFilePaths(langCode);
+        List<String> paths = new ArrayList<>(getSpellingFilePaths(langCode));
+        if (languageVariantPlainTextDict != null) {
+          paths.add(languageVariantPlainTextDict);
+        }
         List<InputStream> streams = getStreams(paths);
         try (BufferedReader br = new BufferedReader(
           new InputStreamReader(new SequenceInputStream(Collections.enumeration(streams)), UTF_8))) {

@@ -177,6 +177,7 @@ public class CaseRuleTest {
     assertGood("🙂 Übrigens finde ich dein neues Ordnungssystem richtig genial!");
     assertGood("Ein 10,4 Ah Lithium-Akku");
     assertGood("14:15 Uhr SpVgg Westheim");
+    assertGood("Unser Wärmestrom-Tarif WärmeKompakt im Detail");  // ignore so we don't suggest "wärmeKompakt" (#3779)
     assertGood("Autohaus Dornig GmbH");
     assertGood("Hans Pries GmbH");
 
