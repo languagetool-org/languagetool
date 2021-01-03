@@ -102,6 +102,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
   }
 
   private final static List<Pattern> antiPatterns = Arrays.asList(
+          Pattern.compile("\\s?\\d+'\\d\\d\\d\\s?"),   // "100'000", thousands separator in de-CH
           Pattern.compile("\\d+[-‐–]\\d+"),   // "3-5 pounds"
           Pattern.compile("\\d+/\\d+"),   // "1/4 mile"
           Pattern.compile("\\d+:\\d+"),   // "A 2:1 cup"
@@ -599,9 +600,10 @@ public abstract class AbstractUnitConversionRule extends Rule {
 
   private void removeAntiPatternMatches(AnalyzedSentence sentence, Map<Integer, RuleMatch> matchesByStart) {
     for (Pattern antiPattern : antiPatterns) {
-      Matcher matcher = antiPattern.matcher(sentence.getText());
+      String text = sentence.getText();
+      Matcher matcher = antiPattern.matcher(text);
       int pos = 0;
-      while (matcher.find(pos)) {
+      while (pos < text.length() && matcher.find(pos)) {
         matchesByStart.entrySet().removeIf(entry ->
                 matcher.start() <= entry.getValue().getFromPos() && matcher.end() >= entry.getValue().getFromPos() ||
                 matcher.start() <= entry.getValue().getToPos() && matcher.end() >= entry.getValue().getToPos()
