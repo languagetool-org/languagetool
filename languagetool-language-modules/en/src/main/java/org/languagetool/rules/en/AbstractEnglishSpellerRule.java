@@ -140,12 +140,12 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     return ruleMatch.getSuggestedReplacementObjects().stream()
       .filter(k -> !k.getReplacement().startsWith("re ") &&
                    !k.getReplacement().startsWith("en ") &&
-                   !k.getReplacement().startsWith("co ") &&
-                   !k.getReplacement().startsWith("de ") &&
-                   !k.getReplacement().startsWith("mid ") &&
+                   !k.getReplacement().toLowerCase().startsWith("co ") &&
+                   !k.getReplacement().toLowerCase().startsWith("de ") &&
+                   !k.getReplacement().toLowerCase().startsWith("mid ") &&
                    !k.getReplacement().toLowerCase().startsWith("non ") &&
                    !k.getReplacement().toLowerCase().startsWith("bio ") &&
-                   !k.getReplacement().startsWith("con ") &&
+                   !k.getReplacement().toLowerCase().startsWith("con ") &&
                    !k.getReplacement().startsWith("ins ") && // instable (ins table)
                    !k.getReplacement().toLowerCase().startsWith("pre ") &&
                    !k.getReplacement().toLowerCase().startsWith("inter ") &&
@@ -154,7 +154,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("photo ") &&
                    !k.getReplacement().toLowerCase().startsWith("post ") &&
                    !k.getReplacement().toLowerCase().startsWith("ma ") &&
-                   !k.getReplacement().startsWith("sub ") &&
+                   !k.getReplacement().toLowerCase().startsWith("sub ") &&
                    !k.getReplacement().toLowerCase().startsWith("auto ") &&
                    !k.getReplacement().startsWith("sh ") &&
                    !k.getReplacement().startsWith("li ") &&
@@ -172,6 +172,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("fore ") &&
                    !k.getReplacement().toLowerCase().startsWith("geo ") &&
                    !k.getReplacement().toLowerCase().startsWith("pseudo ") &&
+                   !k.getReplacement().toLowerCase().startsWith("psycho ") &&
+                   !k.getReplacement().toLowerCase().startsWith("nano ") &&
+                   !k.getReplacement().toLowerCase().startsWith("semi ") &&
                    !k.getReplacement().toLowerCase().startsWith("lo ") &&
                    !k.getReplacement().startsWith("mu ") &&
                    !k.getReplacement().startsWith("e ") &&
@@ -318,6 +321,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   protected static Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
+    s.put("approvement", Arrays.asList("approval"));
+    s.put("Approvement", Arrays.asList("Approval"));
+    s.put("approvements", Arrays.asList("approvals"));
+    s.put("Approvements", Arrays.asList("Approvals"));
     s.put("pro-bono", Arrays.asList("pro bono"));
     s.put("Pro-bono", Arrays.asList("Pro bono"));
     s.put("electronical", Arrays.asList("electronic", "electronically"));

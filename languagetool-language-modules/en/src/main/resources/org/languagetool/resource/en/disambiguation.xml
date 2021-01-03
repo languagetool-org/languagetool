@@ -3328,6 +3328,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VBZ" />
             <token postag="PCT|IN|CC" postag_regexp="yes" />
         </antipattern>
+        <antipattern><!-- A few buzz at the highest levels in certain fixtures. -->
+            <token regexp="yes">few|many</token>
+            <token postag="VBP" />
+            <token postag="IN" />
+            <token chunk_re="B-NP.*" />
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception><exception scope="previous">of</exception></token>
             <token postag="JJ"><exception postag="RB|NNPS?|NN:U|PRP" postag_regexp="yes"/></token>
@@ -3342,6 +3348,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="filter" postag="NN.*"/>
         <example type="untouched">These may be to bring about political change.</example>
         <example type="untouched">No one trusts him any more.</example>
+        <example type="untouched">A few buzz at the highest levels in certain fixtures.</example>
         <example type="untouched">The public demands answers.</example>
         <example type="untouched">The world may never know.</example>
         <example type="untouched">Here the road curves to the right.</example>
@@ -4563,7 +4570,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="JJ.*|VBG" postag_regexp="yes"><exception postag="RB"/><exception regexp="yes">being|one</exception></token>
             <marker>
                 <and>
-                    <token postag="VBP"><exception>will</exception><exception postag_regexp="yes" negate_pos="yes" postag="NN.*|VB.*|MD|JJ"/></token>
+                    <token postag="VBP">
+                        <exception>will</exception>
+                        <exception>are</exception>
+                        <exception postag_regexp="yes" negate_pos="yes" postag="NN.*|VB.*|MD|JJ"/>
+                    </token>
                     <token postag_regexp="yes" postag="NN.*"/>
                 </and>
             </marker>
@@ -4571,6 +4582,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig><match no="2" postag_regexp="yes" postag="NN.*"/></disambig>
         <example type="untouched">His friend is now in England.</example>
+        <example type="untouched">The first few are:</example>
         <example type="untouched">... and all being <marker>hit</marker>, along with the ...</example>
         <example type="untouched">His party <marker>may</marker> have brought the disease with them from Egypt.</example>
         <example type="untouched">Its meaning <marker>may</marker>, on occasion, differ a little from the...</example>
@@ -6644,6 +6656,24 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token inflected="yes">be</token>
             <token>wrong</token>
         </antipattern>
+        <antipattern>
+            <token>many</token>
+            <token postag="VBP" />
+            <token postag="UNKNOWN|NNP" postag_regexp="yes" />
+            <token regexp="yes">&apostrophe;</token>
+            <token>s</token>
+        </antipattern>
+        <antipattern>
+            <token>many</token>
+            <token postag="VBP" />
+            <token regexp="yes">quite|,</token>
+        </antipattern>
+        <antipattern><!-- A few buzz at the highest levels in certain fixtures. -->
+            <token regexp="yes">few|many</token>
+            <token postag="VBP" />
+            <token postag="IN" />
+            <token chunk_re="B-NP.*" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -6664,12 +6694,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig postag="NN:UN"/>
         <example type="untouched">They disputed a claim.</example>
         <example type="untouched">For a person who's wrong frequently, it's nice to be right.</example>
+        <example type="untouched">Many play, but only one will win.</example>
         <example type="untouched">Many claim that the behavior is in the past.</example>
         <example type="untouched">Doubled consonants count as two consonants.</example>
         <example type="untouched">The Beatles play to nearly 60,000 fans at Shea Stadium.</example>
         <example type="untouched">Wed love to hear this!</example>
+        <example type="untouched">Many look quite a bit like American campaign logos.</example>
         <example type="untouched">When the text can't be check because it is too short.</example><!-- needed to detect "check" as wrong by BEEN_PART_AGREEMENT -->
         <example type="untouched">He sexual assault her.</example>
+        <example type="untouched">Many doubt OPEC's ability to maintain its modest level.</example>
+        <example type="untouched">Many doubt his ability to maintain its modest level.</example>
         <example type="untouched">He is sexual assaulting her.</example>
         <example type="untouched">So within macro A, i trigger another macro by keystroke (call it macro B) and I want to pause until macro B is finished before proceeding.</example>
         <example type="untouched">Get the code read and search it online.</example>
@@ -13151,6 +13185,83 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </pattern>
             <disambig action="filter" postag="RB"/>
             <example type="ambiguous" inputform="well[well/JJ,well/NN,well/RB,well/UH,well/VB,well/VBP]" outputform="well[well/RB]">I could as <marker>well</marker> go there.</example>
+        </rule>
+    </rulegroup>
+
+    <rulegroup id="NEEDS_RB" name="Remove RB from 'needs'">
+        <rule>
+            <antipattern>
+                <token>must</token>
+                <token>needs</token>
+            </antipattern>
+            <antipattern>
+                <token>needs</token>
+                <token>must</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">when|if</token>
+                <token>needs</token>
+                <token postag="VB" />
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">when|if</token>
+                <token postag="RB" />
+                <token>needs</token>
+                <token postag="VB" />
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>needs</token>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd pos="RB"/></disambig>
+        </rule>
+    </rulegroup>
+
+    <rulegroup id="ARE_NN" name="Remove NN from 'are'">
+        <rule>
+            <antipattern>
+                <token regexp="yes">an?|the</token>
+                <token>are</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">an?|the</token>
+                <token postag="JJ.*" postag_regexp="yes" />
+                <token>are</token>
+            </antipattern>
+            <antipattern>
+                <token postag="CD|TO|UNKNOWN" postag_regexp="yes" />
+                <token>are</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>are</token>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd pos="NN"/></disambig>
+        </rule>
+    </rulegroup>
+
+    <rulegroup id="PROVIDED_CC" name="Remove CC from 'provided'">
+        <rule>
+            <pattern>
+                <token chunk_re="E-NP.*" postag="NN.*|PRP" postag_regexp="yes" />
+                <marker>
+                    <token>provided</token>
+                </marker>
+                <token postag="DT|JJ.*|NN.*|PRP\$" postag_regexp="yes" chunk_re="B-NP.*" />
+            </pattern>
+            <disambig action="remove"><wd pos="CC"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">be|have</token>
+                <marker>
+                    <token>provided</token>
+                </marker>
+                <token postag="DT|JJ.*|NN.*|IN|PRP\$" postag_regexp="yes" chunk_re="B-NP.*" />
+            </pattern>
+            <disambig action="remove"><wd pos="CC"/></disambig>
         </rule>
     </rulegroup>
 </rules>

@@ -158,7 +158,7 @@ public class AdverbFilter extends RuleFilter {
     put("vicariously", "vicarious");
     put("vividly", "vivid");
     put("partially", "partial");
-    put("unduly", "undue");
+    // put("unduly", "undue");
     put("seriously", "serious");
     put("non-verbally", "non-verbal");
     put("nonverbally", "nonverbal");
@@ -444,6 +444,12 @@ public class AdverbFilter extends RuleFilter {
     put("ethically", "ethical");
     put("noticeably", "noticeable");
     put("unnoticeably", "unnoticeable");
+    put("consequently", "consequent");
+    put("snugly", "snug");
+    put("mainly", "main");
+    put("popularly", "popular");
+    put("improperly", "improper");
+    put("deliverly", "delivery");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

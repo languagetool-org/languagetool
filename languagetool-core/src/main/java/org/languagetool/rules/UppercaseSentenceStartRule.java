@@ -68,11 +68,19 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
           "watchOS",
           "tvOS",
           "mRNA",
+          "mRNAs",
+          "sRNA",
+          "sRNAs",
+          "microRNA",
+          "miRNA",
           "iHeartRadio",
           "iMessage",
           "iFood",
           "x86",
-          "reCAPTCHA"
+          "reCAPTCHA",
+          "dbForge",
+          "jQuery",
+          "pH"
   ));
 
   private final Language language;
