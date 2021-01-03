@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 Russian grammar and typo rules for LanguageTool.
 See resource/ru/russian_tags.txt for the meaning of the POS tags.
 
-Copyright © 2008-2020 Yakov Reztsov
+Copyright © 2008-2021 Yakov Reztsov
 http://www.languagetool.org
 
 This library is free software; you can redistribute it and/or
@@ -9614,15 +9614,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         
         <rule id="Verb_and_PNN_Nom" name="Глагольное управление (местоимение)" default="temp_off"> <!-- default="temp_off   -->
+            <antipattern>
+                <token postag="VB:Real:TRANS:IMPFV:.*:P1"  postag_regexp="yes"></token>
+                <token postag="PNN:.*:Nom:P3|PNN:.*:Nom:P2" postag_regexp="yes" ></token>
+                <token postag_regexp="yes" postag="PARTICLE|PNN:.*:R:.*|VB:.*" ></token>
+            </antipattern>
             <pattern>
                 <token postag="VB:Real:TRANS:IMPFV:.*:P1"  postag_regexp="yes"></token>
-                <token postag="PNN:.*:Nom:P3|PNN:.*:Nom:P2" postag_regexp="yes" ><exception scope="next" regexp="yes">[,;.!]</exception>
-                </token>
+                <token postag="PNN:.*:Nom:P3|PNN:.*:Nom:P2" postag_regexp="yes" ><exception scope="next" regexp="yes">[,;.!]</exception><exception scope="next" postag_regexp="yes" postag="PARTICLE|PNN:.*:R:.*" ></exception></token>
             </pattern>
             <message>Неверное управление</message>
             <example correction=""><marker>Люблю он</marker></example>          
             <example>Мир, цинично добавляет он, стал слишком тесен.</example>
+            <example>Вот я чувствую вы меня ими досыта и накормите.</example>
+            <example>Вот я чувствую: вы меня ими досыта и накормите.</example> 
             <example>Люблю его</example>
+            
         </rule>
         <rule id="Verb_and_wo_P" name="Глагольное управление (падеж)">
         <!--TODO   необходимо использовать грамматические характеристики глагола (переходный/непереходный) -->            
