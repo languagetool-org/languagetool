@@ -404,7 +404,7 @@ public class PatternToken implements Cloneable {
       throw new IllegalArgumentException("maxOccurrences may not be 0");
     }
     if (i < -1 || i > Byte.MAX_VALUE) {
-      throw new IllegalArgumentException("maxOccurrences should be between -1 and " + Byte.MAX_VALUE);
+      throw new IllegalArgumentException("maxOccurrences should be between -1 and " + Byte.MAX_VALUE + " but was: " + i);
     }
     maxOccurrence = (byte) i;
   }
