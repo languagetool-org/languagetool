@@ -8144,6 +8144,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="PROPER_NOUNS" name="Prominente/geographische Eigennamen">
         <!-- geographische Namen u. ä. -->
+        <rule id="ASTRA_ZENECA" name="AstraZeneca" default="temp_off">
+            <pattern>
+                <token>astra</token>
+                <token>zeneca</token>
+            </pattern>
+            <message>Der Name des Pharmaunternehmens <suggestion>AstraZeneca</suggestion> wird ohne Leerzeichen geschrieben.</message>
+            <url>https://de.wikipedia.org/wiki/AstraZeneca</url>
+            <example correction="AstraZeneca">Das Pharmaunternehmen <marker>Astra Zeneca</marker> kommt aus Großbritannien.</example>
+        </rule>
         <rule id="JOHNS_HOPKINS_UNIVERSITY" name="Johns Hopkins University">
             <antipattern case_sensitive="yes">
                 <token>Johns</token>
@@ -9922,7 +9931,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie das Nomen <suggestion>Extrem<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Extremsituation">Er befindet sich in einer <marker>extrem Situation</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>flüssig</token>
                     <token regexp="yes" case_sensitive="yes">Kunststoff(es|s)?|Klebers?|Gas</token>
@@ -9930,15 +9939,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie das Nomen <suggestion>Flüssig<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Flüssigkunststoff">Er verwendete für die Produktion <marker>flüssig Kunststoff</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">gro(ß|ss)</token>
-                    <token regexp="yes">Veranstaltung|Abnehmers?|Aktion</token>
+                    <token regexp="yes" case_sensitive="yes">Veranstaltung|Abnehmers?|Aktion|Auftrag(es|s)?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Großveranstaltung">Das Konzert galt als <marker>groß Veranstaltung</marker>.</example>
+                <example>Jedes Mal wenn ich groß auftrag mach ich mich unbeliebt.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>fertig</token>
                     <token regexp="yes" case_sensitive="yes">So(ß|ss)e|Haus(es)?</token>
@@ -9946,18 +9956,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie das Nomen <suggestion>Fertig<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Fertighaus">Er kaufte ein <marker>fertig Haus</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>heilig</token>
-                    <token case_sensitive="yes">Abend</token>
+                    <token>abend</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Heilig<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Heiligabend">Er fuhr zu seiner Familie an <marker>heilig Abend</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>nackt</token>
-                    <token case_sensitive="yes" regexp="yes">Bild(es|s)?|Fotos?</token>
+                    <token case_sensitive="yes" regexp="yes">Bild(es|s)?|Foto</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Nackt<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Nacktfoto">Er versteigerte sein <marker>nackt Foto</marker> im Internet.</example>
@@ -14565,7 +14575,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive='yes'><marker>
                 <token>hoch</token>
                 <token postag='ADJ:.*' postag_regexp='yes'>
-                    <exception postag='VER:.*' postag_regexp='yes'/><exception inflected="yes">radioaktiv</exception></token></marker>
+                    <exception postag='VER:.*' postag_regexp='yes'/>
+                    <exception inflected="yes">radioaktiv</exception>
+                    <exception inflected="yes">spezialisiert</exception>
+                </token></marker>
             </pattern>
             <message>Wird ein Adjektiv durch 'hoch' verstärkt, wird es zusammengeschrieben.</message>
             <suggestion>\1\2</suggestion>
@@ -39893,7 +39906,7 @@ Andere Projekte</example>
                     </marker>
                 </pattern>
                 <message>Die Präposition '\1' erfordert in der Regel den Akkusativ.</message>
-                <suggestion>\2en <match postag="SUB:NOM:SIN:MAS" no="3" /></suggestion>
+                <suggestion suppress_misspelled="yes">\2en <match postag="SUB:NOM:SIN:MAS" no="3" /></suggestion>
                 <example>Die Schädigung seines Wirts ist für <marker>ein Virus</marker> kein vorteilhafter Effekt.</example>
                 <example>Das ist für <marker>meinen Mann</marker>.</example>
                 <example>Das ist für <marker>mein Auto</marker>.</example>
