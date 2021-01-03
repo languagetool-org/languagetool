@@ -7379,7 +7379,7 @@ Temos saudades de vocês como seria expetável.
   </rulegroup>
 
 	<!-- DO MUNDO REAL real/reais -->
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-02 (1-JAN-2021+)  *START*   -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-02 (1-JAN-2021+)      -->
 <!--
 Isto permite lidar com uma situação real.
 Isto permite lidar com situações reais.
@@ -7421,7 +7421,7 @@ Isto permite lidar com pobres reais.
     </rulegroup>
 
 	<!-- TORNAR IMPOSSÍVEL impossibilitar -->
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-01 (1-JAN-2021+)  *START*   -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-01 (1-JAN-2021+)      -->
 <!--
 Vamos impossibilitar os erros gramaticais.
 E assim impossibilitando falhar.
@@ -9040,7 +9040,7 @@ E assim impossibilitando falhar.
     </rulegroup>
 	
 	<!-- FORNECER FEEDBACK dar feedback -->
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-01 (1-JAN-2021+)  *START*   -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-01 (1-JAN-2021+)      -->
 <!--
 Precisamos que nos dê o feedback necessário.
 Precisamos que nos dê o maior feedback necessário.
@@ -35853,18 +35853,17 @@ Afirmaram a vossa inocência alegando que eram canhotos.
     </rule>
 
     <!-- 	FURTO/ROUBO DA/DE IDENTIDADE usurpação de identidade -->	
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-18 (21-OCT-2020+)     -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-03 (Enhanced) (1-JAN-2021+)      -->
     <rule id='FURTO_ROUBO_IDENTIDADE' name="Usurpação de identidade">
 		<pattern>
 		    <marker>
-				<token inflected='yes' regexp='yes'>furtar|roubar</token>
+				<token skip="3" inflected='yes' regexp='yes'>furtar|roubar</token>
 			</marker>
-			<token regexp='yes'>as?|das?|de</token>
-			<token min="0" max="1" postag='DP.*' postag_regexp='yes'/>
 			<token regexp='yes'>identidades?</token>
 		</pattern>		
 		<message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usurpar</match></suggestion>.</message>
 		<example correction="usurpou">Alguém <marker>roubou</marker> a identidade do dono da empresa.</example>  
+		<example type='correct'>Alguém <marker>usurpou</marker> a minha identidade.</example>
 	</rule>
 
     <rule id='OPENING_INTERROGATION' name="Sinal de interrogação inicial" default="on">
