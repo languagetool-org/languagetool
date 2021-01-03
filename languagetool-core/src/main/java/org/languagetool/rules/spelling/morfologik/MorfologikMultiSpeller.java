@@ -294,10 +294,10 @@ public class MorfologikMultiSpeller {
   }
 
   static class BufferedReaderWithSource {
-    private BufferedReader reader;
-    private String readerPath;
-    private BufferedReader languageVariantReader;
-    private String languageVariantPath;
+    private final BufferedReader reader;
+    private final String readerPath;
+    private final BufferedReader languageVariantReader;
+    private final String languageVariantPath;
 
     BufferedReaderWithSource(BufferedReader reader, String readerPath, BufferedReader languageVariantReader, String languageVariantPath) {
       this.reader = Objects.requireNonNull(reader);
