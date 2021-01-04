@@ -78,6 +78,10 @@ class OfficeTools {
   public static boolean DEBUG_MODE_IO = false;    //  Activate Debug Mode for Cache save to file
   public static boolean DEVELOP_MODE = false;     //  Activate Development Mode
 
+  public  static final String CONFIG_FILE = "Languagetool.cfg";
+  private static final String OLD_CONFIG_FILE = ".languagetool-ooo.cfg";
+  private static final String LOG_FILE = "LanguageTool.log";
+
   private static final String VENDOR_ID = "languagetool.org";
   private static final String APPLICATION_ID = "LanguageTool";
   private static final String OFFICE_EXTENSION_ID = "LibreOffice";
@@ -333,6 +337,18 @@ class OfficeTools {
   }
 
   /**
+   * Returns old configuration file
+   */
+  public static File getOldConfigFile() {
+    String homeDir = System.getProperty("user.home");
+    if (homeDir == null) {
+      MessageHandler.showError(new RuntimeException("Could not get home directory"));
+      return null;
+    }
+    return new File(homeDir, OLD_CONFIG_FILE);
+  }
+
+  /**
    * Returns directory to store every information for LT office extension
    * @since 4.7
    */
@@ -400,6 +416,13 @@ class OfficeTools {
       return directory;
   }
   
+  /**
+   * Returns log file 
+   */
+  public static String getLogFilePath() {
+    return new File(getLOConfigDir(), LOG_FILE).getAbsolutePath();
+  }
+
   /**
    * Returns directory to saves caches
    * @since 5.2

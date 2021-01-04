@@ -19,7 +19,6 @@
 package org.languagetool.openoffice;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.util.Date;
 
@@ -37,15 +36,11 @@ class MessageHandler {
   
   private static final String logLineBreak = System.lineSeparator();  //  LineBreak in Log-File (MS-Windows compatible)
   
-  private static String homeDir;
-  private static String logFileName;
   private static boolean isOpen = false;
   
   private static boolean testMode;
   
-  MessageHandler(String homeDir, String logFileName) {
-    MessageHandler.homeDir = homeDir;
-    MessageHandler.logFileName = logFileName;
+  MessageHandler() {
     initLogFile();
   }
 
@@ -53,7 +48,7 @@ class MessageHandler {
    * Initialize log-file
    */
   private static void initLogFile() {
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(getLogPath()))) {
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(OfficeTools.getLogFilePath()))) {
       Date date = new Date();
       bw.write("LT office integration log from " + date + logLineBreak);
     } catch (Throwable t) {
@@ -64,9 +59,7 @@ class MessageHandler {
   /**
    * Initialize MessageHandler
    */
-  static void init(String homeDir, String logFileName) {
-    MessageHandler.homeDir = homeDir;
-    MessageHandler.logFileName = logFileName;
+  static void init() {
     initLogFile();
   }
 
@@ -95,7 +88,7 @@ class MessageHandler {
    * Write to log-file
    */
   static void printToLogFile(String str) {
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(getLogPath(), true))) {
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(OfficeTools.getLogFilePath(), true))) {
       bw.write(str + logLineBreak);
     } catch (Throwable t) {
       showError(t);
@@ -111,7 +104,7 @@ class MessageHandler {
 
   /**
    * Get the path to log-file
-   */
+   *//*
   private static String getLogPath() {
     String xdgDataHome = System.getenv().get("XDG_DATA_HOME");
     String logHome = xdgDataHome != null ? xdgDataHome + "/LanguageTool" : homeDir;
@@ -127,7 +120,7 @@ class MessageHandler {
     }
     return path;
   }
-  
+  */
   /**
    * Will throw exception instead of showing errors as dialogs - use only for test cases.
    */

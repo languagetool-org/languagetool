@@ -66,9 +66,6 @@ import com.sun.star.uno.XComponentContext;
  */
 public class MultiDocumentsHandler {
 
-  private static final String CONFIG_FILE = "Languagetool.cfg";
-  private static final String OLD_CONFIG_FILE = ".languagetool-ooo.cfg";
-  private static final String LOG_FILE = "LanguageTool.log";
   // LibreOffice (since 4.2.0) special tag for locale with variant 
   // e.g. language ="qlt" country="ES" variant="ca-ES-valencia":
   private static final String LIBREOFFICE_SPECIAL_LANGUAGE_TAG = "qlt";
@@ -89,8 +86,8 @@ public class MultiDocumentsHandler {
   private final XEventListener xEventListener;
   private final XProofreader xProofreader;
   private final File configDir;
-  private final String configFile;
   private final File oldConfigFile;
+  private String configFile;
   private Configuration config = null;
   private LinguisticServices linguServices = null;
   private SortedTextRules sortedTextRules;
@@ -119,12 +116,10 @@ public class MultiDocumentsHandler {
     this.xEventListener = xEventListener;
     this.xProofreader = xProofreader;
     xEventListeners = new ArrayList<>();
-    configFile = CONFIG_FILE;
-    File homeDir = getHomeDir();
+    configFile = OfficeTools.CONFIG_FILE;
     configDir = OfficeTools.getLOConfigDir();
-    String configDirName = configDir == null ? "." : configDir.toString();
-    oldConfigFile = homeDir == null ? null : new File(homeDir, OLD_CONFIG_FILE);
-    MessageHandler.init(configDirName, LOG_FILE);
+    oldConfigFile = OfficeTools.getOldConfigFile();
+    MessageHandler.init();
     documents = new ArrayList<>();
     disabledRulesUI = new HashSet<>();
     extraRemoteRules = new ArrayList<>();
@@ -349,6 +344,13 @@ public class MultiDocumentsHandler {
   void setTestMode(boolean mode) {
     testMode = mode;
     MessageHandler.setTestMode(mode);
+    if (mode) {
+      configFile = "dummy_xxxx.cfg";
+      File dummy = new File(configDir, configFile);
+      if (dummy.exists()) {
+        dummy.delete();
+      }
+    }
   }
 
   /**
@@ -1309,18 +1311,6 @@ public class MultiDocumentsHandler {
       // Well, what can we do...
     }
     return true;
-  }
-
-  /**
-   * Get home directory of the user from system
-   */
-  private File getHomeDir() {
-    String homeDir = System.getProperty("user.home");
-    if (homeDir == null) {
-      MessageHandler.showError(new RuntimeException("Could not get home directory"));
-      return null;
-    }
-    return new File(homeDir);
   }
 
   /**

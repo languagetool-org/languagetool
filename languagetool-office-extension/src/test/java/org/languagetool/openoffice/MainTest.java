@@ -30,7 +30,7 @@ import static org.junit.Assert.assertTrue;
 public class MainTest {
 
   @Test
-  @Ignore("see https://github.com/languagetool-org/languagetool/issues/4064")
+//  @Ignore("see https://github.com/languagetool-org/languagetool/issues/4064")
   public void testDoProofreading() {
     Main prog = new Main(null);
 //    Main.setTestMode(true);
@@ -59,7 +59,7 @@ public class MainTest {
     assertEquals(0, paRes2.nStartOfSentencePosition);
   }
 
-  @Ignore("see https://github.com/languagetool-org/languagetool/issues/4064")
+//  @Ignore("see https://github.com/languagetool-org/languagetool/issues/4064")
   @Test
   public void testVariants() {
     Main prog = new Main(null);

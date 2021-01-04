@@ -177,7 +177,7 @@ class SingleDocument {
         ignoredMatches = new IgnoredMatches();
       }
       paraNum = getParaPos(nPara, paraText, locale, paRes.nStartOfSentencePosition);
-      if (paraNum >= docCache.size()) {
+      if (docCache != null && paraNum >= docCache.size()) {
         paraNum = -1;
       }
       this.paraNum = paraNum;
