@@ -6,8 +6,8 @@ title="Easy editing stylesheet" ?>
 
  <!--
  Portuguese (Portugal - prereform + postreform) - Grammar and Typo Rules for LanguageTool.
- Copyright © 2012-2020 Marco A.G.Pinto (www.marcoagpinto.com)
- Copyright © 2016-2020 Tiago F. Santos (tiagofsantos81@sapo.pt)
+ Copyright © 2012-2021 Marco A.G.Pinto (www.marcoagpinto.com)
+ Copyright © 2016-2021 Tiago F. Santos (tiagofsantos81@sapo.pt)
 
  Thanks to Juan Martorell, Daniel Naber, Jaume Ortolà and Yakov Reztsov who mentored the project.
 
@@ -4755,6 +4755,19 @@ Temos saudades de vocês como seria expetável.
 		  <token postag='VMIS1S0' postag_regexp='no'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-10-26 (21-OCT-2020+) *END* -->
+<!-- MARCOAGPINTO 2021-01-04 (1-JAN-2021+) *START* -->
+<!--
+Claro que até as formações faço aqui em casa.
+-->
+      <antipattern>
+		<token postag='SPS.+|CC' postag_regexp='yes'/>
+		<token></token>
+		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'>
+			<exception>tem</exception>
+		</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-01-04 (1-JAN-2021+) *END* -->
       <antipattern>
 		  <token postag='VMN0000' postag_regexp='no'/>
 		  <token postag='DA0[FM]P0' postag_regexp='yes'/>
@@ -4798,6 +4811,7 @@ Temos saudades de vocês como seria expetável.
 	  <example type='correct'>Acrescentando que para <marker>os pitagóricos significou</marker> o sol.</example>
 	  <example type='correct'>Perante <marker>as ameaças permanentes tem</marker> que haver profissionais dedicados.</example>
 	  <example type='correct'>Perante <marker>os conflitos permanentes tem</marker> que haver profissionais dedicados.</example>
+	  <example type='correct'>Claro que até <marker>as formações faço</marker> aqui em casa.</example>
     </rule>
     <rule>
       <antipattern>
