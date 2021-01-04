@@ -13743,6 +13743,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rulegroup id="HAY_AY" name="hay->ay" default="off">
+            <antipattern>
+                <token regexp="yes" inflected="yes">qué|quién|cuánto|que|cual|cuál|como|cómo|cuando|cuándo</token>
+                <token>hay</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>hay</token>
+                    </marker>
+                    <token>de</token>
+                    <token postag="D..[MF]..*|PP.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si és una interjección, se escribe <suggestion>ay</suggestion>. Correcto si es el v. 'haber'.</message>
+                <example correction="Ay">¡<marker>Hay</marker> de mí!</example>
+                <example>¿Qué hay de lo mío?</example>
+                <example>¿Cuántos hay de los buenos?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>hay</token>
+                    </marker>
+                    <token>del</token>
+                </pattern>
+                <message>Si és una interjección, se escribe <suggestion>ay</suggestion>. Correcto si es el v. 'haber'.</message>
+                <example correction="Ay">¡<marker>Hay</marker> del que me ofenda!</example>
+                <example>¿Qué hay de lo mío?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="IR_PARTICIPIO_GERUNDIO" name="confusión participio/gerundio">
             <rule>
                 <pattern>
