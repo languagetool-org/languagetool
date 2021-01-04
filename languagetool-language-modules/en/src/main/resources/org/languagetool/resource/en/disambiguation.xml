@@ -3757,6 +3757,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token min="0" max="2" postag="RB"/>
             <token postag_regexp="yes" postag="MD|VB[PZD]"/>
         </antipattern>
+        <antipattern>
+            <token>to</token>
+            <token postag="VB" />
+        </antipattern>
         <pattern case_sensitive="yes">
             <and>
                 <token regexp="yes">\p{Lu}\p{Ll}+
@@ -3772,6 +3776,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig postag="NNP"/>
         <example type="untouched">They looked at the ruins of the old Roman wall on the lower Via Veneto.</example>
         <example type="untouched">What Will It Do?</example>
+        <example type="untouched">She Had to Say Yes</example>
         <example type="untouched">Title: Can I Sue?</example>
         <example type="untouched">"Will this do now?", she asked.</example>
         <example type="untouched">The song 'Who Do You <marker>Love</marker>?' with its roots of hip hop...</example>
@@ -6677,6 +6682,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="IN" />
             <token chunk_re="B-NP.*" />
         </antipattern>
+        <antipattern>
+            <token regexp="yes" inflected="yes">want|like|love|try|need|have|hate</token>
+            <token>to</token>
+            <token postag="VBP" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -6696,6 +6706,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig postag="NN:UN"/>
         <example type="untouched">They disputed a claim.</example>
+        <example type="untouched">Loving to work is the key to happiness.</example>
+        <example type="untouched">Love to party!</example>
+        <example type="untouched">I want to age gracefully.</example>
         <example type="untouched">For a person who's wrong frequently, it's nice to be right.</example>
         <example type="untouched">Many play, but only one will win.</example>
         <example type="untouched">Many claim that the behavior is in the past.</example>
@@ -8409,6 +8422,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token regexp="yes">an?</token>
                 <token postag="NNP?|NN:UN" postag_regexp="yes" />
                 <token postag="VBZ" />
+                <token postag="CC" />
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">have|try|love|like|hate|want|need</token>
+                <token>to</token>
+                <token postag="VB" />
                 <token postag="CC" />
             </antipattern>
             <pattern>
@@ -13242,29 +13261,6 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 </marker>
             </pattern>
             <disambig action="remove"><wd pos="NN"/></disambig>
-        </rule>
-    </rulegroup>
-
-    <rulegroup id="PROVIDED_CC" name="Remove CC from 'provided'">
-        <rule>
-            <pattern>
-                <token chunk_re="E-NP.*" postag="NN.*|PRP" postag_regexp="yes" />
-                <marker>
-                    <token>provided</token>
-                </marker>
-                <token postag="DT|JJ.*|NN.*|PRP\$" postag_regexp="yes" chunk_re="B-NP.*" />
-            </pattern>
-            <disambig action="remove"><wd pos="CC"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token inflected="yes" regexp="yes">be|have</token>
-                <marker>
-                    <token>provided</token>
-                </marker>
-                <token postag="DT|JJ.*|NN.*|IN|PRP\$" postag_regexp="yes" chunk_re="B-NP.*" />
-            </pattern>
-            <disambig action="remove"><wd pos="CC"/></disambig>
         </rule>
     </rulegroup>
 </rules>
