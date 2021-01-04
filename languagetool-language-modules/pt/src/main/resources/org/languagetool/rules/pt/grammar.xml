@@ -7465,6 +7465,44 @@ E assim impossibilitando falhar.
 	  <example type='correct'>E assim <marker>impossibilitando</marker> falhar.</example>
     </rule>
 
+	<!-- TORNAR MAIOR/MENOR majorar/minorar -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-04 (1-JAN-2021+)      -->
+<!--
+Vamos majorar os ganhos.
+Vamos minorar a dor.
+-->	
+    <rulegroup id='TORNAR_MAIOR_MENOR_majorar_minorar' name="Tornar Maior/Menor → Majorar/Minorar">
+	
+	  <rule>
+		<pattern>
+			<marker>
+				<token inflected='yes'>tornar</token>
+				<token regexp='yes'>maior|maiores</token>
+			</marker>
+			<token regexp='yes'>[ao]s?</token>		  
+		</pattern>
+		<message>Substitua por</message>
+			<suggestion><match no='1' postag='V.+' postag_regexp='yes'>majorar</match></suggestion>      
+		<example correction="majorar">Vamos <marker>tornar maior</marker> o lucro.</example>  
+		<example type='correct'>Vamos <marker>majorar</marker> o lucro.</example>
+      </rule>
+
+	  <rule>
+		<pattern>
+			<marker>
+				<token inflected='yes'>tornar</token>
+				<token regexp='yes'>menor|menores</token>
+			</marker>
+			<token regexp='yes'>[ao]s?</token>		  
+		</pattern>
+		<message>Substitua por</message>
+			<suggestion><match no='1' postag='V.+' postag_regexp='yes'>minorar</match></suggestion>      
+		<example correction="minorar">Vamos <marker>tornar menor</marker> a dor.</example>  
+		<example type='correct'>Vamos <marker>minorar</marker> a dor.</example>
+      </rule>
+	  
+	</rulegroup>
+
  </category>
 
  <category id='SYNTAX' name='Sintaxe' type='grammar'>
