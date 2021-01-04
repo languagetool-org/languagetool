@@ -114,7 +114,6 @@ public class MultiDocumentsHandler {
   
   private boolean testMode = false;
 
-
   MultiDocumentsHandler(XComponentContext xContext, XProofreader xProofreader, XEventListener xEventListener) {
     this.xContext = xContext;
     this.xEventListener = xEventListener;
@@ -529,6 +528,13 @@ public class MultiDocumentsHandler {
       if (xComponent == null) {
         MessageHandler.printToLogFile("Error: Document (ID: " + docID + ") has no XComponent -> Internal space will not be deleted when document disposes");
       } else {
+        for (int i = 0; i < documents.size(); i++) {
+          //  work around to compensate a bug at LO
+          if (xComponent.equals(documents.get(i).getXComponent())) {
+            documents.get(i).setDocID(docID);
+            return i;
+          }
+        }
         try {
           xComponent.addEventListener(xEventListener);
         } catch (Throwable t) {
@@ -544,9 +550,9 @@ public class MultiDocumentsHandler {
       newDocument.setLtMenus(new LanguageToolMenus(xContext, newDocument, config));
     }
     
-    if (debugMode) {
+//    if (debugMode) {
       MessageHandler.printToLogFile("Document " + docNum + " created; docID = " + docID);
-    }
+//    }
     return documents.size() - 1;
   }
 
@@ -856,7 +862,6 @@ public class MultiDocumentsHandler {
   
   /**
    * Returns a list of different numbers of paragraphs to check for text level rules
-   * (currently only -1 for full text check and n for max number for other text level rules)
    */
   public List<Integer> getNumMinToCheckParas() {
     if (sortedTextRules == null) {
@@ -869,7 +874,7 @@ public class MultiDocumentsHandler {
    * Test if sorted rules for index exist
    */
   public boolean isSortedRuleForIndex(int index) {
-    if (index < 0 || index > 1 || sortedTextRules.textLevelRules.get(index).isEmpty()) {
+    if (index < 0 || index >= sortedTextRules.textLevelRules.size() || sortedTextRules.textLevelRules.get(index).isEmpty()) {
       return false;
     }
     return true;
@@ -899,21 +904,21 @@ public class MultiDocumentsHandler {
     List<List<String>> textLevelRules;
 
     SortedTextRules () {
-      minToCheckParagraph = new ArrayList<>();
-      textLevelRules = new ArrayList<>();
-      minToCheckParagraph.add(0);
-      textLevelRules.add(new ArrayList<>());
-      if (useQueue && config.getNumParasToCheck() != 0) {
-        minToCheckParagraph.add(config.getNumParasToCheck());
-      } else {
-        minToCheckParagraph.add(-1);
+      minToCheckParagraph = new ArrayList<>(OfficeTools.NUMBER_TEXTLEVEL_CACHE);
+      textLevelRules = new ArrayList<>(OfficeTools.NUMBER_TEXTLEVEL_CACHE);
+      minToCheckParagraph.add(0,0);
+      minToCheckParagraph.add(1,1);
+      minToCheckParagraph.add(2,-1);
+      minToCheckParagraph.add(3,-2);
+      for (int i = 0; i < OfficeTools.NUMBER_TEXTLEVEL_CACHE; i++) {
+        textLevelRules.add(i, new ArrayList<>());
       }
-      textLevelRules.add(new ArrayList<>());
       List<Rule> rules = langTool.getAllActiveOfficeRules();
+      int numParasToCheck = config.getNumParasToCheck();
       for (Rule rule : rules) {
         if (rule instanceof TextLevelRule && !langTool.getDisabledRules().contains(rule.getId()) 
             && !disabledRulesUI.contains(rule.getId())) {
-          insertRule(((TextLevelRule) rule).minToCheckParagraph(), rule.getId());
+          insertRule(((TextLevelRule) rule).minToCheckParagraph(), numParasToCheck, rule.getId());
         }
       }
       if (debugMode) {
@@ -930,21 +935,26 @@ public class MultiDocumentsHandler {
     /**
      * Insert a rule to list of text level rules
      */
-    private void insertRule (int minPara, String ruleId) {
-      if (useQueue) {
-        if (minPara == 0) {
+    private void insertRule (int minPara, int numParasToCheck, String ruleId) {
+      if (minPara == 0) {
           textLevelRules.get(0).add(ruleId);
-        } else {
-          textLevelRules.get(1).add(ruleId);
-        }
       } else {
-        if (minPara < 0) {
+        if (numParasToCheck >= 0) {
           textLevelRules.get(1).add(ruleId);
-        } else {
-          if (minPara > minToCheckParagraph.get(0)) {
-            minToCheckParagraph.set(0, minPara);
+          if (minPara < 0 && minToCheckParagraph.get(1) < numParasToCheck) {
+            minToCheckParagraph.set(1, numParasToCheck);
+          } else if (minPara <= numParasToCheck && minPara > minToCheckParagraph.get(1)) {
+            minToCheckParagraph.set(1, minPara);
           }
-          textLevelRules.get(0).add(ruleId);
+        } else if (minPara > 0) {
+          textLevelRules.get(1).add(ruleId);
+          if (minPara > minToCheckParagraph.get(1)) {
+            minToCheckParagraph.set(1, minPara);
+          }
+        } else if (minPara == -2 && numParasToCheck == -2) {
+          textLevelRules.get(3).add(ruleId);
+        } else {
+          textLevelRules.get(2).add(ruleId);
         }
       }
     }

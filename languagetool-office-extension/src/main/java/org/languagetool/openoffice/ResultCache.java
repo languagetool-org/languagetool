@@ -40,7 +40,7 @@ import com.sun.star.linguistic2.SingleProofreadingError;
 class ResultCache implements Serializable {
 
   private static final long serialVersionUID = 1L;
-  private Map<Integer, CacheSentenceEntries> entries;
+  private Map<Integer, CacheEntry> entries;
 
   ResultCache() {
     this(null);
@@ -52,16 +52,6 @@ class ResultCache implements Serializable {
       synchronized(cache.entries) {
         this.entries.putAll(cache.entries);
       }
-    }
-  }
-
-  /**
-   * Remove a cache entry for a sentence
-   */
-  void remove(int numberOfParagraph, int startOfSentencePosition) {
-    CacheSentenceEntries sentenceEntries = entries.get(numberOfParagraph);
-    if (sentenceEntries != null) {
-      sentenceEntries.remove(startOfSentencePosition);
     }
   }
 
@@ -90,7 +80,7 @@ class ResultCache implements Serializable {
       entries.remove(i);
     }
     
-    Map<Integer, CacheSentenceEntries> tmpEntries = entries;
+    Map<Integer, CacheEntry> tmpEntries = entries;
     entries = Collections.synchronizedMap(new HashMap<>());
     synchronized (tmpEntries) {
       for (int i : tmpEntries.keySet()) {
@@ -106,20 +96,15 @@ class ResultCache implements Serializable {
   /**
    * add or replace a cache entry
    */
-  void put(int numberOfParagraph, int startOfSentencePosition, int nextSentencePosition, SingleProofreadingError[] errorArray) {
-    CacheSentenceEntries sentenceEntries = entries.get(numberOfParagraph);
-    if (sentenceEntries == null) {
-      entries.put(numberOfParagraph, new CacheSentenceEntries(startOfSentencePosition, nextSentencePosition, errorArray));
-    } else {
-      sentenceEntries.put(startOfSentencePosition, nextSentencePosition, errorArray);
-    }
+  void put(int numberOfParagraph, List<Integer> nextSentencePositions, SingleProofreadingError[] errorArray) {
+    entries.put(numberOfParagraph, new CacheEntry(nextSentencePositions, errorArray));
   }
 
   /**
    * add or replace a cache entry for paragraph
    */
   void put(int numberOfParagraph, SingleProofreadingError[] errorArray) {
-    entries.put(numberOfParagraph, new CacheSentenceEntries(0, 0, errorArray));
+    entries.put(numberOfParagraph, new CacheEntry(null, errorArray));
   }
 
   /**
@@ -130,43 +115,55 @@ class ResultCache implements Serializable {
   }
 
   /**
-   * get Proofreading errors from cache
+   * get cache entry of paragraph
    */
-  SingleProofreadingError[] getMatches(int numberOfParagraph, int startOfSentencePosition) {
-    CacheSentenceEntries sentenceEntries = entries.get(numberOfParagraph);
-    if (sentenceEntries == null) {
-      return null;
-    }
-    return sentenceEntries.getErrorArray(startOfSentencePosition);
+  CacheEntry getCacheEntry(int numberOfParagraph) {
+    return entries.get(numberOfParagraph);
   }
 
   /**
-   * get all Proofreading errors of on paragraph from cache
+   * get Proofreading errors of on paragraph from cache
    */
   SingleProofreadingError[] getMatches(int numberOfParagraph) {
-    CacheSentenceEntries sentenceEntries = entries.get(numberOfParagraph);
-    if (sentenceEntries == null) {
+    CacheEntry entry = getCacheEntry(numberOfParagraph);
+    if (entry == null) {
       return null;
     }
-    List<SingleProofreadingError> allErrors = new ArrayList<>();
-    for (int pos : sentenceEntries.keySet()) {
-      SingleProofreadingError[] errors = sentenceEntries.getErrorArray(pos);
-      for (SingleProofreadingError error : errors) {
-        allErrors.add(error);
-      }
+    return entries.get(numberOfParagraph).getErrorArray();
+  }
+
+  /**
+   * get start sentence position from cache
+   */
+  int getStartSentencePosition(int numberOfParagraph, int sentencePosition) {
+    List<Integer> nextSentencePositions = entries.get(numberOfParagraph).nextSentencePositions;
+    if (nextSentencePositions == null || nextSentencePositions.size() < 2) {
+      return 0;
     }
-    return allErrors.toArray(new SingleProofreadingError[0]);
+    int startPosition = 0;
+    for (int position : nextSentencePositions) {
+      if (position >= sentencePosition) {
+        return position == sentencePosition ? position : startPosition;
+      }
+      startPosition = position;
+    }
+    return nextSentencePositions.get(nextSentencePositions.size() - 2);
   }
 
   /**
    * get next sentence position from cache
    */
-  int getNextSentencePosition(int numberOfParagraph, int startOfSentencePosition) {
-    CacheSentenceEntries sentenceEntries = entries.get(numberOfParagraph);
-    if (sentenceEntries == null) {
-      return -1;
+  int getNextSentencePosition(int numberOfParagraph, int sentencePosition) {
+    List<Integer> nextSentencePositions = entries.get(numberOfParagraph).nextSentencePositions;
+    if (nextSentencePositions == null || nextSentencePositions.size() == 0) {
+      return 0;
     }
-    return sentenceEntries.getNextSentencePosition(startOfSentencePosition);
+    for (int position : nextSentencePositions) {
+      if (position > sentencePosition) {
+        return position;
+      }
+    }
+    return nextSentencePositions.get(nextSentencePositions.size() - 1);
   }
 
   /**
@@ -174,54 +171,43 @@ class ResultCache implements Serializable {
    */
   SingleProofreadingError[] getFromPara(int numberOfParagraph,
                                         int startOfSentencePosition, int endOfSentencePosition) {
-    CacheSentenceEntries sentenceEntries = entries.get(numberOfParagraph);
-    if (sentenceEntries == null) {
+    CacheEntry entry = entries.get(numberOfParagraph);
+    if (entry == null) {
       return null;
     }
     List<SingleProofreadingError> errorList = new ArrayList<>();
-    for (int i : sentenceEntries.keySet()) {
-      for (SingleProofreadingError eArray : sentenceEntries.getErrorArray(i)) {
-        if (eArray.nErrorStart >= startOfSentencePosition && eArray.nErrorStart < endOfSentencePosition) {
-          errorList.add(eArray);
-        }
+    for (SingleProofreadingError eArray : entry.getErrorArray()) {
+      if (eArray.nErrorStart >= startOfSentencePosition && eArray.nErrorStart < endOfSentencePosition) {
+        errorList.add(eArray);
       }
     }
     return errorList.toArray(new SingleProofreadingError[0]);
   }
 
   /**
-   * get an ResultCache entry by the number of paragraph
-   */
-  CacheSentenceEntries getEntryByParagraph(int numberOfParagraph) {
-    return entries.get(numberOfParagraph);
-  }
-
-  /**
    * Compares to Entries
    * true if the both entries are identically
    */
-  private boolean areDifferentEntries(CacheSentenceEntries newEntries, CacheSentenceEntries oldEntries) {
-    if (newEntries == null || oldEntries == null || newEntries.size() != oldEntries.size()) {
+  private boolean areDifferentEntries(CacheEntry newEntries, CacheEntry oldEntries) {
+    if (newEntries == null || oldEntries == null) {
       return true;
     }
-    for (int startSentence : newEntries.keySet()) {
-      SingleProofreadingError[] oldErrorArray = oldEntries.getErrorArray(startSentence);
-      SingleProofreadingError[] newErrorArray = newEntries.getErrorArray(startSentence);
-      if (oldErrorArray == null || newErrorArray == null || oldErrorArray.length != newErrorArray.length) {
-        return true;
+    SingleProofreadingError[] oldErrorArray = oldEntries.getErrorArray();
+    SingleProofreadingError[] newErrorArray = newEntries.getErrorArray();
+    if (oldErrorArray == null || newErrorArray == null || oldErrorArray.length != newErrorArray.length) {
+      return true;
+    }
+    for (SingleProofreadingError nError : newErrorArray) {
+      boolean found = false;
+      for (SingleProofreadingError oError : oldErrorArray) {
+        if (nError.nErrorStart == oError.nErrorStart && nError.nErrorLength == oError.nErrorLength
+                && nError.aRuleIdentifier.equals(oError.aRuleIdentifier)) {
+          found = true;
+          break;
+        }
       }
-      for (SingleProofreadingError nError : newErrorArray) {
-        boolean found = false;
-        for (SingleProofreadingError oError : oldErrorArray) {
-          if (nError.nErrorStart == oError.nErrorStart && nError.nErrorLength == oError.nErrorLength
-                  && nError.aRuleIdentifier.equals(oError.aRuleIdentifier)) {
-            found = true;
-            break;
-          }
-        }
-        if (!found) {
-          return true;
-        }
+      if (!found) {
+        return true;
       }
     }
     return false;
@@ -233,15 +219,15 @@ class ResultCache implements Serializable {
    */
   List<Integer> differenceInCaches(ResultCache oldCache) {
     List<Integer> differentParas = new ArrayList<>();
-    CacheSentenceEntries oEntry;
-    CacheSentenceEntries nEntry;
+    CacheEntry oEntry;
+    CacheEntry nEntry;
     boolean isDifferent = true;
     synchronized(entries) {
       Set<Integer> entrySet = new HashSet<>(entries.keySet());
       for (int nPara : entrySet) {
         if (oldCache != null) {
           nEntry = entries.get(nPara);
-          oEntry = oldCache.getEntryByParagraph(nPara);
+          oEntry = oldCache.getCacheEntry(nPara);
           isDifferent = areDifferentEntries(nEntry, oEntry);
         }
         if (isDifferent) {
@@ -263,11 +249,7 @@ class ResultCache implements Serializable {
    * get number of entries
    */
   int getNumberOfEntries() {
-    int number = 0;
-    for (int n : entries.keySet()) {
-      number += entries.get(n).size();
-    }
-    return number;
+    return entries.size();
   }
 
   /**
@@ -276,7 +258,7 @@ class ResultCache implements Serializable {
   int getNumberOfMatches() {
     int number = 0;
     for (int n : entries.keySet()) {
-      number += entries.get(n).getNumberOfMatches();
+      number += entries.get(n).errorArray.length;
     }
     return number;
   }
@@ -287,204 +269,126 @@ class ResultCache implements Serializable {
    * if there are more than one that begins at the same position return the one with the smallest size
    */
   SingleProofreadingError getErrorAtPosition(int numPara, int numChar) {
-    CacheSentenceEntries sentenceEntries = entries.get(numPara);
-    if (sentenceEntries == null) {
+    CacheEntry entry = entries.get(numPara);
+    if (entry == null) {
       return null;
     }
     SingleProofreadingError error = null;
-    for (int sentenceStart : sentenceEntries.keySet()) {
-      int sentenceNext = sentenceEntries.getNextSentencePosition(sentenceStart);
-      if (sentenceStart <= numChar &&  (sentenceNext == 0 || sentenceNext >= numChar)) {
-        for (SingleProofreadingError err : sentenceEntries.getErrorArray(sentenceStart)) {
-          if (numChar >= err.nErrorStart && numChar <= err.nErrorStart + err.nErrorLength) {
-            if (error == null || error.nErrorStart < err.nErrorStart
-                || (error.nErrorStart == err.nErrorStart && error.nErrorLength > err.nErrorLength)) {
-              error = err;
-            } 
-          }
-        }
+    for (SingleProofreadingError err : entry.getErrorArray()) {
+      if (numChar >= err.nErrorStart && numChar <= err.nErrorStart + err.nErrorLength) {
+        if (error == null || error.nErrorStart < err.nErrorStart
+            || (error.nErrorStart == err.nErrorStart && error.nErrorLength > err.nErrorLength)) {
+          error = err;
+        } 
       }
     }
     return error;
   }
 
   /**
-   * Class to store and handle cache entries for single sentences
+   * Class of serializable cache entries
    */
-  static class CacheSentenceEntries implements Serializable {
+  private class CacheEntry implements Serializable {
+    private static final long serialVersionUID = 2L;
+    final SerialProofreadingError[] errorArray;
+    List<Integer> nextSentencePositions = null;
 
-    private static final long serialVersionUID = 1L;
-    private Map<Integer, CacheEntry> sentenceEntry;
-
-    CacheSentenceEntries() {
-      sentenceEntry = new HashMap<>();
-    }
-    
-    CacheSentenceEntries(int startOfSentencePosition, int nextSentencePosition, SingleProofreadingError[] errorArray) {
-      sentenceEntry = new HashMap<>();
-      sentenceEntry.put(startOfSentencePosition, new CacheEntry(nextSentencePosition, errorArray));
-    }
-    
-    /**
-     * Remove a entry identified by start position of sentence
-     */
-    void remove(int startOfSentencePosition) {
-      sentenceEntry.remove(startOfSentencePosition);
-    }
-    
-    /**
-     * add or replace a entry identified by start position of sentence
-     */
-    void put(int startOfSentencePosition, int nextSentencePosition, SingleProofreadingError[] errorArray) {
-      sentenceEntry.put(startOfSentencePosition, new CacheEntry(nextSentencePosition, errorArray));
-    }
-    
-    /**
-     * Get all start positions of sentence
-     */
-    Set<Integer> keySet() {
-      return sentenceEntry.keySet();
-    }
-    
-    /**
-     * Get number of entries
-     */
-    int size() {
-      return sentenceEntry.size();
-    }
-
-    /**
-     * Get number of matches in all entries
-     */
-    int getNumberOfMatches() {
-      int number = 0;
-      for (int n : sentenceEntry.keySet()) {
-        number += sentenceEntry.get(n).errorArray.length;
+    CacheEntry(List<Integer> nextSentencePositions, SingleProofreadingError[] sErrorArray) {
+      if (nextSentencePositions != null) {
+        this.nextSentencePositions = new ArrayList<Integer>(nextSentencePositions);
       }
-      return number;
+      this.errorArray = new SerialProofreadingError[sErrorArray.length];
+      for (int i = 0; i < sErrorArray.length; i++) {
+        this.errorArray[i] = new SerialProofreadingError(sErrorArray[i]);
+      }
     }
     
     /**
-     * Get an error array for one entry
+     * Get an SingleProofreadingError array for one entry
      */
-    SingleProofreadingError[] getErrorArray(int startOfSentencePosition) {
-      CacheEntry entry = sentenceEntry.get(startOfSentencePosition);
-      if (entry == null) {
-        return null;
-      }
-      SingleProofreadingError[] eArray = new SingleProofreadingError[entry.errorArray.length];
-      for (int i = 0; i < entry.errorArray.length; i++) {
-        eArray[i] = entry.errorArray[i].toSingleProofreadingError();
+    SingleProofreadingError[] getErrorArray() {
+      SingleProofreadingError[] eArray = new SingleProofreadingError[errorArray.length];
+      for (int i = 0; i < errorArray.length; i++) {
+        eArray[i] = errorArray[i].toSingleProofreadingError();
       }
       return eArray;
     }
-    
-    /**
-     * Get the next start position from one start position
-     */
-    int getNextSentencePosition(int startOfSentencePosition) {
-      CacheEntry entry = sentenceEntry.get(startOfSentencePosition);
-      if (entry == null) {
-        return -1;
-      }
-      return entry.nextSentencePosition;
-    }
-    
-    /**
-     * Class of serializable cache entries
-     */
-    private class CacheEntry implements Serializable {
-      private static final long serialVersionUID = 1L;
-      final int nextSentencePosition;
-      final SerialProofreadingError[] errorArray;
+  }
+  
+  /**
+   * Class of serializable proofreading errors
+   */
+  class SerialProofreadingError implements Serializable {
 
-      CacheEntry(int nextSentencePosition, SingleProofreadingError[] sErrorArray) {
-        this.nextSentencePosition = nextSentencePosition;
-        this.errorArray = new SerialProofreadingError[sErrorArray.length];
-        for (int i = 0; i < sErrorArray.length; i++) {
-          this.errorArray[i] = new SerialProofreadingError(sErrorArray[i]);
+    private static final long serialVersionUID = 1L;
+    int nErrorStart;
+    int nErrorLength;
+    int nErrorType;
+    String aFullComment;
+    String aRuleIdentifier;
+    String aShortComment;
+    String[] aSuggestions;
+    SerialPropertyValue[] aProperties = null;
+    
+    SerialProofreadingError(SingleProofreadingError error) {
+      nErrorStart = error.nErrorStart;
+      nErrorLength = error.nErrorLength;
+      nErrorType = error.nErrorType;
+      aFullComment = error.aFullComment;
+      aRuleIdentifier = error.aRuleIdentifier;
+      aShortComment = error.aShortComment;
+      aSuggestions = error.aSuggestions;
+      if (error.aProperties != null) {
+        aProperties = new SerialPropertyValue[error.aProperties.length];
+        for (int i = 0; i < error.aProperties.length; i++) {
+          aProperties[i] = new SerialPropertyValue(error.aProperties[i]);
         }
       }
     }
     
-    /**
-     * Class of serializable proofreading errors
-     */
-    class SerialProofreadingError implements Serializable {
+    SingleProofreadingError toSingleProofreadingError () {
+      SingleProofreadingError error = new SingleProofreadingError();
+      error.nErrorStart = nErrorStart;
+      error.nErrorLength = nErrorLength;
+      error.nErrorType = nErrorType;
+      error.aFullComment = aFullComment;
+      error.aRuleIdentifier = aRuleIdentifier;
+      error.aShortComment = aShortComment;
+      error.aSuggestions = aSuggestions;
+      if (aProperties != null) {
+        error.aProperties = new PropertyValue[aProperties.length];
+        for (int i = 0; i < aProperties.length; i++) {
+          error.aProperties[i] = aProperties[i].toPropertyValue();
+        }
+      } else {
+        error.aProperties = null;
+      }
+      return error;
+    }
+  }
+  
+  /**
+   * Class of serializable property values
+   */
+  class SerialPropertyValue implements Serializable {
 
-      private static final long serialVersionUID = 1L;
-      int nErrorStart;
-      int nErrorLength;
-      int nErrorType;
-      String aFullComment;
-      String aRuleIdentifier;
-      String aShortComment;
-      String[] aSuggestions;
-      SerialPropertyValue[] aProperties = null;
-      
-      SerialProofreadingError(SingleProofreadingError error) {
-        nErrorStart = error.nErrorStart;
-        nErrorLength = error.nErrorLength;
-        nErrorType = error.nErrorType;
-        aFullComment = error.aFullComment;
-        aRuleIdentifier = error.aRuleIdentifier;
-        aShortComment = error.aShortComment;
-        aSuggestions = error.aSuggestions;
-        if (error.aProperties != null) {
-          aProperties = new SerialPropertyValue[error.aProperties.length];
-          for (int i = 0; i < error.aProperties.length; i++) {
-            aProperties[i] = new SerialPropertyValue(error.aProperties[i]);
-          }
-        }
-      }
-      
-      SingleProofreadingError toSingleProofreadingError () {
-        SingleProofreadingError error = new SingleProofreadingError();
-        error.nErrorStart = nErrorStart;
-        error.nErrorLength = nErrorLength;
-        error.nErrorType = nErrorType;
-        error.aFullComment = aFullComment;
-        error.aRuleIdentifier = aRuleIdentifier;
-        error.aShortComment = aShortComment;
-        error.aSuggestions = aSuggestions;
-        if (aProperties != null) {
-          error.aProperties = new PropertyValue[aProperties.length];
-          for (int i = 0; i < aProperties.length; i++) {
-            error.aProperties[i] = aProperties[i].toPropertyValue();
-          }
-        } else {
-          error.aProperties = null;
-        }
-        return error;
-      }
-      
+    private static final long serialVersionUID = 1L;
+    String name;
+    Object value;
+    
+    SerialPropertyValue(PropertyValue properties) {
+      name = properties.Name;
+      value = properties.Value;
     }
     
-    /**
-     * Class of serializable property values
-     */
-    class SerialPropertyValue implements Serializable {
-
-      private static final long serialVersionUID = 1L;
-      String name;
-      Object value;
-      
-      SerialPropertyValue(PropertyValue properties) {
-        name = properties.Name;
-        value = properties.Value;
-      }
-      
-      PropertyValue toPropertyValue() {
-        PropertyValue properties = new PropertyValue();
-        properties.Name = name;
-        properties.Value = value;
-        properties.Handle = -1;
-        properties.State = PropertyState.DIRECT_VALUE;
-        return properties;
-      }
-      
+    PropertyValue toPropertyValue() {
+      PropertyValue properties = new PropertyValue();
+      properties.Name = name;
+      properties.Value = value;
+      properties.Handle = -1;
+      properties.State = PropertyState.DIRECT_VALUE;
+      return properties;
     }
-
   }
 
-} 
+}

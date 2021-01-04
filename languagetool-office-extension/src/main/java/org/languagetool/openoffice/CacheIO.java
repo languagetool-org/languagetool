@@ -170,7 +170,7 @@ public class CacheIO implements Serializable {
   /**
    * save all caches if the document exceeds the defined minimum of paragraphs
    */
-  public void saveCaches(XComponent xComponent, DocumentCache docCache, ResultCache sentencesCache, List<ResultCache> paragraphsCache,
+  public void saveCaches(XComponent xComponent, DocumentCache docCache, List<ResultCache> paragraphsCache,
       Configuration config, MultiDocumentsHandler mDocHandler) {
     String cachePath = getCachePath(true);
     if (cachePath != null) {
@@ -180,7 +180,7 @@ public class CacheIO implements Serializable {
           for (String ruleId : mDocHandler.getDisabledRules()) {
             disabledRuleIds.add(ruleId);
           }
-          allCaches = new AllCaches(docCache, sentencesCache, paragraphsCache, 
+          allCaches = new AllCaches(docCache, paragraphsCache, 
               disabledRuleIds, config.getDisabledCategoryNames(), config.getEnabledRuleIds(), JLanguageTool.VERSION);
           saveAllCaches(cachePath);
         } else {
@@ -275,13 +275,6 @@ public class CacheIO implements Serializable {
   }
   
   /**
-   * get sentences cache (results for check of sentences)
-   */
-  public ResultCache getSentencesCache() {
-    return allCaches.sentencesCache;
-  }
-  
-  /**
    * get paragraph caches (results for check of paragraphes)
    */
   public List<ResultCache> getParagraphsCache() {
@@ -300,8 +293,6 @@ public class CacheIO implements Serializable {
    */
   private void printCacheInfo() {
     MessageHandler.printToLogFile("Document Cache: Number of paragraphs: " + allCaches.docCache.size());
-    MessageHandler.printToLogFile("Sentences Cache: Number of paragraphs: " + allCaches.sentencesCache.getNumberOfParas() 
-        + ", Number of matches: " + allCaches.sentencesCache.getNumberOfMatches());
     MessageHandler.printToLogFile("Paragraph Cache(0): Number of paragraphs: " + allCaches.paragraphsCache.get(0).getNumberOfParas() 
         + ", Number of matches: " + allCaches.paragraphsCache.get(0).getNumberOfMatches());
     MessageHandler.printToLogFile("Paragraph Cache(1): Number of paragraphs: " + allCaches.paragraphsCache.get(1).getNumberOfParas() 
@@ -310,20 +301,20 @@ public class CacheIO implements Serializable {
       MessageHandler.printToLogFile("allCaches.docCache.getFlatParagraphLocale(" + n + "): " 
             + (allCaches.docCache.getFlatParagraphLocale(n) == null ? "null" : OfficeTools.localeToString(allCaches.docCache.getFlatParagraphLocale(n))));
     }
-    if (allCaches.sentencesCache == null) {
-      MessageHandler.printToLogFile("sentencesCache == null");
+    if (allCaches.paragraphsCache.get(0) == null) {
+      MessageHandler.printToLogFile("paragraphsCache(0) == null");
     } else {
-      if (allCaches.sentencesCache.getNumberOfMatches() > 0) {
-        for (int n = 0; n < allCaches.sentencesCache.getNumberOfParas(); n++) {
-          if (allCaches.sentencesCache.getMatches(n) == null) {
+      if (allCaches.paragraphsCache.get(0).getNumberOfMatches() > 0) {
+        for (int n = 0; n < allCaches.paragraphsCache.get(0).getNumberOfParas(); n++) {
+          if (allCaches.paragraphsCache.get(0).getMatches(n) == null) {
             MessageHandler.printToLogFile("allCaches.sentencesCache.getMatches(" + n + ") == null");
           } else {
-            if (allCaches.sentencesCache.getMatches(n).length > 0) {
+            if (allCaches.paragraphsCache.get(0).getMatches(n).length > 0) {
               MessageHandler.printToLogFile("Paragraph " + n + " sentence match[0]: " 
-                  + "nStart = " + allCaches.sentencesCache.getMatches(n)[0].nErrorStart 
-                  + ", nLength = " + allCaches.sentencesCache.getMatches(n)[0].nErrorLength
+                  + "nStart = " + allCaches.paragraphsCache.get(0).getMatches(n)[0].nErrorStart 
+                  + ", nLength = " + allCaches.paragraphsCache.get(0).getMatches(n)[0].nErrorLength
                   + ", errorID = " 
-                  + (allCaches.sentencesCache.getMatches(n)[0].aRuleIdentifier == null ? "null" : allCaches.sentencesCache.getMatches(n)[0].aRuleIdentifier));
+                  + (allCaches.paragraphsCache.get(0).getMatches(n)[0].aRuleIdentifier == null ? "null" : allCaches.paragraphsCache.get(0).getMatches(n)[0].aRuleIdentifier));
             }
           }
         }
@@ -333,20 +324,18 @@ public class CacheIO implements Serializable {
 
   class AllCaches implements Serializable {
 
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 3L;
 
     DocumentCache docCache;                 //  cache of paragraphs
-    ResultCache sentencesCache;             //  Cache for matches of sentences rules
     List<ResultCache> paragraphsCache;      //  Cache for matches of text rules
     List<String> disabledRuleIds;
     List<String> disabledCategories;
     List<String> enabledRuleIds;
     String ltVersion;
     
-    AllCaches(DocumentCache docCache, ResultCache sentencesCache, List<ResultCache> paragraphsCache, 
+    AllCaches(DocumentCache docCache, List<ResultCache> paragraphsCache, 
         Set<String> disabledRuleIds, Set<String> disabledCategories, Set<String> enabledRuleIds, String ltVersion) {
       this.docCache = docCache;
-      this.sentencesCache = sentencesCache;
       this.paragraphsCache = paragraphsCache;
       this.disabledRuleIds = new ArrayList<String>();
       for (String ruleID : disabledRuleIds) {
