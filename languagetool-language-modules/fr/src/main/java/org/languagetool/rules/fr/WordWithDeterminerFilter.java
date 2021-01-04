@@ -29,7 +29,6 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.French;
-import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
@@ -51,11 +50,8 @@ public class WordWithDeterminerFilter extends RuleFilter {
   private static final Pattern WORD = Pattern.compile(wordRegexp);
 
   // 0=MS, 1=FS, 2=MP, 3=FP
-  private static final String[] wordGenderNumber = { "[NJ] (m|e) (s|sp)", "[NJ] (f|e) (s|sp)", "[NJ] (m|e) (p|sp)",
-      "[NJ] (f|e) (p|sp)" };
-  private static final String[] determinerGenderNumber = { "(P.)?D (m|e) (s|sp)", "(P.)?D (f|e) (s|sp)",
-      "(P.)?D (m|e) (p|sp)", "(P.)?D (f|e) (p|sp)" };;
-
+  private static final String[] GenderNumber = { "(m|e) (s|sp)", "(f|e) (s|sp)", "(m|e) (p|sp)", "(f|e) (p|sp)" };
+  private static final String determiner = "(P.)?D ";
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
@@ -86,16 +82,26 @@ public class WordWithDeterminerFilter extends RuleFilter {
     boolean isWordCapitalized = StringTools.isCapitalizedWord(atrWord.getToken());
     boolean isDeterminerAllupper = StringTools.isAllUppercase(atrDeterminer.getToken());
     boolean isWordAllupper = StringTools.isAllUppercase(atrWord.getToken());
-    
+
     AnalyzedToken atDeterminer = getAnalyzedToken(atrDeterminer, DETERMINER);
     AnalyzedToken atWord = getAnalyzedToken(atrWord, WORD);
+    boolean isNoun = atWord.getPOSTag().startsWith("N");
+    boolean isAdjective = atWord.getPOSTag().startsWith("J");
+    // boolean isParticiple = atWord.getPOSTag().startsWith("V");
+
+    String prefix = "[NJ] ";
+    if (isNoun && !isAdjective) {
+      prefix = "N ";
+    } else if (!isNoun && isAdjective) {
+      prefix = "J ";
+    }
 
     // synthesize all forms
     String[][] determinerForms = new String[4][];
     String[][] wordForms = new String[4][];
     for (int i = 0; i < 4; i++) {
-      determinerForms[i] = synth.synthesize(atDeterminer, determinerGenderNumber[i], true);
-      wordForms[i] = synth.synthesize(atWord, wordGenderNumber[i], true);
+      determinerForms[i] = synth.synthesize(atDeterminer, determiner + GenderNumber[i], true);
+      wordForms[i] = synth.synthesize(atWord, prefix + GenderNumber[i], true);
 
     }
 

@@ -1676,6 +1676,17 @@ RB => Règles Brutes
     <disambig action="filter"><match no="2" postag="[ZNJ].*" postag_regexp="yes"/></disambig>
   </rule>
 
+  <rulegroup id="UNUSUAL_ADJECTIVE" name="usually noun not adjective">
+    <rule>
+      <pattern>
+        <token postag="(P.)?D .*" postag_regexp="yes"/>
+        <marker>
+          <token postag="N .*" postag_regexp="yes" inflected="yes">café</token>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="J.*"/>
+    </rule>
+  </rulegroup>
   <rule name="Cela" id="CELA">
     <pattern>
       <marker>
