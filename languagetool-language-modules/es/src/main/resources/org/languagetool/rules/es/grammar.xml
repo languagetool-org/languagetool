@@ -7854,6 +7854,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Lo pasamos súper en la fiesta.</example>
             </rule>
             <rule>
+                <pattern>
+                    <token regexp="yes">súper|super</token>
+                    <token>-</token>
+                    <token regexp="yes">bien|bién</token>
+                </pattern>
+                <message>El prefijo 'super-' se escribe junto.</message>
+                <suggestion>superbién</suggestion>
+                <example correction="superbién">Lo ha hecho <marker>súper-bien</marker>.</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <token>súper</token>
                     <token>cercano</token>
