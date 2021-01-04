@@ -4971,7 +4971,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <pattern>
             <marker>
                 <and>
-                    <token postag="JJ.?|P?DT|PRP.?" postag_regexp="yes"/>
+                    <token postag="JJ.?|P?DT|PRP.?" postag_regexp="yes">
+                        <exception case_sensitive="yes">US</exception>
+                    </token>
                     <token postag="NN.*" postag_regexp="yes"/>
                 </and>
             </marker>
@@ -4987,6 +4989,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="red[red/JJ,red/NN:UN]" outputform="red[red/JJ]">I have a lot of <marker>red</marker> wine.</example>
         <example type="ambiguous" inputform="period[period/JJ,period/NN]" outputform="period[period/JJ]">This is a splendid collection of fine <marker>period</marker> furniture.</example>
         <example type="untouched">This is a nice machine.</example>
+        <example type="untouched">Earlier, at the AGM he said a few other US power producing majors have shown interest.</example>
         <example type="untouched">The important thing is not to win, but that the other loses.</example>
         <example type="untouched">Is much powerful and wondrous <marker>magic necessary for</marker> Harry Potter to fly?</example>
         <example type="untouched">The circus will come to <marker>town</marker> tomorrow.</example>

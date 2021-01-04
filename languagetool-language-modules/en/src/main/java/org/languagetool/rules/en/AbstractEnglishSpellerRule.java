@@ -162,6 +162,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("dis ") &&
                    !k.getReplacement().toLowerCase().startsWith("mono ") &&
                    !k.getReplacement().toLowerCase().startsWith("trans ") &&
+                   !k.getReplacement().toLowerCase().startsWith("neuro ") &&
                    !k.getReplacement().toLowerCase().startsWith("ultra ") &&
                    !k.getReplacement().toLowerCase().startsWith("mini ") &&
                    !k.getReplacement().toLowerCase().startsWith("hyper ") &&
@@ -196,6 +197,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" en") && // "Antwerpen" suggests "Antwerp en"
                    !k.getReplacement().endsWith(" ed") &&
                    !k.getReplacement().endsWith(" al") &&
+                   !k.getReplacement().endsWith(" ti") &&
                    !k.getReplacement().endsWith(" de") &&
                    !k.getReplacement().endsWith(" re") &&
                    !k.getReplacement().endsWith(" ma"))
@@ -327,6 +329,12 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Approvements", Arrays.asList("Approvals"));
     s.put("pro-bono", Arrays.asList("pro bono"));
     s.put("Pro-bono", Arrays.asList("Pro bono"));
+    s.put("probono", Arrays.asList("pro bono"));
+    s.put("Probono", Arrays.asList("Pro bono"));
+    s.put("pro-rata", Arrays.asList("pro rata"));
+    s.put("Pro-rata", Arrays.asList("Pro rata"));
+    s.put("prorata", Arrays.asList("pro rata"));
+    s.put("Prorata", Arrays.asList("Pro rata"));
     s.put("electronical", Arrays.asList("electronic", "electronically"));
     s.put("Electronical", Arrays.asList("Electronic", "Electronically"));
     s.put("unpolite", Arrays.asList("impolite"));
