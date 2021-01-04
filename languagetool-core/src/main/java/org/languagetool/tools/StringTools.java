@@ -548,4 +548,12 @@ public final class StringTools {
   public static String toId(String input) {
     return input.toUpperCase().replace(' ', '_').replace("'", "_Q_");
   }
+
+  /**
+   * Whether the string is camelCase. Works only with ASCII input and with single words.
+   * @since 5.3
+   */
+  public static boolean isCamelCase(String token) {
+    return token.matches("[a-z]+[A-Z][A-Za-z]+");
+  }
 }
