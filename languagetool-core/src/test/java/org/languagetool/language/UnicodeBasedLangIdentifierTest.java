@@ -34,6 +34,7 @@ public class UnicodeBasedLangIdentifierTest {
     String cjk = "[zh, ja]";
     String devanagari = "[hi, mr]";
     String thai = "[th]";
+    String hebrew = "[he]";
 
     assertThat(codes(""), is("[]"));
     assertThat(codes(" "), is("[]"));
@@ -91,6 +92,10 @@ public class UnicodeBasedLangIdentifierTest {
     // Thai:
     assertThat(codes("ลินุกซ์ (อังกฤษ: Linux) และรู้จักในชื่อ กะนู/ลินุกซ์"), is(thai));
     assertThat(codes("ลินุกซ์มีสัญญาอนุญาตแบบ GPL ซึ่งเป็นสัญญาอนุญาตที่กำหนด"), is(thai));
+
+    // Hebrew:
+    assertThat(codes("לינוקס (באנגלית: Linux) היא משפחה של מערכות הפעלה המבוססות"), is(hebrew));
+    assertThat(codes("לינוקס היא דוגמה"), is(hebrew));
   }
 
   private String codes(String s) {

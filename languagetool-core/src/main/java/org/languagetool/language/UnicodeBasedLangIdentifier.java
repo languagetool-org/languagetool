@@ -48,6 +48,7 @@ class UnicodeBasedLangIdentifier {
     int greekChars = 0;
     int devanagariChars = 0;
     int thaiChars = 0;
+    int hebrewChars = 0;
     int significantChars = 0;
     for (int i = 0; i < Math.min(str.length(), maxCheckLength); i++) {
       int val = str.charAt(i);
@@ -82,6 +83,9 @@ class UnicodeBasedLangIdentifier {
       if (val >= 0x0E00 && val <= 0x0E7F) {
         thaiChars++;
       }
+      if (val >= 0x0590 && val <= 0x05FF || val >= 0xFB1D && val <= 0xFB40) {
+        hebrewChars++;
+      }
     }
     List<String> langCodes = new ArrayList<>();
     if ((float)arabicChars / significantChars >= THRESHOLD) {
@@ -113,6 +117,9 @@ class UnicodeBasedLangIdentifier {
     }
     if ((float)thaiChars / significantChars >= THRESHOLD) {
       langCodes.add("th");
+    }
+    if ((float)hebrewChars / significantChars >= THRESHOLD) {
+      langCodes.add("he");
     }
     //
     // NOTE: if you add languages here that LT doesn't support, also update LanguageIdentifier.detectLanguage()
