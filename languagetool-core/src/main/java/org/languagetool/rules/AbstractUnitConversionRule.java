@@ -223,7 +223,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
 
     addUnit("km", METRE, "km", 1e3, true);
     addUnit("m", METRE, "m",   1e0, true);
-    addUnit("dm", METRE, "dm", 1e-1,  false/*true*/); // Metric, but not commonly used
+    //addUnit("dm", METRE, "dm", 1e-1,  /*true*/); // Metric, but not commonly used
     addUnit("cm", METRE, "cm", 1e-2, true);
     addUnit("mm", METRE, "mm", 1e-3, true);
     addUnit("µm", METRE, "µm", 1e-6, true);
@@ -233,7 +233,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
     addUnit("ha", SQUARE_METRE, "ha", 1e4, true);
     addUnit("a", SQUARE_METRE, "a", 1e2, true);
     addUnit("km(?:\\^2|2|²)", SQUARE_METRE, "km²", 1e6, true);
-    addUnit("dm(?:\\^2|2|²)", SQUARE_METRE, "dm²", 1e-2,  false/*true*/); // Metric, but not commonly used
+    //addUnit("dm(?:\\^2|2|²)", SQUARE_METRE, "dm²", 1e-2,  false/*true*/); // Metric, but not commonly used
     addUnit("cm(?:\\^2|2|²)", SQUARE_METRE, "cm²", 1e-4, true);
     addUnit("mm(?:\\^2|2|²)", SQUARE_METRE, "mm²", 1e-6, true);
     addUnit("µm(?:\\^2|2|²)", SQUARE_METRE, "µm²", 1e-12, true);
@@ -251,7 +251,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
 
     addUnit("m(?:\\^3|3|³)", CUBIC_METRE, "m³", 1, true);
     addUnit("km(?:\\^3|3|³)", CUBIC_METRE, "km³", 1e9, true);
-    addUnit("dm(?:\\^3|3|³)", CUBIC_METRE, "dm³", 1e-3,  false/*true*/); // Metric, but not commonly used
+    //addUnit("dm(?:\\^3|3|³)", CUBIC_METRE, "dm³", 1e-3,  false/*true*/); // Metric, but not commonly used
     addUnit("cm(?:\\^3|3|³)", CUBIC_METRE, "cm³", 1e-6, true);
     addUnit("mm(?:\\^3|3|³)", CUBIC_METRE, "mm³", 1e-9, true);
     addUnit("µm(?:\\^3|3|³)", CUBIC_METRE, "µm³", 1e-18, true);
