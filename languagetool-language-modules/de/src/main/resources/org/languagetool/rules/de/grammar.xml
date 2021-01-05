@@ -43,7 +43,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY klamzu "\)|\}|\&rsqb;|&gt;">
     <!ENTITY klam "&klamauf;|&klamzu;">
     <!ENTITY alnum "&lsqb;0-9A-ZÄÖÜa-zäöüßáàâêéèëíìîïòóôõûçñšž&rsqb;">
-    <!ENTITY sometlds "com|de|net|edu|uk|org|info|nl|eu|cn|biz|at|ch|fr|tv|to|fm|es|it|gov|mil|mx|pt|dev|us|sg|me|io|app|shop|club|games|in|co|cloud|no|se|dk|ie|cc|tk|ai|au|nz|za|cm|ng|tw|jp|kg|ag|site|int|my|ir|pk|mobi|asia|hk|mz|xyz|design|ventures|services|cat|ly|name|world|online|consulting|digital">
+    <!ENTITY sometlds "com|de|net|edu|uk|org|info|nl|eu|cn|biz|at|ch|fr|tv|to|fm|es|it|gov|mil|mx|pt|dev|us|sg|me|io|app|shop|club|games|in|co|cloud|no|se|dk|ie|cc|tk|ai|au|nz|za|cm|ng|tw|jp|kg|ag|site|int|my|ir|pk|mobi|asia|hk|mz|xyz|design|ventures|services|cat|ly|name|world|online|consulting|digital|be|is|sex|web|lab">
 
     <!-- Error messages -->
     <!ENTITY gla "Bitte verwenden Sie in Abkürzungen umbruchgeschützte Leerzeichen.">
@@ -92,7 +92,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY seitewoerter ".*Buchs?|.*Lektüre|umblätter\w\w?|umgeblättert|umzublättern|(ge)?lesen|las(en)?|geschrieben|schreiben?">
     <!ENTITY saitewoerter "aufziehen|.*ontrabass(es)?|.*Bratsche|.*Cellos?|.*Harfen?|.*Geigen?|.*Gitarren?|.*Violas?|.*Violinen?|Klavier">
     <!ENTITY leidwoerter "Angst|Armut|Bevölkerung|Blut(vergießens?|vergiessens?)?|Einsamkeit|Elend|Entbehrung(en)?|Entsagung|Flüchtling(en?)?|Gewalt|Krankheit(en?)?|Mitleid|Not|Ohnmacht|Qual(en?)?|Schadens?|Schrecken|Unterdrückung|Vertreibung|Verzweiflung|Zerstörung(en?)?|Zivilbevölkerung|bitteres|endloses|ertragen|geschieht|geteiltes|psychisches|unendliches|unermessliches|unerträgliches|ungeheures|unsagbares|unsägliches|unvorstellbares|vermeidbares|verursacht|zugefügt">
-    <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|genau|laut|maximal|reichlich|täglich|traditionell|ursprünglich|weltweit|wenig|zusätzlich|gewöhnlich|voraussichtlich|gleichzeitig|zeitgleich|häufig|mehrheitlich|ungefähr|unter|zwischenzeitlich">
+    <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|wohl|genau|laut|maximal|reichlich|täglich|traditionell|ursprünglich|weltweit|wenig|zusätzlich|gewöhnlich|voraussichtlich|gleichzeitig|zeitgleich|häufig|mehrheitlich|ungefähr|unter|zwischenzeitlich">
     <!ENTITY meindein "&lsqb;mds&rsqb;ein|unser|euer|ihr">
     <!ENTITY verbendirekterede "be(fehlen|haupten)|denken|fragen|rufen|sagen|versichern|flüstern|sprechen|schreien|antworten|säuseln|flehen">
     <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend|ärgerlich|enttäuscht|genervt|empört|entrüstet|erbost">
@@ -9866,7 +9866,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>gesamt</token>
-                    <token regexp="yes">(kunst)?werk(es|s)?|bei?trags?|kosten|(verkaufs)?preis|umsatz(es)?|gewinns?|schule|schulden|volumen|bevölkerung|einkommens?|höhe|jahr(es|s)?|menge|paket(es|s)?|länge|situation|wert(es|s)?|fläche|schaden|produktion|gewicht(es|s)?|betriebsrat(es|s)?|unterricht(es|s)?|auflage|bild(es|s)?|eindruck(es|s)?|ergebnis(ses)?|erscheinung|interesse|wertung|mannschaft|zahl|vergrö(ß|ss)erung|budget</token>
+                    <token regexp="yes">(kunst)?werk(es|s)?|bei?trags?|kosten|(verkaufs)?preis|umsatz(es)?|gewinns?|schule|schulden|volumen|bevölkerung|einkommens?|höhe|jahr(es|s)?|menge|paket(es|s)?|länge|situation|wert(es|s)?|fläche|schaden|produktion|gewicht(es|s)?|betriebsrat(es|s)?|unterricht(es|s)?|auflage|bild(es|s)?|eindruck(es|s)?|ergebnis(ses)?|erscheinung|interesse|wertung|mannschaft|zahl|vergrö(ß|ss)erung|budget|(lauf)?leistung|niederschlags?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Gesamt<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Gesamtkunstwerk">Sie betrachtete das <marker>gesamt Kunstwerk</marker>.</example>
@@ -9874,7 +9874,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">gro(ß|ss)</token>
-                    <token regexp="yes">projekt(es|s)?|handels?|abnehmers?|events?|alarms?|andrang|angriff(es|s)?|auftrag(es|s)?|aufmarsch(es|s)?|konzerns?|betrieb(es|s)?|bildschirm(es|s)?|brand(es|s)?|cousin|cousine|einkauf(es|s)?|einsatz(es|s)?|eltern|onkels?|tante|enkels?|feuer|flugzeugs?|format(es|s)?|händlers?|kotz(es)?</token>
+                    <token regexp="yes">projekt(es|s)?|handels?|abnehmers?|events?|alarms?|andrang|angriff(es|s)?|auftrag(es|s)?|aufmarsch(es|s)?|konzerns?|betrieb(es|s)?|bildschirm(es|s)?|brand(es|s)?|cousin|cousine|einkauf(es|s)?|einsatz(es|s)?|eltern|onkels?|tante|enkels?|feuer|flugzeugs?|format(es|s)?|händlers?|kotz(es)?|erfolg(e|es)?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Groß<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Großabnehmer">Dank seines Erfolges war er ein <marker>groß Abnehmer</marker> für unsere Produkte.</example>
@@ -10850,7 +10850,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]{2,}(ung|schaft|sicht|heit|keit|ion|tät)s
-                    <exception regexp="yes">.+yungs|Jisungs|Reservations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
+                    <exception regexp="yes">.+yungs|Jisungs|Samsungs|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
                 </token>
                 <token postag=".*SUB.*" postag_regexp="yes" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]+
@@ -19877,6 +19877,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">(&sometlds;)-[A-ZÖÄÜ].+</token>
             </antipattern>
             <antipattern>
+                <token regexp="yes">[a-zäöü0-9\-]+</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no">&sometlds;</token>
+            </antipattern>
+            <antipattern>
                 <token>ver</token>
                 <token>.</token>
                 <token>di</token>
@@ -19936,7 +19941,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token spacebefore="yes" regexp="yes">u|usw|bzw|evtl|zb|eigtl|inkl|exkl</token>
+                    <token spacebefore="yes" regexp="yes">u|s|usw|bzw|evtl|zb|eigtl|inkl|exkl|ggf|ca|tägl|mögl|pers</token>
                     <token spacebefore="no">.</token>
                     <marker>
                         <token spacebefore="no" regexp="yes" case_sensitive="yes">
@@ -19960,9 +19965,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </token>
                     </marker>
                 </pattern>
-                <message>Beginnt hier ein neuer Satz? Dann bitte ein Leerzeichen einfügen und das erste Wort großschreiben.</message>
+                <message>Hier scheint ein Leerzeichen zu fehlen. Wenn ein neuer Satz beginnt, muss das Wort großgeschrieben werden.</message>
+                <suggestion> \3</suggestion>
                 <suggestion> <match no="3" case_conversion="startupper"/></suggestion>
-                <example correction=" Und">Das ist ein Satz.<marker>und</marker> das hier auch.</example>
+                <example correction=" und| Und">Das ist ein Satz.<marker>und</marker> das hier auch.</example>
                 <example>Die Datei bewertung.doc wurde aktualisiert.</example>
                 <example>Sofortkredit schon ab 1,59 Prozent p.a.</example>
                 <example>Wir versenden das Test-Kit i.d.R. in einer Woche.</example>
@@ -38716,6 +38722,12 @@ Andere Projekte</example>
                     <token>doppelt</token>
                     <token regexp="yes">Freude|Spa(ß|ss)</token>
                 </antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="-1">halten</token>
+                    <token>für</token>
+                    <token regexp="yes" skip="-1">vertretbar|möglich</token>
+                    <token>zu</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="PRP:.+" postag_regexp="yes"><exception regexp="yes">um|zu|als|seit</exception></token>
@@ -38745,6 +38757,7 @@ Andere Projekte</example>
                 <example>Er hat das Problem aus der Welt geschafft, ohne gleich Blut zu vergießen.</example>
                 <example>Ich habe seit eben Schluckauf.</example>
                 <example>Man hörte von fern Musik.</example>
+                <example>Dann halte ich es durchaus für vertretbar Gottesdienste zu veranstalten.</example>
                 <example>Auf gut Deutsch gesagt.</example>
                 <example>Eine Frau mit ordentlich Holz vor der Hütte.</example>
                 <example>Ich mache es, ohne ständig Anschiss zu bekommen.</example>
