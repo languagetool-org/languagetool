@@ -46,7 +46,7 @@ public class WordWithDeterminerFilter extends RuleFilter {
 
   private static final String determinerRegexp = "(P.)?D .*";
   private static final Pattern DETERMINER = Pattern.compile(determinerRegexp);
-  private static final String wordRegexp = "[NJ] .*|V.* ppa .*";
+  private static final String wordRegexp = "[ZNJ] .*|V.* ppa .*";
   private static final Pattern WORD = Pattern.compile(wordRegexp);
 
   // 0=MS, 1=FS, 2=MP, 3=FP
@@ -82,16 +82,19 @@ public class WordWithDeterminerFilter extends RuleFilter {
     boolean isWordCapitalized = StringTools.isCapitalizedWord(atrWord.getToken());
     boolean isDeterminerAllupper = StringTools.isAllUppercase(atrDeterminer.getToken());
     boolean isWordAllupper = StringTools.isAllUppercase(atrWord.getToken());
-
     AnalyzedToken atDeterminer = getAnalyzedToken(atrDeterminer, DETERMINER);
     AnalyzedToken atWord = getAnalyzedToken(atrWord, WORD);
-    boolean isNoun = atWord.getPOSTag().startsWith("N");
+    if (atWord == null || atDeterminer == null) {
+      throw new RuntimeException(
+          "Error analyzing sentence: '" + match.getSentence().getText() + "' with rule " + match.getRule().getFullId());
+    }
+    boolean isNoun = atWord.getPOSTag().startsWith("N") || atWord.getPOSTag().startsWith("Z");
     boolean isAdjective = atWord.getPOSTag().startsWith("J");
     // boolean isParticiple = atWord.getPOSTag().startsWith("V");
 
-    String prefix = "[NJ] ";
+    String prefix = "[ZNJ] ";
     if (isNoun && !isAdjective) {
-      prefix = "N ";
+      prefix = "[NZ] ";
     } else if (!isNoun && isAdjective) {
       prefix = "J ";
     }

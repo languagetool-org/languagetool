@@ -85,6 +85,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </unify>
         </antipattern>
         <antipattern>
+          <unify>
+            <feature id="number"/>
+            <feature id="gender"/>
+            <token postag="(P\+)?D .*" postag_regexp="yes"/>
+            <unify-ignore>
+              <token></token>
+              <token spacebefore="no">-</token>
+            </unify-ignore>
+            <token postag="[NJ] .*|V.* ppa" postag_regexp="yes" spacebefore="no"/>
+          </unify>
+        </antipattern>
+        <antipattern>
           <token postag="K"/>
           <token postag="K"/>
         </antipattern>
@@ -148,6 +160,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>De Tokyo et Kobe, laquelle est la plus grande ?</example>
         <example>Une personne sur dix est myope.</example>
         <example>sous le règne de Louis le Pieux</example>
+        <example>né au Carla-Bayle</example>
       </rule>
     </rulegroup>
   </category>
