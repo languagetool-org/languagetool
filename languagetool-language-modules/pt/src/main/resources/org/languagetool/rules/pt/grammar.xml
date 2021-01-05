@@ -12967,6 +12967,27 @@ Bom dia, Ana.
 	  <example type='correct'>Bom <marker>dia,</marker> Ana.</example>
     </rule>
 	  
+	<!-- ESPAÇO DELA QUANDO espaço dela, quando -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-05 (1-JAN-2021+)      -->
+<!--
+Posso vê-la no espaço dela, quando acabar a pandemia.
+-->		
+    <rule>
+      <pattern>
+		<token postag='NC.+' postag_regexp='yes'/>
+		<marker>
+			<token regexp='yes'>daquel[ae]s?|del[ae]s?|dest[ae]s?</token>
+		</marker>
+		<token postag='CS' postag_regexp='no'>
+			<exception postag_regexp='yes' postag='P.+|I'/>
+		</token>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\2,</suggestion>
+      <example correction="dela,">Posso vê-la no espaço <marker>dela</marker> quando acabar a pandemia.</example>
+	  <example type='correct'>Posso vê-la no espaço <marker>dela,</marker> quando acabar a pandemia.</example>
+    </rule>
+	
 	<!-- Fizeram hacking à tua conta Rui. > Fizeram hacking à tua conta, Rui. -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-16 (21-OCT-2020+)  *START*   -->
     <rule>
