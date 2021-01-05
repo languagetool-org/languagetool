@@ -49,6 +49,7 @@ class UnicodeBasedLangIdentifier {
     int devanagariChars = 0;
     int thaiChars = 0;
     int hebrewChars = 0;
+    int hangulChars = 0;
     int significantChars = 0;
     for (int i = 0; i < Math.min(str.length(), maxCheckLength); i++) {
       int val = str.charAt(i);
@@ -86,6 +87,13 @@ class UnicodeBasedLangIdentifier {
       if (val >= 0x0590 && val <= 0x05FF || val >= 0xFB1D && val <= 0xFB40) {
         hebrewChars++;
       }
+      if (val >= 0xAC00 && val <= 0xD7AF ||  // https://en.wikipedia.org/wiki/Hangul
+          val >= 0x1100 && val <= 0x11FF ||
+          val >= 0x3130 && val <= 0x318F ||
+          val >= 0xA960 && val <= 0xA97F ||
+          val >= 0xD7B0 && val <= 0xD7FF) {
+        hangulChars++;
+      }
     }
     List<String> langCodes = new ArrayList<>();
     if ((float)arabicChars / significantChars >= THRESHOLD) {
@@ -100,7 +108,7 @@ class UnicodeBasedLangIdentifier {
     if ((float)cjkChars / significantChars >= THRESHOLD) {
       langCodes.add("zh");
       langCodes.add("ja");
-      // Korean is not supported by LT, so we don't add it
+      // Korean: see hangulChars
     }
     if ((float)khmerChars / significantChars >= THRESHOLD) {
       langCodes.add("km");
@@ -121,6 +129,11 @@ class UnicodeBasedLangIdentifier {
     if ((float)hebrewChars / significantChars >= THRESHOLD) {
       langCodes.add("he");
     }
+    if ((float)hangulChars / significantChars >= THRESHOLD) {
+      langCodes.add("ko");
+    }
+    //System.out.println("CJK: " + cjkChars);
+    //System.out.println("Hangul: " + hangulChars);
     //
     // NOTE: if you add languages here that LT doesn't support, also update LanguageIdentifier.detectLanguage()
     //       so it makes use of the fact that we have safely detected a language by its character set
