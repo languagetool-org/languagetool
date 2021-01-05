@@ -1255,7 +1255,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="específica">Es una cuestión muy <marker>especifica</marker>.</example>
                 <example correction="crítica">Esto le trajo una dura <marker>critica</marker> al diario.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <or>
                         <token postag="V.[^NGP].*|SENT_START" postag_regexp="yes" skip="-1"><exception postag="_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/><exception postag="PR.*|PT.*|DT.*|DE.*|.*LOC_CONJ.*|C.|_loc_unavegada" postag_regexp="yes" scope="next"/><exception
@@ -6284,7 +6284,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="té">Tomaré el <marker>te</marker> de tu madre.</example>
                 <example reason="triggers another rule">El te lo quería explicar.</example>
             </rule>
-            <rule id="TE_TILDE2" name="te tilde (test)" default="temp_off">
+            <rule id="TE_TILDE2" name="te tilde (test)">
                 <antipattern>
                     <token>te</token>
                     <token postag="UNKNOWN|V.N.*|V.P.*|&pronombre_personal_atono_POS;" postag_regexp="yes"/>
@@ -13594,7 +13594,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
-        <rule id="SE_LO_ENTREGADA" name="se lo *entregada/entregara" default="temp_off">
+        <rule id="SE_LO_ENTREGADA" name="se lo *entregada/entregara">
             <pattern>
                 <token regexp="yes">me|te|se|nos|os</token>
                 <token regexp="yes">lo|la|le|los|las|les</token>
@@ -13825,7 +13825,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ve llegado su momento.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ESTAR_PARTICIPIO_GERUNDIO" name="confusión participio/gerundio" default="temp_off">
+        <rulegroup id="ESTAR_PARTICIPIO_GERUNDIO" name="confusión participio/gerundio">
             <rule>
                 <antipattern>
                     <token inflected="yes">haber</token>
