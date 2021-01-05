@@ -196,8 +196,8 @@ public class LanguageIdentifierTest {
     List<String> noop = Arrays.asList();
     ident.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
 
-    // neither en nor de, so we get null:
-    langAssert(null, "Зараз десь когось нема", ident, noop, enDePreferred);
+    // short, but has a specific character set that helps detection:
+    langAssert("uk", "Зараз десь когось нема", ident, noop, enDePreferred);
     // long enough to ignore the preferred languages:
     langAssert("da", "En to meter lang levende krokodille er blevet fundet i et drivhus i en have i Sveriges tredje største by", ident, noop, enDePreferred);
     langAssert("da", "Elektriske lamper, gemt bag et loft af mælkehvidt, gennemskinneligt glas, kastede et mildt lys på museets skatt", ident, noop, enDePreferred);
