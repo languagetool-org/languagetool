@@ -12973,10 +12973,27 @@ Bom dia, Ana.
 Posso vê-la no espaço dela, quando acabar a pandemia.
 -->		
     <rule>
-      <pattern>
+	  <antipattern>
 		<token postag='NC.+' postag_regexp='yes'/>
+		<token postag='NC.+' postag_regexp='yes'/>
+		<token regexp='yes'>dos?|porque</token>
+	  </antipattern>
+	  <antipattern>
+		<token postag='NC.+' postag_regexp='yes'/>
+		<token postag='NC.+' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'/>
+	  </antipattern>	  
+      <pattern>
+		<token postag='NC.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='RG|V.+|AQ.+|Z0.+'/>
+		</token>		
 		<marker>
-			<token regexp='yes'>daquel[ae]s?|del[ae]s?|dest[ae]s?</token>
+			<or>		
+				<token regexp='yes'>daquel[ae]s?|del[ae]s?|dest[ae]s?</token>
+				<token postag='NC.+' postag_regexp='yes'>
+					<exception postag_regexp='yes' postag='V.+|AQ.+|RN|RG'/>
+				</token>
+			</or>
 		</marker>
 		<token postag='CS' postag_regexp='no'>
 			<exception postag_regexp='yes' postag='P.+|I'/>
