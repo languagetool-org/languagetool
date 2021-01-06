@@ -457,7 +457,8 @@ public class English extends Language implements AutoCloseable {
       case "MORFOLOGIK_RULE_EN_NZ":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "TWO_CONNECTED_MODAL_VERBS": return -15;
-      case "WANT_TO_NN":                return -25; // prefer more specific rules (e.g. CONFUSION_RULE)
+      case "WANT_TO_NN":                return -25; // prefer more specific rules that give a suggestion
+      case "QUESTION_WITHOUT_VERB":     return -25; // prefer more specific rules that give a suggestion
       case "SENTENCE_FRAGMENT":         return -50; // prefer other more important sentence start corrections.
       case "SENTENCE_FRAGMENT_SINGLE_WORDS": return -51;  // prefer other more important sentence start corrections.
       case "EN_REDUNDANCY_REPLACE":     return -510;  // style rules should always have the lowest priority.
