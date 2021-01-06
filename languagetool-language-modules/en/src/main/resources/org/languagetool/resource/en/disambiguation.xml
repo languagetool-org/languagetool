@@ -310,6 +310,11 @@
     </rule>
 
     <rule id="DT_CD_VBP" name="Disambiguate verb">
+        <antipattern><!-- #3876 any one market they -->
+            <token regexp="yes">any|no</token>
+            <token regexp="yes">1|one</token>
+            <token chunk="E-NP-singular" postag="NN:UN"/>
+        </antipattern>
         <pattern>
             <token postag="DT"/>
             <token postag="CD"/>
@@ -322,6 +327,9 @@
             <token postag="PRP|NN[PS]?" postag_regexp="yes"></token>
         </pattern>
         <disambig action="remove" postag="NN:UN"/>
+        <example type="untouched">If one player has enough of a presence in any one <marker>market</marker> they can cause prices to move in their favor.</example><!-- #3876 -->
+        <example type="untouched">Although no 1 <marker>market</marker> he supplies is likely to predominate....</example><!-- #3876 -->
+        <example type="untouched">They proposed limiting the investment an employee can have in any one <marker>stock</marker> in their 401(k) to 20 percent.</example><!-- #3876 -->
         <example type="ambiguous" inputform="love[love/NN:UN,love/VB,love/VBP]" outputform="love[love/VB,love/VBP]">The two <marker>love</marker> you.</example>
     </rule>
 
