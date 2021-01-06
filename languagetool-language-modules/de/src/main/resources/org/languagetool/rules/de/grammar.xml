@@ -5064,6 +5064,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rulegroup id="GOTEN_GUTEN" name="Goten vs Guten" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">goten?</token>
+                    </marker>
+                    <token regexp="yes">nacht|morgen|abend|mittag|tag|feierabend|appetit|hunger</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>guten</suggestion>?</message>
+                <example correction="Guten"><marker>Goten</marker> Morgen Sonnenschein.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>alles</token>
+                    <marker>
+                        <token>gote</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>Gute</suggestion>?</message>
+                <example correction="Gute">Alles <marker>Gote</marker> zum Geburtstag.</example>
+            </rule>
+        </rulegroup>
         <rule id="RESOURCE_RESSOURCE" name="Ressource vs Resource">
             <pattern>
                 <token>Human</token>
@@ -8144,7 +8166,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="PROPER_NOUNS" name="Prominente/geographische Eigennamen">
         <!-- geographische Namen u. ä. -->
-        <rule id="ASTRA_ZENECA" name="AstraZeneca" default="temp_off">
+        <rule id="ASTRA_ZENECA" name="AstraZeneca">
             <pattern>
                 <token>astra</token>
                 <token>zeneca</token>
@@ -9864,9 +9886,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Originalrechnung">Sie hatte die <marker>original Rechnung</marker> nicht mehr, um das Produkt umzutauschen.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>gesamt</token>
+                    <token postag="VER:.*" postag_regexp="yes" regexp="yes">[a-z].*</token>
+                </antipattern>
                 <pattern>
                     <token>gesamt</token>
-                    <token regexp="yes">(kunst)?werk(es|s)?|bei?trags?|kosten|(verkaufs)?preis|umsatz(es)?|gewinns?|schule|schulden|volumen|bevölkerung|einkommens?|höhe|jahr(es|s)?|menge|paket(es|s)?|länge|situation|wert(es|s)?|fläche|schaden|produktion|gewicht(es|s)?|betriebsrat(es|s)?|unterricht(es|s)?|auflage|bild(es|s)?|eindruck(es|s)?|ergebnis(ses)?|erscheinung|interesse|wertung|mannschaft|zahl|vergrö(ß|ss)erung|budget|(lauf)?leistung|niederschlags?</token>
+                    <token regexp="yes">(kunst)?werk(es|s)?|bei?trags?|kosten|(verkaufs)?preis|umsatz(es)?|gewinns?|schule|schulden|volumen|bevölkerung|einkommens?|höhe|jahr(es|s)?|menge|paket(es|s)?|länge|situation|wert(es|s)?|fläche|schaden|produktion|gewicht(es|s)?|betriebsrat(es|s)?|unterricht(es|s)?|auflage|bild(es|s)?|eindruck(es|s)?|ergebnis(ses)?|erscheinung|interesse|wertung|mannschaft|zahl|vergrö(ß|ss)erung|budget|(lauf)?leistung|niederschlags?|ausgaben|einnahmen</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Gesamt<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Gesamtkunstwerk">Sie betrachtete das <marker>gesamt Kunstwerk</marker>.</example>
@@ -19867,6 +19893,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">Straßen|Strassen</token>
                 <token>.</token>
                 <token>NRW</token>
+            </antipattern>
+            <antipattern><!-- JS code -->
+                <token case_sensitive="yes" regexp="yes">window|location|history</token>
+                <token>.</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes" case_sensitive="yes">.*[a-zöäüß]$</token>
