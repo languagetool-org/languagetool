@@ -63,6 +63,7 @@ public class WordListValidatorTest {
           "Łukasz",
           "Čakavian",
           "Erdoğan",
+          "Rădulescu",
           "Štokavian",
           "Veliko Tărnovo",
           "Brāhmaṇa",
