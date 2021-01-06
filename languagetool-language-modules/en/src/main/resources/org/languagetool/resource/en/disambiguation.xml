@@ -3692,6 +3692,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 </token>
             <token postag="NNP"/>
         </antipattern>
+        <antipattern>
+            <token case_sensitive="yes">To</token>
+            <token case_sensitive="yes" regexp="yes">Be|Say|Save|See|Tell</token>
+        </antipattern>
         <pattern case_sensitive="yes">
             <marker>
                 <and>
@@ -3701,13 +3705,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </marker>
             <token postag="NNP" regexp="yes">
                 \p{Lu}\p{Ll}+
-                <exception case_sensitive="yes" regexp="yes">Going|Tell|Save|Cant|In|Quick|See|Had</exception><!-- uncommon NNPs -->
+                <exception case_sensitive="yes" regexp="yes">Going|Tell|Save|Cant|In|Quick|See|Had|Be</exception><!-- uncommon NNPs -->
             </token>
         </pattern>
         <disambig postag="NNP"/>
         <example type="untouched">It is in many Caribbean and Latin American countries...</example>
         <example type="untouched">Be Guest Wordsmith for a week at A.Word.</example><!-- #2748 -->
         <example type="untouched">If You Just Had One Wish.</example><!-- #2748 -->
+        <example type="untouched">So You Want To Be Taoiseach.</example><!-- #2748 -->
         <example type="untouched">See Wikipedia for a list of TCP/UDP ports that are already used.</example><!-- #2748 -->
         <example type="ambiguous" inputform="Best[Best/NNP,best/NN:U,best/VB,best/VBP,good/JJS,well/JJS,well/RBS]" outputform="Best[Best/NNP]"><marker>Best</marker> Art Direction – Set Decoration</example>
     </rule>
@@ -4185,7 +4190,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <rule>
             <pattern>
                 <token>from</token>
-                <token postag="NN:UN"><exception>having</exception></token>
+                <token postag="NN:UN"><exception postag="VBG" /></token>
                 <token>to</token>
                 <marker>
                     <token postag="NN"/>
@@ -4193,6 +4198,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </pattern>
             <disambig postag="NN:UN"/>
             <example type="untouched">... and saved her from <marker>having to</marker> face justice by blackmailing his client Sir Joseph.</example>
+            <example type="untouched">What information are you wanting to get from trying to monitor in this way?</example>
         </rule>
     </rulegroup>
     <rulegroup name="from nose to tail" id="FROM_NOSE_TO_TAIL">
@@ -6699,6 +6705,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>to</token>
             <token postag="VBP" />
         </antipattern>
+        <antipattern>
+            <token regexp="yes" inflected="yes">want|like|love|try|need|have|hate</token>
+            <token>to</token>
+            <token regexp="yes">more|less|f[au]rther</token>
+            <token postag="VBP" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -8847,23 +8859,6 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </pattern>
             <disambig postag="JJR"/>
             <example type="ambiguous" inputform="Further[far/JJR,further/RB,further/VB,further/VBP]" outputform="Further[far/JJR]"><marker>Further</marker> Spanish attacks led by Hugo of Moncada in 1519 were harsh.</example>
-        </rule>
-
-        <rule id="FORWARD_RB" name="forward as adverb">
-          <antipattern>
-            <token postag="PCT" />
-            <token>forward</token>
-          </antipattern>
-          <pattern>
-            <token regexp="yes" inflected="yes" skip="3">pay|move|take|carry|look|put|drive|bring|push</token>
-            <marker>
-            <token postag="VB">forward</token>
-            </marker>
-          </pattern>
-          <disambig postag="RB"/>
-          <example type="untouched">She was a rude, forward child.</example>
-          <example type="untouched">If this looks ok, forward it on to Mike Grigsby.</example>
-          <example type="ambiguous" inputform="forward[forward/JJ,forward/NN,forward/RB,forward/VB,forward/VBP]" outputform="forward[forward/RB]">Push it <marker>forward</marker>!</example>
         </rule>
 
         <rule id="HOME_RB" name="home as adverb"> <!-- different taggers see 'home' differently here -->
@@ -13278,6 +13273,106 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 </marker>
             </pattern>
             <disambig action="remove"><wd pos="NN"/></disambig>
+        </rule>
+    </rulegroup>
+
+    <rulegroup id="FORWARD_RB" name="RB on 'forward'">
+        <rule>
+            <antipattern>
+                <token postag="PCT" />
+                <token>forward</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes" inflected="yes" skip="3">pay|move|take|carry|look|put|drive|bring|push</token>
+                <marker>
+                    <token postag="VB">forward</token>
+                </marker>
+            </pattern>
+            <disambig postag="RB"/>
+            <example type="untouched">She was a rude, forward child.</example>
+            <example type="untouched">If this looks ok, forward it on to Mike Grigsby.</example>
+            <example type="ambiguous" inputform="forward[forward/JJ,forward/NN,forward/RB,forward/VB,forward/VBP]" outputform="forward[forward/RB]">Push it <marker>forward</marker>!</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">lets|please</token>
+                <marker>
+                    <token>forward</token>
+                </marker>
+                <token chunk_re=".-NP.*" />
+            </pattern>
+            <disambig action="remove"><wd pos="RB"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="VB.*" postag_regexp="yes" chunk_re=".-VP" />
+                <token>to</token>
+                <marker>
+                    <token>forward</token>
+                </marker>
+                <token chunk_re=".-NP.*" />
+            </pattern>
+            <disambig action="remove"><wd pos="RB"/></disambig>
+        </rule>
+        <rule>
+            <antipattern>
+                <token chunk_re=".-VP" />
+                <token>you</token>
+                <token>forward</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">I|you|they|we</token>
+                <marker>
+                    <token>forward</token>
+                </marker>
+                <token chunk_re=".-NP.*" />
+            </pattern>
+            <disambig action="remove"><wd pos="RB"/></disambig>
+            <example type="untouched">I pushed you forward a lot.</example> 
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">I|you|they|we</token>
+                <token postag="RB" />
+                <marker>
+                    <token>forward</token>
+                </marker>
+                <token chunk_re=".-NP.*" />
+            </pattern>
+            <disambig action="remove"><wd pos="RB"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="MD" />
+                <marker>
+                    <token>forward</token>
+                </marker>
+                <token chunk_re=".-NP.*" />
+            </pattern>
+            <disambig action="remove"><wd pos="RB"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="MD" />
+                <token postag="RB" />
+                <marker>
+                    <token>forward</token>
+                </marker>
+                <token chunk_re=".-NP.*" />
+            </pattern>
+            <disambig action="remove"><wd pos="RB"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="MD" />
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+                <marker>
+                    <token>forward</token>
+                </marker>
+                <token chunk_re=".-NP.*" />
+            </pattern>
+            <disambig action="remove"><wd pos="RB"/></disambig>
         </rule>
     </rulegroup>
 </rules>
