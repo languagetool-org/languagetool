@@ -533,7 +533,14 @@ public class MultiDocumentsHandler {
         for (int i = 0; i < documents.size(); i++) {
           //  work around to compensate a bug at LO
           if (xComponent.equals(documents.get(i).getXComponent())) {
+            String oldDocId = documents.get(i).getDocID();
             documents.get(i).setDocID(docID);
+            MessageHandler.printToLogFile("Document ID corrected: old: " + oldDocId + ", new: " + docID);
+            if (useQueue && textLevelQueue != null) {
+              MessageHandler.printToLogFile("Interrupt text level queue for old document ID: " + oldDocId);
+              textLevelQueue.interruptCheck(oldDocId);
+              MessageHandler.printToLogFile("Interrupt done");
+            }
             return i;
           }
         }

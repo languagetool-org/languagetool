@@ -32,8 +32,6 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
-import org.languagetool.markup.AnnotatedText;
-import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.openoffice.TextLevelCheckQueue.QueueEntry;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
@@ -229,7 +227,7 @@ class SingleDocument {
    * and information for reason of proof (since LO 6.5)
    */
   private void getPropertyValues(PropertyValue[] propertyValues) {
-    footnotePositions = null;
+    footnotePositions = null;  // e.g. for LO/OO < 4.3 and the 'FootnotePositions' property
     proofInfo = OfficeTools.PROOFINFO_UNKNOWN;  //  OO and LO < 6.5 do not support ProofInfo
     for (PropertyValue propertyValue : propertyValues) {
       if ("FootnotePositions".equals(propertyValue.Name)) {
@@ -247,9 +245,11 @@ class SingleDocument {
         }
       }
     }
+/*  TODO: remove
     if (footnotePositions == null) {
       footnotePositions = new int[]{};  // e.g. for LO/OO < 4.3 and the 'FootnotePositions' property
     }
+*/
   }
   
   /**
@@ -468,15 +468,6 @@ class SingleDocument {
   }
 
   /**
-   * Fix numbers that are (probably) foot notes.
-   * See https://bugs.freedesktop.org/show_bug.cgi?id=69416
-   * public for test reasons
-   */
-  String cleanFootnotes(String paraText) {
-    return paraText.replaceAll("([^\\d][.!?])\\d ", "$1¹ ");
-  }
-  
-  /**
    * Search for Position of Paragraph
    * gives Back the Position of flat paragraph / -1 if Paragraph can not be found
    */
@@ -561,8 +552,7 @@ class SingleDocument {
     int nTPara = docCache.getNumberOfTextParagraph(nPara); 
     if (proofInfo == OfficeTools.PROOFINFO_MARK_PARAGRAPH) {
       if (nTPara < 0) {
-        docCache.setFlatParagraph(nPara, chPara, locale);
-        return nPara;
+        return getPosFromChangedPara(chPara, locale, nPara);
       }
     }
     String curFlatParaText = flatPara.getCurrentParaText();
@@ -877,36 +867,6 @@ class SingleDocument {
   }
 
   /**
-   * Annotate text
-   * Handling of footnotes etc.
-   */
-  AnnotatedText getAnnotatedText(String text, int[] footnotePos, int startPosition) {
-    AnnotatedTextBuilder annotations = new AnnotatedTextBuilder();
-    if (footnotePos.length == 0) {
-      annotations.addText(text);
-    } else {
-      boolean hasFootnote = false;
-      int lastPos = startPosition;
-      for (int i = 0; i < footnotePos.length && footnotePos[i] - startPosition < text.length(); i++) {
-        if (footnotePos[i] >= startPosition) {
-          if (footnotePos[i] > lastPos) {
-            annotations.addText(text.substring(lastPos - startPosition, footnotePos[i] - startPosition));
-          }
-          annotations.addMarkup(OfficeTools.ZERO_WIDTH_SPACE);
-          lastPos = footnotePos[i] + 1;
-          hasFootnote = true;
-        }
-      }
-      if (hasFootnote && lastPos < text.length()) {
-        annotations.addText(text.substring(lastPos - startPosition));
-      } else if (!hasFootnote) {
-        annotations.addText(text);
-      }
-    }
-    return annotations.build();
-  }
-
-  /**
    * Merge errors from different checks (paragraphs and sentences)
    */
   private SingleProofreadingError[] mergeErrors(List<SingleProofreadingError[]> pErrors, int nPara) {
@@ -971,9 +931,6 @@ class SingleDocument {
       for (int i = 0; i < minToCheckPara.size(); i++) {
         if (i == 0 || mDocHandler.isSortedRuleForIndex(i)) {
           int parasToCheck = minToCheckPara.get(i);
-//          if (numParasToCheck >= 0 && (parasToCheck < 0 || numParasToCheck < parasToCheck)) {
-//            parasToCheck = numParasToCheck;
-//          }
           defaultParaCheck = PARA_CHECK_DEFAULT;
           mDocHandler.activateTextRulesByIndex(i, langTool);
           if (debugMode > 1) {
@@ -1138,11 +1095,8 @@ class SingleDocument {
         return pErrors;
       }
       
-      String textToCheck;
       //  One paragraph check (set by options or proof of footnote, etc.)
       if (nPara < 0 || parasToCheck == 0) {
-        textToCheck = DocumentCache.fixLinebreak(cleanFootnotes(paraText));
-        AnnotatedText annotatedText = getAnnotatedText(textToCheck, footnotePos, 0);
         List<Integer> nextSentencePositions;
         if (langTool.isRemote()) {
           nextSentencePositions = new ArrayList<Integer>();
@@ -1150,7 +1104,7 @@ class SingleDocument {
         } else {
           nextSentencePositions = getNextSentencePositions(paraText, langTool);
         }
-        paragraphMatches = langTool.check(annotatedText, true, JLanguageTool.ParagraphHandling.NORMAL);
+        paragraphMatches = langTool.check(removeFootnotes(paraText, footnotePos), true, JLanguageTool.ParagraphHandling.NORMAL);
         if (paragraphMatches == null || paragraphMatches.isEmpty()) {
           paragraphsCache.get(cacheNum).put(nFPara, nextSentencePositions, new SingleProofreadingError[0]);
           if (debugMode > 1) {
@@ -1164,7 +1118,8 @@ class SingleDocument {
             if (toPos > paraText.length()) {
               toPos = paraText.length();
             }
-            errorList.add(createOOoError(myRuleMatch, 0, toPos, isIntern ? ' ' : paraText.charAt(toPos-1)));
+            errorList.add(correctRuleMatchWithFootnotes(
+                createOOoError(myRuleMatch, 0, toPos, isIntern ? ' ' : paraText.charAt(toPos-1)), 0, footnotePos));
           }
           if (!errorList.isEmpty()) {
             if (debugMode > 1) {
@@ -1233,10 +1188,12 @@ class SingleDocument {
       int endPara = docCache.getEndOfParaCheck(nTPara, parasToCheck, textIsChanged, useQueue);
       int startPos = docCache.getStartOfParagraph(startPara, nTPara, parasToCheck, textIsChanged);
       int endPos;
+      int footnotesBefore = 0;
       for (int i = startPara; i < endPara; i++) {
         if (useQueue && !isDialogRequest.contains(nFPara) && mDH.getTextLevelCheckQueue().isInterrupted()) {
           return;
         }
+        int[] footnotePos = docCache.getTextParagraphFootnotes(i);
         if (i < endPara - 1) {
           endPos = docCache.getStartOfParagraph(i + 1, nTPara, parasToCheck, textIsChanged);
         } else {
@@ -1257,7 +1214,9 @@ class SingleDocument {
             if (startErrPos >= startPos && startErrPos < endPos) {
               int toPos = docCache.getTextParagraph(i).length();
               if (toPos > 0) {
-                errorList.add(createOOoError(myRuleMatch, -textPos, toPos, isIntern ? ' ' : docCache.getTextParagraph(i).charAt(toPos-1)));
+                errorList.add(this.correctRuleMatchWithFootnotes(
+                    createOOoError(myRuleMatch, -textPos, toPos, isIntern ? ' ' : docCache.getTextParagraph(i).charAt(toPos-1)),
+                      footnotesBefore, footnotePos));
               }
             }
           }
@@ -1277,6 +1236,7 @@ class SingleDocument {
           }
         }
         startPos = endPos;
+        footnotesBefore += footnotePos.length;
       }
       if (useQueue && !isDialogRequest.contains(nFPara)) {
         if (mDH.getTextLevelCheckQueue().isInterrupted()) {
@@ -1440,44 +1400,47 @@ class SingleDocument {
   }
   
   /**
-   * class to get a sentence out of a paragraph by using LanguageTool tokenization
+   * Fix numbers that are (probably) foot notes.
+   * See https://bugs.freedesktop.org/show_bug.cgi?id=69416
+   * public for test reasons
    */
-/*  TODO: remove unused class  
-  private class SentenceFromPara {
-    private int position;
-    private String str;
-
-    SentenceFromPara(String paraText, int startPos, SwJLanguageTool langTool) {
-      List<String> tokenizedSentences = langTool.sentenceTokenize(cleanFootnotes(paraText));
-      if (!tokenizedSentences.isEmpty()) {
-        int i = 0;
-        int index = -1;
-        while (index < startPos && i < tokenizedSentences.size()) {
-          index += tokenizedSentences.get(i).length();
-          if (index < startPos) {
-            i++;
-          }
-        }
-        position = index + 1;
-        if (i < tokenizedSentences.size()) {
-          position -= tokenizedSentences.get(i).length();
-          str = tokenizedSentences.get(i);
-        } else {
-          str = "";
-        }
-      } else {
-        position = 0;
-        str = "";
+  static String cleanFootnotes(String paraText) {
+    return paraText.replaceAll("([^\\d][.!?])\\d ", "$1¹ ");
+  }
+  
+  /**
+   * Remove footnotes from paraText
+   * run cleanFootnotes if information about footnotes are not supported
+   */
+  static String removeFootnotes(String paraText, int[] footnotes) {
+    if (footnotes == null) {
+      return cleanFootnotes(paraText);
+    }
+    for (int i = footnotes.length - 1; i >= 0; i--) {
+      paraText = paraText.substring(0, footnotes[i]) + paraText.substring(footnotes[i] + 1);
+    }
+    return paraText;
+  }
+  
+  /**
+   * Correct SingleProofreadingError by footnote positions
+   * footnotes before is the sum of all footnotes before the checked paragraph
+   */
+  SingleProofreadingError correctRuleMatchWithFootnotes(SingleProofreadingError pError, int footnotesBefore, int[] footnotes) {
+    if (footnotesBefore == 0 && (footnotes == null || footnotes.length == 0)) {
+      return pError;
+    }
+    for (int i :footnotes) {
+      if (i <= pError.nErrorStart) {
+        pError.nErrorStart++;
+      } else if (i < pError.nErrorStart + pError.nErrorLength) {
+        pError.nErrorLength++;
       }
     }
-    int getPosition() {
-      return position;
-    }
-    String getSentence() {
-      return str;
-    }
+    pError.nErrorStart += footnotesBefore;
+    return pError;
   }
-*/
+  
 
   /**
    * reset the ignore once cache
