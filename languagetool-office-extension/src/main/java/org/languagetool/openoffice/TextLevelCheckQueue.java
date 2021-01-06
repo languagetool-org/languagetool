@@ -45,6 +45,7 @@ public class TextLevelCheckQueue {
   private MultiDocumentsHandler multiDocHandler;
   private QueueIterator queueIterator;
   private int lastStart = -1;
+  private int lastEnd = -1;
   private int lastCache = 0;
   private String lastDocId = null;
   private Language lastLanguage = null;
@@ -77,13 +78,13 @@ public class TextLevelCheckQueue {
     QueueEntry queueEntry = new QueueEntry(nStart, nEnd, cacheNum, nCheck, docId, overrideRunning);
     int setIn = -1;
     if (!textRuleQueue.isEmpty()) {
-      if (!overrideRunning && nStart == lastStart && cacheNum == lastCache && docId.equals(lastDocId)) {
+      if (!overrideRunning && nStart >= lastStart  && nEnd <= lastEnd && cacheNum == lastCache && docId.equals(lastDocId)) {
         return;
       }
       synchronized(textRuleQueue) {
         for (int i = 0; i < textRuleQueue.size(); i++) {
           QueueEntry entry = textRuleQueue.get(i);
-          if (entry.equals(queueEntry)) {
+          if (entry.isEqualOrSmaller(queueEntry)) {
             if (!overrideRunning && entry.overrideRunning) {
               queueEntry.overrideRunning = true;
             }
@@ -361,7 +362,7 @@ public class TextLevelCheckQueue {
         return false;
       }
       QueueEntry e = (QueueEntry) o;
-      if (nStart == e.nStart && nCache == e.nCache && nCheck == e.nCheck && docId.equals(e.docId)) {
+      if (nStart == e.nStart && nEnd == e.nEnd && nCache == e.nCache && nCheck == e.nCheck && docId.equals(e.docId)) {
         return true;
       }
       return false;
@@ -374,7 +375,20 @@ public class TextLevelCheckQueue {
       if (e == null) {
         return false;
       }
-      if (nStart == e.nStart && nCache < e.nCache && nCheck == e.nCheck && docId.equals(e.docId)) {
+      if (nStart >= e.nStart && nEnd <= e.nEnd && nCache < e.nCache && docId.equals(e.docId)) {
+        return true;
+      }
+      return false;
+    }
+
+    /**
+     * entry is equal but number of cache is smaller
+     */
+    public boolean isEqualOrSmaller(QueueEntry e) {
+      if (e == null) {
+        return false;
+      }
+      if (nStart >= e.nStart && nEnd <= e.nEnd && nCache == e.nCache && nCheck == e.nCheck && docId.equals(e.docId)) {
         return true;
       }
       return false;
@@ -445,6 +459,7 @@ public class TextLevelCheckQueue {
                   MessageHandler.printToLogFile("queue waits");
                 }
                 lastStart = -1;
+                lastEnd = -1;
                 queueWaits = true;
                 queueWakeup.wait();
               } catch (Throwable e) {
@@ -483,6 +498,7 @@ public class TextLevelCheckQueue {
                 }
                 lastDocId = queueEntry.docId;
                 lastStart = queueEntry.nStart;
+                lastEnd = queueEntry.nEnd;
                 lastCache = queueEntry.nCache;
                 queueEntry.runQueueEntry(multiDocHandler, langTool);
               }

@@ -266,7 +266,7 @@ public class DocumentCache implements Serializable {
   /**
    * Gives back the start paragraph for text level check
    */
-  public int getStartOfParaCheck(int numCurPara, int parasToCheck, boolean textIsChanged) {
+  public int getStartOfParaCheck(int numCurPara, int parasToCheck, boolean textIsChanged, boolean useQueue) {
     if (numCurPara < 0 || toParaMapping.size() <= numCurPara) {
       return -1;
     }
@@ -283,7 +283,7 @@ public class DocumentCache implements Serializable {
       } 
       headingBefore = heading;
     }
-    if (headingBefore == numCurPara || parasToCheck < 0) {
+    if (headingBefore == numCurPara || parasToCheck < 0 || (useQueue && !textIsChanged)) {
       return headingBefore;
     }
     int startPos = numCurPara - parasToCheck;
@@ -338,7 +338,7 @@ public class DocumentCache implements Serializable {
    * Gives Back the full Text as String
    */
   public String getDocAsString(int numCurPara, int parasToCheck, boolean textIsChanged, boolean useQueue) {
-    int startPos = getStartOfParaCheck(numCurPara, parasToCheck, textIsChanged);
+    int startPos = getStartOfParaCheck(numCurPara, parasToCheck, textIsChanged, useQueue);
     int endPos = getEndOfParaCheck(numCurPara, parasToCheck, textIsChanged, useQueue);
     if (startPos < 0 || endPos < 0) {
       return "";
@@ -369,11 +369,11 @@ public class DocumentCache implements Serializable {
   /**
    * Gives Back the StartPosition of Paragraph
    */
-  public int getStartOfParagraph(int nPara, int checkedPara, int parasToCheck, boolean textIsChanged) {
+  public int getStartOfParagraph(int nPara, int checkedPara, int parasToCheck, boolean textIsChanged, boolean useQueue) {
     if (nPara < 0 || toParaMapping.size() <= nPara) {
       return -1;
     }
-    int startPos = getStartOfParaCheck(checkedPara, parasToCheck, textIsChanged);
+    int startPos = getStartOfParaCheck(checkedPara, parasToCheck, textIsChanged, useQueue);
     if (startPos < 0) {
       return -1;
     }
