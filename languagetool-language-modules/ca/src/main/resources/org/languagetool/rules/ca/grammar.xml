@@ -44080,24 +44080,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>A tot això, hi afegirem una altra cosa.</example>
             <example>A tot això, s'hi han de sumar altres qüestions.</example>
         </rule>
-        <rule id="TREBALLAR_DUR" name="treballar *dur/de valent/intensament">
-            <pattern>
-                <token inflected="yes">treballar</token>
-                <token min="0" postag="RG"/>
-                <marker>
-                    <token>dur</token>
-                </marker>
-            </pattern>
-            <message>Val més usar una altra expressió.</message>
-            <suggestion>intensament</suggestion>
-            <suggestion>de valent</suggestion>
-            <suggestion>fort</suggestion>
-            <!--<url>http://esadir.cat/entrades/fitxa/node/duradv</url>-->
+        <rulegroup id="TREBALLAR_DUR" name="treballar *dur/de valent/intensament">
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=duro&amp;numPagina=1&amp;database=CASCAT&amp;idFont=21293&amp;idHit=21293&amp;tipusFont=%3CI%3EDiccionari+catal%E0-castell%E0%3C%2FI%3E+d%27Enciclop%E8dia+Catalana+%283a+edici%F3%29&amp;numeroResultat=2&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=duro+&amp;tematica=%28Totes%29&amp;tipusCerca=cerca.traduir</url>
-            <short>Expressió preferible</short>
-            <example correction="intensament|de valent|fort">treballaven <marker>dur</marker></example>
-            <example>treballaven per dur l'aigua al poble</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">treballar</token>
+                    <token min="0" postag="RG"/>
+                    <marker>
+                        <token>dur</token>
+                    </marker>
+                </pattern>
+                <message>Val més usar una altra expressió.</message>
+                <suggestion>intensament</suggestion>
+                <suggestion>de valent</suggestion>
+                <suggestion>fort</suggestion>
+                <example correction="intensament|de valent|fort">treballaven <marker>dur</marker></example>
+                <example>treballaven per dur l'aigua al poble</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">jugar</token>
+                    <token min="0" postag="RG"/>
+                    <marker>
+                        <token>dur</token>
+                    </marker>
+                </pattern>
+                <message>Val més usar una altra expressió.</message>
+                <suggestion>fort</suggestion>
+                <example correction="fort">Jugaven <marker>dur</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ALGUN_QUE_ALTRE" name="*algun que altre">
             <!--<url>http://esadir.cat/entrades/fitxa/id/1555</url>-->
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=alguno&amp;numPagina=1&amp;database=CASCAT&amp;idFont=2909&amp;idHit=2909&amp;tipusFont=%3CI%3EDiccionari+catal%E0-castell%E0%3C%2FI%3E+d%27Enciclop%E8dia+Catalana+%283a+edici%F3%29&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=alguno+&amp;tematica=%28Totes%29&amp;tipusCerca=cerca.traduir</url>
