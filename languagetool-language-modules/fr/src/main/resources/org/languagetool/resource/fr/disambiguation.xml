@@ -212,9 +212,34 @@ RB => Règles Brutes
   <rulegroup name="est" id="EST">
     <rule>
       <pattern>
-        <token regexp="yes">[dl]<exception scope="previous" regexp="yes">[ns]e|il|elle|on</exception><exception scope="previous" postag="[NZ].*" postag_regexp="yes"/></token>
-        <token regexp="yes">&apostrophe;</token>
+        <token postag="P"/>
+        <token min="0">l'</token>
         <marker><token>est</token></marker>
+      </pattern>
+      <disambig postag="N m s"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token>l'</token>
+        <marker><token>est</token></marker>
+        <token min="0" postag="R pers obj.*" postag_regexp="yes"/>
+        <token postag="V .* 3 s" postag_regexp="yes"/>
+      </pattern>
+      <disambig postag="N m s"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token>ouest</token>
+        <token regexp="yes">-|/|et|ou</token>
+        <marker><token>est</token></marker>
+      </pattern>
+      <disambig postag="N m s"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker><token>est</token></marker>
+        <token regexp="yes">-|/|et|ou</token>
+        <token>ouest</token>
       </pattern>
       <disambig postag="N m s"/>
     </rule>
@@ -223,6 +248,13 @@ RB => Règles Brutes
         <token regexp="yes">[ns]e|il|elle|on</token>
         <token>l'</token>
         <marker><token>est</token></marker>
+      </pattern>
+      <disambig postag="V etre ind pres 3 s"/>
+    </rule>
+    <rule>
+      <!-- it is a verb, unless it is tagged previously as a noun -->
+      <pattern>
+        <marker><token postag="V etre ind pres 3 s">est</token></marker>
       </pattern>
       <disambig postag="V etre ind pres 3 s"/>
     </rule>
@@ -969,7 +1001,15 @@ RB => Règles Brutes
     </pattern>
     <disambig action="filter" postag="P"></disambig>
   </rule>
-  
+  <rule id="PERSONE" name="persone">
+    <pattern>
+      <token postag="P"/>
+      <marker>
+        <token>personne</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="R m s"/>
+  </rule>
   <rule name="Pronoun + verb" id="PRON_VERB">
     <pattern>
       <token postag="R .*" postag_regexp="yes"/>
