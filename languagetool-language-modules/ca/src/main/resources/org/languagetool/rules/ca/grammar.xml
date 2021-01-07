@@ -44756,6 +44756,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
+        <rule id="SUBMINISTRE" name="subministre/subministrament" default="temp_off">
+            <antipattern>
+                <token regexp="yes">si|que</token>
+                <token postag="&pronom_feble;" postag_regexp="yes" min="0" max="2"/>
+                <token regexp="yes">subministres?</token>
+            </antipattern>
+            <antipattern>
+                <token postag="&pronom_feble;"><exception>el</exception></token>
+                <token>subministre</token>
+            </antipattern>
+            <antipattern>
+                <token postag="&pronom_feble;"><exception>els</exception></token>
+                <token>subministres</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">subministres?</token>
+            </pattern>
+            <message>Si és un nom, cal dir <suggestion><match no="1" regexp_match="(?iu)tre" regexp_replace="trament"/></suggestion>. Correcte si és del v. 'subministrar'.</message>
+            <example correction="Subministraments"><marker>Subministres</marker> d'aigua.</example>
+            <example correction="subministrament">El <marker>subministre</marker> d'aigua.</example>
+            <example>Si els en subministres tres, te'n tornaran dos.</example>
+            <example>Vull que els subministres tot el que tenim.</example>
+        </rule>
         <rulegroup name="PANDA" id="panda">
             <antipattern>
                 <token inflected="yes" regexp="yes">os|ós</token>
