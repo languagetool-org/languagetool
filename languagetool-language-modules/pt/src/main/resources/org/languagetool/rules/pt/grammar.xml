@@ -21141,6 +21141,24 @@ o tomate'>
     </rule>
   </rulegroup>
 
+	<!-- DOS dois -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-07 (1-JAN-2021+)      -->
+<!--
+Sinto frio mesmo com dois pares de meias.
+-->		
+	<rule id='CONFUSÃO_DOS_DOIS' name="Confusão: dos/dois">    
+      <pattern>
+		<token regexp='yes'>com|dos</token>
+		<marker>
+			<token regexp='no'>dos</token>
+		</marker>
+		<token postag='NC.P000|AQ0.P0' postag_regexp='yes'/>
+      </pattern>
+      <message>Substitua por <suggestion>dois</suggestion>.</message>
+      <example correction="dois">Sinto frio mesmo com <marker>dos</marker> pares de meias.</example>
+	  <example type='correct'>Sinto frio mesmo com <marker>dois</marker> pares de meias.</example>
+    </rule>
+
     <rule id='CONFUSÃO_VESTIR_CALÇAR' name="Confusão: vestir/calçar">
     <!-- Created by Marco A.G.Pinto -->
       <pattern>
