@@ -21569,10 +21569,10 @@ Sinto frio mesmo com dois pares de meias.
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>(?:africo|alio|arvore|carie|contagio|dicionario|espacio|estagio|gladio|inventario|palio|papio|paragrafos?|patio|perdulario|plagio|posfacio|prefacio|press?agio|prontuario|ressabio|trafico|viatico)s?</token>
+          <token regexp='yes'>(?:africo|alio|arvore|carie|contagio|dicionario|espacio|estagio|gladio|inventario|palio|papio|patio|perdulario|plagio|posfacio|prefacio|press?agio|prontuario|ressabio|trafico|viatico)s?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='a' regexp_replace='á'/></suggestion>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='(?iu)a' regexp_replace='á' case_conversion="preserve"/></suggestion>
       <example correction='a árvore'><marker>a arvore</marker>.</example>
       <example correction='as árvores'><marker>as arvores</marker>.</example>
       <example correction='do álio'><marker>do alio</marker>.</example>
@@ -21618,6 +21618,16 @@ Sinto frio mesmo com dois pares de meias.
       <example correction='algum áfrico'><marker>algum africo</marker>.</example>
       <example correction='alguns áfricos'><marker>alguns africos</marker>.</example>
     </rule>
+      <rule id='PARONYM_ARVORE_0b' name='Confusão: verbo no lugar do parónimo acentuado (á)'>
+          <pattern>
+              <token regexp='yes'>&art_detecao_paronimos;</token>
+              <token min='0' postag='A.+' postag_regexp='yes'/>
+              <token regexp='yes'>(?:paragrafo)s?</token>
+          </pattern>
+          <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+          <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='(?iu)para' regexp_replace='pará' case_conversion="preserve"/></suggestion>
+          <example correction='do parágrafo'>A excepção <marker>do paragrafo</marker>.</example>
+      </rule>
     <rule id='PARONYM_ACIDULA_1' name='Confusão: verbo no lugar do parónimo acentuado (í)'>
 <!-- MARCOAGPINTO 2020-11-14 (21-OCT-2020+) *START* -->
 <!-- "A entrevista integra uma nova série documental." -->
