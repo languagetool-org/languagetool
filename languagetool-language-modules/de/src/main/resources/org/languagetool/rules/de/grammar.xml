@@ -41194,9 +41194,11 @@ Andere Projekte</example>
                     <token postag='SUB:.+:SIN:NEU' postag_regexp='yes'><exception postag='SUB:.+:SIN:MAS' postag_regexp='yes'/></token>
                     <token>,</token>
                     <marker>
-                    <token regexp='yes'>(der|die)</token>
+                        <token regexp='yes'>(der|die)</token>
                     </marker>
-                    <token skip='-1'/>
+                    <token skip='-1'>
+                        <exception scope="next" regexp="yes">,|;|:</exception>
+                    </token>
                     <token postag='VER:(MOD:2:SIN:.+|3:SIN:.+)' postag_regexp='yes'/>
                 </pattern>
                 <message>Fehlende Übereinstimmung zwischen Nomen und Relativpronomen. Meinten Sie <suggestion>das</suggestion>?</message>
@@ -41207,6 +41209,7 @@ Andere Projekte</example>
                 <example>Die Zeit war geprägt von Apoll, dem Gott des Lichts, der Künste und der Musik, der Weisheit und der Weissagung.</example>
                 <example>Sie kam mit dem Jungen, der sich angezogen hatte.</example>
                 <example>Weil er das Haus, die zwei Ferngläser und die Funkgeräte sah, geriet er in Panik.</example>
+                <example>... weil das Vorgängerbauwerk, der älteste Freiberger Kirchenbau, abgebrochen wurde.</example>
             </rule>
             <rule>
                 <antipattern>
