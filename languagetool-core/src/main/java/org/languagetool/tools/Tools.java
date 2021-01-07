@@ -290,7 +290,7 @@ public final class Tools {
       for (Rule rule : lt.getAllRules()) {
         if (rule.isDefaultTempOff()) {
           System.out.println("Activating " + rule.getFullId() + ", which is default='temp_off'");
-          lt.enableRule(rule.getId());
+          lt.enableRule(rule.getFullId());
         }
       }
     }
@@ -306,7 +306,7 @@ public final class Tools {
         for (Rule rule : lt.getAllRules()) {
           Category category = rule.getCategory();
           if (category == null || !enabledCategories.contains(category.getId())) {
-            lt.disableRule(rule.getId());
+            lt.disableRule(rule.getFullId());
           }
         }
       }
@@ -323,8 +323,8 @@ public final class Tools {
       if (useEnabledOnly) {
         // disable all rules except those enabled explicitly, if any:
         for (Rule rule : lt.getAllRules()) {
-          if (!enabledRules.contains(rule.getId())) {
-            lt.disableRule(rule.getId());
+          if (!(enabledRules.contains(rule.getFullId()) || enabledRules.contains(rule.getId()))) {
+            lt.disableRule(rule.getFullId());
           }
         }
       }

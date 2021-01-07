@@ -1272,11 +1272,11 @@ public class JLanguageTool {
     Category ruleCategory = rule.getCategory();
     boolean isCategoryDisabled = (disabledRuleCategories.contains(ruleCategory.getId()) || rule.getCategory().isDefaultOff())
       && !enabledRuleCategories.contains(ruleCategory.getId());
-    boolean isRuleDisabled = disabledRules.contains(rule.getId())
-      || (rule.isDefaultOff() && !enabledRules.contains(rule.getId()));
+    boolean isRuleDisabled = disabledRules.contains(rule.getFullId()) || disabledRules.contains(rule.getId())
+      || (rule.isDefaultOff() && !(enabledRules.contains(rule.getFullId()) || enabledRules.contains(rule.getId())));
     boolean isDisabled;
     if (isCategoryDisabled) {
-      isDisabled = !enabledRules.contains(rule.getId());
+      isDisabled = !(enabledRules.contains(rule.getFullId()) || enabledRules.contains(rule.getId()));
     } else {
       isDisabled = isRuleDisabled;
     }
