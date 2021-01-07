@@ -13301,7 +13301,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 </marker>
                 <token chunk_re=".-NP.*" />
             </pattern>
-            <disambig action="remove"><wd pos="RB"/></disambig>
+            <disambig action="filter" postag="VB.*"/>
         </rule>
         <rule>
             <pattern>
@@ -13312,34 +13312,51 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 </marker>
                 <token chunk_re=".-NP.*" />
             </pattern>
-            <disambig action="remove"><wd pos="RB"/></disambig>
+            <disambig action="filter" postag="VB.*"/>
         </rule>
         <rule>
             <antipattern>
                 <token chunk_re=".-VP" />
-                <token>you</token>
+                <token regexp="yes">you|it|(any|every|no|some)(one|body)</token>
+                <token>forward</token>
+            </antipattern>
+            <antipattern>
+                <token postag="IN" />
+                <token regexp="yes">you|it|(any|every|no|some)(one|body)</token>
                 <token>forward</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">I|you|they|we</token>
+                <token regexp="yes">I|you|they|we|s?he|it|(any|every|no|some)(one|body)</token>
                 <marker>
                     <token>forward</token>
                 </marker>
                 <token chunk_re=".-NP.*" />
             </pattern>
-            <disambig action="remove"><wd pos="RB"/></disambig>
+            <disambig action="filter" postag="VB.*"/>
             <example type="untouched">I pushed you forward a lot.</example> 
         </rule>
         <rule>
+            <antipattern>
+                <token chunk_re=".-VP" />
+                <token regexp="yes">you|it|(any|every|no|some)(one|body)</token>
+                <token postag="RB" />
+                <token>forward</token>
+            </antipattern>
+            <antipattern>
+                <token postag="IN" />
+                <token regexp="yes">you|it|(any|every|no|some)(one|body)</token>
+                <token postag="RB" />
+                <token>forward</token>
+            </antipattern>
             <pattern>
-                <token regexp="yes">I|you|they|we</token>
+                <token regexp="yes">I|you|they|we|s?he|it|(any|every|no|some)(one|body)</token>
                 <token postag="RB" />
                 <marker>
                     <token>forward</token>
                 </marker>
                 <token chunk_re=".-NP.*" />
             </pattern>
-            <disambig action="remove"><wd pos="RB"/></disambig>
+            <disambig action="filter" postag="VB.*"/>
         </rule>
         <rule>
             <pattern>
@@ -13349,7 +13366,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 </marker>
                 <token chunk_re=".-NP.*" />
             </pattern>
-            <disambig action="remove"><wd pos="RB"/></disambig>
+            <disambig action="filter" postag="VB.*"/>
         </rule>
         <rule>
             <pattern>
@@ -13360,7 +13377,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 </marker>
                 <token chunk_re=".-NP.*" />
             </pattern>
-            <disambig action="remove"><wd pos="RB"/></disambig>
+            <disambig action="filter" postag="VB.*"/>
         </rule>
         <rule>
             <pattern>
@@ -13372,7 +13389,25 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 </marker>
                 <token chunk_re=".-NP.*" />
             </pattern>
-            <disambig action="remove"><wd pos="RB"/></disambig>
+            <disambig action="filter" postag="VB.*"/>
         </rule>
     </rulegroup>
+
+    <rule id="ORDER_UH" name="UH on 'order'">
+        <!-- neither webster, wiktionary nor oxford lists "order" as interjection -->
+        <antipattern><!-- "Order!"-->
+            <token regexp="yes">\p{P}</token>
+            <token>order</token>
+        </antipattern>
+        <antipattern><!-- "Order!"-->
+            <token>order</token>
+            <token regexp="yes">\p{P}</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token>order</token>
+            </marker>
+        </pattern>
+        <disambig action="remove"><wd pos="UH"/></disambig>
+    </rule>
 </rules>
