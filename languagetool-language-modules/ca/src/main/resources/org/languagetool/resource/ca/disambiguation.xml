@@ -12561,6 +12561,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="NC.*|_GN_.."/>
     </rule>
+    <rule id="dosi" name="dosi (nom no verb)">
+        <pattern>
+            <token postag="D.*" postag_regexp="yes"/>
+            <marker>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">dosi|dosis</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.[MS].*"/>
+    </rule>
     <rule id="VerbNom" name="verb i nom que no ha concordat">
         <!-- Això fou estrany -->
         <pattern>
