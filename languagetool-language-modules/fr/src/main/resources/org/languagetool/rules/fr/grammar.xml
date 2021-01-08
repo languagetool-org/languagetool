@@ -12045,6 +12045,7 @@ though, and has since been slightly modified)-->
             <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes">
               <exception postag="V.*" postag_regexp="yes"/>
               <exception postag="R pers obj.*" postag_regexp="yes"/>
+              <exception>est</exception>
             </token>
           </marker>
         </pattern>
@@ -12053,6 +12054,7 @@ though, and has since been slightly modified)-->
         <example>Je l’<marker>abandonne</marker>.</example>
         <example>Il l’<marker>est</marker> que durant l’élection.</example>
         <example>On dirait qu'il s'en fait rarement pour moi, n'est-ce pas ?</example>
+        <example>Il s'en est sorti indemne.</example>
       </rule>
       <rule>
         <pattern>
@@ -12088,6 +12090,7 @@ though, and has since been slightly modified)-->
             <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes">
               <exception postag="V.*" postag_regexp="yes"/>
               <exception postag="R pers obj.*" postag_regexp="yes"/>
+              <exception>est</exception>
             </token>
           </marker>
         </pattern>
@@ -12095,6 +12098,7 @@ though, and has since been slightly modified)-->
         <example correction="">Je ne m'en <marker>sorts</marker> pas.</example>
         <example>Je ne l’<marker>abandonne</marker> pas.</example>
         <example>Il ne l’<marker>est</marker> que durant l’élection.</example>
+        <example>Il ne s'en est jamais vraiment remis.</example>
       </rule>
     </rulegroup>
     <rule id="PARCE" name="parce + que">
@@ -12201,7 +12205,7 @@ though, and has since been slightly modified)-->
           <token postag="V.* ppa.*" postag_regexp="yes"/>
         </antipattern>
         <pattern>
-          <token regexp="yes">aux|[cdmts]es|du|[mt]on|[mts]a|[nv]otre|[nv]os|leurs|cette|celles?|quelque|avec|dans|chez|une?
+          <token regexp="yes">aux|[cdmts]es|du|[mt]on|[mts]a|[nv]otre|[nv]os|leurs|cette|celles?|quelque|avec|dans|chez
             <exception postag="N m s">ton</exception>
           </token>
           <marker>
@@ -12228,9 +12232,9 @@ though, and has since been slightly modified)-->
         <example>Le glacier du <marker>Trient</marker>.</example>
         <example>Le glacier des <marker>Bossons</marker>.</example>
         <example>Ils ont des a priori sur nous.</example>
-        <example correction="">Un <marker>délaie</marker> de paiement.</example>
+        <!--<example correction="">Un <marker>délaie</marker> de paiement.</example> needs to be found by other rule -->
         <example>Un <marker>délai</marker> de paiement.</example>
-        <example correction="">Une <marker>pèle</marker>.</example>
+        <!-- <example correction="">Une <marker>pèle</marker>.</example> needs to be found by other rule -->
         <example>Une <marker>pelle</marker>.</example>
         <example>Quelqu’un a pris mon téléphone.</example>
         <example>L’un vit à Tokyo, l’autre vit à Paris.</example>
@@ -12240,8 +12244,7 @@ though, and has since been slightly modified)-->
         <example>J'ai pris un rendez-vous avec M. Kennedy.</example>
         <example>était celui du célèbre entraîneur</example>
         <example>Le but est de prévenir des tueries comme celle ayant fait 17 morts en Floride.</example>
-        <example>Aux être</example>
-        <example>Aux avoir</example>
+        <example>Un est un mâle et les deux autres sont des femelles.</example>
       </rule>
       <rule>
         <pattern>
@@ -15829,7 +15832,7 @@ though, and has since been slightly modified)-->
          </antipattern>
          <pattern>
            <marker>
-             <token><exception postag="V.* (ind|sub|imp|con).*|R.*|P" postag_regexp="yes"/></token> 
+             <token><exception postag="V.* (ind|sub|imp|con).*|R.*|P" postag_regexp="yes"/><exception>est</exception></token>
              <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-.+</token>
            </marker>
          </pattern>
@@ -15859,6 +15862,7 @@ though, and has since been slightly modified)-->
          <example>Me trompé-je ?</example>
          <example>EU-LE TREPORT-MERS LES BAINS</example>
          <example>Ne voilà-t-il pas qu’ils oublient d’aller voter.</example>
+         <example>Pourquoi s'en est-elle allée si tôt ?</example>
       </rule>
       <rule>
         <pattern>
