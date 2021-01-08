@@ -9880,7 +9880,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token>original</token>
-                    <token regexp="yes">verpackung|zubehörs?|zustand(es|s)?|rechnung|angebot(es|s)?|werk(es|s)?|(kauf)?urkunde|unterlagen?|grö(ß|ss)e|aufnahme|ausgabe|beitrag(es|s)?|besetzung|bild(es|s)?|videos?|dokument(es|s)?|datei|fassung|packung|rezept(es|s)?|text(es|s)?|titels?|tons?|version|zeichnung|kartons?|hülle|inhalt(es|s)?</token>
+                    <token regexp="yes" case_sensitive="yes">Verpackung|Zubehörs?|Zustand(es|s)?|Rechnung|Angebot(es|s)?|Werk(es|s)?|Kaufurkunde|Urkunde|Unterlagen?|Grö(ß|ss)e|Aufnahme|Ausgabe|Beitrag(es|s)?|Besetzung|Bild(es|s)?|Videos?|Dokument(es|s)?|Datei|Fassung|Packung|Rezept(es|s)?|Text(es|s)?|Titels?|Tons?|Version|Zeichnung|Kartons?|Hülle|Inhalt(es|s)?|Bauteils?|Teils?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Original<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Originalrechnung">Sie hatte die <marker>original Rechnung</marker> nicht mehr, um das Produkt umzutauschen.</example>
@@ -9892,7 +9892,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token>gesamt</token>
-                    <token regexp="yes">(kunst)?werk(es|s)?|bei?trags?|kosten|(verkaufs)?preis|umsatz(es)?|gewinns?|schule|schulden|volumen|bevölkerung|einkommens?|höhe|jahr(es|s)?|menge|paket(es|s)?|länge|situation|wert(es|s)?|fläche|schaden|produktion|gewicht(es|s)?|betriebsrat(es|s)?|unterricht(es|s)?|auflage|bild(es|s)?|eindruck(es|s)?|ergebnis(ses)?|erscheinung|interesse|wertung|mannschaft|zahl|vergrö(ß|ss)erung|budget|(lauf)?leistung|niederschlags?|ausgaben|einnahmen</token>
+                    <token regexp="yes">(kunst)?werk(es|s)?|bei?trags?|kosten|(verkaufs)?preis|umsatz(es)?|gewinns?|schule|schulden|volumen|bevölkerung|einkommens?|höhe|jahr(es|s)?|menge|paket(es|s)?|länge|situation|wert(es|s)?|fläche|schaden|produktion|gewicht(es|s)?|betriebsrat(es|s)?|unterricht(es|s)?|auflage|bild(es|s)?|eindruck(es|s)?|ergebnis(ses)?|erscheinung|interesse|wertung|mannschaft|zahl|vergrö(ß|ss)erung|budget|(lauf)?leistung|niederschlags?|ausgaben|einnahmen|anteils?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Gesamt<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Gesamtkunstwerk">Sie betrachtete das <marker>gesamt Kunstwerk</marker>.</example>
@@ -19116,12 +19116,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Woraus"><marker>Aus was</marker> besteht es?</example>
             </rule>
             <rule>
+                <antipattern><!-- Ich bin für was neues! -->
+                    <token postag="VER:.+" postag_regexp="yes" />
+                    <token />
+                    <token>was</token>
+                    <token postag="ADJ:.+" postag_regexp="yes" />
+                </antipattern>
                <pattern>
                     <token regexp="yes" case_sensitive="yes">bei|für|gegen|hinter|mit|nach|neben|vo[nr]|zu|zwischen</token>
-                    <token>was</token>
+                    <token case_sensitive="yes">was</token>
                 </pattern>
                 <message>Möchten Sie das standardsprachliche <suggestion>wo\1</suggestion> verwenden?</message>
-                <example correction="wofür">Sie fragte ihn, <marker>für was</marker> kämpfte.</example>
+                <example correction="wofür">Sie fragte ihn, <marker>für was</marker> er kämpfte.</example>
+                <example>Ich bin für was Neues!</example>
+                <example>Ich bin bei was neuem dabei.</example>
+                <example>Er kämpft gegen was neues.</example>
+                <example>Ich stehe für was Großes.</example>
             </rule>
             <rule>
                 <pattern>
