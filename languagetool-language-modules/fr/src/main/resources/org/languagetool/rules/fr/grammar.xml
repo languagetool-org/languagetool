@@ -12045,7 +12045,6 @@ though, and has since been slightly modified)-->
             <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes">
               <exception postag="V.*" postag_regexp="yes"/>
               <exception postag="R pers obj.*" postag_regexp="yes"/>
-              <exception>est</exception>
             </token>
           </marker>
         </pattern>
@@ -12099,6 +12098,7 @@ though, and has since been slightly modified)-->
         <example>Je ne l’<marker>abandonne</marker> pas.</example>
         <example>Il ne l’<marker>est</marker> que durant l’élection.</example>
         <example>Il ne s'en est jamais vraiment remis.</example>
+        <example>Je parie qu'il ne s'en est pas sorti.</example>
       </rule>
     </rulegroup>
     <rule id="PARCE" name="parce + que">
@@ -12204,8 +12204,12 @@ though, and has since been slightly modified)-->
           <token>ayant</token>
           <token postag="V.* ppa.*" postag_regexp="yes"/>
         </antipattern>
+        <antipattern>
+          <token regexp="yes">une?</token>
+          <token>est</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">aux|[cdmts]es|du|[mt]on|[mts]a|[nv]otre|[nv]os|leurs|cette|celles?|quelque|avec|dans|chez
+          <token regexp="yes">aux|[cdmts]es|du|[mt]on|[mts]a|[nv]otre|[nv]os|leurs|cette|celles?|quelque|avec|dans|chez|une?
             <exception postag="N m s">ton</exception>
           </token>
           <marker>
@@ -12232,9 +12236,9 @@ though, and has since been slightly modified)-->
         <example>Le glacier du <marker>Trient</marker>.</example>
         <example>Le glacier des <marker>Bossons</marker>.</example>
         <example>Ils ont des a priori sur nous.</example>
-        <!--<example correction="">Un <marker>délaie</marker> de paiement.</example> needs to be found by other rule -->
+        <example correction="">Un <marker>délaie</marker> de paiement.</example>
         <example>Un <marker>délai</marker> de paiement.</example>
-        <!-- <example correction="">Une <marker>pèle</marker>.</example> needs to be found by other rule -->
+        <example correction="">Une <marker>pèle</marker>.</example>
         <example>Une <marker>pelle</marker>.</example>
         <example>Quelqu’un a pris mon téléphone.</example>
         <example>L’un vit à Tokyo, l’autre vit à Paris.</example>
@@ -15832,7 +15836,7 @@ though, and has since been slightly modified)-->
          </antipattern>
          <pattern>
            <marker>
-             <token><exception postag="V.* (ind|sub|imp|con).*|R.*|P" postag_regexp="yes"/><exception>est</exception></token>
+             <token><exception postag="V.* (ind|sub|imp|con).*|R.*|P" postag_regexp="yes"/></token>
              <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-.+</token>
            </marker>
          </pattern>

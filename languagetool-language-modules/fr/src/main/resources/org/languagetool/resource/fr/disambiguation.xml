@@ -209,6 +209,28 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="N m sp"/>
   </rule>
+  <rulegroup id="EN" name="en (preposition/pronoun)">
+    <rule>
+      <pattern>
+        <token postag="R .*" postag_regexp="yes"><exception regexp="yes">y|-.*</exception></token>
+        <marker>
+          <token postag="R pers obj">en</token>
+        </marker>
+        <token postag="V .*" postag_regexp="yes"></token>
+      </pattern>
+      <disambig action="remove" postag="P"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token>n'</token>
+        <marker>
+          <token postag="R pers obj">en</token>
+        </marker>
+        <token postag="V .*" postag_regexp="yes"></token>
+      </pattern>
+      <disambig action="remove" postag="P"/>
+    </rule>
+  </rulegroup>
   <rulegroup name="est" id="EST">
     <rule>
       <pattern>
