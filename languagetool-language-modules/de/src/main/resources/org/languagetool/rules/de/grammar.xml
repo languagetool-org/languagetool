@@ -20117,6 +20117,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token />
                 <token>Recht</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">das|ein</token>
+                <token>recht</token>
+                <token>zu</token>
+                <token postag="VER:INF.*" postag_regexp="yes"/>
+                <token min="0">,</token>
+                <token postag="ADV:INR|PRO:RIN.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <marker>
                     <token case_sensitive="yes">Recht</token>
@@ -20131,6 +20139,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="recht">Sie will es allen <marker>Recht</marker> machen.</example>
             <example>1929 warnte er, das Dritte Reich werde Massenmorde, Pogrome und Plünderungen zum Recht machen.</example>
             <example>Sie wollen den Besitz von Waffen zu ihrem Recht machen.</example>
+            <example>Du hast das Recht zu machen, was du willst.</example>
+            <example>Ich habe das Recht zu gehen wann auch immer ich möchte.</example>
         </rule>
         <rule id="TEILEN" name="zu beiden teilen (Teilen)">
             <pattern case_sensitive="yes">
