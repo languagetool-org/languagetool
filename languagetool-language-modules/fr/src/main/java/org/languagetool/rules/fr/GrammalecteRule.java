@@ -96,6 +96,7 @@ public class GrammalecteRule extends Rule {
     "typo_espace_manquant_après3", // false alarm in file names (e.g. 'La teaser.zip')
     "typo_tiret_incise2",  // picky
     "eepi_écriture_épicène_singulier",
+    "g1__bs_vidéoprotection__b1_a1_1",
     "g1__eleu_élisions_manquantes__b1_a1_1" // picky
   ));
 
