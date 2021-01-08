@@ -82,13 +82,13 @@ public final class MorfologikAmericanSpellerRule extends AbstractEnglishSpellerR
   protected List<SuggestedReplacement> getAdditionalTopSuggestions(List<SuggestedReplacement> suggestions, String word) throws IOException {
     List<String> s = null;
     if ("automize".equals(word)) {
-      s =  Arrays.asList("automate");
+      s = Arrays.asList("automate");
     } else if ("automized".equals(word)) {
-      s =  Arrays.asList("automated");
+      s = Arrays.asList("automated");
     } else if ("automizing".equals(word)) {
-      s =  Arrays.asList("automating");
+      s = Arrays.asList("automating");
     } else if ("automizes".equals(word)) {
-      s =  Arrays.asList("automates");
+      s = Arrays.asList("automates");
     }
     if (s != null) {
       return SuggestedReplacement.convert(s);
