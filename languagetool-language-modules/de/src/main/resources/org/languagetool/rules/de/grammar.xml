@@ -38,7 +38,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY thinsp    "&#x2009;"> <!-- thin space -->
     <!ENTITY anfauf "„|&quot;|»|›|‚|'">
     <!ENTITY anfzu "‘|“|‹|«|&quot;|'">
-    <!ENTITY anf "&anfauf;|‘|“|‹|«">
+    <!ENTITY anf "&anfauf;|‘|’|“|‹|«">
     <!ENTITY klamauf "\(|\{|\&lsqb;|&lt;">
     <!ENTITY klamzu "\)|\}|\&rsqb;|&gt;">
     <!ENTITY klam "&klamauf;|&klamzu;">
@@ -9936,7 +9936,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token regexp="yes">englisch|deutsch|spanisch|französisch|heft(es|s)?|buch(es|s)?</token>
-                    <token regexp="yes">lehrer[sn]?|hausaufgaben?|unterricht(es|s)?|kurs|dozent|professors?</token>
+                    <token regexp="yes">lehrer[sn]?|hausaufgaben?|unterricht(es|s)?|kurs|dozent|professors?|kenntnis(sen?)?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion><match no="1" case_conversion="startupper" />-<match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="Deutsch-Lehrer">Mein <marker>deutsch Lehrer</marker> hat mir eine 1 gegeben.</example>
@@ -9997,6 +9997,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Nackt<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Nacktfoto">Er versteigerte sein <marker>nackt Foto</marker> im Internet.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>intensiv</token>
+                    <token case_sensitive="yes" regexp="yes">Programms?|Pflege|Station|Bett(es)?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Intensiv<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Intensivstation">Wegen einer Lungenentzündung verbrachte er eine Woche auf der <marker>intensiv Station</marker> im Internet.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>geheim</token>
+                    <token case_sensitive="yes" regexp="yes">Rezept(es|s)?|Operation|Tipp</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Geheim<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Geheimrezept">Das <marker>geheim Rezept</marker> meiner Großmutter kennt keiner.</example>
             </rule>
         </rulegroup>
         <rule id="GEGEN_CHECKEN" name="gegen checken (gegenchecken)">
@@ -27845,6 +27861,56 @@ Andere Projekte</example>
                 <url>https://www.duden.de/rechtschreibung/deutsch</url>
                 <example correction="Deutsch">Ich habe ihr auf gut <marker>deutsch</marker> gesagt, dass sie ihre Schnauze halten soll.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">(&sprachadj1;)en</token>
+                    <token regexp="yes" min="0">&anf;</token>
+                    <token postag="UNKNOWN" regexp="yes">.*[a-zäöüß].*</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">(&sprachadj1;)en</token>
+                    <token regexp="yes" min="0">&anf;</token>
+                    <token postag="(SUB|ADJ|EIG):.*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">(&sprachadj1;)en</token>
+                    <token regexp="yes" min="0">&anf;</token>
+                    <token case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].*</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">(&sprachadj1;)en</token>
+                    <token regexp="yes">und|oder|&amp;|bzw|beziehungsweise|,</token>
+                    <token min="0" regexp="yes">\.|auch|eben(falls|so)|gleichzeitig|simultan</token>
+                    <token min="0">im</token>
+                    <token postag="UNKNOWN|ADJ:.*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">(&sprachadj1;)en</token>
+                    <token>genauer</token>
+                    <token>gesagt</token>
+                    <token min="0" regexp="yes">auch|eben(falls|so)|gleichzeitig|simultan</token>
+                    <token min="0">im</token>
+                    <token postag="UNKNOWN|ADJ:.*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">(&sprachadj1;)en</token>
+                    <token regexp="yes">aber|wie</token>
+                    <token regexp="yes">auch|eben(falls|so)|gleichzeitig|simultan</token>
+                    <token min="0">im</token>
+                    <token postag="UNKNOWN|ADJ:.*" postag_regexp="yes" />
+                </antipattern>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">[Ii]m</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">(&sprachadj1;)en</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" case_conversion="startupper"/></suggestion> (im Sinne von 'in \2er Sprache')? Nach einer Präposition werden Sprachbezeichnungen großgeschrieben.</message>
+                <example correction="Deutschen">Im <marker>deutschen</marker> gibt es Umlaute.</example>
+                <example>1743 wurde er Leutnant im französischen deutschen Régiment de Lowendahl, avancierte 1747 zum Capitaine, 1756 zum Major und nahm am Siebenjährigen Krieg teil.</example>
+                <example>1652 dim., vormals im schwedischen und französischen Sold.</example>
+                <example>Bisher war ich im deutschen und im englischen Forum unterwegs.</example>
+            </rule>
         </rulegroup>
         <rule id="KEIN_WORT_ENGLISCH" name="'kein Wort englisch (Englisch)'">
             <pattern>
@@ -30833,6 +30899,48 @@ Andere Projekte</example>
                 <example correction="Ende">Unsere Fahrt ist zu <marker>ende</marker>.</example>
                 <example correction="Ende">Sie stand am hinteren <marker>ende</marker> des Raumes.</example>
                 <example correction="Ende">Der Preis liegt am oberen <marker>ende</marker> der Skala.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">bis|seit|von</token>
+                    <token regexp="yes" min="0">einschlie(ß|ss)lich</token>
+                    <marker>
+                        <token case_sensitive="yes">ende</token>
+                    </marker>
+                    <token regexp="yes">\d{4}|&abgekMonate;|&monate;|(über)?nächste[nrs]|kommende[nrs]|de[rs]|diese[rns]</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Ende</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Ende">Das Projekt muss bis <marker>ende</marker> Januar fertig sein.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>ich</token>
+                    <token>ende</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">ende</token>
+                    </marker>
+                    <token regexp="yes">[2-9]0|achtzig|siebzig|sechszig|fünfzig|vierzig|drei(ß|ss)ig|zwanzig|20\d{2}|19\d{2}|18\d{2}</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Ende</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Ende">Sie ist eine Frau <marker>ende</marker> Zwanzig.</example>
+                <example>Ich ende 20 Plätze später.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="PKT|SENT_START|KON:.*|VER:.*" postag_regexp="yes" />
+                    <marker>
+                        <token case_sensitive="yes">ende</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">der|des</token>
+                    <token />
+                </pattern>
+                <message>&subanfang;<suggestion>Ende</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Ende">Google wurde <marker>ende</marker> der 90er-Jahre gegründet.</example>
             </rule>
             <rule>
                 <pattern>
@@ -38711,8 +38819,21 @@ Andere Projekte</example>
                     <token regexp="yes">schnell|lang|klein</token>
                 </antipattern>
                 <antipattern>
+                    <token inflected="yes" skip="5">fangen</token>
+                    <token>an</token>
+                    <token regexp="yes">richtig|wirklich</token>
+                    <token regexp="yes" skip="2">Spa(ß|ss)|Freude|Lust</token>
+                    <token>zu</token>
+                </antipattern>
+                <antipattern><!-- bis aktuell Ende Januar -->
+                    <token>bis</token>
+                    <token>aktuell</token>
+                    <token>Ende</token>
+                    <token postag="SUB:.*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
                     <token>ohne</token>
-                    <token regexp="yes">gleich|mühsam|ständig</token>
+                    <token regexp="yes">gleich|mühsam|ständig|wirklich</token>
                     <token postag="SUB:.+" postag_regexp="yes" skip="2"/>
                     <token>zu</token>
                 </antipattern>
