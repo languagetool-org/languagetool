@@ -245,11 +245,18 @@ class SingleDocument {
         }
       }
     }
-/*  TODO: remove
     if (footnotePositions == null) {
-      footnotePositions = new int[]{};  // e.g. for LO/OO < 4.3 and the 'FootnotePositions' property
+      //  OO and LO < 4.3 do not support 'FootnotePositions' property and other advanced features
+      //  switch back to single paragraph check mode
+      if (numParasToCheck != 0 || useQueue) {
+        numParasToCheck = 0;
+        if (useQueue) {
+          mDocHandler.getTextLevelCheckQueue().setStop();
+          useQueue = false;
+        }
+        MessageHandler.printToLogFile("Single paragraph check mode set!");
+      }
     }
-*/
   }
   
   /**

@@ -4,11 +4,12 @@ title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../rules.css"
 title="Easy editing stylesheet" ?>
 
-    <!--
+ <!--
+ 
  Portuguese (Portugal - postreform) - Grammar and Typo Rules for LanguageTool.
 
- Copyright © 2016-2017 Tiago F. Santos (tiagofsantos81@sapo.pt)
- Copyright © 2016-2017 Marco A.G.Pinto (www.marcoagpinto.com)
+ Copyright © 2016-2021 Tiago F. Santos (tiagofsantos81@sapo.pt)
+ Copyright © 2016-2021 Marco A.G.Pinto (www.marcoagpinto.com)
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +23,7 @@ title="Easy editing stylesheet" ?>
 
  You should have received a copy of the GNU Lesser General Public
  License along with this library; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 -->
 
@@ -568,16 +569,49 @@ title="Easy editing stylesheet" ?>
 		<token postag='SENT_END' regexp='yes'>[,]</token>
       </antipattern>
 <!-- MARCOAGPINTO 2020-12-04 (21-OCT-2020+) *END* -->
-<!-- MARCOAGPINTO 2020-12-22 (21-OCT-2020+) *START* -->
+<!-- MARCOAGPINTO 2021-01-08 (Enhanced) (1-JAN-2021+) *START* -->
 <!--
 Eh pá, vai enganar outro, meu, essa já não pega!
+Eh pá, vai enganar outro, meu!
 -->
       <antipattern>
 		<token spacebefore='no'>,</token>
 		<token spacebefore='yes' postag='DP.+' postag_regexp='yes'/>
-		<token spacebefore='no'>,</token>
+		<token spacebefore='no' regexp='yes'>[.,!?]</token>
       </antipattern>
-<!-- MARCOAGPINTO 2020-12-22 (21-OCT-2020+) *END* -->
+<!-- MARCOAGPINTO 2021-01-08 (Enhanced) (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-01-08 (1-JAN-2021+) *START* -->
+<!--
+E, meus caros e minhas caras, o dinheiro nunca é suficiente.
+E, meus caros e caras, o dinheiro nunca é suficiente.
+-->
+      <antipattern>
+		<token regexp='yes'>[.,!?]</token>
+		<token postag='DP.+' postag_regexp='yes'/>
+		<token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+		<token postag='CC' postag_regexp='no'>
+			<exception postag_regexp='yes' postag='I|RG'/>
+		</token>
+		<token min="0" max="1" postag='DP.+' postag_regexp='yes'/>
+		<token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+		<token regexp='yes'>[.,!?]</token>
+      </antipattern>
+<!--
+Meus caros e caras, o dinheiro nunca é suficiente.
+Meus caros e minhas caras, o dinheiro nunca é suficiente.
+-->	  
+      <antipattern>
+		<token postag='SENT_START' postag_regexp='no'/>
+		<token postag='DP1[FM][SP]S' postag_regexp='yes'/>
+		<token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+		<token postag='CC' postag_regexp='no'>
+			<exception postag_regexp='yes' postag='I|RG'/>
+		</token>
+		<token min="0" max="1" postag='DP.+' postag_regexp='yes'/>
+		<token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+		<token regexp='yes'>[.,!?]</token>
+      </antipattern>	  
+<!-- MARCOAGPINTO 2021-01-08 (1-JAN-2021+) *END* -->
       <pattern>
           <token>
             <exception regexp="yes">[ao]s?|es[st][ae]s?|uma?s?|uns|por|de|em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</exception></token>
