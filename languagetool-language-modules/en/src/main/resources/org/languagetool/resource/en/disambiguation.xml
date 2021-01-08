@@ -2380,7 +2380,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
     <rule name="ll -> will" id="ll_MD">
       <pattern>
-        <token regexp="yes">I|s?he|they|it|we|what|who|you|that</token>
+        <token regexp="yes">I|s?he|they|it|we|what|who|you|that|there</token>
         <token regexp="yes">&apostrophe;</token>
         <marker>
           <token spacebefore="no">ll</token>
@@ -4381,9 +4381,22 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">more|less</token>
             <token postag="VBP" />
         </antipattern>
+        <antipattern><!-- "It can temporary blind so ..." needed for ADJECTIVE_ADVERB -->
+            <token postag="MD" chunk_re=".-VP" />
+            <token postag="JJ" />
+            <token postag="VB" />
+        </antipattern>
+        <antipattern><!-- "It can't temporary blind so ..." needed for ADJECTIVE_ADVERB -->
+            <token postag="MD" />
+            <token regexp="yes">&apostrophe;</token>
+            <token>t</token>
+            <token postag="JJ" />
+            <token postag="VB" />
+        </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$">
-                <exception postag_regexp="yes" postag="WDT|RB"/></token>
+                <exception postag_regexp="yes" postag="WDT|RB"/>
+            </token>
             <marker>
                 <and>
                     <token postag="JJ|VBG" postag_regexp="yes"><exception postag_regexp="yes" negate_pos="yes" postag="JJ|NN.*|VB.*"/></token>
@@ -13409,5 +13422,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </marker>
         </pattern>
         <disambig action="remove"><wd pos="UH"/></disambig>
+    </rule>
+
+    <rule id="IN_PERPETUUM" name="ignore spelling of 'in perpetuum'">
+        <pattern>
+            <token>in</token>
+            <token>perpetuum</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
     </rule>
 </rules>
