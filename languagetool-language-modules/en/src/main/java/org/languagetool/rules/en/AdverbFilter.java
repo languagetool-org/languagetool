@@ -450,6 +450,11 @@ public class AdverbFilter extends RuleFilter {
     put("popularly", "popular");
     put("improperly", "improper");
     put("deliverly", "delivery");
+    put("rushingly", "rushing");
+    put("gravitationally", "gravitational");
+    put("cruelly", "cruel");
+    put("optimally", "optimal");
+    put("fictionally", "fictional");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

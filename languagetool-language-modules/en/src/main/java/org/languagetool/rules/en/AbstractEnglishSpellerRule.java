@@ -179,8 +179,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("semi ") &&
                    !k.getReplacement().toLowerCase().startsWith("lo ") &&
                    !k.getReplacement().startsWith("mu ") &&
-                   !k.getReplacement().startsWith("e ") &&
-                   !k.getReplacement().startsWith("c ") &&
+                   !k.getReplacement().toLowerCase().startsWith("bis ") &&
+                   !k.getReplacement().toLowerCase().startsWith("e ") &&
+                   !k.getReplacement().toLowerCase().startsWith("c ") &&
                    !k.getReplacement().endsWith(" able") &&
                    !k.getReplacement().endsWith(" less") && // (e.g. permissionless)
                    !k.getReplacement().endsWith(" sly") && // uneccesary suggestion (e.g. for continuesly)
