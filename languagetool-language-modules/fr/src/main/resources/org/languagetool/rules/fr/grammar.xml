@@ -728,7 +728,19 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
-    <rule id="GENTE_GENT" name="gente → gent">
+      <rule id="LE_COVID" name="la Covid et le Covid" default="temp_off">
+          <pattern>
+              <marker>
+                  <token>le</token>
+              </marker>
+              <token regexp="yes">Covid-19|Covid|covid|covid-19</token>
+          </pattern>
+          <message>Confusion probable entre le virus et <suggestion>la</suggestion> maladie.</message>
+          <url>http://www.academie-francaise.fr/le-covid-19-ou-la-covid-19</url>
+          <example correction="la">Il faut faire attention car <marker>le</marker> Covid-19 est récent.</example>
+          <example correction="La"><marker>Le</marker> Covid-19 est une maladie grave.</example>
+      </rule>
+      <rule id="GENTE_GENT" name="gente → gent">
       <pattern>
         <token>la</token>
         <marker><token>gente</token></marker>
