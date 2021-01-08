@@ -74,7 +74,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token min="0" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.+<exception regexp="yes">&common_english_nouns_masculine;</exception></token>
         <token regexp="yes" case_sensitive="yes">&common_english_nouns_masculine;</token>
       </antipattern>
-      <rule id="D_N" name="Concordance du déterminant avec le nom">
+      <rule id="D_N_" name="Concordance du déterminant avec le nom">
         <!-- 11018 ACCORD_GENRE[3]-->
         <antipattern>
           <unify>
@@ -110,6 +110,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <antipattern>
           <token>tout</token>
           <token>premier</token>
+        </antipattern>
+        <antipattern>
+          <token><exception postag="P.*" postag_regexp="yes"/></token>
+          <token postag="R.* obj .*" postag_regexp="yes"/>
+          <token postag="V .* [123].*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+          <token postag="V .* 3 p" postag_regexp="yes"/>
+          <!-- or disambiguate as pronoun -->
+          <token regexp="yes">toutes|tous</token>
         </antipattern>
         <pattern>
           <unify negate="yes">
@@ -152,6 +162,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="Cette femme|Ces femmes"><marker>Cette femmes</marker> est la propriétaire.</example>
         <example correction="Le café|Les cafés"><marker>La café</marker> le plus proche</example>
         <example correction="Cette phrase|Ces phrases"><marker>Ce phrase</marker> est-elle correcte?</example>
+        <example correction="une avarie|des avaries">D'<marker>un avarie</marker>.</example>
+        <example correction="son équipe|sa équipe|ses équipes">pour <marker>ses équipe</marker> de handball</example> <!-- check suggestoins!! -->
+        <example correction="la faute|les fautes">rejeter <marker>la fautes</marker> sur les autres</example>
+        <example correction="le débat|les débats">Elles interviennent dans <marker>le débats</marker></example>
+        <example correction="la route|les routes">ni voitures sur <marker>la routes</marker> ni avions dans le ciel</example>
+        <example correction="la seconde|les secondes">depuis <marker>le seconde</marker> moitié du XXe siècle</example> <!-- improve suggestions-->
         <example>la Royal Society</example>
         <example>le Stars Studio</example>
         <example>la Botswana Defence Force</example>
@@ -164,6 +180,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>né au Carla-Bayle</example>
         <example>à La Roque-Baignard</example>
         <example>Le Perche est une région naturelle française.</example>
+        <example>Ils avaient tous envie de vacances.</example>
+        <example>Je vous le demande.</example>
+        <example>provoque la colère de son peuple qui le chasse</example>
+        <example>Le mélange de leur sang les lie en un groupe uni à vie.</example>
+        <example>Les soldats de sa troupes le force à se jeter sur les Saxons.</example>
       </rule>
     </rulegroup>
   </category>

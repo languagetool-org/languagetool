@@ -1039,14 +1039,24 @@ RB => Règles Brutes
     </pattern>
     <disambig action="filterall"></disambig>
   </rule>
-  <rule name="Pronoun + Pronoun + verb" id="PRON_PRON_VERB">
-    <pattern>
-      <token postag="R .*" postag_regexp="yes"/>
-      <token postag="R .*" postag_regexp="yes"/>
-      <token postag="V .*" postag_regexp="yes"><exception postag="V .*" postag_regexp="yes" negate_pos="yes"/></token>
-    </pattern>
-    <disambig action="filterall"></disambig>
-  </rule>
+  <rulegroup name="Pronoun + Pronoun + verb" id="PRON_PRON_VERB">
+    <rule>
+      <pattern>
+        <token postag="R .*" postag_regexp="yes"/>
+        <token postag="R .*" postag_regexp="yes"/>
+        <token postag="V .*" postag_regexp="yes"><exception postag="V .*" postag_regexp="yes" negate_pos="yes"/></token>
+      </pattern>
+      <disambig action="filterall"></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="R .*" postag_regexp="yes"><exception regexp="yes">y|-.*</exception></token>
+        <token postag="R .*" postag_regexp="yes"/>
+        <token postag="V.* [123].*" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filterall"/>
+    </rule>
+  </rulegroup>
 
   <rulegroup name="RP : Infinitif ambigu" id="RP-INFINITIF">
     <rule name="Infinitif être">
@@ -1396,7 +1406,7 @@ RB => Règles Brutes
       <disambig><match no="4" postag_regexp="yes" postag="J.*"/></disambig>
     </rule>
   </rulegroup>
-  <rule name="RB : le la les" id="RB-LE_LA_LES">
+  <!--<rule name="RB : le la les" id="RB-LE_LA_LES">
     <antipattern>
       <token postag="R pers .*" postag_regexp="yes"/>
       <token postag="V .*inf" postag_regexp="yes"/>
@@ -1408,7 +1418,7 @@ RB => Règles Brutes
       <token postag="[NJ].*" postag_regexp="yes"><exception>fait</exception></token>
     </pattern>
     <disambig><match no="1" postag_regexp="yes" postag="D.*"/></disambig>
-  </rule>
+  </rule>-->
   <rule name="en (no preposition)" id="EN_NO_PREPOSITION">
     <pattern>
       <marker>
