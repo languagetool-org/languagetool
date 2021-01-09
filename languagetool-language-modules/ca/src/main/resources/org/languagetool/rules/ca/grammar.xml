@@ -7905,6 +7905,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ha">Ell <marker>a</marker> rebut tota la informació.</example>
                 <example>Ho ha fet com a rebut.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>com</token>
+                    <token>a</token>
+                    <token>fet</token>
+                </antipattern>
+                <antipattern>
+                    <token>fet</token>
+                    <token>i</token>
+                    <token min="0">a</token>
+                    <token>amagar</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                    <token>fet<exception case_sensitive="yes">FET</exception></token>
+                </pattern>
+                <message>Si és del v. 'haver', s'escriu amb hac.</message>
+                <suggestion>ha</suggestion>
+                <example correction="ha">Ell <marker>a</marker> fet tota la feina.</example>
+                <example>Com a fet constatable.</example>
+                <example>Jugaven a fet i amagar.</example>
+                <example>S'afilià a FET y de las JONS.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&exceptions_A_DIT_HA_DIT;</exception></token>
