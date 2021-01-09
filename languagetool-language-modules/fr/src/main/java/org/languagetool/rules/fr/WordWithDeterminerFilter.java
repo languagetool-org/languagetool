@@ -80,7 +80,7 @@ public class WordWithDeterminerFilter extends RuleFilter {
     AnalyzedTokenReadings atrWord = patternTokens[posWord - 1];
     boolean isDeterminerCapitalized = StringTools.isCapitalizedWord(atrDeterminer.getToken());
     boolean isWordCapitalized = StringTools.isCapitalizedWord(atrWord.getToken());
-    boolean isDeterminerAllupper = StringTools.isAllUppercase(atrDeterminer.getToken());
+    boolean isDeterminerAllupper = StringTools.isAllUppercase(atrDeterminer.getToken()) && !atrDeterminer.getToken().equalsIgnoreCase("L'");
     boolean isWordAllupper = StringTools.isAllUppercase(atrWord.getToken());
     AnalyzedToken atDeterminer = getAnalyzedToken(atrDeterminer, DETERMINER);
     AnalyzedToken atWord = getAnalyzedToken(atrWord, WORD);
