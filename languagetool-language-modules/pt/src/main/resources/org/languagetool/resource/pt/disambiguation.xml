@@ -1453,12 +1453,12 @@
     <rule id="NOS_DEU" name="nos deu, nos servia...">
         <pattern>
             <marker>
-                <token postag="PP.*" postag_regexp="yes"/>
+                <token postag="PP.*" postag_regexp="yes">nos</token>
             </marker>
-            <token regexp="yes">deu|servia</token>
-            <!--<token postag="V.[IS].*" postag_regexp="yes"/>-->
+            <!--<token regexp="yes">deu|servia</token>-->
+            <token postag="V.[IS].*" postag_regexp="yes"><exception postag="NCMP000"/></token>
         </pattern>
-        <disambig action="remove" postag="SP.*"></disambig>
+        <disambig action="remove" postag="SP.*"/>
     </rule>
 
     <rule id="PREPOSICIONAL_PHRASES" name="Expressões prepositivas">

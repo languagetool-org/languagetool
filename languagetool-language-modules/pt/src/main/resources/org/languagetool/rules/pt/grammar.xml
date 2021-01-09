@@ -20967,8 +20967,21 @@ Como nos canta Afonso X de Castela, o Rei Sábio.
              <example>Qual deles seria o rei?</example>
              <example>Além disso pratico yoga.</example>
          </rule>
+         <rule>
+             <pattern>
+                 <token>nos</token>
+                 <marker>
+                     <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception regexp="yes" case_sensitive="yes">\p{Lu}\p{Lu}+s|\p{Lu}\p{Lu}</exception></token>
+                 </marker>
+             </pattern>
+             <filter class="org.languagetool.rules.pt.ConfusionCheckFilter" args="form:\2 postag:N.[MC]P.*|A..[MC]P."/>
+             <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+             <suggestion>{suggestion}</suggestion>
+             <example correction='trâmites'>Um erro nos <marker>tramites</marker>.</example>
+             <example>Uma pedra nos servia de assento.</example>
+             <example>Você nos incomoda com sua música.</example>
+         </rule>
      </rulegroup>
-
     <rule id='ASSERTO_DE_CONTAS' name="Confusão: asserto - acerto">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
