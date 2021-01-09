@@ -211,6 +211,14 @@ RB => Règles Brutes
   </rule>
   <rulegroup id="EN" name="en (preposition/pronoun)">
     <rule>
+      <!-- gérondif -->
+      <pattern>
+        <token postag="P">en</token>
+        <token postag="V.* ppr" postag_regexp="yes"/> 
+      </pattern>
+      <disambig action="filterall"/>
+    </rule>
+    <rule>
       <pattern>
         <token postag="R .*" postag_regexp="yes"><exception regexp="yes">y|-.*</exception></token>
         <marker>
@@ -1023,6 +1031,16 @@ RB => Règles Brutes
     </pattern>
     <disambig action="filter" postag="P"></disambig>
   </rule>
+  <rule id="AVIONS" name="avions">
+    <pattern>
+      <marker>
+        <token postag="D.*" postag_regexp="yes">les</token>
+        <token postag="N.*" postag_regexp="yes">avions</token>  
+      </marker>
+      <token><exception postag="V.* ppa .*" postag_regexp="yes"></exception></token>
+    </pattern>
+    <disambig action="filterall"/>
+  </rule>
   <rule id="PERSONNE" name="personne">
     <pattern>
       <token postag="P"/>
@@ -1050,8 +1068,8 @@ RB => Règles Brutes
     </rule>
     <rule>
       <pattern>
-        <token postag="R .*" postag_regexp="yes"><exception regexp="yes">y|-.*</exception></token>
-        <token postag="R .*" postag_regexp="yes"/>
+        <token postag="R pers .*" postag_regexp="yes"><exception regexp="yes">y|-.*</exception></token>
+        <token postag="R pers .*" postag_regexp="yes"/>
         <token postag="V.* [123].*" postag_regexp="yes"/>
       </pattern>
       <disambig action="filterall"/>
