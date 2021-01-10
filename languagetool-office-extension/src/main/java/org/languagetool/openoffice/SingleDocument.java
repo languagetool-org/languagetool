@@ -182,6 +182,9 @@ class SingleDocument {
       }
       SingleProofreadingError[] sErrors = null;
       paraNum = getParaPos(nPara, paraText, locale, paRes.nStartOfSentencePosition);
+      if (docCache == null || paraNum >= docCache.size()) {
+        paraNum = -1;
+      }
       this.paraNum = paraNum;
       if (nPara >= 0) {
         isDialogRequest.add(paraNum);
