@@ -1028,8 +1028,8 @@ class SingleDocument {
     if (mDocHandler.isSortedRuleForIndex(nCache)) {
       int nTPara = docCache.getNumberOfTextParagraph(nFPara);
       if (nTPara >= 0) {
-        int nStart = docCache.getStartOfParaCheck(nTPara, nCheck, overrideRunning, true);
-        int nEnd = docCache.getEndOfParaCheck(nTPara, nCheck, overrideRunning, true);
+        int nStart = docCache.getStartOfParaCheck(nTPara, nCheck, overrideRunning, true, false);
+        int nEnd = docCache.getEndOfParaCheck(nTPara, nCheck, overrideRunning, true, false);
         mDocHandler.getTextLevelCheckQueue().addQueueEntry(nStart, nEnd, nCache, nCheck, docId, overrideRunning);
       }
     }
@@ -1041,8 +1041,8 @@ class SingleDocument {
    */
   private QueueEntry createQueueEntry(int nPara, int nCache) {
     int nCheck = minToCheckPara.get(nCache);
-    int nStart = docCache.getStartOfParaCheck(nPara, nCheck, false, true);
-    int nEnd = docCache.getEndOfParaCheck(nPara, nCheck, false, true);
+    int nStart = docCache.getStartOfParaCheck(nPara, nCheck, false, true, false);
+    int nEnd = docCache.getEndOfParaCheck(nPara, nCheck, false, true, false);
     return mDocHandler.getTextLevelCheckQueue().createQueueEntry(nStart, nEnd, nCache, nCheck, docID, false);
   }
 
@@ -1209,8 +1209,8 @@ class SingleDocument {
         paragraphMatches = langTool.check(textToCheck, true, JLanguageTool.ParagraphHandling.ONLYPARA);
       }
       
-      int startPara = docCache.getStartOfParaCheck(nTPara, parasToCheck, textIsChanged, useQueue);
-      int endPara = docCache.getEndOfParaCheck(nTPara, parasToCheck, textIsChanged, useQueue);
+      int startPara = docCache.getStartOfParaCheck(nTPara, parasToCheck, textIsChanged, useQueue, false);
+      int endPara = docCache.getEndOfParaCheck(nTPara, parasToCheck, textIsChanged, useQueue, false);
       int startPos = docCache.getStartOfParagraph(startPara, nTPara, parasToCheck, textIsChanged, useQueue);
       int endPos;
       int footnotesBefore = 0;

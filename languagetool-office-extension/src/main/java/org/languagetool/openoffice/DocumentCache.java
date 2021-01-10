@@ -281,7 +281,7 @@ public class DocumentCache implements Serializable {
   /**
    * Gives back the start paragraph for text level check
    */
-  public int getStartOfParaCheck(int numCurPara, int parasToCheck, boolean textIsChanged, boolean useQueue) {
+  public int getStartOfParaCheck(int numCurPara, int parasToCheck, boolean textIsChanged, boolean useQueue, boolean addParas) {
     if (numCurPara < 0 || toParaMapping.size() <= numCurPara) {
       return -1;
     }
@@ -302,7 +302,7 @@ public class DocumentCache implements Serializable {
       return headingBefore;
     }
     int startPos = numCurPara - parasToCheck;
-    if (textIsChanged) {
+    if (addParas) {
       startPos -= parasToCheck;
     }
     if (startPos < headingBefore) {
@@ -314,7 +314,7 @@ public class DocumentCache implements Serializable {
   /**
    * Gives back the end paragraph for text level check
    */
-  public int getEndOfParaCheck(int numCurPara, int parasToCheck, boolean textIsChanged, boolean useQueue) {
+  public int getEndOfParaCheck(int numCurPara, int parasToCheck, boolean textIsChanged, boolean useQueue, boolean addParas) {
     if (numCurPara < 0 || toParaMapping.size() <= numCurPara) {
       return -1;
     }
@@ -340,7 +340,8 @@ public class DocumentCache implements Serializable {
     int endPos = numCurPara + 1 + parasToCheck;
     if (!textIsChanged) {
       endPos += defaultParaCheck;
-    } else {
+    } 
+    if (addParas) {
       endPos += parasToCheck;
     }
     if (endPos > headingAfter) {
@@ -353,8 +354,8 @@ public class DocumentCache implements Serializable {
    * Gives Back the full Text as String
    */
   public String getDocAsString(int numCurPara, int parasToCheck, boolean textIsChanged, boolean useQueue) {
-    int startPos = getStartOfParaCheck(numCurPara, parasToCheck, textIsChanged, useQueue);
-    int endPos = getEndOfParaCheck(numCurPara, parasToCheck, textIsChanged, useQueue);
+    int startPos = getStartOfParaCheck(numCurPara, parasToCheck, textIsChanged, useQueue, true);
+    int endPos = getEndOfParaCheck(numCurPara, parasToCheck, textIsChanged, useQueue, true);
     if (startPos < 0 || endPos < 0) {
       return "";
     }
@@ -388,7 +389,7 @@ public class DocumentCache implements Serializable {
     if (nPara < 0 || toParaMapping.size() <= nPara) {
       return -1;
     }
-    int startPos = getStartOfParaCheck(checkedPara, parasToCheck, textIsChanged, useQueue);
+    int startPos = getStartOfParaCheck(checkedPara, parasToCheck, textIsChanged, useQueue, true);
     if (startPos < 0) {
       return -1;
     }
