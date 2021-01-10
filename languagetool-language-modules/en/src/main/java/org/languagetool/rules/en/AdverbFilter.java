@@ -455,6 +455,8 @@ public class AdverbFilter extends RuleFilter {
     put("cruelly", "cruel");
     put("optimally", "optimal");
     put("fictionally", "fictional");
+    put("manageably", "manageable");
+    put("unmanageably", "unmanageable");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
