@@ -28,6 +28,7 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ngrams.Probability;
 import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.rules.spelling.CachingWordListLoader;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
@@ -88,7 +89,13 @@ public class UpperCaseNgramRule extends Rule {
     ),
     Arrays.asList(
       csRegex("[A-Z].+"),
+      new PatternTokenBuilder().token("-").min(0).build(),
       token(">"),
+      csRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      csRegex("[A-Z].+"),
+      tokenRegex("[→⇾⇉⇒]"),
       csRegex("[A-Z].+")
     ),
     Arrays.asList(
