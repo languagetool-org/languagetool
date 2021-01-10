@@ -62,6 +62,17 @@ public class DocumentCache implements Serializable {
     defaultParaCheck = in.defaultParaCheck;
   }
   
+  DocumentCache(List<String> paragraphs, List<String> textParagraphs, List<int[]> footnotes, Locale locale) {
+    this.paragraphs = paragraphs;
+    this.footnotes = footnotes;
+    chapterBegins = new ArrayList<Integer>();
+    locales = new ArrayList<SerialLocale>();
+    for (int i = 0; i < paragraphs.size(); i++) {
+      locales.add(new SerialLocale(locale));
+    }
+    mapParagraphs(textParagraphs);
+  }
+  
   /**
    * reset the document cache
    * load the actual state of the document into the cache
@@ -92,52 +103,56 @@ public class DocumentCache implements Serializable {
         isReset = false;
         return;
       }
-      if (debugMode) {
-        MessageHandler.printToLogFile("\n\nNot mapped paragraphs:");
-      }
-      if (textParas != null && !textParas.isEmpty()) {
-        int n = 0; 
-        for (int i = 0; i < paragraphs.size(); i++) {
-          if ((footnotes != null && i < footnotes.size() && footnotes.get(i).length > 0)
-              || (n < textParas.size() && (paragraphs.get(i).equals(textParas.get(n)) 
-                  || removeZeroWidthSpace(paragraphs.get(i)).equals(textParas.get(n))))) {
-            toTextMapping.add(n);
-            toParaMapping.add(i);
-            n++;
-          } else {
-            toTextMapping.add(-1);
-            if (debugMode) {
-              MessageHandler.printToLogFile("\nFlat("  + i + "): '" + paragraphs.get(i));
-              if (n < textParas.size()) {
-                MessageHandler.printToLogFile("Doc("  + n + "): '" + textParas.get(n));
-              }
-            }  
-          }
-        }
-        prepareChapterBegins();
-        isReset = false;
-        if (debugMode) {
-          MessageHandler.printToLogFile("\n\ntoParaMapping:");
-          for (int i = 0; i < toParaMapping.size(); i++) {
-            MessageHandler.printToLogFile("Doc: " + i + " Flat: " + toParaMapping.get(i)
-            + OfficeTools.LOG_LINE_BREAK + getTextParagraph(i));
-          }
-          MessageHandler.printToLogFile("\n\ntoTextMapping:");
-          for (int i = 0; i < toTextMapping.size(); i++) {
-            MessageHandler.printToLogFile("Flat: " + i + " Doc: " + toTextMapping.get(i) + " locale: " + locales.get(i).Language + "-" + locales.get(i).Country);
-          }
-          MessageHandler.printToLogFile("\n\nheadings:");
-          for (int i = 0; i < chapterBegins.size(); i++) {
-            MessageHandler.printToLogFile("Num: " + i + " Heading: " + chapterBegins.get(i));
-          }
-          MessageHandler.printToLogFile("\nNumber of Flat Paragraphs: " + paragraphs.size());
-          MessageHandler.printToLogFile("Number of Text Paragraphs: " + toParaMapping.size());
-          MessageHandler.printToLogFile("Number of footnotes: " + footnotes.size());
-          MessageHandler.printToLogFile("Number of locales: " + locales.size());
-        }
-      }
+      mapParagraphs(textParas);
     } finally {
       isReset = false;
+    }
+  }
+  
+  private void mapParagraphs(List<String> textParas) {
+    if (debugMode) {
+      MessageHandler.printToLogFile("\n\nNot mapped paragraphs:");
+    }
+    if (textParas != null && !textParas.isEmpty()) {
+      int n = 0; 
+      for (int i = 0; i < paragraphs.size(); i++) {
+        if ((footnotes != null && i < footnotes.size() && footnotes.get(i).length > 0)
+            || (n < textParas.size() && (paragraphs.get(i).equals(textParas.get(n)) 
+                || removeZeroWidthSpace(paragraphs.get(i)).equals(textParas.get(n))))) {
+          toTextMapping.add(n);
+          toParaMapping.add(i);
+          n++;
+        } else {
+          toTextMapping.add(-1);
+          if (debugMode) {
+            MessageHandler.printToLogFile("\nFlat("  + i + "): '" + paragraphs.get(i));
+            if (n < textParas.size()) {
+              MessageHandler.printToLogFile("Doc("  + n + "): '" + textParas.get(n));
+            }
+          }  
+        }
+      }
+      prepareChapterBegins();
+      isReset = false;
+      if (debugMode) {
+        MessageHandler.printToLogFile("\n\ntoParaMapping:");
+        for (int i = 0; i < toParaMapping.size(); i++) {
+          MessageHandler.printToLogFile("Doc: " + i + " Flat: " + toParaMapping.get(i)
+          + OfficeTools.LOG_LINE_BREAK + getTextParagraph(i));
+        }
+        MessageHandler.printToLogFile("\n\ntoTextMapping:");
+        for (int i = 0; i < toTextMapping.size(); i++) {
+          MessageHandler.printToLogFile("Flat: " + i + " Doc: " + toTextMapping.get(i) + " locale: " + locales.get(i).Language + "-" + locales.get(i).Country);
+        }
+        MessageHandler.printToLogFile("\n\nheadings:");
+        for (int i = 0; i < chapterBegins.size(); i++) {
+          MessageHandler.printToLogFile("Num: " + i + " Heading: " + chapterBegins.get(i));
+        }
+        MessageHandler.printToLogFile("\nNumber of Flat Paragraphs: " + paragraphs.size());
+        MessageHandler.printToLogFile("Number of Text Paragraphs: " + toParaMapping.size());
+        MessageHandler.printToLogFile("Number of footnotes: " + footnotes.size());
+        MessageHandler.printToLogFile("Number of locales: " + locales.size());
+      }
     }
   }
   

@@ -264,7 +264,7 @@ class SingleDocument {
    */
   void setConfigValues(Configuration config) {
     this.config = config;
-    numParasToCheck = config.getNumParasToCheck();
+    numParasToCheck = mDocHandler.isTestMode() ? 0 : config.getNumParasToCheck();
     defaultParaCheck = PARA_CHECK_DEFAULT;
     if (numParasToCheck == 0) {
       useQueue = false;
@@ -279,6 +279,17 @@ class SingleDocument {
     if (config.noBackgroundCheck() || numParasToCheck == 0) {
       setFlatParagraphTools(xComponent);
     }
+  }
+
+  /**
+   * set the document cache - use only for tests
+   * @since 5.3
+   */
+  void setDocumentCacheForTests(List<String> paragraphs, List<String> textParagraphs, List<int[]> footnotes, Locale locale) {
+    docCache = new DocumentCache(paragraphs, textParagraphs, footnotes, locale);
+    numParasToCheck = -1;
+    mDocHandler.resetSortedTextRules();
+    minToCheckPara = mDocHandler.getNumMinToCheckParas();
   }
   
   /** Set LanguageTool menu
@@ -479,6 +490,10 @@ class SingleDocument {
    * gives Back the Position of flat paragraph / -1 if Paragraph can not be found
    */
   private int getParaPos(int nPara, String chPara, Locale locale, int startPos) {
+
+    if (mDocHandler.isTestMode() && nPara >= 0 && docCache != null) {
+      return nPara;
+    }
 
     if (numParasToCheck == 0 || xComponent == null) {
       return -1;  //  check only the processed paragraph
