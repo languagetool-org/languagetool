@@ -8166,6 +8166,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="PROPER_NOUNS" name="Prominente/geographische Eigennamen">
         <!-- geographische Namen u. ä. -->
+        <rule id="HANSI_FICK" name="Hansi Fick (Flick)">
+            <pattern>
+                <token regexp="yes">hansi|hans-dieter</token>
+                <token regexp="yes">ficks?</token>
+            </pattern>
+            <message>Meinten Sie den Fußballtrainer <suggestion><match no="1" case_conversion="startupper" /> <match no="2" regexp_match="(?i)i" regexp_replace="li" /></suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/Hansi_Flick</url>
+            <example correction="Hansi Flick"><marker>Hansi Fick</marker> gewann mit Bayern die Champions League.</example>
+        </rule>
         <rule id="ASTRA_ZENECA" name="AstraZeneca">
             <pattern>
                 <token>astra</token>
@@ -9908,7 +9917,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>neu</token>
-                    <token regexp="yes" case_sensitive="yes">Bestellung|Erwerb(es|s)?|Installation|Baus?|Lands?|Aufnahme|Einsteiger(s|in)|Verpflichtung|Preis(es)?|Abschluss(es)?|Beginns?|Fassung|Wagens?|Fahrzeugs?|Geburt|Mitglied(es|s)?|Aufbaus?|Auftrag(es|s)?|Anfangs?|([Kk]unden)?[Gg]eschäft(es|s)?|Kunde|Kundin|Kauf|Anfertigung|Einkauf|Anschaffung|Zugang(es|s)?|Gründung|Zulassung|Verschuldung|Entwicklung</token>
+                    <token regexp="yes" case_sensitive="yes">Bestellung|Erwerb(es|s)?|Installation|Baus?|Lands?|Aufnahme|Einsteiger(s|in)|Verpflichtung|Preis(es)?|Abschluss(es)?|Beginns?|Fassung|Wagens?|Fahrzeugs?|Geburt|Mitglied(es|s)?|Aufbaus?|Auftrag(es|s)?|Anfangs?|([Kk]unden)?[Gg]eschäft(es|s)?|Kunde|Kundin|Kauf|Anfertigung|Einkauf|Anschaffung|Zugang(es|s)?|Gründung|Zulassung|Verschuldung|Entwicklung|Ware</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Neu<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Neuwagen">Er bestellte sich einen <marker>neu Wagen</marker>.</example>
@@ -9998,7 +10007,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie das Nomen <suggestion>Nackt<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Nacktfoto">Er versteigerte sein <marker>nackt Foto</marker> im Internet.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>intensiv</token>
                     <token case_sensitive="yes" regexp="yes">Programms?|Pflege|Station|Bett(es)?</token>
@@ -10006,7 +10015,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie das Nomen <suggestion>Intensiv<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Intensivstation">Wegen einer Lungenentzündung verbrachte er eine Woche auf der <marker>intensiv Station</marker> im Internet.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>geheim</token>
                     <token case_sensitive="yes" regexp="yes">Rezept(es|s)?|Operation|Tipp</token>
@@ -19117,10 +19126,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern><!-- Ich bin für was neues! -->
-                    <token postag="VER:.+" postag_regexp="yes" />
+                    <token postag="VER:.+|UNKNOWN" postag_regexp="yes" />
                     <token />
                     <token>was</token>
-                    <token postag="ADJ:.+" postag_regexp="yes" />
+                    <token postag="ADJ:.+|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-zäöüß].*</token>
+                </antipattern>
+                <antipattern><!-- Ich bin neuerdings für was neues! -->
+                    <token postag="VER:.+|UNKNOWN" postag_regexp="yes" />
+                    <token postag="ADV:.+" postag_regexp="yes" />
+                    <token />
+                    <token>was</token>
+                    <token postag="ADJ:.+|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-zäöüß].*</token>
+                </antipattern>
+                <antipattern><!-- Hast du gegen was anderes gewettet? -->
+                    <token postag="VER:.+" postag_regexp="yes" />
+                    <token postag="(EIG|PRO):.+" postag_regexp="yes" />
+                    <token />
+                    <token>was</token>
+                    <token postag="ADJ:.+|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-zäöüß].*</token>
+                </antipattern>
+                <antipattern><!-- Wärst du bereits für was neues? -->
+                    <token postag="VER:.+" postag_regexp="yes" />
+                    <token postag="(EIG|PRO):.+" postag_regexp="yes" />
+                    <token postag="AD(J|V):.+" postag_regexp="yes" />
+                    <token />
+                    <token>was</token>
+                    <token postag="ADJ:.+|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-zäöüß].*</token>
+                </antipattern>
+                <antipattern><!-- Was schlägst du vor was wir ... (fehlendes Komma) -->
+                    <token skip="2" inflected="yes">schlagen</token>
+                    <token>vor</token>
+                </antipattern>
+                <antipattern><!-- Warum schaut niemand nach was in der ... -->
+                    <token skip="2" inflected="yes">schauen</token>
+                    <token>nach</token>
+                </antipattern>
+                <antipattern><!-- Warum niemand niemand mit was noch übrig ist ... -->
+                    <token skip="2" inflected="yes">nehmen</token>
+                    <token>mit</token>
                 </antipattern>
                <pattern>
                     <token regexp="yes" case_sensitive="yes">bei|für|gegen|hinter|mit|nach|neben|vo[nr]|zu|zwischen</token>
@@ -19130,8 +19173,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="wofür">Sie fragte ihn, <marker>für was</marker> er kämpfte.</example>
                 <example>Ich bin für was Neues!</example>
                 <example>Ich bin bei was neuem dabei.</example>
-                <example>Er kämpft gegen was neues.</example>
+                <example>Er kämpft neuerdings gegen was neues.</example>
                 <example>Ich stehe für was Großes.</example>
+                <example>Ich habe mich endlich entschlossen, mein Hirn mal für was Nützliches zu gebrauchen.</example>
+                <example>Könnt ihr mal von was anderem sprechen, als von der Arbeit?</example>
+                <example>Hast du wirklich an was Anderes gedacht?</example>
+                <example>Was schlägst du vor was wir machen könnten?</example>
+                <example>Wärst du bereit für was Neues?</example>
+                <example>Warum schaut niemand nach was in der Kennedy-Akte steht?</example>
             </rule>
             <rule>
                 <pattern>
@@ -27881,7 +27930,7 @@ Andere Projekte</example>
                 <url>https://www.duden.de/rechtschreibung/deutsch</url>
                 <example correction="Deutsch">Ich habe ihr auf gut <marker>deutsch</marker> gesagt, dass sie ihre Schnauze halten soll.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes">(&sprachadj1;)en</token>
                     <token regexp="yes" min="0">&anf;</token>
@@ -30920,7 +30969,7 @@ Andere Projekte</example>
                 <example correction="Ende">Sie stand am hinteren <marker>ende</marker> des Raumes.</example>
                 <example correction="Ende">Der Preis liegt am oberen <marker>ende</marker> der Skala.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">bis|seit|von</token>
                     <token regexp="yes" min="0">einschlie(ß|ss)lich</token>
@@ -30933,7 +30982,7 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Ende">Das Projekt muss bis <marker>ende</marker> Januar fertig sein.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>ich</token>
                     <token>ende</token>
@@ -30949,7 +30998,7 @@ Andere Projekte</example>
                 <example correction="Ende">Sie ist eine Frau <marker>ende</marker> Zwanzig.</example>
                 <example>Ich ende 20 Plätze später.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="PKT|SENT_START|KON:.*|VER:.*" postag_regexp="yes" />
                     <marker>
