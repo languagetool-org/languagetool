@@ -445,6 +445,9 @@ public class XMLRuleHandler extends DefaultHandler {
     }
     patternToken.setNegation(tokenNegated);
     if (!StringTools.isEmpty(exceptions.toString()) || exceptionPosToken != null) {
+      if (hasPosixCharacterClass(exceptions.toString())) {
+        exceptionLevelCaseSensitive = true;
+      }
       patternToken.setStringPosException(internString(exceptions.toString().trim()), exceptionStringRegExp,
           exceptionStringInflected, exceptionStringNegation, exceptionValidNext, exceptionValidPrev,
           exceptionPosToken, exceptionPosRegExp, exceptionPosNegation, exceptionLevelCaseSensitive);
@@ -455,6 +458,17 @@ public class XMLRuleHandler extends DefaultHandler {
       patternToken.setExceptionSpaceBefore(exceptionSpaceBefore);
     }
     resetException();
+  }
+
+  // To be compatible with Java 15, we make p{Lu} and p{Ll} imply case-sensitivity,
+  // see https://github.com/languagetool-org/languagetool/issues/4061
+  private boolean hasPosixCharacterClass(String s) {
+    boolean res = s.contains("\\p{Lu}") || s.contains("\\p{Ll}");
+    if (res && s.contains("(?i")) {
+      throw new RuntimeException("Contradicting regex contains both '?i' (case-insensitive) and \\p{Lu}/\\p{Ll} (case-sensitive): "
+              + s + " in rule " + id);
+    }
+    return res;
   }
 
   protected void setToken(Attributes attrs) throws SAXException {
@@ -551,14 +565,15 @@ public class XMLRuleHandler extends DefaultHandler {
 
   protected void finalizeTokens(UnifierConfiguration unifierConfiguration) throws SAXException {
     if (!exceptionSet || patternToken == null) {
-      boolean tokenCase = caseSensitive;
+      boolean tokenCase = caseSensitive || hasPosixCharacterClass(elements.toString());
       if (tokenLevelCaseSet) {
         tokenCase = tokenLevelCaseSensitive;
       }
       patternToken = new PatternToken(tokenInflected, internMatcher(elements.toString().trim(), regExpression, tokenCase));
       patternToken.setNegation(tokenNegated);
     } else {
-      patternToken.setTextMatcher(internMatcher(elements.toString().trim(), patternToken.isRegularExpression(), patternToken.isCaseSensitive()));
+      boolean caseSensitive = patternToken.isCaseSensitive() || hasPosixCharacterClass(elements.toString());
+      patternToken.setTextMatcher(internMatcher(elements.toString().trim(), patternToken.isRegularExpression(), caseSensitive));
     }
     if (skipPos != 0) {
       patternToken.setSkipNext(skipPos);
