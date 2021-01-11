@@ -328,7 +328,7 @@ public final class AnalyzedSentence {
   /**
    * @return all offsets in {@link #getTokensWithoutWhitespace()} where tokens with the given text occur (case-insensitive),
    * or {@code null} if there are no such occurrences
-   * @since 5.2
+   * @since 5.3
    */
   @Nullable
   @ApiStatus.Internal
@@ -339,7 +339,7 @@ public final class AnalyzedSentence {
   /**
    * @return all offsets in {@link #getTokensWithoutWhitespace()} where tokens with the given lemma occur (case-insensitive),
    * or {@code null} if there are no such occurrences
-   * @since 5.2
+   * @since 5.3
    */
   @Nullable
   @ApiStatus.Internal
