@@ -43,7 +43,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY klamzu "\)|\}|\&rsqb;|&gt;">
     <!ENTITY klam "&klamauf;|&klamzu;">
     <!ENTITY alnum "&lsqb;0-9A-ZÄÖÜa-zäöüßáàâêéèëíìîïòóôõûçñšž&rsqb;">
-    <!ENTITY sometlds "com|de|net|edu|uk|org|info|nl|eu|cn|biz|at|ch|fr|tv|to|fm|es|it|gov|mil|mx|pt|dev|us|sg|me|io|app|shop|club|games|in|co|cloud|no|se|dk|ie|cc|tk|ai|au|nz|za|cm|ng|tw|jp|kg|ag|site|int|my|ir|pk|mobi|asia|hk|mz|xyz|design|ventures|services|cat|ly|name|world|online|consulting|digital|be|is|sex|web|lab">
+    <!ENTITY sometlds "com|de|net|edu|uk|org|info|nl|eu|cn|biz|at|ch|fr|tv|to|fm|es|it|gov|mil|mx|pt|dev|us|sg|me|io|app|shop|club|games|in|co|cloud|no|se|dk|ie|cc|tk|ai|au|nz|za|cm|ng|tw|jp|kg|ag|site|int|my|ir|pk|mobi|asia|hk|mz|xyz|design|ventures|services|cat|ly|name|world|online|consulting|digital|be|is|sex|web|lab|local">
 
     <!-- Error messages -->
     <!ENTITY gla "Bitte verwenden Sie in Abkürzungen umbruchgeschützte Leerzeichen.">
@@ -8166,6 +8166,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="PROPER_NOUNS" name="Prominente/geographische Eigennamen">
         <!-- geographische Namen u. ä. -->
+        <rule id="SALVADOR_DALI" name="Salvador Dalí">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Salvador|SALVADOR</token>
+                <token regexp="yes">Dalí|DALÍ</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Salva[td]ore?</token>
+                <token regexp="yes">Dall?[íìi]</token>
+            </pattern>
+            <message>Meinten Sie den Künstler <suggestion>Salvador Dalí</suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/Salvador_Dal%C3%AD</url>
+            <example correction="Salvador Dalí"><marker>Salvator Dali</marker> war ein spanischer Maler.</example>
+        </rule>
         <rule id="HANSI_FICK" name="Hansi Fick (Flick)">
             <pattern>
                 <token regexp="yes">hansi|hans-dieter</token>
