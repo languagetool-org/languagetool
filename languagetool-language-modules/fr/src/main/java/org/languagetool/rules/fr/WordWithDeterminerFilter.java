@@ -105,12 +105,15 @@ public class WordWithDeterminerFilter extends RuleFilter {
     for (int i = 0; i < 4; i++) {
       determinerForms[i] = synth.synthesize(atDeterminer, determiner + GenderNumber[i], true);
       wordForms[i] = synth.synthesize(atWord, prefix + GenderNumber[i], true);
-
+      // if it cannot be synthesyzed, keep the original word
+      if (wordForms[i].length == 0 && atWord.getPOSTag().matches(".+" + GenderNumber[i])) {
+        wordForms[i] = new String[]{atWord.getToken()};
+      }
     }
 
     for (Rule r : lt.getAllRules()) {
       if (r.getCategory().getId().toString().equals("CAT_ELISION") || r.getId().equals("CET_CE")
-          || r.getId().equals("CE_CET")) {
+          || r.getId().equals("CE_CET") || r.getId().equals("MA_VOYELLE")) {
         lt.enableRule(r.getId());
       } else {
         lt.disableRule(r.getId());

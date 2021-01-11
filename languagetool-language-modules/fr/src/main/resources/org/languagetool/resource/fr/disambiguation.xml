@@ -183,11 +183,19 @@ RB => Règles Brutes
       <disambig action="filter" postag="R.*"/>
     </rule>
   </rulegroup>
-
-  <rule name="UN" id="un">
-    <pattern><token>un</token></pattern>
-    <disambig postag="D m s"/>
+  
+  <rule id="L_UN" name="l'un (pronom)">
+    <pattern>
+      <token postag="D e s">l'</token>
+      <token postag="R . s" postag_regexp="yes" regexp="yes">un|une</token>
+    </pattern>
+    <disambig action="filterall"></disambig>
   </rule>
+
+<!--  <rule name="UN" id="un">
+    <pattern><token postag="D m s">un</token></pattern>
+    <disambig postag="D m s"/>
+  </rule>-->
   
   <rule name="mi" id="MI">
     <pattern>
@@ -1891,6 +1899,17 @@ RB => Règles Brutes
         <marker><token>fait</token></marker>
       </pattern>
       <disambig postag="N m s"/>
+    </rule>
+    <rule>
+      <!-- TODO: generalize -->
+      <pattern>
+        <token regexp="yes">une</token>
+        <marker>
+          <token skip="3">fait</token>
+        </marker>
+        <token regexp="yes">(\d+)?(m|cm|mm|diamètre|.*mètres?|haut|long)</token>
+      </pattern>
+      <disambig postag="V ind pres 3 s"/>
     </rule>
   </rulegroup>
   <rule id="FORTE" name="forte">
