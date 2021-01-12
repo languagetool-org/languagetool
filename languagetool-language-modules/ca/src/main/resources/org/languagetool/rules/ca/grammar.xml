@@ -15908,7 +15908,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
-        <rule id="ES_FOS" name="es fos" default="temp_off">
+        <rule id="ES_FOS" name="es fos">
             <pattern>
                 <token>es</token>
                 <token>fos</token>
@@ -26863,7 +26863,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Cal escriure <suggestion>Via Crucis</suggestion> o <suggestion>viacrucis</suggestion>.</message>
                 <example correction="Via Crucis|viacrucis">Ha estat un <marker>via crucis</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>covid</token>
                     <token min="0">-</token>
@@ -33816,7 +33816,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CASING" name="E) Majúscules i minúscules" type="typographical">
-        <rulegroup id="MAJUSCULA_IMPROBABLE" name="majúscula incorrecta" default="temp_off">
+        <rulegroup id="MAJUSCULA_IMPROBABLE_" name="majúscula incorrecta" default="temp_off">
             <rule>
                 <antipattern>
                     <token>Al</token>
@@ -33834,22 +33834,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token postag="SENT_START"/>
-                    <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
+                    <token min="0" max="4" postag="_PUNCT.*" postag_regexp="yes"/>
                     <token postag="&pronom_feble;" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
                 </antipattern>
                 <antipattern>
                     <token postag="&pronom_feble;" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
                     <token regexp="yes">\p{Lu}+</token>
                 </antipattern>
-                <pattern>
-                    <token><exception regexp="yes">\.|…</exception></token>
-                    <token postag="&pronom_feble;" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
+                <antipattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <token regexp="yes">El|La|Els|Les</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">\p{L}..+</token>
+                    <token postag="&pronom_feble;" postag_regexp="yes" regexp="yes">\p{Lu}.*<exception>\p{Lu}\p{Lu}+</exception></token>
                 </pattern>
                 <message>Possible confusió en l'ús de la majúscula.</message>
                 <suggestion>\1. \2</suggestion>
                 <suggestion>\1 <match no="2" case_conversion="alllower"/></suggestion>
                 <example correction="això. M'|això m'">Era <marker>això M'</marker>agrada dir-ho clar.</example>
                 <example>AIXÒ M'AGRADA MOLT!</example>
+                <example>La Forquilla solidària amb l'EM que ha incorporat.</example>
+                <example>Gestió Urbanística per l’ES d’Arquitectura.</example>
+                <example>19,149.69 US Dollars</example>
             </rule>
         </rulegroup>
         <rule id="SEGLE_MINUSCULA" name="segle en minúscula (s.)">
@@ -34210,19 +34217,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="març">Del 3 de Juliol al 5 de <marker>Març</marker>.</example>
                 <example correction="març">Del 3 de Juliol fins al 5 de <marker>Març</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="SENT_START"/>
-                    <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
+                    <token min="0" max="3" postag="_PUNCT.*|DN.*" postag_regexp="yes"/>
                     <token regexp="yes">Primavera|Estiu|Tardor|Hivern</token>
                 </antipattern>
-                <pattern case_sensitive="yes">
+                <antipattern>
+                    <token>.</token>
                     <token regexp="yes">Primavera|Estiu|Tardor|Hivern</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">Universitat|Campionat|Fira|Trofeu|Festa|Escola|Saló</token>
+                    <token regexp="yes" min="0">de|d'</token>
+                    <token min="0" inflected="yes">el</token>
+                    <token regexp="yes">Primavera|Estiu|Tardor|Hivern</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token>Palau</token>
+                    <token>d'</token>
+                    <token>Hivern</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">Primavera|Estiu|Tardor|Hivern<exception postag="NP.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Les estacions s'escriuen en minúscula, excepte si formen part d'un nom propi.</message>
                 <suggestion><match no="1" case_conversion="alllower"/></suggestion>
                 <example correction="primavera">Aquesta <marker>Primavera</marker> anirem a la muntanya.</example>
                 <example>Primavera de 1988.</example>
+                <example>5, “Primavera”</example>
+                <example>Universitat Catalana d'Estiu.</example>
             </rule>
         </rulegroup>
         <rule id="MAJ_DESPRES_INTERROGANT" name="Majúscula després d'interrogant">
@@ -36000,7 +36024,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- TODO: sintetitzador amb verb reflexiu -->
             <example correction="pencar|(rompre's) l'esquena|(escarrassar-se)">Ací cal <marker>donar el callo</marker>.</example>
         </rule>
-        <rule id="GALLA_PLACIDIA" name="Gal·la Placídia" default="temp_off">
+        <rule id="GALLA_PLACIDIA" name="Gal·la Placídia">
             <antipattern case_sensitive="yes">
                 <token>Gal·la</token>
                 <token>Placídia</token>
@@ -36012,7 +36036,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>L'escriptura correcta és <suggestion>Gal·la Placídia</suggestion>, nom d'una princesa romana.</message>
             <example correction="Gal·la Placídia"><marker>gala Placidia</marker>.</example>
         </rule>
-        <rule id="RASCA" name="rasca/gelor" default="temp_off">
+        <rule id="RASCA" name="rasca/gelor">
             <pattern>
                 <token postag="D..FS." postag_regexp="yes"/>
                 <marker>
@@ -36024,7 +36048,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="gelor|fred">Quina <marker>rasca</marker> que fa!</example>
             <example correction="gelor|fred">Fa una <marker>rasca</marker> terrible.</example>
         </rule>
-        <rule id="ENGENDRE" name="engendre/mostre" default="temp_off">
+        <rule id="ENGENDRE" name="engendre/mostre">
             <pattern>
                 <token postag="D..MS." postag_regexp="yes"/>
                 <marker>
@@ -36048,7 +36072,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>per entremig</suggestion>
             <example correction="pel mig|per entremig">Em vaig trobar allò <marker>de pel mig</marker>.</example>
         </rule>
-        <rulegroup id="TRAURE_ELS_COLORS" name="*traure els colors" default="temp_off">
+        <rulegroup id="TRAURE_ELS_COLORS" name="*traure els colors">
             <rule>
                 <pattern>
                     <token regexp="yes">em|et|ens|us|vos|els|m'|t'</token>
@@ -45523,7 +45547,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="aire|aspecte|aparença">L'entrevista va agafar <marker>visos</marker> de paròdia.</example>
         </rule>
         <rulegroup id="RARE_WORDS" name="paraules molt infreqüents">
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>amb</token>
                     <token min="0">molta</token>
@@ -45547,7 +45571,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token inflected="yes">dessolar</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)ss" regexp_replace="s"/></suggestion>? "<match no="1" case_conversion="startupper"/>" vol dir 'llevar la sola'.</message>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)ss" regexp_replace="s"/></suggestion>? "Dessolar" (amb dues esses) vol dir 'llevar la sola'.</message>
                 <example correction="desolat">Estic <marker>dessolat</marker>.</example>
             </rule>
             <rule>
