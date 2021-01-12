@@ -50,7 +50,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY unidades_tiempo "segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio">
 <!ENTITY expresiones_tiempo "ahora|hoy|ayer|antaño|hogaño|temporada|curso"> <!-- to add manually when needed: mañana-->
 <!ENTITY nombres_colectivos "mayoría|par|gente|grupo|parte|familia|docena|centena|millar">
-<!ENTITY common_english_nouns_feminine "University|Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation|Conference|Tool|Union|Agency|Company|Force">
+<!ENTITY common_english_nouns_feminine "University|Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation|Conference|Tool|Union|Agency|Company|Force|Licence|License">
 <!ENTITY common_english_nouns_masculine "Club|TM|UD|UE|SD|Team|Day|Center|Centre|Hilton|Group|Museum|Studio|College">
 <!ENTITY context_ano "anal|culo|cáncer|rectal|estómago|intestino|defecación|defecar|digestivo|sistema|tracto|hez|mierda|excremento|orificio|excretar|cagar">
 <!ENTITY denominacion "elemento|palabra|término|expresión|vocablo|nombre|tipo|denominación">
@@ -13743,11 +13743,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="DE_BASA" name="*de/se basa" default="temp_off"> 
+        <rule id="DE_BASA" name="*de/se basa" default="temp_off">
             <pattern>
                 <marker>
-                <token>de</token>
-                <token>basa</token>
+                    <token>de</token>
+                    <token>basa</token>
                 </marker>
                 <token>en</token>
             </pattern>
@@ -14451,6 +14451,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Hola,">"¿<marker>Ola</marker> quién es?"</example>
                 <example correction="Hola,">¡<marker>Ola</marker> quien va!</example>
                 <example>Ola de calor en la costa.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HOLA_OLA" name="hola -> ola" default="temp_off">
+            <antipattern>
+                <token inflected="yes" regexp="yes">decir|gritar</token>
+                <token>hola</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="D..[FC]S." postag_regexp="yes"/>
+                    <token min="0" postag="A..[FC][SN]." postag_regexp="yes"/>
+                    <marker>
+                        <token>hola</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>ola</suggestion> (onda, oleada)?</message>
+                <example correction="ola">Vino una gran <marker>hola</marker>.</example>
+                <example correction="ola">Una <marker>hola</marker> enorme.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>hola</token>
+                    <token>de</token>
+                    <token regexp="yes">nuevo|parte</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>hola</token>
+                    </marker>
+                    <token regexp="yes">de|del</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>ola</suggestion> (onda, oleada)?</message>
+                <example correction="ola"><marker>hola</marker> de calor.</example>
+                <example>Hola de nuevo.</example>
+                <example>Hola de parte de mi hermano.</example>
             </rule>
         </rulegroup>
         <rule id="HA_A" name="ha -> a">
