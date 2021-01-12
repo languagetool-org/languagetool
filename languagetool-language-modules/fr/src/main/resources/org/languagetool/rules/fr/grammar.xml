@@ -207,6 +207,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 (the rule on "ajouter en plus"
 was already there before the category was created,
 though, and has since been slightly modified)-->
+      <rulegroup id="SUPERLATIF" name="superlatif">
+          <rule id="PLUS_MIEUX" name="plus mieux" default="temp_off">
+          <pattern>
+              <token>plus</token>
+              <token regexp="yes">mieux?</token>
+          </pattern>
+          <message>« plus mieux » est une collocation fautive.</message>
+          <suggestion>bien mieux</suggestion>
+          <suggestion>meilleur</suggestion>
+          <example correction="bien mieux|meilleur">C'est <marker>plus mieux</marker> que ce j'ai fait.</example>
+      </rule>
+      <rule id="PLUS_BIEN" name="plus bien" default="temp_off">
+          <pattern>
+              <token regexp="yes">plus?</token>
+              <token regexp="yes">bien?</token>
+          </pattern>
+          <message>« plus bien » est une collocation fautive.</message>
+          <suggestion>moins</suggestion>
+          <example correction="moins">Il dort <marker>plus bien</marker>.</example>
+          <example correction="moins">Il travaille <marker>plus bien</marker>.</example>
+      </rule>
+  </rulegroup>
     <rule id="ACCULER_AU_PIED_DU_MUR" name="acculer au pied du mur">
       <pattern>
         <token inflected="yes" skip="5">acculer</token>
