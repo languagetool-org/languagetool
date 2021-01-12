@@ -106,19 +106,19 @@ class CheckCallable implements Callable<File> {
           } catch (ApiErrorException e) {
             // Convert the error to a fake rule match so it will appear as part of the diff, instead
             // of ending up in some log file:
-            printErr(threadName + " - POST to " + url + " failed: " + e.getMessage() +
+            printErr(threadName + " - POST to " + url + " failed with " + e.getClass().getName() + ": " + e.getMessage() +
               ", try " + retry + ", max tries " + maxTries + ", no retries useful for this type of error, storing error as pseudo match");
-            writeFakeError(mapper, fw, text, pseudoFileName, e);
+            writeFakeError(mapper, fw, text, pseudoFileName, e, 0);
             break;
           } catch (Exception e) {
             if (retry >= maxTries) {
-              printErr(threadName + " - POST to " + url + " failed: " + e.getMessage() +
+              printErr(threadName + " - POST to " + url + " failed with " + e.getClass().getName() + ": " + e.getMessage() +
                 ", try " + retry + ", max tries " + maxTries + ", no retries left, writing fake error");
-              writeFakeError(mapper, fw, text, pseudoFileName, new ApiErrorException(e.getMessage()));
+              writeFakeError(mapper, fw, text, pseudoFileName, new ApiErrorException(e.getClass().getName() + ": " + e.getMessage()), retry);
               break;
             } else {
               long sleepMillis = retrySleepMillis * retry;
-              printErr(threadName + " - POST to " + url + " failed: " + e.getMessage() +
+              printErr(threadName + " - POST to " + url + " failed with " + e.getClass().getName() + ": " + e.getMessage() +
                 ", try " + retry + ", max tries " + maxTries + ", sleeping " + sleepMillis + "ms before retry");
               Thread.sleep(sleepMillis);
               //e.printStackTrace();
@@ -142,10 +142,10 @@ class CheckCallable implements Callable<File> {
     System.err.println(sdf.format(new Date()) + " " + s);
   }
 
-  private void writeFakeError(ObjectMapper mapper, FileWriter fw, String textToCheck, String pseudoFileName, ApiErrorException e) throws IOException {
+  private void writeFakeError(ObjectMapper mapper, FileWriter fw, String textToCheck, String pseudoFileName, ApiErrorException e, int retries) throws IOException {
     Language lang = Languages.getLanguageForShortCode(langCode);
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
-    RuleMatch ruleMatch = new RuleMatch(new FakeRule(), lt.getAnalyzedSentence(textToCheck), 0, 1, FAIL_MESSAGE + e.getMessage());
+    RuleMatch ruleMatch = new RuleMatch(new FakeRule(), lt.getAnalyzedSentence(textToCheck), 0, 1, FAIL_MESSAGE + e.getMessage() + " (retries: " + retries + ")");
     DetectedLanguage detectedLang = new DetectedLanguage(lang, lang);
     String json = new RuleMatchesAsJsonSerializer().ruleMatchesToJson(Collections.singletonList(ruleMatch), textToCheck, 100, detectedLang);
     JsonNode jsonNode = mapper.readTree(json);
