@@ -13759,18 +13759,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" inflected="yes">qué|quién|cuánto|que|cual|cuál|como|cómo|cuando|cuándo</token>
                 <token>hay</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">lo|la|las|los|¿</token>
+                <token>hay</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
                         <token>hay</token>
                     </marker>
                     <token>de</token>
-                    <token postag="D..[MF]..*|PP.*" postag_regexp="yes"/>
+                    <token postag="D..[MF]..*|PP.*" postag_regexp="yes" inflected="yes" regexp="yes">el|aquel|mí|ti|él|nosotros|vosotros|ellos</token>
                 </pattern>
                 <message>Si és una interjección, se escribe <suggestion>ay</suggestion>. Correcto si es el v. 'haber'.</message>
                 <example correction="Ay">¡<marker>Hay</marker> de mí!</example>
+                <example correction="Ay">¡<marker>Hay</marker> de aquellos que no crean!</example>
+                <example correction="Ay">¡<marker>Hay</marker> de los que me ofendan!</example>
                 <example>¿Qué hay de lo mío?</example>
                 <example>¿Cuántos hay de los buenos?</example>
+                <example>Hay de diversos tamaños y proyección hacia delante</example>
+                <example>¿Hay de estos en mi talla?</example>
+                <example>Las hay de varias clases.</example>
+                <example>Suciedad hay de muchos tipos y grados.</example>
+                <example>Las hay de muchos tipos </example>
             </rule>
             <rule>
                 <pattern>
