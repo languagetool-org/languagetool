@@ -4025,6 +4025,21 @@ though, and has since been slightly modified)-->
         <url>https://fr.wikipedia.org/wiki/John_Entwistle</url>
         <example correction="John Entwistle"><marker>John Entwhistle</marker> est né en 1944.</example>
       </rule>
+      <rule default="temp_off">
+        <antipattern case_sensitive="yes">
+          <token>Côte</token>
+          <token>d'</token>
+          <token>Ivoire</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">c[ôo]t[éeè]</token>
+          <token>d'</token>
+          <token regexp="yes">ivoi?re?</token>
+        </pattern>
+        <message>Écrivez <suggestion>Côte d'Ivoire</suggestion>.</message>
+        <url>https://fr.wikipedia.org/wiki/C%C3%B4te_d%27Ivoire</url>
+        <example correction="Côte d'Ivoire"><marker>Côté d'Ivoire</marker></example>
+      </rule>
       <rule>
         <antipattern case_sensitive="yes">
           <token>Johns</token>
