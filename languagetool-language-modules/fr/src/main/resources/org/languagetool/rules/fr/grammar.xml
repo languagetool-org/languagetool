@@ -181,7 +181,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="la chasse">N'oublie pas de tirer <marker>le chasse</marker> d'eau.</example>
         <example correction="le Guyana|les Guyanes"><marker>la Guyana</marker></example>
         <example correction="l'OVNI|les OVNIs|les OVNI">Croyez-vous à <marker>l'OVNIs</marker> ?</example>
-        <example correction="sa Considération|ses Considération"><marker>ses Considération</marker></example>
+        <example correction="sa Considération|ses Considérations"><marker>ses Considération</marker></example>
         <example>la Royal Society</example>
         <example>le Stars Studio</example>
         <example>la Botswana Defence Force</example>
@@ -5565,11 +5565,11 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion>dû</suggestion> ?</message>
         <example correction="dû">À quoi est <marker>du</marker> le silence de nos intelletuels ?</example>
       </rule>
-      <rule default="temp_off">
+      <rule>
         <pattern>
           <token>a</token>
           <marker>
-            <token regexp="yes">du</token>
+            <token>du</token>
           </marker>
           <token postag="V.* inf" postag_regexp="yes"/>
         </pattern>
@@ -16702,6 +16702,20 @@ though, and has since been slightly modified)-->
         <example>Quelles que puissent être vos raisons</example>
       </rule>
     </rulegroup>
+    <rule id="VINGT_ET_UN" name="vingt-et-un (trait d'union)" default="temp_off">
+      <!-- TODO: autres numéraux composés ? -->
+      <pattern>
+        <token>vingt</token>
+        <token min="0">-</token>
+        <token>et</token>
+        <token min="0">-</token>
+        <token>un</token>
+      </pattern>
+      <message>Orthographe recommandée.</message><!-- TODO: update message -->
+      <suggestion>vingt-et-un</suggestion>
+      <url>https://fr.wiktionary.org/wiki/Annexe:Rectifications_orthographiques_du_fran%C3%A7ais_en_1990#Num%C3%A9raux_compos%C3%A9s</url>
+      <example correction="vingt-et-un">J'ai <marker>vingt et un</marker> ans</example>
+    </rule>
     <rulegroup id="DEMI" name="demi et demie">
       <url>https://www.projet-voltaire.fr/regles-orthographe/demi-ou-demie/</url>
       <rule>
