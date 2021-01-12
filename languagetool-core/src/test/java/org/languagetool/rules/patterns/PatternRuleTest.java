@@ -538,9 +538,12 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     if (!expectedCorrections.isEmpty()) {
       boolean expectedNonEmptyCorrection = expectedCorrections.get(0).length() > 0;
       if (expectedNonEmptyCorrection) {
-        if (!(rule.getMessage().contains("<suggestion>") || rule.getSuggestionsOutMsg().contains("<suggestion>")) && rule.getFilter() == null) {
-          addError(rule, "You specified a correction, but your message has no suggestions. rule.getMessage(): " +
-                  rule.getMessage() + ", rule.getSuggestionsOutMsg(): " + rule.getSuggestionsOutMsg());
+        if (!(rule.getMessage().contains("<suggestion>") || rule.getSuggestionsOutMsg().contains("<suggestion>"))
+            && rule.getFilter() == null) {
+          addError(rule,
+              "You specified a correction, but your message has no suggestions. rule.getMessage(): " + rule.getMessage()
+                  + ", rule.getSuggestionsOutMsg(): " + rule.getSuggestionsOutMsg() + ", rule.getFullId():"
+                  + rule.getFullId());
         }
       }
       List<String> realSuggestions = matches.get(0).getSuggestedReplacements();
