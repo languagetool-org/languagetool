@@ -870,6 +870,13 @@ public class MultiDocumentsHandler {
   }
   
   /**
+   * reset sorted text level rules
+   */
+  public void resetSortedTextRules() {
+    sortedTextRules = new SortedTextRules();
+  }
+
+  /**
    * Returns a list of different numbers of paragraphs to check for text level rules
    */
   public List<Integer> getNumMinToCheckParas() {

@@ -30,10 +30,7 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -315,6 +312,65 @@ public class JLanguageToolTest {
     matches = lt.check(text);
     assertThat(matches.size(), is(0));
 
+  }
+
+  class TestRule extends Rule{
+    private final int subId;
+
+    public TestRule(int subId) {
+      this.subId = subId;
+    }
+
+    @Override
+    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+      return toRuleMatchArray(Collections.emptyList());
+    }
+
+    @Override
+    public String getFullId() {
+      return String.format("TEST_RULE[%d]", subId);
+    }
+
+    @Override
+    public String getDescription() {
+      return "Test rule";
+    }
+
+    @Override
+    public String getId() {
+      return "TEST_RULE";
+    }
+  }
+
+  @Test
+  public void testDisableFullId() {
+    List<Rule> activeRules;
+    JLanguageTool lt = new JLanguageTool(new Demo(), null);
+    Rule testRule1 = new TestRule(1), testRule2 = new TestRule(2);
+    // preconditions / sanity checks
+    assertEquals("ruleID equal", testRule1.getId(), testRule2.getId());
+    assertNotEquals("fullRuleID not equal", testRule1.getFullId(), testRule2.getFullId());
+    assertNotEquals("rule objects not equal", testRule1, testRule2);
+
+    lt.addRule(testRule1);
+    lt.addRule(testRule2);
+
+    activeRules = lt.getAllActiveRules();
+    assertTrue("added rules are active", activeRules.contains(testRule1));
+    assertTrue("added rules are active", activeRules.contains(testRule2));
+
+    // disable rule TEST_RULE -> both TEST_RULE[1] and TEST_RULE[2] should be disabled
+    lt.disableRule(testRule1.getId());
+    activeRules = lt.getAllActiveRules();
+    assertFalse("rules are disabled", activeRules.contains(testRule1));
+    assertFalse("rules are disabled", activeRules.contains(testRule2));
+
+    // enable TEST_RULE, disable TEST_RULE[1] -> only TEST_RULE[2] active
+    lt.enableRule(testRule1.getId());
+    lt.disableRule(testRule1.getFullId());
+    activeRules = lt.getAllActiveRules();
+    assertFalse("rule disabled by full ID", activeRules.contains(testRule1));
+    assertTrue("rule enabled by partial ID ", activeRules.contains(testRule2));
   }
 
   private class IgnoreInterval {

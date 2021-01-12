@@ -179,8 +179,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("semi ") &&
                    !k.getReplacement().toLowerCase().startsWith("lo ") &&
                    !k.getReplacement().startsWith("mu ") &&
-                   !k.getReplacement().startsWith("e ") &&
-                   !k.getReplacement().startsWith("c ") &&
+                   !k.getReplacement().toLowerCase().startsWith("bis ") &&
+                   !k.getReplacement().toLowerCase().startsWith("e ") &&
+                   !k.getReplacement().toLowerCase().startsWith("c ") &&
                    !k.getReplacement().endsWith(" able") &&
                    !k.getReplacement().endsWith(" less") && // (e.g. permissionless)
                    !k.getReplacement().endsWith(" sly") && // uneccesary suggestion (e.g. for continuesly)
@@ -326,6 +327,11 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   protected static Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
+    s.put("constits", Arrays.asList("consists"));
+    s.put("morphium", Arrays.asList("morphine"));
+    s.put("Morphium", Arrays.asList("Morphine"));
+    s.put("morphiums", Arrays.asList("morphines"));
+    s.put("Morphiums", Arrays.asList("Morphines"));
     s.put("approvement", Arrays.asList("approval"));
     s.put("Approvement", Arrays.asList("Approval"));
     s.put("approvements", Arrays.asList("approvals"));

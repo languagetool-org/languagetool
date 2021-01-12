@@ -56,6 +56,8 @@ public class AgreementRule2Test {
     assertGood("Gemeinsam Sportler anfeuern.");
     assertGood("Viel Spaß beim Arbeiten");
     assertGood("Ganz Europa stand vor einer Neuordnung.");
+    assertGood("Gesetzlich Versicherte sind davon ausgenommen.");
+    assertGood("Ausreichend Bananen essen.");
   }
 
   private void assertGood(String s) throws IOException {

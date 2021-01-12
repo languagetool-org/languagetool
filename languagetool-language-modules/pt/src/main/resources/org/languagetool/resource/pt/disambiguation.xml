@@ -1449,6 +1449,17 @@
       <example inputform="se[se/CS,se/PP3CN000]" outputform="se[se/PP3CN000]" type="ambiguous">Testa-<marker>se</marker>.</example>
       <example inputform="o[o/DA0MS0,o/PD0MS000,o/PP3MSA00]" outputform="o[o/PD0MS000,o/PP3MSA00]" type="ambiguous">Testa-<marker>o</marker>.</example>
     </rule>
+    
+    <rule id="NOS_DEU" name="nos deu, nos servia...">
+        <pattern>
+            <marker>
+                <token postag="PP.*" postag_regexp="yes">nos</token>
+            </marker>
+            <!--<token regexp="yes">deu|servia</token>-->
+            <token postag="V.[IS].*" postag_regexp="yes"><exception postag="NCMP000"/></token>
+        </pattern>
+        <disambig action="remove" postag="SP.*"/>
+    </rule>
 
     <rule id="PREPOSICIONAL_PHRASES" name="Expressões prepositivas">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-06  	-->

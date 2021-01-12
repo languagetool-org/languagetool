@@ -67,10 +67,10 @@ class MessageHandler {
    * Show an error in a dialog
    */
   static void showError(Throwable e) {
+    printException(e);
     if (testMode) {
       throw new RuntimeException(e);
     }
-    printException(e);
     String msg = "An error has occurred in LanguageTool "
         + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + "):\n" + e + "\nStacktrace:\n";
     msg += Tools.getFullStackTrace(e);

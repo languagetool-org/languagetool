@@ -93,7 +93,7 @@ public class EnglishChunkerTest {
   @Test
   public void testNonBreakingSpace() throws IOException {
     String expectedTags = "[[/SENT_START], [away/JJ, away/NN, away/RB, away/RP, away/UH], [from/IN, from/RP], " +
-      "[home/NN:UN], [often/JJ, often/RB], [?/SENT_END, ?/PCT]]";
+      "[home/NN:UN], [often/RB], [?/SENT_END, ?/PCT]]";
     String expectedChunks = "[[], [B-ADVP], [], [B-PP], [], [B-NP-singular, E-NP-singular], [], [B-ADVP], [O]]";
     EnglishChunker chunker = new EnglishChunker();
     JLanguageTool lt = new JLanguageTool(new English());

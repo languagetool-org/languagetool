@@ -1437,6 +1437,24 @@ Meus caros e minhas caras, o dinheiro nunca é suficiente.
 		  <token regexp='no' spacebefore='no'>me</token>
       </antipattern>	  	  
 <!-- MARCOAGPINTO 2020-11-11 (21-OCT-2020+) *END* -->
+<!-- MARCOAGPINTO 2021-01-11 + 2021-01-12 (1-JAN-2021+) *START* -->
+<!--
+Como sou católico, constrange-me falar abertamente sobre este tema.
+Dói-me dizer isso, mas você está demitido.
+Dói-nos dizer isso, mas você está demitido.
+Dói-me ao ouvir isso.
+Entristece-me ao ouvir isso.
+-->
+      <antipattern>
+		  <token postag='VMIP3S0|VMM02S0' postag_regexp='yes'>
+			<exception postag='NCFS000' postag_regexp='no'/> <!-- NOUN MALE SEEMS TO WORK WELL WITH THIS RULE "Dói-me dizer" WHILE FEMALE GIVES FALSE POSITIVES  "Deixa-me dizer"-->
+		  </token>
+		  <token regexp='yes' spacebefore='no'>&hifen;</token>
+		  <token regexp='yes' spacebefore='no'>me|lhes?|nos</token>
+		  <token min="0" max="1" postag='SPS.+' postag_regexp='yes'/>
+		  <token postag='VMN0000' postag_regexp='no'/>
+      </antipattern>	  	  
+<!-- MARCOAGPINTO 2021-01-11 + 2021-01-12 (1-JAN-2021+) *END* -->
       <pattern>
           <token min='0' regexp='yes'>tu|vós</token>
           <token postag="V...2.+" postag_regexp='yes'>
@@ -1455,6 +1473,11 @@ Meus caros e minhas caras, o dinheiro nunca é suficiente.
 	  <example type='correct'>E assim <marker>abri-lhe</marker> a porta.</example>
 	  <example type='correct'>E assim <marker>abri-lhes</marker> a porta.</example>
 	  <example type='correct'><marker>O Facebook pergunta-me</marker> o que vai na minha mente.</example>
+	  <example type='correct'>Como sou católico, <marker>constrange-me</marker> falar abertamente sobre este tema.</example>
+	  <example type='correct'><marker>Dói-me</marker> dizer isso, mas você está demitido.</example>
+	  <example type='correct'><marker>Dói-nos</marker> dizer isso, mas você está demitido.</example>	  
+	  <example type='correct'><marker>Dói-me</marker> ao ouvir isso.</example>
+	  <example type='correct'><marker>Entristece-me</marker> ao ouvir isso.</example>
     </rule>
     <!--    <rule>
       <antipattern>

@@ -213,6 +213,14 @@ public class Main extends WeakBase implements XJobExecutor,
   }
   
   /**
+   * Give back the MultiDocumentsHandler - use only for test cases.
+   * @since 5.3
+   */
+  MultiDocumentsHandler getMultiDocumentsHandler() {
+    return documents;
+  }
+  
+  /**
    * Called when "Ignore" is selected e.g. in the context menu for an error.
    * interface: XProofreader
    */

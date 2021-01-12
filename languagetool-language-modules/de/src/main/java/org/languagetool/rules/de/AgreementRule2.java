@@ -48,8 +48,12 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 public class AgreementRule2 extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = asList(
-    asList(csToken("Reichlich"), posRegex("SUB:.*")),  // "Reichlich Inspiration bietet..."
-    asList(csRegex("Regelmäßig|Hauptsächlich"), posRegex("SUB:.*PLU.*")),  // "Regelmäßig Kiwis und Ananas zu essen..."
+    asList(csRegex("Ständig|Okay|Meist|Ausreichend|Genügend|Reichlich|Regelmäßig|Hauptsächlich"), posRegex("SUB:.*")),  // "Regelmäßig Kiwis und Ananas zu essen...", "Reichlich Inspiration bietet..."
+    asList(token("psychisch"), regex("Kranken?")),
+    asList(token("sportlich"), regex("Aktiven?")),
+    asList(token("politisch"), regex("Interessierten?")),
+    asList(regex("gesetzlich|privat"), regex("Versicherten?")),
+    asList(token("typisch"), posRegex("SUB:.*"), regex("[!?.]")),  // "Typisch November!"
     asList(token("lecker"), token("Essen")),  // "Lecker Essen an Weihnachten."
     asList(token("erneut"), posRegex("SUB:.*")),  // "Erneut Ausgangssperre beschlossen"
     asList(token("Gesetzlich"), token("Krankenversicherte")),

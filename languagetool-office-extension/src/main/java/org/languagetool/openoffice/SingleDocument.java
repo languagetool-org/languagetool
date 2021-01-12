@@ -264,7 +264,7 @@ class SingleDocument {
    */
   void setConfigValues(Configuration config) {
     this.config = config;
-    numParasToCheck = config.getNumParasToCheck();
+    numParasToCheck = mDocHandler.isTestMode() ? 0 : config.getNumParasToCheck();
     defaultParaCheck = PARA_CHECK_DEFAULT;
     if (numParasToCheck == 0) {
       useQueue = false;
@@ -279,6 +279,17 @@ class SingleDocument {
     if (config.noBackgroundCheck() || numParasToCheck == 0) {
       setFlatParagraphTools(xComponent);
     }
+  }
+
+  /**
+   * set the document cache - use only for tests
+   * @since 5.3
+   */
+  void setDocumentCacheForTests(List<String> paragraphs, List<String> textParagraphs, List<int[]> footnotes, Locale locale) {
+    docCache = new DocumentCache(paragraphs, textParagraphs, footnotes, locale);
+    numParasToCheck = -1;
+    mDocHandler.resetSortedTextRules();
+    minToCheckPara = mDocHandler.getNumMinToCheckParas();
   }
   
   /** Set LanguageTool menu
@@ -479,6 +490,10 @@ class SingleDocument {
    * gives Back the Position of flat paragraph / -1 if Paragraph can not be found
    */
   private int getParaPos(int nPara, String chPara, Locale locale, int startPos) {
+
+    if (mDocHandler.isTestMode() && nPara >= 0 && docCache != null) {
+      return nPara;
+    }
 
     if (numParasToCheck == 0 || xComponent == null) {
       return -1;  //  check only the processed paragraph
@@ -1013,8 +1028,8 @@ class SingleDocument {
     if (mDocHandler.isSortedRuleForIndex(nCache)) {
       int nTPara = docCache.getNumberOfTextParagraph(nFPara);
       if (nTPara >= 0) {
-        int nStart = docCache.getStartOfParaCheck(nTPara, nCheck, overrideRunning, true);
-        int nEnd = docCache.getEndOfParaCheck(nTPara, nCheck, overrideRunning, true);
+        int nStart = docCache.getStartOfParaCheck(nTPara, nCheck, overrideRunning, true, false);
+        int nEnd = docCache.getEndOfParaCheck(nTPara, nCheck, overrideRunning, true, false);
         mDocHandler.getTextLevelCheckQueue().addQueueEntry(nStart, nEnd, nCache, nCheck, docId, overrideRunning);
       }
     }
@@ -1026,8 +1041,8 @@ class SingleDocument {
    */
   private QueueEntry createQueueEntry(int nPara, int nCache) {
     int nCheck = minToCheckPara.get(nCache);
-    int nStart = docCache.getStartOfParaCheck(nPara, nCheck, false, true);
-    int nEnd = docCache.getEndOfParaCheck(nPara, nCheck, false, true);
+    int nStart = docCache.getStartOfParaCheck(nPara, nCheck, false, true, false);
+    int nEnd = docCache.getEndOfParaCheck(nPara, nCheck, false, true, false);
     return mDocHandler.getTextLevelCheckQueue().createQueueEntry(nStart, nEnd, nCache, nCheck, docID, false);
   }
 
@@ -1194,8 +1209,8 @@ class SingleDocument {
         paragraphMatches = langTool.check(textToCheck, true, JLanguageTool.ParagraphHandling.ONLYPARA);
       }
       
-      int startPara = docCache.getStartOfParaCheck(nTPara, parasToCheck, textIsChanged, useQueue);
-      int endPara = docCache.getEndOfParaCheck(nTPara, parasToCheck, textIsChanged, useQueue);
+      int startPara = docCache.getStartOfParaCheck(nTPara, parasToCheck, textIsChanged, useQueue, false);
+      int endPara = docCache.getEndOfParaCheck(nTPara, parasToCheck, textIsChanged, useQueue, false);
       int startPos = docCache.getStartOfParagraph(startPara, nTPara, parasToCheck, textIsChanged, useQueue);
       int endPos;
       int footnotesBefore = 0;

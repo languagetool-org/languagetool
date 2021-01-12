@@ -179,6 +179,7 @@ public abstract class AbstractPatternRule extends Rule {
    * @since 3.2
    * @see #getId()
    */
+  @Override
   public String getFullId() {
     if (subId != null) {
       return id + "[" + subId + "]";
