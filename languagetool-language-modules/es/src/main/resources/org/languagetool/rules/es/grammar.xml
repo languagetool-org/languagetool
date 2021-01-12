@@ -6212,6 +6212,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Cuando los de esto.</example>
                 <example>La de es la tercera letra del abecedario.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>que</token>
+                    <token min="0" max="6" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <marker>
+                        <token>de<exception postag="RG|LOC_ADV" postag_regexp="yes"/></token>
+                    </marker>
+                    <token>voz</token> <!-- TODO: extend -->
+                </pattern>
+                <message>Si es del v. 'dar', se escribe con tilde.</message>
+                <suggestion>dé</suggestion>
+                <example correction="dé">Quieren que <marker>de</marker> voz a los marginados.</example>
+                <example correction="dé">Quieren que de una vez por todas <marker>de</marker> voz a los marginados.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="TE_TILDE" name="té/te" default="on">
             <antipattern>
