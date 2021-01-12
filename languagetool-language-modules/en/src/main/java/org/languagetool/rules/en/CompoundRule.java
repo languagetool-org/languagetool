@@ -41,6 +41,11 @@ public class CompoundRule extends AbstractCompoundRule {
         new PatternTokenBuilder().tokenRegex("['’`´‘]").build(),
         new PatternTokenBuilder().token("re").build()
       ),
+      Arrays.asList( // We well received your email
+        new PatternTokenBuilder().pos("PRP").build(),
+        new PatternTokenBuilder().token("well").build(),
+        new PatternTokenBuilder().posRegex("VB.*").build()
+      ),
       Arrays.asList(
         new PatternTokenBuilder().tokenRegex("and|&").build(),
         new PatternTokenBuilder().token("co").build()

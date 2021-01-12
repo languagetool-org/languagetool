@@ -13431,4 +13431,30 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+
+    <rulegroup id="CAN_MD" name="can -> MD">
+        <rule>
+            <pattern>
+                <token postag="CC|SENT_START|PCT" postag_regexp="yes" />
+                <marker>
+                    <token regexp="yes">can|will</token>
+                </marker>
+                <token regexp="yes">I|you|we|they|it|s?he|(every|some|any)(body|one|thing)</token>
+                <token postag="VB" chunk="B-VP" />
+            </pattern>
+            <disambig action="filter" postag="MD" />
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="CC|SENT_START|PCT" postag_regexp="yes" />
+                <marker>
+                    <token regexp="yes">can|will</token>
+                </marker>
+                <token regexp="yes">I|you|we|they|it|s?he|(every|some|any)(body|one|thing)</token>
+                <token postag="RB" chunk="B-ADVP" />
+                <token postag="VB" chunk="B-VP" />
+            </pattern>
+            <disambig action="filter" postag="MD" />
+        </rule>
+    </rulegroup>
 </rules>

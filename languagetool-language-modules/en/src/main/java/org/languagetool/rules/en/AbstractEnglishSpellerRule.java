@@ -178,7 +178,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("nano ") &&
                    !k.getReplacement().toLowerCase().startsWith("semi ") &&
                    !k.getReplacement().toLowerCase().startsWith("lo ") &&
-                   !k.getReplacement().startsWith("mu ") &&
+                   !k.getReplacement().toLowerCase().startsWith("ed ") &&
+                   !k.getReplacement().toLowerCase().startsWith("al ") &&
+                   !k.getReplacement().toLowerCase().startsWith("mu ") &&
+                   !k.getReplacement().toLowerCase().startsWith("ma ") &&
                    !k.getReplacement().toLowerCase().startsWith("bis ") &&
                    !k.getReplacement().toLowerCase().startsWith("e ") &&
                    !k.getReplacement().toLowerCase().startsWith("c ") &&
@@ -191,6 +194,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" ize") && // "advertize"
                    !k.getReplacement().endsWith(" sh") &&
                    !k.getReplacement().endsWith(" ward") &&
+                   !k.getReplacement().endsWith(" ting") && // someting
+                   !k.getReplacement().endsWith(" ion") && // presention
                    !k.getReplacement().endsWith(" cal") &&
                    !k.getReplacement().endsWith(" ted") && // "bursted"
                    !k.getReplacement().endsWith(" sphere") &&
@@ -202,6 +207,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" ti") &&
                    !k.getReplacement().endsWith(" de") &&
                    !k.getReplacement().endsWith(" re") &&
+                   !k.getReplacement().endsWith(" e") &&
+                   !k.getReplacement().endsWith(" c") &&
                    !k.getReplacement().endsWith(" ma"))
       .collect(Collectors.toList());
   }
@@ -328,6 +335,13 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   protected static Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
     s.put("constits", Arrays.asList("consists"));
+    s.put("carrie", Arrays.asList("carry"));
+    s.put("presention", Arrays.asList("presentation"));
+    s.put("Presention", Arrays.asList("Presentation"));
+    s.put("presension", Arrays.asList("presentation"));
+    s.put("Presension", Arrays.asList("Presentation"));
+    s.put("realtime", Arrays.asList("real-time"));
+    s.put("Realtime", Arrays.asList("Real-time"));
     s.put("morphium", Arrays.asList("morphine"));
     s.put("Morphium", Arrays.asList("Morphine"));
     s.put("morphiums", Arrays.asList("morphines"));
