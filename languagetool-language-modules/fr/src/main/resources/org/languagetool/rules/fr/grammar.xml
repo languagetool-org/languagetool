@@ -122,16 +122,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag="V .* [123].*" postag_regexp="yes"/>
         </antipattern>
         <antipattern>
-          <token postag="V .* 3 p" postag_regexp="yes"/>
+          <token postag="V .* [321] p" postag_regexp="yes"/>
           <!-- or disambiguate as pronoun -->
           <token regexp="yes">toutes|tous</token>
+        </antipattern>
+        <antipattern>
+          <token>mi</token>
+          <token spacebefore="no">-</token>
+          <token spacebefore="no" postag="[NJY].*" postag_regexp="yes"/>
         </antipattern>
         <pattern>
           <unify negate="yes">
             <feature id="number"/>
             <feature id="gender"/>
             <token postag="(P\+)?D .*" postag_regexp="yes"/>
-            <token postag="[NZ] .*" postag_regexp="yes"/> <!--<exception postag="V.*[123].*" postag_regexp="yes"/>-->
+            <token postag="[NZ] .*" postag_regexp="yes"></token> <!--<exception postag="V.*[123].*" postag_regexp="yes"/>-->
           </unify>
         </pattern>
         <filter class="org.languagetool.rules.fr.WordWithDeterminerFilter" args="wordFrom:2 determinerFrom:1"/>
@@ -174,6 +179,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="la route|les routes">ni voitures sur <marker>la routes</marker> ni avions dans le ciel</example>
         <example correction="la seconde|les secondes">depuis <marker>le seconde</marker> moitié du XXe siècle</example>
         <example correction="la chasse">N'oublie pas de tirer <marker>le chasse</marker> d'eau.</example>
+        <example correction="le Guyana|les Guyanes"><marker>la Guyana</marker></example>
+        <example correction="l'OVNI|les OVNIs|les OVNI">Croyez-vous à <marker>l'OVNIs</marker> ?</example>
+        <example correction="sa Considération|ses Considération"><marker>ses Considération</marker></example>
         <example>la Royal Society</example>
         <example>le Stars Studio</example>
         <example>la Botswana Defence Force</example>
@@ -199,6 +207,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>L'une a quatre ans, l'autre seize.</example>
         <example>Il commence à pleuvoir et l'une dit :</example>
         <example>2 tortues de mer dont une fait au moins 1m de diamètre</example>
+        <example>Identité importante sous laquelle Lupin va servir la France.</example>
+        <example>Partager sa passion, c’est la vivre pleinement.</example>
+        <example>La vie commence lorsque tu es prêt à la vivre.</example>
+        <example>La mi-2020.</example>
+        <example>La mi-semestre.</example>
+        <example>42 % déclarent savoir la parler plus ou moins bien</example>
+        <example>Les neuf circonscriptions des Alpes-Maritimes.</example>
+        <example>Le marque l'apparition de la bonneterie.</example>
+        <example>Le marque le retour de la firme sur le marché.</example>
+        <example>Vous avez tous fait du bon travail.</example>
+        <example>Croyez-vous aux OVNI ?</example>
+        <example>Croyez-vous aux OVNIs ?</example>
+        <example>Les Andorrans sont avant tout fiers de leur liberté et de leur indépendance.</example>
+        <example>Fut l'un des tout premiers microordinateurs.</example>
+        <example>aux moins de vingt et un ans</example>
+      </rule>
+    </rulegroup>
+    <rulegroup name="cas particuliers de concordance" id="AGREEMENT_PARTICULAR">
+      <rule>
+        <pattern>
+          <marker>
+            <token postag="D [me] s" postag_regexp="yes"/>
+            <token>mi</token>
+          </marker>
+          <token spacebefore="no">-</token>
+          <token spacebefore="no" postag="[NJY].*" postag_regexp="yes"/>
+        </pattern>
+        <message>'<match no="1" case_conversion="startupper"/>' et le nom '\2' ne semblent pas bien accordés.</message>
+        <suggestion><match no="1" postag="(D.*)" postag_regexp="yes" postag_replace="D f s"/> mi</suggestion>
+        <example correction="La mi"><marker>Le mi</marker>-semestre.</example>
+        <example correction="La mi"><marker>Le mi</marker>-2020.</example>
       </rule>
     </rulegroup>
   </category>

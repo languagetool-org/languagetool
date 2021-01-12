@@ -113,7 +113,7 @@ public class WordWithDeterminerFilter extends RuleFilter {
 
     for (Rule r : lt.getAllRules()) {
       if (r.getCategory().getId().toString().equals("CAT_ELISION") || r.getId().equals("CET_CE")
-          || r.getId().equals("CE_CET") || r.getId().equals("MA_VOYELLE")) {
+          || r.getId().equals("CE_CET") || r.getId().equals("MA_VOYELLE") || r.getId().equals("MON_NFS")) {
         lt.enableRule(r.getId());
       } else {
         lt.disableRule(r.getId());
