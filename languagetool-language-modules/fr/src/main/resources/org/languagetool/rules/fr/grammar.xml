@@ -21,6 +21,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
+    <!ENTITY prefixes "mini|anti|pré|nord|sud|néo|méga|ultra|pro|inter|micro|macro|sous|haut|auto|ré|super|vice|hyper|proto|grand|pseudo|multi">
     <!ENTITY domain_names "la|li|ai|al|vi|ve|va|vg|us|si|se|bo|be|ca|com|ac|ad|ae|aero|af|ag|am|an|ao|aq|ar|arpa|as|asia|at|au|aw|ax|az|ba|bb|bd|bf|bg|bh|bi|biz|bj|bm|bn|br|bs|bt|bv|bw|by|bz|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|coop|cr|cu|cv|cw|cx|cy|cz|de|dj|dk|dm|do|dz|ec|edu|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gov|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|info|int|io|iq|ir|is|it|je|jm|jo|jobs|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|lb|lc|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mil|mk|ml|mm|mn|mo|mobi|mp|mq|mr|ms|mt|mu|museum|mv|mw|mx|my|mz|na|name|nc|ne|net|nf|ng|ni|nl|no|np|nr|nu|nz|om|org|pa|pe|pf|pg|ph|pk|pl|pm|pn|post|pr|pro|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|sg|sh|sj|sk|sl|sm|sn|so|sr|st|su|sv|sx|sy|sz|tc|td|tel|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|travel|tt|tv|tw|tz|ua|ug|uk|uy|uz|vc|vn|vu|wf|ws|xn|xxx|ye|yt|za|zm|zw">
     <!ENTITY elision_regexp "h?[àâaêèéeiîoôòóöŌuœä]\D.*|à|hy\D.*|y[ptslv].*|Yonne|Xbox">
     <!ENTITY elision_regexp_PAS_D_ELISION "h?[àâaéêèeiîoôòóöŌuœäìø].*|à|hy\D.*|y[ptlsv].*|y|hbts|1[\.,]\d+&#x25;?|1[h&#x25;]?|Yonne|Xbox">
@@ -16742,6 +16743,15 @@ though, and has since been slightly modified)-->
       <suggestion>\1-et-<match no="5" case_conversion="alllower"/></suggestion>
       <url>https://fr.wiktionary.org/wiki/Annexe:Rectifications_orthographiques_du_fran%C3%A7ais_en_1990#Num%C3%A9raux_compos%C3%A9s</url>
       <example correction="vingt-et-un">J'ai <marker>vingt et un</marker> ans</example>
+    </rule>
+    <rule id="PREFIX_TRAIT_DUNION" name="prefix avec trait d'union" default="temp_off">
+      <pattern>
+        <token postag="A" regexp="yes">&prefixes;</token>
+        <token postag="[NJ].*" postag_regexp="yes"/>
+      </pattern>
+      <message>Devant un nom ou adjective « \1 » se rattache avec un trait d’union.</message>
+      <suggestion>\1-\2</suggestion>
+      <example correction="mini-réfrigérateurs">Deux <marker>mini réfrigérateurs</marker>.</example>
     </rule>
     <rulegroup id="DEMI" name="demi et demie">
       <url>https://www.projet-voltaire.fr/regles-orthographe/demi-ou-demie/</url>
