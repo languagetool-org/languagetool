@@ -8788,6 +8788,20 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
+      <rule id="LA_OU_LES_PLUS_DE_NOM" name="la ou les plus nom" default="temp_off">
+          <pattern>
+              <marker>
+                  <token regexp="yes">la|les</token>
+              </marker>
+              <token regexp="yes">plus|moins</token>
+              <token regexp="yes">de</token>
+              <token postag="N.*" postag_regexp="yes"></token>
+          </pattern>
+          <message>«la» est une expression fautive.</message>
+          <suggestion>le</suggestion>
+          <example correction="le">C'est ici qu'il y a <marker>la</marker> plus de chance de gagner.</example>
+          <example correction="le">C'est ici qu'il y a <marker>les</marker> moins de voitures.</example>
+      </rule>
       <rulegroup id="JE_M_APPEL" name="je m'appel (appelle)">
           <rule><!-- je -->
               <pattern>
