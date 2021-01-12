@@ -9305,7 +9305,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token postag="V.* [123].*|V.* inf" postag_regexp="yes"/>
-          <token min="0" postag="V.* ppa.*" postag_regexp="yes"/>
+          <token min="0" max="3" postag="V.* ppa.*|A" postag_regexp="yes"/>
           <marker>
             <token>aveuglement</token>  
           </marker>
@@ -9313,11 +9313,13 @@ though, and has since been slightly modified)-->
         <message>Écrivez <suggestion>aveuglément</suggestion> si c'est un adverbe signifiant 'sans réflexion'.</message>
         <example correction="aveuglément">Il croit <marker>aveuglement</marker> tout ce qu'elle dit.</example>
         <example correction="aveuglément">Tu as cru <marker>aveuglement</marker> tout ce qu'elle dit.</example>
-        <example correction="aveuglément">Elle ne voulait pas suivre <marker>aveuglement</marker> les directives du parti</example> 
+        <example correction="aveuglément">Elle ne voulait pas suivre <marker>aveuglement</marker> les directives du parti</example>
+        <example correction="aveuglément">Ne sois pas <marker>aveuglement</marker> obséquieux avec ton patron.</example>
+        <example correction="aveuglément">Il a toujours fait <marker>aveuglement</marker> confiance à son épouse.</example>
       </rule>
       <rule>
         <pattern>
-          <token postag="[DJ].* [me] (s|sp)" postag_regexp="yes"/>
+          <token postag="[DJ].* [me] (s|sp)|P" postag_regexp="yes"/>
           <marker>
             <token>aveuglément</token>  
           </marker>
@@ -9325,6 +9327,9 @@ though, and has since been slightly modified)-->
         <message>Écrivez <suggestion>aveuglement</suggestion> si c'est un nom signifiant 'égarement, erreur'.</message>
         <example correction="aveuglement">Son <marker>aveuglément</marker> politique finit par lui coûter sa carrière.</example> 
         <example correction="aveuglement">Au milieu du plus complet <marker>aveuglément</marker>.</example>
+        <example correction="aveuglement">Je l'amais sans <marker>aveuglément</marker>.</example>
+        <example correction="aveuglement">L'art de l'<marker>aveuglément</marker>.</example>
+        <example correction="aveuglement">Sans cet <marker>aveuglément</marker>.</example>
       </rule>
     </rulegroup>
     <rule id="CONFUSION_OU" name="Confusion entre ou/où">
