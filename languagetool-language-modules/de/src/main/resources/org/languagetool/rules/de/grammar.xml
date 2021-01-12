@@ -5064,7 +5064,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
-        <rulegroup id="GOTEN_GUTEN" name="Goten vs. Guten" default="temp_off">
+        <rulegroup id="GOTEN_GUTEN" name="Goten vs. Guten">
             <rule>
                 <pattern>
                     <marker>
@@ -9902,7 +9902,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token>original</token>
-                    <token regexp="yes" case_sensitive="yes">Verpackung|Zubehörs?|Zustand(es|s)?|Rechnung|Angebot(es|s)?|Werk(es|s)?|Kaufurkunde|Urkunde|Unterlagen?|Grö(ß|ss)e|Aufnahme|Ausgabe|Beitrag(es|s)?|Besetzung|Bild(es|s)?|Videos?|Dokument(es|s)?|Datei|Fassung|Packung|Rezept(es|s)?|Text(es|s)?|Titels?|Tons?|Version|Zeichnung|Kartons?|Hülle|Inhalt(es|s)?|Bauteils?|Teils?</token>
+                    <token regexp="yes" case_sensitive="yes">Verpackung|Zubehörs?|Zustand(es|s)?|Rechnung|Angebot(es|s)?|Werk(es|s)?|Kaufurkunde|Urkunde|Unterlagen?|Grö(ß|ss)e|Aufnahme|Ausgabe|Beitrag(es|s)?|Besetzung|Bild(es|s)?|Videos?|Dokument(es|s)?|Datei|Fassung|Packung|Rezept(es|s)?|Text(es|s)?|Titels?|Tons?|Version|Zeichnung|Kartons?|Hülle|Inhalt(es|s)?|Bauteils?|Teils?|Plans?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Original<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Originalrechnung">Sie hatte die <marker>original Rechnung</marker> nicht mehr, um das Produkt umzutauschen.</example>
@@ -9918,6 +9918,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Gesamt<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Gesamtkunstwerk">Sie betrachtete das <marker>gesamt Kunstwerk</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>voll</token>
+                    <token regexp="yes" case_sensitive="yes">Ausstattung|Automats?|Glatze|Dampf|Gas|Idiots?|Kasko|Korns?|Narkose</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Voll<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Vollausstattung">Ein Opel Corsa mit <marker>voll Ausstattung</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -9954,11 +9962,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token regexp="yes" skip="1">auf|in|ohne</token>
-                    <token regexp="yes">englisch|deutsch|spanisch|französisch|portugiesisch</token>
+                    <token regexp="yes">englisch|deutsch|spanisch|französisch|italienisch|portugiesisch|koreanisch|türkisch|russisch|chinesisch</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">englisch|deutsch|spanisch|französisch|heft(es|s)?|buch(es|s)?</token>
-                    <token regexp="yes">lehrer[sn]?|hausaufgaben?|unterricht(es|s)?|kurs|dozent|professors?|kenntnis(sen?)?</token>
+                    <token regexp="yes">englisch|deutsch|spanisch|französisch|italienisch|portugiesisch|koreanisch|türkisch|russisch|chinesisch</token>
+                    <token regexp="yes">lehrer[sn]?|hausaufgaben?|unterricht(es|s)?|kurs|dozent|professors?|kenntnis(sen?)?|heft(es|s)?|buch(es|s)?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion><match no="1" case_conversion="startupper" />-<match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="Deutsch-Lehrer">Mein <marker>deutsch Lehrer</marker> hat mir eine 1 gegeben.</example>
@@ -19930,6 +19938,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="WERT_SEIN" name="was das Wert (wert) ist" default="temp_off">
+            <pattern>
+                <token regexp="yes">das|die|es|etwas|Geld|Sache|Tausende?|Hunderte?|Millionen</token>
+                <marker>
+                    <token case_sensitive="yes">Wert</token>
+                </marker>
+                <token inflected="yes">sein</token>
+            </pattern>
+            <message>Das Adjektiv <suggestion><match no="2" case_conversion="alllower" /></suggestion> wird in diesem Kontext kleingeschrieben.</message>
+            <example correction="wert">Er wollte wissen was das <marker>Wert</marker> ist.</example>
+        </rule>
         <rulegroup id="PAUSE_MACHEN" name="pause (Pause) machen">
             <antipattern><!-- Ohne das ab zu pausen machten wir Fortschritte -->
                 <token>zu</token>
@@ -27961,7 +27980,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">(&sprachadj1;)en</token>
-                    <token regexp="yes">und|oder|&amp;|bzw|beziehungsweise|,</token>
+                    <token regexp="yes">und|oder|&amp;|bzw|beziehungsweise|sowie|,</token>
                     <token min="0" regexp="yes">\.|auch|eben(falls|so)|gleichzeitig|simultan</token>
                     <token min="0">im</token>
                     <token postag="UNKNOWN|ADJ:.*" postag_regexp="yes" />
