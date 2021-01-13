@@ -13768,12 +13768,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="DE_BASA" name="*de/se basa" default="temp_off">
+        <rule id="DE_BASA" name="*de/se basa">
             <pattern>
                 <marker>
                     <token>de</token>
                     <token>basa</token>
                 </marker>
+                <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token>en</token>
             </pattern>
             <message>¿Quería decir <suggestion>se basa</suggestion>?</message>
@@ -14478,7 +14479,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ola de calor en la costa.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="HOLA_OLA" name="hola -> ola" default="temp_off">
+        <rulegroup id="HOLA_OLA" name="hola -> ola">
             <antipattern>
                 <token inflected="yes" regexp="yes">decir|gritar</token>
                 <token>hola</token>
