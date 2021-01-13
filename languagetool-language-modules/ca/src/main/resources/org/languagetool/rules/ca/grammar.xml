@@ -34217,38 +34217,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="març">Del 3 de Juliol al 5 de <marker>Març</marker>.</example>
                 <example correction="març">Del 3 de Juliol fins al 5 de <marker>Març</marker>.</example>
             </rule>
-            <rule>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token min="0" max="3" postag="_PUNCT.*|DN.*" postag_regexp="yes"/>
-                    <token regexp="yes">Primavera|Estiu|Tardor|Hivern</token>
-                </antipattern>
-                <antipattern>
-                    <token>.</token>
-                    <token regexp="yes">Primavera|Estiu|Tardor|Hivern</token>
-                </antipattern>
-                <antipattern case_sensitive="yes">
-                    <token regexp="yes">Universitat|Campionat|Fira|Trofeu|Festa|Escola|Saló</token>
-                    <token regexp="yes" min="0">de|d'</token>
-                    <token min="0" inflected="yes">el</token>
-                    <token regexp="yes">Primavera|Estiu|Tardor|Hivern</token>
-                </antipattern>
-                <antipattern case_sensitive="yes">
-                    <token>Palau</token>
-                    <token>d'</token>
-                    <token>Hivern</token>
-                </antipattern>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">Primavera|Estiu|Tardor|Hivern<exception postag="NP.*" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Les estacions s'escriuen en minúscula, excepte si formen part d'un nom propi.</message>
-                <suggestion><match no="1" case_conversion="alllower"/></suggestion>
-                <example correction="primavera">Aquesta <marker>Primavera</marker> anirem a la muntanya.</example>
-                <example>Primavera de 1988.</example>
-                <example>5, “Primavera”</example>
-                <example>Universitat Catalana d'Estiu.</example>
-            </rule>
         </rulegroup>
+        <rule id="ESTACIONS_MINUSCULA" name="estacions en minúscula">
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token min="0" max="3" postag="_PUNCT.*|DN.*" postag_regexp="yes"/>
+                <token regexp="yes">Primavera|Estiu|Tardor|Hivern</token>
+            </antipattern>
+            <antipattern>
+                <token>.</token>
+                <token regexp="yes">Primavera|Estiu|Tardor|Hivern</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Universitat|Campionat|Fira|Trofeu|Festa|Escola|Saló|Cicle|Jornada|Jornades</token>
+                <token min="0" max="2" postag="AQ.*" postag_regexp="yes" case_sensitive="yes" regexp="yes">\p{Lu}.*|['"‘’“”«»]</token>
+                <token regexp="yes" min="0">de|d'</token>
+                <token min="0" inflected="yes">el</token>
+                <token regexp="yes">Primavera|Estiu|Tardor|Hivern</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>Palau</token>
+                <token>d'</token>
+                <token>Hivern</token>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">Primavera|Estiu|Tardor|Hivern<exception postag="NP.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Les estacions s'escriuen en minúscula, excepte si formen part d'un nom propi.</message>
+            <suggestion><match no="1" case_conversion="alllower"/></suggestion>
+            <example correction="primavera">Aquesta <marker>Primavera</marker> anirem a la muntanya.</example>
+            <example>Primavera de 1988.</example>
+            <example>5, “Primavera”</example>
+            <example>Universitat Catalana d'Estiu.</example>
+            <example>Jornades Gastronòmiques de Tardor</example>
+        </rule>
         <rule id="MAJ_DESPRES_INTERROGANT" name="Majúscula després d'interrogant">
             <pattern>
                 <token regexp="yes">[?!]</token>
