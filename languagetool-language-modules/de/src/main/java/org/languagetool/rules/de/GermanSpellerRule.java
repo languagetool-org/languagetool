@@ -151,6 +151,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("unauslässlich", w -> Arrays.asList("unerlässlich", "unablässig", "unauslöschlich"));
     put("Registration", "Registrierung");
     put("Registrationen", "Registrierungen");
+    put("Spinnenweben", "Spinnweben");
     putRepl("[Ww]ar ne", "ne", "eine");
     putRepl("[Gg]arnix", "nix", "nichts");
     putRepl("[Ww]i", "i", "ie");

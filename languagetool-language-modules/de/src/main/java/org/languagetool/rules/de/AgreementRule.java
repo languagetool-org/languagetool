@@ -458,6 +458,11 @@ public class AgreementRule extends Rule {
       token("einige"),
       token("Grad")
     ),
+    Arrays.asList( // Ein dickes Danke an alle die ...
+      token("ein"),
+      tokenRegex("dickes|großes|grosses|fettes|persönliches"),
+      token("Danke")
+    ),
     Arrays.asList(
       pos(JLanguageTool.SENTENCE_START_TAGNAME),
       tokenRegex("D(a|ie)s"),

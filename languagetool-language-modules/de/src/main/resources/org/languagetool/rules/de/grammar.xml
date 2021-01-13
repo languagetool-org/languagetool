@@ -9887,6 +9887,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Zusammenschreibung</short>
             <!-- ähnlich wie MEIN_KLEIN_HAUS, nur dass Vorschläge für spezielle/häufige Fälle geliefert werden -->
             <rule>
+                <antipattern>
+                    <token>DA</token>
+                    <token>Direkt</token>
+                </antipattern>
                 <pattern>
                     <token>direkt</token>
                     <token regexp="yes">verkauf(es|s)?|vertriebs?|nachricht|akquise|bestellung|buchung|lieferung|versicherung|versicherers?|bank|kandidat(es|s)?|kandidatur|mandat(es|s)?|saft(es|s)?|vergabe|vermarktung|marketings?|investition|werbung|verbindung|bezug(es|s)?|hilfe|vergleich(es|s)?|kauf(es|s)?|einspritzers?|wahl|beteiligung|zahlung|wahlkreis(es)?|abnahme</token>
@@ -9919,7 +9923,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie das Nomen <suggestion>Gesamt<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Gesamtkunstwerk">Sie betrachtete das <marker>gesamt Kunstwerk</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>voll</token>
                     <token regexp="yes" case_sensitive="yes">Ausstattung|Automats?|Glatze|Dampf|Gas|Idiots?|Kasko|Korns?|Narkose</token>
@@ -14725,6 +14729,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1\2</suggestion>
                 <short>&typo;</short>
                 <example correction="zweifacher">Er ist <marker>zwei facher</marker> Weltmeister.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d+</token>
+                        <token case_sensitive="yes" regexp="yes">fach(e[rsnm]?)?</token>
+                    </marker>
+                </pattern>
+                <message>Mit Zahlwort + 'fach' gebildete Wörter werden zusammengeschrieben.</message>
+                <suggestion>\1-\2</suggestion>
+                <short>&typo;</short>
+                <example correction="2-facher">Er ist <marker>2 facher</marker> Weltmeister.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUSGESCHRIEBENE_ZAHLEN" name="zwei hundert (zweihundert)">
@@ -19938,7 +19954,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="WERT_SEIN" name="was das Wert (wert) ist" default="temp_off">
+        <rulegroup id="AUFS_SCHAERFSTE" name="auf das schärfste (Schärfste)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">aufs?</token>
+                    <token min="0">das</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">schärfste|allerschärfste</token>
+                    </marker>
+                    <token inflected="yes">verurteilen</token>
+                </pattern>
+                <message>Das Wort wird in diesem Kontext großgeschrieben.</message>
+                <suggestion><match no="3" case_conversion="startupper" /></suggestion>
+                <example correction="Schärfste">Wir werden das auf das <marker>schärfste</marker> verurteilen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="10">verurteilen</token>
+                    <token regexp="yes">aufs?</token>
+                    <token min="0">das</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">schärfste|allerschärfste</token>
+                    </marker>
+                </pattern>
+                <message>Das Wort wird in diesem Kontext großgeschrieben.</message>
+                <suggestion><match no="4" case_conversion="startupper" /></suggestion>
+                <example correction="Schärfste">Wir verurteilen diese Aussagen aufs <marker>schärfste</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rule id="WERT_SEIN" name="was das Wert (wert) ist">
             <pattern>
                 <token regexp="yes">das|die|es|etwas|Geld|Sache|Tausende?|Hunderte?|Millionen</token>
                 <marker>
@@ -43205,6 +43249,11 @@ Andere Projekte</example>
                 <token skip="-1" regexp="yes">-|—|–</token>
                 <token postag="SENT_END"/>
             </antipattern>
+            <antipattern><!-- exclude single words -->
+                <token regexp="yes">„|”|»|«|"</token>
+                <token regexp="yes">\w+</token>
+                <token postag="SENT_END" regexp="yes">“|»|«|"</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">\w+</token>
                 <token postag="SENT_END" regexp="yes">“|»|«|"</token>
@@ -43216,6 +43265,7 @@ Andere Projekte</example>
             <example correction="jetzt.«|jetzt!«|jetzt?«">Er sagte: »Ich gehe <marker>jetzt«</marker></example>
             <example>Zur Anthropologie der „Arbeit“</example>
             <example>Onko — Bedeutet Kaffee „ohne Koffein“</example>
+            <example>«Briefanrede»</example>
         </rule>
         <rulegroup id="ABKUERZUNG_FALSCHE_PUNKTE" name="zu viel gesetzte Punkte in Abkürzungen (z. B. 'e.t.c.')">
             <!-- TODO ergänzen. -->
