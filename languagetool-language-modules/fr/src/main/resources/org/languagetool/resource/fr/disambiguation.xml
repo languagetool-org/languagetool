@@ -1304,6 +1304,32 @@ RB => Règles Brutes
     </pattern>
     <disambig action="filterall"/>
   </rule>
+  <rulegroup id="POUVOUIR_INFINITIF" name="pouvoir + infinitif">
+    <rule>
+      <pattern>
+        <token postag="V.*" postag_regexp="yes" inflected="yes">pouvoir</token>
+        <token postag="V.* inf" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filterall"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="V.*" postag_regexp="yes" inflected="yes">pouvoir</token>
+        <token postag="R pers obj.*" postag_regexp="yes"/>
+        <token postag="V.* inf" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filterall"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="V.*" postag_regexp="yes" inflected="yes">pouvoir</token>
+        <token postag="A">pas</token>
+        <token postag="R pers obj.*" postag_regexp="yes"/>
+        <token postag="V.* inf" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filterall"/>
+    </rule>
+  </rulegroup>
   <rulegroup id="PRONOM_SUJET_VERB" name="pronom sujet + verb">
     <rule>
       <pattern>
