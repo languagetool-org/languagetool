@@ -232,9 +232,12 @@ public class TextLevelCheckQueue {
   Language getLanguage(String docId, int nStart) {
     SingleDocument document = getSingleDocument(docId);
     if (document != null) {
-      Locale locale = document.getDocumentCache().getTextParagraphLocale(nStart);
-      if (multiDocHandler.hasLocale(locale)) {
-        return multiDocHandler.getLanguage(locale);
+      DocumentCache docCache = document.getDocumentCache();
+      if (docCache != null) {
+        Locale locale = docCache.getTextParagraphLocale(nStart);
+        if (multiDocHandler.hasLocale(locale)) {
+          return multiDocHandler.getLanguage(locale);
+        }
       }
     }
     return null;

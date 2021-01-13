@@ -740,12 +740,13 @@ public class MultiDocumentsHandler {
   /**
    * Reset document cache of all documents
    */
+/*  TODO: Remove after tests
   void resetDocumentCaches() {
     for (SingleDocument document : documents) {
       document.resetDocumentCache();
     }
   }
-
+*/
   /**
    * Get current locale language
    */
@@ -1196,7 +1197,8 @@ public class MultiDocumentsHandler {
       } else if ("checkDialog".equals(sEvent) || "checkAgainDialog".equals(sEvent)) {
         if (ltDialog != null) {
           ltDialog.closeDialog();
-        } else if (dialogIsRunning) {
+        } 
+        if (dialogIsRunning) {
           return;
         }
         setLtDialogIsRunning(true);
@@ -1211,7 +1213,8 @@ public class MultiDocumentsHandler {
               checkDialog.setTextViewCursor(0, 0, viewCursor, docCursor);
             }
           }
-          resetDocumentCaches();
+//  TODO: Remove after tests
+//          resetDocumentCaches();
           resetDocument();
         }
         if (debugMode) {

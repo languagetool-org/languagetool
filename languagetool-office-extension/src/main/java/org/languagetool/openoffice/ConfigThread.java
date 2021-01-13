@@ -73,7 +73,7 @@ class ConfigThread extends Thread {
         documents.setDisabledRules(disabledRulesUI);
         config.removeDisabledRuleIds(disabledRulesUI);
         config.saveConfiguration(docLanguage);
-        documents.resetDocumentCaches();
+//        documents.resetDocumentCaches();
         documents.resetConfiguration();
       } else {
         config.removeDisabledRuleIds(documents.getDisabledRules());

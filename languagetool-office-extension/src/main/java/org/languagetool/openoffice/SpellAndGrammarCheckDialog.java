@@ -214,6 +214,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
           return nLastFlat; 
         }
       }
+    } else if (y >= docCache.size()) {
+      nLastFlat = docCache.size() - 1;
+      return nLastFlat; 
     }
     nLastFlat = docCache.getFlatParagraphNumber(y);
     return nLastFlat; 
