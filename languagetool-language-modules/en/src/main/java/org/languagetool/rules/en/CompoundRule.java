@@ -42,7 +42,8 @@ public class CompoundRule extends AbstractCompoundRule {
         new PatternTokenBuilder().token("re").build()
       ),
       Arrays.asList( // We well received your email
-        new PatternTokenBuilder().pos("PRP").build(),
+        new PatternTokenBuilder().posRegex("SENT_START|CC|PCT").build(),
+        new PatternTokenBuilder().tokenRegex("we|you|they|I|s?he|it").build(),
         new PatternTokenBuilder().token("well").build(),
         new PatternTokenBuilder().posRegex("VB.*").build()
       ),

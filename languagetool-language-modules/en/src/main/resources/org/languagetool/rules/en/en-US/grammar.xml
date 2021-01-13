@@ -103,6 +103,17 @@ USA
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Possible Typo" type="misspelling">
+        <rule id="TRAD_TRADE" name="trad vs trade" default="temp_off">
+            <antipattern>
+                <token skip="5">trad</token>
+                <token regexp="yes">music|jazz|musicians?|componists?|bands?|sessions?|rock|festivals?|singers?|climbing|British|crowds?|ballads?|goth|girls?|wife|wives</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[Tt]rad</token>
+            </pattern>
+            <message>Did you mean <suggestion>\1e</suggestion> or <suggestion>traditional</suggestion>?</message>
+            <example correction="trade|traditional">I will <marker>trad</marker> my shares on the open market.</example>
+        </rule>
         <rulegroup id="THEE" name="thee (the)">
             <antipattern><!-- https://en.wikipedia.org/wiki/Megan_Thee_Stallion -->
                 <token regexp="yes">Megh?an</token>

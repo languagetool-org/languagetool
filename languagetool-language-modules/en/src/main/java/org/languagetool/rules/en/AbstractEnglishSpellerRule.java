@@ -176,6 +176,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("pseudo ") &&
                    !k.getReplacement().toLowerCase().startsWith("psycho ") &&
                    !k.getReplacement().toLowerCase().startsWith("nano ") &&
+                   !k.getReplacement().toLowerCase().startsWith("ans ") &&
                    !k.getReplacement().toLowerCase().startsWith("semi ") &&
                    !k.getReplacement().toLowerCase().startsWith("lo ") &&
                    !k.getReplacement().toLowerCase().startsWith("ed ") &&
@@ -185,6 +186,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("bis ") &&
                    !k.getReplacement().toLowerCase().startsWith("e ") &&
                    !k.getReplacement().toLowerCase().startsWith("c ") &&
+                   !k.getReplacement().toLowerCase().startsWith("v ") &&
                    !k.getReplacement().endsWith(" able") &&
                    !k.getReplacement().endsWith(" less") && // (e.g. permissionless)
                    !k.getReplacement().endsWith(" sly") && // uneccesary suggestion (e.g. for continuesly)
@@ -204,11 +206,13 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" en") && // "Antwerpen" suggests "Antwerp en"
                    !k.getReplacement().endsWith(" ed") &&
                    !k.getReplacement().endsWith(" al") &&
+                   !k.getReplacement().endsWith(" ans") &&
                    !k.getReplacement().endsWith(" ti") &&
                    !k.getReplacement().endsWith(" de") &&
                    !k.getReplacement().endsWith(" re") &&
                    !k.getReplacement().endsWith(" e") &&
                    !k.getReplacement().endsWith(" c") &&
+                   !k.getReplacement().endsWith(" v") &&
                    !k.getReplacement().endsWith(" ma"))
       .collect(Collectors.toList());
   }
@@ -336,6 +340,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     Map<String, List<String>> s = new HashMap<>();
     s.put("constits", Arrays.asList("consists"));
     s.put("carrie", Arrays.asList("carry"));
+    s.put("mae", Arrays.asList("make", "MAE", "may", "May", "man"));
+    s.put("transportion", Arrays.asList("transportation"));
+    s.put("Transportion", Arrays.asList("Transportation"));
     s.put("presention", Arrays.asList("presentation"));
     s.put("Presention", Arrays.asList("Presentation"));
     s.put("presension", Arrays.asList("presentation"));

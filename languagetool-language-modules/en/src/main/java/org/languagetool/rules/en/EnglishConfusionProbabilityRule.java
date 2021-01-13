@@ -436,6 +436,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "is there way to", // vs was
       "a way doing", // vs was
       "way different", // vs was
+      "way too often", // vs was
       "I for one think", // vs thing
       "device insurance" // vs devise
     );
