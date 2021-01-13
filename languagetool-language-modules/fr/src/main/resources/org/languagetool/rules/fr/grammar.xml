@@ -161,6 +161,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">le</token>
           <token postag="V.* ppr" postag_regexp="yes"/>
         </antipattern>
+        <antipattern>
+          <token>top</token>
+          <token postag="K"/>
+        </antipattern>
+        <antipattern>
+          <token>top</token>
+          <token regexp="yes">[0-9]+</token>
+        </antipattern>
+        <antipattern>
+          <token>numéro</token>
+          <token postag="K"/>
+        </antipattern>
+        <antipattern>
+          <token postag="(P\+)?D [me] (p|sp)" postag_regexp="yes"/>
+          <token postag="J [me] s" postag_regexp="yes"/>
+          <token postag="C coor"/>
+          <token postag="J [me] s" postag_regexp="yes"/>
+          <token postag="N [me] p" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+          <token postag="(P\+)?D [me] (p|sp)" postag_regexp="yes"/>
+          <token postag="N [me] s" postag_regexp="yes"/>
+          <token postag="C coor"/>
+          <token postag="N [me] s" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
           <unify negate="yes">
             <feature id="number"/>
@@ -218,6 +243,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="vingt-et-une questions"><marker>vingt-et-un question</marker></example>
         <example correction="vingt-et-une questions"><marker>vingt-et-une question</marker></example>
         <example correction="vingt-et-une questions"><marker>vingt-et-un questions</marker></example>
+        <example correction="De la faute|Des fautes"><marker>Des faute</marker>.</example>
+        <example correction="Du poulet|De la poulette|Des poulets|Des poulettes"><marker>Des poulet</marker> fermiers</example>
+        <example correction="Le véhicule|Les véhicules"><marker>Les véhicule</marker>.</example>
+        <example correction="une vache|des vaches"><marker>un vaches</marker> laitière.</example>
+        <example correction="Une faute|Des fautes"><marker>Une fautes</marker>.</example>
+        <example correction="Une vache|Des vaches"><marker>Une vaches</marker> laitière</example>
+        <example correction="à la carte|aux cartes">J’aime jouer <marker>aux carte</marker>.</example>
+        <example correction="quatre enfants">J’ai <marker>quatre enfant</marker>.</example>
+        <example>Henri VIII rencontre François Ier.</example>
+        <example>Il est né le quatre <marker>janvier</marker>.</example>
+        <example>Ils ont tous les trois <marker>été</marker> tués par balle.</example>
+        <example>J’ai quatre enfants.</example>
+        <example>Le patron du numéro deux allemand a démissionné.</example>
+        <example>Les trois <marker>kanji</marker>.</example>
+        <example>L’intensité des rayons X ayant frappé la pellicule.</example>
+        <example>Mille <marker>neuf</marker> cent quatre-vingt.</example>
+        <example>Mon téléphone Samsung Galaxy 9 fonctionne très bien.</example>
+        <example>On estimait à seize mille les fusils de son armée.</example>
+        <example>Quoi de neuf Docteur ?</example>
         <example>la Royal Society</example>
         <example>le Stars Studio</example>
         <example>la Botswana Defence Force</example>
@@ -265,10 +309,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Les Mille Colonnes.</example>
         <example>Je sais la raison pour laquelle Tom était en colère contre eux.</example>
         <example>ou du MI-6 au Royaume-Uni</example>
-        <!-- TODO: Vos nom et numéro de vol 
+        <!-- TODO:  
                    Veuillez inscrire ici vos nom, adresse, et numéro de téléphone.
                    tirer le chasse 
                    une auteur(e)? sa ou ses mise(s) en forme -->
+        <example>Le CAPES de mathématiques.</example>
+        <example>Les premier et deuxième trimestres.</example>
+        <example>Vos nom et prénom, s’il vous plaît.</example>
+        <example>Vos nom et numéro de vol</example>
+        <example>Êtes-vous toutes complètement folles ?</example>
       </rule>
     </rulegroup>
     <rulegroup name="cas particuliers de concordance" id="AGREEMENT_PARTICULAR">
@@ -11240,6 +11289,14 @@ though, and has since been slightly modified)-->
     </rule>
     <rulegroup id="ACCORD_NOMBRE" name="Accord en nombre">
       <antipattern>
+        <unify negate="yes">
+          <feature id="number"/>
+          <feature id="gender"/>
+          <token postag="(P\+)?D .*" postag_regexp="yes"/>
+          <token postag="[NZ] .*" postag_regexp="yes"/>
+        </unify>
+      </antipattern>
+      <antipattern>
         <token>tout</token>
         <token>pile</token>
       </antipattern>
@@ -11590,7 +11647,6 @@ though, and has since been slightly modified)-->
         <example>un canard</example>
         <example>des oies dodues</example>
         <example>au cours de l’année</example>
-        <example correction=""><marker>un vaches</marker> laitière.</example>
         <example correction="">une <marker>vache laitières</marker>.</example>
         <example>Les taux d’intérêt <marker>domestiques</marker>.</example>
         <example correction=""><marker>Un atlas chers</marker>.</example>
@@ -11601,13 +11657,11 @@ though, and has since been slightly modified)-->
         <example>On voyait ses joues <marker>devenir rouges</marker>.</example>
         <example>Des filles <marker>un peu pâles</marker>.</example>
         <example>Même <marker>vainqueurs</marker> ils sont mécontents.</example>
-        <example correction=""><marker>Une vaches</marker> laitière</example>
         <example>Une <marker>vache</marker> laitière</example>
         <example>Les premier et deuxième trimestres.</example>
         <example>Les montagnes ont l’air belles.</example>
         <example>Les pâtes ne sont pas bonnes car trop cuites.</example>
         <example>Il est parti aux États-Unis pour étudier.</example>
-        <example correction=""><marker>Une fautes</marker>.</example>
         <example>Une faute.</example>
         <example>Ils sont en général jeunes.</example>
         <example>Les lois antitrust américaines.</example>
@@ -11694,7 +11748,6 @@ though, and has since been slightly modified)-->
         <message>« \2 » et « \3 » ne semblent pas bien accordés en nombre.</message>
         <example>un canard gras</example>
         <example>des oies</example>
-        <example correction=""><marker>Des poulet</marker> fermiers</example>
         <example>Des <marker>poulets</marker> fermiers</example>
         <example>Les hérétiques <marker>ayant</marker> reconnu la foi catholique.</example>
         <example>Les voitures <marker>verte</marker> et rouge.</example>
@@ -11714,12 +11767,10 @@ though, and has since been slightly modified)-->
         <example>Deux immeubles juste en face de toi.</example>
         <example>Les communications Internet.</example>
         <example>Un catalogue des animaux commode à consulter</example>
-        <example correction="">J’aime jouer <marker>aux carte</marker>.</example>
         <example>J’aime jouer aux <marker>cartes</marker>.</example>
         <example>Pauvres du monde</example>
         <example>Quarante pour cent des femmes</example>
         <example>Vos nom et prénom, s’il vous plaît.</example>
-        <example correction=""><marker>Des faute</marker>.</example>
         <example>Des fautes.</example>
         <example>Les ayants droit.</example>
         <example>Nous aurons les résultats dans 4 heures <marker>maximum</marker>.</example>
@@ -11728,7 +11779,6 @@ though, and has since been slightly modified)-->
         <example>Ces analyses <marker>bidon</marker>.</example>
         <example>Ces don Juan.</example>
         <example>En 1779 débute la première des <marker>neuf</marker> guerres.</example>
-        <example correction=""><marker>Les véhicule</marker>.</example>
         <example>Les véhicules.</example>
         <example>Les ondes radio.</example>
         <example>Des événements différents ayant lieu en même temps.</example>
@@ -11747,7 +11797,7 @@ though, and has since been slightly modified)-->
         <example>Nous nous rassemblerons tous demain soir.</example>
         <example>Cette moustache de travers à deux sous est un indice révélateur.</example>
       </rule>
-      <rule>
+      <!--<rule>
         <antipattern>
           <token>top</token>
           <token postag="K"/>
@@ -11779,7 +11829,7 @@ though, and has since been slightly modified)-->
         <example>Henri VIII rencontre François Ier.</example>
         <example>Mon téléphone Samsung Galaxy 9 fonctionne très bien.</example>
         <example>Quoi de neuf Docteur ?</example>
-      </rule>
+      </rule>-->
     </rulegroup>
     <rulegroup id="ACCORD_GENRE" name="Accord en genre">
       <antipattern>
