@@ -315,7 +315,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">febrer|feb|0?2</token>
                     <token min="0" regexp="yes">[-/]|de</token>
                     <token min="0">l</token>
-                    <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048]) <exception regexp="yes">[13579][26]00|[2468][048]00</exception> </token>
+                    <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])<exception regexp="yes">[13579][26]00|[2468][048]00</exception></token>
                 </pattern>
                 <message>El mes de febrer sols té <suggestion>28</suggestion> dies, perquè l'any \5 no és de traspàs.</message>
                 <example correction="28">El <marker>29</marker> de febrer de 1900.</example>
@@ -1692,7 +1692,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="A.*|V.P.*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"> <exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/> <exception regexp="yes">primer|junts|juntes|plegats|plegades</exception> <exception regexp="yes">\p{Lu}.*</exception> <exception scope="previous" postag="_loc_meitat"/> </token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/><exception regexp="yes">primer|junts|juntes|plegats|plegades</exception><exception regexp="yes">\p{Lu}.*</exception><exception scope="previous" postag="_loc_meitat"/></token>
             </pattern>
             <filter class="org.languagetool.rules.ca.PostponedAdjectiveConcordanceFilter" args="key:value"/>
             <message>Reviseu la concordança de «\1» amb els noms precedents.</message>
@@ -8637,7 +8637,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token skip="-1"><exception scope="next">si</exception><exception scope="next" postag="PR.*|CS.*|_loc_unavegada|.*LOC_CONJ.*" postag_regexp="yes"/><exception scope="next" inflected="yes">tant_de_bo</exception> <exception>si</exception><exception postag="PR.*|CS.*|_loc_unavegada" postag_regexp="yes"/><exception inflected="yes">tant_de_bo</exception></token>
+                    <token skip="-1"><exception scope="next">si</exception><exception scope="next" postag="PR.*|CS.*|_loc_unavegada|.*LOC_CONJ.*" postag_regexp="yes"/><exception scope="next" inflected="yes">tant_de_bo</exception><exception>si</exception><exception postag="PR.*|CS.*|_loc_unavegada" postag_regexp="yes"/><exception inflected="yes">tant_de_bo</exception></token>
                     <marker>
                         <token postag="VASI.*" postag_regexp="yes" inflected="yes" skip="-1">haver<exception>si</exception><exception postag="VAIC.*" postag_regexp="yes"/></token>
                     </marker>
@@ -8899,7 +8899,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SPS00|C." postag_regexp="yes"/>
-                    <!-- <exception postag="SENT_START"/></token> -->
+                    <!--<exception postag="SENT_START"/></token> -->
                     <marker>
                         <token regexp="yes">Perú|Senegal|Japó|EUA|Xina|Canadà<exception scope="previous" postag="DA.*" postag_regexp="yes"/></token>
                     </marker>
@@ -8919,7 +8919,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SPS00"/>
-                    <!-- <exception postag="SENT_START"/></token> -->
+                    <!--<exception postag="SENT_START"/></token> -->
                     <marker>
                         <token>Equador<exception scope="previous" postag="DA.*" postag_regexp="yes"/></token>
                     </marker>
@@ -8932,7 +8932,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[(,;:]|mateixos|uns|altres</exception><exception postag="A..[MC]P." postag_regexp="yes"/></token>
-                    <!-- <exception postag="SENT_START"/> -->
+                    <!--<exception postag="SENT_START"/> -->
                     <marker>
                         <token>Estats<exception scope="previous" postag="DA.*|DD.MP." postag_regexp="yes"/></token>
                         <token>Units</token>
@@ -9918,7 +9918,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <!-- skip="3" <exception postag="V.P.*" postag_regexp="yes" scope="next"/><exception postag="PP.*|P0.*|V.*|SENT_END|PARA_END|_GV_|_reflexiu|_perfet|_obligacio" scope="next" postag_regexp="yes" negate_pos="yes" /> -->
+                        <!-- skip="3"<exception postag="V.P.*" postag_regexp="yes" scope="next"/><exception postag="PP.*|P0.*|V.*|SENT_END|PARA_END|_GV_|_reflexiu|_perfet|_obligacio" scope="next" postag_regexp="yes" negate_pos="yes" /> -->
                         <token>tan</token>
                     </marker>
                     <token min="0" max="3" postag="PP.*|P0.*" postag_regexp="yes"/>
@@ -10766,7 +10766,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><exception postag="V.[SI].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">ser|estar|anar|quedar|restar</exception></token>
                 <marker>
                     <token skip="3">conforme<exception postag="_PUNCT" scope="next"/><exception scope="next" regexp="yes">,|a</exception><exception scope="previous">es</exception></token>
-                    <!-- <exception postag="_GN_.*" postag_regexp="yes"/> -->
+                    <!--<exception postag="_GN_.*" postag_regexp="yes"/> -->
                 </marker>
                 <token postag="V.[SI].*|_GV_" postag_regexp="yes"/>
             </pattern>
@@ -12560,7 +12560,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token skip="9">malgrat<exception postag="_possible_nompropi"/><exception scope="next" regexp="yes">[;,–—\(\)\-]|que|quals?|què|com|perquè|qui</exception></token>
                     </marker>
                     <token postag="V.[IS].*" postag_regexp="yes"><exception postag="_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token>
-                    <!-- <exception postag="_GN.*|V.N.*" postag_regexp="yes"/>-->
+                    <!--<exception postag="_GN.*|V.N.*" postag_regexp="yes"/>-->
                 </pattern>
                 <message>Potser és <suggestion>malgrat que</suggestion> o falta una coma abans del verb.</message>
                 <short>Expressió incorrecta</short>
@@ -13366,7 +13366,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">què|que</token>
                     </marker>
                     <token min="0" max="6" postag="&pronom_feble;|RG|LOC_ADV" postag_regexp="yes"/>
-                    <!-- ambigu en el cas de subjuntiu valencià <exception postag="V.I.*" postag_regexp="yes"/>-->
+                    <!-- ambigu en el cas de subjuntiu valencià<exception postag="V.I.*" postag_regexp="yes"/>-->
                     <token postag="V.S.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Construcció incorrecta.</message>
@@ -20195,7 +20195,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="LLUNYA" name="llunya/llunyà">
             <pattern>
                 <token>llunya</token>
-                <!-- <exception postag="_GN_FS"/> -->
+                <!--<exception postag="_GN_FS"/> -->
             </pattern>
             <message>¿Volíeu dir <suggestion>llunyà</suggestion>? "Llunya" és correcte com a sinònim de "llunyana".</message>
             <example correction="llunyà">Un dia <marker>llunya</marker>.</example>
@@ -23733,7 +23733,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </antipattern>
                 <pattern>
-                    <token>redit<exception scope="previous" inflected="yes" regexp="yes">haver|ser</exception> </token>
+                    <token>redit<exception scope="previous" inflected="yes" regexp="yes">haver|ser</exception></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>rèdit</suggestion>?</message>
                 <example correction="rèdit">Han tret molt de <marker>redit</marker>.</example>
@@ -35358,7 +35358,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token/>
-                    <!-- <exception regexp="yes">[-–—]</exception> -->
+                    <!--<exception regexp="yes">[-–—]</exception> -->
                     <token spacebefore="yes" regexp="yes">[?!:;’”»]</token>
                 </pattern>
                 <message>Sobra un espai.</message>
@@ -50929,7 +50929,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="D..[MC]S.|SPS00|PX.MS...|DP3CSP" postag_regexp="yes"/>
-                    <!-- <exception postag="N.*|RG|V.[NMSI].*|_GV_|C[CS]|SENT_START|_PUNCT.*|PR.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+|únic</exception> -->
+                    <!--<exception postag="N.*|RG|V.[NMSI].*|_GV_|C[CS]|SENT_START|_PUNCT.*|PR.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+|únic</exception> -->
                     <marker>
                         <token regexp="yes">descontent|malcontent</token>
                     </marker>
@@ -59720,7 +59720,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="POTSER_SIGUI" name="potser *sigui/és">
             <pattern>
-                <!-- <exception scope="next" regexp="yes">que|quan|perquè|si|qui|quals?</exception> -->
+                <!--<exception scope="next" regexp="yes">que|quan|perquè|si|qui|quals?</exception> -->
                 <token regexp="yes">probablement|potser|possiblement<exception scope="previous" regexp="yes">quan|si</exception></token>
                 <token min="0" max="4" postag="&pronom_feble;|RN|RG" postag_regexp="yes"><exception>quan</exception></token>
                 <marker>
