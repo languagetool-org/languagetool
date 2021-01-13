@@ -60,7 +60,7 @@ Please see https://www.languagetool.org/issues/ if you experience problems.
 
 ### Stand-alone version
 
-To use the stand-alone version, double click on the `languagetool.jar` file
+To use the stand-alone version, double-click on the `languagetool.jar` file
 or call `java -jar languagetool.jar` from the command line.
 
 ### Command-line version
@@ -71,6 +71,12 @@ To check plain text files from the command line, use
 
 with `xx` being the code for your language, e.g. `en-US` for American English
 or just `en` for English without spell checking activated.
+
+If you get a `java.lang.OutOfMemory` error, try increasing the Java
+heap size as follows, where `4096` is the size in megabytes (use more
+or less, depending on your file size and memory available).
+
+    java -Xmx4096M -jar languagetool-commandline.jar -l xx <filename>
 
 ### Java API
 
