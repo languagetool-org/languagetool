@@ -1170,7 +1170,8 @@ public class MultiDocumentsHandler {
       } else if ("checkDialog".equals(sEvent) || "checkAgainDialog".equals(sEvent)) {
         if (ltDialog != null) {
           ltDialog.closeDialog();
-        } else if (dialogIsRunning) {
+        }
+        if (dialogIsRunning) {
           return;
         }
         setLtDialogIsRunning(true);
@@ -1185,7 +1186,7 @@ public class MultiDocumentsHandler {
               checkDialog.setTextViewCursor(0, 0, viewCursor, docCursor);
             }
           }
-          resetDocumentCaches();
+//          resetDocumentCaches();
           resetDocument();
         }
         if (debugMode) {

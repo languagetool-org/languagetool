@@ -1169,7 +1169,7 @@ class SingleDocument {
         }
       }
       // return Cache result if available / for right mouse click or Dialog only use cache
-      int nPara = nFPara < 0 ? -1 : docCache.getNumberOfTextParagraph(nFPara);
+      int nPara = nFPara < 0 || docCache == null ? -1 : docCache.getNumberOfTextParagraph(nFPara);
       if (nFPara >= 0 && (pErrors != null || (useQueue && !isDialogRequest.contains(nFPara) && parasToCheck != 0))) {
         if (useQueue && pErrors == null && parasToCheck != 0 && nPara >= 0) {
           addQueueEntry(nFPara, cacheNum, parasToCheck, docID, false);
