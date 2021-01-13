@@ -105,6 +105,10 @@ public class WordWithDeterminerFilter extends RuleFilter {
     for (int i = 0; i < 4; i++) {
       determinerForms[i] = synth.synthesize(atDeterminer, determiner + GenderNumber[i], true);
       wordForms[i] = synth.synthesize(atWord, prefix + GenderNumber[i], true);
+      // if it cannot be synthesyzed, keep the original determiner
+      if (determinerForms[i].length == 0 && atDeterminer.getPOSTag().matches(".+" + GenderNumber[i])) {
+        determinerForms[i] = new String[]{atDeterminer.getToken()};
+      }
       // if it cannot be synthesyzed, keep the original word
       if (wordForms[i].length == 0 && atWord.getPOSTag().matches(".+" + GenderNumber[i])) {
         wordForms[i] = new String[]{atWord.getToken()};
