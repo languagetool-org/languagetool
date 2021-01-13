@@ -14407,6 +14407,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rulegroup id="LLEIAL_SABER" name="*lleial saber">
+            <rule>
+                <pattern>
+                    <token>d'</token>
+                    <token>acord</token>
+                    <token>amb</token>
+                    <token>el</token>
+                    <token regexp="yes">seu|teu|meu|nostre|vostre</token>
+                    <token>lleial</token>
+                    <token>saber</token>
+                    <token>i</token>
+                    <token>entendre</token>
+                </pattern>
+                <message>Fórmula de llenguatge jurídic. Calc del castellà que cal evitar.</message>
+                <suggestion>segons el \5 parer</suggestion>
+                <suggestion>a parer \5</suggestion>
+                <example correction="segons el seu parer|a parer seu"><marker>d'acord amb el seu lleial saber i entendre</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">segons|amb</token>
+                    <token>el</token>
+                    <token regexp="yes">seu|teu|meu|nostre|vostre</token>
+                    <token>lleial</token>
+                    <token>saber</token>
+                    <token>i</token>
+                    <token>entendre</token>
+                </pattern>
+                <message>Fórmula de llenguatge jurídic. Calc del castellà que cal evitar.</message>
+                <suggestion>segons el \3 parer</suggestion>
+                <suggestion>a parer \3</suggestion>
+                <example correction="segons el seu parer|a parer seu"><marker>segons el seu lleial saber i entendre</marker></example>
+                <example correction="segons el seu parer|a parer seu"><marker>amb el seu lleial saber i entendre</marker></example>
+            </rule>
+        </rulegroup>
+        <rule id="EN_TEMPS_I_FORMA" name="*en temps i forma">
+            <pattern>
+                <token regexp="yes">en|amb</token>
+                <token>temps</token>
+                <token>i</token>
+                <token>forma</token>
+            </pattern>
+            <message>Fórmula de llenguatge jurídic. Calc del castellà que cal evitar.</message>
+            <suggestion>dins el termini i en la forma escaient</suggestion>
+            <example correction="dins el termini i en la forma escaient">S'ha de presentar <marker>en temps i forma</marker>.</example>
+        </rule>
         <rule id="A_RAIGS" name="*a raigs">
             <pattern>
                 <token regexp="yes" inflected="yes" skip="10">sonar|saber|gust</token>
