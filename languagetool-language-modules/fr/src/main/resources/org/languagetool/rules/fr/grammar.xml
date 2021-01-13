@@ -255,10 +255,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>La Blender Foundation</example>
         <example>Les Mille Colonnes.</example>
         <example>Je sais la raison pour laquelle Tom était en colère contre eux.</example>
+        <example>ou du MI-6 au Royaume-Uni</example>
         <!-- TODO: Vos nom et numéro de vol 
                    Veuillez inscrire ici vos nom, adresse, et numéro de téléphone.
                    tirer le chasse 
-                   une auteur(e)? -->
+                   une auteur(e)? sa ou ses mise(s) en forme -->
       </rule>
     </rulegroup>
     <rulegroup name="cas particuliers de concordance" id="AGREEMENT_PARTICULAR">
@@ -4062,7 +4063,7 @@ though, and has since been slightly modified)-->
         <url>https://fr.wikipedia.org/wiki/John_Entwistle</url>
         <example correction="John Entwistle"><marker>John Entwhistle</marker> est né en 1944.</example>
       </rule>
-      <rule default="temp_off">
+      <rule>
         <antipattern case_sensitive="yes">
           <token>Côte</token>
           <token>d'</token>
@@ -10868,6 +10869,7 @@ though, and has since been slightly modified)-->
         <example>L’intensité des rayons X ayant frappé la pellicule.</example>
         <example>Henri VIII rencontre François Ier.</example>
         <example>Mon téléphone Samsung Galaxy 9 fonctionne très bien.</example>
+        <example>Quoi de neuf Docteur ?</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_GENRE" name="Accord en genre">
@@ -11568,6 +11570,7 @@ though, and has since been slightly modified)-->
         <example>le monde de l’image autonomisé</example>
         <example>Le rôle du parti d'extrême droite anglais</example>
         <example>Un État sans armée issu d'un processus de décolonisation.</example>
+        <example>Les crêpes Suzette sont un grand classique de la cuisine française inventé par Auguste Escoffier.</example>
       </rule>
     </rulegroup>
     <rulegroup id="NOM_DE_PAYS" name="Nom de pays sans majuscule" default="off">
@@ -14756,6 +14759,7 @@ though, and has since been slightly modified)-->
         <example>Montez le son.</example>
         <example>Monte le son.</example>
         <example>Marine le Pen.</example>
+        <example>Regardez le grand immeuble là-bas.</example>
       </rule>
       <rule>
         <pattern>
@@ -16830,15 +16834,34 @@ though, and has since been slightly modified)-->
       <url>https://fr.wiktionary.org/wiki/Annexe:Rectifications_orthographiques_du_fran%C3%A7ais_en_1990#Num%C3%A9raux_compos%C3%A9s</url>
       <example correction="vingt-et-un">J'ai <marker>vingt et un</marker> ans</example>
     </rule>
-    <rule id="PREFIX_TRAIT_DUNION" name="prefix avec trait d'union" default="temp_off">
-      <pattern>
-        <token postag="A" regexp="yes">&prefixes;</token>
-        <token postag="[NJ].*" postag_regexp="yes"/>
-      </pattern>
-      <message>Devant un nom ou adjective « \1 » se rattache avec un trait d’union.</message>
-      <suggestion>\1-\2</suggestion>
-      <example correction="mini-réfrigérateurs">Deux <marker>mini réfrigérateurs</marker>.</example>
-    </rule>
+    <rulegroup id="PREFIX_TRAIT_DUNION_" name="prefix avec trait d'union" default="temp_off">
+      <rule>
+        <pattern>
+          <token postag="A" regexp="yes">&prefixes;</token>
+          <token postag="[NJ].*" postag_regexp="yes"/>
+        </pattern>
+        <message>Devant un nom ou adjective « \1 » se rattache avec un trait d’union.</message>
+        <suggestion>\1-\2</suggestion>
+        <example correction="mini-réfrigérateurs">Deux <marker>mini réfrigérateurs</marker>.</example>
+        <example correction="méga-projets">Ces <marker>méga projets</marker>.</example>
+        <example>Je ne suis pas un grand voyageur.</example>
+        <example>L’Arc de Triomphe est aussi un haut lieu symbolique.</example>
+        <example>le grand prix cycliste</example>
+        <example>Le sud viticole subit la crise du phylloxéra.</example>
+        <example>du sud au nord traversant Axat</example>
+        <example>L'Afrique du Sud compte plus de 51 millions d’habitants.</example>  
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">méga|mini</token> <!-- TODO: extend -->
+          <token postag="[NJ].*" postag_regexp="yes"/>
+        </pattern>
+        <message>Devant un nom ou adjective « \1 » se rattache avec un trait d’union.</message>
+        <suggestion>\1-\2</suggestion>
+        <example correction="mini-réfrigérateurs">Deux <marker>mini réfrigérateurs</marker>.</example>
+        <example correction="méga-projet">Ce <marker>méga projet</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="DEMI" name="demi et demie">
       <url>https://www.projet-voltaire.fr/regles-orthographe/demi-ou-demie/</url>
       <rule>
