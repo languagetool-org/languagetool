@@ -9323,7 +9323,7 @@ though, and has since been slightly modified)-->
         <suggestion>succédé</suggestion>
         <example correction="succédé">Les catastrophes se sont <marker>succédées</marker>.</example>
       </rule>
-    <rulegroup id="AVEUGLEMENT" name="aveuglement (n) / aveuglément (adv)" default="temp_off">
+    <rulegroup id="AVEUGLEMENT" name="aveuglement (n) / aveuglément (adv)">
       <rule>
         <pattern>
           <token postag="V.* [123].*|V.* (inf|ppr)|M nonfin" postag_regexp="yes"/>
@@ -16820,10 +16820,10 @@ though, and has since been slightly modified)-->
         <example>Quelles que puissent être vos raisons</example>
       </rule>
     </rulegroup>
-    <rule id="VINGT_ET_UN" name="vingt-et-un (trait d'union)" default="temp_off">
+    <rule id="VINGT_ET_UN" name="vingt-et-un (trait d'union)">
       <!-- TODO: autres numéraux composés ? -->
       <pattern>
-        <token regexp="yes">vingt|mille</token>
+        <token>vingt</token>
         <token min="0">-</token>
         <token>et</token>
         <token min="0">-</token>
@@ -16833,6 +16833,26 @@ though, and has since been slightly modified)-->
       <suggestion>\1-et-<match no="5" case_conversion="alllower"/></suggestion>
       <url>https://fr.wiktionary.org/wiki/Annexe:Rectifications_orthographiques_du_fran%C3%A7ais_en_1990#Num%C3%A9raux_compos%C3%A9s</url>
       <example correction="vingt-et-un">J'ai <marker>vingt et un</marker> ans</example>
+    </rule>
+    <rule id="MILLE_ET_UNE_NUITS" name="Les Mille-et-une Nuits (trait d'union)" default="temp_off">
+      <antipattern case_sensitive="yes">
+        <token>Les</token>
+        <token>Mille-et-une</token>
+        <token>Nuits</token>
+      </antipattern>
+      <pattern>
+          <token>les</token>
+          <token regexp="yes">mil?le?</token>
+          <token min="0">-</token>
+          <token>et</token>
+          <token min="0">-</token>
+          <token regexp="yes">une?</token>
+          <token>nuits</token>
+      </pattern>
+      <message>Orthographe recommandée.</message><!-- TODO: update message -->
+      <suggestion>Les Mille-et-une Nuits</suggestion>
+      <url>https://fr.wikipedia.org/wiki/Les_Mille_et_Une_Nuits</url>
+      <example correction="Les Mille-et-une Nuits"><marker>Les Mille et un Nuits</marker>.</example>
     </rule>
     <rulegroup id="PREFIX_TRAIT_DUNION_" name="prefix avec trait d'union" default="temp_off">
       <rule>
