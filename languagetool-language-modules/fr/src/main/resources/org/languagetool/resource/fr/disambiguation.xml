@@ -1293,6 +1293,14 @@ RB => Règles Brutes
       <disambig action="filter" postag="V ppa.*"/>
     </rule>
   </rulegroup>
+  <rule id="LEUR" name="leur (unusually noun)">
+    <pattern>
+      <marker>
+        <token inflected="yes">leur</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="N.*"/>
+  </rule>
   <rule id="LE_POUVOIR" name="le pouvoir">
     <antipattern>
       <token>pouvoir</token>
@@ -1313,6 +1321,12 @@ RB => Règles Brutes
       <disambig action="filterall"/>
     </rule>
     <rule>
+      <!--<antipattern>
+        <!-\- error: missing hyphen -\->
+        <token postag="V.* 1 p" inflected="yes">pouvoir</token>
+        <token skip="-1">nous</token>
+        <token>?</token>
+      </antipattern>-->
       <pattern>
         <token postag="V.*" postag_regexp="yes" inflected="yes">pouvoir</token>
         <token postag="R pers obj.*" postag_regexp="yes"/>
