@@ -9779,6 +9779,33 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
+    <rulegroup id="RISQUE_ET_CHANCE" name="risque et chance">
+      <rule>
+          <pattern>
+              <marker><token inflected="yes">risquer</token></marker>
+              <token regexp="yes">de</token>
+              <token regexp="yes">gagner</token>
+          </pattern>
+          <message>Faute de style possible car cette expression peut paraître péjorative.
+              Nous vous suggérons <suggestion>avoir des chances</suggestion>.</message>
+          <example correction="avoir des chances"><marker>risquer</marker> de gagner</example>
+      </rule>
+      <rule>
+          <pattern>
+              <marker>
+                  <token inflected="yes">avoir</token>
+                  <token regexp="yes">des</token>
+                  <token regexp="yes">chances</token>
+              </marker>
+              <token regexp="yes">de|d'</token>
+              <token regexp="yes">perdre|échouer</token>
+          </pattern>
+          <message>Faute de style possible car cette expression peut paraître péjorative.
+              Nous vous suggérons  d’employer <suggestion>risquer</suggestion>.</message>
+          <example correction="risquer"><marker>avoir des chances</marker> de perdre</example>
+          <example correction="risquer"><marker>avoir des chances</marker> d'échouer</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="TOUTE_A_L_HEURE" name="toute a l’heure" default="temp_off">
       <rule>
         <pattern>
