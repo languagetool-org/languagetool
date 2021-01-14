@@ -253,8 +253,18 @@ public class AgreementRule extends Rule {
       token("andere"),
       posRegex("SUB:.*PLU.*")
     ),
-    Arrays.asList(  // "was sein Klient für ein Mensch sei"
-      new PatternTokenBuilder().token("was").setSkip(2).build(),
+    Arrays.asList(  // "was sein Klient für ein Mensch sei",
+      // "Mir wird nicht ganz klar, was das bei 1:58 für ein Akkord ist."
+      new PatternTokenBuilder().token("was").setSkip(5).build(),
+      token("für"),
+      token("ein")
+    ),
+    Arrays.asList(
+      // "Was in aller Welt soll das denn für ein Satz sein?"
+      token("was"),
+      token("in"),
+      token("aller"),
+      new PatternTokenBuilder().token("Welt").setSkip(4).build(),
       token("für"),
       token("ein")
     ),
