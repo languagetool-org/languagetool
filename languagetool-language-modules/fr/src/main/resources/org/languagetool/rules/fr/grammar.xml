@@ -363,7 +363,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 (the rule on "ajouter en plus"
 was already there before the category was created,
 though, and has since been slightly modified)-->
-    <rule id="ACCULER_AU_PIED_DU_MUR" name="acculer au pied du mur">
+      <rulegroup id="PLUS_MAUVAIS" name="plus mauvais" default="temp_off">
+          <rule>
+              <pattern>
+                  <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">résultats|scores|classements|notes</exception></token>
+                  <marker>
+                      <token>plus<exception scope="previous" regexp="yes">sentir</exception></token>
+                      <token skip="-1">mauvais<exception scope="next" regexp="yes">résultat(s)?|score(s)?|classement(s)?</exception></token>
+                  </marker>
+                  <token postag="SENT_END"><exception scope="current" regexp="yes">résultat(s)?|score(s)?|classement(s)?</exception></token>
+              </pattern>
+              <message>Voulez-vous écrire <suggestion>pire</suggestion> ?</message>
+              <example correction="pire">C'est le <marker>plus mauvais</marker>.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token regexp="yes">des?</token>
+                      <token regexp="yes">plus?</token>
+                      <token regexp="yes">mauvais(es)?</token>
+                  </marker>
+                  <token regexp="yes">résultats|scores|classements|notes</token>
+              </pattern>
+              <message>Voulez-vous écrire <suggestion>de plus faibles</suggestion> ?</message>
+              <example correction="de plus faibles">Il a obtenu <marker>des plus mauvais</marker> résultats.</example>
+              <example correction="de plus faibles">Elle a <marker>des plus mauvaises</marker> notes que toi.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token postag="D.*" postag_regexp="yes"/>
+                  <token regexp="yes">plus?</token>
+                  <marker>
+                      <token regexp="yes">mauvais(es)?(e)?</token>
+                  </marker>
+                  <token regexp="yes">résultat(s)?|score(s)?|classement(s)?|note(s)?</token>
+              </pattern>
+              <message>Voulez-vous écrire <suggestion>faible</suggestion> ?</message>
+              <example correction="faible">Il obtient le plus <marker>mauvais</marker> classement de l'histoire.</example>
+              <example correction="faible">Il a les plus <marker>mauvais</marker> résultats de sa carrière.</example>
+              <example correction="faible">Il a la plus <marker>mauvaise</marker> note.</example>
+              <example correction="faible">C'est le plus <marker>mauvais</marker> score de ce jeu.</example>
+          </rule>
+      </rulegroup>
+      <rule id="ACCULER_AU_PIED_DU_MUR" name="acculer au pied du mur">
       <pattern>
         <token inflected="yes" skip="5">acculer</token>
         <token>au</token>
