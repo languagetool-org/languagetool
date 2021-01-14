@@ -17850,6 +17850,13 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rule id="VINGT_ET_UN" name="vingt-et-un (trait d'union)">
       <!-- TODO: autres numéraux composés ? -->
+      <antipattern>
+        <token regexp="yes">vingt|trente|quarante|cinquante|soixante|septante|huitante|octante|nonante</token>
+        <token spacebefore="no">-</token>
+        <token spacebefore="no">et</token>
+        <token spacebefore="no">-</token>
+        <token spacebefore="no" regexp="yes">une?</token>
+      </antipattern>
       <pattern>
         <token regexp="yes">vingt|trente|quarante|cinquante|soixante|septante|huitante|octante|nonante</token>
         <token min="0">-</token>
@@ -17861,6 +17868,7 @@ though, and has since been slightly modified)-->
       <suggestion>\1-et-<match no="5" case_conversion="alllower"/></suggestion>
       <url>https://fr.wiktionary.org/wiki/Annexe:Rectifications_orthographiques_du_fran%C3%A7ais_en_1990#Num%C3%A9raux_compos%C3%A9s</url>
       <example correction="vingt-et-un">J'ai <marker>vingt et un</marker> ans</example>
+      <example>La guerre commença en dix-neuf-cents-quarante-et-un.</example>
     </rule>
     <rule id="MILLE_ET_UNE_NUITS" name="Les Mille-et-une Nuits (trait d'union)">
       <antipattern case_sensitive="yes">
@@ -18302,6 +18310,7 @@ though, and has since been slightly modified)-->
         <example correction="prend-il">Que <marker>prend il</marker> ?</example>
         <example correction="abandonnait-il">Qu'<marker>abandonnait il</marker> ?</example>
         <example correction="est-elle">La mère de Bertrand Delanoë <marker>est elle</marker> d'origine périgourdine.</example>
+        <example correction="peut-elle">La pâte <marker>peut elle</marker> être réalisée sans oeufs ?</example>
         <example>En outre, c’est elle qui aux côtés de François Mitterrand signe le traité de Maastricht prévoyant l’euro.</example>
         <example>On dit qu'en fait il n'avait rien à voir avec ça.</example>
         <example>Soit il viendra, soit il m'appellera.</example>
