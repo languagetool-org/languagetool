@@ -79,7 +79,6 @@ class ResultCache implements Serializable {
     for (int i = firstParagraph; i <= lastParagraph; i++) {
       entries.remove(i);
     }
-    
     Map<Integer, CacheEntry> tmpEntries = entries;
     entries = Collections.synchronizedMap(new HashMap<>());
     synchronized (tmpEntries) {

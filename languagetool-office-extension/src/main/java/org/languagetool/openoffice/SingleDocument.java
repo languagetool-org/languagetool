@@ -91,9 +91,9 @@ class SingleDocument {
   private Integer numLastFlPara = -1;             //  Save position of FlatParagraph for the single documents
   private List<ResultCache> paragraphsCache;      //  Cache for matches of text rules
   private CacheIO cacheIO;
-  private int resetFrom = 0;                      //  Reset from paragraph
-  private int resetTo = 0;                        //  Reset to paragraph
-  private int numParasReset = 1;                  //  Number of paragraphs to reset
+  private int changeFrom = 0;                     //  Change result cache from paragraph
+  private int changeTo = 0;                       //  Change result cache to paragraph
+  private int numParasToChange = 1;               //  Number of paragraphs to change for n-paragraph cache
   private List<Integer> changedParas = null;      //  List of changed paragraphs after editing the document
   private Set<Integer> textIsChanged;             //  false: check number of paragraphs again (ignored by parallel thread)
   private Set<Integer> resetCheck;                //  true: the whole text has to be checked again (use cache)
@@ -442,16 +442,16 @@ class SingleDocument {
     for (int i = 0; i < OfficeTools.NUMBER_TEXTLEVEL_CACHE; i++) {
       paragraphsCache.get(i).removeAll();
     }
-    numParasReset = numParasToCheck;
+    numParasToChange = numParasToCheck;
     if ((numParasToCheck < 0 || useQueue) && mDocHandler != null) {
       minToCheckPara = mDocHandler.getNumMinToCheckParas();
       if (minToCheckPara == null) {
         return;
       }
-      if (numParasReset < 0) {
+      if (numParasToChange < 0) {
         for (int minPara : minToCheckPara) {
-          if (minPara > numParasReset) {
-            numParasReset = minPara;
+          if (minPara > numParasToChange) {
+            numParasToChange = minPara;
           }
         }
       }
@@ -764,7 +764,7 @@ class SingleDocument {
         && docCache.getFlatParagraph(from).equals(oldDocCache.getFlatParagraph(from))) {
       from++;
     }
-    resetFrom = from - numParasReset;
+    changeFrom = from - numParasToChange;
     int to = 1;
     while (to <= docCache.size() && to <= oldDocCache.size()
         && docCache.getFlatParagraph(docCache.size() - to).equals(
@@ -772,7 +772,7 @@ class SingleDocument {
       to++;
     }
     to = docCache.size() - to;
-    resetTo = to + numParasReset;
+    changeTo = to + numParasToChange + 1;
     if (!ignoredMatches.isEmpty()) {
       IgnoredMatches tmpIgnoredMatches = new IgnoredMatches();
       for (int i = 0; i < from; i++) {
@@ -788,10 +788,12 @@ class SingleDocument {
       }
       ignoredMatches = tmpIgnoredMatches;
     }
-    for (ResultCache cache : paragraphsCache) {
-      cache.removeAndShift(resetFrom, resetTo, docCache.size() - oldDocCache.size());
+    if (debugMode > 0) {
+      MessageHandler.printToLogFile("!!!Changed paragraphs: from:" + from + ", to: " + to);
     }
-    resetTo++;
+    for (ResultCache cache : paragraphsCache) {
+      cache.removeAndShift(from, to, docCache.size() - oldDocCache.size());
+    }
     this.docCache = docCache;
     if (useQueue) {
       if (debugMode > 0) {
@@ -856,8 +858,8 @@ class SingleDocument {
         }
       }
       if (!textIsChanged.contains(nPara)) {
-        resetFrom = nPara - numParasReset;
-        resetTo = nPara + numParasReset + 1;
+        changeFrom = nPara - numParasToChange;
+        changeTo = nPara + numParasToChange + 1;
         ignoredMatches.removeIgnoredMatches(nPara);
         textIsChanged.add(nPara);
       }
@@ -1002,11 +1004,11 @@ class SingleDocument {
    * add the numbers of changed paragraphs to list
    */
   private void addChangedParas() {
-    int firstPara = resetFrom;
+    int firstPara = changeFrom;
     if (firstPara < 0) {
       firstPara = 0;
     }
-    int lastPara = resetTo;
+    int lastPara = changeTo;
     if (lastPara > docCache.size()) {
       lastPara = docCache.size();
     }
@@ -1019,7 +1021,7 @@ class SingleDocument {
       }
     }
   }
-  
+
   /**
    * Add an new entry to text level queue
    * nFPara is number of flat paragraph
