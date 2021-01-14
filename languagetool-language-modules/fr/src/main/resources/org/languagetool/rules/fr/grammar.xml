@@ -66,6 +66,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </equivalence>
   </unification>
   <category name="Concordances" id="AGREEMENT">
+    <rulegroup id="AGREEMENT_EXCEPTIONS" name="Concordance: cas particuliers">
+      <rule>
+        <pattern>
+          <marker>
+            <token postag="(P.)?D [me] (s|sp)" postag_regexp="yes"/>
+            <token case_sensitive="yes">canada</token>
+          </marker>
+        </pattern>
+        <message>S'il s'agit d'un nom de pays, il doit être en majuscule.</message>
+        <suggestion>\1 <match no="2" case_conversion="startupper"/></suggestion>
+        <example correction="du Canada"><marker>du canada</marker></example>
+      </rule>
+    </rulegroup>
     <rulegroup id="NOM_AGREEMENT" name="Concordance entre articles, noms et adjectifs">
       <antipattern>
         <token postag="(P.)?D [fe] (s|sp)" postag_regexp="yes"/>
@@ -79,6 +92,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <exception regexp="yes">&common_english_nouns_masculine;</exception></token>
         <token regexp="yes" case_sensitive="yes">&common_english_nouns_masculine;</token>
       </antipattern>
+      <!-- Exceptions to rule D_N -->
       <rule id="D_N" name="Concordance du déterminant avec le nom">
         <antipattern>
           <unify>
@@ -187,16 +201,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag="N [fe] (p|sp)" postag_regexp="yes"/>
         </antipattern>
         <antipattern>
-          <token postag="(P\+)?D [me] (p|sp)" postag_regexp="yes"/>
-          <token postag="N [me] (s|sp)" postag_regexp="yes"/>
+          <token postag="(P\+)?D e (p|sp)" postag_regexp="yes"/>
+          <token postag="N [fme] (s|sp)" postag_regexp="yes"/>
           <token postag="C coor"/>
-          <token postag="N [me] (s|sp)" postag_regexp="yes"/>
+          <token postag="N [fme] (s|sp)" postag_regexp="yes"/>
         </antipattern>
         <antipattern>
-          <token postag="(P\+)?D [fe] (p|sp)" postag_regexp="yes"/>
-          <token postag="N [fe] (s|sp)" postag_regexp="yes"/>
+          <token postag="(P\+)?D e (p|sp)" postag_regexp="yes"/>
+          <token postag="N [fme] (s|sp)" postag_regexp="yes"/>
+          <token>,</token>
+          <token postag="N [fme] (s|sp)" postag_regexp="yes"/>
+          <token min="0">,</token>
           <token postag="C coor"/>
-          <token postag="N [fe] (s|sp)" postag_regexp="yes"/>
+          <token postag="N [fme] (s|sp)" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+          <!-- ignore forms with (e) or (s) -->
+          <token/>
+          <token>(</token>
+          <token regexp="yes">[es]</token>
+          <token>)</token>
         </antipattern>
         <pattern>
           <unify negate="yes">
@@ -327,10 +351,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Les Mille Colonnes.</example>
         <example>Je sais la raison pour laquelle Tom était en colère contre eux.</example>
         <example>ou du MI-6 au Royaume-Uni</example>
-        <!-- TODO:  
-                   Veuillez inscrire ici vos nom, adresse, et numéro de téléphone.
-                   tirer le chasse 
-                   une auteur(e)? sa ou ses mise(s) en forme -->
         <example>Le CAPES de mathématiques.</example>
         <example>Les premier et deuxième trimestres.</example>
         <example>Vos nom et prénom, s’il vous plaît.</example>
@@ -339,6 +359,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Je ne peux pas le lire.</example>
         <example>Certains leur firent pitié.</example>
         <example>on regarde aussi la télé tous ensemble</example>
+        <example>le/la gagnant(e)</example>
+        <example>une auteur(e)</example>
+        <example>sa ou ses mise(s) en forme</example>
+        <example>Veuillez inscrire ici vos nom, adresse, et numéro de téléphone.</example>
+        <!-- TODO:  tirer le chasse -->
       </rule>
     </rulegroup>
     <rulegroup name="cas particuliers de concordance" id="AGREEMENT_PARTICULAR">
