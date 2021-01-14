@@ -1301,17 +1301,26 @@ RB => Règles Brutes
     </pattern>
     <disambig action="remove" postag="N.*"/>
   </rule>
-  <rule id="LE_POUVOIR" name="le pouvoir">
-    <antipattern>
-      <token>pouvoir</token>
-      <token postag="V .*inf" postag_regexp="yes"/>
-    </antipattern>
-    <pattern>
-      <token postag="D m s">le</token>
-      <token postag="N m s">pouvoir</token>
-    </pattern>
-    <disambig action="filterall"/>
-  </rule>
+  <rulegroup id="LE_POUVOIR" name="le pouvoir">
+    <rule>
+      <antipattern>
+        <token>pouvoir</token>
+        <token postag="V .*inf" postag_regexp="yes"/>
+      </antipattern>
+      <pattern>
+        <token postag="D m s" regexp="yes">le|leur</token>
+        <token postag="N m s">pouvoir</token>
+      </pattern>
+      <disambig action="filterall"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="D [me] s" postag_regexp="yes" regexp="yes">son|ton|mon|notre|votre</token>
+        <token postag="N m s">pouvoir</token>
+      </pattern>
+      <disambig action="filterall"/>
+    </rule>
+  </rulegroup>
   <rulegroup id="POUVOIR_INFINITIF" name="pouvoir + infinitif">
     <rule>
       <pattern>
