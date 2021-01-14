@@ -44,6 +44,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.languagetool.tools.StringTools.uppercaseFirstChar;
 
 public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
@@ -273,7 +274,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Singel", "Single");
     put("legen[td]lich", "lediglich");
     put("ein[ua]ndhalb", "eineinhalb");
-    put("[mM]illion(en)?mal", w -> Collections.singletonList(StringTools.uppercaseFirstChar(w.replaceFirst("mal", " Mal"))));
+    put("[mM]illion(en)?mal", w -> Collections.singletonList(uppercaseFirstChar(w.replaceFirst("mal", " Mal"))));
     put("Mysql", "MySQL");
     put("MWST", "MwSt");
     put("Mwst", "MwSt");
@@ -1088,7 +1089,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (parts.size() == 2) {
         // e.g. "inneremedizin" -> "innere Medizin", "gleichgroß" -> "gleich groß"
         candidates.add(parts.get(0) + " " + parts.get(1));
-        candidates.add(parts.get(0) + " " + StringTools.uppercaseFirstChar(parts.get(1)));
+        if (isNounOrProperNoun(uppercaseFirstChar(parts.get(1)))) {
+          candidates.add(parts.get(0) + " " + uppercaseFirstChar(parts.get(1)));
+        }
       }
       if (parts.size() == 2 && !parts.get(0).endsWith("s")) {
         // so we get e.g. Einzahlungschein -> Einzahlungsschein
@@ -1280,6 +1283,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     try {
       List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList(word));
       return readings.stream().anyMatch(reading -> reading.hasPosTagStartingWith("SUB"));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private boolean isNounOrProperNoun(String word) {
+    try {
+      List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList(word));
+      return readings.stream().anyMatch(reading -> reading.hasPosTagStartingWith("SUB") || reading.hasPosTagStartingWith("EIG"));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -1576,7 +1588,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.length() > 9 && word.startsWith("Email")) {
       String suffix = word.substring(5);
       if (!hunspell.spell(suffix)) {
-        List<String> suffixSuggestions = hunspell.suggest(StringTools.uppercaseFirstChar(suffix));
+        List<String> suffixSuggestions = hunspell.suggest(uppercaseFirstChar(suffix));
         suffix = suffixSuggestions.isEmpty() ? suffix : suffixSuggestions.get(0);
       }
       return Collections.singletonList("E-Mail-"+Character.toUpperCase(suffix.charAt(0))+suffix.substring(1));
@@ -1592,7 +1604,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     }
     if (!StringTools.startsWithUppercase(word)) {
-      String ucWord = StringTools.uppercaseFirstChar(word);
+      String ucWord = uppercaseFirstChar(word);
       if (!suggestions.contains(ucWord) && hunspell.spell(ucWord) && !ucWord.endsWith(".")) {
         // Hunspell doesn't always automatically offer the most obvious suggestion for compounds:
         return Collections.singletonList(ucWord);

@@ -685,6 +685,7 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "innereMedizin", "innere Medizin");
     //assertCorrection(rule, "Inneremedizin", "Innere Medizin");
     assertCorrection(rule, "InnereMedizin", "Innere Medizin");
+    assertCorrection(rule, "gleichgroß", "gleich groß");
 
     //TODO: requires morfologik-speller change (suggestions for known words):
     assertCorrection(rule, "Arbeitamt", "Arbeitsamt");
