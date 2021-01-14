@@ -5113,6 +5113,19 @@ Uso os anéis faz quase um mês.
 		  <token postag='VMIS1S0' postag_regexp='no'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-10-26 (21-OCT-2020+) *END* -->
+<!-- MARCOAGPINTO 2021-01-14 (1-JAN-2021+) *START* -->
+<!--
+Pela minha parte tenho tido uma paciência de Job.
+Pela minha parte tenho uma paciência de Job.
+Pela tua parte tens uma paciência de Job.
+-->
+      <antipattern>
+		<token postag='VMIP[13]S0|VMM02S0' postag_regexp='yes'/>
+		<token postag='DP[123].+' postag_regexp='yes'/>		
+		<token postag='NC.S.+|AQ0.S.+' postag_regexp='yes'/>
+		<token postag='VMIP[123]S0|VMM02S0|VMIP[13]P0' postag_regexp='yes'/>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-01-14 (1-JAN-2021+) *END* -->
       <pattern>
 <!-- MARCOAGPINTO 2020-05-09 *START* -->
 <!-- "As pessoas no meu trabalho infelizmente não falam Alemão, apenas português." -->	  
@@ -5144,6 +5157,7 @@ Uso os anéis faz quase um mês.
 	  <example type='correct'>Grandes rios que correm <marker>a região escavaram</marker> grandes e profundos vales.</example>
 	  <example type='correct'>Sem a <marker>sua presença ficamos</marker> à rasca.</example>
 	  <example type='correct'>Sem a <marker>sua presença ficámos</marker> à rasca.</example>
+	  
     </rule>
 	
     <!-- 	VERBO_SER + EU fui eu -->
