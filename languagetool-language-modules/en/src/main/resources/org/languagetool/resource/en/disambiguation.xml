@@ -2551,7 +2551,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="E-NP-singular" postag_regexp="yes" postag="NN:UN?"/>
         </antipattern>
         <pattern>
-            <token postag_regexp="yes" postag="WP|PRP"/>
+            <token postag_regexp="yes" postag="WP|PRP">
+                <exception>that</exception>
+            </token>
             <token regexp="yes">&apostrophe;</token>
             <marker>
                 <token spacebefore="no">s</token>
@@ -3776,6 +3778,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VB">
                 <exception regexp="yes">peter|bob|sally|rick|mike|chuck|bill|carol</exception>
             </token>
+        </antipattern>
+        <antipattern>
+            <token>Whales</token>
         </antipattern>
         <pattern case_sensitive="yes">
             <and>
@@ -6964,7 +6969,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token chunk="E-NP-plural"/>
                 <token postag="NNS"/><!-- Fix for 'My young son' -->
             </and>
-            <token min="0" max="1" postag="RB"><exception>about</exception></token>
+            <token min="0" max="1" postag="RB">
+                <exception regexp="yes">about|please</exception>
+            </token>
             <marker>
             <and>
                 <token postag="VBP"><exception postag="VBD"/><exception postag="IN"/></token>
@@ -6986,6 +6993,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Noun. ... is thought to be one of the reasons <marker>stress</marker> damaged the stomach's mucous membrane. [Chunker gives B-VB to 'stress'.]</example>
         <example type="untouched">- Police officer's active work:</example><!-- #2540 -->
         <example type="untouched">A martial arts strike.</example><!-- #2923 -->
+        <example type="untouched">CES schedulers please note that you do not have to save copy of this file.</example><!-- #2923 -->
         <example type="untouched">An angry workers strike.</example><!-- #2923 Incorrect grammar, missing possessive apostrophe before the noun 'strike'. -->
         <example type="untouched">You would need a simple mains relay such as...</example><!-- #2923 -->
         <example type="untouched">My biggest concern with smart switches is that technology makes advancements too fast.</example><!-- #2923 -->
@@ -8462,10 +8470,21 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag="CC" />
             </antipattern>
             <antipattern>
-                <token inflected="yes" regexp="yes">have|try|love|like|hate|want|need</token>
+                <token inflected="yes" regexp="yes">have|try|love|like|hate|want|need|use</token>
                 <token>to</token>
                 <token postag="VB" />
                 <token postag="CC" />
+            </antipattern>
+            <antipattern><!-- ... I'd ever read or movie ...-->
+                <token regexp="yes">&apostrophe;</token>
+                <token>d</token>
+                <token postag="RB" />
+                <token postag="VB|VBN" postag_regexp="yes" />
+            </antipattern>
+            <antipattern><!-- ... I'd ever read or movie ...-->
+                <token regexp="yes">&apostrophe;</token>
+                <token>d</token>
+                <token postag="VB|VBN" postag_regexp="yes" />
             </antipattern>
             <pattern>
                 <marker>
@@ -13428,6 +13447,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <pattern>
             <token>in</token>
             <token>perpetuum</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="DEPARTEMENT_OF_XXX" name="ignore spelling of 'Département of XXX'">
+        <pattern>
+            <token case_sensitive="yes">Département</token>
+            <token regexp="yes">d[eu]|of</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

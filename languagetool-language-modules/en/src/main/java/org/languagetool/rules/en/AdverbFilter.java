@@ -140,6 +140,7 @@ public class AdverbFilter extends RuleFilter {
     put("possibly", "possible");
     put("visually", "visual");
     put("predominantly", "predominant");
+    put("predominately", "predominant"); // special case
     put("quietly", "quiet");
     put("slightly", "slight");
     put("cleverly", "clever");
@@ -387,6 +388,7 @@ public class AdverbFilter extends RuleFilter {
     put("honorably", "honorable");
     put("rudely", "rude");
     put("incorrectly", "incorrect");
+    put("correctly", "correct");
     put("mistakenly", "mistaken");
     put("wrongly", "wrong");
     put("morosely", "morose");
@@ -457,7 +459,14 @@ public class AdverbFilter extends RuleFilter {
     put("fictionally", "fictional");
     put("manageably", "manageable");
     put("unmanageably", "unmanageable");
-
+    put("fashionably", "fashionable");
+    put("secondly", "second");
+    put("thirdly", "third");
+    put("curtly", "curt");
+    put("secretively", "secretive");
+    put("surprisingly", "surprising");
+    put("sociologically", "sociological");
+    put("severely", "severe");
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
   }};
