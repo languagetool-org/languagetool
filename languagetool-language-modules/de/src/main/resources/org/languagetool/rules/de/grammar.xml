@@ -9873,6 +9873,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="ZWEIFELS_OHNE" name="Zweifels ohne (zweifelsohne)" default="temp_off">
+            <antipattern>
+                <token postag=".+:GEN:.+" postag_regexp="yes" />
+                <token case_sensitive="yes">Zweifels</token>
+            </antipattern>
+            <pattern>
+                <token>zweifels</token>
+                <token>ohne</token>
+            </pattern>
+            <message>Meinten Sie das Adverb <suggestion><match no="1" case_conversion="alllower" />ohne</suggestion>?</message>
+            <example correction="zweifelsohne">Das ist <marker>Zweifels ohne</marker> eine tolle Idee.</example>
+        </rule>
         <rule id="ZAL_ER_NUSS_COMPOUND" name="Ein 10er Steckschlüssel (10er-Steckschlüssel)">
             <pattern>
                 <token regexp="yes">\d+er</token>
@@ -10926,7 +10938,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]{2,}(ung|schaft|sicht|heit|keit|ion|tät)s
-                    <exception regexp="yes">.+yungs|Jisungs|Samsungs|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
+                    <exception regexp="yes">.+yungs|Jisungs|.*federations|Samsungs|.*capsulations|.*ctions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
                 </token>
                 <token postag=".*SUB.*" postag_regexp="yes" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]+
@@ -14730,7 +14742,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&typo;</short>
                 <example correction="zweifacher">Er ist <marker>zwei facher</marker> Weltmeister.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">\d+</token>
@@ -18454,6 +18466,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>sinnlos ist</suggestion>
                 <example correction="keinen Sinn ergibt|keinen Sinn stiftet|nicht sinnvoll ist|sinnlos ist">Auch, wenn das <marker>keinen Sinn macht</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>Sinn</token>
+                    <token>machen</token>
+                </pattern>
+                <message>'Sinn machen' ist umgangssprachlich. Verwenden Sie stattdessen 'Sinn ergeben', 'Sinn stiften', 'Sinn haben' oder 'sinnvoll (bzw. sinnlos) sein'.</message>
+                <suggestion>\1 ergeben</suggestion>
+                <suggestion>\1 stiften</suggestion>
+                <short>'Sinn machen' ist umgangssprachlich.</short>
+                <example correction="Sinn ergeben|Sinn stiften">Er fragte sich, ob diese Antworten wirklich <marker>Sinn machen</marker>?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>Sinn</token>
+                    <token>macht</token>
+                </pattern>
+                <message>'Sinn machen' ist umgangssprachlich. Verwenden Sie stattdessen 'Sinn ergeben', 'Sinn stiften', 'Sinn haben' oder 'sinnvoll (bzw. sinnlos) sein'.</message>
+                <suggestion>\1 ergibt</suggestion>
+                <suggestion>\1 stiftet</suggestion>
+                <short>'Sinn machen' ist umgangssprachlich.</short>
+                <example correction="Sinn ergibt|Sinn stiftet">Er sagt, dass es keinen <marker>Sinn macht</marker>.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token skip="4" inflected="yes">machen<exception scope="next">,</exception></token>
@@ -19954,7 +19988,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rulegroup id="AUFS_SCHAERFSTE" name="auf das schärfste (Schärfste)" default="temp_off">
+        <rulegroup id="AUFS_SCHAERFSTE" name="auf das schärfste (Schärfste)">
             <rule>
                 <pattern>
                     <token regexp="yes">aufs?</token>

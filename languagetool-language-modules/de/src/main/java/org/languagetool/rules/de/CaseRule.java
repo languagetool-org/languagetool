@@ -301,7 +301,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // Names: "Jeremy Schulte", "Alexa Jung", "Fiete Lang", ...
       new PatternTokenBuilder().posRegex("EIG:.+|UNKNOWN").csTokenRegex("[A-Z].+").build(),
-      regex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Weigert|D(ü|ue)rr|Nagele|Hoppe|D(ö|oe)rre|G(ö|oe)ttlich|Stark|Fahle")
+      regex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Weigert|D(ü|ue)rr|Nagele|Hoppe|D(ö|oe)rre|G(ö|oe)ttlich|Stark|Fahle|Fromm")
     ),
     Arrays.asList(
       token(","),
@@ -833,6 +833,10 @@ public class CaseRule extends Rule {
     "Medienschaffende",
     "Medienschaffenden",
     "Medienschaffender",
+    "Lehrende",
+    "Lehrenden",
+    "Vertretene",
+    "Vertretenen",
     "Vorstandsvorsitzender",
     "Vorstandsvorsitzenden",
     "Vorstandsvorsitzende",
