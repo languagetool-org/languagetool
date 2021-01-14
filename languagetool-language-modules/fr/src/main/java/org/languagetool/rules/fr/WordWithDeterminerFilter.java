@@ -80,7 +80,8 @@ public class WordWithDeterminerFilter extends RuleFilter {
     AnalyzedTokenReadings atrWord = patternTokens[posWord - 1];
     boolean isDeterminerCapitalized = StringTools.isCapitalizedWord(atrDeterminer.getToken());
     boolean isWordCapitalized = StringTools.isCapitalizedWord(atrWord.getToken());
-    boolean isDeterminerAllupper = StringTools.isAllUppercase(atrDeterminer.getToken()) && !atrDeterminer.getToken().equalsIgnoreCase("L'");
+    boolean isDeterminerAllupper = StringTools.isAllUppercase(atrDeterminer.getToken())
+        && !atrDeterminer.getToken().equalsIgnoreCase("L'");
     boolean isWordAllupper = StringTools.isAllUppercase(atrWord.getToken());
     AnalyzedToken atDeterminer = getAnalyzedToken(atrDeterminer, DETERMINER);
     AnalyzedToken atWord = getAnalyzedToken(atrWord, WORD);
@@ -107,11 +108,11 @@ public class WordWithDeterminerFilter extends RuleFilter {
       wordForms[i] = synth.synthesize(atWord, prefix + GenderNumber[i], true);
       // if it cannot be synthesyzed, keep the original determiner
       if (determinerForms[i].length == 0 && atDeterminer.getPOSTag().matches(".+" + GenderNumber[i])) {
-        determinerForms[i] = new String[]{atDeterminer.getToken()};
+        determinerForms[i] = new String[] { atDeterminer.getToken() };
       }
       // if it cannot be synthesyzed, keep the original word
       if (wordForms[i].length == 0 && atWord.getPOSTag().matches(".+" + GenderNumber[i])) {
-        wordForms[i] = new String[]{atWord.getToken()};
+        wordForms[i] = new String[] { atWord.getToken() };
       }
     }
 
@@ -149,7 +150,11 @@ public class WordWithDeterminerFilter extends RuleFilter {
             // remove suggestions with errors
             List<RuleMatch> matches = lt.check(r);
             if (matches.size() == 0 && !replacements.contains(r)) {
-              replacements.add(r);
+              if (r.endsWith(atWord.getToken())) {
+                replacements.add(0, r);
+              } else {
+                replacements.add(r);
+              }
             }
           }
         }
