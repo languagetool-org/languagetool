@@ -8788,31 +8788,20 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
-      <rulegroup id= "CA_VA_MAL_SE_FINIR" name="ça va mal se finir" type="style" default="temp_off">
-          <rule>
-              <pattern>
-                  <token regexp="yes">ça</token>
-                  <token regexp="yes">va</token>
-                  <token regexp="yes">mal</token>
-                  <marker><token regexp="yes">se</token></marker>
-                  <token regexp="yes">finir</token>
-              </pattern>
-              <message>Dans cette expression française familière,« se finir » est une erreur grammaticale.</message>
-              <suggestion><match no="4" regexp_match="se" regexp_replace=""/></suggestion>
-              <example correction="">Je pense que ça va mal <marker>se</marker> finir.</example>
-          </rule>
-          <rule>
-              <pattern>
-                  <token regexp="yes">ça</token>
-                  <token regexp="yes">va</token>
-                  <token regexp="yes">mal</token>
-                  <marker><token regexp="yes">finir</token></marker>
-              </pattern>
-              <message>L’ expression française « ça va mal finir » est familière. Souhaitez-vous écrire l'expression « ça va mal se <suggestion><match no="5" regexp_match="finir" regexp_replace="terminer"/></suggestion> »
-                  employée dans le langage courant ?</message>
-              <example correction="terminer">Je pense que ça va mal <marker>finir</marker>.</example>
-          </rule>
-      </rulegroup>
+      <rule id= "CA_VA_MAL_SE_FINIR" name="ça va mal se finir" default="temp_off">
+          <pattern>
+              <token regexp="yes">ça</token>
+              <token regexp="yes">va</token>
+              <token regexp="yes" min="0" max="1">très|vraiment</token>
+              <token regexp="yes">mal</token>
+              <marker><token>se</token></marker>
+              <token regexp="yes">finir|terminer</token>
+          </pattern>
+          <message>Dans cette expression française familière, se finir est une erreur grammaticale.</message>
+          <suggestion><match no="5" regexp_match="se" regexp_replace=""/></suggestion>
+          <example correction="">Je pense que ça va mal <marker>se</marker> finir.</example>
+          <example correction="">Je pense que ça va mal <marker>se</marker> terminer.</example>
+      </rule>
       <rulegroup id="JE_M_APPEL" name="je m'appel (appelle)">
           <rule><!-- je -->
               <pattern>
