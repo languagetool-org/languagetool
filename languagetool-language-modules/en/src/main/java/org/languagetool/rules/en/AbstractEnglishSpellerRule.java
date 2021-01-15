@@ -160,6 +160,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().startsWith("sh ") &&
                    !k.getReplacement().startsWith("li ") &&
                    !k.getReplacement().startsWith("ha ") &&
+                   !k.getReplacement().startsWith("st ") &&
                    !k.getReplacement().toLowerCase().startsWith("dis ") &&
                    !k.getReplacement().toLowerCase().startsWith("mono ") &&
                    !k.getReplacement().toLowerCase().startsWith("trans ") &&
@@ -197,6 +198,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" ally") && // adverbs ending in "ally" that LT doesn't know (yet)
                    !k.getReplacement().endsWith(" ize") && // "advertize"
                    !k.getReplacement().endsWith(" sh") &&
+                   !k.getReplacement().endsWith(" st") &&
                    !k.getReplacement().endsWith(" ward") &&
                    !k.getReplacement().endsWith(" ting") && // someting
                    !k.getReplacement().endsWith(" ion") && // presention
@@ -344,6 +346,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     Map<String, List<String>> s = new HashMap<>();
     s.put("constits", Arrays.asList("consists"));
     s.put("carrie", Arrays.asList("carry"));
+    s.put("bare-bone", Arrays.asList("bare-bones", "bare-boned"));
+    s.put("Bare-bone", Arrays.asList("Bare-bones", "Bare-boned"));
     s.put("mae", Arrays.asList("make", "MAE", "may", "May", "man"));
     s.put("transportion", Arrays.asList("transportation"));
     s.put("Transportion", Arrays.asList("Transportation"));
