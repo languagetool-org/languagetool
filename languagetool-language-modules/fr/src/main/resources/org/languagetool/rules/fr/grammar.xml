@@ -365,6 +365,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Veuillez inscrire ici vos nom, adresse, et numéro de téléphone.</example>
         <!-- TODO: tout (adv o adj) is ambiguous -->
         <example>tout prêts à vibrer</example>
+        <example>Je vous souhaite à tous les deux bonheur.</example>
         <!-- TODO:  tirer le chasse -->
       </rule>
     </rulegroup>
@@ -10666,15 +10667,15 @@ though, and has since been slightly modified)-->
         <example>Ce niveau se nomme Pré des Fous.</example>
       </rule>
     </rulegroup>
-    <rule id="FAITS_ACTUELS" name="accord d'actuel" default="temp_off">
+    <rule id="FAITS_ACTUELS" name="accord: faits actuels">
       <pattern>
         <token>faits</token>
         <marker>
-          <token regexp="yes" inflected="yes">divers|actuel
-            <exception postag=".* m p" postag_regexp="yes"/></token>
+          <token inflected="yes">actuel
+            <exception>actuels</exception></token>
         </marker>
       </pattern>
-      <message>Dans cet idiome, <suggestion><match no="2" postag="(.*) [mfe] (sp|[sp])" postag_regexp="yes" postag_replace="$1 m p"/></suggestion> s'accorde toujours avec «faits»</message>
+      <message>Dans cet idiome, <suggestion>actuels</suggestion> s'accorde toujours avec «faits»</message>
       <example correction="actuels">Problématique et faits <marker>actuelles</marker>.</example>
     </rule>
     <rule id="VOUS_LE_PPA_1ER_GROUPE" name="s manquant à vous le ppa">
@@ -15301,6 +15302,11 @@ though, and has since been slightly modified)-->
         <example>Mais qu'as donc tu fait pendant tout ce temps !</example>
       </rule>
       <rule name="il/elle/on + 0 tokens + Verbe">
+        <antipattern>
+          <!-- inversion without hyphen: another rule -->
+          <token postag="V .* 3 sp?" postag_regexp="yes"/>
+          <token regexp="yes">elle|il</token>
+        </antipattern>
         <pattern>
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
             <exception regexp="yes">-.+</exception>
@@ -15407,6 +15413,11 @@ though, and has since been slightly modified)-->
         <example>Personne ne <marker>peut</marker> me le dire.</example>
       </rule>
       <rule name="il/elle/on + 2 tokens + Verbe">
+        <antipattern>
+          <!-- inversion without hyphen: another rule -->
+          <token postag="V .* 3 sp?" postag_regexp="yes"/>
+          <token regexp="yes">elle|il</token>
+        </antipattern>
         <pattern>
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
             <exception regexp="yes">ça|cela|ceci|ce|celle|-.*|c'|(celui|celle)-(ci|là)|celui|.*-même</exception>
@@ -15906,6 +15917,11 @@ though, and has since been slightly modified)-->
           <token>le</token>
           <token>Pen</token>
         </antipattern>
+        <antipattern>
+          <!-- triggers rule NOTRE -->
+          <token regexp="yes">le|la</token>
+          <token regexp="yes">[nv]otres?</token>
+        </antipattern>
         <pattern>
           <token postag="SENT_START|C coor" postag_regexp="yes"/>
           <marker>
@@ -15935,6 +15951,11 @@ though, and has since been slightly modified)-->
         <example>Regardez le grand immeuble là-bas.</example>
       </rule>
       <rule>
+        <antipattern>
+          <!-- triggers rule NOTRE -->
+          <token>les</token>
+          <token regexp="yes">[nv]otres?</token>
+        </antipattern>
         <pattern>
           <token postag="SENT_START|C coor" postag_regexp="yes"/>
           <marker>
@@ -18087,7 +18108,7 @@ though, and has since been slightly modified)-->
       <url>https://fr.wikipedia.org/wiki/Les_Mille_et_Une_Nuits</url>
       <example correction="Les Mille-et-une Nuits"><marker>Les Mille et un Nuits</marker>.</example>
     </rule>
-    <rulegroup id="PREFIXE_TRAIT_DUNION" name="préfixe avec trait d'union" default="temp_off">
+    <rulegroup id="PREFIXE_TRAIT_DUNION" name="préfixe avec trait d'union">
       <rule>
         <pattern>
           <token postag="A" regexp="yes">&prefixes;</token>
@@ -36147,7 +36168,7 @@ though, and has since been slightly modified)-->
       <example><marker>savoir gré</marker></example>
       <example>Le contrat est négocié de gré à gré.</example>
     </rule>
-    <rule id="ETRE_DE_VERBE_" name="être de + verbe inf" default="temp_off">
+    <rule id="ETRE_DE_VERBE" name="être de + verbe inf">
       <pattern>
         <token postag="V etre.*" postag_regexp="yes"/>
         <token postag="P">de</token>
