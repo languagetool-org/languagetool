@@ -92,9 +92,12 @@ abstract class Server {
     int requestLimit = config.getRequestLimit();
     int requestLimitInBytes = config.getRequestLimitInBytes();
     int requestLimitPeriodInSeconds = config.getRequestLimitPeriodInSeconds();
-    int ipFingerprintFactor = config.getIpFingerprintFactor();
-    if ((requestLimit > 0 || requestLimitInBytes > 0) && requestLimitPeriodInSeconds > 0 && ipFingerprintFactor >= 1) {
-      return new RequestLimiter(requestLimit, requestLimitInBytes, requestLimitPeriodInSeconds, ipFingerprintFactor);
+    int ipFingerprintFactor = config.getIpFingerprintFactor(); // can be <= 0, means fingerprinting is disabled
+    List<String> requestLimitWhitelistUsers = config.getRequestLimitWhitelistUsers();
+    int requestLimitWhitelistLimit = config.getRequestLimitWhitelistLimit();
+    if ((requestLimit > 0 || requestLimitInBytes > 0) && requestLimitPeriodInSeconds > 0) {
+      return new RequestLimiter(requestLimit, requestLimitInBytes, requestLimitPeriodInSeconds, ipFingerprintFactor,
+        requestLimitWhitelistUsers, requestLimitWhitelistLimit);
     }
     return null;
   }
