@@ -2413,12 +2413,13 @@ though, and has since been slightly modified)-->
       </pattern>
       <message>Vouliez-vous dire "à + infinitif" ou "a + participe" ?</message>
       <suggestion>à \2</suggestion>
-      <suggestion suppress_misspelled="yes">a <match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa (m|e) (s|sp)"/></suggestion>
-      <suggestion suppress_misspelled="yes">a <match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
-      <suggestion suppress_misspelled="yes">a <match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
-      <suggestion suppress_misspelled="yes">a <match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p"/></suggestion>
+      <suggestion suppress_misspelled="yes">a <match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa (m|e) (s|sp)" case_conversion="preserve"/></suggestion>
+      <suggestion suppress_misspelled="yes">a <match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s" case_conversion="preserve"/></suggestion>
+      <suggestion suppress_misspelled="yes">a <match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p" case_conversion="preserve"/></suggestion>
+      <suggestion suppress_misspelled="yes">a <match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p" case_conversion="preserve"/></suggestion>
       <example correction="à pouvoir|a pu">Tu es le seul <marker>a pouvoir</marker> m'aider.</example>
       <example correction="À partir|A parti|A partie|A partis|A parties"><marker>A partir</marker> de demain.</example>
+      <example correction="À LOUER|A LOUÉ|A LOUÉE|A LOUÉS|A LOUÉES"><marker>A LOUER</marker></example>
       <example>Il y a boire.</example>
     </rule>
     <rulegroup id="A_ACCENT_A" name="À au lieu de A">
@@ -10586,6 +10587,19 @@ though, and has since been slightly modified)-->
       <example correction="trois fois par semaine">Je joue au Softball <marker>trois fois au semaine</marker>.</example>
     </rule>
     <!-- End of additions -->
+    <rule id="PRES_DE" name="prés/près" default="temp_off">
+      <pattern>
+        <marker>
+          <token regexp="yes">prés?</token>
+        </marker>
+        <token regexp="yes">d[eu']</token>
+      </pattern>
+      <message>S'il s'agit d'une indication de proximité, utilisez l'adverbe <suggestion>près</suggestion>.</message>
+      <example correction="près">sur une colline <marker>prés</marker> de Paris.</example>
+      <example correction="près">Personnes qui travaillent à Montpellier, mais qui habitent <marker>prés</marker> du Castelnau-le-Lez.</example>
+      <!--<example>L'endroit est désormais le lieu-dit nommé Pré de la mosaïque.</example>
+      <example>Ce niveau se nomme Pré des Fous.</example>-->
+    </rule>
     <rulegroup id="PRES_SPACIAL_TEST" name="prés au lieu de près" default="temp_off">
       <antipattern>
         <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">(dé)?nommer|intituler|dire|appeller|surnommer|baptiser|désigner</token>
