@@ -450,6 +450,42 @@ though, and has since been slightly modified)-->
         <example correction="faible">C'est le plus <marker>mauvais</marker> score de ce jeu.</example>
       </rule>
     </rulegroup>
+          <rulegroup id="PLUS_MIEUX" name="plus mieux" default="temp_off">
+          <rule>
+              <pattern>
+                  <token>plus</token>
+                  <token regexp="yes">mieux?<exception postag="J.*" postag_regexp="yes" scope="next"/></token>
+              </pattern>
+              <message>« Plus mieux » est une collocation inadéquate. Voulez-vous écrire <suggestion>bien mieux</suggestion> ou <suggestion>meilleur</suggestion> ? </message>
+              <example correction="bien mieux|meilleur">C'est <marker>plus mieux</marker> que ce j'ai fait.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>plus</token>
+                      <token regexp="yes">mieux?</token>
+                  </marker>
+                  <token postag="J.*" postag_regexp="yes"></token>
+              </pattern>
+              <message>« Plus mieux » est une collocation inadéquate. Voulez-vous écrire <suggestion>mieux</suggestion> ?</message>
+              <example correction="mieux">Les sanctuaires les <marker>plus mieux</marker> classés.</example>
+              <example correction="mieux">Les miss les <marker>plus mieux</marker> habillées.</example>
+              <example correction="mieux">Son tableau le <marker>plus mieux</marker> connu.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token postag="D.* s?p" postag_regexp="yes"/>
+                      <token postag="N.* s?p" postag_regexp="yes"/>
+                      <token>plus</token>
+                      <token regexp="yes">mieux?</token>
+                  </marker>
+              </pattern>
+              <message>« Plus mieux » est une collocation inadéquate. Voulez-vous écrire <suggestion>\1 meilleurs \2</suggestion> ?</message>
+              <example correction="Les meilleurs sites"><marker>Les sites plus mieux</marker> de France.</example>
+              <example correction="Les meilleurs enfants"><marker>Les enfants plus mieux</marker> du monde.</example>
+          </rule>
+      </rulegroup>
     <rule id="ACCULER_AU_PIED_DU_MUR" name="acculer au pied du mur">
       <pattern>
         <token inflected="yes" skip="5">acculer</token>
