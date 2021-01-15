@@ -35303,7 +35303,18 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
-    <rulegroup id="POUR_PAS_QUE" name="familier : pour (ne) pas que...">
+      <rule id= "ALTERNATIVE_OU_POSSIBILITE" name="alternative ou possibilité" default="temp_off">
+          <pattern>
+              <token regexp="yes">autre|deux</token>
+              <marker><token regexp="yes">alternative(s)?</token></marker>
+          </pattern>
+          <message>Une alternative est un choix entre deux possibilités.</message>
+          <suggestion>possibilité</suggestion>
+          <url>http://academie-francaise.fr/solutions-alternatives</url>
+          <example correction="possibilité">Y a-t-il une autre <marker>alternative</marker> ?</example>
+          <example correction="possibilité">Il faut choisir ente deux <marker>alternatives</marker>.</example>
+      </rule>
+      <rulegroup id="POUR_PAS_QUE" name="familier : pour (ne) pas que...">
       <rule>
         <!-- 1 = 1. R.* que ne !V.* -->
         <pattern>
