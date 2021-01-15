@@ -2291,6 +2291,16 @@ RB => Règles Brutes
       <disambig postag="N m p"/>
     </rule>
   </rulegroup>
+  <rule id="COUR" name="cour">
+    <pattern>
+      <marker>
+        <token inflected="yes">cour</token>
+      </marker>
+      <token regexp="yes">de|d'</token>
+      <token regexp="yes">cassation|justice|comptes|appel|droit</token>
+    </pattern>
+    <disambig action="filter" postag="N f.*"></disambig>
+  </rule>
   <rule id="COMPTE_TENU" name="compte tenu">
     <pattern>
       <marker>
@@ -2300,14 +2310,14 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="N m s"/>
   </rule>
-  <rule id="JAVA" name="Java">
+  <!--<rule id="JAVA" name="Java">
     <pattern case_sensitive="yes">
       <marker>
         <token>Java</token>
       </marker>
     </pattern>
     <disambig postag="Z m s"/>
-  </rule>
+  </rule>-->
   <rule id="MAIS" name="mais">
     <antipattern>
       <token postag="D (e|m) p" postag_regexp="yes"/>
