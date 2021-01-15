@@ -390,49 +390,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 (the rule on "ajouter en plus"
 was already there before the category was created,
 though, and has since been slightly modified)-->
-      <rulegroup id="PLUS_MAUVAIS" name="plus mauvais" default="temp_off">
-          <rule>
-              <pattern>
-                  <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">résultats|scores|classements|notes</exception></token>
-                  <marker>
-                      <token>plus<exception scope="previous" regexp="yes">sentir</exception></token>
-                      <token skip="-1">mauvais<exception scope="next" regexp="yes">résultat(s)?|score(s)?|classement(s)?</exception></token>
-                  </marker>
-                  <token postag="SENT_END"><exception scope="current" regexp="yes">résultat(s)?|score(s)?|classement(s)?</exception></token>
-              </pattern>
-              <message>Voulez-vous écrire <suggestion>pire</suggestion> ?</message>
-              <example correction="pire">C'est le <marker>plus mauvais</marker>.</example>
-          </rule>
-          <rule>
-              <pattern>
-                  <marker>
-                      <token regexp="yes">des?</token>
-                      <token regexp="yes">plus?</token>
-                      <token regexp="yes">mauvais(es)?</token>
-                  </marker>
-                  <token regexp="yes">résultats|scores|classements|notes</token>
-              </pattern>
-              <message>Voulez-vous écrire <suggestion>de plus faibles</suggestion> ?</message>
-              <example correction="de plus faibles">Il a obtenu <marker>des plus mauvais</marker> résultats.</example>
-              <example correction="de plus faibles">Elle a <marker>des plus mauvaises</marker> notes que toi.</example>
-          </rule>
-          <rule>
-              <pattern>
-                  <token postag="D.*" postag_regexp="yes"/>
-                  <token regexp="yes">plus?</token>
-                  <marker>
-                      <token regexp="yes">mauvais(es)?(e)?</token>
-                  </marker>
-                  <token regexp="yes">résultat(s)?|score(s)?|classement(s)?|note(s)?</token>
-              </pattern>
-              <message>Voulez-vous écrire <suggestion>faible</suggestion> ?</message>
-              <example correction="faible">Il obtient le plus <marker>mauvais</marker> classement de l'histoire.</example>
-              <example correction="faible">Il a les plus <marker>mauvais</marker> résultats de sa carrière.</example>
-              <example correction="faible">Il a la plus <marker>mauvaise</marker> note.</example>
-              <example correction="faible">C'est le plus <marker>mauvais</marker> score de ce jeu.</example>
-          </rule>
-      </rulegroup>
-      <rule id="ACCULER_AU_PIED_DU_MUR" name="acculer au pied du mur">
+    <rulegroup id="PLUS_MAUVAIS" name="plus mauvais" default="temp_off">
+      <rule>
+        <pattern>
+          <token postag="SENT_START" skip="-1">
+            <exception scope="next" regexp="yes">résultats|scores|classements|notes</exception></token>
+          <marker>
+            <token>plus
+              <exception scope="previous" regexp="yes">sentir</exception></token>
+            <token skip="-1">mauvais
+              <exception scope="next" regexp="yes">résultat(s)?|score(s)?|classement(s)?</exception></token>
+          </marker>
+          <token postag="SENT_END">
+            <exception scope="current" regexp="yes">résultat(s)?|score(s)?|classement(s)?</exception></token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>pire</suggestion> ?</message>
+        <example correction="pire">C'est le <marker>plus mauvais</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">des?</token>
+            <token regexp="yes">plus?</token>
+            <token regexp="yes">mauvais(es)?</token>
+          </marker>
+          <token regexp="yes">résultats|scores|classements|notes</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>de plus faibles</suggestion> ?</message>
+        <example correction="de plus faibles">Il a obtenu <marker>des plus mauvais</marker> résultats.</example>
+        <example correction="de plus faibles">Elle a <marker>des plus mauvaises</marker> notes que toi.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token regexp="yes">plus?</token>
+          <marker>
+            <token regexp="yes">mauvais(es)?(e)?</token>
+          </marker>
+          <token regexp="yes">résultat(s)?|score(s)?|classement(s)?|note(s)?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>faible</suggestion> ?</message>
+        <example correction="faible">Il obtient le plus <marker>mauvais</marker> classement de l'histoire.</example>
+        <example correction="faible">Il a les plus <marker>mauvais</marker> résultats de sa carrière.</example>
+        <example correction="faible">Il a la plus <marker>mauvaise</marker> note.</example>
+        <example correction="faible">C'est le plus <marker>mauvais</marker> score de ce jeu.</example>
+      </rule>
+    </rulegroup>
+    <rule id="ACCULER_AU_PIED_DU_MUR" name="acculer au pied du mur">
       <pattern>
         <token inflected="yes" skip="5">acculer</token>
         <token>au</token>
@@ -2396,32 +2400,69 @@ though, and has since been slightly modified)-->
         <example correction="à">La distance <marker>a</marker> vol d’oiseau.</example>
       </rule>
     </rulegroup>
-    <rule id="A_INFINITIF" name="a + infinitif" default="temp_off">
+    <rulegroup id="A_INFINITIF" name="a + infinitif" default="temp_off">
       <antipattern>
         <token>y</token>
         <token>a</token>
         <token postag="[NJZD].*" postag_regexp="yes"/>
       </antipattern>
-      <antipattern>
-        <!-- other rule: suggest only participle -->
-        <token postag="R pers obj .*" postag_regexp="yes"/>
-        <token>a</token>
-      </antipattern>
-      <pattern>
-        <token>a</token>
-        <token postag="V.* inf" postag_regexp="yes"/>
-      </pattern>
-      <message>Vouliez-vous dire "à + infinitif" ou "a + participe" ?</message>
-      <suggestion>à \2</suggestion>
-      <suggestion suppress_misspelled="yes">a <match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa (m|e) (s|sp)" case_conversion="preserve"/></suggestion>
-      <suggestion suppress_misspelled="yes">a <match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s" case_conversion="preserve"/></suggestion>
-      <suggestion suppress_misspelled="yes">a <match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p" case_conversion="preserve"/></suggestion>
-      <suggestion suppress_misspelled="yes">a <match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p" case_conversion="preserve"/></suggestion>
-      <example correction="à pouvoir|a pu">Tu es le seul <marker>a pouvoir</marker> m'aider.</example>
-      <example correction="À partir|A parti|A partie|A partis|A parties"><marker>A partir</marker> de demain.</example>
-      <example correction="À LOUER|A LOUÉ|A LOUÉE|A LOUÉS|A LOUÉES"><marker>A LOUER</marker></example>
-      <example>Il y a boire.</example>
-    </rule>
+      <rule>
+        <pattern raw_pos="yes">
+          <token>il</token>
+          <token>y</token>
+          <or>
+            <token postag="V avoir.* 3 s" postag_regexp="yes"/>
+            <token>à</token>
+          </or>
+          <token postag="V.* inf" postag_regexp="yes"/>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1 \2 <match no="3" regexp_match="(?iu)à" regexp_replace="a" case_conversion="preserve"/> à \4</suggestion> ?</message>
+        <example correction="Il y a à manger"><marker>Il y a manger</marker></example>
+        <example correction="Il y avait à apprendre"><marker>Il y avait apprendre</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="R pers obj .*" postag_regexp="yes"/>
+          <marker>
+            <token>a</token>
+            <token postag="V.* inf" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>Après l’auxiliaire « a », le verbe devrait être au participe passé.</message>
+        <suggestion suppress_misspelled="yes">a <match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa (m|e) (s|sp)" case_conversion="preserve"/></suggestion>
+        <suggestion suppress_misspelled="yes">a <match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s" case_conversion="preserve"/></suggestion>
+        <suggestion suppress_misspelled="yes">a <match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p" case_conversion="preserve"/></suggestion>
+        <suggestion suppress_misspelled="yes">a <match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p" case_conversion="preserve"/></suggestion>
+        <example correction="a envoyé|a envoyée|a envoyés|a envoyées">Le médiateur des impôts m'<marker>a envoyer</marker> un courtier.</example>
+        <example>Il y a boire.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>a</token>
+          <token postag="V.* inf" postag_regexp="yes" regexp="yes">.+([^o]ir|er)|dire</token>
+        </pattern>
+        <message>Voulez-vous dire "à (préposition) + infinitif" ou "a (avoir) + participe" ?</message>
+        <suggestion>à \2</suggestion>
+        <suggestion suppress_misspelled="yes">a <match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa (m|e) (s|sp)" case_conversion="preserve"/></suggestion>
+        <suggestion suppress_misspelled="yes">a <match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s" case_conversion="preserve"/></suggestion>
+        <suggestion suppress_misspelled="yes">a <match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p" case_conversion="preserve"/></suggestion>
+        <suggestion suppress_misspelled="yes">a <match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p" case_conversion="preserve"/></suggestion>
+        <example correction="À partir|A parti|A partie|A partis|A parties"><marker>A partir</marker> de demain.</example>
+        <example correction="À LOUER|A LOUÉ|A LOUÉE|A LOUÉS|A LOUÉES"><marker>A LOUER</marker></example>
+        <example>Il y a boire.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>a</token>
+          <token postag="V.* inf" postag_regexp="yes">
+            <exception regexp="yes">.+([^o]ir|er)|dire</exception></token>
+        </pattern>
+        <message>Confusion probable : "a" est la conjugaison du verbe "avoir". Utilisez la préposition "à".</message>
+        <suggestion>à \2</suggestion>
+        <example correction="à pouvoir">Tu es le seul <marker>a pouvoir</marker> m'aider.</example>
+        <example>Il y a boire.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="A_ACCENT_A" name="À au lieu de A">
       <rule>
         <pattern>
