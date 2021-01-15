@@ -1528,7 +1528,7 @@ though, and has since been slightly modified)-->
         <example>nos clients vont d'ici peu être contraints de procéder</example>
         <example>tout cela doit peu à peu être investi</example>
       </rule>
-      <rule default="temp_off">
+      <rule>
         <pattern>
           <marker>
             <token>peut</token>
@@ -2397,6 +2397,16 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rule id="A_INFINITIF" name="a + infinitif" default="temp_off">
+      <antipattern>
+        <token>y</token>
+        <token>a</token>
+        <token postag="[NJZD].*" postag_regexp="yes"/>
+      </antipattern>
+      <antipattern>
+        <!-- other rule: suggest only participle -->
+        <token postag="R pers obj .*" postag_regexp="yes"/>
+        <token>a</token>
+      </antipattern>
       <pattern>
         <token>a</token>
         <token postag="V.* inf" postag_regexp="yes"/>
@@ -2409,6 +2419,7 @@ though, and has since been slightly modified)-->
       <suggestion suppress_misspelled="yes">a <match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p"/></suggestion>
       <example correction="à pouvoir|a pu">Tu es le seul <marker>a pouvoir</marker> m'aider.</example>
       <example correction="À partir|A parti|A partie|A partis|A parties"><marker>A partir</marker> de demain.</example>
+      <example>Il y a boire.</example>
     </rule>
     <rulegroup id="A_ACCENT_A" name="À au lieu de A">
       <rule>
