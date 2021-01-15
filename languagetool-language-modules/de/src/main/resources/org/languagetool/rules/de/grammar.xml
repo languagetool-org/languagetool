@@ -45571,7 +45571,7 @@ Andere Projekte</example>
                     </marker>
                 </pattern>
                 <message>Innerhalb von doppelten Anführungszeichen sollten einfache verwendet werden.</message>
-                <suggestion>‚<match no="3" include_skipped="following"/>‘</suggestion>
+               <suggestion>‚<match no="3" include_skipped="following"/>‘</suggestion>
                 <short>Verwenden Sie hier bitte einfache Anführungszeichen.</short>
                 <example>Der <marker>„Film“</marker> ist „gut“.</example>
 <!--                 <example>Der <marker>„Film über ‚die Sachen, die „gut“ sind‘“</marker> ist „gut“.</example> TODO -->
@@ -45582,6 +45582,15 @@ Andere Projekte</example>
 <!--                 <example correction="‚Anführungszeichen‘">Sie sagte: „Verschachtelte <marker>„Anführungszeichen“</marker> sind kompliziert.“ Hier geht der Text weiter.</example> -->
             </rule>
             <rule>
+                <antipattern>
+                    <token>„</token>
+                    <token skip="-1"/>
+                    <token>“</token>
+                     <token skip="-1"/>
+                    <token regexp="yes">"|“</token>
+                     <token skip="-1"/>
+                    <token spacebefore="no">“</token>
+                </antipattern>
                 <pattern>
                     <token skip="-1" postag="SENT_START"/>
                     <marker>
@@ -45594,10 +45603,11 @@ Andere Projekte</example>
                 <suggestion>‚<match no="2" include_skipped="following"/>‘</suggestion>
                 <short>Verwenden Sie hier bitte einfache Anführungszeichen.</short>
                 <example>Der <marker>„Film“</marker> ist „gut“.</example>
-<!--                 <example>Der <marker>„Film über ‚die Sachen, die „gut“ sind‘“</marker> ist „gut“.</example> TODO -->
+<!--            <example>Der <marker>„Film über ‚die Sachen, die „gut“ sind‘“</marker> ist „gut“.</example> TODO -->
                 <example correction="‚Anführungszeichen‘">„Verschachtelte <marker>„Anführungszeichen“</marker>“ sind kompliziert.</example>
                 <example correction="‚das Ding‘">„Ich habe <marker>„das Ding“</marker> noch nicht gesehen.“</example>
-<!--                 <example correction="‚Elemente der Mathematik‘">Informationen aus „Beihefte zur Zeitschrift <marker>„Elemente der Mathematik“</marker>“ von Ernst</example> -->
+<!--            <example correction="‚Elemente der Mathematik‘">Informationen aus „Beihefte zur Zeitschrift <marker>„Elemente der Mathematik“</marker>“ von Ernst</example> -->
+<!--            <example>Neben den vielen Workshops, verzauberten uns Bands wie „Geronimo“ und "Walls und Birds“ in lauschige Sommerabenden.</example>-->
             </rule>
             <rule>
                 <pattern>
