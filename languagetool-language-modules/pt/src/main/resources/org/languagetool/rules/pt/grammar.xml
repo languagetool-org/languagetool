@@ -7124,7 +7124,28 @@ Pela tua parte tens uma paciência de Job.
           <token regexp='yes'>tod[ao]s</token>
           <token/>
           <token postag='_PUNCT'/>
+      </antipattern>	  
+<!-- MARCOAGPINTO 2021-01-15 (1-JAN-2021+) *START* -->
+<!--
+Somos todos filhos de Deus.
+Somos todas filhas de Deus.
+-->
+      <antipattern>
+		<token inflected='yes' regexp='yes'>ser|nascer|morrer|ficar|deixar</token>
+		<token regexp='yes'>tod[ao]s</token>
+		<token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
       </antipattern>
+<!--
+Estamos todas solteiras.
+Estamos todos solteiros.
+-->
+      <antipattern>
+		<token inflected='yes' regexp='no'>estar</token>
+		<token regexp='yes'>tod[ao]s</token>
+		<token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+		<token regexp='yes'>[.,!?;()]</token>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-01-15 (1-JAN-2021+) *END* -->
       <pattern>
           <token regexp='yes'>tod[ao]s</token>
           <token postag_regexp='yes' postag='(?:N|A).+'>
@@ -7143,6 +7164,10 @@ Pela tua parte tens uma paciência de Job.
       <example>Nisso somos todos iguais.</example>
       <example>Somos todos uns mimados.</example>
       <example>Os sócios, todos portugueses, fizeram o investimento inicial.</example>
+	  <example type='correct'>Somos <marker>todos filhos</marker> de Deus.</example>
+	  <example type='correct'>Somos <marker>todas filhas</marker> de Deus.</example>
+	  <example type='correct'>Estamos <marker>todas solteiras</marker>.</example>
+	  <example type='correct'>Estamos <marker>todos solteiros</marker>.</example>
     </rule>
 
     <rule id='DEMAIS_DE_MAIS' name="Confusão: 'de mais' com 'demais'">
