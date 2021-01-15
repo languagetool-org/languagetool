@@ -207,6 +207,10 @@ public class VerbAgreementRule extends TextLevelRule {
       posRegex("VER:IMP:SIN.+"),
       csToken("du"),
       new PatternTokenBuilder().csToken("?").negate().build()
+    ),
+    Arrays.asList( // -Du fühlst dich unsicher?
+      tokenRegex("[^a-zäöüß]+du"),
+      pos("VER:2:SIN:PRÄ:SFT")
     )
   );
 
