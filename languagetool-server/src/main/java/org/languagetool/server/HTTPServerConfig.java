@@ -76,6 +76,8 @@ public class HTTPServerConfig {
   protected int requestLimitInBytes;
   protected int timeoutRequestLimit;
   protected int requestLimitPeriodInSeconds;
+  protected List<String> requestLimitWhitelistUsers;
+  protected int requestLimitWhitelistLimit;
   protected int ipFingerprintFactor = 1;
   protected boolean trustXForwardForHeader;
   protected int maxWorkQueueSize;
@@ -120,7 +122,8 @@ public class HTTPServerConfig {
     "maxCheckTimeWithApiKeyMillis", "maxErrorsPerWordRate", "maxPipelinePoolSize", "maxSpellingSuggestions", "maxTextHardLength",
     "maxTextLength", "maxTextLengthWithApiKey", "maxWorkQueueSize", "neuralNetworkModel", "pipelineCaching",
     "pipelineExpireTimeInSeconds", "pipelinePrewarming", "prometheusMonitoring", "prometheusPort", "remoteRulesFile",
-    "requestLimit", "requestLimitInBytes", "requestLimitPeriodInSeconds", "rulesFile", "secretTokenKey", "serverURL",
+    "requestLimit", "requestLimitInBytes", "requestLimitPeriodInSeconds", "requestLimitWhitelistUsers", "requestLimitWhitelistLimit",
+    "rulesFile", "secretTokenKey", "serverURL",
     "skipLoggingChecks", "skipLoggingRuleMatches", "timeoutRequestLimit", "trustXForwardForHeader", "warmUp", "word2vecModel",
     "keystore", "password", "maxTextLengthPremium", "maxTextLengthAnonymous", "maxTextLengthLoggedIn", "gracefulDatabaseFailure",
     "ngramLangIdentData",
@@ -221,6 +224,8 @@ public class HTTPServerConfig {
         requestLimit = Integer.parseInt(getOptionalProperty(props, "requestLimit", "0"));
         requestLimitInBytes = Integer.parseInt(getOptionalProperty(props, "requestLimitInBytes", "0"));
         timeoutRequestLimit = Integer.parseInt(getOptionalProperty(props, "timeoutRequestLimit", "0"));
+        requestLimitWhitelistUsers = Arrays.asList(getOptionalProperty(props, "requestLimitWhitelistUsers", "").split(",\\s*"));
+        requestLimitWhitelistLimit = Integer.parseInt(getOptionalProperty(props, "requestLimitWhitelistLimit", "0"));
         pipelineCaching = Boolean.parseBoolean(getOptionalProperty(props, "pipelineCaching", "false").trim());
         pipelinePrewarming = Boolean.parseBoolean(getOptionalProperty(props, "pipelinePrewarming", "false").trim());
         maxPipelinePoolSize = Integer.parseInt(getOptionalProperty(props, "maxPipelinePoolSize", "5"));
@@ -525,9 +530,34 @@ public class HTTPServerConfig {
     this.secretTokenKey = secretTokenKey;
   }
 
+  /**
+    @since 5.3
+    use a higher request limit for a list of users
+   */
+  public List<String> getRequestLimitWhitelistUsers() {
+    return requestLimitWhitelistUsers;
+  }
+
+  public void setRequestLimitWhitelistUsers(List<String> requestLimitWhitelistUsers) {
+    this.requestLimitWhitelistUsers = requestLimitWhitelistUsers;
+  }
+
+  /**
+   @since 5.3
+   use a higher request limit for a list of users
+   */
+  public int getRequestLimitWhitelistLimit() {
+    return requestLimitWhitelistLimit;
+  }
+
+  public void setRequestLimitWhitelistLimit(int requestLimitWhitelistLimit) {
+    this.requestLimitWhitelistLimit = requestLimitWhitelistLimit;
+  }
+
   int getRequestLimit() {
     return requestLimit;
   }
+
 
   /** @since 4.0 */
   int getTimeoutRequestLimit() {
