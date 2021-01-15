@@ -470,7 +470,7 @@ USA
                         </token>
                     <!-- Remove uppercase from the rule: case_sensitive="yes" in the token does not work; (?-i)([a-zA-Z][a-z]+... in the regexp does not work. Use an exception. -->
                 </pattern>
-                <message suppress_misspelled="yes">In British English, for some verbs, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for verbs and thus suggests <suggestion><match no="1" regexp_match="([a-z]+?-?[a-z]+?)is(e|es|ed|ing)" regexp_replace="$1iz$2" /></suggestion>.</message><!-- Cannot use postag_regexp="yes" postag="(VB.*)" postag_replace="$1" because it causes the suggestion to be the same as the target token. -->
+                <message suppress_misspelled="yes">Would you like to use the Oxford spelling <suggestion><match no="1" regexp_match="([a-z]+?-?[a-z]+?)is(e|es|ed|ing)" regexp_replace="$1iz$2" /></suggestion>? The spelling '\1' is also correct.</message><!-- Cannot use postag_regexp="yes" postag="(VB.*)" postag_replace="$1" because it causes the suggestion to be the same as the target token. -->
                 <short>Oxford spelling: ~ise verbs</short>
                 <example correction="organize">The verb '<marker>organise</marker>' is not the Oxford spelling.</example>
                 <example>The word '<marker>organize</marker>' is the Oxford spelling.</example>
