@@ -105,13 +105,55 @@ public class ProhibitedCompoundRule extends Rule {
     "gra(ph|f)ische[rsnm]",  // kosmografischen etc.
     "gra(ph|f)s?$",  // Elektrokardiograph
     "gra(ph|f)en",  // Elektrokardiographen
+    "gra(ph|f)in",  // Demographin/Demografin
     "gra(ph|f)ik",  // Kunstgrafik
     "gra(ph|f)ie",  // Geographie
     "Gra(ph|f)it"   // Grafit/Graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
           "Nachtmitte",  // vs. Nachtmittel
+          "Gemeindemitte", // vs. Gemeindemittel
           "Feinbeurteilung",  // vs. Feindbeurteilung
+          "Bremssand",
+          "Bratform",
+          "Devisenspritze",
+          "Einkaufszielen",
+          "einnähmt",
+          "Einzelversandes",
+          "Eisbällchen",
+          "Eisenbahnrades",
+          "Eisläufer",
+          "Eisläufern",
+          "Eisläufers",
+          "Fachversand",
+          "Fachversandes",
+          "Feinwahrnehmung",
+          "Feinwahrnehmungen",
+          "Fluchtkapsel",
+          "Fluchtkapseln",
+          "Fluchtschiffe",
+          "Fluchtschiffes",
+          "Fluchtschiffs",
+          "Fluchtschiffen",
+          "Flügeltreppe",
+          "Flügeltreppen",
+          "Fruchtspiel",
+          "Gletschersand",
+          "Gletschersands",
+          "Gletschersandes",
+          "Grafem",
+          "Grafems",
+          "Grafeme",
+          "Grafemen",
+          "grafitgrau",
+          "grafithaltig",
+          "grafithaltige",
+          "grafithaltiger",
+          "grafithaltigen",
+          "grafithaltigem",
+          "grafithaltiges",
+          "grafithaltigeren",
+          "grafithaltigerem",
           "Reitschuhe",
           "Reitschuhen",
           "Nordbalkon",
