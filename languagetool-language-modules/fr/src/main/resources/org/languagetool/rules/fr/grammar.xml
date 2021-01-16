@@ -450,42 +450,43 @@ though, and has since been slightly modified)-->
         <example correction="faible">C'est le plus <marker>mauvais</marker> score de ce jeu.</example>
       </rule>
     </rulegroup>
-          <rulegroup id="PLUS_MIEUX" name="plus mieux" default="temp_off">
-          <rule>
-              <pattern>
-                  <token>plus</token>
-                  <token regexp="yes">mieux?<exception postag="J.*" postag_regexp="yes" scope="next"/></token>
-              </pattern>
-              <message>« Plus mieux » est une collocation inadéquate. Voulez-vous écrire <suggestion>bien mieux</suggestion> ou <suggestion>meilleur</suggestion> ? </message>
-              <example correction="bien mieux|meilleur">C'est <marker>plus mieux</marker> que ce j'ai fait.</example>
-          </rule>
-          <rule>
-              <pattern>
-                  <marker>
-                      <token>plus</token>
-                      <token regexp="yes">mieux?</token>
-                  </marker>
-                  <token postag="J.*" postag_regexp="yes"></token>
-              </pattern>
-              <message>« Plus mieux » est une collocation inadéquate. Voulez-vous écrire <suggestion>mieux</suggestion> ?</message>
-              <example correction="mieux">Les sanctuaires les <marker>plus mieux</marker> classés.</example>
-              <example correction="mieux">Les miss les <marker>plus mieux</marker> habillées.</example>
-              <example correction="mieux">Son tableau le <marker>plus mieux</marker> connu.</example>
-          </rule>
-          <rule>
-              <pattern>
-                  <marker>
-                      <token postag="D.* s?p" postag_regexp="yes"/>
-                      <token postag="N.* s?p" postag_regexp="yes"/>
-                      <token>plus</token>
-                      <token regexp="yes">mieux?</token>
-                  </marker>
-              </pattern>
-              <message>« Plus mieux » est une collocation inadéquate. Voulez-vous écrire <suggestion>\1 meilleurs \2</suggestion> ?</message>
-              <example correction="Les meilleurs sites"><marker>Les sites plus mieux</marker> de France.</example>
-              <example correction="Les meilleurs enfants"><marker>Les enfants plus mieux</marker> du monde.</example>
-          </rule>
-      </rulegroup>
+    <rulegroup id="PLUS_MIEUX" name="plus mieux" default="temp_off">
+      <rule>
+        <pattern>
+          <token>plus</token>
+          <token regexp="yes">mieux?
+            <exception postag="J.*" postag_regexp="yes" scope="next"/></token>
+        </pattern>
+        <message>« Plus mieux » est une collocation inadéquate. Voulez-vous écrire <suggestion>bien mieux</suggestion> ou <suggestion>meilleur</suggestion> ? </message>
+        <example correction="bien mieux|meilleur">C'est <marker>plus mieux</marker> que ce j'ai fait.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>plus</token>
+            <token regexp="yes">mieux?</token>
+          </marker>
+          <token postag="J.*" postag_regexp="yes"/>
+        </pattern>
+        <message>« Plus mieux » est une collocation inadéquate. Voulez-vous écrire <suggestion>mieux</suggestion> ?</message>
+        <example correction="mieux">Les sanctuaires les <marker>plus mieux</marker> classés.</example>
+        <example correction="mieux">Les miss les <marker>plus mieux</marker> habillées.</example>
+        <example correction="mieux">Son tableau le <marker>plus mieux</marker> connu.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token postag="D.* s?p" postag_regexp="yes"/>
+            <token postag="N.* s?p" postag_regexp="yes"/>
+            <token>plus</token>
+            <token regexp="yes">mieux?</token>
+          </marker>
+        </pattern>
+        <message>« Plus mieux » est une collocation inadéquate. Voulez-vous écrire <suggestion>\1 meilleurs \2</suggestion> ?</message>
+        <example correction="Les meilleurs sites"><marker>Les sites plus mieux</marker> de France.</example>
+        <example correction="Les meilleurs enfants"><marker>Les enfants plus mieux</marker> du monde.</example>
+      </rule>
+    </rulegroup>
     <rule id="ACCULER_AU_PIED_DU_MUR" name="acculer au pied du mur">
       <pattern>
         <token inflected="yes" skip="5">acculer</token>
@@ -1283,7 +1284,8 @@ though, and has since been slightly modified)-->
     <rule id="SA_CA" name="SA au lieu de ÇA">
       <pattern>
         <marker>
-          <token>sa<exception case_sensitive="yes">SA</exception></token>
+          <token>sa
+            <exception case_sensitive="yes">SA</exception></token>
         </marker>
         <or>
           <token postag="[VR].*" postag_regexp="yes">
@@ -2199,7 +2201,7 @@ though, and has since been slightly modified)-->
         </antipattern>
         <antipattern>
           <token inflected="yes">avoir</token>
-          <token postag="N m s">trait</token>
+          <token>trait</token>
           <token postag="P">à</token>
         </antipattern>
         <pattern>
@@ -2458,12 +2460,12 @@ though, and has since been slightly modified)-->
         <example correction="à">La distance <marker>a</marker> vol d’oiseau.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="A_INFINITIF" name="a + infinitif" default="temp_off">
-      <antipattern>
+    <rulegroup id="A_INFINITIF" name="a + infinitif">
+      <!--<antipattern>
         <token>y</token>
         <token>a</token>
         <token postag="[NJZD].*" postag_regexp="yes"/>
-      </antipattern>
+      </antipattern>-->
       <rule>
         <pattern raw_pos="yes">
           <token>il</token>
@@ -2476,6 +2478,7 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous dire <suggestion>\1 \2 <match no="3" regexp_match="(?iu)à" regexp_replace="a" case_conversion="preserve"/> à \4</suggestion> ?</message>
         <example correction="Il y a à manger"><marker>Il y a manger</marker></example>
+        <example correction="Il y a à boire"><marker>Il y a boire</marker></example>
         <example correction="Il y avait à apprendre"><marker>Il y avait apprendre</marker></example>
       </rule>
       <rule>
@@ -2492,7 +2495,6 @@ though, and has since been slightly modified)-->
         <suggestion suppress_misspelled="yes">a <match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p" case_conversion="preserve"/></suggestion>
         <suggestion suppress_misspelled="yes">a <match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p" case_conversion="preserve"/></suggestion>
         <example correction="a envoyé|a envoyée|a envoyés|a envoyées">Le médiateur des impôts m'<marker>a envoyer</marker> un courtier.</example>
-        <example>Il y a boire.</example>
       </rule>
       <rule>
         <pattern>
@@ -2507,7 +2509,6 @@ though, and has since been slightly modified)-->
         <suggestion suppress_misspelled="yes">a <match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p" case_conversion="preserve"/></suggestion>
         <example correction="À partir|A parti|A partie|A partis|A parties"><marker>A partir</marker> de demain.</example>
         <example correction="À LOUER|A LOUÉ|A LOUÉE|A LOUÉS|A LOUÉES"><marker>A LOUER</marker></example>
-        <example>Il y a boire.</example>
       </rule>
       <rule>
         <pattern>
@@ -2518,7 +2519,6 @@ though, and has since been slightly modified)-->
         <message>Confusion probable : "a" est la conjugaison du verbe "avoir". Utilisez la préposition "à".</message>
         <suggestion>à \2</suggestion>
         <example correction="à pouvoir">Tu es le seul <marker>a pouvoir</marker> m'aider.</example>
-        <example>Il y a boire.</example>
       </rule>
     </rulegroup>
     <rulegroup id="A_ACCENT_A" name="À au lieu de A">
@@ -10068,33 +10068,34 @@ though, and has since been slightly modified)-->
   <category id="CAT_GRAMMAIRE" name="Grammaire">
     <rule id="LA_OU_LES_PLUS" name="la ou les plus" default="temp_off">
       <pattern>
-          <token postag="V.*" postag_regexp="yes"/>
-          <marker>
-              <token regexp="yes">la|les</token>
-          </marker>
-          <token regexp="yes">plus|moins</token>
-          <token min="0" max="2" postag="A.*" postag_regexp="yes"/>
-          <token postag="SENT_END" regexp="yes">[\.\?!]</token>
+        <token postag="V.*" postag_regexp="yes"/>
+        <marker>
+          <token regexp="yes">la|les</token>
+        </marker>
+        <token regexp="yes">plus|moins</token>
+        <token min="0" max="2" postag="A.*" postag_regexp="yes"/>
+        <token postag="SENT_END" regexp="yes">[\.\?!]</token>
       </pattern>
       <message> Il semble qu’il y ait une faute d'article. Nous vous suggérons d'employer l'article <suggestion>le</suggestion>.</message>
       <example correction="le">C'est Julie qui court <marker>la</marker> plus vite.</example>
       <example correction="le">Ce sont tes amis qui écrivent <marker>les</marker> moins vite.</example>
       <example correction="le">Ce sont tes parents qui parlent <marker>les</marker> moins.</example>
     </rule>
-    <rule id="LA_OU_LES_PLUS_DE_NOM" name="la ou les plus nom" default="temp_off">
+    <rule id="LA_OU_LES_PLUS_DE_NOM" name="la ou les plus nom">
       <pattern>
-          <marker>
-              <token regexp="yes">la|les</token>
-          </marker>
-          <token regexp="yes">plus|moins</token>
-          <token>de</token>
-          <token postag="N.*" postag_regexp="yes"/>
+        <marker>
+          <token regexp="yes">la|les</token>
+        </marker>
+        <token regexp="yes">plus|moins</token>
+        <token>de</token>
+        <token postag="N.*" postag_regexp="yes"/>
       </pattern>
       <message>Dans l'expression le \2 \3, l'article est toujours <suggestion>le</suggestion>.</message>
       <example correction="le">C'est ici qu'il y a <marker>la</marker> plus de chance de gagner.</example>
       <example correction="le">C'est ici qu'il y a <marker>les</marker> moins de voitures.</example>
     </rule>
-    <rulegroup id="TOUTE_A_L_HEURE" name="toute a l’heure" default="temp_off">
+    <rulegroup id="TOUTE_A_L_HEURE" name="toute a l’heure">
+      <url>https://www.lalanguefrancaise.com/orthographe/a-tout-a-l-heure-ou-a-toute-a-l-heure/</url>
       <rule>
         <pattern>
           <token>à</token>
@@ -10106,7 +10107,6 @@ though, and has since been slightly modified)-->
           <token>heure</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>tout</suggestion> ?</message>
-        <url>https://www.lalanguefrancaise.com/orthographe/a-tout-a-l-heure-ou-a-toute-a-l-heure/</url>
         <example correction="tout">À <marker>toute</marker> à l'heure.</example>
       </rule>
       <rule>
@@ -10444,6 +10444,7 @@ though, and has since been slightly modified)-->
         <example>Trois-cents ans</example>
         <example>Onze cents ans</example>
         <example>de moins de dix-huit (18) ans</example>
+        <example>et tous les deux ans se déroule le Festival international du cirque</example>
       </rule>
       <rule>
         <antipattern>
@@ -11972,6 +11973,7 @@ though, and has since been slightly modified)-->
         <example>un district militaire nommé Alpes Maritimæ</example>
         <example>le traité Questions naturelles et mystiques.</example>
         <example>Êtes-vous toutes complètement folles ?</example>
+        <example>Vous avez tous les deux été très impressionnants aujourd'hui.</example>
       </rule>
       <rule name="pluriel suivi du singulier">
         <antipattern>
@@ -36254,14 +36256,14 @@ though, and has since been slightly modified)-->
       <example><marker>savoir gré</marker></example>
       <example>Le contrat est négocié de gré à gré.</example>
     </rule>
-    <rule id="ETRE_DE_VERBE" name="être de + verbe inf">
+    <rule id="ETRE_DE_VERBE" name="être de + verbe inf" default="temp_off">
       <pattern>
         <token postag="V etre.*" postag_regexp="yes"/>
         <token postag="P">de</token>
         <token min="0" postag_regexp="yes" postag="R.*"/>
         <marker>
           <token postag="V ppa.*" postag_regexp="yes">
-            <exception regexp="yes">rayés?</exception></token>
+            <exception regexp="yes">rayés?|fait|mise|sortie</exception></token>
         </marker>
       </pattern>
       <message>Vous devriez utiliser l'infinitif plutôt que le participe passé.</message>
@@ -36269,7 +36271,9 @@ though, and has since been slightly modified)-->
       <example correction="désactiver">La solution est de le <marker>désactivé</marker></example>
       <example correction="désactiver">La solution est de <marker>désactivé</marker> le moteur</example>
       <example correction="désactiver">La solution, pour contourner le problème, est de <marker>désactivé</marker> le moteur.</example>
+      <example>Il est de fait que le monde virtuel occupe déjà une part importante de la vie humaine.</example>
       <example>C'est de ce fait qu'il est toujours conseillé.</example>
+      <example>Tout Paris est de sortie.</example>
     </rule>
     <rulegroup id="PIRE_ALLER" name="pire(-)aller">
       <rule>

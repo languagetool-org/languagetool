@@ -499,6 +499,22 @@ RB => Règles Brutes
     </pattern>
     <disambig action="filter" postag="V.*"/>
   </rule>
+  <rule id="TOUS_LES_DEUX" name="tous les deux (determiner / pronoun)">
+    <pattern>
+      <marker>
+        <token>tous</token>
+        <token>les</token>
+        <token>deux</token>
+      </marker>
+      <token>
+        <exception postag="[JN] .* (p|sp)" postag_regexp="yes"/></token>
+    </pattern>
+    <disambig action="replace">
+      <wd lemma="tous les deux" pos="R m s"/>
+      <wd lemma="tous les deux" pos="R m s"/>
+      <wd lemma="tous les deux" pos="R m s"/>
+    </disambig>
+  </rule>
   <rule name="quelque chose" id="QUELQUE_CHOSE">
     <pattern>
       <token>quelque</token>
@@ -1135,6 +1151,16 @@ RB => Règles Brutes
       <token postag="V ppr"/>
     </pattern>
     <disambig action="filter" postag="P"/>
+  </rule>
+  <rule id="AVOIR_PARTICIPE" name="avoir + participe">
+    <pattern>
+      <token inflected="yes">avoir</token>
+      <token min="0" max="3" postag="A|R.*" postag_regexp="yes"/>
+      <marker>
+        <token postag="V.* ppa .*" postag_regexp="yes"/>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="V.* ppa .*"/>
   </rule>
   <rule id="AVIONS" name="avions">
     <pattern>
@@ -1882,7 +1908,7 @@ RB => Règles Brutes
         <token postag="A">ensemble</token>
       </marker>
     </pattern>
-    <disambig action="filter" postag="A"></disambig>
+    <disambig action="filter" postag="A"/>
   </rule>
   <rule name="RB : adverbes" id="RB-ADVERBES">
     <!-- TODO: very poor rule -->
@@ -2064,7 +2090,7 @@ RB => Règles Brutes
       <disambig postag="N f p"/>
     </rule>
   </rulegroup>
-<!--  <rule id="UNE_DES" name="une des">
+  <!--  <rule id="UNE_DES" name="une des">
     <pattern>
       <token postag="D f s">une</token>
       <marker>
@@ -2299,7 +2325,7 @@ RB => Règles Brutes
       <token regexp="yes">de|d'</token>
       <token regexp="yes">cassation|justice|comptes|appel|droit|strasbourg</token>
     </pattern>
-    <disambig action="filter" postag="N f.*"></disambig>
+    <disambig action="filter" postag="N f.*"/>
   </rule>
   <rule id="COMPTE_TENU" name="compte tenu">
     <pattern>
