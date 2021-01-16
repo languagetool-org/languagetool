@@ -1005,15 +1005,7 @@ public class JLanguageTool {
             // match objects could be relevant to multiple (duplicate) sentences at different offsets
             List<RuleMatch> adjustedMatches = matches.stream().map(RuleMatch::new).collect(Collectors.toList());
             for (RuleMatch match : adjustedMatches) {
-              int fromPos, toPos;
-              if (annotatedText != null) {
-                fromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos() + offset, false);
-                toPos = annotatedText.getOriginalTextPositionFor(match.getToPos() + offset - 1, true) + 1;
-              } else {
-                fromPos = match.getFromPos() + offset;
-                toPos = match.getToPos() + offset;
-              }
-              match.setOffsetPosition(fromPos, toPos);
+              adjustOffset(annotatedText, offset, match);
             }
             remoteMatches.addAll(adjustedMatches);
           }
@@ -1028,15 +1020,7 @@ public class JLanguageTool {
         for (RuleMatch cachedMatch : cachedMatches) {
           // clone so that we don't adjust match position for cache
           RuleMatch match = new RuleMatch(cachedMatch);
-          int fromPos, toPos;
-          if (annotatedText != null) {
-            fromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos() + sentenceOffset, false);
-            toPos = annotatedText.getOriginalTextPositionFor(match.getToPos() + sentenceOffset - 1, true) + 1;
-          } else {
-            fromPos = match.getFromPos() + sentenceOffset;
-            toPos = match.getToPos() + sentenceOffset;
-          }
-          match.setOffsetPosition(fromPos, toPos);
+          adjustOffset(annotatedText, sentenceOffset, match);
           remoteMatches.add(match);
         }
       }
@@ -1045,6 +1029,19 @@ public class JLanguageTool {
         match.setSuggestedReplacementObjects(extendSuggestions(match.getSuggestedReplacementObjects()));
       }
     }
+  }
+
+  private void adjustOffset(AnnotatedText annotatedText, int offset, RuleMatch match) {
+    int fromPos;
+    int toPos;
+    if (annotatedText != null) {
+      fromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos() + offset, false);
+      toPos = annotatedText.getOriginalTextPositionFor(match.getToPos() + offset - 1, true) + 1;
+    } else {
+      fromPos = match.getFromPos() + offset;
+      toPos = match.getToPos() + offset;
+    }
+    match.setOffsetPosition(fromPos, toPos);
   }
 
   protected void checkRemoteRules(@NotNull ExecutorService remoteRulesThreadPool,
