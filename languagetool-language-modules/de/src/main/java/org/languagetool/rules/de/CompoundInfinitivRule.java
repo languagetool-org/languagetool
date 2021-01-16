@@ -240,7 +240,7 @@ public class CompoundInfinitivRule extends Rule {
         && !tokens[i].isImmunized()
         && !isException(tokens, i)
         && !isMisspelled(tokens[i - 1].getToken() + tokens[i + 1].getToken())) {
-        String msg = "Wenn der erweiterte Infinitv von dem Verb '" + tokens[i - 1].getToken() + tokens[i + 1].getToken()
+        String msg = "Wenn der erweiterte Infinitiv von dem Verb '" + tokens[i - 1].getToken() + tokens[i + 1].getToken()
                    + "' abgeleitet ist, sollte er zusammengeschrieben werden.";
         RuleMatch ruleMatch = new RuleMatch(this, sentence, tokens[i - 1].getStartPos(), tokens[i + 1].getEndPos(), msg);
         List<String> suggestions = new ArrayList<>();
