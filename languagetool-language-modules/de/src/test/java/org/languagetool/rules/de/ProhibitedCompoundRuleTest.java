@@ -24,11 +24,9 @@ import static org.hamcrest.core.Is.is;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -55,6 +53,31 @@ public class ProhibitedCompoundRuleTest {
   }
   private final ProhibitedCompoundRule rule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), new FakeLanguageModel(map), null);
   private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+
+  @Test
+  @Ignore("for interactive use, e.g. after extending the list of pairs")
+  public void testListOfWords() throws IOException {
+    //File input = new File("/home/dnaber/data/corpus/jan_schreiber/german.dic");
+    File input = new File("/tmp/words.txt");
+    LuceneLanguageModel lm = new LuceneLanguageModel(new File("/home/dnaber/data/google-ngram-index/de/"));
+    System.out.println("Words matched by rule:");
+    ProhibitedCompoundRule rule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), lm, null);
+    int i = 0;
+    try (Scanner sc = new Scanner(input)) {
+      while (sc.hasNextLine()) {
+        String line = sc.nextLine().trim();
+        RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(line));
+        if (matches.length > 0) {
+          System.out.println(line + " -> " + matches[0].getSuggestedReplacements());
+        }
+        i++;
+        //if (i % 10_000 == 0) {
+        //  System.out.println(i + "...");
+        //}
+      }
+    }
+    System.out.println("DONE.");
+  }
 
   @Test
   public void testRule() throws IOException {
