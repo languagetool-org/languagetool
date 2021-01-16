@@ -20997,19 +20997,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="per consegüent"><marker>per conseqüent</marker></example>
             <example>per consegüent</example>
         </rule>
-        <rule id="PUGIN_PUGUIN" name="pugin/puguin">
-            <pattern>
-                <marker>
-                    <token postag="V.S.*" postag_regexp="yes" inflected="yes">pujar</token>
-                </marker>
-                <token postag="V.N.*" postag_regexp="yes"/>
-            </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">poder</match></suggestion> (del v. 'poder') en comptes de <match no="1"/> (del v. 'pujar')?</message>
-            <example correction="puguin">que <marker>pugin</marker> fer-ho</example>
-            <example correction="poguéssiu">si <marker>pugéssiu</marker> fer-ho</example>
-            <example>no pugeu el menjar</example>
-            <example>Veure pujar o baixar el preu del meló.</example>
-        </rule>
+        <rulegroup id="PUJAR_PODER" name="pugin/puguin">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.S.*" postag_regexp="yes" inflected="yes">pujar</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">poder</match></suggestion> (v. 'poder') en comptes de "<match no="1"/>" (v. 'pujar')?</message>
+                <example correction="puguin">que <marker>pugin</marker> fer-ho</example>
+                <example correction="poguéssiu">si <marker>pugéssiu</marker> fer-ho</example>
+                <example>no pugeu el menjar</example>
+                <example>Veure pujar o baixar el preu del meló.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="2">tant</token>
+                    <token>com</token>
+                    <token min="0">es</token>
+                    <marker>
+                        <token postag="V.S.*" postag_regexp="yes" inflected="yes">pujar</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="4" postag="(V.*)" postag_regexp="yes" postag_replace="$1">poder</match></suggestion> (v. 'poder') en comptes de "<match no="4"/>" (v. 'pujar')?</message>
+                <example correction="pugui">Cal vaccinar tantes persones com es <marker>pugi</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>com</token>
+                    <token min="0">es</token>
+                    <marker>
+                        <token postag="V.S.*" postag_regexp="yes" inflected="yes">pujar</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">poder</match></suggestion> (v. 'poder') en comptes de "<match no="3"/>" (v. 'pujar')?</message>
+                <example correction="puguis">Fes-ho com <marker>pugis</marker>.</example>
+                <example correction="pugues">Fes-ho com <marker>puges</marker>.</example>
+                <example>Com pujaràs les escales?</example>
+            </rule>
+        </rulegroup>
         <rule id="MALDADES_MAL_DADES" name="maldades / mal dades">
             <pattern>
                 <token inflected="yes" regexp="yes" skip="1">venir|anar</token>
