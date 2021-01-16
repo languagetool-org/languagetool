@@ -1333,7 +1333,6 @@ public class JLanguageTool {
     thisMatch.setColumn(column);
     thisMatch.setEndColumn(endColumn);
     return thisMatch;
-
   }
 
   private List<SuggestedReplacement> extendSuggestions(List<SuggestedReplacement> replacements) {
@@ -1423,6 +1422,7 @@ public class JLanguageTool {
       this.cleanToken = cleanToken;
     }
   }
+
   /**
    * Tokenizes the given {@code sentence} into words and analyzes it.
    * This is the same as {@link #getAnalyzedSentence(String)} but it does not run
