@@ -49,6 +49,7 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("mitte", "zentral", "mittel", "Methode, um etwas zu erreichen"),
           new Pair("fein", "feinkörnig, genau, gut", "feind", "Gegner"),
           new Pair("traum", "Erleben während des Schlafes", "trauma", "Verletzung"),
           new Pair("name", "Bezeichnung (z.B. 'Vorname')", "nahme", "zu 'nehmen' (z.B. 'Teilnahme')"),
@@ -109,6 +110,7 @@ public class ProhibitedCompoundRule extends Rule {
     "Gra(ph|f)it"   // Grafit/Graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Nachtmitte",  // vs. Nachtmittel
           "Feinbeurteilung",  // vs. Feindbeurteilung
           "Reitschuhe",
           "Reitschuhen",
