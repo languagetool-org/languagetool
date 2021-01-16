@@ -462,6 +462,10 @@ public class AgreementRuleTest {
     assertBad("Hier steht Ihre Text.");
     assertBad("Hier steht ihre Text.");
 
+    assertBad("Das ist doch lächerlich, was ist denn das für ein Klinik?");
+    assertGood("Das ist doch lächerlich, was ist denn das für eine Klinik?");
+    assertGood("Was ist denn das für ein Typ?");
+
     assertBad("Ich weiß nicht mehr, was unser langweiligen Thema war.");
     assertGood("Aber mein Wissen über die Antike ist ausbaufähig.");
     assertBad("Er ging ins Küche.");
