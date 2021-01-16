@@ -1281,9 +1281,9 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rule id="SA_CA" name="SA au lieu de ÇA">
-      <pattern raw_pos="yes">
+      <pattern>
         <marker>
-          <token>sa</token>
+          <token>sa<exception case_sensitive="yes">SA</exception></token>
         </marker>
         <or>
           <token postag="[VR].*" postag_regexp="yes">
@@ -1296,6 +1296,10 @@ though, and has since been slightly modified)-->
       <example correction="Ça"><marker>Sa</marker> fait mal.</example>
       <example>Sa voiture est en panne.</example>
       <example>C’est sa préférée.</example>
+      <example>Il a pour chef-lieu Carcassonne, avec sa célèbre ville médiévale fortifiée.</example>
+      <example>POLYVAP SA est une membrane bitumineuse</example>
+      <example>vers la forêt d'Ida suit sa brillante route</example>
+      <example>le français préfère afficher sa brillante rouerie et sa sagacité</example>
     </rule>
     <rule id="CA_ET_LA" name="ça et là → çà et là">
       <pattern>
@@ -10083,7 +10087,7 @@ though, and has since been slightly modified)-->
               <token regexp="yes">la|les</token>
           </marker>
           <token regexp="yes">plus|moins</token>
-          <token regexp="yes">de</token>
+          <token>de</token>
           <token postag="N.*" postag_regexp="yes"/>
       </pattern>
       <message>Dans l'expression le \2 \3, l'article est toujours <suggestion>le</suggestion>.</message>
@@ -18189,8 +18193,8 @@ though, and has since been slightly modified)-->
       <url>https://fr.wikipedia.org/wiki/Les_Mille_et_Une_Nuits</url>
       <example correction="Les Mille-et-une Nuits"><marker>Les Mille et un Nuits</marker>.</example>
     </rule>
-    <rulegroup id="PREFIXE_TRAIT_DUNION" name="préfixe avec trait d'union">
-      <rule>
+    <rulegroup id="PREFIXE_TRAIT_DUNION_" name="préfixe avec trait d'union">
+      <rule default="temp_off">
         <pattern>
           <token postag="A" regexp="yes">&prefixes;</token>
           <token postag="[NJ].*" postag_regexp="yes"/>
@@ -18216,6 +18220,7 @@ though, and has since been slightly modified)-->
         <suggestion>\1-\2</suggestion>
         <example correction="mini-réfrigérateurs">Deux <marker>mini réfrigérateurs</marker>.</example>
         <example correction="méga-projet">Ce <marker>méga projet</marker>.</example>
+        <example correction="méga-octets">Plusiers <marker>méga octets</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="DEMI" name="demi et demie">
