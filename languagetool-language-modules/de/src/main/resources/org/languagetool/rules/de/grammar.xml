@@ -1147,6 +1147,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="SEIN_MONATEN" name="sein (seit) Jahren etc.">
+            <antipattern>
+                <token>ihr</token>
+                <token>seid</token>
+                <token negate="yes" regexp="yes">Sekunden|Minuten|Stunden|Tagen|Wochen|Monaten|Jahr(zent|hundert)?en</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp="yes" skip="1">sei[dn]</token>
@@ -1155,6 +1160,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Meinten Sie <suggestion>seit</suggestion>?</message>
             <example correction="Seit"><marker>Sein</marker> Monaten nervt er mich.</example>
+            <example>Ihr seid seit Stunden dabei.</example>
+            <example correction="seit">Wenn ihr <marker>seid</marker> Monaten schon versucht, das zu lösen.</example>
         </rule>
         <rule id="ZUR_STANDE" name="zur Stande (zustande, zu Stande)">
             <regexp>\bzur Stande\b</regexp>
