@@ -10702,57 +10702,52 @@ though, and has since been slightly modified)-->
       <example correction="trois fois par semaine">Je joue au Softball <marker>trois fois au semaine</marker>.</example>
     </rule>
     <!-- End of additions -->
-    <rule id="PRES_DE" name="prés/près" default="temp_off">
+    <rule id="PRES_DE" name="prés/près">
+      <antipattern>
+        <token postag="(P\+)?D [em] (s|sp)" postag_regexp="yes"/>
+        <token>pré</token>
+      </antipattern>
+      <antipattern>
+        <token postag="(P\+)?D [em] (p|sp)" postag_regexp="yes"/>
+        <token>prés</token>
+      </antipattern>
+      <antipattern>
+        <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">(dé)?nommer|intituler|dire|appeller|surnommer|baptiser|désigner</token>
+        <token regexp="yes">prés?</token>
+      </antipattern>
+      <antipattern>
+        <token><exception postag="SENT_START"/></token>
+        <token regexp="yes" case_sensitive="yes">Prés?</token>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">prés?</token>
+        <token>de</token>
+        <token>fauche</token>
+      </antipattern>
       <pattern>
         <marker>
           <token regexp="yes">prés?</token>
         </marker>
         <token regexp="yes">d[eu']</token>
       </pattern>
-      <message>S'il s'agit d'une indication de proximité, utilisez l'adverbe <suggestion>près</suggestion>.</message>
+      <message>S'il s'agit d'une indication de proximité, utilisez l'adverbe <suggestion>près</suggestion>. C'est correct si ça veut dire "prairie".</message>
       <example correction="près">sur une colline <marker>prés</marker> de Paris.</example>
       <example correction="près">Personnes qui travaillent à Montpellier, mais qui habitent <marker>prés</marker> du Castelnau-le-Lez.</example>
-      <!--<example>L'endroit est désormais le lieu-dit nommé Pré de la mosaïque.</example>
-      <example>Ce niveau se nomme Pré des Fous.</example>-->
+      <example correction="près">et sur <marker>prés</marker> de 200 km de parcours</example>
+      <example correction="près">Tous les moments que je ne passe pas <marker>prés</marker> d'eux.</example>
+      <example correction="près">Devant <marker>prés</marker> de 300 personnes</example>
+      <example correction="près">si vous n’êtes pas <marker>prés</marker> du pays basque</example>
+      <example correction="près">Les premières, <marker>prés</marker> de la tête.</example>
+      <example correction="près">à Bouville (76) <marker>prés</marker> de Rouen.</example>
+      <example correction="Près"><marker>Prés</marker> de Paris.</example>
+      <example>Le pré de l’Aigle</example>
+      <example>L'endroit est désormais le lieu-dit nommé Pré de la mosaïque.</example>
+      <example>Ce niveau se nomme Pré des Fous.</example>
+      <example>à 59 km du Pré de Marius.</example>
+      <example>à 59 km du pré de Marius.</example>
+      <example>Le pré de Marius.</example>
+      <example>Les prés de Marius.</example>
     </rule>
-    <rulegroup id="PRES_SPACIAL_TEST" name="prés au lieu de près" default="temp_off">
-      <antipattern>
-        <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">(dé)?nommer|intituler|dire|appeller|surnommer|baptiser|désigner</token>
-        <token regexp="yes">prés?</token>
-      </antipattern>
-      <antipattern>
-        <token case_sensitive="yes" regexp="yes">Prés?</token>
-      </antipattern>
-      <antipattern>
-        <token>pré</token>
-        <token spacebefore="no">-</token>
-      </antipattern>
-      <rule>
-        <pattern>
-          <token postag="V.*" postag_regexp="yes"/>
-          <marker>
-            <token regexp="yes">prés?</token>
-          </marker>
-          <token regexp="yes">d[eu']</token>
-        </pattern>
-        <message>S'il s'agit d'une indication de proximité, utilisez l'adverbe <suggestion>près</suggestion>.</message>
-        <example correction="près">Personnes qui travaillent à Montpellier, mais qui habitent <marker>prés</marker> du Castelnau-le-Lez.</example>
-        <example>L'endroit est désormais le lieu-dit nommé Pré de la mosaïque.</example>
-        <example>Ce niveau se nomme Pré des Fous.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <marker>
-            <token regexp="yes">prés?</token>
-          </marker>
-          <token regexp="yes">d[eu']</token>
-        </pattern>
-        <message>S'il s'agit d'une indication de proximité, utilisez l'adverbe <suggestion>près</suggestion>.</message>
-        <example correction="près">sur une colline <marker>prés</marker> de Paris.</example>
-        <example>L'endroit est désormais le lieu-dit nommé Pré de la mosaïque.</example>
-        <example>Ce niveau se nomme Pré des Fous.</example>
-      </rule>
-    </rulegroup>
     <rule id="FAITS_ACTUELS" name="accord: faits actuels">
       <pattern>
         <token>faits</token>
