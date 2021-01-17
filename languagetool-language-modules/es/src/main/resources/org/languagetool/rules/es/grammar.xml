@@ -9340,13 +9340,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">porque|porqué</token>
                     </marker>
                 </pattern>
-                <message>Construcción incorrecta si significa "por la cual".</message>
+                <message>Construcción incorrecta si significa <suggestion>por <match no="2" postag="NC(..).*" postag_regexp="yes" postag_replace="DA.$1.">el</match> <match no="2" postag="NC.(.).*" postag_regexp="yes" postag_replace="PR0C$1000">cual</match></suggestion>.</message>
                 <suggestion>por que</suggestion>
                 <suggestion>por <match no="2" postag="NC(..).*" postag_regexp="yes" postag_replace="DA.$1.">el</match> que</suggestion>
-                <suggestion>por <match no="2" postag="NC(..).*" postag_regexp="yes" postag_replace="DA.$1.">el</match> <match no="2" postag="NC.(.).*" postag_regexp="yes" postag_replace="PR0C$1000">cual</match></suggestion>
-                <example correction="por que|por la que|por la cual">La razón <marker>porque</marker> lo pienso.</example>
-                <example correction="por que|por el que|por el cual">El motivo <marker>porque</marker> nos fuimos.</example>
-                <example correction="por que|por los que|por los cuales">Los motivos <marker>porque</marker> nos fuimos.</example>
+                <example correction="por la cual|por que|por la que">La razón <marker>porque</marker> lo pienso.</example>
+                <example correction="por el cual|por que|por el que">El motivo <marker>porque</marker> nos fuimos.</example>
+                <example correction="por los cuales|por que|por los que">Los motivos <marker>porque</marker> nos fuimos.</example>
                 <example>No tenéis más razón porque seáis mayores.</example>
                 <example>Perdió la causa porque su abogado se equivocó.</example>
             </rule>
