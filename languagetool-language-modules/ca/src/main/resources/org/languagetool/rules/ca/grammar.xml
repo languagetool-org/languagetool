@@ -21023,18 +21023,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Volíeu dir <suggestion><match no="4" postag="(V.*)" postag_regexp="yes" postag_replace="$1">poder</match></suggestion> (v. 'poder') en comptes de "<match no="4"/>" (v. 'pujar')?</message>
                 <example correction="pugui">Cal vaccinar tantes persones com es <marker>pugi</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
+                    <token inflected="yes" regexp="yes" skip="2">anar|venir|pujar|baixar|fer</token>
                     <token>com</token>
                     <token min="0">es</token>
                     <marker>
                         <token postag="V.S.*" postag_regexp="yes" inflected="yes">pujar</token>
                     </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">poder</match></suggestion> (v. 'poder') en comptes de "<match no="3"/>" (v. 'pujar')?</message>
+                <message>¿Volíeu dir <suggestion><match no="4" postag="(V.*)" postag_regexp="yes" postag_replace="$1">poder</match></suggestion> (v. 'poder') en comptes de "<match no="4"/>" (v. 'pujar')?</message>
+                <example correction="puguis">Has de venir com <marker>pugis</marker>.</example>
+                <example correction="poguessis">Hauries d'anar-hi com <marker>pugessis</marker>.</example>
+                <example>Com pujaràs les escales?</example>
+                <example>Com pugen i baixen?</example>
+                <example>M'agrada veure com pugen els pans de pessic.</example>
+                <example>És difícil de creure com pugen el port.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.M.*" postag_regexp="yes" skip="1"/>
+                    <token>com</token>
+                    <token min="0">es</token>
+                    <marker>
+                        <token postag="V.S.*" postag_regexp="yes" inflected="yes">pujar</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="4" postag="(V.*)" postag_regexp="yes" postag_replace="$1">poder</match></suggestion> (v. 'poder') en comptes de "<match no="4" case_conversion="alllower"/>" (v. 'pujar')?</message>
                 <example correction="puguis">Fes-ho com <marker>pugis</marker>.</example>
                 <example correction="pugues">Fes-ho com <marker>puges</marker>.</example>
                 <example>Com pujaràs les escales?</example>
+                <example>Com pugen i baixen?</example>
+                <example>M'agrada veure com pugen els pans de pessic.</example>
+                <example>És difícil de creure com pugen el port.</example>
             </rule>
         </rulegroup>
         <rule id="MALDADES_MAL_DADES" name="maldades / mal dades">
