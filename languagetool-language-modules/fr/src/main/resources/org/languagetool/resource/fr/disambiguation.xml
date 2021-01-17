@@ -1155,7 +1155,7 @@ RB => Règles Brutes
   <rule id="AVOIR_PARTICIPE" name="avoir + participe">
     <pattern>
       <token inflected="yes">avoir</token>
-      <token min="0" max="3" postag="A|R.*" postag_regexp="yes"/>
+      <token min="0" max="3" postag="A|R.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">un|ce|plusieurs</exception></token>
       <marker>
         <token postag="V.* ppa .*" postag_regexp="yes"/>
       </marker>
@@ -1175,7 +1175,7 @@ RB => Règles Brutes
   </rule>
   <rule id="PERSONNE" name="personne">
     <pattern>
-      <token postag="P"/>
+      <token postag="P|D f s" postag_regexp="yes"/>
       <marker>
         <token>personne</token>
       </marker>
