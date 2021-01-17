@@ -323,7 +323,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
         numberFollows = StringTools.isPositiveNumber(errorMessage.charAt(errMarker + 1));
       }
     }
-    return removeSupressMisspelled(errorMessage);
+    return removeSuppressMisspelled(errorMessage);
   }
 
   private static String concatWithoutExtraSpace(String leftSide, String rightSide) {
@@ -337,7 +337,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
     return leftSide + rightSide;
   }
 
-  static String removeSupressMisspelled(String s) {
+  private static String removeSuppressMisspelled(String s) {
     String result = s;
     // remove suggestions not synthesized: <suggestion><pleasespellme/>...(...)...</suggestion>
     // remove misspelled words: <suggestion><pleasespellme/>...<mistake/>...</suggestion>
