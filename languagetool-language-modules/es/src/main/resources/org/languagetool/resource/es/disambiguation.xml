@@ -3123,16 +3123,27 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="remove" postag="V.[SIM].*"/>
         </rule>
     </rulegroup>
-    <rule id="uno_pron" name="uno (pronoun)">
-        <pattern>
-            <marker>
-                <token postag="PI0MS000">uno</token>
-            </marker>
-            <token>de</token>
-            <token postag="D..MP." postag_regexp="yes"/>
-        </pattern>
-        <disambig action="filter" postag="PI0MS000"/>
-    </rule>
+    <rulegroup id="uno_pron" name="uno (pronoun)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="PI0MS000">uno</token>
+                </marker>
+                <token>de</token>
+                <token postag="D..MP." postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="PI0MS000"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>el</token>
+                <marker>
+                    <token postag="PI0MS000">uno</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="PI0MS000"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="probably_noun" name="probably_noun">
         <rule>
             <pattern>
@@ -3990,6 +4001,16 @@ Copyright (C) 2011 Juan Martorell
                     <token postag="SPS00">para<exception scope="previous" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
                 </marker>
                 <token postag="[PNAD].*|V.[NP].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="SPS00"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="SPS00">para<exception scope="previous" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
+                </marker>
+                <token min="0">no</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="SPS00"/>
         </rule>

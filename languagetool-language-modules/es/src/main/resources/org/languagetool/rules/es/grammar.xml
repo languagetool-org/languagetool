@@ -134,6 +134,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token postag="SENT_START"/>
+                <token min="0" max="4" postag_regexp="yes" postag="_PUNCT.*"/>
                 <token regexp="yes">&meses_ano_may;</token>
             </antipattern>
             <rule>
@@ -175,6 +176,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Pero Julio es una buena persona.</example>
                 <example>Con Julio voy al parque.</example>
                 <example>Con Julio Manrique y Julio Iglesias.</example>
+                <example>¡Noviembre está cada vez más cerca!</example>
             </rule>
         </rulegroup>
         <rule id="MIN_DIAS_SEMANA" name="Días de la semana en minúscula">
@@ -1234,6 +1236,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>obra</token>
                 <token regexp="yes">de|del</token>
             </antipattern>
+            <!--<antipattern>
+                <token regexp="yes">&pronombre_personal_no_articulo;</token>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+            </antipattern>-->
             <rule>
                 <pattern>
                     <or>
@@ -6219,7 +6225,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>de<exception postag="RG|LOC_ADV" postag_regexp="yes"/></token>
                     </marker>
-                    <token>voz</token> <!-- TODO: extend -->
+                    <token>voz</token>
+                    <!-- TODO: extend -->
                 </pattern>
                 <message>Si es del v. 'dar', se escribe con tilde.</message>
                 <suggestion>dé</suggestion>
@@ -9322,20 +9329,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="por qué">No estoy diciendo que entienda completamente <marker>por que</marker> ha surgido este nuevo esfuerzo.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token inflected="yes" regexp="yes" skip="3">perder|ganar|impugnar</token>
+                    <token>causa</token>
+                </antipattern>
                 <pattern>
+                    <token postag="D.*" postag_regexp="yes"/>
                     <token regexp="yes" inflected="yes">razón|causa|motivo</token>
                     <marker>
                         <token regexp="yes">porque|porqué</token>
                     </marker>
                 </pattern>
-                <message>Construcción probablemente incorrecta.</message>
+                <message>Construcción incorrecta si significa "por la cual".</message>
                 <suggestion>por que</suggestion>
-                <suggestion>por <match no="1" postag="NC(..).*" postag_regexp="yes" postag_replace="DA.$1.">el</match> que</suggestion>
-                <suggestion>por <match no="1" postag="NC(..).*" postag_regexp="yes" postag_replace="DA.$1.">el</match> <match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="PR0C$1000">cual</match></suggestion>
+                <suggestion>por <match no="2" postag="NC(..).*" postag_regexp="yes" postag_replace="DA.$1.">el</match> que</suggestion>
+                <suggestion>por <match no="2" postag="NC(..).*" postag_regexp="yes" postag_replace="DA.$1.">el</match> <match no="2" postag="NC.(.).*" postag_regexp="yes" postag_replace="PR0C$1000">cual</match></suggestion>
                 <example correction="por que|por la que|por la cual">La razón <marker>porque</marker> lo pienso.</example>
                 <example correction="por que|por el que|por el cual">El motivo <marker>porque</marker> nos fuimos.</example>
                 <example correction="por que|por los que|por los cuales">Los motivos <marker>porque</marker> nos fuimos.</example>
-                <!--No tenéis más razón porque seáis mayores.-->
+                <example>No tenéis más razón porque seáis mayores.</example>
+                <example>Perdió la causa porque su abogado se equivocó.</example>
             </rule>
             <rule>
                 <pattern>
@@ -9410,7 +9423,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.S.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes" inflected="yes">motivo|razón</token>
+                    <token regexp="yes" inflected="yes">motivo|razón|causa</token>
                     <token>por</token>
                     <token>que</token>
                 </antipattern>
@@ -14782,6 +14795,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">[a-z]<exception regexp="yes">y|o</exception></token>
                 <token>e</token>
             </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">terminar|acabar</token>
+                <token>en</token>
+                <token>e</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -18290,12 +18308,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token skip="2" regexp="yes">solo|sólo|solamente<exception scope="next" postag="_PUNCT.*|C.*" postag_regexp="yes"/></token>
-                    <token><match no="0"/></token>
+                    <token regexp="yes">solo|sólo|solamente</token>
+                    <token skip="2"><exception scope="next" postag="_PUNCT.*|C.*" postag_regexp="yes"/><exception postag="_PUNCT.*|C.*" postag_regexp="yes"/></token>
+                    <token regexp="yes">solo|sólo|solamente</token>
                 </pattern>
                 <message>Repetición probablemente incorrecta.</message>
-                <suggestion><match no="1" include_skipped="all"/></suggestion>
-                <suggestion><match no="1" include_skipped="following"/> <match no="2"/></suggestion>
+                <suggestion><match no="1"/> <match no="2" include_skipped="all"/></suggestion>
+                <suggestion><match no="2" include_skipped="all"/> <match no="3"/></suggestion>
                 <example correction="Solo faltaba|Faltaba solo"><marker>Solo faltaba solo</marker> esto.</example>
                 <example correction="Solo ha faltado|Ha faltado solo"><marker>Solo ha faltado solo</marker> esto.</example>
                 <example>Solo es blanco, solo es negro.</example>
