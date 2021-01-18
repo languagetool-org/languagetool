@@ -18194,7 +18194,7 @@ though, and has since been slightly modified)-->
       <url>https://fr.wikipedia.org/wiki/Les_Mille_et_Une_Nuits</url>
       <example correction="Les Mille-et-une Nuits"><marker>Les Mille et un Nuits</marker>.</example>
     </rule>
-    <rulegroup id="PREFIXES" name="préfixes" default="temp_off">
+    <rulegroup id="PREFIXES_NON_SEPARES" name="préfixes non séparés">
       <rule>
         <pattern>
           <token regexp="yes">pré|pre</token>
@@ -18226,22 +18226,6 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="PREFIXE_TRAIT_DUNION_" name="préfixe avec trait d'union">
-      <rule default="temp_off">
-        <pattern>
-          <token postag="A" regexp="yes">&prefixes;</token>
-          <token postag="[NJ].*" postag_regexp="yes"/>
-        </pattern>
-        <message>Devant un nom ou adjective « \1 » se rattache avec un trait d’union.</message>
-        <suggestion>\1-\2</suggestion>
-        <example correction="mini-réfrigérateurs">Deux <marker>mini réfrigérateurs</marker>.</example>
-        <example correction="méga-projets">Ces <marker>méga projets</marker>.</example>
-        <example>Je ne suis pas un grand voyageur.</example>
-        <example>L’Arc de Triomphe est aussi un haut lieu symbolique.</example>
-        <example>le grand prix cycliste</example>
-        <example>Le sud viticole subit la crise du phylloxéra.</example>
-        <example>du sud au nord traversant Axat</example>
-        <example>L'Afrique du Sud compte plus de 51 millions d’habitants.</example>
-      </rule>
       <rule>
         <pattern>
           <token regexp="yes">méga|mini</token>
