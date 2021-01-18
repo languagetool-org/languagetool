@@ -10029,28 +10029,28 @@ though, and has since been slightly modified)-->
       <rulegroup id="QUELLE_OU_QU_ELLE" name="quelle ou qu'elle" default="temp_off">
           <rule>
               <pattern>
-                  <token postag="SENT_START" postag_regexp="yes"></token>
+                  <token postag="SENT_START"></token>
                   <marker>
-                      <token regexp="yes">Qu(')?</token>
+                      <token regexp="yes">qu(&apostrophe;)?</token>
                       <token regexp="yes">elle</token>
                   </marker>
-                  <token postag="V.*" postag_regexp="yes" skip="-1"><exception postag="V.* sub" postag_regexp="yes"></exception></token>
-                  <token postag="M fin inte" postag_regexp="yes"></token>
+                  <token postag="V.*" postag_regexp="yes" skip="-1"><exception postag="V.* sub|V avoir sub.*|V etre sub.*" postag_regexp="yes"></exception></token>
+                  <token postag="M fin inte"></token>
               </pattern>
               <message>"Qu'elle" est une erreur grammaticale dans une phrase interrogative. Souhaitez-vous écrire <suggestion>Quelle</suggestion> ?</message>
               <example correction="Quelle"><marker>Qu'elle</marker> est ta question ?</example>
           </rule>
           <rule>
               <pattern>
-                  <token postag="SENT_START" postag_regexp="yes"></token>
+                  <token postag="SENT_START"></token>
                   <marker>
-                      <token regexp="yes">Qu(')?</token>
+                      <token regexp="yes">qu(&apostrophe;)?</token>
                       <token regexp="yes">elle</token>
                   </marker>
                   <token postag="N.*|J.*" postag_regexp="yes" skip="-1"></token>
-                  <token postag="M fin excl" postag_regexp="yes"></token>
+                  <token postag="M fin excl"></token>
               </pattern>
-              <message>"Qu'elle"est une erreur grammataicale dans cette phrase exclamative. Souhaitez-vous écrire <suggestion>Quelle</suggestion> ?</message>
+              <message>"Qu'elle" est une erreur grammataicale dans cette phrase exclamative. Souhaitez-vous écrire <suggestion>Quelle</suggestion> ?</message>
               <suggestion>Quelle</suggestion>
               <example correction="Quelle"><marker>Qu'elle</marker> belle journée !</example>
           </rule>
