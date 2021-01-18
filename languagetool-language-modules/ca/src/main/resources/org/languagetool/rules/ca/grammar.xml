@@ -36118,6 +36118,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup name="*pel que / i per això, per la qual cosa" id="PEL_QUE" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>pe</token>
+                    <token>l</token>
+                    <token>que</token>
+                    <token>no</token>
+                    <token inflected="yes">ser</token>
+                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">[,;]</token>
+                    <marker>
+                        <token>pe</token>
+                        <token>l</token>
+                        <token>que</token>
+                    </marker>
+                    <token>no</token>
+                </pattern>
+                <message>Expressió incorrecta si equival a <suggestion>i per això</suggestion></message>
+                <suggestion>per la qual cosa</suggestion>
+                <example correction="i per això|per la qual cosa">Està prohibit, <marker>pel que</marker> no es pot fer.</example>
+                <example>Interessen pel que eren, pel que són.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DONAR_AL" name="*donar al botó">
             <rule>
                 <pattern>
