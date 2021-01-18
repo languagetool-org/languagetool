@@ -9780,16 +9780,18 @@ though, and has since been slightly modified)-->
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
     <rulegroup id="RISQUE_ET_CHANCE" name="risque et chance">
-      <rule>
-          <pattern>
-              <marker><token inflected="yes">risquer</token></marker>
-              <token regexp="yes">de</token>
-              <token regexp="yes">gagner</token>
-          </pattern>
-          <message>Faute de style possible car cette expression peut paraître péjorative.
-              Nous vous suggérons <suggestion>avoir des chances</suggestion>.</message>
-          <example correction="avoir des chances"><marker>risquer</marker> de gagner</example>
-      </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="V (ind|sub).*" postag_regexp="yes" inflected="yes">risquer</token>
+                </marker>
+                <token regexp="yes">de</token>
+                <token regexp="yes">gagner</token>
+            </pattern>
+            <message>Faute de style possible car cette expression peut paraître péjorative.</message>
+            <suggestion><match no="1" postag="(V )(ind|sub)(.*)" postag_regexp="yes" postag_replace="(V avoir ind$3)|(V avoir sub$3)">avoir</match> des chances</suggestion>
+            <example correction="a des chances|ait des chances">Il <marker>risque</marker> de gagner.</example>
+        </rule>
       <rule>
           <pattern>
               <marker>
