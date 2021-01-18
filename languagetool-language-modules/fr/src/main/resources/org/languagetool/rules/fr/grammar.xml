@@ -8794,13 +8794,15 @@ though, and has since been slightly modified)-->
               <token regexp="yes">va</token>
               <token regexp="yes" min="0" max="1">très|vraiment</token>
               <token regexp="yes">mal</token>
-              <marker><token>se</token></marker>
-              <token regexp="yes">finir|terminer</token>
+              <marker>
+                  <token>se</token>
+                  <token regexp="yes">finir</token>
+              </marker>
           </pattern>
-          <message>Dans cette expression française familière, « se finir » est une erreur grammaticale.</message>
-          <suggestion><match no="5" regexp_match="se" regexp_replace=""/></suggestion>
-          <example correction="">Je pense que ça va mal <marker>se</marker> finir.</example>
-          <example correction="">Je pense que ça va mal <marker>se</marker> terminer.</example>
+          <message> Dans cette expression française familière, "se finir" est une erreur grammaticale.</message>
+          <suggestion><match no="6"/></suggestion>
+          <example correction="finir">Je pense que ça va très mal <marker>se finir</marker>.</example>
+          <example correction="finir">Je pense que ça va mal <marker>se finir</marker>.</example>
       </rule>
       <rulegroup id="JE_M_APPEL" name="je m'appel (appelle)">
           <rule><!-- je -->
