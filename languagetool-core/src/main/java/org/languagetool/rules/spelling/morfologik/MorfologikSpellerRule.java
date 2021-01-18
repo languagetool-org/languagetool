@@ -16,7 +16,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
 package org.languagetool.rules.spelling.morfologik;
 
 import com.google.common.collect.Iterables;
@@ -155,10 +154,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         if (hiddenCharOffset > 0) {
           for (int i = newRuleIdx; i < ruleMatches.size(); i++) {
             RuleMatch ruleMatch = ruleMatches.get(i);
-
-            if( token.getEndPos() < ruleMatch.getToPos() ) // done by multi-token speller, no need to adjust
+            if (token.getEndPos() < ruleMatch.getToPos()) { // done by multi-token speller, no need to adjust
               continue;
-
+            }
             ruleMatch.setOffsetPosition(ruleMatch.getFromPos(), ruleMatch.getToPos()+hiddenCharOffset);
           }
         }
@@ -240,7 +238,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     if (!speller.isMisspelled(word)) {
       return false;
     }
-
     if (checkCompound && compoundRegex.matcher(word).find()) {
       String[] words = compoundRegex.split(word);
       for (String singleWord: words) {
@@ -250,7 +247,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       }
       return false;
     }
-
     return true;
   }
   
