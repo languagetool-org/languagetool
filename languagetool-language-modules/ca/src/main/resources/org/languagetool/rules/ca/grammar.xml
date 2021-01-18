@@ -36125,8 +36125,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>l</token>
                     <token>que</token>
                     <token>no</token>
-                    <token inflected="yes">ser</token>
-                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                    <token postag="V.[IS].*" postag_regexp="yes"/>
+                    <token postag="_PUNCT.*|CC" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">[,;]</token>
@@ -36141,6 +36141,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>per la qual cosa</suggestion>
                 <example correction="i per això|per la qual cosa">Està prohibit, <marker>pel que</marker> no es pot fer.</example>
                 <example>Interessen pel que eren, pel que són.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>pe</token>
+                    <token>l</token>
+                    <token>que</token>
+                    <token min="0" postag="&pronom_feble;" postag_regexp="yes"/>
+                    <token postag="V.[IS].*" postag_regexp="yes"/>
+                    <token postag="_PUNCT.*|CC" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>pe</token>
+                    <token>l</token>
+                    <token>que</token>
+                    <token min="0" postag="&pronom_feble;" postag_regexp="yes"/>
+                    <token regexp="yes" inflected="yes">haver|anar</token>
+                    <token postag="V.[NP].*" postag_regexp="yes"/>
+                    <token postag="_PUNCT.*|CC" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>pe</token>
+                    <token>l</token>
+                    <token>que</token>
+                    <token regexp="yes">fa|feia|toca|tocava</token>
+                    <token>a</token>
+                </antipattern>
+                <antipattern>
+                    <token>pe</token>
+                    <token>l</token>
+                    <token>que</token>
+                    <token regexp="yes">sembla|pareix|semblava|pareixia</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">[,;]</token>
+                    <marker>
+                        <token>pe</token>
+                        <token>l</token>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Expressió incorrecta si equival a <suggestion>i per això</suggestion></message>
+                <suggestion>per la qual cosa</suggestion>
+                <example correction="i per això|per la qual cosa">Està permès, <marker>pel que</marker> es pot fer.</example>
+                <example>Interessen pel que eren, pel que són.</example>
+                <example>És aquesta la qüestió, pel que sembla.</example>
+                <example>És aquesta la qüestió, pel que fa a economia.</example>
+                <example>No és així, pel que s'ha dit.</example>
+                <example>No és així, pel que es va dir.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DONAR_AL" name="*donar al botó">
@@ -61425,7 +61473,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <filter class="org.languagetool.rules.ca.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:NC.*|A.*|V.[PN].*"/>
                 <message>Combinació impossible: preposició+verb conjugat.</message>
-                <example correction="passat|passar|passa|passant|passes|possés">serres que sobre <marker>passen</marker> els mil metres</example>
+                <example correction="passat|passar|passa|passant|passes|possés|passet">serres que sobre <marker>passen</marker> els mil metres</example>
                 <example correction="custòdia|custodi|custodiat|custodiar|custodida|custodir|custodis|custodit">Estava sota <marker>custodia</marker>.</example>
                 <example>Aquell sobre tenia un document.</example>
                 <example>Els paquets d'aquí sota necessiten ser revisats.</example>
