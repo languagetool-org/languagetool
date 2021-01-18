@@ -53363,7 +53363,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">a|de</token>
-                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="D.*" postag_regexp="yes" regexp="yes">l|ls</token>
                     <token>tipus</token>
                     <token>de</token>
                     <token>lletra</token>
@@ -53377,7 +53377,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="D..C.." postag_regexp="yes"/>
+                    <marker>
+                        <token>tipus</token>
+                        <token>de</token>
+                        <token>lletra</token>
+                    </marker>
+                </pattern>
+                <message>D'acord amb el Termcat, és preferible utilitzar una altra expressió.</message>
+                <suggestion><match no="1" postag="D...([SP])." postag_regexp="yes" postag_replace="NCF$1000">lletra</match></suggestion>
+                <suggestion><match no="1" postag="D...([SP])." postag_regexp="yes" postag_replace="NCF$1000">família</match></suggestion>
+                <suggestion><match no="1" postag="D...([SP])." postag_regexp="yes" postag_replace="NCF$1000">lletra</match> <match no="1" postag="D...([SP])." postag_regexp="yes" postag_replace="AQ0F$10">tipogràfic</match></suggestion>
+                <suggestion><match no="1" postag="D...([SP])." postag_regexp="yes" postag_replace="NCF$1000">família</match> <match no="1" postag="D...([SP])." postag_regexp="yes" postag_replace="AQ0F$10">tipogràfic</match></suggestion>
+                <url>https://www.termcat.cat/ca/cercaterm/lletra%20tipogr%C3%A0fica?type=basic&amp;thematic_area=&amp;language=</url>
+                <example correction="lletra|família|lletra tipogràfica|família tipogràfica">Qualsevol <marker>tipus de lletra</marker> pot servir.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D..[MS].." postag_regexp="yes"/>
                     <token>tipus</token>
                     <token>de</token>
                     <token>lletra</token>
