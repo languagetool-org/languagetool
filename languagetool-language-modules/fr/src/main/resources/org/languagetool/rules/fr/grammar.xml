@@ -10069,6 +10069,46 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
+      <rulegroup id="EXPRESSIONS_FIGEES_TOUT" name="expressions figées tout" default="temp_off">
+          <rule>
+              <pattern>
+                  <token>une</token>
+                  <token>bonne</token>
+                  <token>fois</token>
+                  <token>pour</token>
+                  <marker><token>toute</token></marker>
+              </pattern>
+              <message>Dans cette expression \5 s'accorde implicitement avec toutes les fois. </message>
+              <suggestion>toutes</suggestion>
+              <example correction="toutes">Il faudra que tu règles ce problème une bonne fois pour <marker>toute</marker>.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>de</token>
+                      <token>toutes</token>
+                      <token>les</token>
+                      <token>façons</token>
+                  </marker>
+              </pattern>
+              <message>Cette expression est familière est incorrecte.</message>
+              <suggestion>de toute façon</suggestion>
+              <example correction="de toute façon">Il faudra que tu règles ce problème <marker>de toutes les façons</marker>.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>toute</token>
+                  </marker>
+                  <token>à</token>
+                  <token regexp="yes">fait|coup</token>
+              </pattern>
+              <message>Dans cette expression "tout" est invariable.</message>
+              <suggestion>tout</suggestion>
+              <example correction="tout">Il rentrait et <marker>toute</marker> à coup l'orage éclata.</example>
+              <example correction="tout">C'est <marker>toute</marker> à fait mon domaine.</example>
+          </rule>
+      </rulegroup>
     <rule id="LA_OU_LES_PLUS" name="la ou les plus" default="temp_off">
       <pattern>
         <token postag="V.*" postag_regexp="yes"/>
