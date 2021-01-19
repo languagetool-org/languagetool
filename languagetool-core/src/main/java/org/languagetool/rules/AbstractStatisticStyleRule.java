@@ -29,38 +29,66 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.Category.Location;
-import org.languagetool.tools.Tools;
 
 /**
- * A rule that gives hints about the use of filler words.
- * The hints are only given when the percentage of filler words per paragraph exceeds the given limit.
- * A limit of 0 shows all used filler words. Direct speech or citation is excluded otherwise. 
- * This rule detects no grammar error but gives stylistic hints (default off).
+ * A rule that gives hints when a defined condition is fulfilled 
+ * and the percentage of hints in the text exceeds the given limit.
+ * (For office extension: Works on the level of chapters)
+ * A limit of 0 shows all hints. 
+ * Direct speech or citation can be excluded.
+ * A second condition per sentences can be defined.
+ * The rule detects no grammar error but gives stylistic hints in a statistic way (default off).
  * @author Fred Kruse
- * @since 4.2
+ * @since 5.3
  */
-public abstract class AbstractFillerWordsRule extends TextLevelRule {
-  
-  public static final String RULE_ID = "FILLER_WORDS";
-  
-  private static final int DEFAULT_MIN_PERCENT = 8;
+public abstract class AbstractStatisticStyleRule extends TextLevelRule {
   private static final Pattern OPENING_QUOTES = Pattern.compile("[\"“„”»«]");
   private static final Pattern ENDING_QUOTES = Pattern.compile("[\"“»«]");
   private static final boolean DEFAULT_ACTIVATION = false;
 
-  private int minPercent = DEFAULT_MIN_PERCENT;
+  private int minPercent;
   private final Language lang;
 
-  /*
-   * Override this to detect filler words in the specified language
+  /**
+   * Condition to generate a hint (possibly including all exceptions)
+   * Returns:
+   *  < nAnalysedToken, if condition is not fulfilled
+   *  >= nAnalysedToken, if condition is not fulfilled; integer is number of token which is the end hint 
    */
-  protected abstract boolean isFillerWord(String token);
+  protected abstract int conditionFulfilled(AnalyzedTokenReadings[] tokens, int nAnalysedToken);
   
-  public AbstractFillerWordsRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean defaultActive) {
+  /**
+   * Condition to generate a hint related to the sentence (possibly including all exceptions)
+   */
+  protected abstract boolean sentenceConditionFulfilled(AnalyzedTokenReadings[] tokens, int nAnalysedToken);
+  
+  /**
+   * Condition to generate a hint related to the sentence (possibly including all exceptions)
+   */
+  protected abstract boolean excludeDirectSpeach();
+  
+  /**
+   * Defines the message for hints which exceed the limit
+   */
+  protected abstract String getLimitMessage(int limit, double percent);
+  
+  /**
+   * Defines the message for sentence related hints
+   */
+  protected abstract String getSentenceMessage();
+  
+  /* (non-Javadoc)
+   * @see org.languagetool.rules.Rule#getConfigureText()
+   */
+  @Override
+  public abstract String getConfigureText();
+
+  public AbstractStatisticStyleRule(ResourceBundle messages, Language lang, UserConfig userConfig, int minPercent, boolean defaultActive) {
     super(messages);
     super.setCategory(new Category(new CategoryId("CREATIVE_WRITING"), 
         messages.getString("category_creative_writing"), Location.INTERNAL, false));
     this.lang = lang;
+    this.minPercent = minPercent;
     if (!defaultActive) {
       setDefaultOff();
     }
@@ -73,28 +101,25 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
     setLocQualityIssueType(ITSIssueType.Style);
   }
 
-  public AbstractFillerWordsRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
-    this(messages, lang, userConfig, DEFAULT_ACTIVATION);
+  public AbstractStatisticStyleRule(ResourceBundle messages, Language lang, UserConfig userConfig, int minPercent) {
+    this(messages, lang, userConfig, minPercent, DEFAULT_ACTIVATION);
   }
 
-  @Override
-  public String getDescription() {
-    return messages.getString("filler_words_rule_desc");
+  /**
+   * Override, if value should be given in an other unity than percent
+   */
+  public double denominator() {
+    return 100.0;
   }
-
+  
   @Override
-  public String getId() {
-    return RULE_ID;
+  public boolean hasConfigurableValue() {
+    return true;
   }
 
   @Override
   public int getDefaultValue() {
     return minPercent;
-  }
-
-  @Override
-  public boolean hasConfigurableValue() {
-    return true;
   }
 
   @Override
@@ -108,34 +133,18 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
   }
 
   /* (non-Javadoc)
-   * @see org.languagetool.rules.Rule#getConfigureText()
-   */
-  @Override
-  public String getConfigureText() {
-    return messages.getString("filler_words_rule_opt_text");
-  }
-
-  public String getMessage() {
-    return messages.getString("filler_words_rule_msg");
-  }
-  
-  protected boolean isException(AnalyzedTokenReadings[] tokens, int num) {
-    return false;
-  }
-
-  /* (non-Javadoc)
    * @see org.languagetool.rules.TextLevelRule#match(java.util.List)
    */
   @Override
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    String msg = getMessage();
     List<Integer> startPos = new ArrayList<>();
     List<Integer> endPos = new ArrayList<>();
     List<AnalyzedSentence> relevantSentences = new ArrayList<>();
     double percent;
     int pos = 0;
     int wordCount = 0;
+    boolean excludeDirectSpeach = excludeDirectSpeach();
     boolean isDirectSpeech = false;
     for (int nSentence = 0; nSentence < sentences.size(); nSentence++) {
       AnalyzedSentence sentence = sentences.get(nSentence);
@@ -143,48 +152,39 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
       for (int n = 1; n < tokens.length; n++) {
         AnalyzedTokenReadings token = tokens[n];
         String sToken = token.getToken();
-        if (OPENING_QUOTES.matcher(sToken).matches() && n < tokens.length -1 && !tokens[n + 1].isWhitespaceBefore()) {
+        if (excludeDirectSpeach && OPENING_QUOTES.matcher(sToken).matches() && n < tokens.length -1 && !tokens[n + 1].isWhitespaceBefore()) {
           isDirectSpeech = true;
         }
-        else if (ENDING_QUOTES.matcher(sToken).matches() && n > 1 && !tokens[n].isWhitespaceBefore()) {
+        else if (excludeDirectSpeach && ENDING_QUOTES.matcher(sToken).matches() && n > 1 && !tokens[n].isWhitespaceBefore()) {
           isDirectSpeech = false;
         }
         else if ((!isDirectSpeech || minPercent == 0) && !token.isWhitespace() && !token.isNonWord()) {
           wordCount++;
-          if (isFillerWord(sToken) && !isException(tokens, n)) {
-            startPos.add(token.getStartPos() + pos);
-            endPos.add(token.getEndPos() + pos);
-            relevantSentences.add(sentence);
+          int nEnd = conditionFulfilled(tokens, n);
+          if (nEnd >= n) {
+            if (sentenceConditionFulfilled(tokens, n)) {
+              RuleMatch ruleMatch = new RuleMatch(this, sentence, token.getStartPos() + pos, token.getEndPos() + pos, 
+                  getSentenceMessage());
+              ruleMatches.add(ruleMatch);
+            } else {
+              startPos.add(token.getStartPos() + pos);
+              endPos.add(tokens[nEnd].getEndPos() + pos);
+              relevantSentences.add(sentence);
+            }
           }
         }
-      }
-      if (Tools.isParagraphEnd(sentences, nSentence, lang)) {
-        if(wordCount > 0) {
-          percent = startPos.size() * 100.0 / wordCount;
-        } else {
-          percent = 0;
-        }
-        if (percent > minPercent) {
-          for (int i = 0; i < startPos.size(); i++) {
-            RuleMatch ruleMatch = new RuleMatch(this, relevantSentences.get(i), startPos.get(i), endPos.get(i), msg);
-            ruleMatches.add(ruleMatch);
-          }
-        }
-        wordCount = 0;
-        startPos = new ArrayList<>();
-        endPos = new ArrayList<>();
-        relevantSentences = new ArrayList<>();
       }
       pos += sentence.getCorrectedTextLength();
     }
     if (wordCount > 0) {
-      percent = startPos.size() * 100.0 / wordCount;
+      percent = ((startPos.size() + ruleMatches.size()) * denominator()) / wordCount;
     } else {
       percent = 0;
     }
     if (percent > minPercent) {
       for (int i = 0; i < startPos.size(); i++) {
-        RuleMatch ruleMatch = new RuleMatch(this, relevantSentences.get(i), startPos.get(i), endPos.get(i), msg);
+        RuleMatch ruleMatch = new RuleMatch(this, relevantSentences.get(i), startPos.get(i), endPos.get(i), 
+            getLimitMessage(minPercent, percent));
         ruleMatches.add(ruleMatch);
       }
     }
@@ -193,7 +193,7 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
   
   @Override
   public int minToCheckParagraph() {
-    return 0;
+    return -1;
   }
-  
+ 
 }

@@ -161,6 +161,8 @@ public class German extends Language implements AutoCloseable {
             new CompoundCoherencyRule(messages),
             new LongSentenceRule(messages, userConfig, 35, true, true),
             new GermanFillerWordsRule(messages, this, userConfig),
+            new NonSignificantVerbs(messages, this, userConfig),
+            new UnnecessaryPhraseRule(messages, this, userConfig),
             new GermanParagraphRepeatBeginningRule(messages, this),
             new DuUpperLowerCaseRule(messages),
             new UnitConversionRule(messages),
