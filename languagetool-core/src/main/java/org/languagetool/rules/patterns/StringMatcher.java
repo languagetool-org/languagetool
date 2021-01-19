@@ -222,10 +222,10 @@ abstract class StringMatcher {
   }
 
   private static abstract class RegexpParser<T> {
-    private static final String unsupported = "?$^{}*+.";
+    private static final String unsupported = "?$^{}*+";
     private static final String finishing = ")|";
     private static final String starting = "([\\";
-    private static final String nonLiteral = finishing + unsupported + starting;
+    private static final String nonLiteral = finishing + unsupported + starting + ".";
 
     private final String regexp;
     private int pos;
