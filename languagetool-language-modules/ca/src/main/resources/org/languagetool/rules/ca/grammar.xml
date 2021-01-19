@@ -36137,7 +36137,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token>no</token>
                 </pattern>
-                <message>Expressió incorrecta si equival a <suggestion>i per això</suggestion></message>
+                <message>Expressió incorrecta si equival a <suggestion>i per això</suggestion>.</message>
                 <suggestion>per la qual cosa</suggestion>
                 <example correction="i per això|per la qual cosa">Està prohibit, <marker>pel que</marker> no es pot fer.</example>
                 <example>Interessen pel que eren, pel que són.</example>
@@ -36181,7 +36181,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>que</token>
                     </marker>
                 </pattern>
-                <message>Expressió incorrecta si equival a <suggestion>i per això</suggestion></message>
+                <message>Expressió incorrecta si equival a <suggestion>i per això</suggestion>.</message>
                 <suggestion>per la qual cosa</suggestion>
                 <example correction="i per això|per la qual cosa">Està permès, <marker>pel que</marker> es pot fer.</example>
                 <example>Interessen pel que eren, pel que són.</example>
@@ -36191,7 +36191,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No és així, pel que es va dir.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DONAR_AL" name="*donar al botó">
+        <rulegroup id="DONAR_AL" name="*donar al botó" default="temp_off">
             <rule>
                 <pattern>
                     <marker>
@@ -36199,7 +36199,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>a</token>
                         <token regexp="yes">l|ls</token>
                     </marker>
-                    <token regexp="yes">botó|botons|tecla|tecles|enter|intro|\d|F\d|[A-Z]|espia|CTRL|alt</token>
+                    <token regexp="yes">botó|botons|tecla|tecles|enter|intro|\d|F\d|[A-Z]|espai|CTRL|alt</token>
                 </pattern>
                 <message>Expressió incorrecta</message>
                 <suggestion><match no="1" postag_regexp="yes" postag="(V.I.*)" postag_replace="$1">pitjar</match> e\3</suggestion>
@@ -36214,8 +36214,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token inflected="yes">donar</token>
                         <token>a</token>
                     </marker>
-                    <token postag="D.*" postag_regexp="yes" min="0"/>
-                    <token regexp="yes">botó|botons|tecla|tecles|enter|intro|\d|F\d|[A-Z]|espia|CTRL|alt</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token regexp="yes">botó|botons|tecla|tecles|enter|intro|\d|F\d|[A-Z]|espai|CTRL|alt</token>
                 </pattern>
                 <message>Expressió incorrecta</message>
                 <suggestion><match no="1" postag_regexp="yes" postag="(V.I.*)" postag_replace="$1">pitjar</match></suggestion>
@@ -36239,6 +36239,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">clicar</match> e\3</suggestion>
                 <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">fer</match> clic en e\3</suggestion>
                 <example correction="pitges el|premes el|cliques el|faces clic en el">Quan li <marker>dónes al</marker> botó</example>
+                <example>Fou donada al president.</example>
             </rule>
             <rule>
                 <pattern>
@@ -36246,7 +36247,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token inflected="yes">donar</token>
                         <token>a</token>
                     </marker>
-                    <token postag="D.*" postag_regexp="yes" min="0"/>
+                    <token postag="D.*" postag_regexp="yes"/>
                     <token regexp="yes">botó|botons|tecla|tecles|enter|intro|\d|F\d|[A-Z]|espia|CTRL|alt</token>
                 </pattern>
                 <message>Expressió incorrecta</message>
