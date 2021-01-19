@@ -2396,7 +2396,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>como</token>
-                    <token regexp="yes">cuánto|cuándo|cuál|qué|dónde|adónde</token>
+                    <token regexp="yes" inflected="yes">cuánto|cuándo|cuál|qué|dónde|adónde</token>
                 </antipattern>
                 <pattern>
                     <token>¿</token>
@@ -2416,6 +2416,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Como las que trajo él?</example>
                 <example>Pero ¿como para pagar por él tanto o más que por un SEAT León?</example>
                 <example>¿Como cuánto te gusta?</example>
+                <example>¿Como cuántas veces ves el espejo por día?</example>
             </rule>
             <rule>
                 <pattern>
@@ -15661,17 +15662,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="VES_VEZ" name="ves/vez" default="on">
             <rule>
                 <pattern>
-                    <token>cada</token>
+                    <token regexp="yes">cada|tal|mi|su|nuestro|nuestra|vuestro|vuestra</token>
                     <marker>
                         <token>ves</token>
                     </marker>
                 </pattern>
                 <message>¿Quería decir <suggestion>vez</suggestion>?</message>
                 <example correction="vez">Cada <marker>ves</marker> que te veo.</example>
+                <example correction="vez">Esto a su <marker>ves</marker> tendrá impacto.</example>
+                <example correction="vez">Esto tal <marker>ves</marker> tendrá impacto.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="DD.FS.|AO.FS." postag_regexp="yes"/>
+                    <token>a</token>
+                    <token>tu</token>
+                    <marker>
+                        <token>ves</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>vez</suggestion>?</message>
+                <example correction="vez">Entrarás a tu <marker>ves</marker>.</example>
+                <!-- tu ves: error in tú -->
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DD.FS.|A..[FC]S.|SPS00|LOC_PREP" postag_regexp="yes"/>
                     <marker>
                         <token>ves</token>
                     </marker>
@@ -15699,8 +15714,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>ves</token>
                     </marker>
-                    <!--<token min="0" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                    <token postag="V.[ISP].*" postag_regexp="yes"/>-->
                 </pattern>
                 <message>¿Quería decir <suggestion>vez</suggestion>?</message>
                 <example correction="vez">Una <marker>ves</marker> quise llamarlo.</example>
@@ -15715,24 +15728,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>ves</token>
                     </marker>
                     <token>que</token>
-                    <!--<token min="0" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                    <token postag="V.[ISP].*" postag_regexp="yes"/>-->
                 </pattern>
                 <message>¿Quería decir <suggestion>vez</suggestion>?</message>
                 <example correction="vez">Una <marker>ves</marker> que quise llamarlo.</example>
                 <example correction="vez">La <marker>ves</marker> que quise llamarlo.</example>
                 <example>¿La ves ahí?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
-                    <token regexp="yes">su|tal|en|rara|de</token>
+                    <token regexp="yes" inflected="yes">pedir|dar|solicitar</token>
+                    <token>la</token>
                     <marker>
                         <token>ves</token>
                     </marker>
                 </pattern>
                 <message>¿Quería decir <suggestion>vez</suggestion>?</message>
-                <example correction="vez">Esto a su <marker>ves</marker> tendrá impacto.</example>
-                <example correction="vez">Esto tal <marker>ves</marker> tendrá impacto.</example>
+                <example correction="vez">¿Quién da la <marker>ves</marker>?</example>
+                <example>¿La ves ahí?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>la</token>
+                    <marker>
+                        <token>ves</token>
+                    </marker>
+                    <token postag="AO.[FC]S." postag_regexp="yes"/>
+                </pattern>
+                <message>¿Quería decir <suggestion>vez</suggestion>?</message>
+                <example correction="vez">Esto sucedió la <marker>ves</marker> primera.</example>
+                <example correction="vez">Y sucederá la <marker>ves</marker> última.</example>
+                <example>¿No la ves guapa?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>la</token>
+                    <marker>
+                        <token>ves</token>
+                    </marker>
+                    <token regexp="yes">siguiente|anterior|posterior|pasada|próxima</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>vez</suggestion>?</message>
+                <example correction="vez">Esto sucedió la <marker>ves</marker> pasada.</example>
+                <example correction="vez">Y sucederá la <marker>ves</marker> siguiente.</example>
+                <example>¿No la ves guapa?</example>
             </rule>
         </rulegroup>
         <rulegroup id="IR_GERUNDIO" name="confusión: ir + *participio/gerundio" default="on">
