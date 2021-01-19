@@ -122,7 +122,7 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
   }
 
   @Override
-  protected boolean excludeDirectSpeach() {
+  protected boolean excludeDirectSpeech() {
     return true;
   }
 

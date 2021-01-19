@@ -37,7 +37,7 @@ public class NonSignificantVerbs extends AbstractStatisticStyleRule {
   
   private static final int DEFAULT_MIN_PER_MILL = 8;
 
-  private static final String[] nonSignificant = {"haben","sein","machen","tun"};
+  private static final String[] nonSignificant = {"haben", "sein", "machen", "tun"};
   
   public NonSignificantVerbs(ResourceBundle messages, Language lang, UserConfig userConfig) {
     super(messages, lang, userConfig, DEFAULT_MIN_PER_MILL);
@@ -90,7 +90,7 @@ public class NonSignificantVerbs extends AbstractStatisticStyleRule {
   }
 
   @Override
-  protected boolean excludeDirectSpeach() {
+  protected boolean excludeDirectSpeech() {
     return true;
   }
 
