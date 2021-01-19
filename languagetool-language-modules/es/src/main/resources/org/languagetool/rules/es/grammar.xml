@@ -13803,7 +13803,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ala</token>
                     <token>vez</token>
                 </pattern>
-                <message>¿Quería decier <suggestion>a la vez</suggestion>?</message>
+                <message>¿Quería decir <suggestion>a la vez</suggestion>?</message>
                 <example correction="a la vez">Vimos la película <marker>ala vez</marker>?</example>
             </rule>
         </rulegroup>
@@ -15687,7 +15687,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="VES_VEZ" name="ves/vez" default="on">
             <rule>
                 <pattern>
-                    <token regexp="yes">cada|tal|mi|su|nuestro|nuestra|vuestro|vuestra|toda|ultima|alguna|segunda|ala</token>
+                    <token regexp="yes">cada|tal|mi|su|nuestro|nuestra|vuestro|vuestra|toda|ultima|alguna|segunda|ala|sola|otra|rara|está|ésta</token>
                     <marker>
                         <token>ves</token>
                     </marker>
@@ -15710,16 +15710,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- tu ves: error in tú -->
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">tú|tu</token>
+                    <token>misma</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SP:DA"/>
+                    <token postag="A..CS." postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
-                    <token postag="DD.FS.|A..[FC]S.|SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <token postag="DD.FS.|A..[FC]S.|SPS00|LOC_PREP" postag_regexp="yes"><exception postag="_GN_.S" postag_regexp="yes"></exception></token>
                     <marker>
                         <token>ves</token>
                     </marker>
                 </pattern>
                 <message>¿Quería decir <suggestion>vez</suggestion>?</message>
                 <example correction="vez">Aquella <marker>ves</marker> que lo vi.</example>
-                <example correction="vez">La tercera <marker>ves</marker> que lo vi.</example>
                 <example>¿La ves ahí?</example>
+                <example>Tú misma ves lo que pasa.</example>
+                <example>Al final ves pasar el día.</example>
+                <example>En tu realidad lineal ves la experiencia.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D[DIA].FS." postag_regexp="yes"/>
+                    <token postag="A..[FC]S.|V.P..SF." postag_regexp="yes"/>
+                    <marker>
+                        <token>ves</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>vez</suggestion>?</message>
+                <example correction="vez">La primera <marker>ves</marker> que lo vi.</example>
+                <example correction="vez">La tercera <marker>ves</marker> que lo vi.</example>
+                <example correction="vez">aquella única <marker>ves</marker></example>
+                <example>¿La ves ahí?</example>
+                <example>Tú misma ves lo que pasa.</example>
+                <example>Al final ves pasar el día.</example>
+                <example>En tu realidad lineal ves la experiencia.</example>
             </rule>
             <rule>
                 <pattern>
@@ -15735,8 +15762,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token postag="AO.FS." postag_regexp="yes"/>
+                    <marker>
+                        <token>ves</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>vez</suggestion>?</message>
+                <example correction="vez">La primera <marker>ves</marker>.</example>
+                <example correction="vez">La milésima <marker>ves</marker>.</example>
+                <example>¿La ves ahí?</example>
+                <example>Primero ves la sonrisa, después el gato.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="D[DI].FS." postag_regexp="yes"/>
-                    <token min="0" regexp="yes">puta|maldita</token>
+                    <token min="0" regexp="yes">puta|maldita|santa</token>
                     <marker>
                         <token>ves</token>
                     </marker>
@@ -15748,6 +15788,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿La ves ahí?</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">no|ahí</token>
+                    <token>la</token>
+                    <token>ves</token>
+                </antipattern>
                 <pattern>
                     <token postag="D..FS.|PP3FSA00" postag_regexp="yes"/>
                     <marker>
@@ -15759,6 +15804,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="vez">Una <marker>ves</marker> que quise llamarlo.</example>
                 <example correction="vez">La <marker>ves</marker> que quise llamarlo.</example>
                 <example>¿La ves ahí?</example>
+                <example>Pero por ahí la <marker>ves</marker> que viene caminando</example>
+                <example>¿No la ves que se ahoga?</example>
             </rule>
             <rule>
                 <pattern>
