@@ -9905,6 +9905,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="EINE_ORIGINAL_RECHNUNG" name="Eine original Rechnung (Originalrechnung)">
             <short>Zusammenschreibung</short>
             <!-- ähnlich wie MEIN_KLEIN_HAUS, nur dass Vorschläge für spezielle/häufige Fälle geliefert werden -->
+            <!-- candidates:
+                * falsch Meldung
+                * eigen Geruch
+                * schwach Stelle
+                * frei Zeit
+            -->
             <rule>
                 <antipattern>
                     <token>DA</token>
@@ -10030,7 +10036,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>fertig</token>
-                    <token regexp="yes" case_sensitive="yes">So(ß|ss)e|Haus(es)?</token>
+                    <token regexp="yes" case_sensitive="yes">So(ß|ss)e|Haus(es)?|Zustand(es|s)?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Fertig<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Fertighaus">Er kaufte ein <marker>fertig Haus</marker>.</example>
@@ -10054,7 +10060,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>intensiv</token>
-                    <token case_sensitive="yes" regexp="yes">Programms?|Pflege|Station|Bett(es)?</token>
+                    <token case_sensitive="yes" regexp="yes">Programms?|Pflege|Station|Bett(es)?|Reinigung</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Intensiv<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Intensivstation">Wegen einer Lungenentzündung verbrachte er eine Woche auf der <marker>intensiv Station</marker> im Internet.</example>
@@ -20006,6 +20012,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rulegroup id="MAL_KLEINSCHREIBUNG" name="Mal → mal" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">schauen|können|müssen|sollen|haben|werden|machen|lassen|gucken|reden|sehen|prüfen</token>
+                    <token min="0" regexp="yes">uns|mir|sich|ihr|ihm|dir</token>
+                    <token regexp="yes">das|es</token>
+                    <marker>
+                        <token case_sensitive="yes">Mal</token>
+                    </marker>
+                    <token postag="PKT|ART:.+|PRP:.+|KON:.+" postag_regexp="yes" />
+                </pattern>
+                <message>Das Adverb <suggestion><match no="4" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
+                <example correction="mal">Lass das <marker>Mal</marker> den Papa machen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">schauen|können|müssen|sollen|haben|werden|machen|lassen|gehen|laufen|prüfen|gucken|reden|treffen</token>
+                    <token regexp="yes" min="0">uns|mich|ihn|sie|die</token>
+                    <marker>
+                        <token case_sensitive="yes">Mal</token>
+                    </marker>
+                </pattern>
+                <message>Das Adverb <suggestion><match no="3" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
+                <example correction="mal">Lass uns <marker>Mal</marker> in Ruhe.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">
+                        .*[a-z].*
+                        <exception regexp="yes">ein|das|dieses|Millionen|Tausend|Hundert|ein|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|zwanzig</exception>
+                        <exception postag="ADJ:.+|UNKNOWN" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes">Mal</token>
+                    </marker>
+                    <token min="0">wieder</token>
+                    <token inflected="yes" regexp="yes">schauen|anschauen|treffen|reden|sprechen|gucken|prüfen|sehen</token>
+                </pattern>
+                <message>Das Adverb <suggestion><match no="2" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
+                <example correction="mal">Wir sollten uns <marker>Mal</marker> wieder treffen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AUFS_SCHAERFSTE" name="auf das schärfste (Schärfste)">
             <rule>
                 <pattern>
@@ -38975,13 +39023,16 @@ Andere Projekte</example>
                 <token>Brand</token>
             </antipattern>
             <antipattern>
+                <token>Customer</token>
+                <token regexp="yes">Journey|Experience</token>
+            </antipattern>
+            <antipattern>
                 <token>Urban</token>
                 <token>Sports</token>
             </antipattern>
             <antipattern>
                 <token>International</token>
                 <token>Business</token>
-                <token regexp="yes">Admin(istration)?</token>
             </antipattern>
             <antipattern><!-- https://de.wikipedia.org/wiki/Permanent_Make-up-->
                 <token>Permanent</token>
