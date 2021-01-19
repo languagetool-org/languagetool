@@ -23,6 +23,7 @@ package org.languagetool;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.languagetool.language.Demo;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
@@ -52,7 +53,7 @@ public class RemoteRuleCacheTest {
       "TEST_REMOTE_RULE", "example.com", 1234, 0, 0L, 0.0f, 1, 10L, Collections.emptyMap());
 
     TestRemoteRule() {
-      super(JLanguageTool.getMessageBundle(), testConfig, false);
+      super(new Demo(), JLanguageTool.getMessageBundle(), testConfig, false);
     }
 
     class TestRemoteRequest extends RemoteRequest {

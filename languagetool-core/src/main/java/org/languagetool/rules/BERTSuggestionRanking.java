@@ -28,6 +28,7 @@ import com.google.common.collect.Streams;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.Language;
 import org.languagetool.languagemodel.bert.RemoteLanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.slf4j.Logger;
@@ -73,8 +74,8 @@ public class BERTSuggestionRanking extends RemoteRule {
   private final RemoteLanguageModel model;
   private final Rule wrappedRule;
 
-  public BERTSuggestionRanking(Rule rule, RemoteRuleConfig config, boolean inputLogging) {
-    super(rule.messages, config, inputLogging, rule.getId());
+  public BERTSuggestionRanking(Language language, Rule rule, RemoteRuleConfig config, boolean inputLogging) {
+    super(language, rule.messages, config, inputLogging, rule.getId());
     this.wrappedRule = rule;
     super.setCategory(wrappedRule.getCategory());
     synchronized (models) {
