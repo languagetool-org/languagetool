@@ -10069,6 +10069,35 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
+      <rulegroup id="ACCORD_TOUT_ADJECTIF" name="accord tout adjectif" default="temp_off">
+          <rule>
+              <pattern>
+                  <token postag="D f s.*" postag_regexp="yes"></token>
+                  <token postag="N f s.*" postag_regexp="yes"></token>
+                  <marker>
+                      <token regexp="yes">tout</token>
+                  </marker>
+                  <token postag="J f s*" postag_regexp="yes"><exception regexp="yes">^[aeiou].*|&H_ASPIRE;</exception></token>
+              </pattern>
+              <message>Vérifiez l’accord entre « \1 » et « \3 ».</message>
+              <suggestion>toute</suggestion>
+              <example correction="toute">Une veste <marker>tout</marker> neuve.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token postag="D e p.*" postag_regexp="yes"></token>
+                  <token postag="N f p.*" postag_regexp="yes"></token>
+                  <marker>
+                      <token regexp="yes">tout|toute</token>
+                  </marker>
+                  <token postag="J f p*" postag_regexp="yes"><exception regexp="yes">^[aeiou].*|&H_ASPIRE;</exception></token>
+              </pattern>
+              <message>Vérifiez l’accord entre « \1 » et « \3 ».</message>
+              <suggestion>toutes</suggestion>
+              <example correction="toutes">Des vestes <marker>tout</marker> neuves.</example>
+              <example correction="toutes">Des filles <marker>toute</marker> honteuses.</example>
+          </rule>
+      </rulegroup>
     <rule id="LA_OU_LES_PLUS" name="la ou les plus" default="temp_off">
       <pattern>
         <token postag="V.*" postag_regexp="yes"/>
