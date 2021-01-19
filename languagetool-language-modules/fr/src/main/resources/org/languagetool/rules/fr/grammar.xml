@@ -35467,6 +35467,22 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rule id= "CA_VA_MAL_SE_FINIR" name="ça va mal se finir" default="temp_off">
+          <pattern>
+              <token>ça</token>
+              <token>va</token>
+              <token regexp="yes" min="0" max="1">très|vraiment</token>
+              <token>mal</token>
+              <marker>
+                  <token>se</token>
+                  <token>finir</token>
+              </marker>
+          </pattern>
+          <message> Dans cette expression française familière, "se finir" est une erreur grammaticale.</message>
+          <suggestion><match no="6"/></suggestion>
+          <example correction="finir">Je pense que ça va très mal <marker>se finir</marker>.</example>
+          <example correction="finir">Je pense que ça va mal <marker>se finir</marker>.</example>
+      </rule>
       <rule id="LE_COVID" name="la Covid et le Covid" type="style" tags="picky" default="temp_off">
           <pattern>
               <token postag="(P\+)?D m s" postag_regexp="yes"/>
