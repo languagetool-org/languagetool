@@ -13783,6 +13783,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rulegroup id="ALA_A_LA" name="ala/a la" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>ala</token>
+                    <token>vez</token>
+                </pattern>
+                <message>¿Quería decier <suggestion>a la vez</suggestion>?</message>
+                <example correction="a la vez">Vimos la película <marker>ala vez</marker>?</example>
+            </rule>
+        </rulegroup>
         <rule id="DE_BASA" name="*de/se basa">
             <pattern>
                 <marker>
@@ -15663,7 +15673,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="VES_VEZ" name="ves/vez" default="on">
             <rule>
                 <pattern>
-                    <token regexp="yes">cada|tal|mi|su|nuestro|nuestra|vuestro|vuestra</token>
+                    <token regexp="yes">cada|tal|mi|su|nuestro|nuestra|vuestro|vuestra|toda|ultima|alguna|segunda|ala</token>
                     <marker>
                         <token>ves</token>
                     </marker>
@@ -15712,6 +15722,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="D[DI].FS." postag_regexp="yes"/>
+                    <token min="0" regexp="yes">puta|maldita</token>
                     <marker>
                         <token>ves</token>
                     </marker>
