@@ -35507,6 +35507,35 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rule id= "CA_VA_MAL_SE_FINIR" name="ça va mal se finir" default="temp_off">
+          <pattern>
+              <token>ça</token>
+              <token>va</token>
+              <token regexp="yes" min="0" max="1">très|vraiment</token>
+              <token>mal</token>
+              <marker>
+                  <token>se</token>
+                  <token>finir</token>
+              </marker>
+          </pattern>
+          <message> Dans cette expression française familière, "se finir" est une erreur grammaticale.</message>
+          <suggestion><match no="6"/></suggestion>
+          <example correction="finir">Je pense que ça va très mal <marker>se finir</marker>.</example>
+          <example correction="finir">Je pense que ça va mal <marker>se finir</marker>.</example>
+      </rule>
+      <rule id="LE_COVID" name="la Covid et le Covid" type="style" tags="picky" default="temp_off">
+          <pattern>
+              <token postag="(P\+)?D m s" postag_regexp="yes"/>
+              <token regexp="yes">covid(-19)?</token>
+          </pattern>
+          <message>Voulez-vous utiliser la forme féminine recommandée, au détriment du masculin '\1' couramment utilisé ?</message>
+          <suggestion><match no="1" case_conversion="preserve" postag="(P?).?D m s" postag_regexp="yes" postag_replace="$1.?D f s"/> \2</suggestion>
+          <url>http://www.academie-francaise.fr/le-covid-19-ou-la-covid-19</url>
+          <example correction="la Covid-19">Il faut faire attention car <marker>le Covid-19</marker> est récent.</example>
+          <example correction="La Covid-19"><marker>Le Covid-19</marker> est une maladie grave.</example>
+          <example correction="de la Covid">Les répercussions économiques <marker>du Covid</marker> ne se sauront pas avant 2022.</example>
+          <example correction="à la COVID">Les dommages humains et économiques dus <marker>au COVID</marker> sont considérables.</example>
+      </rule>
       <rule id= "ALTERNATIVE_OU_POSSIBILITE" name="alternative ou possibilité" default="temp_off">
           <pattern>
               <token regexp="yes">autre|deux</token>
