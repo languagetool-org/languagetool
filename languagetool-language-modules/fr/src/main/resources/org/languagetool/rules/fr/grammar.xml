@@ -10069,6 +10069,17 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
+      <rule id="TOUT_CE" name="tout ce" default="temp_off">
+          <pattern>
+              <marker>
+                  <token regexp="yes">tous</token>
+              </marker>
+              <token postag="R dem e sp" postag_regexp="yes"></token>
+          </pattern>
+          <message>Dans ce cas précis, le terme "tout" est invariable.</message>
+          <suggestion>tout</suggestion>
+          <example correction="tout">Dis-moi si <marker>tous</marker> ce que tu dis est vrai.</example>
+      </rule>
     <rule id="LA_OU_LES_PLUS" name="la ou les plus" default="temp_off">
       <pattern>
         <token postag="V.*" postag_regexp="yes"/>
