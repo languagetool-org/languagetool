@@ -134,6 +134,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token postag="SENT_START"/>
+                <token min="0" max="4" postag_regexp="yes" postag="_PUNCT.*"/>
                 <token regexp="yes">&meses_ano_may;</token>
             </antipattern>
             <rule>
@@ -175,6 +176,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Pero Julio es una buena persona.</example>
                 <example>Con Julio voy al parque.</example>
                 <example>Con Julio Manrique y Julio Iglesias.</example>
+                <example>¡Noviembre está cada vez más cerca!</example>
             </rule>
         </rulegroup>
         <rule id="MIN_DIAS_SEMANA" name="Días de la semana en minúscula">
@@ -1234,6 +1236,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>obra</token>
                 <token regexp="yes">de|del</token>
             </antipattern>
+            <!--<antipattern>
+                <token regexp="yes">&pronombre_personal_no_articulo;</token>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+            </antipattern>-->
             <rule>
                 <pattern>
                     <or>
@@ -2390,7 +2396,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>como</token>
-                    <token regexp="yes">cuánto|cuándo|cuál|qué|dónde|adónde</token>
+                    <token regexp="yes" inflected="yes">cuánto|cuándo|cuál|qué|dónde|adónde</token>
                 </antipattern>
                 <pattern>
                     <token>¿</token>
@@ -2410,6 +2416,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Como las que trajo él?</example>
                 <example>Pero ¿como para pagar por él tanto o más que por un SEAT León?</example>
                 <example>¿Como cuánto te gusta?</example>
+                <example>¿Como cuántas veces ves el espejo por día?</example>
             </rule>
             <rule>
                 <pattern>
@@ -6219,7 +6226,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>de<exception postag="RG|LOC_ADV" postag_regexp="yes"/></token>
                     </marker>
-                    <token>voz</token> <!-- TODO: extend -->
+                    <token>voz</token>
+                    <!-- TODO: extend -->
                 </pattern>
                 <message>Si es del v. 'dar', se escribe con tilde.</message>
                 <suggestion>dé</suggestion>
@@ -9322,20 +9330,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="por qué">No estoy diciendo que entienda completamente <marker>por que</marker> ha surgido este nuevo esfuerzo.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token inflected="yes" regexp="yes" skip="3">perder|ganar|impugnar</token>
+                    <token>causa</token>
+                </antipattern>
                 <pattern>
+                    <token postag="D.*" postag_regexp="yes"/>
                     <token regexp="yes" inflected="yes">razón|causa|motivo</token>
                     <marker>
                         <token regexp="yes">porque|porqué</token>
                     </marker>
                 </pattern>
-                <message>Construcción probablemente incorrecta.</message>
+                <message>Construcción incorrecta si significa <suggestion>por <match no="2" postag="NC(..).*" postag_regexp="yes" postag_replace="DA.$1.">el</match> <match no="2" postag="NC.(.).*" postag_regexp="yes" postag_replace="PR0C$1000">cual</match></suggestion>.</message>
                 <suggestion>por que</suggestion>
-                <suggestion>por <match no="1" postag="NC(..).*" postag_regexp="yes" postag_replace="DA.$1.">el</match> que</suggestion>
-                <suggestion>por <match no="1" postag="NC(..).*" postag_regexp="yes" postag_replace="DA.$1.">el</match> <match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="PR0C$1000">cual</match></suggestion>
-                <example correction="por que|por la que|por la cual">La razón <marker>porque</marker> lo pienso.</example>
-                <example correction="por que|por el que|por el cual">El motivo <marker>porque</marker> nos fuimos.</example>
-                <example correction="por que|por los que|por los cuales">Los motivos <marker>porque</marker> nos fuimos.</example>
-                <!--No tenéis más razón porque seáis mayores.-->
+                <suggestion>por <match no="2" postag="NC(..).*" postag_regexp="yes" postag_replace="DA.$1.">el</match> que</suggestion>
+                <example correction="por la cual|por que|por la que">La razón <marker>porque</marker> lo pienso.</example>
+                <example correction="por el cual|por que|por el que">El motivo <marker>porque</marker> nos fuimos.</example>
+                <example correction="por los cuales|por que|por los que">Los motivos <marker>porque</marker> nos fuimos.</example>
+                <example>No tenéis más razón porque seáis mayores.</example>
+                <example>Perdió la causa porque su abogado se equivocó.</example>
             </rule>
             <rule>
                 <pattern>
@@ -9410,7 +9423,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.S.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes" inflected="yes">motivo|razón</token>
+                    <token regexp="yes" inflected="yes">motivo|razón|causa</token>
                     <token>por</token>
                     <token>que</token>
                 </antipattern>
@@ -12277,6 +12290,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Va por el camino en línea recta.</example>
             <example>Lo demás cobra sentido.</example>
             <example>A continuación adjunto el fichero.</example>
+            <example>Un tratado sobre óptica.</example>
             <!-- 
                 La eternidad dura harto.
                 Ella fue al concierto acompañada de una amiga.
@@ -14781,6 +14795,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">[a-z]<exception regexp="yes">y|o</exception></token>
                 <token>e</token>
             </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">terminar|acabar</token>
+                <token>en</token>
+                <token>e</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -14968,7 +14987,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Combinación imposible con verbo en imperativo.</message>
                 <suggestion>\1, \2</suggestion>
                 <suggestion>\1 {suggestion}</suggestion>
-                <example correction="este, dale|este vale|este cale|este dable|este dalle|este calé|este dele|este Dave|este palé|este yale">De <marker>este dale</marker>.</example>
+                <example correction="este, dale|este vale|este Dalí|este cale|este dable|este dalle|este calé|este dele|este Dave|este palé">De <marker>este dale</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -15643,23 +15662,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="VES_VEZ" name="ves/vez" default="on">
             <rule>
                 <pattern>
-                    <token>cada</token>
+                    <token regexp="yes">cada|tal|mi|su|nuestro|nuestra|vuestro|vuestra</token>
                     <marker>
                         <token>ves</token>
                     </marker>
                 </pattern>
                 <message>¿Quería decir <suggestion>vez</suggestion>?</message>
                 <example correction="vez">Cada <marker>ves</marker> que te veo.</example>
+                <example correction="vez">Esto a su <marker>ves</marker> tendrá impacto.</example>
+                <example correction="vez">Esto tal <marker>ves</marker> tendrá impacto.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="DD.FS." postag_regexp="yes"/>
+                    <token>a</token>
+                    <token>tu</token>
+                    <marker>
+                        <token>ves</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>vez</suggestion>?</message>
+                <example correction="vez">Entrarás a tu <marker>ves</marker>.</example>
+                <!-- tu ves: error in tú -->
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DD.FS.|A..[FC]S.|SPS00|LOC_PREP" postag_regexp="yes"/>
                     <marker>
                         <token>ves</token>
                     </marker>
                 </pattern>
                 <message>¿Quería decir <suggestion>vez</suggestion>?</message>
                 <example correction="vez">Aquella <marker>ves</marker> que lo vi.</example>
+                <example correction="vez">La tercera <marker>ves</marker> que lo vi.</example>
                 <example>¿La ves ahí?</example>
             </rule>
             <rule>
@@ -15680,8 +15714,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>ves</token>
                     </marker>
-                    <!--<token min="0" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                    <token postag="V.[ISP].*" postag_regexp="yes"/>-->
                 </pattern>
                 <message>¿Quería decir <suggestion>vez</suggestion>?</message>
                 <example correction="vez">Una <marker>ves</marker> quise llamarlo.</example>
@@ -15696,13 +15728,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>ves</token>
                     </marker>
                     <token>que</token>
-                    <!--<token min="0" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                    <token postag="V.[ISP].*" postag_regexp="yes"/>-->
                 </pattern>
                 <message>¿Quería decir <suggestion>vez</suggestion>?</message>
                 <example correction="vez">Una <marker>ves</marker> que quise llamarlo.</example>
                 <example correction="vez">La <marker>ves</marker> que quise llamarlo.</example>
                 <example>¿La ves ahí?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">pedir|dar|solicitar</token>
+                    <token>la</token>
+                    <marker>
+                        <token>ves</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>vez</suggestion>?</message>
+                <example correction="vez">¿Quién da la <marker>ves</marker>?</example>
+                <example>¿La ves ahí?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>la</token>
+                    <marker>
+                        <token>ves</token>
+                    </marker>
+                    <token postag="AO.[FC]S." postag_regexp="yes"/>
+                </pattern>
+                <message>¿Quería decir <suggestion>vez</suggestion>?</message>
+                <example correction="vez">Esto sucedió la <marker>ves</marker> primera.</example>
+                <example correction="vez">Y sucederá la <marker>ves</marker> última.</example>
+                <example>¿No la ves guapa?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>la</token>
+                    <marker>
+                        <token>ves</token>
+                    </marker>
+                    <token regexp="yes">siguiente|anterior|posterior|pasada|próxima</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>vez</suggestion>?</message>
+                <example correction="vez">Esto sucedió la <marker>ves</marker> pasada.</example>
+                <example correction="vez">Y sucederá la <marker>ves</marker> siguiente.</example>
+                <example>¿No la ves guapa?</example>
             </rule>
         </rulegroup>
         <rulegroup id="IR_GERUNDIO" name="confusión: ir + *participio/gerundio" default="on">
@@ -18289,12 +18357,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token skip="2" regexp="yes">solo|sólo|solamente<exception scope="next" postag="_PUNCT.*|C.*" postag_regexp="yes"/></token>
-                    <token><match no="0"/></token>
+                    <token regexp="yes">solo|sólo|solamente</token>
+                    <token skip="2"><exception scope="next" postag="_PUNCT.*|C.*" postag_regexp="yes"/><exception postag="_PUNCT.*|C.*" postag_regexp="yes"/></token>
+                    <token regexp="yes">solo|sólo|solamente</token>
                 </pattern>
                 <message>Repetición probablemente incorrecta.</message>
-                <suggestion><match no="1" include_skipped="all"/></suggestion>
-                <suggestion><match no="1" include_skipped="following"/> <match no="2"/></suggestion>
+                <suggestion><match no="1"/> <match no="2" include_skipped="all"/></suggestion>
+                <suggestion><match no="2" include_skipped="all"/> <match no="3"/></suggestion>
                 <example correction="Solo faltaba|Faltaba solo"><marker>Solo faltaba solo</marker> esto.</example>
                 <example correction="Solo ha faltado|Ha faltado solo"><marker>Solo ha faltado solo</marker> esto.</example>
                 <example>Solo es blanco, solo es negro.</example>

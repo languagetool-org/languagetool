@@ -2,6 +2,11 @@
 
 ## 5.3-SNAPSHOT (release planned for 2021-03-21)
 
+#### English
+  * updated en_US spellchecker dictionary from http://wordlist.aspell.net (Version 2020.12.07)
+  * updated en_CA spellchecker dictionary from http://wordlist.aspell.net (Version 2020.12.07)
+  * updated en_AU spellchecker dictionary from http://wordlist.aspell.net (Version 2020.12.07)
+
 ...
 
 

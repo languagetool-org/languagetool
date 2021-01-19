@@ -1221,7 +1221,9 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern>
                 <token regexp="yes">e[rs]|sie</token>
                 <marker>
-                    <token postag="VER:.*3:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
+                    <token postag="VER:.*3:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e
+                        <exception scope="next">ich</exception><!-- für sie würde ich durchs Feuer gehen -->
+                    </token>
                 </marker>
             </pattern>
             <disambig action="remove" postag="VER.*:1:.+"/>

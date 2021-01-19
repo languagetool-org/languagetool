@@ -6859,8 +6859,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Традиционно первым Германским государством принято считать восточно-франкское государство.</example>
                     <example>Он каждые полчаса бежит в лабораторию.</example>
                     <example correction="">Они думали о <marker>родного доме</marker>.</example>
-                </rule>
+                </rule>               
         </rulegroup>
+        <rule  id="Adj_NN_number_Software" name="«Программное обеспечение»"> 
+            <pattern> <!-- Need more unification -->
+                <marker>
+                    <token inflected="yes">программный<exception regexp="yes">программного|программные</exception></token>
+                    <token>обеспечения</token>
+                </marker>                     
+            </pattern>
+            <message>Прилагательное не согласуется с существительным.</message>
+            <example>С помощью коммерчески доступного программного обеспечения, основанного на разных методах.</example>
+            <example correction="">С помощью коммерчески доступного <marker>программных обеспечения</marker>, основанного на разных методах.</example>
+        </rule>            
         <rulegroup  id="EAdj_NN_number_2_4" name="Определение при существительном, зависящем от числительных «два, три, четыре»">
             <!-- Розенталь ЛИТЕРАТУРНОЕ РЕДАКТИРОВАНИЕ ТЕКСТА $193 -->
             <rule>
@@ -9472,10 +9483,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Оба глагола должны быть в личной форме: <suggestion><match no="3" postag_regexp="yes" postag="VB:INF:(.*):(.*)"  postag_replace="VB:Real:$1:$2:Sin:P3"></match></suggestion></message>
             <url>http://tsya.ru/</url>
-            <short>Глагол должен быть в в личной форме</short>
+            <short>Глагол должен быть в личной форме</short>
             <example>Она сидит и кормит ребёнка.</example>
             <example correction="кормит">Она сидит и <marker>кормить</marker> ребёнка.</example>
         </rule>
+        <rule default="temp_off" id="Verb_3P_and_inf_2" name="Правописание «-т» и «-ть» в глаголах – однородных членах предложения 2">
+            <pattern>
+                <!--     VB:.* (-т) и    VB:INF: (-ть)      -->
+                <token regexp="yes">должны|хотите|можете</token>
+                <marker>
+                    <token postag="VB:INF:.*" postag_regexp="yes"><exception postag_regexp="yes"  postag="VB:.*:Sin:P3"></exception></token>
+                    <token regexp="yes">и|или</token>
+                    <token postag_regexp="yes"  postag="VB:.*:Sin:P3" ><exception postag_regexp="yes"  postag="VB:INF:.*"></exception></token>
+                </marker>                
+            </pattern>
+            <message>Оба глагола должны быть в неопределённой форме. <suggestion><match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="VB:(.*):(.*):(.*):Sin:P3"  postag_replace="VB:INF:$2:$3"></match></suggestion></message>
+            <short>Оба глагола должны быть в неопределённой форме</short>
+            <example>Вы должны прочитать и согласиться с правилами.</example>
+            <example correction="прочитать и согласиться">Вы должны <marker>прочитать и согласится</marker> с правилами.</example>
+        </rule>
+        
+        
         
         <rule default="on" id="PREP_and_DPT" name="Деепричастие и предлог">
             <pattern case_sensitive="no">

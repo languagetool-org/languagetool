@@ -395,6 +395,7 @@ public class English extends Language implements AutoCloseable {
       case "THE_THEM":                  return 1;   // prefer over TO_TWO
       case "THERE_THEIR":               return 1;   // prefer over GO_TO_HOME
       case "IT_IS_DEPENDING_ON":        return 1;   // prefer over PROGRESSIVE_VERBS
+      case "IRREGARDLESS":              return 1;   // prefer over spell checker
       case "FOR_NOUN_SAKE":             return 6;   // prefer over PROFANITY (e.g. "for fuck sake")
       case "RUDE_SARCASTIC":            return 6;   // prefer over spell checker
       case "CHILDISH_LANGUAGE":         return 8;   // prefer over spell checker
@@ -438,6 +439,8 @@ public class English extends Language implements AutoCloseable {
       case "UNLIKELY_OPENING_PUNCTUATION": return -1; // prefer other more specific rules
       case "METRIC_UNITS_EN_IMPERIAL":  return -1;  // prefer MILE_HYPHEN
       case "METRIC_UNITS_EN_GB":        return -1;  // prefer MILE_HYPHEN
+      case "COMMA_COMPOUND_SENTENCE":   return -1;  // prefer other rules
+      case "COMMA_COMPOUND_SENTENCE_2": return -1;  // prefer other rules
       case "PRP_RB_NO_VB":              return -2;  // prefer other more specific rules (with suggestions)
       case "PRP_VBG":                   return -2;  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
       case "PRP_VBZ":                   return -2;  // prefer other more specific rules (with suggestions)

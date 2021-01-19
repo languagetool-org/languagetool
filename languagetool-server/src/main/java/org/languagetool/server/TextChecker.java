@@ -492,7 +492,7 @@ abstract class TextChecker {
             + computationTime + "ms, agent:" + agent + version
             + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?")
             + ", h:" + reqCounter.getHandleCount() + ", dH:" + reqCounter.getDistinctIps()
-            + ", m:" + mode.toString().toLowerCase() + skipLimits);
+            + ", m:" + ServerTools.getModeForLog(mode) + skipLimits);
 
     int matchCount = matches.size();
     Map<String, Integer> ruleMatchCount = new HashMap<>();

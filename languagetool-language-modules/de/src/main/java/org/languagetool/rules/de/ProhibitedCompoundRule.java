@@ -49,6 +49,7 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("mitte", "zentral", "mittel", "Methode, um etwas zu erreichen"),
           new Pair("fein", "feinkörnig, genau, gut", "feind", "Gegner"),
           new Pair("traum", "Erleben während des Schlafes", "trauma", "Verletzung"),
           new Pair("name", "Bezeichnung (z.B. 'Vorname')", "nahme", "zu 'nehmen' (z.B. 'Teilnahme')"),
@@ -104,12 +105,122 @@ public class ProhibitedCompoundRule extends Rule {
     "gra(ph|f)ische[rsnm]",  // kosmografischen etc.
     "gra(ph|f)s?$",  // Elektrokardiograph
     "gra(ph|f)en",  // Elektrokardiographen
+    "gra(ph|f)in",  // Demographin/Demografin
     "gra(ph|f)ik",  // Kunstgrafik
     "gra(ph|f)ie",  // Geographie
     "Gra(ph|f)it"   // Grafit/Graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Hauptstrand",  // vs Hauptstand
+          "Hauptstrands",
+          "Hauptstrandes",
+          "Hüttenschuhe",
+          "Hüttenschuhen",
+          "Hüttenschuhs",
+          "Mietbedingung",
+          "Mietbedingungen",
+          "Modeltyp",
+          "Modeltyps",
+          "Modeltypen",
+          "Musikversand",
+          "Musikversands",
+          "Musikversandes",
+          "Paragrafzeichen",
+          "Paragrafzeichens",
+          "Pflanzenmarkt",
+          "Pflanzenmarkts",
+          "Pflanzenmarktes",
+          "Privatstrand",
+          "Privatstrands",
+          "Privatstrände",
+          "Privatstränden",
+          "Privatstrandes",
+          "Reisessig",
+          "Reisessigs",
+          "Reiswein",
+          "Reisweins",
+          "Reisweine",
+          "Schuhabteilung",
+          "Schuhabteilungen",
+          "Schulfirma",
+          "Schulfirmen",
+          "Schulmagazin",
+          "Schulmagazins",
+          "Schulmagazinen",
+          "Schulmagazinen",
+          "Segelschuhe",
+          "Segelschuhen",
+          "Spitzenhaus",
+          "Spitzenhauses",
+          "Spitzenhäuser",
+          "Spitzenhäusern",
+          "Standgebläse",
+          "Standgebläsen",
+          "Standgebläses",
+          "Standstreifen",
+          "Standstreifens",
+          "Strandfigur",
+          "Strandfoto",
+          "Strandfotos",
+          "Strandkonzert",
+          "Strandkonzerts",
+          "Strandkonzertes",
+          "Strandkonzerte",
+          "Strandkonzerten",
+          "Strandverlust",
+          "Strandverluste",
+          "Strandverlusten",
+          "Tierversand",
+          "Tierversands",
+          "Treppenart",
+          "Treppenarten",
+          "Winterflucht",
+          "Nachtmitte",  // vs. Nachtmittel
+          "Gemeindemitte", // vs. Gemeindemittel
           "Feinbeurteilung",  // vs. Feindbeurteilung
+          "Bremssand",
+          "Bratform",
+          "Devisenspritze",
+          "Einkaufszielen",
+          "einnähmt",
+          "hinübernähmen",
+          "maschinennäher",
+          "zentrumsnäher",
+          "Einzelversandes",
+          "Eisbällchen",
+          "Eisenbahnrades",
+          "Eisläufer",
+          "Eisläufern",
+          "Eisläufers",
+          "Fachversand",
+          "Fachversandes",
+          "Feinwahrnehmung",
+          "Feinwahrnehmungen",
+          "Fluchtkapsel",
+          "Fluchtkapseln",
+          "Fluchtschiffe",
+          "Fluchtschiffes",
+          "Fluchtschiffs",
+          "Fluchtschiffen",
+          "Flügeltreppe",
+          "Flügeltreppen",
+          "Fruchtspiel",
+          "Gletschersand",
+          "Gletschersands",
+          "Gletschersandes",
+          "Grafem",
+          "Grafems",
+          "Grafeme",
+          "Grafemen",
+          "grafitgrau",
+          "grafithaltig",
+          "grafithaltige",
+          "grafithaltiger",
+          "grafithaltigen",
+          "grafithaltigem",
+          "grafithaltiges",
+          "grafithaltigeren",
+          "grafithaltigerem",
           "Reitschuhe",
           "Reitschuhen",
           "Nordbalkon",
@@ -606,7 +717,7 @@ public class ProhibitedCompoundRule extends Rule {
         int fromPos = readings.getStartPos() + partsStartPos;
         int toPos = fromPos + wordPart.length() + toPosCorrection;
         String id = getId() + "_" + cleanId(pair.part1) + "_" + cleanId(pair.part2);
-        RuleMatch match = new RuleMatch(new SpecificIdRule(id, pair.part1, pair.part2, messages, lm), sentence, fromPos, toPos, msg);
+        RuleMatch match = new RuleMatch(new SpecificIdRule(id, pair.part1, pair.part2, messages), sentence, fromPos, toPos, msg);
         match.setSuggestedReplacement(variant);
         weightedMatches.add(new WeightedRuleMatch(variantCount, match));
       }
@@ -681,13 +792,13 @@ public class ProhibitedCompoundRule extends Rule {
     }
   }
 
-  static class SpecificIdRule extends ProhibitedCompoundRule {
+  static private class SpecificIdRule extends Rule {  // don't extend ProhibitedCompoundRule for performance reasons (speller would get re-initialized a lot)
     private final String id;
     private final String desc;
-    SpecificIdRule(String id, String part1, String part2, ResourceBundle messages, LanguageModel lm) {
-      super(messages, lm, null);
+    SpecificIdRule(String id, String part1, String part2, ResourceBundle messages) {
       this.id = Objects.requireNonNull(id);
       this.desc = "Markiert wahrscheinlich falsche Komposita mit Teilwort '" + uppercaseFirstChar(part1) + "' statt '" + uppercaseFirstChar(part2) + "' und umgekehrt";
+      setCategory(Categories.TYPOS.getCategory(messages));
     }
     @Override
     public String getId() {
@@ -696,6 +807,10 @@ public class ProhibitedCompoundRule extends Rule {
     @Override
     public String getDescription() {
       return desc;
+    }
+    @Override
+    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+      return RuleMatch.EMPTY_ARRAY;
     }
   }
 }

@@ -179,6 +179,16 @@ final class ServerTools {
   }
 
   @NotNull
+  static String getModeForLog(JLanguageTool.Mode mode) {
+    switch (mode) {
+      case TEXTLEVEL_ONLY: return "tlo";
+      case ALL_BUT_TEXTLEVEL_ONLY: return "!tlo";
+      case ALL: return "all";
+      default: return "?";
+    }
+  }
+
+  @NotNull
   static JLanguageTool.Level getLevel(Map<String, String> params) {
     JLanguageTool.Level level;
     if (params.get("level") != null) {

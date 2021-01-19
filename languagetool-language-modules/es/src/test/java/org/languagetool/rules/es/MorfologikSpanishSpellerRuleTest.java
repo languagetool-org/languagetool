@@ -39,7 +39,7 @@ public class MorfologikSpanishSpellerRuleTest {
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Escriba un texto aquí. LanguageTool le ayudará a afrontar algunas dificultades propias de la escritura.")).length);
     
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hagámosle, deme, démelo, europeízate, homogenéizalo.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hagámosle, deme, démelo, europeízate, homogenéizalo. Anúnciate. Desáhucialos.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Veíanse")).length); //This is archaic
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("En la p. 25, pp. 33-45. Ctrl+A")).length);

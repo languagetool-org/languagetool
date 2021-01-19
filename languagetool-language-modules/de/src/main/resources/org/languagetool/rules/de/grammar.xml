@@ -1147,6 +1147,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="SEIN_MONATEN" name="sein (seit) Jahren etc.">
+            <antipattern>
+                <token>ihr</token>
+                <token>seid</token>
+                <token negate="yes" regexp="yes">Sekunden|Minuten|Stunden|Tagen|Wochen|Monaten|Jahr(zent|hundert)?en</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp="yes" skip="1">sei[dn]</token>
@@ -1155,6 +1160,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Meinten Sie <suggestion>seit</suggestion>?</message>
             <example correction="Seit"><marker>Sein</marker> Monaten nervt er mich.</example>
+            <example>Ihr seid seit Stunden dabei.</example>
+            <example correction="seit">Wenn ihr <marker>seid</marker> Monaten schon versucht, das zu lösen.</example>
         </rule>
         <rule id="ZUR_STANDE" name="zur Stande (zustande, zu Stande)">
             <regexp>\bzur Stande\b</regexp>
@@ -9898,6 +9905,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="EINE_ORIGINAL_RECHNUNG" name="Eine original Rechnung (Originalrechnung)">
             <short>Zusammenschreibung</short>
             <!-- ähnlich wie MEIN_KLEIN_HAUS, nur dass Vorschläge für spezielle/häufige Fälle geliefert werden -->
+            <!-- candidates:
+                * falsch Meldung
+                * eigen Geruch
+                * schwach Stelle
+                * frei Zeit
+            -->
             <rule>
                 <antipattern>
                     <token>DA</token>
@@ -10023,7 +10036,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>fertig</token>
-                    <token regexp="yes" case_sensitive="yes">So(ß|ss)e|Haus(es)?</token>
+                    <token regexp="yes" case_sensitive="yes">So(ß|ss)e|Haus(es)?|Zustand(es|s)?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Fertig<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Fertighaus">Er kaufte ein <marker>fertig Haus</marker>.</example>
@@ -10047,7 +10060,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>intensiv</token>
-                    <token case_sensitive="yes" regexp="yes">Programms?|Pflege|Station|Bett(es)?</token>
+                    <token case_sensitive="yes" regexp="yes">Programms?|Pflege|Station|Bett(es)?|Reinigung</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Intensiv<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Intensivstation">Wegen einer Lungenentzündung verbrachte er eine Woche auf der <marker>intensiv Station</marker> im Internet.</example>
@@ -10938,7 +10951,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]{2,}(ung|schaft|sicht|heit|keit|ion|tät)s
-                    <exception regexp="yes">.+yungs|Jisungs|.*federations|Samsungs|.*capsulations|.*ctions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
+                    <exception regexp="yes">.+yungs|Jisungs|.*federations|Samsungs|.*ctions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
                 </token>
                 <token postag=".*SUB.*" postag_regexp="yes" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]+
@@ -18466,7 +18479,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>sinnlos ist</suggestion>
                 <example correction="keinen Sinn ergibt|keinen Sinn stiftet|nicht sinnvoll ist|sinnlos ist">Auch, wenn das <marker>keinen Sinn macht</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>Sinn</token>
                     <token>machen</token>
@@ -18477,7 +18490,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>'Sinn machen' ist umgangssprachlich.</short>
                 <example correction="Sinn ergeben|Sinn stiften">Er fragte sich, ob diese Antworten wirklich <marker>Sinn machen</marker>?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>Sinn</token>
                     <token>macht</token>
@@ -18487,6 +18500,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1 stiftet</suggestion>
                 <short>'Sinn machen' ist umgangssprachlich.</short>
                 <example correction="Sinn ergibt|Sinn stiftet">Er sagt, dass es keinen <marker>Sinn macht</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>Sinn</token>
+                    <token>gemacht</token>
+                </pattern>
+                <message>'Sinn machen' ist umgangssprachlich. Verwenden Sie stattdessen 'Sinn ergeben', 'Sinn stiften', 'Sinn haben' oder 'sinnvoll (bzw. sinnlos) sein'.</message>
+                <suggestion>\1 ergeben</suggestion>
+                <suggestion>\1 gestiftet</suggestion>
+                <short>'Sinn machen' ist umgangssprachlich.</short>
+                <example correction="Sinn ergeben|Sinn gestiftet">Er sagt, dass es keinen <marker>Sinn gemacht</marker> hat.</example>
             </rule>
             <rule>
                 <pattern>
@@ -19988,6 +20012,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rulegroup id="MAL_KLEINSCHREIBUNG" name="Mal → mal" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">schauen|können|müssen|sollen|haben|werden|machen|lassen|gucken|reden|sehen|prüfen</token>
+                    <token min="0" regexp="yes">uns|mir|sich|ihr|ihm|dir</token>
+                    <token regexp="yes">das|es</token>
+                    <marker>
+                        <token case_sensitive="yes">Mal</token>
+                    </marker>
+                    <token postag="PKT|ART:.+|PRP:.+|KON:.+" postag_regexp="yes" />
+                </pattern>
+                <message>Das Adverb <suggestion><match no="4" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
+                <example correction="mal">Lass das <marker>Mal</marker> den Papa machen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">schauen|können|müssen|sollen|haben|werden|machen|lassen|gehen|laufen|prüfen|gucken|reden|treffen</token>
+                    <token regexp="yes" min="0">uns|mich|ihn|sie|die</token>
+                    <marker>
+                        <token case_sensitive="yes">Mal</token>
+                    </marker>
+                </pattern>
+                <message>Das Adverb <suggestion><match no="3" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
+                <example correction="mal">Lass uns <marker>Mal</marker> in Ruhe.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">
+                        .*[a-z].*
+                        <exception regexp="yes">ein|das|dieses|Millionen|Tausend|Hundert|ein|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|zwanzig</exception>
+                        <exception postag="ADJ:.+|UNKNOWN" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes">Mal</token>
+                    </marker>
+                    <token min="0">wieder</token>
+                    <token inflected="yes" regexp="yes">schauen|anschauen|treffen|reden|sprechen|gucken|prüfen|sehen</token>
+                </pattern>
+                <message>Das Adverb <suggestion><match no="2" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
+                <example correction="mal">Wir sollten uns <marker>Mal</marker> wieder treffen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AUFS_SCHAERFSTE" name="auf das schärfste (Schärfste)">
             <rule>
                 <pattern>
@@ -38957,13 +39023,16 @@ Andere Projekte</example>
                 <token>Brand</token>
             </antipattern>
             <antipattern>
+                <token>Customer</token>
+                <token regexp="yes">Journey|Experience</token>
+            </antipattern>
+            <antipattern>
                 <token>Urban</token>
                 <token>Sports</token>
             </antipattern>
             <antipattern>
                 <token>International</token>
                 <token>Business</token>
-                <token regexp="yes">Admin(istration)?</token>
             </antipattern>
             <antipattern><!-- https://de.wikipedia.org/wiki/Permanent_Make-up-->
                 <token>Permanent</token>
@@ -48169,7 +48238,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">.*photograph.*|.*photon|.*photonen.*|.*phono.*|.*phone[mt].*|symphoni.*|(.+)?Smartphone.*|Allophon.*</token>
+                    <token regexp="yes">.*photograph.*|.*photon|.*photonen.*|.*phono.*|.*phone[mt].*|symphoni.*|(.+)?Smartphone.*|Allophon.*|Siphon</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">https?.*|www.*</token>

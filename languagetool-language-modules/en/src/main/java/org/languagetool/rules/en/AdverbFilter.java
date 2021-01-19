@@ -467,6 +467,11 @@ public class AdverbFilter extends RuleFilter {
     put("surprisingly", "surprising");
     put("sociologically", "sociological");
     put("severely", "severe");
+    put("ruffianly", "ruffian");
+    put("bigly", "big");
+    put("frequently", "frequent");
+    put("irrationally", "irrational");
+    put("rationally", "rational");
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
   }};

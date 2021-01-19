@@ -1177,6 +1177,8 @@ public class CaseRule extends Rule {
     "Vielfaches",
     "Vorsitzender",
     "Fraktionsvorsitzender",
+    "Verletzte",
+    "Verletzten",
     "Walt",
     "Weitem",
     "Weiteres",

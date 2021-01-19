@@ -592,6 +592,28 @@ Bom dia Ana.
 			</token>
       </antipattern>
 <!-- MARCOAGPINTO 2020-12-21 (21-OCT-2020+) *END* -->
+<!-- MARCOAGPINTO 2021-01-16 (1-JAN-2021+) *START* -->
+<!--
+ao princípio Mãe.
+o princípio Mãe.
+pelo princípio Mãe.
+do princípio Mãe.
+um princípio Mãe.
+esse princípio Mãe.
+aquele princípio Mãe.
+àquele princípio Mãe.
+tal princípio Mãe.
+como princípio Mãe.
+no princípio Mãe.
+daquele princípio Mãe.
+e princípio Mãe.
+-->
+      <antipattern>		
+		<token regexp='yes'>a?o|pelo|do|um|esse|aquele|àquele|tal|como|no|daquele|e</token>
+		<token regexp='no'>princípio</token>
+		<token postag='NC.S.+|AQ0.S.+|NP.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-01-16 (1-JAN-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -641,6 +663,7 @@ Bom dia Ana.
 	  <example type='correct'>Precisa agora de estar em <marker>quarentena 14 dias</marker>.</example>
 	  <example type='correct'>Precisa agora de estar em <marker>quarentena 14 horas</marker>.</example>
 	  <example type='correct'>Precisa agora de estar em <marker>plantão 14 horas</marker>.</example>
+	  <example type='correct'>Temos <marker>o princípio Mãe</marker> na natureza.</example>
     </rule>
     <rule>
       <pattern>
@@ -12942,6 +12965,35 @@ Para que o cérebro humano não detete que são simples imagens isoladas. → Pa
           <token regexp="yes">[\.!?]</token>
           <token regexp="yes" spacebefore='no'>”|»|&quot;</token>
       </antipattern>
+	  
+	<!-- 12 LIÇÕES UMA PARA CADA MÊS DO ANO 12 lições, uma para cada mês do ano -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-17 (1-JAN-2021+)      -->
+<!--
+Temos 12 lições, uma para cada mês do ano.
+Tenho 3 livros, um para cada vencedor.
+Quero 20 cromos, uns para mim e outros para oferecer.
+Quero vários cromos, uns para mim e outros para dar.
+-->	
+    <rule>
+      <pattern>
+		<token postag='Z0.+|DI.+' postag_regexp='yes'/>
+		<marker>
+			<token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+		</marker>
+		<token postag='PI.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='RG|V.+|DI0C[SPN]0|DD.+'/>
+		</token>
+<!--		<token regexp='yes'>umas?|um|uns</token> -->
+		<token postag='CC' postag_regexp='no'/>
+      </pattern>
+      <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\2,</suggestion>
+      <example correction="lições,">Temos 12 <marker>lições</marker> uma para cada mês do ano.</example>
+	  <example type='correct'>Temos 12 <marker>lições,</marker> uma para cada mês do ano.</example>
+	  <example type='correct'>Tenho 3 <marker>livros,</marker> um para cada vencedor.</example>
+	  <example type='correct'>Quero 20 <marker>cromos,</marker> uns para mim e outros para dar.</example>
+	  <example type='correct'>Quero vários <marker>cromos,</marker> uns para mim e outros para dar.</example>
+    </rule>
 	  
 	<!-- ALÉM DA PONTE FORAM Além da ponte, foram -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-22 (21-OCT-2020+)  *START*   -->
@@ -30805,6 +30857,19 @@ TODO Write better examples
           <token regexp="yes" spacebefore='no'>–|&hifen;</token>
           <token regexp="yes" spacebefore='no'>\d{2}|\d{4}</token>
       </antipattern>
+<!-- MARCOAGPINTO 2021-01-17 (1-JAN-2021+) *START* -->
+<!--
+V2021-01-17.
+ISBN 978-3-8321-7760-7.
+-->
+      <antipattern>
+		<token></token>  
+		<token spacebefore='no'>-</token>
+		<token spacebefore='no' postag='Z0.+' postag_regexp='yes'/>
+		<token spacebefore='no'>-</token>
+		<token spacebefore='no' postag='Z0.+' postag_regexp='yes'/>		
+      </antipattern>
+<!-- MARCOAGPINTO 2021-01-17 (1-JAN-2021+) *END* -->
       <pattern>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
           <token regexp="yes">—|&hifen;</token>
