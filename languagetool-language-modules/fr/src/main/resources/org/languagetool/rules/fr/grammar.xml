@@ -35063,12 +35063,12 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
-      <rule id= "RENUMERER_OU_REMUNERER" name="rénumérer ou rémunérer">
+      <rule id="RENUMERER_OU_REMUNERER" name="rénumérer ou rémunérer" default="temp_off">
           <pattern>
-              <token inflected="yes">rénumérer</token>
+              <token regexp="yes">rénum.*</token>
           </pattern>
-          <message>Une erreur d’orthographe semble être détectée. Voulez-vous écrire « <suggestion>rémunérer</suggestion> » ?</message>
-          <suggestion>rémunérer</suggestion>
+          <message>Une erreur d’orthographe semble être détectée.</message>
+          <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)num" regexp_replace="mun" case_conversion="preserve"/></suggestion>
           <example correction="rémunérer">Il faut <marker>rénumérer</marker> les ouvriers pour leur travail.</example>
       </rule>
       <rulegroup id="POUR_PAS_QUE" name="familier : pour (ne) pas que...">
