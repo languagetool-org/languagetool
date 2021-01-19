@@ -493,7 +493,7 @@ public class English extends Language implements AutoCloseable {
     return original -> {
       if (original.isDictionaryBasedSpellingRule() && original.getId().startsWith("MORFOLOGIK_RULE_EN")) {
         if (bert != null) {
-          return new BERTSuggestionRanking(original, bert, inputLogging);
+          return new BERTSuggestionRanking(this, original, bert, inputLogging);
         }
       }
       return fallback.apply(original);
@@ -506,10 +506,10 @@ public class English extends Language implements AutoCloseable {
       messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages, inputLogging));
 
     // no description needed - matches based on automatically created rules with descriptions provided by remote server
-    rules.addAll(GRPCRule.createAll(configs, inputLogging, "AI_EN_",
-      "INTERNAL - dynamically loaded rule supported by remote server"));
-    rules.addAll(GRPCRule.createAll(configs, inputLogging, "AI_HYDRA_LEO",
-      "INTERNAL - dynamically loaded rule supported by remote server"));
+    rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
+      "AI_EN_", "INTERNAL - dynamically loaded rule supported by remote server"));
+    rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
+      "AI_HYDRA_LEO", "INTERNAL - dynamically loaded rule supported by remote server"));
 
     return rules;
   }
