@@ -29,7 +29,6 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.regex.Pattern;
 
 /**
  * A part of a pattern, represents the 'token' element of the {@code grammar.xml}.
@@ -336,7 +335,7 @@ public class PatternToken implements Cloneable {
     if (tokenPos == null) {
       return false;
     }
-    return pos.posPattern != null ? pos.posPattern.matcher(tokenPos).matches() : pos.posTag.equals(tokenPos);
+    return pos.posPattern != null ? pos.posPattern.matches(tokenPos) : pos.posTag.equals(tokenPos);
   }
 
   private String getTestToken(AnalyzedToken token) {
@@ -761,15 +760,15 @@ public class PatternToken implements Cloneable {
 
     private final String posTag;
     private final boolean negation;
-    private final Pattern posPattern;
+    private final StringMatcher posPattern;
     private final boolean posUnknown;
 
     public PosToken(String posTag, boolean regExp, boolean negation) {
       this.posTag = posTag;
       this.negation = negation;
       if (regExp) {
-        posPattern = Pattern.compile(posTag);
-        posUnknown = posPattern.matcher(UNKNOWN_TAG).matches();
+        posPattern = StringMatcher.create(posTag, true, true);
+        posUnknown = posPattern.matches(UNKNOWN_TAG);
       } else {
         posPattern = null;
         posUnknown = UNKNOWN_TAG.equals(posTag);
