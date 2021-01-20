@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -45,11 +46,13 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
     List<String> replacements = new ArrayList<>();
     String wordFrom = getRequired("wordFrom", arguments);
     String desiredPostag = getRequired("desiredPostag", arguments);
+    String removeSuggestionsRegexp = getOptional("removeSuggestionsRegexp", arguments);
     // diacriticsMode: return only changes in diacritics. If there is none, the
     // match is removed.
     String mode = getOptional("Mode", arguments);
     boolean diacriticsMode = (mode != null) && mode.equals("diacritics");
     boolean generateSuggestions = true;
+    Pattern regexpPattern = null;
 
     if (wordFrom != null && desiredPostag != null) {
       int posWord = 0;
@@ -81,6 +84,9 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
       }
 
       if (generateSuggestions) {
+        if (removeSuggestionsRegexp != null) {
+          regexpPattern = Pattern.compile(removeSuggestionsRegexp, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);  
+        }
         AnalyzedTokenReadings[] auxPatternTokens = new AnalyzedTokenReadings[1];
         if (atrWord.isTagged()) {
           auxPatternTokens[0] = new AnalyzedTokenReadings(new AnalyzedToken(makeWrong(atrWord.getToken()), null, null));
@@ -100,7 +106,9 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
               if (!replacements.contains(analyzedSuggestion.getToken())
                   && !replacements.contains(analyzedSuggestion.getToken().toLowerCase())
                   && (!diacriticsMode || equalWithoutDiacritics(analyzedSuggestion.getToken(), atrWord.getToken()))) {
-                replacements.add(analyzedSuggestion.getToken());
+                if (regexpPattern == null || !regexpPattern.matcher(analyzedSuggestion.getToken()).matches()) {
+                  replacements.add(analyzedSuggestion.getToken());
+                }
               }
               if (replacements.size() >= MAX_SUGGESTIONS) {
                 break;

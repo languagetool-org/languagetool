@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.ca;
+package org.languagetool.rules.fr;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -24,21 +24,21 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.Catalan;
+import org.languagetool.language.French;
 import org.languagetool.rules.AbstractFindSuggestionsFilter;
 import org.languagetool.rules.Rule;
 import org.languagetool.tagging.Tagger;
-import org.languagetool.tagging.ca.CatalanTagger;
+import org.languagetool.tagging.fr.FrenchTagger;
 
 public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
-  private static final CatalanTagger tagger = new CatalanTagger(new Catalan());
-  private MorfologikCatalanSpellerRule morfologikRule;
+  private static final FrenchTagger tagger = new FrenchTagger();
+  private MorfologikFrenchSpellerRule morfologikRule;
   
   public FindSuggestionsFilter() throws IOException {
     ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE,
         new Locale("ca"));
-    morfologikRule = new MorfologikCatalanSpellerRule(messages, new Catalan(), null, Collections.emptyList());
+    morfologikRule = new MorfologikFrenchSpellerRule(messages, new French(), null, Collections.emptyList());
   }
 
   @Override
