@@ -18,7 +18,7 @@
  */
 package org.languagetool.server;
 
-import org.languagetool.Experimental;
+import org.languagetool.Tag;
 import org.languagetool.rules.RuleMatch;
 
 import java.util.Collections;
@@ -47,6 +47,7 @@ class RemoteRuleMatch {
   private String category;
   private String categoryId;
   private String locQualityIssueType;
+  private List<Tag> tags;
 
   RemoteRuleMatch(String ruleId, String msg, String context, int contextOffset, int offset, int errorLength) {
     this(ruleId, msg, context, contextOffset, offset, errorLength, 0);
@@ -139,6 +140,11 @@ class RemoteRuleMatch {
     return Optional.ofNullable(locQualityIssueType);
   }
 
+  /** @since 5.3 */
+  public List<Tag> getTags() {
+    return tags;
+  }
+
   //
   // non-public setters
   //
@@ -169,6 +175,10 @@ class RemoteRuleMatch {
 
   void setLocQualityIssueType(String locQualityIssueType) {
     this.locQualityIssueType = locQualityIssueType;
+  }
+
+  void setTags(List<Tag> tags) {
+    this.tags = tags;
   }
 
   int estimatedContextForSureMatch() {
