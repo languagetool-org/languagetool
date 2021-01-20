@@ -35467,6 +35467,21 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rule id="SE_DEMANDER_QU_EST_CE_QUE" name="se demander qu’est-ce que" type="style" default="temp_off">
+          <pattern>
+              <token postag="R pers obj.*" postag_regexp="yes"/>
+              <token inflected="yes">demander</token>
+              <marker>
+                  <token>qu'</token>
+                  <token>est</token>
+                  <token>-ce</token>
+                  <token regexp="yes">qu.*</token>
+              </marker>
+          </pattern>
+          <message>Cette expression est familière. Souhaitez-vous écrire les termes <suggestion>ce que</suggestion> employés dans le language courant.</message>
+          <example correction="ce que"> Je me demande <marker>qu'est-ce qu'</marker>il pense.</example>
+          <example correction="ce que"> Il faut se demander <marker>qu'est-ce que</marker> tu feras par la suite.</example>
+      </rule>
       <rule id= "CA_VA_MAL_SE_FINIR" name="ça va mal se finir" default="temp_off">
           <pattern>
               <token>ça</token>
