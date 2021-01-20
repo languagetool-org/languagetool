@@ -35467,6 +35467,37 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rulegroup id="ARGOT_BEAUF_ET_BOF" name="argot beauf et bof" default="temp_off">
+          <rule>
+              <pattern case_sensitive="yes">
+                  <marker>
+                      <token regexp="yes">bof</token>
+                  </marker>
+              </pattern>
+              <message> Ce terme est une expression considérée comme familière. Souhaitez-vous la remplacer par le terme <suggestion>moyen</suggestion> employé dans le langage courant ?</message>
+              <example correction="moyen">C'est <marker>bof</marker> !</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>mon</token>
+                  <marker>
+                      <token regexp="yes">bof|beauf|bauf</token>
+                  </marker>
+              </pattern>
+              <message> Ce terme est une contraction considérée comme familière. Souhaitez-vous le remplacer par le terme <suggestion>beau-frère</suggestion> employé dans le langage courant ?</message>
+              <example correction="beau-frère"> Si tu veux tout savoir, c'est mon <marker>beauf</marker> !</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>un</token>
+                      <token>beauf</token>
+                  </marker>
+              </pattern>
+              <message> Cette expression est considérée comme familière. Souhaitez-vous la remplacer par l'expression <suggestion>une personne obtuse</suggestion> employée dans le langage courant ?</message>
+              <example correction="une personne obtuse"> Si tu veux tout savoir, c'est <marker>un beauf</marker> !</example>
+          </rule>
+      </rulegroup>
       <rule id= "CA_VA_MAL_SE_FINIR" name="ça va mal se finir" default="temp_off">
           <pattern>
               <token>ça</token>
