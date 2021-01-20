@@ -9487,7 +9487,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Она сидит и кормит ребёнка.</example>
             <example correction="кормит">Она сидит и <marker>кормить</marker> ребёнка.</example>
         </rule>
-        <rule default="temp_off" id="Verb_3P_and_inf_2" name="Правописание «-т» и «-ть» в глаголах – однородных членах предложения 2">
+        <rulegroup default="on" id="Verb_3P_and_inf_2" name="Правописание «-т» и «-ть» в глаголах – однородных членах предложения 2">
+          <rule>
             <pattern>
                 <!--     VB:.* (-т) и    VB:INF: (-ть)      -->
                 <token regexp="yes">должны|хотите|можете</token>
@@ -9501,10 +9502,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Оба глагола должны быть в неопределённой форме</short>
             <example>Вы должны прочитать и согласиться с правилами.</example>
             <example correction="прочитать и согласиться">Вы должны <marker>прочитать и согласится</marker> с правилами.</example>
-        </rule>
-        
-        
-        
+          </rule>
+          <rule>
+            <pattern>
+                <!--     VB:.* (-т) и    VB:INF: (-ть)      -->
+                <token regexp="yes">должны|хотите|можете</token>
+                <marker>
+                    <token postag_regexp="yes"  postag="VB:.*:Sin:P3" ><exception postag_regexp="yes"  postag="VB:INF:.*"></exception></token>
+                    <token regexp="yes">и|или</token>
+                    <token postag="VB:INF:.*" postag_regexp="yes"><exception postag_regexp="yes"  postag="VB:.*:Sin:P3"></exception></token>
+                </marker>                
+            </pattern>
+            <message>Оба глагола должны быть в неопределённой форме. <suggestion><match no="2" postag_regexp="yes" postag="VB:(.*):(.*):(.*):Sin:P3"  postag_replace="VB:INF:$2:$3"></match> <match no="3"/> <match no="4"/></suggestion></message>
+            <short>Оба глагола должны быть в неопределённой форме</short>
+            <example>Вы должны прочитать и согласиться с правилами.</example>
+            <example correction="согласиться и прочитать">Вы должны <marker>согласится и прочитать</marker> правила.</example>
+          </rule>
+        </rulegroup>        
         <rule default="on" id="PREP_and_DPT" name="Деепричастие и предлог">
             <pattern case_sensitive="no">
                 <!--              PREP :.*    -->
