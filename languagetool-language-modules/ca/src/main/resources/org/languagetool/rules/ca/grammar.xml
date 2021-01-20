@@ -36118,7 +36118,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
-        <rulegroup name="*pel que / i per això, per la qual cosa" id="PEL_QUE" default="temp_off">
+        <rulegroup id="PEL_QUE" name="*pel que / i per això, per la qual cosa">
+            <rule>
+                <pattern>
+                    <token skip="12">decret</token>
+                    <marker>
+                        <token>pe</token>
+                        <token>l</token>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Construcció incorrecta si equival a <suggestion>pel qual</suggestion></message>
+                <example correction="pel qual">Reial Decret Legislatiu 1/2007, de 16 de novembre, <marker>pel que</marker> s'aprova el text refós</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token>pe</token>
@@ -36146,18 +36158,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>pe</token>
                     <token>l</token>
-                    <token>que</token>
-                    <token min="0" postag="&pronom_feble;" postag_regexp="yes"/>
+                    <token skip="4">que</token>
                     <token postag="V.[IS].*" postag_regexp="yes"/>
+                    <token min="0" max="3" postag="R.|P.*|LOC_ADV" postag_regexp="yes"/>
                     <token postag="_PUNCT.*|CC" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token>pe</token>
                     <token>l</token>
-                    <token>que</token>
-                    <token min="0" postag="&pronom_feble;" postag_regexp="yes"/>
-                    <token regexp="yes" inflected="yes">haver|anar</token>
-                    <token postag="V.[NP].*" postag_regexp="yes"/>
+                    <token skip="6">que</token>
+                    <token postag="V.[NG].*" postag_regexp="yes"/>
+                    <token min="0" max="3" postag="R.|P.*|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="_PUNCT.*|CC" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>pe</token>
+                    <token>l</token>
+                    <token skip="6">que</token>
+                    <token postag="V.P.*" postag_regexp="yes"/>
+                    <token min="0" max="3" postag="R.|P.*|LOC_ADV" postag_regexp="yes"/>
                     <token postag="_PUNCT.*|CC" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
@@ -36171,7 +36190,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>pe</token>
                     <token>l</token>
                     <token>que</token>
-                    <token regexp="yes">sembla|pareix|semblava|pareixia</token>
+                    <token regexp="yes" inflected="yes">semblar|parèixer</token>
+                </antipattern>
+                <antipattern>
+                    <token>pe</token>
+                    <token>l</token>
+                    <token skip="4">que</token>
+                    <token inflected="yes" regexp="yes">dir|comentar|expressar|manifestar|veure|saber|informar|llegir|referir|derivar|concernir|referència</token>
+                </antipattern>
+                <antipattern>
+                    <token>pe</token>
+                    <token>l</token>
+                    <token skip="30">que</token>
+                    <token>,</token>
+                    <token>pe</token>
+                    <token>l</token>
+                    <token>que</token>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token>pe</token>
+                    <token>l</token>
+                    <token skip="3">que</token>
+                    <token postag="V.S.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">[,;]</token>
@@ -36183,15 +36224,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Expressió incorrecta si equival a <suggestion>i per això</suggestion>.</message>
                 <suggestion>per la qual cosa</suggestion>
-                <example correction="i per això|per la qual cosa">Està permès, <marker>pel que</marker> es pot fer.</example>
+                <example correction="i per això|per la qual cosa">Està permès, <marker>pel que</marker> es pot fer aquesta interpretació.</example>
                 <example>Interessen pel que eren, pel que són.</example>
                 <example>És aquesta la qüestió, pel que sembla.</example>
                 <example>És aquesta la qüestió, pel que fa a economia.</example>
                 <example>No és així, pel que s'ha dit.</example>
                 <example>No és així, pel que es va dir.</example>
+                <example>on, pel que ja s'ha informat, s'haurien pogut fer</example>
+                <example>Mai no s'ha deixat acovardir per la novetat, pel que ha hagut d'emprendre.</example>
+                <example>hi sou a temps, pel que més vulgueu i estimeu</example>
+                <example>No vingueu, pel que pogués ser.</example>
+                <example>No és així, pel que jo sé.</example>
+                <example>No és així, pel que m'ha semblat entendre.</example>
+                <example>No és així, pel que em diuen els qui n'estan al cas.</example>
+                <example>Era això pel que varen morir tantes flors, pel que vàrem plorar tants anhels.</example>
+                <example>Ací estic, pel que calgui</example>
+                <example>Estic espantat, pel que pugui passar demà.</example>
+                <example>Quasi total, pel que hom sap actualment,</example>
+                <example>Això no obstant, pel que hom ha vist, cal suposar que sí.</example>
+                <!-- ambiguous: , pel que es deduïa -->
             </rule>
         </rulegroup>
-        <rulegroup id="DONAR_AL" name="*donar al botó" default="temp_off">
+        <rulegroup id="DONAR_AL" name="*donar al botó">
             <rule>
                 <pattern>
                     <marker>
