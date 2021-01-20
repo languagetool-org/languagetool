@@ -203,9 +203,12 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" ward") &&
                    !k.getReplacement().endsWith(" ting") && // someting
                    !k.getReplacement().endsWith(" ion") && // presention
+                   !k.getReplacement().endsWith(" ions") && // sealions
                    !k.getReplacement().endsWith(" cal") &&
                    !k.getReplacement().endsWith(" ted") && // "bursted"
                    !k.getReplacement().endsWith(" sphere") &&
+                   !k.getReplacement().endsWith(" con") &&
+                   !k.getReplacement().endsWith(" sis") &&
                    !k.getReplacement().endsWith(" like") && // "ribbonlike"
                    !k.getReplacement().endsWith(" full") && // do not suggest "use full" for "useful"
                    !k.getReplacement().endsWith(" en") && // "Antwerpen" suggests "Antwerp en"
