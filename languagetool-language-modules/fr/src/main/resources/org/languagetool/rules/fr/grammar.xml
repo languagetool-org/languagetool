@@ -10069,6 +10069,54 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
+      <rulegroup id="QUELLE_QUE" name="quelle que" default="temp_off">
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>qu'</token>
+                      <token>elle</token>
+                  </marker>
+                  <token regexp="yes">que|qu'</token>
+              </pattern>
+              <message>Dans cette phrase, "qu'elles" est une erreur grammaticale. Souhaitez-vous écrire <suggestion>quelle</suggestion> ?</message>
+              <example correction="quelle">Il le fera <marker>qu'elle</marker> que soit sa situation. </example>
+              <example correction="quelle">Il le fera <marker>qu'elle</marker> qu'en soit la raison. </example>
+          </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>qu'</token>
+                      <token>elles</token>
+                  </marker>
+                  <token regexp="yes">que|qu'</token>
+              </pattern>
+              <message>Dans cette phrase, "qu'elles" est une erreur grammaticale. Souhaitez-vous écrire <suggestion>quelles</suggestion> ?</message>
+              <example correction="quelles">Il le fera <marker>qu'elles</marker> qu'en soient les conséquences. </example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>quelle</token>
+                  <marker>
+                      <token>quelle</token>
+                  </marker>
+                  <token regexp="yes">soit</token>
+              </pattern>
+              <message>Une erreur de pronom semble être détectée. Souhaitez-vous écrire <suggestion>qu'elle</suggestion> ?</message>
+              <example correction="qu'elle">Donne-moi ta carte, quelle <marker>quelle</marker> soit. </example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>quelles</token>
+                  <marker>
+                      <token>quelles</token>
+                  </marker>
+                  <token regexp="yes">soient</token>
+              </pattern>
+              <message>Une erreur de pronom semble être détectée. Souhaitez-vous écrire <suggestion>qu'elles</suggestion> ?</message>
+              <suggestion>qu'elles</suggestion>
+              <example correction="qu'elles">Donne-moi tes billes, quelles <marker>quelles</marker> soient.</example>
+          </rule>
+      </rulegroup>
     <rule id="LA_OU_LES_PLUS" name="la ou les plus" default="temp_off">
       <pattern>
         <token postag="V.*" postag_regexp="yes"/>
