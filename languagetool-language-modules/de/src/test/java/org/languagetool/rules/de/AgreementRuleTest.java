@@ -487,6 +487,17 @@ public class AgreementRuleTest {
   }
 
   @Test
+  public void testZurReplacement() throws IOException {
+    assertBad("Hier geht's zur Schrank.", "zum Schrank");
+    assertBad("Hier geht's zur Schränken.", "zum Schränken", "zu den Schränken");
+    assertBad("Hier geht's zur Männern.", "zu den Männern");
+    assertBad("Hier geht's zur Portal.", "zum Portal");
+    assertBad("Hier geht's zur Portalen.", "zu den Portalen");
+    assertGood("Hier geht's zur Sonne.");
+    assertGood("Hier geht's zum Schrank.");
+  }
+
+  @Test
   public void testVieleWenige() throws IOException {
     assertGood("Zusammenschluss mehrerer dörflicher Siedlungen an einer Furt");
     assertGood("Für einige markante Szenen");
