@@ -35467,7 +35467,17 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
-      <rule id= "CA_VA_MAL_SE_FINIR" name="ça va mal se finir" default="temp_off">
+      <rule id="IN_EXTREMISTE" name="In extremiste" default="temp_off">
+         <pattern>
+          <token>in</token>
+          <marker>
+              <token regexp="yes">extremiste|extrémiste</token>
+          </marker>
+      </pattern>
+      <message>Une erreur d'orhtographe a été détectée dans cette expression. Souhaitez-vous écrire in <suggestion>extremis</suggestion> ?</message>
+      <example correction="extremis">Nous avons évité la catastrophe in <marker>extremiste</marker>.</example>
+  </rule>
+    <rule id= "CA_VA_MAL_SE_FINIR" name="ça va mal se finir" default="temp_off">
           <pattern>
               <token>ça</token>
               <token>va</token>
