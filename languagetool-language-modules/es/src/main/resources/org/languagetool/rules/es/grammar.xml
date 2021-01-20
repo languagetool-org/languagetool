@@ -15719,7 +15719,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="A..CS." postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token postag="DD.FS.|A..[FC]S.|SPS00|LOC_PREP" postag_regexp="yes"><exception postag="_GN_.S" postag_regexp="yes"></exception></token>
+                    <token postag="DD.FS.|A..[FC]S.|SPS00|LOC_PREP" postag_regexp="yes"><exception postag="_GN_.S" postag_regexp="yes"/></token>
                     <marker>
                         <token>ves</token>
                     </marker>
@@ -18542,6 +18542,57 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="2014">Es de <marker>20014</marker>.</example>
             <example>Es del 2015.</example>
         </rule>
+        <rulegroup id="DATE_NEW_YEAR" name="Año nuevo" default="temp_off">
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token regexp="yes">aC|dC</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token regexp="yes">a|d</token>
+                <token>.</token>
+                <token>C</token>
+            </antipattern>
+            <antipattern>
+                <token skip="4" regexp="yes">de|desde</token>
+                <token skip="4" regexp="yes">2019|19</token>
+                <token skip="4" regexp="yes">a|hasta</token>
+                <token skip="4" regexp="yes">2020|20</token>
+            </antipattern>
+            <antipattern>
+                <token skip="4" regexp="yes">de|desde</token>
+                <token skip="4" regexp="yes">2020|20</token>
+                <token skip="4" regexp="yes">a|hasta</token>
+                <token skip="4" regexp="yes">2021|21</token>
+            </antipattern>
+            <antipattern>
+                <token skip="4" regexp="yes">de|desde</token>
+                <token skip="4" regexp="yes">2021|21</token>
+                <token skip="4" regexp="yes">a|hasta</token>
+                <token skip="4" regexp="yes">2022|22</token>
+            </antipattern>
+            <antipattern>
+                <token skip="4">desde</token>
+                <token skip="2" regexp="yes">&meses_ano;|06|07|08|09|10|11|12</token>
+                <token regexp="yes">20\d{2}</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d\d?</token>
+                    <token min="0" regexp="yes">de|\-|/</token>
+                    <token regexp="yes">&meses_ano;|&meses_ano_abrv;|\d\d?</token>
+                    <token regexp="yes" min="0" max="3">de|del|,|año|\-|/</token>
+                    <marker>
+                        <token regexp="yes">\d\d\d\d</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.NewYearDateFilter" args="year:\5 month:\3 day:\1"/>
+                <message>Ha empezado un año nuevo. ¿Quería decir <suggestion>{realYear}</suggestion>?</message>
+                <example correction="2014">7 de octubre de <marker>2013</marker></example>
+                <example correction="2014">7 oct de <marker>2013</marker></example>
+                <example correction="2014">7-10-<marker>2013</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DATE_WEEKDAY" name="Fecha incorrecta">
             <rule>
                 <pattern>
