@@ -95,35 +95,34 @@ public class FindSuggestionsFilter extends RuleFilter {
       }
 
       if (generateSuggestions) {
-        synchronized (this) {
-          if (removeSuggestionsRegexp != null) {
-            regexpPattern = Pattern.compile(removeSuggestionsRegexp, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-          }
-          String wordToCheck = atrWord.getToken();
-          if (atrWord.isTagged()) {
-            wordToCheck = makeWrong(atrWord.getToken());
-          }
-          List<String> suggestions = speller.findReplacements(wordToCheck);
-          if (suggestions.size() > 0) {
-            // TODO: do not tag capitalized words with tags for lower case
-            List<AnalyzedTokenReadings> analyzedSuggestions = tagger.tag(suggestions);
-            for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
-              if (!analyzedSuggestion.getToken().equals(atrWord.getToken())
-                  && analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {
-                if (!replacements.contains(analyzedSuggestion.getToken())
-                    && !replacements.contains(analyzedSuggestion.getToken().toLowerCase())
-                    && (!diacriticsMode || equalWithoutDiacritics(analyzedSuggestion.getToken(), atrWord.getToken()))) {
-                  if (regexpPattern == null || !regexpPattern.matcher(analyzedSuggestion.getToken()).matches()) {
-                    replacements.add(analyzedSuggestion.getToken());
-                  }
+        if (removeSuggestionsRegexp != null) {
+          regexpPattern = Pattern.compile(removeSuggestionsRegexp, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+        }
+        String wordToCheck = atrWord.getToken();
+        if (atrWord.isTagged()) {
+          wordToCheck = makeWrong(atrWord.getToken());
+        }
+        List<String> suggestions = speller.findReplacements(wordToCheck);
+        if (suggestions.size() > 0) {
+          // TODO: do not tag capitalized words with tags for lower case
+          List<AnalyzedTokenReadings> analyzedSuggestions = tagger.tag(suggestions);
+          for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
+            if (!analyzedSuggestion.getToken().equals(atrWord.getToken())
+                && analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {
+              if (!replacements.contains(analyzedSuggestion.getToken())
+                  && !replacements.contains(analyzedSuggestion.getToken().toLowerCase())
+                  && (!diacriticsMode || equalWithoutDiacritics(analyzedSuggestion.getToken(), atrWord.getToken()))) {
+                if (regexpPattern == null || !regexpPattern.matcher(analyzedSuggestion.getToken()).matches()) {
+                  replacements.add(analyzedSuggestion.getToken());
                 }
-                if (replacements.size() >= MAX_SUGGESTIONS) {
-                  break;
-                }
+              }
+              if (replacements.size() >= MAX_SUGGESTIONS) {
+                break;
               }
             }
           }
         }
+
       }
     }
 
