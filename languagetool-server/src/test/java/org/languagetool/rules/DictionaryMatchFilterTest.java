@@ -24,6 +24,7 @@ package org.languagetool.rules;
 import com.google.common.collect.Sets;
 import org.junit.Test;
 import org.languagetool.*;
+import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
 
 import java.io.IOException;
 import java.util.*;
@@ -67,6 +68,7 @@ public class DictionaryMatchFilterTest {
     UserConfig config = new UserConfig(new ArrayList<>(dictionary));
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("en-US"), null, config);
     Rule testRule = new ForbiddenWordsRule(forbidden);
+    TestTools.disableAllRulesExcept(lt, testRule.getId(), MorfologikAmericanSpellerRule.RULE_ID);
     lt.addRule(testRule);
     lt.enableRule(testRule.getId());
     if (addFilter) {

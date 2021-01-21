@@ -195,11 +195,13 @@ public final class TestTools {
     return noWhitespaceTokens;
   }
 
-  public static void disableAllRulesExcept(JLanguageTool lt, String ruleIdToActivate) {
+  public static void disableAllRulesExcept(JLanguageTool lt, String... ruleIdsToActivate) {
     for (Rule rule : lt.getAllRules()) {
       lt.disableRule(rule.getId());
     }
-    lt.enableRule(ruleIdToActivate);
+    for (String id : ruleIdsToActivate) {
+      lt.enableRule(id);
+    }
   }
 
 }
