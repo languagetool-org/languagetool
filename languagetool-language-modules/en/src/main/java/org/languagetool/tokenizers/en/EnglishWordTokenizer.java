@@ -109,7 +109,7 @@ public class EnglishWordTokenizer extends WordTokenizer {
     return joinEMailsAndUrls(l);
   }
 
-  /* Splits a word containing hyphen(-) if it doesn't exist in the dictionary. */
+  /* Splits a word containing hyphen(-’') if it doesn't exist in the dictionary. */
   private List<String> wordsToAdd(String s) {
     final List<String> l = new ArrayList<>();
     synchronized (this) { // speller is not thread-safe
@@ -129,6 +129,7 @@ public class EnglishWordTokenizer extends WordTokenizer {
           } else {
             // if not found, the word is split
             final StringTokenizer st2 = new StringTokenizer(s, "-’'", true);
+            //final StringTokenizer st2 = new StringTokenizer(s, "’'", true);
             while (st2.hasMoreElements()) {
               l.add(st2.nextToken());
             }
