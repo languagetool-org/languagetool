@@ -36208,11 +36208,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>l</token>
                     <token>que</token>
                 </antipattern>
-               <antipattern>
+                <antipattern>
                     <token>,</token>
                     <token>pe</token>
                     <token>l</token>
-                   <token skip="3">que<exception scope="next" postag="V.I.*" postag_regexp="yes"/></token>
+                    <token skip="3">que<exception scope="next" postag="V.I.*" postag_regexp="yes"/></token>
                     <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*" postag_regexp="yes"/></token>
                 </antipattern>
                 <pattern>
@@ -59959,7 +59959,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="N'era un clar exemple|Un clar exemple era"><marker>Un clar exemple n'era</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="COMA_SUBJECTE_PREDICAT" name="coma innecessària entre subjecte i predicat">
+        <rulegroup id="COMA_SUBJECTE_PREDICAT" name="coma innecessària entre subjecte i predicat">
+            <url>http://www.ccma.cat/llibredestil/manual-dus/coma</url>
             <antipattern>
                 <marker>
                     <token>és</token>
@@ -60010,37 +60011,71 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V....P.." postag_regexp="yes"/>
                 </marker>
             </antipattern>
-            <pattern>
-                <token postag="SENT_START"/>
-                <!--convé separar el cas de Nom sol-->
-                <marker>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <!--convé separar el cas de Nom sol-->
                     <token postag="D[DAI].*" postag_regexp="yes"/>
                     <token max="4" postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|diada|col?p|volta|vegada|pic</exception></token>
-                    <token>,</token>
-                    <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"/>
+                    <marker>
+                        <token>,</token>
+                        <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_nompropi|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Probablement sobra la coma entre subjecte i predicat.</message>
+                <suggestion> \5</suggestion>
+                <example correction=" va">El Joan<marker>, va</marker> cap a casa.</example>
+                <example correction=" és">Aquesta discussió bizantina<marker>, és</marker> sempre present aquí.</example>
+                <example>El 1918, van partir cap al sud.</example>
+                <example>Joan, vine cap ací.</example>
+                <example>La primavera anterior, havia estat a Venècia.</example>
+                <example>Menja menjar ràpid, mor de seguida.</example>
+                <example>Aquest paisatge, ric en or, és espectacular.</example>
+                <example>George, t'he de dir una cosa.</example>
+                <example>Els altres, veniu amb mi.</example>
+                <example>Aquest mètode, és prou segur?</example>
+                <example>L'objectiu, diu, és salvar vides.</example>
+                <example>L'objectiu, ens diu, és salvar vides.</example>
+                <example>L'objectiu, ens ha dit, és salvar vides.</example>
+                <example>L'objectiu, ens va dir, és salvar vides.</example>
+                <example>L'aplicació, activa des de l'octubre</example>
+                <example>Els peixos marins, va xiuxiuejar.</example>
+                <!--<example type="trigers_error">Aquesta sang, baixa en oxigen,</example>-->
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <!--convé separar el cas de Nom sol-->
+                    <token postag="D[DAI].*" postag_regexp="yes"/>
+                    <token max="4" postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|diada|col?p|volta|vegada|pic</exception></token>
+                    <marker>
+                        <token>,</token>
+                        <token postag="&pronom_feble;|RN" postag_regexp="yes"/>
+                    </marker>
+                    <token min="0" max="2" postag="&pronom_feble;|RN" postag_regexp="yes"/>
                     <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_nompropi|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <message>Probablement sobra la coma entre subjecte i predicat.</message>
-            <url>http://www.ccma.cat/llibredestil/manual-dus/coma</url>
-            <example correction=""><marker>El Joan, va</marker> cap a casa.</example>
-            <example correction=""><marker>Aquesta discussió bizantina, hi és</marker> sempre present.</example>
-            <example>El 1918, van partir cap al sud.</example>
-            <example>Joan, vine cap ací.</example>
-            <example>La primavera anterior, havia estat a Venècia.</example>
-            <example>Menja menjar ràpid, mor de seguida.</example>
-            <example>Aquest paisatge, ric en or, és espectacular.</example>
-            <example>George, t'he de dir una cosa.</example>
-            <example>Els altres, veniu amb mi.</example>
-            <example>Aquest mètode, és prou segur?</example>
-            <example>L'objectiu, diu, és salvar vides.</example>
-            <example>L'objectiu, ens diu, és salvar vides.</example>
-            <example>L'objectiu, ens ha dit, és salvar vides.</example>
-            <example>L'objectiu, ens va dir, és salvar vides.</example>
-            <example>L'aplicació, activa des de l'octubre</example>
-            <example>Els peixos marins, va xiuxiuejar.</example>
-            <!--<example type="trigers_error">Aquesta sang, baixa en oxigen,</example>-->
-        </rule>
+                </pattern>
+                <message>Probablement sobra la coma entre subjecte i predicat.</message>
+                <suggestion> \5</suggestion>
+                <example correction=" se">El Joan<marker>, se</marker>'n va cap a casa.</example>
+                <example correction=" hi">Aquesta discussió bizantina<marker>, hi</marker> és sempre present.</example>
+                <example>El 1918, van partir cap al sud.</example>
+                <example>Joan, vine cap ací.</example>
+                <example>La primavera anterior, havia estat a Venècia.</example>
+                <example>Menja menjar ràpid, mor de seguida.</example>
+                <example>Aquest paisatge, ric en or, és espectacular.</example>
+                <example>George, t'he de dir una cosa.</example>
+                <example>Els altres, veniu amb mi.</example>
+                <example>Aquest mètode, és prou segur?</example>
+                <example>L'objectiu, diu, és salvar vides.</example>
+                <example>L'objectiu, ens diu, és salvar vides.</example>
+                <example>L'objectiu, ens ha dit, és salvar vides.</example>
+                <example>L'objectiu, ens va dir, és salvar vides.</example>
+                <example>L'aplicació, activa des de l'octubre</example>
+                <example>Els peixos marins, va xiuxiuejar.</example>
+                <!--<example type="trigers_error">Aquesta sang, baixa en oxigen,</example>-->
+            </rule>
+        </rulegroup>
         <rule id="DE_MANERA_PERMANENTMENT" name="confusió: de manera permanentment">
             <antipattern>
                 <marker>
