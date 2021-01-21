@@ -42,8 +42,8 @@ import org.languagetool.rules.Category.Location;
  * @since 5.3
  */
 public abstract class AbstractStatisticStyleRule extends TextLevelRule {
-  private static final Pattern OPENING_QUOTES = Pattern.compile("[\"“„”»«]");
-  private static final Pattern ENDING_QUOTES = Pattern.compile("[\"“»«]");
+  private static final Pattern OPENING_QUOTES = Pattern.compile("[\"“„»«]");
+  private static final Pattern ENDING_QUOTES = Pattern.compile("[\"“”»«]");
   private static final boolean DEFAULT_ACTIVATION = false;
 
   private final int minPercent;
@@ -153,9 +153,9 @@ public abstract class AbstractStatisticStyleRule extends TextLevelRule {
       for (int n = 1; n < tokens.length; n++) {
         AnalyzedTokenReadings token = tokens[n];
         String sToken = token.getToken();
-        if (excludeDirectSpeech && OPENING_QUOTES.matcher(sToken).matches() && n < tokens.length - 1 && !tokens[n + 1].isWhitespaceBefore()) {
+        if (excludeDirectSpeech && !isDirectSpeech && OPENING_QUOTES.matcher(sToken).matches() && n < tokens.length - 1 && !tokens[n + 1].isWhitespaceBefore()) {
           isDirectSpeech = true;
-        } else if (excludeDirectSpeech && ENDING_QUOTES.matcher(sToken).matches() && n > 1 && !tokens[n].isWhitespaceBefore()) {
+        } else if (excludeDirectSpeech && isDirectSpeech && ENDING_QUOTES.matcher(sToken).matches() && n > 1 && !tokens[n].isWhitespaceBefore()) {
           isDirectSpeech = false;
         } else if ((!isDirectSpeech || minPercent == 0) && !token.isWhitespace() && !token.isNonWord()) {
           wordCount++;

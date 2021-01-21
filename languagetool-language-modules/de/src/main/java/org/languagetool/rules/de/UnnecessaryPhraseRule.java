@@ -24,6 +24,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.AbstractStatisticStyleRule;
+import org.languagetool.rules.Example;
 
 /**
  * A rule that gives Hints about the use of German phrases.
@@ -37,7 +38,7 @@ public class UnnecessaryPhraseRule extends AbstractStatisticStyleRule {
   
   private static final int DEFAULT_MIN_PER_MILL = 8;
 
-  private static final String[][] unnecessaryPhrases = { new String[] { "dann", "wann" },
+  private static final String[][] unnecessaryPhrases = { new String[] { "dann", "und", "wann" },
                                                        new String[] { "des", "Ungeachtet" },
                                                        new String[] { "ganz", "und", "gar" },
                                                        new String[] { "hie", "und","da" },
@@ -63,6 +64,8 @@ public class UnnecessaryPhraseRule extends AbstractStatisticStyleRule {
   
   public UnnecessaryPhraseRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
     super(messages, lang, userConfig, DEFAULT_MIN_PER_MILL);
+    addExamplePair(Example.wrong("Das ist <marker>allem Anschein nach</marker> eine Phrase."),
+        Example.fixed("Das ist eine Phrase."));
   }
 
   /**
@@ -76,9 +79,9 @@ public class UnnecessaryPhraseRule extends AbstractStatisticStyleRule {
   /**
    * changes first char to upper as sentence begin
    */
-  private static String firstCharToUpper(AnalyzedTokenReadings[] tokens, int nToken) {
+  private static String firstCharToLower(AnalyzedTokenReadings[] tokens, int nToken) {
     String token = tokens[nToken].getToken();
-    return (nToken != 1 || token.length() < 2) ? token : Character.toUpperCase(token.charAt(0)) + token.substring(1);
+    return ((nToken != 1 || token.length() < 2) ? token : token.substring(0, 1).toLowerCase() + token.substring(1));
   }
   
   @Override
@@ -86,7 +89,7 @@ public class UnnecessaryPhraseRule extends AbstractStatisticStyleRule {
     for (int i = 0; i < unnecessaryPhrases.length; i++) {
       int j;
       for (j = 0; j < unnecessaryPhrases[i].length && nAnalysedToken + j < tokens.length && 
-          unnecessaryPhrases[i][j].equals(firstCharToUpper(tokens, nAnalysedToken + j)); j++);
+          unnecessaryPhrases[i][j].equals(firstCharToLower(tokens, nAnalysedToken + j)); j++);
       if (j == unnecessaryPhrases[i].length) {
         return nAnalysedToken + unnecessaryPhrases[i].length - 1;
       }
