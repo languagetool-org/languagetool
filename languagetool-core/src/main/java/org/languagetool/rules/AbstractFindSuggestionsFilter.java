@@ -84,34 +84,37 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
       }
 
       if (generateSuggestions) {
-        if (removeSuggestionsRegexp != null) {
-          regexpPattern = Pattern.compile(removeSuggestionsRegexp, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);  
-        }
-        AnalyzedTokenReadings[] auxPatternTokens = new AnalyzedTokenReadings[1];
-        if (atrWord.isTagged()) {
-          auxPatternTokens[0] = new AnalyzedTokenReadings(new AnalyzedToken(makeWrong(atrWord.getToken()), null, null));
-        } else {
-          auxPatternTokens[0] = atrWord;
-        }
-        AnalyzedSentence sentence = new AnalyzedSentence(auxPatternTokens);
-        RuleMatch[] matches = getSpellerRule().match(sentence);
+        synchronized (this) {
+          if (removeSuggestionsRegexp != null) {
+            regexpPattern = Pattern.compile(removeSuggestionsRegexp, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+          }
+          AnalyzedTokenReadings[] auxPatternTokens = new AnalyzedTokenReadings[1];
+          if (atrWord.isTagged()) {
+            auxPatternTokens[0] = new AnalyzedTokenReadings(
+                new AnalyzedToken(makeWrong(atrWord.getToken()), null, null));
+          } else {
+            auxPatternTokens[0] = atrWord;
+          }
+          AnalyzedSentence sentence = new AnalyzedSentence(auxPatternTokens);
+          RuleMatch[] matches = getSpellerRule().match(sentence);
 
-        if (matches.length > 0) {
-          List<String> suggestions = matches[0].getSuggestedReplacements();
-          // TODO: do not tag capitalized words with tags for lower case
-          List<AnalyzedTokenReadings> analyzedSuggestions = getTagger().tag(suggestions);
-          for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
-            if (!analyzedSuggestion.getToken().equals(atrWord.getToken())
-                && analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {
-              if (!replacements.contains(analyzedSuggestion.getToken())
-                  && !replacements.contains(analyzedSuggestion.getToken().toLowerCase())
-                  && (!diacriticsMode || equalWithoutDiacritics(analyzedSuggestion.getToken(), atrWord.getToken()))) {
-                if (regexpPattern == null || !regexpPattern.matcher(analyzedSuggestion.getToken()).matches()) {
-                  replacements.add(analyzedSuggestion.getToken());
+          if (matches.length > 0) {
+            List<String> suggestions = matches[0].getSuggestedReplacements();
+            // TODO: do not tag capitalized words with tags for lower case
+            List<AnalyzedTokenReadings> analyzedSuggestions = getTagger().tag(suggestions);
+            for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
+              if (!analyzedSuggestion.getToken().equals(atrWord.getToken())
+                  && analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {
+                if (!replacements.contains(analyzedSuggestion.getToken())
+                    && !replacements.contains(analyzedSuggestion.getToken().toLowerCase())
+                    && (!diacriticsMode || equalWithoutDiacritics(analyzedSuggestion.getToken(), atrWord.getToken()))) {
+                  if (regexpPattern == null || !regexpPattern.matcher(analyzedSuggestion.getToken()).matches()) {
+                    replacements.add(analyzedSuggestion.getToken());
+                  }
                 }
-              }
-              if (replacements.size() >= MAX_SUGGESTIONS) {
-                break;
+                if (replacements.size() >= MAX_SUGGESTIONS) {
+                  break;
+                }
               }
             }
           }

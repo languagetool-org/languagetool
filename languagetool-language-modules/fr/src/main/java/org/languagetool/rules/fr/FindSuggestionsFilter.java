@@ -37,7 +37,7 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
   
   public FindSuggestionsFilter() throws IOException {
     ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE,
-        new Locale("ca"));
+        new Locale("fr"));
     morfologikRule = new MorfologikFrenchSpellerRule(messages, new French(), null, Collections.emptyList());
   }
 
