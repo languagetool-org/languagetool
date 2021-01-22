@@ -2008,7 +2008,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">It happened during his sleep.</example>
     </rule>
 
-    <rule id="CD_TIMES" name="times as connective">
+    <!-- <rule id="CD_TIMES" name="times as connective">
       <pattern>
         <token postag="CD"/>
         <marker><token>times</token></marker>
@@ -2017,7 +2017,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <disambig action="replace"><wd pos="CC" lemma="times"/></disambig>
       <example type="ambiguous" inputform="times[time/NNS,time/VBZ,times/CC]" outputform="times[times/CC]">4 <marker>times</marker> eleven equals 34.</example>
       <example type="untouched">These are hard times.</example>
-    </rule>
+    </rule> -->
 
     <rule id="DT_TIMES_NNS" name="times/addresses as noun pl">
       <antipattern><!-- ... but neither times the flies accurately. Refer to DT_TIMES_VBZ -->
@@ -2035,8 +2035,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">This addresses most major concerns.</example><!-- #2334. addresses/B-VP -->
       <example type="untouched">... and each addresses a different problem.</example><!-- addresses/B-VP -->
       <example type="untouched">... but neither times the flies accurately; we need better timing equipment.</example><!-- times/E-NP-plural -->
-      <example type="ambiguous" inputform="times[time/NNS,time/VBZ,times/CC]" outputform="times[time/NNS]">It happened so many <marker>times</marker>.</example>
-      <example type="ambiguous" inputform="times[time/NNS,time/VBZ,times/CC]" outputform="times[time/NNS]">Each <marker>times</marker> I visit France, I rent a car.</example><!-- Grammar rule EVERY_EACH_SINGULAR finds this incorrect grammar. If I add an exception on DT for singular determiners, 'times' continues to have the postag VBZ, and EVERY_EACH_SINGULAR does not find the error. -->
+      <example type="ambiguous" inputform="times[time/NNS,time/VBZ]" outputform="times[time/NNS]">It happened so many <marker>times</marker>.</example>
+      <example type="ambiguous" inputform="times[time/NNS,time/VBZ]" outputform="times[time/NNS]">Each <marker>times</marker> I visit France, I rent a car.</example><!-- Grammar rule EVERY_EACH_SINGULAR finds this incorrect grammar. If I add an exception on DT for singular determiners, 'times' continues to have the postag VBZ, and EVERY_EACH_SINGULAR does not find the error. -->
     </rule>
 
     <rule id="DT_TIMES_VBZ" name="times/addresses as a verb">
@@ -2051,7 +2051,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <disambig postag="VBZ"/>
       <example type="untouched">It happened so many <marker>times</marker>.</example>
       <example type="untouched">Each <marker>times</marker> I visit France, I rent a car.</example>
-      <example type="ambiguous" inputform="times[time/NNS,time/VBZ,times/CC]" outputform="times[time/VBZ]">... but neither <marker>times</marker> the flies accurately; we need better timing equipment.</example>
+      <example type="ambiguous" inputform="times[time/NNS,time/VBZ]" outputform="times[time/VBZ]">... but neither <marker>times</marker> the flies accurately; we need better timing equipment.</example>
       <example type="ambiguous" inputform="addresses[address/NNS,address/VBZ]" outputform="addresses[address/VBZ]">... and each <marker>addresses</marker> a different problem.</example>
     </rule>
 
@@ -2062,7 +2062,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       </pattern>
       <disambig postag="NNS"/>
       <example type="untouched">Five times eleven equals 34.</example>
-      <example type="ambiguous" inputform="times[time/NNS,time/VBZ,times/CC]" outputform="times[time/NNS]">I think at <marker>times</marker> it's very easy.</example>
+      <example type="ambiguous" inputform="times[time/NNS,time/VBZ]" outputform="times[time/NNS]">I think at <marker>times</marker> it's very easy.</example>
     </rule>
 
     <rule id="MEANS_OF" name="means/verb + of =>noun">
@@ -7777,12 +7777,19 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <antipattern><!-- #3143 as we speak -->
             <token>as</token>
             <token regexp="yes">I|you|we|they</token>
-            <token postag_regexp="yes" postag="VB[PD]"/>
+            <token postag_regexp="yes" postag="MD|VB[PD]"/>
         </antipattern>
         <antipattern><!-- #3143 as he tells -->
             <token>as</token>
             <token regexp="yes">s?he|it</token>
-            <token postag_regexp="yes" postag="VB[ZD]"/>
+            <token postag_regexp="yes" postag="MD|VB[ZD]"/>
+        </antipattern>
+        <antipattern><!-- I think past negotiations have not gone as well as you or I would have liked. -->
+            <token>as</token>
+            <token postag="PRP" />
+            <token regexp="yes">and|&amp;|or</token>
+            <token postag="PRP|NNP" postag_regexp="yes" />
+            <token postag_regexp="yes" postag="MD|VB[PD]"/>
         </antipattern>
         <pattern>
             <token postag="JJ">
@@ -7798,6 +7805,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">He is not such a fool as you assumed him to be.</example><!-- #3143 -->
         <example type="untouched">It is fantastic as he tells me constantly.</example><!-- #3143 -->
         <example type="untouched">Same as you I noticed it was registering presses.</example><!-- #3143 -->
+        <example type="untouched">I think past negotiations have not gone as well as you or I would have liked.</example><!-- #3143 -->
         <example type="ambiguous" inputform="as[as/CC,as/IN,as/RB]" outputform="as[as/RB]">He is as tall <marker>as</marker> my friend.</example>
     </rule>
 
@@ -10135,11 +10143,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </pattern>
             <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
             <example type="ambiguous" inputform="times[time/NNS]" outputform="times[times/RB]">They did it three <marker>times</marker>.</example>
-            <example type="ambiguous" inputform="times[time/NNS,time/VBZ,times/CC]" outputform="times[times/RB]">They do the tests 4 <marker>times</marker> each year.</example>
-            <example type="ambiguous" inputform="times[time/NNS,time/VBZ,times/CC]" outputform="times[times/RB]">Per head of population, there is five <marker>times</marker> as much venture capital available in...</example><!-- #3118 -->
+            <example type="ambiguous" inputform="times[time/NNS,time/VBZ]" outputform="times[times/RB]">They do the tests 4 <marker>times</marker> each year.</example>
+            <example type="ambiguous" inputform="times[time/NNS,time/VBZ]" outputform="times[times/RB]">Per head of population, there is five <marker>times</marker> as much venture capital available in...</example><!-- #3118 -->
             <example type="ambiguous" inputform="times[time/NNS]" outputform="times[times/RB]">You're ten <marker>times</marker> heavier than I am.</example><!-- #3119 -->
-            <example type="ambiguous" inputform="times[time/NNS,time/VBZ,times/CC]" outputform="times[times/RB]">They did it four <marker>times</marker> as quickly as the other team.</example>
-            <example type="ambiguous" inputform="times[time/NNS,time/VBZ,times/CC]" outputform="times[times/RB]">They did it six <marker>times</marker> as a test.</example><!-- Is this an adverbial of number? -->
+            <example type="ambiguous" inputform="times[time/NNS,time/VBZ]" outputform="times[times/RB]">They did it four <marker>times</marker> as quickly as the other team.</example>
+            <example type="ambiguous" inputform="times[time/NNS,time/VBZ]" outputform="times[times/RB]">They did it six <marker>times</marker> as a test.</example><!-- Is this an adverbial of number? -->
             <example type="untouched">They are the best option 9 times out of ten.</example><!-- #3111 -->
             <example type="untouched">If the 3 times are all the same, stop the test.</example><!-- #3111 -->
             <example type="untouched">If the 3 times (as shown in the Test Time column) are the same, stop the test.</example><!-- #3111 -->
