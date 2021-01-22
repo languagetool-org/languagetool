@@ -9471,7 +9471,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="относится">Но вот мой друг очень положительно <marker>относиться</marker> к спорту. </example>
         </rule>
 
-        <rule default="on" id="Verb_3P_and_inf" name="Правописание «-т» и «-ть» в глаголах – однородных членах предложения">
+        <rulegroup default="on" id="Verb_3P_and_inf" name="Правописание «-т» и «-ть» в глаголах – однородных членах предложения">
+          <rule>        
             <pattern>
                 <!--     VB:.* (-т) и    VB:INF: (-ть)      -->
                 <token postag="VB:Real:.*:P3" postag_regexp="yes" ><exception postag_regexp="yes"  postag="VB:INF:.*"></exception></token>
@@ -9486,7 +9487,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Глагол должен быть в личной форме</short>
             <example>Она сидит и кормит ребёнка.</example>
             <example correction="кормит">Она сидит и <marker>кормить</marker> ребёнка.</example>
-        </rule>
+          </rule>
+          <rule>        
+              <pattern>
+                  <!--     VB:.* (-т) и    VB:INF: (-ть)      -->
+                  <marker>
+                      <token postag_regexp="yes"  postag="VB:INF:.*" ></token>
+                  </marker>
+                  <token postag="NN:.*:.*:.*:.*" postag_regexp="yes">
+                      <exception postag_regexp="yes" postag="NN:.*:.*:.*:Nom"></exception>
+                      <exception negate_pos="yes" postag_regexp="yes" postag="NN:.*:.*:.*:.*"></exception>
+                  </token>
+                  <token>и</token>
+                  <token postag="VB:Real:.*:P3" postag_regexp="yes" >
+                      <exception postag_regexp="yes"  postag="VB:INF:.*"></exception>
+                  </token>
+              </pattern>
+              <message>Оба глагола должны быть в личной форме: <suggestion><match no="1" postag_regexp="yes" postag="VB:INF:(.*):(.*)"  postag_replace="VB:Real:$1:$2:Sin:P3"></match></suggestion></message>
+              <url>http://tsya.ru/</url>
+              <short>Глагол должен быть в личной форме</short>
+              <example>Она кормит ребёнка и смотрит телевизор.</example>
+              <example correction="кормит">Она <marker>кормить</marker> ребёнка и смотрит телевизор.</example>
+          </rule>
+        </rulegroup>
         <rulegroup default="on" id="Verb_3P_and_inf_2" name="Правописание «-т» и «-ть» в глаголах – однородных членах предложения 2">
           <rule>
             <pattern>
