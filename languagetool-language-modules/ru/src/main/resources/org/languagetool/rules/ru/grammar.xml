@@ -2615,7 +2615,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     	    <example correction="таким образом, что">Это сделано <marker>таким образом что</marker> и не найти.</example>
     	    <example>Таким образом, что слово есть, что его нет - без разницы.</example>
     	</rule>
-        <rule id="takim_obrazom" name="Запятая после «таким образом» 2" default="temp_off" >  <!-- tags="picky" -->
+        <rule id="takim_obrazom" name="Запятая после «таким образом» 2" default="off" >  <!-- tags="picky" --> <!-- set temp_off -->
             <pattern>
                 <token>таким<exception postag="VB:.*|DPT:.*|PT:.*|PT_Short:.*|PREP|PRDC" postag_regexp="yes" scope="previous"></exception>
                     <exception regexp="yes" scope="previous">[,.-;:—]</exception><exception scope="previous" postag_regexp="yes" postag="SENT_START"></exception>
@@ -9422,7 +9422,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            <example correction="относится">Проблема может возникнуть при наличии собственных резонансов в модели, что <marker>относиться</marker> и к нашему случаю, где частота падающей волны приходится на максимум дипольного отклика частицы.</example>
         </rule>        
         </rulegroup>                
-        <rule id="Verb_INF_OR_3P_2" default="off" name="Инфинитив вместо личной формы глагола"> <!-- set temp off -->
+        <rule id="Verb_INF_OR_3P_2" default="temp_off" name="Инфинитив вместо личной формы глагола"> <!-- set temp off -->
             <antipattern>
                  <token postag="SENT_START" skip="-1" />
                  <token postag="VB:.*" skip="-1" postag_regexp="yes" ><exception   postag="VB:.*"  postag_regexp="yes"  negate_pos="yes"    /></token>
@@ -9509,8 +9509,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <example>Она кормит ребёнка и смотрит телевизор.</example>
               <example correction="кормит">Она <marker>кормить</marker> ребёнка и смотрит телевизор.</example>
           </rule>
-        </rulegroup>
-        <rulegroup default="on" id="Verb_3P_and_inf_2" name="Правописание «-т» и «-ть» в глаголах – однородных членах предложения 2">
           <rule>
             <pattern>
                 <!--     VB:.* (-т) и    VB:INF: (-ть)      -->
