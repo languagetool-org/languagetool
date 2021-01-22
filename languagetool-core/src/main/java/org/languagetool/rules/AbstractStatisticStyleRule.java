@@ -42,12 +42,11 @@ import org.languagetool.rules.Category.Location;
  * @since 5.3
  */
 public abstract class AbstractStatisticStyleRule extends TextLevelRule {
-  private static final Pattern OPENING_QUOTES = Pattern.compile("[\"“„”»«]");
-  private static final Pattern ENDING_QUOTES = Pattern.compile("[\"“»«]");
+  private static final Pattern OPENING_QUOTES = Pattern.compile("[\"“„»«]");
+  private static final Pattern ENDING_QUOTES = Pattern.compile("[\"“”»«]");
   private static final boolean DEFAULT_ACTIVATION = false;
 
-  private int minPercent;
-  private final Language lang;
+  private final int minPercent;
 
   /**
    * Condition to generate a hint (possibly including all exceptions)
@@ -65,7 +64,7 @@ public abstract class AbstractStatisticStyleRule extends TextLevelRule {
   /**
    * Condition to generate a hint related to the sentence (possibly including all exceptions)
    */
-  protected abstract boolean excludeDirectSpeach();
+  protected abstract boolean excludeDirectSpeech();
   
   /**
    * Defines the message for hints which exceed the limit
@@ -87,18 +86,21 @@ public abstract class AbstractStatisticStyleRule extends TextLevelRule {
     super(messages);
     super.setCategory(new Category(new CategoryId("CREATIVE_WRITING"), 
         messages.getString("category_creative_writing"), Location.INTERNAL, false));
-    this.lang = lang;
-    this.minPercent = minPercent;
     if (!defaultActive) {
       setDefaultOff();
     }
+    this.minPercent = getMinPercent(userConfig, minPercent);
+    setLocQualityIssueType(ITSIssueType.Style);
+  }
+
+  private int getMinPercent(UserConfig userConfig, int minPercentDefault) {
     if (userConfig != null) {
       int confPercent = userConfig.getConfigValueByID(getId());
-      if(confPercent >= 0) {
-        this.minPercent = confPercent;
+      if (confPercent >= 0) {
+        return confPercent;
       }
     }
-    setLocQualityIssueType(ITSIssueType.Style);
+    return minPercentDefault;
   }
 
   public AbstractStatisticStyleRule(ResourceBundle messages, Language lang, UserConfig userConfig, int minPercent) {
@@ -144,27 +146,24 @@ public abstract class AbstractStatisticStyleRule extends TextLevelRule {
     double percent;
     int pos = 0;
     int wordCount = 0;
-    boolean excludeDirectSpeach = excludeDirectSpeach();
+    boolean excludeDirectSpeech = excludeDirectSpeech();
     boolean isDirectSpeech = false;
-    for (int nSentence = 0; nSentence < sentences.size(); nSentence++) {
-      AnalyzedSentence sentence = sentences.get(nSentence);
+    for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
       for (int n = 1; n < tokens.length; n++) {
         AnalyzedTokenReadings token = tokens[n];
         String sToken = token.getToken();
-        if (excludeDirectSpeach && OPENING_QUOTES.matcher(sToken).matches() && n < tokens.length -1 && !tokens[n + 1].isWhitespaceBefore()) {
+        if (excludeDirectSpeech && !isDirectSpeech && OPENING_QUOTES.matcher(sToken).matches() && n < tokens.length - 1 && !tokens[n + 1].isWhitespaceBefore()) {
           isDirectSpeech = true;
-        }
-        else if (excludeDirectSpeach && ENDING_QUOTES.matcher(sToken).matches() && n > 1 && !tokens[n].isWhitespaceBefore()) {
+        } else if (excludeDirectSpeech && isDirectSpeech && ENDING_QUOTES.matcher(sToken).matches() && n > 1 && !tokens[n].isWhitespaceBefore()) {
           isDirectSpeech = false;
-        }
-        else if ((!isDirectSpeech || minPercent == 0) && !token.isWhitespace() && !token.isNonWord()) {
+        } else if ((!isDirectSpeech || minPercent == 0) && !token.isWhitespace() && !token.isNonWord()) {
           wordCount++;
           int nEnd = conditionFulfilled(tokens, n);
           if (nEnd >= n) {
             if (sentenceConditionFulfilled(tokens, n)) {
-              RuleMatch ruleMatch = new RuleMatch(this, sentence, token.getStartPos() + pos, token.getEndPos() + pos, 
-                  getSentenceMessage());
+              RuleMatch ruleMatch = new RuleMatch(this, sentence, token.getStartPos() + pos, token.getEndPos() + pos,
+                      getSentenceMessage());
               ruleMatches.add(ruleMatch);
             } else {
               startPos.add(token.getStartPos() + pos);

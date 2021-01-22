@@ -10127,7 +10127,7 @@ though, and has since been slightly modified)-->
         <token min="0" max="2" postag="A.*" postag_regexp="yes"/>
         <token postag="SENT_END" regexp="yes">[\.\?!]</token>
       </pattern>
-      <message> Il semble qu’il y ait une faute d'article. Nous vous suggérons d'employer l'article <suggestion>le</suggestion>.</message>
+      <message>Il semble qu’il y ait une faute d'article. Nous vous suggérons d'employer l'article <suggestion>le</suggestion>.</message>
       <example correction="le">C'est Julie qui court <marker>la</marker> plus vite.</example>
       <example correction="le">Ce sont tes amis qui écrivent <marker>les</marker> moins vite.</example>
       <example correction="le">Ce sont tes parents qui parlent <marker>les</marker> moins.</example>
@@ -12957,6 +12957,11 @@ though, and has since been slightly modified)-->
         <token min="0">de</token>
         <token>série</token>
       </antipattern>
+      <antipattern>
+        <token inflected="yes">série</token>
+        <token>d'</token>
+        <token>animation</token>
+      </antipattern>
       <pattern>
         <token regexp="yes">dizaines?|douzaines?|centaines?|milliers?|millions?|nombre|multitude|infinité|série</token>
         <token inflected="yes">de</token>
@@ -13716,6 +13721,44 @@ though, and has since been slightly modified)-->
       <example>Au voisinage du zéro absolu de température.</example>
     </rule>
     -->
+    <!--<rulegroup id="JE_VERBE" name="je + verbe" default="temp_off">
+      <rule>
+        <pattern>
+          <token regexp="yes">je|j'</token>
+          <marker>
+            <token postag="UNKNOWN"></token>
+          </marker>
+        </pattern>
+        <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.*1.s removeSuggestionsRegexp:^.*[éè]$"/>
+        <message>Faute de frappe</message>
+        <example correction="élève|relève|enlève|lève">J'<marker>eleve</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">je|j'</token>
+          <token postag="[AR].*" postag_regexp="yes"/>
+          <marker>
+            <token postag="UNKNOWN"/>
+          </marker>
+        </pattern>
+        <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:V.*1.s removeSuggestionsRegexp:^.*[éè]$"/>
+        <message>Faute de frappe</message>
+        <example correction="élève|relève|enlève|lève">Je n'<marker>eleve</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">je|j'</token>
+          <token postag="[AR].*" postag_regexp="yes"/>
+          <token postag="[AR].*" postag_regexp="yes"/>
+          <marker>
+            <token postag="UNKNOWN"/>
+          </marker>
+        </pattern>
+        <filter class="org.languagetool.rules.fr.FindSuggestionsFilter" args="wordFrom:4 desiredPostag:V.*1.s removeSuggestionsRegexp:^.*[éè]$"/>
+        <message>Faute de frappe</message>
+        <example correction="élève|relève|enlève|lève">Je ne m'<marker>eleve</marker>.</example>
+      </rule>
+    </rulegroup>-->
     <rulegroup id="N_V" name="pas de verbe après : au, de, du…">
       <antipattern>
         <token>aux</token>
@@ -35515,46 +35558,48 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
-      <rule id= "CA_VA_MAL_SE_FINIR" name="ça va mal se finir" default="temp_off">
-          <pattern>
-              <token>ça</token>
-              <token>va</token>
-              <token regexp="yes" min="0" max="1">très|vraiment</token>
-              <token>mal</token>
-              <marker>
-                  <token>se</token>
-                  <token>finir</token>
-              </marker>
-          </pattern>
-          <message> Dans cette expression française familière, "se finir" est une erreur grammaticale.</message>
-          <suggestion><match no="6"/></suggestion>
-          <example correction="finir">Je pense que ça va très mal <marker>se finir</marker>.</example>
-          <example correction="finir">Je pense que ça va mal <marker>se finir</marker>.</example>
-      </rule>
-      <rule id="LE_COVID" name="la Covid et le Covid" type="style" tags="picky" default="temp_off">
-          <pattern>
-              <token postag="(P\+)?D m s" postag_regexp="yes"/>
-              <token regexp="yes">covid(-19)?</token>
-          </pattern>
-          <message>Voulez-vous utiliser la forme féminine recommandée, au détriment du masculin '\1' couramment utilisé ?</message>
-          <suggestion><match no="1" case_conversion="preserve" postag="(P?).?D m s" postag_regexp="yes" postag_replace="$1.?D f s"/> \2</suggestion>
-          <url>http://www.academie-francaise.fr/le-covid-19-ou-la-covid-19</url>
-          <example correction="la Covid-19">Il faut faire attention car <marker>le Covid-19</marker> est récent.</example>
-          <example correction="La Covid-19"><marker>Le Covid-19</marker> est une maladie grave.</example>
-          <example correction="de la Covid">Les répercussions économiques <marker>du Covid</marker> ne se sauront pas avant 2022.</example>
-          <example correction="à la COVID">Les dommages humains et économiques dus <marker>au COVID</marker> sont considérables.</example>
-      </rule>
-      <rule id= "ALTERNATIVE_OU_POSSIBILITE" name="alternative ou possibilité" default="temp_off">
-          <pattern>
-              <token regexp="yes">autre|deux</token>
-              <marker><token regexp="yes">alternative(s)?</token></marker>
-          </pattern>
-          <message>Cette expression est fausse. Le terme <suggestion>possibilité</suggestion> semble plus approprié car une alternative est un choix entre deux possibilités.</message>
-          <url>http://academie-francaise.fr/solutions-alternatives</url>
-          <example correction="possibilité">Y a-t-il une autre <marker>alternative</marker> ?</example>
-          <example correction="possibilité">Il faut choisir ente deux <marker>alternatives</marker>.</example>
-      </rule>
-      <rulegroup id="POUR_PAS_QUE" name="familier : pour (ne) pas que...">
+    <rule id="CA_VA_MAL_SE_FINIR" name="ça va mal se finir" default="temp_off">
+      <pattern>
+        <token>ça</token>
+        <token>va</token>
+        <token regexp="yes" min="0" max="1">très|vraiment</token>
+        <token>mal</token>
+        <marker>
+          <token>se</token>
+          <token>finir</token>
+        </marker>
+      </pattern>
+      <message>Dans cette expression française familière, "se finir" est une erreur grammaticale.</message>
+      <suggestion><match no="6"/></suggestion>
+      <example correction="finir">Je pense que ça va très mal <marker>se finir</marker>.</example>
+      <example correction="finir">Je pense que ça va mal <marker>se finir</marker>.</example>
+    </rule>
+    <rule id="LE_COVID" name="la Covid et le Covid" type="style" tags="picky" default="temp_off">
+      <pattern>
+        <token postag="(P\+)?D m s" postag_regexp="yes"/>
+        <token regexp="yes">covid(-19)?</token>
+      </pattern>
+      <message>Voulez-vous utiliser la forme féminine recommandée, au détriment du masculin '\1' couramment utilisé ?</message>
+      <suggestion><match no="1" case_conversion="preserve" postag="(P?).?D m s" postag_regexp="yes" postag_replace="$1.?D f s"/> \2</suggestion>
+      <url>http://www.academie-francaise.fr/le-covid-19-ou-la-covid-19</url>
+      <example correction="la Covid-19">Il faut faire attention car <marker>le Covid-19</marker> est récent.</example>
+      <example correction="La Covid-19"><marker>Le Covid-19</marker> est une maladie grave.</example>
+      <example correction="de la Covid">Les répercussions économiques <marker>du Covid</marker> ne se sauront pas avant 2022.</example>
+      <example correction="à la COVID">Les dommages humains et économiques dus <marker>au COVID</marker> sont considérables.</example>
+    </rule>
+    <rule id="ALTERNATIVE_OU_POSSIBILITE" name="alternative ou possibilité" default="temp_off">
+      <pattern>
+        <token regexp="yes">autre|deux</token>
+        <marker>
+          <token regexp="yes">alternative(s)?</token>
+        </marker>
+      </pattern>
+      <message>Cette expression est fausse. Le terme <suggestion>possibilité</suggestion> semble plus approprié car une alternative est un choix entre deux possibilités.</message>
+      <url>http://academie-francaise.fr/solutions-alternatives</url>
+      <example correction="possibilité">Y a-t-il une autre <marker>alternative</marker> ?</example>
+      <example correction="possibilité">Il faut choisir ente deux <marker>alternatives</marker>.</example>
+    </rule>
+    <rulegroup id="POUR_PAS_QUE" name="familier : pour (ne) pas que...">
       <rule>
         <!-- 1 = 1. R.* que ne !V.* -->
         <pattern>

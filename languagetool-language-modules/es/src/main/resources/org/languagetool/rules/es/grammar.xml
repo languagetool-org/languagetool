@@ -15719,7 +15719,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="A..CS." postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token postag="DD.FS.|A..[FC]S.|SPS00|LOC_PREP" postag_regexp="yes"><exception postag="_GN_.S" postag_regexp="yes"></exception></token>
+                    <token postag="DD.FS.|A..[FC]S.|SPS00|LOC_PREP" postag_regexp="yes"><exception postag="_GN_.S" postag_regexp="yes"/></token>
                     <marker>
                         <token>ves</token>
                     </marker>
@@ -16966,19 +16966,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
+                    <token postag="D[DAIP].*" postag_regexp="yes"/>
+                    <token max="4" postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expresiones_tiempo;|&unidades_tiempo;|&dias_semana;|&meses_ano;|&estaciones_ano;|&partes_dia;|vez</exception><exception regexp="yes"
+                        >\d+</exception></token>
                     <marker>
-                        <token postag="D[DAIP].*" postag_regexp="yes"/>
-                        <token max="4" postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expresiones_tiempo;|&unidades_tiempo;|&dias_semana;|&meses_ano;|&estaciones_ano;|&partes_dia;|vez</exception><exception regexp="yes"
-                            >\d+</exception></token>
                         <token>,</token>
-                        <token min="0" max="3" postag="&pronombre_personal_atono_POS;|RN" postag_regexp="yes"/>
                         <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_NP|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Probablemente sobra la coma entre el sujeto y el predicado.</message>
+                <suggestion> \5</suggestion>
                 <url>http://www.wikilengua.org/index.php/Coma_de_sujeto</url>
-                <example correction=""><marker>Mi amigo, va</marker> hacia su casa.</example>
-                <example correction=""><marker>Esta discusión bizantina, está</marker> siempre presente.</example>
+                <example correction=" va">Mi amigo<marker>, va</marker> hacia su casa.</example>
+                <example correction=" está">Esta discusión bizantina<marker>, está</marker> siempre presente.</example>
                 <example>El 1918, partió hacia el sur.</example>
                 <example>El año 1918, partió hacia el sur.</example>
                 <example>En año 1918, partió hacia el sur.</example>
@@ -17001,18 +17001,90 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
+                    <token postag="D[DAIP].*" postag_regexp="yes"/>
+                    <token max="4" postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expresiones_tiempo;|&unidades_tiempo;|&dias_semana;|&meses_ano;|&estaciones_ano;|&partes_dia;|vez</exception><exception regexp="yes"
+                        >\d+</exception></token>
                     <marker>
-                        <token postag="NP.*" postag_regexp="yes" max="3"><exception postag="AO.*|V.[MI].*" postag_regexp="yes"/></token>
                         <token>,</token>
-                        <token min="0" max="3" postag="&pronombre_personal_atono_POS;|RN" postag_regexp="yes"><exception>te</exception></token>
+                        <token postag="&pronombre_personal_atono_POS;|RN" postag_regexp="yes"/>
+                    </marker>
+                    <token min="0" max="3" postag="&pronombre_personal_atono_POS;|RN" postag_regexp="yes"/>
+                    <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_NP|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Probablemente sobra la coma entre el sujeto y el predicado.</message>
+                <suggestion> \5</suggestion>
+                <url>http://www.wikilengua.org/index.php/Coma_de_sujeto</url>
+                <example correction=" no">Mi amigo<marker>, no</marker> va hacia su casa.</example>
+                <example correction=" se">Mi amigo<marker>, se</marker> va hacia su casa.</example>
+                <example>El 1918, partió hacia el sur.</example>
+                <example>El año 1918, partió hacia el sur.</example>
+                <example>En año 1918, partió hacia el sur.</example>
+                <example>Juan, ven aquí.</example>
+                <example>La primavera anterior, había estado en Venecia.</example>
+                <example>Come comida rápida, muere en seguida.</example>
+                <example>Este paisaje, rico en oro, es espectacular.</example>
+                <example>George, te tengo que decir algo.</example>
+                <example>Los otros, venid conmigo.</example>
+                <example>¿Este método, es bastante seguro?</example>
+                <example>El objetivo, dice, es salvar vidas.</example>
+                <example>El objetivo, nos dice, es salvar vidas.</example>
+                <example>El objetivo, nos ha dicho, es salvar vidas.</example>
+                <example>La aplicación, activa desde octubre</example>
+                <example>Los peces marions, susurró.</example>
+                <example>Esta sangre, baja en oxígeno, se suministra al resto del cuerpo.</example>
+                <example>Los usuarios, además, pueden publicar comentarios en las historias.</example>
+                <!--<example correction="">Mi hija Agustina, es licenciada</example>-->
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="NP.*" postag_regexp="yes" max="3"><exception postag="AO.*|V.[MI].*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>,</token>
                         <token postag="V.I..S." postag_regexp="yes"><exception postag="_possible_NP|N.*|V.[MP].*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/><exception>hay</exception><exception scope="next">tu</exception></token>
                     </marker>
                 </pattern>
                 <message>Probablemente sobra la coma entre el sujeto y el predicado.</message>
+                <suggestion> \4</suggestion>
                 <url>http://www.wikilengua.org/index.php/Coma_de_sujeto</url>
-                <example correction=""><marker>Juan, va</marker> hacia su casa.</example>
-                <example correction=""><marker>Juan García, va</marker> hacia su casa.</example>
-                <example correction=""><marker>Julio Andrade, fundó</marker> con Isaac J. Barrera el periódico.</example>
+                <example correction=" va">Juan<marker>, va</marker> hacia su casa.</example>
+                <example correction=" va">Juan García<marker>, va</marker> hacia su casa.</example>
+                <example correction=" fundó">Julio Andrade<marker>, fundó</marker> con Isaac J. Barrera el periódico.</example>
+                <example>Mañana, alunizará.</example>
+                <example>Gracias, es todo.</example>
+                <example>No, es de segunda mano.</example>
+                <example>Cansado, se fue a la cama antes de lo normal.</example>
+                <example>Tranquilo, es sólo un espantapájaros.</example>
+                <example>Bill, abre la puerta.</example>
+                <example>Jim, cierra la ventana.</example>
+                <example>Segundo, recibe una violenta oposición.</example>
+                <example>Mira, está lloviendo.</example>
+                <example>Louis, vienen tus amigos.</example>
+                <example>Tom, hay algo que quiero darte.</example>
+                <example>Mira, se le rompió la fuente a esa señora.</example>
+                <example>Tom, te llama tu mamá.</example>
+                <example>Mary, venga, deja de protestar.</example>
+                <example>Ricardo, ora por mi.</example>
+                <example>María, me gustan mucho las enumeraciones.</example>
+                <example>Tom, te llama mamá.</example>
+                <example>Claro, le duele.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="NP.*" postag_regexp="yes" max="3"><exception postag="AO.*|V.[MI].*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>,</token>
+                        <token postag="&pronombre_personal_atono_POS;|RN" postag_regexp="yes"><exception>te</exception></token>
+                    </marker>
+                    <token min="0" max="2" postag="&pronombre_personal_atono_POS;|RN" postag_regexp="yes"><exception>te</exception></token>
+                    <token postag="V.I..S." postag_regexp="yes"><exception postag="_possible_NP|N.*|V.[MP].*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/><exception>hay</exception><exception scope="next">tu</exception></token>
+                </pattern>
+                <message>Probablemente sobra la coma entre el sujeto y el predicado.</message>
+                <suggestion> \4</suggestion>
+                <url>http://www.wikilengua.org/index.php/Coma_de_sujeto</url>
+                <example correction=" se">Juan <marker>, se</marker> va hacia su casa.</example>
+                <example correction=" se">Juan García<marker>, se</marker> va hacia su casa.</example>
                 <example>Mañana, alunizará.</example>
                 <example>Gracias, es todo.</example>
                 <example>No, es de segunda mano.</example>
@@ -18542,6 +18614,57 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="2014">Es de <marker>20014</marker>.</example>
             <example>Es del 2015.</example>
         </rule>
+        <rulegroup id="DATE_NEW_YEAR" name="Año nuevo" default="temp_off">
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token regexp="yes">aC|dC</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token regexp="yes">a|d</token>
+                <token>.</token>
+                <token>C</token>
+            </antipattern>
+            <antipattern>
+                <token skip="4" regexp="yes">de|desde</token>
+                <token skip="4" regexp="yes">2019|19</token>
+                <token skip="4" regexp="yes">a|hasta</token>
+                <token skip="4" regexp="yes">2020|20</token>
+            </antipattern>
+            <antipattern>
+                <token skip="4" regexp="yes">de|desde</token>
+                <token skip="4" regexp="yes">2020|20</token>
+                <token skip="4" regexp="yes">a|hasta</token>
+                <token skip="4" regexp="yes">2021|21</token>
+            </antipattern>
+            <antipattern>
+                <token skip="4" regexp="yes">de|desde</token>
+                <token skip="4" regexp="yes">2021|21</token>
+                <token skip="4" regexp="yes">a|hasta</token>
+                <token skip="4" regexp="yes">2022|22</token>
+            </antipattern>
+            <antipattern>
+                <token skip="4">desde</token>
+                <token skip="2" regexp="yes">&meses_ano;|06|07|08|09|10|11|12</token>
+                <token regexp="yes">20\d{2}</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d\d?</token>
+                    <token min="0" regexp="yes">de|\-|/</token>
+                    <token regexp="yes">&meses_ano;|&meses_ano_abrv;|\d\d?</token>
+                    <token regexp="yes" min="0" max="3">de|del|,|año|\-|/</token>
+                    <marker>
+                        <token regexp="yes">\d\d\d\d</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.NewYearDateFilter" args="year:\5 month:\3 day:\1"/>
+                <message>Ha empezado un año nuevo. ¿Quería decir <suggestion>{realYear}</suggestion>?</message>
+                <example correction="2014">7 de octubre de <marker>2013</marker></example>
+                <example correction="2014">7 oct de <marker>2013</marker></example>
+                <example correction="2014">7-10-<marker>2013</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DATE_WEEKDAY" name="Fecha incorrecta">
             <rule>
                 <pattern>

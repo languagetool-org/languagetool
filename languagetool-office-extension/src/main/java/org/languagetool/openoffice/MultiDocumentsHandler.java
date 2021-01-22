@@ -211,9 +211,11 @@ public class MultiDocumentsHandler {
    */
   public SingleDocument getCurrentDocument() {
     XComponent xComponent = OfficeTools.getCurrentComponent(xContext);
-    for (SingleDocument document : documents) {
-      if (xComponent.equals(document.getXComponent())) {
-        return document;
+    if (xComponent != null) {
+      for (SingleDocument document : documents) {
+        if (xComponent.equals(document.getXComponent())) {
+          return document;
+        }
       }
     }
     return null;

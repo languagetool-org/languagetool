@@ -592,6 +592,15 @@ Bom dia Ana.
 			</token>
       </antipattern>
 <!-- MARCOAGPINTO 2020-12-21 (21-OCT-2020+) *END* -->
+<!-- MARCOAGPINTO 2021-01-13 (1-JAN-2021+) *START* -->
+<!--
+Dez funções da inteligência multifocal.
+-->
+      <antipattern>
+		<token postag='Z0CP0' postag_regexp='no'/>
+		<token postag='NC.+|NP.+|AQ0.+' postag_regexp='yes'/>
+      </antipattern>	  	  
+<!-- MARCOAGPINTO 2021-01-13 (1-JAN-2021+) *END* -->
 <!-- MARCOAGPINTO 2021-01-16 (1-JAN-2021+) *START* -->
 <!--
 ao princípio Mãe.
@@ -614,6 +623,30 @@ e princípio Mãe.
 		<token postag='NC.S.+|AQ0.S.+|NP.+' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2021-01-16 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-01-21 (1-JAN-2021+) *START* -->
+<!--
+O Isaac apanhou um escalda rabos tão grande.
+-->
+      <antipattern>
+		  <token postag='V.+' postag_regexp='yes'/>
+          <token regexp='yes'>a?o|pelo|do|um|esse|aquele|àquele|tal|como|no|daquele|e</token>
+		  <token postag='NC[CF]S.+|AQ0[CF]S.+' postag_regexp='yes'/>
+		  <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-01-21 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-01-21 (1-JAN-2021+) *START* -->
+<!--
+Ele confundiu o rapaz com um borrego, seu tira moncos.
+Ele confundiu o rapaz com um borrego, sua tira moncos.
+Ele confundiu o rapaz com um borrego, teu tira moncos.
+-->
+      <antipattern>		  
+          <token min="0" max="1" regexp='yes'>[,]</token>
+		  <token postag='DP.+' postag_regexp='yes'/>
+		  <token postag='NC[CF]S.+|AQ0[CF]S.+' postag_regexp='yes'/>
+		  <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-01-21 (1-JAN-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -663,7 +696,28 @@ e princípio Mãe.
 	  <example type='correct'>Precisa agora de estar em <marker>quarentena 14 dias</marker>.</example>
 	  <example type='correct'>Precisa agora de estar em <marker>quarentena 14 horas</marker>.</example>
 	  <example type='correct'>Precisa agora de estar em <marker>plantão 14 horas</marker>.</example>
+	  
+	  <example type='correct'><marker>Dez funções</marker> da inteligência multifocal.</example>
+	  
 	  <example type='correct'>Temos <marker>o princípio Mãe</marker> na natureza.</example>
+	  <example>Acedemos ao princípio Mãe na natureza.</example>
+	  <example>O que temos pelo princípio Mãe na natureza.</example>
+	  <example>Vamos falar do princípio Mãe na natureza.</example>
+	  <example>Temos um princípio Mãe na natureza.</example>
+	  <example>Temos esse princípio Mãe na natureza.</example>
+	  <example>É aquele princípio Mãe na natureza.</example>
+	  <example>O que chamamos àquele princípio Mãe na natureza.</example>
+	  <example>O tal princípio Mãe na natureza.</example>
+	  <example>E como princípio Mãe na natureza.</example>
+	  <example>Temos isso no princípio Mãe na natureza.</example>
+	  <example>Falemos daquele princípio Mãe na natureza.</example>
+	  <example>O grande e princípio Mãe na natureza.</example>
+	  
+	  <example>O Isaac apanhou <marker>um escalda</marker> rabos tão grande.</example>
+	  
+	  <example>Ele confundiu o rapaz com um borrego, <marker>seu tira</marker> moncos.</example>
+	  <example>Ele confundiu o rapaz com um borrego, sua tira moncos.</example>
+	  <example>Ele confundiu o rapaz com um borrego, teu tira moncos.</example>
     </rule>
     <rule>
       <pattern>
@@ -1152,6 +1206,30 @@ Dez funções da inteligência multifocal.
 		<token postag='NC.+|NP.+|AQ0.+' postag_regexp='yes'/>
       </antipattern>	  	  
 <!-- MARCOAGPINTO 2021-01-13 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-01-21 (1-JAN-2021+) *START* -->
+<!--
+O Isaac apanhou um escalda rabos tão grande.
+-->
+      <antipattern>
+		  <token postag='V.+' postag_regexp='yes'/>
+          <token regexp='yes'>a?o|pelo|do|um|esse|aquele|àquele|tal|como|no|daquele|e</token>
+		  <token postag='NC[CF]S.+|AQ0[CF]S.+' postag_regexp='yes'/>
+		  <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-01-21 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-01-21 (1-JAN-2021+) *START* -->
+<!--
+Ele confundiu o rapaz com um borrego, seu tira moncos.
+Ele confundiu o rapaz com um borrego, sua tira moncos.
+Ele confundiu o rapaz com um borrego, teu tira moncos.
+-->
+      <antipattern>		  
+          <token min="0" max="1" regexp='yes'>[,]</token>
+		  <token postag='DP.+' postag_regexp='yes'/>
+		  <token postag='NC[CF]S.+|AQ0[CF]S.+' postag_regexp='yes'/>
+		  <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-01-21 (1-JAN-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>o|e|de|&hifen;</token> <!-- MARCOAGPINTO 2019-12-31 -->
         <marker>
@@ -1190,12 +1268,19 @@ Dez funções da inteligência multifocal.
 	  <example type='correct'>Precisa agora de estar em <marker>quarentena 1 dia</marker>.</example>
 	  <example type='correct'>Precisa agora de estar em <marker>quarentena 14 dias</marker>.</example>
 	  <example type='correct'>Precisa agora de estar em <marker>quarentena 14 horas</marker>.</example>
-	 <example type='correct'>Precisa agora de estar em <marker>plantão 14 horas</marker>.</example>
-	 <example type='correct'>Ao testar um modelo tendo <marker>por base dados</marker>.</example>
-	 <example type='correct'>Ao testar um modelo tendo <marker>por resultado dados</marker>.</example>
-	 <example type='correct'>A sua <marker>conta LanguageTool</marker> gratuita foi criada com sucesso.</example>
-	 <example type='correct'>O seu <marker>código LanguageTool</marker> gratuito foi criado com sucesso.</example>
-	 <example type='correct'><marker>Dez funções</marker> da inteligência multifocal.</example>
+	  <example type='correct'>Precisa agora de estar em <marker>plantão 14 horas</marker>.</example>
+	  <example type='correct'>Ao testar um modelo tendo <marker>por base dados</marker>.</example>
+	  <example type='correct'>Ao testar um modelo tendo <marker>por resultado dados</marker>.</example>
+	  <example type='correct'>A sua <marker>conta LanguageTool</marker> gratuita foi criada com sucesso.</example>
+	  <example type='correct'>O seu <marker>código LanguageTool</marker> gratuito foi criado com sucesso.</example>
+	 
+	  <example type='correct'><marker>Dez funções</marker> da inteligência multifocal.</example>
+	 
+	  <example>O Isaac apanhou <marker>um escalda</marker> rabos tão grande.</example>
+	 
+	  <example>Ele confundiu o rapaz com um borrego, <marker>seu tira</marker> moncos.</example>
+	  <example>Ele confundiu o rapaz com um borrego, sua tira moncos.</example>
+	  <example>Ele confundiu o rapaz com um borrego, teu tira moncos.</example>
     </rule>
     <rule>
       <antipattern>

@@ -161,7 +161,7 @@ public class German extends Language implements AutoCloseable {
             new CompoundCoherencyRule(messages),
             new LongSentenceRule(messages, userConfig, 35, true, true),
             new GermanFillerWordsRule(messages, this, userConfig),
-            new NonSignificantVerbs(messages, this, userConfig),
+            new NonSignificantVerbsRule(messages, this, userConfig),
             new UnnecessaryPhraseRule(messages, this, userConfig),
             new GermanParagraphRepeatBeginningRule(messages, this),
             new DuUpperLowerCaseRule(messages),
@@ -312,6 +312,7 @@ public class German extends Language implements AutoCloseable {
       case "UST_ID": return 1;
       case "FUER_INBESONDERE": return 1; // prefer over KOMMA_VOR_ERLAEUTERUNG
       case "COVID_19": return 1; // prefer over PRAEP_GEN and DE_AGREEMENT
+      case "KLEINSCHREIBUNG_MAL": return 1; // prefer over DE_AGREEMENT
       case "IM_ALTER": return 1; // prefer over ART_ADJ_SOL
       case "DAS_ALTER": return 1; // prefer over ART_ADJ_SOL
       case "VER_INF_PKT_VER_INF": return 1; // prefer over DE_CASE

@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2020 Jaume Ortolà
+ * Copyright (C) 2020 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,30 +22,32 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tools.StringTools;
 
 public class FindSuggestionsFilter extends RuleFilter {
 
-  private static final CatalanTagger tagger = new CatalanTagger(new Catalan());
-  private MorfologikCatalanSpellerRule morfologikRule;
   final private int MAX_SUGGESTIONS = 10;
+  private static final String DICT_FILENAME = "/ca/ca-ES.dict"; 
+  private static final CatalanTagger tagger = new CatalanTagger(new Catalan());
+  private static MorfologikSpeller speller = null;
 
   public FindSuggestionsFilter() throws IOException {
-    ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE,
-        new Locale("ca"));
-    morfologikRule = new MorfologikCatalanSpellerRule(messages, new Catalan(), null, Collections.emptyList());
+    // lazy init
+    if (speller == null) {
+      if (JLanguageTool.getDataBroker().resourceExists(DICT_FILENAME)) {
+         speller = new MorfologikSpeller(DICT_FILENAME);
+      } 
+    }
   }
 
   @Override
@@ -55,19 +57,13 @@ public class FindSuggestionsFilter extends RuleFilter {
     List<String> replacements = new ArrayList<>();
     String wordFrom = getRequired("wordFrom", arguments);
     String desiredPostag = getRequired("desiredPostag", arguments);
+    String removeSuggestionsRegexp = getOptional("removeSuggestionsRegexp", arguments);
     // diacriticsMode: return only changes in diacritics. If there is none, the
     // match is removed.
     String mode = getOptional("Mode", arguments);
     boolean diacriticsMode = (mode != null) && mode.equals("diacritics");
     boolean generateSuggestions = true;
-
-    /*if (diacriticsMode) {
-      int ii = 0;
-      ii++;
-      if (match.getSentence().getText().contains("maques")) {
-        ii++;
-      }
-    }*/
+    Pattern regexpPattern = null;
 
     if (wordFrom != null && desiredPostag != null) {
       int posWord = 0;
@@ -97,19 +93,17 @@ public class FindSuggestionsFilter extends RuleFilter {
           }
         }
       }
-      
-      if (generateSuggestions) {
-        AnalyzedTokenReadings[] auxPatternTokens = new AnalyzedTokenReadings[1];
-        if (atrWord.isTagged()) {
-          auxPatternTokens[0] = new AnalyzedTokenReadings(new AnalyzedToken(makeWrong(atrWord.getToken()), null, null));
-        } else {
-          auxPatternTokens[0] = atrWord;
-        }
-        AnalyzedSentence sentence = new AnalyzedSentence(auxPatternTokens);
-        RuleMatch[] matches = morfologikRule.match(sentence);
 
-        if (matches.length > 0) {
-          List<String> suggestions = matches[0].getSuggestedReplacements();
+      if (generateSuggestions) {
+        if (removeSuggestionsRegexp != null) {
+          regexpPattern = Pattern.compile(removeSuggestionsRegexp, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+        }
+        String wordToCheck = atrWord.getToken();
+        if (atrWord.isTagged()) {
+          wordToCheck = makeWrong(atrWord.getToken());
+        }
+        List<String> suggestions = speller.findReplacements(wordToCheck);
+        if (suggestions.size() > 0) {
           // TODO: do not tag capitalized words with tags for lower case
           List<AnalyzedTokenReadings> analyzedSuggestions = tagger.tag(suggestions);
           for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
@@ -118,7 +112,9 @@ public class FindSuggestionsFilter extends RuleFilter {
               if (!replacements.contains(analyzedSuggestion.getToken())
                   && !replacements.contains(analyzedSuggestion.getToken().toLowerCase())
                   && (!diacriticsMode || equalWithoutDiacritics(analyzedSuggestion.getToken(), atrWord.getToken()))) {
-                replacements.add(analyzedSuggestion.getToken());
+                if (regexpPattern == null || !regexpPattern.matcher(analyzedSuggestion.getToken()).matches()) {
+                  replacements.add(analyzedSuggestion.getToken());
+                }
               }
               if (replacements.size() >= MAX_SUGGESTIONS) {
                 break;
@@ -126,6 +122,7 @@ public class FindSuggestionsFilter extends RuleFilter {
             }
           }
         }
+
       }
     }
 
@@ -170,42 +167,16 @@ public class FindSuggestionsFilter extends RuleFilter {
    * suggestions from the speller when the original word is a correct word.
    */
   private String makeWrong(String s) {
-    if (s.contains("a")) {
-      return s.replace("a", "ä");
-    }
-    if (s.contains("e")) {
-      return s.replace("e", "ë");
-    }
-    if (s.contains("i")) {
-      return s.replace("i", "ï");
-    }
-    if (s.contains("o")) {
-      return s.replace("o", "ö");
-    }
-    if (s.contains("u")) {
-      return s.replace("u", "ù");
-    }
-    if (s.contains("à")) {
-      return s.replace("à", "ä");
-    }
-    if (s.contains("é")) {
-      return s.replace("é", "ë");
-    }
-    if (s.contains("è")) {
-      return s.replace("è", "ë");
-    }
-    if (s.contains("í")) {
-      return s.replace("í", "ì");
-    }
-    if (s.contains("ó")) {
-      return s.replace("ó", "ö");
-    }
-    if (s.contains("ò")) {
-      return s.replace("ò", "ö");
-    }
-    if (s.contains("ú")) {
-      return s.replace("ú", "ù");
-    }
+    if (s.contains("a")) {return s.replace("a", "ä");}
+    if (s.contains("e")) {return s.replace("e", "ë");}
+    if (s.contains("i")) {return s.replace("i", "ï");}
+    if (s.contains("o")) {return s.replace("o", "ö");}
+    if (s.contains("u")) {return s.replace("u", "ù");}
+    if (s.contains("á")) {return s.replace("á", "ä");}
+    if (s.contains("é")) {return s.replace("é", "ë");}
+    if (s.contains("í")) {return s.replace("í", "ï");}
+    if (s.contains("ó")) {return s.replace("ó", "ö");}
+    if (s.contains("ú")) {return s.replace("ú", "ù");}
     return s + "-";
   }
 
