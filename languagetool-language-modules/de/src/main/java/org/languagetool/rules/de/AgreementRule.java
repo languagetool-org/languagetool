@@ -1347,20 +1347,8 @@ public class AgreementRule extends Rule {
       } catch (MalformedURLException e) {
         throw new RuntimeException(e);
       }*/
-      AgreementSuggestor suggestor = new AgreementSuggestor(language.getSynthesizer(), token1, token2);
+      AgreementSuggestor suggestor = new AgreementSuggestor(language.getSynthesizer(), token1, token2, replMap.get(tokenPos));
       List<String> suggestions = suggestor.getSuggestions();
-      if (replMap.get(tokenPos) == ReplacementType.Zur) {
-        suggestions = suggestions.stream().map(
-                k -> {
-                  if (k.startsWith("dem ")) {
-                    return "zum " + k.replaceFirst("dem ", "");
-                  } else if (k.startsWith("der ")) {
-                    return "zur " + k.replaceFirst("der ", "");
-                  } else {
-                    return "zu " + k;
-                  }
-                }).collect(Collectors.toList());
-      }
       ruleMatch.setSuggestedReplacements(suggestions);
     }
     return ruleMatch;
