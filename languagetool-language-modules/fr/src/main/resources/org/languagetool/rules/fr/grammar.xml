@@ -10072,27 +10072,25 @@ though, and has since been slightly modified)-->
       <rulegroup id="QUELLE_OU_QUELLES_GROUPE_NOMINAL" name="quelle ou quelles groupe nominal" default="temp_off">
       <rule>
           <pattern>
-              <token postag="V.*" postag_regexp="yes"/>
               <marker>
-                  <token>qu'</token>
+                  <token regexp="yes">qu(&apostrophe;)?</token>
                   <token>elle</token>
               </marker>
               <token postag="N.*|J.*" postag_regexp="yes"/>
           </pattern>
-          <message>Dans cette phrase, "qu'elle" est une erreur grammaticale. Souhaitez-vous écrire <suggestion>quelle</suggestion> ?</message>
-          <example correction="quelle">Il m'a raconté <marker>qu'elle</marker> belle journée il avait passé. </example>
+          <message>Une erreur semble être détectée dans cette phrase. Souhaitez-vous écrire <suggestion>quelle</suggestion> ?</message>
+          <example correction="quelle">Il m'a raconté <marker>qu'elle</marker> belle journée il avait passé.</example>
       </rule>
       <rule>
           <pattern>
-              <token postag="V.*" postag_regexp="yes"/>
               <marker>
-                  <token>qu'</token>
+                  <token regexp="yes">qu(&apostrophe;)?</token>
                   <token>elles</token>
               </marker>
               <token postag="N.*|J.*" postag_regexp="yes"/>
           </pattern>
-          <message>Dans cette phrase, "qu'elles" est une erreur grammaticale. Souhaitez-vous écrire <suggestion>quelles</suggestion> ?</message>
-          <example correction="quelles">Il m'a raconté <marker>qu'elles</marker> grandes aventures il souhaitait vivre. </example>
+          <message>Une erreur semble être détectée dans cette phrase. Souhaitez-vous écrire <suggestion>quelles</suggestion> ?</message>
+          <example correction="quelles">Il m'a raconté <marker>qu'elles</marker> grandes aventures il souhaitait vivre.</example>
       </rule>
       </rulegroup>
     <rule id="LA_OU_LES_PLUS" name="la ou les plus" default="temp_off">
