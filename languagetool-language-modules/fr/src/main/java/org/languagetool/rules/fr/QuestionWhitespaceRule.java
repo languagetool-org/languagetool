@@ -27,6 +27,7 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+import org.languagetool.tools.StringTools;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +41,8 @@ import java.util.regex.Pattern;
  * A rule that matches spaces before ?,:,; and ! (required for correct French
  * punctuation).
  *
- * @see <a href="http://unicode.org/udhr/n/notes_fra.html">http://unicode.org/udhr/n/notes_fra.html</a>
+ * @see <a href=
+ *      "http://unicode.org/udhr/n/notes_fra.html">http://unicode.org/udhr/n/notes_fra.html</a>
  *
  * @author Marcin Miłkowski
  */
@@ -48,45 +50,39 @@ public class QuestionWhitespaceRule extends Rule {
 
   // Pattern used to avoid false positive when signaling missing
   // space before and after colon ':' in URL with common schemes.
-  private static final Pattern urlPattern = Pattern.compile("^(file|s?ftp|finger|git|gopher|hdl|https?|shttp|imap|mailto|mms|nntp|s?news(post|reply)?|prospero|rsync|rtspu|sips?|svn|svn\\+ssh|telnet|wais)$");
+  private static final Pattern urlPattern = Pattern.compile(
+      "^(file|s?ftp|finger|git|gopher|hdl|https?|shttp|imap|mailto|mms|nntp|s?news(post|reply)?|prospero|rsync|rtspu|sips?|svn|svn\\+ssh|telnet|wais)$");
 
-  private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
-      Arrays.asList( // ignore smileys, such as :-)
-        new PatternTokenBuilder().tokenRegex("[:;]").build(),
-        new PatternTokenBuilder().csToken("-").setIsWhiteSpaceBefore(false).build(),
-        new PatternTokenBuilder().tokenRegex("[\\(\\)D]").setIsWhiteSpaceBefore(false).build()
-      ),
+  private static final String ESPACE_FINE_INSECABLE = "\u202F";
+  private static final String NBSP = "\u00A0";
+
+  private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(Arrays.asList(
+      // ignore smileys, such as :-)
+      new PatternTokenBuilder().tokenRegex("[:;]").build(),
+      new PatternTokenBuilder().csToken("-").setIsWhiteSpaceBefore(false).build(),
+      new PatternTokenBuilder().tokenRegex("[\\(\\)D]").setIsWhiteSpaceBefore(false).build()),
       Arrays.asList( // ignore smileys, such as :)
-        new PatternTokenBuilder().tokenRegex("[:;]").build(),
-        new PatternTokenBuilder().tokenRegex("[\\(\\)D]").setIsWhiteSpaceBefore(false).build()
-      ),
+          new PatternTokenBuilder().tokenRegex("[:;]").build(),
+          new PatternTokenBuilder().tokenRegex("[\\(\\)D]").setIsWhiteSpaceBefore(false).build()),
       Arrays.asList( // times like 23:20
-        new PatternTokenBuilder().tokenRegex(".*\\d{1,2}").build(),
-        new PatternTokenBuilder().token(":").build(),
-        new PatternTokenBuilder().tokenRegex("\\d{1,2}").build()
-      ),
+          new PatternTokenBuilder().tokenRegex(".*\\d{1,2}").build(), new PatternTokenBuilder().token(":").build(),
+          new PatternTokenBuilder().tokenRegex("\\d{1,2}").build()),
       Arrays.asList( // "??"
-        new PatternTokenBuilder().tokenRegex("[?!]").build(),
-        new PatternTokenBuilder().tokenRegex("[?!]").build()
-      ),
+          new PatternTokenBuilder().tokenRegex("[?!]").build(), new PatternTokenBuilder().tokenRegex("[?!]").build()),
       Arrays.asList( // mac address
-        new PatternTokenBuilder().tokenRegex("[a-z0-9]{2}").build(),
-        new PatternTokenBuilder().token(":").build(),
-        new PatternTokenBuilder().tokenRegex("[a-z0-9]{2}").build(),
-        new PatternTokenBuilder().token(":").build(),
-        new PatternTokenBuilder().tokenRegex("[a-z0-9]{2}").build()
-      ),
-      Arrays.asList( // csv markup (not sure why we need this, but there were a lot of users ignoring this specific case)
-        new PatternTokenBuilder().token(";").build(),
-        new PatternTokenBuilder().tokenRegex(".+").setIsWhiteSpaceBefore(false).build(),
-        new PatternTokenBuilder().token(";").setIsWhiteSpaceBefore(false).build()
-      ),
-      Arrays.asList( // csv markup (not sure why we need this, but there were a lot of users ignoring this specific case)
-        new PatternTokenBuilder().tokenRegex(".+").setIsWhiteSpaceBefore(false).build(),
-        new PatternTokenBuilder().token(";").setIsWhiteSpaceBefore(false).build(),
-        new PatternTokenBuilder().tokenRegex(".+").setIsWhiteSpaceBefore(false).build()
-      )
-    );
+          new PatternTokenBuilder().tokenRegex("[a-z0-9]{2}").build(), new PatternTokenBuilder().token(":").build(),
+          new PatternTokenBuilder().tokenRegex("[a-z0-9]{2}").build(), new PatternTokenBuilder().token(":").build(),
+          new PatternTokenBuilder().tokenRegex("[a-z0-9]{2}").build()),
+      Arrays.asList( // csv markup (not sure why we need this, but there were a lot of users ignoring
+                     // this specific case)
+          new PatternTokenBuilder().token(";").build(),
+          new PatternTokenBuilder().tokenRegex(".+").setIsWhiteSpaceBefore(false).build(),
+          new PatternTokenBuilder().token(";").setIsWhiteSpaceBefore(false).build()),
+      Arrays.asList( // csv markup (not sure why we need this, but there were a lot of users ignoring
+                     // this specific case)
+          new PatternTokenBuilder().tokenRegex(".+").setIsWhiteSpaceBefore(false).build(),
+          new PatternTokenBuilder().token(";").setIsWhiteSpaceBefore(false).build(),
+          new PatternTokenBuilder().tokenRegex(".+").setIsWhiteSpaceBefore(false).build()));
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
   @Override
@@ -109,6 +105,10 @@ public class QuestionWhitespaceRule extends Rule {
     return "Insertion des espaces fines insécables";
   }
 
+  protected boolean isAllowedWhitespaceChar(AnalyzedTokenReadings[] tokens, int i) {
+    return i >= 0 ? tokens[i].isWhitespace() : false;
+  }
+
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
@@ -120,61 +120,73 @@ public class QuestionWhitespaceRule extends Rule {
         continue;
       }
       String token = tokens[i].getToken();
-
-      // using isWhitespaceBefore() will not work (breaks test)
-      boolean isWhiteBefore = i > 0 ? tokens[i - 1].isWhitespace() : false;
-
       String msg = null;
-      int fixFromPos = 0;
-      int fixToPos = 0;
       String suggestionText = null;
-      if (!isWhiteBefore) {
-        // Strictly speaking, the character before ?!; should be an
-        // "espace fine insécable" (U+202f).  In practise, an
-        // "espace insécable" (U+00a0) is also often used - or even a common space.
-        // Let's accept all - use QuestionWhitespaceStrictRule if this is not strict enough.
+      int iFrom = i - 1;
+      int iTo = i;
+      boolean isPreviousWhitespace = i > 0 ? tokens[i - 1].isWhitespace() : false;
+      String prevTokenToChange = prevToken;
+      if (isPreviousWhitespace) {
+        prevTokenToChange = "";
+      }
+      if (!isAllowedWhitespaceChar(tokens, i - 1)) {
+        // Strictly speaking, the character before ?!; should be an "espace fine
+        // insécable" (U+202f). In practise, an "espace insécable" (U+00a0) is also
+        // often used - or even a common space. Let's accept all - use
+        // QuestionWhitespaceStrictRule if this is not strict enough.
         if (token.equals("?") && !prevToken.equals("!")) {
-          msg = "Point d'interrogation est précédé d'une espace fine insécable.";
-          // non-breaking space
-          suggestionText = prevToken + " ?";
-          fixToPos = 1;
+          msg = "Le point d'interrogation est précédé d'une espace fine insécable.";
+          suggestionText = prevTokenToChange + ESPACE_FINE_INSECABLE + "?";
         } else if (token.equals("!") && !prevToken.equals("?")) {
-          msg = "Point d'exclamation est précédé d'une espace fine insécable.";
-          // non-breaking space
-          suggestionText = prevToken + " !";
-          fixToPos = 1;
+          msg = "Le point d'exclamation est précédé d'une espace fine insécable.";
+          suggestionText = prevTokenToChange + ESPACE_FINE_INSECABLE + "!";
         } else if (token.equals(";")) {
-          msg = "Point-virgule est précédé d'une espace fine insécable.";
-          // non-breaking space
-          suggestionText = prevToken + " ;";
-          fixToPos = 1;
+          msg = "Le point-virgule est précédé d'une espace fine insécable.";
+          suggestionText = prevTokenToChange + ESPACE_FINE_INSECABLE + ";";
         } else if (token.equals(":")) {
           // Avoid false positive for URL like http://www.languagetool.org.
           Matcher matcherUrl = urlPattern.matcher(prevToken);
           if (!matcherUrl.find()) {
-            msg = "Deux-points précédés d'une espace insécable.";
-            // non-breaking space
-            suggestionText = prevToken + " :";
-            fixToPos = 1;
+            msg = "Les deux-points sont précédés d'une espace insécable.";
+            suggestionText = prevTokenToChange + NBSP + ":";
           }
         } else if (token.equals("»")) {
-          msg = "Le guillemet fermant est précédé d'une espace insécable.";
-          if (prevPrevToken.equals("«")) {  // would be nice if this covered more than one word... ()
-            suggestionText = "« " + prevToken + " »";  // non-breaking spaces
-            fixFromPos = -1;
-            fixToPos = 2;
+          if (prevPrevToken.equals("«")) {
+            msg = "Les guillemets sont toujours accompagnés d'une espace insécable.";
+            suggestionText = "«" + NBSP + prevTokenToChange + NBSP + "»";
+            iFrom = i - 2;
           } else {
-            suggestionText = prevToken + " »";  // non-breaking space
-            fixToPos = 1;
+            msg = "Le guillemet fermant est précédé d'une espace insécable.";
+            suggestionText = prevTokenToChange + NBSP + "»";
+          }
+        }
+      }
+
+      if (prevToken.equals("«")) {
+        if (StringTools.isEmpty(token)) {
+          msg = "Le guillemet ouvrant est suivi d'une espace insécable.";
+          suggestionText = "«" + NBSP;
+          iTo = i - 1;
+        } else if (!isAllowedWhitespaceChar(tokens, i)) {
+          String nextToken = "";
+          if (i + 1 < tokens.length) {
+            nextToken = tokens[i + 1].getToken();
+          }
+          if (!nextToken.equals("»")) {
+            msg = "Le guillemet ouvrant est suivi d'une espace insécable.";
+            if (!tokens[i].isWhitespace()) {
+              suggestionText = "«" + NBSP + token;
+            } else {
+              suggestionText = "«" + NBSP;
+            }
           }
         }
       }
 
       if (msg != null) {
-        int fromPos = tokens[i - 1].getStartPos() + fixFromPos;
-        int toPos = fromPos + fixToPos + tokens[i - 1].getToken().length();
-        RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg,
-            "Insérer un espace insécable");
+        int fromPos = tokens[iFrom].getStartPos();
+        int toPos = tokens[iTo].getEndPos();
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg, "Insérer un espace insécable");
         ruleMatch.setSuggestedReplacement(suggestionText);
         ruleMatches.add(ruleMatch);
       }
