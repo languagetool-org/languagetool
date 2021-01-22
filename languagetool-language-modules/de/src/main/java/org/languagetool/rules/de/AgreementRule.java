@@ -1351,7 +1351,15 @@ public class AgreementRule extends Rule {
       List<String> suggestions = suggestor.getSuggestions();
       if (replMap.get(tokenPos) == ReplacementType.Zur) {
         suggestions = suggestions.stream().map(
-                k -> k.startsWith("dem ") ? "zum " + k.replaceFirst("dem ", "") : "zu " + k).collect(Collectors.toList());
+                k -> {
+                  if (k.startsWith("dem ")) {
+                    return "zum " + k.replaceFirst("dem ", "");
+                  } else if (k.startsWith("der ")) {
+                    return "zur " + k.replaceFirst("der ", "");
+                  } else {
+                    return "zu " + k;
+                  }
+                }).collect(Collectors.toList());
       }
       ruleMatch.setSuggestedReplacements(suggestions);
     }
