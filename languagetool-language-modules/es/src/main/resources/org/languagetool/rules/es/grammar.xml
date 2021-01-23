@@ -16916,6 +16916,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>claro</token>
             </antipattern>
             <antipattern>
+                <token>,</token>
+                <token>es</token>
+                <token regexp="yes">lógico|claro|obvio|evidente</token>
+                <token>,</token>
+            </antipattern>
+            <antipattern>
                 <token>hay</token>
                 <token>que</token>
             </antipattern>
@@ -17044,7 +17050,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="V.I..S." postag_regexp="yes"><exception postag="_possible_NP|N.*|V.[MP].*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/><exception>hay</exception><exception scope="next">tu</exception></token>
                     </marker>
                 </pattern>
-                <message>Probablemente sobra la coma entre el sujeto y el predicado.</message>
+                <message>Probablemente sobra la coma entre el sujeto y el predicado. Es correcto si es un vocativo ("Juan, ven aquí.").</message>
                 <suggestion> \4</suggestion>
                 <url>http://www.wikilengua.org/index.php/Coma_de_sujeto</url>
                 <example correction=" va">Juan<marker>, va</marker> hacia su casa.</example>
@@ -17070,6 +17076,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Claro, le duele.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>no</token>
+                    <token regexp="yes">es|era</token>
+                    <token>necesario</token>
+                    <token>que</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="NP.*" postag_regexp="yes" max="3"><exception postag="AO.*|V.[MI].*" postag_regexp="yes"/></token>
@@ -17080,7 +17092,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" max="2" postag="&pronombre_personal_atono_POS;|RN" postag_regexp="yes"><exception>te</exception></token>
                     <token postag="V.I..S." postag_regexp="yes"><exception postag="_possible_NP|N.*|V.[MP].*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/><exception>hay</exception><exception scope="next">tu</exception></token>
                 </pattern>
-                <message>Probablemente sobra la coma entre el sujeto y el predicado.</message>
+                <message>Probablemente sobra la coma entre el sujeto y el predicado. Es correcto si es un vocativo ("Juan, ven aquí.").</message>
                 <suggestion> \4</suggestion>
                 <url>http://www.wikilengua.org/index.php/Coma_de_sujeto</url>
                 <example correction=" se">Juan <marker>, se</marker> va hacia su casa.</example>
@@ -17103,6 +17115,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>María, me gustan mucho las enumeraciones.</example>
                 <example>Tom, te llama mamá.</example>
                 <example>Claro, le duele.</example>
+                <example>Tom, no es necesario que te disculpes.</example>
             </rule>
             <rule>
                 <pattern>
