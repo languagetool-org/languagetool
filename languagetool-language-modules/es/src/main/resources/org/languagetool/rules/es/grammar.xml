@@ -6221,7 +6221,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Cuando los de esto.</example>
                 <example>La de es la tercera letra del abecedario.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>que</token>
                     <token min="0" max="6" postag="RG|LOC_ADV" postag_regexp="yes"/>
@@ -7855,7 +7855,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="mega$1"/></suggestion>
                 <example correction="megabytes">Son <marker>mega-bytes</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">súper|super</token>
                     <token min="0">-</token>
@@ -10516,7 +10516,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Participa en un grupo de teatro.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AGREEMENT_ORDINALS" name="concordancias ordinales: vigésima segunda / vigesimosegunda" default="temp_off">
+        <rulegroup id="AGREEMENT_ORDINALS" name="concordancias ordinales: vigésima segunda / vigesimosegunda">
             <rule>
                 <pattern>
                     <token regexp="yes">&ordinales_decenas;</token>
@@ -12372,7 +12372,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="de la otra área">Viene <marker>del otro área</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AGREEMENT_ADJ_NOUN_" name="Concordancias adjetivo y nombre">
+        <rulegroup id="AGREEMENT_ADJ_NOUN" name="Concordancias adjetivo y nombre">
             <antipattern>
                 <token postag="SPS00"/>
                 <token regexp="yes">sí|yo|tú|él|ella|nosotros|nosotras|vosotros|vosotras|ellos|ellas|usted|ustedes</token>
@@ -12541,7 +12541,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ácidos grasos omega 3.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AGREEMENT_PARTICIPLE_NOUN_" name="concordancias participio y nombre" default="temp_off">
+        <rulegroup id="AGREEMENT_PARTICIPLE_NOUN" name="concordancias participio y nombre" default="temp_off">
             <antipattern>
                 <token regexp="yes">ab[ií](a|as|an|amos|ais)|as|emos|e|an<exception regexp="yes">\p{Lu}+</exception><exception postag="_GN_MS"/></token>
                 <token postag="V.P..SM" postag_regexp="yes"/>
@@ -13798,7 +13798,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rulegroup id="ALA_A_LA" name="ala/a la" default="temp_off">
+        <rulegroup id="ALA_A_LA" name="ala/a la">
             <rule>
                 <pattern>
                     <token>ala</token>
@@ -18628,7 +18628,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="2014">Es de <marker>20014</marker>.</example>
             <example>Es del 2015.</example>
         </rule>
-        <rulegroup id="DATE_NEW_YEAR" name="Año nuevo" default="temp_off">
+        <rulegroup id="DATE_NEW_YEAR" name="Año nuevo" >
             <antipattern>
                 <token regexp="yes">\d\d\d\d</token>
                 <token regexp="yes">aC|dC</token>
