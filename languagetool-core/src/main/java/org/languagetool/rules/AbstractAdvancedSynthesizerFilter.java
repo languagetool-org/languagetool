@@ -73,6 +73,9 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
 
     String desiredLemma = getAnalyzedToken(patternTokens[lemmaFrom - 1], lemmaSelect).getLemma();
     String desiredPostag = getAnalyzedToken(patternTokens[postagFrom - 1], postagSelect).getPOSTag();
+    // take capitalization from the lemma (?)
+    boolean isWordCapitalized = StringTools.isCapitalizedWord(patternTokens[lemmaFrom - 1].getToken());
+    boolean isWordAllupper = StringTools.isAllUppercase(patternTokens[lemmaFrom - 1].getToken());
     AnalyzedToken token = new AnalyzedToken("", desiredPostag, desiredLemma);
     String[] replacements = getSynthesizer().synthesize(token, desiredPostag);
 
@@ -87,6 +90,12 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
         for (String nr : replacements) {
           if (r.contains("{suggestion}") || r.contains("{Suggestion}")) {
             suggestionUsed = true;
+          }
+          if (isWordCapitalized) {
+            nr = StringTools.uppercaseFirstChar(nr);
+          }
+          if (isWordAllupper) {
+            nr = nr.toUpperCase();
           }
           r = r.replace("{suggestion}", nr);
           r = r.replace("{Suggestion}", StringTools.uppercaseFirstChar(nr));

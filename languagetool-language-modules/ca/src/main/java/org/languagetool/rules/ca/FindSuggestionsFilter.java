@@ -80,6 +80,8 @@ public class FindSuggestionsFilter extends RuleFilter {
             + match.getRule().getFullId() + ", PronounFrom: " + posWord);
       }
       AnalyzedTokenReadings atrWord = patternTokens[posWord - 1];
+      boolean isWordCapitalized = StringTools.isCapitalizedWord(atrWord.getToken());
+      boolean isWordAllupper = StringTools.isAllUppercase(atrWord.getToken());
 
       // Check if the original token (before disambiguation) meets the requirements
       List<String> originalWord = Collections.singletonList(atrWord.getToken());
@@ -113,7 +115,14 @@ public class FindSuggestionsFilter extends RuleFilter {
                   && !replacements.contains(analyzedSuggestion.getToken().toLowerCase())
                   && (!diacriticsMode || equalWithoutDiacritics(analyzedSuggestion.getToken(), atrWord.getToken()))) {
                 if (regexpPattern == null || !regexpPattern.matcher(analyzedSuggestion.getToken()).matches()) {
-                  replacements.add(analyzedSuggestion.getToken());
+                  String replacement = analyzedSuggestion.getToken();
+                  if (isWordAllupper) {
+                    replacement = replacement.toUpperCase(); 
+                  }
+                  if (isWordCapitalized) {
+                    replacement = StringTools.uppercaseFirstChar(replacement); 
+                  }
+                  replacements.add(replacement);
                 }
               }
               if (replacements.size() >= MAX_SUGGESTIONS) {
@@ -134,7 +143,7 @@ public class FindSuggestionsFilter extends RuleFilter {
     RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
         message, match.getShortMessage());
     ruleMatch.setType(match.getType());
-
+    
     List<String> definitiveReplacements = new ArrayList<>();
     boolean replacementsUsed = false;
     if (generateSuggestions) {

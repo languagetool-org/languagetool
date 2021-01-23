@@ -46,10 +46,10 @@ public class DiacriticsCheckFilter extends RuleFilter {
     Pattern desiredGenderNumberPattern = null;
     String replacement = null;
     String postag = getRequired("postag", arguments);
-    String form = getRequired("form", arguments).toLowerCase();
-    if (form.equals("industria")) {
-      form = form + "";
-    }
+    String originalForm = getRequired("form", arguments);
+    boolean isAllUppercase = StringTools.isAllUppercase(originalForm);
+    String form = originalForm.toLowerCase();
+    
     String gendernumberFrom = getOptional("gendernumberFrom", arguments);
     if (gendernumberFrom != null) {
       int i = Integer.parseInt(gendernumberFrom);
@@ -84,11 +84,14 @@ public class DiacriticsCheckFilter extends RuleFilter {
       String message = match.getMessage();
       // Change the message if the replacement has no diacritic
       if (!(StringTools.hasDiacritics(replacement) && !StringTools.hasDiacritics(form))) {
-        message = message.replace("s'esciur amb accent", "s'escriu d'una altra manera");
+        message = message.replace("s'escriu amb accent", "s'escriu d'una altra manera");
       }
       RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
           message, match.getShortMessage());
       ruleMatch.setType(match.getType());
+      if (isAllUppercase) {
+        replacement = replacement.toUpperCase();
+      }
       String suggestion = match.getSuggestedReplacements().get(0).replace("{suggestion}", replacement);
       suggestion = suggestion.replace("{Suggestion}", StringTools.uppercaseFirstChar(replacement));
       ruleMatch.setSuggestedReplacement(suggestion);
