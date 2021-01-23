@@ -36201,8 +36201,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>pe</token>
                     <token>l</token>
                     <token skip="4">que</token>
-                    <token inflected="yes" regexp="yes" postag="V.[SI].*|_GV_" postag_regexp="yes">dir|comentar|expressar|manifestar|veure|saber|informar|llegir|referir|derivar|concernir|referència</token>
+                    <and>
+                        <token regexp="yes" inflected="yes">dir|comentar|expressar|manifestar|veure|saber|informar|llegir|referir|derivar|concernir|referència</token>
+                        <token postag="V.[SI].*|_GV_" postag_regexp="yes"/>
+                    </and>
                     <token><exception>que</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token>pe</token>
+                    <token>l</token>
+                    <token skip="4">que</token>
+                    <and>
+                        <token regexp="yes" inflected="yes">veure|saber</token>
+                        <token postag="V.[SI].*|_GV_" postag_regexp="yes"/>
+                    </and>
                 </antipattern>
                 <antipattern>
                     <token>pe</token>
@@ -36249,6 +36261,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Estic espantat, pel que pugui passar demà.</example>
                 <example>Quasi total, pel que hom sap actualment,</example>
                 <example>Això no obstant, pel que hom ha vist, cal suposar que sí.</example>
+                <example>De fet, pel que han dit de tu, això em sorprèn.</example>
+                <example>D'altra banda, pel que veiem que passa ara a Nova Zelanda,</example>
                 <!-- ambiguous: , pel que es deduïa -->
             </rule>
         </rulegroup>
@@ -59967,54 +59981,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="COMA_SUBJECTE_PREDICAT" name="coma innecessària entre subjecte i predicat">
             <url>http://www.ccma.cat/llibredestil/manual-dus/coma</url>
             <antipattern>
-                <marker>
-                    <token>és</token>
-                    <token>a</token>
-                    <token>dir</token>
-                </marker>
+                <token>és</token>
+                <token>a</token>
+                <token>dir</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token>és</token>
-                    <token>clar</token>
-                </marker>
+                <token>,</token>
+                <token regexp="yes">és|era</token>
+                <token regexp="yes">obvi|lògic|natural|evident|clar</token>
+                <token>,</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token postag="SENT_START" skip="-1"/>
-                    <token regexp="yes">[!?]</token>
-                </marker>
+                <token>no</token>
+                <token>cal</token>
+                <token>dir</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token>,</token>
-                    <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"/>
-                    <token inflected="yes" regexp="yes">dir|suposar|afirmar|creure|escriure|caldre|pensar|meditar|assenyalar|assegurar|explicar</token>
-                </marker>
+                <token postag="SENT_START" skip="-1"/>
+                <token regexp="yes">[!?]</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token>,</token>
-                    <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"/>
-                    <token postag="VA.*" postag_regexp="yes"/>
-                    <token inflected="yes" regexp="yes">dir|suposar|afirmar|creure|escriure|caldre|pensar|meditar|assenyalar|assegurar|explicar</token>
-                </marker>
+                <token>,</token>
+                <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"/>
+                <token inflected="yes" regexp="yes">dir|suposar|afirmar|creure|escriure|caldre|pensar|meditar|assenyalar|assegurar|explicar|destacar</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token postag="_GN_.P" postag_regexp="yes"/>
-                    <token>,</token>
-                    <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"/>
-                    <token postag="V....S.." postag_regexp="yes"/>
-                </marker>
+                <token>,</token>
+                <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"/>
+                <token postag="VA.*" postag_regexp="yes"/>
+                <token inflected="yes" regexp="yes">dir|suposar|afirmar|creure|escriure|caldre|pensar|meditar|assenyalar|assegurar|explicar|destacar</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token postag="_GN_.S" postag_regexp="yes"/>
-                    <token>,</token>
-                    <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"/>
-                    <token postag="V....P.." postag_regexp="yes"/>
-                </marker>
+                <token postag="_GN_.P" postag_regexp="yes"/>
+                <token>,</token>
+                <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"/>
+                <token postag="V....S.." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="_GN_.S" postag_regexp="yes"/>
+                <token>,</token>
+                <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"/>
+                <token postag="V....P.." postag_regexp="yes"/>
             </antipattern>
             <rule>
                 <pattern>
@@ -60024,7 +60031,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token max="4" postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|diada|col?p|volta|vegada|pic</exception></token>
                     <marker>
                         <token>,</token>
-                        <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_nompropi|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/></token>
+                        <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_nompropi|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.*</exception></token>
                     </marker>
                 </pattern>
                 <message>Probablement sobra la coma entre subjecte i predicat.</message>
@@ -60055,7 +60062,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token max="4" postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|diada|col?p|volta|vegada|pic</exception></token>
                     <marker>
                         <token>,</token>
-                        <token postag="&pronom_feble;|RN" postag_regexp="yes"/>
+                        <token postag="&pronom_feble;|RN" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception></token>
                     </marker>
                     <token min="0" max="2" postag="&pronom_feble;|RN" postag_regexp="yes"/>
                     <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_nompropi|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/></token>
@@ -60078,6 +60085,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>L'objectiu, ens va dir, és salvar vides.</example>
                 <example>L'aplicació, activa des de l'octubre</example>
                 <example>Els peixos marins, va xiuxiuejar.</example>
+                <example>Tot va bé, no passa res.</example>
                 <!--<example type="trigers_error">Aquesta sang, baixa en oxigen,</example>-->
             </rule>
         </rulegroup>
