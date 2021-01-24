@@ -2618,7 +2618,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="takim_obrazom" name="Запятая после «таким образом» 2" >  <!-- tags="picky" --> <!-- set temp_off -->
             <pattern>
                 <token>таким<exception postag="VB:.*|DPT:.*|PT:.*|PT_Short:.*|PREP|PRDC|NN:.*" postag_regexp="yes" scope="previous"></exception>
-                    <exception regexp="yes" scope="previous">[,.-;:—]</exception><exception scope="previous" postag_regexp="yes" postag="SENT_START"><exception scope="previous" regexp="yes">что|чтобы|как</exception></exception>
+                    <exception regexp="yes" scope="previous">[,.-;:—]</exception>
+                    <exception scope="previous" postag_regexp="yes" postag="SENT_START" />
+                    <exception scope="previous" regexp="yes">что|чтобы|как</exception>
                 </token>
                 <token>образом</token>
                 <token postag="VB:.*|DPT:.*|PT:.*|PT_Short:.*|PREP" postag_regexp="yes" negate_pos="yes">
