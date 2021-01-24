@@ -20055,7 +20055,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="AUF_BITTEN" name="auf bitten (Bitten)">
             <antipattern><!-- Steh auf bitte Er traf unerwartet ein.-->
-                <token postag="VER:IMP:.+" postag_regexp="yes" />
+                <token postag="VER:IMP:(SIN|PLU):NON" postag_regexp="yes" />
                 <token>auf</token>
             </antipattern>
             <pattern>
@@ -20063,6 +20063,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token case_sensitive="yes" regexp="yes">bitten?</token>
                 </marker>
+                <token>
+                    <exception postag="PKT" />
+                </token>
             </pattern>
             <message>Das Nomen <suggestion><match no="2" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
             <example correction="Bitten">Der Bundestag tagt auf <marker>bitten</marker> der Kanzlerin.</example>
