@@ -2615,10 +2615,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     	    <example correction="таким образом, что">Это сделано <marker>таким образом что</marker> и не найти.</example>
     	    <example>Таким образом, что слово есть, что его нет - без разницы.</example>
     	</rule>
-        <rule id="takim_obrazom" name="Запятая после «таким образом» 2" default="off" >  <!-- tags="picky" --> <!-- set temp_off -->
+        <rule id="takim_obrazom" name="Запятая после «таким образом» 2" >  <!-- tags="picky" --> <!-- set temp_off -->
             <pattern>
-                <token>таким<exception postag="VB:.*|DPT:.*|PT:.*|PT_Short:.*|PREP|PRDC" postag_regexp="yes" scope="previous"></exception>
-                    <exception regexp="yes" scope="previous">[,.-;:—]</exception><exception scope="previous" postag_regexp="yes" postag="SENT_START"></exception>
+                <token>таким<exception postag="VB:.*|DPT:.*|PT:.*|PT_Short:.*|PREP|PRDC|NN:.*" postag_regexp="yes" scope="previous"></exception>
+                    <exception regexp="yes" scope="previous">[,.-;:—]</exception><exception scope="previous" postag_regexp="yes" postag="SENT_START"><exception scope="previous" regexp="yes">что|чтобы|как</exception></exception>
                 </token>
                 <token>образом</token>
                 <token postag="VB:.*|DPT:.*|PT:.*|PT_Short:.*|PREP" postag_regexp="yes" negate_pos="yes">
@@ -9422,7 +9422,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            <example correction="относится">Проблема может возникнуть при наличии собственных резонансов в модели, что <marker>относиться</marker> и к нашему случаю, где частота падающей волны приходится на максимум дипольного отклика частицы.</example>
         </rule>        
         </rulegroup>                
-        <rule id="Verb_INF_OR_3P_2" default="temp_off" name="Инфинитив вместо личной формы глагола"> <!-- set temp off -->
+        <rule id="Verb_INF_OR_3P_2" default="off" name="Инфинитив вместо личной формы глагола" tags="picky"> <!-- set temp off -->  <!-- tags="picky" -->
             <antipattern>
                  <token postag="SENT_START" skip="-1" />
                  <token postag="VB:.*" skip="-1" postag_regexp="yes" ><exception   postag="VB:.*"  postag_regexp="yes"  negate_pos="yes"    /></token>
