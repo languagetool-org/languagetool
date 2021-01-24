@@ -18,7 +18,6 @@
  */
 package org.languagetool.server;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -64,13 +63,13 @@ public class HTTPServerLoadTest extends HTTPServerTest {
 
   void doTest() throws InterruptedException, ExecutionException {
     ExecutorService executorService = Executors.newFixedThreadPool(getThreadCount());
-    List<Future> futures = new ArrayList<>();
+    List<Future<?>> futures = new ArrayList<>();
     System.out.println("thread count: " + getThreadCount());
     for (int i = 0; i < getThreadCount(); i++) {
       Future<?> future = executorService.submit(new TestRunnable());
       futures.add(future);
     }
-    for (Future future : futures) {
+    for (Future<?> future : futures) {
       future.get();
     }
   }
@@ -84,7 +83,7 @@ public class HTTPServerLoadTest extends HTTPServerTest {
   }
 
   @Override
-  public void testAccessDenied() throws Exception {
+  public void testAccessDenied() {
     // no need to test this here, tested in super class
   }
   
@@ -98,7 +97,8 @@ public class HTTPServerLoadTest extends HTTPServerTest {
         } catch (Exception e) {
           throw new RuntimeException(e);
         } finally {
-          int count = runningTests.decrementAndGet();
+          runningTests.decrementAndGet();
+          //int count = runningTests.decrementAndGet();
           //System.out.println("Tests currently running: " + count);
         }
       }
