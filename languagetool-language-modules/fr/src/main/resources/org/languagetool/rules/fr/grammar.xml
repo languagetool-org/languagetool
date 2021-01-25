@@ -35510,6 +35510,48 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+    <rulegroup id="JE_M_EXCUSE " name="Je m’excuse" type="style" default="temp_off">
+      <rule>
+          <pattern>
+              <token postag="SENT_START|M nonfin" postag_regexp="yes"/>
+              <marker>
+                  <token>je</token>
+                  <token>m'</token>
+                  <token>excuse</token>
+              </marker>
+              <token postag="P.*|M fin" postag_regexp="yes"/>
+          </pattern>
+          <message>S'excuser soi-même peut être perçu comme un manque de politesse. Souhaitez-vous écrire <suggestion>excusez-moi</suggestion> employé dans le langage courant ou <suggestion>veuillez m'excuser</suggestion> employé dans le langage formel ou <suggestion>je vous prie de m'excuser</suggestion> employé dans le langage soutenu ?</message>
+          <url>https://fr.wiktionary.org/wiki/je_m%E2%80%99excuse</url>
+          <example correction="Excusez-moi|Veuillez m'excuser|Je vous prie de m'excuser"><marker>Je m'excuse</marker> de vous déranger.</example>
+          <example correction="excusez-moi|veuillez m'excuser|je vous prie de m'excuser">Je ne souhaitais pas cela, <marker>je m'excuse</marker>.</example>
+      </rule>
+      <rule>
+          <pattern>
+              <token regexp="yes" skip="-1">tu|te</token>
+              <marker>
+                  <token>je</token>
+                  <token>m'</token>
+                  <token>excuse</token>
+              </marker>
+          </pattern>
+          <message>S'excuser soi-même peut être perçu comme un manque de politesse. Souhaitez-vous écrire <suggestion>Excuse-moi</suggestion> employé dans le langage formel ?</message>
+          <example correction="Excuse-moi">Je ne voulais pas que tu me vois pleurer, <marker>je m'excuse</marker>.</example>
+          <example correction="Excuse-moi">Je ne voulais pas te déranger, <marker>je m'excuse</marker>.</example>
+      </rule>
+      <rule>
+          <pattern>
+              <token skip="-1">tu</token>
+              <marker>
+                  <token>je</token>
+                  <token>m'</token>
+                  <token>excuse</token>
+              </marker>
+          </pattern>
+          <message>S'excuser soi-même peut être perçu comme un manque de politesse. Souhaitez-vous écrire <suggestion>Excuse-moi</suggestion> employé dans le langage formel ?</message>
+          <example correction="Excuse-moi">Je ne voulais pas que tu me vois pleurer, <marker>je m'excuse</marker>.</example>
+      </rule>
+    </rulegroup>
     <rule id="CA_VA_MAL_SE_FINIR" name="ça va mal se finir" default="temp_off">
       <pattern>
         <token>ça</token>
