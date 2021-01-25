@@ -1251,8 +1251,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes"
                         >porque|como|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
                     <marker>
-                        <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception regexp="yes">di|cap</exception><exception scope="previous" regexp="yes">&pronombre_personal_no_articulo;</exception><exception scope="previous"
-                            postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception regexp="yes">di|cap</exception><exception scope="previous" regexp="yes"
+                            >&pronombre_personal_no_articulo;</exception><exception scope="previous" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\3 postag:[AN].*"/>
@@ -9300,7 +9300,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>porque</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" inflected="yes">saber|preguntar|pedir|explicar|contar|decir|comprender|entender<exception postag=".*PP...A..|_GN_.*" postag_regexp="yes"/></token>
+                    <and>
+                        <token regexp="yes" inflected="yes">saber|preguntar|pedir|explicar|contar|decir|comprender|entender<exception postag=".*PP...A..|_GN_.*" postag_regexp="yes"/></token>
+                        <token postag="V.[^P].*|_GV_" postag_regexp="yes"/>
+                    </and>
                     <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
                     <marker>
                         <token regexp="yes">porque|porqué</token>
@@ -9319,6 +9322,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>He querido decirlo porque después propondré otra cosa.</example>
                 <example>En relación con esta pregunta porque usted no se encontraba presente.</example>
                 <example>Y esto tiene que decirse <marker>porque</marker> es necesario.</example>
+                <example>No están suficientemente bien explicados porque le falta experiencia.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18631,7 +18635,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="2014">Es de <marker>20014</marker>.</example>
             <example>Es del 2015.</example>
         </rule>
-        <rulegroup id="DATE_NEW_YEAR" name="Año nuevo" >
+        <rulegroup id="DATE_NEW_YEAR" name="Año nuevo">
             <antipattern>
                 <token regexp="yes">\d\d\d\d</token>
                 <token regexp="yes">aC|dC</token>
