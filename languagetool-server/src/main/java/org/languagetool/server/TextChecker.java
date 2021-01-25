@@ -203,6 +203,8 @@ abstract class TextChecker {
     long timeStart = System.currentTimeMillis();
     UserLimits limits = ServerTools.getUserLimits(parameters, config);
 
+    String requestId = httpExchange.getRequestHeaders().getFirst("X-Request-ID");
+
     // logging information
     String agent = parameters.get("useragent") != null ? parameters.get("useragent") : "-";
     Long agentId = null, userId = null;
@@ -410,7 +412,10 @@ abstract class TextChecker {
                        ", #" + count +
                        ", " + aText.getPlainText().length() + " characters of text" +
                        ", mode: " + mode.toString().toLowerCase() +
-                       ", h: " + reqCounter.getHandleCount() + ", r: " + reqCounter.getRequestCount() + ", system load: " + loadInfo + ")";
+                       ", h: " + reqCounter.getHandleCount() +
+                       ", r: " + reqCounter.getRequestCount() +
+                       ", requestId: " + requestId +
+                       ", system load: " + loadInfo + ")";
       if (params.allowIncompleteResults) {
         logger.info(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
         matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
@@ -487,7 +492,8 @@ abstract class TextChecker {
     int computationTime = (int) (System.currentTimeMillis() - timeStart);
     String version = parameters.get("v") != null ? ", v:" + parameters.get("v") : "";
     String skipLimits = limits.getSkipLimits() ? ", skipLimits" : "";
-    logger.info("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage + ", #" + count + ", " + referrer + ", "
+    logger.info("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage +
+            ", requestId: " + requestId + ", #" + count + ", " + referrer + ", "
             + matches.size() + " matches, "
             + computationTime + "ms, agent:" + agent + version
             + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?")
