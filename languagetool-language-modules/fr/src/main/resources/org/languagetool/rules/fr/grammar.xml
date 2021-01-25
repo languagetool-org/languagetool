@@ -35510,6 +35510,35 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+    <rulegroup id="RISQUE_ET_CHANCE" name="risque et chance">
+      <rule>
+          <pattern>
+              <marker>
+                  <token postag="V (ind|sub).*" postag_regexp="yes" inflected="yes">risquer</token>
+              </marker>
+              <token regexp="yes">de</token>
+              <token regexp="yes">gagner</token>
+          </pattern>
+          <message>Faute de style possible car cette expression peut paraître péjorative.</message>
+          <suggestion><match no="1" postag="(V )(ind|sub)(.*)" postag_regexp="yes" postag_replace="(V avoir ind$3)|(V avoir sub$3)">avoir</match> des chances</suggestion>
+          <example correction="a des chances|ait des chances">Il <marker>risque</marker> de gagner.</example>
+      </rule>
+      <rule>
+          <pattern>
+              <marker>
+                  <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir</token>
+                  <token>des</token>
+                  <token>chances</token>
+              </marker>
+              <token regexp="yes">de|d'</token>
+              <token regexp="yes">perdre|échouer</token>
+          </pattern>
+          <message>Faute de style possible car cette expression peut paraître méliorative.</message>
+          <suggestion><match no="1" postag="(V avoir) (ind) (.*)" postag_regexp="yes" postag_replace="V ind $3">risquer</match></suggestion>
+          <example correction="risque">Il <marker>a des chances</marker> de perdre.</example>
+          <example correction="risque">Il <marker>a des chances</marker> d'échouer à son examen.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="JE_M_EXCUSE " name="Je m’excuse" type="style" default="temp_off">
       <rule>
           <pattern>
