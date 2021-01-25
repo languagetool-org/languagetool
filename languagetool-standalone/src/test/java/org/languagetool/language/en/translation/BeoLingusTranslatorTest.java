@@ -131,6 +131,7 @@ public class BeoLingusTranslatorTest {
     assertThat(translator.cleanTranslationForReplace("foo (bar) {mus}", null), CoreMatchers.is("foo"));
     assertThat(translator.cleanTranslationForReplace("some thing [Br.], something", null), CoreMatchers.is("some thing , something"));  // not quite clean yet...
     assertThat(translator.cleanTranslationForReplace("Friday /Fri/", null), CoreMatchers.is("Friday"));
+    assertThat(translator.cleanTranslationForReplace("demise [poet.] <death>", null), CoreMatchers.is("demise"));
   }
 
   @Test
@@ -141,6 +142,7 @@ public class BeoLingusTranslatorTest {
     assertThat(translator.getTranslationSuffix("foo bar [Br.]"), CoreMatchers.is("[Br.]"));
     assertThat(translator.getTranslationSuffix("foo bar {ugs} [Br.]"), CoreMatchers.is("{ugs} [Br.]"));
     assertThat(translator.getTranslationSuffix("foo bar {ugs} [Br.] (Blah)"), CoreMatchers.is("{ugs} [Br.] (Blah)"));
+    assertThat(translator.getTranslationSuffix("foo bar <blah>"), CoreMatchers.is("<blah>"));
     //assertThat(rule.cleanTranslationForAddition("foo (Blah {m})"), is("(Blah {m})"));  // nesting not supported yet
   }
 
