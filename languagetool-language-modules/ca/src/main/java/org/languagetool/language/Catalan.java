@@ -175,6 +175,7 @@ public class Catalan extends Language {
     switch (id) {
       case "CA_SIMPLE_REPLACE_BALEARIC": return 100;
       case "INCORRECT_EXPRESSIONS": return 50;
+      case "PERSONATGES_FAMOSOS": return 50;
       case "MOTS_NO_SEPARATS": return 40;
       case "REPETEAD_ELEMENTS": return 40;
       case "ESPAIS_SOBRANTS": return 40; // greater than L

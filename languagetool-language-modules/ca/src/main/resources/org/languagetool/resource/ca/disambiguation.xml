@@ -6980,15 +6980,27 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^V].*"/>
     </rule>
-    <rule id="VA" name=" va (verb/adj)">
-        <pattern>
-            <marker>
-                <token postag="VMIP3S00">va</token>
-            </marker>
-            <token postag="RG"/>
-        </pattern>
-        <disambig action="filter" postag="VMIP3S00"/>
-    </rule>
+    <rulegroup id="VA" name=" va (verb/adj)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="VAIP3S00">va</token>
+                </marker>
+                <token postag="RG"/>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="VAIP3S00"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="VMIP3S00">va</token>
+                </marker>
+                <token postag="RG"/>
+            </pattern>
+            <disambig action="filter" postag="VMIP3S00"/>
+        </rule>
+    </rulegroup>
     <!-- verb aux seguit d'infinitiu: va donar-->
     <rulegroup id="VauxInf" name="Verb auxiliar seguit d'infinitiu">
         <rule>

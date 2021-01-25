@@ -37299,6 +37299,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="EUA">Van emigrar als <marker>EE. UU</marker> l'any passat.</example>
                 <example correction="EUA">Van emigrar als <marker>EE.UU</marker> l'any 1904.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">els|ls|a|d'|en</token>
+                    <marker>
+                        <token case_sensitive="yes">USA</token>
+                    </marker>
+                </pattern>
+                <message>Les sigles dels Estats Units d'Amèrica són <suggestion>EUA</suggestion>.</message>
+                <example correction="EUA">Van emigrar als <marker>USA</marker> l'any passat.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="DE_MATI" name="al *de matí">
             <rule>
@@ -59989,7 +59999,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>,</token>
                 <token regexp="yes">és|era</token>
                 <token regexp="yes">obvi|lògic|natural|evident|clar</token>
-                <token>,</token>
+                <token regexp="yes">[,\.]</token>
             </antipattern>
             <antipattern>
                 <token>no</token>
@@ -60052,6 +60062,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>L'objectiu, ens va dir, és salvar vides.</example>
                 <example>L'aplicació, activa des de l'octubre</example>
                 <example>Els peixos marins, va xiuxiuejar.</example>
+                <example>Un mite històric fals, és clar.</example>
                 <!--<example type="trigers_error">Aquesta sang, baixa en oxigen,</example>-->
             </rule>
             <rule>
@@ -60088,13 +60099,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tot va bé, no passa res.</example>
                 <!--<example type="trigers_error">Aquesta sang, baixa en oxigen,</example>-->
             </rule>
-            
-            
-            
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="NP.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|diada|col?p|volta|vegada|pic</exception></token>
+                    <token postag="NP[MF]SSP0|NP..O00" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|diada|col?p|volta|vegada|pic|Perfecte</exception></token>
                     <marker>
                         <token>,</token>
                         <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_nompropi|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.*</exception></token>
@@ -60103,8 +60111,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Probablement sobra la coma entre subjecte i predicat. Correcte si és un vocatiu ("Joan, vine ací!").</message>
                 <suggestion> \4</suggestion>
                 <example correction=" és">Joan<marker>, és</marker> momlt bo en matemàtiques.</example>
+                <example correction=" va">Ramir<marker>, va</marker> ventilar la situació.</example>
+                <example correction=" justifica">Microsoft<marker>, justifica</marker> el nou sistema operatiu.</example>
                 <example>Joan, vine cap ací.</example>
                 <example>George, t'he de dir una cosa.</example>
+                <example>Cargol, treu banya.</example>
+                <example>Busca, troba, compra, ven.</example>
+                <example>Noia, hi ha un proverbi que diu:</example>
+                <example>Mira, agafa els diners.</example>
+                <example>Confós, es va preguntar si potser era ell.</example>
+                <example>Perfecte, apunta l’adreça.</example>
             </rule>
             <rule>
                 <pattern>
@@ -60112,7 +60128,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="NP.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|diada|col?p|volta|vegada|pic</exception></token>
                     <marker>
                         <token>,</token>
-                        <token postag="&pronom_feble;|RN" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception></token>
+                        <token postag="&pronom_feble;|RN" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*|em</exception></token>
                     </marker>
                     <token min="0" max="2" postag="&pronom_feble;|RN" postag_regexp="yes"/>
                     <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_nompropi|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/></token>
@@ -60123,6 +60139,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Joan, et parlo a tu.</example>
                 <example>Jordi, t'he de dir una cosa.</example>
                 <example>George, t'he de dir una cosa.</example>
+                <example>Rosa, em sap greu.</example>
+                <example>Noi, em sembla que sí.</example>
             </rule>
         </rulegroup>
         <rule id="DE_MANERA_PERMANENTMENT" name="confusió: de manera permanentment">
@@ -64669,6 +64687,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Gràcies infinites.</example>
                 <example>Gràcies us dono.</example>
                 <example>Ser capaços de donar gràcies no sols amb les paraules.</example>
+            </rule>
+        </rulegroup>
+    </category>
+    <category id="NOMS_PERSONES" name="noms de persones">
+        <rulegroup id="PERSONATGES_FAMOSOS" name="noms de personatges famosos">
+            <rule>
+                <antipattern>
+                    <token case_sensitive="yes">Leonardo</token>
+                    <token case_sensitive="yes">DiCaprio</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">L[eé]onardo?</token>
+                    <token regexp="yes">D[ei]Capp?rio</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>Leonardo DiCaprio</suggestion> (actor americà)?</message>
+                <url>https://ca.wikipedia.org/wiki/Leonardo_DiCaprio</url>
+                <example correction="Leonardo DiCaprio"><marker>Leonardo DeCaprio</marker> va nàixer en 1974.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">L[eé]onardo?</token>
+                    <token regexp="yes">D[ei]</token>
+                    <token regexp="yes">Capp?rio</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>Leonardo DiCaprio</suggestion> (actor americà)?</message>
+                <url>https://ca.wikipedia.org/wiki/Leonardo_DiCaprio</url>
+                <example correction="Leonardo DiCaprio"><marker>Leonardo Di Caprio</marker> nasqué en 1974.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">D[ei]</token>
+                    <token regexp="yes">Capp?rio</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>DiCaprio</suggestion> (actor americà)?</message>
+                <suggestion>Leonardo DiCaprio</suggestion>
+                <url>https://ca.wikipedia.org/wiki/Leonardo_DiCaprio</url>
+                <example correction="DiCaprio|Leonardo DiCaprio"><marker>Di Caprio</marker> nasqué en 1974.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Borís</token>
+                    <token>Johnson</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>Boris Johnson</suggestion> (polític britànic)?</message>
+                <url>https://ca.wikipedia.org/wiki/Boris_Johnson</url>
+                <example correction="Boris Johnson"><marker>Borís Johnson</marker> és el president del Regne Unit.</example>
             </rule>
         </rulegroup>
     </category>
