@@ -52,7 +52,10 @@ public class RemoteRuleFilters {
       .build(CacheLoader.from(RemoteRuleFilters::load));
 
 
-  public static final List<RuleMatch> filterMatches(Language lang, AnalyzedSentence sentence, List<RuleMatch> matches) throws ExecutionException, IOException {
+  public static final List<RuleMatch> filterMatches(@NotNull Language lang, @NotNull AnalyzedSentence sentence, @NotNull List<RuleMatch> matches) throws ExecutionException, IOException {
+    if (matches.isEmpty()) {
+      return matches;
+    }
     // load all relevant filters for given matches
     Set<String> matchIds = matches.stream().map(m -> m.getRule().getId()).collect(Collectors.toSet());
     List<AbstractPatternRule> filters = rules.get(lang).entrySet()
