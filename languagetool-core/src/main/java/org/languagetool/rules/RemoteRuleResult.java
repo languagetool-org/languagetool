@@ -21,6 +21,7 @@
 
 package org.languagetool.rules;
 
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 
 import java.util.*;
@@ -65,7 +66,8 @@ public class RemoteRuleResult {
     return sentenceMatches.keySet();
   }
 
+  @NotNull
   public List<RuleMatch> matchesForSentence(AnalyzedSentence sentence) {
-    return sentenceMatches.get(sentence);
+    return sentenceMatches.getOrDefault(sentence, Collections.emptyList());
   }
 }
