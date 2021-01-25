@@ -9886,7 +9886,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>all</token>
                     <token>in</token>
                     <token>one</token>
-                    <token regexp="yes">Agentur(en)?|Computer[sn]?|Geräte[sn]?|PC|drucker[sn]?|(musik|audio|sound)?system(en?|s)?|receiver[sn]?|fernbedienung(en)?|trimmer[ns]?|haarschneider[sn]?|maschinen?|küchenmaschinen?|laptops?</token>
+                    <token regexp="yes">Agentur(en)?|Computer[sn]?|Geräte[sn]?|PC|drucker[sn]?|(musik|audio|sound)?system(en?|s)?|receiver[sn]?|fernbedienung(en)?|trimmer[ns]?|haarschneider[sn]?|maschinen?|küchenmaschinen?|laptops?|lösung(en)?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>All-in-one-<match no="4" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="All-in-one-Audiosystem">Sein <marker>All in One Audiosystem</marker> hat alle begeistert.</example>
@@ -9894,7 +9894,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>all-in-one</token>
-                    <token regexp="yes">Agentur(en)?|Computer[sn]?|Geräte[sn]?|PC|drucker[sn]?|(musik|audio|sound)?system(en?|s)?|receiver[sn]?|fernbedienung(en)?|trimmer[ns]?|haarschneider[sn]?|maschinen?|küchenmaschinen?|laptops?</token>
+                    <token regexp="yes">Agentur(en)?|Computer[sn]?|Geräte[sn]?|PC|drucker[sn]?|(musik|audio|sound)?system(en?|s)?|receiver[sn]?|fernbedienung(en)?|trimmer[ns]?|haarschneider[sn]?|maschinen?|küchenmaschinen?|laptops?|lösung(en)?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>All-in-one-<match no="4" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="All-in-one-Audiosystem">Sein <marker>All-in-one Audiosystem</marker> hat alle begeistert.</example>
@@ -18430,7 +18430,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>macht</token>
                     <token regexp="yes">es|das|dies</token>
-                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total</token>
+                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total|vielleicht|möglicherweise</token>
                     <token>keinen</token>
                     <token>Sinn</token>
                 </pattern>
@@ -18439,6 +18439,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>stiftet \2 \3 \4 Sinn</suggestion>
                 <suggestion>ist \2 sinnlos</suggestion>
                 <example correction="ergibt das keinen Sinn|stiftet das keinen Sinn|ist das sinnlos">Bis jetzt <marker>macht das keinen Sinn</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>macht</token>
+                    <token regexp="yes">es|das|dies</token>
+                    <token min="0" regexp="yes">vielleicht|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur</token>
+                    <token>Sinn</token>
+                </pattern>
+                <message>Der Ausdruck 'Sinn machen' kann umgangssprachlich wirken. Möchten Sie eine alternative Formulierung verwenden?</message>
+                <suggestion>ergibt \2 \3 Sinn</suggestion>
+                <suggestion>stiftet \2 \3 Sinn</suggestion>
+                <suggestion>ist \2 \3 sinnvoll</suggestion>
+                <example correction="Ergibt es vielleicht Sinn|Stiftet es vielleicht Sinn|Ist es vielleicht sinnvoll"><marker>Macht es vielleicht Sinn</marker>, dass wir das schon heute erledigen?</example>
             </rule>
             <rule>
                 <pattern>
@@ -18457,7 +18470,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">es|das|dies</token>
                     <token regexp="yes">würde|könnte|müsste|sollte|wird|kann|muss|soll</token>
-                    <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|total|schon|keinen</token>
+                    <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|vielleicht|möglicherweise|total|schon|keinen</token>
                     <token>Sinn</token>
                     <token>machen</token>
                 </pattern>
@@ -18470,7 +18483,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">es|das|dies</token>
                     <token>macht</token>
-                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total</token>
+                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total|möglicherweise</token>
                     <token>keinen</token>
                     <token>Sinn</token>
                 </pattern>
@@ -20042,7 +20055,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="AUF_JEDEN_FALL" name="Auf jeden fall (Fall)" default="temp_off">
+        <rule id="AUF_JEDEN_FALL" name="Auf jeden fall (Fall)">
             <pattern>
                 <token regexp="yes">in|auf</token>
                 <token regexp="yes">(jede|keine)[mn]</token>
