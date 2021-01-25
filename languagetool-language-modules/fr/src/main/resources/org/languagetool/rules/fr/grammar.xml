@@ -10069,6 +10069,20 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
+      <rule id="ILS_VERBE_TOUS" name="ils verbe tous" default="temp_off">
+          <pattern>
+              <token postag="R.* m p" postag_regexp="yes"/>
+              <token postag="V.*" postag_regexp="yes"/>
+              <marker>
+                  <token postag="A" postag_regexp="yes">tout</token>
+              </marker>
+              <token postag="D.* e p" postag_regexp="yes"><exception regexp="yes">leurs|deux|trois</exception></token>
+              <token postag="N.*" postag_regexp="yes"></token>
+          </pattern>
+          <message>Vérifiez l’accord entre les pronoms « \1 » et « \3 ».</message>
+          <suggestion>tous</suggestion>
+          <example correction="tous">Ils ont <marker>tout</marker> des vestes.</example>
+      </rule>
     <rule id="LA_OU_LES_PLUS" name="la ou les plus" default="temp_off">
       <pattern>
         <token postag="V.*" postag_regexp="yes"/>
