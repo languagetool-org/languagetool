@@ -38495,27 +38495,35 @@ Andere Projekte</example>
                 <example>Auf verwalteten Plattformen ist eine vorinstallierte Partition verfügbar.</example>
             </rule>
             <rule>
-                <pattern>
+                <antipattern>
                     <token postag_regexp="yes" postag="VER:(MOD|AUX):[13]:SIN:.*"/>
                     <token postag_regexp="yes" postag="ART:.*" />
-                    <marker>
-                        <token postag_regexp="yes" postag="VER:.*">
-                            <exception postag="(VER:INF:|PA[12]:).*" postag_regexp="yes"/>
-                            <exception postag="ADJ:.*" postag_regexp="yes"/>
-                            <exception postag="ADV:MOD.*" postag_regexp="yes"/>
-                            <exception postag="VER:MOD:INF"/>
-                            <exception regexp="yes">los|eine?|trotz|siebte|achte|sog|mein|meine|äußerst|äusserst|gewesen|einst|lichte|bitte</exception>
-                        </token>
-                    </marker>
-                </pattern>
-                <message>Möglicherweise muss hier die Grundform des Verbs benutzt werden.</message>
-                <suggestion><match no="5" postag="VER:INF:.*" postag_regexp="yes"/></suggestion>
-                <example correction="kaufen">Ich will das <marker>kaufe</marker>.</example>
-                <example>The Visitors ist das achte und letzte Album der Popgruppe ABBA.</example>
-                <example>Wieso soll das bitte frauenfeindlich sein?</example>
-                <example>Er sollte das können.</example>
-                <example>Aber bisher ist das mein Ersteindruck, der sich sehr schnell ändern kann.</example>
-            </rule>
+                    <token postag_regexp="yes" postag="VER:.*"/>
+                    <token postag_regexp="yes" postag="VER:(AUX|MOD):.+"/>
+                </antipattern>
+                <pattern>
+                <token postag_regexp="yes" postag="VER:(MOD|AUX):[13]:SIN:.*"/>
+                <token postag_regexp="yes" postag="ART:.*" />
+                <marker>
+                    <token postag_regexp="yes" postag="VER:.*">
+                        <exception postag="(VER:INF:|PA[12]:).*" postag_regexp="yes"/>
+                        <exception postag="ADJ:.*" postag_regexp="yes"/>
+                        <exception postag="ADV:MOD.*" postag_regexp="yes"/>
+                        <exception postag="VER:MOD:.+" postag_regexp="yes" />
+                        <exception regexp="yes" case_sensitive="yes">[A-ZÄÖÜß].+</exception>
+                        <exception regexp="yes">los|eine?|trotz|siebte|achte|sog|mein|meine|äußerst|äusserst|gewesen|einst|lichte|bitte|staufische|eindruck</exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Möglicherweise muss hier die Grundform des Verbs benutzt werden.</message>
+            <suggestion><match no="5" postag="VER:INF:.*" postag_regexp="yes"/></suggestion>
+            <example correction="kaufen">Ich will das <marker>kaufe</marker>.</example>
+            <example>The Visitors ist das achte und letzte Album der Popgruppe ABBA.</example>
+            <example>Wieso soll das bitte frauenfeindlich sein?</example>
+            <example>Er sollte das können.</example>
+            <example>Wo ist das produziert worden?</example>
+             <example>Aber bisher ist das mein Ersteindruck, der sich sehr schnell ändern kann.</example>
+        </rule>
         </rulegroup>
         <rule id="SENT_START_SIN_PLU" name="Nomen singular + Verb plural am Satzanfang">
             <antipattern>
