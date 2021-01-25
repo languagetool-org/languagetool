@@ -35595,6 +35595,30 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+    <rule id="IN_EXTREMISTE" name="In extremiste" default="temp_off">
+      <pattern>
+          <token>in</token>
+          <marker>
+              <token regexp="yes">extremiste|extrémiste</token>
+          </marker>
+      </pattern>
+      <message>Une erreur d'orthographe a été détectée dans cette expression. Souhaitez-vous écrire in <suggestion>extremis</suggestion> ?</message>
+      <example correction="extremis">Nous avons évité la catastrophe in <marker>extremiste</marker>.</example>
+    </rule>
+    <rule id="DE_MANIERE_A_CE_QUE" name="de manière à ce que" type="style" default="temp_off">
+      <pattern>
+          <marker>
+              <token>de</token>
+              <token>manière</token>
+              <token>à</token>
+              <token>ce</token>
+              <token>que</token>
+          </marker>
+      </pattern>
+      <message>Cette expression familière est considérée comme incorrecte dans le langage courant.</message>
+      <suggestion>\1 \2 \5</suggestion>
+      <example correction="de manière que">Faites bien votre travail <marker>de manière à ce que</marker> vous soyez récompensé.</example>
+    </rule>
     <rulegroup id="RISQUE_ET_CHANCE" name="risque et chance">
       <rule>
           <pattern>
