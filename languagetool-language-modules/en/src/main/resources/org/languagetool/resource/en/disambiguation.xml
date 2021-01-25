@@ -3696,7 +3696,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </antipattern>
         <antipattern>
             <token case_sensitive="yes">To</token>
-            <token case_sensitive="yes" regexp="yes">Be|Say|Save|See|Tell|Lose|Force|Discover</token>
+            <token case_sensitive="yes" regexp="yes">Be|Say|Save|See|Tell|Lose|Force|Discover|Ban</token>
         </antipattern>
         <pattern case_sensitive="yes">
             <marker>
@@ -3716,6 +3716,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">If You Just Had One Wish.</example><!-- #2748 -->
         <example type="untouched">So You Want To Be Taoiseach.</example><!-- #2748 -->
         <example type="untouched">See Wikipedia for a list of TCP/UDP ports that are already used.</example><!-- #2748 -->
+        <example type="untouched">The Government Wants To Ban Violet Video.</example>
         <example type="ambiguous" inputform="Best[Best/NNP,best/NN:U,best/VB,best/VBP,good/JJS,well/JJS,well/RBS]" outputform="Best[Best/NNP]"><marker>Best</marker> Art Direction – Set Decoration</example>
     </rule>
 
@@ -13495,6 +13496,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule id="DIFFERENTLY_ABLED" name="ignore spelling of 'differently abled'">
+        <pattern>
+            <token>differently</token>
+            <token>abled</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rulegroup id="CAN_MD" name="can -> MD">
         <rule>
             <pattern>
@@ -13520,6 +13529,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="filter" postag="MD" />
         </rule>
     </rulegroup>
+
     <rule id="THE_TIMES_NNP" name="The Times -> NNP">
         <pattern>
             <token>The</token>
