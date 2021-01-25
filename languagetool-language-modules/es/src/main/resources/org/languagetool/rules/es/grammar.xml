@@ -12572,7 +12572,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token inflected="yes">hacer</token>
-                <token regexp="yes">polvo|añicos</token>
+                <token regexp="yes">polvo|añicos|pedazos</token>
             </antipattern>
             <antipattern case_sensitive="yes">
                 <token>SA</token>
@@ -12593,8 +12593,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">atrás|después|antes</token>
             </antipattern>
             <antipattern>
+                <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
+                <token>más</token>
+                <token>tarde</token>
+            </antipattern>
+            <antipattern>
                 <token>seguido</token>
                 <token postag="V.[SI].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">.*%|don</token>
+            </antipattern>
+            <antipattern>
+                <!-- TODO: needs typograhical rule-->
+                <token regexp="yes">.*º</token>
+                <token regexp="yes">centígrados|grados</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">llevar</token>
+                <token postag="V.P.*" postag_regexp="yes"><exception inflected="yes">poner</exception></token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">dar</token>
+                <token>por</token>
+                <token postag="V.P.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.P..P." postag_regexp="yes"/>
+                <token postag="NP.*" postag_regexp="yes" skip="4"/>
+                <token postag="NP.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="N.*|V.P.*" postag_regexp="yes"/>
+                </unify>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">considerar</token>
+                <token>patrimonio</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">haber</token>
+                <token min="0" postag="RG"/>
+                <token skip="10" postag="V.P..SM" postag_regexp="yes"/>
+                <token regexp="yes">,|y|o|e|u</token>
+                <token postag="V.P..SM" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">,|y|o|e|u</token>
+                <token skip="10" postag="V.P..SM" postag_regexp="yes"/>
+                <token regexp="yes">,|y|o|e|u</token>
+                <token postag="V.P..SM" postag_regexp="yes"/>
             </antipattern>
             <rule>
                 <pattern>
@@ -12605,7 +12657,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <marker>
                             <token postag="V.P.*" postag_regexp="yes"><exception postag="_GV_|V.[MIS].*|RG|ignore_concordance|complement.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes"
                                 >titular|nombrar|llamar|denominar|declarar|morir|incluir|mencionar</exception><exception>mes</exception></token>
-                            <token postag="N.M.*" postag_regexp="yes"><exception postag="_GN_.*|A.*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/><exception regexp="yes">&dias_semana;</exception></token>
+                            <token postag="N.M.*" postag_regexp="yes"><exception postag="V.G.*|GN_.*|A.*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/><exception regexp="yes">&dias_semana;</exception></token>
                         </marker>
                     </unify>
                 </pattern>
@@ -12617,6 +12669,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>estaban sentados alrededor de la mesa jugando a las cartas.</example>
                 <example>el abogado comprueba el inmueble</example>
                 <example>Ustedes piden prestado joyas de sus amigas.</example>
+                <example>¿Sabes cuantos años llevan casados Tom y Mary?</example>
+                <example>de los ya citados Jonathan Swift, Thomas De Quincey y Ambrose Bierce</example>
+                <example>La comida cumple con creces las expectativas creadas.</example>
+                <example>Y dio por concluida Dios en el séptimo día la labor.</example>
+                <example>Han luchado en nuestras guerra, <marker>creado negocios</marker>.</example>
+                <example>ha plenamente florecido y dado frutos.</example>
+                <example>Creo que vivimos engañados 100%.</example>
+                <example>Así narraba estos hechos Juan Bautista Lorenzo.</example>
+                <example>Es normal que la herida pique.</example>
+                <example>personas con las que has hablado o intercambiado correos</example>
+                <example>1.000 personas han escrito y leído poemas, cuentos</example>
+                <example>popularizada años más tarde por Guillermo Portales</example>
+                <example>Ese mismo año dirige las revistas Contrastes y Cataluña viva</example>
             </rule>
             <rule>
                 <antipattern>
@@ -12648,7 +12713,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>pueden ser considerados formas de corrupción</example>
                 <example>Me quedé dormido tarde.</example>
                 <example>Habiéndose, por fin, dado cuenta de que el señuelo no engaña.</example>
-                <example type="triggers_error" reason="ambiguous">han asesinado a miles, <marker>llevado ciudades</marker> a la ruina</example>
+                <example>han asesinado a miles, <marker>llevado ciudades</marker> a la ruina</example>
             </rule>
         </rulegroup>
     </category>
