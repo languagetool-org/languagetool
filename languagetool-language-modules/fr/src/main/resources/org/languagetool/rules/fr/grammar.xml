@@ -10069,6 +10069,17 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
+      <rule id="TOUT_CE" name="tout ce" default="temp_off">
+          <pattern>
+              <marker>
+                  <token>tous</token>
+              </marker>
+              <token postag="R dem e sp"/>
+          </pattern>
+          <message>Dans ce cas précis, le terme "tout" est invariable.</message>
+          <suggestion>tout</suggestion>
+          <example correction="tout">Dis-moi si <marker>tous</marker> ce que tu dis est vrai.</example>
+      </rule>
       <rule id="ILS_VERBE_TOUS" name="ils verbe tous" default="temp_off">
           <pattern>
               <token postag="R.* m p" postag_regexp="yes"/>
@@ -10077,7 +10088,7 @@ though, and has since been slightly modified)-->
                   <token postag="A" postag_regexp="yes">tout</token>
               </marker>
               <token postag="D.* e p" postag_regexp="yes"><exception regexp="yes">leurs|deux|trois</exception></token>
-              <token postag="N.*" postag_regexp="yes"></token>
+              <token postag="N.*" postag_regexp="yes"/>
           </pattern>
           <message>Vérifiez l’accord entre les pronoms « \1 » et « \3 ».</message>
           <suggestion>tous</suggestion>
