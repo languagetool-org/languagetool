@@ -10072,12 +10072,12 @@ though, and has since been slightly modified)-->
       <rulegroup id="ACCORD_TOUT_ADJECTIF" name="accord tout adjectif" default="temp_off">
           <rule>
               <pattern>
-                  <token postag="D f s.*" postag_regexp="yes"></token>
-                  <token postag="N f s.*" postag_regexp="yes"></token>
+                  <token postag="(P\+)?D.*" postag_regexp="yes"/>
+                  <token postag="N.* f s" postag_regexp="yes"/>
                   <marker>
-                      <token regexp="yes">tout</token>
+                      <token>tout</token>
                   </marker>
-                  <token postag="J f s*" postag_regexp="yes"><exception regexp="yes">^[aeiou].*|&H_ASPIRE;</exception></token>
+                  <token postag="J.* f s" postag_regexp="yes"><exception regexp="yes">^[aeiou].*|&H_ASPIRE;</exception></token>
               </pattern>
               <message>Vérifiez l’accord entre « \1 » et « \3 ».</message>
               <suggestion>toute</suggestion>
@@ -10085,17 +10085,16 @@ though, and has since been slightly modified)-->
           </rule>
           <rule>
               <pattern>
-                  <token postag="(P\+)?D.*" postag_regexp="yes"></token>
-                  <token postag="N f p.*" postag_regexp="yes"></token>
+                  <token postag="(P\+)?D.*" postag_regexp="yes"/>
+                  <token postag="N.* f p" postag_regexp="yes"/>
                   <marker>
                       <token regexp="yes">tout|toute</token>
                   </marker>
-                  <token postag="J f p*" postag_regexp="yes"><exception regexp="yes">^[aeiou].*|&H_ASPIRE;</exception></token>
+                  <token postag="J.* f p" postag_regexp="yes"><exception regexp="yes">^[aeiou].*|&H_ASPIRE;</exception></token>
               </pattern>
               <message>Vérifiez l’accord entre « \1 » et « \3 ».</message>
               <suggestion>toutes</suggestion>
               <example correction="toutes">Des vestes <marker>tout</marker> neuves.</example>
-              <example correction="toutes">Des filles <marker>toute</marker> honteuses.</example>
               <example correction="toutes">Ils s'adressent aux fleurs <marker>toute</marker> colorées.</example>
           </rule>
       </rulegroup>
