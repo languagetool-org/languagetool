@@ -12561,9 +12561,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ácidos grasos omega 3.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AGREEMENT_PARTICIPLE_NOUN" name="concordancias participio y nombre" default="temp_off">
+        <rulegroup id="AGREEMENT_PARTICIPLE_NOUN" name="concordancias participio y nombre">
             <antipattern>
-                <token regexp="yes">ab[ií](a|as|an|amos|ais)|as|emos|e|an<exception regexp="yes">\p{Lu}+</exception><exception postag="_GN_MS"/></token>
+                <token regexp="yes">(habi|ab[ií])(a|as|an|amos|ais)|as|emos|e|an<exception regexp="yes">\p{Lu}+</exception><exception postag="_GN_MS"/></token>
                 <token postag="V.P..SM" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -12592,6 +12592,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
                 <token regexp="yes">atrás|después|antes</token>
             </antipattern>
+            <antipattern>
+                <token>seguido</token>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+            </antipattern>
             <rule>
                 <pattern>
                     <!-- <token><exception postag="SENT_START"/><exception regexp="yes" spacebefore="yes">[¿¡"«»—–:\-]</exception></token> -->
@@ -12606,8 +12610,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </unify>
                 </pattern>
                 <message>Posible error de concordancia. Revise la puntuación.</message>
-                <suggestion><match no="1" postag="V.P.*SM.?" postag_regexp="yes"/> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes"/></suggestion>
-                <suggestion><match no="1" postag="V.P.*PM.?" postag_regexp="yes"/> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="V.P.*SM.?" postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="V.P.*PM.?" postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
                 <example correction="deformado cuchillo|deformados cuchillos">Con <marker>deformados cuchillo</marker>.</example>
                 <example>Son acuerdos consensuados producto de la negociación.</example>
                 <example>estaban sentados alrededor de la mesa jugando a las cartas.</example>
@@ -12633,8 +12637,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </unify>
                 </pattern>
                 <message>Posible error de concordancia. Revise la puntuación.</message>
-                <suggestion><match no="1" postag="V.P.*SF.?" postag_regexp="yes"/> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes"/></suggestion>
-                <suggestion><match no="1" postag="V.P.*PF.?" postag_regexp="yes"/> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="V.P.*SF.?" postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="V.P.*PF.?" postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
                 <example correction="contada excepción|contadas excepciones">En <marker>contados excepciones</marker>.</example>
                 <example correction="contada excepción|contadas excepciones">En <marker>contado excepciones</marker>.</example>
                 <example>Me quedé dormido cerca de las doce de la noche.</example>
@@ -12644,6 +12648,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>pueden ser considerados formas de corrupción</example>
                 <example>Me quedé dormido tarde.</example>
                 <example>Habiéndose, por fin, dado cuenta de que el señuelo no engaña.</example>
+                <example type="triggers_error" reason="ambiguous">han asesinado a miles, <marker>llevado ciudades</marker> a la ruina</example>
             </rule>
         </rulegroup>
     </category>
