@@ -45573,6 +45573,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
+        <rule id="BOGAR" name="bogar/vogar">
+            <pattern>
+                <token inflected="yes">bogar</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">vogar</match></suggestion> (<match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">remar</match>)? És correcte en altres sentits menys habituals (adobar, femar; boga).</message>
+            <example correction="vogaven">Llavors <marker>bogaven</marker> sense descans.</example>
+        </rule>
+        <rule id="CEP" name="cep/soca">
+            <pattern>
+                <marker>
+                    <token inflected="yes" skip="-1">cep</token>
+                </marker>
+                <token inflected="yes" regexp="yes">virus|viral</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="NC.(.*)" postag_regexp="yes" postag_replace="NCF$1">soca</match></suggestion> (terme usat en biologia)?</message>
+            <example correction="soca">Aquest <marker>cep</marker> del virus.</example>
+        </rule>
         <rule id="BORDEJAR" name="bordejar">
             <pattern>
                 <token inflected="yes">bordejar</token>
