@@ -211,6 +211,7 @@ public class Catalan extends Language {
       case "FALTA_ELEMENT_ENTRE_VERBS": return -200;
       case "UPPERCASE_SENTENCE_START": return -500;
       case "MAJUSCULA_IMPROBABLE": return -500;
+      case "ELA_GEMINADA_WIKI": return -200;
     }
     return super.getPriorityForId(id);
   }

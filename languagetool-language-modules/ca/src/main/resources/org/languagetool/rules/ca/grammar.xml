@@ -35059,26 +35059,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>02:30h</example>
             </rule>
         </rulegroup>
+        <rule id="ELA_GEMINADA_WIKI" name="Errors en la ela geminada" type="misspelling">
+            <!--  It is better dealt with by Morfologik spelling rule. Useful for Wikipedia proof-reading -->
+            <pattern case_sensitive="no">
+                <marker>
+                    <token regexp="yes">.*[aeiouàéèíóòúïü]l[•∙.⋅\-]l[aeiouàéèíóòúïü].*</token>
+                </marker>
+            </pattern>
+            <message>Error tipogràfic.</message>
+            <suggestion><match no="1" regexp_match="(.+[Ll])[•∙.⋅\-]([Ll].+)" regexp_replace="$1·$2"/></suggestion>
+            <example correction="sol·licitud">La <marker>sol•licitud</marker>.</example>
+            <example correction="sol·licitud">La <marker>sol-licitud</marker>.</example>
+            <example correction="SOL·LICITUD">LA <marker>SOL.LICITUD</marker>.</example>
+            <example correction="sol·licitud">La <marker>sol⋅licitud</marker>.</example>
+            <example>la col·laboració</example>
+            <example>al-Ladjdjun</example>
+            <example>en un estat sindical-laborista</example>
+            <example>en un estat sindical.La classe obrera</example>
+        </rule>
         <rulegroup id="ELA_GEMINADA" name="Errors en la ela geminada" type="misspelling">
             <url>https://ca.wikipedia.org/wiki/L%C2%B7L</url>
-            <rule default="off">
-                <!--  It is better dealt with by Morfologik spelling rule. Useful for Wikipedia proof-reading -->
-                <pattern case_sensitive="no">
-                    <marker>
-                        <token regexp="yes">.*[aeiouàéèíóòúïü]l[•∙.⋅\-]l[aeiouàéèíóòúïü].*</token>
-                    </marker>
-                </pattern>
-                <message>Error tipogràfic.</message>
-                <suggestion><match no="1" regexp_match="(.+[Ll])[•∙.⋅\-]([Ll].+)" regexp_replace="$1·$2"/></suggestion>
-                <example correction="sol·licitud">La <marker>sol•licitud</marker>.</example>
-                <example correction="sol·licitud">La <marker>sol-licitud</marker>.</example>
-                <example correction="SOL·LICITUD">LA <marker>SOL.LICITUD</marker>.</example>
-                <example correction="sol·licitud">La <marker>sol⋅licitud</marker>.</example>
-                <example>la col·laboració</example>
-                <example>al-Ladjdjun</example>
-                <example>en un estat sindical-laborista</example>
-                <example>en un estat sindical.La classe obrera</example>
-            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">.*[aeiouàèéíòóúïü]l</token>
