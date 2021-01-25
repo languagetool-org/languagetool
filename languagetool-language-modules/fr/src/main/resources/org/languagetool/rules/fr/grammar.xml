@@ -10069,6 +10069,19 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
+      <rule id="QUELLE_OU_QU_ELLE" name="quelle ou qu'elle" default="temp_off">
+          <pattern>
+              <token postag="SENT_START"/>
+              <marker>
+                  <token regexp="yes">qu(&apostrophe;)?</token>
+                  <token regexp="yes">elle|elles</token>
+              </marker>
+              <token postag="V.*" postag_regexp="yes" skip="-1"><exception postag="V.* sub.*" postag_regexp="yes"></exception></token>
+              <token postag="M fin inte"/>
+          </pattern>
+          <message>"Qu'elle" est incorrect dans cette phrase interrogative. Souhaitez-vous écrire <suggestion>Quelle</suggestion> ?</message>
+          <example correction="Quelle"><marker>Qu'elle</marker> est ta question ?</example>
+      </rule>
     <rule id="LA_OU_LES_PLUS" name="la ou les plus" default="temp_off">
       <pattern>
         <token postag="V.*" postag_regexp="yes"/>
