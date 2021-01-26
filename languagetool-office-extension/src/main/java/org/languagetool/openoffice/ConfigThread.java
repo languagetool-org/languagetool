@@ -18,6 +18,7 @@
  */
 package org.languagetool.openoffice;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -65,7 +66,8 @@ class ConfigThread extends Thread {
       boolean configChanged = cfgDialog.show(allRules);
       if (configChanged) {
         Set<String> disabledRules = config.getDisabledRuleIds();
-        for (String ruleId : disabledRulesUI) {
+        Set<String> tmpDisabledRules = new HashSet<String>(disabledRulesUI);
+        for (String ruleId : tmpDisabledRules) {
           if(!disabledRules.contains(ruleId)) {
             disabledRulesUI.remove(ruleId);
           }
