@@ -140,6 +140,9 @@ public class CatalanWordTokenizerTest {
     tokens = wordTokenizer.tokenize("Tel-Aviv");
     assertEquals(tokens.size(), 1);
     assertEquals("[Tel-Aviv]", tokens.toString());
+    tokens = wordTokenizer.tokenize("\"El cas 'Barcelona'\"");
+    //assertEquals(tokens.size(), 9);
+    assertEquals("[\", El,  , cas,  , ', Barcelona', \"]", tokens.toString());
 
   }
 }

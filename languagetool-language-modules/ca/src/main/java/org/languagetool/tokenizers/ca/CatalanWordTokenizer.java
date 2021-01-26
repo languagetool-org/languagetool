@@ -215,7 +215,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
             l.add(s);
           } else {
             // if not found, the word is split
-            final StringTokenizer st2 = new StringTokenizer(s, "-", true);
+            final StringTokenizer st2 = new StringTokenizer(s, "-'", true);
             while (st2.hasMoreElements()) {
               l.add(st2.nextToken());
             }
