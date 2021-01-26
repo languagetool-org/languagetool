@@ -5382,6 +5382,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup> 
         <rulegroup id="WEIS_ICH" name="weis (weiß) ich">
             <rule>
+                <antipattern>
+                    <token>ich</token>
+                    <token regexp="yes">weiß|weiss</token>
+                    <token>du</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">weiß|weiss</token>
@@ -5390,6 +5395,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie <suggestion>\1t</suggestion>, die Form des Verbs 'wissen'?</message>
                 <example correction="Weißt">Sie fragte: „<marker>Weiß</marker> du, ob er kommt?“</example>
+                <example>Ich weiß du magst keine Rockmusik.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18441,7 +18447,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>ist \2 sinnlos</suggestion>
                 <example correction="ergibt das keinen Sinn|stiftet das keinen Sinn|ist das sinnlos">Bis jetzt <marker>macht das keinen Sinn</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>macht</token>
                     <token regexp="yes">es|das|dies</token>
@@ -36425,9 +36431,9 @@ Andere Projekte</example>
     <category id="GRAMMAR" name="Grammatik">
         <rule id="NEUSTARTEN" name="neu starten">
             <pattern>
-                <token case_sensitive="yes">neustarten</token>
+                <token case_sensitive="yes" regexp="yes">neu(starten?|startes?t|gestartet)</token>
             </pattern>
-            <message>Das Verb <suggestion>neu starten</suggestion> wird getrennt geschrieben.</message>
+            <message>Das Verb <suggestion><match no="1" regexp_match="(neu)" regexp_replace="$1 " /></suggestion> wird getrennt geschrieben.</message>
             <example correction="neu starten">Er muss seinen Computer erst <marker>neustarten</marker>.</example>
         </rule>
         <rulegroup id="OUT_OF_THE_BOX" name="out of the box">
@@ -36484,7 +36490,7 @@ Andere Projekte</example>
             <suggestion>\1 besonders</suggestion>
             <example correction="insbesondere für|für besonders">Das ist der Fall <marker>für insbesondere</marker> schwere Aufgaben.</example>
         </rule>
-        <rule id="INBESONDERS" name="inbesonders (inbesondere / besonders)">
+        <rule id="INSBESONDERS" name="insbesonders (inbesondere / besonders)">
             <pattern>
                 <token>insbesonders</token>
             </pattern>
