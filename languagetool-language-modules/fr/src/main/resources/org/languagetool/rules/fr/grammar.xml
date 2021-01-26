@@ -10107,7 +10107,7 @@ though, and has since been slightly modified)-->
           <suggestion>tous</suggestion>
           <example correction="tous">Ils ont <marker>tout</marker> des vestes.</example>
       </rule>
-      <rulegroup id="EXPRESSIONS_FIGEES_TOUT" name="expressions figées tout" default="temp_off">
+      <rulegroup id="EXPRESSIONS_FIGEES_TOUT" name="expressions figées tout">
           <rule>
               <pattern>
                   <token>une</token>
@@ -35595,6 +35595,37 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+    <rulegroup id="ARGOT_BEAUF_ET_BOF" name="argot beauf et bof" default="temp_off">
+        <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">bof</token>
+                </marker>
+            </pattern>
+        <message>Ce terme est une expression considérée comme familière. Souhaitez-vous la remplacer par le terme <suggestion>moyen</suggestion> employé dans le langage formel ?</message>
+        <example correction="moyen">C'est <marker>bof</marker> !</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>mon</token>
+                <marker>
+                    <token regexp="yes">bof|beauf|bauf</token>
+                </marker>
+            </pattern>
+        <message>Ce terme est une contraction considérée comme familière. Souhaitez-vous le remplacer par le terme <suggestion>beau-frère</suggestion> employé dans le langage formel ?</message>
+        <example correction="beau-frère">Si tu veux tout savoir, c'est mon <marker>beauf</marker> !</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>un</token>
+                    <token>beauf</token>
+                </marker>
+            </pattern>
+        <message>Cette expression est considérée comme familière. Souhaitez-vous la remplacer par l'expression <suggestion>une personne obtuse</suggestion> employée dans le langage formel ?</message>
+        <example correction="une personne obtuse">Si tu veux tout savoir, c'est <marker>un beauf</marker> !</example>
+        </rule>
+    </rulegroup>
     <rule id="IN_EXTREMISTE" name="In extremiste" default="temp_off">
       <pattern>
           <token>in</token>
@@ -35605,7 +35636,7 @@ though, and has since been slightly modified)-->
       <message>Une erreur d'orthographe a été détectée dans cette expression. Souhaitez-vous écrire in <suggestion>extremis</suggestion> ?</message>
       <example correction="extremis">Nous avons évité la catastrophe in <marker>extremiste</marker>.</example>
     </rule>
-    <rule id="DE_MANIERE_A_CE_QUE" name="de manière à ce que" type="style" default="temp_off">
+    <rule id="DE_MANIERE_A_CE_QUE" name="de manière à ce que" type="style">
       <pattern>
           <marker>
               <token>de</token>
@@ -35648,7 +35679,7 @@ though, and has since been slightly modified)-->
           <example correction="risque">Il <marker>a des chances</marker> d'échouer à son examen.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="JE_M_EXCUSE " name="Je m’excuse" type="style" default="temp_off">
+    <rulegroup id="JE_M_EXCUSE " name="Je m’excuse" type="style">
       <rule>
           <pattern>
               <token postag="SENT_START|M nonfin" postag_regexp="yes"/>
