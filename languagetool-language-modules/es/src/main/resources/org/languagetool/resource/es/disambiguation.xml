@@ -4251,6 +4251,15 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
+    <rule id="UNO_DET" name="uno (determinante)">
+        <pattern>
+            <and>
+                <token postag="D.*" postag_regexp="yes" inflected="yes">uno</token>
+                <token postag="_GN_.*" postag_regexp="yes"/>
+            </and>
+        </pattern>
+        <disambig action="filter" postag="D.*|_GN_.*"/>
+    </rule>
     <rule id="ambos" name="ambos (det)">
         <pattern>
             <marker>
