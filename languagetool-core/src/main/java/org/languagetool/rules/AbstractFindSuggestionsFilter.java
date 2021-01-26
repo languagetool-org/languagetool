@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2020 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2021 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,19 +25,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tools.StringTools;
 
 public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
 
   final private int MAX_SUGGESTIONS = 10;
+
   abstract protected Tagger getTagger();
-  abstract protected Rule getSpellerRule();
+
+  abstract protected MorfologikSpeller getSpeller();
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
@@ -69,6 +70,8 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
             + match.getRule().getFullId() + ", PronounFrom: " + posWord);
       }
       AnalyzedTokenReadings atrWord = patternTokens[posWord - 1];
+      boolean isWordCapitalized = StringTools.isCapitalizedWord(atrWord.getToken());
+      boolean isWordAllupper = StringTools.isAllUppercase(atrWord.getToken());
 
       // Check if the original token (before disambiguation) meets the requirements
       List<String> originalWord = Collections.singletonList(atrWord.getToken());
@@ -84,37 +87,36 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
       }
 
       if (generateSuggestions) {
-        synchronized (this) {
-          if (removeSuggestionsRegexp != null) {
-            regexpPattern = Pattern.compile(removeSuggestionsRegexp, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-          }
-          AnalyzedTokenReadings[] auxPatternTokens = new AnalyzedTokenReadings[1];
-          if (atrWord.isTagged()) {
-            auxPatternTokens[0] = new AnalyzedTokenReadings(
-                new AnalyzedToken(makeWrong(atrWord.getToken()), null, null));
-          } else {
-            auxPatternTokens[0] = atrWord;
-          }
-          AnalyzedSentence sentence = new AnalyzedSentence(auxPatternTokens);
-          RuleMatch[] matches = getSpellerRule().match(sentence);
-
-          if (matches.length > 0) {
-            List<String> suggestions = matches[0].getSuggestedReplacements();
-            // TODO: do not tag capitalized words with tags for lower case
-            List<AnalyzedTokenReadings> analyzedSuggestions = getTagger().tag(suggestions);
-            for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
-              if (!analyzedSuggestion.getToken().equals(atrWord.getToken())
-                  && analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {
-                if (!replacements.contains(analyzedSuggestion.getToken())
-                    && !replacements.contains(analyzedSuggestion.getToken().toLowerCase())
-                    && (!diacriticsMode || equalWithoutDiacritics(analyzedSuggestion.getToken(), atrWord.getToken()))) {
-                  if (regexpPattern == null || !regexpPattern.matcher(analyzedSuggestion.getToken()).matches()) {
-                    replacements.add(analyzedSuggestion.getToken());
+        if (removeSuggestionsRegexp != null) {
+          regexpPattern = Pattern.compile(removeSuggestionsRegexp, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+        }
+        String wordToCheck = atrWord.getToken();
+        if (atrWord.isTagged()) {
+          wordToCheck = makeWrong(atrWord.getToken());
+        }
+        List<String> suggestions = getSpeller().findReplacements(wordToCheck);
+        if (suggestions.size() > 0) {
+          // TODO: do not tag capitalized words with tags for lower case
+          List<AnalyzedTokenReadings> analyzedSuggestions = getTagger().tag(suggestions);
+          for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
+            if (!analyzedSuggestion.getToken().equals(atrWord.getToken())
+                && analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {
+              if (!replacements.contains(analyzedSuggestion.getToken())
+                  && !replacements.contains(analyzedSuggestion.getToken().toLowerCase())
+                  && (!diacriticsMode || equalWithoutDiacritics(analyzedSuggestion.getToken(), atrWord.getToken()))) {
+                if (regexpPattern == null || !regexpPattern.matcher(analyzedSuggestion.getToken()).matches()) {
+                  String replacement = analyzedSuggestion.getToken();
+                  if (isWordAllupper) {
+                    replacement = replacement.toUpperCase();
                   }
+                  if (isWordCapitalized) {
+                    replacement = StringTools.uppercaseFirstChar(replacement);
+                  }
+                  replacements.add(replacement);
                 }
-                if (replacements.size() >= MAX_SUGGESTIONS) {
-                  break;
-                }
+              }
+              if (replacements.size() >= MAX_SUGGESTIONS) {
+                break;
               }
             }
           }
@@ -163,16 +165,54 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
    * suggestions from the speller when the original word is a correct word.
    */
   private String makeWrong(String s) {
-    if (s.contains("a")) { return s.replace("a", "ä"); }
-    if (s.contains("e")) { return s.replace("e", "ë"); }
-    if (s.contains("i")) { return s.replace("i", "ï"); }
-    if (s.contains("o")) { return s.replace("o", "ö"); }
-    if (s.contains("u")) { return s.replace("u", "ù"); }
-    if (s.contains("á")) { return s.replace("á", "ä"); }
-    if (s.contains("é")) { return s.replace("é", "ë"); }
-    if (s.contains("í")) { return s.replace("í", "ï"); }
-    if (s.contains("ó")) { return s.replace("ó", "ö"); }
-    if (s.contains("ú")) { return s.replace("ú", "ù"); }
+    if (s.contains("a")) {
+      return s.replace("a", "ä");
+    }
+    if (s.contains("e")) {
+      return s.replace("e", "ë");
+    }
+    if (s.contains("i")) {
+      return s.replace("i", "ï");
+    }
+    if (s.contains("o")) {
+      return s.replace("o", "ö");
+    }
+    if (s.contains("u")) {
+      return s.replace("u", "ù");
+    }
+    if (s.contains("á")) {
+      return s.replace("á", "ä");
+    }
+    if (s.contains("é")) {
+      return s.replace("é", "ë");
+    }
+    if (s.contains("í")) {
+      return s.replace("í", "ï");
+    }
+    if (s.contains("ó")) {
+      return s.replace("ó", "ö");
+    }
+    if (s.contains("ú")) {
+      return s.replace("ú", "ù");
+    }
+    if (s.contains("à")) {
+      return s.replace("à", "a");
+    }
+    if (s.contains("è")) {
+      return s.replace("à", "e");
+    }
+    if (s.contains("ì")) {
+      return s.replace("ì", "i");
+    }
+    if (s.contains("ò")) {
+      return s.replace("ò", "o");
+    }
+    if (s.contains("ï")) {
+      return s.replace("ï", "i");
+    }
+    if (s.contains("ü")) {
+      return s.replace("ü", "u");
+    }
     return s + "-";
   }
 

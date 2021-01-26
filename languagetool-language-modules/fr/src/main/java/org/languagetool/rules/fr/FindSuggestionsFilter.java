@@ -19,26 +19,26 @@
 package org.languagetool.rules.fr;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.French;
 import org.languagetool.rules.AbstractFindSuggestionsFilter;
-import org.languagetool.rules.Rule;
+import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.fr.FrenchTagger;
 
 public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
+  private static final String DICT_FILENAME = "/fr/french.dict";
+  private static MorfologikSpeller speller;
   private static final FrenchTagger tagger = new FrenchTagger();
-  private MorfologikFrenchSpellerRule morfologikRule;
-  
+
   public FindSuggestionsFilter() throws IOException {
-    ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE,
-        new Locale("fr"));
-    morfologikRule = new MorfologikFrenchSpellerRule(messages, new French(), null, Collections.emptyList());
+    // lazy init
+    if (speller == null) {
+      if (JLanguageTool.getDataBroker().resourceExists(DICT_FILENAME)) {
+        speller = new MorfologikSpeller(DICT_FILENAME);
+      }
+    }
   }
 
   @Override
@@ -47,8 +47,8 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
   }
 
   @Override
-  protected Rule getSpellerRule() {
-    return morfologikRule;
+  protected MorfologikSpeller getSpeller() {
+    return speller;
   }
- 
+
 }
