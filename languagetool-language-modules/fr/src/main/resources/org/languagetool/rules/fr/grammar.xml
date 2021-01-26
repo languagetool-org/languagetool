@@ -35468,6 +35468,13 @@ though, and has since been slightly modified)-->
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
       <rule id="QU_EST_CE_QUE" name="qu est-ce que" default="temp_off">
+          <antipattern>
+              <token>qu'</token>
+              <token>est</token>
+              <token>-ce</token>
+              <token regexp="yes" skip="-1">qu.*</token>
+              <token postag="M fin inte"/>
+          </antipattern>
           <pattern>
               <marker>
                   <token case_sensitive="yes">qu'</token>
@@ -35477,8 +35484,8 @@ though, and has since been slightly modified)-->
               </marker>
           </pattern>
           <message>Dans le langage courant, cette question indirecte devrait être introduite par <suggestion>ce que</suggestion>.</message>
-          <example correction="ce que"> Je me demande <marker>qu'est-ce qu'</marker>il pense.</example>
-          <example correction="ce que"> Dis-moi <marker>qu'est-ce que</marker> tu en pense.</example>
+          <example correction="ce que">Je me demande <marker>qu'est-ce qu'</marker>il pense.</example>
+          <example correction="ce que">Dis-moi <marker>qu'est-ce que</marker> tu en pense.</example>
       </rule>
       <rule id= "CA_VA_MAL_SE_FINIR" name="ça va mal se finir" default="temp_off">
           <pattern>
