@@ -10069,34 +10069,36 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
-      <rulegroup id="ETRE_TOUTES_OU_TOUS_V_PPA" name="être toutes ou tous v ppa" default="temp_off">
+      <rulegroup id="TOUTES_OU_TOUS_V_PPA" name="toutes ou tous v ppa" default="temp_off">
           <rule>
               <pattern>
-                  <token postag="R.* pers.*" postag_regexp="yes"></token>
-                  <token postag="V.* etre.*" postag_regexp="yes"></token>
+                  <token postag="R.* pers.* suj.* 3 m p" postag_regexp="yes"></token>
+                  <token postag="V.*" postag_regexp="yes"/>
+                  <marker>
+                      <token regexp="yes">toute|toutes</token>
+                  </marker>
+                  <token postag="V.* ppa.* m sp|P.*" postag_regexp="yes">
+                      <exception postag="V.* ppa.* m sp" postag_regexp="yes" regexp="yes">^[aeiou].*|&H_ASPIRE;</exception>
+                      <exception>par</exception></token>
+              </pattern>
+              <message>Vérifiez l’accord entre les pronoms « \1 » et « \3 ».</message>
+              <suggestion>tous</suggestion>
+              <example correction="tous">Ils seront <marker>toute</marker> pris.</example>
+              <example correction="tous">Ils vont <marker>toutes</marker> en ville.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token postag="R.* pers.* suj.* 3 f p" postag_regexp="yes"/>
+                  <token postag="V.*" postag_regexp="yes"/>
                   <marker>
                       <token regexp="yes">toute|tous</token>
                   </marker>
-                  <token postag="V.* ppa.* f p" postag_regexp="yes"></token>
+                  <token postag="V.* ppa.*" postag_regexp="yes"><exception regexp="yes">^[aeiou].*|&H_ASPIRE;</exception></token>
               </pattern>
               <message>Vérifiez l’accord entre les pronoms « \1 » et « \3 ».</message>
               <suggestion>toutes</suggestion>
               <example correction="toutes">Elles seront <marker>toute</marker> prises.</example>
-              <example correction="toutes">Elles seront <marker>tous</marker> admises.</example>
-          </rule>
-          <rule>
-              <pattern>
-                  <token postag="R.* pers.*" postag_regexp="yes"></token>
-                  <token postag="V.* etre.*" postag_regexp="yes"></token>
-                  <marker>
-                      <token regexp="yes">toute|tout|toutes</token>
-                  </marker>
-                  <token postag="V.* ppa.* m p" postag_regexp="yes"></token>
-              </pattern>
-              <message>Vérifiez l’accord entre les pronoms « \1 » et « \3 ».</message>
-              <suggestion>tous</suggestion>
-              <example correction="tous">Ils seront <marker>tout</marker> lus.</example>
-              <example correction="tous">Ils seront <marker>toute</marker> félicités.</example>
+              <example correction="toutes">Elles auront <marker>tous</marker> mangé de la tarte.</example>
           </rule>
       </rulegroup>
     <rule id="LA_OU_LES_PLUS" name="la ou les plus" default="temp_off">
