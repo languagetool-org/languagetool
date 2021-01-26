@@ -15122,6 +15122,14 @@ steenwijk;Steenwijk
 				<antipattern><token regexp="yes">[,;]</token><token regexp="yes" case_sensitive="yes" >^[A-Z][a-z].*(s|se|isch|ische)$</token></antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token regexp="yes">[A-Z][a-z].*</token><token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token></antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token regexp="yes">[A-Z][a-z].*(straat|plein|dreef|steeg|laan)</token></antipattern>
+				<antipattern>
+					<!-- taal -->
+					<token regexp="yes">[,;]</token>
+					<and>
+						<token regexp="yes" postag="ZNW:EKV:HET">[A-Z][a-z].*</token>
+						<token regexp="yes" postag="BNW:STL:ONV">[A-Z][a-z].*</token>
+					<and>
+				</antipattern>
 				<pattern case_sensitive="yes">
 					<token regexp="yes">[,;]</token>
 					<marker>
