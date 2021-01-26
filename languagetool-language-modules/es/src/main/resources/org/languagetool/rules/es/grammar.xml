@@ -7742,6 +7742,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message suppress_misspelled="yes">Se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="nacional$1" case_conversion="alllower"/></suggestion>
+                <example correction="nacionalpopulismo">Es propio del <marker>nacional-populismo</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">nacional-(populismo|populista|católico|socialismo|catolicismo|sindicalismo|sindicalista)</token>
+                </pattern>
+                <message suppress_misspelled="yes">Se escribe junto.</message>
+                <suggestion><match no="1" regexp_match="-" regexp_replace=""/></suggestion>
                 <example correction="nacionalpopulistas">Son gobiernos <marker>nacional-populistas</marker>.</example>
             </rule>
             <rule>
@@ -7881,6 +7889,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>superyó</suggestion>
                 <suggestion>superego</suggestion>
                 <example correction="superyó|superego">El <marker>súper-yo</marker> del psicoanálisis freudiano.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>beta</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">..+</token>
+                </pattern>
+                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="beta$1"/></suggestion>
+                <example correction="betalactámicos">Son <marker>beta-lactámicos</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SUPER" name="super/súper/super-">
@@ -12417,6 +12435,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
                 <token regexp="yes">atrás|después|antes</token>
             </antipattern>
+            <antipattern>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="N.*|V.P.*|A.*" postag_regexp="yes"/>
+                </unify>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">pro|anti|beta</token>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no"/>
+            </antipattern>
+            <antipattern>
+                <token>de</token>
+                <token regexp="yes">forma|manera</token>
+                <token postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>de</token>
+                <token regexp="yes">forma|manera</token>
+                <token postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"/>
+                <token postag="CC"/>
+                <token postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <!-- TODO: ambiguous -->
+                <token>en</token>
+                <token>especial</token>
+            </antipattern>
+            <antipattern>
+                <!-- TODO: ambiguous -->
+                <token>de</token>
+                <token>primera</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -12539,7 +12592,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Lo único constante en este mundo.</example>
                 <example>Mi esposo y yo solíamos escalar montañas juntos.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <unify negate="yes">
                         <feature id="numero"/>
@@ -12559,6 +12612,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Datos demográficos u otra información.</example>
                 <example>Dos profesores de física iraníes fueron asesinados.</example>
                 <example>Ácidos grasos omega 3.</example>
+                <example>pudiendo participar de manera individual o colectiva artistas entre 18 y 35 años</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_PARTICIPLE_NOUN" name="concordancias participio y nombre">
@@ -12717,6 +12771,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Me quedé dormido tarde.</example>
                 <example>Habiéndose, por fin, dado cuenta de que el señuelo no engaña.</example>
                 <example>han asesinado a miles, <marker>llevado ciudades</marker> a la ruina</example>
+                <example>Diseños de primera exteriores.</example>
+                <example>técnicas médico-asistenciales de reproducción asistida</example>
+                <example>las formaciones económico-sociales inca y azteca</example>
             </rule>
         </rulegroup>
     </category>
@@ -13891,6 +13948,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="JUNTO_A" name="junto / junto a" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>junto</token>
+                </marker>
+                <token postag="N..P.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Posible confusión. ¿Quería decir <suggestion>junto a</suggestion>?</message>
+            <example correction="junto a">La vemos <marker>junto</marker> mares.</example>
+        </rule>
         <rulegroup id="ALA_A_LA" name="ala/a la">
             <rule>
                 <pattern>
