@@ -12440,7 +12440,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <feature id="genero"/>
                     <feature id="numero"/>
                     <token postag="D.*" postag_regexp="yes"/>
-                    <token postag="N.*|V.P.*|A.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
                 </unify>
             </antipattern>
             <antipattern>
@@ -12469,6 +12469,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- TODO: ambiguous -->
                 <token>de</token>
                 <token>primera</token>
+            </antipattern>
+            <antipattern>
+                <token postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"/>
+                <token postag="CC"/>
+                <token postag="RG" regexp="yes">.+mente</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -12542,6 +12547,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>total</token>
                     <token>productos</token>
                 </antipattern>
+                <antipattern>
+                    <token>número</token>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>número</token>
+                    <token>uno</token>
+                </antipattern>
                 <pattern>
                     <unify negate="yes">
                         <feature id="numero"/>
@@ -12570,6 +12583,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Toque de queda nocturno.</example>
                 <example>Calma dolores.</example>
                 <example>algo parecido milenios antes</example>
+                <example>Soy tu seguidora número 1610.</example>
+                <example>Soy tu seguidora número uno.</example>
+                <example>Soy tu seguidora número veinte.</example>
+                <example>como seguras social y ambientalmente</example>
             </rule>
             <rule default="temp_off">
                 <pattern>
