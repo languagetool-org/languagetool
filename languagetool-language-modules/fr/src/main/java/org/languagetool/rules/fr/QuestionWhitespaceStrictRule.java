@@ -20,7 +20,9 @@ package org.languagetool.rules.fr;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.Tag;
 
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -36,7 +38,7 @@ public class QuestionWhitespaceStrictRule extends QuestionWhitespaceRule {
 
   public QuestionWhitespaceStrictRule(ResourceBundle messages, Language language) {
     super(messages, language);
-    setDefaultOff();
+    setTags(Arrays.asList(Tag.picky));
   }
 
   @Override
