@@ -7432,6 +7432,16 @@ Estamos todos solteiros.
 		<token regexp='yes'>[.,!?;()]</token>
       </antipattern> 
 <!-- MARCOAGPINTO 2021-01-15 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-01-27 (1-JAN-2021+) *START* -->
+<!--
+É um fenómeno entre todos raro e insólito na cultura portuguesa.
+-->
+      <antipattern>
+	    <token postag='SPS.+' postag_regexp='yes'/>
+		<token regexp='yes'>tod[ao]s</token>
+		<token postag='NC.S.+|AQ0.S.+' postag_regexp='yes'/>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-01-27 (1-JAN-2021+) *END* -->
       <pattern>
           <token regexp='yes'>tod[ao]s</token>
           <token postag_regexp='yes' postag='(?:N|A).+'>
@@ -7450,10 +7460,13 @@ Estamos todos solteiros.
       <example>Nisso somos todos iguais.</example>
       <example>Somos todos uns mimados.</example>
       <example>Os sócios, todos portugueses, fizeram o investimento inicial.</example>
+	  
 	  <example type='correct'>Somos <marker>todos filhos</marker> de Deus.</example>
-	  <example type='correct'>Somos <marker>todas filhas</marker> de Deus.</example>
+	  <example type='correct'>Somos todas filhas de Deus.</example>
 	  <example type='correct'>Estamos <marker>todas solteiras</marker>.</example>
-	  <example type='correct'>Estamos <marker>todos solteiros</marker>.</example>
+	  <example type='correct'>Estamos todos solteiros.</example>
+	  
+	  <example>É um fenómeno entre <marker>todos raro</marker> e insólito na cultura portuguesa.</example>
     </rule>
 
     <rule id='DEMAIS_DE_MAIS' name="Confusão: de mais/demais">
