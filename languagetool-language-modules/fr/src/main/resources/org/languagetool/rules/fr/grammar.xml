@@ -10069,6 +10069,17 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
+      <rule id="PLURIEL_AL" name="pluriel al" default="temp_off">
+          <pattern>
+              <marker>
+                  <token regexp="yes" case_sensitive="yes">[a-z].*als
+                      <exception regexp="yes">avals|bals|carnavals|chacals|corrals|finals|festivals|récitals|régals|cals|cérémonials|futals|emmentals|gavials|graals|narvals|étals|vals|bancals|fatals|glacials|natals|.*navals|tonals|caracals|rorquals|servals|marshals|causals|fractals|cantals|banals</exception></token>
+              </marker>
+          </pattern>
+          <message>Une erreur d’orthographe semble être détectée.</message>
+          <suggestion><match no="1" regexp_match="(?iu)als" regexp_replace="aux"/></suggestion>
+          <example correction="chevaux">Des <marker>chevals</marker> blancs.</example>
+      </rule>
       <rule id="QUELLES_OU_QU_ELLES" name="quelles ou qu'elles" default="temp_off">
           <pattern>
               <token postag="SENT_START"/>
