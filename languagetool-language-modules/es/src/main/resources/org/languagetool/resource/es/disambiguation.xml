@@ -2364,6 +2364,16 @@ Copyright (C) 2011 Juan Martorell
             <wd pos="_GV_"/>
         </disambig>
     </rule>
+    <rule id="como_resultado" name="como resultado">
+        <pattern>
+            <token>como</token>
+            <token>resultado</token>
+        </pattern>
+        <disambig action="replace">
+            <wd lemma="como" pos="SPS00"/>
+            <wd lemma="resultado" pos="NCMS00"/>
+        </disambig>
+    </rule>
     <rulegroup id="E_CONJ" name="e (conjunción)">
         <rule>
             <pattern>
@@ -2456,7 +2466,7 @@ Copyright (C) 2011 Juan Martorell
                 <unify>
                     <feature id="genero"/>
                     <feature id="numero"/>
-                    <token postag="VMP.*|AQ.*" postag_regexp="yes" inflected="yes">decir</token>
+                    <token postag="VMP.*|AQ.*" postag_regexp="yes" inflected="yes">decir<exception postag="_GV_"/></token>
                     <token postag="NC.*" postag_regexp="yes"><exception postag="C.|SP.*|R.*|P.*" postag_regexp="yes"/></token>
                 </unify>
             </marker>
