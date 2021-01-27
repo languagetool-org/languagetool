@@ -10069,42 +10069,22 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
-      <rulegroup id="ELLES_VERBE_TOUTES" name="elles verbe toutes" default="temp_off">
-          <rule>
-              <pattern>
-                  <token postag="R.* f p" postag_regexp="yes"/>
-                  <token postag="V.*" postag_regexp="yes"/>
-                  <marker>
-                      <token postag="A" regexp="yes">tout(e)?</token>
-                  </marker>
-                  <token postag="D.*" postag_regexp="yes"><exception regexp="yes">un|la</exception></token>
-                  <token postag="N.*" postag_regexp="yes"><exception regexp="yes">temps|droit?|an?|jour?|année?</exception></token>
-              </pattern>
-              <message>Vérifiez l’accord entre les pronoms « \1 » et « \3 ».</message>
-              <suggestion>toutes</suggestion>
-              <example correction="toutes">Elles ont <marker>toute</marker> une poupée.</example>
-              <example correction="toutes">Elles ont <marker>tout</marker> une voiture.</example>
-          </rule>
-          <rule>
-              <antipattern>
-                  <token postag="R.* pers.* suj.* 3 m p" postag_regexp="yes"/>
-                  <token>et</token>
-                  <token postag="R.* pers.* suj.* 3 f p" postag_regexp="yes"/>
-              </antipattern>
-              <pattern>
-                  <token postag="R.* pers.* suj.* 3 f p" postag_regexp="yes"/>
-                  <token postag="V.*" postag_regexp="yes"/>
-                  <marker>
-                      <token regexp="yes">toute|tous</token>
-                  </marker>
-                  <token postag="V.* ppa.*|P.*" postag_regexp="yes"/>
-              </pattern>
-              <message>Vérifiez l’accord entre les pronoms « \1 » et « \3 ».</message>
-              <suggestion>toutes</suggestion>
-              <example correction="toutes">Elles seront <marker>toute</marker> prises.</example>
-              <example correction="toutes">Elles vont <marker>tous</marker> en ville.</example>
-          </rule>
-      </rulegroup>
+      <rule id="ELLES_VERBE_TOUTES" name="elles verbe toutes" default="temp_off">
+          <pattern>
+              <token postag="R.* f p" postag_regexp="yes"/>
+              <token postag="V.*" postag_regexp="yes"/>
+              <marker>
+                  <token postag="A" postag_regexp="yes" regexp="yes">toute?</token>
+              </marker>
+              <token>des</token>
+              <token postag="N.*" postag_regexp="yes">
+                  <exception regexp="yes">temps|droits|ans|jours|années</exception>
+              </token>
+          </pattern>
+          <message>Vérifiez l’accord entre les pronoms « \1 » et « \3 ».</message>
+          <suggestion>toutes</suggestion>
+          <example correction="toutes">Elles ont <marker>toute</marker> des poupées.</example>
+      </rule>
       <rule id="LA_OU_LES_PLUS" name="la ou les plus" default="temp_off">
       <pattern>
         <token postag="V.*" postag_regexp="yes"/>
