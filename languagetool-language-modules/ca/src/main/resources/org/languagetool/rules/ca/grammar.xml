@@ -36121,6 +36121,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="MAL_DE_MUCHOS" name="mal de muchos">
+            <url>https://pccd.dites.cat/?paremiotipus=Mal+de+molts%2C+conhort+de+boigs</url>
+            <rule>
+                <pattern>
+                    <token>mal</token>
+                    <token>de</token>
+                    <token>muchos</token>
+                    <token min="0">,</token>
+                    <token>consuelo</token>
+                    <token>de</token>
+                    <token>tontos</token>
+                </pattern>
+                <message>Aquesta expressió existeix en català.</message>
+                <suggestion>mal de molts, conhort de boigs</suggestion>
+                <suggestion>mal de molts, consol de tots</suggestion>
+                <suggestion>mal de molts, conhort de bèsties</suggestion>
+                <example correction="mal de molts, conhort de boigs|mal de molts, consol de tots|mal de molts, conhort de bèsties"><marker>mal de muchos, consuelo de tontos</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>mal</token>
+                    <token>de</token>
+                    <token>muchos</token>
+                </pattern>
+                <message>Aquesta expressió existeix en català.</message>
+                <suggestion>mal de molts</suggestion>
+                <suggestion>mal de molts, conhort de boigs</suggestion>
+                <suggestion>mal de molts, consol de tots</suggestion>
+                <suggestion>mal de molts, conhort de bèsties</suggestion>
+                <example correction="mal de molts|mal de molts, conhort de boigs|mal de molts, consol de tots|mal de molts, conhort de bèsties"><marker>mal de muchos</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PEL_QUE" name="*pel que / i per això, per la qual cosa">
             <rule>
                 <pattern>
