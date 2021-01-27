@@ -46,8 +46,8 @@ public class SpanishTagger extends BaseTagger {
   private static final Pattern PREFIXES_FOR_ADJ = Pattern.compile("(.+)-(.+)",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern ADJ = Pattern.compile("AQ.+");
-  private static final Pattern ADJ_MS = Pattern.compile("AQ.[MC][SN].");
-  private static final Pattern NO_PREFIXES_FOR_ADJ = Pattern.compile("(pro|afro|ultra|super|súper)",
+  private static final Pattern ADJ_MS = Pattern.compile("AQ.MS.|AQ.CS.|AQ.MN.");
+  private static final Pattern NO_PREFIXES_FOR_ADJ = Pattern.compile("(anti|pre|ex|pro|afro|ultra|super|súper)",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   public SpanishTagger() {
