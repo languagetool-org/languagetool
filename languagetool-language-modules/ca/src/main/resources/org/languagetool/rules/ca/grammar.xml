@@ -30778,12 +30778,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">-</token>
-                    <token regexp="yes">[stm]</token>
-                    <token>'</token>
-                    <token regexp="yes">(en|em|el|et|els|ens)</token>
+                    <token regexp="yes">[stm]'(en|em|el|et|els|ens)</token>
                 </pattern>
                 <message>Apostrofació incorrecta.</message>
-                <suggestion>-\2e'<match no="4" regexp_match="(?iu)e" regexp_replace=""/></suggestion>
+                <suggestion>-<match no="2" regexp_match="(?iu)'e" regexp_replace="e'"/></suggestion>
                 <example correction="-te'l">Menja<marker>-t'el</marker>.</example>
                 <example correction="-te'ls">Menja<marker>-t'els</marker>.</example>
             </rule>
