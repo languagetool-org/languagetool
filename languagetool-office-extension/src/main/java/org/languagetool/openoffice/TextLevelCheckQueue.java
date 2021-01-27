@@ -43,10 +43,12 @@ public class TextLevelCheckQueue {
   private List<QueueEntry> textRuleQueue = Collections.synchronizedList(new ArrayList<QueueEntry>());  //  Queue to check text rules in a separate thread
   private Object queueWakeup = new Object();
   private MultiDocumentsHandler multiDocHandler;
+  private SortedTextRules sortedTextRules = null;
+
   private QueueIterator queueIterator;
   private int lastStart = -1;
   private int lastEnd = -1;
-  private int lastCache = 0;
+  private int lastCache = -1;
   private String lastDocId = null;
   private Language lastLanguage = null;
   private boolean interruptCheck = false;
@@ -429,7 +431,7 @@ public class TextLevelCheckQueue {
       }
       langTool = multiDocHandler.initLanguageTool(language, false);
       multiDocHandler.initCheck(langTool, multiDocHandler.getLocale());
-      multiDocHandler.activateTextRulesByIndex(1, langTool);
+      sortedTextRules = new SortedTextRules(langTool, multiDocHandler.getConfiguration(), multiDocHandler.getDisabledRules());
     }
     
     /**
@@ -497,7 +499,7 @@ public class TextLevelCheckQueue {
                   lastLanguage = entryLanguage;
                   initLangtool(lastLanguage);
                 } else if (lastCache != queueEntry.nCache) {
-                  multiDocHandler.activateTextRulesByIndex(queueEntry.nCache, langTool);
+                  sortedTextRules.activateTextRulesByIndex(queueEntry.nCache, langTool);
                 }
                 lastDocId = queueEntry.docId;
                 lastStart = queueEntry.nStart;

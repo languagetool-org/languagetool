@@ -963,15 +963,15 @@ class SingleDocument {
         changedParas = new ArrayList<>();
       }
       for (int i = 0; i < minToCheckPara.size(); i++) {
+        int parasToCheck = minToCheckPara.get(i);
+        defaultParaCheck = PARA_CHECK_DEFAULT;
         if (i == 0 || mDocHandler.isSortedRuleForIndex(i)) {
-          int parasToCheck = minToCheckPara.get(i);
-          defaultParaCheck = PARA_CHECK_DEFAULT;
           mDocHandler.activateTextRulesByIndex(i, langTool);
           if (debugMode > 1) {
             MessageHandler.printToLogFile("ParaCeck: Index: " + i + "/" + minToCheckPara.size() 
               + "; numParasToCheck: " + numParasToCheck + OfficeTools.LOG_LINE_BREAK);
           }
-          if (resetCheck.contains(paraNum) && parasToCheck < 0 && !useQueue) {
+          if (resetCheck.contains(paraNum) && !useQueue && parasToCheck < 0 ) {
             oldCache = paragraphsCache.get(i);
             if (parasToCheck < -1) {
               paragraphsCache.set(i, new ResultCache());
@@ -994,15 +994,15 @@ class SingleDocument {
               if (!changedParas.contains(paraNum)) {
                 changedParas.add(paraNum);
               }
+              oldCache = null;
             } else {
               addChangedParas();
             }
-          }
+          } 
         } else {
           pErrors.add(new SingleProofreadingError[0]);
-        } 
+        }
       }
-      oldCache = null;
       mDocHandler.reactivateTextRules(langTool);
     }
     return pErrors;
