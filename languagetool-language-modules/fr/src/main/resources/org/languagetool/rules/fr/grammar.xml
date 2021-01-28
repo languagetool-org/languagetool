@@ -4948,6 +4948,20 @@ though, and has since been slightly modified)-->
         <example correction="Edgar Allan Poe"><marker>Edgar Alan Poe</marker></example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Allan</token>
+          <token>Poe</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">All?[ae]n</token>
+          <token regexp="yes">Poe?</token>
+        </pattern>
+        <message>Écrivez <suggestion>Allan Poe</suggestion> s’il s’agit de l’écrivain américain.</message>
+        <suggestion>Edgar Allan Poe</suggestion>
+        <url>https://fr.wikipedia.org/wiki/Edgar_Allan_Poe</url>
+        <example correction="Allan Poe|Edgar Allan Poe"><marker>Alan Poe</marker></example>
+      </rule>
+      <rule>
         <pattern>
           <token>Charlotte</token>
           <token>Bronte</token>
@@ -10163,12 +10177,12 @@ though, and has since been slightly modified)-->
       <rule id="PLURIEL_AL" name="pluriel al" default="temp_off">
           <pattern>
               <marker>
-                  <token regexp="yes" case_sensitive="yes">[a-z].*als
+                  <token regexp="yes" case_sensitive="yes">\p{L}.*als
                       <exception regexp="yes">avals|bals|carnavals|chacals|corrals|finals|festivals|récitals|régals|cals|cérémonials|futals|emmentals|gavials|graals|narvals|étals|vals|bancals|fatals|glacials|natals|.*navals|tonals|caracals|rorquals|servals|marshals|causals|fractals|cantals|banals</exception></token>
               </marker>
           </pattern>
           <message>Une erreur d’orthographe semble être détectée.</message>
-          <suggestion><match no="1" regexp_match="(?iu)als" regexp_replace="aux"/></suggestion>
+          <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)als" regexp_replace="aux"/></suggestion>
           <example correction="chevaux">Des <marker>chevals</marker> blancs.</example>
       </rule>
       <rule id="QUELLES_OU_QU_ELLES" name="quelles ou qu'elles" default="temp_off">
