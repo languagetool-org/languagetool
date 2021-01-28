@@ -7934,6 +7934,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="beta$1"/></suggestion>
                 <example correction="betalactámicos">Son <marker>beta-lactámicos</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>post</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">..+</token>
+                </pattern>
+                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="pos$1"/></suggestion>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="post$1"/></suggestion>
+                <example correction="posrevolucionario">En el contexto <marker>post-revolucionario</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SUPER" name="super/súper/super-">
             <url>https://www.fundeu.es/recomendacion/super-superestrella-superheroe-coalicion-prefijo-815/</url>
@@ -11174,6 +11185,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="posible">Lo más eficaces <marker>posibles</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="LO_LA" name="confusión lo/la" default="temp_off">
+            <pattern>
+                <!--<token postag="SPS00|LOC_PREP" postag_regexp="yes"/>-->
+                <marker>
+                    <token>lo</token>
+                </marker>
+                <token postag="NCFS000"><exception postag="A.*|V.P.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Posible error de concordancia.</message>
+            <suggestion>la</suggestion>
+            <example correction="la">Vendrá mañana por <marker>lo</marker> noche.</example>
+            <example correction="la">Pero un tercio de <marker>lo</marker> población lleva una vida miserable.</example>
+        </rule>
         <rulegroup id="AGREEMENT_DET_ADJ" name="Concordancias determinante y adjetivo">
             <antipattern>
                 <token regexp="yes">del|el|un|los|unos</token>
@@ -12797,6 +12821,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Entrada y salida jack 1/4</example>
                 <example>Pensé que habías dicho dos y media.</example>
                 <example>Da como resultado tiempos quirúrgicos más cortos.</example>
+                <example>Tengo decididas mis preferidas entre la 4 y la 5.</example>
             </rule>
             <rule>
                 <antipattern>
