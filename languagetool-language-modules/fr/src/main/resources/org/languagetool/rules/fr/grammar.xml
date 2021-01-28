@@ -10069,6 +10069,22 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
+      <rule id="ELLES_VERBE_TOUTES" name="elles verbe toutes" default="temp_off">
+          <pattern>
+              <token postag="R.* f p" postag_regexp="yes"/>
+              <token postag="V.*" postag_regexp="yes"/>
+              <marker>
+                  <token postag="A" postag_regexp="yes" regexp="yes">toute?</token>
+              </marker>
+              <token>des</token>
+              <token postag="N.*" postag_regexp="yes">
+                  <exception regexp="yes">temps|droits|ans|jours|années</exception>
+              </token>
+          </pattern>
+          <message>Vérifiez l’accord entre les pronoms « \1 » et « \3 ».</message>
+          <suggestion>toutes</suggestion>
+          <example correction="toutes">Elles ont <marker>toute</marker> des poupées.</example>
+      </rule>
       <rulegroup id="TOUTES_OU_TOUS_V_PPA" name="toutes ou tous v ppa" default="temp_off">
           <rule>
               <pattern>
