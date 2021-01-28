@@ -3543,10 +3543,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>you</token>
             <marker>
                 <and>
-                    <token postag="VBZ">
-                        <exception>wants</exception>
-                    </token>
-                    <token postag="NNS"/>
+                    <token postag="VBZ"/>
+                    <token chunk="E-NP-plural" postag="NNS"/>
                 </and>
             </marker>
         </pattern>
@@ -3555,7 +3553,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                  outputform="grounds[ground/NNS]">That doesn't give you <marker>grounds</marker> for complaining.</example>
         <example type="untouched">How much we pay you depends on your skill.</example>
         <example type="untouched">Grammar error: Would you say you wants to do it?</example>
+        <example type="untouched">Grammar error: Do you think you likes this type of test?</example><!-- #4241. All VBZ verbs, not only 'wants'. Fixed with chunk="E-NP-plural" -->
         <example type="untouched">Can you makes the kitchen?</example>
+        <example type="untouched">What doesn't kill you makes you stronger.</example><!-- #4241 -->
     </rule>
 
     <!-- 'an' is part of a proper name here -->
