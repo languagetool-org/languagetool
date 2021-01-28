@@ -20068,6 +20068,99 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="ALLE" name="Alle vs. alle" default="temp_off">
+            <antipattern>
+                <token>Alles</token>
+                <token regexp="yes">oder|und</token>
+                <token>Nichts</token>
+            </antipattern>
+            <antipattern>
+                <token>Ein</token>
+                <token>und</token>
+                <token>Alles</token>
+            </antipattern>
+            <antipattern><!-- https://de.wikipedia.org/wiki/Alle_JU -->
+                <token>Alle</token>
+                <token>JU</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">Tim|Mark|Woody|van</token>
+                <token>Allen</token>
+            </antipattern>
+            <antipattern>
+                <token>Allen</token>
+                <token regexp="yes">Countys?</token>
+            </antipattern>
+            <antipattern>
+                <token>Allen</token>
+                <token postag="EIG:.+:(VOR|NAC)|UNKNOWN" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-Z].+</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes" regexp="yes">[A-Z]</token>
+                <token min="0">.</token>
+                <token>Allen</token>
+            </antipattern>
+            <antipattern>
+                <token postag="EIG:.+:(VOR|NAC)" postag_regexp="yes" />
+                <token>Allen</token>
+            </antipattern>
+            <antipattern><!-- Allen P. Muller -->
+                <token>Allen</token>
+                <token case_sensitive="yes" regexp="yes">[A-Z]</token>
+                <token min="0">.</token>
+                <token postag="EIG:.+:(VOR|NAC)|UNKNOWN" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-Z].+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">prof|mrs?|ms|dr|med|rer|nat|doktor|professor|hr|fr|herr|frau|fräulein|kardinal</token>
+                <token min="0">.</token>
+                <token>Allen</token>
+            </antipattern>
+            <antipattern>
+                <token postag="VER:[13]:SIN:.+" postag_regexp="yes" />
+                <token>Allen</token>
+            </antipattern>
+            <antipattern>
+                <token>Allen</token>
+                <token regexp="yes">und|&amp;</token>
+                <token regexp="yes">Co|Partner</token>
+            </antipattern>
+            <antipattern>
+                <token>Allen</token>
+                <token regexp="yes">Inc|LLC|GmbH|AG</token>
+            </antipattern>
+            <antipattern>
+                <token>william</token>
+                <token>wirt</token>
+                <token>allen</token>
+            </antipattern>
+            <pattern>
+                <token>
+                    <exception postag="UNKNOWN|SENT_START" postag_regexp="yes" />
+                    <exception regexp="yes">:|;|!|\?</exception>
+                </token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">Alle[snm]?</token><!-- "Allen" is a name-->
+                </marker>
+            </pattern>
+            <message>Wenn Sie das Zahlwort <suggestion><match no="2" case_conversion="alllower" /></suggestion> meinen (im Sinne von "jeder/n") wird es kleingeschrieben.</message>
+            <example correction="allen">Ich bin euch <marker>Allen</marker> dankbar.</example>
+            <example correction="alle">Dieser Dank geht an <marker>Alle</marker> die sich für mich eingesetzt haben.</example>
+            <example correction="alles">Dies <marker>Alles</marker> obwohl ich in den Energiespareinstellungen nichts geändert habe.</example>
+            <example correction="alle">Danke an <marker>Alle</marker> Beteiligten.</example>
+            <example correction="alle">Wir freuen uns auf <marker>Alle</marker>, die an unserem Stand vorbei kommen.</example>
+            <example correction="alles">Von Fregatte bis Supercap ist <marker>Alles</marker> dabei.</example>
+            <example>Es war Allen Moyer.</example>
+            <example>13. August: Allen Blairman, US-amerikanischer Schlagzeuger des Modern Jazz</example>
+            <example>Tom sagt zu Maria, sie sei sein Ein und Alles.</example>
+            <example>Richard B. Allen - Kris Defoort</example>
+            <example>Sie ist mein Ein und Alles.</example>
+            <example>1924 gelang M. T. Allen die Welterstzucht in England.</example>
+            <example>12. September: Henry Wilson Allen, US-amerikanischer Schriftsteller und Drehbuchautor</example>
+            <example>1547 begann Allen ein Studium am Oriel College in Oxford (1554 Magister artium).</example>
+            <example>1720 pachtete Allen vom General Post Office die Cross and Bye Posts.</example>
+            <example>1777 kam Allen erstmals in Kontakt mit der Erweckungsbewegung.</example>
+            <example>1914: James Van Allen, US-amerikanischer Physiker.</example>
+        </rule>
         <rule id="AUF_JEDEN_FALL" name="Auf jeden fall (Fall)">
             <pattern>
                 <token regexp="yes">in|auf</token>
