@@ -157,10 +157,11 @@ abstract class TextChecker {
     List<JLanguageTool.Mode> addonModes = Arrays.asList(JLanguageTool.Mode.TEXTLEVEL_ONLY, JLanguageTool.Mode.ALL_BUT_TEXTLEVEL_ONLY);
     UserConfig user = new UserConfig();
     for (Language language : prewarmLanguages) {
+      // add-on uses picky mode since 2021-01-20
       for (JLanguageTool.Mode mode : addonModes) {
         QueryParams params = new QueryParams(Collections.emptyList(), Collections.emptyList(), addonDisabledRules,
           Collections.emptyList(), Collections.emptyList(), false, true,
-          false, false, false, mode, JLanguageTool.Level.DEFAULT, null);
+          true, true, false, mode, JLanguageTool.Level.PICKY, null);
         PipelinePool.PipelineSettings settings = new PipelinePool.PipelineSettings(language, null, params, config.globalConfig, user);
         prewarmSettings.put(settings, NUM_PIPELINES_PER_SETTING);
 
