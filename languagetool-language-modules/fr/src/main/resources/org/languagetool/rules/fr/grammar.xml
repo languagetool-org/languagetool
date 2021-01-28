@@ -10131,6 +10131,35 @@ though, and has since been slightly modified)-->
           <example correction="Quelle"><marker>Qu'elle</marker> est ta question ?</example>
           <example correction="Quelles"><marker>Qu'elles</marker> sont nos options ?</example>
       </rule>
+      <rulegroup id="QUELLE_OU_QUELLES_GROUPE_NOMINAL" name="quelle ou quelles groupe nominal" default="temp_off">
+          <rule>
+              <pattern>
+                  <marker>
+                      <token regexp="yes">qu(&apostrophe;)</token>
+                      <token>elle<exception scope="next">seule</exception></token>
+                  </marker>
+                  <token postag="N.*|J.*" postag_regexp="yes"><exception>coécrit</exception></token>
+              </pattern>
+              <message>Une erreur semble être détectée dans cette phrase. Souhaitez-vous écrire <suggestion>quelle</suggestion> ?</message>
+              <example correction="quelle">Il m'a raconté <marker>qu'elle</marker> belle journée il avait passé.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token regexp="yes">qu(&apostrophe;)</token>
+                  <token>elles</token>
+                  <token>présente</token>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token regexp="yes">qu(&apostrophe;)</token>
+                      <token>elles</token>
+                  </marker>
+                  <token postag="N.*|J.*" postag_regexp="yes"><exception regexp="yes">seules?|mêmes?</exception></token>
+              </pattern>
+              <message>Une erreur semble être détectée dans cette phrase. Souhaitez-vous écrire <suggestion>quelles</suggestion> ?</message>
+              <example correction="quelles">Il m'a raconté <marker>qu'elles</marker> grandes aventures il souhaitait vivre.</example>
+          </rule>
+      </rulegroup>
       <rule id="PLURIEL_AL" name="pluriel al" default="temp_off">
           <pattern>
               <marker>
