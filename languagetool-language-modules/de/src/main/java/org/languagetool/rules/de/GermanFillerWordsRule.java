@@ -69,39 +69,43 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
   }
 
   private static boolean isException(AnalyzedTokenReadings[] tokens, int num) {
-    if (",".equals(tokens[num - 1].getToken())) {
+    if (num == 1 || ",".equals(tokens[num - 1].getToken())) {
       return true;
     }
     return false;
   }
 
   @Override
-  protected int conditionFulfilled(AnalyzedTokenReadings[] tokens, int nAnalysedToken) {
-    if (fillerWords.contains(tokens[nAnalysedToken].getToken()) && !isException(tokens, nAnalysedToken)) {
-      return nAnalysedToken;
+  protected int conditionFulfilled(AnalyzedTokenReadings[] tokens, int nToken) {
+    if (fillerWords.contains(tokens[nToken].getToken()) && !isException(tokens, nToken) 
+         && (nToken < 2 || !isTwoWordException(tokens[nToken - 1].getToken(), tokens[nToken].getToken())) 
+         && (nToken > tokens.length - 2 || !isTwoWordException(tokens[nToken].getToken(), tokens[nToken + 1].getToken()))
+         ) {
+      return nToken;
     }
     return -1;
   }
   
-  private boolean isTwoWordException(String first, String second) {
+  private static boolean isTwoWordException(String first, String second) {
     return (("aber".equals(first) && ("nur".equals(second) || "auch".equals(second)))
+        || ("auch".equals(first) && "nur".equals(second))
         || ("immer".equals(first) && "wieder".equals(second))
         || ("genau".equals(first) && "so".equals(second))
+        || ("so".equals(first) && ("etwas".equals(second) || "viel".equals(second)))
         || ("schon".equals(first) && "fast".equals(second))
         );
   }
 
   @Override
   protected boolean sentenceConditionFulfilled(AnalyzedTokenReadings[] tokens, int nToken) {
-    if ((fillerWords.contains(tokens[nToken - 1].getToken()) && !isTwoWordException(tokens[nToken - 1].getToken(), tokens[nToken].getToken())) || 
-        (nToken < tokens.length - 1 && fillerWords.contains(tokens[nToken + 1].getToken()) && 
-            !isTwoWordException(tokens[nToken].getToken(), tokens[nToken + 1].getToken()))) {
+    if ((nToken > 1 && fillerWords.contains(tokens[nToken - 1].getToken()) && !isException(tokens, nToken - 1)) || 
+        (nToken < tokens.length - 1 && fillerWords.contains(tokens[nToken + 1].getToken()) && !isException(tokens, nToken))) {
       sentenceMessage = DEFAULT_SENTENCE_MSG1;
       return true;
     }
     int n = 0;
     for (int i = nToken - 2; i > 0; i--) {
-      if (fillerWords.contains(tokens[i].getToken()) && !isException(tokens, i)) {
+      if (conditionFulfilled(tokens, i) == i) {
         n++;
         if (n > 1) {
           sentenceMessage = DEFAULT_SENTENCE_MSG2;
@@ -110,7 +114,7 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
       }
     }
     for (int i = nToken + 2; i < tokens.length; i++) {
-      if (fillerWords.contains(tokens[i].getToken()) && !isException(tokens, i)) {
+      if (conditionFulfilled(tokens, i) == i) {
         n++;
         if (n > 1) {
           sentenceMessage = DEFAULT_SENTENCE_MSG2;

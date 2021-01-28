@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Example;
@@ -32,6 +33,7 @@ import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.TextLevelRule;
 import org.languagetool.rules.Category.Location;
+import org.languagetool.tools.Tools;
 
 /**
  * A rule checks the use of very short sentences repeatedly.
@@ -40,11 +42,14 @@ import org.languagetool.rules.Category.Location;
  * @since 5.2
  */
 public class StyleRepeatedVeryShortSentences extends TextLevelRule {
+  
+  private final Language lang;
 
-  public StyleRepeatedVeryShortSentences(ResourceBundle messages) {
+  public StyleRepeatedVeryShortSentences(ResourceBundle messages, Language lang) {
     super(messages);
     super.setCategory(new Category(new CategoryId("CREATIVE_WRITING"), 
         messages.getString("category_creative_writing"), Location.INTERNAL, false));
+    this.lang = lang;
     setDefaultOff();
     setLocQualityIssueType(ITSIssueType.Style);
     addExamplePair(Example.wrong("Das Auto kam <marker>näher.</marker> Der Hund <marker>schlief.</marker> Die Reifen <marker>quietschten.</marker>"),
@@ -66,9 +71,14 @@ public class StyleRepeatedVeryShortSentences extends TextLevelRule {
     List<Integer> endPos = new ArrayList<>();
     List<AnalyzedSentence> repeatedSentences = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = null;
+    int n = -1;
+    int nPara  = -1;
     for (AnalyzedSentence sentence : sentences) {
+      n++;
+      nPara++;
       tokens = sentence.getTokensWithoutWhitespace();
-      if (tokens.length > 2 && tokens.length <= MIN_WORDS + 2) {  // MIN_WORDS + SENT_START + punctuation mark
+      boolean paragraphEnd = Tools.isParagraphEnd(sentences, n, lang);
+      if ((!paragraphEnd || nPara > 0) && tokens.length > 2 && tokens.length <= MIN_WORDS + 2) {  // MIN_WORDS + SENT_START + punctuation mark
         repeatedSentences.add(sentence);
         startPos.add(tokens[tokens.length - 2].getStartPos() + pos);
         endPos.add(tokens[tokens.length - 1].getEndPos() + pos);
@@ -86,6 +96,9 @@ public class StyleRepeatedVeryShortSentences extends TextLevelRule {
         nRepeated = 0;
       }
       pos += sentence.getCorrectedTextLength();
+      if (paragraphEnd) {
+        nPara = -1;
+      }
     }
     if (nRepeated >= MIN_REPEATED) {
       for (int i = 0; i < repeatedSentences.size(); i++) {
