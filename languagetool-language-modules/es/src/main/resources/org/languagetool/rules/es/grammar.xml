@@ -5345,9 +5345,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Él vino muy rápido.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PRONOM_TILDE" name="Pronombres personales con o sin tilde">
-            <short>El pronombre personal lleva tilde.</short>
-            <rule id="EL_TILDE" name="el / él" default="on">
+        <rulegroup id="EL_TILDE" name="el / él" default="on">
+            <rule>
                 <antipattern>
                     <token>el</token>
                     <token>uno</token>
@@ -5476,7 +5475,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Principios en materia criminal como el Non bis in idem.</example>
                 <example>Es nuestra obligación ayudarnos el uno al otro.</example>
             </rule>
-            <rule id="EL_TILDE_2" name="el/él" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>el</token>
+                    <token>un</token>
+                </pattern>
+                <message>Posible confusión. El pronombre personal "él" lleva tilde.</message>
+                <suggestion>él un</suggestion>
+                <suggestion>el</suggestion>
+                <suggestion>un</suggestion>
+                <example correction="Él un|El|Un"><marker>El un</marker> día se fue.</example>
+                <example correction="él un|el|un">Adquirió gracias a <marker>el un</marker> gran prestigio</example>
+                <example>Es nuestra obligación ayudarnos el uno al otro.</example>
+            </rule>
+            <rule>
                 <pattern>
                     <marker>
                         <token>el</token>
@@ -5484,10 +5496,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">un|una|unos|unas</token>
                 </pattern>
                 <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
-                <example correction="Él"><marker>El</marker> un día se fue.</example>
-                <example correction="él">Adquirió gracias a <marker>el</marker> un gran prestigio</example>
+                <example correction="él">Contamos con <marker>el</marker> una vez.</example>
                 <example>Es nuestra obligación ayudarnos el uno al otro.</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="PRONOM_TILDE" name="Pronombres personales con o sin tilde">
+            <short>El pronombre personal lleva tilde.</short>
             <rule id="MI_TILDE" name="mi/mí">
                 <antipattern>
                     <token>mi</token>
