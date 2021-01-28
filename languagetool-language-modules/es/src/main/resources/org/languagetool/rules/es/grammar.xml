@@ -11185,19 +11185,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="posible">Lo más eficaces <marker>posibles</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="LO_LA" name="confusión lo/la" default="temp_off">
-            <pattern>
-                <!--<token postag="SPS00|LOC_PREP" postag_regexp="yes"/>-->
-                <marker>
-                    <token>lo</token>
-                </marker>
-                <token postag="NCFS000"><exception postag="A.*|V.P.*" postag_regexp="yes"/></token>
-            </pattern>
-            <message>Posible error de concordancia.</message>
-            <suggestion>la</suggestion>
-            <example correction="la">Vendrá mañana por <marker>lo</marker> noche.</example>
-            <example correction="la">Pero un tercio de <marker>lo</marker> población lleva una vida miserable.</example>
-        </rule>
+        <rulegroup id="LO_LA" name="confusión lo/la" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>lo</token>
+                    </marker>
+                    <token postag="NCFS000"><exception postag="A.*|V.P.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion>la</suggestion>
+                <example correction="la">Vendrá mañana por <marker>lo</marker> noche.</example>
+                <example correction="la">Pero un tercio de <marker>lo</marker> población lleva una vida miserable.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>lo</token>
+                    </marker>
+                    <or>
+                        <token postag="NCCS000"><exception postag="A.*|V.P.*" postag_regexp="yes"/></token>
+                        <token>mañana</token>
+                    </or>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion>la</suggestion>
+                <suggestion>el</suggestion>
+                <example correction="la|el">Vendrá mañana por <marker>lo</marker> mañana.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AGREEMENT_DET_ADJ" name="Concordancias determinante y adjetivo">
             <antipattern>
                 <token regexp="yes">del|el|un|los|unos</token>
