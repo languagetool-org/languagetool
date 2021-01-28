@@ -10069,6 +10069,34 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
+      <rulegroup id="C_EST_QUOI" name="c'est quoi" default="temp_off">
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>c'</token>
+                      <token>est</token>
+                      <token>quoi</token>
+                  </marker>
+                  <token postag="D e s|D f s" postag_regexp="yes"/>
+              </pattern>
+              <message>Cette expression peut être considérée comme familière.</message>
+              <suggestion>quelle est</suggestion>
+              <example correction="quelle est">Dis-moi <marker>c'est quoi</marker> la question.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>c'</token>
+                      <token>est</token>
+                      <token>quoi</token>
+                  </marker>
+                  <token postag="D e s|D m s" postag_regexp="yes"/>
+              </pattern>
+              <message>Cette expression peut être considérée comme familière.</message>
+              <suggestion>quel est</suggestion>
+              <example correction="quel est">Dis-moi <marker>c'est quoi</marker> ton nom.</example>
+          </rule>
+      </rulegroup>
       <rule id="PLURIEL_AL" name="pluriel al" default="temp_off">
           <pattern>
               <marker>
