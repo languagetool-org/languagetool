@@ -28,7 +28,7 @@ Copyright (C) 2011 Juan Martorell
     <!ENTITY nombre_fem_el "Ática|abra|África|acta|afta|agua|ala|alba|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|harpa|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
     <!ENTITY pronombre_personal_atono_POS "PP3..A.*|PP[123]C[SP][0D]00|P0[123].*">
     <!ENTITY denominacion "elemento|palabra|término|expresión|vocablo|nombre|tipo|denominación">
-    <!ENTITY nombre_seguidode_nombrepropio "navegador|calle|copa|casa|abad|informe|señor|señora|estándar|tipo|dirección|imperio|profeta|balneario|proyecto|corriente|lago|monte|padre|premio|caso|carrera|concurso|cuadro|mesa|novela|obra|río|estilo|programa|orquesta|escuela|registro|finca|sonda|rosa|tema">
+    <!ENTITY nombre_seguidode_nombrepropio "navegador|calle|copa|casa|abad|informe|señor|señora|estándar|tipo|dirección|imperio|profeta|balneario|proyecto|corriente|lago|monte|padre|premio|caso|carrera|concurso|cuadro|mesa|novela|obra|río|estilo|programa|orquesta|escuela|registro|finca|sonda|rosa|tema|playa">
     <!ENTITY dias_semana "lunes|martes|miércoles|jueves|viernes|sábado|domingo">
     <!ENTITY partes_dia "madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche">
     <!ENTITY meses_ano "enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre">
@@ -5521,6 +5521,113 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="add">
                 <wd pos="_reflexive"/>
+            </disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="infinitive_complement" name="Verbo en infinitivo como complemento">
+        <rule>
+            <pattern>
+                <token postag="N.*|A.*" postag_regexp="yes"/>
+                <token postag="SPS00"/>
+                <marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag=".*LOC_PREP.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/>
+                <token>no</token>
+                <marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N.*|A.*" postag_regexp="yes"/>
+                <token postag="SPS00"/>
+                <token postag="SPS00"/>
+                <marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">en|,|a|para|al|por</token>
+                <marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START|_PUNCT.*|D[ADI].MS.*" postag_regexp="yes"><exception>tanto</exception></token>
+                <marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">poder|voler|dejar</token>
+                <marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">después|antes</token>
+                <token>de</token>
+                <marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="complement"/>
+                <token regexp="yes">y|o|e|u|pero|sino|,</token>
+                <marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="complement"/>
             </disambig>
         </rule>
     </rulegroup>

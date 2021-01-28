@@ -7945,6 +7945,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="post$1"/></suggestion>
                 <example correction="posrevolucionario">En el contexto <marker>post-revolucionario</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">físico|fisico</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">..+</token>
+                </pattern>
+                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="fisico$1"/></suggestion>
+                <example correction="fisicoquímicas">Las características <marker>físico químicas</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SUPER" name="super/súper/super-">
             <url>https://www.fundeu.es/recomendacion/super-superestrella-superheroe-coalicion-prefijo-815/</url>
@@ -12484,7 +12494,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="de la otra área">Viene <marker>del otro área</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AGREEMENT_ADJ_NOUN_" name="Concordancias adjetivo y nombre">
+        <rulegroup id="AGREEMENT_ADJ_NOUN" name="Concordancias adjetivo y nombre">
+            <antipattern>
+                <token regexp="yes">id|led|top</token>
+            </antipattern>
             <antipattern>
                 <token postag="SPS00"/>
                 <token regexp="yes">sí|yo|tú|él|ella|nosotros|nosotras|vosotros|vosotras|ellos|ellas|usted|ustedes</token>
@@ -12549,6 +12562,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"/>
                 <token postag="CC"/>
                 <token postag="RG" regexp="yes">.+mente</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d+.?[ºª]</token>
+                <token postag="NP.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <unify>
+                    <feature id="numero"/>
+                    <feature id="genero"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="NC.*" postag_regexp="yes"/>
+                    <unify-ignore>
+                        <token postag="RG" min="0"/>
+                    </unify-ignore>
+                    <token postag="AQ.*" postag_regexp="yes"/>
+                </unify>
             </antipattern>
             <rule>
                 <pattern>
@@ -12630,6 +12659,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>número</token>
                     <token>uno</token>
                 </antipattern>
+                <antipattern>
+                    <token>total</token>
+                    <token regexp="yes">gastos|productos</token>
+                </antipattern>
                 <pattern>
                     <unify negate="yes">
                         <feature id="numero"/>
@@ -12639,8 +12672,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </unify>
                 </pattern>
                 <message>Posible error de concordancia.</message>
-                <suggestion suppress_misspelled="yes"><match no="1" postag="A..[MC][SN].*" postag_regexp="yes"/> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes"/></suggestion>
-                <suggestion suppress_misspelled="yes"><match no="1" postag="A..[MC][PN].*" postag_regexp="yes"/> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="A..[MC][SN].*" postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="A..[MC][PN].*" postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
                 <suggestion>\1, \2</suggestion>
                 <example correction="Magnífico cuchillo|Magníficos cuchillos|Magníficas, cuchillos"><marker>Magníficas cuchillos</marker>.</example>
                 <example correction="Magnífico cuchillo|Magníficos cuchillos|Magnífica, cuchillos"><marker>Magnífica cuchillos</marker>.</example>
@@ -12662,6 +12695,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Soy tu seguidora número uno.</example>
                 <example>Soy tu seguidora número veinte.</example>
                 <example>como seguras social y ambientalmente</example>
+                <example>Escalar icebergs es una práctica muy arriesgada.</example>
+                <example>Se vende a un precio muy competitivo productos importados.</example>
+                <!-- calor y frío externos -->
             </rule>
             <rule default="temp_off">
                 <pattern>
@@ -12673,8 +12709,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </unify>
                 </pattern>
                 <message>Posible error de concordancia.</message>
-                <suggestion suppress_misspelled="yes"><match no="1" postag="(PX|A.).[FC][SN].*" postag_regexp="yes"/> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes"/></suggestion>
-                <suggestion suppress_misspelled="yes"><match no="1" postag="(PX|A.).[FC][PN].*" postag_regexp="yes"/> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(PX|A.).[FC][SN].*" postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(PX|A.).[FC][PN].*" postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
                 <suggestion>\1, \2</suggestion>
                 <example correction="magnífica cuchara|magníficas cucharas|magníficos, cucharas">Con <marker>magníficos cucharas</marker>.</example>
                 <example correction="magnífica cuchara|magníficas cucharas|magníficas, cuchara">De <marker>magníficas cuchara</marker>.</example>
