@@ -5739,6 +5739,17 @@ Copyright (C) 2011 Juan Martorell
             <wd lemma="euros" pos="NCMN000"/>
         </disambig>
     </rule>
+    <rule id="plurals" name="algunos plurales">
+        <pattern>
+            <token postag="D.*" postag_regexp="yes"/>
+            <marker>
+                <token case_sensitive="yes" regexp="yes">(Picasso|Miró|Dalí|Rembrandt|Botticelli)s</token>
+            </marker>
+        </pattern>
+        <disambig action="add">
+            <wd lemma="np" pos="NCMP000"/>
+        </disambig>
+    </rule>
     <rule name="Ignore spelling of url protocols" id="URI_PROTOCOL">
         <pattern>
             <!-- chrome://, ftp://, file:// -->

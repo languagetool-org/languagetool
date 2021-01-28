@@ -16793,6 +16793,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
     </rulegroup>
+    <rule id="plurals" name="alguns plurals">
+        <pattern>
+            <token postag="D.*" postag_regexp="yes"/>
+            <marker>
+                <token regexp="yes">(picasso|miró|dalí|rembrandt|botticelli)s</token>
+            </marker>
+        </pattern>
+        <disambig action="add">
+            <wd lemma="np" pos="NCMP000"/>
+        </disambig>
+    </rule>
     <rulegroup name="Ignore spelling numbers " id="IGNORE_NUMBERS">
         <rule>
             <!-- minus sign -->
