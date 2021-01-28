@@ -147,7 +147,16 @@ public class CatalanWordTokenizerTest {
     assertEquals(tokens.size(), 10);
     assertEquals("[\", El,  , cas,  , ', d', aquell, ', \"]", tokens.toString());
     tokens = wordTokenizer.tokenize("\"El cas ‘d’aquell’\"");
-    //assertEquals(tokens.size(), 10);
+    assertEquals(tokens.size(), 10);
     assertEquals("[\", El,  , cas,  , ‘, d’, aquell, ’, \"]", tokens.toString());
+    tokens = wordTokenizer.tokenize("Sàsser-l'Alguer");
+    assertEquals(tokens.size(), 4);
+    assertEquals("[Sàsser, -, l', Alguer]", tokens.toString());
+    tokens = wordTokenizer.tokenize("Castella-la Manxa");
+    assertEquals(tokens.size(), 5);
+    assertEquals("[Castella, -, la,  , Manxa]", tokens.toString());
+    tokens = wordTokenizer.tokenize("Qui-sap-lo temps");
+    assertEquals(tokens.size(), 3);
+    assertEquals("[Qui-sap-lo,  , temps]", tokens.toString());
   }
 }
