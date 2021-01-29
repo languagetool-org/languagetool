@@ -90,9 +90,11 @@ public class BERTSuggestionRanking extends RemoteRule {
   }
 
   class MatchesForReordering extends RemoteRequest {
+    final List<AnalyzedSentence> sentences;
     final List<RuleMatch> matches;
     final List<RemoteLanguageModel.Request> requests;
-    MatchesForReordering(List<RuleMatch> matches, List<RemoteLanguageModel.Request> requests) {
+    MatchesForReordering(List<AnalyzedSentence> sentences, List<RuleMatch> matches, List<RemoteLanguageModel.Request> requests) {
+      this.sentences = sentences;
       this.matches = matches;
       this.requests = requests;
     }
@@ -125,16 +127,17 @@ public class BERTSuggestionRanking extends RemoteRule {
         }
         Collections.addAll(matches, sentenceMatches);
       }
-      return new MatchesForReordering(matches, requests);
+      return new MatchesForReordering(sentences, matches, requests);
     } catch (IOException e) {
       logger.error("Error while executing rule " + wrappedRule.getId(), e);
-      return new MatchesForReordering(Collections.emptyList(), Collections.emptyList());
+      return new MatchesForReordering(sentences, Collections.emptyList(), Collections.emptyList());
     }
   }
 
   @Override
   protected RemoteRuleResult fallbackResults(RemoteRequest request) {
-    return new RemoteRuleResult(false, false, ((MatchesForReordering) request).matches);
+    MatchesForReordering req = (MatchesForReordering) request;
+    return new RemoteRuleResult(false, false, req.matches, req.sentences);
   }
 
   @Override
@@ -152,7 +155,7 @@ public class BERTSuggestionRanking extends RemoteRule {
       requests = requests.stream().filter(Objects::nonNull).collect(Collectors.toList());
 
       if (requests.isEmpty()) {
-        return new RemoteRuleResult(false, true, matches);
+        return new RemoteRuleResult(false, true, matches, data.sentences);
       } else {
         List<List<Double>> results = model.batchScore(requests);
         // put curated at the top, then compare probabilities
@@ -175,7 +178,7 @@ public class BERTSuggestionRanking extends RemoteRule {
           //logger.info("Reordered correction for '{}' from {} to {}", error, req.candidates, ranked);
           match.setSuggestedReplacementObjects(ranked);
         }
-        return new RemoteRuleResult(true, true, matches);
+        return new RemoteRuleResult(true, true, matches, data.sentences);
       }
     };
   }

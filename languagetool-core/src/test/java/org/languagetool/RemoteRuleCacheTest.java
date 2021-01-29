@@ -78,13 +78,14 @@ public class RemoteRuleCacheTest {
       return () -> {
         TestRemoteRequest req = (TestRemoteRequest) request;
         List<RuleMatch> matches = req.sentences.stream().map(this::testMatch).collect(Collectors.toList());
-        return new RemoteRuleResult(true, true, matches);
+        return new RemoteRuleResult(true, true, matches, req.sentences);
       };
     }
 
     @Override
     protected RemoteRuleResult fallbackResults(RemoteRequest request) {
-      return new RemoteRuleResult(false, false, Collections.emptyList());
+      TestRemoteRequest req = (TestRemoteRequest) request;
+      return new RemoteRuleResult(false, false, Collections.emptyList(), req.sentences);
     }
 
     @Override

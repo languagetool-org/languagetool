@@ -99,7 +99,7 @@ public abstract class RemoteRule extends Rule {
    */
   public FutureTask<RemoteRuleResult> run(List<AnalyzedSentence> sentences, @Nullable Long textSessionId) {
     if (sentences.isEmpty()) {
-      return new FutureTask<>(() -> new RemoteRuleResult(false, true, Collections.emptyList()));
+      return new FutureTask<>(() -> new RemoteRuleResult(false, true, Collections.emptyList(), sentences));
     }
     return new FutureTask<>(() -> {
       long startTime = System.nanoTime();
@@ -148,7 +148,7 @@ public abstract class RemoteRule extends Rule {
                 ruleLanguage, sentence, sentenceMatches);
               filteredMatches.addAll(filteredSentenceMatches);
             }
-            result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), filteredMatches);
+            result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), filteredMatches, sentences);
           }
 
           return result;
