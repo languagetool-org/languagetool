@@ -10069,19 +10069,35 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
-      <rule id="IL_FAUT" name="Il faut" default="temp_off">
-          <antipattern>
-              <token postag="M fin inte"/>
-          </antipattern>
-          <pattern>
-              <token postag="SENT_START"/>
-              <marker>
-                  <token>faut</token>
-              </marker>
-          </pattern>
-          <message>Cette expression est considérée comme familière. Dans le langage formel, il convient d'écrire <suggestion>Il <match no="2" case_conversion="startlower"/></suggestion>.</message>
-          <example correction="Il faut"><marker>Faut</marker> qu'on se bouge.</example>
-      </rule>
+      <rulegroup id="IL_FAUT" name="Il faut" default="temp_off">
+          <rule>
+              <antipattern>
+                  <token postag="M fin inte"/>
+              </antipattern>
+              <pattern>
+                  <token postag="SENT_START"/>
+                  <marker>
+                      <token>faut</token>
+                  </marker>
+              </pattern>
+              <message>C'est une expression est familière. Elle est considérée comme inccorecte dans le langage courant. Souhaitez-vous écrire <suggestion>Il <match no="2" case_conversion="startlower"/></suggestion> ?</message>
+              <example correction="Il faut"><marker>Faut</marker> qu'on se bouge.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token postag="M fin inte"/>
+              </antipattern>
+              <pattern>
+                  <token postag="SENT_START"/>
+                  <marker>
+                      <token>faut</token>
+                  </marker>
+                  <token regexp="yes">pas|plus</token>
+              </pattern>
+              <message>C'est une expression est familière. Elle est considérée comme inccorecte dans le langage courant. Souhaitez-vous écrire <suggestion>Il ne <match no="2" case_conversion="startlower"/></suggestion> ?</message>
+              <example correction="Il ne faut"><marker>Faut</marker> plus bouger.</example>
+          </rule>
+      </rulegroup>
     <rule id="LA_OU_LES_PLUS" name="la ou les plus" default="temp_off">
       <pattern>
         <token postag="V.*" postag_regexp="yes"/>
