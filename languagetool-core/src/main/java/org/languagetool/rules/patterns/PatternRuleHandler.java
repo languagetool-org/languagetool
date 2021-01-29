@@ -77,7 +77,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private boolean inAntiPattern;
   
   private boolean isRuleSuppressMisspelled;
-  private boolean isSuggestionSupressMisspelled;
+  private boolean isSuggestionSuppressMisspelled;
 
   private String idPrefix;
 
@@ -259,8 +259,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
         break;
       case SUGGESTION:
         String strToAppend = "<suggestion>";
-        isSuggestionSupressMisspelled = YES.equals(attrs.getValue("suppress_misspelled"));
-        if (isSuggestionSupressMisspelled || isRuleSuppressMisspelled) {
+        isSuggestionSuppressMisspelled = YES.equals(attrs.getValue("suppress_misspelled"));
+        if (isSuggestionSuppressMisspelled || isRuleSuppressMisspelled) {
           strToAppend = strToAppend + PLEASE_SPELL_ME;
         }
         if (inMessage) {
@@ -305,7 +305,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         }
         break;
       case MATCH:
-        setMatchElement(attrs, inSuggestion && (isSuggestionSupressMisspelled || isRuleSuppressMisspelled));
+        setMatchElement(attrs, inSuggestion && (isSuggestionSuppressMisspelled || isRuleSuppressMisspelled));
         break;
       case MARKER:
         if (inIncorrectExample) {
