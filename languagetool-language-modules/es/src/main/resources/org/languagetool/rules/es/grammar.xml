@@ -7934,18 +7934,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="beta$1"/></suggestion>
                 <example correction="betalactámicos">Son <marker>beta-lactámicos</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>post</token>
                     <token min="0">-</token>
-                    <token regexp="yes">..+</token>
+                    <token postag="[AN].*" postag_regexp="yes" regexp="yes">....+</token>
                 </pattern>
                 <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="pos$1"/></suggestion>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="post$1"/></suggestion>
                 <example correction="posrevolucionario">En el contexto <marker>post-revolucionario</marker>.</example>
+                <example>Este post es un poco especial.</example>
+                <example>El post es maravilloso.</example>
+                <example>Búscate otro post en el que pueda tener cabida.</example>
+                <example>Repasarás este post antes de darle al botón.</example>
+                <example>En este post os resumiremos de forma sencilla como reparar la configuración.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">físico|fisico</token>
                     <token min="0">-</token>
@@ -11195,13 +11200,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="posible">Lo más eficaces <marker>posibles</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="LO_LA" name="confusión lo/la" default="temp_off">
+        <rulegroup id="LO_LA" name="confusión lo/la">
             <rule>
                 <pattern>
                     <marker>
                         <token>lo</token>
                     </marker>
-                    <token postag="NCFS000"><exception postag="A.*|V.P.*" postag_regexp="yes"/></token>
+                    <token postag="NCFS000"><exception postag="A.*|V.P.*" postag_regexp="yes"/><exception regexp="yes">&wrong_as_pron_verb;</exception></token>
                 </pattern>
                 <message>Posible error de concordancia.</message>
                 <suggestion>la</suggestion>
@@ -11214,7 +11219,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>lo</token>
                     </marker>
                     <or>
-                        <token postag="NCCS000"><exception postag="A.*|V.P.*" postag_regexp="yes"/></token>
+                        <token postag="NCCS000"><exception postag="A.*|V.P.*" postag_regexp="yes"/><exception regexp="yes">&wrong_as_pron_verb;</exception></token>
                         <token>mañana</token>
                     </or>
                 </pattern>
@@ -12579,12 +12584,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="AQ.*" postag_regexp="yes"/>
                 </unify>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">\d+.?º</token>
+                <token regexp="yes">derecha|izquierda|ESO</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">debido|junto|directo|conforme|gracias</token>
+                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token regexp="yes">a|al</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">debido|junto|directo|conforme|gracias</token>
+                <token skip="5">,</token>
+                <token>,</token>
+                <token regexp="yes">a|al</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">\d+.?º</token>
                     </marker>
-                    <token postag="NCFS000"><exception regexp="yes">derecha|izquierda|ESO</exception></token>
+                    <token postag="NCFS000"/>
                 </pattern>
                 <message>Error de concordancia.</message>
                 <suggestion><match no="1" regexp_match="º" regexp_replace="ª"/></suggestion>
@@ -12649,7 +12669,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <!-- telegraphic writing -->
                     <token>total</token>
-                    <token>productos</token>
+                    <token regexp="yes">gastos|productos</token>
                 </antipattern>
                 <antipattern>
                     <token>número</token>
@@ -12658,10 +12678,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>número</token>
                     <token>uno</token>
-                </antipattern>
-                <antipattern>
-                    <token>total</token>
-                    <token regexp="yes">gastos|productos</token>
                 </antipattern>
                 <pattern>
                     <unify negate="yes">
@@ -12697,6 +12713,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>como seguras social y ambientalmente</example>
                 <example>Escalar icebergs es una práctica muy arriesgada.</example>
                 <example>Se vende a un precio muy competitivo productos importados.</example>
+                <example>en Lagasca 33 1º derecha 28001 Madrid</example>
                 <!-- calor y frío externos -->
             </rule>
             <rule default="temp_off">
@@ -12704,7 +12721,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
-                        <token postag="A.*|PX.*" postag_regexp="yes"><exception postag="NP.*|complement.*|ignore_concordance|_possible_NP" postag_regexp="yes"/><exception inflected="yes" regexp="yes">plegats|junt</exception></token>
+                        <token postag="A.*|PX.*" postag_regexp="yes"><exception postag="NP.*|complement.*|ignore_concordance|_possible_NP" postag_regexp="yes"/><exception inflected="yes" regexp="yes">junto</exception></token>
                         <token postag="N.F.*" postag_regexp="yes"><exception postag="_possilbe_NP|N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     </unify>
                 </pattern>
@@ -12719,6 +12736,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Yo no presto atención a esto.</example>
                 <example>Lo único constante en este mundo.</example>
                 <example>Mi esposo y yo solíamos escalar montañas juntos.</example>
+                <example>Son relativamente autónomos gracias, al menos en parte, a la generalización de Internet.</example>
             </rule>
             <rule>
                 <pattern>
