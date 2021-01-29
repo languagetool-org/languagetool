@@ -64743,7 +64743,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="NOMS_PERSONES" name="noms de persones">
         <rulegroup id="PERSONATGES_FAMOSOS" name="noms de personatges famosos">
             <rule>
-                <antipattern>
+                <antipattern case_sensitive="yes">
                     <token case_sensitive="yes">Leonardo</token>
                     <token case_sensitive="yes">DiCaprio</token>
                 </antipattern>
@@ -64785,7 +64785,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Boris Johnson"><marker>Borís Johnson</marker> és el president del Regne Unit.</example>
             </rule>
             <rule>
-                <antipattern>
+                <antipattern case_sensitive="yes">
                     <token>Allan</token>
                     <token>Poe</token>
                 </antipattern>
@@ -64796,6 +64796,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Volíeu dir <suggestion>Allan Poe</suggestion> (escriptor nord-americà)?</message>
                 <url>https://ca.wikipedia.org/wiki/Edgar_Allan_Poe</url>
                 <example correction="Allan Poe"><marker>Alan Poe</marker> va escriure 'La cuca d'or'.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Angela</token>
+                    <token>Merkel</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">[aáà]ngela?</token>
+                    <token>Merkel</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>Angela Merkel</suggestion> (política alemannya)?</message>
+                <url>https://ca.wikipedia.org/wiki/Angela_Merkel</url>
+                <example correction="Angela Merkel">Va rebre la visita d'<marker>Angel Merkel</marker>.</example>
             </rule>
         </rulegroup>
     </category>

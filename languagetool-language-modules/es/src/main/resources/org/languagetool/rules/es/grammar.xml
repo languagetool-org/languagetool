@@ -19148,4 +19148,76 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
+    <category id="PROPER_NOUNS" name="nombres propios">
+        <rulegroup id="PERSONAJES_FAMOSOS" name="nombres de personajes famosos">
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token case_sensitive="yes">Leonardo</token>
+                    <token case_sensitive="yes">DiCaprio</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">L[eé]onardo?</token>
+                    <token regexp="yes">D[ei]Capp?rio</token>
+                </pattern>
+                <message>¿Quería decir<suggestion>Leonardo DiCaprio</suggestion> (actor americano)?</message>
+                <url>https://es.wikipedia.org/wiki/Leonardo_DiCaprio</url>
+                <example correction="Leonardo DiCaprio"><marker>Leonardo DeCaprio</marker> nació en 1974.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">L[eé]onardo?</token>
+                    <token regexp="yes">D[ei]</token>
+                    <token regexp="yes">Capp?rio</token>
+                </pattern>
+                <message>¿Quería decir<suggestion>Leonardo DiCaprio</suggestion> (actor americano)?</message>
+                <url>https://es.wikipedia.org/wiki/Leonardo_DiCaprio</url>
+                <example correction="Leonardo DiCaprio"><marker>Leonardo Di Caprio</marker> nació en 1974.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">D[ei]</token>
+                    <token regexp="yes">Capp?rio</token>
+                </pattern>
+                <message>¿Quería decir<suggestion>DiCaprio</suggestion> (actor americano)?</message>
+                <suggestion>Leonardo DiCaprio</suggestion>
+                <url>https://es.wikipedia.org/wiki/Leonardo_DiCaprio</url>
+                <example correction="DiCaprio|Leonardo DiCaprio"><marker>Di Caprio</marker> nació en 1974.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Borís</token>
+                    <token>Johnson</token>
+                </pattern>
+                <message>¿Quería decir<suggestion>Boris Johnson</suggestion> (político británico)?</message>
+                <url>https://es.wikipedia.org/wiki/Boris_Johnson</url>
+                <example correction="Boris Johnson"><marker>Borís Johnson</marker> es el presidente del Reino Unido.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Allan</token>
+                    <token>Poe</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">All?[ae]n</token>
+                    <token>Poe</token>
+                </pattern>
+                <message>¿Quería decir<suggestion>Allan Poe</suggestion> (escritor estadounidense)?</message>
+                <url>https://es.wikipedia.org/wiki/Edgar_Allan_Poe</url>
+                <example correction="Allan Poe"><marker>Alan Poe</marker> escribió 'El escarabajo de oro'.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Angela</token>
+                    <token>Merkel</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">[aáà]ngela?</token>
+                    <token>Merkel</token>
+                </pattern>
+                <message>¿Quería decir<suggestion>Angela Merkel</suggestion> (política alemana)?</message>
+                <url>https://es.wikipedia.org/wiki/Angela_Merkel</url>
+                <example correction="Angela Merkel">Va rebre la visita d'<marker>Angel Merkel</marker>.</example>
+            </rule>
+        </rulegroup>
+    </category>
 </rules>
