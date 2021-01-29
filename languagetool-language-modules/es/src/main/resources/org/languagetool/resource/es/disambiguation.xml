@@ -3955,16 +3955,14 @@ Copyright (C) 2011 Juan Martorell
     </rule>
     <rule id="POS_N" name="possessive + noun: mi contra">
         <pattern>
-            <marker>
-                <unify>
-                    <feature id="genero"/>
-                    <feature id="numero"/>
-                    <token postag="DP.*" postag_regexp="yes"/>
-                    <marker>
-                        <token postag="N.*" postag_regexp="yes"><exception postag="[DC].*" postag_regexp="yes"/><exception>de</exception></token>
-                    </marker>
-                </unify>
-            </marker>
+            <unify>
+                <feature id="genero"/>
+                <feature id="numero"/>
+                <token postag="DP.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes"><exception postag="[DC].*" postag_regexp="yes"/><exception>de</exception></token>
+                </marker>
+            </unify>
         </pattern>
         <disambig action="remove" postag="V.*|SPS00"/>
     </rule>
