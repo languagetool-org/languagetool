@@ -239,7 +239,7 @@ public abstract class GRPCRule extends RemoteRule {
           }
         )
       ).flatMap(Function.identity()).collect(Collectors.toList());
-      RemoteRuleResult result = new RemoteRuleResult(true, true, matches);
+      RemoteRuleResult result = new RemoteRuleResult(true, true, matches, req.sentences);
       return result;
     };
   }
@@ -252,7 +252,8 @@ public abstract class GRPCRule extends RemoteRule {
 
   @Override
   protected RemoteRuleResult fallbackResults(RemoteRule.RemoteRequest request) {
-    return new RemoteRuleResult(false, false, Collections.emptyList());
+    MLRuleRequest req = (MLRuleRequest) request;
+    return new RemoteRuleResult(false, false, Collections.emptyList(), req.sentences);
   }
 
   /**
