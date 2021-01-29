@@ -10626,7 +10626,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ALLER_COMPOUNDS" name="aller bestes (allerbestes)">
             <pattern>
                 <token>aller</token>
-                <token regexp="yes">frühestens|orts|beste[sr]?|größte[sr]?|grösste[sr]?|höchste[sr]?|letzte[sr]?|liebste[sr]?|erste[sr]?|meiste[s]?|mindeste[sr]?|nächste[sr]?|neue?ste[sr]?|nötigste[sr]?|notwendigste[sr]?|schlimmste[sr]?|schönste[sr]?|schnellste[sr]?|späteste[rs]?|spätestens|wichtigste[rs]?</token>
+                <token regexp="yes">frühestens|orts|beste[nsr]?|größte[nsr]?|grösste[nsr]?|höchste[nsr]?|letzte[nsr]?|liebste[nsr]?|erste[nsr]?|meiste[ns]?|mindeste[sr]?|nächste[nsr]?|neue?ste[nsr]?|nötigste[nsr]?|notwendigste[nsr]?|schlimmste[nsr]?|schönste[nsr]?|schnellste[nsr]?|späteste[nrs]?|spätestens|wichtigste[nrs]?|kleinste[rn]?</token>
             </pattern>
             <message>Das Wort <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
             <short>Zusammenschreibung</short>
@@ -11264,26 +11264,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">[0-9]+</token>
-                    <token regexp="yes">(wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag|seit)ig(e[mnrs]?)?</token>
+                    <token regexp="yes">(wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag|seit|stell)ig(e[mnrs]?)?</token>
                 </pattern>
                 <message><suggestion>\1-<match no="2" case_conversion="alllower" /></suggestion> wird mit Bindestrich geschrieben.</message>
                 <short>Zusammenschreibung</short>
                 <example correction='7-teiliges'>Ich biete ein <marker>7 teiliges</marker> Set zum Verkauf an.</example>
                 <example correction="8-seitigen">Ich arbeite an einem <marker>8 Seitigen</marker> Aufsatz.</example>
+                <example correction="6-stelliges">Ich verdiene ein <marker>6 stelliges</marker> Gehalt!</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">\d+(wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag|seit)ig(e[mnrs]?)?</token>
+                    <token regexp="yes">\d+(wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag|seit|stell)ig(e[mnrs]?)?</token>
                 </pattern>
                 <message><suggestion><match no="1" regexp_match="^(\d+).+" regexp_replace="$1" />-<match no="1" regexp_match="^\d+(.+)$" regexp_replace="$1" case_conversion="alllower" /></suggestion> wird mit Bindestrich geschrieben.</message>
                 <short>Zusammenschreibung</short>
                 <example correction='7-teiliges'>Ich biete ein <marker>7teiliges</marker> Set zum Verkauf an.</example>
                 <example correction="8-seitigen">Ich arbeite an einem <marker>8Seitigen</marker> Aufsatz.</example>
+                <example correction="6-stelliges">Ich verdiene ein <marker>6stelliges</marker> Gehalt!</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="ZAL"/>
-                    <token regexp="yes">(schicht|zähn|wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag)ig(e[mnrs]?)?</token>
+                    <token regexp="yes">(schicht|zähn|wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag|stellig)ig(e[mnrs]?)?</token>
                 </pattern>
                 <message><suggestion>\1\2</suggestion> wird zusammengeschrieben.</message>
                 <short>Zusammenschreibung</short>
@@ -20068,7 +20070,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="ALLE" name="Alle vs. alle" default="temp_off">
+        <rule id="ALLE" name="Alle vs. alle">
             <antipattern>
                 <token>Alles</token>
                 <token regexp="yes">oder|und</token>
@@ -20128,10 +20130,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>Allen</token>
                 <token regexp="yes">Inc|LLC|GmbH|AG</token>
             </antipattern>
+            <antipattern><!-- Allen Ginsberg -->
+                <token>Allen</token>
+                <token regexp="yes" case_sensitive="yes">[A-Z].+b[ue]rg</token>
+            </antipattern>
             <antipattern>
                 <token>william</token>
                 <token>wirt</token>
                 <token>allen</token>
+            </antipattern>
+            <antipattern>
+                <token>
+                    <exception regexp="yes">ggf|bzw|ca|evtl|inkl|exkl</exception>
+                </token>
+                <token>.</token>
+                <token regexp="yes">Alle[snm]?</token>
+            </antipattern>
+            <antipattern>
+                <token>Allen</token>
+                <token>&amp;</token>
+                <token regexp="yes" case_sensitive="yes">[A-Z].+</token>
             </antipattern>
             <pattern>
                 <token>
@@ -20143,6 +20161,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>Wenn Sie das Zahlwort <suggestion><match no="2" case_conversion="alllower" /></suggestion> meinen (im Sinne von "jeder/n") wird es kleingeschrieben.</message>
+            <url>https://blog.leo.org/2009/12/15/alles-bleibt-selbst-hoflich-klein/</url>
             <example correction="allen">Ich bin euch <marker>Allen</marker> dankbar.</example>
             <example correction="alle">Dieser Dank geht an <marker>Alle</marker> die sich für mich eingesetzt haben.</example>
             <example correction="alles">Dies <marker>Alles</marker> obwohl ich in den Energiespareinstellungen nichts geändert habe.</example>
@@ -20160,6 +20179,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>1720 pachtete Allen vom General Post Office die Cross and Bye Posts.</example>
             <example>1777 kam Allen erstmals in Kontakt mit der Erweckungsbewegung.</example>
             <example>1914: James Van Allen, US-amerikanischer Physiker.</example>
+            <example>A New Social Analysis, Allen &amp; Unwin, London.</example>
         </rule>
         <rule id="AUF_JEDEN_FALL" name="Auf jeden fall (Fall)">
             <pattern>

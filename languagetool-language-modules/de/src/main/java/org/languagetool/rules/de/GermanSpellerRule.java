@@ -208,6 +208,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("entf[äi]ngs?t", "ent", "emp");
     putRepl("[Bb]ehilfreich(e[rnms]?)", "reich", "lich");
     putRepl("[Bb]zgl", "zgl", "zgl.");
+    putRepl("kaltnass(e[rnms]?)", "kaltnass", "nasskalt");
+    putRepl("Kaltnass(e[rnms]?)", "Kaltnass", "Nasskalt");
     put("check", "checke");
     put("Rückrad", "Rückgrat");
     put("ala", "à la");
