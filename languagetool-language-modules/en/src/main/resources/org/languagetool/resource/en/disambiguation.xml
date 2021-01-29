@@ -3536,26 +3536,64 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rule name="verb + pronoun + inconsistent verb > noun" id="VB_PRP_NN">
+        <antipattern><!-- #4241 doesn't kill you makes you -->
+            <token>t</token>
+            <token chunk_re="[BI]-VP" postag_regexp="yes" postag="VBP?"/>
+            <token regexp="yes">&object_pronouns;</token>
+            <token chunk="B-VP" postag="VBZ"/>
+            <token>you</token>
+        </antipattern>
+        <antipattern><!-- #4241 Incorrect grammar: Can you makes the -->
+            <token chunk="B-VP" postag="MD"/>
+            <token>you</token>
+            <token chunk="B-VP" postag="VBZ"/>
+            <token chunk_re="B-NP-(singular|plural)"/>
+        </antipattern>
+        <antipattern><!-- #4241 Incorrect grammar: you say you wants to -->
+            <token regexp="yes">I|you|we|they</token>
+            <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]?"/>
+            <token>you</token>
+            <token chunk="B-VP" postag="VBZ"/>
+            <token>to</token>
+        </antipattern>
+        <antipattern><!-- #4241 Incorrect grammar: you think you likes this -->
+            <token regexp="yes">I|you|we|they</token>
+            <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]?"/>
+            <token>you</token>
+            <token chunk="B-VP" postag="VBZ"/>
+            <token chunk_re="B-NP-(singular|plural)"/>
+        </antipattern>
+        <antipattern><!-- #4241 thank you goes out to -->
+            <token>thank</token>
+            <token>you</token>
+            <token chunk="B-VP" postag="VBZ"/>
+            <token postag_regexp="yes" postag="R[BP]"/>
+            <token>to</token>
+        </antipattern>
         <pattern>
             <token postag="VB">
                 <exception postag="MD" />
             </token>
             <token>you</token>
             <marker>
-                <and>
+                <and><!-- Do not use the chunker -->
                     <token postag="VBZ"/>
-                    <token chunk="E-NP-plural" postag="NNS"/>
+                    <token postag="NNS"/>
                 </and>
             </marker>
         </pattern>
         <disambig postag="NNS"/>
         <example type="ambiguous" inputform="grounds[ground/NNS,ground/VBZ]"
                  outputform="grounds[ground/NNS]">That doesn't give you <marker>grounds</marker> for complaining.</example>
+        <example type="ambiguous" inputform="notes[note/NNS,note/VBZ]" outputform="notes[note/NNS]">I have received two other thank you <marker>notes</marker> for the Charity gifts.</example><!-- notes/B-VP -->
+        <example type="ambiguous" inputform="lists[list/NNS,list/VBZ]" outputform="lists[list/NNS]">I can send you <marker>lists</marker> of all the people who work in each of these groups.</example><!-- list/B-PP -->
+        <example type="ambiguous" inputform="headlines[headline/NNS,headline/VBZ]" outputform="headlines[headline/NNS]">... in the fully customizable Energy Central Direct format, show you <marker>headlines</marker>  along with a brief summary of ...</example><!-- headlines/B-VP -->
         <example type="untouched">How much we pay you depends on your skill.</example>
-        <example type="untouched">Grammar error: Would you say you wants to do it?</example>
-        <example type="untouched">Grammar error: Do you think you likes this type of test?</example><!-- #4241. All VBZ verbs, not only 'wants'. Fixed with chunk="E-NP-plural" -->
+        <example type="untouched"><!-- Grammar error -->Would you say you wants to do it?</example>
+        <example type="untouched"><!-- Grammar error -->Do you think you likes this type of test?</example><!-- #4241. All VBZ verbs, not only 'wants'. -->
         <example type="untouched">Can you makes the kitchen?</example>
-        <example type="untouched">What doesn't kill you makes you stronger.</example><!-- #4241 -->
+        <example type="untouched">What doesn't kill you makes you stronger.</example><!-- #4241 makes/B-VP -->
+        <example type="untouched">A special thank you goes out to Dan Flynn for the invitation.</example><!-- #4241 -->
     </rule>
 
     <!-- 'an' is part of a proper name here -->
