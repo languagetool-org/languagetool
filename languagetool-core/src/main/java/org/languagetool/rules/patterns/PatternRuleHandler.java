@@ -308,6 +308,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
         setMatchElement(attrs, inSuggestion && (isSuggestionSuppressMisspelled || isRuleSuppressMisspelled));
         break;
       case MARKER:
+        if (inMarker) {
+          throw new IllegalStateException("'<marker>' may not be nested in rule '" + id + "'");
+        }
         if (inIncorrectExample) {
           incorrectExample.append(MARKER_TAG);
         } else if (inCorrectExample) {

@@ -10256,19 +10256,17 @@
     <rule name="Bądź, lub, i, czy jako spójniki w ramach grupy nominalnej" id="badz_koordynacja_adv_adj_com_com">
         <pattern>
             <token regexp="yes">coraz|dużo|minimalnie|nieco|trochę|znacznie|wiele|.*krotnie</token>
-            <marker>
-                <unify>
-                    <feature id="case"><type id="acc"/><type id="inst"/><type id="gen"/><type id="dat"/><type id="loc"/><type id="nom"/></feature>
-                    <feature id="gender"/>
-                    <feature id="number"/>
-                    <token postag="adj.*:com" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|subst).*"/></token>
-                    <unify-ignore>
-                        <token min="0" max="1">,</token>
-                        <marker><token regexp="yes">bądź|lub|i|czy</token></marker>
-                    </unify-ignore>
-                    <token postag="adj.*:com" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|subst).*"/></token>
-                </unify>
-            </marker>
+            <unify>
+                <feature id="case"><type id="acc"/><type id="inst"/><type id="gen"/><type id="dat"/><type id="loc"/><type id="nom"/></feature>
+                <feature id="gender"/>
+                <feature id="number"/>
+                <token postag="adj.*:com" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|subst).*"/></token>
+                <unify-ignore>
+                    <token min="0" max="1">,</token>
+                    <marker><token regexp="yes">bądź|lub|i|czy</token></marker>
+                </unify-ignore>
+                <token postag="adj.*:com" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|subst).*"/></token>
+            </unify>
         </pattern>
         <disambig action="filter" postag="conj"/>
         <example type="ambiguous" inputform="bądź[bądź/comp:comma,bądź/conj]"
