@@ -96,6 +96,7 @@ public class CatalanSentenceTokenizerTest {
     testSplit("Els EE. UU. són un país.");
     testSplit("Els EE.UU. són un país.");
     testSplit("Me'n vaig als EE.UU. ", "Bon viatge.");
+    testSplit("Garcia, Joan (coords.)");
 
     // Exception to abbreviations
     testSplit("Ell és el número u. ", "Jo el dos.");
