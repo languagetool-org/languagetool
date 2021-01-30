@@ -17828,18 +17828,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="VAIG_FAIG" name="vaig/faig">
+            <antipattern>
+                <token>vaig</token>
+                <token>a</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </antipattern>
             <rule>
                 <antipattern>
-                    <marker>
-                        <token postag="DI.*" postag_regexp="yes"/>
-                        <token regexp="yes">vegada|volta|col?p|dia</token>
-                    </marker>
+                    <token postag="DI.*" postag_regexp="yes"/>
+                    <token regexp="yes">vegada|volta|col?p|dia</token>
                 </antipattern>
                 <antipattern>
-                    <marker>
-                        <token postag="_GN_.*" postag_regexp="yes"/>
-                        <token>pendent</token>
-                    </marker>
+                    <token postag="_GN_.*" postag_regexp="yes"/>
+                    <token>pendent</token>
                 </antipattern>
                 <pattern>
                     <token><exception>hi</exception></token>
@@ -17856,13 +17857,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Vaig massa pendent del rellotge.</example>
             </rule>
             <rule>
-                <antipattern>
+                <pattern>
+                    <token regexp="yes" skip="2">quan|que</token>
+                    <token regexp="yes">ho|en|et|em|el|la|li|els|les|'l|'ls</token>
                     <marker>
-                        <token>vaig</token>
-                        <token>a</token>
-                        <token postag="V.N.*" postag_regexp="yes"/>
+                        <token>vaig<exception postag="_GV_"/></token>
                     </marker>
-                </antipattern>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>vagi</suggestion>?</message>
+                <suggestion>veig</suggestion>
+                <suggestion>faig</suggestion>
+                <example correction="vagi|veig|faig">Ho farem quan et <marker>vaig</marker> bé.</example>
+                <example>Jo ho vaig fer.</example>
+                <example>Jo ho vaig fent.</example>
+                <example>Em vaig a dutxar.</example>
+                <example>Jo li'ls vaig portar.</example>
+            </rule>
+            <rule>
                 <pattern>
                     <token regexp="yes">ho|en|et|em|el|la|li|els|les|'l|'ls</token>
                     <marker>
