@@ -9944,6 +9944,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 * immun System
                 * frontal Aufnahme
                 * nieder Lage
+                * kurz Vorstellung
+                * klein Kinder
             -->
             <rule>
                 <antipattern>
@@ -10021,11 +10023,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token regexp="yes" skip="1">auf|in|ohne</token>
-                    <token regexp="yes">englisch|deutsch|spanisch|französisch|italienisch|portugiesisch|koreanisch|türkisch|russisch|chinesisch</token>
+                    <token regexp="yes">englisch|deutsch|spanisch|französisch|italienisch|portugiesisch|koreanisch|türkisch|russisch|chinesisch|bosnisch|japanisch</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">englisch|deutsch|spanisch|französisch|italienisch|portugiesisch|koreanisch|türkisch|russisch|chinesisch</token>
-                    <token regexp="yes">lehrer[sn]?|hausaufgaben?|unterricht(es|s)?|kurs|dozent|professors?|kenntnis(sen?)?|heft(es|s)?|buch(es|s)?</token>
+                    <token regexp="yes">englisch|deutsch|spanisch|französisch|italienisch|portugiesisch|koreanisch|türkisch|russisch|chinesisch|bosnisch|japanisch</token>
+                    <token regexp="yes">lehrer[sn]?|hausaufgaben?|unterricht(es|s)?|kurs|dozent|professors?|kenntnis(sen?)?|heft(es|s)?|buch(es|s)?|stunde</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion><match no="1" case_conversion="startupper" />-<match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="Deutsch-Lehrer">Mein <marker>deutsch Lehrer</marker> hat mir eine 1 gegeben.</example>
@@ -10033,7 +10035,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>privat</token>
-                    <token regexp="yes" case_sensitive="yes">Verkauf(es|s)?|Haftpflicht|Schule|Senders?|Adresse|Nummer|Angelegenheit|Armee|Besitz(es)?|Eigentums?|Gebrauch(es|s)?|Bereich(es|s)?|Gespräch(es|s)?|Vermögens?|Person|Weg(es|s)?|Wohnung|Anleger(in|s)?|Anwender(s|in)?|Autos?|Detektivs?|Flugzeug(es|s)?|Fahrzeug(es|s)?|Jets?|Kredit(es|s)?|Kunde|Kundin|Lebens?|Patient(es|s)?|Versicherung|Anschrift|Kundenbereichs?|Clubs?|Klubs?|Projekt(es|s)?</token>
+                    <token regexp="yes" case_sensitive="yes">Verkauf(es|s)?|Haftpflicht|Schule|Senders?|Adresse|Nummer|Angelegenheit|Armee|Besitz(es)?|Eigentums?|Gebrauch(es|s)?|Bereich(es|s)?|Gespräch(es|s)?|Vermögens?|Person|Weg(es|s)?|Wohnung|Anleger(in|s)?|Anwender(s|in)?|Autos?|Detektivs?|Flugzeug(es|s)?|Fahrzeug(es|s)?|Jets?|Kredit(es|s)?|Kunde|Kundin|Lebens?|Patient(es|s)?|Versicherung|Anschrift|Kundenbereichs?|Clubs?|Klubs?|Projekt(es|s)?|Nachricht</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Privat<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Privatschule">Mein Sohn geht auf eine <marker>privat Schule</marker>.</example>
@@ -10626,11 +10628,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ALLER_COMPOUNDS" name="aller bestes (allerbestes)">
             <pattern>
                 <token>aller</token>
-                <token regexp="yes">frühestens|orts|beste[nsr]?|größte[nsr]?|grösste[nsr]?|höchste[nsr]?|letzte[nsr]?|liebste[nsr]?|erste[nsr]?|meiste[ns]?|mindeste[sr]?|nächste[nsr]?|neue?ste[nsr]?|nötigste[nsr]?|notwendigste[nsr]?|schlimmste[nsr]?|schönste[nsr]?|schnellste[nsr]?|späteste[nrs]?|spätestens|wichtigste[nrs]?|kleinste[rn]?</token>
+                <token regexp="yes">frühestens|orts|beste[sr]?|größte[sr]?|grösste[sr]?|höchste[sr]?|letzte[sr]?|liebste[sr]?|erste[nsr]?|meiste[ns]?|mindeste[sr]?|nächste[sr]?|neue?ste[sr]?|nötigste[nsr]?|notwendigste[nsr]?|schlimmste[nsr]?|schönste[nsr]?|schnellste[nsr]?|späteste[nrs]?|spätestens|wichtigste[nrs]?|kleinste[rn]?</token>
             </pattern>
             <message>Das Wort <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
             <short>Zusammenschreibung</short>
             <example correction="allerschönste">Das Haus war das <marker>aller schönste</marker> im ganzen Ort.</example>
+            <example>Wir erweitern den Begriff des ggT auf die Menge aller größten gemeinsamen Teiler der Elemente einer Teilmenge eines Ringes.</example>
         </rule>
         <rulegroup id="RUNDUM_SORGLOS_PAKET" name="Rundum-sorglos-Paket">
             <url>https://www.duden.de/rechtschreibung/Rundum_sorglos_Paket</url>
