@@ -40028,15 +40028,53 @@ Andere Projekte</example>
             <url>https://www.duden.de/rechtschreibung/auszer_Praeposition</url>
             <example correction="außer Landes">Ich werde <marker>außer Lande</marker> sein.</example>
         </rule>
-        <rule id="GEMAESS_DES" name="Präposition/Kasus – 'gemäß des (dem)'">
-            <!-- TODO allgemeiner, idealerweise folgendes Nomen auch in den Dativ setzen -->
-            <regexp>gemä(ß|ss) des</regexp>
-            <message>Meinten Sie <suggestion>gemäß dem</suggestion>? Die Präposition 'gemäß' erfordert den Dativ.</message>
+        <rulegroup id="GEMAESS_DES" name="Präposition/Kasus – 'gemäß des (dem)'">
             <url>https://dict.leo.org/grammatik/deutsch/Wort/Praeposition/Kasus/Dativ.html</url>
-            <short>Diese Präposition erfordert den Dativ</short>
-            <example correction="Gemäß dem"><marker>Gemäß des</marker> Beschlusses der Kultusministerkonferenz</example>
-            <example><marker>Gemäß dem</marker> Beschluss der Kultusministerkonferenz</example>
-        </rule>
+            <short>Präposition erfordert den Dativ</short>
+            <rule>
+                <regexp>gemä(ß|ss) des</regexp>
+                <message>Meinten Sie <suggestion>gemäß dem</suggestion>? Die Präposition 'gemäß' erfordert den Dativ.</message>
+                <!-- TODO Nomen anpassen (aber s.u. und wird schon von PRAEP_DAT[12] gefunden...) -->
+                <example correction="Gemäß dem"><marker>Gemäß des</marker> Beschlusses der Kultusministerkonferenz</example>
+                <example><marker>Gemäß dem</marker> Beschluss der Kultusministerkonferenz</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>gemäß</token>
+                    <token postag_regexp="yes" postag="ADJ:.*" min="0"/>
+                    <marker>
+                        <token postag_regexp="yes" postag="SUB:.*"><exception postag_regexp="yes" postag="SUB:DAT:.*"></exception></token>
+                    </marker>
+                </pattern>
+                <message>Die Präposition 'gemäß' erfordert den Dativ.</message>
+                <!-- auskommentiert, würde "Beschluß" vorschlagen: -->
+                <!--<suggestion><match no="3" postag="SUB:GEN:(.*?):(.*)" postag_regexp="yes" postag_replace="SUB:DAT:$1:$2"/></suggestion>-->
+                <example correction="">Gemäß <marker>Beschlusses</marker> der Kultusministerkonferenz</example>
+                <example correction="">Die elektrischen Anschlüsse gemäß <marker>Schaltplans</marker> ausführen</example>
+                <example correction="">Die elektrischen Anschlüsse gemäß blauen <marker>Schaltplans</marker> ausführen</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <!-- ihrem Wunsch gemäß -->
+                    <token>Wunsch</token>
+                    <token>gemäß</token>
+                </antipattern>
+                <pattern>
+                    <token>gemäß</token>
+                    <marker>
+                        <token regexp="yes">die|den|der</token>
+                        <token postag_regexp="yes" postag="ADJ:.*" min="0"/>
+                        <token postag_regexp="yes" postag="SUB:.*"><exception postag_regexp="yes" postag="SUB:DAT:.*"></exception></token>
+                    </marker>
+                </pattern>
+                <message>Die Präposition 'gemäß' erfordert den Dativ.</message>
+                <!-- auskommentiert, würde z.B. "Beschluß" vorschlagen: -->
+                <!--<suggestion><match no="4" postag="SUB:GEN:(.*?):(.*)" postag_regexp="yes" postag_replace="SUB:DAT:$1:$2"/></suggestion>-->
+                <example correction="">Die elektrischen Anschlüsse gemäß <marker>die blauen Schaltpläne</marker> ausführen</example>
+                <example correction="">Gemäß <marker>der Vereinbarungen</marker> im Prager Frieden</example>
+                <example>Man hat ihrem Wunsch gemäß die Leichname verbrannt.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PRAEP_DAT" name="Präposition mit Dativ (mit, bei, von)">
             <rule>
                 <pattern>
