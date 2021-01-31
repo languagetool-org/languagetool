@@ -97,6 +97,8 @@ public class CatalanSentenceTokenizerTest {
     testSplit("Els EE.UU. són un país.");
     testSplit("Me'n vaig als EE.UU. ", "Bon viatge.");
     testSplit("Garcia, Joan (coords.)");
+    testSplit("fins al curs de 8è. ", "\"No es pot oblidar allò\"");
+    testSplit("fins al curs de 8è. ", "-No es pot oblidar allò");
 
     // Exception to abbreviations
     testSplit("Ell és el número u. ", "Jo el dos.");
@@ -109,6 +111,7 @@ public class CatalanSentenceTokenizerTest {
     testSplit("Són d'1 m. ", "Han estat condicionades.");
     testSplit("Hi vivien 50 h. ", "Després el poble va créixer.");
     testSplit("L'acte serà a les 15.30 h. de la vesprada.");
+    testSplit("De 9:00 a 17:00 h. (aproximadament).");
     
     //Error: missing space. It is not split in order to trigger other errors. 
     testSplit("s'hi enfrontà quan G.Oueddei n'esdevingué líder");
