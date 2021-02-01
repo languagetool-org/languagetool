@@ -10072,16 +10072,26 @@ though, and has since been slightly modified)-->
       <rulegroup id="IL_FAUT" name="Il faut" default="temp_off">
           <rule>
               <antipattern>
+                  <token>faille</token>
+              </antipattern>
+              <antipattern>
+                  <token postag="SENT_START"/>
+                  <token inflected="yes" postag="V.* 3 s" postag_regexp="yes" skip="-1">falloir</token>
                   <token postag="M fin inte"/>
+              </antipattern>
+              <antipattern>
+                  <token>faut</token>
+                  <token regexp="yes">pas|plus</token>
               </antipattern>
               <pattern>
                   <token postag="SENT_START"/>
                   <marker>
-                      <token>faut</token>
+                      <token inflected="yes" postag="V.* 3 s" postag_regexp="yes">falloir</token>
                   </marker>
               </pattern>
-              <message>C'est une expression est familière. Elle est considérée comme inccorecte dans le langage courant. Souhaitez-vous écrire <suggestion>Il <match no="2" case_conversion="startlower"/></suggestion> ?</message>
+              <message>C'est une expression est familière. Elle est considérée comme incorrecte dans le langage courant. Souhaitez-vous écrire <suggestion>Il <match no="2" case_conversion="startlower"/></suggestion> ?</message>
               <example correction="Il faut"><marker>Faut</marker> qu'on se bouge.</example>
+              <example correction="Il faudrait"><marker>Faudrait</marker> le faire maintenant.</example>
           </rule>
           <rule>
               <antipattern>
@@ -10090,11 +10100,11 @@ though, and has since been slightly modified)-->
               <pattern>
                   <token postag="SENT_START"/>
                   <marker>
-                      <token>faut</token>
+                      <token inflected="yes" postag="V.* 3 s" postag_regexp="yes">falloir</token>
                   </marker>
                   <token regexp="yes">pas|plus</token>
               </pattern>
-              <message>C'est une expression est familière. Elle est considérée comme inccorecte dans le langage courant. Souhaitez-vous écrire <suggestion>Il ne <match no="2" case_conversion="startlower"/></suggestion> ?</message>
+              <message>C'est une expression est familière. Elle est considérée comme incorrecte dans le langage courant. Souhaitez-vous écrire <suggestion>Il ne <match no="2" case_conversion="startlower"/></suggestion> ?</message>
               <example correction="Il ne faut"><marker>Faut</marker> plus bouger.</example>
           </rule>
       </rulegroup>
