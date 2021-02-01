@@ -1049,7 +1049,52 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
-    <rule id="GENTE_GENT" name="gente → gent">
+      <rulegroup id="PART_OU_PAR" name="part ou par" default="temp_off">
+          <rule>
+              <antipattern>
+                  <token>part</token>
+                  <token postag="P.*" postag_regexp="yes"/>
+              </antipattern>
+              <antipattern>
+                  <token>de</token>
+                  <token>part</token>
+                  <token>et</token>
+                  <token min="0">d'</token>
+                  <token>autre</token>
+              </antipattern>
+              <antipattern>
+                  <token>de</token>
+                  <token>part</token>
+                  <token>en</token>
+                  <token>part</token>
+              </antipattern>
+              <pattern>
+                  <token>de</token>
+                  <marker>
+                      <token>part</token>
+                  </marker>
+                  <token postag="D.*" postag_regexp="yes"/>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée.</message>
+              <suggestion>par</suggestion>
+              <url>https://www.lalanguefrancaise.com/orthographe/de-par-ou-de-part-orthographe/</url>
+              <example correction="par">Il a réussi de <marker>part</marker> sa pugnacité.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>de</token>
+                  <token>la</token>
+                  <marker>
+                      <token>par</token>
+                  </marker>
+                  <token>de</token>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée.</message>
+              <suggestion>part</suggestion>
+              <example correction="part">Voici le cadeau de la <marker>par</marker> de ton frère.</example>
+          </rule>
+      </rulegroup>
+      <rule id="GENTE_GENT" name="gente → gent">
       <pattern>
         <token>la</token>
         <marker>
