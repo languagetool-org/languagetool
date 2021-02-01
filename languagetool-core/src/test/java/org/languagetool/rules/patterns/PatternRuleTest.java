@@ -171,7 +171,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
   }
 
   @NotNull
-  private static MultiThreadedJLanguageTool createToolForTesting(Language lang) {
+  protected static MultiThreadedJLanguageTool createToolForTesting(Language lang) {
     MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(lang);
     if (CHECK_WITH_SENTENCE_SPLITTING) {
       disableSpellingRules(lt);
@@ -179,7 +179,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     return lt;
   }
 
-  private void validatePatternFile(Language lang) throws IOException {
+  protected void validatePatternFile(Language lang) throws IOException {
     validatePatternFile(getGrammarFileNames(lang));
   }
   
@@ -210,7 +210,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     }
   }
 
-  private void validateRuleIds(Language lang, JLanguageTool lt) {
+  protected void validateRuleIds(Language lang, JLanguageTool lt) {
     List<Rule> allRules = lt.getAllRules();
     Set<String> categoryIds = new HashSet<>();
     new RuleIdValidator(lang).validateUniqueness();
@@ -232,7 +232,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
   /*
    * A <marker> that covers the SENT_START can lead to obscure offset issues, so warn about that. 
    */
-  private void validateSentenceStartNotInMarker(JLanguageTool lt) {
+  protected void validateSentenceStartNotInMarker(JLanguageTool lt) {
     System.out.println("Check that sentence start tag is not included in <marker>....");
     List<Rule> rules = lt.getAllRules();
     for (Rule rule : rules) {
@@ -260,7 +260,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     }
   }
 
-  private void testRegexSyntax(Language lang, List<AbstractPatternRule> rules) {
+  protected void testRegexSyntax(Language lang, List<AbstractPatternRule> rules) {
     System.out.println("Checking regexp syntax of " + rules.size() + " rules for " + lang + "...");
     for (AbstractPatternRule rule : rules) {
       // Test the rule pattern.
@@ -286,7 +286,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     }
   }
 
-  private void testExamplesExist(List<AbstractPatternRule> rules) {
+  protected void testExamplesExist(List<AbstractPatternRule> rules) {
     for (AbstractPatternRule rule : rules) {
       if (rule.getCorrectExamples().isEmpty()) {
         boolean correctionExists = false;
@@ -311,7 +311,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     }
   }
 
-  private void testGrammarRulesFromXML(List<AbstractPatternRule> rules, JLanguageTool allRulesLt, Language lang) {
+  protected void testGrammarRulesFromXML(List<AbstractPatternRule> rules, JLanguageTool allRulesLt, Language lang) {
     System.out.println("Checking example sentences of " + rules.size() + " rules for " + lang + "...");
 
     int threadCount = Math.max(1, Runtime.getRuntime().availableProcessors() / 2);

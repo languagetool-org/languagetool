@@ -472,6 +472,21 @@ public class AdverbFilter extends RuleFilter {
     put("frequently", "frequent");
     put("irrationally", "irrational");
     put("rationally", "rational");
+    put("riotously", "riotous");
+    put("excruciatingly", "excruciating");
+    put("intensively", "intensive");
+    put("separately", "separate");
+    put("favorably", "favorable");
+    put("favourably", "favourable");
+    put("unfavorably", "unfavorable");
+    put("unfavourably", "unfavourable");
+    put("fittingly", "fitting");
+    put("orally", "oral");
+    put("jointly", "joint");
+    put("methodically", "methodical");
+    put("ecologically", "ecological");
+    put("irrepressibly", "irrepressible");
+    put("repressibly", "repressible");
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
   }};

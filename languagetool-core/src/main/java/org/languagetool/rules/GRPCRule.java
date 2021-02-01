@@ -33,6 +33,7 @@ import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.ml.MLServerGrpc;
 import org.languagetool.rules.ml.MLServerProto;
@@ -171,8 +172,8 @@ public abstract class GRPCRule extends RemoteRule {
 
   private final Connection conn;
 
-  public GRPCRule(ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
-    super(messages, config, inputLogging);
+  public GRPCRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
+    super(language, messages, config, inputLogging);
 
     synchronized (servers) {
       Connection conn = null;
@@ -238,7 +239,7 @@ public abstract class GRPCRule extends RemoteRule {
           }
         )
       ).flatMap(Function.identity()).collect(Collectors.toList());
-      RemoteRuleResult result = new RemoteRuleResult(true, true, matches);
+      RemoteRuleResult result = new RemoteRuleResult(true, true, matches, req.sentences);
       return result;
     };
   }
@@ -251,11 +252,13 @@ public abstract class GRPCRule extends RemoteRule {
 
   @Override
   protected RemoteRuleResult fallbackResults(RemoteRule.RemoteRequest request) {
-    return new RemoteRuleResult(false, false, Collections.emptyList());
+    MLRuleRequest req = (MLRuleRequest) request;
+    return new RemoteRuleResult(false, false, Collections.emptyList(), req.sentences);
   }
 
   /**
    * Helper method to create instances of RemoteMLRule
+   * @param language rule language
    * @param messages for i18n; = JLanguageTool.getMessageBundle(lang)
    * @param config configuration for remote rule server;
    *               options: secure, clientKey, clientCertificate, rootCertificate
@@ -266,9 +269,9 @@ public abstract class GRPCRule extends RemoteRule {
    * @param messagesByID mapping match.sub_id -&gt; key in MessageBundle.properties for RuleMatch's message
    * @return instance of RemoteMLRule
    */
-  public static GRPCRule create(ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging,
+  public static GRPCRule create(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging,
                                 String id, String descriptionKey, Map<String, String> messagesByID) {
-    return new GRPCRule(messages, config, inputLogging) {
+    return new GRPCRule(language, messages, config, inputLogging) {
 
 
       @Override
@@ -285,6 +288,7 @@ public abstract class GRPCRule extends RemoteRule {
 
   /**
    * Helper method to create instances of RemoteMLRule
+   * @param language rule language
    * @param config configuration for remote rule server;
    *               options: secure, clientKey, clientCertificate, rootCertificate
                    use RemoteRuleConfig.getRelevantConfig(id, configs)
@@ -294,9 +298,9 @@ public abstract class GRPCRule extends RemoteRule {
    * @param messagesByID mapping match.sub_id to RuleMatch's message
    * @return instance of RemoteMLRule
    */
-  public static GRPCRule create(RemoteRuleConfig config, boolean inputLogging,
+  public static GRPCRule create(Language language, RemoteRuleConfig config, boolean inputLogging,
                                 String id, String description, Map<String, String> messagesByID) {
-    return new GRPCRule(JLanguageTool.getMessageBundle(), config, inputLogging) {
+    return new GRPCRule(language, JLanguageTool.getMessageBundle(), config, inputLogging) {
 
 
       @Override
@@ -311,10 +315,10 @@ public abstract class GRPCRule extends RemoteRule {
     };
   }
 
-  public static List<GRPCRule> createAll(List<RemoteRuleConfig> configs, boolean inputLogging, String prefix, String defaultDescription) {
+  public static List<GRPCRule> createAll(Language language, List<RemoteRuleConfig> configs, boolean inputLogging, String prefix, String defaultDescription) {
     return configs.stream()
       .filter(cfg -> cfg.getRuleId().startsWith(prefix))
-      .map(cfg -> create(cfg, inputLogging, cfg.getRuleId(), defaultDescription, Collections.emptyMap()))
+      .map(cfg -> create(language, cfg, inputLogging, cfg.getRuleId(), defaultDescription, Collections.emptyMap()))
       .collect(Collectors.toList());
   }
 }

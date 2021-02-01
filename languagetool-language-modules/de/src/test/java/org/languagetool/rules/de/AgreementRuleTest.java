@@ -487,6 +487,21 @@ public class AgreementRuleTest {
   }
 
   @Test
+  public void testZurReplacement() throws IOException {
+    assertBad("Hier geht's zur Schrank.", "zum Schrank");
+    assertBad("Hier geht's zur Schränken.", "zu den Schränken", "zum Schränken");
+    assertBad("Hier geht's zur Männern.", "zu den Männern");
+    assertBad("Hier geht's zur Portal.", "zum Portal");
+    assertBad("Hier geht's zur Portalen.", "zu den Portalen");
+    assertBad("Sie gehen zur Frauen.", "zu Frauen", "zu den Frauen", "zur Frau");
+    assertBad("Niereninsuffizienz führt zur Störungen des Wasserhaushalts.", "zu Störungen", "zu den Störungen", "zur Störung");
+    assertBad("Das Motiv wird in der Klassik auch zur Darstellungen übernommen.", "zu Darstellungen", "zu den Darstellungen", "zur Darstellung");
+    assertGood("Hier geht's zur Sonne.");
+    assertGood("Hier geht's zum Schrank.");
+    assertGood("Niereninsuffizienz führt zu Störungen des Wasserhaushalts.");
+  }
+
+  @Test
   public void testVieleWenige() throws IOException {
     assertGood("Zusammenschluss mehrerer dörflicher Siedlungen an einer Furt");
     assertGood("Für einige markante Szenen");

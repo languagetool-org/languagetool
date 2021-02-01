@@ -235,15 +235,15 @@ public class French extends Language implements AutoCloseable {
       case "BYTES": return 1; // needs to be higher than spell checker for 10MB style matches
       case "Y_A": return 1; // needs to be higher than spell checker for style suggestion
       case "A_A_ACCENT": return 1; // triggers false alarms for IL_FAUT_INF if there is no a/à correction
-      case "FRENCH_WHITESPACE_STRICT": return 1;  // default off, but if on, it should overwrite FRENCH_WHITESPACE
       case "JE_M_APPEL": return 1;  // override NON_V
-      case "FRENCH_WHITESPACE": return 0;
       case "JE_SUI": return 1;  // needs higher priority than spell checker
       case "TOO_LONG_PARAGRAPH": return -15;
       case "VERB_PRONOUN": return -50; // greater than FR_SPELLING_RULE; less than ACCORD_V_QUESTION
       case "FR_SPELLING_RULE": return -100;
       case "ELISION": return -200; // should be lower in priority than spell checker
       case "UPPERCASE_SENTENCE_START": return -300;
+      case "FRENCH_WHITESPACE_STRICT": return -350; // picky; if on, it should overwrite FRENCH_WHITESPACE
+      case "FRENCH_WHITESPACE": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
     }
     if (id.startsWith("grammalecte_")) {
       return -150;

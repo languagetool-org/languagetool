@@ -39,7 +39,6 @@ import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.SpellAndGrammarCheckDialog.LtCheckDialog;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.TextLevelRule;
 import org.languagetool.tools.Tools;
 
 import com.sun.star.beans.PropertyValue;
@@ -211,9 +210,11 @@ public class MultiDocumentsHandler {
    */
   public SingleDocument getCurrentDocument() {
     XComponent xComponent = OfficeTools.getCurrentComponent(xContext);
-    for (SingleDocument document : documents) {
-      if (xComponent.equals(document.getXComponent())) {
-        return document;
+    if (xComponent != null) {
+      for (SingleDocument document : documents) {
+        if (xComponent.equals(document.getXComponent())) {
+          return document;
+        }
       }
     }
     return null;
@@ -724,7 +725,7 @@ public class MultiDocumentsHandler {
    */
   void initDocuments() {
     setConfigValues(config, langTool);
-    sortedTextRules = new SortedTextRules();
+    sortedTextRules = new SortedTextRules(langTool, config, disabledRulesUI);
     for (SingleDocument document : documents) {
       document.resetCache();
     }
@@ -874,7 +875,7 @@ public class MultiDocumentsHandler {
    * reset sorted text level rules
    */
   public void resetSortedTextRules() {
-    sortedTextRules = new SortedTextRules();
+    sortedTextRules = new SortedTextRules(langTool, config, disabledRulesUI);
   }
 
   /**
@@ -912,107 +913,6 @@ public class MultiDocumentsHandler {
     sortedTextRules.reactivateTextRules(langTool);;
   }
 
-  /**
-   * class to store all text level rules sorted by the minimum to check paragraphs
-   * (currently only full text check and all other text level rules)
-   */
-  class SortedTextRules { 
-    List<Integer> minToCheckParagraph;
-    List<List<String>> textLevelRules;
-
-    SortedTextRules () {
-      minToCheckParagraph = new ArrayList<>(OfficeTools.NUMBER_TEXTLEVEL_CACHE);
-      textLevelRules = new ArrayList<>(OfficeTools.NUMBER_TEXTLEVEL_CACHE);
-      minToCheckParagraph.add(0,0);
-      minToCheckParagraph.add(1,1);
-      minToCheckParagraph.add(2,-1);
-      minToCheckParagraph.add(3,-2);
-      for (int i = 0; i < OfficeTools.NUMBER_TEXTLEVEL_CACHE; i++) {
-        textLevelRules.add(i, new ArrayList<>());
-      }
-      List<Rule> rules = langTool.getAllActiveOfficeRules();
-      int numParasToCheck = config.getNumParasToCheck();
-      for (Rule rule : rules) {
-        if (rule instanceof TextLevelRule && !langTool.getDisabledRules().contains(rule.getId()) 
-            && !disabledRulesUI.contains(rule.getId())) {
-          insertRule(((TextLevelRule) rule).minToCheckParagraph(), numParasToCheck, rule.getId());
-        }
-      }
-      if (debugMode) {
-        MessageHandler.printToLogFile("Number different minToCheckParagraph: " + minToCheckParagraph.size());
-        for ( int i = 0; i < minToCheckParagraph.size(); i++) {
-          MessageHandler.printToLogFile("minToCheckParagraph: " + minToCheckParagraph.get(i));
-          for (int j = 0; j < textLevelRules.get(i).size(); j++) {
-            MessageHandler.printToLogFile("RuleId: " + textLevelRules.get(i).get(j));
-          }
-        }
-      }
-    }
-
-    /**
-     * Insert a rule to list of text level rules
-     */
-    private void insertRule (int minPara, int numParasToCheck, String ruleId) {
-      if (minPara == 0) {
-          textLevelRules.get(0).add(ruleId);
-      } else {
-        if (numParasToCheck >= 0) {
-          textLevelRules.get(1).add(ruleId);
-          if (minPara < 0 && minToCheckParagraph.get(1) < numParasToCheck) {
-            minToCheckParagraph.set(1, numParasToCheck);
-          } else if (minPara <= numParasToCheck && minPara > minToCheckParagraph.get(1)) {
-            minToCheckParagraph.set(1, minPara);
-          }
-        } else if (minPara > 0) {
-          textLevelRules.get(1).add(ruleId);
-          if (minPara > minToCheckParagraph.get(1)) {
-            minToCheckParagraph.set(1, minPara);
-          }
-        } else if (minPara == -2 && numParasToCheck == -2) {
-          textLevelRules.get(3).add(ruleId);
-        } else {
-          textLevelRules.get(2).add(ruleId);
-        }
-      }
-    }
-
-    /**
-     * Get the minimum of paragraphs that should be checked
-     */
-    public List<Integer> getMinToCheckParas() {
-      return minToCheckParagraph;
-    }
-
-    /**
-     * Activate the text level rules for a specified cache 
-     */
-    public void activateTextRulesByIndex(int nCache, SwJLanguageTool langTool) {
-      for (int i = 0; i < textLevelRules.size(); i++) {
-        if (i == nCache) {
-          for (String ruleId : textLevelRules.get(i)) {
-            langTool.enableRule(ruleId);
-          }
-        } else {
-          for (String ruleId : textLevelRules.get(i)) {
-            langTool.disableRule(ruleId);
-          }
-        }
-      }
-    }
-
-    /**
-     * Reactivate the text level rules which was deactivated for a specified cache 
-     */
-    public void reactivateTextRules(SwJLanguageTool langTool) {
-      for (List<String> textRules : textLevelRules) {
-        for (String ruleId : textRules) {
-          langTool.enableRule(ruleId);
-        }
-      }
-    }
-
-  }
-  
   /**
    * We leave spell checking to OpenOffice/LibreOffice.
    * @return false

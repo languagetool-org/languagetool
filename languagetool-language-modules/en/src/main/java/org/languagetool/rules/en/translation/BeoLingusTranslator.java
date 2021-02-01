@@ -280,6 +280,9 @@ public class BeoLingusTranslator implements Translator {
       .replace("sb.", "")
       .replaceAll("/[A-Z]+/", "")    // e.g. "heavy goods vehicle /HGV/"
       .replaceAll(" /[A-Z][a-z]+\\.?/", "")    // e.g. "Tuesday /Tue/", "station /Sta./"
+      .replaceAll("<> ", "")  // "to fathom out <> sth."
+      .replaceAll("<(.*)>", "")  // "decease [adm.]; demise [poet.] <death>"
+      .replaceAll("\\s+", " ")
       .trim();
     if ("to".equals(prevWord) && clean.startsWith("to ")) {
       return clean.substring(3);
@@ -307,6 +310,12 @@ public class BeoLingusTranslator implements Translator {
         sb.append(c);
         sb.append(' ');
         lookingFor.remove("]");
+      } else if (c == '<') {
+        lookingFor.add(">");
+      } else if (c == '>' && lookingFor.contains(">")) {
+        sb.append(c);
+        sb.append(' ');
+        lookingFor.remove(">");
       } else if (c == '(') {
         lookingFor.add(")");
       } else if (c == ')') {

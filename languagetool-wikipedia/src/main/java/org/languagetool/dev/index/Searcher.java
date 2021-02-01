@@ -163,7 +163,7 @@ public class Searcher {
         } else {
           searchThread.join(Integer.MAX_VALUE);
         }
-        searchThread.interrupt();
+        //searchThread.interrupt();
       } catch (InterruptedException e) {
         throw new RuntimeException("Search thread got interrupted for query " + query, e);
       }

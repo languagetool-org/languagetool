@@ -1180,7 +1180,7 @@ public class ConfigurationDialog implements ActionListener {
       while(config.getDefinedProfiles().contains(profileName) || userOptions.equals(profileName)) {
         profileName += "_new";
       }
-      profileName = profileName.replaceAll("[ \t]", "_");
+      profileName = profileName.replaceAll("[ \t=]", "_");
       config.addProfile(profileName);
       config.setCurrentProfile(profileName);
       profileChanged = false;

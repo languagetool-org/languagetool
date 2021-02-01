@@ -65,8 +65,10 @@ public class QuestionWhitespaceStrictRuleTest {
       assertEquals(2, matches.length);
       assertEquals(29, matches[0].getFromPos());
       assertEquals(36, matches[0].getToPos());
+      assertEquals("[triple\u00a0:]", matches[0].getSuggestedReplacements().toString());
       assertEquals(50, matches[1].getFromPos());
       assertEquals(52, matches[1].getToPos());
+      assertEquals("[\u202f;]", matches[1].getSuggestedReplacements().toString());
       //guillemets
       matches = rule.match(langTool.getAnalyzedSentence("Le guillemet ouvrant est suivi d'un espace insécable : « mais le lieu [...] et le guillemet fermant est précédé d'un espace insécable : [...] littérature »."));
       assertEquals(2, matches.length);

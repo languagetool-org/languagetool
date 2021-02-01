@@ -40,6 +40,7 @@ import org.languagetool.tools.Tools;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 import static org.languagetool.tools.StringTools.startsWithUppercase;
@@ -79,6 +80,10 @@ public class AgreementRule extends Rule {
   }
   private static final AnalyzedToken[] INS_REPLACEMENT = {new AnalyzedToken("das", "ART:DEF:AKK:SIN:NEU", "das")};
   private static final AnalyzedToken[] ZUR_REPLACEMENT = {new AnalyzedToken("der", "ART:DEF:DAT:SIN:FEM", "der")};
+
+  enum ReplacementType {
+    Ins, Zur
+  }
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
@@ -1131,21 +1136,25 @@ public class AgreementRule extends Rule {
     return "Kongruenz von Nominalphrasen (unvollständig!), z.B. 'mein kleiner(kleines) Haus'";
   }
 
-  private void replacePrepositionsByArticle (AnalyzedTokenReadings[] tokens) {
+  private Map<Integer,ReplacementType> replacePrepositionsByArticle (AnalyzedTokenReadings[] tokens) {
+    Map<Integer, ReplacementType> map = new HashMap<>();
     for (int i = 0; i < tokens.length; i++) {
       if (StringUtils.equalsAny(tokens[i].getToken(), "ins", "ans", "aufs", "vors", "durchs", "hinters", "unters", "übers", "fürs", "ums")) {
         tokens[i] = new AnalyzedTokenReadings(INS_REPLACEMENT, tokens[i].getStartPos());
+        map.put(i, ReplacementType.Ins);
       } else if (StringUtils.equalsAny(tokens[i].getToken(), "zur")) {
         tokens[i] = new AnalyzedTokenReadings(ZUR_REPLACEMENT, tokens[i].getStartPos());
+        map.put(i, ReplacementType.Zur);
       }
     }
+    return map;
   }
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
-    replacePrepositionsByArticle(tokens);
+    Map<Integer, ReplacementType> replMap = replacePrepositionsByArticle(tokens);
     for (int i = 0; i < tokens.length; i++) {
       //defaulting to the first reading
       //TODO: check for all readings
@@ -1209,7 +1218,7 @@ public class AgreementRule extends Rule {
             }
           }
         } else if (GermanHelper.hasReadingOfType(nextToken, POSType.NOMEN) && !"Herr".equals(nextToken.getToken())) {
-          RuleMatch ruleMatch = checkDetNounAgreement(tokens[i], nextToken, sentence, i);
+          RuleMatch ruleMatch = checkDetNounAgreement(tokens[i], nextToken, sentence, i, replMap);
           if (ruleMatch != null) {
             ruleMatches.add(ruleMatch);
           }
@@ -1300,14 +1309,14 @@ public class AgreementRule extends Rule {
 
   @Nullable
   private RuleMatch checkDetNounAgreement(AnalyzedTokenReadings token1,
-      AnalyzedTokenReadings token2, AnalyzedSentence sentence, int tokenPos) {
+                                          AnalyzedTokenReadings token2, AnalyzedSentence sentence, int tokenPos, Map<Integer, ReplacementType> replMap) {
     // TODO: remove "-".equals(token2.getToken()) after the bug fix
     // see Daniel's comment from 20.12.2016 at https://github.com/languagetool-org/languagetool/issues/635
     if (token2.isImmunized() || NOUNS_TO_BE_IGNORED.contains(token2.getToken()) || "-".equals(token2.getToken())) {
       return null;
     }
 
-    Set<String> set1 = null;
+    Set<String> set1;
     if (token1.getReadings().size() == 1 &&
         token1.getReadings().get(0).getPOSTag() != null &&
         token1.getReadings().get(0).getPOSTag().endsWith(":STV")) {
@@ -1338,7 +1347,7 @@ public class AgreementRule extends Rule {
       } catch (MalformedURLException e) {
         throw new RuntimeException(e);
       }*/
-      AgreementSuggestor suggestor = new AgreementSuggestor(language.getSynthesizer(), token1, token2);
+      AgreementSuggestor suggestor = new AgreementSuggestor(language.getSynthesizer(), token1, token2, replMap.get(tokenPos));
       List<String> suggestions = suggestor.getSuggestions();
       ruleMatch.setSuggestedReplacements(suggestions);
     }

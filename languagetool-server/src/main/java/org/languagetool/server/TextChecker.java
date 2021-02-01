@@ -157,10 +157,11 @@ abstract class TextChecker {
     List<JLanguageTool.Mode> addonModes = Arrays.asList(JLanguageTool.Mode.TEXTLEVEL_ONLY, JLanguageTool.Mode.ALL_BUT_TEXTLEVEL_ONLY);
     UserConfig user = new UserConfig();
     for (Language language : prewarmLanguages) {
+      // add-on uses picky mode since 2021-01-20
       for (JLanguageTool.Mode mode : addonModes) {
         QueryParams params = new QueryParams(Collections.emptyList(), Collections.emptyList(), addonDisabledRules,
           Collections.emptyList(), Collections.emptyList(), false, true,
-          false, false, false, mode, JLanguageTool.Level.DEFAULT, null);
+          true, true, false, mode, JLanguageTool.Level.PICKY, null);
         PipelinePool.PipelineSettings settings = new PipelinePool.PipelineSettings(language, null, params, config.globalConfig, user);
         prewarmSettings.put(settings, NUM_PIPELINES_PER_SETTING);
 
@@ -202,6 +203,8 @@ abstract class TextChecker {
     checkParams(parameters);
     long timeStart = System.currentTimeMillis();
     UserLimits limits = ServerTools.getUserLimits(parameters, config);
+
+    String requestId = httpExchange.getRequestHeaders().getFirst("X-Request-ID");
 
     // logging information
     String agent = parameters.get("useragent") != null ? parameters.get("useragent") : "-";
@@ -410,7 +413,10 @@ abstract class TextChecker {
                        ", #" + count +
                        ", " + aText.getPlainText().length() + " characters of text" +
                        ", mode: " + mode.toString().toLowerCase() +
-                       ", h: " + reqCounter.getHandleCount() + ", r: " + reqCounter.getRequestCount() + ", system load: " + loadInfo + ")";
+                       ", h: " + reqCounter.getHandleCount() +
+                       ", r: " + reqCounter.getRequestCount() +
+                       ", requestId: " + requestId +
+                       ", system load: " + loadInfo + ")";
       if (params.allowIncompleteResults) {
         logger.info(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
         matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
@@ -487,7 +493,8 @@ abstract class TextChecker {
     int computationTime = (int) (System.currentTimeMillis() - timeStart);
     String version = parameters.get("v") != null ? ", v:" + parameters.get("v") : "";
     String skipLimits = limits.getSkipLimits() ? ", skipLimits" : "";
-    logger.info("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage + ", #" + count + ", " + referrer + ", "
+    logger.info("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage +
+            ", requestId: " + requestId + ", #" + count + ", " + referrer + ", "
             + matches.size() + " matches, "
             + computationTime + "ms, agent:" + agent + version
             + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?")

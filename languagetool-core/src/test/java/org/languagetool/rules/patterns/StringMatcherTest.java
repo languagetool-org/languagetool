@@ -104,6 +104,12 @@ public class StringMatcherTest {
     assertRequiredSubstrings("foo", "[foo]");
     assertRequiredSubstrings("foo|bar", null);
     assertRequiredSubstrings("\\w", null);
+    assertRequiredSubstrings("PRP.+", "[PRP)");
+    assertRequiredSubstrings(".*PRP.+", "(PRP)");
+    assertRequiredSubstrings(".*PRP", "(PRP]");
+    assertRequiredSubstrings(".+PRP", "(PRP]");
+    assertRequiredSubstrings("a.+b", "[a, b]");
+    assertRequiredSubstrings("a.*b", "[a, b]");
     assertRequiredSubstrings("\\bZünglein an der (Wage)\\b", "[Zünglein an der Wage]");
     assertRequiredSubstrings("(ökumenische[rn]?) (.*Messen?)", "[ökumenische,  , Messe)");
     assertRequiredSubstrings("(CO2|Kohlendioxid|Schadstoff)\\-?Emulsion(en)?", "(Emulsion)");

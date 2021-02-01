@@ -48,10 +48,13 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 public class AgreementRule2 extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = asList(
-    asList(csRegex("Wöchentlich|Inhaltlich|Gänzlich|Ständig|Okay|Meist|Generell|Ausreichend|Genügend|Reichlich|Regelmäßig|Hauptsächlich"), posRegex("SUB:.*")),  // "Regelmäßig Kiwis und Ananas zu essen...", "Reichlich Inspiration bietet..."
-    asList(token("Fair"), regex("Trade")),
-    asList(token("Frei"), regex("Haus")),
-    asList(token("Global"), regex("Player")),
+    asList(csRegex("Typisch|Wöchentlich|Inhaltlich|Täglich|Komplett|Genau|Gerade|Bewusst|Vereinzelt|Gänzlich|Ständig|Okay|Meist|Generell|Ausreichend|Genügend|Reichlich|Regelmäßig(e|es)?|Hauptsächlich"), posRegex("SUB:.*")),  // "Regelmäßig Kiwis und Ananas zu essen...", "Reichlich Inspiration bietet..."
+    asList(regex("\\d0er"), regex("Jahren?")),
+    asList(token("Maritim"), token("Hotel")),
+    asList(token("Blind"), regex("Dates?")),
+    asList(token("Fair"), token("Trade")),
+    asList(token("Frei"), token("Haus")),
+    asList(token("Global"), token("Player")),
     asList(token("psychisch"), regex("Kranken?")),
     asList(token("sportlich"), regex("Aktiven?")),
     asList(token("politisch"), regex("Interessierten?")),
@@ -59,7 +62,7 @@ public class AgreementRule2 extends Rule {
     asList(token("typisch"), posRegex("SUB:.*"), regex("[!?.]")),  // "Typisch November!"
     asList(token("lecker"), token("Essen")),  // "Lecker Essen an Weihnachten."
     asList(token("erneut"), posRegex("SUB:.*")),  // "Erneut Ausgangssperre beschlossen"
-    asList(token("Gesetzlich"), token("Krankenversicherte")),
+    asList(token("Gesetzlich"), regex("Krankenversicherten?")),
     asList(token("weitgehend"), token("Einigkeit")),      // feste Phrase
     asList(token("Ernst")),      // Vorname
     asList(token("Anders")),     // Vorname

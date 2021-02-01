@@ -64,7 +64,7 @@ public class AgreementSuggestorTest {
     if (tokenReadings.size() != 2) {
       throw new RuntimeException("Size of input not yet supported: " + tokenReadings.size());
     }
-    AgreementSuggestor suggestor = new AgreementSuggestor(synthesizer, tokenReadings.get(0), tokenReadings.get(1));
+    AgreementSuggestor suggestor = new AgreementSuggestor(synthesizer, tokenReadings.get(0), tokenReadings.get(1), null);
     List<String> suggestions = suggestor.getSuggestions();
     assertThat(suggestions.toString(), is(expectedSuggestions));
   }

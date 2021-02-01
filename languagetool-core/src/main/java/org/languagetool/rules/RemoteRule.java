@@ -24,6 +24,7 @@ package org.languagetool.rules;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.Language;
 import org.languagetool.markup.AnnotatedText;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,22 +56,26 @@ public abstract class RemoteRule extends Rule {
   protected final RemoteRuleConfig serviceConfiguration;
   protected final boolean inputLogging;
   private AnnotatedText annotatedText;
+  protected final boolean filterMatches;
+  protected final Language ruleLanguage;
 
-  public RemoteRule(ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging, @Nullable String ruleId) {
+  public RemoteRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging, @Nullable String ruleId) {
     super(messages);
     serviceConfiguration = config;
+    this.ruleLanguage = language;
     this.inputLogging = inputLogging;
     if (ruleId == null) { // allow both providing rule ID in constructor or overriding getId
       ruleId = getId();
     }
+    filterMatches = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("filterMatches", "false"));
     lastFailure.putIfAbsent(ruleId, 0L);
     consecutiveFailures.putIfAbsent(ruleId, new AtomicInteger());
     // TODO maybe use fixed pool, take number of concurrent requests from configuration?
     executors.putIfAbsent(ruleId, Executors.newCachedThreadPool(threadFactory));
   }
 
-  public RemoteRule(ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
-    this(messages, config, inputLogging, null);
+  public RemoteRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
+    this(language, messages, config, inputLogging, null);
   }
 
   public static void shutdown() {
@@ -94,7 +99,7 @@ public abstract class RemoteRule extends Rule {
    */
   public FutureTask<RemoteRuleResult> run(List<AnalyzedSentence> sentences, @Nullable Long textSessionId) {
     if (sentences.isEmpty()) {
-      return new FutureTask<>(() -> new RemoteRuleResult(false, true, Collections.emptyList()));
+      return new FutureTask<>(() -> new RemoteRuleResult(false, true, Collections.emptyList(), sentences));
     }
     return new FutureTask<>(() -> {
       long startTime = System.nanoTime();
@@ -134,6 +139,17 @@ public abstract class RemoteRule extends Rule {
           RemoteRuleMetrics.RequestResult requestResult = result.isRemote() ?
             RemoteRuleMetrics.RequestResult.SUCCESS : RemoteRuleMetrics.RequestResult.SKIPPED;
           RemoteRuleMetrics.request(ruleId, i, System.nanoTime() - startTime, characters, requestResult);
+
+          if (filterMatches) {
+            List<RuleMatch> filteredMatches = new ArrayList<>();
+            for (AnalyzedSentence sentence : sentences) {
+              List<RuleMatch> sentenceMatches = result.matchesForSentence(sentence);
+              List<RuleMatch> filteredSentenceMatches = RemoteRuleFilters.filterMatches(
+                ruleLanguage, sentence, sentenceMatches);
+              filteredMatches.addAll(filteredSentenceMatches);
+            }
+            result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), filteredMatches, sentences);
+          }
 
           return result;
         } catch (InterruptedException | ExecutionException | TimeoutException e) {

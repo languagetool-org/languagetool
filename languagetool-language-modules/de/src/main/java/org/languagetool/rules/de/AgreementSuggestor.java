@@ -35,11 +35,14 @@ class AgreementSuggestor {
   private final Synthesizer synthesizer;
   private final AnalyzedTokenReadings determinerToken;
   private final AnalyzedTokenReadings nounToken;
+  private final AgreementRule.ReplacementType replacementType;
 
-  AgreementSuggestor(Synthesizer synthesizer, AnalyzedTokenReadings determinerToken, AnalyzedTokenReadings nounToken) {
+  AgreementSuggestor(Synthesizer synthesizer, AnalyzedTokenReadings determinerToken, AnalyzedTokenReadings nounToken,
+                     AgreementRule.ReplacementType replacementType) {
     this.synthesizer = synthesizer;
     this.determinerToken = determinerToken;
     this.nounToken = nounToken;
+    this.replacementType = replacementType;
   }
 
   List<String> getSuggestions() {
@@ -104,7 +107,19 @@ class AgreementSuggestor {
         continue;
       }
       String correctDeterminer = StringTools.isCapitalizedWord(determinerToken.getToken()) ? StringTools.uppercaseFirstChar(determiner) : determiner;
-      suggestions.add(correctDeterminer + " " + nounToken.getToken());
+      if (replacementType == AgreementRule.ReplacementType.Zur) {
+        if (correctDeterminer.equals("der") && correctPosTag.contains(":SIN:")) {
+          suggestions.add("zur " + nounToken.getToken());
+        } else if (correctDeterminer.equals("dem")) {
+          suggestions.add("zum " + nounToken.getToken());
+        } else if (correctDeterminer.equals("den") || correctPosTag.contains(":SIN:")) {
+          suggestions.add("zu " + correctDeterminer + " " + nounToken.getToken());
+        } else if (correctPosTag.contains(":PLU:")) {
+          suggestions.add("zu " + nounToken.getToken());
+        }
+      } else {
+        suggestions.add(correctDeterminer + " " + nounToken.getToken());
+      }
     }
     return suggestions;
   }
@@ -121,10 +136,12 @@ class AgreementSuggestor {
       correctedNouns = synthesizer.synthesize(new AnalyzedToken(lastTokenPart, token2Reading.getPOSTag(), lastLemmaPart), correctPosTag);
     }
     for (String correctedNoun : correctedNouns) {
-      if (firstPart != null) {
-        suggestions.add(token1.getToken() + " " + firstPart  + correctedNoun);
+      String sugg = firstPart != null ?
+              (token1.getToken() + " " + firstPart + correctedNoun) : (token1.getToken() + " " + correctedNoun);
+      if (replacementType == AgreementRule.ReplacementType.Zur) {
+        suggestions.add("zur " + sugg.replaceFirst("der ", ""));
       } else {
-        suggestions.add(token1.getToken() + " " + correctedNoun);
+        suggestions.add(sugg);
       }
     }
     return suggestions;

@@ -98,6 +98,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend|ärgerlich|enttäuscht|genervt|empört|entrüstet|erbost">
     <!ENTITY fragewoerter "inwie(fern|weit)|wa(nn|rum|s)|we[mnr]|wes(halb|sen|wegen)|wie(so)?|wo(durch|für|gegen|h(er|in)|mit|nach|ran|rauf|raus|rüber|runter|von|zu)?"><!-- TODO: why is "welche/welcher/welches" missing? -->
     <!ENTITY farbadj "gr(au|ün)|wei(ß|ss)|schwarz|rot|gelb|blau|lila|orange|beige|rosa|braun">
+    <!ENTITY sinnmachen "Der Ausdruck 'Sinn machen' kann umgangssprachlich wirken. Möchten Sie eine alternative Formulierung verwenden?">
     <!--
     for local testing of an external file - also see below:
     <!ENTITY UserRules SYSTEM "file:///lt/git/languagetool/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar-test.xml">
@@ -1120,13 +1121,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token>dank</token>
                     <token>im</token>
                     <token>voraus</token>
                     <token postag="PKT" />
                 </antipattern>
                 <antipattern>
-                    <token>dank</token>
                     <token>im</token>
                     <token postag="SENT_END">voraus</token>
                 </antipattern>
@@ -5381,6 +5380,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup> 
         <rulegroup id="WEIS_ICH" name="weis (weiß) ich">
             <rule>
+                <antipattern>
+                    <token>ich</token>
+                    <token regexp="yes">weiß|weiss</token>
+                    <token>du</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">weiß|weiss</token>
@@ -5389,6 +5393,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie <suggestion>\1t</suggestion>, die Form des Verbs 'wissen'?</message>
                 <example correction="Weißt">Sie fragte: „<marker>Weiß</marker> du, ob er kommt?“</example>
+                <example>Ich weiß du magst keine Rockmusik.</example>
             </rule>
             <rule>
                 <pattern>
@@ -9880,7 +9885,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="ZWEIFELS_OHNE" name="Zweifels ohne (zweifelsohne)" default="temp_off">
+        <rulegroup id="ALL_IN_ONE" name="All-in-one-Soundsystem">
+            <rule>
+                <pattern>
+                    <token>all</token>
+                    <token>in</token>
+                    <token>one</token>
+                    <token regexp="yes">Agentur(en)?|Computer[sn]?|Geräte[sn]?|PC|drucker[sn]?|(musik|audio|sound)?system(en?|s)?|receiver[sn]?|fernbedienung(en)?|trimmer[ns]?|haarschneider[sn]?|maschinen?|küchenmaschinen?|laptops?|lösung(en)?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>All-in-one-<match no="4" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="All-in-one-Audiosystem">Sein <marker>All in One Audiosystem</marker> hat alle begeistert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>all-in-one</token>
+                    <token regexp="yes">Agentur(en)?|Computer[sn]?|Geräte[sn]?|PC|drucker[sn]?|(musik|audio|sound)?system(en?|s)?|receiver[sn]?|fernbedienung(en)?|trimmer[ns]?|haarschneider[sn]?|maschinen?|küchenmaschinen?|laptops?|lösung(en)?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>All-in-one-<match no="2" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="All-in-one-Audiosystem">Sein <marker>All-in-one Audiosystem</marker> hat alle begeistert.</example>
+            </rule>
+        </rulegroup>
+        <rule id="ZWEIFELS_OHNE" name="Zweifels ohne (zweifelsohne)">
             <antipattern>
                 <token postag=".+:GEN:.+" postag_regexp="yes" />
                 <token case_sensitive="yes">Zweifels</token>
@@ -9910,6 +9935,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 * eigen Geruch
                 * schwach Stelle
                 * frei Zeit
+                * schwer Punkt
+                * warm Wasser
+                * blau Licht
+                * billig Laden
+                * spät Start
+                * negativ Haltung
+                * immun System
+                * frontal Aufnahme
+                * nieder Lage
+                * kurz Vorstellung
+                * klein Kinder
             -->
             <rule>
                 <antipattern>
@@ -9931,19 +9967,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token>original</token>
-                    <token regexp="yes" case_sensitive="yes">Verpackung|Zubehörs?|Zustand(es|s)?|Rechnung|Angebot(es|s)?|Werk(es|s)?|Kaufurkunde|Urkunde|Unterlagen?|Grö(ß|ss)e|Aufnahme|Ausgabe|Beitrag(es|s)?|Besetzung|Bild(es|s)?|Videos?|Dokument(es|s)?|Datei|Fassung|Packung|Rezept(es|s)?|Text(es|s)?|Titels?|Tons?|Version|Zeichnung|Kartons?|Hülle|Inhalt(es|s)?|Bauteils?|Teils?|Plans?</token>
+                    <token regexp="yes" case_sensitive="yes">Verpackung|Zubehörs?|Zustand(es|s)?|Rechnung|Angebot(es|s)?|Werk(es|s)?|Kaufurkunde|Urkunde|Unterlagen?|Grö(ß|ss)e|Aufnahme|Ausgabe|Beitrag(es|s)?|Besetzung|Bild(es|s)?|Videos?|Dokument(es|s)?|Datei|Fassung|Packung|Rezept(es|s)?|Text(es|s)?|Titels?|Tons?|Version|Zeichnung|Kartons?|Hülle|Inhalt(es|s)?|Bauteils?|Teils?|Plans?|Kaufpreis(es)?|Verkaufspreis(es)?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Original<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Originalrechnung">Sie hatte die <marker>original Rechnung</marker> nicht mehr, um das Produkt umzutauschen.</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token>gesamt</token>
-                    <token postag="VER:.*" postag_regexp="yes" regexp="yes">[a-z].*</token>
-                </antipattern>
                 <pattern>
                     <token>gesamt</token>
-                    <token regexp="yes">(kunst)?werk(es|s)?|bei?trags?|kosten|(verkaufs)?preis|umsatz(es)?|gewinns?|schule|schulden|volumen|bevölkerung|einkommens?|höhe|jahr(es|s)?|menge|paket(es|s)?|länge|situation|wert(es|s)?|fläche|schaden|produktion|gewicht(es|s)?|betriebsrat(es|s)?|unterricht(es|s)?|auflage|bild(es|s)?|eindruck(es|s)?|ergebnis(ses)?|erscheinung|interesse|wertung|mannschaft|zahl|vergrö(ß|ss)erung|budget|(lauf)?leistung|niederschlags?|ausgaben|einnahmen|anteils?</token>
+                    <token regexp="yes" case_sensitive="yes">Kunstwerk(es|s)?|Werk(es|s)?|Bei?trags?|Kosten|Kaufpreis(es)?|Verkaufspreis(es)?|Preis(es)?|Umsatz(es)?|Gewinns?|Schule|Schulden|Volumen|Bevölkerung|Einkommens?|Höhe|Jahr(es|s)?|Menge|Paket(es|s)?|Länge|Situation|Wert(es|s)?|Fläche|Schadens?|Produktion|Gewicht(es|s)?|Betriebsrat(es|s)?|Unterricht(es|s)?|Auflage|Bild(es|s)?|Eindruck(es|s)?|Ergebnis(ses)?|Erscheinung|Interesses?|Wertung|Mannschaft|Zahl|Vergrö(ß|ss)erung|Budget|Laufleistung|Leistung|Niederschlags?|Ausgaben|Einnahmen|Anteils?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Gesamt<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Gesamtkunstwerk">Sie betrachtete das <marker>gesamt Kunstwerk</marker>.</example>
@@ -9991,11 +10023,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token regexp="yes" skip="1">auf|in|ohne</token>
-                    <token regexp="yes">englisch|deutsch|spanisch|französisch|italienisch|portugiesisch|koreanisch|türkisch|russisch|chinesisch</token>
+                    <token regexp="yes">englisch|deutsch|spanisch|französisch|italienisch|portugiesisch|koreanisch|türkisch|russisch|chinesisch|bosnisch|japanisch</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">englisch|deutsch|spanisch|französisch|italienisch|portugiesisch|koreanisch|türkisch|russisch|chinesisch</token>
-                    <token regexp="yes">lehrer[sn]?|hausaufgaben?|unterricht(es|s)?|kurs|dozent|professors?|kenntnis(sen?)?|heft(es|s)?|buch(es|s)?</token>
+                    <token regexp="yes">englisch|deutsch|spanisch|französisch|italienisch|portugiesisch|koreanisch|türkisch|russisch|chinesisch|bosnisch|japanisch</token>
+                    <token regexp="yes">lehrer[sn]?|hausaufgaben?|unterricht(es|s)?|kurs|dozent|professors?|kenntnis(sen?)?|heft(es|s)?|buch(es|s)?|stunde</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion><match no="1" case_conversion="startupper" />-<match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="Deutsch-Lehrer">Mein <marker>deutsch Lehrer</marker> hat mir eine 1 gegeben.</example>
@@ -10003,7 +10035,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>privat</token>
-                    <token regexp="yes" case_sensitive="yes">Verkauf(es|s)?|Haftpflicht|Schule|Senders?|Adresse|Nummer|Angelegenheit|Armee|Besitz(es)?|Eigentums?|Gebrauch(es|s)?|Bereich(es|s)?|Gespräch(es|s)?|Vermögens?|Person|Weg(es|s)?|Wohnung|Anleger(in|s)?|Anwender(s|in)?|Autos?|Detektivs?|Flugzeug(es|s)?|Fahrzeug(es|s)?|Jets?|Kredit(es|s)?|Kunde|Kundin|Lebens?|Patient(es|s)?|Versicherung|Anschrift</token>
+                    <token regexp="yes" case_sensitive="yes">Verkauf(es|s)?|Haftpflicht|Schule|Senders?|Adresse|Nummer|Angelegenheit|Armee|Besitz(es)?|Eigentums?|Gebrauch(es|s)?|Bereich(es|s)?|Gespräch(es|s)?|Vermögens?|Person|Weg(es|s)?|Wohnung|Anleger(in|s)?|Anwender(s|in)?|Autos?|Detektivs?|Flugzeug(es|s)?|Fahrzeug(es|s)?|Jets?|Kredit(es|s)?|Kunde|Kundin|Lebens?|Patient(es|s)?|Versicherung|Anschrift|Kundenbereichs?|Clubs?|Klubs?|Projekt(es|s)?|Nachricht</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Privat<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Privatschule">Mein Sohn geht auf eine <marker>privat Schule</marker>.</example>
@@ -10596,11 +10628,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ALLER_COMPOUNDS" name="aller bestes (allerbestes)">
             <pattern>
                 <token>aller</token>
-                <token regexp="yes">frühestens|orts|beste[sr]?|größte[sr]?|grösste[sr]?|höchste[sr]?|letzte[sr]?|liebste[sr]?|erste[sr]?|meiste[s]?|mindeste[sr]?|nächste[sr]?|neue?ste[sr]?|nötigste[sr]?|notwendigste[sr]?|schlimmste[sr]?|schönste[sr]?|schnellste[sr]?|späteste[rs]?|spätestens|wichtigste[rs]?</token>
+                <token regexp="yes">frühestens|orts|beste[sr]?|größte[sr]?|grösste[sr]?|höchste[sr]?|letzte[sr]?|liebste[sr]?|erste[nsr]?|meiste[ns]?|mindeste[sr]?|nächste[sr]?|neue?ste[sr]?|nötigste[nsr]?|notwendigste[nsr]?|schlimmste[nsr]?|schönste[nsr]?|schnellste[nsr]?|späteste[nrs]?|spätestens|wichtigste[nrs]?|kleinste[rn]?</token>
             </pattern>
             <message>Das Wort <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
             <short>Zusammenschreibung</short>
             <example correction="allerschönste">Das Haus war das <marker>aller schönste</marker> im ganzen Ort.</example>
+            <example>Wir erweitern den Begriff des ggT auf die Menge aller größten gemeinsamen Teiler der Elemente einer Teilmenge eines Ringes.</example>
         </rule>
         <rulegroup id="RUNDUM_SORGLOS_PAKET" name="Rundum-sorglos-Paket">
             <url>https://www.duden.de/rechtschreibung/Rundum_sorglos_Paket</url>
@@ -10948,6 +10981,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>Disney</token>
                 <token>Traditions</token>
             </antipattern>
+            <antipattern>
+                <token>Champions</token>
+                <token>Cup</token>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]{2,}(ung|schaft|sicht|heit|keit|ion|tät)s
@@ -11230,17 +11267,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">[0-9]+</token>
-                    <token regexp="yes">(wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag|seit)ig(e[mnrs]?)?</token>
+                    <token regexp="yes">(wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag|seit|stell)ig(e[mnrs]?)?</token>
                 </pattern>
                 <message><suggestion>\1-<match no="2" case_conversion="alllower" /></suggestion> wird mit Bindestrich geschrieben.</message>
                 <short>Zusammenschreibung</short>
                 <example correction='7-teiliges'>Ich biete ein <marker>7 teiliges</marker> Set zum Verkauf an.</example>
                 <example correction="8-seitigen">Ich arbeite an einem <marker>8 Seitigen</marker> Aufsatz.</example>
+                <example correction="6-stelliges">Ich verdiene ein <marker>6 stelliges</marker> Gehalt!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+(wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag|seit|stell)ig(e[mnrs]?)?</token>
+                </pattern>
+                <message><suggestion><match no="1" regexp_match="^(\d+).+" regexp_replace="$1" />-<match no="1" regexp_match="^\d+(.+)$" regexp_replace="$1" case_conversion="alllower" /></suggestion> wird mit Bindestrich geschrieben.</message>
+                <short>Zusammenschreibung</short>
+                <example correction='7-teiliges'>Ich biete ein <marker>7teiliges</marker> Set zum Verkauf an.</example>
+                <example correction="8-seitigen">Ich arbeite an einem <marker>8Seitigen</marker> Aufsatz.</example>
+                <example correction="6-stelliges">Ich verdiene ein <marker>6stelliges</marker> Gehalt!</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="ZAL"/>
-                    <token regexp="yes">(schicht|zähn|wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag)ig(e[mnrs]?)?</token>
+                    <token regexp="yes">(schicht|zähn|wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag|stellig)ig(e[mnrs]?)?</token>
                 </pattern>
                 <message><suggestion>\1\2</suggestion> wird zusammengeschrieben.</message>
                 <short>Zusammenschreibung</short>
@@ -18390,7 +18438,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0">einen</token>
                     <token>Sinn</token>
                 </pattern>
-                <message>'Sinn machen' ist umgangssprachlich.</message>
+                <message>&sinnmachen;</message>
                 <suggestion>ergibt \2 \3 Sinn</suggestion>
                 <suggestion>stiftet \2 \3 Sinn</suggestion>
                 <suggestion>ist \2 sinnvoll</suggestion>
@@ -18400,11 +18448,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>macht</token>
                     <token regexp="yes">es|das|dies</token>
-                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total</token>
-                    <token>keinen</token>
+                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total|vielleicht|möglicherweise|natürlich|durchaus|allerdings|wohl</token>
+                    <token regexp="yes">keinen|wenig|kaum</token>
                     <token>Sinn</token>
                 </pattern>
-                <message>'Sinn machen' ist umgangssprachlich.</message>
+                <message>&sinnmachen;</message>
                 <suggestion>ergibt \2 \3 \4 Sinn</suggestion>
                 <suggestion>stiftet \2 \3 \4 Sinn</suggestion>
                 <suggestion>ist \2 sinnlos</suggestion>
@@ -18412,12 +18460,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">es|das|dies</token>
                     <token>macht</token>
-                    <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|total|schon</token>
+                    <token regexp="yes">es|das|dies</token>
+                    <token min="0" regexp="yes">vielleicht|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|natürlich|durchaus|allerdings|wohl</token>
                     <token>Sinn</token>
                 </pattern>
-                <message>'Sinn machen' ist umgangssprachlich.</message>
+                <message>&sinnmachen;</message>
+                <suggestion>ergibt \2 \3 Sinn</suggestion>
+                <suggestion>stiftet \2 \3 Sinn</suggestion>
+                <suggestion>ist \2 \3 sinnvoll</suggestion>
+                <example correction="Ergibt es vielleicht Sinn|Stiftet es vielleicht Sinn|Ist es vielleicht sinnvoll"><marker>Macht es vielleicht Sinn</marker>, dass wir das schon heute erledigen?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">es|das|dies</token>
+                    <token>macht</token>
+                    <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|total|schon|natürlich|durchaus|allerdings|wohl</token>
+                    <token>Sinn</token>
+                </pattern>
+                <message>&sinnmachen;</message>
                 <suggestion>\1 ergibt \3 Sinn</suggestion>
                 <suggestion>\1 stiftet \3 Sinn</suggestion>
                 <suggestion>\1 ist \3 sinnvoll</suggestion>
@@ -18427,11 +18488,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">es|das|dies</token>
                     <token regexp="yes">würde|könnte|müsste|sollte|wird|kann|muss|soll</token>
-                    <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|total|schon|keinen</token>
+                    <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|vielleicht|möglicherweise|total|schon|keinen|natürlich|durchaus|allerdings|wohl</token>
                     <token>Sinn</token>
                     <token>machen</token>
                 </pattern>
-                <message>'Sinn machen' ist umgangssprachlich.</message>
+                <message>&sinnmachen;</message>
                 <suggestion>\1 \2 \3 Sinn ergeben</suggestion>
                 <suggestion>\1 \2 \3 Sinn stiften</suggestion>
                 <example correction="Das würde total Sinn ergeben|Das würde total Sinn stiften"><marker>Das würde total Sinn machen</marker>!</example>
@@ -18440,11 +18501,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">es|das|dies</token>
                     <token>macht</token>
-                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total</token>
-                    <token>keinen</token>
+                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total|möglicherweise|natürlich|durchaus|allerdings|wohl</token>
+                    <token regexp="yes">keinen|wenig|kaum</token>
                     <token>Sinn</token>
                 </pattern>
-                <message>'Sinn machen' ist umgangssprachlich.</message>
+                <message>&sinnmachen;</message>
                 <suggestion>\1 ergibt \3 \4 Sinn</suggestion>
                 <suggestion>\1 stiftet \3 \4 Sinn</suggestion>
                 <suggestion>\1 ist \3 nicht sinnvoll</suggestion>
@@ -18455,11 +18516,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">es|das|dies</token>
                     <token>macht</token>
-                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total</token>
+                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total|natürlich|durchaus|allerdings|wohl</token>
                     <token>keinen</token>
                     <token>Sinn</token>
                 </pattern>
-                <message>'Sinn machen' ist umgangssprachlich.</message>
+                <message>&sinnmachen;</message>
                 <suggestion>\1 ergibt \3 \4 Sinn</suggestion>
                 <suggestion>\1 stiftet \3 \4 Sinn</suggestion>
                 <suggestion>\1 ist \3 nicht sinnvoll</suggestion>
@@ -18468,11 +18529,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>keinen</token>
+                    <token regexp="yes">keinen|wenig</token>
                     <token>Sinn</token>
                     <token>macht</token>
                 </pattern>
-                <message>'Sinn machen' ist umgangssprachlich.</message>
+                <message>&sinnmachen;</message>
                 <suggestion>\1 \2 ergibt</suggestion>
                 <suggestion>\1 \2 stiftet</suggestion>
                 <suggestion>nicht sinnvoll ist</suggestion>
@@ -18484,7 +18545,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Sinn</token>
                     <token>machen</token>
                 </pattern>
-                <message>'Sinn machen' ist umgangssprachlich. Verwenden Sie stattdessen 'Sinn ergeben', 'Sinn stiften', 'Sinn haben' oder 'sinnvoll (bzw. sinnlos) sein'.</message>
+                <message>&sinnmachen;</message>
                 <suggestion>\1 ergeben</suggestion>
                 <suggestion>\1 stiften</suggestion>
                 <short>'Sinn machen' ist umgangssprachlich.</short>
@@ -18495,29 +18556,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Sinn</token>
                     <token>macht</token>
                 </pattern>
-                <message>'Sinn machen' ist umgangssprachlich. Verwenden Sie stattdessen 'Sinn ergeben', 'Sinn stiften', 'Sinn haben' oder 'sinnvoll (bzw. sinnlos) sein'.</message>
+                <message>&sinnmachen;</message>
                 <suggestion>\1 ergibt</suggestion>
                 <suggestion>\1 stiftet</suggestion>
                 <short>'Sinn machen' ist umgangssprachlich.</short>
                 <example correction="Sinn ergibt|Sinn stiftet">Er sagt, dass es keinen <marker>Sinn macht</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>Sinn</token>
                     <token>gemacht</token>
                 </pattern>
-                <message>'Sinn machen' ist umgangssprachlich. Verwenden Sie stattdessen 'Sinn ergeben', 'Sinn stiften', 'Sinn haben' oder 'sinnvoll (bzw. sinnlos) sein'.</message>
+                <message>&sinnmachen;</message>
                 <suggestion>\1 ergeben</suggestion>
                 <suggestion>\1 gestiftet</suggestion>
                 <short>'Sinn machen' ist umgangssprachlich.</short>
                 <example correction="Sinn ergeben|Sinn gestiftet">Er sagt, dass es keinen <marker>Sinn gemacht</marker> hat.</example>
             </rule>
-            <rule>
+            <rule tags="picky">
                 <pattern>
                     <token skip="4" inflected="yes">machen<exception scope="next">,</exception></token>
                     <token>Sinn</token>
                 </pattern>
-                <message>'Sinn machen' ist umgangssprachlich. Verwenden Sie stattdessen 'Sinn ergeben', 'Sinn stiften', 'Sinn haben' oder 'sinnvoll (bzw. sinnlos) sein'.</message>
+                <message>&sinnmachen;</message>
                 <short>'Sinn machen' ist umgangssprachlich.</short>
                 <example correction="">Das <marker>macht Sinn</marker>.</example>
                 <example correction="">Das <marker>macht nur Sinn</marker>, wenn man es richtig macht.</example>
@@ -18527,12 +18588,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Das, was er macht, hat einen Sinn.</example>
                 <example correction="">Das <marker>macht nie und nimmer einen Sinn</marker>.</example>
             </rule>
-            <rule>
+            <rule tags="picky">
                 <pattern>
                     <token skip="1">Sinn</token>
                     <token inflected="yes">machen</token>
                 </pattern>
-                <message>'Sinn machen' ist umgangssprachlich. Verwenden Sie stattdessen 'Sinn ergeben', 'Sinn stiften', 'Sinn haben' oder 'sinnvoll (bzw. sinnlos) sein'.</message>
+                <message>&sinnmachen;</message>
                 <short>'Sinn machen' ist umgangssprachlich.</short>
                 <example correction="">Er sagt, dass es keinen <marker>Sinn macht</marker>.</example>
                 <example correction="">Es braucht keinen <marker>Sinn zu machen</marker>.</example>
@@ -20012,7 +20073,148 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rulegroup id="MAL_KLEINSCHREIBUNG" name="Mal → mal" default="temp_off">
+        <rule id="ALLE" name="Alle vs. alle">
+            <antipattern>
+                <token>Alles</token>
+                <token regexp="yes">oder|und</token>
+                <token>Nichts</token>
+            </antipattern>
+            <antipattern>
+                <token>Ein</token>
+                <token>und</token>
+                <token>Alles</token>
+            </antipattern>
+            <antipattern><!-- https://de.wikipedia.org/wiki/Alle_JU -->
+                <token>Alle</token>
+                <token>JU</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">Tim|Mark|Woody|van</token>
+                <token>Allen</token>
+            </antipattern>
+            <antipattern>
+                <token>Allen</token>
+                <token regexp="yes">Countys?</token>
+            </antipattern>
+            <antipattern>
+                <token>Allen</token>
+                <token postag="EIG:.+:(VOR|NAC)|UNKNOWN" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-Z].+</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes" regexp="yes">[A-Z]</token>
+                <token min="0">.</token>
+                <token>Allen</token>
+            </antipattern>
+            <antipattern>
+                <token postag="EIG:.+:(VOR|NAC)" postag_regexp="yes" />
+                <token>Allen</token>
+            </antipattern>
+            <antipattern><!-- Allen P. Muller -->
+                <token>Allen</token>
+                <token case_sensitive="yes" regexp="yes">[A-Z]</token>
+                <token min="0">.</token>
+                <token postag="EIG:.+:(VOR|NAC)|UNKNOWN" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-Z].+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">prof|mrs?|ms|dr|med|rer|nat|doktor|professor|hr|fr|herr|frau|fräulein|kardinal</token>
+                <token min="0">.</token>
+                <token>Allen</token>
+            </antipattern>
+            <antipattern>
+                <token postag="VER:[13]:SIN:.+" postag_regexp="yes" />
+                <token>Allen</token>
+            </antipattern>
+            <antipattern>
+                <token>Allen</token>
+                <token regexp="yes">und|&amp;</token>
+                <token regexp="yes">Co|Partner</token>
+            </antipattern>
+            <antipattern>
+                <token>Allen</token>
+                <token regexp="yes">Inc|LLC|GmbH|AG</token>
+            </antipattern>
+            <antipattern><!-- Allen Ginsberg -->
+                <token>Allen</token>
+                <token regexp="yes" case_sensitive="yes">[A-Z].+b[ue]rg</token>
+            </antipattern>
+            <antipattern>
+                <token>william</token>
+                <token>wirt</token>
+                <token>allen</token>
+            </antipattern>
+            <antipattern>
+                <token>
+                    <exception regexp="yes">ggf|bzw|ca|evtl|inkl|exkl</exception>
+                </token>
+                <token>.</token>
+                <token regexp="yes">Alle[snm]?</token>
+            </antipattern>
+            <antipattern>
+                <token>Allen</token>
+                <token>&amp;</token>
+                <token regexp="yes" case_sensitive="yes">[A-Z].+</token>
+            </antipattern>
+            <pattern>
+                <token>
+                    <exception postag="UNKNOWN|SENT_START" postag_regexp="yes" />
+                    <exception regexp="yes">:|;|!|\?</exception>
+                </token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">Alle[snm]?</token><!-- "Allen" is a name-->
+                </marker>
+            </pattern>
+            <message>Wenn Sie das Zahlwort <suggestion><match no="2" case_conversion="alllower" /></suggestion> meinen (im Sinne von "jeder/n") wird es kleingeschrieben.</message>
+            <url>https://blog.leo.org/2009/12/15/alles-bleibt-selbst-hoflich-klein/</url>
+            <example correction="allen">Ich bin euch <marker>Allen</marker> dankbar.</example>
+            <example correction="alle">Dieser Dank geht an <marker>Alle</marker> die sich für mich eingesetzt haben.</example>
+            <example correction="alles">Dies <marker>Alles</marker> obwohl ich in den Energiespareinstellungen nichts geändert habe.</example>
+            <example correction="alle">Danke an <marker>Alle</marker> Beteiligten.</example>
+            <example correction="alle">Wir freuen uns auf <marker>Alle</marker>, die an unserem Stand vorbei kommen.</example>
+            <example correction="alles">Von Fregatte bis Supercap ist <marker>Alles</marker> dabei.</example>
+            <example>Es war Allen Moyer.</example>
+            <example>13. August: Allen Blairman, US-amerikanischer Schlagzeuger des Modern Jazz</example>
+            <example>Tom sagt zu Maria, sie sei sein Ein und Alles.</example>
+            <example>Richard B. Allen - Kris Defoort</example>
+            <example>Sie ist mein Ein und Alles.</example>
+            <example>1924 gelang M. T. Allen die Welterstzucht in England.</example>
+            <example>12. September: Henry Wilson Allen, US-amerikanischer Schriftsteller und Drehbuchautor</example>
+            <example>1547 begann Allen ein Studium am Oriel College in Oxford (1554 Magister artium).</example>
+            <example>1720 pachtete Allen vom General Post Office die Cross and Bye Posts.</example>
+            <example>1777 kam Allen erstmals in Kontakt mit der Erweckungsbewegung.</example>
+            <example>1914: James Van Allen, US-amerikanischer Physiker.</example>
+            <example>A New Social Analysis, Allen &amp; Unwin, London.</example>
+        </rule>
+        <rule id="AUF_JEDEN_FALL" name="Auf jeden fall (Fall)">
+            <pattern>
+                <token regexp="yes">in|auf</token>
+                <token regexp="yes">(jede|keine)[mn]</token>
+                <marker>
+                    <token case_sensitive="yes">fall</token>
+                </marker>
+            </pattern>
+            <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+            <example correction="Fall">Ich werde das auf jeden <marker>fall</marker> heute noch erledigen.</example>
+        </rule>
+        <rule id="AUF_BITTEN" name="auf bitten (Bitten)">
+            <antipattern><!-- Steh auf bitte Er traf unerwartet ein.-->
+                <token postag="VER:IMP:(SIN|PLU):NON" postag_regexp="yes" />
+                <token>auf</token>
+            </antipattern>
+            <pattern>
+                <token>auf</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">bitten?</token>
+                </marker>
+                <token>
+                    <exception postag="PKT" />
+                </token>
+            </pattern>
+            <message>Das Nomen <suggestion><match no="2" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+            <example correction="Bitten">Der Bundestag tagt auf <marker>bitten</marker> der Kanzlerin.</example>
+            <example correction="Bitten">1782 zog er auf <marker>bitten</marker> Friedrichs des Großen nach Berlin.</example>
+            <example>Steh auf bitte Er traf unerwartet ein.</example>
+        </rule>
+        <rulegroup id="KLEINSCHREIBUNG_MAL" name="Mal → mal">
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">schauen|können|müssen|sollen|haben|werden|machen|lassen|gucken|reden|sehen|prüfen</token>
@@ -20041,7 +20243,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">
                         .*[a-z].*
-                        <exception regexp="yes">ein|das|dieses|Millionen|Tausend|Hundert|ein|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|zwanzig</exception>
+                        <exception regexp="yes">ein|das|dieses|jedes|.+illionen|.+illiarden|.*tausend|.*hundert|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|zwanzig</exception>
                         <exception postag="ADJ:.+|UNKNOWN" postag_regexp="yes" />
                     </token>
                     <marker>
@@ -21256,6 +21458,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token postag="SUB:.+:INF" postag_regexp="yes" regexp="yes" case_sensitive='yes'>[A-Z].+en
                         <exception>Stellen</exception>
+                        <exception postag="SUB:.+:(MAS|FEM)" postag_regexp="yes"/>
                     </token>
                 </marker>
                 <token regexp="yes">ge(gang|h)en</token>
@@ -21276,6 +21479,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Die Essen gehen auf mich!</example>
             <example>Diese beiden Essen gehen auf mich!</example>
             <example>Dabei dürfte es nicht mehr um Tausende Stellen gehen.</example>
+            <example>Tom ist vor drei Tagen gegangen.</example>
         </rule>
         <rulegroup id="ZU_ESSEN" name="zu Essen (essen) geben / haben / bekommen">
             <rule>
@@ -21352,7 +21556,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>ein</token>
                 <token postag_regexp="yes" postag="ADJ:.*" min="0"><exception regexp="yes">wenig|sieben|anderer|weit</exception></token>
                 <marker>
-                    <token postag="VER:INF:SFT" case_sensitive="yes" regexp="yes">[a-zöäü]+<exception>einen</exception></token>
+                    <token postag="VER:INF:SFT" case_sensitive="yes" regexp="yes">[a-zöäü]+<exception regexp="yes">einen|machen</exception></token>
                 </marker>
             </pattern>
             <message><suggestion><match no="3" case_conversion="startupper"/></suggestion> scheint hier als Nomen benutzt zu werden und wird dann großgeschrieben.</message>
@@ -21363,6 +21567,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Sie sollten ein neues kaufen.</example>
             <example>Was ein Mensch erfinden kann, kann ein anderer entdecken.</example>
             <example>Der Notdienst kann das Schloss durch ein neues austauschen und auch den Schlüssel nachmachen.</example>
+            <example>In der echten Welt hat niemand damit gerechnet, dass man aus einem Element ein anderes machen kann.</example>
         </rule>
         <rule id="EIN_FUENFTEL" name="ein fünftel (Fünftel) etc.">
             <pattern>
@@ -34387,6 +34592,7 @@ Andere Projekte</example>
         <rule id="WENN_UND_ABER" name="'ohne wenn (Wenn) und aber (Aber)'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[Oo]hne</token>
+                <token min="0">ein</token>
                 <marker>
                     <token>wenn</token>
                     <token>und</token>
@@ -36345,6 +36551,13 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="NEUSTARTEN" name="neu starten">
+            <pattern>
+                <token case_sensitive="yes" regexp="yes">neu(starten?|startes?t|gestartet)</token>
+            </pattern>
+            <message>Das Verb <suggestion><match no="1" regexp_match="(neu)" regexp_replace="$1 " /></suggestion> wird getrennt geschrieben.</message>
+            <example correction="neu starten">Er muss seinen Computer erst <marker>neustarten</marker>.</example>
+        </rule>
         <rulegroup id="OUT_OF_THE_BOX" name="out of the box">
             <rule>
                 <pattern>
@@ -36399,7 +36612,7 @@ Andere Projekte</example>
             <suggestion>\1 besonders</suggestion>
             <example correction="insbesondere für|für besonders">Das ist der Fall <marker>für insbesondere</marker> schwere Aufgaben.</example>
         </rule>
-        <rule id="INBESONDERS" name="inbesonders (inbesondere / besonders)">
+        <rule id="INSBESONDERS" name="insbesonders (insbesondere / besonders)">
             <pattern>
                 <token>insbesonders</token>
             </pattern>
@@ -36407,28 +36620,38 @@ Andere Projekte</example>
             <url>https://www.korrekturen.de/beliebte_fehler/insbesonders.shtml</url>
             <example correction="insbesondere|besonders">Er fiel ihnen auf, <marker>insbesonders</marker> durch sein verdächtiges Verhalten.</example>
         </rule>
-        <rule id="ZAL_MAL" name="Fehlender Bindestrich in '10 mal'">
-            <antipattern>
-                <token regexp="yes">\d+</token>
-                <token>mal</token>
-                <token regexp="yes">\d+.*</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">\d+</token>
-                <token>mal</token>
-                <token postag="ZAL" />
-            </antipattern>
-            <pattern>
-                <token regexp="yes">\d+</token>
-                <token case_sensitive="yes">mal</token>
-            </pattern>
-            <message>Hier fehlt in der Regel ein Bindestrich. Alternativ kann man "mal" auch großschreiben, wenn man es hervorheben möchte.</message>
-            <suggestion>\1-\2</suggestion>
-            <suggestion>\1 Mal</suggestion>
-            <example correction="10-mal|10 Mal">Noch <marker>10 mal</marker> schlafen, dann kommt das Christkind.</example>
-            <example>6 mal 6 ergibt 36</example>
-            <example>1833 schreibt Edmund March Blunt, sie messe 8 mal 2½ Meilen, hingegen behaupteten John Purdy und Alexander G. Findlay, sie messe fast 7 mal 3½ Meilen.</example>
-        </rule>
+        <rulegroup id="ZAL_MAL" name="Fehlender Bindestrich in '10 mal'">
+            <rule>
+                <antipattern>
+                    <token regexp="yes">\d+</token>
+                    <token>mal</token>
+                    <token regexp="yes">\d+.*</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d+</token>
+                    <token>mal</token>
+                    <token postag="ZAL" />
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">\d+</token>
+                    <token case_sensitive="yes">mal</token>
+                </pattern>
+                <message>Hier fehlt in der Regel ein Bindestrich. Alternativ kann man "mal" auch großschreiben, wenn man es hervorheben möchte.</message>
+                <suggestion>\1-\2</suggestion>
+                <suggestion>\1 Mal</suggestion>
+                <example correction="10-mal|10 Mal">Noch <marker>10 mal</marker> schlafen, dann kommt das Christkind.</example>
+                <example>6 mal 6 ergibt 36</example>
+                <example>1833 schreibt Edmund March Blunt, sie messe 8 mal 2½ Meilen, hingegen behaupteten John Purdy und Alexander G. Findlay, sie messe fast 7 mal 3½ Meilen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+mal</token>
+                </pattern>
+                <message>Hier fehlt in der Regel ein Bindestrich. Alternativ kann man "mal" auch großschreiben, wenn man es hervorheben möchte.</message>
+                <suggestion><match no="1" regexp_match="^(\d+).+" regexp_replace="$1" />-mal</suggestion>
+                <example correction="10-mal">Noch <marker>10mal</marker> schlafen, dann kommt das Christkind.</example>
+            </rule>
+        </rulegroup>
         <rule id="DU_MEINS_DAS" name="Du meins (meinst) das.">
             <antipattern>
                 <token>meins</token>
@@ -38401,27 +38624,35 @@ Andere Projekte</example>
                 <example>Auf verwalteten Plattformen ist eine vorinstallierte Partition verfügbar.</example>
             </rule>
             <rule>
-                <pattern>
+                <antipattern>
                     <token postag_regexp="yes" postag="VER:(MOD|AUX):[13]:SIN:.*"/>
                     <token postag_regexp="yes" postag="ART:.*" />
-                    <marker>
-                        <token postag_regexp="yes" postag="VER:.*">
-                            <exception postag="(VER:INF:|PA[12]:).*" postag_regexp="yes"/>
-                            <exception postag="ADJ:.*" postag_regexp="yes"/>
-                            <exception postag="ADV:MOD.*" postag_regexp="yes"/>
-                            <exception postag="VER:MOD:INF"/>
-                            <exception regexp="yes">los|eine?|trotz|siebte|achte|sog|mein|meine|äußerst|äusserst|gewesen|einst|lichte|bitte</exception>
-                        </token>
-                    </marker>
-                </pattern>
-                <message>Möglicherweise muss hier die Grundform des Verbs benutzt werden.</message>
-                <suggestion><match no="5" postag="VER:INF:.*" postag_regexp="yes"/></suggestion>
-                <example correction="kaufen">Ich will das <marker>kaufe</marker>.</example>
-                <example>The Visitors ist das achte und letzte Album der Popgruppe ABBA.</example>
-                <example>Wieso soll das bitte frauenfeindlich sein?</example>
-                <example>Er sollte das können.</example>
-                <example>Aber bisher ist das mein Ersteindruck, der sich sehr schnell ändern kann.</example>
-            </rule>
+                    <token postag_regexp="yes" postag="VER:.*"/>
+                    <token postag_regexp="yes" postag="VER:(AUX|MOD):.+"/>
+                </antipattern>
+                <pattern>
+                <token postag_regexp="yes" postag="VER:(MOD|AUX):[13]:SIN:.*"/>
+                <token postag_regexp="yes" postag="ART:.*" />
+                <marker>
+                    <token postag_regexp="yes" postag="VER:.*">
+                        <exception postag="(VER:INF:|PA[12]:).*" postag_regexp="yes"/>
+                        <exception postag="ADJ:.*" postag_regexp="yes"/>
+                        <exception postag="ADV:MOD.*" postag_regexp="yes"/>
+                        <exception postag="VER:MOD:.+" postag_regexp="yes" />
+                        <exception regexp="yes" case_sensitive="yes">[A-ZÄÖÜß].+</exception>
+                        <exception regexp="yes">los|eine?|trotz|siebte|achte|sog|mein|meine|äußerst|äusserst|gewesen|einst|lichte|bitte|staufische|eindruck</exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Möglicherweise muss hier die Grundform des Verbs benutzt werden.</message>
+            <suggestion><match no="5" postag="VER:INF:.*" postag_regexp="yes"/></suggestion>
+            <example correction="kaufen">Ich will das <marker>kaufe</marker>.</example>
+            <example>The Visitors ist das achte und letzte Album der Popgruppe ABBA.</example>
+            <example>Wieso soll das bitte frauenfeindlich sein?</example>
+            <example>Er sollte das können.</example>
+            <example>Wo ist das produziert worden?</example>
+             <example>Aber bisher ist das mein Ersteindruck, der sich sehr schnell ändern kann.</example>
+        </rule>
         </rulegroup>
         <rule id="SENT_START_SIN_PLU" name="Nomen singular + Verb plural am Satzanfang">
             <antipattern>
@@ -39800,15 +40031,53 @@ Andere Projekte</example>
             <url>https://www.duden.de/rechtschreibung/auszer_Praeposition</url>
             <example correction="außer Landes">Ich werde <marker>außer Lande</marker> sein.</example>
         </rule>
-        <rule id="GEMAESS_DES" name="Präposition/Kasus – 'gemäß des (dem)'">
-            <!-- TODO allgemeiner, idealerweise folgendes Nomen auch in den Dativ setzen -->
-            <regexp>gemä(ß|ss) des</regexp>
-            <message>Meinten Sie <suggestion>gemäß dem</suggestion>? Die Präposition 'gemäß' erfordert den Dativ.</message>
+        <rulegroup id="GEMAESS_DES" name="Präposition/Kasus – 'gemäß des (dem)'">
             <url>https://dict.leo.org/grammatik/deutsch/Wort/Praeposition/Kasus/Dativ.html</url>
-            <short>Diese Präposition erfordert den Dativ</short>
-            <example correction="Gemäß dem"><marker>Gemäß des</marker> Beschlusses der Kultusministerkonferenz</example>
-            <example><marker>Gemäß dem</marker> Beschluss der Kultusministerkonferenz</example>
-        </rule>
+            <short>Präposition erfordert den Dativ</short>
+            <rule>
+                <regexp>gemä(ß|ss) des</regexp>
+                <message>Meinten Sie <suggestion>gemäß dem</suggestion>? Die Präposition 'gemäß' erfordert den Dativ.</message>
+                <!-- TODO Nomen anpassen (aber s.u. und wird schon von PRAEP_DAT[12] gefunden...) -->
+                <example correction="Gemäß dem"><marker>Gemäß des</marker> Beschlusses der Kultusministerkonferenz</example>
+                <example><marker>Gemäß dem</marker> Beschluss der Kultusministerkonferenz</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>gemäß</token>
+                    <token postag_regexp="yes" postag="ADJ:.*" min="0"/>
+                    <marker>
+                        <token postag_regexp="yes" postag="SUB:.*"><exception postag_regexp="yes" postag="SUB:DAT:.*"></exception></token>
+                    </marker>
+                </pattern>
+                <message>Die Präposition 'gemäß' erfordert den Dativ.</message>
+                <!-- auskommentiert, würde "Beschluß" vorschlagen: -->
+                <!--<suggestion><match no="3" postag="SUB:GEN:(.*?):(.*)" postag_regexp="yes" postag_replace="SUB:DAT:$1:$2"/></suggestion>-->
+                <example correction="">Gemäß <marker>Beschlusses</marker> der Kultusministerkonferenz</example>
+                <example correction="">Die elektrischen Anschlüsse gemäß <marker>Schaltplans</marker> ausführen</example>
+                <example correction="">Die elektrischen Anschlüsse gemäß blauen <marker>Schaltplans</marker> ausführen</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <!-- ihrem Wunsch gemäß -->
+                    <token>Wunsch</token>
+                    <token>gemäß</token>
+                </antipattern>
+                <pattern>
+                    <token>gemäß</token>
+                    <marker>
+                        <token regexp="yes">die|den|der</token>
+                        <token postag_regexp="yes" postag="ADJ:.*" min="0"/>
+                        <token postag_regexp="yes" postag="SUB:.*"><exception postag_regexp="yes" postag="SUB:DAT:.*"></exception></token>
+                    </marker>
+                </pattern>
+                <message>Die Präposition 'gemäß' erfordert den Dativ.</message>
+                <!-- auskommentiert, würde z.B. "Beschluß" vorschlagen: -->
+                <!--<suggestion><match no="4" postag="SUB:GEN:(.*?):(.*)" postag_regexp="yes" postag_replace="SUB:DAT:$1:$2"/></suggestion>-->
+                <example correction="">Die elektrischen Anschlüsse gemäß <marker>die blauen Schaltpläne</marker> ausführen</example>
+                <example correction="">Gemäß <marker>der Vereinbarungen</marker> im Prager Frieden</example>
+                <example>Man hat ihrem Wunsch gemäß die Leichname verbrannt.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PRAEP_DAT" name="Präposition mit Dativ (mit, bei, von)">
             <rule>
                 <pattern>
@@ -40657,10 +40926,18 @@ Andere Projekte</example>
                     <token>Rang</token>
                     <token>abgelaufen</token>
                 </antipattern>
+                <antipattern>
+                    <token>gehabt</token>
+                    <token>das</token>
+                    <token postag="PRO:IND:.+" postag_regexp="yes" skip="2" />
+                    <token regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|eingeschlafen|gewesen|geworden|verblüht)</token>
+                </antipattern>
                 <pattern>
                     <token negate="yes">zu</token>
                     <marker>
-                        <token inflected="yes" skip="6">haben<exception scope="next" regexp="yes">,|;|\(|\[|:|oder|und</exception></token>
+                        <token inflected="yes" skip="6">haben
+                            <exception scope="next" regexp="yes">,|;|\(|\[|:|oder|und</exception>
+                        </token>
                         <token regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|eingeschlafen|gewesen|geworden|verblüht)</token><!-- TODO erweitern -->
                     </marker>
                 </pattern>
@@ -40673,6 +40950,7 @@ Andere Projekte</example>
                 <example>Sie <marker>haben gesungen und sind eingeschlafen</marker>.</example>
                 <example>Er wäre dafür zu <marker>haben gewesen</marker>.</example>
                 <example>Sie haben der Westküste den Rang abgelaufen.</example>
+                <example>Fehlendes Komma + "dass": Ich hab da bisher auch nur Glück gehabt das nichts kaputtgegangen ist.</example>
             </rule>
            <!-- <rule>
                 <pattern>
@@ -41735,6 +42013,21 @@ Andere Projekte</example>
     <!-- Redewendungen -->
     <!-- ====================================================================== -->
     <category id="IDIOMS" name="Redewendungen">
+        <rule id="IN_SAUS_UND_BRAUS" name="in saus (Saus) und braus (Braus)">
+            <antipattern case_sensitive="yes">
+                <token>Saus</token>
+                <token />
+                <token>Braus</token>
+            </antipattern>
+            <pattern>
+                <token>in</token>
+                <token>saus</token>
+                <token regexp="yes">und|&amp;</token>
+                <token>braus</token>
+            </pattern>
+            <message>Meinten Sie die Redewendung <suggestion>\1 Saus \3 Braus</suggestion>?</message>
+            <example correction="in Saus und Braus">Er lebte ein Leben <marker>in saus und braus</marker>.</example>
+        </rule>
         <rule id="WIE_EH_UND_JE" name="wie eh und je">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">[Ss]chon|[Ss]eit|[Ww]ie</token>
@@ -42455,6 +42748,125 @@ Andere Projekte</example>
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
+        <rulegroup id="ICH_WUENSCHTE_ICH_KOENNTE" name="Ich wünschte(,) ich könnte zurücknehmen, was ich gesagt habe." default="temp_off">
+            <!-- similar to KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ but gives suggestions -->
+            <!-- TODO: check regressions and lower priority -->
+            <!-- https://internal1.languagetool.org/regression-tests/via-http/2021-01-23/de-DE/result_grammar_ICH_WUENSCHTE_ICH_KOENNTE[1].html -->
+            <!-- https://internal1.languagetool.org/regression-tests/via-http/2021-01-23/de-DE/result_grammar_ICH_WUENSCHTE_ICH_KOENNTE[2].html -->
+            <rule> 
+                <antipattern>
+                    <token skip="-1"/>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token>sankt</token>
+                    <token>Petersburg</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="ART:.+|SENT_START" postag_regexp="yes"/>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                    <token postag="SUB:.+" postag_regexp="yes"/>
+                    <token postag="VER:.+|PKT" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                    <token></token>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                    <token postag="SUB:.+" postag_regexp="yes"/>
+                    <token postag="VER:.+|PKT" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes">
+                        <exception postag="VER:(INF|MOD):.*|VER:AUX:.*:KJ[12]|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception inflected="yes" regexp="yes">bleiben|lassen|versuchen|bemühen|sieben|achten</exception>
+                        <exception>bitte</exception>
+                        <exception regexp="yes" scope="previous">,|\.|:|\?|!|;|[’´'‛′‘]|-|–|—|\)|\(|„|“|»|«|"|und|&amp;|oder</exception>
+                        <exception regexp="yes" scope="next">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin|sondern|aber</exception>
+                        <exception scope="previous" postag="ADV:.+" postag_regexp="yes"/>
+                    </token>
+                    <token postag="PRO:PER:NOM:.+|SUB:.+|EIG:.+" postag_regexp="yes">
+                        <exception postag="ART:.+" postag_regexp="yes"/>
+                    </token>
+                    <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zßäöü]+
+                        <exception postag="VER:(INF:|PA2).*|VER:MOD:INF.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception inflected="yes" regexp="yes">bleiben|lassen|sieben|achten</exception>
+                        <exception regexp="yes">bitte|halt|mindere|lichte|sog</exception>
+                        <exception regexp="yes" scope="previous">,|\.|:|\?|!|;|[’´'‛′‘]|-|–|—|\)|\(|„|“|»|«|"|und|&amp;|oder|da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin</exception>
+                        <exception scope="next">,</exception>
+                    </token>
+                </pattern>
+                <message>Hier sollte ein Komma eingefügt werden, wenn es sich bei dem hinteren Satzteil um einen Nebensatz handelt.</message>
+                <suggestion>\1, \2 \3</suggestion>
+                <example correction="sagt, er habe">Er <marker>sagt er habe</marker> das Zimmer nicht betreten, das ist eine Lüge.</example>
+                <example correction="heißt, er muss">Die restlichen 8 Aminosäuren sind für den Menschen essentiell, das <marker>heißt er muss</marker> sie über die Nahrung aufnehmen.</example>
+                <example correction="wünschte, ich könnte">Ich <marker>wünschte ich könnte</marker> zurücknehmen, was ich gesagt habe.</example>
+                <example>Was für eine Art von Vorhang denkst du passt zu dem Teppich?</example>
+                <example>Davon hatte er hat schon gehört.</example>
+                <example>Als sie die Nachricht hörte, wurde sie bleich wie ein Leichentuch.</example>
+                <example>Der verständige Zuhörer ist der Geburtshelfer meiner Gedanken.</example>
+                <example>Einzig in seinen Hunden sah er würdige Begleiter.</example>
+                <example>Verständige Leute kannst du irren sehen.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="VER:(1|2|3):.+" postag_regexp="yes">
+                        <exception postag="VER:AUX:.+" postag_regexp="yes"/>
+                    </token>
+                    <token postag="VER:AUX:.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="VER:(AUX|MOD):.+" postag_regexp="yes"/>
+                    <token>,</token>
+                </antipattern>
+                <pattern>
+                    <token>,</token>
+                    <token skip="-1"/>
+                    <marker>
+                        <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes">
+                            <exception postag="VER:(INF|MOD):.*|VER:.+:NEB|KJ[12]|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                            <exception inflected="yes" regexp="yes">bleiben|lassen|versuchen|bemühen|sieben|achten</exception>
+                            <exception>bitte</exception>
+                        </token>
+                        <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zßäöü]+
+                            <exception postag="VER:(INF:|PA2).*|VER:MOD:INF.*|VER:IMP:SIN:SFT|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                            <exception inflected="yes" regexp="yes">bleiben|lassen|sieben|achten</exception>
+                            <exception regexp="yes">bitte|halt|mindere|lichte|sog</exception>
+                            <exception scope="next" postag="SENT_END"/>
+                            <exception scope="next" regexp="yes">\.|:|\?|!|;|[’´'‛′‘]|-|–|—|\)|\(|„|“|»|«|"</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Hier sollte ein Komma eingefügt werden, wenn es sich bei dem hinteren Satzteil um einen Nebensatz handelt.</message>
+                <suggestion>\3, \4</suggestion>
+                <example correction="waren, wurden">8000 Hafenarbeiter, die Teilnehmer der Feier <marker>waren wurden</marker> durch eine Strafaussperrung sanktioniert.</example>
+                <example correction="tust, liebst">Wenn du das, was du <marker>tust liebst</marker>, wird man es merken.</example>
+                <example>Weil grundsätzlich benutzt Manajaro, soweit ich das überblickt habe, die gleichen Treiber.</example>
+                <example>Etwas, was ich mir schon immer gewünscht habe ist, ein eigenes Restaurant zu betreiben.</example>
+            </rule>
+        </rulegroup>
+        <rule id="VERINF_DAS_DASS_SUB" name="Kann es sein das (sein, dass) Papa der schlauste Mensch der Welt ist?">
+            <pattern>
+                <marker>
+                    <token postag="VER:INF:.+" postag_regexp="yes"/>
+                    <token case_sensitive="yes">das</token>
+                </marker>
+                <token postag="SUB:.+:(MAS|FEM)|SUB:.+:PLU:.+" postag_regexp="yes">
+                    <exception postag="SUB:.+:SIN:NEU" postag_regexp="yes"/>
+                </token>
+                <token skip="-1">
+                    <exception regexp="yes">/|“|–|"|„|‚|‘|´|`|»|«|›|‹|-|\(|\)|sowie|'|–|:|\[</exception>
+                    <exception scope="next" regexp="yes">/|“|–|"|„|‚|‘|´|`|»|«|›|‹|-|\(|\)|sowie|'|–|:|\[</exception>
+                    <exception postag="PKT"/>
+                    <exception scope="next" postag="PKT"/>
+                </token>
+                <token postag="VER:.+" postag_regexp="yes"/>
+            </pattern>
+            <message>Meinten Sie möglicherweise die Konjunktion 'dass'?</message>
+            <suggestion>\1, dass</suggestion>
+            <url>https://www.studienkreis.de/deutsch/unterschied-das-dass-regel-uebungen/</url>
+            <example correction="sein, dass">Kann es <marker>sein das</marker> Papa der schlauste Mensch der Welt ist?</example>
+            <example>Ist das Kunst oder kann das weg?</example>
+        </rule>
         <rule id="VER_INF_PKT_VER_INF" name="Komma zwischen Haupt- und Nebensatz, z. B. Um das herauszubekommen(,) diskutieren zwei Experten.">
             <antipattern>
                 <token postag="VER:INF:NON"/>
@@ -48915,44 +49327,6 @@ Andere Projekte</example>
         </rulegroup>
     </category>
     <category id="CREATIVE_WRITING" name="Stiltipps für kreatives Schreiben" type="style" default="off">
-        <rulegroup id="AUSSAGEKRAFT_VERBEN" name="Verben mit wenig Aussagekraft" default="off">
-            <rule>
-                <antipattern>
-                    <token skip="-1" inflected="yes">machen</token>
-                    <token case_sensitive="yes">Angst</token>
-                </antipattern>
-                <antipattern>
-                    <token skip="-1" case_sensitive="yes">Angst</token>
-                    <token inflected="yes">machen</token>
-                </antipattern>
-                <pattern>
-                    <token inflected="yes" regexp="yes">tun|machen</token>
-                </pattern>
-                <message>Das Verb '\1' hat wenig Aussagekraft. Verwenden Sie wenn möglich ein anderes oder formulieren Sie den Satz um.</message>
-                <example correction="">Er <marker>machte</marker> einen Kuchen.</example>
-            </rule>
-            <rule>
-                <antipattern>
-                    <token skip="-1" inflected="yes" regexp="yes">haben|sein</token>
-                    <token postag="((PA2|VER:PA2):.*|UNKNOWN)" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token skip="-1" postag="((PA2|VER:PA2):.*|UNKNOWN)" postag_regexp="yes"/>
-                    <token inflected="yes" regexp="yes">haben|sein</token>
-                </antipattern>
-                <pattern>
-                    <token inflected="yes" regexp="yes">haben|sein</token>
-                </pattern>
-                <message>Das Verb '\1' hat wenig Aussagekraft. Verwenden Sie wenn möglich ein anderes oder formulieren Sie den Satz um.</message>
-                <example correction="">Er <marker>hat</marker> ein rotes Auto.</example>
-                <example>Er <marker>hat</marker> gerade gegessen.</example>
-            </rule>
-        </rulegroup>
-        <rule id="UEBERFLUESSIGE_PHRASE" name="Phrasen" tags="picky">
-            <regexp>\b(dann und wann|des Ungeachtet|ganz und gar|hie und da|im Allgemeinen|in der Tat|in diesem Zusammenhang|mehr oder weniger|meines Erachtens|ohne weiteres|ohne Zweifel|samt und sonders|sowohl als auch|voll und ganz|von Neuem|allem Anschein nach|aufs Neue|ein bisschen|ein wenig|des Öfteren|bei weitem|an sich")\b</regexp>
-            <message>Der Ausdruck '\1' gilt als Phrase. Es wird empfohlen ihn zu löschen, falls möglich.</message>
-            <example correction="">Sie sah <marker>ohne Zweifel</marker> hinreißend aus.</example>
-        </rule>
         <rule id="BINDEWOERTER_SATZANFANG" name="Bindewörter am Satzanfang" default="off">
             <pattern>
                 <token postag="SENT_START"/>

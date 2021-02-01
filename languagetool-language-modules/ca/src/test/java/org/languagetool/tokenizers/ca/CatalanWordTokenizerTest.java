@@ -140,6 +140,23 @@ public class CatalanWordTokenizerTest {
     tokens = wordTokenizer.tokenize("Tel-Aviv");
     assertEquals(tokens.size(), 1);
     assertEquals("[Tel-Aviv]", tokens.toString());
-
+    tokens = wordTokenizer.tokenize("\"El cas 'Barcelona'\"");
+    assertEquals(tokens.size(), 9);
+    assertEquals("[\", El,  , cas,  , ', Barcelona, ', \"]", tokens.toString());
+    tokens = wordTokenizer.tokenize("\"El cas 'd'aquell'\"");
+    assertEquals(tokens.size(), 10);
+    assertEquals("[\", El,  , cas,  , ', d', aquell, ', \"]", tokens.toString());
+    tokens = wordTokenizer.tokenize("\"El cas ‘d’aquell’\"");
+    assertEquals(tokens.size(), 10);
+    assertEquals("[\", El,  , cas,  , ‘, d’, aquell, ’, \"]", tokens.toString());
+    tokens = wordTokenizer.tokenize("Sàsser-l'Alguer");
+    assertEquals(tokens.size(), 4);
+    assertEquals("[Sàsser, -, l', Alguer]", tokens.toString());
+    tokens = wordTokenizer.tokenize("Castella-la Manxa");
+    assertEquals(tokens.size(), 5);
+    assertEquals("[Castella, -, la,  , Manxa]", tokens.toString());
+    tokens = wordTokenizer.tokenize("Qui-sap-lo temps");
+    assertEquals(tokens.size(), 3);
+    assertEquals("[Qui-sap-lo,  , temps]", tokens.toString());
   }
 }

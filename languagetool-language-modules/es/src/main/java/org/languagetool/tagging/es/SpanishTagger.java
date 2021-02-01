@@ -43,6 +43,12 @@ public class SpanishTagger extends BaseTagger {
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern PREFIXES_FOR_VERBS2 = Pattern.compile("(autor)(r...+)",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern PREFIXES_FOR_ADJ = Pattern.compile("(.+)-(.+)",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern ADJ = Pattern.compile("AQ.+");
+  private static final Pattern ADJ_MS = Pattern.compile("AQ.MS.|AQ.CS.|AQ.MN.");
+  private static final Pattern NO_PREFIXES_FOR_ADJ = Pattern.compile("(anti|pre|ex|pro|afro|ultra|super|súper)",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   public SpanishTagger() {
     super("/es/es-ES.dict", new Locale("es"));
@@ -119,7 +125,8 @@ public class SpanishTagger extends BaseTagger {
         }
       }
     }
-    // Any well-formed verb with prefixes is tagged as a verb copying the original tags
+    // Any well-formed verb with prefixes is tagged as a verb copying the original
+    // tags
     Matcher matcher = PREFIXES_FOR_VERBS.matcher(word);
     if (matcher.matches()) {
       final String possibleVerb = matcher.group(2).toLowerCase();
@@ -153,6 +160,48 @@ public class SpanishTagger extends BaseTagger {
       }
       return additionalTaggedTokens;
     }
+
+    matcher = PREFIXES_FOR_ADJ.matcher(word);
+    if (matcher.matches()) {
+      final String possibleAdjPrefix = matcher.group(1).toLowerCase();
+      Matcher matcher2 = NO_PREFIXES_FOR_ADJ.matcher(possibleAdjPrefix);
+      if (!matcher2.matches()) {
+        final String possibleAdj = matcher.group(2).toLowerCase();
+        boolean prefixMatches = false;
+        boolean adjMatches = false;
+        String newPostag = "";
+        String newLemma = "";
+        List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(possibleAdjPrefix, dictLookup.lookup(possibleAdjPrefix));
+        for (AnalyzedToken taggerToken : taggerTokens) {
+          final String posTag = taggerToken.getPOSTag();
+          if (posTag != null) {
+            final Matcher m = ADJ_MS.matcher(posTag);
+            if (m.matches()) {
+              prefixMatches = true;
+              break;
+            }
+          }
+        }
+        taggerTokens = asAnalyzedTokenList(possibleAdj, dictLookup.lookup(possibleAdj));
+        for (AnalyzedToken taggerToken : taggerTokens) {
+          final String posTag = taggerToken.getPOSTag();
+          if (posTag != null) {
+            final Matcher m = ADJ.matcher(posTag);
+            if (m.matches()) {
+              adjMatches = true;
+              newPostag = posTag;
+              newLemma = possibleAdjPrefix + "-" + taggerToken.getLemma();
+              break;
+            }
+          }
+        }
+        if (adjMatches && prefixMatches) {
+          additionalTaggedTokens.add(new AnalyzedToken(word, newPostag, newLemma));
+          return additionalTaggedTokens;
+        }
+      }
+    }
+
     return null;
   }
 

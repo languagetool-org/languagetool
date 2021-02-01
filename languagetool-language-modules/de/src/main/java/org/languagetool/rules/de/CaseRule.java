@@ -647,7 +647,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // 3a) Deine Idee ...
       SENT_START,
-      regex("\\d+[a-z]"),
+      regex("[a-z0-9]{1,3}"),
       token(")"),
       regex("[A-ZÄÜÖ].*")
     ),

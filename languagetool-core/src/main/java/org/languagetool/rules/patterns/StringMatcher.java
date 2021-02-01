@@ -20,6 +20,7 @@ package org.languagetool.rules.patterns;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Sets;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.tools.InterruptibleCharSequence;
@@ -34,7 +35,8 @@ import java.util.stream.Stream;
  * An object encapsulating a text pattern and the way it's matched (case-sensitivity / regular expression),
  * plus some optimizations over standard regular expression matching.
  */
-abstract class StringMatcher {
+@ApiStatus.Internal
+public abstract class StringMatcher {
   final String pattern;
   final boolean caseSensitive;
   final boolean isRegExp;
@@ -55,9 +57,9 @@ abstract class StringMatcher {
   /**
    * @return whether the given string is accepted by this matcher.
    */
-  abstract boolean matches(String s);
+  public abstract boolean matches(String s);
 
-  static StringMatcher create(String pattern, boolean isRegExp, boolean caseSensitive) {
+  public static StringMatcher create(String pattern, boolean isRegExp, boolean caseSensitive) {
     return create(pattern, isRegExp, caseSensitive, Function.identity());
   }
 
@@ -85,7 +87,7 @@ abstract class StringMatcher {
           }
 
           @Override
-          boolean matches(String s) {
+          public boolean matches(String s) {
             return Arrays.binarySearch(sorted, s, String.CASE_INSENSITIVE_ORDER) >= 0;
           }
         };
@@ -97,7 +99,7 @@ abstract class StringMatcher {
         }
 
         @Override
-        boolean matches(String s) {
+        public boolean matches(String s) {
           return set.contains(s);
         }
       };
@@ -116,7 +118,7 @@ abstract class StringMatcher {
       }
 
       @Override
-      boolean matches(String s) {
+      public boolean matches(String s) {
         if (substrings != null && !substrings.matches(s, caseSensitive)) return false;
         if (substringsAreSufficient) return true;
         return compiled.matcher(new InterruptibleCharSequence(s)).matches();
@@ -133,7 +135,7 @@ abstract class StringMatcher {
       }
 
       @Override
-      boolean matches(String s) {
+      public boolean matches(String s) {
         return caseSensitive ? s.equals(pattern) : s.equalsIgnoreCase(pattern);
       }
     };
@@ -222,10 +224,10 @@ abstract class StringMatcher {
   }
 
   private static abstract class RegexpParser<T> {
-    private static final String unsupported = "?$^{}*+.";
+    private static final String unsupported = "?$^{}*+";
     private static final String finishing = ")|";
     private static final String starting = "([\\";
-    private static final String nonLiteral = finishing + unsupported + starting;
+    private static final String nonLiteral = finishing + unsupported + starting + ".";
 
     private final String regexp;
     private int pos;

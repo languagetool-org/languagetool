@@ -23,22 +23,24 @@ import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import javax.swing.JOptionPane;
-
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
-import org.languagetool.rules.AbstractFillerWordsRule;
+import org.languagetool.rules.AbstractStatisticStyleRule;
 
 /**
  * A rule that gives Hints about the use of German filler words.
- * The Hints are only given when the percentage of filler words per paragraph exceeds the given limit.
+ * The Hints are only given when the percentage of filler words per chapter/text exceeds the given limit.
  * A limit of 0 shows all used filler words. Direct speech or citation is excluded otherwise. 
  * This rule detects no grammar error but gives stylistic hints (default off).
  * @author Fred Kruse
  * @since 4.2
  */
-public class GermanFillerWordsRule extends AbstractFillerWordsRule {
+public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
+  
+  private static final int DEFAULT_MIN_PERCENT = 8;
+  private static final String DEFAULT_SENTENCE_MSG1 = "Zwei potentielle Füllwörter hintereinander. Mindestens eins sollte gelöscht werden.";
+  private static final String DEFAULT_SENTENCE_MSG2 = "Mehr als zwei potentielle Füllwörter in einem Satz. Mindestens eins sollte gelöscht werden.";
 
   private static final Set<String> fillerWords = new HashSet<>(Arrays.asList( "aber","abermals","allein","allemal","allenfalls","allenthalben","allerdings","allesamt","allzu","also",
       "alt","andauernd","andererseits","andernfalls","anscheinend","auch","auffallend","augenscheinlich","ausdrücklich","ausgerechnet","ausnahmslos",
@@ -60,26 +62,100 @@ public class GermanFillerWordsRule extends AbstractFillerWordsRule {
       "womöglich","ziemlich","zudem","zugegeben","zumeist","zusehends","zuweilen","zweifellos","zweifelsfrei","zweifelsohne"
   ));
   
+  String sentenceMessage = null;
+  
   public GermanFillerWordsRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
-    super(messages, lang, userConfig);
+    super(messages, lang, userConfig, DEFAULT_MIN_PERCENT);
   }
 
-  @Override
-  public String getId() {
-    return RULE_ID + "_DE";
-  }
-
-  @Override
-  protected boolean isFillerWord(String token) {
-    return fillerWords.contains(token);
-  }
-
-  @Override
-  public boolean isException(AnalyzedTokenReadings[] tokens, int num) {
-    if ("aber".equals(tokens[num].getToken()) && num >= 1 && ",".equals(tokens[num - 1].getToken())) {
+  private static boolean isException(AnalyzedTokenReadings[] tokens, int num) {
+    if (num == 1 || ",".equals(tokens[num - 1].getToken())) {
       return true;
     }
     return false;
   }
+
+  @Override
+  protected int conditionFulfilled(AnalyzedTokenReadings[] tokens, int nToken) {
+    if (fillerWords.contains(tokens[nToken].getToken()) && !isException(tokens, nToken) 
+         && (nToken < 2 || !isTwoWordException(tokens[nToken - 1].getToken(), tokens[nToken].getToken())) 
+         && (nToken > tokens.length - 2 || !isTwoWordException(tokens[nToken].getToken(), tokens[nToken + 1].getToken()))
+         ) {
+      return nToken;
+    }
+    return -1;
+  }
   
+  private static boolean isTwoWordException(String first, String second) {
+    return (("aber".equals(first) && ("nur".equals(second) || "auch".equals(second)))
+        || ("auch".equals(first) && "nur".equals(second))
+        || ("immer".equals(first) && "wieder".equals(second))
+        || ("genau".equals(first) && "so".equals(second))
+        || ("so".equals(first) && ("etwas".equals(second) || "viel".equals(second)))
+        || ("schon".equals(first) && "fast".equals(second))
+        );
+  }
+
+  @Override
+  protected boolean sentenceConditionFulfilled(AnalyzedTokenReadings[] tokens, int nToken) {
+    if ((nToken > 1 && fillerWords.contains(tokens[nToken - 1].getToken()) && !isException(tokens, nToken - 1)) || 
+        (nToken < tokens.length - 1 && fillerWords.contains(tokens[nToken + 1].getToken()) && !isException(tokens, nToken))) {
+      sentenceMessage = DEFAULT_SENTENCE_MSG1;
+      return true;
+    }
+    int n = 0;
+    for (int i = nToken - 2; i > 0; i--) {
+      if (conditionFulfilled(tokens, i) == i) {
+        n++;
+        if (n > 1) {
+          sentenceMessage = DEFAULT_SENTENCE_MSG2;
+          return true;
+        }
+      }
+    }
+    for (int i = nToken + 2; i < tokens.length; i++) {
+      if (conditionFulfilled(tokens, i) == i) {
+        n++;
+        if (n > 1) {
+          sentenceMessage = DEFAULT_SENTENCE_MSG2;
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  @Override
+  protected boolean excludeDirectSpeech() {
+    return true;
+  }
+
+  @Override
+  protected String getLimitMessage(int limit, double percent) {
+    if (limit == 0) {
+      return "Dieses Wort könnte ein Füllwort sein. Möglicherweise ist es besser es zu löschen.";
+    }
+    return "Mehr als " + limit + "% Füllwörter {" + ((int) (percent +0.5d)) + "%} gefunden. Möglicherweise ist es besser dieses potentielle Füllwort zu löschen.";
+  }
+
+  @Override
+  protected String getSentenceMessage() {
+    return sentenceMessage;
+  }
+
+  @Override
+  public String getId() {
+    return "FILLER_WORDS_DE";
+  }
+
+  @Override
+  public String getDescription() {
+    return "Statistische Stilanalyse: Füllwörter";
+  }
+
+  @Override
+  public String getConfigureText() {
+    return "Anzeigen wenn mehr als ...% eines Kapitels Füllwörter sind:";
+  }
+
 }

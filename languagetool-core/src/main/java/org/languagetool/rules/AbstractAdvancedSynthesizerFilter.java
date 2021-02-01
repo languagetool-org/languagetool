@@ -32,7 +32,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.Synthesizer;
-
+import org.languagetool.tools.StringTools;
 
 /*
  * Synthesize suggestions using the lemma from one token (lemma_from) 
@@ -42,7 +42,7 @@ import org.languagetool.synthesis.Synthesizer;
  * to choose one among several possible readings.
  */
 public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
-  
+
   abstract protected Synthesizer getSynthesizer();
 
   @Override
@@ -73,6 +73,9 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
 
     String desiredLemma = getAnalyzedToken(patternTokens[lemmaFrom - 1], lemmaSelect).getLemma();
     String desiredPostag = getAnalyzedToken(patternTokens[postagFrom - 1], postagSelect).getPOSTag();
+    // take capitalization from the lemma (?)
+    boolean isWordCapitalized = StringTools.isCapitalizedWord(patternTokens[lemmaFrom - 1].getToken());
+    boolean isWordAllupper = StringTools.isAllUppercase(patternTokens[lemmaFrom - 1].getToken());
     AnalyzedToken token = new AnalyzedToken("", desiredPostag, desiredLemma);
     String[] replacements = getSynthesizer().synthesize(token, desiredPostag);
 
@@ -80,9 +83,28 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
       RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
           match.getMessage(), match.getShortMessage());
       newMatch.setType(match.getType());
-      List<String> replacementsList = new ArrayList<String>(); 
-      replacementsList.addAll(match.getSuggestedReplacements());
-      replacementsList.addAll(Arrays.asList(replacements));
+      List<String> replacementsList = new ArrayList<String>();
+
+      boolean suggestionUsed = false;
+      for (String r : match.getSuggestedReplacements()) {
+        for (String nr : replacements) {
+          if (r.contains("{suggestion}") || r.contains("{Suggestion}")) {
+            suggestionUsed = true;
+          }
+          if (isWordCapitalized) {
+            nr = StringTools.uppercaseFirstChar(nr);
+          }
+          if (isWordAllupper) {
+            nr = nr.toUpperCase();
+          }
+          r = r.replace("{suggestion}", nr);
+          r = r.replace("{Suggestion}", StringTools.uppercaseFirstChar(nr));
+          replacementsList.add(r);
+        }
+      }
+      if (!suggestionUsed) {
+        replacementsList.addAll(Arrays.asList(replacements));
+      }
       newMatch.setSuggestedReplacements(replacementsList);
       return newMatch;
     }

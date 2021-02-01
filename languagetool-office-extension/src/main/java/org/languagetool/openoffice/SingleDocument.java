@@ -38,12 +38,17 @@ import org.languagetool.tools.StringTools;
 
 import com.sun.star.beans.PropertyState;
 import com.sun.star.beans.PropertyValue;
+import com.sun.star.document.DocumentEvent;
+import com.sun.star.document.XDocumentEventBroadcaster;
+import com.sun.star.document.XDocumentEventListener;
+import com.sun.star.lang.EventObject;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.SingleProofreadingError;
 import com.sun.star.text.TextMarkupType;
 import com.sun.star.text.XParagraphCursor;
+import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
 import static java.lang.System.arraycopy;
@@ -82,6 +87,7 @@ class SingleDocument {
   private String docID;                           //  docID of the document
   private XComponent xComponent;                  //  XComponent of the open document
   private MultiDocumentsHandler mDocHandler;
+  private LTDokumentEventListener eventListener = null;
   
   private DocumentCache docCache = null;          //  cache of paragraphs (only readable by parallel thread)
   private DocumentCursorTools docCursor = null;   //  Save document cursor for the single document
@@ -119,6 +125,7 @@ class SingleDocument {
     this.config = config;
     this.docID = docID;
     this.xComponent = xComponent;
+    setDokumentListener(xComponent);
     this.mDocHandler = mDH;
     this.paragraphsCache = new ArrayList<>();
     for (int i = 0; i < OfficeTools.NUMBER_TEXTLEVEL_CACHE; i++) {
@@ -351,6 +358,7 @@ class SingleDocument {
   void setXComponent(XComponentContext xContext, XComponent xComponent) {
     this.xContext = xContext;
     this.xComponent = xComponent;
+    setDokumentListener(xComponent);
   }
   
   /** Get xComponent of the document
@@ -955,15 +963,15 @@ class SingleDocument {
         changedParas = new ArrayList<>();
       }
       for (int i = 0; i < minToCheckPara.size(); i++) {
+        int parasToCheck = minToCheckPara.get(i);
+        defaultParaCheck = PARA_CHECK_DEFAULT;
         if (i == 0 || mDocHandler.isSortedRuleForIndex(i)) {
-          int parasToCheck = minToCheckPara.get(i);
-          defaultParaCheck = PARA_CHECK_DEFAULT;
           mDocHandler.activateTextRulesByIndex(i, langTool);
           if (debugMode > 1) {
             MessageHandler.printToLogFile("ParaCeck: Index: " + i + "/" + minToCheckPara.size() 
               + "; numParasToCheck: " + numParasToCheck + OfficeTools.LOG_LINE_BREAK);
           }
-          if (resetCheck.contains(paraNum) && parasToCheck < 0 && !useQueue) {
+          if (resetCheck.contains(paraNum) && !useQueue && parasToCheck < 0 ) {
             oldCache = paragraphsCache.get(i);
             if (parasToCheck < -1) {
               paragraphsCache.set(i, new ResultCache());
@@ -986,15 +994,15 @@ class SingleDocument {
               if (!changedParas.contains(paraNum)) {
                 changedParas.add(paraNum);
               }
+              oldCache = null;
             } else {
               addChangedParas();
             }
-          }
+          } 
         } else {
           pErrors.add(new SingleProofreadingError[0]);
-        } 
+        }
       }
-      oldCache = null;
       mDocHandler.reactivateTextRules(langTool);
     }
     return pErrors;
@@ -1750,8 +1758,33 @@ class SingleDocument {
     public void put(int y, Map<String, Set<Integer>> ruleAtX) {
       ignoredMatches.put(y, ruleAtX);
     }
+  }
+  
+  private void setDokumentListener(XComponent xComponent) {
+    if (xComponent != null && eventListener == null) {
+      eventListener = new LTDokumentEventListener();
+      XDocumentEventBroadcaster broadcaster = UnoRuntime.queryInterface(XDocumentEventBroadcaster.class, xComponent);
+      if (broadcaster != null) {
+        broadcaster.addDocumentEventListener(eventListener);
+      } else {
+        MessageHandler.printToLogFile("Could not add document event listener!");
+      }
+    }
+  }
+  
+  class LTDokumentEventListener implements XDocumentEventListener {
 
+    @Override
+    public void disposing(EventObject event) {
+    }
 
+    @Override
+    public void documentEventOccured(DocumentEvent event) {
+//      MessageHandler.printToLogFile("Document Event: " + event.EventName);
+      if (event.EventName.equals("OnSave") && config.saveLoCache()) {
+        writeCaches();
+      }
+    }
   }
 
 }

@@ -69,7 +69,7 @@ title="Easy editing stylesheet" ?>
 	<!ENTITY gerundio_excecoes "abandonando|acumulando|adicionando|aperfeiçoando|beneficiando|caindo|consolidando|crescendo|decrescendo|desaparecendo|emergindo|empregando|ficando|ganhando|havendo|levantando|originando|perdendo|permitindo|progredindo|propagando|recorrendo|saindo|sendo|surgindo|usando">
 
 ]>
-<rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<rules lang="pt" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <!-- Unification rules retrieved from galician grammar.xml - START-->
   <unification feature="number">
@@ -648,6 +648,19 @@ Ele confundiu o rapaz com um borrego, sua tira moncos.
 		  <token regexp='yes'>[.,!?();]|e|ou</token>
       </antipattern> 
 <!-- MARCOAGPINTO 2021-01-19 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-01-20 (1-JAN-2021+) *START* -->
+<!--
+Ele confundiu o rapaz com um borrego, sua tira moncos.
+-->
+      <antipattern>
+		  <token></token>
+		  <token regexp='yes'>[,]</token>
+          <token postag='DP.+' postag_regexp='yes'/>
+		  <token postag='V.+' postag_regexp='yes'/>
+		  <token postag='NC.+|AQ0.+' postag_regexp='yes'/>
+		  <token regexp='yes'>[.,!?();]|e|ou</token>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-01-20 (1-JAN-2021+) *END* -->
       <pattern>
           <token>
             <exception regexp="yes">[ao]s?|es[st][ae]s?|uma?s?|uns|por|de|em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</exception></token>
@@ -696,6 +709,8 @@ Ele confundiu o rapaz com um borrego, sua tira moncos.
 	  
 	  <example>Eh pá, vai enganar outro, <marker>meu</marker>, essa já não pega!</example>
 	  <example>Eh pá, vai enganar outro, meu!</example>
+	  
+	  <example>Ele confundiu o rapaz com um borrego, <marker>sua</marker> tira moncos.</example>
     </rule>
     <rule>
       <antipattern>
@@ -1282,6 +1297,18 @@ Ele confundiu o rapaz com um borrego, sua tira moncos.
 		  <token regexp='no'>equipes</token>
       </antipattern>	  
 <!-- MARCOAGPINTO 2020-07-23 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2021-01-31 (1-JAN-2021+) *START* -->
+<!--
+Voltou com as ameijoas iguais e o cliente desistiu do artigo.
+Seguiram-se a ele Jeremias Fontes e Raimundo.
+Deveríamos dar a ela flores.
+-->
+      <antipattern>
+	    <token postag='SPS.+' postag_regexp='yes'/>
+		<token postag='PP.+' postag_regexp='yes'/>
+		<token postag='VMIP2S0|NC.+|AQ0.+|NP.+' postag_regexp='yes'/>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-01-31 (1-JAN-2021+) *END* -->
       <pattern case_sensitive="yes">
           <token min='0' regexp='yes'>tu|vós</token>
           <token postag="V...2S.+" postag_regexp='yes'>
@@ -1305,6 +1332,10 @@ Ele confundiu o rapaz com um borrego, sua tira moncos.
       <example>...estruturas de repetição tais como laços, ou ainda estruturas de dados adicionais tais como pilhas, para resolv...</example>
       <example>A era nazista produziu principalmente filmes de propaganda, embora a obra de Leni Riefenstahl ...</example>
       <example>Cabe aos pais prevenir os filhos dos vícios da mocidade, entre eles as drogas e as bebidas.</example>
+	  
+	  <example>Voltou com as <marker>ameijoas</marker> iguais e o cliente desistiu do artigo.</example>
+	  <example>Seguiram-se a ele Jeremias Fontes e Raimundo.</example>
+	  <example>Deveríamos dar a ela flores.</example>
     </rule>
     <rule>
       <pattern>
@@ -2383,50 +2414,6 @@ O Extra está desativado.
 
 <category id="STYLE" name="Style" type="style">
     <rulegroup id="EMAIL" name="E-mail (correio eletrónico)">
-      <rule>
-        <pattern>
-		      <token>e</token>
-		      <token spacebefore="no">-</token>
-          <token spacebefore="no">mail</token>
-        </pattern>
-        <message>'e-mail' é um estrangeirismo. É preferível dizer <suggestion>endereço eletrónico</suggestion> ou <suggestion>correio eletrónico</suggestion>.</message>
-        <url>https://pt.wikipedia.org/wiki/E-mail</url>
-        <example correction="endereço eletrónico|correio eletrónico">Padrões para codificação de mensagens de <marker>e-mail</marker> foram propostas em 1973 (RFC 561)</example>
-      </rule>
-      <rule>
-        <pattern>
-		      <token>e</token>
-		      <token spacebefore="no">-</token>
-          <token spacebefore="no">mails</token>
-        </pattern>
-        <message>'e-mails' é um estrangeirismo. É preferível dizer <suggestion>endereços eletrónicos</suggestion> ou <suggestion>correios eletrónicos</suggestion>.</message>
-        <url>https://pt.wikipedia.org/wiki/E-mail</url>
-        <example correction="endereços eletrónicos|correios eletrónicos">Em inglês americano, email é usado como um substantivo coletivo, mas, no inglês britânico, é mais comumente usado como um substantivo comum, com a forma plural <marker>e-mails</marker>.</example>
-      </rule>
-      <rule>
-        <antipattern>
-          <token>e</token>
-          <token min="0">-</token>
-          <token>mail</token>
-        </antipattern>
-        <pattern>
-          <token>mail</token>
-        </pattern>
-        <message>'mail' é um estrangeirismo. É preferível dizer <suggestion>endereço eletrónico</suggestion> ou <suggestion>correio eletrónico</suggestion>.</message>
-        <example correction="endereço eletrónico|correio eletrónico">Padrões para codificação de mensagens de <marker>mail</marker> foram propostas em 1973 (RFC 561)</example>
-      </rule>
-      <rule>
-        <antipattern>
-          <token>e</token>
-          <token min="0">-</token>
-          <token>mails</token>
-        </antipattern>
-        <pattern>
-          <token>mails</token>
-        </pattern>
-        <message>'mails' é um estrangeirismo. É preferível dizer <suggestion>endereços eletrónicos</suggestion> ou <suggestion>correios eletrónicos</suggestion>.</message>
-        <example correction="endereços eletrónicos|correios eletrónicos">Em inglês americano, email é usado como um substantivo coletivo, mas, no inglês britânico, é mais comumente usado como um substantivo comum, com a forma plural <marker>mails</marker>.</example>
-      </rule>
       <rule>
         <pattern>
 		      <token>e</token>

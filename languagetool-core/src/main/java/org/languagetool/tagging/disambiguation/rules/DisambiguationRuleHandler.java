@@ -244,6 +244,9 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         filterArgs = attrs.getValue("args");
         break;
       case MARKER:
+        if (inMarker) {
+          throw new IllegalStateException("'<marker>' may not be nested in rule '" + id + "'");
+        }
         example.append("<marker>");
         if (inPattern || inAntiPattern) {
           startPos = tokenCounter;

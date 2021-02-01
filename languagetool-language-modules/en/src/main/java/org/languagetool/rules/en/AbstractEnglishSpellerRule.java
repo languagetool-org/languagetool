@@ -179,6 +179,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("nano ") &&
                    !k.getReplacement().toLowerCase().startsWith("ans ") &&
                    !k.getReplacement().toLowerCase().startsWith("semi ") &&
+                   !k.getReplacement().toLowerCase().startsWith("infra ") &&
                    !k.getReplacement().toLowerCase().startsWith("lo ") &&
                    !k.getReplacement().toLowerCase().startsWith("ed ") &&
                    !k.getReplacement().toLowerCase().startsWith("al ") &&
@@ -203,9 +204,12 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" ward") &&
                    !k.getReplacement().endsWith(" ting") && // someting
                    !k.getReplacement().endsWith(" ion") && // presention
+                   !k.getReplacement().endsWith(" ions") && // sealions
                    !k.getReplacement().endsWith(" cal") &&
                    !k.getReplacement().endsWith(" ted") && // "bursted"
                    !k.getReplacement().endsWith(" sphere") &&
+                   !k.getReplacement().endsWith(" con") &&
+                   !k.getReplacement().endsWith(" sis") &&
                    !k.getReplacement().endsWith(" like") && // "ribbonlike"
                    !k.getReplacement().endsWith(" full") && // do not suggest "use full" for "useful"
                    !k.getReplacement().endsWith(" en") && // "Antwerpen" suggests "Antwerp en"
@@ -346,6 +350,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   protected static Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
+    s.put("differently-abled", Arrays.asList("differently abled"));
+    s.put("Differently-abled", Arrays.asList("Differently abled"));
+    s.put("ppl", Arrays.asList("people"));
+    s.put("Ppl", Arrays.asList("People"));
     s.put("constits", Arrays.asList("consists"));
     s.put("fastly", Arrays.asList("fast"));
     s.put("carrie", Arrays.asList("carry"));
@@ -417,6 +425,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("endevors", Arrays.asList("endeavors"));
     s.put("endevour", Arrays.asList("endeavour"));
     s.put("endevor", Arrays.asList("endeavor"));
+    s.put("industrys", Arrays.asList("industries", "industry's", "industry"));
+    s.put("Industrys", Arrays.asList("Industries", "Industry's", "Industry"));
+    s.put("partys", Arrays.asList("parties", "party's", "party"));
+    s.put("Partys", Arrays.asList("Parties", "Party's", "Party"));
     s.put("countrys", Arrays.asList("countries", "country's", "country"));
     s.put("Countrys", Arrays.asList("Countries", "Country's", "Country"));
     s.put("bodys", Arrays.asList("bodies", "body's", "body"));

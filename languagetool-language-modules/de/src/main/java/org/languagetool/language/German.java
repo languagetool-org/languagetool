@@ -161,6 +161,8 @@ public class German extends Language implements AutoCloseable {
             new CompoundCoherencyRule(messages),
             new LongSentenceRule(messages, userConfig, 35, true, true),
             new GermanFillerWordsRule(messages, this, userConfig),
+            new NonSignificantVerbsRule(messages, this, userConfig),
+            new UnnecessaryPhraseRule(messages, this, userConfig),
             new GermanParagraphRepeatBeginningRule(messages, this),
             new DuUpperLowerCaseRule(messages),
             new UnitConversionRule(messages),
@@ -169,7 +171,7 @@ public class German extends Language implements AutoCloseable {
             new GermanReadabilityRule(messages, this, userConfig, true),
             new GermanReadabilityRule(messages, this, userConfig, false),
             new CompoundInfinitivRule(messages, this, userConfig),
-            new StyleRepeatedVeryShortSentences(messages),
+            new StyleRepeatedVeryShortSentences(messages, this),
             new StyleRepeatedSentenceBeginning(messages)
     );
   }
@@ -308,8 +310,12 @@ public class German extends Language implements AutoCloseable {
       case "WERT_SEIN": return 1; // prefer over DE_AGREEMENT
       case "EBEN_FALLS": return 1;
       case "UST_ID": return 1;
+      case "AUF_BITTEN": return 1; // prefer over ZUSAMMENGESETZTE_VERBEN
       case "FUER_INBESONDERE": return 1; // prefer over KOMMA_VOR_ERLAEUTERUNG
       case "COVID_19": return 1; // prefer over PRAEP_GEN and DE_AGREEMENT
+      case "KLEINSCHREIBUNG_MAL": return 1; // prefer over DE_AGREEMENT
+      case "VERINF_DAS_DASS_SUB": return 1; // prefer over DE_AGREEMENT
+      case "DASS_DAS_PA2_DAS_PROIND": return 1; // prefer over DE_AGREEMENT
       case "IM_ALTER": return 1; // prefer over ART_ADJ_SOL
       case "DAS_ALTER": return 1; // prefer over ART_ADJ_SOL
       case "VER_INF_PKT_VER_INF": return 1; // prefer over DE_CASE
@@ -355,8 +361,8 @@ public class German extends Language implements AutoCloseable {
       messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages, inputLogging));
 
     // no description needed - matches based on automatically created rules with descriptions provided by remote server
-    rules.addAll(GRPCRule.createAll(configs, inputLogging, "AI_DE_",
-      "INTERNAL - dynamically loaded rule supported by remote server"));
+    rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
+            "AI_DE_", "INTERNAL - dynamically loaded rule supported by remote server"));
 
     return rules;
   }

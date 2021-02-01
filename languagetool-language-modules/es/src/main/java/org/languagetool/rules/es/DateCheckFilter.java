@@ -21,7 +21,6 @@ package org.languagetool.rules.es;
 import org.languagetool.rules.AbstractDateCheckFilter;
 
 import java.util.Calendar;
-import java.util.Locale;
 
 /**
  * Spanish localization of {@link AbstractDateCheckFilter}.
@@ -29,55 +28,26 @@ import java.util.Locale;
  */
 public class DateCheckFilter extends AbstractDateCheckFilter {
 
+
+  private final DateFilterHelper dateFilterHelper = new DateFilterHelper();
+
+  @Override
+  protected int getMonth(String localizedMonth) {
+    return dateFilterHelper.getMonth(localizedMonth);
+  }
+
   @Override
   protected Calendar getCalendar() {
-    return Calendar.getInstance(Locale.UK);
+    return dateFilterHelper.getCalendar();
   }
-
-  @SuppressWarnings("ControlFlowStatementWithoutBraces")
-  @Override
+  
   protected int getDayOfWeek(String dayStr) {
-    String day = dayStr.toLowerCase();
-    if (day.equals("do") || day.equals("domingo")) return Calendar.SUNDAY;
-    if (day.equals("lu") || day.equals("lunes")) return Calendar.MONDAY;
-    if (day.equals("ma") || day.equals("martes")) return Calendar.TUESDAY;
-    if (day.equals("mi") || day.equals("miércoles")) return Calendar.WEDNESDAY;
-    if (day.equals("ju") || day.equals("jueves")) return Calendar.THURSDAY;
-    if (day.equals("vi") || day.equals("viernes")) return Calendar.FRIDAY;
-    if (day.equals("sa") || day.equals("sábado")) return Calendar.SATURDAY;
-    throw new RuntimeException("Could not find day of week for '" + dayStr + "'");
+    return dateFilterHelper.getDayOfWeek(dayStr);
   }
 
-  @SuppressWarnings("ControlFlowStatementWithoutBraces")
   @Override
   protected String getDayOfWeek(Calendar date) {
-    String englishDay = date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);
-    if (englishDay.equals("Sunday")) return "domingo";
-    if (englishDay.equals("Monday")) return "lunes";
-    if (englishDay.equals("Tuesday")) return "martes";
-    if (englishDay.equals("Wednesday")) return "miércoles";
-    if (englishDay.equals("Thursday")) return "jueves";
-    if (englishDay.equals("Friday")) return "viernes";
-    if (englishDay.equals("Saturday")) return "sábado";
-    return "";
+    return dateFilterHelper.getDayOfWeek(date);
   }
-
-  @SuppressWarnings({"ControlFlowStatementWithoutBraces", "MagicNumber"})
-  @Override
-  protected int getMonth(String monthStr) {
-    String mon = monthStr.toLowerCase();
-    if (mon.startsWith("ene")) return 1;
-    if (mon.startsWith("feb")) return 2;
-    if (mon.startsWith("mar")) return 3;
-    if (mon.startsWith("abr")) return 4;
-    if (mon.startsWith("may")) return 5;
-    if (mon.startsWith("jun")) return 6;
-    if (mon.startsWith("jul")) return 7;
-    if (mon.startsWith("ago")) return 8;
-    if (mon.startsWith("set") || mon.startsWith("sep")) return 9;
-    if (mon.startsWith("oct")) return 10;
-    if (mon.startsWith("nov")) return 11;
-    if (mon.startsWith("dic")) return 12;
-    throw new RuntimeException("Could not find month '" + monthStr + "'");
-  }
+  
 }

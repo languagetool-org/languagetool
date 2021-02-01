@@ -76,6 +76,7 @@ class OfficeTools {
   public static boolean DEBUG_MODE_LD = false;    //  Activate Debug Mode for LtDictionary
   public static boolean DEBUG_MODE_CD = false;    //  Activate Debug Mode for SpellAndGrammarCheckDialog
   public static boolean DEBUG_MODE_IO = false;    //  Activate Debug Mode for Cache save to file
+  public static boolean DEBUG_MODE_SR = false;    //  Activate Debug Mode for Cache save to file
   public static boolean DEVELOP_MODE = false;     //  Activate Development Mode
 
   public  static final String CONFIG_FILE = "Languagetool.cfg";
@@ -490,6 +491,8 @@ class OfficeTools {
           DEBUG_MODE_CD = true;
         } else if (level.equals("io")) {
           DEBUG_MODE_IO = true;
+        } else if (level.equals("sr")) {
+          DEBUG_MODE_SR = true;
         } else if (level.equals("dev")) {
           DEVELOP_MODE = true;
         }

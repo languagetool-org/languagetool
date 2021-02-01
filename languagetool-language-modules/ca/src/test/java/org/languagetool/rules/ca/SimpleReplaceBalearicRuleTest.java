@@ -57,6 +57,11 @@ public class SimpleReplaceBalearicRuleTest {
     assertEquals(2, matches.length);
     assertEquals("càlcul", matches[0].getSuggestedReplacements().get(0));
     assertEquals("telèfon", matches[1].getSuggestedReplacements().get(0));
+    
+    matches = rule.match(langTool.getAnalyzedSentence("EL CALCUL DEL TELEFON."));
+    assertEquals(2, matches.length);
+    assertEquals("CÀLCUL", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("TELÈFON", matches[1].getSuggestedReplacements().get(0));
         
   }
 
