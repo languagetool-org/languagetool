@@ -10083,6 +10083,52 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
+      <rulegroup id="VERBE_INFINITIF_OU_PPA" name="verbe infinitif ou ppa" default="temp_off">
+          <rule>
+              <pattern>
+                  <token postag="R pers suj.*" postag_regexp="yes"/>
+                  <token postag="V avoir ind.* pres.*" postag_regexp="yes"/>
+                  <token postag="V etre ppa.*" postag_regexp="yes" regexp="yes"/>
+                  <marker>
+                      <token postag="V ppa.*" postag_regexp="yes"/>
+                  </marker>
+                  <token postag="P.*" postag_regexp="yes">du</token>
+                  <token postag="N.*" postag_regexp="yes"><exception>fois</exception></token>
+                  <token postag="SENT_END"/>
+              </pattern>
+              <message>Une erreur d’accord semble être détectée.</message>
+              <suggestion><match no="4" postag="V ppa.*" postag_regexp="yes" postag_replace="V.* inf"></match></suggestion>
+              <example correction="faire">Il ont été <marker>fait</marker> du ski.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token postag="R pers suj.*" postag_regexp="yes"/>
+                  <token postag="V etre ind.* pres.*" postag_regexp="yes"/>
+                  <token postag="V ppa.*" postag_regexp="yes" regexp="yes"/>
+                  <marker>
+                      <token postag="V ppa.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
+                  </marker>
+                  <token postag="(P\+)?D.*" postag_regexp="yes"><exception regexp="yes">à|en</exception></token>
+              </pattern>
+              <message>Une erreur d'accord semble être détectée.</message>
+              <suggestion><match no="4" postag="V ppa.*" postag_regexp="yes" postag_replace="V.* inf"></match></suggestion>
+              <example correction="prendre">Il sont allés <marker>pris</marker> le journal.</example>
+              <example correction="manger">Il sont partis <marker>mangé</marker> au restaurant.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token postag="V avoir.*" postag_regexp="yes"/>
+                  <marker>
+                      <token postag="V inf.*" postag_regexp="yes"/>
+                  </marker>
+                  <token postag="V inf.*" postag_regexp="yes" regexp="yes"/>
+              </pattern>
+              <message>Une erreur d'accord semble être détectée.</message>
+              <suggestion><match no="2" postag="V inf.*" postag_regexp="yes" postag_replace="V ppa.* m s"></match></suggestion>
+              <example correction="dû">Ils auraient <marker>devoir</marker> chercher le journal.</example>
+              <example correction="aimé">Elles auraient <marker>aimer</marker> pouvoir t'aider.</example>
+          </rule>
+      </rulegroup>
       <rule id="PLU_OU_PLUS" name="plu ou plus" default="temp_off">
           <pattern>
               <token postag="V.*" postag_regexp="yes"><exception postag="V avoir.*|V etre.*" postag_regexp="yes"/></token>
