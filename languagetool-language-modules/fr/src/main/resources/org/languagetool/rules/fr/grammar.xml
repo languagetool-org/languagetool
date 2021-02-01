@@ -10083,6 +10083,17 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
+      <rule id="PLU_OU_PLUS" name="plu ou plus" default="temp_off">
+          <pattern>
+              <token postag="V.*" postag_regexp="yes"><exception postag="V avoir.*|V etre.*" postag_regexp="yes"/></token>
+              <marker>
+                  <token case_sensitive="yes">plu</token>
+              </marker>
+          </pattern>
+          <message>Une erreur semble être détectée dans cette phrase.</message>
+          <suggestion>plus</suggestion>
+          <example correction="plus">Il faut qu'il fasse <marker>plu</marker> attention.</example>
+      </rule>
       <rule id="ELLES_VERBE_TOUTES" name="elles verbe toutes" default="temp_off">
           <pattern>
               <token postag="R.* f p" postag_regexp="yes"/>
