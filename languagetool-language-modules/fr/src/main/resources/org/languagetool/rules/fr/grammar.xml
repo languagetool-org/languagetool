@@ -35469,17 +35469,40 @@ though, and has since been slightly modified)-->
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
       <rulegroup id="ARGOT_BEAUF_ET_BOF" name="argot beauf et bof" default="temp_off">
           <rule>
-              <pattern case_sensitive="yes">
+              <antipattern>
+                  <token regexp="yes">(?-i)BOF</token>
+              </antipattern>
+              <antipattern>
+                  <token>bof</token>
+                  <token min="0" max="1">,</token>
+                  <token>bof</token>
+              </antipattern>
+              <pattern>
+                  <token negate_pos="yes" postag="SENT_START"/>
                   <marker>
-                      <token regexp="yes">bof</token>
+                      <token>bof</token>
                   </marker>
               </pattern>
               <message>Ce terme est une expression considérée comme familière. Souhaitez-vous la remplacer par le terme <suggestion>moyen</suggestion> employé dans le langage formel ?</message>
               <example correction="moyen">C'est <marker>bof</marker> !</example>
           </rule>
           <rule>
-              <pattern>
+              <antipattern>
                   <token>mon</token>
+                  <token regexp="yes">b(eau|o)f</token>
+                  <token>'</token>
+              </antipattern>
+              <antipattern>
+                  <token>mon</token>
+                  <token regexp="yes">b(eau|o)f</token>
+                  <token>,</token>
+                  <token>ma</token>
+                  <token regexp="yes">s(œ|oe)ur</token>
+                  <token>et</token>
+                  <token>moi</token>
+              </antipattern>
+              <pattern>
+                  <token regexp="yes">(?-i)mon|ton|son</token>
                   <marker>
                       <token regexp="yes">bof|beauf|bauf</token>
                   </marker>
@@ -35489,13 +35512,13 @@ though, and has since been slightly modified)-->
           </rule>
           <rule>
               <pattern>
+                  <token>un</token>
                   <marker>
-                      <token>un</token>
                       <token>beauf</token>
                   </marker>
               </pattern>
-              <message>Cette expression est considérée comme familière. Souhaitez-vous la remplacer par l'expression <suggestion>une personne obtuse</suggestion> employée dans le langage formel ?</message>
-              <example correction="une personne obtuse">Si tu veux tout savoir, c'est <marker>un beauf</marker> !</example>
+              <message>Cette expression est considérée comme familière. Souhaitez-vous la remplacer par le terme <suggestion>chauvin</suggestion> employé dans le langage formel ?</message>
+              <example correction="chauvin">Si tu veux tout savoir, c'est un <marker>beauf</marker> !</example>
           </rule>
       </rulegroup>
       <rule id= "CA_VA_MAL_SE_FINIR" name="ça va mal se finir" default="temp_off">
