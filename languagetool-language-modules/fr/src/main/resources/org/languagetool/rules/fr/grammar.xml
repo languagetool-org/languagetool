@@ -1049,6 +1049,22 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+      <rule id="FEUS_OU_FEUX" name="feus ou feux">
+          <antipattern>
+              <token regexp="yes">feu|feus</token>
+              <token postag="[NZ].*" postag_regexp="yes"/>
+          </antipattern>
+          <pattern>
+              <token postag="D.* e p" postag_regexp="yes"/>
+              <marker>
+                  <token regexp="yes">feu|feus</token>
+              </marker>
+          </pattern>
+          <message>Une erreur d'orthographe semble être détectée.</message>
+          <suggestion>feux</suggestion>
+          <example correction="feux">Ce sont des <marker>feu</marker> de forêt.</example>
+          <example correction="feux">La voiture a des <marker>feu</marker> de croisement.</example>
+      </rule>
     <rule id="GENTE_GENT" name="gente → gent">
       <pattern>
         <token>la</token>
