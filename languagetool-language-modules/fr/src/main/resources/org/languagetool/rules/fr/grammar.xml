@@ -10072,11 +10072,34 @@ though, and has since been slightly modified)-->
       <rulegroup id="QUELLE_QUE" name="quelle que" default="temp_off">
           <rule>
               <pattern>
+                  <token postag="N f s" skip="-1"/>
                   <marker>
-                      <token regexp="yes">qu(&apostrophe;)?</token>
-                      <token>elle</token>
+                      <token regexp="yes">quel|quels|quelles|qu(&apostrophe;)</token>
+                      <token min="0">elle</token>
                   </marker>
-                  <token regexp="yes">que|qu(&apostrophe;)</token>
+                  <token regexp="yes">qu(&apostrophe;)</token>
+                  <token>elle</token>
+              </pattern>
+              <message>Une erreur semble être détectée dans cette phrase. Souhaitez-vous écrire <suggestion>quelle</suggestion> ?</message>
+              <example correction="quelle">On trouvera la solution, <marker>qu'elle</marker> qu'elle soit.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token regexp="yes">qu(&apostrophe;)</token>
+                  <token>elle</token>
+                  <token regexp="yes">qu(&apostrophe;)</token>
+                  <token>un</token>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token regexp="yes">quel|quels|quelles|qu(&apostrophe;)</token>
+                      <token min="0">elle</token>
+                  </marker>
+                  <token regexp="yes" skip="-1">que|qu(&apostrophe;)</token>
+                  <token min="0">en</token>
+                  <token>soit</token>
+                  <token postag="D f s|D e s" postag_regexp="yes"/>
+                  <token postag="N f s"/>
               </pattern>
               <message>Une erreur semble être détectée dans cette phrase. Souhaitez-vous écrire <suggestion>quelle</suggestion> ?</message>
               <example correction="quelle">Il le fera <marker>qu'elle</marker> que soit sa situation.</example>
@@ -10085,13 +10108,30 @@ though, and has since been slightly modified)-->
           <rule>
               <pattern>
                   <marker>
-                      <token regexp="yes">qu(&apostrophe;)?</token>
-                      <token>elles</token>
+                      <token regexp="yes">quelle|quel|quels|qu(&apostrophe;)</token>
+                      <token regexp="yes" min="0">elle|elles</token>
                   </marker>
-                  <token regexp="yes">que|qu(&apostrophe;)</token>
+                  <token regexp="yes" skip="1">que|qu(&apostrophe;)</token>
+                  <token regexp="yes">en|elles</token>
+                  <token>soient</token>
+                  <token postag="D f p|D e p" postag_regexp="yes"/>
+                  <token postag="N f p"/>
               </pattern>
               <message>Une erreur semble être détectée dans cette phrase. Souhaitez-vous écrire <suggestion>quelles</suggestion> ?</message>
               <example correction="quelles">Il le fera <marker>qu'elles</marker> qu'en soient les conséquences.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token postag="N f p" skip="-1"/>
+                  <marker>
+                      <token regexp="yes">quelle|quel|quels|qu(&apostrophe;)</token>
+                      <token regexp="yes" min="0">elle|elles</token>
+                  </marker>
+                  <token regexp="yes">qu(&apostrophe;)</token>
+                  <token>elles</token>
+              </pattern>
+              <message>Une erreur semble être détectée dans cette phrase. Souhaitez-vous écrire <suggestion>quelles</suggestion> ?</message>
+              <example correction="quelles">On trouvera des solutions, <marker>qu'elles</marker> qu'elles soient.</example>
           </rule>
           <rule>
               <pattern>
@@ -10099,7 +10139,7 @@ though, and has since been slightly modified)-->
                   <marker>
                       <token>quelle</token>
                   </marker>
-                  <token regexp="yes">soit</token>
+                  <token>soit</token>
               </pattern>
               <message>Une erreur de pronom semble être détectée. Souhaitez-vous écrire <suggestion>qu'elle</suggestion> ?</message>
               <example correction="qu'elle">Donne-moi ta carte, quelle <marker>quelle</marker> soit.</example>
@@ -10123,7 +10163,7 @@ though, and has since been slightly modified)-->
                   <marker>
                       <token>quelles</token>
                   </marker>
-                  <token regexp="yes">soient</token>
+                  <token>soient</token>
               </pattern>
               <message>Une erreur de pronom semble être détectée. Souhaitez-vous écrire <suggestion>qu'elles</suggestion> ?</message>
               <suggestion>qu'elles</suggestion>
