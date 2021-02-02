@@ -20163,7 +20163,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" case_sensitive="yes">Alle[snm]?</token><!-- "Allen" is a name-->
                 </marker>
             </pattern>
-            <message>Wenn Sie das Zahlwort <suggestion><match no="2" case_conversion="alllower" /></suggestion> meinen (im Sinne von "jeder/n") wird es kleingeschrieben.</message>
+            <message>Außer in der Redewendung "Ein und Alles" wird dieses Wort immer kleingeschrieben.</message>
+            <suggestion><match no="2" case_conversion="alllower" /></suggestion>
             <url>https://blog.leo.org/2009/12/15/alles-bleibt-selbst-hoflich-klein/</url>
             <example correction="allen">Ich bin euch <marker>Allen</marker> dankbar.</example>
             <example correction="alle">Dieser Dank geht an <marker>Alle</marker> die sich für mich eingesetzt haben.</example>
@@ -40043,7 +40044,7 @@ Andere Projekte</example>
             </rule>
             <rule default="temp_off">
                 <pattern>
-                    <token>gemäß</token>
+                    <token regexp="yes">gemä(ß|ss)</token>
                     <token postag_regexp="yes" postag="ADJ:.*" min="0"/>
                     <marker>
                         <token postag_regexp="yes" postag="SUB:.*"><exception postag_regexp="yes" postag="SUB:DAT:.*"></exception></token>
@@ -40060,10 +40061,10 @@ Andere Projekte</example>
                 <antipattern>
                     <!-- ihrem Wunsch gemäß -->
                     <token>Wunsch</token>
-                    <token>gemäß</token>
+                    <token regexp="yes">gemä(ß|ss)</token>
                 </antipattern>
                 <pattern>
-                    <token>gemäß</token>
+                    <token regexp="yes">gemä(ß|ss)</token>
                     <marker>
                         <token regexp="yes">die|den|der</token>
                         <token postag_regexp="yes" postag="ADJ:.*" min="0"/>
@@ -42439,6 +42440,13 @@ Andere Projekte</example>
         <rulegroup id="ALLES_MOEGLICHE" name="'alles mögliche (Mögliche)'">
             <url>https://www.korrekturen.de/wortliste/alles_moegliche.shtml</url>
             <rule>
+                <antipattern>
+                    <token>alles</token>
+                    <token postag="ADJ:(AKK|NOM):PLU:NEU:...:SOL" postag_regexp="yes" />
+                    <token regexp="yes" min="0">oder|und|&amp;</token>
+                    <token postag="ADJ:(AKK|NOM):PLU:NEU:...:SOL|UNKNOWN" postag_regexp="yes" />
+                    <token postag="SUB:.+" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token>alles</token>
                     <marker>
@@ -42461,6 +42469,8 @@ Andere Projekte</example>
                 <example>Er stellte fest, dass der Klimawandel alles irdische Leben ausgelöscht hatte.</example>
                 <example>Das ist alles zwangsweise eine Sache der Erziehung.</example>
                 <example>Du siehst so aus wie jemand, dem ich gleich sagen werde, dass ich ihn über alles liebe!</example>
+                <example>Das sind alles wichtige und zukunftsweisende Ideen.</example>
+                <example>Das sind alles junge hübsche Mädels.</example>
             </rule>
             <rule>
                 <pattern>
