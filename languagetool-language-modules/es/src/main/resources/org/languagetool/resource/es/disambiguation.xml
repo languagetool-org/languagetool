@@ -4210,7 +4210,6 @@ Copyright (C) 2011 Juan Martorell
     </rule>
     <rulegroup id="Det_Noun" name="det + nombre">
         <rule>
-            <!-- He canviat (N|A.|PX) per (N). Per què no hi ha V.P.* ? No cal? -->
             <pattern>
                 <marker>
                     <token postag="D[^R].[MC][SN0].*" postag_regexp="yes"><exception postag="RG"/></token>
@@ -4257,6 +4256,42 @@ Copyright (C) 2011 Juan Martorell
                 <wd pos="_GN_FP"/>
                 <wd pos="_GN_FP"/>
             </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D[^R].[MC][SN0].*" postag_regexp="yes">un</token>
+                <marker>
+                    <token postag="(N|A.|PX).[MC][SN0].*|V.P..SM" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="(N|A.|PX).[MC][SN0].*|V.P..SM|_GN_MS"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D[^R].[FC][SN0].*" postag_regexp="yes">una</token>
+                <marker>
+                    <token postag="(N|A.|PX).[FC][SN0].*|V.P..SF" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="(N|A.|PX).[FC][SN0].*|V.P..SF|_GN_FS"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D[^R].[MC][PN0].*" postag_regexp="yes">unos</token>
+                <marker>
+                    <token postag="(N|A.|PX).[MC][PN0].*|V.P..PM" postag_regexp="yes"><exception postag="DN.*|_GN_MS" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="(N|A.|PX).[MC][PN0].*|V.P..SF|_GN_MP"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="D[^R].[FC][PN0].*" postag_regexp="yes">unas</token>
+                    <token postag="(N|A.|PX).[FC][PN0].*|V.P..PF" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="(N|A.|PX).[FC][PN0].*|V.P..SF|_GN_FP"/>
         </rule>
     </rulegroup>
     <rulegroup id="DETERMINERS" name="determinantes">

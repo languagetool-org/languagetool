@@ -11983,6 +11983,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>que</token>
             </antipattern>
             <antipattern>
+                <token inflected="yes" regexp="yes" skip="4">levantar|subir|ascender|aumentar</token>
+                <token postag="RG"/>
+                <token>alto</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">.*%|.*°C</token>
                 <token regexp="yes" min="0">más|menos</token>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
@@ -12254,6 +12259,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="elevado|elevada|elevados">Índice de dessarrollo humano y calidad de vida <marker>elevadas</marker>.</example>
             <example correction="pasado">El domingo <marker>pasada</marker> hubo corrida de toros de lujo.</example>
             <example correction="posibles">De todas las maneras <marker>posible</marker>.</example>
+            <example correction="alta">Construyeron una torre bien <marker>alto</marker>.</example>
             <example>Uno de los aspectos migratorios más <marker>criticado</marker></example>
             <example>con la bobina y la placa electrónica montadas en una caja única</example>
             <example>El contacto con la cultura y la historia japonesas.</example>
@@ -12434,6 +12440,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Lo demás cobra sentido.</example>
             <example>A continuación adjunto el fichero.</example>
             <example>Un tratado sobre óptica.</example>
+            <example>Levanta las manos bien alto.</example>
+            <!-- ambiguous, but usually wrong: -->
+            <example>Levantaron una torre bien alto.</example>
             <!--
                 La eternidad dura harto.
                 Ella fue al concierto acompañada de una amiga.
@@ -12721,7 +12730,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
-                        <token postag="A.*|PX.*" postag_regexp="yes"><exception postag="NP.*|complement.*|ignore_concordance|_possible_NP" postag_regexp="yes"/><exception inflected="yes" regexp="yes">junto</exception></token>
+                        <token postag="A.*|PX.*" postag_regexp="yes"><exception postag="NP.*|complement.*|ignore_concordance|_possible_NP" postag_regexp="yes"/><exception inflected="yes">junto</exception></token>
                         <token postag="N.F.*" postag_regexp="yes"><exception postag="_possilbe_NP|N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     </unify>
                 </pattern>
