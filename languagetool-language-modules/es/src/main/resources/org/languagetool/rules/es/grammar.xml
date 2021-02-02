@@ -14118,6 +14118,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rulegroup id="SABER_SABES" name="confusión saber/sabes" default="temp_off">
+            <rule>
+                <pattern>
+                <token regexp="yes">tu|tú</token>
+                <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <marker>
+                    <token postag="V.N...." postag_regexp="yes" regexp="yes">.+er<exception postag="_GN_MS"></exception></token>
+                </marker>
+                </pattern>
+                <message>Posible confusión.</message>
+                <suggestion><match no="3" postag="V.N.*" postag_regexp="yes" postag_replace="VMIP2S0"/></suggestion>
+                <example correction="sabes">Tú ya <marker>saber</marker> lo que pasa.</example>
+                <example correction="sabes">Tú <marker>saber</marker> lo que pasa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V.N...." postag_regexp="yes" regexp="yes">.+er<exception postag="_GN_MS"></exception></token>
+                    </marker>
+                    <token min="0">lo</token>
+                    <token>que</token>
+                </pattern>
+                <message>Posible confusión.</message>
+                <suggestion><match no="2" postag="V.N.*" postag_regexp="yes" postag_replace="VMIP2S0"/></suggestion>
+                <example correction="sabes">Ya <marker>saber</marker> lo que pasa.</example>
+            </rule>
+        </rulegroup>
         <rule id="LARDO_LARGO" name="lardo/largo">
             <pattern>
                 <token>lo</token>
