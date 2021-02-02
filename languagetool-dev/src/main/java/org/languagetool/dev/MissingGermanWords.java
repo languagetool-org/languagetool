@@ -15,6 +15,9 @@ import java.nio.charset.StandardCharsets;
  * List words from given wordlist that are unknown to the German speller or German tagger.
  *
  * Also, remove English words from wordlist.
+ *
+ * Wordlist should be in CSV format
+ * word,freq
  */
 public class MissingGermanWords {
 
@@ -53,10 +56,11 @@ public class MissingGermanWords {
   private void listMissingWordsSpeller(String filename) throws java.io.IOException {
     System.out.println("# missing words speller");
     BufferedReader reader = getReaderForFilename(filename);
-    String word;
-    while ((word = reader.readLine()) != null) {
+    String line;
+    while ((line = reader.readLine()) != null) {
+      String word = wordFromLine(line);
       if (!isKnownByGermanSpeller(word) && !isKnownByEnglishSpeller(word)) {
-        System.out.println(word);
+        System.out.println(line);
       }
     }
     reader.close();
@@ -65,10 +69,11 @@ public class MissingGermanWords {
   private void listMissingWordsTagger(String filename) throws java.io.IOException {
     System.out.println("# missing words tagger");
     BufferedReader reader = getReaderForFilename(filename);
-    String word;
-    while ((word = reader.readLine()) != null) {
+    String line;
+    while ((line = reader.readLine()) != null) {
+      String word = wordFromLine(line);
       if (!isKnownByGermanTagger(word) && !isKnownByEnglishSpeller(word)) {
-        System.out.println(word);
+        System.out.println(line);
       }
     }
     reader.close();
@@ -76,13 +81,14 @@ public class MissingGermanWords {
 
   private void listMissingWords(String filename) throws java.io.IOException {
     BufferedReader reader = getReaderForFilename(filename);
-    String word;
-    while ((word = reader.readLine()) != null) {
+    String line;
+    while ((line = reader.readLine()) != null) {
+      String word = wordFromLine(line);
       boolean knownBySpeller = isKnownByGermanSpeller(word);
       boolean knownByTagger = isKnownByGermanTagger(word);
       if ((!knownBySpeller || !knownByTagger) && !isKnownByEnglishSpeller(word)) {
-        System.out.print(word);
-        System.out.print(" ");
+        System.out.print(line);
+        System.out.print(",");
         if (!knownBySpeller && !knownByTagger) {
           System.out.println("speller+tagger");
         } else if (!knownBySpeller) {
@@ -114,5 +120,9 @@ public class MissingGermanWords {
     FileInputStream fis = new FileInputStream(filename);
     InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
     return new BufferedReader(isr);
+  }
+
+  private String wordFromLine(String line) {
+    return line.split(",")[0];
   }
 }
