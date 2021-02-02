@@ -5564,7 +5564,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mi|mí,">Aprobará <marker>mí</marker> envío de dinero.</example>
                 <example correction="mi|mí,">Ahora viene <marker>mí</marker> padre.</example>
                 <example correction="mi|mí,">Ahora viene <marker>mí</marker> querido padre.</example>
-                <example correction="mi|mí,">Por <marker>mí</marker> bien.</example>
                 <example correction="mi|mí,">Concierto en <marker>mí</marker> bemol.</example>
                 <example correction="mi|mí,">Concierto en <marker>mí</marker> menor.</example>
                 <example>Yo no me fío mucho de mí mismo.</example>
@@ -5573,6 +5572,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Eso hizo despertar en mí otro tipo de ambiciones.</example>
                 <example>¿Podrías hacerlo por mí otra vez? </example>
                 <example>¿Lo harás tú solito?</example>
+                <!-- ambiguous: -->
+                <example>Por mí bien.</example>
                 <!-- ambiguous: que de vuestros llagas descienda sobre mí fuerza y vigor
                 No esperes de mí sinceridad -->
             </rule>
@@ -12510,7 +12511,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="AGREEMENT_ADJ_NOUN" name="Concordancias adjetivo y nombre">
             <antipattern>
-                <token regexp="yes">id|led|top</token>
+                <!-- usually invariant -->
+                <token regexp="yes">id|led|top|pop|turno</token>
             </antipattern>
             <antipattern>
                 <token postag="SPS00"/>
@@ -12523,6 +12525,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
                 <token regexp="yes">atrás|después</token>
+            </antipattern>
+            <antipattern>
+                <token>seguro</token>
+                <token>que</token>
             </antipattern>
             <antipattern>
                 <unify>
@@ -12608,6 +12614,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>,</token>
                 <token regexp="yes">a|al</token>
             </antipattern>
+            <antipattern>
+                <token>Editorial</token>
+                <token regexp="yes">\p{Lu}.+</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -12654,7 +12664,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Él tiene buena cabeza.</example>
                 <example>Es una buena cantante francesa.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="A..FS." postag_regexp="yes"/>
                     <token postag="N.FS.*|A..[FC]S." postag_regexp="yes"/>
@@ -12723,9 +12733,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Escalar icebergs es una práctica muy arriesgada.</example>
                 <example>Se vende a un precio muy competitivo productos importados.</example>
                 <example>en Lagasca 33 1º derecha 28001 Madrid</example>
-                <!-- calor y frío externos -->
+                <example>Trae el manto que tienes encima y sujeta bien.</example>
+                <example>calor y frío externos</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <unify negate="yes">
                         <feature id="numero"/>

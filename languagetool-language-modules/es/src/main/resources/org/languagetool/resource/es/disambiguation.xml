@@ -4490,13 +4490,22 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="remove" postag="A.*"/>
         </rule>
+        <rule>
+            <pattern>
+                <token><exception postag="V.*|RG" postag_regexp="yes"/></token>
+                <marker>
+                    <token regexp="yes">fríos?<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="A.*"/>
+        </rule>
     </rulegroup>
     <rule id="not_noun_no_agreement" name="not noun if no agreement">
         <pattern>
             <marker>
                 <and>
                     <token postag="N.*" postag_regexp="yes" regexp="yes"
-                        >pruebas?|muestra|muestras|alrededor|dejas?|crías?|busco|dejes?|buscas?|fallas?|faltas?|tantos?|resultas?|uso|usas?|cuestas?|hablas?|cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|calmas?<exception
+                        >bien|pruebas?|muestra|muestras|alrededor|dejas?|crías?|busco|dejes?|buscas?|fallas?|faltas?|tantos?|resultas?|uso|usas?|cuestas?|hablas?|cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|calmas?<exception
                         postag="_GN_.*" postag_regexp="yes"/></token>
                     <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
