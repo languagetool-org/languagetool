@@ -10984,9 +10984,24 @@ though, and has since been slightly modified)-->
           <token postag="V ppa.*s" regexp="yes" postag_regexp="yes">\w+e</token>
         </marker>
       </pattern>
-      <message>Il semblerait manquer la marque du pluriel. Vouliez-vous dire « <suggestion>\3s</suggestion> ».</message>
+      <message>Il semblerait manquer la marque du pluriel. Vouliez-vous dire <suggestion>\3s</suggestion>.</message>
       <example correction="faites">Comme vous le <marker>faite</marker>.</example>
     </rule>
+    <rulegroup id="CONFUSION_PARLEZ_PARLER" name="parlez/parler" default="temp_off">
+      <!-- TODO more general: rule for any preposition + inflected personal verb -->
+      <rule>
+        <pattern>
+          <token postag="P.*" postag_regexp="yes"/>
+          <token postag="R.*" postag_regexp="yes" min="0"/>
+          <marker>
+            <token postag="V.* [123].*" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>Vouliez-vous dire <suggestion><match no="3" postag="V.* [123].*" postag_regexp="yes" postag_replace="V.* inf"/></suggestion>?</message>
+        <example correction="parler">Il est temps de <marker>parlez</marker>.</example>
+        <example correction="parler">Le temps est venu de vous <marker>parlez</marker> de moi-même.</example>
+      </rule>
+    </rulegroup>
     <rule id="CONFUSION_PAR_PART" name="Confusion part/par expression de par">
       <pattern>
         <token>de</token>
