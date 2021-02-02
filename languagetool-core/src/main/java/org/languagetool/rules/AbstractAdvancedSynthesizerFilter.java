@@ -101,7 +101,7 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
             nr = nr.toUpperCase();
           }
           String completeSuggestion = r.replace("{suggestion}", nr);
-          completeSuggestion = r.replace("{Suggestion}", StringTools.uppercaseFirstChar(nr));
+          completeSuggestion = completeSuggestion.replace("{Suggestion}", StringTools.uppercaseFirstChar(nr));
           replacementsList.add(completeSuggestion);
         }
       }
