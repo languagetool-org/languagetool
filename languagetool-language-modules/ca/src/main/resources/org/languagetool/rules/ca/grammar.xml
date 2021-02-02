@@ -1369,12 +1369,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">esquerra|dreta</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes" inflected="yes">&denominacio;|denominar|anomenar</token>
+                <token postag="NC.S.*|V.P..S.." postag_regexp="yes" regexp="yes" inflected="yes">&denominacio;|denominar|anomenar</token>
                 <token min="0" postag="_cometes_obertura"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token regexp="yes" inflected="yes">&denominacio;|denominar|anomenar</token>
+                <token postag="_cometes_obertura"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="NC.S.*|V.P..S.." postag_regexp="yes" regexp="yes" inflected="yes">&denominacio;|denominar|anomenar</token>
                 <token>en</token>
                 <token postag="NCMS000"/>
                 <!--català... -->
@@ -1756,6 +1761,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="econòmics">en el creixement i la llibertat <marker>econòmiques</marker></example>
             <example correction="característics">Els tipus més <marker>característic</marker>.</example>
             <example correction="desitjats" type="triggers_error">Treure del material la forma i la textura <marker>desitjades</marker>.</example>
+            <example correction="magrebina">Noia <marker>magrebí</marker>.</example>
+            <example correction="negre">Moix <marker>negra</marker>.</example>
+            <example correction="corteses">Paraules <marker>cortès</marker>.</example>
+            <example correction="cortesos">Mots <marker>cortès</marker>.</example>
             <example>És en alguns casos <marker>documentat</marker>.</example>
             <!-- ambiguous -->
             <example>Però en la majoria dels casos molt reduït.</example>
@@ -4714,6 +4723,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Possible error de concordança.</message>
                 <suggestion><match no="3" postag="AQ.*" postag_regexp="yes" postag_replace="AQ.[FC][SN]."/></suggestion>
                 <example correction="grisa">Un lloc de gent <marker>gris</marker>.</example>
+                <example correction="grisa">Cortina <marker>gris</marker>.</example>
                 <example>La substància grisa.</example>
                 <example>Voltor comú.</example>
                 <example>No té cap component gris.</example>
@@ -41054,6 +41064,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Expressió incorrecta</short>
                 <example correction="amb molt de compte">Sempre anaven <marker>en molt compte</marker></example>
                 <example correction="amb molt de compte">Sempre anaven <marker>en molt de compte</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LA_COMPTA_EL_COMPTE" name="*la compta/el compte" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token postag="DD0FS0"/>
+                    <token>compta</token>
+                    <token>amb</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="D..FS." postag_regexp="yes"/>
+                        <token>compta</token>
+                    </marker>
+                </pattern>
+                <message>Si és un substantiu, cal dir <suggestion><match no="1" postag="(D..)FS." postag_regexp="yes" postag_replace="$1MS."/> compte</suggestion>. Correcte si és del v. 'comptar'.</message>
+                <example correction="aquest compte">No puc assumir <marker>aquesta compta</marker> de despeses.</example>
+                <example>Aquesta compta amb tots els avantatges.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>no</token>
+                    <token>la</token>
+                    <token>compta</token>
+                </antipattern>
+                <antipattern>
+                    <token>la</token>
+                    <token>compta</token>
+                    <token regexp="yes">entre|com</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>la</token>
+                        <token>compta</token>
+                    </marker>
+                </pattern>
+                <message>Si és un substantiu, cal dir <suggestion>el compte</suggestion>. Correcte si és del v. 'comptar'.</message>
+                <example correction="el compte">Ara hauràs de pagar <marker>la compta</marker>.</example>
+                <example>Però no la compta dins del territori actual.</example>
             </rule>
         </rulegroup>
         <rule id="TENIR_EN_COMTE_CONTE" name="tenir en comte/conte/compte">
