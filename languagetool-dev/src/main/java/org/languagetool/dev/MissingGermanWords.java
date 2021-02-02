@@ -11,6 +11,11 @@ import org.languagetool.tools.StringTools;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * List words from given wordlist that are unknown to the German speller or German tagger.
+ *
+ * Also, remove English words from wordlist.
+ */
 public class MissingGermanWords {
 
   private final String filename;
