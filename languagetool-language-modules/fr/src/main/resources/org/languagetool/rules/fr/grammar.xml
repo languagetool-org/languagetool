@@ -10990,16 +10990,23 @@ though, and has since been slightly modified)-->
     <rulegroup id="CONFUSION_PARLEZ_PARLER" name="parlez/parler" default="temp_off">
       <!-- TODO more general: rule for any preposition + inflected personal verb -->
       <rule>
+        <antipattern>
+          <token>quant</token>
+          <token>à</token>
+          <token>lui</token>
+        </antipattern>
         <pattern>
           <token postag="P.*" postag_regexp="yes"/>
-          <token postag="R.*" postag_regexp="yes" min="0"/>
+          <token regexp="yes" min="0">me|te|m'|t'|le|la|l'|lui|vous|nous|y|en|les|leur</token>
           <marker>
-            <token postag="V.* [123].*" postag_regexp="yes"/>
+            <token postag="V.* [123].*" postag_regexp="yes" regexp="yes">.*(ez|é|ée)<exception postag="[NJP].*|V.* ppa.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.*</exception></token>
           </marker>
         </pattern>
         <message>Vouliez-vous dire <suggestion><match no="3" postag="V.* [123].*" postag_regexp="yes" postag_replace="V.* inf"/></suggestion>?</message>
         <example correction="parler">Il est temps de <marker>parlez</marker>.</example>
         <example correction="parler">Le temps est venu de vous <marker>parlez</marker> de moi-même.</example>
+        <example correction="créer">Où on clique pour <marker>crée</marker> une page ?</example>
+        <example>Plusieurs d'entre eux sont morts.</example>
       </rule>
     </rulegroup>
     <rule id="CONFUSION_PAR_PART" name="Confusion part/par expression de par">
