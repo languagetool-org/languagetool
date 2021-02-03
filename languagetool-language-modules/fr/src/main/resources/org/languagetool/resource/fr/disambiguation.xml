@@ -2395,6 +2395,16 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="N m s"/>
     </rule>
+    <rule>
+      <pattern>
+        <token><exception postag="D.*" postag_regexp="yes"/></token>
+        <marker>
+          <token>autour</token>
+        </marker>
+        <token regexp="yes">de|d'|du</token>
+      </pattern>
+      <disambig action="replace" postag="P"/>
+    </rule>
   </rulegroup>
   <rule id="JURA" name="Jura">
     <pattern>

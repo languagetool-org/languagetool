@@ -88,6 +88,9 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
       boolean suggestionUsed = false;
       for (String r : match.getSuggestedReplacements()) {
         for (String nr : replacements) {
+          if (isSuggestionException(nr, desiredPostag)) {
+            continue;
+          }
           if (r.contains("{suggestion}") || r.contains("{Suggestion}")) {
             suggestionUsed = true;
           }
@@ -97,9 +100,9 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
           if (isWordAllupper) {
             nr = nr.toUpperCase();
           }
-          r = r.replace("{suggestion}", nr);
-          r = r.replace("{Suggestion}", StringTools.uppercaseFirstChar(nr));
-          replacementsList.add(r);
+          String completeSuggestion = r.replace("{suggestion}", nr);
+          completeSuggestion = completeSuggestion.replace("{Suggestion}", StringTools.uppercaseFirstChar(nr));
+          replacementsList.add(completeSuggestion);
         }
       }
       if (!suggestionUsed) {
@@ -109,6 +112,10 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
       return newMatch;
     }
     return match;
+  }
+
+  protected boolean isSuggestionException(String token, String desiredPostag) {
+    return false;
   }
 
   private AnalyzedToken getAnalyzedToken(AnalyzedTokenReadings aToken, String regexp) {

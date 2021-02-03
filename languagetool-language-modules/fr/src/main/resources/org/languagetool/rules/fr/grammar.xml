@@ -1282,6 +1282,7 @@ though, and has since been slightly modified)-->
         <example>Ça n’a pas de sens.</example>
         <example>Mais ça oui.</example>
         <example>Je ne toucherais pas à ça si j'étais toi.</example>
+        <example>Je n'ai que ça autour de mon PC.</example>
       </rule>
     </rulegroup>
     <rule id="SA_CA" name="SA au lieu de ÇA">
@@ -11032,9 +11033,31 @@ though, and has since been slightly modified)-->
           <token postag="V ppa.*s" regexp="yes" postag_regexp="yes">\w+e</token>
         </marker>
       </pattern>
-      <message>Il semblerait manquer la marque du pluriel. Vouliez-vous dire « <suggestion>\3s</suggestion> ».</message>
+      <message>Il semblerait manquer la marque du pluriel. Vouliez-vous dire <suggestion>\3s</suggestion>.</message>
       <example correction="faites">Comme vous le <marker>faite</marker>.</example>
     </rule>
+    <rulegroup id="CONFUSION_PARLEZ_PARLER" name="parlez/parler" default="temp_off">
+      <!-- TODO more general: rule for any preposition + inflected personal verb -->
+      <rule>
+        <antipattern>
+          <token>quant</token>
+          <token>à</token>
+          <token>lui</token>
+        </antipattern>
+        <pattern>
+          <token postag="P"/>
+          <token regexp="yes" min="0">me|te|m'|t'|le|la|l'|lui|vous|nous|y|en|les|leur</token>
+          <marker>
+            <token postag="V.* [123].*" postag_regexp="yes" regexp="yes">.*(ez|é|ée)<exception postag="[NJP].*|V.* ppa.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.*</exception></token>
+          </marker>
+        </pattern>
+        <message>Vouliez-vous dire <suggestion><match no="3" postag="V.* [123].*" postag_regexp="yes" postag_replace="V.* inf"/></suggestion>?</message>
+        <example correction="parler">Il est temps de <marker>parlez</marker>.</example>
+        <example correction="parler">Le temps est venu de vous <marker>parlez</marker> de moi-même.</example>
+        <example correction="créer">Où on clique pour <marker>crée</marker> une page ?</example>
+        <example>Plusieurs d'entre eux sont morts.</example>
+      </rule>
+    </rulegroup>
     <rule id="CONFUSION_PAR_PART" name="Confusion part/par expression de par">
       <pattern>
         <token>de</token>
@@ -14162,6 +14185,17 @@ though, and has since been slightly modified)-->
           <token>droit</token>
           <token>devant</token>
         </antipattern>
+        <antipattern><!-- est créé un – is this AP useful for all subrules? -->
+                <token postag="V.* 3 .*" postag_regexp="yes" inflected="yes">être</token>
+            <unify>
+                <feature id="gender"/>
+                <feature id="number"/>
+                <token postag="V ppa .*" postag_regexp="yes"/>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token min="0" postag="J.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+            </unify>
+        </antipattern>
         <pattern>
           <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NRZ].* [me] .*|V inf" postag_regexp="yes"/></token>
@@ -14195,6 +14229,7 @@ though, and has since been slightly modified)-->
         <example correction="entretenue">Cette psychose est <marker>entretenu</marker> par les théories du complot.</example>
         <example>Cette psychose est <marker>entretenue</marker> par les théories du complot.</example>
         <example correction="fortes">Si les actions sont plus <marker>forts</marker> que les mots.</example>
+        <example>Autour de cette église est créé un enclos paroissial.</example>
       </rule>
       <rule>
         <pattern>

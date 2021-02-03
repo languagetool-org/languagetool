@@ -3462,6 +3462,20 @@ Rui, por ti os teus livros trocas.
             <exception postag_regexp='yes' postag='AQ.+|NP.+'/></token>
       </antipattern> 
 <!-- MARCOAGPINTO 2021-01-25 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-02-03 (1-JAN-2021+) *START* -->
+<!--
+As gotículas das regiões frontal, occipital e parietal, depressa se transformaram em cristais de gelo.
+A bandeira nacional consiste de três listas horizontais de cores vermelha, azul e laranja.
+Explorações inglesa, francesa e holandesa.
+O movimento socialista mundial dividiu-se entre as alas social democrata e leninista.
+-->
+      <antipattern>
+	    <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+		<token min="1" max="2" postag='NC.S.+|AQ0.S.+|NP.+' postag_regexp='yes'/>
+		<token regexp='yes'>[,]|e</token>
+		<token min="1" max="2" postag='NC.S.+|AQ0.S.+|NP.+' postag_regexp='yes'/>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-02-03 (1-JAN-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -3505,6 +3519,11 @@ Rui, por ti os teus livros trocas.
 	  <example>Rui, por ti os meus livros troco.</example>
 	  <example>Rui, por ti os seus livros troca.</example>
 	  <example>Rui, por ti os teus livros trocas.</example>
+	  
+	  <example>As gotículas das <marker>regiões frontal</marker>, occipital e parietal, depressa se transformaram em cristais de gelo.</example>
+	  <example>A bandeira nacional consiste de três listas horizontais de cores vermelha, azul e laranja.</example>
+	  <example>Explorações inglesa, francesa e holandesa.</example>
+	  <example>O movimento socialista mundial dividiu-se entre as alas social democrata e leninista.</example>
     </rule>
     <rule>
       <antipattern>
@@ -21435,6 +21454,7 @@ Como nos canta Afonso X de Castela, o Rei Sábio.
              <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
              <suggestion>{suggestion}</suggestion>
              <example correction='parágrafo'>A excepção do <marker>paragrafo</marker>.</example>
+             <example correction="amêijoas">Voltou com as <marker>ameijoas</marker> iguais e o cliente desistiu do artigo.</example>
              <example>Ninguém nos deu uma oportunidade.</example>
              <example>O pressuposto no LE da figura.</example>
              <example>traslado ao aeroporto de Quito.</example>
@@ -36132,76 +36152,53 @@ ISBN 978-3-8321-7760-7.
       <example correction="fazer as coisas direito">Preciso <marker>fazer as coisas direitas</marker>.</example>
     </rule>
 
-    <!--rule id='MANDATO_DE_BUSCA' name="Calinada: Mandado de busca">
-        XXX Superseed by MANDATO_MANDADO
-        XXX Remove after 4.8-->
-    <!-- Created by Marco A.G.Pinto
-      <pattern>
-          <token>mandato</token>
-          <token>de</token>
-          <token>busca</token>
-      </pattern>
-      <message>Substitua por <suggestion>mandado de busca</suggestion>.</message>
-      <url>http://emportuguescorrecto.blogs.sapo.pt/14304.html</url>
-      <example correction="mandado de busca">A polícia tem um <marker>mandato de busca</marker>.</example>
-    </rule>-->
-
-    <rule id='IR_VERBO-A_DE-SEGUIR-SEGUIDA-INFINITIVO' name="Ir_verbo + [a/de seguir/seguida] + Verbo_inf">
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-2 (1-JAN-2021+)      -->
-<!--
-=EU=
-Vou explicar a seguir o processo.
-Vou a seguir explicar o processo.
-Vou de seguida explicar o processo.
-=TU=
-Vais explicar a seguir o processo.
-Vais a seguir explicar o processo.
-Vais de seguida explicar o processo.
-=ELE/ELA=
-Vai explicar a seguir o processo.
-Vai a seguir explicar o processo.
-Vai de seguida explicar o processo.
-=NÓS=
-Vamos explicar a seguir o processo.
-Vamos a seguir explicar o processo.
-Vamos de seguida explicar o processo.
-=VÓS=
-Ides explicar a seguir o processo.
-Ides a seguir explicar o processo.
-Ides de seguida explicar o processo.
-=ELES/ELAS=
-Vão explicar a seguir o processo.
-Vão a seguir explicar o processo.
-Vão de seguida explicar o processo.
--->	
-		<pattern>
-			<marker>
-				<and>
-					<token inflected='yes'>ir</token>
-					<token postag='VMIP[123]S0|VMIP[23]P0|VMSP[13]P0|VMM02S0|VMM0[13]P0' postag_regexp='yes'/>
-				</and>
-				<token min="0" max="1" regexp='yes'>a|de</token>
-				<token min="0" max="1" regexp='yes'>seguir|seguida</token>
-				<token postag='VMN0000' postag_regexp='no'><exception>seguir</exception></token>
-			</marker>
-		</pattern>
-		<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-		<suggestion><match no='4' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP1S0|VMIP2S0|VMIP3S0|VMM02S0|VMIP1P0|VMIP2P0|VMIP3P0'/> \2 \3</suggestion>
-		<example correction='Explica a seguir|Explicai a seguir|Explicais a seguir|Explicam a seguir|Explicamo a seguir|Explicamos a seguir|Explicas a seguir|Explico a seguir|Expliques a seguir'><marker>Vou a seguir explicar</marker> o processo.</example>
-<!--		
-		<example correction='Explico a seguir'><marker>Vou a seguir explicar</marker> o processo.</example>
-		<example correction='Explicas a seguir'><marker>Vais a seguir explicar</marker> o processo.</example>
-		<example correction='Explica a seguir'><marker>Vai a seguir explicar</marker> o processo.</example>
-		<example correction='Explicamos a seguir'><marker>Vamos a seguir explicar</marker> o processo.</example>
-		<example correction='Explicais a seguir'><marker>Ides a seguir explicar</marker> o processo.</example>
-		<example correction='Explicam a seguir'><marker>Vão a seguir explicar</marker> o processo.</example>	
--->		
-<!--
- Incorrect suggestions: Expected 'Explico a seguir|Explicas a seguir|Explica a seguir|Explicamos a seguir|Explicais a seguir|Explicam a seguir',
- got: 'Explica a seguir|Explicai a seguir|Explicais a seguir|Explicam a seguir|Explicamo a seguir|Explicamos a seguir|Explicas a seguir|Explico a seguir|Expliques a seguir'
- on input: 'Vou a seguir explicar o processo.'
--->
-	</rule>
+    <rulegroup id='IR_VERBO-A_DE-SEGUIR-SEGUIDA-INFINITIVO' name="Ir_verbo + [a/de seguir/seguida] + Verbo_inf">
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-2 + 2021-02-03 (1-JAN-2021+)      -->
+	<rule>
+  		<pattern>
+  			<marker>
+  				<and>
+  					<token inflected='yes'>ir</token>
+  					<token postag='V.[IS].*' postag_regexp='yes'/>
+  				</and>
+  				<token regexp='yes'>a|de|em</token>
+  				<token regexp='yes'>seguir|seguida</token>
+  				<token postag='VMN0000' postag_regexp='no'><exception>seguir</exception></token>
+  			</marker>
+  		</pattern>
+      <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:V.N.* postagFrom:1 postagSelect:V.I.*"/>
+  		<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+  		<suggestion>{suggestion} \2 \3</suggestion>
+  		<example correction='Explico a seguir'><marker>Vou a seguir explicar</marker> o processo.</example>
+  		<example correction='Explicas a seguir'><marker>Vais a seguir explicar</marker> o processo.</example>
+  		<example correction='Explica a seguir'><marker>Vai a seguir explicar</marker> o processo.</example>
+  		<example correction='Explicamos a seguir'><marker>Vamos a seguir explicar</marker> o processo.</example>
+  		<example correction='Explicais a seguir'><marker>Ides a seguir explicar</marker> o processo.</example>
+  		<example correction='Explicam a seguir'><marker>Vão a seguir explicar</marker> o processo.</example>	
+    </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <and>
+              <token inflected='yes'>ir</token>
+              <token postag='V.[IS].*' postag_regexp='yes'/>
+            </and>
+            <token postag='VMN0000' postag_regexp='no'><exception>seguir</exception></token>
+          </marker>
+          <token regexp='yes'>a|de|em</token>
+          <token regexp='yes'>seguir|seguida</token>
+        </pattern>
+        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V.N.* postagFrom:1 postagSelect:V.I.*"/>
+        <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+        <suggestion>{suggestion}</suggestion>
+        <example correction='Explico'><marker>Vou explicar</marker> a seguir o processo.</example>
+        <example correction='Explicas'><marker>Vais explicar</marker> a seguir o processo.</example>
+        <example correction='Explica'><marker>Vai explicar</marker> a seguir o processo.</example>
+        <example correction='Explicamos'><marker>Vamos explicar</marker> a seguir o processo.</example>
+        <example correction='Explicais'><marker>Ides explicar</marker> a seguir o processo.</example>
+        <example correction='Explicam'><marker>Vão explicar</marker> a seguir o processo.</example>	
+      </rule>
+	</rulegroup>
 
     <rule id='OVELHA_RANHOSA' name="Calinada: ranhosa - ronhosa">
     <!-- Created by Marco A.G.Pinto -->
