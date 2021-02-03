@@ -135,7 +135,11 @@ class ResultCache implements Serializable {
    * get start sentence position from cache
    */
   int getStartSentencePosition(int numberOfParagraph, int sentencePosition) {
-    List<Integer> nextSentencePositions = entries.get(numberOfParagraph).nextSentencePositions;
+    CacheEntry entry = entries.get(numberOfParagraph);
+    if (entry == null) {
+      return 0;
+    }
+    List<Integer> nextSentencePositions = entry.nextSentencePositions;
     if (nextSentencePositions == null || nextSentencePositions.size() < 2) {
       return 0;
     }
@@ -153,7 +157,11 @@ class ResultCache implements Serializable {
    * get next sentence position from cache
    */
   int getNextSentencePosition(int numberOfParagraph, int sentencePosition) {
-    List<Integer> nextSentencePositions = entries.get(numberOfParagraph).nextSentencePositions;
+    CacheEntry entry = entries.get(numberOfParagraph);
+    if (entry == null) {
+      return 0;
+    }
+    List<Integer> nextSentencePositions = entry.nextSentencePositions;
     if (nextSentencePositions == null || nextSentencePositions.size() == 0) {
       return 0;
     }

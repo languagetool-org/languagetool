@@ -359,10 +359,10 @@ public class DocumentCache implements Serializable {
     if (startPos < 0 || endPos < 0) {
       return "";
     }
-    StringBuilder docText = new StringBuilder(fixLinebreak(SingleDocument.removeFootnotes(getTextParagraph(startPos), 
+    StringBuilder docText = new StringBuilder(fixLinebreak(SingleCheck.removeFootnotes(getTextParagraph(startPos), 
         getTextParagraphFootnotes(startPos))));
     for (int i = startPos + 1; i < endPos; i++) {
-      docText.append(OfficeTools.END_OF_PARAGRAPH).append(fixLinebreak(SingleDocument.removeFootnotes(getTextParagraph(i), 
+      docText.append(OfficeTools.END_OF_PARAGRAPH).append(fixLinebreak(SingleCheck.removeFootnotes(getTextParagraph(i), 
           getTextParagraphFootnotes(i))));
     }
     return docText.toString();

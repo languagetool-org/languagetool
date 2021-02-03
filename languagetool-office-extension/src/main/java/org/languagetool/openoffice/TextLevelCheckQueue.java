@@ -235,7 +235,7 @@ public class TextLevelCheckQueue {
     SingleDocument document = getSingleDocument(docId);
     if (document != null) {
       DocumentCache docCache = document.getDocumentCache();
-      if (docCache != null) {
+      if (docCache != null && nStart < docCache.textSize()) {
         Locale locale = docCache.getTextParagraphLocale(nStart);
         if (multiDocHandler.hasLocale(locale)) {
           return multiDocHandler.getLanguage(locale);

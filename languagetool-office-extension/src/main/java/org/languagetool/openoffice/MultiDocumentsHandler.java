@@ -739,15 +739,14 @@ public class MultiDocumentsHandler {
   }
   
   /**
-   * Reset document cache of all documents
+   * Reset ignored matches
    */
-/*  TODO: Remove after tests
-  void resetDocumentCaches() {
+  void resetIgnoredMatches() {
     for (SingleDocument document : documents) {
-      document.resetDocumentCache();
+      document.resetIgnoreOnce();
     }
   }
-*/
+
   /**
    * Get current locale language
    */
@@ -1060,6 +1059,7 @@ public class MultiDocumentsHandler {
   void resetConfiguration() {
     linguServices = null;
     noBackgroundCheck = false;
+    resetIgnoredMatches();
     resetDocument();
   }
 
@@ -1113,8 +1113,7 @@ public class MultiDocumentsHandler {
               checkDialog.setTextViewCursor(0, 0, viewCursor, docCursor);
             }
           }
-//  TODO: Remove after tests
-//          resetDocumentCaches();
+          resetIgnoredMatches();
           resetDocument();
         }
         if (debugMode) {

@@ -172,12 +172,12 @@ public class MainTest {
   public void testCleanFootnotes() {
     Main main = new Main(null);
     main.setTestMode(true);
-    assertEquals("A house.¹ Here comes more text.", SingleDocument.cleanFootnotes("A house.1 Here comes more text."));
-    assertEquals("A road that's 3.4 miles long.", SingleDocument.cleanFootnotes("A road that's 3.4 miles long."));
-    assertEquals("A house.1234 Here comes more text.", SingleDocument.cleanFootnotes("A house.1234 Here comes more text."));  // too many digits for a footnote
+    assertEquals("A house.¹ Here comes more text.", SingleCheck.cleanFootnotes("A house.1 Here comes more text."));
+    assertEquals("A road that's 3.4 miles long.", SingleCheck.cleanFootnotes("A road that's 3.4 miles long."));
+    assertEquals("A house.1234 Here comes more text.", SingleCheck.cleanFootnotes("A house.1234 Here comes more text."));  // too many digits for a footnote
     String input    = "Das Haus.1 Hier kommt mehr Text2. Und nochmal!3 Und schon wieder ein Satz?4 Jetzt ist aber Schluss.";
     String expected = "Das Haus.¹ Hier kommt mehr Text2. Und nochmal!¹ Und schon wieder ein Satz?¹ Jetzt ist aber Schluss.";
-    assertEquals(expected, SingleDocument.cleanFootnotes(input));
+    assertEquals(expected, SingleCheck.cleanFootnotes(input));
   }
 
 }
