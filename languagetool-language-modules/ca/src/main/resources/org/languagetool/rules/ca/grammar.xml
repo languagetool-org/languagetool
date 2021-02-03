@@ -25897,6 +25897,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Un déjà-vu.</example>
         </rule>
         <rulegroup id="VERBS_NOMSPROPIS" name="verbs / noms propis: Barbara, Macàs, Adoram">
+            <antipattern case_sensitive="yes">
+                <!-- ignore all upper case -->
+                <token regexp="yes">[\p{Lu}·]+</token>
+                <token regexp="yes">[\p{Lu}·]+</token>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">Collegis?|COLLEGIS?</token>
