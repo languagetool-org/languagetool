@@ -19971,6 +19971,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Liebe Grüße|Lieber Gruß"><marker>LG</marker></example>
         </rule>
         <rule id="SIE_GROSS" name="Möglicherweise fälschlich großgeschriebenes 'Sie'">
+            <antipattern>
+                <token regexp="yes">wer|was</token>
+                <token>hat</token>
+                <token>sie</token>
+                <token postag=".*PA2.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern case_sensitive='yes'>
                 <token postag='SENT_START'/>
                 <token postag='ADV.*' postag_regexp='yes' min="0"/>
@@ -19983,6 +19989,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="sie">Aber gibt <marker>Sie</marker> uns das?</example>
             <example correction="sie">Gibt <marker>Sie</marker> uns das?</example>
             <example>Der Bus wird <marker>Sie</marker> zum Stadtzentrum bringen.</example>
+            <example>Was hat Sie veranlasst, die Polizei zu rufen?</example>
         </rule>
         <rulegroup id="SIE_ANREDE" name="Möglicherweise fälschlich kleingeschriebenes 'sie' markieren" default="off">
             <short>Möglicherweise fälschlich kleingeschriebenes 'sie'.</short>
