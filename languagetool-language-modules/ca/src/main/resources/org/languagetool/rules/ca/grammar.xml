@@ -64123,7 +64123,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="P0.0.*" postag_regexp="yes" skip="3"><exception scope="next" postag="P0.0.*" postag_regexp="yes"/><exception regexp="yes">['-].*</exception></token>
                     <and>
-                        <token inflected="yes" regexp="yes">baixar|caure|callar|marxar|albergar|olorar|seure|saltar|postular<exception inflected="yes">segar</exception></token>
+                        <!--|saltar-->
+                        <token inflected="yes" regexp="yes">baixar|caure|callar|marxar|albergar|olorar|seure|postular<exception inflected="yes">segar</exception></token>
                         <token postag="_reflexiu"><exception postag="_reflexiu_complement"/></token>
                     </and>
                 </pattern>
@@ -64162,13 +64163,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Probablement es podia saltar de dalt a baix.</example>
                 <example>En ells s'alberguen malalts.</example>
                 <example>M'hauria caigut bé.</example>
+                <example>Se salten els controls.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="P0.0.*" postag_regexp="yes"/>
                     <token regexp="yes" skip="3">'([mntl]|ns)<exception scope="next" postag="P.*" postag_regexp="yes"/></token>
                     <and>
-                        <token inflected="yes" regexp="yes">baixar|caure|callar|marxar|albergar|olorar|seure|saltar|postular<exception inflected="yes">segar</exception></token>
+                        <token inflected="yes" regexp="yes">baixar|caure|callar|marxar|albergar|olorar|seure|postular<exception inflected="yes">segar</exception></token>
                         <token postag="_reflexiu"><exception postag="_reflexiu_complement"/></token>
                     </and>
                 </pattern>
@@ -64183,7 +64185,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <and>
-                        <token inflected="yes" regexp="yes">baixar|caure|callar|marxar|albergar|olorar|seure|saltar|postular<exception inflected="yes">segar</exception></token>
+                        <token inflected="yes" regexp="yes">baixar|caure|callar|marxar|albergar|olorar|seure|postular<exception inflected="yes">segar</exception></token>
                         <token postag="_reflexiu"><exception postag="_reflexiu_complement"/></token>
                     </and>
                     <token postag="P0.0.*" postag_regexp="yes" spacebefore="no"/>
@@ -64193,12 +64195,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="caure">El nen pot <marker>caure's</marker>.</example>
                 <example correction="Calleu"><marker>Calleu-vos</marker></example>
                 <example correction="baixar">Va <marker>baixar-se</marker> del cotxe.</example>
+                <!-- acceptat DIEC -->
+                <example>No podem saltar-nos el reglament</example>
             </rule>
             <rule>
                 <!-- catch-all rule-->
                 <pattern>
                     <and>
-                        <token inflected="yes" regexp="yes">baixar|caure|callar|marxar|albergar|olorar|seure|saltar|postular<exception inflected="yes">segar</exception></token>
+                        <token inflected="yes" regexp="yes">baixar|caure|callar|marxar|albergar|olorar|seure|postular<exception inflected="yes">segar</exception></token>
                         <token postag="_reflexiu"><exception postag="_reflexiu_complement"/></token>
                     </and>
                 </pattern>
@@ -64209,6 +64213,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Els qui volen enriquir-se cauen en temptacions.</example>
                 <example>Els fan caure.</example>
                 <example>Mentre mirava d'alçar-se va caure damunt seu una pluja de pedres.</example>
+                <!-- acceptat DIEC -->
+                <example>No podem saltar-nos el reglament</example>
             </rule>
         </rulegroup>
         <rulegroup id="RIURE" name="riure/riure's de">
