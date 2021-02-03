@@ -154,7 +154,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("necro ") &&
                    !k.getReplacement().toLowerCase().startsWith("photo ") &&
                    !k.getReplacement().toLowerCase().startsWith("post ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ma ") &&
                    !k.getReplacement().toLowerCase().startsWith("sub ") &&
                    !k.getReplacement().toLowerCase().startsWith("auto ") &&
                    !k.getReplacement().startsWith("sh ") &&
@@ -194,9 +193,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("r ") &&
                    !k.getReplacement().endsWith(" able") &&
                    !k.getReplacement().endsWith(" less") && // (e.g. permissionless)
-                   !k.getReplacement().endsWith(" sly") && // uneccesary suggestion (e.g. for continuesly)
-                   !k.getReplacement().endsWith(" OO") && // unecessary suggestion (e.g. for "HELLOOO")
-                   !k.getReplacement().endsWith(" HHH") && // unecessary suggestion (e.g. for "OHHHH")
+                   !k.getReplacement().endsWith(" sly") && // unnecessary suggestion (e.g. for continuesly)
+                   !k.getReplacement().endsWith(" OO") && // unnecessary suggestion (e.g. for "HELLOOO")
+                   !k.getReplacement().endsWith(" HHH") && // unnecessary suggestion (e.g. for "OHHHH")
                    !k.getReplacement().endsWith(" ally") && // adverbs ending in "ally" that LT doesn't know (yet)
                    !k.getReplacement().endsWith(" ize") && // "advertize"
                    !k.getReplacement().endsWith(" sh") &&
@@ -352,7 +351,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     Map<String, List<String>> s = new HashMap<>();
     s.put("differently-abled", Arrays.asList("differently abled"));
     s.put("Differently-abled", Arrays.asList("Differently abled"));
-    s.put("ppl", Arrays.asList("people"));
     s.put("Ppl", Arrays.asList("People"));
     s.put("constits", Arrays.asList("consists"));
     s.put("fastly", Arrays.asList("fast"));
@@ -774,8 +772,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Fablet", Arrays.asList("Phablet", "Tablet"));
     s.put("companys", Arrays.asList("companies", "company's", "company"));
     s.put("Companys", Arrays.asList("Companies", "Company's", "Company"));
-    s.put("partys", Arrays.asList("parties", "party's", "party"));
-    s.put("Partys", Arrays.asList("Parties", "Party's", "Party"));
     s.put("unencode", Arrays.asList("decode"));
     s.put("unencodes", Arrays.asList("decodes"));
     s.put("unencoded", Arrays.asList("decoded"));
@@ -823,7 +819,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
         return SuggestedReplacement.convert(Arrays.asList(suggestion));
       }
     }
-
     return super.getAdditionalTopSuggestions(suggestions, word);
   }
 
