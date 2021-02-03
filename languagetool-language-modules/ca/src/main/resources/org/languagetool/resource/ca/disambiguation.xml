@@ -2597,7 +2597,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="SENT_START"/>
                 <token min="0" max="3" regexp="yes">[¿?¡!"'‘“«»—–:\-]</token>
                 <marker>
-                    <token>Useu</token>
+                    <token regexp="yes">Useu|Mata</token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="V.*"/>
@@ -2628,7 +2628,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                         <token postag="A.*|NC.*|V.[IM].*" postag_regexp="yes"><exception postag="VMIP1S0B"/><exception>Poe</exception></token>
                     </and>
                 </marker>
-                <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                <token postag="A.*|V.P.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception><exception postag="VA.*" postag_regexp="yes"/></token>
             </pattern>
             <disambig action="remove" postag="NP.*"/>
         </rule>
@@ -10625,7 +10625,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <token postag="DI.CN.*" postag_regexp="yes">massa<exception postag="_GN_FS"/></token>
             </marker>
-            <token postag="N.*" postag_regexp="yes"/>
+            <token postag="N.*|A.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filter" postag="[^N].*"/>
     </rule>
