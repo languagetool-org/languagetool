@@ -30,7 +30,7 @@ import static org.junit.Assert.assertEquals;
 public class HunspellRuleTest {
 
   @Test
-  public void testRuleWithGerman() throws Exception {
+  public void testRule() throws Exception {
     HunspellRule rule = new HunspellRule(TestTools.getMessages("pt"), Languages.getLanguageForShortCode("pt-PT"), null);
     JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("pt-PT"));
     
