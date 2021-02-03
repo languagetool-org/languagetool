@@ -5659,6 +5659,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¡Menudo fantoche estás tú hecho!</example>
                 <example>Sé tú mismo.</example>
                 <example>Sé tú.</example>
+                <example>Como tú bien sabes, no es posible.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TU_TILDE" name="tu / tú">
@@ -14118,25 +14119,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rulegroup id="SABER_SABES" name="confusión saber/sabes" default="temp_off">
+        <rulegroup id="SABER_SABES_" name="confusión saber/sabes" default="temp_off">
+            <antipattern>
+                <token>tu</token>
+                <token>deber</token>
+            </antipattern>
             <rule>
                 <pattern>
-                <token regexp="yes">tu|tú</token>
-                <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
-                <marker>
-                    <token postag="V.N...." postag_regexp="yes" regexp="yes">.+er<exception postag="_GN_MS"></exception></token>
-                </marker>
+                    <token regexp="yes">tu|tú</token>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="VMN...." postag_regexp="yes" regexp="yes">.+er<exception postag="_GN_MS"/></token>
+                    </marker>
                 </pattern>
                 <message>Posible confusión.</message>
                 <suggestion><match no="3" postag="V.N.*" postag_regexp="yes" postag_replace="VMIP2S0"/></suggestion>
                 <example correction="sabes">Tú ya <marker>saber</marker> lo que pasa.</example>
                 <example correction="sabes">Tú <marker>saber</marker> lo que pasa.</example>
+                <example>Creo que es tu deber ir.</example>
+                <example>Estar junto a tu ser amado.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="RG|LOC_ADV" max="4" postag_regexp="yes"/>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="RG|LOC_ADV" postag_regexp="yes"/>
                     <marker>
-                        <token postag="V.N...." postag_regexp="yes" regexp="yes">.+er<exception postag="_GN_MS"></exception></token>
+                        <token postag="VMN...." postag_regexp="yes" regexp="yes">.+er<exception postag="_GN_MS"/></token>
                     </marker>
                     <token min="0">lo</token>
                     <token>que</token>
@@ -14144,6 +14156,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Posible confusión.</message>
                 <suggestion><match no="2" postag="V.N.*" postag_regexp="yes" postag_replace="VMIP2S0"/></suggestion>
                 <example correction="sabes">Ya <marker>saber</marker> lo que pasa.</example>
+                <example>Me alegra mucho saber que no soy la única.</example>
+                <example>Uno debe más ser que parecer.</example>
+                <example>Llevo muy mal tener que estar justificando continuamente lo que hago.</example>
             </rule>
         </rulegroup>
         <rule id="LARDO_LARGO" name="lardo/largo">
@@ -17317,7 +17332,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>,</token>
                     <token min="0" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                    <token inflected="yes" regexp="yes">decir|suponer|afirmar|creer|escribir|pensar|meditar|señalar|asegurar|explicar|contar</token>
+                    <token inflected="yes" regexp="yes">decir|suponer|afirmar|creer|escribir|pensar|meditar|señalar|asegurar|explicar|contar|especificar</token>
                 </marker>
             </antipattern>
             <antipattern>
@@ -17325,7 +17340,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>,</token>
                     <token min="0" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
                     <token postag="VA.*" postag_regexp="yes"/>
-                    <token inflected="yes" regexp="yes">decir|suponer|afirmar|creer|escribir|pensar|meditar|señalar|asegurar|explicar|contar</token>
+                    <token inflected="yes" regexp="yes">decir|suponer|afirmar|creer|escribir|pensar|meditar|señalar|asegurar|explicar|contar|especificar</token>
                 </marker>
             </antipattern>
             <antipattern>
@@ -17793,6 +17808,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>3200 a.C.– 1600 a.C.</example>
                 <example>3200 a. C.– 1600 a. C.</example>
                 <example>Versión 1.x</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes" spacebefore="no">[.!?…]<exception postag="SENT_END"/></token>
+                    <marker>
+                        <token regexp="yes">\p{L}[\p{L}·'-]*|[¿¡]<exception regexp="yes">von|[ºª]</exception></token>
+                    </marker>
+                </pattern>
+                <message>Esta frase no empieza con mayúscula.</message>
+                <suggestion><match no="2" case_conversion="startupper"/></suggestion>
+                <example correction="La">¿Cuándo empieza? <marker>la</marker> semana siguiente.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ES_INITIAL_QUESTION_MARK" name="Signos de exclamación/interrogación desparejados">
