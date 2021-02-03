@@ -25,6 +25,7 @@ import org.languagetool.gui.Configuration;
 
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
+import com.sun.star.text.XFlatParagraph;
 import com.sun.star.uno.XComponentContext;
 
 /**
@@ -69,8 +70,8 @@ class CheckRequestAnalysis {
   private int numParasToChange = -1;                //  Number of paragraphs to change for n-paragraph cache
   private int paraNum;                              //  Number of current checked paragraph
 
-  CheckRequestAnalysis(int nPara, String chPara, Locale locale, int startPos, int numLastVCPara, int numLastFlPara, int defaultParaCheck, 
-      int proofInfo, SingleDocument singleDocument, List<ResultCache> paragraphsCache, ViewCursorTools viewCursor) {
+  CheckRequestAnalysis(int numLastVCPara, int numLastFlPara, int defaultParaCheck, int proofInfo,
+      SingleDocument singleDocument, List<ResultCache> paragraphsCache, ViewCursorTools viewCursor) {
     debugMode = OfficeTools.DEBUG_MODE_SD;
     this.singleDocument = singleDocument;
     this.viewCursor = viewCursor;
@@ -95,22 +96,72 @@ class CheckRequestAnalysis {
         numParasToChange = minPara;
       }
     }
-    paraNum = getParaPos(nPara, chPara, locale, startPos);
-    if (docCache == null || paraNum >= docCache.size()) {
-      paraNum = -1;
-    }
   }
   
   /**
    * get number of paragraph
    */
-  int getNumberOfParagraph() {
+  int getNumberOfParagraph(int nPara, String chPara, Locale locale, int startPos) {
+    paraNum = getParaPos(nPara, chPara, locale, startPos);
+    if (docCache == null || paraNum >= docCache.size()) {
+      paraNum = -1;
+    }
     return paraNum;
   }
   
-  /** Get document cache of the document
+  /**
+   * Actualize document cache and result cache for given paragraph number
    */
-  DocumentCache getDocumentCache() {
+  DocumentCache actualizeDocumentCache (int nPara) {
+    setFlatParagraphTools(xComponent);
+    if (docCache == null) {
+      docCursor = new DocumentCursorTools(xComponent);
+      docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck,
+          docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null);
+      if (debugMode > 0) {
+        MessageHandler.printToLogFile("+++ resetAllParas (docCache == null): docCache.size: " + docCache.size()
+                + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
+      }
+      if (docCache.isEmpty()) {
+        return null;
+      }
+      singleDocument.setDocumentCache(docCache);
+    } else {
+      int nOldParas = docCache.size();
+      changesInNumberOfParagraph(false);
+      int numParas = docCache.size();
+      if (numParas <= 0) {
+        MessageHandler.printToLogFile("Internal request: docCache error!");
+        return null;
+      }
+      resetCheck = true;
+      textIsChanged = true;
+      if (nOldParas != numParas) {
+        if (debugMode > 1) {
+          MessageHandler.printToLogFile("Internal request: Number of Paragraphs has changed: o:" +
+              nOldParas + ", n:" + numParas);
+        }
+        return docCache;
+      }
+    }
+    XFlatParagraph xFlatPara = flatPara.getFlatParagraphAt(nPara);
+    String chPara = xFlatPara.getText();
+    Locale docLocale = docLanguage == null ? null : LinguisticServices.getLocale(docLanguage);
+    Locale lastLocale = nPara <= 0 ? null : docCache.getFlatParagraphLocale(nPara - 1);
+    try {
+     Locale locale = FlatParagraphTools.getPrimaryParagraphLanguage(xFlatPara, chPara.length(), docLocale, lastLocale);
+      if (!docCache.isEqual(nPara, chPara, locale)) {
+        if (debugMode > 1) {
+          MessageHandler.printToLogFile("Internal request: Paragraph has changed:\no:" 
+              + chPara + "\nn:" + docCache.getTextParagraph(nPara));
+        }
+        docCache.setFlatParagraph(nPara, chPara, locale);
+        removeResultCache(nPara);
+        singleDocument.removeIgnoredMatch(nPara);;
+      }
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    }
     return docCache;
   }
   
@@ -185,7 +236,7 @@ class CheckRequestAnalysis {
    */
   private int getParaPos(int nPara, String chPara, Locale locale, int startPos) {
 
-    if (mDocHandler.isTestMode() && nPara >= 0 && docCache != null) {
+    if (nPara >= 0) {
       return nPara;
     }
 
@@ -210,10 +261,7 @@ class CheckRequestAnalysis {
         docCache = null;
         return -1;
       }
-    }
-
-    if (nPara >= 0) {
-      return setPossibleChanges(chPara, locale, nPara);
+      singleDocument.setDocumentCache(docCache);
     }
     
     if (debugMode > 1) {
@@ -306,40 +354,6 @@ class CheckRequestAnalysis {
     return getPosFromChangedPara(chPara, locale, nPara);
   }
 
-  /**
-   * Actualize document cache and result cache for given paragraph number
-   */
-  private int setPossibleChanges (String chPara, Locale locale, int nPara) {
-    int nOldParas = docCache.size();
-    changesInNumberOfParagraph(false);
-    int numParas = docCache.size();
-    if (numParas <= 0) {
-      if (debugMode > 1) {
-        MessageHandler.printToLogFile("Internal request: docCache error!");
-      }
-      return -1;
-    }
-    resetCheck = true;
-    textIsChanged = true;
-    if (nOldParas != numParas) {
-      if (debugMode > 1) {
-        MessageHandler.printToLogFile("Internal request: Number of Paragraphs has changed: o:" +
-            nOldParas + ", n:" + numParas);
-      }
-      return nPara;
-    }
-    if (!chPara.equals(docCache.getFlatParagraph(nPara))) {
-      if (debugMode > 1) {
-        MessageHandler.printToLogFile("Internal request: Paragraph has changed:\no:" 
-            + chPara + "\nn:" + docCache.getTextParagraph(nPara));
-      }
-      docCache.setFlatParagraph(nPara, chPara, locale);
-      removeResultCache(nPara);
-      singleDocument.removeIgnoredMatch(nPara);;
-    }
-    return nPara;
-  }
-  
   /**
    * remove all cached matches for one paragraph
    */
@@ -471,6 +485,7 @@ class CheckRequestAnalysis {
       cache.removeAndShift(from, to, docCache.size() - oldDocCache.size());
     }
     this.docCache = docCache;
+    singleDocument.setDocumentCache(docCache);
     if (useQueue) {
       if (debugMode > 0) {
         MessageHandler.printToLogFile("Number of Paragraphs has changed: new: " + docCache.size() 

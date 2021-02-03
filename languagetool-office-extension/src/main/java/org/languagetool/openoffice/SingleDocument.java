@@ -161,12 +161,14 @@ class SingleDocument {
       boolean isIntern = nPara < 0 ? false : true;
       boolean isDialogRequest = (nPara >= 0 || proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT);
       
-      CheckRequestAnalysis requestAnalysis = new CheckRequestAnalysis(nPara, paraText, locale, paRes.nStartOfSentencePosition, 
-          numLastVCPara, numLastFlPara, defaultParaCheck, proofInfo, this, paragraphsCache, viewCursor);
-      paraNum = requestAnalysis.getNumberOfParagraph();
+      CheckRequestAnalysis requestAnalysis = new CheckRequestAnalysis(numLastVCPara, numLastFlPara, defaultParaCheck, 
+          proofInfo, this, paragraphsCache, viewCursor);
+      paraNum = requestAnalysis.getNumberOfParagraph(nPara, paraText, locale, paRes.nStartOfSentencePosition);
+      flatPara = requestAnalysis.getFlatParagraphTools();
+      docCursor = requestAnalysis.getDocumentCursorTools();
+      viewCursor = requestAnalysis.getViewCursorTools();
       changeFrom = requestAnalysis.getFirstParagraphToChange();
       changeTo = requestAnalysis.getLastParagraphToChange();
-      docCache = requestAnalysis.getDocumentCache();
       numLastFlPara = requestAnalysis.getLastParaNumFromFlatParagraph();
       numLastVCPara = requestAnalysis.getLastParaNumFromViewCursor();
       boolean textIsChanged = requestAnalysis.textIsChanged();
@@ -351,6 +353,12 @@ class SingleDocument {
     return docCache;
   }
   
+  /** Get document cache of the document
+   */
+  void setDocumentCache(DocumentCache docCache) {
+    this.docCache = docCache;
+  }
+  
   /** reset document cache of the document
    */
   void resetDocumentCache() {
@@ -359,16 +367,10 @@ class SingleDocument {
   
   /** Update document cache and get it
    */
-  DocumentCache getUpdatedDocumentCache() {
-    if (docCursor == null) {
-      docCursor = new DocumentCursorTools(xComponent);
-    }
-    setFlatParagraphTools(xComponent);
-    DocumentCache newCache = new DocumentCache(docCursor, flatPara, defaultParaCheck, 
-        config.getUseDocLanguage() ? null : LinguisticServices.getLocale(docLanguage));
-    if (!newCache.isEmpty()) {
-      docCache = newCache;
-    }
+  DocumentCache getUpdatedDocumentCache(int nPara) {
+    CheckRequestAnalysis requestAnalysis = new CheckRequestAnalysis(numLastVCPara, numLastFlPara, defaultParaCheck, 
+        proofInfo, this, paragraphsCache, viewCursor);
+    docCache = requestAnalysis.actualizeDocumentCache(nPara);
     return docCache;
   }
   
