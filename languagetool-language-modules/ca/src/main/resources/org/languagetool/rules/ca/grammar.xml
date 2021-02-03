@@ -12081,9 +12081,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><exception postag="&pronom_feble;" postag_regexp="yes"/></token>
                 <token regexp="yes">centre|centres|base|bases</token>
             </antipattern>
+            <antipattern>
+                <token skip="2">amb</token>
+                <token regexp="yes">atenció|cura</token>
+            </antipattern>
             <pattern>
-                <token inflected="yes" regexp="yes">basar|centrar</token>
-                <token min="0" max="3" postag="RG|LOC_ADV|&pronom_feble;" postag_regexp="yes"/>
+                <token inflected="yes" regexp="yes">basar|centrar|fixar</token>
+                <token min="0" max="3" postag="RG|LOC_ADV|&pronom_feble;" postag_regexp="yes"><exception>-hi</exception></token>
                 <marker>
                     <token>amb</token>
                 </marker>
@@ -12092,7 +12096,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="en">Estava basat <marker>amb</marker> xarxes neuronals.</example>
             <example correction="en">Vull que et centres <marker>amb</marker> això.</example>
             <example correction="en">Si no és basada <marker>amb</marker> dades totalment objectives.</example>
+            <example correction="en">Fixeu-vos <marker>amb</marker> el mapa.</example>
             <example>un centre o centres amb cinquanta o més treballadors</example>
+            <example>Fixeu-vos-hi amb tota la vostra atenció.</example>
         </rule>
         <rule id="DELEGAR_EN" name="delegar *(en)">
             <pattern>
@@ -56447,9 +56453,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="DITA_PERSONA" name="dita persona/la dita persona">
             <antipattern>
-                    <token regexp="yes">el|la|els|les</token>
-                    <token>damunt</token>
-                    <token regexp="yes">dit|dita|dits|dites</token>
+                <token regexp="yes">el|la|els|les</token>
+                <token>damunt</token>
+                <token regexp="yes">dit|dita|dits|dites</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">dits?</token>
@@ -56463,18 +56469,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <feature id="genere"/>
                     <marker>
                         <token postag="V.P.*" postag_regexp="yes" inflected="yes">dir<exception postag="_GV_"/></token>
+                        <token postag="N.*" postag_regexp="yes"/>
                     </marker>
-                    <token postag="N.*" postag_regexp="yes"></token>
                 </unify>
             </pattern>
             <message>El participi 'dit' davant del nom ha d'anar precedit d'article.</message>
-            <suggestion><match no="2" postag="V.P.*(.)(.)." postag_regexp="yes" postag_replace="DA0$2$10">el</match> <match no="2" case_conversion="alllower"/></suggestion>
-            <suggestion><match no="2" postag="V.P.*(.)(.)." postag_regexp="yes" postag_replace="DD0$2$10">aquest</match></suggestion>
+            <suggestion><match no="2" postag="V.P.*(.)(.)." postag_regexp="yes" postag_replace="DA0$2$10">el</match> <match no="2" case_conversion="alllower"/> \3</suggestion>
+            <suggestion><match no="2" postag="V.P.*(.)(.)." postag_regexp="yes" postag_replace="DD0$2$10">aquest</match> \3</suggestion>
+            <suggestion><match no="2" postag="V.P.*(.)(.)." postag_regexp="yes" postag_replace="DA0$2$10">el</match> \3 <match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">esmentar</match></suggestion>
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?input_cercar=dit&amp;action=Principal&amp;method=detall_completa&amp;numPagina=1&amp;idHit=12508&amp;database=FITXES_PUB&amp;tipusFont=Fitxes%20de%20l%27Optimot&amp;idFont=12508&amp;titol=%27el%20dit%20informe%27%20o%20%27dit%20informe%27?%20/%20dit,%20dita;%20esmentat,%20esmentada;%20mencionat,%20mencionada&amp;numeroResultat=3&amp;clickLink=detall&amp;tipusCerca=cerca.tot</url>
-            <example correction="el dit|aquest">La cara de <marker>dit</marker> home.</example>
-            <example correction="les dites|aquestes">Amb <marker>dites</marker> persones no aparegueren.</example>
-            <example correction="la dita|aquesta">els drets i deures de <marker>dita</marker> ciutat</example>
-            <example correction="la dita|aquesta">I que <marker>dita</marker> cessió tinga efectes reals.</example>
+            <example correction="el dit home|aquest home|el home esmentat">La cara de <marker>dit home</marker>.</example>
+            <example correction="les dites persones|aquestes persones|les persones esmentades">Amb <marker>dites persones</marker> no aparegueren.</example>
+            <example correction="la dita ciutat|aquesta ciutat|la ciutat esmentada">els drets i deures de <marker>dita ciutat</marker></example>
+            <example correction="la dita cessió|aquesta cessió|la cessió esmentada">I que <marker>dita cessió</marker> tinga efectes reals.</example>
             <example>Les dites persones m'ho van confirmar.</example>
             <example>Ell no me n'ha dit res.</example>
             <example>Des del dit museu</example>
