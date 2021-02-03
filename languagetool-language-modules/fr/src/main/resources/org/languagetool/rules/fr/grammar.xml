@@ -34110,6 +34110,76 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TYPOGRAPHIE" name="Typographie" type="typographical">
+      <rulegroup id="PAS_DE_VIRGULE" name="pas de virgule" default="temp_off">
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>,</token>
+                      <token regexp="yes">et|ou</token>
+                  </marker>
+              </pattern>
+              <message>La virgule doit être omise dans ce contexte.</message>
+              <suggestion>\2</suggestion>
+              <example correction="et">Elle a acheté des radis<marker>, et</marker> des choux.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>c'</token>
+                  <token skip="-1">est</token>
+                  <marker>
+                      <token>,</token>
+                      <token regexp="yes">qui|que</token>
+                  </marker>
+              </pattern>
+              <message>La virgule doit être omise dans ce contexte.</message>
+              <suggestion>\4</suggestion>
+              <example correction="qui">C'est lui<marker>, qui</marker> part demain.</example>
+              <example correction="que">C’est l’eau laissée dans la piscine<marker>, que</marker> j'ai vidée.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token postag="SENT_START"/>
+                  <token regexp="yes">lui|elle|eux|nous|vous|elles</token>
+                  <token regexp="yes">seul?|-même</token>
+                  <token>,</token>
+                  <token postag="V.*" postag_regexp="yes"/>
+                  <token>-t-il</token>
+              </antipattern>
+              <pattern>
+                  <token postag="SENT_START"/>
+                  <token regexp="yes">lui|elle|eux|nous|vous|elles</token>
+                  <marker>
+                      <token regexp="yes">seul?|-même</token>
+                      <token>,</token>
+                      <token  min="0" postag="R.* pers.* obj.*" postag_regexp="yes"/>
+                      <token postag="V.*" postag_regexp="yes"/>
+                  </marker>
+              </pattern>
+              <message>La virgule doit être omise dans ce contexte.</message>
+              <suggestion>\3 \5 \6</suggestion>
+              <example correction="seul me connait">Lui <marker>seul, me connait</marker>.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token postag="SENT_START"/>
+                  <token>autrement</token>
+                  <token>dit</token>
+                  <token>,</token>
+                  <token postag="[RAVNJPZCD].*" postag_regexp="yes"/>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token>autrement</token>
+                      <token>dit</token>
+                      <token>,</token>
+                      <token postag="[RAVNJPZCD].*" postag_regexp="yes"/>
+                  </marker>
+              </pattern>
+              <message>La virgule doit être omise dans ce contexte.</message>
+              <suggestion>\1 \2 \4</suggestion>
+              <example correction="autrement dit son">Sa maison <marker>autrement dit, son</marker> lieu de résidence.</example>
+          </rule>
+      </rulegroup>
     <rulegroup id="ESPACE_APRES_POINT" name="Vérifiez l'espace après le point.">
       <antipattern>
         <marker>
