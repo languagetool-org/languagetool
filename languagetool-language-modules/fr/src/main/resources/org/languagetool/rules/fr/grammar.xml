@@ -34110,7 +34110,7 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TYPOGRAPHIE" name="Typographie" type="typographical">
-    <rulegroup id="ESPACE_APRES_POINT" name="Vérifiez l'espace après le point.">
+      <rulegroup id="ESPACE_APRES_POINT" name="Vérifiez l'espace après le point.">
       <antipattern>
         <marker>
           <token>.</token>
@@ -35762,6 +35762,88 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rulegroup id="IL_Y_A" name="il y a" default="temp_off">
+          <rule>
+              <antipattern>
+                  <token>n'</token>
+                  <token>y</token>
+                  <token>a</token>
+              </antipattern>
+              <antipattern>
+                  <token>y</token>
+                  <token>a</token>
+                  <token>-t-il</token>
+              </antipattern>
+              <antipattern>
+                  <token postag="[RNZ].*" postag_regexp="yes"></token>
+                  <token>y</token>
+                  <token>a</token>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token>y</token>
+                      <token>a<exception scope="next">t</exception></token>
+                  </marker>
+              </pattern>
+              <message>Cette expression est considérée comme familière.</message>
+              <suggestion>il \1 \2</suggestion>
+              <example correction="il y a">Selon lui, <marker>y a</marker> un problème.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token>y</token>
+                  <token>a</token>
+                  <token>pas</token>
+                  <token>mal</token>
+              </antipattern>
+              <antipattern>
+                  <token>y</token>
+                  <token>a</token>
+                  <token>plus</token>
+                  <token>de</token>
+              </antipattern>
+              <antipattern>
+                  <token>n'</token>
+                  <token>y</token>
+                  <token>a</token>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token>y</token>
+                      <token>a</token>
+                  </marker>
+                  <token regexp="yes">pas|plus|aucun|personne</token>
+              </pattern>
+              <message>Cette expression est considérée comme familière.</message>
+              <suggestion>il n'\1 \2</suggestion>
+              <example correction="il n'y a">Selon lui, <marker>y a</marker> pas de problème.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token>y</token>
+                  <token>a</token>
+                  <token>pas</token>
+                  <token>mal</token>
+              </antipattern>
+              <antipattern>
+                  <token>y</token>
+                  <token>a</token>
+                  <token>plus</token>
+                  <token>de</token>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token>il</token>
+                      <token>y</token>
+                      <token>a</token>
+                  </marker>
+                  <token regexp="yes">pas|plus|aucun|personne</token>
+              </pattern>
+              <message>Cette expression est considérée comme familière.</message>
+              <suggestion>\1 n'\2 \3</suggestion>
+              <example correction="il n'y a">Selon lui, <marker>il y a</marker> pas de problème.</example>
+          </rule>
+      </rulegroup>
     <rulegroup id="ARGOT_BEAUF_ET_BOF" name="argot beauf et bof" default="temp_off">
         <rule>
             <pattern case_sensitive="yes">
