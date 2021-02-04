@@ -34110,6 +34110,58 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TYPOGRAPHIE" name="Typographie" type="typographical">
+      <rulegroup id="ENUMERATION" name="enumeration">
+      <rule>
+          <pattern>
+              <marker><token postag="D.*" postag_regexp="yes"/>
+                  <token postag="N.*" postag_regexp="yes"/>
+                  <token postag="D.*" postag_regexp="yes"/>
+                  <token postag="N.*" postag_regexp="yes"/>
+              </marker>
+              <token>et</token>
+              <token postag="D.*" postag_regexp="yes"/>
+              <token postag="N.*" postag_regexp="yes"/>
+          </pattern>
+          <message>Une virgule semble être requise dans ce contexte.</message>
+          <suggestion>\1 \2, \3 \4</suggestion>
+          <example correction="des chiens, des chats">Elle a <marker>des chiens des chats</marker> et des souris.</example>
+      </rule>
+       <rule>
+          <pattern>
+              <unify>
+                  <feature id="gender"/>
+                  <feature id="number"/>
+                  <token postag="N.*" postag_regexp="yes"/>
+                  <marker>
+                      <token postag="J.*" postag_regexp="yes"/>
+                      <token postag="J.*" postag_regexp="yes"/>
+                      <token postag="J.*" postag_regexp="yes"/>
+                  </marker>
+                  <unify-ignore>
+                      <token>et</token>
+                  </unify-ignore>
+                  <token postag="J.*" postag_regexp="yes"/>
+              </unify>
+          </pattern>
+          <message>Une virgule semble être requise dans ce contexte.</message>
+          <suggestion>\2, \3, \4</suggestion>
+          <example correction="gris, noirs, roux">Elle a des chats <marker>gris noirs roux</marker> et blancs.</example>
+      </rule>
+      <rule>
+          <pattern>
+              <token postag="C.* sub" postag_regexp="yes"/>
+              <marker>
+                  <token postag="V.* inf" postag_regexp="yes"/>
+                  <token postag="V.* inf" postag_regexp="yes"/>
+              </marker>
+              <token>et</token>
+              <token postag="V.* inf" postag_regexp="yes"/>
+          </pattern>
+          <message>Une virgule semble être requise dans ce contexte.</message>
+          <suggestion>\2, \3</suggestion>
+          <example correction="manger, boire">Il ne fait que <marker>manger boire</marker> et dormir.</example>
+      </rule>
+      </rulegroup>
     <rulegroup id="ESPACE_APRES_POINT" name="Vérifiez l'espace après le point.">
       <antipattern>
         <marker>
