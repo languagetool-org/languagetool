@@ -46,12 +46,12 @@ public abstract class RemoteRule extends Rule {
   private static final ConcurrentMap<String, Long> lastFailure = new ConcurrentHashMap<>();
   private static final ConcurrentMap<String, AtomicInteger> consecutiveFailures = new ConcurrentHashMap<>();
   private static final ThreadFactory threadFactory = new ThreadFactoryBuilder()
-    .setNameFormat("remote-rule-pool-{}").setDaemon(true).build();
+    .setNameFormat("remote-rule-pool-%d").setDaemon(true).build();
 
   protected static final List<Runnable> shutdownRoutines = new LinkedList<>();
 
   // needed to run callables with timeout
-  private static final ConcurrentMap<String, ExecutorService> executors = new ConcurrentHashMap<>();
+  static final ExecutorService executor = Executors.newCachedThreadPool(threadFactory);
 
   protected final RemoteRuleConfig serviceConfiguration;
   protected final boolean inputLogging;
@@ -70,8 +70,6 @@ public abstract class RemoteRule extends Rule {
     filterMatches = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("filterMatches", "false"));
     lastFailure.putIfAbsent(ruleId, 0L);
     consecutiveFailures.putIfAbsent(ruleId, new AtomicInteger());
-    // TODO maybe use fixed pool, take number of concurrent requests from configuration?
-    executors.putIfAbsent(ruleId, Executors.newCachedThreadPool(threadFactory));
   }
 
   public RemoteRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
@@ -89,7 +87,7 @@ public abstract class RemoteRule extends Rule {
   protected class RemoteRequest {}
 
   protected abstract RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText, @Nullable Long textSessionId);
-  protected abstract Callable<RemoteRuleResult> executeRequest(RemoteRequest request);
+  protected abstract Callable<RemoteRuleResult> executeRequest(RemoteRequest request, long timeoutMilliseconds) throws TimeoutException;
   protected abstract RemoteRuleResult fallbackResults(RemoteRequest request);
 
   /**
@@ -119,11 +117,12 @@ public abstract class RemoteRule extends Rule {
       RemoteRuleMetrics.up(ruleId, true);
 
       for (int i = 0; i <= serviceConfiguration.getMaxRetries(); i++) {
-        Callable<RemoteRuleResult> task = executeRequest(req);
         long timeout = serviceConfiguration.getBaseTimeoutMilliseconds() +
           Math.round(characters * serviceConfiguration.getTimeoutPerCharacterMilliseconds());
+        Callable<RemoteRuleResult> task = executeRequest(req, timeout);
+        Future<RemoteRuleResult> future = null;
         try {
-          Future<RemoteRuleResult> future = executors.get(ruleId).submit(task);
+          future = executor.submit(task);
           if (timeout <= 0)  { // for debugging, disable timeout
             result = future.get();
           } else {
@@ -153,16 +152,21 @@ public abstract class RemoteRule extends Rule {
 
           return result;
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
-          logger.warn("Error while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
-
           RemoteRuleMetrics.RequestResult status;
-          if (e instanceof TimeoutException || e instanceof InterruptedException) {
+          if (e instanceof TimeoutException || e instanceof InterruptedException ||
+            (e.getCause() != null && e.getCause() instanceof TimeoutException)) {
             status = RemoteRuleMetrics.RequestResult.TIMEOUT;
+            logger.warn("Timed out while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
           } else {
             status = RemoteRuleMetrics.RequestResult.ERROR;
+            logger.warn("Error while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
           }
 
           RemoteRuleMetrics.request(ruleId, i, System.nanoTime() - startTime, characters, status);
+        } finally {
+          if (future != null) {
+            future.cancel(true);
+          }
         }
       }
       RemoteRuleMetrics.failures(ruleId, consecutiveFailures.get(ruleId).incrementAndGet());
