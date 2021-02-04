@@ -372,12 +372,13 @@ public class HunspellRule extends SpellingCheckRule {
       hunspell = Hunspell.getInstance(Paths.get(shortDicPath + ".dic"), affPath);
     }
 
-    String wordChars = "";
     if (affPath != null) {
       String wordCharsFromAff = getWordCharsFromAff(affPath);
-      wordChars = buildNegativeLookaheadWithCharSet(escapeForCharSet(wordCharsFromAff));
+      String negativeLookahead = buildNegativeLookaheadWithCharSet(escapeForCharSet(wordCharsFromAff));
+      nonWordPattern = Pattern.compile(negativeLookahead + NON_ALPHABETIC);
+    } else {
+      nonWordPattern = Pattern.compile(NON_ALPHABETIC);
     }
-    nonWordPattern = Pattern.compile(wordChars + NON_ALPHABETIC);
   }
 
   private String getWordCharsFromAff(Path affPath) throws IOException {
