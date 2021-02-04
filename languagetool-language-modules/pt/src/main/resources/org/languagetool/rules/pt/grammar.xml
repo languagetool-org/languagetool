@@ -21808,17 +21808,25 @@ Sinto frio mesmo com dois pares de meias.
 	  <example type='correct'>Sinto frio mesmo com <marker>dois</marker> pares de meias.</example>
     </rule>
 
+	<!-- VESTIR calçar -->
     <rule id='CONFUSÃO_VESTIR_CALÇAR' name="Confusão: vestir/calçar">
-    <!-- Created by Marco A.G.Pinto -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-04 (Enhanced) (1-JAN-2021+)      -->
+<!--
+Vou vestir os sapatos.
+Não se esqueça de vestir as meias.
+-->
       <pattern>
-          <token inflected="yes">vestir</token>
-          <token regexp="yes">os?|as?|um|uns|umas?</token>
-          <token regexp="yes">sapatos?|chinelos?|meias?|luvas?|botas?|peúgas?|ténis|sapatilhas?</token>
+	      <marker>
+			<token inflected="yes">vestir</token>
+		  </marker>
+		  <token postag='DA0...+|DI0...+|DD0...+' postag_regexp='yes'/>		  		  
+          <token regexp="yes">sapatos?|chinelos?|meias?|luvas?|botas?|peúgas?|ténis|sapatilhas?|galochas?</token>
       </pattern>
-      <message>Utilize o verbo calçar</message>
+      <message>Utilize o verbo 'calçar' nas extremidades dos membros do corpo.</message>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>calçar</match></suggestion>
-      <example correction="Calces|Calça"><marker>Veste os sapatos</marker>.</example>
-      <example><marker>Calçar os sapatos</marker>.</example>
+      <example correction="calçar">Vou <marker>vestir</marker> os sapatos.</example>
+      <example>Vou calçar os sapatos.</example>
+	  <example>Não se esqueça de calçar as meias.</example>
     </rule>
 
     <rule id='E_MAS_TARDE' name="Confusão: mas tarde/mais tarde">
