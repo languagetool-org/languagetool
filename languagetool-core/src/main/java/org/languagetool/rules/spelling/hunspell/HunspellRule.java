@@ -355,7 +355,6 @@ public class HunspellRule extends SpellingCheckRule {
       langCountry += "_" + language.getCountries()[0];
     }
     String shortDicPath = getDictFilenameInResources(langCountry);
-    String wordChars = "";
     // set dictionary only if there are dictionary files:
     Path affPath = null;
     if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {
@@ -372,6 +371,7 @@ public class HunspellRule extends SpellingCheckRule {
       affPath = Paths.get(shortDicPath + ".aff");
       hunspell = Hunspell.getInstance(Paths.get(shortDicPath + ".dic"), affPath);
     }
+    String wordChars = "";
     if (affPath != null) {
       try(Scanner sc = new Scanner(affPath)){
         while (sc.hasNextLine()) {
