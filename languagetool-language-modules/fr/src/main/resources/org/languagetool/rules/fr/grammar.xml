@@ -65,6 +65,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <token postag=".* 3 .*" postag_regexp="yes"/>
     </equivalence>
   </unification>
+    <unification feature="tense">
+        <equivalence type="présent">
+            <token postag=".* pres.*" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="psimple">
+            <token postag=".* psim.*" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="imparfait">
+            <token postag=".* impa.*" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="futur">
+            <token postag=".* futu.*" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
   <category name="Concordances" id="AGREEMENT">
     <rulegroup id="AGREEMENT_EXCEPTIONS" name="Concordance: cas particuliers">
       <rule>
@@ -34110,6 +34124,42 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TYPOGRAPHIE" name="Typographie" type="typographical">
+     <rulegroup id="VIRGULE_TEMPS" name="virgule temps">
+      <rule>
+          <pattern>
+              <unify>
+                  <feature id="person"/>
+                  <feature id="tense"/>
+                  <marker>
+                      <token postag="R.* pers.* suj.*" postag_regexp="yes"/>
+                      <token postag="V.*" postag_regexp="yes"/>
+                      <token postag="R.* pers.* suj.*" postag_regexp="yes"/>
+                      <token postag="V.*" postag_regexp="yes"/>
+                  </marker>
+              </unify>
+          </pattern>
+          <message>Une virgule semble être requise dans ce contexte.</message>
+          <suggestion>\1 \2, \3 \4</suggestion>
+          <example correction="On monte, on descend"><marker>On monte on descend</marker>.</example>
+      </rule>
+      <rule>
+          <pattern>
+              <unify>
+                  <feature id="person"/>
+                  <feature id="tense"/>
+                  <marker>
+                      <token postag="R.* pers.* suj.*" postag_regexp="yes"/>
+                      <token postag="V.*" postag_regexp="yes"/>
+                      <token postag="V.*" postag_regexp="yes"/>
+                      <token postag="V.*" postag_regexp="yes"/>
+                  </marker>
+              </unify>
+          </pattern>
+          <message>Une virgule semble être requise dans ce contexte.</message>
+          <suggestion>\1 \2, \3, \4</suggestion>
+          <example correction="Elle monte, descend, recule"><marker>Elle monte descend recule</marker>.</example>
+      </rule>
+  </rulegroup>
     <rulegroup id="ESPACE_APRES_POINT" name="Vérifiez l'espace après le point.">
       <antipattern>
         <marker>
