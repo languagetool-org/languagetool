@@ -59,6 +59,7 @@ public class HunspellRule extends SpellingCheckRule {
 
   private static final ConcurrentLinkedQueue<String> activeChecks = new ConcurrentLinkedQueue<>();
   private static final String NON_ALPHABETIC = "[^\\p{L}]";
+  private static final String DECIMAL_NUMBER = "\\p{Nd}";
 
   private static final boolean monitorRules = System.getProperty("monitorActiveRules") != null;
 
@@ -372,13 +373,14 @@ public class HunspellRule extends SpellingCheckRule {
       hunspell = Hunspell.getInstance(Paths.get(shortDicPath + ".dic"), affPath);
     }
 
+    String negativeLookahead;
     if (affPath != null) {
       String wordCharsFromAff = getWordCharsFromAff(affPath);
-      String negativeLookahead = buildNegativeLookaheadWithCharSet(escapeForCharSet(wordCharsFromAff));
-      nonWordPattern = Pattern.compile(negativeLookahead + NON_ALPHABETIC);
+      negativeLookahead = buildNegativeLookaheadWithCharSet(escapeForCharSet(wordCharsFromAff) + DECIMAL_NUMBER);
     } else {
-      nonWordPattern = Pattern.compile(NON_ALPHABETIC);
+      negativeLookahead = buildNegativeLookaheadWithCharSet(DECIMAL_NUMBER);
     }
+    nonWordPattern = Pattern.compile(negativeLookahead + NON_ALPHABETIC);
   }
 
   private String getWordCharsFromAff(Path affPath) throws IOException {
