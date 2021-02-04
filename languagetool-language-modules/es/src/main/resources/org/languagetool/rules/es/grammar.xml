@@ -14119,7 +14119,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rulegroup id="SABER_SABES_" name="confusión saber/sabes" default="temp_off">
+        <rulegroup id="SABER_SABES_" name="confusión saber/sabes">
             <antipattern>
                 <token>tu</token>
                 <token>deber</token>
@@ -14139,14 +14139,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Creo que es tu deber ir.</example>
                 <example>Estar junto a tu ser amado.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <antipattern>
                     <token postag="V.*" postag_regexp="yes"/>
                     <token postag="RG|LOC_ADV" max="4" postag_regexp="yes"/>
                     <token postag="V.N.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="SENT_START"/>
+                    <token postag="_PUNCT_.*|RG|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
                     <marker>
                         <token postag="VMN...." postag_regexp="yes" regexp="yes">.+er<exception postag="_GN_MS"/></token>
                     </marker>
@@ -14154,8 +14155,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>que</token>
                 </pattern>
                 <message>Posible confusión.</message>
-                <suggestion><match no="2" postag="V.N.*" postag_regexp="yes" postag_replace="VMIP2S0"/></suggestion>
+                <suggestion><match no="3" postag="V.N.*" postag_regexp="yes" postag_replace="VMIP2S0"/></suggestion>
                 <example correction="sabes">Ya <marker>saber</marker> lo que pasa.</example>
+                <example correction="Sabes">¿<marker>Saber</marker> lo que pasa?</example>
+                <example correction="Sabes">¿<marker>Saber</marker> que quiero este?</example>
                 <example>Me alegra mucho saber que no soy la única.</example>
                 <example>Uno debe más ser que parecer.</example>
                 <example>Llevo muy mal tener que estar justificando continuamente lo que hago.</example>
@@ -17813,12 +17816,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes" spacebefore="no">[.!?…]<exception postag="SENT_END"/></token>
                     <marker>
-                        <token regexp="yes">\p{L}[\p{L}·'-]*|[¿¡]<exception regexp="yes">von|[ºª]</exception></token>
+                        <token regexp="yes">\p{Ll}[\p{L}·'-]*|[¿¡]<exception regexp="yes">von|[ºª]</exception></token>
                     </marker>
                 </pattern>
                 <message>Esta frase no empieza con mayúscula.</message>
                 <suggestion><match no="2" case_conversion="startupper"/></suggestion>
                 <example correction="La">¿Cuándo empieza? <marker>la</marker> semana siguiente.</example>
+                <example>¿Vamos? Él pidió a sus amigos ayuda.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ES_INITIAL_QUESTION_MARK" name="Signos de exclamación/interrogación desparejados">
