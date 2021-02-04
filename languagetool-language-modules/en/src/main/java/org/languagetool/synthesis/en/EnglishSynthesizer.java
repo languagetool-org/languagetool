@@ -47,6 +47,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
 
   private static final String RESOURCE_FILENAME = "/en/english_synth.dict";
   private static final String TAGS_FILE_NAME = "/en/english_tags.txt";
+  private static final String SOR_FILE_NAME = "/en/en.sor";
 
   // A special tag to add determiners.
   private static final String ADD_DETERMINER = "+DT";
@@ -57,7 +58,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
   private final AvsAnRule aVsAnRule = new AvsAnRule(JLanguageTool.getMessageBundle(Languages.getLanguageForShortCode("en")));
 
   public EnglishSynthesizer(Language lang) {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
+    super(SOR_FILE_NAME, RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
   }
 
   /**
@@ -71,6 +72,9 @@ public class EnglishSynthesizer extends BaseSynthesizer {
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag)
       throws IOException {
+    if (posTag.startsWith(SPELLNUMBER_TAG)) {
+      return super.synthesize(token, posTag);
+    }
     String aOrAn = aVsAnRule.suggestAorAn(token.getToken());
     if (ADD_DETERMINER.equals(posTag)) {
       return new String[] { aOrAn, "the " + StringTools.lowercaseFirstCharIfCapitalized(token.getToken()) };
@@ -89,7 +93,9 @@ public class EnglishSynthesizer extends BaseSynthesizer {
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag,
       boolean posTagRegExp) throws IOException {
-
+    if (posTag.startsWith(SPELLNUMBER_TAG)) {
+      return synthesize(token, posTag);
+    }
     if (posTag != null && posTagRegExp) {
       String myPosTag = posTag;
       String det = "";

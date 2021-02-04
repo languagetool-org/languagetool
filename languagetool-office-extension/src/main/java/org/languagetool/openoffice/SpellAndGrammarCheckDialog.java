@@ -146,8 +146,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
   /**
    * Update the cache of the current document 
    */
-  private DocumentCache updateDocumentCache(XComponent xComponent, DocumentCursorTools docCursor, SingleDocument document) {
-    DocumentCache docCache = document.getUpdatedDocumentCache();
+  private DocumentCache updateDocumentCache(int nPara, XComponent xComponent, DocumentCursorTools docCursor, SingleDocument document) {
+    DocumentCache docCache = document.getUpdatedDocumentCache(nPara);
     if (docCache == null) {
       FlatParagraphTools flatPara = document.getFlatParagraphTools();
       if (flatPara == null) {
@@ -176,8 +176,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
     }
     XComponent xComponent = document.getXComponent();
     DocumentCursorTools docCursor = new DocumentCursorTools(xComponent);
-    docCache = updateDocumentCache(xComponent, docCursor, document);
-    if (docCache.size() <= 0) {
+    docCache = updateDocumentCache(nLastFlat,xComponent, docCursor, document);
+    if (docCache == null || docCache.size() <= 0) {
       return;
     }
     ViewCursorTools viewCursor = new ViewCursorTools(xContext);
@@ -846,6 +846,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private int y;
     private int endOfRange = -1;
     private int lastFlatPara = -1;
+    private int nFPara = 0;
     private boolean isSpellError = false;
     private boolean focusLost = false;
     private String wrongWord;
@@ -1454,7 +1455,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private CheckError getNextError(boolean startAtBegin) {
       XComponent xComponent = currentDocument.getXComponent();
       DocumentCursorTools docCursor = new DocumentCursorTools(xComponent);
-      docCache = updateDocumentCache(xComponent, docCursor, currentDocument);
+      docCache = updateDocumentCache(nFPara, xComponent, docCursor, currentDocument);
       if (docCache.size() <= 0) {
         MessageHandler.printToLogFile("getNextError: docCache size == 0: Return null");
         return null;
@@ -1475,13 +1476,13 @@ public class SpellAndGrammarCheckDialog extends Thread {
       }
       CheckError nextError = null;
       if (lastFlatPara < 0) {
-        int nFpara = docCache.getFlatParagraphNumber(y);
-        nextError = getNextErrorInParagraph (x, nFpara, currentDocument, docCursor, ignoredSpellMatches);
+        nFPara = docCache.getFlatParagraphNumber(y);
+        nextError = getNextErrorInParagraph (x, nFPara, currentDocument, docCursor, ignoredSpellMatches);
         int pLength = docCache.getTextParagraph(y).length() + 1;
         while (y < docCache.textSize() - 1 && nextError == null && (endOfRange < 0 || nStart < endOfRange)) {
           y++;
-          nFpara = docCache.getFlatParagraphNumber(y);
-          nextError = getNextErrorInParagraph (0, nFpara, currentDocument, docCursor,ignoredSpellMatches);
+          nFPara = docCache.getFlatParagraphNumber(y);
+          nextError = getNextErrorInParagraph (0, nFPara, currentDocument, docCursor,ignoredSpellMatches);
           pLength = docCache.getTextParagraph(y).length() + 1;
           nStart += pLength;
         }
@@ -1506,6 +1507,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
           }
           while (lastFlatPara < docCache.size()) {
             if (docCache.getNumberOfTextParagraph(lastFlatPara) < 0) {
+              nFPara = lastFlatPara;
               nextError = getNextErrorInParagraph (0, lastFlatPara, currentDocument, docCursor,ignoredSpellMatches);
               if (nextError != null) {
                 if (nextError.error.aRuleIdentifier.equals(spellRuleId)) {
@@ -1858,7 +1860,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         int yUndo = lastUndo.y;
         XComponent xComponent = currentDocument.getXComponent();
         DocumentCursorTools docCursor = new DocumentCursorTools(xComponent);
-        docCache = updateDocumentCache(xComponent, docCursor, currentDocument);
+        docCache = updateDocumentCache(yUndo, xComponent, docCursor, currentDocument);
         if (debugMode) {
           MessageHandler.printToLogFile("Undo: Action: " + action);
         }
