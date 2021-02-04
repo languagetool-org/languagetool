@@ -375,7 +375,7 @@ public class HunspellRule extends SpellingCheckRule {
     String wordChars = "";
     if (affPath != null) {
       String wordCharsFromAff = getWordCharsFromAff(affPath);
-      wordChars = buildNegativeLookaheadForCharSet(wordCharsFromAff);
+      wordChars = buildNegativeLookaheadWithCharSet(escapeForCharSet(wordCharsFromAff));
     }
     nonWordPattern = Pattern.compile(wordChars + NON_ALPHABETIC);
   }
@@ -395,9 +395,13 @@ public class HunspellRule extends SpellingCheckRule {
   }
 
   @NotNull
-  private String buildNegativeLookaheadForCharSet(String stringCharSet) {
-    String quotedForCharacterClass = stringCharSet.replace("-", "\\-");
-    return "(?![" + quotedForCharacterClass + "])";
+  private String buildNegativeLookaheadWithCharSet(String charSetContent) {
+    return "(?![" + charSetContent + "])";
+  }
+
+  @NotNull
+  private String escapeForCharSet(String string) {
+    return string.replace("-", "\\-");
   }
 
   @NotNull
