@@ -12082,8 +12082,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">centre|centres|base|bases</token>
             </antipattern>
             <antipattern>
-                <token skip="2">amb</token>
-                <token regexp="yes">atenció|cura</token>
+                <token>amb</token>
+                <token postag="NC.S..." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">fixar</token>
+                <token skip="1">amb</token>
+                <token inflected="yes" regexp="yes">agulla|gafa|grapa|clau</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">fixar<exception postag="_reflexiu"/></token>
             </antipattern>
             <pattern>
                 <token inflected="yes" regexp="yes">basar|centrar|fixar</token>
@@ -12099,6 +12107,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="en">Fixeu-vos <marker>amb</marker> el mapa.</example>
             <example>un centre o centres amb cinquanta o més treballadors</example>
             <example>Fixeu-vos-hi amb tota la vostra atenció.</example>
+            <example>Així poden fixar amb exactitud el procés.</example>
+            <example>Fixar amb claredat els principis educatius.</example>
+            <example>Hom la fixa amb claus al casc.</example>
+            <example>La reunió ha servit per a fixar amb l'Ajuntament les zones de construcció.</example>
         </rule>
         <rule id="DELEGAR_EN" name="delegar *(en)">
             <pattern>
@@ -45720,6 +45732,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <rule id="RENTABLE" name="rentable/rendible">
+            <antipattern>
+                <token regexp="yes">rentables?</token>
+                <token>a</token>
+                <token>màquina</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">rentables?</token>
+                <token>en</token>
+                <token>sec</token>
+            </antipattern>
             <pattern>
                 <token inflected="yes">rentable</token>
             </pattern>
@@ -56466,6 +56488,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">dits?</token>
                 <token inflected="yes" regexp="yes">polze|gros|índex|apuntador|assenyalador|mestre|saludador|mitger|llarg|llépol|anular|auricular|gorrí|menut|menovell|menuell|petit|xic|garranxet|corronxet|hàl·lux|fi</token>
             </antipattern>
+            <antipattern>
+                <token>abans</token>
+                <token regexp="yes">dit|dita|dits|dites</token>
+            </antipattern>
             <pattern>
                 <!-- <token><exception inflected="yes">mà</exception></token> -->
                 <token postag="SPS00|.*LOC_.*|CS|PR.*" postag_regexp="yes"/>
@@ -56494,6 +56520,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>El meu dit petit</example>
             <example>en forma de dit polze </example>
             <example>La seva mà de dits fins.</example>
+            <example>La ciutat abans dita Morverdre.</example>
         </rule>
         <rulegroup id="MONT_MUNTANYA" name="mont/muntanya">
             <rule>
