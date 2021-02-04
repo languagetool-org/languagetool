@@ -5692,6 +5692,15 @@ Copyright (C) 2011 Juan Martorell
             <wd lemma="haiga" pos="NCMS000"/>
         </disambig>
     </rule>
+    <rule id="URL" name="url">
+        <!-- It excludes URLs from list of unkown words -->
+        <pattern>
+            <token regexp="yes">(https?|ftp)://.*</token>
+        </pattern>
+        <disambig action="add">
+            <wd pos="IS_URL" lemma="IS_URL"/>
+        </disambig>
+    </rule>
     <rulegroup id="ABBREVIATIONS" name="abreviaturas">
         <rule>
             <pattern>

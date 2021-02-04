@@ -17861,19 +17861,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>3200 a. C.– 1600 a. C.</example>
                 <example>Versión 1.x</example>
             </rule>
-            <rule default="temp_off">
-                <pattern>
-                    <token regexp="yes" spacebefore="no">[.!?…]<exception postag="SENT_END"/></token>
-                    <marker>
-                        <token regexp="yes">\p{Ll}[\p{L}·'-]*|[¿¡]<exception regexp="yes">von|[ºª]</exception></token>
-                    </marker>
-                </pattern>
-                <message>Esta frase no empieza con mayúscula.</message>
-                <suggestion><match no="2" case_conversion="startupper"/></suggestion>
-                <example correction="La">¿Cuándo empieza? <marker>la</marker> semana siguiente.</example>
-                <example>¿Vamos? Él pidió a sus amigos ayuda.</example>
-            </rule>
         </rulegroup>
+        <rule id="CAPITALIZATION_AFTER_QUESTION_MARK" name="Mayúscula después de interrogante" default="temp_off">
+            <!-- Another way to implement this rule: change the sentence tokenizer -->
+            <pattern>
+                <token regexp="yes">[?!]</token>
+                <token regexp="yes">\p{Ll}.*<exception postag="IS_URL"/></token>
+            </pattern>
+            <message>Posible error de puntuación o mayúsculas.</message>
+            <suggestion><match no="1"/>, <match no="2"/></suggestion>
+            <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
+            <short>Error de puntuación</short>
+            <example correction="?, la|? La">¿Cuándo empieza<marker>? la</marker> semana siguiente.</example>
+            <example>¿Vamos? Él pidió a sus amigos ayuda.</example>
+        </rule>
         <rulegroup id="ES_INITIAL_QUESTION_MARK" name="Signos de exclamación/interrogación desparejados">
             <antipattern>
                 <token skip="-1">¿<exception scope="next">¿</exception></token>
