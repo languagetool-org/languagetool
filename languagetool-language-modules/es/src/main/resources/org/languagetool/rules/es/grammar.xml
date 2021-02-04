@@ -10227,8 +10227,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ID_HUBO_HUBIERON" name="Uso incorrecto del plural del verbo haber">
             <antipattern>
                 <token inflected="yes" postag="V.[IS].3P." postag_regexp="yes">haber</token>
-                <token postag="(L_)?RG|PP2CP00P|PP3[MF]P000" postag_regexp="yes"/>
-                <token postag="V.P.+" postag_regexp="yes"/>
+                <token postag="RG|LOC_ADV|PP2CP00P|PP3[MF]P000" postag_regexp="yes" min="0" max="4"/>
+                <token postag="V.P..SM" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token inflected="yes" postag="V.[IS].3P." postag_regexp="yes">haber</token>
@@ -10241,7 +10241,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token inflected="yes" postag="V.[IS].3P." postag_regexp="yes">haber<exception>han</exception></token>
                 </marker>
-                <token regexp="yes">.+<exception postag="V.P.+|PP3.*|UNKNOWN" postag_regexp="yes"/></token>
+                <token regexp="yes">.+<exception postag="V.P..SM|UNKNOWN" postag_regexp="yes"/></token>
             </pattern>
             <message>Para indicar presencia o existencia, el v. 'haber' se usa en tercera persona del singular.</message>
             <suggestion><match no="1" postag="V(.{3})3P(.)" postag_regexp="yes" postag_replace="V$13S$2"/></suggestion>
@@ -10257,9 +10257,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="HAN_HABIDO" name="Uso incorrecto del plural del verbo haber" default="temp_off">
             <antipattern>
                 <token inflected="yes" postag="V.[IS].3P." postag_regexp="yes">haber</token>
-                <token postag="(L_)?RG|PP2CP00P|PP3[MF]P000" postag_regexp="yes"/>
-                <token postag="V.P.+" postag_regexp="yes">habido</token>
-                <token postag="V.P.+" postag_regexp="yes"/>
+                <token postag="RG|LOC_ADV|PP2CP00P|PP3[MF]P000" postag_regexp="yes" min="0" max="4"/>
+                <token>habido</token>
+                <token postag="V.P..SM" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token inflected="yes" postag="V.[IS].3P." postag_regexp="yes">haber</token>
@@ -10293,7 +10293,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.rae.es/espanol-al-dia/habia-muchas-personas-ha-habido-quejas-hubo-problemas</url>
             <antipattern>
                 <token>haber</token>
-                <token postag="V.P.*" postag_regexp="yes"/>
+                <token postag="V.P..SM" postag_regexp="yes"/>
             </antipattern>
             <rule>
                 <pattern>
