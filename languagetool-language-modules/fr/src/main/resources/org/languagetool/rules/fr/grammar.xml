@@ -10084,6 +10084,68 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
+      <rule id="ADJ_F_ET_ADJ_F" name="adj f et adj f">
+          <antipattern>
+              <token postag="N f s"/>
+              <token postag="J f s"/>
+              <token>et</token>
+              <marker>
+                  <token postag="V ppa m s"/>
+              </marker>
+              <token postag="V.*" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token postag="N f s"/>
+              <token postag="J f s"/>
+              <token>et</token>
+              <marker>
+                  <token postag="J m s"/>
+              </marker>
+              <token postag="N m s|N e s" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token postag="N f s"/>
+              <token postag="J f s"/>
+              <token>et</token>
+              <marker>
+                  <token postag="J m s"/>
+              </marker>
+              <token postag="V ppa m s|V ppr" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token postag="N f s" postag_regexp="yes"/>
+              <token postag="J f s" postag_regexp="yes"/>
+              <token>et</token>
+              <marker>
+                  <token postag="J m s" postag_regexp="yes" regexp="yes">.*[er$]|.*[ant$]</token>
+              </marker>
+              <token postag="V.*" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token postag="N f s"/>
+              <token postag="J f s" postag_regexp="yes"/>
+              <token>et</token>
+              <marker>
+                  <token postag="J m s">fait</token>
+              </marker>
+              <token postag="V.*" postag_regexp="yes"/>
+          </antipattern>
+          <pattern>
+              <token postag="N f s"/>
+              <token postag="J f s"/>
+              <token>et</token>
+              <marker>
+                  <token postag="J m s"/>
+              </marker>
+              <token postag="V.*" postag_regexp="yes"/>
+          </pattern>
+          <message>Faux</message>
+          <suggestion><match no="4" postag="J m s" postag_regexp="yes" postag_replace="J f s"/></suggestion>
+          <example correction="grande">Une femme intelligente et <marker>grand</marker> arrive.</example>
+          <example>Elle porte une robe resplendissante et <marker>fait</marker> ravir ses soeurs.</example>
+          <example>Il porte une chemise bleu et <marker>allant</marker> avec sa veste.</example>
+          <example>La Révolution française et <marker>Premier</marker> Empire.</example>
+      </rule>
       <rule id="PLU_OU_PLUS" name="plu ou plus" default="temp_off">
           <pattern>
               <token postag="V.*" postag_regexp="yes"><exception postag="V avoir.*|V etre.*" postag_regexp="yes"/></token>
