@@ -34465,6 +34465,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Jornades Gastronòmiques de Tardor</example>
         </rule>
         <rule id="MAJ_DESPRES_INTERROGANT" name="Majúscula després d'interrogant">
+            <antipattern>
+                <token regexp="yes">Yahoo|\d+</token>
+                <token spacebefore="no">!</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">[?!]</token>
                 <token regexp="yes">\p{Ll}.*<exception postag="IS_URL"/></token>

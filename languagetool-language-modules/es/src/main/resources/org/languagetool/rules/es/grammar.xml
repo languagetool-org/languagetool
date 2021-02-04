@@ -71,6 +71,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY exceptions_ADO2 "relacionado|alimentado|mentalizado|abismado|aceitado|acelerado|acoplado|acuclillado|adaptado|aderezado|adormilado|agazapado|agobiado|ahogado|airado|ajustado|aliviado|allanado|amarrado|amenazado|anexado|aparcado|apesadumbrado|apresurado|apretujado|apuntado|arrimado|arrugado|asustado|atemorizado|aterrado|atontado|aupado|aventajado|bronceado|cambiado|cautivado|certificado|clavado|comandado|comparado|completado|complicado|conjuntado|contrariado|cruzado|dado|decepcionado|decorado|deformado|demostrado|desarreglado|desaseado|desatado|desbocado|desbordado|descargado|descarriado|descuidado|desgraciado|desgreñado|desorientado|despistado|desplomado|desviado|determinado|dotado|duchado|echado|empatado|empolvado|empujado|encuadrado|engarzado|engañado|enjaezado|enmarcado|ensamblado|ensillado|entrecomillado|envarado|enviado|escayolado|esperanzado|estresado|exagerado|exclamado|expulsado|extraviado|fijado|flipado|grabado|hablado|hipnotizado|ilustrado|impregnado|incomunicado|incorporado|indignado|insultado|integrado|interesado|intrigado|inventado|lastrado|lavado|mamado|marcado|mareado|mojado|motivado|obnubilado|orientado|pagado|pensado|perfumado|pertrechado|pilotado|plagado|planchado|plateado|precintado|rapado|rasurado|realizado|reforzado|remangado|rematado|remolcado|repujado|rizado|separado|sincronizado|tatuado|tomado|vendado|vigilado|zarandeado|zumbado">
     <!ENTITY ordinales_decenas "décimo|vigésimo|trigésimo|cuadragésimo|quincuagésimo|sexagésimo|septuagésimo|nonagésimo">
     <!ENTITY ordinales_unidades "primero|segundo|tercero|cuarto|quinto|sexto|séptimo|octavo|noveno">
+    <!ENTITY unusually_noun "piden|aman">
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
@@ -1251,7 +1252,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes"
                         >porque|como|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
                     <marker>
-                        <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception regexp="yes">di|cap</exception><exception scope="previous" regexp="yes"
+                        <token postag="V.[^NGP].*" postag_regexp="yes"><exception regexp="yes">&unusually_noun;</exception><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception regexp="yes">di|cap</exception><exception scope="previous" regexp="yes"
                             >&pronombre_personal_no_articulo;</exception><exception scope="previous" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -1270,7 +1271,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes" skip="-1">(?-i);|Y|O|Ni|Pero|Pues<exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">porque|como</exception></token>
                     </or>
                     <marker>
-                        <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes"
+                        <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception regexp="yes">&unusually_noun;</exception><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes"
                             >porque|como|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/><exception scope="previous" regexp="yes">&pronombre_personal_no_articulo;</exception></token>
                     </marker>
                     <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception regexp="yes"
@@ -12668,6 +12669,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>Editorial</token>
                 <token regexp="yes">\p{Lu}.+</token>
             </antipattern>
+            <antipattern>
+                <token inflected="yes">ser</token>
+                <token>justo</token>
+                <token regexp="yes">medianoche|mediodía</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -17864,6 +17870,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="CAPITALIZATION_AFTER_QUESTION_MARK" name="Mayúscula después de interrogante" default="temp_off">
             <!-- Another way to implement this rule: change the sentence tokenizer -->
+            <antipattern>
+                <token regexp="yes">Yahoo|\d+</token>
+                <token spacebefore="no">!</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">[?!]</token>
                 <token regexp="yes">\p{Ll}.*<exception postag="IS_URL"/></token>
