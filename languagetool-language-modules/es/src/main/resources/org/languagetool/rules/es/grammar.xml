@@ -10232,20 +10232,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token inflected="yes" postag="V.[IS].3P." postag_regexp="yes">haber</token>
-                <!-- TODO: correct next token when -mente adverbs are tagged -->
-                <token regexp="yes">de|.+mente</token>
-                <!-- TODO: activate next commented token when pronominal and reflexive forms are tagged -->
-                <!-- <token postag_regexp="yes" postag="V.N0000"/> -->
+                <token postag="RG|LOC_ADV|_PUNCT.*" postag_regexp="yes" min="0" max="4"/>
+                <token>de</token>
+                <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
+                <token postag_regexp="yes" postag="V.N.*"/>
             </antipattern>
             <pattern>
                 <marker>
                     <token inflected="yes" postag="V.[IS].3P." postag_regexp="yes">haber<exception>han</exception></token>
-                    <!-- "han" no se usa como plural de "hay"-->
                 </marker>
                 <token regexp="yes">.+<exception postag="V.P.+|PP3.*|UNKNOWN" postag_regexp="yes"/></token>
             </pattern>
-            <message>El v. 'haber' se conjuga en plural para la tercera persona solo si va seguido de un participio.</message>
+            <message>Para indicar presencia o existencia, el v. 'haber' se usa en tercera persona del singular.</message>
             <suggestion><match no="1" postag="V(.{3})3P(.)" postag_regexp="yes" postag_replace="V$13S$2"/></suggestion>
+            <url>https://www.rae.es/espanol-al-dia/habia-muchas-personas-ha-habido-quejas-hubo-problemas</url>
             <short>Verbo haber en plural sin participio.</short>
             <example correction="Hubo"><marker>Hubieron</marker> varios disparos</example>
             <example correction="Había"><marker>Habían</marker> como mínimo cinco.</example>
@@ -10254,7 +10254,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ellos habían nacido para jugar.</example>
             <example>De la dinastía Han.</example>
         </rule>
+        <rule id="HAN_HABIDO" name="Uso incorrecto del plural del verbo haber" default="temp_off">
+            <antipattern>
+                <token inflected="yes" postag="V.[IS].3P." postag_regexp="yes">haber</token>
+                <token postag="(L_)?RG|PP2CP00P|PP3[MF]P000" postag_regexp="yes"/>
+                <token postag="V.P.+" postag_regexp="yes">habido</token>
+                <token postag="V.P.+" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" postag="V.[IS].3P." postag_regexp="yes">haber</token>
+                <token>habido</token>
+                <token postag="RG|LOC_ADV|_PUNCT.*" postag_regexp="yes" min="0" max="4"/>
+                <token>de</token>
+                <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
+                <token postag_regexp="yes" postag="V.N.*"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token inflected="yes" postag="V.[IS].3P." postag_regexp="yes">haber</token>
+                </marker>
+                <token>habido</token>
+                <token regexp="yes">.+<exception postag="V.P.+|PP3.*|UNKNOWN" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Para indicar presencia o existencia, el v. 'haber' se usa en tercera persona del singular.</message>
+            <suggestion><match no="1" postag="V(.{3})3P(.)" postag_regexp="yes" postag_replace="V$13S$2"/></suggestion>
+            <url>https://www.rae.es/espanol-al-dia/habia-muchas-personas-ha-habido-quejas-hubo-problemas</url>
+            <short>Verbo haber en plural sin participio.</short>
+            <example correction="Ha"><marker>Han</marker> habido varios disparos</example>
+            <example correction="Había"><marker>Habían</marker> habido como mínimo cinco.</example>
+            <example correction="hubiera|hubiese">Si no <marker>hubiesen</marker> habido tantos casos, se habría acabado.</example>
+            <example>Hubo varios disparos</example>
+            <example>Hubiera sido peor si no vienen.</example>
+            <example>Ellos habían nacido para jugar.</example>
+            <example>De la dinastía Han.</example>
+            <example>Han habido de hacerlo.</example>
+        </rule>
         <rulegroup id="PODER_HABER" name="poder haber (concordancia)">
+            <url>https://www.rae.es/espanol-al-dia/habia-muchas-personas-ha-habido-quejas-hubo-problemas</url>
             <antipattern>
                 <token>haber</token>
                 <token postag="V.P.*" postag_regexp="yes"/>
@@ -10267,7 +10303,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0">de</token>
                     <token>haber</token>
                 </pattern>
-                <message>Posible confusión. El v. 'haber' impersonal se conjuga solo en singular.</message>
+                <message>El v. 'haber' impersonal se conjuga solo en tercera persona del singular.</message>
                 <suggestion><match no="1" postag="(V...)..(.)" postag_regexp="yes" postag_replace="$13S$2"/></suggestion>
                 <example correction="Puede"><marker>Pueden</marker> haber cuatro.</example>
                 <example correction="Debe"><marker>Deben</marker> de haber cuatro.</example>
@@ -10275,6 +10311,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Puede haber cuatro.</example>
                 <example>Pude haber hecho algo mal.</example>
                 <example>va a poder haber una alarma</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token postag="V...3P." postag_regexp="yes" inflected="yes">tener<exception postag="V...3S.|V.N.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token>que</token>
+                    <token>haber</token>
+                </pattern>
+                <message>El v. 'haber' impersonal se conjuga solo en tercera persona del singular.</message>
+                <suggestion><match no="1" postag="(V...)..(.)" postag_regexp="yes" postag_replace="$13S$2"/></suggestion>
+                <example correction="Tiene"><marker>Tienen</marker> que haber cuatro.</example>
+                <example correction="Tenía"><marker>Tenían</marker> que haber cuatro.</example>
             </rule>
             <rule>
                 <pattern>
@@ -10284,7 +10333,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0">de</token>
                     <token>haber</token>
                 </pattern>
-                <message>Posible confusión. El v. 'haber' impersonal se conjuga solo en singular.</message>
+                <message>Posible confusión. El v. 'haber' impersonal se conjuga solo en tercera persona del singular.</message>
                 <suggestion><match no="1" postag="(V...)..(.)" postag_regexp="yes" postag_replace="$13S$2"/></suggestion>
                 <suggestion><match no="1" postag="(V.)....(.)" postag_regexp="yes" postag_replace="$1IP3S$2"/></suggestion>
                 <example correction="Pudo|Puede"><marker>Pude</marker> haber cuatro.</example>
