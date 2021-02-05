@@ -3737,7 +3737,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </antipattern>
         <antipattern>
             <token>to</token>
-            <token case_sensitive="yes" regexp="yes">Be|Say|Save|See|Tell|Lose|Force|Discover|Ban|Obey</token>
+            <token case_sensitive="yes" regexp="yes">Be|Say|Save|See|Tell|Lose|Force|Discover|Ban|Obey|Kill</token>
         </antipattern>
         <pattern case_sensitive="yes">
             <marker>
@@ -7863,6 +7863,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag="MD" />
                 <token regexp="yes">i|we|they|s?he|you|it</token>
             </antipattern>
+            <antipattern>
+                <token>so</token>
+                <token>please</token>
+                <token postag="VB" />
+            </antipattern>
+            <antipattern>
+                <token>so</token>
+                <token regexp="yes">thanks?</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <and>
@@ -7878,6 +7887,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </pattern>
             <disambig postag="RB"/>
             <example type="untouched">It took them forever.</example>
+            <example type="untouched">It worked for me though so thank you!</example>
             <example type="untouched">We <marker>supply</marker> parts to the auto manufacturer.[Adverb variant of 'supplely': https://www.lexico.com/definition/supplely]</example>
             <example type="untouched">Incorrect. Should be 'setback', but 'back' is not an adverb in this context. This set <marker>back</marker> is annoying.</example>
             <example type="untouched">It's not good, <marker>so</marker> don't buy it.</example><!-- #2223 -->
