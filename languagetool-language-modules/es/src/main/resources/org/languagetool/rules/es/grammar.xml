@@ -10026,6 +10026,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://www.fundeu.es/recomendacion/a-sabiendas-de-que-no-a-sabiendas-que/</url>
                 <example correction="a sabiendas de que">Lo hizo <marker>a sabiendas que</marker> sería rechazada.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>a</token>
+                    <token regexp="yes">pesar|fin|condición</token>
+                    <token>que</token>
+                </pattern>
+                <message>Esta expresión siempre lleva la preposición 'de'.</message>
+                <suggestion>a \2 de que</suggestion>
+                <url>https://www.fundeu.es/recomendacion/a-pesar-de-que-no-a-pesar-que-617/</url>
+                <example correction="a pesar de que">Lo hizo <marker>a pesar que</marker> no quería.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>en</token>
+                    <token>caso</token>
+                    <token>que</token>
+                </pattern>
+                <message>Esta expresión siempre lleva la preposición 'de'.</message>
+                <suggestion>en \2 de que</suggestion>
+                <url>https://www.fundeu.es/recomendacion/a-pesar-de-que-no-a-pesar-que-617/</url>
+                <example correction="En caso de que"><marker>En caso que</marker> no sea posible, se hará en el patio.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>pese</token>
+                    <token>que</token>
+                </pattern>
+                <message>Esta expresión siempre lleva la preposición 'a'.</message>
+                <suggestion>pese a que</suggestion>
+                <url>https://www.fundeu.es/recomendacion/pese-a-que-y-no-pese-que-1498/</url>
+                <example correction="Pese a que"><marker>Pese que</marker> se solicitó la suspensión, se hizo igualmente.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="DEQUEISMO" name="dequeísmo" type="grammar" default="on">
             <url>https://www.rae.es/dpd/que%C3%ADsmo</url>
