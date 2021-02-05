@@ -10084,6 +10084,45 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
+      <rulegroup id="IL_FAUT" name="Il faut" default="temp_off">
+              <antipattern>
+                  <token>faille</token>
+              </antipattern>
+          <rule>
+              <antipattern>
+                  <token postag="SENT_START"/>
+                  <token inflected="yes" postag="V.* 3 s" postag_regexp="yes" skip="-1">falloir</token>
+                  <token postag="M fin inte"/>
+              </antipattern>
+              <antipattern>
+                  <token>faut</token>
+                  <token regexp="yes">pas|plus</token>
+              </antipattern>
+              <pattern>
+                  <token postag="SENT_START"/>
+                  <marker>
+                      <token inflected="yes" postag="V.* 3 s" postag_regexp="yes">falloir</token>
+                  </marker>
+              </pattern>
+              <message>Cette expression est familière. Dans un contexte plus formel, il est préférable d'écrire <suggestion>Il <match no="2" case_conversion="startlower"/></suggestion>.</message>
+              <example correction="Il faut"><marker>Faut</marker> qu'on se bouge.</example>
+              <example correction="Il faudrait"><marker>Faudrait</marker> le faire maintenant.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token postag="M fin inte"/>
+              </antipattern>
+              <pattern>
+                  <token postag="SENT_START"/>
+                  <marker>
+                      <token inflected="yes" postag="V.* 3 s" postag_regexp="yes">falloir</token>
+                  </marker>
+                  <token regexp="yes">pas|plus</token>
+              </pattern>
+              <message>Cette expression est familière. Dans un contexte plus formel, il est préférable d'écrire <suggestion>Il ne <match no="2" case_conversion="startlower"/></suggestion>.</message>
+              <example correction="Il ne faut"><marker>Faut</marker> plus bouger.</example>
+          </rule>
+      </rulegroup>
       <rule id="PLU_OU_PLUS" name="plu ou plus" default="temp_off">
           <pattern>
               <token postag="V.*" postag_regexp="yes"><exception postag="V avoir.*|V etre.*" postag_regexp="yes"/></token>
