@@ -21812,8 +21812,8 @@ Sinto frio mesmo com dois pares de meias.
     <rule id='CONFUSÃO_VESTIR_CALÇAR' name="Confusão: vestir/calçar">
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-04 (Enhanced) (1-JAN-2021+)      -->
 <!--
-Vou vestir os sapatos.
-Não se esqueça de vestir as meias.
+Vou calçar os sapatos.
+Não se esqueça de calçar as meias.
 -->
       <pattern>
 	      <marker>
@@ -36195,7 +36195,7 @@ ISBN 978-3-8321-7760-7.
     </rule>
 
     <rulegroup id='IR_VERBO-A_DE-SEGUIR-SEGUIDA-INFINITIVO' name="Ir_verbo + [a/de seguir/seguida] + Verbo_inf">
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-2 + 2021-02-03 (1-JAN-2021+)      -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-2 + 2021-02-03 + 2021-02-04 (1-JAN-2021+)      -->
 	<rule>
   		<pattern>
   			<marker>
@@ -36240,6 +36240,29 @@ ISBN 978-3-8321-7760-7.
         <example correction='Explicais'><marker>Ides explicar</marker> a seguir o processo.</example>
         <example correction='Explicam'><marker>Vão explicar</marker> a seguir o processo.</example>	
       </rule>
+	  <rule>
+  		<pattern>
+			<token regexp='yes'>a|de|em</token>
+  			<token regexp='yes'>seguir|seguida</token>
+  			<marker>
+  				<and>
+  					<token inflected='yes'>ir</token>
+  					<token postag='V.[IS].*' postag_regexp='yes'/>
+  				</and>
+  				<token postag='VMN0000' postag_regexp='no'></token>
+  			</marker>
+  		</pattern>
+      <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:V.N.* postagFrom:3 postagSelect:V.I.*"/>
+  		<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+  		<suggestion>{suggestion}</suggestion>
+  		<example correction='explico'>A seguir <marker>vou explicar</marker> o processo.</example>
+  		<example correction='explicas'>A seguir <marker>vais explicar</marker> o processo.</example>
+  		<example correction='explica'>A seguir <marker>vai explicar</marker> o processo.</example>
+  		<example correction='explicamos'>A seguir <marker>vamos explicar</marker> o processo.</example>
+  		<example correction='explicais'>A seguir <marker>ides explicar</marker> o processo.</example>
+  		<example correction='explicam'>A seguir <marker>vão explicar</marker> o processo.</example>	
+      </rule>	  
+	  
 	</rulegroup>
 
     <rule id='OVELHA_RANHOSA' name="Calinada: ranhosa - ronhosa">
