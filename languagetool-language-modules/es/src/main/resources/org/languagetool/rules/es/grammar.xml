@@ -17174,6 +17174,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="yes" regexp="yes" case_sensitive="yes">Y|A|O</token>
                 <token><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">[A-Z]</token>
+                <token spacebefore="no" regexp="yes">[—–-]</token>
+                <token spacebefore="no"/>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token regexp="yes">[A-Z]</token>
                 <token>.</token>
@@ -17868,7 +17873,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Versión 1.x</example>
             </rule>
         </rulegroup>
-        <rule id="CAPITALIZATION_AFTER_QUESTION_MARK" name="Mayúscula después de interrogante" default="temp_off">
+        <rule id="CAPITALIZATION_AFTER_QUESTION_MARK" name="Mayúscula después de interrogante">
             <!-- Another way to implement this rule: change the sentence tokenizer -->
             <antipattern>
                 <token regexp="yes">Yahoo|\d+</token>
@@ -17879,10 +17884,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">\p{Ll}.*<exception postag="IS_URL"/></token>
             </pattern>
             <message>Posible error de puntuación o mayúsculas.</message>
-            <suggestion><match no="1"/>, <match no="2"/></suggestion>
             <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
+            <suggestion><match no="1"/>, <match no="2"/></suggestion>
             <short>Error de puntuación</short>
-            <example correction="?, la|? La">¿Cuándo empieza<marker>? la</marker> semana siguiente.</example>
+            <example correction="? La|?, la">¿Cuándo empieza<marker>? la</marker> semana siguiente.</example>
             <example>¿Vamos? Él pidió a sus amigos ayuda.</example>
         </rule>
         <rulegroup id="ES_INITIAL_QUESTION_MARK" name="Signos de exclamación/interrogación desparejados">
