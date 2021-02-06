@@ -198,27 +198,32 @@
   </rule>
 
   <rule name="Усі м.в." id="usi_bad">
+    <antipattern>
+      <token>усі</token>
+      <token postag_regexp="yes" postag=".*:p:v_zna.*"/>
+    </antipattern>
     <pattern>
       <token regexp="yes">в|на|по</token>
       <marker>
         <token>усі</token>
       </marker>
-      <token>
-        <exception postag_regexp="yes" postag=".*v_zna.*"/>
-      </token>
     </pattern>
     <disambig action="filter" postag="noun:inanim:n:v_mis:bad"/>
     <example type="ambiguous"
         inputform="усі[увесь/adj:p:v_naz:&amp;pron:gen,увесь/adj:p:v_zna:rinanim:&amp;pron:gen,усі/noun:anim:p:v_naz:&amp;pron:gen,ухо/noun:inanim:n:v_mis:bad]"
         outputform="усі[ухо/noun:inanim:n:v_mis:bad]"
         >в <marker>усі</marker> почалося запалення</example>
+    <example type="ambiguous"
+        inputform="усі[&lt;/S&gt;,увесь/adj:p:v_naz:&amp;pron:gen,увесь/adj:p:v_zna:rinanim:&amp;pron:gen,усі/noun:anim:p:v_naz:&amp;pron:gen,ухо/noun:inanim:n:v_mis:bad]"
+        outputform="усі[&lt;/S&gt;,ухо/noun:inanim:n:v_mis:bad]"
+        >тихо як в <marker>усі</marker></example>
     <example type="untouched">в усі сторони</example>
   </rule>
 
   <rule name="Усі прийм." id="usi_non_bad">
     <pattern>
       <marker>
-        <token>усі</token>
+        <token postag_regexp="yes" postag="adj.*">усі</token>
       </marker>
     </pattern>
     <disambig action="remove" postag="noun:inanim:n:v_mis:bad"/>
@@ -226,6 +231,8 @@
         inputform="усі[увесь/adj:p:v_naz:&amp;pron:gen,увесь/adj:p:v_zna:rinanim:&amp;pron:gen,усі/noun:anim:p:v_naz:&amp;pron:gen,ухо/noun:inanim:n:v_mis:bad]"
         outputform="усі[увесь/adj:p:v_naz:&amp;pron:gen,увесь/adj:p:v_zna:rinanim:&amp;pron:gen,усі/noun:anim:p:v_naz:&amp;pron:gen]"
         >в <marker>усі</marker> сторони</example>
+    <example type="untouched">в усі почалося запалення</example>
+    <example type="untouched">тихо як в усі</example>
   </rule>
 
   <rule name="Єсть - вигук" id="yest_intj_1">
