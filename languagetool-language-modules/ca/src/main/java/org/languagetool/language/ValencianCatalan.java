@@ -42,6 +42,7 @@ import org.languagetool.rules.ca.CheckCaseRule;
 import org.languagetool.rules.ca.MorfologikCatalanSpellerRule;
 import org.languagetool.rules.ca.PronomFebleDuplicateRule;
 import org.languagetool.rules.ca.ReplaceOperationNamesRule;
+import org.languagetool.rules.ca.SimpleReplaceAdverbsMent;
 import org.languagetool.rules.ca.SimpleReplaceAnglicism;
 import org.languagetool.rules.ca.SimpleReplaceBalearicRule;
 import org.languagetool.rules.ca.SimpleReplaceDNVColloquialRule;
@@ -98,7 +99,8 @@ public class ValencianCatalan extends Catalan {
             new SimpleReplaceDNVSecondaryRule(messages, this),
             new SimpleReplaceDiacriticsIEC(messages),
             new SimpleReplaceAnglicism(messages),
-            new PronomFebleDuplicateRule(messages)
+            new PronomFebleDuplicateRule(messages),
+            new SimpleReplaceAdverbsMent(messages)
     );
   }
 

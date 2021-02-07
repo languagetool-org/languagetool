@@ -9586,6 +9586,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>quan</token>
                 <token>més</token>
             </antipattern>
+            <antipattern>
+                <token>quan</token>
+                <token regexp="yes">més|menys</token>
+                <token postag="&pronom_feble;" postag_regexp="yes" min="0" max="2"/>
+                <token postag="V.I.*" postag_regexp="yes"/>
+            </antipattern>
             <rule>
                 <pattern>
                     <token><exception postag="VS.*" postag_regexp="yes"/></token>
@@ -9602,6 +9608,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>com més gran sigui</example>
                 <example>quan més dur era l'atac, quan més en perill es troben aquells herois</example>
                 <example>a l'hivern, que és quan més ens interessa, n'obtenim sempre menys</example>
+                <example>Quan més necessitàvem la seva ajuda, pitjor es va comportar.</example>
+                <example>Quan més ho necessitàvem, pitjor es va comportar.</example>
             </rule>
             <rule>
                 <pattern>
