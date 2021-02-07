@@ -1858,6 +1858,15 @@ O Extra está desativado.
           <token regexp='yes'>auto|quilo</token>
           <token regexp='yes'>d[aeo]s?|policial</token>
       </antipattern>
+<!-- MARCOAGPINTO 2021-02-07 (1-JAN-2021+) *START* -->
+<!--
+Ficou registado no auto que se tratara de um acidente.
+-->
+      <antipattern>
+	    <token regexp='yes'>auto|quilo</token>
+	    <token postag='SPS.+|CS|CC' postag_regexp='yes'/>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-02-07 (1-JAN-2021+) *END* -->
       <pattern>
           <token regexp='yes'>&prefixos_o;|&prefixos_o_2;|arqui
             <exception case_sensitive='yes'>Homo</exception></token>
@@ -1867,6 +1876,7 @@ O Extra está desativado.
       <message>Este prefixo não é hifenizado neste contexto.</message>
         <suggestion>\1<match no='3' case_conversion="startlower"/></suggestion>
       <example correction='biodiversidade'>...apresenta índices de <marker>bio-diversidade</marker> altos.</example>
+	  <example>Ficou registado no <marker>auto que</marker> se tratara de um acidente.</example>
     </rule>
     <rule>
       <antipattern>
