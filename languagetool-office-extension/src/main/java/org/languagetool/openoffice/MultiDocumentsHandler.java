@@ -1047,11 +1047,13 @@ public class MultiDocumentsHandler {
               locale = new Locale(lang.getDefaultLanguageVariant().getShortCode(),
                   lang.getDefaultLanguageVariant().getCountries()[0], "");
             }
-          }
-          else if (lang.getVariant() != null) {  // e.g. Esperanto
+          } else if (lang.getVariant() != null) {  // e.g. Esperanto
             locale =new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, "", lang.getShortCodeWithCountryAndVariant());
           } else {
             locale = new Locale(lang.getShortCode(), "", "");
+          }
+          if (locales != null && !OfficeTools.containsLocale(locales, locale)) {
+            locales.add(locale);
           }
         } else {
           for (String country : lang.getCountries()) {
@@ -1060,13 +1062,13 @@ public class MultiDocumentsHandler {
             } else {
               locale = new Locale(lang.getShortCode(), country, "");
             }
+            if (locales != null && !OfficeTools.containsLocale(locales, locale)) {
+              locales.add(locale);
+            }
           }
         }
-        if (locales != null && !OfficeTools.containsLocale(locales, locale)) {
-          locales.add(locale);
-        }
       }
-      return locales.toArray(new Locale[0]);
+      return locales == null ? new Locale[0] : locales.toArray(new Locale[0]);
     } catch (Throwable t) {
       MessageHandler.showError(t);
       return new Locale[0];
