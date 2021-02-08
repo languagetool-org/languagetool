@@ -16,10 +16,7 @@ public class HunspellDigitsTest {
 
   @Test
   public void test_1_digit_misspelled() throws IOException {
-    HunspellRule rule = new HunspellRule(TestTools.getMessages("de"),
-      Languages.getLanguageForShortCode("de-DE"), null);
-    JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Viele Grü0ße"));
+    RuleMatch[] matches = getMatches("Viele Grü0ße", "de-DE");
     assertEquals(1, matches.length);
     assertEquals(6, matches[0].getFromPos());
     assertEquals(12, matches[0].getToPos());
@@ -28,19 +25,20 @@ public class HunspellDigitsTest {
 
   @Test
   public void test_2_more_digits_consecutive_correct() throws IOException {
-    HunspellRule rule = new HunspellRule(TestTools.getMessages("de"),
-      Languages.getLanguageForShortCode("de-DE"), null);
-    JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Airbus A320"));
+    RuleMatch[] matches = getMatches("Airbus A320", "de-DE");
     assertEquals(0, matches.length);
   }
 
   @Test
   public void test_2_more_digits_nonconsecutive_correct() throws IOException {
-    HunspellRule rule = new HunspellRule(TestTools.getMessages("de"),
-      Languages.getLanguageForShortCode("de-DE"), null);
-    JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("foo1bar9"));
+    RuleMatch[] matches = getMatches("foo1bar9", "de-DE");
     assertEquals(0, matches.length);
+  }
+
+  private RuleMatch[] getMatches(String inputText, String langCode) throws IOException {
+    HunspellRule rule = new HunspellRule(TestTools.getMessages(langCode.substring(0, 2)),
+      Languages.getLanguageForShortCode(langCode), null);
+    JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode(langCode));
+    return rule.match(langTool.getAnalyzedSentence(inputText));
   }
 }
