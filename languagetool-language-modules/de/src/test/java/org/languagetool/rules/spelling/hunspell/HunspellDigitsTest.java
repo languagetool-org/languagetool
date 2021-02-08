@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class HunspellDigitsTest {
   }
 
   private RuleMatch[] getMatches(String inputText, String langCode) throws IOException {
-    HunspellRule rule = new HunspellRule(TestTools.getMessages(langCode.substring(0, 2)),
+    Rule rule = new HunspellRule(TestTools.getMessages(langCode.substring(0, 2)),
       Languages.getLanguageForShortCode(langCode), null);
     JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode(langCode));
     return rule.match(langTool.getAnalyzedSentence(inputText));
