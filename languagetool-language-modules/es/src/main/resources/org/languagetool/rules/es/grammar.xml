@@ -13268,7 +13268,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>tú</token>
-                    <token postag="VMM02S0"/>
+                    <token postag="VMM02[SV]0" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token>yo</token>
@@ -13297,6 +13297,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Que tu familia y tú estéis tranquilos.</example>
                 <example>Tú ve allá.</example>
                 <example>¿De qué silencio eres tú silencio?</example>
+                <example>Tú marchá.</example>
                 <example>Yo que tú atendería.</example>
                 <example>Si yo fuera tú diría que sí.</example>
                 <example>Tú diste el paso que yo no me atrevía.</example>
@@ -13314,6 +13315,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token postag="V...2P." postag_regexp="yes"/>
                     <token regexp="yes">vosotros|vosotras</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">vosotros|vosotras</token>
+                    <token postag="VMM02P0"/>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">vosotros|vosotras<exception postag="SP.*|CC" postag_regexp="yes" scope="previous"/></token>
@@ -13335,6 +13340,117 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Vosotros hace cuestión de 2 años aproximadamente.</example>
                 <example type="triggers_error">Donde vosotros <marker>nieva</marker> en enero.</example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token postag="V...3S." postag_regexp="yes"/>
+                    <token regexp="yes">él|ella|usted</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">él|ella|usted<exception postag="SP.*|CC" postag_regexp="yes" scope="previous"/></token>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="3"/>
+                    <marker>
+                        <token postag="V...[12]..|V...3P." postag_regexp="yes"><exception postag="V...3S.|AQ.*|RG|LOC_ADV" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Posible falta de concordancia de persona entre «\1» y «\3».</message>
+                <suggestion><match no="3" postag="(V.[^M].).*" postag_regexp="yes" postag_replace="$13S."/></suggestion>
+                <example correction="viene">Él <marker>vienen</marker> ahora.</example>
+                <example>Entre vosotros y él es imprescindible el diálogo.</example>
+                <example>Quien como él tiene el honor de presidir.</example>
+                <example>Personas como él seguirán comiendo chocolate.</example>
+                <example>Él apenas siendo un niño aprendió japonés.</example>
+                <example>El hombre que ve él es muy alto</example>
+                <example>Él hace pocos días he descubierto lo que pasaba.</example>
+                <example>No es tan alto como lo era ella hace dos años.</example>
+                <example>Usted hace cuestión de 2 años aproximadamente.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>ustedes</token>
+                    <token postag="VMM03P0"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V...3P." postag_regexp="yes"/>
+                    <token regexp="yes">ellos|ellas|ustedes</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">ellos|ellas|ustedes<exception postag="SP.*|CC" postag_regexp="yes" scope="previous"/></token>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="3"/>
+                    <marker>
+                        <token postag="V...[12]..|V...3S." postag_regexp="yes"><exception postag="V...3P.|AQ.*|RG|LOC_ADV" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Posible falta de concordancia de persona entre «\1» y «\3».</message>
+                <suggestion><match no="3" postag="(V.[^M].).*" postag_regexp="yes" postag_replace="$13P."/></suggestion>
+                <example correction="vienen">Ellos <marker>viene</marker> ahora.</example>
+                <example correction="vendrán">Ustedes ahora <marker>vendrá</marker> conmigo.</example>
+                <example>Entre vosotros y ellos es imprescindible el diálogo.</example>
+                <example>Quien como ellos tiene el honor de presidir.</example>
+                <example>Personas como ellas seguirán comiendo chocolate.</example>
+                <example>Ellos apenas siendo niños aprendieron japonés.</example>
+                <example>El hombre que ven ellas es muy alto</example>
+                <example>Ellos hace pocos días han descubierto lo que pasaba.</example>
+                <example>No es tan alto como lo eran ellas hace dos años.</example>
+                <example>Ustedes hace cuestión de 2 años aproximadamente.</example>
+                <example>Ustedes vayan hacia allá.</example>
+            </rule>
+            <rule>
+                <!-- vos: presente de indicativo -->
+                <antipattern>
+                    <token postag="V...2[PV]." postag_regexp="yes"/>
+                    <token>vos</token>
+                </antipattern>
+                <pattern>
+                    <token>vos<exception postag="SP.*|CC" postag_regexp="yes" scope="previous"/></token>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="3"/>
+                    <marker>
+                        <token postag="V.IP[123].." postag_regexp="yes"><exception postag="V...2[VP].|AQ.*|RG|LOC_ADV" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Posible falta de concordancia de persona entre «\1» y «\3».</message>
+                <suggestion><match no="3" postag="(V.IP).*" postag_regexp="yes" postag_replace="$12[VP]."/></suggestion>
+                <example correction="venís">Vos <marker>viene</marker> ahora.</example>
+                <example>Entre yo y vos es imprescindible el diálogo.</example>
+                <example>Quien como vos tiene el honor de presidir.</example>
+                <example>Personas como vos seguirán comiendo chocolate.</example>
+                <example>Vos apenas siendo niños aprendiste japonés.</example>
+                <example>El hombre que veis vos es muy alto</example>
+                <example>Vos hace pocos días habéis descubierto lo que pasaba.</example>
+                <example>No es tan alto como lo eras vos hace dos años.</example>
+                <example>Vos hace cuestión de 2 años aproximadamente.</example>
+                <example>Vos andá hacia allá.</example>
+            </rule>
+            <rule>
+                <!-- vos: excepto presente de indicativo -->
+                <antipattern>
+                    <token postag="V...2[PV]." postag_regexp="yes"/>
+                    <token>vos</token>
+                </antipattern>
+                <antipattern>
+                    <token>vos</token>
+                    <token postag="VMM02V0"/>
+                </antipattern>
+                <pattern>
+                    <token>vos<exception postag="SP.*|CC" postag_regexp="yes" scope="previous"/></token>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="3"/>
+                    <marker>
+                        <token postag="V...[123].." postag_regexp="yes"><exception postag="V...2[SVP].|AQ.*|RG|LOC_ADV|V.IP.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Posible falta de concordancia de persona entre «\1» y «\3».</message>
+                <suggestion><match no="3" postag="(V...).*" postag_regexp="yes" postag_replace="$12[VPS]."/></suggestion>
+                <example correction="vendrás|vendréis">Vos ahora <marker>vendrá</marker> conmigo.</example>
+                <example>Entre yo y vos es imprescindible el diálogo.</example>
+                <example>Quien como vos tiene el honor de presidir.</example>
+                <example>Personas como vos seguirán comiendo chocolate.</example>
+                <example>Vos apenas siendo niño aprendiste japonés.</example>
+                <example>El hombre que viste vos era muy alto</example>
+                <example>Vos hace pocos días habéis descubierto lo que pasaba.</example>
+                <example>No es tan alto como lo eras vos hace dos años.</example>
+                <example>Vos hace cuestión de 2 años aproximadamente.</example>
+                <example>Vos andá hacia allá.</example>
+            </rule>
+            <!-- TODO: combinations: él y yo, tu familia y tú... -->
         </rulegroup>
         <rulegroup id="AGREEMENT_PP_VERB" name="Concordancias: pronombre personal + verbo" default="off">
             <short>Concordancia de persona dudosa.</short>
