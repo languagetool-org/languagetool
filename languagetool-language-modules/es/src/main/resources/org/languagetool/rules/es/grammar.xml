@@ -8022,6 +8022,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En la Super Bowl.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>super</token>
+                    <token spacebefore="no">-</token>
+                </antipattern>
                 <pattern>
                     <token>super<exception postag="NP.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -8031,6 +8035,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Está super de moda.</example>
                 <example>Me siento super a gusto.</example>
                 <example>Formaron una super gran coalición.</example>
+                <example>El prefijo super- es de uso común.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8064,6 +8069,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Como prefijo de un conjunto de palabras con un significado unitario, se escribe sin guión y sin tilde.</message>
                 <suggestion>super gran</suggestion>
                 <example correction="super gran">Fundaron una <marker>súper-gran</marker> coalición.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HIPER" name="híper/hiper-" default="temp_off">
+            <url>https://www.fundeu.es/recomendacion/super-superestrella-superheroe-coalicion-prefijo-815/</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">hiper|híper</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">...+</token>
+                </pattern>
+                <message suppress_misspelled="yes">El prefijo 'hiper-' se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="hiper$1" case_conversion="alllower"/></suggestion>
+                <example correction="hipertensión">Sufre <marker>hiper tensión</marker></example>
+                <example correction="hiperactivas">Son <marker>hiper-activas</marker></example>
+                <example>Vamos al híper de la esquina.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>híper</token>
+                    <token>cercano</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">hiper|híper</token>
+                    <token min="0">-</token>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception regexp="yes">hiper|híper</exception></token>
+                </pattern>
+                <message>Como prefijo de un adjetivo, 'hiper-' se escribe junto, aunque la palabra resultante no esté en el diccionario.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="hiper$1" case_conversion="alllower"/></suggestion>
+                <example correction="hiperimportantes">Son <marker>hiper importantes</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">hiper|híper<exception postag="NP.*" postag_regexp="yes"/></token>
+                    <token min="0">-</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Como prefijo, 'hiper-' se escribe junto, aunque la palabra resultante no esté en el diccionario.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="hiper$1" case_conversion="alllower"/></suggestion>
+                <example correction="hipercamino">Son un <marker>hiper camino</marker></example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>hiper</token>
+                    <token spacebefore="no">-</token>
+                </antipattern>
+                <pattern>
+                    <token>hiper<exception postag="NP.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Como sinónimo de 'hipermercado', se escribe <suggestion>híper</suggestion>.</message>
+                <example correction="híper">Me voy al <marker>hiper</marker>.</example>
+                <example>El prefijo hiper- significa </example>
+                <example>Está super de moda.</example>
+                <example>Me siento super a gusto.</example>
+                <example>Formaron una super gran coalición.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUTO_NO_SEPARADO" name="prefijo auto- no separado">
