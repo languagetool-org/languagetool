@@ -130,7 +130,8 @@ public class HunspellRule extends SpellingCheckRule {
       if (monitorRules) {
         activeChecks.add(monitoringText);
       }
-      String[] tokens = tokenizeText(getSentenceTextWithoutUrlsAndImmunizedTokens(sentence));
+      String sentenceText = getSentenceTextWithoutUrlsAndImmunizedTokens(sentence);
+      String[] tokens = tokenizeText(sentenceText);
 
       // starting with the first token to skip the zero-length START_SENT
       int len;
@@ -308,7 +309,12 @@ public class HunspellRule extends SpellingCheckRule {
     AnalyzedTokenReadings[] sentenceTokens = getSentenceWithImmunization(sentence).getTokens();
     for (int i = 1; i < sentenceTokens.length; i++) {
       String token = sentenceTokens[i].getToken();
-      if (sentenceTokens[i].isImmunized() || sentenceTokens[i].isIgnoredBySpeller() || isUrl(token) || isEMail(token) || isQuotedCompound(sentence, i, token)) {
+      if (sentenceTokens[i].isImmunized()
+        || sentenceTokens[i].isIgnoredBySpeller()
+        || isUrl(token)
+        || isEMail(token)
+        || containsTwoOrMoreDigits(token)
+        || isQuotedCompound(sentence, i, token)) {
         if (isQuotedCompound(sentence, i, token)) {
           sb.append(' ').append(token.substring(1));
         }

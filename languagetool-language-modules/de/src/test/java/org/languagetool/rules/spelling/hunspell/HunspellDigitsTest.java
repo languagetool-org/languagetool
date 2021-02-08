@@ -27,11 +27,20 @@ public class HunspellDigitsTest {
   }
 
   @Test
-  public void test_2_more_digits_correct() throws IOException {
+  public void test_2_more_digits_consecutive_correct() throws IOException {
     HunspellRule rule = new HunspellRule(TestTools.getMessages("de"),
       Languages.getLanguageForShortCode("de-DE"), null);
     JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Airbus A320"));
+    assertEquals(0, matches.length);
+  }
+
+  @Test
+  public void test_2_more_digits_nonconsecutive_correct() throws IOException {
+    HunspellRule rule = new HunspellRule(TestTools.getMessages("de"),
+      Languages.getLanguageForShortCode("de-DE"), null);
+    JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("foo1bar9"));
     assertEquals(0, matches.length);
   }
 }
