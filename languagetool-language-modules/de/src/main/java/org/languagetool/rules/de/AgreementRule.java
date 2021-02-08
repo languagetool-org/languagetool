@@ -661,9 +661,10 @@ public class AgreementRule extends Rule {
       posRegex("SUB:NOM:.*"),
       posRegex("PKT|SENT_END|KON.*")
     ),
-    Arrays.asList( // "Sie sagte, dass das Rache bedeuten würden"
+    Arrays.asList( // "Sie sagte, dass das Rache bedeuten würden", "Sie werden merken, dass das echte Nutzer sind."
       pos("KON:UNT"),
       csToken("das"),
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
       posRegex("SUB:.+"),
       new PatternTokenBuilder().tokenRegex("bedeuten|sein").matchInflectedForms().build()
     ),
