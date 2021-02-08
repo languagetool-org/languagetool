@@ -1,26 +1,10 @@
-/* LanguageTool, a natural language style checker
- * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
- * USA
- */
 package org.languagetool.language;
 
 import org.jetbrains.annotations.NotNull;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
+import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.DoublePunctuationRule;
 import org.languagetool.rules.EmptyLineRule;
@@ -39,7 +23,7 @@ import org.languagetool.rules.WhiteSpaceBeforeParagraphEnd;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
-import org.languagetool.tagging.no.NorwegianTagger;
+import org.languagetool.tagging.no.NorwegianNBTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
@@ -50,6 +34,8 @@ import java.util.ResourceBundle;
 
 public class Norwegian extends Language {
 
+  private String shortCode = "no";
+
   @Override
   public String getName() {
     return "Norwegian";
@@ -57,7 +43,7 @@ public class Norwegian extends Language {
 
   @Override
   public String getShortCode() {
-    return "no";
+    return shortCode;
   }
 
   @Override
@@ -68,7 +54,12 @@ public class Norwegian extends Language {
   @NotNull
   @Override
   public Tagger createDefaultTagger() {
-    return new NorwegianTagger();
+    return new NorwegianNBTagger();
+  }
+
+  @Override
+  public Language getDefaultLanguageVariant() {
+    return new NorwegianNB();
   }
 
   @Override
@@ -89,6 +80,12 @@ public class Norwegian extends Language {
   @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Adthena")};
+  }
+
+  @Override
+  public List<String> getRuleFileNames() {
+    ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+    return Arrays.asList(dataBroker.getRulesDir() + "/" + shortCode + "/" + JLanguageTool.PATTERN_FILE);
   }
 
   @Override

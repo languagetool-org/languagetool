@@ -4,9 +4,8 @@ import org.languagetool.tagging.BaseTagger;
 
 import java.util.Locale;
 
-public class NorwegianTagger extends BaseTagger {
-  public NorwegianTagger() {
-//    super("/no/norwegian.dict", new Locale("no"));
+public class NorwegianNBTagger extends BaseTagger {
+  public NorwegianNBTagger() {
     super("/no/nb_NO.dict", new Locale("nb", "NO"));
   }
 }
