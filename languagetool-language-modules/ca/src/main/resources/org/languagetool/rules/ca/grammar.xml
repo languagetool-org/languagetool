@@ -28377,7 +28377,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>sol</token>
                     </marker>
                 </pattern>
-                <message>S'escriu amb accent amb el sentit de 'superfície, terreny, solar'.</message>
+                <message>Amb el sentit de 'superfície, terra, terreny', s'escriu amb accent.</message>
                 <suggestion>sòl</suggestion>
                 <example correction="sòl">El banc no va aplicar la clàusula <marker>sol</marker>.</example>
             </rule>
@@ -28388,20 +28388,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token inflected="yes" regexp="yes">agrícola|sorrenc|arenós|desèrtic|fèrtil|humit|sec|infèrtil|al·luvial|volcànic|urbanitzable|calcari|urbanitzar|quaternari|.*pelvià</token>
                 </pattern>
-                <message>S'escriu amb accent amb el sentit de 'superfície, terra, terreny'.</message>
-                <suggestion><match no="1" regexp_match="(?iu)sol" regexp_replace="sòl"/></suggestion>
+                <message>Amb el sentit de 'superfície, terra, terreny', s'escriu amb accent.</message>
+                <suggestion><match no="1" regexp_match="(?iu)sol" regexp_replace="sòl" case_conversion="preserve"/></suggestion>
                 <example correction="sòls">Van expropiar <marker>sols</marker> agrícoles.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" skip="-1">urbanitzar</token>
+                    <token inflected="yes" skip="-1" regexp="yes">urbanitzar|construir</token>
                     <marker>
                         <token regexp="yes">sols?</token>
                     </marker>
                 </pattern>
-                <message>A'escriu amb accent amb el sentit de 'superfície, terra, terreny'.</message>
-                <suggestion><match no="2" regexp_match="(?iu)sol" regexp_replace="sòl"/></suggestion>
+                <message>Amb el sentit de 'superfície, terra, terreny', s'escriu amb accent.</message>
+                <suggestion><match no="2" regexp_match="(?iu)sol" regexp_replace="sòl" case_conversion="preserve"/></suggestion>
                 <example correction="sòl">Van urbanitzar tot el <marker>sol</marker> del municipi.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" skip="20">sols?</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">urbanitzar|construir</token>
+                </pattern>
+                <message>Amb el sentit de 'superfície, terra, terreny', s'escriu amb accent.</message>
+                <suggestion><match no="1" regexp_match="(?iu)sol" regexp_replace="sòl" case_conversion="preserve"/></suggestion>
+                <example correction="sòl">Encara que tinguesis el <marker>sol</marker>, construir tampoc no és ràpid.</example>
             </rule>
             <rule>
                 <pattern>
@@ -28413,7 +28424,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>sol</token>
                     </marker>
                 </pattern>
-                <message>S'escriu amb accent amb el sentit de 'superfície, terreny, solar'.</message>
+                <message>Amb el sentit de 'superfície, terra, terreny', s'escriu amb accent.</message>
                 <suggestion>sòl</suggestion>
                 <example correction="Sòl">Institut Català del <marker>Sol</marker>.</example>
             </rule>

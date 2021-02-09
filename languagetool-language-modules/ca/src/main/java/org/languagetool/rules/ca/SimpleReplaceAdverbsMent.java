@@ -25,6 +25,7 @@ import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.ITSIssueType;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -55,6 +56,7 @@ public class SimpleReplaceAdverbsMent extends AbstractSimpleReplaceRule {
     super.setDefaultOn();
     this.setCheckLemmas(false);
     setTags(Arrays.asList(Tag.picky));
+    super.setUrl(new URL("https://esadir.cat/gramatica/sintaxi/advermanera"));
   }  
 
   @Override
