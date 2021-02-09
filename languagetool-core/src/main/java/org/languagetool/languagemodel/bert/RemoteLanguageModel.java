@@ -23,6 +23,8 @@ package org.languagetool.languagemodel.bert;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import io.grpc.ManagedChannel;
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NegotiationType;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
@@ -33,6 +35,8 @@ import org.languagetool.languagemodel.bert.grpc.BertLmGrpc;
 import javax.net.ssl.SSLException;
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 import static org.languagetool.languagemodel.bert.grpc.BertLmProto.*;
@@ -118,7 +122,7 @@ public class RemoteLanguageModel {
     }
   }
 
-  public List<List<Double>> batchScore(List<Request> requests) {
+  public List<List<Double>> batchScore(List<Request> requests, long timeoutMilliseconds) throws TimeoutException {
     Map<Request, List<Double>> cachedRequests = new HashMap<>();
     List<Request> uncachedRequests = new ArrayList<>();
     for (Request request : requests) {
@@ -133,8 +137,19 @@ public class RemoteLanguageModel {
       uncachedRequests.stream().map(Request::convert).collect(Collectors.toList())
     ).build();
     // TODO multiple masks
-    List<List<Double>> nonCacheResult = model.batchScore(batch).getResponsesList().stream().map(r ->
-      r.getScoresList().get(0).getScoreList()).collect(Collectors.toList());
+    List<List<Double>> nonCacheResult;
+    try {
+      nonCacheResult = model.withDeadlineAfter(timeoutMilliseconds, TimeUnit.MILLISECONDS)
+        .batchScore(batch)
+        .getResponsesList().stream().map(r ->
+          r.getScoresList().get(0).getScoreList()).collect(Collectors.toList());
+    } catch (StatusRuntimeException e) {
+      if (e.getStatus().getCode() == Status.DEADLINE_EXCEEDED.getCode()) {
+        throw new TimeoutException(e.getMessage());
+      } else {
+        throw e;
+      }
+    }
     //
     List<List<Double>> allResults = new ArrayList<>();
     int i = 0;

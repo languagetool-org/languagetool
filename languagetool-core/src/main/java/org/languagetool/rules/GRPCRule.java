@@ -26,6 +26,8 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Streams;
 import io.grpc.ManagedChannel;
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NegotiationType;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
@@ -45,6 +47,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -213,11 +217,22 @@ public abstract class GRPCRule extends RemoteRule {
   }
 
   @Override
-  protected Callable<RemoteRuleResult> executeRequest(RemoteRule.RemoteRequest request) {
+  protected Callable<RemoteRuleResult> executeRequest(RemoteRequest request, long timeoutMilliseconds) throws TimeoutException {
     return () -> {
       MLRuleRequest req = (MLRuleRequest) request;
 
-      MLServerProto.MatchResponse response = conn.stub.match(req.request);
+      MLServerProto.MatchResponse response;
+      try {
+        response = conn.stub
+          .withDeadlineAfter(timeoutMilliseconds, TimeUnit.MILLISECONDS)
+          .match(req.request);
+      } catch (StatusRuntimeException e) {
+        if (e.getStatus().getCode() == Status.DEADLINE_EXCEEDED.getCode()) {
+          throw new TimeoutException(e.getMessage());
+        } else {
+          throw e;
+        }
+      }
       List<RuleMatch> matches = Streams.zip(response.getSentenceMatchesList().stream(), req.sentences.stream(), (matchList, sentence) ->
         matchList.getMatchesList().stream().map(match -> {
             GRPCSubRule subRule = new GRPCSubRule(match.getSubId(), match.getRuleDescription());

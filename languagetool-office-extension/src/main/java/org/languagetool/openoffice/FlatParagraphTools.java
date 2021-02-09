@@ -278,7 +278,7 @@ public class FlatParagraphTools {
    * Try to get the main language of paragraph 
    * @throws IllegalArgumentException 
    */
-  private static Locale getPrimaryParagraphLanguage(XFlatParagraph flatPara, int len, Locale docLocale, Locale lastLocale) throws IllegalArgumentException {
+  public static Locale getPrimaryParagraphLanguage(XFlatParagraph flatPara, int len, Locale docLocale, Locale lastLocale) throws IllegalArgumentException {
     if (docLocale != null) {
       return docLocale;
     }

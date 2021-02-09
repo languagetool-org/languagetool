@@ -136,6 +136,21 @@ public class UkrainianWordTokenizerTest {
   }
 
   @Test
+  public void testPlus() {
+    List<String> testList = w.tokenize("+20");
+    assertEquals(Arrays.asList("+20"), testList);
+
+    testList = w.tokenize("прислівник+займенник");
+    assertEquals(Arrays.asList("прислівник", "+", "займенник"), testList);
+
+    testList = w.tokenize("+займенник");
+    assertEquals(Arrays.asList("+", "займенник"), testList);
+
+    testList = w.tokenize("Роттердам+ ");
+    assertEquals(Arrays.asList("Роттердам+", " "), testList);
+  }
+  
+  @Test
   public void testTokenize() {
     List<String> testList = w.tokenize("Вони прийшли додому.");
     assertEquals(Arrays.asList("Вони", " ", "прийшли", " ", "додому", "."), testList);
@@ -448,6 +463,12 @@ public class UkrainianWordTokenizerTest {
     assertEquals(Arrays.asList("''", "український", "''"), testList);
 
     // 'тсе, 'ддати  'го
+    
+    testList = w.tokenize("'є");
+    assertEquals(Arrays.asList("'", "є"), testList);
+
+    testList = w.tokenize("'(є)");
+    assertEquals(Arrays.asList("'", "(", "є", ")"), testList);
   }
 
 

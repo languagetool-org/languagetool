@@ -9885,6 +9885,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="DURCH_SCHAUEN" name="durch + Verb">
+            <antipattern>
+                <token skip="2" regexp="yes">dort|hier|da|quer|oben|unten</token>
+                <token>durch</token>
+            </antipattern>
+            <antipattern>
+                <token>durch</token>
+                <token regexp="yes">und|&amp;</token>
+                <token>durch</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">Bedürfnis|Verlangen</token>
+                <token>durch</token>
+            </antipattern>
+            <pattern>
+                <token>durch</token>
+                <!-- many verbs missing -->
+                <token inflected="yes" regexp="yes" case_sensitive="yes">schauen|steigen|stehen|graben|atmen|beißen|beissen|bekommen|checken|denken|drehen|fahren|fallen|fegen|feiern|gehen|laufen|halten|impfen|jagen|kauen|kämpfen|kitzeln|klettern|lassen|leben|machen|mischen|nehmen|nummerieren|nässen|pauken|planen|rauschen|rechnen|testen|tasten|vögeln</token>
+            </pattern>
+            <message>Das Verb <suggestion>durch<match no="2" case_conversion="alllower" /></suggestion> wird als ein Wort geschrieben.</message>
+            <example correction="durchschaut">Er hat mich <marker>durch schaut</marker>!</example>
+            <example>Du musst da durch steigen, um an die Oberfläche zu kommen.</example>
+            <example>Quer durch geht nicht immer gut.</example>
+            <example>Ich habe ständig das Bedürfnis durch klicken und halten der linken Mouse-Taste den Activity Tracker drehen zu wollen.</example>
+        </rule>
         <rulegroup id="ALL_IN_ONE" name="All-in-one-Soundsystem">
             <rule>
                 <pattern>
@@ -10988,7 +11013,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]{2,}(ung|schaft|sicht|heit|keit|ion|tät)s
-                    <exception regexp="yes">.+yungs|Jisungs|.*federations|Samsungs|.*ctions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
+                    <exception regexp="yes">.+yungs|Jisungs|.*federations|Akarions|Samsungs|.*ctions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
                 </token>
                 <token postag=".*SUB.*" postag_regexp="yes" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]+
@@ -20160,6 +20185,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>Allen</token>
                 <token>&amp;</token>
                 <token regexp="yes" case_sensitive="yes">[A-Z].+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">Alle[snm]?</token>
+                <token spacebefore="no" regexp="yes">[_.]</token>
+                <token spacebefore="no" />
             </antipattern>
             <pattern>
                 <token>
@@ -45122,7 +45152,7 @@ Andere Projekte</example>
                     </token>
                     <token postag="SENT_END"/>
                 </pattern>
-                <message>Ein mit der Subjunktion '\2' eingeleiteter Nebensatz wird in der Regel mit (mindestens) einem Komma vom Hauptsatz abgetrennt.</message>
+                <message>Der von '\2' eingeleitete Nebensatz muss in der Regel mit einem Komma vom Hauptsatz getrennt werden.</message>
                 <suggestion><match no="1" include_skipped="all"/>, \2</suggestion>
                 <example>Er mag das Spiel, <marker>weil</marker> es ihm Spaß macht.</example>
                 <example>Er mag das Spiel, auch <marker>weil</marker> es Spaß macht.</example>
@@ -45148,9 +45178,9 @@ Andere Projekte</example>
                     <marker>
                         <token skip="-1" regexp="yes">Dass|Obwohl|Obgleich|Sodass|Wenn<exception scope="next" regexp="yes">,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;|möglich</exception></token>
                     </marker>
-                    <token postag="SENT_END"/>
+                    <token postag="SENT_END" regexp="yes">\p{P}</token>
                 </pattern>
-                <message>Ein mit der Subjunktion '<match case_conversion="alllower" no="2"/>' eingeleiteter Nebensatz wird in der Regel mit einem Komma vom Hauptsatz abgetrennt.</message>
+                <message>Der von '<match case_conversion="alllower" no="2"/>' eingeleitete Nebensatz muss in der Regel mit einem Komma vom Hauptsatz getrennt werden.</message>
                 <example>Obwohl er groß ist, kommt er dran.</example>
                 <example correction=""><marker>Obwohl</marker> er groß ist kommt er dran.</example>
                 <example>"Obwohl das so ist!"</example>

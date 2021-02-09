@@ -792,6 +792,7 @@ public abstract class Language {
     
     // non-breaking space
     output = output.replaceAll("\\b([a-zA-Z]\\.) ([a-zA-Z]\\.)", "$1\u00a0$2");
+    output = output.replaceAll("\\b([a-zA-Z]\\.) ", "$1\u00a0");
     
     // Apostrophe
     final Pattern APOSTROPHE = Pattern.compile("([\\p{L}\\d-])'([\\p{L}«])",
@@ -807,7 +808,7 @@ public abstract class Language {
     if (output.endsWith("'")) { 
       output = output.substring(0, output.length() - 1 ) + getClosingSingleQuote();
     }
-    output = output.replaceAll("([ «\"\\(])'", "$1" + getOpeningSingleQuote());
+    output = output.replaceAll("([\\u202f\\u00a0 «\"\\(])'", "$1" + getOpeningSingleQuote());
     output = output.replaceAll("'([\u202f\u00a0 !\\?,\\.;:\"\\)])", getClosingSingleQuote() + "$1");
 
     // double quotes

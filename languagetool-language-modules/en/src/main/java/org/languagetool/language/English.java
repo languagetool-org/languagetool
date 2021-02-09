@@ -416,6 +416,7 @@ public class English extends Language implements AutoCloseable {
       case "A_RB_NN":                   return -1;  // prefer other more specific rules (e.g. QUIET_QUITE, A_QUITE_WHILE)
       case "DT_RB_IN":                  return -1;  // prefer other more specific rules
       case "VERB_NOUN_CONFUSION":       return -1;  // prefer other more specific rules
+      case "NOUN_VERB_CONFUSION":       return -1;  // prefer other more specific rules
       case "PLURAL_VERB_AFTER_THIS":    return -1;  // prefer other more specific rules (e.g. COMMA_TAG_QUESTION)
       case "BE_RB_BE":                  return -1;  // prefer other more specific rules
       case "IT_ITS":                    return -1;  // prefer other more specific rules

@@ -1775,6 +1775,18 @@ A campanha de vendas levou estes a perdas de mais de 95%.
 		<token postag='SPS.+' postag_regexp='yes'/>
       </antipattern>	    
 <!-- MARCOAGPINTO 2021-01-01 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-02-09 (1-JAN-2021+) *START* -->
+<!--
+As folhas de louro dão um sabor especial ao feijão e a outros cozidos.
+O pai opunha-se firmemente a tais planos, preferindo que o filho fizesse carreira na função pública.
+Vi-o algumas vezes na televisão.
+-->
+      <antipattern>
+		<token postag='DA0.S.+' postag_regexp='yes'/>
+		<token postag='DI0.P.+' postag_regexp='yes'/>
+	    <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-02-09 (1-JAN-2021+) *END* -->
       <pattern>
 			<token>a
 				<exception negate_pos='yes' postag_regexp='yes' postag='D.+'/>
@@ -1791,9 +1803,14 @@ A campanha de vendas levou estes a perdas de mais de 95%.
 	  <example type='correct'>Daí <marker>a duas</marker> semanas temos a festa.</example>
 	  <example type='correct'>Os arqueólogos dedicam-se cada vez mais <marker>a fases tardias</marker> da evolução humana.</example>
 	  <example type='correct'>O profeta, mas <marker>a evidências que</marker> apoiam que esta reivindicação é falsa.</example>
+	  
 	  <example type='correct'>A campanha de vendas levou milhares deles <marker>a perdas</marker> de mais de 95%.</example>
-	  <example type='correct'>A campanha de vendas levou eles <marker>a perdas</marker> de mais de 95%.</example> 
-	  <example type='correct'>A campanha de vendas levou estes <marker>a perdas</marker> de mais de 95%.</example>
+	  <example>A campanha de vendas levou eles a perdas de mais de 95%.</example>
+	  <example>A campanha de vendas levou estes a perdas de mais de 95%.</example>
+	  
+	  <example>As folhas de louro dão um sabor especial ao feijão e <marker>a outros</marker> cozidos.</example>
+	  <example>O pai opunha-se firmemente a tais planos, preferindo que o filho fizesse carreira na função pública.</example>
+	  <example>Vi-o algumas vezes na televisão.</example>
 	</rule>
   </rulegroup>
 
@@ -2372,6 +2389,19 @@ Rui, por ti os teus livros trocas.
             <exception postag_regexp='yes' postag='AQ.+|NP.+'/></token>
       </antipattern> 
 <!-- MARCOAGPINTO 2021-01-25 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-02-04 (1-JAN-2021+) *START* -->
+<!--
+Tendo os seus protestos caído em saco-roto, preencheu os formulários do imposto.
+Ele é relacionado aos ciclos lunares a qual em suas fases expressa a harmonia do universo.
+Tendo os seus tripulantes conseguido ser resgatados.
+-->
+      <antipattern>
+	    <token postag='DP..P.+' postag_regexp='yes'/>
+	    <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+		<token postag='NC.S.+|AQ0.S.+|VMP00S[FM]' postag_regexp='yes'/>
+		<token postag='SPS.+|SP0.+|DA0.S.+|VMN0000' postag_regexp='yes'/>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-02-04 (1-JAN-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -2423,6 +2453,10 @@ Rui, por ti os teus livros trocas.
 	  <example>Rui, por ti os meus livros troco.</example>
 	  <example>Rui, por ti os seus livros troca.</example>
 	  <example>Rui, por ti os teus livros trocas.</example>
+	  
+	  <example>Tendo os seus <marker>protestos caído</marker> em saco-roto, preencheu os formulários do imposto.</example>
+	  <example>Ele é relacionado aos ciclos lunares a qual em suas fases expressa a harmonia do universo.</example>
+	  <example>Tendo os seus tripulantes conseguido ser resgatados.</example>
     </rule>
     <rule>
       <antipattern>
@@ -3202,6 +3236,18 @@ A campanha de vendas levou estes a perdas de mais de 95%.
 		<token postag='SPS.+' postag_regexp='yes'/>
       </antipattern>	    
 <!-- MARCOAGPINTO 2021-01-01 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-02-09 (1-JAN-2021+) *START* -->
+<!--
+As folhas de louro dão um sabor especial ao feijão e a outros cozidos.
+O pai opunha-se firmemente a tais planos, preferindo que o filho fizesse carreira na função pública.
+Vi-o algumas vezes na televisão.
+-->
+      <antipattern>
+		<token postag='DA0.S.+' postag_regexp='yes'/>
+		<token postag='DI0.P.+' postag_regexp='yes'/>
+	    <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-02-09 (1-JAN-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
@@ -3229,9 +3275,14 @@ A campanha de vendas levou estes a perdas de mais de 95%.
       <example correction='bastante mesa|bastantes mesas|bastante, mesas'>Existem <marker>bastante mesas</marker>!</example>
       <example>Algo que nos une como plataforma a tantos continentes, a tantos oceanos, a tantas culturas, a tantas civilizações</example>
 	  <example type='correct'>O Rui quer enfrentar de <marker>forma eficaz ações entrópicas</marker>.</example>
+	  
 	  <example type='correct'>A campanha de vendas levou milhares deles <marker>a perdas</marker> de mais de 95%.</example>
-	  <example type='correct'>A campanha de vendas levou eles <marker>a perdas</marker> de mais de 95%.</example>  
-	  <example type='correct'>A campanha de vendas levou estes <marker>a perdas</marker> de mais de 95%.</example>	  
+	  <example>A campanha de vendas levou eles a perdas de mais de 95%.</example>
+	  <example>A campanha de vendas levou estes a perdas de mais de 95%.</example>
+	  
+	  <example>As folhas de louro dão um sabor especial ao feijão e <marker>a outros</marker> cozidos.</example>
+	  <example>O pai opunha-se firmemente a tais planos, preferindo que o filho fizesse carreira na função pública.</example>
+	  <example>Vi-o algumas vezes na televisão.</example>
 	</rule>
     <rule>
       <antipattern>
@@ -3476,6 +3527,19 @@ O movimento socialista mundial dividiu-se entre as alas social democrata e lenin
 		<token min="1" max="2" postag='NC.S.+|AQ0.S.+|NP.+' postag_regexp='yes'/>
       </antipattern> 
 <!-- MARCOAGPINTO 2021-02-03 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-02-04 (1-JAN-2021+) *START* -->
+<!--
+Tendo os seus protestos caído em saco-roto, preencheu os formulários do imposto.
+Ele é relacionado aos ciclos lunares a qual em suas fases expressa a harmonia do universo.
+Tendo os seus tripulantes conseguido ser resgatados.
+-->
+      <antipattern>
+	    <token postag='DP..P.+' postag_regexp='yes'/>
+	    <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+		<token postag='NC.S.+|AQ0.S.+|VMP00S[FM]' postag_regexp='yes'/>
+		<token postag='SPS.+|SP0.+|DA0.S.+|VMN0000' postag_regexp='yes'/>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-02-04 (1-JAN-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -3524,6 +3588,10 @@ O movimento socialista mundial dividiu-se entre as alas social democrata e lenin
 	  <example>A bandeira nacional consiste de três listas horizontais de cores vermelha, azul e laranja.</example>
 	  <example>Explorações inglesa, francesa e holandesa.</example>
 	  <example>O movimento socialista mundial dividiu-se entre as alas social democrata e leninista.</example>
+	  
+	  <example>Tendo os seus <marker>protestos caído</marker> em saco-roto, preencheu os formulários do imposto.</example>
+	  <example>Ele é relacionado aos ciclos lunares a qual em suas fases expressa a harmonia do universo.</example>
+	  <example>Tendo os seus tripulantes conseguido ser resgatados.</example>
     </rule>
     <rule>
       <antipattern>
@@ -3671,6 +3739,18 @@ A campanha de vendas levou estes a perdas de mais de 95%.
 		<token postag='SPS.+' postag_regexp='yes'/>
       </antipattern>	    
 <!-- MARCOAGPINTO 2021-01-01 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-02-09 (1-JAN-2021+) *START* -->
+<!--
+As folhas de louro dão um sabor especial ao feijão e a outros cozidos.
+O pai opunha-se firmemente a tais planos, preferindo que o filho fizesse carreira na função pública.
+Vi-o algumas vezes na televisão.
+-->
+      <antipattern>
+		<token postag='DA0.S.+' postag_regexp='yes'/>
+		<token postag='DI0.P.+' postag_regexp='yes'/>
+	    <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-02-09 (1-JAN-2021+) *END* -->
       <pattern>
           <unify negate="yes">
             <feature id="number"/>
@@ -3684,9 +3764,14 @@ A campanha de vendas levou estes a perdas de mais de 95%.
         <suggestion><match no='1' postag='D(...).(.+)' postag_replace='D$1S$2' postag_regexp='yes'/> <match no='2' postag='D(...).(.+)' postag_replace='D$1S$2' postag_regexp='yes'/></suggestion>
         <suggestion><match no='1' postag='D(...).(.+)' postag_replace='D$1P$2' postag_regexp='yes'/> <match no='2' postag='D(...).(.+)' postag_replace='D$1P$2' postag_regexp='yes'/></suggestion>
       <example correction="A nossa|As nossas"><marker>As nossa</marker> equipa de operações está muito focada nos campos de verão..</example>
+	  
 	  <example type='correct'>A campanha de vendas levou milhares deles <marker>a perdas</marker> de mais de 95%.</example>
-	  <example type='correct'>A campanha de vendas levou eles <marker>a perdas</marker> de mais de 95%.</example>
-	  <example type='correct'>A campanha de vendas levou estes <marker>a perdas</marker> de mais de 95%.</example>
+	  <example>A campanha de vendas levou eles a perdas de mais de 95%.</example>
+	  <example>A campanha de vendas levou estes a perdas de mais de 95%.</example>
+	  
+	  <example>As folhas de louro dão um sabor especial ao feijão e <marker>a outros</marker> cozidos.</example>
+	  <example>O pai opunha-se firmemente a tais planos, preferindo que o filho fizesse carreira na função pública.</example>
+	  <example>Vi-o algumas vezes na televisão.</example>
     </rule>
   </rulegroup>
 
@@ -21774,17 +21859,25 @@ Sinto frio mesmo com dois pares de meias.
 	  <example type='correct'>Sinto frio mesmo com <marker>dois</marker> pares de meias.</example>
     </rule>
 
+	<!-- VESTIR calçar -->
     <rule id='CONFUSÃO_VESTIR_CALÇAR' name="Confusão: vestir/calçar">
-    <!-- Created by Marco A.G.Pinto -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-04 (Enhanced) (1-JAN-2021+)      -->
+<!--
+Vou calçar os sapatos.
+Não se esqueça de calçar as meias.
+-->
       <pattern>
-          <token inflected="yes">vestir</token>
-          <token regexp="yes">os?|as?|um|uns|umas?</token>
-          <token regexp="yes">sapatos?|chinelos?|meias?|luvas?|botas?|peúgas?|ténis|sapatilhas?</token>
+	      <marker>
+			<token inflected="yes">vestir</token>
+		  </marker>
+		  <token postag='DA0...+|DI0...+|DD0...+' postag_regexp='yes'/>		  		  
+          <token regexp="yes">sapatos?|chinelos?|meias?|luvas?|botas?|peúgas?|ténis|sapatilhas?|galochas?</token>
       </pattern>
-      <message>Utilize o verbo calçar</message>
+      <message>Utilize o verbo 'calçar' nas extremidades dos membros do corpo.</message>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>calçar</match></suggestion>
-      <example correction="Calces|Calça"><marker>Veste os sapatos</marker>.</example>
-      <example><marker>Calçar os sapatos</marker>.</example>
+      <example correction="calçar">Vou <marker>vestir</marker> os sapatos.</example>
+      <example>Vou calçar os sapatos.</example>
+	  <example>Não se esqueça de calçar as meias.</example>
     </rule>
 
     <rule id='E_MAS_TARDE' name="Confusão: mas tarde/mais tarde">
@@ -35206,9 +35299,10 @@ ISBN 978-3-8321-7760-7.
           <token>obra</token>
       </pattern>
       <message>Esta é uma expressão oral. Reveja.</message>
+	  <suggestion>trabalhadores</suggestion>
       <url>https://pt.wiktionary.org/wiki/mão_de_obra</url>
       <short>Coloquialismo</short>
-      <example correction=''><marker>mão de obra</marker></example>
+      <example correction='trabalhadores'><marker>mão de obra</marker></example>
     </rule>
     <rule>
       <pattern>
@@ -36153,7 +36247,7 @@ ISBN 978-3-8321-7760-7.
     </rule>
 
     <rulegroup id='IR_VERBO-A_DE-SEGUIR-SEGUIDA-INFINITIVO' name="Ir_verbo + [a/de seguir/seguida] + Verbo_inf">
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-2 + 2021-02-03 (1-JAN-2021+)      -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-2 + 2021-02-03 + 2021-02-04 (1-JAN-2021+)      -->
 	<rule>
   		<pattern>
   			<marker>
@@ -36198,6 +36292,29 @@ ISBN 978-3-8321-7760-7.
         <example correction='Explicais'><marker>Ides explicar</marker> a seguir o processo.</example>
         <example correction='Explicam'><marker>Vão explicar</marker> a seguir o processo.</example>	
       </rule>
+	  <rule>
+  		<pattern>
+			<token regexp='yes'>a|de|em</token>
+  			<token regexp='yes'>seguir|seguida</token>
+  			<marker>
+  				<and>
+  					<token inflected='yes'>ir</token>
+  					<token postag='V.[IS].*' postag_regexp='yes'/>
+  				</and>
+  				<token postag='VMN0000' postag_regexp='no'></token>
+  			</marker>
+  		</pattern>
+      <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:V.N.* postagFrom:3 postagSelect:V.I.*"/>
+  		<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+  		<suggestion>{suggestion}</suggestion>
+  		<example correction='explico'>A seguir <marker>vou explicar</marker> o processo.</example>
+  		<example correction='explicas'>A seguir <marker>vais explicar</marker> o processo.</example>
+  		<example correction='explica'>A seguir <marker>vai explicar</marker> o processo.</example>
+  		<example correction='explicamos'>A seguir <marker>vamos explicar</marker> o processo.</example>
+  		<example correction='explicais'>A seguir <marker>ides explicar</marker> o processo.</example>
+  		<example correction='explicam'>A seguir <marker>vão explicar</marker> o processo.</example>	
+      </rule>	  
+	  
 	</rulegroup>
 
     <rule id='OVELHA_RANHOSA' name="Calinada: ranhosa - ronhosa">

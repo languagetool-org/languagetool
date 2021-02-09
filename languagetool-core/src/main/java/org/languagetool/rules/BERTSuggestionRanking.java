@@ -38,6 +38,7 @@ import javax.net.ssl.SSLException;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 /**
@@ -141,7 +142,7 @@ public class BERTSuggestionRanking extends RemoteRule {
   }
 
   @Override
-  protected Callable<RemoteRuleResult> executeRequest(RemoteRequest request) {
+  protected Callable<RemoteRuleResult> executeRequest(RemoteRequest request, long timeoutMilliseconds) throws TimeoutException {
     return () -> {
       if (model == null) {
         return fallbackResults(request);
@@ -157,7 +158,7 @@ public class BERTSuggestionRanking extends RemoteRule {
       if (requests.isEmpty()) {
         return new RemoteRuleResult(false, true, matches, data.sentences);
       } else {
-        List<List<Double>> results = model.batchScore(requests);
+        List<List<Double>> results = model.batchScore(requests, timeoutMilliseconds);
         // put curated at the top, then compare probabilities
         for (int i = 0; i < indices.size(); i++) {
           List<Double> scores = results.get(i);

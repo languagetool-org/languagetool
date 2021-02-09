@@ -472,6 +472,12 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       posRegex("NNS")
     ),
     Arrays.asList(
+      // "I just can't tell them no when they look at me with those puppy dog eyes"
+      tokenRegex("tells?|told|telling|answers?|answering|answered|reply|replies|replied|replying"),
+      tokenRegex("them|him|her"),
+      token("no")
+    ),
+    Arrays.asList(
       // way vs was: This way a person could learn ....
       token("this"),
       token("way"),

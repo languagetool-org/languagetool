@@ -164,6 +164,7 @@ public class MultiDocumentsHandler {
       PropertyValue[] propertyValues, boolean docReset) {
     
     if (!hasLocale(locale)) {
+      MessageHandler.printToLogFile("Sorry, don't have locale: " + OfficeTools.localeToString(locale));
       return paRes;
     }
     if (!noBackgroundCheck) {
@@ -186,6 +187,7 @@ public class MultiDocumentsHandler {
         }
       }
     }
+    MessageHandler.printToLogFile(OfficeTools.localeToString(locale));
     docNum = getNumDoc(paRes.aDocumentIdentifier);
     if (noBackgroundCheck) {
       return paRes;
@@ -448,6 +450,7 @@ public class MultiDocumentsHandler {
    */
   final boolean hasLocale(Locale locale) {
     try {
+      MessageHandler.printToLogFile(OfficeTools.localeToString(locale));
       for (Language element : Languages.get()) {
         if (locale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)
             && element.getShortCodeWithCountryAndVariant().equals(locale.Variant)) {
@@ -627,6 +630,8 @@ public class MultiDocumentsHandler {
       if (this.langTool == null) {
         OfficeTools.setLogLevel(config.getlogLevel());
         debugMode = OfficeTools.DEBUG_MODE_MD;
+        MessageHandler.printToLogFile("initLanguageTool: DEBUG_MODE_MD = " + OfficeTools.DEBUG_MODE_MD);
+        MessageHandler.printToLogFile("initLanguageTool: DEBUG_MODE_SD = " + OfficeTools.DEBUG_MODE_SD);
       }
       if (currentLanguage == null) {
         fixedLanguage = config.getDefaultLanguage();
@@ -739,15 +744,14 @@ public class MultiDocumentsHandler {
   }
   
   /**
-   * Reset document cache of all documents
+   * Reset ignored matches
    */
-/*  TODO: Remove after tests
-  void resetDocumentCaches() {
+  void resetIgnoredMatches() {
     for (SingleDocument document : documents) {
-      document.resetDocumentCache();
+      document.resetIgnoreOnce();
     }
   }
-*/
+
   /**
    * Get current locale language
    */
@@ -978,6 +982,9 @@ public class MultiDocumentsHandler {
           } else {
             locale = new Locale(lang.getShortCode(), "", "");
           }
+          if (locales != null && !OfficeTools.containsLocale(locales, locale)) {
+            locales.add(locale);
+          }
         } else {
           for (String country : lang.getCountries()) {
             if (lang.getVariant() != null) {
@@ -985,13 +992,13 @@ public class MultiDocumentsHandler {
             } else {
               locale = new Locale(lang.getShortCode(), country, "");
             }
+            if (locales != null && !OfficeTools.containsLocale(locales, locale)) {
+              locales.add(locale);
+            }
           }
         }
-        if (locales != null && !OfficeTools.containsLocale(locales, locale)) {
-          locales.add(locale);
-        }
       }
-      return locales.toArray(new Locale[0]);
+      return locales == null ? new Locale[0] : locales.toArray(new Locale[0]);
     } catch (Throwable t) {
       MessageHandler.showError(t);
       return new Locale[0];
@@ -1060,6 +1067,7 @@ public class MultiDocumentsHandler {
   void resetConfiguration() {
     linguServices = null;
     noBackgroundCheck = false;
+    resetIgnoredMatches();
     resetDocument();
   }
 
@@ -1113,8 +1121,7 @@ public class MultiDocumentsHandler {
               checkDialog.setTextViewCursor(0, 0, viewCursor, docCursor);
             }
           }
-//  TODO: Remove after tests
-//          resetDocumentCaches();
+          resetIgnoredMatches();
           resetDocument();
         }
         if (debugMode) {
@@ -1187,9 +1194,9 @@ public class MultiDocumentsHandler {
       }
       if (!linguServices.setLtAsGrammarService(xContext, locale)) {
         if (showMessage) {
-          MessageHandler.showMessage("LinguisticServices failed! LanguageTool can not be started!");
+          MessageHandler.showMessage("Can not set LT as grammar check service! LanguageTool can not be started!");
         } else {
-          MessageHandler.printToLogFile("LinguisticServices failed! LanguageTool can not be started!");
+          MessageHandler.printToLogFile("Can not set LT as grammar check service! LanguageTool can not be started!");
         }
         return false;
       }

@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
@@ -274,8 +275,18 @@ public final class PosTagHelper {
 
   @NotNull
   public static String addIfNotContains(@NotNull String tag, @Nullable String addTag) {
-    if( addTag != null && ! tag.contains(addTag) )
+    if( StringUtils.isNotEmpty(addTag) && ! tag.contains(addTag) )
       return tag + addTag;
+    return tag;
+  }
+
+  @NotNull
+  public static String addIfNotContains(@NotNull String tag, @Nullable String... addTags) {
+    for(String addTag: addTags) {
+      if( ! tag.contains(addTag) ) {
+        tag += addTag;
+      }
+    }
     return tag;
   }
 
@@ -292,9 +303,9 @@ public final class PosTagHelper {
   }
 
   @NotNull
-  public static List<TaggedWord> adjust(@NotNull List<TaggedWord> taggedWords, @Nullable String addTag, @Nullable String lemmaPrefix) {
+  public static List<TaggedWord> adjust(@NotNull List<TaggedWord> taggedWords, @Nullable String lemmaPrefix, @Nullable String... addTags) {
     return taggedWords.stream()
-        .map(w -> new TaggedWord(adjustLemma(w, lemmaPrefix), addIfNotContains(cleanExtraTags(w.getPosTag()), addTag)))
+        .map(w -> new TaggedWord(adjustLemma(w, lemmaPrefix), addIfNotContains(cleanExtraTags(w.getPosTag()), addTags)))
         .collect(Collectors.toList());
   }
 

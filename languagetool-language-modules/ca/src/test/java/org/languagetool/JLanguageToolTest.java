@@ -51,6 +51,7 @@ public class JLanguageToolTest {
     assertEquals(lang.toAdvancedTypography("És l''hora'."), "És l’‘hora’.");
     assertEquals(lang.toAdvancedTypography("Cal evitar el \"'lo' neutre\"."), "Cal evitar el «‘lo’ neutre».");
     assertEquals(lang.toAdvancedTypography("És \"molt 'important'\"."), "És «molt ‘important’».");
+    assertEquals(lang.toAdvancedTypography("Si és del v. 'haver'."), "Si és del v.\u00a0‘haver’.");
   }
   
 }

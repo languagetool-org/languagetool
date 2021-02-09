@@ -10373,14 +10373,16 @@ onwaarschijnlijk
 				<example correction="eenieder">Dit boekje is inspirerend voor <marker>een ieder</marker> die met kennisontwikkeling te maken heeft.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="BIJ_VOORBEELD" name="bij voorbeeld → bijvoorbeeld">
-			<!-- 2014-08-22 TaalTik -->
+		
+		<rulegroup id="BIJ_VOORBEELD" name="Bij voorbeeld">
 			<rule>
+				<antipattern><token>voorbeeld</token><token postag_regexp="yes">[1-9][0-9]?</token></antipattern>
 				<pattern>
 					<token>bij</token>
 					<token>voorbeeld</token>
 				</pattern>
-				<message>Juist is <suggestion><match no="1"/><match no="2"/></suggestion>.</message>
+				<message>Is het woord hier uiteengevallen?</message>
+				<suggestion suppress_misspelled="yes">\1\2</suggestion>
 				<url>https://taaladvies.net/taal/advies/vraag/121/bij_voorbeeld_bijvoorbeeld/</url>
 				<example correction="Bijvoorbeeld"><marker>Bij voorbeeld</marker>: een executie.</example>
 				<example correction="bijvoorbeeld">Voor de uitlening <marker>bij voorbeeld</marker>.</example>
@@ -27142,7 +27144,7 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 		<!-- needs dection of place names. case?
-		<rule id="TE_(BREDA/LEEUWARDEN/_VENLO/...)" name="te (Breda/Leeuwarden/ Venlo/...)">
+		<rule id="TE_(BREDA-LEEUWARDEN_VENLO-...)" name="te (Breda/Leeuwarden/ Venlo/...)">
 		<pattern>
 		<token>te</token><token>(Breda/Leeuwarden/</token><token>Venlo/...)</token>
 		</pattern>
@@ -36419,7 +36421,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 
 	
-		<rulegroup id="VROUWELIJK_FUNCTIE" name="Cahauffeur/chauffeuse">
+		<rulegroup id="VROUWELIJK_FUNCTIE" name="Chauffeur/chauffeuse">
 			<rule>
 				<pattern><token inflected="yes">vrouwelijk</token><token regexp="yes" postag_regexp="yes" postag="ZNW:.*">.*held</token></pattern>
 				<message>Schrijf liever: <suggestion><match no="2" regexp_match="held$" regexp_replace="heldin"/></suggestion> Of laat \1 achterwege.</message>
