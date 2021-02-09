@@ -286,6 +286,7 @@ public class German extends Language implements AutoCloseable {
     
     //non-breaking space
     output = output.replaceAll("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)", "$1\u00a0$2");
+    output = output.replaceAll("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)", "$1\u00a0$2");
     return output;
   }
   
