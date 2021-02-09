@@ -311,6 +311,7 @@ public class RuleMatchDiffFinder {
   private String showTrimSpace(String s) {
     s = s.replaceFirst("^\\s", "<span class='whitespace'>&nbsp;</span>");
     s = s.replaceFirst("\\s$", "<span class='whitespace'>&nbsp;</span>");
+    s = s.replaceFirst("\u00A0", "<span class='nbsp' title='non-breaking space'>&nbsp;</span>");
     return s;
   }
 
@@ -451,6 +452,7 @@ public class RuleMatchDiffFinder {
     fw.write("    .source { color: #999; }\n");
     fw.write("    .status { color: #999; }\n");
     fw.write("    .whitespace { background-color: #ccc; }\n");
+    fw.write("    .nbsp { background-color: #ccc; }\n");
     fw.write("    .id { color: #666; }\n");
     fw.write("  </style>\n");
     fw.write("</head>\n");
