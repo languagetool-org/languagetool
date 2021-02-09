@@ -56667,6 +56667,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="REDUNDANCIES" name="C8) Redundàncies" type="style">
+        <rulegroup id="PREDOMINAR_MES" name="predominar més" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>més</token>
+                    <token regexp="yes" inflected="yes">predominar|prevalen|preponderar</token>
+                </pattern>
+                <message>El v. '<match no="2" postag="V.*" postag_regexp="yes" postag_replace="V.N...."/>' ja expressa grau superlatiu. L'adverbi 'més' és redundant.</message>
+                <suggestion>\2</suggestion>
+                <example correction="predomina">És el que <marker>més predomina</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">predominar|prevaler|preponderar</token>
+                    <token>més</token>
+                </pattern>
+                <message>El v. '<match no="1" postag="V.*" postag_regexp="yes" postag_replace="V.N...."/>' ja expressa grau superlatiu. L'adverbi 'més' és redundant.</message>
+                <suggestion>\1</suggestion>
+                <example correction="preval">És el que <marker>preval més</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MAI_ABANS" name="mai abans">
             <antipattern>
                 <token>abans</token>
