@@ -5203,7 +5203,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="_GN_FS">seria</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="_GN_FS"  skip="2">seria</token>
+                    <token postag="_GN_FS" skip="2">seria</token>
                     <token postag="V.[IS].*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
@@ -18349,23 +18349,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Versión 1.x</example>
             </rule>
         </rulegroup>
-        <rule id="CAPITALIZATION_AFTER_QUESTION_MARK" name="Mayúscula después de interrogante">
+        <rulegroup id="CAPITALIZATION_AFTER_QUESTION_MARK" name="Mayúscula después de interrogante">
             <!-- Another way to implement this rule: change the sentence tokenizer -->
             <antipattern>
                 <token regexp="yes">Yahoo|\d+</token>
                 <token spacebefore="no">!</token>
             </antipattern>
-            <pattern>
-                <token regexp="yes">[?!]</token>
-                <token regexp="yes">\p{Ll}.*<exception postag="IS_URL"/></token>
-            </pattern>
-            <message>Posible error de puntuación o mayúsculas.</message>
-            <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
-            <suggestion><match no="1"/>, <match no="2"/></suggestion>
-            <short>Error de puntuación</short>
-            <example correction="? La|?, la">¿Cuándo empieza<marker>? la</marker> semana siguiente.</example>
-            <example>¿Vamos? Él pidió a sus amigos ayuda.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[?!]</token>
+                    <token regexp="yes">\p{Ll}.*<exception postag="IS_URL"/></token>
+                </pattern>
+                <message>Posible error de puntuación o mayúsculas.</message>
+                <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
+                <suggestion><match no="1"/>, <match no="2"/></suggestion>
+                <short>Error de puntuación</short>
+                <example correction="? La|?, la">¿Cuándo empieza<marker>? la</marker> semana siguiente.</example>
+                <example>¿Vamos? Él pidió a sus amigos ayuda.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">[?!]</token>
+                    <token regexp="yes">[¿¡]</token>
+                    <token regexp="yes">\p{Ll}.*<exception postag="IS_URL"/></token>
+                </pattern>
+                <message>Falta una mayúscula o un signo de puntuación.</message>
+                <suggestion>\1 \2<match no="3" case_conversion="startupper"/></suggestion>
+                <suggestion>\1, \2\3</suggestion>
+                <example correction="? ¡Y|?, ¡y">¿Qué quieres<marker>? ¡y</marker> qué más!</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">[?!]</token>
+                    <token regexp="yes" min="1" max="3">[¿¡“‘«'"—–‒-]</token>
+                    <marker>
+                        <token regexp="yes">\p{Ll}.*<exception postag="IS_URL"/></token>
+                    </marker>
+                </pattern>
+                <message>Falta una mayúscula o un signo de puntuación.</message>
+                <suggestion><match no="3" case_conversion="startupper"/></suggestion>
+                <example correction="Y">¿Qué quieres? "¡<marker>y</marker> qué más!"</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ES_INITIAL_QUESTION_MARK" name="Signos de exclamación/interrogación desparejados">
             <antipattern>
                 <token skip="-1">¿<exception scope="next">¿</exception></token>
