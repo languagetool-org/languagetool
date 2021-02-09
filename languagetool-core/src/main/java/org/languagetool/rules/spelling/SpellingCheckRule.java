@@ -74,7 +74,7 @@ public abstract class SpellingCheckRule extends Rule {
   private static final String CUSTOM_SPELLING_PROHIBIT_FILE = "/hunspell/prohibit_custom.txt";
   private static final String SPELLING_FILE_VARIANT = null;
   private static final Comparator<String> STRING_LENGTH_COMPARATOR = Comparator.comparingInt(String::length);
-  private static final Pattern TWO_OR_MORE_DIGITS = Pattern.compile("\\d.*\\d+");
+  private static final Pattern TWO_OPTIONALLY_SEPARATED_DIGITS = Pattern.compile("\\d.*\\d");
 
   private final Set<String> wordsToBeProhibited = new THashSet<>();
 
@@ -327,7 +327,7 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   protected static boolean containsTwoOrMoreDigits(String token) {
-    return TWO_OR_MORE_DIGITS.matcher(token).find();
+    return TWO_OPTIONALLY_SEPARATED_DIGITS.matcher(token).find();
   }
 
   protected static <T> List<T> filterDupes(List<T> words) {

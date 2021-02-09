@@ -25,14 +25,20 @@ public class HunspellDigitsTest {
   }
 
   @Test
-  public void test_2_more_digits_consecutive_correct() throws IOException {
+  public void test_2_or_more_digits_consecutive_correct() throws IOException {
     RuleMatch[] matches = getMatches("Airbus A320", "de-DE");
     assertEquals(0, matches.length);
   }
 
   @Test
-  public void test_2_more_digits_nonconsecutive_correct() throws IOException {
+  public void test_2_or_more_digits_nonconsecutive_correct() throws IOException {
     RuleMatch[] matches = getMatches("foo1bar9", "de-DE");
+    assertEquals(0, matches.length);
+  }
+
+  @Test
+  public void test_2_or_more_digits_nonconsecutive_correct_2() throws IOException {
+    RuleMatch[] matches = getMatches("a1b2c3", "de-DE");
     assertEquals(0, matches.length);
   }
 
