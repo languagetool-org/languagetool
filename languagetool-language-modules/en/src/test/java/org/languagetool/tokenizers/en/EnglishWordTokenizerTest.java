@@ -38,8 +38,8 @@ public class EnglishWordTokenizerTest {
     assertEquals("[This, \r, breaks]", tokens2.toString());
     //hyphen with no whitespace
     final List <String> tokens3 = wordTokenizer.tokenize("Now this is-really!-a test.");
-    assertEquals(tokens3.size(), 13);
-    assertEquals("[Now,  , this,  , is, -, really, !, -, a,  , test, .]", tokens3.toString());
+    assertEquals(tokens3.size(), 11);
+    assertEquals("[Now,  , this,  , is-really, !, -, a,  , test, .]", tokens3.toString());
     //hyphen at the end of the word
     final List <String> tokens4 = wordTokenizer.tokenize("Now this is- really!- a test.");
     assertEquals(tokens4.size(), 15);
