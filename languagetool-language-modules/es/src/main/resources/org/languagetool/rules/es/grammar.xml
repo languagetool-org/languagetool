@@ -13216,7 +13216,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="callados|callando">Han querido permanecer <marker>callado</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AGREEMENT_PRONOUNSUBJECT_VERB" name="Concordancias: pronombre personal (sujeto) y verbo" default="temp_off">
+        <rulegroup id="AGREEMENT_PRONOUNSUBJECT_VERB" name="Concordancias: pronombre personal (sujeto) y verbo">
+            <antipattern>
+                <token>hay</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V...3S." postag_regexp="yes" inflected="yes">haber</token>
+                <token><exception postag="V.P..SM" postag_regexp="yes"/></token>
+            </antipattern>
             <antipattern>
                 <token>según</token>
                 <token regexp="yes">&pronombre_personal_sujeto;</token>
@@ -13232,6 +13239,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&pronombre_personal_sujeto;</token>
                 <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="3"/>
                 <token postag="V...3P." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                <token inflected="yes">todo</token>
+                <token regexp="yes">nosotros|nosotras|vosotros|vosotras|ellos|ellas|ustedes</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.N.*" postag_regexp="yes" skip="3"></token>
+                <token regexp="yes">nosotros|nosotras|vosotros|vosotras|ellos|ellas|ustedes</token>
+                <token postag="V...3S." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token skip="3">nadie</token>
+                <token regexp="yes">nosotros|nosotras|vosotros|vosotras|ellos|ellas|ustedes</token>
+                <token postag="V...3S." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>puede</token>
+                <token>que</token>
+                <token regexp="yes">sí|no</token>
             </antipattern>
             <rule>
                 <antipattern>
@@ -13298,6 +13325,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No es tan alto como lo éramos nosotras hace dos años.</example>
                 <example>Nosotros hace cuestión de 2 años aproximadamente.</example>
                 <example type="triggers_error">Donde nosotros <marker>nieva</marker> en enero.</example>
+                <example>Grabar y producir el álbum nosotros imprime aún más carácter.</example>
+                <example>En el corazón de todos nosotros late el deseo de aventura.</example>
+                <example>Nadie más que nosotros sabe lo que pasa.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -13350,6 +13380,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Las palabras que yo y tú hemos hablado.</example>
                 <example>Tú siéntate allí.</example>
                 <example>Todos menos tú están equivocados.</example>
+                <example>Tú había veces que no venías.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -13475,6 +13506,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El hombre detrás de ellos está tocando el piano.</example>
                 <example>¿Según ustedes es una acto egoísta?</example>
                 <example>Lo que han hecho ustedes es totalmente inexcusable.</example>
+                <example>Y en todos ellos aborda la narrativa de su discurso.</example>
+                <example>El más destacado de todos ellos fue Raúl.</example>
+                <example>Ellos puede que no.</example>
             </rule>
             <rule>
                 <!-- vos: presente de indicativo -->
@@ -13483,14 +13517,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>vos</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">estás|vas|ves</token>
+                    <token regexp="yes">estás|vas|ves|eras</token>
+                    <!-- TODO: extract all verbs where VMIP2V0 doesn't exist -->
                     <token>vos</token>
                 </antipattern>
                 <pattern>
                     <token>vos<exception postag="SP.*|CC|LOC_PREP" postag_regexp="yes" scope="previous"/></token>
                     <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="3"/>
                     <marker>
-                        <token postag="V.IP[123].." postag_regexp="yes"><exception postag="V...2[VP].|AQ.*|RG|LOC_ADV" postag_regexp="yes"/><exception regexp="yes">estás|vas|ves</exception></token>
+                        <token postag="V.IP[123].." postag_regexp="yes"><exception postag="V...2[VP].|AQ.*|RG|LOC_ADV" postag_regexp="yes"/><exception regexp="yes">estás|vas|ves|eras</exception></token>
                     </marker>
                 </pattern>
                 <message>Posible falta de concordancia de persona entre «\1» y «\3».</message>
