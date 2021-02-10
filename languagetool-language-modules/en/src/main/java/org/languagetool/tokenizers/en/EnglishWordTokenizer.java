@@ -52,7 +52,7 @@ public class EnglishWordTokenizer extends WordTokenizer {
     patterns[0] = Pattern.compile("^(fo['’]c['’]sle)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     // + not
     patterns[1] = Pattern.compile(
-        "^(are|is|wre|was|do|does|did|have|has|had|wo|would|ca|could|sha|should|must|ai)(n['’]t)$",
+        "^(are|is|were|was|do|does|did|have|has|had|wo|would|ca|could|sha|should|must|ai)(n['’]t)$",
         Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[2] = Pattern.compile("^(.+)(['’]m|['’]re|['’]ll|['’]ve|['’]d|['’]s)(['’-]?)$",
         Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
