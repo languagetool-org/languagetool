@@ -6556,6 +6556,18 @@ A seguinte frase de Wishart a seus amigos é bem conhecida.
           <token>a</token>
           <token postag_regexp='yes' postag='D.+'/>
       </antipattern>
+<!-- MARCOAGPINTO 2021-02-10 (1-JAN-2021+) *START* -->
+<!--
+Eles obedeciam a leis de monarcas distantes.
+Torna-se necessário obedecer a normas de conduta.
+A Literatura obedece a leis inflexíveis: a da herança, a do meio, a do momento.
+-->
+      <antipattern>
+        <token inflected='yes' regexp='yes'>obedecer|desobedecer</token>
+        <token regexp='no'>a</token>
+	    <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-02-10 (1-JAN-2021+) *END* -->  
       <pattern>
         <marker>
           <token inflected='yes' regexp='yes'>obedecer|desobedecer</token>
@@ -6567,6 +6579,10 @@ A seguinte frase de Wishart a seus amigos é bem conhecida.
       <message>Este verbo utiliza a preposição "a".</message>
         <suggestion>\1 <match no='2' regexp_match='(a)(s?)' regexp_replace='à$2'/></suggestion>
       <example correction='obedece à'>O rapaz não <marker>obedece a</marker> mãe.</example>
+	  
+	  <example>Eles <marker>obedeciam a</marker> leis de monarcas distantes.</example>
+	  <example>Torna-se necessário obedecer a normas de conduta.</example>
+	  <example>A Literatura obedece a leis inflexíveis: a da herança, a do meio, a do momento.</example>
     </rule>
   </rulegroup>
 
