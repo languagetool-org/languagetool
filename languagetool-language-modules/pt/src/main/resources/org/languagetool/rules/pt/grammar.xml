@@ -9172,6 +9172,26 @@ Vamos minorar a dor.
       <example correction="nas vistas">Procura não dar <marker>na vista</marker>.</example>
     </rule>
 
+	<!-- DENOMINADA(O)(S) COMO SENDO denominada(o)(s) -->
+    <rule id='DENOMINADA' name="Denominada(o)(s)">
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-10 (1-JAN-2021+)      -->
+<!--
+Por isso é denominada como sendo a resiliência.
+-->
+      <pattern>
+		<marker>
+			<token inflected="yes">ser</token>
+			<token inflected="yes">denominar</token>
+			<token regexp="no">como</token>
+			<token regexp="no">sendo</token>
+			<token regexp="yes">[ao]s?</token>
+			<token postag='NC.+|AQ0.+' postag_regexp='yes'/>          
+		</marker>
+      </pattern>
+      <message>Substitua por <suggestion>\1 \2 \6</suggestion>.</message>
+      <example correction="é denominada resiliência">Por isso <marker>é denominada como sendo a resiliência</marker>.</example>
+    </rule>
+
     <!-- 	DENTRO DE/DA(S)/DO(S) em/na(s)/no(s) -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-19 (21-OCT-2020+)     -->
     <rulegroup id='DENTRO_DE_DA_DAS_DO_DOS_EM_NA_NAS_NO_NOS' name="Dentro de/da(s)/do(s) > em/na(s)/no(s)">
