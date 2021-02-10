@@ -622,6 +622,10 @@
       </rule>
 
     <rule id="GO_COME_VB" name="go + verb/nn => verb">
+      <antipattern><!-- www.lexico.com/definition/come_true -->
+        <token>come</token>
+        <token>true</token>
+      </antipattern>
       <pattern>
         <token regexp="yes">go|come</token>
         <marker>
@@ -636,6 +640,8 @@
       <disambig postag="VB"/>
       <example type="untouched">How did the idea for this originally come up?</example><!-- #3511 come/I-NP-singular -->
       <example type="untouched">Sometimes I go up the wall with this disambiguation malarkey.</example>
+      <example type="untouched">The Orwellian Nightmare Come True which analyses the parallels between elements of the storyline in...</example><!-- #4323 -->
+      <example type="untouched">... or should the Orwellian nightmare come true, we will...</example><!-- #4323 -->
       <example type="ambiguous" inputform="see[see/NN,see/VB,see/VBP]" outputform="see[see/VB]">I told him, I want to go <marker>see</marker> the Buck house.</example>
     </rule>
 
