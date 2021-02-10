@@ -65,7 +65,7 @@ public class RemoteRuleTimeoutTest {
     }
 
     @Override
-    protected RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText, Long textSessionId) {
+    protected RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, Long textSessionId) {
       return new TestRemoteRule.TestRemoteRequest(sentences);
     }
 

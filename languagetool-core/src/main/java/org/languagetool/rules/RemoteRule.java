@@ -86,8 +86,27 @@ public abstract class RemoteRule extends Rule {
 
   protected class RemoteRequest {}
 
-  protected abstract RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText, @Nullable Long textSessionId);
+  /**
+   * run local preprocessing steps (or just store sentences)
+   * @param sentences text to process
+   * @param textSessionId session ID for caching, partial rollout, A/B testing
+   * @return parameter for executeRequest/fallbackResults
+   */
+  protected abstract RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, @Nullable Long textSessionId);
+
+  /**
+   * @param request returned by prepareRequest
+   * @param timeoutMilliseconds timeout for this operation, <=0 -> unlimited
+   * @return callable that sends request, parses and returns result for this remote rule
+   * @throws TimeoutException if timeout was exceeded
+   */
   protected abstract Callable<RemoteRuleResult> executeRequest(RemoteRequest request, long timeoutMilliseconds) throws TimeoutException;
+
+  /**
+   * fallback if executeRequest times out or throws an error
+   * @param request returned by prepareRequest
+   * @return local results for this rule
+   */
   protected abstract RemoteRuleResult fallbackResults(RemoteRequest request);
 
   /**
@@ -103,7 +122,7 @@ public abstract class RemoteRule extends Rule {
       long startTime = System.nanoTime();
       long characters = sentences.stream().mapToInt(sentence -> sentence.getText().length()).sum();
       String ruleId = getId();
-      RemoteRequest req = prepareRequest(sentences, annotatedText, textSessionId);
+      RemoteRequest req = prepareRequest(sentences, textSessionId);
       RemoteRuleResult result;
 
       if (consecutiveFailures.get(ruleId).get() >= serviceConfiguration.getFall()) {

@@ -36,7 +36,6 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.ml.MLServerGrpc;
 import org.languagetool.rules.ml.MLServerProto;
 import org.slf4j.Logger;
@@ -201,7 +200,7 @@ public abstract class GRPCRule extends RemoteRule {
   }
 
   @Override
-  protected RemoteRule.RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText, @Nullable Long textSessionId) {
+  protected RemoteRule.RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, @Nullable Long textSessionId) {
     List<String> text = sentences.stream().map(AnalyzedSentence::getText).collect(Collectors.toList());
     List<Long> ids = Collections.emptyList();
     if (textSessionId != null) {
@@ -223,9 +222,13 @@ public abstract class GRPCRule extends RemoteRule {
 
       MLServerProto.MatchResponse response;
       try {
-        response = conn.stub
-          .withDeadlineAfter(timeoutMilliseconds, TimeUnit.MILLISECONDS)
-          .match(req.request);
+        if (timeoutMilliseconds > 0) {
+          response = conn.stub
+            .withDeadlineAfter(timeoutMilliseconds, TimeUnit.MILLISECONDS)
+            .match(req.request);
+        } else {
+          response = conn.stub.match(req.request);
+        }
       } catch (StatusRuntimeException e) {
         if (e.getStatus().getCode() == Status.DEADLINE_EXCEEDED.getCode()) {
           throw new TimeoutException(e.getMessage());

@@ -31,6 +31,7 @@ import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.languagemodel.bert.grpc.BertLmGrpc;
+import org.languagetool.languagemodel.bert.grpc.BertLmGrpc.BertLmBlockingStub;
 
 import javax.net.ssl.SSLException;
 import java.io.File;
@@ -139,8 +140,13 @@ public class RemoteLanguageModel {
     // TODO multiple masks
     List<List<Double>> nonCacheResult;
     try {
-      nonCacheResult = model.withDeadlineAfter(timeoutMilliseconds, TimeUnit.MILLISECONDS)
-        .batchScore(batch)
+      BertLmBlockingStub stub;
+      if (timeoutMilliseconds > 0) {
+        stub = model.withDeadlineAfter(timeoutMilliseconds, TimeUnit.MILLISECONDS);
+      } else {
+        stub = model;
+      }
+      nonCacheResult = stub.batchScore(batch)
         .getResponsesList().stream().map(r ->
           r.getScoresList().get(0).getScoreList()).collect(Collectors.toList());
     } catch (StatusRuntimeException e) {
