@@ -30,7 +30,6 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
 import org.languagetool.languagemodel.bert.RemoteLanguageModel;
-import org.languagetool.markup.AnnotatedText;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -116,7 +115,7 @@ public class BERTSuggestionRanking extends RemoteRule {
   }
 
   @Override
-  protected RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText, Long textSessionId) {
+  protected RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, Long textSessionId) {
     List<RuleMatch> matches = new LinkedList<>();
     List<RemoteLanguageModel.Request> requests = new LinkedList<>();
     try {
