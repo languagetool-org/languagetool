@@ -81,7 +81,7 @@
                 </marker>
                 <token spacebefore="no">n't</token>
             </pattern>
-            <disambig action="immunize"/>
+            <disambig action="ignore_spelling"/>
         </rule>
         <rule>
             <pattern>
@@ -101,7 +101,26 @@
                 </marker>
                 <token spacebefore="no">n't</token>
             </pattern>
-            <disambig action="immunize"/>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes" spacebefore="no">'m|'re|'s|n't|'ll|'d|'ve</token>    
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>let</token>
+                <marker>
+                    <token>'s</token>    
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="we" pos="PRP"/>
+            </disambig>
         </rule>
     </rulegroup>
 
