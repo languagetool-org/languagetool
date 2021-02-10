@@ -30,6 +30,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tagging.uk.PosTagHelper;
 
 /**
  * A rule that matches short dash inside words
@@ -71,9 +72,39 @@ public class TypographyRule extends Rule {
         RuleMatch potentialRuleMatch = createRuleMatch(tokens[i], replacements, msg, sentence);
         ruleMatches.add(potentialRuleMatch);
       }
+      else if( i < tokens.length - 1
+            && "\u2014".equals(tokens[i].getToken()) ) {
+        boolean noSpaceLeft = ! tokens[i].isWhitespaceBefore() && ! ",".equals(tokens[i-1].getToken());
+        boolean noSpaceRight = ! tokens[i+1].isWhitespaceBefore();
+
+        if( noSpaceLeft || noSpaceRight ) {
+
+          if( isNumber(tokens[i-1]) && isNumber(tokens[i+1]) )
+            continue;
+
+          List<String> replacements = new ArrayList<>();
+          String repl = " \u2014 ";
+//          if( noSpaceLeft ) repl = " " + repl;
+//          if( noSpaceRight ) repl += " ";
+
+          replacements.add(tokens[i-1].getToken() + "-" + tokens[i+1].getToken());
+          replacements.add(tokens[i-1].getToken() + repl + tokens[i+1].getToken());
+
+          // Правопис 2019 § 161. ТИРЕ (—), пп. 12-15
+          String msg = "Риска всередині слова. Всередині слова вживайте дефіс, між словами виокремлюйте риску пробілами.";
+//          RuleMatch potentialRuleMatch = createRuleMatch(tokens[i], replacements, msg, sentence);
+          RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, tokens[i-1].getStartPos(), tokens[i+1].getEndPos(), msg, getShort());
+          potentialRuleMatch.setSuggestedReplacements(replacements);
+          ruleMatches.add(potentialRuleMatch);
+        }
+      }
     }
     
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private static boolean isNumber(AnalyzedTokenReadings analyzedTokenReadings) {
+    return PosTagHelper.hasPosTagStart(analyzedTokenReadings, "number");
   }
 
   private static final Pattern SHORT_DASH_WORD = Pattern.compile("[а-яіїєґ']{2,}([\u2013\u2014][а-яіїєґ']{2,})+", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);

@@ -491,6 +491,12 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("-У певному");
     assertEquals(Arrays.asList("-", "У", " ", "певному"), testList);
+
+    testList = w.tokenize("праця—голова");
+    assertEquals(Arrays.asList("праця", "—", "голова"), testList);
+
+    testList = w.tokenize("Людина—");
+    assertEquals(Arrays.asList("Людина", "—"), testList);
   }
   
   @Test

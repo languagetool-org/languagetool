@@ -54,9 +54,17 @@ public class TypographyRuleTest {
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("яскраво-шуруровий", "яскраво \u2014 шуруровий"), matches[0].getSuggestedReplacements());
 
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("ХХ\u2014ХХІ")).length);
+
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Вовка,— волкова")).length);
+
     matches = rule.match(langTool.getAnalyzedSentence("Вовка\u2014Волкова."));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("Вовка-Волкова", "Вовка \u2014 Волкова"), matches[0].getSuggestedReplacements());
+
+    matches = rule.match(langTool.getAnalyzedSentence("цукерок —знову низька"));
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("цукерок-знову", "цукерок \u2014 знову"), matches[0].getSuggestedReplacements());
   }
 
 }

@@ -141,6 +141,11 @@ public class MixedAlphabetsRuleTest {
     assertEquals("Вжито кириличні літери замість латинських на позначення римської цифри", matches[0].getMessage());
     assertEquals(Arrays.asList("XI"), matches[0].getSuggestedReplacements());
 
+    matches = rule.match(langTool.getAnalyzedSentence("ХI\u2013XX")); // cyrillic X and latin I
+    assertEquals(1, matches.length);
+    assertEquals("Вжито кириличні літери замість латинських", matches[0].getMessage());
+    assertEquals(Arrays.asList("ХІ–ХХ", "XI–XX"), matches[0].getSuggestedReplacements());
+
     matches = rule.match(langTool.getAnalyzedSentence("СOVID-19")); // cyrillic С
     assertEquals(1, matches.length);
     assertEquals("Вжито кириличні літери замість латинських", matches[0].getMessage());

@@ -39,7 +39,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final String SPLIT_CHARS =
             "!{2,3}|\\?{2,3}|\\.{3}|[!?][!?.]{1,2}"
             + "|[\u0020\u00A0\\n\\r\\t"
-            + ",.;!?:()\\[\\]{}<>/|\\\\…=¿¡]"
+            + ",.;!?\u2014:()\\[\\]{}<>/|\\\\…=¿¡]"
             + "|(?<!\uE109)[\"«»„”“]"                       // quotes have special cases
             + "|[\u2000-\u200F"
             + "\u201A\u2020-\u202F\u2030\u2031\u2033-\u206F"
