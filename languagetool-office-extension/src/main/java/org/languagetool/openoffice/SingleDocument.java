@@ -18,6 +18,7 @@
  */
 package org.languagetool.openoffice;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -90,15 +91,12 @@ class SingleDocument {
   private int changeTo = 0;                       //  Change result cache to paragraph
   private int paraNum;                            //  Number of current checked paragraph
   private IgnoredMatches ignoredMatches;          //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called
-  private boolean useQueue = true;                //  true: use queue to check text level rules (will be overridden by config)
   private boolean disposed = false;               //  true: document with this docId is disposed - SingleDocument shall be removed
-  private boolean resetDocCache= false;           //  true: the cache of the document should be reseted before the next check
+  private boolean resetDocCache = false;          //  true: the cache of the document should be reseted before the next check
+  private boolean hasFootnotes = true;            //  true: Footnotes are supported by LO/OO
   private String lastSinglePara = null;           //  stores the last paragraph which is checked as single paragraph
   private Language docLanguage = null;            //  Language used for check
   private LanguageToolMenus ltMenus = null;       //  LT menus (tools menu and context menu)
-  int[] footnotePositions = null;                 //  footnotes given by LO
-  
-  int proofInfo = 0;
 
   SingleDocument(XComponentContext xContext, Configuration config, String docID, 
       XComponent xComponent, MultiDocumentsHandler mDH) {
@@ -140,7 +138,41 @@ class SingleDocument {
   ProofreadingResult getCheckResults(String paraText, Locale locale, ProofreadingResult paRes, 
       PropertyValue[] propertyValues, boolean docReset, SwJLanguageTool langTool, int nPara) {
     
-    getPropertyValues(propertyValues);
+    int [] footnotePositions = null;  // e.g. for LO/OO < 4.3 and the 'FootnotePositions' property
+    int proofInfo = OfficeTools.PROOFINFO_UNKNOWN;  //  OO and LO < 6.5 do not support ProofInfo
+    for (PropertyValue propertyValue : propertyValues) {
+      if ("FootnotePositions".equals(propertyValue.Name)) {
+        if (propertyValue.Value instanceof int[]) {
+          footnotePositions = (int[]) propertyValue.Value;
+        } else {
+          MessageHandler.printToLogFile("Not of expected type int[]: " + propertyValue.Name + ": " + propertyValue.Value.getClass());
+        }
+      }
+      if ("ProofInfo".equals(propertyValue.Name)) {
+        if (propertyValue.Value instanceof Integer) {
+          proofInfo = (int) propertyValue.Value;
+        } else {
+          MessageHandler.printToLogFile("Not of expected type int: " + propertyValue.Name + ": " + propertyValue.Value.getClass());
+        }
+      }
+    }
+    hasFootnotes = footnotePositions != null;
+    if (!hasFootnotes && numParasToCheck != 0) {
+      //  OO and LO < 4.3 do not support 'FootnotePositions' property and other advanced features
+      //  switch back to single paragraph check mode - save settings in configuration
+      if (config.useTextLevelQueue()) {
+        mDocHandler.getTextLevelCheckQueue().setStop();
+      }
+      numParasToCheck = 0;
+      config.setNumParasToCheck(numParasToCheck);
+      config.setUseTextLevelQueue(false);
+      try {
+        config.saveConfiguration(docLanguage);
+      } catch (IOException e) {
+        MessageHandler.showError(e);
+      }
+      MessageHandler.printToLogFile("Single paragraph check mode set!");
+    }
 
     if (resetDocCache && nPara >= 0) {
       docCache = null;
@@ -162,8 +194,9 @@ class SingleDocument {
       boolean isDialogRequest = (nPara >= 0 || proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT);
       
       CheckRequestAnalysis requestAnalysis = new CheckRequestAnalysis(numLastVCPara, numLastFlPara, defaultParaCheck, 
-          proofInfo, this, paragraphsCache, viewCursor);
-      paraNum = requestAnalysis.getNumberOfParagraph(nPara, paraText, locale, paRes.nStartOfSentencePosition);
+          proofInfo, numParasToCheck, this, paragraphsCache, viewCursor);
+      int paraNum = requestAnalysis.getNumberOfParagraph(nPara, paraText, locale, paRes.nStartOfSentencePosition, footnotePositions);
+      this.paraNum = paraNum;
       flatPara = requestAnalysis.getFlatParagraphTools();
       docCursor = requestAnalysis.getDocumentCursorTools();
       viewCursor = requestAnalysis.getViewCursorTools();
@@ -172,12 +205,11 @@ class SingleDocument {
       numLastFlPara = requestAnalysis.getLastParaNumFromFlatParagraph();
       numLastVCPara = requestAnalysis.getLastParaNumFromViewCursor();
       boolean textIsChanged = requestAnalysis.textIsChanged();
-      boolean resetCheck = requestAnalysis.resetCheck();
       
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, 
           docLanguage, ignoredMatches, numParasToCheck, isDialogRequest);
       paRes.aErrors = singleCheck.getCheckResults(paraText, footnotePositions, locale, langTool, paraNum, 
-          paRes.nStartOfSentencePosition, textIsChanged, resetCheck, changeFrom, changeTo, lastSinglePara, isIntern);
+          paRes.nStartOfSentencePosition, textIsChanged, changeFrom, changeTo, lastSinglePara, isIntern);
       lastSinglePara = singleCheck.getLastSingleParagraph();
       paRes.nStartOfSentencePosition = paragraphsCache.get(0).getStartSentencePosition(paraNum, paRes.nStartOfSentencePosition);
       paRes.nStartOfNextSentencePosition = paragraphsCache.get(0).getNextSentencePosition(paraNum, paRes.nStartOfSentencePosition);
@@ -189,54 +221,12 @@ class SingleDocument {
   }
   
   /**
-   * Get property values for footnotes (since LO 4.3)
-   * and information for reason of proof (since LO 6.5)
-   */
-  private void getPropertyValues(PropertyValue[] propertyValues) {
-    footnotePositions = null;  // e.g. for LO/OO < 4.3 and the 'FootnotePositions' property
-    proofInfo = OfficeTools.PROOFINFO_UNKNOWN;  //  OO and LO < 6.5 do not support ProofInfo
-    for (PropertyValue propertyValue : propertyValues) {
-      if ("FootnotePositions".equals(propertyValue.Name)) {
-        if (propertyValue.Value instanceof int[]) {
-          footnotePositions = (int[]) propertyValue.Value;
-        } else {
-          MessageHandler.printToLogFile("Not of expected type int[]: " + propertyValue.Name + ": " + propertyValue.Value.getClass());
-        }
-      }
-      if ("ProofInfo".equals(propertyValue.Name)) {
-        if (propertyValue.Value instanceof Integer) {
-          proofInfo = (int) propertyValue.Value;
-        } else {
-          MessageHandler.printToLogFile("Not of expected type int: " + propertyValue.Name + ": " + propertyValue.Value.getClass());
-        }
-      }
-    }
-    if (footnotePositions == null) {
-      //  OO and LO < 4.3 do not support 'FootnotePositions' property and other advanced features
-      //  switch back to single paragraph check mode
-      if (numParasToCheck != 0 || useQueue) {
-        numParasToCheck = 0;
-        if (useQueue) {
-          mDocHandler.getTextLevelCheckQueue().setStop();
-          useQueue = false;
-        }
-        MessageHandler.printToLogFile("Single paragraph check mode set!");
-      }
-    }
-  }
-  
-  /**
    * set values set by configuration dialog
    */
   void setConfigValues(Configuration config) {
     this.config = config;
     numParasToCheck = mDocHandler.isTestMode() ? 0 : config.getNumParasToCheck();
     defaultParaCheck = PARA_CHECK_DEFAULT;
-    if (numParasToCheck == 0) {
-      useQueue = false;
-    } else {
-      useQueue = mDocHandler.isTestMode() ? false : config.useTextLevelQueue();
-    }
     if (ltMenus != null) {
       ltMenus.setConfigValues(config);
     }
@@ -369,7 +359,7 @@ class SingleDocument {
    */
   DocumentCache getUpdatedDocumentCache(int nPara) {
     CheckRequestAnalysis requestAnalysis = new CheckRequestAnalysis(numLastVCPara, numLastFlPara, defaultParaCheck, 
-        proofInfo, this, paragraphsCache, viewCursor);
+        OfficeTools.PROOFINFO_GET_PROOFRESULT, numParasToCheck, this, paragraphsCache, viewCursor);
     docCache = requestAnalysis.actualizeDocumentCache(nPara);
     return docCache;
   }
@@ -435,6 +425,15 @@ class SingleDocument {
     return flatPara;
   }
   
+  /** 
+   * Set flat paragraph tools from other class
+   *//*
+  public void setFlatParagraphTools(FlatParagraphTools flatPara) {
+    if (flatPara != null) {
+      this.flatPara = flatPara;
+    }
+  }
+  
   /**
    * Add an new entry to text level queue
    * nFPara is number of flat paragraph
@@ -497,7 +496,7 @@ class SingleDocument {
   public void runQueueEntry(int nStart, int nEnd, int cacheNum, int nCheck, boolean doReset, SwJLanguageTool langTool) {
     if (docCache.isFinished()) {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, false);
-      singleCheck.addParaErrorsToCache(docCache.getFlatParagraphNumber(nStart), langTool, cacheNum, nCheck, doReset, false);
+      singleCheck.addParaErrorsToCache(docCache.getFlatParagraphNumber(nStart), langTool, cacheNum, nCheck, doReset, false, hasFootnotes);
     }
   }
   
@@ -569,7 +568,7 @@ class SingleDocument {
    */
   public void removeIgnoredMatch(int y) {
     ignoredMatches.removeIgnoredMatches(y);
-    if (numParasToCheck != 0) {
+    if (numParasToCheck != 0 && flatPara != null) {
       List<Integer> changedParas = new ArrayList<>();
       changedParas.add(y);
       remarkChangedParagraphs(changedParas);
@@ -601,6 +600,10 @@ class SingleDocument {
    */
   private String getRuleIdFromCache(int nPara, int nChar) {
     List<SingleProofreadingError> tmpErrors = new ArrayList<SingleProofreadingError>();
+    if (nPara < 0 || nPara >= docCache.textSize()) {
+      return null;
+    }
+    nPara = docCache.getFlatParagraphNumber(nPara);
     for (ResultCache paraCache : paragraphsCache) {
       SingleProofreadingError tError = paraCache.getErrorAtPosition(nPara, nChar);
       if (tError != null) {

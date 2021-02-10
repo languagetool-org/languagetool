@@ -83,9 +83,9 @@ class ResultCache implements Serializable {
     entries = Collections.synchronizedMap(new HashMap<>());
     synchronized (tmpEntries) {
       for (int i : tmpEntries.keySet()) {
-        if (i > lastParagraph) {
+        if (i >= firstParagraph && i + shift >= 0) {
           entries.put(i + shift, tmpEntries.get(i));
-        } else {
+        } else if (i < firstParagraph + shift) {
           entries.put(i, tmpEntries.get(i));
         } 
       }

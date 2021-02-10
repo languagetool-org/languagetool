@@ -21,6 +21,7 @@ package org.languagetool.openoffice;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.languagetool.openoffice.FlatParagraphTools.ParagraphContainer;
 
@@ -45,6 +46,7 @@ public class DocumentCache implements Serializable {
   private List<Integer> toParaMapping = new ArrayList<>();  //  Mapping from DocumentCursor to FlatParagraph
   private int defaultParaCheck;
   private boolean isReset = false;
+  private final ReentrantLock lock = new ReentrantLock();
 
   DocumentCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, int defaultParaCheck, Locale docLocale) {
     debugMode = OfficeTools.DEBUG_MODE_DC;
@@ -79,6 +81,7 @@ public class DocumentCache implements Serializable {
    */
   public void reset(DocumentCursorTools docCursor, FlatParagraphTools flatPara, Locale docLocale) {
     try {
+      lock.lock();
       isReset = true;
       List<String> textParas = docCursor.getAllTextParagraphs();
       ParagraphContainer paragraphContainer = null;
@@ -106,6 +109,7 @@ public class DocumentCache implements Serializable {
       mapParagraphs(textParas);
     } finally {
       isReset = false;
+      lock.unlock();
     }
   }
   
@@ -353,17 +357,17 @@ public class DocumentCache implements Serializable {
   /**
    * Gives Back the full Text as String
    */
-  public String getDocAsString(int numCurPara, int parasToCheck, boolean textIsChanged, boolean useQueue) {
+  public String getDocAsString(int numCurPara, int parasToCheck, boolean textIsChanged, boolean useQueue, boolean hasFootnotes) {
     int startPos = getStartOfParaCheck(numCurPara, parasToCheck, textIsChanged, useQueue, true);
     int endPos = getEndOfParaCheck(numCurPara, parasToCheck, textIsChanged, useQueue, true);
-    if (startPos < 0 || endPos < 0) {
+    if (startPos < 0 || endPos < 0 || (hasFootnotes && getTextParagraph(startPos).isEmpty() && getTextParagraphFootnotes(startPos).length > 0)) {
       return "";
     }
     StringBuilder docText = new StringBuilder(fixLinebreak(SingleCheck.removeFootnotes(getTextParagraph(startPos), 
-        getTextParagraphFootnotes(startPos))));
+        (hasFootnotes ? getTextParagraphFootnotes(startPos) : null))));
     for (int i = startPos + 1; i < endPos; i++) {
       docText.append(OfficeTools.END_OF_PARAGRAPH).append(fixLinebreak(SingleCheck.removeFootnotes(getTextParagraph(i), 
-          getTextParagraphFootnotes(i))));
+          (hasFootnotes ? getTextParagraphFootnotes(i) : null))));
     }
     return docText.toString();
   }

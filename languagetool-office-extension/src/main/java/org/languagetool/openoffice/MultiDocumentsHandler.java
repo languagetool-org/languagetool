@@ -187,7 +187,6 @@ public class MultiDocumentsHandler {
         }
       }
     }
-    MessageHandler.printToLogFile(OfficeTools.localeToString(locale));
     docNum = getNumDoc(paRes.aDocumentIdentifier);
     if (noBackgroundCheck) {
       return paRes;
@@ -450,7 +449,6 @@ public class MultiDocumentsHandler {
    */
   final boolean hasLocale(Locale locale) {
     try {
-      MessageHandler.printToLogFile(OfficeTools.localeToString(locale));
       for (Language element : Languages.get()) {
         if (locale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)
             && element.getShortCodeWithCountryAndVariant().equals(locale.Variant)) {
@@ -630,8 +628,6 @@ public class MultiDocumentsHandler {
       if (this.langTool == null) {
         OfficeTools.setLogLevel(config.getlogLevel());
         debugMode = OfficeTools.DEBUG_MODE_MD;
-        MessageHandler.printToLogFile("initLanguageTool: DEBUG_MODE_MD = " + OfficeTools.DEBUG_MODE_MD);
-        MessageHandler.printToLogFile("initLanguageTool: DEBUG_MODE_SD = " + OfficeTools.DEBUG_MODE_SD);
       }
       if (currentLanguage == null) {
         fixedLanguage = config.getDefaultLanguage();
@@ -846,7 +842,7 @@ public class MultiDocumentsHandler {
     for (SingleDocument document : documents) {
       if (menuDocId.equals(document.getDocID())) {
         deactivateRule(document.deactivateRule(), false);
-        break;
+        return;
       }
     }
   }
