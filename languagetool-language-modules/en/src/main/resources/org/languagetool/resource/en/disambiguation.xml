@@ -7925,9 +7925,32 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="PRP|NNP" postag_regexp="yes" />
             <token postag_regexp="yes" postag="MD|VB[PD]"/>
         </antipattern>
+        <antipattern>
+            <token>its</token>
+            <token postag="VBG" />
+            <token>as</token>
+        </antipattern>
+        <antipattern>
+            <token>its</token>
+            <token postag="RB" />
+            <token postag="VBG" />
+            <token>as</token>
+        </antipattern>
+        <antipattern>
+            <token inflected="yes">be</token>
+            <token postag="VBG" />
+            <token>as</token>
+        </antipattern>
+        <antipattern>
+            <token inflected="yes">be</token>
+            <token postag="RB" />
+            <token postag="VBG" />
+            <token>as</token>
+        </antipattern>
         <pattern>
             <token postag="JJ">
                 <exception>same</exception>
+                <exception postag="VBG" />
             </token>
             <marker>
                 <token>as</token>
@@ -7935,6 +7958,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig postag="RB"/>
         <example type="untouched">They are wed as gods.</example>
+        <example type="untouched">It's working as expected.</example>
+        <example type="untouched">Incorrect grammar: Its working as expected.</example>
         <example type="untouched">... someone, somewhere, is sending an e-mail as we speak.</example><!-- #3143 -->
         <example type="untouched">He is not such a fool as you assumed him to be.</example><!-- #3143 -->
         <example type="untouched">It is fantastic as he tells me constantly.</example><!-- #3143 -->
@@ -8115,6 +8140,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="I-NP-singular" postag="JJS"/>
             <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
         </antipattern>
+        <antipattern>
+            <token regexp="yes">its|your</token>
+            <token postag="VBG" />
+            <token postag="IN" />
+        </antipattern>
         <pattern>
             <token postag="PRP$"/>
             <marker>
@@ -8128,6 +8158,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="filter" postag="NN.*"/>
         <example type="untouched">I do what I want to.</example>
         <example type="untouched">Your two best boys.</example>
+        <example type="untouched">Incorrect grammar: Its working like a charm.</example>
         <example type="untouched">His last film The Sacrifice was produced in Sweden in 1986.</example>
         <example type="untouched">Adjective: The national team plays its <marker>home</marker> games at the Ghazi Stadium in Kabul.</example>
         <example type="untouched">His last view of the land he had inhabited was by moonlight...</example><!-- Chunker error: view/E-NP-plural -->
