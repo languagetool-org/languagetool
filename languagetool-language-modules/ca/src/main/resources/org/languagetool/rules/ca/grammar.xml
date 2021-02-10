@@ -28374,6 +28374,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="DIACRITICS" name="Z) Accents diacrítics comuns" type="misspelling">
         <rulegroup id="SOL" name="sol/sòl">
+            <antipattern>
+                <token regexp="yes">tan|no</token>
+                <token>sols</token>
+            </antipattern>
+            <antipattern>
+                <token>un</token>
+                <token>sol</token>
+                <token postag="N..[MC][SN].*|A..[MC][SN].|V.P..SM." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>sol</token>
+                <token>naixent</token>
+            </antipattern>
+            <antipattern>
+                <token>sols</token>
+                <token postag="D.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>un</token>
+                <token>de</token>
+                <token>sol</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">forma|hora|raig</token>
+                <token>de</token>
+                <token min="0">l</token>
+                <token>sol</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">sols?</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </antipattern>
             <!-- TODO: word in context -->
             <rule>
                 <pattern>
@@ -28397,26 +28429,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" regexp_match="(?iu)sol" regexp_replace="sòl" case_conversion="preserve"/></suggestion>
                 <example correction="sòls">Van expropiar <marker>sols</marker> agrícoles.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <pattern>
-                    <token inflected="yes" skip="-1" regexp="yes">&context_SOL_accent;</token>
+                    <token inflected="yes" skip="20" regexp="yes">&context_SOL_accent;</token>
+                    <token postag="D.*" postag_regexp="yes" min="1" max="2"/>
                     <marker>
-                        <token regexp="yes">sols?</token>
+                        <token regexp="yes">sols?<exception postag="_possible_nompropi"/></token>
                     </marker>
                 </pattern>
                 <message>Amb el sentit de 'superfície, terra, terreny', s'escriu amb accent.</message>
-                <suggestion><match no="2" regexp_match="(?iu)sol" regexp_replace="sòl" case_conversion="preserve"/></suggestion>
+                <suggestion><match no="3" regexp_match="(?iu)sol" regexp_replace="sòl" case_conversion="preserve"/></suggestion>
                 <example correction="sòl">Van urbanitzar tot el <marker>sol</marker> del municipi.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <pattern>
+                    <token postag="D.*" postag_regexp="yes"/>
                     <marker>
-                        <token regexp="yes" skip="20">sols?</token>
+                        <token regexp="yes" skip="20">sols?<exception postag="_possible_nompropi"/></token>
                     </marker>
                     <token inflected="yes" regexp="yes">&context_SOL_accent;</token>
                 </pattern>
                 <message>Amb el sentit de 'superfície, terra, terreny', s'escriu amb accent.</message>
-                <suggestion><match no="1" regexp_match="(?iu)sol" regexp_replace="sòl" case_conversion="preserve"/></suggestion>
+                <suggestion><match no="2" regexp_match="(?iu)sol" regexp_replace="sòl" case_conversion="preserve"/></suggestion>
                 <example correction="sòl">Encara que tinguesis el <marker>sol</marker>, construir tampoc no és ràpid.</example>
             </rule>
             <rule>
@@ -56671,7 +56705,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="REDUNDANCIES" name="C8) Redundàncies" type="style">
-        <rulegroup id="PREDOMINAR_MES" name="predominar més" default="temp_off">
+        <rulegroup id="PREDOMINAR_MES" name="predominar més">
+            <antipattern>
+                <token>més</token>
+                <token>i</token>
+                <token>més</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>més</token>
