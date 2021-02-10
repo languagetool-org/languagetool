@@ -148,6 +148,7 @@ public class RuleMatchDiffFinder {
     fw.write("<br>\n");
     printTableBegin(fw);
     int iframeCount = 0;
+    int i = 1;
     for (RuleMatchDiff diff : diffs) {
       if (diff.getStatus() == RuleMatchDiff.Status.ADDED) {
         fw.write("<tr style='background-color: #c7ffd0'>\n");
@@ -156,7 +157,8 @@ public class RuleMatchDiffFinder {
       } else {
         fw.write("<tr>\n");
       }
-      fw.write("  <td>" + diff.getStatus().name().substring(0, 3) + " </td>\n");
+      fw.write("  <td>" + diff.getStatus().name().substring(0, 3) + "<br>#" + i + " </td>\n");
+      i++;
       LightRuleMatch oldMatch = diff.getOldMatch();
       LightRuleMatch newMatch = diff.getNewMatch();
       if (diff.getOldMatch() != null) {
