@@ -34113,11 +34113,14 @@ though, and has since been slightly modified)-->
       <rulegroup id="VIRGULE_DEBUT_DE_PHRASE" name="virgule debut de phrase" default="temp_off">
           <rule>
               <pattern>
-                      <token postag="SENT_START"/>
+                  <token postag="SENT_START"/>
                   <marker>
-                      <token regexp="yes">cependant|néanmoins|pourtant|toutefois</token>
+                      <token regexp="yes">cependant|néanmoins|pourtant|toutefois
+                          <exception postag="SENT_END"/>
+                          <exception scope="next" postag="SENT_END"/>
+                      </token>
                   </marker>
-                  <token postag="[RAVNJPZCD].*" postag_regexp="yes"/>
+                  <token regexp="yes">[^,–).";:(«»-]+</token>
               </pattern>
               <message>Une virgule semble être requise dans ce contexte.</message>
               <suggestion>\2,</suggestion>
@@ -34127,6 +34130,18 @@ though, and has since been slightly modified)-->
               <example correction="Toutefois,"><marker>Toutefois</marker> le maire était d'humeur généreuse aujourd'hui.</example>
           </rule>
           <rule>
+              <antipattern>
+                  <token postag="SENT_START"/>
+                  <token>en</token>
+                  <token regexp="yes">effet|conséquence</token>
+                  <token postag="UNKNOWN"/>
+              </antipattern>
+              <antipattern>
+                  <token postag="SENT_START"/>
+                  <token>en</token>
+                  <token regexp="yes">effet|conséquence</token>
+                  <token postag="SENT_END"/>
+              </antipattern>
               <antipattern>
                   <token>en</token>
                   <token>conséquence</token>
@@ -34138,20 +34153,27 @@ though, and has since been slightly modified)-->
                   <marker>
                       <token regexp="yes">effet|conséquence</token>
                   </marker>
-                  <token postag="[RAVNJPZCD].*" postag_regexp="yes"/>
+                  <token regexp="yes">[^,–).";:(«»-]+</token>
               </pattern>
               <message>Une virgule semble être requise dans ce contexte.</message>
               <suggestion>\3,</suggestion>
               <example correction="effet,">En <marker>effet</marker> il ne le remarqua pas.</example>
+              <example>En <marker>effet</marker>.</example>
           </rule>
           <rule>
+              <antipattern>
+                  <token postag="SENT_START"/>
+                  <token>par</token>
+                  <token regexp="yes">conséquent|contre</token>
+                  <token postag="UNKNOWN"/>
+              </antipattern>
               <pattern>
                   <token postag="SENT_START"/>
                   <token>par</token>
                   <marker>
                       <token regexp="yes">conséquent|contre</token>
                   </marker>
-                  <token postag="[RAVNJPZCD].*" postag_regexp="yes"/>
+                  <token regexp="yes">[^,–).";:(«»-]+</token>
               </pattern>
               <message>Une virgule semble être requise dans ce contexte.</message>
               <suggestion>\3,</suggestion>
@@ -34159,8 +34181,37 @@ though, and has since been slightly modified)-->
           </rule>
           <rule>
               <antipattern>
+                  <token postag="SENT_START"/>
+                  <token regexp="yes" skip="-1">moi|toi</token>
+                  <token postag="Y.*" regexp="yes"/>
+              </antipattern>
+              <antipattern>
+                  <token postag="SENT_START"/>
                   <token regexp="yes">moi|toi</token>
-                  <token regexp="yes">aussi|non|et|qui|absolu|ou</token>
+                  <token regexp="yes">moi|toi</token>
+              </antipattern>
+              <antipattern>
+                  <token postag="SENT_START"/>
+                  <token regexp="yes">moi|toi</token>
+                  <token postag="UNKNOWN"/>
+              </antipattern>
+              <antipattern>
+                  <token postag="SENT_START"/>
+                  <token regexp="yes">moi|toi</token>
+                  <token postag="SENT_END"/>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes">moi|toi</token>
+                  <token postag="C coor.*" postag_regexp="yes"/>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes">moi|toi</token>
+                  <token postag="D.*|P.*" postag_regexp="yes"/>
+                  <token regexp="yes">premier|première|même</token>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes">moi|toi</token>
+                  <token regexp="yes">aussi|non|et|qui|absolu|ou|seule?|même</token>
               </antipattern>
               <antipattern>
                   <token regexp="yes">moi|toi</token>
@@ -34172,63 +34223,60 @@ though, and has since been slightly modified)-->
                   <marker>
                       <token regexp="yes">moi|toi</token>
                   </marker>
-                  <token postag="[RAVNJPZCD].*" postag_regexp="yes"/>
+                  <token regexp="yes">[^,–).";:(«»-]+</token>
               </pattern>
               <message>Une virgule semble être requise dans ce contexte.</message>
               <suggestion>\2,</suggestion>
               <example correction="Moi,"><marker>Moi</marker> je ne le sais pas.</example>
           </rule>
           <rule>
+              <antipattern>
+                  <token postag="SENT_START"/>
+                  <token>elles</token>
+                  <token>on</token>
+              </antipattern>
               <pattern>
                   <token postag="SENT_START"/>
                   <marker>
                       <token regexp="yes">lui|elle|eux|nous|vous|elles</token>
                   </marker>
-                  <token postag="R.* pers.* suj.*" postag_regexp="yes"/>
+                  <token postag="R pers suj.*" postag_regexp="yes"/>
               </pattern>
               <message>Une virgule semble être requise dans ce contexte.</message>
               <suggestion>\2,</suggestion>
-              <example correction="Lui,"><marker>Lui</marker> il ne le sais pas.</example>
+              <example correction="Lui,"><marker>Lui</marker> il ne le sait pas.</example>
           </rule>
           <rule>
               <antipattern>
-                  <token postag="V.*" postag_regexp="yes"/>
-                  <token postag="R.* pers.* suj.*" postag_regexp="yes"/>
-                  <token>que</token>
-                  <token postag="R.*" postag_regexp="yes"/>
-                  <token postag="V.*" postag_regexp="yes" skip="-1"/>
-              </antipattern>
-              <antipattern>
-                  <token>qu'</token>
-                  <token>elle</token>
-                  <token>que</token>
-              </antipattern>
-              <pattern>
-                  <marker>
-                      <token postag="R.* pers.* suj.*" postag_regexp="yes"/>
-                      <token>que</token>
-                  </marker>
-                  <token postag="R.*" postag_regexp="yes"/>
-                  <token postag="V.*" postag_regexp="yes" skip="-1"/>
-                  <token postag="V.*" postag_regexp="yes"/>
-              </pattern>
-              <message>Une virgule semble être requise dans ce contexte.</message>
-              <suggestion>\1, \2</suggestion>
-              <example correction="Elle, que"><marker>Elle que</marker> je connaissais bien, n'est plus là aujourd'hui.</example>
-          </rule>
-          <rule>
-              <pattern>
-                  <token postag="SENT_START"/>
-                  <marker>
-                      <token postag="A.*" postag_regexp="yes"><exception regexp="yes">comment|quand|pourquoi</exception></token>
-                      <token>il</token>
-                  </marker>
-              </pattern>
-              <message>Une virgule semble être requise dans ce contexte.</message>
-              <suggestion>\2, \3</suggestion>
-              <example correction="Dehors, il"><marker>Dehors il</marker> fait beau.</example>
-          </rule>
-      </rulegroup>
+              <token postag="SENT_START"/>
+              <token>tantôt</token>
+          </antipattern>
+          <antipattern>
+              <token>si</token>
+              <token regexp="yes">ils?</token>
+              <token postag="A.*" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token postag="A.*" postag_regexp="yes"/>
+              <token skip="-1">il</token>
+              <token postag="A.*" postag_regexp="yes"/>
+          </antipattern>
+          <pattern>
+              <token postag="SENT_START"/>
+              <marker>
+                  <token postag="A.*" postag_regexp="yes">
+                      <exception postag="A inte.*" postag_regexp="yes"/>
+                      <exception regexp="yes">[A-Z]$</exception>
+                  </token>
+                  <token>il</token>
+              </marker>
+          </pattern>
+          <message>Une virgule semble être requise dans ce contexte.</message>
+          <suggestion>\2, \3</suggestion>
+          <example correction="Dehors, il"><marker>Dehors il</marker> fait beau.</example>
+          <example><marker>Combien il</marker> en a pris ?</example>
+      </rule>
+  </rulegroup>
     <rulegroup id="ESPACE_APRES_POINT" name="Vérifiez l'espace après le point.">
       <antipattern>
         <marker>
