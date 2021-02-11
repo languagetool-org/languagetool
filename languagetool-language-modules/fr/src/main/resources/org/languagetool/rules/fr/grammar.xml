@@ -34114,36 +34114,35 @@ though, and has since been slightly modified)-->
       <rulegroup id="PLACE_DE_LA_VIRGULE" name="place de la virgule" default="temp_off">
           <rule>
               <antipattern>
-                  <token postag="UNKNOWN" postag_regexp="yes"/>
-                  <token regexp="yes">c'</token>
+                  <token postag="UNKNOWN"/>
+                  <token>c'</token>
                   <token postag="V etre.* 3 s" postag_regexp="yes"/>
               </antipattern>
               <antipattern>
                   <token regexp="yes">quelle|quel|quelles|quels|comment|où|pourquoi</token>
-                  <token regexp="yes">[^,);:(«»-]+</token>
-                  <token regexp="yes">c'</token>
+                  <token regexp="yes">[^,–).";:(«»-]+</token>
+                  <token>c'</token>
                   <token postag="V etre.* 3 s" postag_regexp="yes"/>
               </antipattern>
               <pattern>
                   <marker>
-                      <token regexp="yes">[^,–)."";:(«»-]+
+                      <token regexp="yes">[^,–).";:(«»-]+
                           <exception postag="C sub|C coor|R rel e sp|A inte" postag_regexp="yes"/>
                           <exception regexp="yes">mieux|car|alors|même|si|tout|sinon|en|plus|comment|où|pourquoi</exception>
                       </token>
                       <token regexp="yes">(?-i)c'</token>
-                      <token postag="V etre.* 3 s" postag_regexp="yes"><exception postag="V etre sub.* 3 s" postag_regexp="yes"/></token>
+                      <token postag="V etre.* 3 s" postag_regexp="yes"><exception postag="V etre sub pres 3 s"/></token>
                   </marker>
               </pattern>
               <message>Une virgule est requise dans ce contexte.</message>
               <suggestion>\1, \2\3</suggestion>
               <example correction="grand, c'est">Le plus <marker>grand c'est</marker> Pierre.</example>
-              <example correction="fort, c'était">Le plus <marker>fort c'était</marker> Christophe.</example>
               <example>Il était grand <marker>et c'était</marker> un homme.</example>
               <example>Il m'a dit <marker>que c'était</marker> un homme.</example>
           </rule>
           <rule>
               <antipattern>
-                  <token postag="UNKNOWN" postag_regexp="yes"/>
+                  <token postag="UNKNOWN"/>
                   <token regexp="yes">ce|ça</token>
                   <token postag="V etre.* 3 s" postag_regexp="yes"/>
               </antipattern>
@@ -34161,11 +34160,11 @@ though, and has since been slightly modified)-->
               </antipattern>
               <pattern>
                   <marker>
-                      <token regexp="yes">[^,)"".–;:(«»-]+
+                      <token regexp="yes">[^,)".–;:(«»-]+
                           <exception postag="C sub|C coor|R rel e sp|A inte" postag_regexp="yes"/>
                           <exception regexp="yes">mieux|car|alors|même|si|tout|sinon|en|plus|comment|où|pourquoi</exception></token>
                       <token regexp="yes">(?-i)ce|ça</token>
-                      <token postag="V etre.* 3 s" postag_regexp="yes"><exception postag="V etre sub 3 s" postag_regexp="yes"/></token>
+                      <token postag="V etre.* 3 s" postag_regexp="yes"><exception postag="V etre sub pres 3 s"/></token>
                   </marker>
               </pattern>
               <message>Une virgule est requise dans ce contexte.</message>
@@ -34179,7 +34178,7 @@ though, and has since been slightly modified)-->
           </rule>
           <rule>
               <antipattern>
-                  <token postag="UNKNOWN" postag_regexp="yes"/>
+                  <token postag="UNKNOWN"/>
                   <token>cela</token>
                   <token postag="V etre.* 3 s" postag_regexp="yes"/>
               </antipattern>
@@ -34191,12 +34190,12 @@ though, and has since been slightly modified)-->
               </antipattern>
               <pattern>
                   <marker>
-                      <token regexp="yes">[^,"".–);:(«»-]+
-                          <exception postag="C sub|C coor|R rel.*|A inte|[P|V].*" postag_regexp="yes"/>
+                      <token regexp="yes">[^,".–);:(«»-]+
+                          <exception postag="C sub|C coor|R rel.*|A inte|[PV].*" postag_regexp="yes"/>
                           <exception regexp="yes">mieux|car|travers|alors|même|si|tout|sinon|en|plus|comment|où|pourquoi</exception>
                       </token>
                       <token>cela</token>
-                      <token postag="V etre.* 3 s" postag_regexp="yes"><exception postag="V etre sub.* 3 s" postag_regexp="yes"/></token>
+                      <token postag="V etre.* 3 s" postag_regexp="yes"><exception postag="V etre sub pres 3 s"/></token>
                   </marker>
               </pattern>
               <message>Une virgule est requise dans ce contexte.</message>
@@ -34210,14 +34209,14 @@ though, and has since been slightly modified)-->
           </rule>
           <rule>
               <antipattern>
-                  <token regexp="yes">[^,)"";:.(«»-]+</token>
+                  <token regexp="yes">[^,)";:.(«»-]+</token>
                   <token regexp="yes">cela|ça</token>
                   <token postag="V avoir.* 3 s" postag_regexp="yes"/>
                   <token postag="V etre ppa.*" postag_regexp="yes"/>
                   <token postag="V ppa.*" postag_regexp="yes"/>
               </antipattern>
               <antipattern>
-                  <token regexp="yes">[^,)"";:.(«»-]+</token>
+                  <token regexp="yes">[^,)";:.(«»-]+</token>
                   <token regexp="yes">cela|ça</token>
                   <token postag="V avoir.* 3 s" postag_regexp="yes"/>
                   <token postag="V etre ppa.*" postag_regexp="yes"/>
@@ -34230,21 +34229,21 @@ though, and has since been slightly modified)-->
                   <token postag="V etre ppa.*" postag_regexp="yes"/>
               </antipattern>
               <antipattern>
-                  <token postag="UNKNOWN" postag_regexp="yes"/>
+                  <token postag="UNKNOWN"/>
                   <token regexp="yes">cela|ça</token>
                   <token postag="V avoir.* 3 s" postag_regexp="yes"/>
                   <token postag="V etre ppa.*" postag_regexp="yes"/>
               </antipattern>
               <antipattern>
                   <token regexp="yes">quelle|quel|quelles|quels|comment|où|pourquoi</token>
-                  <token regexp="yes">[^,);—:(«»-]+</token>
+                  <token regexp="yes">[^,)";:.(«»-]+</token>
                   <token regexp="yes">cela|ça</token>
                   <token postag="V avoir.* 3 s" postag_regexp="yes"/>
                   <token postag="V etre ppa.*" postag_regexp="yes"/>
               </antipattern>
               <pattern>
                   <marker>
-                      <token regexp="yes">[^,–)"";:.(«»-]+
+                      <token regexp="yes">[^,)";:.(«»-]+
                           <exception postag="C sub|C coor|R rel e sp|A inte|P" postag_regexp="yes"/>
                           <exception regexp="yes">mieux|car|travers|alors|même|si|tout|sinon|en|plus|comment|où|pourquoi|ci|jamais|vraiment</exception>
                       </token>
@@ -34263,27 +34262,27 @@ though, and has since been slightly modified)-->
           </rule>
           <rule>
               <antipattern>
-                  <token postag="UNKNOWN" postag_regexp="yes"/>
+                  <token postag="UNKNOWN"/>
                   <token regexp="yes">mais|car</token>
               </antipattern>
               <antipattern>
-                  <token postag="D.*|P.*" postag_regexp="yes"/>
+                  <token postag="[DP].*" postag_regexp="yes"/>
                   <token>car</token>
               </antipattern>
               <antipattern>
                   <token postag="SENT_START"/>
-                  <token regexp="yes" min="1" max="5">[^,);:(«»-]+</token>
+                  <token regexp="yes" min="1" max="5">[^,–).";:(«»-]+</token>
                   <token regexp="yes">mais|car</token>
               </antipattern>
               <antipattern>
                   <token regexp="yes">[^,);:(«»-]+</token>
                   <token regexp="yes">mais|car</token>
-                  <token regexp="yes" min="1" max="5">[^,);:(«»-]+</token>
+                  <token regexp="yes" min="1" max="5">[^,–).";:(«»-]+</token>
                   <token postag="SENT_END"/>
               </antipattern>
               <pattern>
                   <marker>
-                      <token regexp="yes">[^,–)."";:(«»-]+<exception postag="D.*|P.*" postag_regexp="yes"/></token>
+                      <token regexp="yes">[^,–).";:(«»-]+<exception postag="[DP].*" postag_regexp="yes"/></token>
                       <token regexp="yes">car|mais</token>
                   </marker>
               </pattern>
@@ -34294,12 +34293,12 @@ though, and has since been slightly modified)-->
           </rule>
           <rule>
               <antipattern>
-                  <token postag="UNKNOWN" postag_regexp="yes"/>
+                  <token postag="UNKNOWN"/>
                   <token>voire</token>
               </antipattern>
               <pattern>
                   <marker>
-                      <token regexp="yes">[^,).;:–(«»-]+</token>
+                      <token regexp="yes">[^,–).";:(«»-]+</token>
                       <token>voire</token>
                   </marker>
               </pattern>
@@ -34309,18 +34308,18 @@ though, and has since been slightly modified)-->
           </rule>
           <rule>
               <antipattern>
-                  <token postag="UNKNOWN" postag_regexp="yes"/>
-                  <token regexp="yes">or</token>
+                  <token postag="UNKNOWN"/>
+                  <token>or</token>
                   <token postag="R pers suj.*" postag_regexp="yes"/>
               </antipattern>
               <antipattern>
-                  <token postag="D.*|P.*" postag_regexp="yes"/>
-                  <token regexp="yes">or</token>
+                  <token postag="[DP].*" postag_regexp="yes"/>
+                  <token>or</token>
               </antipattern>
               <pattern>
                   <token regexp="yes">[^,.");:(«»-]+</token>
                   <marker>
-                      <token regexp="yes">or</token>
+                      <token>or</token>
                       <token postag="R pers suj.*" postag_regexp="yes"/>
                   </marker>
               </pattern>
@@ -34336,15 +34335,15 @@ though, and has since been slightly modified)-->
                   <token postag="[DJ].*|C sub.*|R.* [123] [sp]|R pers obj.*" postag_regexp="yes"/>
               </antipattern>
               <antipattern>
-                  <token postag="UNKNOWN" postag_regexp="yes"/>
+                  <token postag="UNKNOWN"/>
                   <token>à</token>
                   <token>savoir</token>
                   <token postag="[DJ].*|C sub.*|R.* [123] [sp]|R pers obj.*" postag_regexp="yes"/>
               </antipattern>
               <pattern>
                   <marker>
-                      <token regexp="yes">[^,);:(«»-]+
-                          <exception postag="V.*|A.*" postag_regexp="yes"/>
+                      <token regexp="yes">[^,.");:(«»-]+
+                          <exception postag="[VA].*" postag_regexp="yes"/>
                           <exception regexp="yes">peine|mal</exception>
                       </token>
                       <token>à</token>
@@ -34363,7 +34362,7 @@ though, and has since been slightly modified)-->
           <rule>
               <pattern>
                   <marker>
-                      <token regexp="yes">[^,–)."";:(«»-]+</token>
+                      <token regexp="yes">[^,–).";:(«»-]+</token>
                       <token>c'</token>
                       <token>est</token>
                       <token>-</token>
@@ -34384,7 +34383,7 @@ though, and has since been slightly modified)-->
               </antipattern>
               <pattern>
                   <marker>
-                      <token postag="V.*|R dem m s|A.*|J.*" postag_regexp="yes"><exception regexp="yes">ne|ce|ça|cela|alors|bien</exception></token>
+                      <token postag="[VAJ].*|R dem m s" postag_regexp="yes"><exception regexp="yes">ne|ce|ça|cela|alors|bien</exception></token>
                       <token>soit</token>
                   </marker>
                   <token postag="M fin" spacebefore="no">.<exception scope="next">.</exception></token>
@@ -34409,7 +34408,7 @@ though, and has since been slightly modified)-->
                   <marker>
                       <token>soit</token>
                       <token postag="R pers suj.*| R.* [123] [sp]|R pers obj.*" postag_regexp="yes">
-                          <exception regexp="yes">[a-z]$|[A-Z]$</exception>
+                          <exception regexp="yes">[a-z]$</exception>
                       </token>
                   </marker>
               </pattern>
@@ -34426,7 +34425,7 @@ though, and has since been slightly modified)-->
               </antipattern>
               <antipattern>
                   <token skip="-1">soit</token>
-                  <token regexp="yes">[^,).;:–(«»-]+</token>
+                  <token regexp="yes">[^,–).";:(«»-]+</token>
                   <token>soit</token>
                   <token postag="V ppa.*" postag_regexp="yes"/>
               </antipattern>
@@ -34440,9 +34439,9 @@ though, and has since been slightly modified)-->
                   <token skip="-1">soit</token>
                   <marker>
                       <token regexp="yes">[^,–).";:(«»-]+
-                          <exception regexp="yes">[a-z]$|[A-Z]$</exception>
+                          <exception regexp="yes">[a-z]$</exception>
                           <exception regexp="yes">ne|quelque|ainsi|tant</exception>
-                          <exception postag="C coor.*|D.*|P.*" postag_regexp="yes"/>
+                          <exception postag="C coor.*|[DP].*" postag_regexp="yes"/>
                       </token>
                       <token>soit</token>
                   </marker>
@@ -34469,20 +34468,20 @@ though, and has since been slightly modified)-->
                   <token regexp="yes">-elle|-je|-tu|-il|-on|-nous|-vous|-ils|-elles</token>
               </antipattern>
               <antipattern>
-                  <token regexp="yes">[^,;:]+</token>
+                  <token regexp="yes">[^,–).";:(«»-]+</token>
                   <token postag="V.*" postag_regexp="yes"/>
                   <token regexp="yes">-elle|-je|-tu|-il|-on|-nous|-vous|-ils|-elles</token>
                   <token postag="SENT_END"/>
               </antipattern>
               <antipattern>
-                  <token regexp="yes">[^,;:]+</token>
+                  <token regexp="yes">[^,–).";:(«»-]+</token>
                   <token postag="V.*" postag_regexp="yes"/>
                   <token regexp="yes" skip="-1">-elle|-je|-tu|-il|-on|-nous|-vous|-ils|-elles</token>
                   <token postag="M fin inte"/>
               </antipattern>
               <pattern>
                   <marker>
-                      <token regexp="yes">[^,;:]+<exception>où</exception></token>
+                      <token regexp="yes">[^,–).";:(«»-]+<exception>où</exception></token>
                       <token postag="V.*" postag_regexp="yes"/>
                       <token case_sensitive="yes" regexp="yes" spacebefore="no">-elle|-je|-tu|-il|-on|-nous|-vous|-ils|-elles</token>
                   </marker>
@@ -34503,7 +34502,7 @@ though, and has since been slightly modified)-->
               </antipattern>
               <pattern>
                   <marker>
-                      <token regexp="yes">[^,;:]+</token>
+                      <token regexp="yes">[^,–).";:(«»-]+</token>
                       <token max="1" postag="R pers obj.*|R [123].*" postag_regexp="yes"/>
                       <token postag="V.*" postag_regexp="yes"/>
                       <token case_sensitive="yes" regexp="yes" spacebefore="no">-elle|-je|-tu|-il|-on|-nous|-vous|-ils|-elles</token>
@@ -34522,7 +34521,7 @@ though, and has since been slightly modified)-->
               </antipattern>
               <pattern>
                   <marker>
-                      <token regexp="yes">[^,;:]+</token>
+                      <token regexp="yes">[^,–).";:(«»-]+</token>
                       <token max="1" postag="R.*" postag_regexp="yes"/>
                       <token postag="V.*" postag_regexp="yes"/>
                       <token case_sensitive="yes" regexp="yes" spacebefore="no">-elle|-je|-tu|-il|-on|-nous|-vous|-ils|-elles</token>
@@ -34545,19 +34544,19 @@ though, and has since been slightly modified)-->
                   <token>aussi</token>
               </antipattern>
               <antipattern>
-                  <token regexp="yes">[^,;:]+</token>
-                  <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">-t-ils?|-t-elles?|</token>
+                  <token regexp="yes">[^,–).";:(«»-]+</token>
+                  <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">-t-ils?|-t-elles?</token>
                   <token>aussi</token>
               </antipattern>
               <antipattern>
-                  <token regexp="yes">[^,;:]+</token>
+                  <token regexp="yes">[^,–).";:(«»-]+</token>
                   <token postag="R pers suj.*" postag_regexp="yes"/>
                   <token skip="-1">aussi</token>
                   <token postag="M fin inte"/>
               </antipattern>
               <pattern>
                   <marker>
-                      <token regexp="yes">[^,–)"";:.(«»-]+</token>
+                      <token regexp="yes">[^,–).";:(«»-]+</token>
                       <token postag="R pers suj.*" postag_regexp="yes"/>
                       <token>aussi</token>
                   </marker>
@@ -34580,7 +34579,7 @@ though, and has since been slightly modified)-->
                   <token postag="SENT_END"/>
               </antipattern>
               <antipattern>
-                  <token regexp="yes">est|fût|as|seul[e|es|s]?|dit|mais</token>
+                  <token regexp="yes">est|fût|as|seule?s?|dit|mais</token>
                   <token postag="R pers suj.*" postag_regexp="yes"/>
               </antipattern>
               <antipattern>
@@ -34589,7 +34588,7 @@ though, and has since been slightly modified)-->
                   <token postag="R pers suj.*" postag_regexp="yes"/>
               </antipattern>
               <antipattern>
-                  <token regexp="yes" skip="-1">si</token>
+                  <token skip="-1">si</token>
                   <token postag="N.*" postag_regexp="yes"/>
                   <token postag="R pers suj.*" postag_regexp="yes"/>
               </antipattern>
@@ -34634,8 +34633,21 @@ though, and has since been slightly modified)-->
               <example>Ainsi en <marker>est-il</marker> de lui.</example>
               <example>L'ambition de ce service est de <marker>pouvoir nous</marker> informer.</example>
           </rule>
+          <rule>
+              <pattern>
+                  <token postag="[VJNZ].*" postag_regexp="yes"/>
+                  <marker>
+                      <token regexp="yes">(?-i)autrement</token>
+                      <token>dit</token>
+                  </marker>
+                  <token regexp="yes">[^,–).";:(«»-]+</token>
+              </pattern>
+              <message>Une virgule semble être requise dans ce contexte.</message>
+              <suggestion>\2 \3,</suggestion>
+              <example correction="autrement dit,">Sa maison <marker>autrement dit</marker> son lieu de résidence.</example>
+          </rule>
       </rulegroup>
-    <rulegroup id="ESPACE_APRES_POINT" name="Vérifiez l'espace après le point.">
+      <rulegroup id="ESPACE_APRES_POINT" name="Vérifiez l'espace après le point.">
       <antipattern>
         <marker>
           <token>.</token>
