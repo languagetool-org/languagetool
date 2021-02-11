@@ -34110,7 +34110,6 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TYPOGRAPHIE" name="Typographie" type="typographical">
-
       <rulegroup id="PLACE_DE_LA_VIRGULE" name="place de la virgule" default="temp_off">
           <rule>
               <antipattern>
@@ -34299,7 +34298,7 @@ though, and has since been slightly modified)-->
               <pattern>
                   <marker>
                       <token regexp="yes">[^,–).";:(«»-]+</token>
-                      <token>voire</token>
+                      <token case_sensitive="yes">voire</token>
                   </marker>
               </pattern>
               <message>Une virgule semble être requise dans ce contexte.</message>
@@ -34329,7 +34328,7 @@ though, and has since been slightly modified)-->
           </rule>
           <rule>
               <antipattern>
-                  <token regexp="yes">bon|dernier|dernière|quant|seule?|premier|première|qu.</token>
+                  <token regexp="yes">bon|derniers?|dernières?|quant|seule?s?|premiers?|premières?|qu.</token>
                   <token>à</token>
                   <token>savoir</token>
                   <token postag="[DJ].*|C sub.*|R.* [123] [sp]|R pers obj.*" postag_regexp="yes"/>
@@ -34338,7 +34337,7 @@ though, and has since been slightly modified)-->
                   <token postag="UNKNOWN"/>
                   <token>à</token>
                   <token>savoir</token>
-                  <token postag="[DJ].*|C sub.*|R.* [123] [sp]|R pers obj.*" postag_regexp="yes"/>
+                  <token postag="D.*|C sub.*|R.* [123] [sp]|R pers obj.*" postag_regexp="yes"/>
               </antipattern>
               <pattern>
                   <marker>
@@ -34349,7 +34348,7 @@ though, and has since been slightly modified)-->
                       <token>à</token>
                       <token>savoir</token>
                   </marker>
-                  <token postag="[DJ].*|C sub.*|R.* [123] [sp]|R pers obj.*" postag_regexp="yes">
+                  <token postag="D.*|C sub.*|R.* [123] [sp]|R pers obj.*" postag_regexp="yes">
                       <exception postag="R pers suj.*" postag_regexp="yes"/>
                       <exception regexp="yes">se|s'</exception>
                   </token>
@@ -34377,13 +34376,23 @@ though, and has since been slightly modified)-->
           </rule>
           <rule>
               <antipattern>
+                  <token postag="V etre.*" postag_regexp="yes"/>
+                  <token>soit</token>
+                  <token max="1" postag="M fin" spacebefore="no">.</token>
+              </antipattern>
+              <antipattern>
+                  <token skip="-1">ce</token>
+                  <token>soit</token>
+                  <token max="1" postag="M fin" spacebefore="no">.</token>
+              </antipattern>
+              <antipattern>
                   <token>être</token>
                   <token>soit</token>
                   <token max="1" postag="M fin" spacebefore="no">.</token>
               </antipattern>
               <pattern>
                   <marker>
-                      <token postag="[VAJ].*|R dem m s" postag_regexp="yes"><exception regexp="yes">ne|ce|ça|cela|alors|bien</exception></token>
+                      <token postag="[VAJ].*" postag_regexp="yes"><exception regexp="yes">ne|ce|ça|cela|alors|bien</exception></token>
                       <token>soit</token>
                   </marker>
                   <token postag="M fin" spacebefore="no">.<exception scope="next">.</exception></token>
@@ -34569,6 +34578,11 @@ though, and has since been slightly modified)-->
               <example>On peut commencer <marker>par elle aussi</marker>.</example>
           </rule>
           <rule>
+              <antipattern>
+                  <token regexp="yes">lequel|laquelle|lesquels|lesquelles</token>
+                  <token postag="N.*" postag_regexp="yes"/>
+                  <token postag="R pers suj.*" postag_regexp="yes"/>
+              </antipattern>
               <antipattern>
                   <token postag="V.*" postag_regexp="yes"/>
                   <token postag="R pers suj.*" postag_regexp="yes"/>
