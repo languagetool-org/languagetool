@@ -4801,6 +4801,19 @@ Temos saudades de vocês como seria expetável.
 	      <token postag='AQ0.S0|NC.S000|SPS.+' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-12-15 (21-OCT-2020+) *END* -->
+<!-- MARCOAGPINTO 2021-02-11 (1-JAN-2021+) *START* -->
+<!--
+Por eles nutro um grande respeito.
+Outra forma de arte bastante desenvolvida por eles era a escultura.
+Metade de vocês é idiota.
+Quem de vocês deseja falar?
+-->
+      <antipattern>
+        <token postag='SPS.+' postag_regexp='yes'/>
+		<token postag='PP.+' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'/>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-02-11 (1-JAN-2021+) *END* -->
       <pattern>
           <token regexp='yes'>el[ea]s|vocês</token>
           <token min="0" max="3" postag='R.+' postag_regexp='yes'>
@@ -4826,6 +4839,11 @@ Temos saudades de vocês como seria expetável.
 	  <example type='correct'>Temos saudades de <marker>vocês como seria</marker> de esperar.</example>
 	  <example type='correct'>Temos saudades de <marker>vocês como era</marker> expetável.</example>
 	  <example type='correct'>Temos saudades de <marker>vocês como seria</marker> expetável.</example>
+	  
+	  <example>Por <marker>eles nutro</marker> um grande respeito.</example>
+	  <example>Outra forma de arte bastante desenvolvida por eles era a escultura.</example>
+	  <example>Metade de vocês é idiota.</example>
+	  <example>Quem de vocês deseja falar?</example>
     </rule>
     <rule>
       <antipattern>
