@@ -35,7 +35,7 @@ public class RuleMatchDiffFinder {
 
   private static final String MARKER_START = "<span class='marker'>";
   private static final String MARKER_END = "</span>";
-  private static final int IFRAME_MAX = 150;
+  private static final int IFRAME_MAX = -1;
 
   List<RuleMatchDiff> getDiffs(List<LightRuleMatch> l1, List<LightRuleMatch> l2) {
     System.out.println("Comparing result 1 (" + l1.size() + " matches) to result 2 (" + l2.size() + " matches), step 1");
