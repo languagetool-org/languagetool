@@ -935,8 +935,10 @@ public class JLanguageTool {
       cachedResults, matchOffset, annotatedText, textSessionID);
     long remoteRuleCheckEnd = System.currentTimeMillis();
     if (remoteRules.size() > 0) {
+      long wait = remoteRuleCheckEnd - textCheckEnd;
       logger.info("Local checks took {}ms, remote checks {}ms; waited {}ms on remote results",
-        textCheckEnd - textCheckStart, remoteRuleCheckEnd - remoteRuleCheckStart, remoteRuleCheckEnd - textCheckEnd);
+        textCheckEnd - textCheckStart, remoteRuleCheckEnd - remoteRuleCheckStart, wait);
+      RemoteRuleMetrics.wait(language.getShortCode(), wait);
     }
 
     ruleMatches.addAll(remoteMatches);
