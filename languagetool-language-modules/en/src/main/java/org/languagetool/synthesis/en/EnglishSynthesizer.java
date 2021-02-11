@@ -81,7 +81,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
     } else if (ADD_IND_DETERMINER.equals(posTag)) {
       return new String[] { aOrAn };
     }
-    return super.synthesize(token, posTag);
+    return removeExceptions(super.synthesize(token, posTag));
   }
 
   /**
@@ -118,10 +118,10 @@ public class EnglishSynthesizer extends BaseSynthesizer {
           lookup(token.getLemma(), tag, results, det);
         }
       }
-      return results.toArray(new String[0]);
+      return removeExceptions(results.toArray(new String[0]));
     }
 
-    return synthesize(token, posTag);
+    return removeExceptions(synthesize(token, posTag));
   }
 
   private void lookup(String lemma, String posTag, List<String> results, String determiner) {
@@ -129,6 +129,21 @@ public class EnglishSynthesizer extends BaseSynthesizer {
     for (String result : lookup) {
       results.add(determiner + StringTools.lowercaseFirstCharIfCapitalized(result));
     }
+  }
+  
+  private boolean isException(String w) {
+    // remove: 've, 's, 're...
+    return w.startsWith("'");
+  }
+  
+  private String[] removeExceptions(String words[]) {
+    List<String> results = new ArrayList<>();
+    for (String word : words) {
+      if (!isException(word)) {
+        results.add(word);
+      }
+    }
+    return results.toArray(new String[0]);
   }
 
 }
