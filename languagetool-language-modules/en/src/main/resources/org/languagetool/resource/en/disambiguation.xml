@@ -6846,6 +6846,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>not</token>
             <token postag="VBP" />
         </antipattern>
+        <antipattern><!-- You sure look exhausted -->
+            <token regexp="yes">s?he|you|they|I|we|it</token>
+            <token>sure</token>
+            <token postag="VB.*" postag_regexp="yes" />
+            <token postag="IN|RB.*|JJ.*" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -6867,6 +6873,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">They disputed a claim.</example>
         <example type="untouched">Loving to work is the key to happiness.</example>
         <example type="untouched">Love to party!</example>
+        <example type="untouched">You sure look exhausted.</example>
         <example type="untouched">Something you absolutely cannot control!</example>
         <example type="untouched">I want to age gracefully.</example>
         <example type="untouched">For a person who's wrong frequently, it's nice to be right.</example>
