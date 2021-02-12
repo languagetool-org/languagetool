@@ -13,7 +13,8 @@
     <!ENTITY hispanic_nnp "Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Días|Di?os|Nacional|Villas|Cinco|Rancho|Cerro|Universidad|Copa|Academia|Plaza|Facultad|Torre|Camino|Club|Tapas|Palma|Águas|Costa">
     <!ENTITY plural_adjectival_nouns "angry|blind|deaf|destitute|dead|dying|elderly|faithful|homeless|injured|insane|jobless|old|poor|rich|sick|squeamish|wealthy|wicked|wounded|young"><!-- One-word terms only, only after the word 'the': www.oxfordlearnersdictionaries.com/definition/english/rich, www.englishgrammar.org/adjectives-nouns/ -->
     <!ENTITY subordinating_conjunctions "after|although|as|because|before|if|lest|like|once|since|tha[nt]|though|unless|until|whenever|where|whereas|wherever|whether|while|why"><!-- #2988 -->
-     <!ENTITY abbreviated_negated_verbs "ain|aren|isn|wasn|weren|can|couldn|don|doesn|didn|hasn|hadn|haven|mayn|mightn|mustn|needn|oughtn|shan|shouldn|usedn|won|wouldn">
+     <!--<!ENTITY abbreviated_negated_verbs "ain|aren|isn|wasn|weren|can|couldn|don|doesn|didn|hasn|hadn|haven|mayn|mightn|mustn|needn|oughtn|shan|shouldn|usedn|won|wouldn">-->
+     <!ENTITY abbreviated_negated_verbs "ai|are|is|was|were|ca|could|do|does|did|has|had|have|may|might|must|need|ought|sha|should|used|wo|would">
 ]>
 <rules lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
@@ -5137,8 +5138,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="I-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/>
             <token chunk="E-NP-plural" postag="NNS"/>
             <token regexp="yes">&abbreviated_negated_verbs;</token><!-- No chunk information for 'don' -->
-            <token regexp="yes">&apostrophe;</token>
-            <token>t</token>
+            <token>n't</token>
         </antipattern>
         <antipattern><!-- #3101 a perfect world technicians wear -->
             <token chunk="B-NP-plural" regexp="yes">an?</token>
@@ -5914,7 +5914,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 </marker>
                 <token><exception postag="SENT_END"/><exception regexp="yes">[,:;]</exception></token>
             </pattern>
-            <disambig action="add"><wd lemma="be" pos="VBZ">s</wd></disambig>
+            <disambig action="add"><wd lemma="be" pos="VBZ"/></disambig>
             <example type="untouched">This is Bill's house.</example>
             <example type="untouched">Let's go!</example>
             <example type="untouched">Let's see!</example>
@@ -5978,7 +5978,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                     <token spacebefore="no" postag="POS">'s</token>
                 </marker>
             </pattern>
-            <disambig action="remove"><wd lemma="s" pos="POS">s</wd></disambig>
+            <disambig action="remove"><wd lemma="'s" pos="POS"/></disambig>
             <example type="untouched">This is Bill's house.</example>
             <example type="untouched">This is your's.</example>
             <example type="untouched">... written "freind" and one of the S's was the wrong way round.</example>
@@ -6053,10 +6053,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <pattern>
                 <token postag_regexp="yes" postag="NN.*"/>
                 <marker>
-                    <token spacebefore="no">'s</token>
+                    <token spacebefore="no">'s<exception inflected="yes">have</exception></token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd lemma="'s" pos="POS"/></disambig>
+            <disambig action="replace"><wd lemma="'s" pos="POS"/></disambig>
             <example type="ambiguous" inputform="'[']" outputform="'['/POS]">This is Bill<marker>'</marker>s house.</example>
             <example type="untouched">Let's go!</example>
         <example type="untouched">Other CFD's charge a higher fee.</example><!-- #2845 -->
@@ -6069,7 +6069,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                     <token spacebefore="no">'s</token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd lemma="'s" pos="POS"/></disambig>
+            <disambig action="replace"><wd lemma="'s" pos="POS"/></disambig>
             <example type="untouched">This is Bill's house.</example>
             <example type="untouched">This is how 'unconscious' knowledge is posited.</example>
             <example type="untouched">Let's go!</example>
@@ -6082,7 +6082,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                     <token spacebefore="no">'s</token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd lemma="'s" pos="POS"/></disambig>
+            <disambig action="replace"><wd lemma="'s" pos="POS"/></disambig>
             <example type="untouched">This is Bill's house.</example>
             <example type="untouched">This is how 'unconscious' knowledge is posited.</example>
             <example type="untouched">Let's go!</example>
@@ -7975,8 +7975,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <antipattern><!-- #2223 It's not good, so don't buy it -->
                 <token postag="CC"/>
                 <token postag="VBP"/>
-                <token regexp="yes">&apostrophe;</token>
-                <token>t</token>
+                <token>n't</token>
                 <token postag_regexp="yes" postag="VBP?"/>
             </antipattern>
             <antipattern><!-- its home games -->
@@ -7984,8 +7983,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token chunk="I-NP-plural" postag_regexp="yes" postag="JJR?|NN.*"/>
             </antipattern>
             <antipattern><!-- Premium #1006 one's home is -->
-                <token regexp="yes">&apostrophe;</token>
-                <token postag="POS">s</token>
+                <token postag="POS">'s</token>
                 <token postag_regexp="yes" postag="NN(:UN?)?"/>
                 <token regexp="yes">is|was</token>
             </antipattern>
@@ -9460,8 +9458,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="I-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/>
             <token chunk="E-NP-plural" postag="NNS"/>
             <token regexp="yes">&abbreviated_negated_verbs;</token><!-- No chunk information for 'don' -->
-            <token regexp="yes">&apostrophe;</token>
-            <token>t</token>
+            <token>n't</token>
         </antipattern>
         <antipattern><!-- #3101 a perfect world technicians wear -->
             <token chunk="B-NP-plural" regexp="yes">an?</token>
@@ -9625,8 +9622,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </marker>
             <token chunk="E-NP-plural" postag="NNS"/>
             <token regexp="yes">&abbreviated_negated_verbs;</token>
-            <token regexp="yes">&apostrophe;</token>
-            <token>t</token>
+            <token>n't</token>
         </pattern>
         <disambig action="filter" postag="NN.*"/>
         <example type="ambiguous" inputform="world[world/JJ,world/NN:UN]" outputform="world[world/NN:UN]">In a perfect <marker>world</marker> spreaders don't exist.</example>
