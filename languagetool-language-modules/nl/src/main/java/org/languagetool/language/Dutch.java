@@ -183,6 +183,7 @@ public class Dutch extends Language {
       case "EINDE_ZIN_ONVERWACHT": return -5;  //so that spelling errors are recognized first
       case "TOO_LONG_PARAGRAPH": return -15;
       case "DE_ONVERWACHT": return -20;  // below spell checker and simple replace rule
+      case "TE-VREEMD": return -20;  // below spell checker and simple replace rule
     }
     return super.getPriorityForId(id);
   }

@@ -36280,6 +36280,51 @@ steenwijk;Steenwijk
 	</category>
 
 	<category id="UNEXPECTED" name="Ongebruikelijke constructies" >
+		<rulegroup id="DE_HIJ" name="de hij">
+			<rule>
+				<pattern>
+					<token postag="WKW:TGW:1EP"/>
+					<token>de</token>
+					<token>hij</token>
+				</pattern>
+				<message>Bedoelt u misschien <suggestion>\1\2 \3</suggestion>?</message>
+				<example correction="antwoordde hij">Toen <marker>antwoord de hij</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="DE_MAX" name="de max / het maximum">
+			<rule>
+				<pattern>
+					<token>de</token>
+					<token case_sensitive="yes">max</token>
+				</pattern>
+				<message>In het Engels is het 'to the max', maar in het Nederlands is het <suggestion>het maximum</suggestion>.</message>
+				<example correction="het maximum">Hij ging tot <marker>de max</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="DE_WERKWOORD" name="de maken / te maken">
+			<rule>
+				<pattern>
+					<marker>
+						<token>de</token>
+					</marker>
+					<token postag_regexp="yes" postag="WKW:TGW:INF.*"><exception postag_regexp="yes" postag=".*DE_|ZNW:EKV"/></token>
+				</pattern>
+				<message>Voor een werkwoord staat meestal geen 'de', maar 'te' of 'het'.</message>
+				<suggestion>te</suggestion>
+				<example correction="te">Hij dacht fouten <marker>de</marker> corrigeren.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="DE_LEESTEKEN" name="de;">
+			<rule>
+				<pattern>
+					<token>de</token>
+					<token regexp="yes">[:;,.]</token>
+				</pattern>
+				<message>Na 'de' is een leesteken ongebruikelijk.</message>
+				<suggestion>de</suggestion>
+				<example correction="de">Hij is <marker>de ;</marker> gek.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="DE_ONVERWACHT" name="Onverwachte woorden na 'de'" >
 			<!-- antipatronen: eventueel nuttig voor analyse van reeksen met meer tags -->
 			<antipattern><token>de</token><token postag="ZNW:EKV"/></antipattern>
@@ -36320,7 +36365,7 @@ steenwijk;Steenwijk
 			<antipattern><token>de</token><token>intensive</token><token>care</token></antipattern>
 			<antipattern><token>de</token><token>fine</token><token>fleur</token></antipattern>
 			<antipattern><token>de</token><token>,</token><token>,</token></antipattern>
-			<antipattern><token>de</token><token regexp="yes">mij|hem|haar|hen|jullie|ons|hun|meesten|meest|meeste|weinig|weinigen?|nogal|zoveelste|het|ter|zelf|enigzins|enigszins|verscheidene|ins|anderhalf|elkaar</token></antipattern>
+			<antipattern><token>de</token><token regexp="yes">mij|hem|haar|hen|jullie|ons|hun|meesten|meest|meeste|weinig|weinigen?|nogal|zoveelste|het|ter|zelf|enigzins|enigszins|verscheidene|ins|anderhalf|elkaar|ten|alles|art|iTunes|pits|dit|onderscheidene</token></antipattern>
 			<antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET.*"/></antipattern>
 			
 			<antipattern><token>de</token><token postag="AHL:OPN"/></antipattern>
