@@ -21,7 +21,6 @@ package org.languagetool.openoffice;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.languagetool.openoffice.FlatParagraphTools.ParagraphContainer;
 
@@ -46,7 +45,6 @@ public class DocumentCache implements Serializable {
   private List<Integer> toParaMapping = new ArrayList<>();  //  Mapping from DocumentCursor to FlatParagraph
   private int defaultParaCheck;
   private boolean isReset = false;
-  private final ReentrantLock lock = new ReentrantLock();
 
   DocumentCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, int defaultParaCheck, Locale docLocale) {
     debugMode = OfficeTools.DEBUG_MODE_DC;
@@ -79,9 +77,8 @@ public class DocumentCache implements Serializable {
    * reset the document cache
    * load the actual state of the document into the cache
    */
-  public void reset(DocumentCursorTools docCursor, FlatParagraphTools flatPara, Locale docLocale) {
+  public synchronized void reset(DocumentCursorTools docCursor, FlatParagraphTools flatPara, Locale docLocale) {
     try {
-      lock.lock();
       isReset = true;
       List<String> textParas = docCursor.getAllTextParagraphs();
       ParagraphContainer paragraphContainer = null;
@@ -109,7 +106,6 @@ public class DocumentCache implements Serializable {
       mapParagraphs(textParas);
     } finally {
       isReset = false;
-      lock.unlock();
     }
   }
   

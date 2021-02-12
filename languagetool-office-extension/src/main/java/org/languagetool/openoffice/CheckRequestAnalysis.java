@@ -394,7 +394,7 @@ class CheckRequestAnalysis {
       if (nPara >= 0 && nPara < docCache.textSize()) {
         nPara = docCache.getFlatParagraphNumber(nPara);
         numLastVCPara = nPara;
-        if(!docCache.isEqual(docCache.getFlatParagraphNumber(nPara), chPara, locale)) {
+        if(!docCache.isEqual(nPara, chPara, locale)) {
           actualizeDocumentCache(nPara);
           textIsChanged = true;
         }
