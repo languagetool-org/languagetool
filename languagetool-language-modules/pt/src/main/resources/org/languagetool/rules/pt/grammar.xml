@@ -36736,9 +36736,9 @@ Afirmaram a vossa inocência alegando que eram canhotos.
   </rulegroup>
  </category>
 
- <category id='REDACTION_TIPS' name='Dicas de redação' type='style' default='off'>
+ <category id='REDACTION_TIPS' name='Dicas de redação' type='style'>
 
-    <rule id='NA_MEDIDA_DO_POSSÍVEL' name="Na medida do possível">
+    <rule id='NA_MEDIDA_DO_POSSÍVEL' name="Na medida do possível" default='off'>
     <!--     Created by Marco A.G. Pinto, 2017-03-19   -->
       <pattern>
           <token>na</token>
@@ -36752,19 +36752,7 @@ Afirmaram a vossa inocência alegando que eram canhotos.
       <example>Isto deve ser feito <marker>dentro do possível</marker>.</example>
     </rule>
 
-    <rule id='POR_CAUSA_DE' name="devido a">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-          <token>por</token>
-          <token>causa</token>
-          <token>de</token>
-      </pattern>
-      <message>Melhore a redação.</message>
-        <suggestion>devido a</suggestion>
-      <example correction="devido a">O Rui perdeu o jogo <marker>por causa de</marker> não saber jogar.</example>
-    </rule>
-
-    <rule id='QUE_TINHA_COMO_OBJETIVO' name="cujo objetivo era">
+    <rule id='QUE_TINHA_COMO_OBJETIVO' name="cujo objetivo era" default='off'>
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>que</token>
@@ -36776,6 +36764,30 @@ Afirmaram a vossa inocência alegando que eram canhotos.
         <suggestion>cujo objetivo <match no='2' postag='V.+' postag_regexp='yes'>ser</match></suggestion>
       <example correction="cujo objetivo era">Assim surgiu o Estado Islâmico <marker>que tinha como objetivo</marker> criar um califado mundial.</example>
     </rule>
+	
+	<!-- PROCURA PROVAR prova provará -->
+    <rule id='TESE_PHD_PROCURAR_PROVAR_PROVARÁ' name="Tese Doutoramento: Evitar expressões do tipo 'procura provar'">
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-12 (1-JAN-2021+)      -->
+<!--
+A nossa tese procura provar a métrica. → A nossa tese provará a métrica.
+Na nossa tese procuro provar a métrica. → Na nossa tese provarei a métrica.
+Na nossa tese procuramos provar a métrica. → Na nossa tese provaremos a métrica.
+-->
+      <pattern>
+		<and>
+			<token regexp='yes' inflected="yes">procurar|buscar|pretender|tentar</token>
+			<token postag='VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes'/>
+		</and>
+		<token postag='VMN0000' postag_regexp='no'/>
+      </pattern>
+	  <message>Se for uma tese de doutoramento utilize o estilo próprio de redação.</message>
+	  <suggestion><match no='2' postag='VMN0000' postag_regexp="yes" postag_replace='VMI[FP][13]S0|VMIF1P0'/></suggestion>
+      <example correction="prova|provarei|provaremos|provará|provo">(N)a nossa tese <marker>procura provar</marker> a métrica.</example>
+	  <example>Na nossa tese provo que a métrica é eficaz.</example>
+	  <example>Na nossa tese provarei que a métrica é eficaz.</example>
+	  <example>Na nossa tese provaremos que a métrica é eficaz.</example>
+    </rule>
+	
  </category>
 
  <category id='TRANSLATION_ERRORS' name="Erros de Tradução" type="mistranslation">
