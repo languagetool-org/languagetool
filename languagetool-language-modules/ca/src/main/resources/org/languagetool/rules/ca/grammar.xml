@@ -58223,33 +58223,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>la major part dels ciutadans</example>
             <example>per a la major glòria de Déu</example>
         </rule>
-        <rule id="TOTS_ELS_DIES" name="tots els dies">
+        <rule id="TOTS_ELS_DIES" name="tots els dies/cada dia" default="temp_off">
             <antipattern>
-                <marker>
-                    <token>dies</token>
-                    <token regexp="yes">laborables|feiners|faeners</token>
-                </marker>
+                <token postag="NCMP000"/>
+                <token postag="A..[MC][PN].|V.P..PM." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="NCFP000"/>
+                <token postag="A..[FC][PN].|V.P..PF." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">&parts_dia;|&unitats_temps;|cop|colp|vegada|volta|pic</token>
+                <token postag="V...3P.." postag_regexp="yes" inflected="yes" regexp="yes">ser|semblar|parèixer</token>
             </antipattern>
             <pattern>
-                <token>tots</token>
-                <token>els</token>
-                <token>dies</token>
+                <token regexp="yes">tots|totes</token>
+                <token regexp="yes">els|les</token>
+                <token regexp="yes" inflected="yes">&parts_dia;|&unitats_temps;|cop|colp|vegada|volta|pic</token>
             </pattern>
-            <message>Amb valor freqüentatiu val més dir <suggestion>cada dia</suggestion>.</message>
+            <message>Amb valor freqüentatiu val més dir <suggestion>cada <match no="3" postag="NC.*" postag_regexp="yes" postag_replace="NC.S.*"/></suggestion>.</message>
             <short>Expressió preferible</short>
-            <example correction="cada dia"><marker>tots els dies</marker> canta</example>
-            <example>cada dia canta</example>
-        </rule>
-        <rule id="TOTES_LES_SETMANES" name="totes les setmanes">
-            <pattern>
-                <token>totes</token>
-                <token>les</token>
-                <token>setmanes</token>
-            </pattern>
-            <message>Amb valor freqüentatiu val més dir <suggestion>cada setmana</suggestion>.</message>
-            <short>Expressió preferible</short>
+            <example correction="Cada dia"><marker>Tots els dies</marker> canta.</example>
+            <example correction="Cada dia"><marker>Tots els dies</marker> surt el sol</example>
+            <example correction="cada any"><marker>tots els anys</marker> fan una trobada</example>
+            <example correction="cada matí"><marker>tots els matins</marker> plou</example>
+            <example correction="cada vegada"><marker>totes les vegades</marker> repeteix</example>
+            <example correction="cada cop"><marker>tots els cops</marker> repeteix</example>
             <example correction="cada setmana"><marker>totes les setmanes</marker> canta</example>
             <example>cada setmana canta</example>
+            <example>cada cop repeteix</example>
+            <example>cada vegada repeteix</example>
+            <example>cada matí plou</example>
+            <example>cada any fan una trobada</example>
+            <example>cada dia surt el sol</example>
+            <example>Cada dia canta</example>
+            <example>Tots els dies són iguals.</example>
+            <example>Tots els cops baixos que hem rebut.</example>
+            <example>Totes les setmanes semblen iguals.</example>
+            <example>Tots els dies plujosos de l'any.</example>
         </rule>
         <rule id="COLZE_A_COLZE" name="colze a colze">
             <pattern>
