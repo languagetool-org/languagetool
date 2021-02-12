@@ -129,9 +129,9 @@ public class Ukrainian extends Language {
     return Arrays.asList(
         // lower priority rules
 
-        new CommaWhitespaceRule(messages,
-            Example.wrong("Ми обідали борщем<marker> ,</marker> пловом і салатом."),
-            Example.fixed("Ми обідали борщем<marker>,</marker> пловом і салатом")),
+        new UkrainianCommaWhitespaceRule(messages,
+            Example.wrong("Ми обідали борщем<marker> ,</marker> пловом і салатом,— все смачне."),
+            Example.fixed("Ми обідали борщем<marker>,</marker> пловом і салатом,— все смачне")),
 
         // TODO: does not handle dot in abbreviations in the middle of the sentence, and also !.., ?..
         new UppercaseSentenceStartRule(messages, this,
