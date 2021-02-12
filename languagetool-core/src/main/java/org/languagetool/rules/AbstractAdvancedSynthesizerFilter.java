@@ -72,6 +72,10 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
     String desiredLemma = getAnalyzedToken(patternTokens[lemmaFrom - 1], lemmaSelect).getLemma();
     String originalPostag = getAnalyzedToken(patternTokens[lemmaFrom - 1], lemmaSelect).getPOSTag();
     String desiredPostag = getAnalyzedToken(patternTokens[postagFrom - 1], postagSelect).getPOSTag();
+    
+    if (desiredPostag==null) {
+      throw new IllegalArgumentException("AdvancedSynthesizerFilter: undefined POS tag");
+    }
 
     if (postagReplace != null) {
       desiredPostag = getCompositePostag(lemmaSelect, postagSelect, originalPostag, desiredPostag, postagReplace);
@@ -156,7 +160,8 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
         return analyzedToken;
       }
     }
-    return null;
+    // Return the first one. Something is wrong, anyway
+    return aToken.getAnalyzedToken(0);
   }
 
 }
