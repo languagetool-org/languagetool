@@ -6061,9 +6061,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </unify>
             </antipattern>
             <antipattern>
+                <unify>
+                    <feature id="nombre"/>
+                    <feature id="persona"/>
+                    <token postag="V.[MIS].*" postag_regexp="yes"><exception postag=".*LOC_ADV.*" postag_regexp="yes"/><exception inflected="yes">caldre</exception></token>
+                    <unify-ignore>
+                        <token min="1" max="4" postag="V.[NP].*|LOC_ADV|PI.*" postag_regexp="yes"/>
+                    </unify-ignore>
+                    <token regexp="yes">jo|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</token>
+                </unify>
+            </antipattern>
+            <antipattern>
                 <token skip="4">més</token>
                 <token>que</token>
                 <token regexp="yes">jo|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">jo|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</token>
+                <token min="0">no</token>
+                <token>és</token>
+                <token>que</token>
+            </antipattern>
+            <antipattern>
+                <token>em</token>
+                <token regexp="yes">pens|penso|pense</token>
+                <token>que</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -6100,6 +6122,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Haig de fer jo la pregunta.</example>
                 <example>ells sembla que vindran.</example>
                 <example>Jo anava bé en història.</example>
+                <example>Les que vaig veure jo eren ben noves.</example>
+                <example>El que tenen en comú tots ells és això.</example>
             </rule>
             <rule>
                 <pattern>
@@ -6120,6 +6144,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Possible error de concordança.</message>
                 <example correction="diem">Nosaltres li <marker>dieu</marker> que no.</example>
                 <example correction="portaré">Jo els <marker>portarem</marker> dues paelles.</example>
+                <example>Les que havia batejat jo es deien Star o Diana</example>
             </rule>
             <rule>
                 <pattern>
@@ -16115,6 +16140,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
+        <rule id="HEM_EM" name="*hem/em" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>hem</token>
+                </marker>
+                <token postag="V...1S.." postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>em</suggestion></message>
+            <example correction="em">Jo <marker>hem</marker> pregunto què passa aquí.</example>
+        </rule>
+        <rulegroup id="ES_ELS" name="*hem/em" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="PP1CSN00|SENT_START" postag_regexp="yes"/>
+                    <marker>
+                        <token>es</token>
+                    </marker>
+                    <token postag="V...1S..|VMSP3S0V" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>els</suggestion></message>
+                <suggestion>us</suggestion>
+                <example correction="els|us">Jo <marker>es</marker> recomane aquest.</example>
+                <example correction="Els|Us"><marker>Es</marker> recomane aquest.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>es</token>
+                    </marker>
+                    <token postag="V...1S.." postag_regexp="yes"><exception postag="V...3S.." postag_regexp="yes"/></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>els</suggestion></message>
+                <suggestion>us</suggestion>
+                <example correction="els|us">Llavors <marker>es</marker> recomano aquest.</example>
+                <example>És natural que és recomane aquest.</example>
+            </rule>
+        </rulegroup>
         <rule id="ES_FOS" name="es fos">
             <pattern>
                 <token>es</token>
