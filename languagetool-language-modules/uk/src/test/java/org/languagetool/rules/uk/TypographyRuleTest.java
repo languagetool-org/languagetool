@@ -72,6 +72,7 @@ public class TypographyRuleTest {
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("важливіше-потенційні", "важливіше \u2014 потенційні"), matches[0].getSuggestedReplacements());
     
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Рахунки 1 класу –")).length);
   }
 
 }

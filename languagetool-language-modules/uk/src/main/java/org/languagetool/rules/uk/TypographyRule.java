@@ -75,7 +75,7 @@ public class TypographyRule extends Rule {
       else if( i > 1 && i < tokens.length - 1
             && "\u2014".equals(tokens[i].getToken()) || "\u2013".equals(tokens[i].getToken()) ) {
         boolean noSpaceLeft = ! tokens[i].isWhitespaceBefore() && ! ",".equals(tokens[i-1].getToken());
-        boolean noSpaceRight = ! tokens[i+1].isWhitespaceBefore();
+        boolean noSpaceRight = i < tokens.length - 1 && ! tokens[i+1].isWhitespaceBefore();
 
         if( noSpaceLeft || noSpaceRight ) {
 
