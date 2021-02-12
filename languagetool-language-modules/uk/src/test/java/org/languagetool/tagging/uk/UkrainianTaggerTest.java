@@ -288,6 +288,11 @@ public class UkrainianTaggerTest {
   }
 
   @Test
+  public void testNameSuffix() throws IOException {
+    TestTools.myAssert("Мустафа-ага", "Мустафа-ага/[Мустафа-ага]noun:anim:m:v_naz:prop:fname", tokenizer, tagger);      
+  }
+
+  @Test
   public void testHypenAndQuote() throws IOException {
     TestTools.myAssert("екс-«депутат»", "екс-«депутат»/[екс-депутат]noun:anim:m:v_naz:ua_1992", tokenizer, tagger);      
   }

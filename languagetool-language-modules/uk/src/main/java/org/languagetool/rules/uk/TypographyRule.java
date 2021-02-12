@@ -72,8 +72,8 @@ public class TypographyRule extends Rule {
         RuleMatch potentialRuleMatch = createRuleMatch(tokens[i], replacements, msg, sentence);
         ruleMatches.add(potentialRuleMatch);
       }
-      else if( i < tokens.length - 1
-            && "\u2014".equals(tokens[i].getToken()) ) {
+      else if( i > 1 && i < tokens.length - 1
+            && "\u2014".equals(tokens[i].getToken()) || "\u2013".equals(tokens[i].getToken()) ) {
         boolean noSpaceLeft = ! tokens[i].isWhitespaceBefore() && ! ",".equals(tokens[i-1].getToken());
         boolean noSpaceRight = ! tokens[i+1].isWhitespaceBefore();
 
@@ -83,9 +83,8 @@ public class TypographyRule extends Rule {
             continue;
 
           List<String> replacements = new ArrayList<>();
+//          String repl = " " + tokens[i].getToken() + " ";
           String repl = " \u2014 ";
-//          if( noSpaceLeft ) repl = " " + repl;
-//          if( noSpaceRight ) repl += " ";
 
           replacements.add(tokens[i-1].getToken() + "-" + tokens[i+1].getToken());
           replacements.add(tokens[i-1].getToken() + repl + tokens[i+1].getToken());

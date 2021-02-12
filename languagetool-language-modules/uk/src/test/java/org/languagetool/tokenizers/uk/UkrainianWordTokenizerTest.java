@@ -497,6 +497,21 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("Людина—");
     assertEquals(Arrays.asList("Людина", "—"), testList);
+    
+    testList = w.tokenize("Х–ХІ");
+    assertEquals(Arrays.asList("Х", "–", "ХІ"), testList);
+    
+    testList = w.tokenize("VII-VIII");
+    assertEquals(Arrays.asList("VII", "-", "VIII"), testList);
+    
+    testList = w.tokenize("Стрий– ");
+    assertEquals(Arrays.asList("Стрий", "–", " "), testList);
+
+    testList = w.tokenize("фіто– та термотерапії");
+    assertEquals(Arrays.asList("фіто–", " ", "та", " ", "термотерапії"), testList);
+
+    testList = w.tokenize(" –Виділено");
+    assertEquals(Arrays.asList(" ", "–", "Виділено"), testList);
   }
   
   @Test

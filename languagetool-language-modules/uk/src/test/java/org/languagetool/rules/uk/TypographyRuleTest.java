@@ -65,6 +65,13 @@ public class TypographyRuleTest {
     matches = rule.match(langTool.getAnalyzedSentence("цукерок —знову низька"));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("цукерок-знову", "цукерок \u2014 знову"), matches[0].getSuggestedReplacements());
+    
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("— Київ, 1994")).length);
+
+    matches = rule.match(langTool.getAnalyzedSentence("важливіше \u2013потенційні"));
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("важливіше-потенційні", "важливіше \u2014 потенційні"), matches[0].getSuggestedReplacements());
+    
   }
 
 }

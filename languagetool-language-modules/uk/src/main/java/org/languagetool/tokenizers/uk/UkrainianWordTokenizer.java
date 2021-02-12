@@ -73,6 +73,12 @@ public class UkrainianWordTokenizer implements Tokenizer {
   // space between digits
   private static final Pattern DECIMAL_SPACE_PATTERN = Pattern.compile("(?<=^|[\\h\\v(])\\d{1,3}([\\h][\\d]{3})+(?=[\\h\\v(]|$)", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
+  // numbers with n-dash
+  private static final Pattern DASH_NUMBERS_PATTERN = Pattern.compile("([IVXІХ]+)([\u2013-])([IVXІХ]+)");
+  private static final String DASH_NUMBERS_REPL = "$1" + BREAKING_PLACEHOLDER + "$2" + BREAKING_PLACEHOLDER + "$3";
+  private static final Pattern N_DASH_SPACE_PATTERN = Pattern.compile("([а-яіїєґa-z0-9])(\u2013\\h)(?!(та|чи|і|й)[\\h\\v])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern N_DASH_SPACE_PATTERN2 = Pattern.compile("(\\h\u2013)([а-яіїєґa-z])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final String N_DASH_SPACE_REPL = "$1" + BREAKING_PLACEHOLDER + "$2";
 
   // dots in numbers
   private static final Pattern DOTTED_NUMBERS_PATTERN = Pattern.compile("([\\d])\\.([\\d])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
@@ -245,6 +251,15 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
     if( text.indexOf('\u2014') != -1 ) {
       text = text.replaceAll("\u2014([\\h\\v])", BREAKING_PLACEHOLDER + "\u2014$1");
+    }
+
+    boolean nDashPresent = text.indexOf('\u2013') != -1;
+    if( text.indexOf('-') != -1 || nDashPresent ) {
+      text = DASH_NUMBERS_PATTERN.matcher(text).replaceAll(DASH_NUMBERS_REPL);
+      if( nDashPresent ) {
+        text = N_DASH_SPACE_PATTERN.matcher(text).replaceAll(N_DASH_SPACE_REPL);
+        text = N_DASH_SPACE_PATTERN2.matcher(text).replaceAll(N_DASH_SPACE_REPL);
+      }
     }
 
     if( text.indexOf("с/г") != -1 ) {

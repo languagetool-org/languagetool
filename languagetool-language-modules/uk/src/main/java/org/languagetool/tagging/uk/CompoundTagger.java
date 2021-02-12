@@ -102,6 +102,7 @@ class CompoundTagger {
       "турнір", "універсіада", "фестиваль", "форум", "чемпіонат", "чемпіон", "чемпіонка", "ярмарок");
   private static final List<String> WORDS_WITH_NUM = Arrays.asList("Формула", "Карпати", "Динамо", "Шахтар", "Фукусіма", 
       "омега", "плутоній", "полоній", "стронцій", "уран", "потік"); //TODO: потік-2 - prop
+  private static final List<String> NAME_SUFFIX = Arrays.asList("ага", "ефенді");
   private static final Pattern SKY_PATTERN = Pattern.compile(".*[сзц]ьки");
   private static final Pattern SKYI_PATTERN = Pattern.compile(".*[сзц]ький");
 
@@ -190,7 +191,7 @@ class CompoundTagger {
     // з-зателефоную
     if( leftWord.length() == 1 && rightWord.length() > 3 && rightWord.startsWith(leftWord.toLowerCase()) ) {
       List<TaggedWord> rightWdList = wordTagger.tag(rightWord);
-      rightWdList = PosTagHelper.adjust(rightWdList, null, ":alt");
+      rightWdList = PosTagHelper.adjust(rightWdList, null, null, ":alt");
       return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, rightWdList);
     }
     
@@ -221,7 +222,7 @@ class CompoundTagger {
 
 //      String lemma = leftWord + "-" + rightWdList.get(0).getLemma();
       String extraTag = StringTools.isCapitalizedWord(rightWord) ? "" : ":bad";
-      rightWdList = PosTagHelper.adjust(rightWdList, leftWord + "-", extraTag);
+      rightWdList = PosTagHelper.adjust(rightWdList, leftWord + "-", null, extraTag);
       return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, rightWdList);
     }
 
@@ -298,8 +299,8 @@ class CompoundTagger {
       // напівпольської-напіванглійської
       Matcher napivMatcher = Pattern.compile("напів(.+?)-напів(.+)").matcher(word);
       if( napivMatcher.matches() ) {
-        List<TaggedWord> napivLeftWdList = PosTagHelper.adjust(tagAsIsAndWithLowerCase(napivMatcher.group(1)), "напів");
-        List<TaggedWord> napivRightWdList = rightWdList.size() > 0 ? rightWdList : PosTagHelper.adjust(tagAsIsAndWithLowerCase(napivMatcher.group(2)), "напів");
+        List<TaggedWord> napivLeftWdList = PosTagHelper.adjust(tagAsIsAndWithLowerCase(napivMatcher.group(1)), "напів", null);
+        List<TaggedWord> napivRightWdList = rightWdList.size() > 0 ? rightWdList : PosTagHelper.adjust(tagAsIsAndWithLowerCase(napivMatcher.group(2)), "напів", null);
 
         if( napivLeftWdList.isEmpty() || napivRightWdList.isEmpty() )
           return null;
@@ -355,7 +356,16 @@ class CompoundTagger {
     // exclude: Малишко-це, відносини-коли
 
     List<AnalyzedToken> leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
-    
+
+
+    // Мустафа-ага
+    if( NAME_SUFFIX.contains(rightWord)
+        && PosTagHelper.hasPosTagPart(leftAnalyzedTokens, "name") ) {
+      List<TaggedWord> wordList = PosTagHelper.adjust(leftWdList, null, "-" + rightWord);
+      return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, wordList);
+    }
+
+
     if( PosTagHelper.hasPosTagPart(leftAnalyzedTokens, "&pron")
         && ! PosTagHelper.hasPosTagPart(leftAnalyzedTokens, "numr") )
       return null;
@@ -1484,7 +1494,7 @@ class CompoundTagger {
         rightWdList.removeIf(w -> w.getPosTag().startsWith("noun:inanim") && w.getPosTag().contains("v_kly"));
 
         if( rightWdList.size() > 0 ) {
-          rightWdList = PosTagHelper.adjust(rightWdList, prefix+apo, addTag.toArray(new String[0]));
+          rightWdList = PosTagHelper.adjust(rightWdList, prefix+apo, null, addTag.toArray(new String[0]));
 
           List<AnalyzedToken> compoundTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, rightWdList);
           return compoundTokens;

@@ -303,19 +303,17 @@ public final class PosTagHelper {
   }
 
   @NotNull
-  public static List<TaggedWord> adjust(@NotNull List<TaggedWord> taggedWords, @Nullable String lemmaPrefix, @Nullable String... addTags) {
+  public static List<TaggedWord> adjust(@NotNull List<TaggedWord> taggedWords, @Nullable String lemmaPrefix, @Nullable String lemmaSuffix, @Nullable String... addTags) {
     return taggedWords.stream()
-        .map(w -> new TaggedWord(adjustLemma(w, lemmaPrefix), addIfNotContains(cleanExtraTags(w.getPosTag()), addTags)))
+        .map(w -> new TaggedWord(adjustLemma(w, lemmaPrefix, lemmaSuffix), addIfNotContains(cleanExtraTags(w.getPosTag()), addTags)))
         .collect(Collectors.toList());
   }
 
-  private static String adjustLemma(TaggedWord w, String lemmaPrefix) {
-    return lemmaPrefix != null 
-        ? lemmaPrefix + w.getLemma()
-//            ( lemmaPrefix.endsWith("-") || lemmaPrefix.endsWith("'") 
-//              ? w.getLemma() 
-//              : w.getLemma().toLowerCase() )
-        : w.getLemma();
+  private static String adjustLemma(TaggedWord w, String lemmaPrefix, String lemmaSuffix) {
+    String lemma = w.getLemma();
+    if( lemmaPrefix != null ) lemma = lemmaPrefix + lemma;
+    if( lemmaSuffix != null ) lemma += lemmaSuffix;
+    return lemma;
   }
 
   private static String cleanExtraTags(String tag) {
