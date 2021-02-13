@@ -36303,19 +36303,30 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="DE_WERKWOORD" name="de maken / te maken">
 			<rule>
+				<antipattern><token>de</token><token postag_regexp="yes" postag="BNW:STF|WKW:VTD:ONV|ZNW:EKV|ZNW.*DE_|.*MRV"/></antipattern>
+				<antipattern><token>de</token><token postag="BNW:STF"/></antipattern>
 				<pattern>
 					<marker>
 						<token>de</token>
 					</marker>
-					<token postag_regexp="yes" postag="WKW:TGW:INF.*"><exception postag_regexp="yes" postag=".*DE_|ZNW:EKV"/></token>
+					<token postag_regexp="yes" postag="WKW:TGW:INF.*"/>
 				</pattern>
 				<message>Voor een werkwoord staat meestal geen 'de', maar 'te' of 'het'.</message>
 				<suggestion>te</suggestion>
 				<example correction="te">Hij dacht fouten <marker>de</marker> corrigeren.</example>
+				<example>Door de betonnen muur.</example>
+				<example>De ontvangen offerte.</example>
+				<example>De mannetjes lopen.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="DE_LEESTEKEN" name="de;">
 			<rule>
+				<!-- ... -->
+				<antipattern><token>.</token><token>.</token></antipattern>
+				<!-- ,, als aanhalingsteken -->
+				<antipattern><token>,</token><token>,</token></antipattern>
+				<!-- .de -->
+				<antipattern><token>.</token><token spacebefore="no" regexp="yes">[a-z]{2,4}</token></antipattern>
 				<pattern>
 					<token>de</token>
 					<token regexp="yes">[:;,.]</token>
@@ -36349,6 +36360,7 @@ steenwijk;Steenwijk
 			<antipattern><token>de</token><token postag="VGW"/></antipattern>
 			<antipattern><token>de</token><token postag="VNW:PER:3EP:EKV:PSF"/></antipattern>
 			<antipattern><token>de</token><token postag="WKW:VTD:ONV"/></antipattern>
+			<antipattern><token>de</token><token postag_regexp="yes" postag="ENM:PER:LST.*"/></antipattern>
 			<antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET:EKV|GET:MRV"/></antipattern>
 			<antipattern><token>de</token><token>wat</token><token postag_regexp="yes" postag="BNW:(STL|VGR):(VRB|ONV)"/></antipattern>
 			<antipattern><token>de</token><token>facto</token></antipattern>
