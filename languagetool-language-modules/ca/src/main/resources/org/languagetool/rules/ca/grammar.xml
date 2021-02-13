@@ -16146,7 +16146,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
-        <rule id="HEM_EM" name="*hem/em" default="temp_off">
+        <rule id="CONDICIONS" name="condiciones/condicions">
+            <pattern>
+                <token postag="[DA]..FP." postag_regexp="yes"/>
+                <marker>
+                    <token>condiciones</token>
+                </marker>
+                <token postag="_PUNCT.*|SP.*|LOC_PREP" postag_regexp="yes"/>
+            </pattern>
+            <message>Possible confusió. ¿Volíeu dir <suggestion>condicions</suggestion>?</message>
+            <example correction="condicions">Les pèssimes <marker>condiciones</marker> en què treballava.</example>
+        </rule>
+        <rule id="ESTRICAMENT" name="estricament/estrictament">
+            <pattern>
+                <token>estricament</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>estrictament</suggestion>? "Estricament" ve d'estricar (terme tèxtil).</message>
+            <short>Possible confusió</short>
+            <example correction="estrictament">Definit <marker>estricament</marker>.</example>
+        </rule>
+        <rule id="HEM_EM" name="*hem/em">
             <pattern>
                 <marker>
                     <token>hem</token>
@@ -16156,33 +16175,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Volíeu dir <suggestion>em</suggestion></message>
             <example correction="em">Jo <marker>hem</marker> pregunto què passa aquí.</example>
         </rule>
-        <rulegroup id="ES_ELS" name="*hem/em" default="temp_off">
-            <rule>
-                <pattern>
-                    <token postag="PP1CSN00|SENT_START" postag_regexp="yes"/>
-                    <marker>
-                        <token>es</token>
-                    </marker>
-                    <token postag="V...1S..|VMSP3S0V" postag_regexp="yes"/>
-                </pattern>
-                <message>¿Volíeu dir <suggestion>els</suggestion></message>
-                <suggestion>us</suggestion>
-                <example correction="els|us">Jo <marker>es</marker> recomane aquest.</example>
-                <example correction="Els|Us"><marker>Es</marker> recomane aquest.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>es</token>
-                    </marker>
-                    <token postag="V...1S.." postag_regexp="yes"><exception postag="V...3S.." postag_regexp="yes"/></token>
-                </pattern>
-                <message>¿Volíeu dir <suggestion>els</suggestion></message>
-                <suggestion>us</suggestion>
-                <example correction="els|us">Llavors <marker>es</marker> recomano aquest.</example>
-                <example>És natural que és recomane aquest.</example>
-            </rule>
-        </rulegroup>
         <rule id="ES_FOS" name="es fos">
             <pattern>
                 <token>es</token>
@@ -28569,7 +28561,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" regexp_match="(?iu)sol" regexp_replace="sòl" case_conversion="preserve"/></suggestion>
                 <example correction="sòls">Van expropiar <marker>sols</marker> agrícoles.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes" skip="20" regexp="yes">&context_SOL_accent;</token>
                     <token postag="D.*" postag_regexp="yes" min="1" max="2"/>
@@ -28581,7 +28573,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(?iu)sol" regexp_replace="sòl" case_conversion="preserve"/></suggestion>
                 <example correction="sòl">Van urbanitzar tot el <marker>sol</marker> del municipi.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="D.*" postag_regexp="yes"/>
                     <marker>
@@ -32544,25 +32536,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="CONFUSIONS_PRONOMS_FEBLES" name="confusions amb pronoms febles">
-            <rule id="CONDICIONS" name="condiciones/condicions">
-                <pattern>
-                    <token postag="[DA]..FP." postag_regexp="yes"/>
-                    <marker>
-                        <token>condiciones</token>
-                    </marker>
-                    <token postag="_PUNCT.*|SP.*|LOC_PREP" postag_regexp="yes"/>
-                </pattern>
-                <message>Possible confusió. ¿Volíeu dir <suggestion>condicions</suggestion>?</message>
-                <example correction="condicions">Les pèssimes <marker>condiciones</marker> en què treballava.</example>
-            </rule>
-            <rule id="ESTRICAMENT" name="estricament/estrictament">
-                <pattern>
-                    <token>estricament</token>
-                </pattern>
-                <message>¿Volíeu dir <suggestion>estrictament</suggestion>? "Estricament" ve d'estricar (terme tèxtil).</message>
-                <short>Possible confusió</short>
-                <example correction="estrictament">Definit <marker>estricament</marker>.</example>
-            </rule>
             <rule id="EM_VAM" name="em vam">
                 <pattern>
                     <marker>
@@ -32627,6 +32600,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es féu per la via correcta.</example>
                 <example>Es feu per la via correcta.</example>
                 <example>es pot fer correctament</example>
+            </rule>
+            <rule id="ES_ELS1" name="es/els">
+                <pattern>
+                    <token postag="PP1CSN00|SENT_START" postag_regexp="yes"/>
+                    <marker>
+                        <token>es</token>
+                    </marker>
+                    <token postag="V...1S..|VMSP3S0V" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>els</suggestion></message>
+                <suggestion>us</suggestion>
+                <example correction="els|us">Jo <marker>es</marker> recomane aquest.</example>
+                <example correction="Els|Us"><marker>Es</marker> recomane aquest.</example>
+            </rule>
+            <rule id="ES_ELS2" name="es/els">
+                <pattern>
+                    <marker>
+                        <token>es</token>
+                    </marker>
+                    <token postag="V...1S.." postag_regexp="yes"><exception postag="V...3S.." postag_regexp="yes"/></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>els</suggestion></message>
+                <suggestion>us</suggestion>
+                <example correction="els|us">Llavors <marker>es</marker> recomano aquest.</example>
+                <example>És natural que és recomane aquest.</example>
             </rule>
             <rule id="FEM_ME" name="fem-m'ho">
                 <pattern>
@@ -43558,7 +43556,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>o, en cas que no ho fossin,</example>
                 <example>Posem per cas que sigui així.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token><exception regexp="yes">en|donat|posat|qualsevol|per|de</exception><exception postag="D.*" postag_regexp="yes"/><exception postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">fer|ser</exception></token>
                     <marker>
@@ -58272,7 +58270,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>la major part dels ciutadans</example>
             <example>per a la major glòria de Déu</example>
         </rule>
-        <rule id="TOTS_ELS_DIES" name="tots els dies/cada dia" default="temp_off">
+        <rule id="TOTS_ELS_DIES" name="tots els dies/cada dia">
             <antipattern>
                 <token postag="NCMP000"/>
                 <token postag="A..[MC][PN].|V.P..PM." postag_regexp="yes"/>
