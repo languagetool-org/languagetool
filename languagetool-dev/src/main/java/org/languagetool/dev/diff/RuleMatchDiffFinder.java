@@ -389,8 +389,10 @@ public class RuleMatchDiffFinder {
         String file = outputFile.file.getName();
         fw.write("<tr>");
         fw.write("<td>" + outputFile.items.size() + "</td>");
-        fw.write("<td>" + outputFile.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.ADDED).count() + "</td>");
-        fw.write("<td>" + outputFile.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.REMOVED).count() + "</td>");
+        long added = outputFile.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.ADDED).count();
+        fw.write("<td " + (added > 0 ? "style='background-color: #c7ffd0'" : "") + ">" + added + "</td>");
+        long removed = outputFile.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.REMOVED).count();
+        fw.write("<td " + (removed > 0 ? "style='background-color: #ffd2d8'" : "") + ">" + removed + "</td>");
         fw.write("<td>" + outputFile.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.MODIFIED).count() + "</td>");
         fw.write("<td>");
         fw.write(file.replaceFirst("result_", "").replaceFirst("_.*", ""));
