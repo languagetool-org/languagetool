@@ -17217,6 +17217,17 @@ steenwijk;Steenwijk
 				<example correction="gezellig">Alles voor een <marker>gezellige</marker> thuis.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="DE_MEISJE" name="De i.p.v. het">
+			<rule>
+				<pattern>
+					<token>de</token>
+					<token regexp="yes">.*je$<exception regexp="yes">.*(ije|plunje|anje)</exception><exception postag_regexp="yes" postag="ENM.*"/></token>
+				</pattern>
+				<message>Verkleinwoorden zijn in het Nederlands altijd onzijdig, dus het-woorden.</message>
+				<suggestion>het \2</suggestion>
+				<example correction="het meisje">Ik zie <marker>de meisje</marker> lopen.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="DE_IPV_HET" name="De i.p.v. het">
 			<antipattern><token>de</token><token case_sensitive="yes">EEG</token></antipattern><!-- het eeg vs de EEG -->
 			<antipattern><token>de</token><token>nummer</token><token postag="GET"/></antipattern><!-- de nummer een -->
