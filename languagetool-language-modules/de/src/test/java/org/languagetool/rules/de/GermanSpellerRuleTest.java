@@ -458,6 +458,10 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Lan-Kabel", "LAN-Kabel", rule, lt);
     assertFirstSuggestion("perfekteste", "perfekte", rule, lt);
     assertFirstSuggestion("gleichtig", "gleichzeitig", rule, lt);
+    assertFirstSuggestion("vorsichgeht", "vor sich geht", rule, lt);
+    assertFirstSuggestion("Simkarte", "SIM-Karte", rule, lt);
+    assertFirstSuggestion("Pineingabe", "PIN-Eingabe", rule, lt);
+    assertFirstSuggestion("carnivorischen", "karnivoren", rule, lt);
   }
 
   @Test
