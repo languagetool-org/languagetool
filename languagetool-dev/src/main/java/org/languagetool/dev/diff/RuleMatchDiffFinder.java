@@ -382,6 +382,7 @@ public class RuleMatchDiffFinder {
       fw.write("  <td>MOD</td>");
       fw.write("  <td>Source</td>");
       fw.write("  <td>ID</td>");
+      fw.write("  <td>Message of first match</td>");
       fw.write("</tr>");
       fw.write("</thead>");
       fw.write("<tbody>\n");
@@ -400,6 +401,13 @@ public class RuleMatchDiffFinder {
         fw.write("<td>");
         fw.write("  <a href='" + file + "'>" + file.replaceFirst("result_.*?_", "").replace(".html", "") + "</a>");
         fw.write("</td>");
+        if (outputFile.items.size() > 0 && outputFile.items.get(0).getNewMatch() != null) {
+          fw.write("<td class='msg'>" + escapeSentence(outputFile.items.get(0).getNewMatch().getMessage()) + "</td>");
+        } else if (outputFile.items.size() > 0 && outputFile.items.get(0).getOldMatch() != null) {
+          fw.write("<td class='msg'>" + escapeSentence(outputFile.items.get(0).getOldMatch().getMessage()) + "</td>");
+        } else {
+          fw.write("<td></td>");
+        }
         fw.write("</tr>\n");
       }
       fw.write("</tbody>");
@@ -458,6 +466,7 @@ public class RuleMatchDiffFinder {
     fw.write("    .whitespace { background-color: #ccc; }\n");
     fw.write("    .nbsp { background-color: #ccc; }\n");
     fw.write("    .id { color: #666; }\n");
+    fw.write("    .msg { color: #666; }\n");
     fw.write("  </style>\n");
     fw.write("</head>\n");
     fw.write("<body>\n\n");
