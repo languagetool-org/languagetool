@@ -9285,11 +9285,24 @@ onwaarschijnlijk
 				<pattern>
 					<token>veelmeer</token>
 				</pattern>
-				<message>De kan is groot dat u <suggestion>veel meer</suggestion> en niet <suggestion>liever</suggestion> bedoelt.</message>
+				<message>De kans is groot dat u <suggestion>veel meer</suggestion> en niet <suggestion>liever</suggestion> bedoelt.</message>
 				<example correction="veel meer|liever">Het zijn <marker>veelmeer</marker> dingen.</example>
 			</rule>			
 		</rulegroup>
 	
+		<rulegroup id="SAMENSTELLING_STAM_ZNW" name="lees ervaring" default="temp_off">
+			<rule>
+				<antipattern><token>ik</token><token postag="WKW:TGW:1EP"/></antipattern>
+				<pattern>
+					<token postag="WKW:TGW:1EP"/>
+					<token postag_regexp="yes" postag="ZNW.*"/>
+				</pattern>
+				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
+				<suggestion>\1\2</suggestion>
+				<example correction="leeservaring">Zij heeft <marker>lees ervaring</marker>.</example>
+			</rule>			
+		</rulegroup>
+
 		<rulegroup id="GAAN_ERVAN_UIT" name="Gaan ervan uit">
 			<rule>
 				<pattern>

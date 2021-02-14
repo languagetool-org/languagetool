@@ -178,6 +178,9 @@ public class Dutch extends Language {
     }
     switch (id) {
       case LongSentenceRule.RULE_ID: return -1;
+      // default : 0
+      // MorfologikDutchSpellerRule : ?
+      // DUTCH_SIMPLE_REPLACE_RULE : ?
       case "KORT_1": return -5;
       case "KORT_2": return -5;  //so that spelling errors are recognized first
       case "EINDE_ZIN_ONVERWACHT": return -5;  //so that spelling errors are recognized first
