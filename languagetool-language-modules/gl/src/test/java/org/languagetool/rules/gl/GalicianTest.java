@@ -29,7 +29,7 @@ public class GalicianTest extends LanguageSpecificTest {
   
   @Test
   public void testLanguage() throws IOException {
-    // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
+    // NOTE: this text needs to be kept in sync with config.ts -> DEMO_TEXTS:
     String s = "Esta vai a ser unha mostra de de exemplo para amosar  o funcionamento de LanguageTool.";
     Galician lang = new Galician();
     testDemoText(lang, s,

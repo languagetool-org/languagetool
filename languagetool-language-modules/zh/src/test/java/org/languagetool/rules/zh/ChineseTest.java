@@ -29,7 +29,7 @@ public class ChineseTest extends LanguageSpecificTest {
   
   @Test
   public void testLanguage() throws IOException {
-    // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
+    // NOTE: this text needs to be kept in sync with config.ts -> DEMO_TEXTS:
     String s = "将文本粘贴在此，或者检测以下文本：我和她去看了二部电影。";
     Chinese lang = new Chinese();
     testDemoText(lang, s,
