@@ -1028,6 +1028,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Refelektion", "Reflexion");
     put("Refelektionen", "Reflexionen");
     put("[sS]chanse", "Chance");
+    put("nich", "nicht");
+    put("wat", "was");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
