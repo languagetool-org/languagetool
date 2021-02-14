@@ -16366,6 +16366,7 @@ steenwijk;Steenwijk
 		<example>900 <marker>is</marker> een goed begin.</example>
 		</rule>
 		-->
+		
 		<rulegroup id="PUNT_GEEN_HL" name="Geen spatie en hoofdletter na punt">
 			<rule>
 				<antipattern>
@@ -36186,6 +36187,7 @@ steenwijk;Steenwijk
 		<rulegroup id="GEDACHTESTREEPJE" name="- → –" tags="picky">
 			<rule>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token spacebefore="yes">-</token></antipattern>
+				<antipattern><token spacebefore="yes">-</token><token regexp="yes" spacebefore="yes">en|of</token></antipattern>
 				<pattern>
 					<marker>
 						<token spacebefore="yes" regexp="yes">[-—]</token>
@@ -36196,6 +36198,21 @@ steenwijk;Steenwijk
 				<url>https://taaladvies.net/taal/advies/vraag/312/gedachtestreepje</url>
 				<short>–</short>
 				<example correction="–">Dit is geen <marker>-</marker> gedachtestreep.</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="STREEPJE_TUSSEN_SPATIES_WEGLATING" name="lees - of → lees- of" >
+			<rule>
+				<pattern>
+					<token/>
+					<token spacebefore="yes" regexp="yes">[-—]</token>
+					<token spacebefore="yes" regexp="yes">en|of</token>
+					<token/>
+				</pattern>
+				<message>Bij het weglaten van een deel van een woord hoort het koppelteken vast aan het woord.</message>
+				<suggestion>\1\2 \3 \4</suggestion>
+				<short>– en</short>
+				<example correction="lees- en schrijfopdracht">Dit is geen <marker>lees - en schrijfopdracht</marker>.</example>
 			</rule>
 		</rulegroup>
 
@@ -36381,7 +36398,8 @@ steenwijk;Steenwijk
 			<antipattern><token>de</token><token>fine</token><token>fleur</token></antipattern>
 			<antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET.*"/></antipattern>
 			<antipattern><token>de</token><token>,</token><token>,</token></antipattern>
-			<antipattern><token>de</token><token regexp="yes">mij|hem|haar|hen|jullie|ons|hun|meesten|meest|meeste|weinig|weinigen?|nogal|zoveelste|het|ter|zelf|enigzins|enigszins|verscheidene|ins|anderhalf|elkaar|ten|alles|art|iTunes|pits|dit|onderscheidene|ten|[.]|jouwen</token></antipattern>
+			<antipattern><token>de</token><token regexp="yes">mij|hem|haar|hen|jullie|ons|hun|meesten|meest|meeste|weinig|weinigen?|nogal|zoveelste|het|ter|zelf|enigzins|enigszins|verscheidene|ins|anderhalf|elkaar|ten|art|iTunes|pits|dit|onderscheidene|[.]|jouwen|golden|alles</token></antipattern>
+			<antipattern><token>de</token><token postag="WKW:TGW:1EP"/><token postag_regexp="yes" postag="ZNW.*DE_"/></antipattern><!-- de betaal conditie -->
 			<antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET.*"/></antipattern>
 			
 			<antipattern><token>de</token><token postag="AHL:OPN"/></antipattern>
