@@ -11219,7 +11219,7 @@ onwaarschijnlijk
 					<token><exception>al</exception></token>
 					<token>het</token>
 					<marker>
-						<token postag="BNW:STL:IET"><exception negate_pos="yes" postag="BNW:STL:IET"/><exception>anders</exception></token>
+						<token postag="BNW:STL:IET"><exception negate_pos="yes" postag="BNW:STL:IET"/><exception regexp="yes">anders|personeels</exception></token>
 					</marker>
 				</pattern>
 				<message>U bedoelt mogelijk: <suggestion>\3t</suggestion> of <suggestion><match no="3" regexp_match="s$" regexp_replace=""/></suggestion>.</message>
@@ -17217,17 +17217,6 @@ steenwijk;Steenwijk
 				<example correction="gezellig">Alles voor een <marker>gezellige</marker> thuis.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="DE_MEISJE" name="De i.p.v. het">
-			<rule>
-				<pattern>
-					<token>de</token>
-					<token regexp="yes">.*je$<exception regexp="yes">.*(ije|plunje|anje)</exception><exception postag_regexp="yes" postag="ENM.*"/></token>
-				</pattern>
-				<message>Verkleinwoorden zijn in het Nederlands altijd onzijdig, dus het-woorden.</message>
-				<suggestion>het \2</suggestion>
-				<example correction="het meisje">Ik zie <marker>de meisje</marker> lopen.</example>
-			</rule>
-		</rulegroup>
 		<rulegroup id="DE_IPV_HET" name="De i.p.v. het">
 			<antipattern><token>de</token><token case_sensitive="yes">EEG</token></antipattern><!-- het eeg vs de EEG -->
 			<antipattern><token>de</token><token>nummer</token><token postag="GET"/></antipattern><!-- de nummer een -->
@@ -17325,7 +17314,10 @@ steenwijk;Steenwijk
 					<marker>
 						<token regexp="yes">de|die|deze</token>
 					</marker>
-					<token postag_regexp="yes" postag="ZNW:.*:HET"><exception regexp="yes">weer|meer|niet|ruim</exception><exception postag_regexp="yes" postag="ZNW:EKV|ZNW:.*DE_"/></token>
+					<or>
+						<token postag_regexp="yes" postag="ZNW:.*:HET"><exception regexp="yes">weer|meer|niet|ruim</exception><exception postag_regexp="yes" postag="ZNW:EKV|ZNW:.*DE_"/></token>
+						<token regexp="yes">.*je<exception regexp="yes">.*(nje|ije)</exception><exception postag_regexp="yes" postag="ENM.*"/></token>
+					</or>
 				</pattern>
 				<message>\2 is een 'het'-woord.</message>
 				<suggestion>het</suggestion>
@@ -36314,7 +36306,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="DE_WERKWOORD" name="de maken / te maken">
 			<rule>
-				<antipattern><token>de</token><token postag_regexp="yes" postag="BNW:STF|WKW:VTD:ONV|ZNW:EKV|ZNW.*DE_|.*MRV"/></antipattern>
+				<antipattern><token>de</token><token postag_regexp="yes" postag="BNW:STF|WKW:VTD:ONV|ZNW:EKV|ZNW.*DE_|.*MRV.*"/></antipattern>
 				<antipattern><token>de</token><token postag="BNW:STF"/></antipattern>
 				<pattern>
 					<marker>
@@ -36387,8 +36379,9 @@ steenwijk;Steenwijk
 			<antipattern><token>de</token><token>condition</token><token>humaine</token></antipattern>
 			<antipattern><token>de</token><token>intensive</token><token>care</token></antipattern>
 			<antipattern><token>de</token><token>fine</token><token>fleur</token></antipattern>
+			<antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET.*"/></antipattern>
 			<antipattern><token>de</token><token>,</token><token>,</token></antipattern>
-			<antipattern><token>de</token><token regexp="yes">mij|hem|haar|hen|jullie|ons|hun|meesten|meest|meeste|weinig|weinigen?|nogal|zoveelste|het|ter|zelf|enigzins|enigszins|verscheidene|ins|anderhalf|elkaar|ten|alles|art|iTunes|pits|dit|onderscheidene</token></antipattern>
+			<antipattern><token>de</token><token regexp="yes">mij|hem|haar|hen|jullie|ons|hun|meesten|meest|meeste|weinig|weinigen?|nogal|zoveelste|het|ter|zelf|enigzins|enigszins|verscheidene|ins|anderhalf|elkaar|ten|alles|art|iTunes|pits|dit|onderscheidene|ten|[.]|jouwen</token></antipattern>
 			<antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET.*"/></antipattern>
 			
 			<antipattern><token>de</token><token postag="AHL:OPN"/></antipattern>
