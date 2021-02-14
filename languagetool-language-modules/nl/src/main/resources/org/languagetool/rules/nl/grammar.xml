@@ -11240,6 +11240,20 @@ onwaarschijnlijk
 			</rule>
 		</rulegroup>
 		
+		<rulegroup id="TE_VERLEDEN" name="te duidden => te duiden" default="temp_off">
+			<rule>
+				<pattern>
+					<token>te</token>
+					<marker>
+						<token postag_regexp="yes" postag="WKW:VLT:INF.*"/>
+					</marker>
+				</pattern>
+				<message>Na 'te' past geen verleden tijd.</message>
+				<suggestion><match no="2" postag="WKW:TGW:INF.*" postag_regexp="yes"/></suggestion>
+				<example correction="duiden">Het is niet goed te <marker>duidden</marker>.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="TE-VREEMD" name="Vreemd woord na 'te'">
 			<antipattern><token>Nooit</token><token>ofte</token><token>nimmer</token></antipattern>
 			<antipattern><token>nooit</token><token>en</token><token>te</token><token>nimmer</token></antipattern>
@@ -11247,7 +11261,7 @@ onwaarschijnlijk
 			<antipattern case_sensitive="yes"><token>te</token><token>Den</token><token regexp="yes">[A-Z].*</token></antipattern>
 			<antipattern><token>des</token><token>te</token><token postag="BNW:VGR:ONV"/></antipattern>
 			<antipattern><token>te</token><token postag_regexp="yes" postag="BNW:STL:VRB|BYW:JES|WKW:(VTD|ODW):VRB"/></antipattern>
-			<antipattern><token>te</token><token postag_regexp="yes" postag="WKW:TGW:INF.*"/></antipattern>
+			<antipattern><token>te</token><token postag_regexp="yes" postag="WKW:TGW:INF.*|WKW:INF:ZNW:HET"/></antipattern>
 			<antipattern><token>te</token><token postag="AHL:OPN"/></antipattern>
 			<antipattern><token>te</token><token postag_regexp="yes" postag="BNW:STL:ONV|WKW:VTD:ONV"/></antipattern>
 			<antipattern><token>te</token><token postag_regexp="yes" postag="ENM:LOC:.*"/></antipattern>
