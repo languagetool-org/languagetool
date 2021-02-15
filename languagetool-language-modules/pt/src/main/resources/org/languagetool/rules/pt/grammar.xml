@@ -21836,6 +21836,22 @@ Este é capas de ser o pior port de sempre.
       <message>Substitua por <suggestion>quem não está</suggestion>.</message>
       <example correction="quem não está">Excelente para <marker>quem não esta</marker> doente.</example>
     </rule>
+    <rule>
+<!--
+O Rui já cá esta. → O Rui já cá está.
+-->
+      <pattern>
+		  <token postag_regexp="no" postag="I">
+			<exception postag_regexp="yes" postag='V.+'/></token>
+          <token postag_regexp="no" postag="RG"/>
+		  <marker>
+			<token>esta</token>
+		  </marker>	
+		  <token regexp='yes'>[.,!?;()]</token>
+      </pattern>
+      <message>Substitua por <suggestion>está</suggestion>.</message>
+      <example correction="está">O Rui já cá <marker>esta</marker>.</example>
+    </rule>
   </rulegroup>
 
     <rule id='HÁS_VEZES' name="Confusão: hás vezes/às vezes">
