@@ -25,10 +25,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.noop.NoopLanguage;
 import org.languagetool.rules.Categories;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
+import org.languagetool.rules.spelling.RuleWithLanguage;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -50,6 +55,7 @@ import java.util.stream.Collectors;
  * @author Marcin Miłkowski
  */
 public class HunspellRule extends SpellingCheckRule {
+
   public static final String RULE_ID = "HUNSPELL_RULE";
 
   protected static final String FILE_EXTENSION = ".dic";
@@ -57,6 +63,7 @@ public class HunspellRule extends SpellingCheckRule {
   private volatile boolean needsInit = true;
   protected volatile Hunspell hunspell = null;
 
+  private static final Logger logger = LoggerFactory.getLogger(HunspellRule.class);
   private static final ConcurrentLinkedQueue<String> activeChecks = new ConcurrentLinkedQueue<>();
   private static final String NON_ALPHABETIC = "[^\\p{L}]";
 
@@ -78,6 +85,7 @@ public class HunspellRule extends SpellingCheckRule {
   protected Pattern nonWordPattern;
 
   private final UserConfig userConfig;
+  private final List<RuleWithLanguage> enSpellRules;
 
   public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig) {
     this(messages, language, userConfig, Collections.emptyList());
@@ -95,6 +103,32 @@ public class HunspellRule extends SpellingCheckRule {
     super(messages, language, userConfig, altLanguages, languageModel);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     this.userConfig = userConfig;
+    enSpellRules = getEnglishSpellingRules();
+  }
+
+  private List<RuleWithLanguage> getEnglishSpellingRules() {
+    List<RuleWithLanguage> spellingRules = new ArrayList<>();
+    Language en;
+    try {
+      en = Languages.getLanguageForShortCode("en-US");
+    } catch (IllegalArgumentException e) {
+      logger.warn("Could not create en-US language for spell-check fallback, multi-lingual spell checking is not available");
+      return spellingRules;
+    }
+    List<Rule> rules;
+    try {
+      rules = new ArrayList<>(en.getRelevantRules(messages, userConfig, null, Collections.emptyList()));
+      rules.addAll(en.getRelevantLanguageModelCapableRules(messages, null,
+              null, userConfig, null, Collections.emptyList()));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+    for (Rule rule : rules) {
+      if (rule.isDictionaryBasedSpellingRule()) {
+        spellingRules.add(new RuleWithLanguage(rule, en));
+      }
+    }
+    return spellingRules;
   }
 
   @Override
@@ -124,6 +158,7 @@ public class HunspellRule extends SpellingCheckRule {
       return toRuleMatchArray(ruleMatches);
     }
 
+    long sentLength = Arrays.stream(sentence.getTokensWithoutWhitespace()).filter(k -> !k.isNonWord()).count() - 1;  // -1 for the SENT_START token
     String monitoringText = getClass().getName() + ":" + getId() + ":" + sentence.getText();
     try {
       if (monitorRules) {
@@ -139,6 +174,7 @@ public class HunspellRule extends SpellingCheckRule {
         len = sentence.getTokens()[0].getStartPos();
       }
       int prevStartPos = -1;
+      int misspelledButEnglish = 0;
       for (int i = 0; i < tokens.length; i++) {
         String word = tokens[i];
         if ((ignoreWord(Arrays.asList(tokens), i) || ignoreWord(word)) && !isProhibited(cutOffDot(word))) {
@@ -147,6 +183,9 @@ public class HunspellRule extends SpellingCheckRule {
           continue;
         }
         if (isMisspelled(word)) {
+          if (isEnglish(word)) {
+            misspelledButEnglish++;
+          }
           String cleanWord = word.endsWith(".") ? word.substring(0, word.length() - 1) : word;
           if (i > 0 && prevStartPos != -1) {
             String prevWord = tokens[i-1];
@@ -194,6 +233,23 @@ public class HunspellRule extends SpellingCheckRule {
             ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));
           }
           ruleMatches.add(ruleMatch);
+          if (sentLength > 3) {
+            float enRatio = (float)misspelledButEnglish / sentLength;
+            //System.out.println("ER en??: " + enRatio + ": " + misspelledButEnglish + " /  " + sentLength + " - " + sentence.getText());
+            if (enRatio > 0.66) {
+              //System.out.println("ER en!!: " + enRatio + ": " + misspelledButEnglish + " /  " + sentLength + " - " + sentence.getText());
+              ruleMatch.setErrorLimitLang("en");
+              //break; -- don't stop to keep current behaviour
+            } else {
+              float otherRatio = (float)ruleMatches.size() / sentLength;
+              //System.out.println("ER other??: " + otherRatio + ": " + ruleMatches.size() + " /  " + sentLength + " - " + sentence.getText());
+              if (otherRatio > 0.66) {
+                //System.out.println("ER other!!: " + otherRatio + ": " + ruleMatches.size() + " /  " + sentLength + " - " + sentence.getText());
+                ruleMatch.setErrorLimitLang(NoopLanguage.SHORT_CODE);
+                //break; -- don't stop to keep current behaviour
+              }
+            }
+          }
         }
         prevStartPos = len;
         len += word.length() + 1;
@@ -203,7 +259,28 @@ public class HunspellRule extends SpellingCheckRule {
         activeChecks.remove(monitoringText);
       }
     }
+    /*if (sentence.getErrorLimitReached()) {
+      return toRuleMatchArray(Collections.emptyList());
+    }*/
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private boolean isEnglish(String word) throws IOException {
+    for (RuleWithLanguage altRule : enSpellRules) {
+      AnalyzedToken token = new AnalyzedToken(word, null, null);
+      AnalyzedToken sentenceStartToken = new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, null);
+      AnalyzedTokenReadings startTokenReadings = new AnalyzedTokenReadings(sentenceStartToken, 0);
+      AnalyzedTokenReadings atr = new AnalyzedTokenReadings(token, 0);
+      RuleMatch[] matches = altRule.getRule().match(new AnalyzedSentence(new AnalyzedTokenReadings[]{startTokenReadings, atr}));
+      if (matches.length == 0) {
+        return true;
+      } else {
+        if (word.endsWith(".")) {
+          return isEnglish(word.substring(0, word.length() - 1));
+        }
+      }
+    }
+    return false;
   }
 
   private List<SuggestedReplacement> calcSuggestions(String word, String cleanWord) throws IOException {

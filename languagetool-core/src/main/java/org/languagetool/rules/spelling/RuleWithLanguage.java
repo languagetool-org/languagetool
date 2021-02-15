@@ -31,7 +31,7 @@ public class RuleWithLanguage {
   private final Rule rule;
   private final Language language;
   
-  RuleWithLanguage(Rule rule, Language language) {
+  public RuleWithLanguage(Rule rule, Language language) {
     this.rule = Objects.requireNonNull(rule);
     this.language = Objects.requireNonNull(language);
   }
