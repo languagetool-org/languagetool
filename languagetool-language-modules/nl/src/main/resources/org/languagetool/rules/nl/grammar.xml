@@ -1,4 +1,4 @@
-﻿<!-- <?xml version="1.0" encoding="utf-8"?> -->
+﻿<?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
 <!--
@@ -9292,14 +9292,28 @@ onwaarschijnlijk
 	
 		<rulegroup id="SAMENSTELLING_STAM_ZNW" name="lees ervaring" default="temp_off">
 			<rule>
-				<antipattern><token>ik</token><token postag="WKW:TGW:1EP"/></antipattern>
 				<pattern>
-					<token postag="WKW:TGW:1EP"/>
-					<token postag_regexp="yes" postag="ZNW.*"/>
+					<token>de</token>
+					<marker>
+						<token postag="WKW:TGW:1EP"/>
+						<token postag_regexp="yes" postag="ZNW.*DE_|ZNW:EKV"/>
+					</marker>
 				</pattern>
 				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
-				<suggestion>\1\2</suggestion>
-				<example correction="leeservaring">Zij heeft <marker>lees ervaring</marker>.</example>
+				<suggestion>\2\3</suggestion>
+				<example correction="leeservaring">Zij heeft de <marker>lees ervaring</marker>.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token regexp="yes">het|dit|dat</token>
+					<marker>
+						<token postag="WKW:TGW:1EP"/>
+						<token postag_regexp="yes" postag="ZNW.*HET"/>
+					</marker>
+				</pattern>
+				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
+				<suggestion>\2\3</suggestion>
+				<example correction="leesboek">Zij heeft het <marker>lees boek</marker>.</example>
 			</rule>			
 		</rulegroup>
 
@@ -11245,7 +11259,7 @@ onwaarschijnlijk
 				<pattern>
 					<token>te</token>
 					<marker>
-						<token postag_regexp="yes" postag="WKW:VLT:INF.*"/>
+						<token postag_regexp="yes" postag="WKW:VLT:INF.*"><exception postag_regexp="yes" postag="WKW:TGW:INF.*"/></token>
 					</marker>
 				</pattern>
 				<message>Na 'te' past geen verleden tijd.</message>
@@ -17344,7 +17358,7 @@ steenwijk;Steenwijk
 					</marker>
 					<or>
 						<token postag_regexp="yes" postag="ZNW:.*:HET"><exception regexp="yes">weer|meer|niet|ruim</exception><exception postag_regexp="yes" postag="ZNW:EKV|ZNW:.*DE_"/></token>
-						<token regexp="yes">.*je<exception regexp="yes">.*(nje|ije)</exception><exception postag_regexp="yes" postag="ENM.*"/></token>
+						<token regexp="yes">.+je<exception regexp="yes">.*(nje|ije)</exception><exception postag_regexp="yes" postag="ENM.*"/></token>
 					</or>
 				</pattern>
 				<message>\2 is een 'het'-woord.</message>
@@ -36230,6 +36244,7 @@ steenwijk;Steenwijk
 
 		<rulegroup id="STREEPJE_TUSSEN_SPATIES_WEGLATING" name="lees - of → lees- of" >
 			<rule>
+				<antipattern><token spacebefore="yes" regexp="yes">[-—]</token><token skip="-1" spacebefore="yes"/><token spacebefore="yes" regexp="yes">[-—]</token><token spacebefore="yes"/></antipattern>
 				<pattern>
 					<token/>
 					<token spacebefore="yes" regexp="yes">[-—]</token>
@@ -36240,6 +36255,7 @@ steenwijk;Steenwijk
 				<suggestion>\1\2 \3 \4</suggestion>
 				<short>– en</short>
 				<example correction="lees- en schrijfopdracht">Dit is geen <marker>lees - en schrijfopdracht</marker>.</example>
+				<example>De landbouwproductie is beperkt — slechts 2% van het land is bebouwbaar — en het meeste voedsel moet worden geïmporteerd.</example>
 			</rule>
 		</rulegroup>
 
