@@ -6418,15 +6418,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <antipattern><!-- Fix for chunker. Can't wait to / I can`t power off -->
             <token postag_regexp="yes" postag="SENT_START|PRP"/>
             <token postag="MD"/>
-            <token regexp="yes">&apostrophe;</token>
-            <token>t</token>
+            <token>n't</token>
             <token postag_regexp="yes" postag="VB|RB"/>
         </antipattern>
         <antipattern><!-- Fix for chunker. Won't further address it -->
             <token postag="SENT_START"/>
             <token postag="MD"/>
-            <token regexp="yes">&apostrophe;</token>
-            <token>t</token>
+            <token>n't</token>
             <token postag_regexp="yes" postag="JJR|RBR"/><!-- I tried this token with min/max in an attempt to use only 1 antipattern for this and for "Can't wait to", but I could not get it to work. -->
             <token postag_regexp="yes" postag="VB|RB"/>
         </antipattern>
@@ -6445,8 +6443,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </antipattern>
         <antipattern><!-- Fix for chunker. Won't this still work...? -->
             <token postag="MD"/>
-            <token regexp="yes">&apostrophe;</token>
-            <token>t</token>
+            <token>n't</token>
             <token>this</token>
             <token chunk="I-NP-singular" postag="RB"/>
             <token skip="-1" chunk="E-NP-singular" postag="VBP"/>
@@ -6462,8 +6459,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </antipattern>
         <antipattern><!-- #2326 Fix for chunker. stress you WON'T need -->
             <token postag="MD"/>
-            <token regexp="yes">&apostrophe;</token>
-            <token case_sensitive="yes">T</token>
+            <token case_sensitive="yes">N'T</token>
             <token skip="-1" chunk="E-NP-singular" postag="NN:UN">
                 <exception scope="next">?</exception>
                 </token>
@@ -6502,8 +6498,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </antipattern>
         <antipattern><!-- #2421 Fix for chunker. You're welcome -->
             <token postag="PRP"/>
-            <token regexp="yes">&apostrophe;</token>
-            <token regexp="yes">re|s</token>
+            <token regexp="yes">'re|'s</token>
             <token chunk="E-NP-singular" postag_regexp="yes" postag="JJR?"/>
         </antipattern>
         <antipattern><!-- "He would sexual assault her" (ADJECTIVE_ADVERB) -->
@@ -6681,8 +6676,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <antipattern><!-- #2845 Other CFD's charge a higher fee. -->
             <token postag_regexp="yes" postag="JJR?"/>
             <token chunk="E-NP-singular"/>
-            <token regexp="yes">&apostrophe;</token>
-            <token>s</token>
+            <token>'s</token>
             <token chunk="E-NP-singular" postag="VB"/>
             <token postag_regexp="yes" postag="DT|PRP\$"/>
         </antipattern>
@@ -6886,8 +6880,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>many</token>
             <token postag="VBP" />
             <token postag="UNKNOWN|NNP" postag_regexp="yes" />
-            <token regexp="yes">&apostrophe;</token>
-            <token>s</token>
+            <token>'s</token>
         </antipattern>
         <antipattern>
             <token>many</token>
