@@ -9688,7 +9688,9 @@ Precisamos que nos dê feedback.
     <rule id='LHE_S_TE_VOS_VERB' name="Lhe(s)/Vos + Verb">
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-15 (1-JAN-2021+)      -->
 <!--
-lhe amo muito.
+Lhe amo muito. → Amo-lhe muito.
+Te vejo amanhã na biblioteca. → Vejo-te amanhã na biblioteca.
+Te vejo por aí. → Vejo-te por aí.
 -->
       <pattern>
 		<token postag='SENT_START' postag_regexp='no'/>
@@ -9697,8 +9699,10 @@ lhe amo muito.
 			<token postag='VMIP[13]S0|VMM02S0' postag_regexp='yes'/>
 		</marker>
       </pattern>
-	  <message>Substitua por <suggestion>\3-\2</suggestion>.</message>
-      <example correction="amo-lhes"><marker>lhes amo</marker> muito.</example>
+	  <message>Substitua por <suggestion><match no='3' case_conversion='startupper'/>-<match no="2" case_conversion="alllower"/></suggestion>.</message>
+      <example correction="Amo-lhes"><marker>Lhes amo</marker> muito.</example>
+	  <example>Vejo-te amanhã na biblioteca.</example>
+	  <example>Vejo-te por aí.</example>
     </rule>
 
     <rule id='AO_PAR_COM' name="A par com">
