@@ -16408,6 +16408,48 @@ steenwijk;Steenwijk
 		</rule>
 		-->
 		
+		<rulegroup id="MUNTEENHEID_SPATIE" name="Na een munteenheid hoort een spatie">
+			<rule>
+				<pattern>
+					<token regexp="yes">€[0-9]+</token>
+				</pattern>
+				<message>Na het teken voor de munt hoort een spatie.</message>
+				<suggestion><match no="1" regexp_match="€" regexp_replace="€ "/></suggestion>
+				<url>https://taaladvies.net/taal/advies/vraag/1178/euro_valutateken_voor_of_achter_het_bedrag/</url>
+				<example correction="€ 15">Het kost <marker>€15</marker>.</example>
+			</rule>
+			<!--
+			<rule>
+				<pattern>
+					<token regexp="yes">\$[0-9]+</token>
+				</pattern>
+				<message>Na het teken voor de munt hoort een spatie.</message>
+				<suggestion><match no="1" regexp_match="." regexp_replace="$ "/></suggestion>
+				<url>https://taaladvies.net/taal/advies/vraag/1178/euro_valutateken_voor_of_achter_het_bedrag/</url>
+				<example correction="$ 15">Het kost <marker>$15</marker>.</example>
+			</rule>
+			-->
+			<rule>
+				<pattern>
+					<token regexp="yes">£[0-9]+</token>
+				</pattern>
+				<message>Na het teken voor de munt hoort een spatie.</message>
+				<suggestion><match no="1" regexp_match="£" regexp_replace="£ "/></suggestion>
+				<url>https://taaladvies.net/taal/advies/vraag/1178/euro_valutateken_voor_of_achter_het_bedrag/</url>
+				<example correction="£ 15">Het kost <marker>£15</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">¥[0-9]+</token>
+				</pattern>
+				<message>Na het teken voor de munt hoort een spatie.</message>
+				<suggestion><match no="1" regexp_match="¥" regexp_replace="¥ "/></suggestion>
+				<url>https://taaladvies.net/taal/advies/vraag/1178/euro_valutateken_voor_of_achter_het_bedrag/</url>
+				<example correction="¥ 15">Het kost <marker>¥15</marker>.</example>
+			</rule>
+
+		</rulegroup>
+
 		<rulegroup id="PUNT_GEEN_HL" name="Geen spatie en hoofdletter na punt">
 			<rule>
 				<antipattern>
