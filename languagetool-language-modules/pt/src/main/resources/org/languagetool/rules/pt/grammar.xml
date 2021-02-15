@@ -9684,6 +9684,23 @@ Precisamos que nos dê feedback.
       <example correction="imagens de satélite"><marker>imagens satélite</marker>.</example>
     </rule>
 
+	<!-- LHE(S)/TE/VOS + VERB verb-lhe(s)/te/vos -->
+    <rule id='LHE_S_TE_VOS_VERB' name="Lhe(s)/Vos + Verb">
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-15 (1-JAN-2021+)      -->
+<!--
+lhe amo muito.
+-->
+      <pattern>
+		<token postag='SENT_START' postag_regexp='no'/>
+	    <marker>
+			<token regexp='yes'>lhes?|te|vos</token>
+			<token postag='VMIP[13]S0|VMM02S0' postag_regexp='yes'/>
+		</marker>
+      </pattern>
+	  <message>Substitua por <suggestion>\3-\2</suggestion>.</message>
+      <example correction="amo-lhes"><marker>lhes amo</marker> muito.</example>
+    </rule>
+
     <rule id='AO_PAR_COM' name="A par com">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
