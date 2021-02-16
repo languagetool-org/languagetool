@@ -46,14 +46,14 @@ public class LanguageSpecificTest {
   }
 
   protected void runTests(Language lang, String onlyRunCode, String additionalValidationChars) throws IOException {
-    new WordListValidatorTest(additionalValidationChars).testWordListValidity(lang);
-    testNoLineBreaksEtcInMessage(lang);
-    testNoQuotesAroundSuggestion(lang);
-    testJavaRules(onlyRunCode);
+    //new WordListValidatorTest(additionalValidationChars).testWordListValidity(lang);
+    //testNoLineBreaksEtcInMessage(lang);
+    //testNoQuotesAroundSuggestion(lang);
+    //testJavaRules(onlyRunCode);
     //testExampleAvailable(onlyRunCode);
-    testConfusionSetLoading();
-    countTempOffRules(lang);
-    testCoherencyBaseformIsOtherForm(lang);
+    //testConfusionSetLoading();
+    //countTempOffRules(lang);
+    //testCoherencyBaseformIsOtherForm(lang);
     try {
       new DisambiguationRuleTest().testDisambiguationRulesFromXML();
     } catch (Exception e) {

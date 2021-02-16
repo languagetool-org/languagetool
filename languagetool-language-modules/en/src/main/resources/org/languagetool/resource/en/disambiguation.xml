@@ -4824,7 +4824,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                     <token postag_regexp="yes" postag="NN.*"/>
                 </and>
             </marker>
-            <token><exception postag="DT|RB?" postag_regexp="yes"/><exception spacebefore="no" regexp="yes">&apostrophe;</exception></token><!-- Cannot use postag POS because that is added in POS_ADD after this rule -->
+            <token><exception postag="DT|RB?" postag_regexp="yes"/><exception spacebefore="no" regexp="yes">&apostrophe;.*</exception></token><!-- Cannot use postag POS because that is added in POS_ADD after this rule -->
         </pattern>
         <disambig><match no="2" postag_regexp="yes" postag="NN.*"/></disambig>
         <example type="untouched">His friend is now in England.</example>
@@ -5899,6 +5899,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rulegroup>
 
     <rulegroup name="possessive ending/verb" id="POS_ADD">
+        <antipattern> <!-- somebody else's hypothesis -->
+            <token regexp="yes">else|\d+</token>
+            <token>'s</token>
+            <token postag="NN.*" postag_regexp="yes"/>
+        </antipattern>
         <rule><!-- probably verb "is": now add to some -->
             <antipattern>
                 <token regexp="yes">there|that</token>
@@ -5951,11 +5956,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <pattern>
                 <token><exception postag_regexp="yes" postag="NN.*|VBP|CD|UNKNOWN|\."/></token>
                 <marker>
-                    <token spacebefore="no">'s<exception postag="VBZ"/></token>
+                    <token spacebefore="no">'s</token>
                 </marker>
                 <token><exception postag="SENT_END"/><exception regexp="yes">[,:;]</exception></token>
             </pattern>
-            <disambig action="add"><wd lemma="be" pos="VBZ"/></disambig>
+            <disambig action="replace"><wd lemma="be" pos="VBZ"/></disambig>
             <example type="untouched">This is Bill's house.</example>
             <example type="untouched">Let's go!</example>
             <example type="untouched">Let's see!</example>
@@ -5971,11 +5976,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">Which a's have many interesting properties?</example><!-- #3223 -->
             <example type="untouched">A's always please me.</example><!-- #3223 -->
             <example type="untouched">... had been sent to Reliant's legal dept.</example><!-- #4048 -->
-            <example type="ambiguous" inputform="s[s/POS]" outputform="s[be/VBZ,s/POS]">Where'<marker>s</marker> Bill?</example>
-            <example type="ambiguous" inputform="s[s/POS]" outputform="s[be/VBZ,s/POS]">There'<marker>s</marker> no milk in the fridge.</example>
-            <example type="ambiguous" inputform="s[s/POS]" outputform="s[be/VBZ,s/POS]">Not good style: If the S'<marker>s</marker> not the correct colour, the advert won't look good.</example>
-            <example type="ambiguous" inputform="s[s/POS]" outputform="s[be/VBZ,s/POS]">One person closed the door and another'<marker>s</marker> opened it again.</example>
-            <example type="ambiguous" inputform="s[s/POS]" outputform="s[be/VBZ,s/POS]">One opportunity closed, but another'<marker>s</marker> opened.</example>
+            <!--<example type="ambiguous" inputform="'s[be/VBZ,s/POS]" outputform="'s[be/VBZ]">Where<marker>'s</marker> Bill?</example>-->
+            <!--<example type="ambiguous" inputform="'s[be/VBZ,s/POS]" outputform="'s[be/VBZ]">There<marker>'s</marker> no milk in the fridge.</example>-->
+            <!--<example type="ambiguous" inputform="'s[be/VBZ,s/POS]" outputform="'s[be/VBZ]">Not good style: If the S<marker>'s</marker> not the correct colour, the advert won't look good.</example>-->
+            <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s[be/VBZ]">One person closed the door and another<marker>'s</marker> opened it again.</example>
+            <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s[be/VBZ]">One opportunity closed, but another<marker>'s</marker> opened.</example>
+            <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s[be/VBZ]">Where<marker>'s</marker> Bill?</example>
+            <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s[be/VBZ]">Not good style: If the S<marker>'s</marker> not the correct colour, the advert won't look good.</example>
         </rule>
 
         <!--  remove POS where it doesn't occur after the noun-->
@@ -6013,6 +6020,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token chunk="I-NP-singular" postag_regexp="yes" postag="JJR?|NN(:UN?)?"/>
                 <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
             </antipattern>
+            
             <pattern>
                 <token><exception postag_regexp="yes" postag="NN.*|PRP\$|DT|UNKNOWN|CD"/></token>
                 <marker>
@@ -6028,8 +6036,6 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">The dirty's test is correct.</example><!-- #3078 -->
             <example type="untouched">Are your dirty's tests ready for approval?</example><!-- #3078 -->
             <example type="untouched">... had been sent to Reliant's legal dept.</example><!-- #4048 -->
-            <example type="ambiguous" inputform="s[be/VBZ,s/POS]" outputform="s[be/VBZ]">Where'<marker>s</marker> Bill?</example>
-            <example type="ambiguous" inputform="s[be/VBZ,s/POS]" outputform="s[be/VBZ]">Not good style: If the S'<marker>s</marker> not the correct colour, the advert won't look good.</example>
         </rule>
 
         <rule name="s = POS with NNS + are/were">
@@ -6084,18 +6090,18 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="replace"><wd lemma="have" pos="VBZ"/></disambig>
         </rule>
         <rule> <!--  add to Bill's -->
-        <antipattern><!-- #2845 Other CFD's charge a higher fee. -->
-            <token postag_regexp="yes" postag="JJR?"/>
-            <token chunk="E-NP-singular"/>
-            <token>'s</token>
-            <token chunk="E-NP-singular" postag="VB"/>
-            <token postag_regexp="yes" postag="DT|PRP\$"/>
-        </antipattern>
-        <antipattern> <!-- everyone's happy -->
-            <token postag_regexp="yes" postag="WP|PRP"/>
-            <token spacebefore="no">'s</token>
-            <token postag="JJ"><exception>own</exception></token>
-        </antipattern>
+            <antipattern><!-- #2845 Other CFD's charge a higher fee. -->
+                <token postag_regexp="yes" postag="JJR?"/>
+                <token chunk="E-NP-singular"/>
+                <token>'s</token>
+                <token chunk="E-NP-singular" postag="VB"/>
+                <token postag_regexp="yes" postag="DT|PRP\$"/>
+            </antipattern>
+            <antipattern> <!-- everyone's happy -->
+                <token postag_regexp="yes" postag="WP|PRP"/>
+                <token spacebefore="no">'s</token>
+                <token postag="JJ"><exception>own</exception></token>
+            </antipattern>
             <pattern>
                 <token postag_regexp="yes" postag="NN.*"/>
                 <marker>
@@ -6103,7 +6109,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 </marker>
             </pattern>
             <disambig action="replace"><wd lemma="'s" pos="POS"/></disambig>
-            <example type="ambiguous" inputform="'[']" outputform="'['/POS]">This is Bill<marker>'</marker>s house.</example>
+            <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s['s/POS]">This is Bill<marker>'s</marker> house.</example>
             <example type="untouched">Let's go!</example>
         <example type="untouched">Other CFD's charge a higher fee.</example><!-- #2845 -->
         <example type="untouched">Although larger company's charge a higher fee, we...</example><!-- #2845 -->
@@ -6112,10 +6118,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <pattern>
                 <token postag_regexp="yes" postag="NN.*" regexp="yes">.*s<exception scope="previous">'</exception></token>
                 <marker>
-                    <token spacebefore="no">'s</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 </marker>
             </pattern>
-            <disambig action="replace"><wd lemma="'s" pos="POS"/></disambig>
+            <disambig action="replace"><wd lemma="'" pos="POS"/></disambig>
             <example type="untouched">This is Bill's house.</example>
             <example type="untouched">This is how 'unconscious' knowledge is posited.</example>
             <example type="untouched">Let's go!</example>
@@ -6125,10 +6131,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN|^(?!NN.*?).*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}+s<exception scope="previous">'</exception></token>
                 <marker>
-                    <token spacebefore="no">'s</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 </marker>
             </pattern>
-            <disambig action="replace"><wd lemma="'s" pos="POS"/></disambig>
+            <disambig action="replace"><wd lemma="'" pos="POS"/></disambig>
             <example type="untouched">This is Bill's house.</example>
             <example type="untouched">This is how 'unconscious' knowledge is posited.</example>
             <example type="untouched">Let's go!</example>
@@ -6461,10 +6467,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VBP"/>
             <token postag="PRP"/>
         </antipattern>
-        <antipattern><!-- Fix for chunker. Can't wait to / I can`t power off -->
+        <antipattern><!-- Fix for chunker. Can't wait to -->
             <token postag_regexp="yes" postag="SENT_START|PRP"/>
             <token postag="MD"/>
             <token>n't</token>
+            <token postag_regexp="yes" postag="VB|RB"/>
+        </antipattern>
+        <antipattern><!-- Fix for chunker. I can`t power off -->
+            <token postag_regexp="yes" postag="SENT_START|PRP"/>
+            <token postag="MD"/>
+            <token regexp="yes">&apostrophe;</token>
+            <token>t</token>
             <token postag_regexp="yes" postag="VB|RB"/>
         </antipattern>
         <antipattern><!-- Fix for chunker. Won't further address it -->
@@ -7345,48 +7358,44 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <!--  This is a special cascade, do not change the order of these rules! -->
-    <rulegroup id="POS" name="Else's -> POS">
-    <rule>
-        <pattern>
-            <token regexp="yes">else|\d+</token>
-            <marker>
-            <token>'s</token>
-            </marker>
-            <token postag="NN.*" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="add"><wd pos="POS" lemma="s"/></disambig>
-        <example type="untouched">His books are nice.</example>
-        <example type="ambiguous" inputform="s[be/VBZ]" outputform="s[be/VBZ,s/POS]" >Somebody else<marker>'s</marker> hypothesis needs to be tested.</example>
-    </rule>
-    <!-- rule>
-        <pattern>
-            <token postag="UNKNOWN" regexp="yes">\p{Lu}.+</token>
-            <token>'</token>
-            <marker>
-            <token>s</token>
-            </marker>
-            <token postag="NN.*" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="add"><wd pos="POS" lemma="s"></wd></disambig>
-        <example type="untouched">His books are nice.</example>
-        <example type="ambiguous" inputform="s[s/POS]" outputform="s[be/VBZ,s/POS]" >WD-2'<marker>s</marker> hypothesis needs to be tested.</example>
-    </rule >
-    <rule id="ONES_POS" name="One's -> POS">
-        <pattern>
-            <token postag_regexp="yes" postag="NN|JJ|CD|UNKNOWN"/>
-            <token>'</token>
-            <marker>
-            <token>s</token>
-            </marker>
-            <token postag="NN.*" postag_regexp="yes"/>
-        </pattern>
-        <disambig postag="POS"/>
-        <example type="untouched">His books are nice.</example>
-        <example type="ambiguous" inputform="s[be/VBZ,s/POS]" outputform="s[s/POS]" >One'<marker>s</marker> hypothesis needs to be tested.</example>
-        <example type="ambiguous" inputform="s[be/VBZ,s/POS]" outputform="s[s/POS]" >Somebody else'<marker>s</marker> hypothesis needs to be tested.</example>
-        <example type="ambiguous" inputform="s[be/VBZ,s/POS]" outputform="s[s/POS]" >Apollo 11'<marker>s</marker> flight needs to be tested.</example>
-        <example type="ambiguous" inputform="s[be/VBZ,s/POS]" outputform="s[s/POS]" >WD-2'<marker>s</marker> hypothesis needs to be tested.</example>
-    </rule -->
+    <rulegroup id="POS_ADD2" name="Else's -> POS">
+        <rule>
+            <pattern>
+                <token regexp="yes">else|\d+</token>
+                <marker>
+                    <token>'s</token>
+                </marker>
+                <token postag="NN.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="replace"><wd pos="POS" lemma="'s"/></disambig>
+            <example type="untouched">His books are nice.</example>
+            <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s['s/POS]" >Somebody else<marker>'s</marker> hypothesis needs to be tested.</example>
+            <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s['s/POS]" >Apollo 11<marker>'s</marker> flight needs to be tested.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="UNKNOWN" regexp="yes">\p{Lu}.+</token>
+                <marker>
+                   <token>'s</token>
+                </marker>
+                <token postag="NN.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="replace"><wd pos="POS" lemma="'s"></wd></disambig>
+            <example type="untouched">His books are nice.</example>
+            <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s['s/POS]" >WD-2<marker>'s</marker> hypothesis needs to be tested.</example>
+        </rule >
+       <!-- <rule id="ONES_POS" name="One's -> POS">
+            <pattern>
+                <token postag_regexp="yes" postag="NN|JJ|CD|UNKNOWN"/>
+                <marker>
+                    <token>'s</token>
+                </marker>
+                <token postag="NN.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig postag="POS"/>
+            <example type="untouched">His books are nice.</example>
+            <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s['s/POS]" >One<marker>'s</marker> hypothesis needs to be tested.</example>
+        </rule>-->
     </rulegroup>
 
     <rule id="HELP-VB-DT" name="help + verb/noun + determiner">
