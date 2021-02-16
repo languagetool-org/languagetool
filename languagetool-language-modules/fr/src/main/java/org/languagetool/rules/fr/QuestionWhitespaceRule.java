@@ -186,7 +186,7 @@ public class QuestionWhitespaceRule extends Rule {
       if (msg != null) {
         int fromPos = tokens[iFrom].getStartPos();
         int toPos = tokens[iTo].getEndPos();
-        RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg, "Insérer un espace insécable");
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg, "Insérer une espace insécable");
         ruleMatch.setSuggestedReplacement(suggestionText);
         ruleMatches.add(ruleMatch);
       }
