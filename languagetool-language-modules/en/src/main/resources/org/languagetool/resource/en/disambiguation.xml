@@ -6068,7 +6068,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </pattern>
             <disambig postag="JJ"/>
         </rule>
-        <rule name="s = has">
+        <rule name="s = has"> 
+            <antipattern> <!--tomorrow's calloused hands-->
+                <token>'s</token>
+                <token chunk="I-NP-plural"/>
+            </antipattern>
             <pattern>
                 <token postag="NN:UN?" postag_regexp="yes"/>
                 <marker>
@@ -8849,8 +8853,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <antipattern><!-- #2501 I can't restart or logoff -->
                 <token regexp="yes">I|you|we|they|s?he|it</token>
                 <token postag="MD"/>
-                <token regexp="yes">&apostrophe;</token>
-                <token>t</token>
+                <token>n't</token>
                 <token postag="VBP?" postag_regexp="yes"/>
             </antipattern>
             <antipattern><!-- #2539 we email and share. Refer to PRP_VB_CC_VB -->
@@ -8861,13 +8864,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </antipattern>
             <antipattern><!-- #2723 can't rest and something -->
                 <token postag="MD"/>
-                <token regexp="yes">&apostrophe;</token>
-                <token>t</token>
+                <token>n't</token>
                 <token postag_regexp="yes" postag="VBP?"/>
             </antipattern>
             <antipattern><!-- #3571 didn't she scream or -->
-                <token regexp="yes">&apostrophe;</token>
-                <token>t</token>
+                <token>n't</token>
                 <token regexp="yes">&subject_pronouns;</token>
                 <token postag_regexp="yes" postag="VBP?"/>
             </antipattern>
@@ -8889,14 +8890,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag="CC" />
             </antipattern>
             <antipattern><!-- ... I'd ever read or movie ...-->
-                <token regexp="yes">&apostrophe;</token>
-                <token>d</token>
+                <token>'d</token>
                 <token postag="RB" />
                 <token postag="VB|VBN" postag_regexp="yes" />
             </antipattern>
             <antipattern><!-- ... I'd ever read or movie ...-->
-                <token regexp="yes">&apostrophe;</token>
-                <token>d</token>
+                <token>'d</token>
                 <token postag="VB|VBN" postag_regexp="yes" />
             </antipattern>
             <pattern>
@@ -9124,7 +9123,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
 
         <rule id="BY_VBG" name="by + vbg → vbg">
             <pattern>
-                <token>by<exception scope="previous" regexp="yes">ll|will|shall</exception></token>
+                <token>by<exception scope="previous" regexp="yes">'ll|will|shall</exception></token>
                 <marker>
                     <token postag="VBG"/>
                 </marker>
@@ -13312,23 +13311,21 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <rule>
             <pattern>
                 <token regexp="yes">s?he|it|you|we|they|I|[wt]hat|who</token>
-                <token regexp="yes" spacebefore="no">&apostrophe;</token>
                 <marker>
-                    <token spacebefore="no">d</token>
+                    <token spacebefore="no">'d</token>
                 </marker>
                 <token regexp="yes" chunk_re=".-VP">be|have|do|like|love|prefer|recommend|go|make|get|say|answer|suggest|look|try|know|think|believe|take|use|want|find|give|tell|ask|need|feel|become|come|appreciate|consider</token>
             </pattern>
             <disambig action="replace"><wd lemma="will" pos="MD" /></disambig>
-            <example type="ambiguous" inputform="d[d]" outputform="d[will/MD]">I'<marker>d</marker> like to know if that works.</example>
+            <example type="ambiguous" inputform="'d[have/VBD,will/MD]" outputform="'d[will/MD]">I<marker>'d</marker> like to know if that works.</example>
             <example type="untouched">I'd done that.</example>
             <example type="untouched">He'd work to do.</example>
         </rule>
         <rule>
             <pattern>
                 <token regexp="yes">s?he|it|you|we|they|I|[wt]hat|who</token>
-                <token regexp="yes" spacebefore="no">&apostrophe;</token>
                 <marker>
-                    <token spacebefore="no">d</token>
+                    <token spacebefore="no">'d</token>
                 </marker>
                 <token postag="RB">
                     <exception postag="CC|IN|EX" postag_regexp="yes" />
@@ -13336,28 +13333,26 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token regexp="yes" chunk_re=".-VP">be|have|do|like|love|prefer|recommend|go|make|get|say|answer|suggest|look|try|know|think|believe|take|use|want|find|give|tell|ask|need|feel|become|come|appreciate|consider</token>
             </pattern>
             <disambig action="replace"><wd lemma="will" pos="MD" /></disambig>
-            <example type="ambiguous" inputform="d[d]" outputform="d[will/MD]">I'<marker>d</marker> rather like to know if that works.</example>
+            <example type="ambiguous" inputform="'d[have/VBD,will/MD]" outputform="'d[will/MD]">I<marker>'d</marker> rather like to know if that works.</example>
             <example type="untouched">I'd really done that.</example>
         </rule>
         <rule>
             <pattern>
                 <token regexp="yes">s?he|it|you|we|they|I|[wt]hat|who</token>
-                <token regexp="yes" spacebefore="no">&apostrophe;</token>
                 <marker>
-                    <token spacebefore="no">d</token>
+                    <token spacebefore="no">'d</token>
                 </marker>
                 <token regexp="yes">been|gone|done</token>
             </pattern>
             <disambig action="replace"><wd lemma="have" pos="VBD" /></disambig>
-            <example type="ambiguous" inputform="d[d]" outputform="d[have/VBD]">I'<marker>d</marker> done that already.</example>
+            <example type="ambiguous" inputform="'d[have/VBD,will/MD]" outputform="'d[have/VBD]">I<marker>'d</marker> done that already.</example>
             <example type="untouched">I'd do that.</example>
         </rule>
         <rule>
             <pattern>
                 <token regexp="yes">s?he|it|you|we|they|I|[wt]hat|who</token>
-                <token regexp="yes" spacebefore="no">&apostrophe;</token>
                 <marker>
-                    <token spacebefore="no">d</token>
+                    <token spacebefore="no">'d</token>
                 </marker>
                 <token postag="RB">
                     <exception postag="CC|IN" postag_regexp="yes" />
@@ -13365,7 +13360,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token regexp="yes">been|gone|done</token>
             </pattern>
             <disambig action="replace"><wd lemma="have" pos="VBD" /></disambig>
-            <example type="ambiguous" inputform="d[d]" outputform="d[have/VBD]">I'<marker>d</marker> really done that already.</example>
+            <example type="ambiguous" inputform="'d[have/VBD,will/MD]" outputform="'d[have/VBD]">I<marker>'d</marker> really done that already.</example>
             <example type="untouched">I'd really do that.</example>
         </rule>
     </rulegroup>
@@ -13382,13 +13377,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule id="W_VE" name="VBP for 'where've'">
         <pattern>
             <token postag="W.+" postag_regexp="yes" />
-            <token regexp="yes" spacebefore="no">&apostrophe;</token>
             <marker>
-                <token spacebefore="no">ve</token>
+                <token spacebefore="no">'ve</token>
             </marker>
         </pattern>
         <disambig action="replace"><wd lemma="have" pos="VBP" /></disambig>
-        <example type="ambiguous" inputform="ve[ve]" outputform="ve[have/VBP]">Where'<marker>ve</marker> you been?</example>
+        <example type="ambiguous" inputform="'ve[have/VB,have/VBP]" outputform="'ve[have/VBP]">Where<marker>'ve</marker> you been?</example>
     </rule>
 
     <rule id="LETTER_AMP_LETTER_SPELLING" name="Ignore spelling of 'A&amp;B'">
