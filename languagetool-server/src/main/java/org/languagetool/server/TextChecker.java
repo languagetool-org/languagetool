@@ -710,17 +710,17 @@ abstract class TextChecker {
   DetectedLanguage detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants,
                                           List<String> noopLangs, List<String> preferredLangs, boolean testMode) {
     DetectedLanguage detected;
-    String mode;
-    long t1 = System.nanoTime();
+    //String mode;
+    //long t1 = System.nanoTime();
     if (ngramIdentifier != null && text.length() < NGRAM_THRESHOLD) {
       detected = ngramIdentifier.detectLanguage(text, noopLangs, preferredLangs);
-      mode = "ngram";
+      //mode = "ngram";
     } else {
       detected = fastTextIdentifier.detectLanguage(text, noopLangs, preferredLangs);
-      mode = fastTextIdentifier.isFastTextEnabled() ? "fasttext" : "built-in";
+      //mode = fastTextIdentifier.isFastTextEnabled() ? "fasttext" : "built-in";
     }
-    long t2 = System.nanoTime();
-    float runTime = (t2-t1)/1000.0f/1000.0f;
+    //long t2 = System.nanoTime();
+    //float runTime = (t2-t1)/1000.0f/1000.0f;
     //System.out.printf(Locale.ENGLISH, "detected " + detected + " using " + mode + " in %.2fms for %d chars\n", runTime, text.length());
     Language lang;
     if (detected == null) {
