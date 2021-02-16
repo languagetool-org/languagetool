@@ -40123,6 +40123,20 @@ Andere Projekte</example>
                 <example><marker>Gemäß dem</marker> Beschluss der Kultusministerkonferenz</example>
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <!-- "Gemäß Hauptmanns Wunsch" -->
+                    <token regexp="yes">gemä(ß|ss)</token>
+                    <token postag_regexp="yes" postag="SUB:.*"><exception postag_regexp="yes" postag="SUB:DAT:.*"></exception></token>
+                    <token postag_regexp="yes" postag="ADJ:.*" min="0"/>
+                    <token postag_regexp="yes" postag="SUB:.*"/>
+                </antipattern>
+                <antipattern>
+                    <!-- "Gemäß Haverkamps Wunsch" -->
+                    <token regexp="yes">gemä(ß|ss)</token>
+                    <token postag="UNKNOWN"/>
+                    <token postag_regexp="yes" postag="ADJ:.*" min="0"/>
+                    <token postag_regexp="yes" postag="SUB:.*"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">gemä(ß|ss)</token>
                     <token postag_regexp="yes" postag="ADJ:.*" min="0"/>
@@ -40136,6 +40150,14 @@ Andere Projekte</example>
                 <example correction="">Gemäß <marker>Beschlusses</marker> der Kultusministerkonferenz</example>
                 <example correction="">Die elektrischen Anschlüsse gemäß <marker>Schaltplans</marker> ausführen</example>
                 <example correction="">Die elektrischen Anschlüsse gemäß blauen <marker>Schaltplans</marker> ausführen</example>
+                <example>Er trägt gemäß Hauptmanns Wunsch nur seinen Namenszug.</example>
+                <example>Er trägt gemäß Hauptmanns altem Wunsch nur seinen Namenszug.</example>
+                <example>Er trägt gemäß Haverkamps Wunsch nur seinen Namenszug.</example><!-- 'Haverkamps' is not tagged -->
+                <!-- TODO?
+                Gemäß letzter Forschungen ist die Krankheit erblich bedingt.
+                Mit Erlaubnis gemäß Paragraf 34h GewO noch gar nicht...
+                Dort wurden gemäß heutiger Forschungsergebnisse etwa ...
+                -->
             </rule>
             <rule default="temp_off">
                 <antipattern>
