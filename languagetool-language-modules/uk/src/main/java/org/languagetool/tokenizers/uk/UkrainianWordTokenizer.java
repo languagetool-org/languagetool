@@ -77,7 +77,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern DASH_NUMBERS_PATTERN = Pattern.compile("([IVXІХ]+)([\u2013-])([IVXІХ]+)");
   private static final String DASH_NUMBERS_REPL = "$1" + BREAKING_PLACEHOLDER + "$2" + BREAKING_PLACEHOLDER + "$3";
   private static final Pattern N_DASH_SPACE_PATTERN = Pattern.compile("([а-яіїєґa-z0-9])(\u2013\\h)(?!(та|чи|і|й)[\\h\\v])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final Pattern N_DASH_SPACE_PATTERN2 = Pattern.compile("(\\h\u2013)([а-яіїєґa-z])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern N_DASH_SPACE_PATTERN2 = Pattern.compile("([\\h.,;!?]\u2013)([а-яіїєґa-z])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final String N_DASH_SPACE_REPL = "$1" + BREAKING_PLACEHOLDER + "$2";
 
   // dots in numbers

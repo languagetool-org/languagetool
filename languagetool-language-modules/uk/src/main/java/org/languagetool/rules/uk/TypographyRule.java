@@ -86,7 +86,9 @@ public class TypographyRule extends Rule {
 
           List<String> replacements = new ArrayList<>();
           
-          if( i > 1 && i < tokens.length - 1 ) {
+          if( i > 1 && i < tokens.length - 1
+              && tokens[i-1].getToken().matches(".*[а-яїієґА-ЯІЇЄҐ].*")
+              && tokens[i+1].getToken().matches(".*[а-яїієґА-ЯІЇЄҐ].*")) {
             replacements.add(tokens[i-1].getToken() + "-" + tokens[i+1].getToken());
           }
           

@@ -87,6 +87,10 @@ public class TypographyRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("\u2013")).length);
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(" \u2013")).length);
+
+    matches = rule.match(langTool.getAnalyzedSentence("любили ,—люби"));
+    assertEquals(1, matches.length);
+    assertEquals(1, matches[0].getSuggestedReplacements().size());
   }
 
 }

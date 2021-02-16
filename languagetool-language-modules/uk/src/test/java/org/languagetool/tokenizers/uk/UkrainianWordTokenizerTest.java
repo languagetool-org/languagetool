@@ -512,6 +512,9 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize(" –Виділено");
     assertEquals(Arrays.asList(" ", "–", "Виділено"), testList);
+
+    testList = w.tokenize("так,\u2013так");
+    assertEquals(Arrays.asList("так", ",", "\u2013", "так"), testList);
   }
   
   @Test
