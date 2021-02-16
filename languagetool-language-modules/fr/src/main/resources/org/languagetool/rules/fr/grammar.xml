@@ -36586,6 +36586,70 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rulegroup id="HISTOIRE_DE_V" name="histoire de (afin de)" default="temp_off">
+          <antipattern>
+              <token>histoire</token>
+              <token inflected="yes">de</token>
+              <token min="0" postag="D.*" postag_regexp="yes"/>
+              <token postag="N.*" postag_regexp="yes"><exception postag="V.*inf" postag_regexp="yes" regexp="yes">\p{Ll}.*</exception></token>
+          </antipattern>
+          <antipattern>
+              <token>de</token>
+              <token inflected="yes">le</token>
+              <token regexp="yes">[êeèé]tre</token>
+          </antipattern>
+          <antipattern>
+              <token regexp="yes">une|l(a|&apostrophe;)|cet(te)?|d(e|&apostrophe;)</token>
+              <token min="0" postag="J.*" postag_regexp="yes"/>
+              <token>histoire</token>
+          </antipattern>
+          <antipattern>
+              <token negate_pos="yes" postag="SENT_START"/>
+              <token case_sensitive="yes">Histoire</token>
+          </antipattern>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>histoire</token>
+                      <token>de</token>
+                  </marker>
+                  <token min="0" postag="R pers obj.*" postag_regexp="yes"/>
+                  <token min="0" regexp="yes">en|y</token>
+                  <token postag="V.*inf" postag_regexp="yes">
+                      <exception regexp="yes">\p{Lu}.*</exception>
+                      <exception scope="next" regexp="yes">[:–—-]</exception>
+                  </token>
+              </pattern>
+              <message>La conjonction "\1 \2" relève d'un registre familier. Dans un contexte plus formel, il convient de la remplacer par <suggestion>afin de</suggestion> ou <suggestion>pour</suggestion></message>
+              <example correction="afin de|pour">Je fais une petite promenade <marker>histoire de</marker> me détendre un peu.</example>
+              <example correction="afin de|pour">J'ai une carte de Quimper avec moi <marker>histoire de</marker> m'y retrouver plus facilement.</example>
+              <example>Je suis en train de lire un livre sur l'histoire de la France.</example>
+              <example>C'est cela : histoire de Quimper.</example>
+              <example>L'histoire de faire bosser les autres.</example>
+              <example>Histoire de rigoler : Un jeu de société.</example>
+              <example>C'est quoi cette histoire de mettre les chaussetes dans le frigo ?</example>
+              <example>Ce qui n'empêcha pas le peintre d'histoire de mettre cet arbre au centre du tableau.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>histoire</token>
+                      <token regexp="yes">d(&apostrophe;)</token>
+                  </marker>
+                  <token min="0" regexp="yes">en|y</token>
+                  <token postag="V.*inf" postag_regexp="yes">
+                      <exception regexp="yes">\p{Lu}.*</exception>
+                      <exception scope="next" regexp="yes">[:–—-]</exception>
+                  </token>
+              </pattern>
+              <message>La conjonction "\1 de" relève d'un registre familier. Dans un contexte plus formel, il convient de la remplacer par 'afin de' ou 'pour'.</message>
+              <suggestion>afin d'</suggestion>
+              <suggestion>pour </suggestion>
+              <example correction="afin d'|pour ">Il faut que je lui parle <marker>histoire d'</marker>y voir plus clair.</example>
+              <example correction="afin d'|pour ">Il faut aller plus vite <marker>histoire d'</marker>aller plus loin.</example>
+              <example correction="afin d'|pour ">...des crampons, du piolet, de la corde, etc ... <marker>histoire d'</marker>être autonome.</example>
+          </rule>
+      </rulegroup>
     <rulegroup id="ARGOT_BEAUF_ET_BOF" name="argot beauf et bof" default="temp_off">
         <rule>
             <antipattern>
