@@ -45,7 +45,7 @@ public class ConsistentApostrophesRule extends TextLevelRule {
 
   @Override
   public String getId() {
-    return "EN_COHERENT_APOS";
+    return "EN_CONSISTENT_APOS";
   }
 
   @Override
