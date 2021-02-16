@@ -34120,7 +34120,7 @@ though, and has since been slightly modified)-->
                           <exception scope="next" postag="SENT_END"/>
                       </token>
                   </marker>
-                  <token regexp="yes">[^,–).";:(«»-]+</token>
+                  <token regexp="yes">[^,–)—."\/;\]\|:(\…«»-]+</token>
               </pattern>
               <message>Une virgule semble être requise dans ce contexte.</message>
               <suggestion>\2,</suggestion>
@@ -34153,7 +34153,7 @@ though, and has since been slightly modified)-->
                   <marker>
                       <token regexp="yes">effet|conséquence</token>
                   </marker>
-                  <token regexp="yes">[^,–).";:(«»-]+</token>
+                  <token regexp="yes">[^,–)—."\/;\]\|:(\…«»-]+</token>
               </pattern>
               <message>Une virgule semble être requise dans ce contexte.</message>
               <suggestion>\3,</suggestion>
@@ -34173,7 +34173,7 @@ though, and has since been slightly modified)-->
                   <marker>
                       <token regexp="yes">conséquent|contre</token>
                   </marker>
-                  <token regexp="yes">[^,–).";:(«»-]+</token>
+                  <token regexp="yes">[^,–)—."\/;\]\|:(\…«»-]+</token>
               </pattern>
               <message>Une virgule semble être requise dans ce contexte.</message>
               <suggestion>\3,</suggestion>
@@ -34206,7 +34206,7 @@ though, and has since been slightly modified)-->
               </antipattern>
               <antipattern>
                   <token regexp="yes">moi|toi</token>
-                  <token postag="D.*|P.*" postag_regexp="yes"/>
+                  <token postag="[DP].*" postag_regexp="yes"/>
                   <token regexp="yes">premier|première|même</token>
               </antipattern>
               <antipattern>
@@ -34223,7 +34223,7 @@ though, and has since been slightly modified)-->
                   <marker>
                       <token regexp="yes">moi|toi</token>
                   </marker>
-                  <token regexp="yes">[^,–).";:(«»-]+</token>
+                  <token regexp="yes">[^,–)—."\/;\]\|:(\…«»-]+</token>
               </pattern>
               <message>Une virgule semble être requise dans ce contexte.</message>
               <suggestion>\2,</suggestion>
@@ -34254,17 +34254,17 @@ though, and has since been slightly modified)-->
           <antipattern>
               <token>si</token>
               <token regexp="yes">ils?</token>
-              <token postag="A.*" postag_regexp="yes"/>
+              <token postag="A"/>
           </antipattern>
           <antipattern>
-              <token postag="A.*" postag_regexp="yes"/>
+              <token postag="A"/>
               <token skip="-1">il</token>
-              <token postag="A.*" postag_regexp="yes"/>
+              <token postag="A"/>
           </antipattern>
           <pattern>
               <token postag="SENT_START"/>
               <marker>
-                  <token postag="A.*" postag_regexp="yes">
+                  <token postag="A">
                       <exception postag="A inte.*" postag_regexp="yes"/>
                       <exception regexp="yes">[A-Z]$</exception>
                   </token>
