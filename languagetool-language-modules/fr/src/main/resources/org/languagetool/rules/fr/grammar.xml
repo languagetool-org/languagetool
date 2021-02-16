@@ -34152,7 +34152,7 @@ though, and has since been slightly modified)-->
                   <token regexp="yes">lui-même|elle-même|eux-même|nous-même|vous-même|elles-même</token>
                   <token>,</token>
                   <token postag="V.*" postag_regexp="yes"/>
-                  <token regexp="yes">[^,);:(«»-]+</token>
+                  <token regexp="yes">[^,–)—."\/;\]\|:(\…«»-]+</token>
                   <token>,</token>
               </antipattern>
               <antipattern>
@@ -34189,7 +34189,7 @@ though, and has since been slightly modified)-->
                   <token regexp="yes">seule?s?</token>
                   <token>,</token>
                   <token postag="V.*" postag_regexp="yes"/>
-                  <token regexp="yes">[^,);:(«»-]+</token>
+                  <token regexp="yes">[^,–)—."\/;\]\|:(\…«»-]+</token>
                   <token>,</token>
               </antipattern>
               <antipattern>
@@ -34256,16 +34256,16 @@ though, and has since been slightly modified)-->
               </antipattern>
               <pattern>
                   <token postag="SENT_START"/>
-                  <token regexp="yes" min="1" max="2">[^,);:(«»-]+</token>
+                  <token regexp="yes" min="1" max="2">[^,–)—."\/;\]\|:(\…«»-]+</token>
                   <marker>
                       <token postag="V.*" postag_regexp="yes"/>
-                      <token regexp="yes" min="0" max="2">[^,);:(«»-]+</token>
+                      <token regexp="yes" min="0" max="2">[^,–)—."\/;\]\|:(\…«»-]+</token>
                       <token>,</token>
                       <token regexp="yes">mais|car</token>
                   </marker>
-                  <token regexp="yes" min="0" max="3">[^,);:(«»-]+</token>
+                  <token regexp="yes" min="0" max="3">[^,–)—."\/;\]\|:(\…«»-]+</token>
                   <token postag="[VJ].*" postag_regexp="yes"/>
-                  <token regexp="yes" min="0" max="2">[^,);:(«»-]+</token>
+                  <token regexp="yes" min="0" max="2">[^,–)—."\/;\]\|:(\…«»-]+</token>
                   <token postag="SENT_END"/>
               </pattern>
               <message>La virgule peut être facultative dans ce contexte.</message>
