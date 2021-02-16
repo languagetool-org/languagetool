@@ -30509,7 +30509,7 @@ TODO Write better examples
     <!--          Tiago F. Santos Rules End             ****END**** -->
     <!-- ********************************************************** -->
 
-  <rulegroup id='CONFUSION_POR' name="Confusão: por - pôr">
+  <rulegroup id='CONFUSION_POR' name="Confusão: por/pôr">
     <!--      Created by Marco A.G.Pinto, 2017-07-08      -->
     <rule>
       <antipattern>
@@ -30534,6 +30534,37 @@ TODO Write better examples
       </pattern>
       <message>Substitua por <suggestion>pôr em</suggestion> ou <suggestion>porém</suggestion>.</message>
       <example correction="pôr em|porém">Temos de <marker>por em</marker> prática tudo o que aprendemos!</example>
+    </rule>
+  </rulegroup>
+
+	<!-- UNA(S) uma(s) -->
+    <rulegroup id='UNA_UNAS_UMA_UMAS_CONFUSÃO' name="Confusão: una(s)/uma(s)">
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-16 (1-JAN-2021+)      -->
+<!--
+Queria comprar una rosa. → Queria comprar uma rosa.
+Queríamos comprar unas rosas. → Queríamos comprar umas rosas.
+-->
+    <rule>
+      <pattern>
+	      <token postag='V.+' postag_regexp='yes'/>
+		  <marker>
+			<token>una</token>
+		  </marker>
+		  <token postag='NC.+|AQ0.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Substitua por <suggestion>uma</suggestion>.</message>
+      <example correction="uma">Queria comprar <marker>una</marker> rosa.</example>
+    </rule>
+    <rule>
+      <pattern>
+	      <token postag='V.+' postag_regexp='yes'/>
+		  <marker>
+			<token>unas</token>
+		  </marker>
+		  <token postag='NC.+|AQ0.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Substitua por <suggestion>umas</suggestion>.</message>
+      <example correction="umas">Queríamos comprar <marker>unas</marker> rosas.</example>
     </rule>
   </rulegroup>
 
