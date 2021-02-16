@@ -121,7 +121,7 @@ public class StyleRepeatedVeryShortSentences extends TextLevelRule {
 
   @Override
   public String getDescription() {
-    return "Stakkato Sätze";
+    return "Stakkato-Sätze";
   }
 
 }
