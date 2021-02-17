@@ -72,6 +72,7 @@ public class EnglishWordRepeatRuleTest {
     assertBad("I I am the best.");
     assertGood("In a land far far away.");
     assertGood("I love you so so much.");
+    assertGood("What Tom did didn't seem to bother Mary at all.");
   }
 
   private void assertGood(String sentence) throws IOException {
