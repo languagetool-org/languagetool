@@ -34123,22 +34123,22 @@ though, and has since been slightly modified)-->
               <message>La virgule doit être omise dans ce contexte.</message>
               <suggestion>\3</suggestion>
               <example correction="et">Elle a acheté des radis<marker>, et</marker> des choux.</example>
-              <example>Les voyelles a, e, i, o, u<marker>, ou</marker> sont couramment utilisée dans la langue française.</example>
+              <example>Les voyelles a, e, i, o, u<marker>, ou</marker> sont couramment utilisées dans la langue française.</example>
           </rule>
           <rule>
               <antipattern>
                   <token>c'</token>
                   <token skip="-1">est</token>
                   <token>,</token>
-                  <token regexp="yes" skip="-1">que[ei]</token>
-                  <token regexp="yes">qu[ei]</token>
+                  <token regexp="yes" skip="-1">qu[ei]?</token>
+                  <token regexp="yes">qu[ei]?</token>
               </antipattern>
               <pattern>
                   <token>c'</token>
                   <token skip="-1">est</token>
                   <marker>
                       <token>,</token>
-                      <token regexp="yes">qu[ei]</token>
+                      <token regexp="yes">qu[ei]?</token>
                   </marker>
               </pattern>
               <message>La virgule doit être omise dans ce contexte.</message>
@@ -34149,21 +34149,21 @@ though, and has since been slightly modified)-->
           <rule>
               <antipattern>
                   <token postag="SENT_START"/>
-                  <token regexp="yes">lui-même|elle-même|eux-même|nous-même|vous-même|elles-même</token>
+                  <token regexp="yes">lui-même|elle-même|eux-mêmes?|nous-mêmes?|vous-mêmes?|elles-mêmes?</token>
                   <token>,</token>
                   <token postag="V.*" postag_regexp="yes"/>
-                  <token regexp="yes">[^,–)—."\/;\]\|:(\…«»-]+</token>
+                  <token regexp="yes">[^,‘’–)—."\/;\]\|:(\…'«»“”-]+</token>
                   <token>,</token>
               </antipattern>
               <antipattern>
                   <token postag="SENT_START"/>
-                  <token regexp="yes">lui-même|elle-même|eux-même|nous-même|vous-même|elles-même</token>
+                  <token regexp="yes">lui-même|elle-même|eux-mêmes?|nous-mêmes?|vous-mêmes?|elles-mêmes?</token>
                   <token>,</token>
                   <token postag="V.*" postag_regexp="yes"/>
                   <token>-t-il</token>
               </antipattern>
               <antipattern>
-                  <token regexp="yes">lui-même|elle-même|eux-même|nous-même|vous-même|elles-même</token>
+                  <token regexp="yes">lui-même|elle-même|eux-mêmes?|nous-mêmes?|vous-mêmes?|elles-mêmes?</token>
                   <token>,</token>
                   <token  min="0" postag="R pers obj.*" postag_regexp="yes"/>
                   <token postag="C sub.*|C coor.*" postag_regexp="yes"/>
@@ -34171,7 +34171,7 @@ though, and has since been slightly modified)-->
               <pattern>
                   <token postag="SENT_START"/>
                   <marker>
-                      <token regexp="yes">lui-même|elle-même|eux-même|nous-même|vous-même|elles-même</token>
+                      <token regexp="yes">lui-même|elle-même|eux-mêmes?|nous-mêmes?|vous-mêmes?|elles-mêmes?</token>
                       <token>,</token>
                       <token  min="0" postag="R pers obj.*" postag_regexp="yes"/>
                       <token postag="V.*" postag_regexp="yes"/>
@@ -34189,7 +34189,7 @@ though, and has since been slightly modified)-->
                   <token regexp="yes">seule?s?</token>
                   <token>,</token>
                   <token postag="V.*" postag_regexp="yes"/>
-                  <token regexp="yes">[^,–)—."\/;\]\|:(\…«»-]+</token>
+                  <token regexp="yes">[^,‘’–)—."\/;\]\|:(\…'«»“”-]+</token>
                   <token>,</token>
               </antipattern>
               <antipattern>
@@ -34256,16 +34256,16 @@ though, and has since been slightly modified)-->
               </antipattern>
               <pattern>
                   <token postag="SENT_START"/>
-                  <token regexp="yes" min="1" max="2">[^,–)—."\/;\]\|:(\…«»-]+</token>
+                  <token regexp="yes" min="1" max="2">[^,‘’–)—."\/;\]\|:(\…'«»“”-]+</token>
                   <marker>
                       <token postag="V.*" postag_regexp="yes"/>
-                      <token regexp="yes" min="0" max="2">[^,–)—."\/;\]\|:(\…«»-]+</token>
+                      <token regexp="yes" min="0" max="2">[^,‘’–)—."\/;\]\|:(\…'«»“”-]+</token>
                       <token>,</token>
                       <token regexp="yes">mais|car</token>
                   </marker>
-                  <token regexp="yes" min="0" max="3">[^,–)—."\/;\]\|:(\…«»-]+</token>
+                  <token regexp="yes" min="0" max="3">[^,‘’–)—."\/;\]\|:(\…'«»“”-]+</token>
                   <token postag="[VJ].*" postag_regexp="yes"/>
-                  <token regexp="yes" min="0" max="2">[^,–)—."\/;\]\|:(\…«»-]+</token>
+                  <token regexp="yes" min="0" max="2">[^,‘’–)—."\/;\]\|:(\…'«»“”-]+</token>
                   <token postag="SENT_END"/>
               </pattern>
               <message>La virgule peut être facultative dans ce contexte.</message>
