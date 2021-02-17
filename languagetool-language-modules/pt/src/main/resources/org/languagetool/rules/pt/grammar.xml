@@ -36644,15 +36644,23 @@ Afirmaram a vossa inocência alegando que eram canhotos.
 	  
 	</rulegroup>
 
+	<!-- SEXTA DE VIME cesta de vime -->
     <rule id='SEXTA_DE_VIME' name="Calinada: Sexta de vime">
-    <!-- Created by Marco A.G.Pinto -->
-      <pattern>
-          <token>sexta</token>
-          <token>de</token>
-          <token>vime</token>
-      </pattern>
-      <message>Substitua por <suggestion>cesta de vime</suggestion>.</message>
-      <example correction="cesta de vime">Ela tem uma <marker>sexta de vime</marker>.</example>
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-17 (Enhanced) (1-JAN-2021+)      -->
+<!--
+Ela tem uma sexta de vime. → Ela tem uma cesta de vime.
+Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
+-->
+		<pattern>
+			<marker>
+				<token regexp="yes">sextas?</token>
+			</marker>
+			<token>de</token>
+			<token>vime</token>
+		</pattern>
+		<message>Substitua por <suggestion><match no='1' regexp_match='sexta(s?)' regexp_replace='cesta$1'/></suggestion>.</message>
+		<example correction="cesta">Ela tem uma <marker>sexta</marker> de vime.</example>
+		<example correction="cestas">Elas têm umas <marker>sextas</marker> de vime.</example>
     </rule>
 
     <rulegroup id='TER_PARTICIPIO-PASSADO' name='Ter + Particípio passado'>
