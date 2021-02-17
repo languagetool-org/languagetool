@@ -1051,13 +1051,13 @@ though, and has since been slightly modified)-->
   <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
       <rule id="FEUS_OU_FEUX" name="feus ou feux">
           <antipattern>
-              <token regexp="yes">feu|feus</token>
-              <token postag="[NZ].*" postag_regexp="yes"/>
+              <token regexp="yes">feus?</token>
+              <token postag="[NZ].*|UNKNOWN" postag_regexp="yes"/>
           </antipattern>
           <pattern>
-              <token postag="D.* e p" postag_regexp="yes"/>
+              <token postag="D e p"/>
               <marker>
-                  <token regexp="yes">feu|feus</token>
+                  <token regexp="yes">feu</token>
               </marker>
           </pattern>
           <message>Une erreur d'orthographe semble être détectée.</message>
