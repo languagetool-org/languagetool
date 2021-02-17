@@ -10072,35 +10072,53 @@ though, and has since been slightly modified)-->
       <rulegroup id="ACCORD_TOUT_ADJECTIF" name="accord tout adjectif" default="temp_off">
           <rule>
               <antipattern>
+                  <token postag="(P\+)?D.*" postag_regexp="yes"/>
+                  <token postag="N f s"/>
                   <token>tout</token>
-                  <token regexp="yes">publique?|public?</token>
+                  <token postag="J f s"/>
+                  <token postag="N m sp?" postag_regexp="yes"/>
               </antipattern>
               <pattern>
                   <token postag="(P\+)?D.*" postag_regexp="yes"/>
-                  <token postag="N f s" postag_regexp="yes"/>
+                  <token postag="N f s"/>
                   <marker>
                       <token>tout</token>
                   </marker>
-                  <token postag="J f s" postag_regexp="yes"><exception regexp="yes">^[aâeéèêioôœuhy].*|&H_ASPIRE;</exception></token>
+                  <token postag="J f sp?" postag_regexp="yes">
+                      <exception regexp="yes">^[aâeéèêioôœuhy].*|&H_ASPIRE;</exception>
+                      <exception regexp="yes">membre|rebelle|juste|numérique|composite|jeune|rouge|orange|beige|marron|publique?|public?</exception>
+                  </token>
               </pattern>
               <message>Vérifiez l’accord entre « \1 » et « \3 ».</message>
               <suggestion>toute</suggestion>
               <example correction="toute">Une veste <marker>tout</marker> neuve.</example>
               <example>Une veste <marker>tout</marker> publique.</example>
+              <example> Cette situation familiale le place <marker>tout</marker> juste dans la précarité.</example>
+              <example>Nous apprécions à sa juste valeur <marker>tout</marker> véritable acte de révolte.</example>
           </rule>
           <rule>
+              <antipattern>
+                  <token postag="(P\+)?D.*" postag_regexp="yes"/>
+                  <token postag="N f p"/>
+                  <token regexp="yes">toute?</token>
+                  <token postag="V ppa f s"/>
+              </antipattern>
               <pattern>
                   <token postag="(P\+)?D.*" postag_regexp="yes"/>
-                  <token postag="N f p" postag_regexp="yes"/>
+                  <token postag="N f p"/>
                   <marker>
                       <token regexp="yes">toute?</token>
                   </marker>
-                  <token postag="J f p" postag_regexp="yes"><exception regexp="yes">^[aâeéèêioôœuhy].*|&H_ASPIRE;</exception></token>
+                  <token postag="J [ef].*" postag_regexp="yes">
+                      <exception regexp="yes">^[aâeéèêioôœuhy].*|&H_ASPIRE;</exception>
+                      <exception regexp="yes">justes?|proche|seule|textile|jeunes?|membres?|rebelles?|numérique|composite|orange|rouge|beige|marron|publics?|publiques?</exception>
+                  </token>
               </pattern>
               <message>Vérifiez l’accord entre « \1 » et « \3 ».</message>
               <suggestion>toutes</suggestion>
               <example correction="toutes">Des vestes <marker>tout</marker> neuves.</example>
               <example correction="toutes">Ils s'adressent aux fleurs <marker>toute</marker> colorées.</example>
+              <example>Il a dévoré la tarte aux framboises <marker>toute</marker> crue.</example>
           </rule>
       </rulegroup>
     <rule id="LA_OU_LES_PLUS" name="la ou les plus" default="temp_off">
