@@ -27,6 +27,7 @@ import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
 import java.io.IOException;
@@ -134,7 +135,7 @@ public class CompoundInfinitivRule extends Rule {
   }
 
   private boolean isMisspelled(String word) {
-    word = word.substring(0, 1).toLowerCase() + word.substring(1);
+    word = StringTools.lowercaseFirstChar(word);
     if (linguServices == null && speller != null) {
       return speller.isMisspelled(word);
     } else if (linguServices != null) {
