@@ -34124,14 +34124,16 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TYPOGRAPHIE" name="Typographie" type="typographical">
-     <rulegroup id="VIRGULE_TEMPS" name="virgule temps">
+     <rulegroup id="VIRGULE_TEMPS" name="virgule temps" default="temp_off">
          <rule>
              <pattern>
-                 <token postag="R pers suj.*" postag_regexp="yes"/>
                  <unify>
                      <feature id="person"/>
                      <feature id="tense"/>
-                     <marker>
+                 <marker>
+                     <unify-ignore>
+                 <token postag="R pers suj.*" postag_regexp="yes"/>
+                 </unify-ignore>
                          <token postag="V.*" postag_regexp="yes"/>
                          <unify-ignore>
                              <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">(?-i)[a-z].*</token>
