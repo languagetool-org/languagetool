@@ -36,6 +36,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY nbsp    "&#x00A0;"> <!-- no-break space -->
     <!ENTITY nnbsp    "&#x202F;"> <!-- narrow no-break space -->
     <!ENTITY thinsp    "&#x2009;"> <!-- thin space -->
+    <!ENTITY apostrophe "['’`´‘]">
     <!ENTITY anfauf "„|&quot;|»|›|‚|'">
     <!ENTITY anfzu "‘|“|‹|«|&quot;|'">
     <!ENTITY anf "&anfauf;|‘|’|“|‹|«">
@@ -8240,6 +8241,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://de.wikipedia.org/wiki/WhatsApp</url>
             <short>&getrennt;.</short>
             <example correction="WhatsApp">Wir schrieben per <marker>whats app</marker>.</example>
+        </rule>
+        <rule id="AIR_BNB" name="Air Bnb (Airbnb)" default="temp_off">
+            <pattern>
+                <token>Air</token>
+                <token>Bnb</token>
+            </pattern>
+            <message>Der Name des Online-Portals <suggestion>Airbnb</suggestion> wird zusammengeschrieben.</message>
+            <url>https://de.wikipedia.org/wiki/Airbnb</url>
+            <short>&getrennt;.</short>
+            <example correction="Airbnb">Ich habe ein Zimmer via <marker>Air Bnb</marker> gebucht.</example>
         </rule>
         <rule id="POWER_SHELL" name="PowerShell">
             <pattern>
@@ -36627,6 +36638,75 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="CLICK_AND_COLLECT" name="Click and Collect" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Click</token>
+                <token regexp="yes">&amp;|[au]nd</token>
+                <token>Collect</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">[kc]lick</token>
+                <token regexp="yes">and|und|&amp;</token>
+                <token regexp="yes">[kc]ollect</token>
+            </pattern>
+            <message>Meinten Sie die Kaufweise <suggestion>Click <match no="2" case_conversion="alllower" /> Collect</suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/Click_and_Collect</url>
+            <example correction="Click und Collect">Sie können bei uns via <marker>Klick und Collect</marker> bestellen.</example>
+        </rule>
+        <rulegroup id="DOS_AND_DONTS" name="Dos and Don'ts" default="temp_off">
+            <url>https://www.duden.de/rechtschreibung/Dos_and_Don_ts</url>
+            <antipattern case_sensitive="yes">
+                <token>Dos</token>
+                <token regexp="yes">and|&amp;</token>
+                <token>Don</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>ts</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">doe?s?</token>
+                    <token regexp="yes">[au]nd|&amp;</token>
+                    <token regexp="yes">dont?</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token regexp="yes">t?s</token>
+                </pattern>
+                <message>Meinten Sie die Phrase <suggestion>Dos and Don'ts</suggestion>?</message>
+                <example correction="Dos and Don'ts">Das sind die <marker>Dos and Dont's</marker> von denen ich sprach.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">doe?s?</token>
+                    <token regexp="yes">[au]nd|&amp;</token>
+                    <token regexp="yes">dont?s</token>
+                </pattern>
+                <message>Meinten Sie die Phrase <suggestion>Dos and Don'ts</suggestion>?</message>
+                <example correction="Dos and Don'ts">Das sind die <marker>Dos and Donts</marker> von denen ich sprach.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">doe?s?</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token regexp="yes">[au]nd|&amp;</token>
+                    <token regexp="yes">dont?</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token regexp="yes">t?s</token>
+                </pattern>
+                <message>Meinten Sie die Phrase <suggestion>Dos and Don'ts</suggestion>?</message>
+                <example correction="Dos and Don'ts">Das sind die <marker>Do's and Dont's</marker> von denen ich sprach.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">doe?s?</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token regexp="yes">[au]nd|&amp;</token>
+                    <token regexp="yes">dont?s</token>
+                </pattern>
+                <message>Meinten Sie die Phrase <suggestion>Dos and Don'ts</suggestion>?</message>
+                <example correction="Dos and Don'ts">Das sind die <marker>Do's and Donts</marker> von denen ich sprach.</example>
+            </rule>
+        </rulegroup>
         <rule id="NEUSTARTEN" name="neu starten">
             <pattern>
                 <token case_sensitive="yes" regexp="yes">neu(starten?|startes?t|gestartet)</token>
