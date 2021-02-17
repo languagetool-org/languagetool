@@ -47,14 +47,9 @@ public class EnglishTagger extends BaseTagger {
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
     for (String word : sentenceTokens) {
-      // This hack allows all rules and dictionary entries to work with
-      // typewriter apostrophe
-      boolean containsTypewriterApostrophe = false;
+      // This hack allows all rules and dictionary entries to work with typewriter apostrophe
       boolean containsTypographicApostrophe = false;
       if (word.length() > 1) {
-        if (word.contains("'")) {
-          containsTypewriterApostrophe = true;
-        }
         if (word.contains("’")) {
           containsTypographicApostrophe = true;
           word = word.replace("’", "'");
@@ -91,17 +86,9 @@ public class EnglishTagger extends BaseTagger {
         l.add(new AnalyzedToken(word, null, null));
       }
       
-      //FIXME: this info has to be put somewhere else, or not removed later
       AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);
-      if (containsTypewriterApostrophe) {
-        List<ChunkTag> listChunkTags = new ArrayList<>();
-        listChunkTags.add(new ChunkTag("containsTypewriterApostrophe"));
-        atr.setChunkTags(listChunkTags);
-      }
       if (containsTypographicApostrophe) {
-        List<ChunkTag> listChunkTags = new ArrayList<>();
-        listChunkTags.add(new ChunkTag("containsTypographicApostrophe"));
-        atr.setChunkTags(listChunkTags);
+        atr.setTypographicApostrophe();
       }
 
       tokenReadings.add(atr);
