@@ -461,7 +461,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "in week four", // vs for
       "in month four", // vs for
       "s day four", // vs for
-      "is day four" // vs for
+      "is day four", // vs for
+      "the powers that be" // vs we
     );
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
