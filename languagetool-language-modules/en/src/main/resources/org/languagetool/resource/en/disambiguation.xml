@@ -3160,18 +3160,26 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rule name="each + verb/NN -&gt; NN" id="EACH_VB_NN">
+        <antipattern>
+            <token chunk="B-SBAR" postag="IN" />
+            <token>each</token>
+        </antipattern>
         <pattern>
-            <token postag="IN"/>
+            <token postag="IN" />
             <token>each</token>
             <marker>
                 <and>
                     <token postag_regexp="yes" postag="VB[PZDN]?|MD"/>
-                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VB[ZPDN]?|NNS?|NN:UN|NN:U|MD" postag_regexp="yes"/></token>
+                    <token postag_regexp="yes" postag="NN.*">
+                        <exception negate_pos="yes" postag="VB[ZPDN]?|NNS?|NN:UN|NN:U|MD" postag_regexp="yes"/>
+                        <exception>does</exception>
+                    </token>
                 </and>
             </marker>
         </pattern>
         <disambig action="filter" postag="NN.*"/>
         <example type="ambiguous" inputform="window[window/NN,window/VB,window/VBP]" outputform="window[window/NN]">There are traceries around each <marker>window</marker> of old man Simon's house.</example>
+        <example type="untouched">There is chaos, as each does whatever he wants, regardless of what others may or may not want.</example>
     </rule>
 
     <rule name="a/an/each + adj/nn + verb sing -&gt; NN" id="AN_JJ_VB_NN">
@@ -7092,6 +7100,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NNS" />
             <token postag="NN|NN:UN?" postag_regexp="yes" />
         </antipattern>
+        <antipattern><!-- at the end of the chain of actions can we expect the -->
+            <token regexp="yes">can|will</token>
+            <token postag="NN.*|PRP" postag_regexp="yes" />
+            <token postag="VB" />
+        </antipattern>
         <pattern>
             <and>
                 <token chunk="E-NP-plural"/>
@@ -7136,6 +7149,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">It is estimated that by 2050, a 3 feet rise in sea levels will inundate some 20 percent of the land and displace more than 30 million people.</example>
         <example type="untouched">... has become a 68 matches grind with a 38% loss rate ...</example>
         <example type="untouched">This is not a five minutes task to solve.</example>
+        <example type="untouched">Only at the very end of the chain of actions can we expect the outcome to change.</example>
     </rule>
 
     <rulegroup id="VBP_VBZ_NNS" name="VBZ/NN->VBZ">
@@ -7896,7 +7910,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                         <token postag_regexp="yes" postag="NN:UN?"/>
                     </and>
                 </marker>
-                <token postag_regexp="yes" postag="VB.?"/>
+                <token postag_regexp="yes" postag="VB.?">
+                    <exception postag="IN" />
+                </token>
             </pattern>
             <disambig postag="RB"/>
             <example type="untouched">It took them forever.</example>
