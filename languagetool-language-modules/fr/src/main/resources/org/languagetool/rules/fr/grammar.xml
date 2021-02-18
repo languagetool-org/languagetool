@@ -36607,6 +36607,64 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rulegroup id="POSER_UNE_QUESTION" name="poser une question" default="temp_off">
+          <rule>
+              <antipattern>
+                  <token postag="R pers suj.*" postag_regexp="yes"/>
+                  <token postag="R pers obj.*" postag_regexp="yes"/>
+                  <token postag="V.*" postag_regexp="yes"/>
+                  <token postag="A inte"/>
+                  <token postag="M fin inte"/>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes">-tu|-ils?|-elles?|-vous|-nous|-je</token>
+                  <token postag="V.*" postag_regexp="yes"/>
+                  <token postag="A inte"/>
+                  <token postag="M fin inte"/>
+              </antipattern>
+              <antipattern>
+                  <token postag="R pers suj.*" postag_regexp="yes"/>
+                  <token postag="V.*" postag_regexp="yes" regexp="yes">.*[aeiou]$</token>
+                  <token postag="A inte"/>
+                  <token postag="M fin inte"/>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token postag="R pers suj.*" postag_regexp="yes"><exception regexp="yes">j'</exception><exception scope="previous">l'</exception></token>
+                      <token postag="V.*" postag_regexp="yes"/>
+                      <token postag="A inte"><exception>pourquoi</exception></token>
+                      <token postag="M fin inte"/>
+                  </marker>
+              </pattern>
+              <message>Cette formulation peut être considérée comme familière. Voulez-vous écrire <suggestion>\3 \2-\1 \4</suggestion> ?</message>
+              <example correction="où êtes-vous ?"><marker>vous êtes où ?</marker></example>
+              <example>Cela <marker>vous fait combien ?</marker></example>
+              <example>Quelqu'un pourrait<marker>-il indiquer où ?</marker></example>
+              <example>ils l'<marker>on mis où ?</marker></example>
+              <example><marker>il gagne combien ?</marker></example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token regexp="yes">-tu|-ils?|-elles?|-vous|-nous|-je</token>
+                  <token postag="V.*" postag_regexp="yes"/>
+                  <token postag="A inte"/>
+                  <token postag="M fin inte"/>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token postag="R pers suj.*" postag_regexp="yes"><exception scope="previous">l'</exception></token>
+                      <token postag="V.*" postag_regexp="yes" regexp="yes">.*[aeiou]$</token>
+                      <token postag="A inte"><exception>pourquoi</exception></token>
+                      <token postag="M fin inte"/>
+                  </marker>
+              </pattern>
+              <message>Cette formulation peut être considérée comme familière. Voulez-vous écrire <suggestion>\3 \2-t-\1 \4</suggestion> ?</message>
+              <example correction="où va-t-il ?"><marker>il va où ?</marker></example>
+              <example correction="combien gagne-t-il ?"><marker>il gagne combien ?</marker></example>
+              <example>Quelqu'un pourrait<marker>-il indiquer où ?</marker></example>
+              <example>ils l'<marker>on mis où ?</marker></example>
+          </rule>
+      </rulegroup>
       <rulegroup id="HISTOIRE_DE_V" name="histoire de (afin de)" type="style">
           <antipattern>
               <token>histoire</token>
