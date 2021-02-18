@@ -10080,10 +10080,20 @@ though, and has since been slightly modified)-->
                   <token regexp="yes">qu(&apostrophe;)</token>
                   <token>elle</token>
               </pattern>
-              <message>Une erreur semble être détectée dans cette phrase. Souhaitez-vous écrire <suggestion>quelle</suggestion> ?</message>
+              <message>Une confusion entre le pronom et l'adjectif semble être détectée. Souhaitez-vous écrire <suggestion>quelle</suggestion> ?</message>
               <example correction="quelle">On trouvera la solution, <marker>qu'elle</marker> qu'elle soit.</example>
           </rule>
           <rule>
+              <antipattern>
+                  <token regexp="yes">quel|quels|quelles|qu(&apostrophe;)</token>
+                  <token min="0">elle</token>
+                  <token regexp="yes" skip="-1">que|qu(&apostrophe;)</token>
+                  <token min="0">en</token>
+                  <token>soit</token>
+                  <token postag="D [ef] s" postag_regexp="yes"/>
+                  <token postag="N f s" skip="-1"/>
+                  <token regexp="yes" skip="-1">et|ou</token>
+              </antipattern>
               <antipattern>
                   <token regexp="yes">qu(&apostrophe;)</token>
                   <token>elle</token>
@@ -10095,15 +10105,17 @@ though, and has since been slightly modified)-->
                       <token regexp="yes">quel|quels|quelles|qu(&apostrophe;)</token>
                       <token min="0">elle</token>
                   </marker>
-                  <token regexp="yes" skip="-1">que|qu(&apostrophe;)</token>
+                  <token regexp="yes" skip="1">que|qu(&apostrophe;)</token>
                   <token min="0">en</token>
                   <token>soit</token>
-                  <token postag="D f s|D e s" postag_regexp="yes"/>
+                  <token postag="D [ef] s" postag_regexp="yes"/>
                   <token postag="N f s"/>
               </pattern>
-              <message>Une erreur semble être détectée dans cette phrase. Souhaitez-vous écrire <suggestion>quelle</suggestion> ?</message>
+              <message>Une confusion entre le pronom et l'adjectif semble être détectée. Souhaitez-vous écrire <suggestion>quelle</suggestion> ?</message>
               <example correction="quelle">Il le fera <marker>qu'elle</marker> que soit sa situation.</example>
               <example correction="quelle">Il le fera <marker>qu'elle</marker> qu'en soit la raison.</example>
+              <example>Ce sont les disciplines visant à utiliser toutes formes de métaux <marker>quels</marker> que soient les métaux et quelle que soit leur forme.</example>
+              <example>Le cidre <marker>qu'elle</marker> qu'en soient son origine et sa couleur est toujours bon.</example>
           </rule>
           <rule>
               <pattern>
@@ -10114,10 +10126,10 @@ though, and has since been slightly modified)-->
                   <token regexp="yes" skip="1">que|qu(&apostrophe;)</token>
                   <token regexp="yes">en|elles</token>
                   <token>soient</token>
-                  <token postag="D f p|D e p" postag_regexp="yes"/>
+                  <token postag="D [fe] p" postag_regexp="yes"/>
                   <token postag="N f p"/>
               </pattern>
-              <message>Une erreur semble être détectée dans cette phrase. Souhaitez-vous écrire <suggestion>quelles</suggestion> ?</message>
+              <message>Une confusion entre le pronom et l'adjectif semble être détectée. Souhaitez-vous écrire <suggestion>quelles</suggestion> ?</message>
               <example correction="quelles">Il le fera <marker>qu'elles</marker> qu'en soient les conséquences.</example>
           </rule>
           <rule>
@@ -10130,7 +10142,7 @@ though, and has since been slightly modified)-->
                   <token regexp="yes">qu(&apostrophe;)</token>
                   <token>elles</token>
               </pattern>
-              <message>Une erreur semble être détectée dans cette phrase. Souhaitez-vous écrire <suggestion>quelles</suggestion> ?</message>
+              <message>Une confusion entre le pronom et l'adjectif semble être détectée. Souhaitez-vous écrire <suggestion>quelles</suggestion> ?</message>
               <example correction="quelles">On trouvera des solutions, <marker>qu'elles</marker> qu'elles soient.</example>
           </rule>
           <rule>
@@ -10141,7 +10153,7 @@ though, and has since been slightly modified)-->
                   </marker>
                   <token>soit</token>
               </pattern>
-              <message>Une erreur de pronom semble être détectée. Souhaitez-vous écrire <suggestion>qu'elle</suggestion> ?</message>
+              <message>Une confusion entre le pronom et l'adjectif semble être détectée. Souhaitez-vous écrire <suggestion>qu'elle</suggestion> ?</message>
               <example correction="qu'elle">Donne-moi ta carte, quelle <marker>quelle</marker> soit.</example>
           </rule>
           <rule>
@@ -10153,9 +10165,9 @@ though, and has since been slightly modified)-->
                   </marker>
                   <token>un</token>
               </pattern>
-              <message>Une erreur semble être détectée dans cette phrase. Souhaitez-vous écrire <suggestion>quelqu'un</suggestion> ?</message>
-              <example correction="quelqu'un">Est-ce que <marker>qu'elle qu'</marker>un peut m'aider.</example>
-              <example correction="quelqu'un">Y-a-t-il <marker>qu'elle qu'</marker>un ici ?</example>
+              <message>Une erreur semble de pronom être détectée dans cette phrase. Souhaitez-vous écrire <suggestion>quelqu'</suggestion> ?</message>
+              <example correction="quelqu'">Est-ce que <marker>qu'elle qu'</marker>un peut m'aider.</example>
+              <example correction="quelqu'">Y-a-t-il <marker>qu'elle qu'</marker>un ici ?</example>
           </rule>
           <rule>
               <pattern>
@@ -10165,7 +10177,7 @@ though, and has since been slightly modified)-->
                   </marker>
                   <token>soient</token>
               </pattern>
-              <message>Une erreur de pronom semble être détectée. Souhaitez-vous écrire <suggestion>qu'elles</suggestion> ?</message>
+              <message>Une confusion entre le pronom et l'adjectif semble être détectée. Souhaitez-vous écrire <suggestion>qu'elles</suggestion> ?</message>
               <suggestion>qu'elles</suggestion>
               <example correction="qu'elles">Donne-moi tes billes, quelles <marker>quelles</marker> soient.</example>
           </rule>
