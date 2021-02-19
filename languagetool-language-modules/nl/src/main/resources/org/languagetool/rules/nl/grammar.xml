@@ -11267,50 +11267,6 @@ onwaarschijnlijk
 				<example correction="duiden">Het is niet goed te <marker>duidden</marker>.</example>
 			</rule>
 		</rulegroup>
-
-		<rulegroup id="TE-VREEMD" name="Vreemd woord na 'te'">
-			<antipattern><token>Nooit</token><token>ofte</token><token>nimmer</token></antipattern>
-			<antipattern><token>nooit</token><token>en</token><token>te</token><token>nimmer</token></antipattern>
-			<antipattern><token>te</token><token postag_regexp="yes" postag="UNKNOWN|ENM:LOC.*"/></antipattern>
-			<antipattern case_sensitive="yes"><token>te</token><token>Den</token><token regexp="yes">[A-Z].*</token></antipattern>
-			<antipattern><token>des</token><token>te</token><token postag="BNW:VGR:ONV"/></antipattern>
-			<antipattern><token>te</token><token postag_regexp="yes" postag="BNW:STL:VRB|BYW:JES|WKW:(VTD|ODW):VRB"/></antipattern>
-			<antipattern><token>te</token><token postag_regexp="yes" postag="WKW:TGW:INF.*|WKW:INF:ZNW:HET"/></antipattern>
-			<antipattern><token>te</token><token postag="AHL:OPN"/></antipattern>
-			<antipattern><token>te</token><token postag_regexp="yes" postag="BNW:STL:ONV|WKW:VTD:ONV"/></antipattern>
-			<antipattern><token>te</token><token postag_regexp="yes" postag="ENM:LOC:.*"/></antipattern>
-			<antipattern><token>te</token><token regexp="yes">elfder|voet|paard|woord|meer|weinig|veel|werk|gronde|pletter|koop|huur|ruil|hulp|boven|gast|bed|buiten|hooi|pas|onpas|gras|binnen|grabbel|lijf|stade|velde|dezen|haren|allen|bekwamer|bestemder|kwader|leen|vaak|rade|niet|hoop|boek|water|kijk|beurt|over|berde|weeg|dikwijls|vriend|land|wapen|baat|vondeling|schande|makken|gelde|fiets|[.]|[A-Z].*straat</token></antipattern>
-			
-			<antipattern><token>te</token><token regexp="yes">rug|voorschijn|voren</token></antipattern><!-- frequente fouten -->
-			<antipattern><token>mis</token><token>te</token><token>verstane</token></antipattern>
-
-			<antipattern><token>te</token><token regexp="yes">mijnen|uwen|zijnen|haren|onzen|hunnen</token><token>laste</token></antipattern>
-			<antipattern><token>te</token><token>goeder</token><token>trouw</token></antipattern>
-			<antipattern><token>te</token><token>midden</token><token>van</token></antipattern>
-
-			<antipattern><token>te</token><token case_sensitive="yes">Den</token><token case_sensitive="yes" regexp="yes">Haag|Bosch|Helder</token></antipattern>
-			
-			<antipattern><token>(</token><token>te</token><token>)</token></antipattern>
-			<antipattern><token postag="ENM:PER:1ST"/><token>te</token><token/></antipattern>
-			<antipattern><token>te</token><token>kust</token><token>en</token><token>te</token><token>keur</token></antipattern>
-			<antipattern><token>te</token><token>vuur</token><token>en</token><token>te</token><token>zwaard</token></antipattern>
-			<antipattern><token>te</token><token>gelegener</token><token>tijd</token></antipattern>
-			<antipattern><token>te</token><token>gelegener</token><token>plaats</token></antipattern>
-			<antipattern><token>al</token><token>te</token><token regexp="yes">beste?</token></antipattern>
-			<rule>
-				
-				<pattern><marker><token>te</token><token case_sensitive="yes" regexp="yes">[^A-Z].*</token></marker></pattern>
-				<message>Onverwacht woord na 'te'. Mogelijk bedoelt u 'de'. Maar het kan ook iets anders zijn.</message>
-				<short>onverwacht</short>
-				<example type="incorrect"><marker>te liep</marker></example>
-			</rule>
-			<rule>
-				<pattern><marker><token>te</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></marker></pattern>
-				<message>Deze (plaats)naam kennen we nog niet. Klopt de spelling wel?</message>
-				<short>onverwacht</short>
-				<example type="incorrect"><marker>te Liep</marker></example>
-			</rule>
-		</rulegroup>
 		
 		<rulegroup id="MIJN_FORTE" name="mijn fort is beter">
 			<rule>
