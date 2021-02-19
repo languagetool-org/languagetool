@@ -36780,6 +36780,24 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rule id="QU_EST_CE_QUE" name="qu’est-ce que" default="temp_off">
+          <antipattern>
+              <token regexp="yes">qu(&apostrophe;)</token>
+              <token>est</token>
+              <token>-ce</token>
+              <token regexp="yes" skip="-1">qu[ie]?|qu(&apostrophe;)</token>
+              <token postag="M fin inte"/>
+          </antipattern>
+          <pattern>
+              <token regexp="yes">qu(&apostrophe;)</token>
+              <token>est</token>
+              <token>-ce</token>
+              <token regexp="yes">qu(&apostrophe;)|que</token>
+          </pattern>
+          <message>Dans le langage courant, cette question indirecte devrait être introduite par <suggestion>ce \4</suggestion>.</message>
+          <example correction="ce qu'"> Je me demande <marker>qu'est-ce qu'</marker>il pense.</example>
+          <example correction="ce que"> Dis-moi <marker>qu'est-ce que</marker> tu en penses.</example>
+      </rule>
       <rulegroup id="HISTOIRE_DE_V" name="histoire de (afin de)" type="style">
           <antipattern>
               <token>histoire</token>
