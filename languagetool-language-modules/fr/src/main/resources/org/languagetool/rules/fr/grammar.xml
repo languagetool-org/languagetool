@@ -36780,6 +36780,67 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rulegroup id="C_EST_QUOI" name="c'est quoi" default="temp_off">
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>c'</token>
+                      <token>est</token>
+                      <token>quoi</token>
+                  </marker>
+                  <token min="0" max="1" postag="A"/>
+                  <token regexp="yes">ma|ta|sa|notre|votre|cette</token>
+                  <token postag="N [ef].*" postag_regexp="yes"/>
+              </pattern>
+              <message>Cette expression peut être considérée comme familière.</message>
+              <suggestion>quelle est</suggestion>
+              <example correction="quelle est">Dis-moi <marker>c'est quoi</marker> alors ta question.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>c'</token>
+                      <token>est</token>
+                      <token>quoi</token>
+                  </marker>
+                  <token min="0" max="1" postag="A"/>
+                  <token regexp="yes">mon|ton|son|notre|votre</token>
+                  <token postag="N [em].*" postag_regexp="yes"/>
+              </pattern>
+              <message>Cette expression peut être considérée comme familière.</message>
+              <suggestion>quel est</suggestion>
+              <example correction="quel est">Dis-moi <marker>c'est quoi</marker> ton nom.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>c'</token>
+                      <token>est</token>
+                      <token>quoi</token>
+                      <token regexp="yes">une|un</token>
+                  </marker>
+                  <token postag="J.*" postag_regexp="yes" min="0" max="1"/>
+                  <token postag="N.*" postag_regexp="yes"/>
+              </pattern>
+              <message>Cette expression peut être considérée comme familière.</message>
+              <suggestion>qu'est-ce qu'\4</suggestion>
+              <example correction="qu'est-ce qu'une">Dis-moi <marker>c'est quoi une</marker> préposition.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>c'</token>
+                      <token>est</token>
+                      <token>quoi</token>
+                  </marker>
+                  <token min="0" max="1" postag="A"/>
+                  <token postag="M fin inte"/>
+              </pattern>
+              <message>Cette expression peut être considérée comme familière.</message>
+              <suggestion>qu'est-ce que c'est</suggestion>
+              <example correction="qu'est-ce que c'est">Dis-moi <marker>c'est quoi</marker> déjà ?</example>
+          </rule>
+      </rulegroup>
       <rule id="QU_EST_CE_QUE" name="qu’est-ce que" default="temp_off">
           <antipattern>
               <token regexp="yes">qu(&apostrophe;)</token>
