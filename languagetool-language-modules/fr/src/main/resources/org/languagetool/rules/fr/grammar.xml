@@ -34471,6 +34471,173 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TYPOGRAPHIE" name="Typographie" type="typographical">
+      <rulegroup id="VIRGULE_DEBUT_DE_PHRASE" name="virgule debut de phrase" default="temp_off">
+          <rule>
+              <pattern>
+                  <token postag="SENT_START"/>
+                  <marker>
+                      <token regexp="yes">cependant|néanmoins|pourtant|toutefois
+                          <exception postag="SENT_END"/>
+                          <exception scope="next" postag="SENT_END"/>
+                      </token>
+                  </marker>
+                  <token regexp="yes">[^,‘’–)—."\/;\]\|:(\…'«»“”-]+</token>
+              </pattern>
+              <message>Une virgule semble être requise dans ce contexte.</message>
+              <suggestion>\2,</suggestion>
+              <example correction="Cependant,"><marker>Cependant</marker> il ne le remarqua pas.</example>
+              <example correction="Pourtant,"><marker>Pourtant</marker> manger entre les repas est nocif pour la santé.</example>
+              <example correction="Néanmoins,"><marker>Néanmoins</marker> Marie n'en pensait pas moins.</example>
+              <example correction="Toutefois,"><marker>Toutefois</marker> le maire était d'humeur généreuse aujourd'hui.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token postag="SENT_START"/>
+                  <token>en</token>
+                  <token regexp="yes">effet|conséquence</token>
+                  <token postag="UNKNOWN"/>
+              </antipattern>
+              <antipattern>
+                  <token postag="SENT_START"/>
+                  <token>en</token>
+                  <token regexp="yes">effet|conséquence</token>
+                  <token postag="SENT_END"/>
+              </antipattern>
+              <antipattern>
+                  <token>en</token>
+                  <token>conséquence</token>
+                  <token regexp="yes">de|du|des|directe|et</token>
+              </antipattern>
+              <pattern>
+                  <token postag="SENT_START"/>
+                  <token>en</token>
+                  <marker>
+                      <token regexp="yes">effet|conséquence</token>
+                  </marker>
+                  <token regexp="yes">[^,‘’–)—."\/;\]\|:(\…'«»“”-]+</token>
+              </pattern>
+              <message>Une virgule semble être requise dans ce contexte.</message>
+              <suggestion>\3,</suggestion>
+              <example correction="effet,">En <marker>effet</marker> il ne le remarqua pas.</example>
+              <example>En <marker>effet</marker>.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token postag="SENT_START"/>
+                  <token>par</token>
+                  <token regexp="yes">conséquent|contre</token>
+                  <token postag="UNKNOWN"/>
+              </antipattern>
+              <pattern>
+                  <token postag="SENT_START"/>
+                  <token>par</token>
+                  <marker>
+                      <token regexp="yes">conséquent|contre</token>
+                  </marker>
+                  <token regexp="yes">[^,‘’–)—."\/;\]\|:(\…'«»“”-]+</token>
+              </pattern>
+              <message>Une virgule semble être requise dans ce contexte.</message>
+              <suggestion>\3,</suggestion>
+              <example correction="contre,">Par <marker>contre</marker> il ne le remarqua pas.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token postag="SENT_START"/>
+                  <token regexp="yes" skip="-1">moi|toi</token>
+                  <token postag="Y.*" regexp="yes"/>
+              </antipattern>
+              <antipattern>
+                  <token postag="SENT_START"/>
+                  <token regexp="yes">moi|toi</token>
+                  <token regexp="yes">moi|toi</token>
+              </antipattern>
+              <antipattern>
+                  <token postag="SENT_START"/>
+                  <token regexp="yes">moi|toi</token>
+                  <token postag="UNKNOWN"/>
+              </antipattern>
+              <antipattern>
+                  <token postag="SENT_START"/>
+                  <token regexp="yes">moi|toi</token>
+                  <token postag="SENT_END"/>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes">moi|toi</token>
+                  <token postag="C coor.*" postag_regexp="yes"/>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes">moi|toi</token>
+                  <token postag="[DP].*" postag_regexp="yes"/>
+                  <token regexp="yes">premier|première|même</token>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes">moi|toi</token>
+                  <token regexp="yes">aussi|non|et|qui|absolu|ou|seule?|même</token>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes">moi|toi</token>
+                  <token>d'</token>
+                  <token>abord</token>
+              </antipattern>
+              <pattern>
+                  <token postag="SENT_START"/>
+                  <marker>
+                      <token regexp="yes">moi|toi</token>
+                  </marker>
+                  <token regexp="yes">[^,‘’–)—."\/;\]\|:(\…'«»“”-]+</token>
+              </pattern>
+              <message>Une virgule semble être requise dans ce contexte.</message>
+              <suggestion>\2,</suggestion>
+              <example correction="Moi,"><marker>Moi</marker> je ne le sais pas.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token postag="SENT_START"/>
+                  <token>elles</token>
+                  <token>on</token>
+              </antipattern>
+              <pattern>
+                  <token postag="SENT_START"/>
+                  <marker>
+                      <token regexp="yes">lui|elle|eux|nous|vous|elles</token>
+                  </marker>
+                  <token postag="R pers suj.*" postag_regexp="yes"/>
+              </pattern>
+              <message>Une virgule semble être requise dans ce contexte.</message>
+              <suggestion>\2,</suggestion>
+              <example correction="Lui,"><marker>Lui</marker> il ne le sait pas.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token postag="SENT_START"/>
+                  <token>tantôt</token>
+              </antipattern>
+              <antipattern>
+                  <token>si</token>
+                  <token regexp="yes">ils?</token>
+                  <token postag="A"/>
+              </antipattern>
+              <antipattern>
+                  <token postag="A"/>
+                  <token skip="-1">il</token>
+                  <token postag="A"/>
+              </antipattern>
+              <pattern>
+                  <token postag="SENT_START"/>
+                  <marker>
+                      <token postag="A">
+                          <exception postag="A inte.*" postag_regexp="yes"/>
+                          <exception regexp="yes">[A-Z]$</exception>
+                      </token>
+                      <token>il</token>
+                  </marker>
+              </pattern>
+              <message>Une virgule semble être requise dans ce contexte.</message>
+              <suggestion>\2, \3</suggestion>
+              <example correction="Dehors, il"><marker>Dehors il</marker> fait beau.</example>
+              <example><marker>Combien il</marker> en a pris ?</example>
+          </rule>
+      </rulegroup>
       <rulegroup id="PLACE_DE_LA_VIRGULE" name="place de la virgule" default="temp_off">
           <rule>
               <antipattern>
