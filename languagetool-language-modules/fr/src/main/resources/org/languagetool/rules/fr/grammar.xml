@@ -10103,6 +10103,13 @@ though, and has since been slightly modified)-->
                   <token regexp="yes">toute?</token>
                   <token postag="V ppa f s"/>
               </antipattern>
+              <antipattern>
+                  <token postag="(P\+)?D.*" postag_regexp="yes"/>
+                  <token postag="N f p"/>
+                  <token regexp="yes">toute?</token>
+                  <token postag="J f s"/>
+                  <token postag="N f s"/>
+              </antipattern>
               <pattern>
                   <token postag="(P\+)?D.*" postag_regexp="yes"/>
                   <token postag="N f p"/>
@@ -10111,7 +10118,7 @@ though, and has since been slightly modified)-->
                   </marker>
                   <token postag="J [ef].*" postag_regexp="yes">
                       <exception regexp="yes">^[aâeéèêioôœuhy].*|&H_ASPIRE;</exception>
-                      <exception regexp="yes">justes?|proche|seule|textile|jeunes?|membres?|rebelles?|numérique|composite|orange|rouge|beige|marron|publics?|publiques?</exception>
+                      <exception regexp="yes">justes?|proche|seule|textile|jeunes?|membres?|rebelles?|numérique|composite|modèles?|orange|rouge|beige|marron|publics?|publiques?</exception>
                   </token>
               </pattern>
               <message>Vérifiez l’accord entre « \1 » et « \3 ».</message>
@@ -10119,6 +10126,7 @@ though, and has since been slightly modified)-->
               <example correction="toutes">Des vestes <marker>tout</marker> neuves.</example>
               <example correction="toutes">Ils s'adressent aux fleurs <marker>toute</marker> colorées.</example>
               <example>Il a dévoré la tarte aux framboises <marker>toute</marker> crue.</example>
+              <example>Rocher des abeilles <marker>toute</marker> petite barre difficile d'accès.</example>
           </rule>
       </rulegroup>
     <rule id="LA_OU_LES_PLUS" name="la ou les plus" default="temp_off">
