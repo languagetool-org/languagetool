@@ -49,6 +49,9 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("rune", "Schriftzeichen der Germanen", "runde", "Rundstrecke"),
+          new Pair("mai", "Monat nach April", "mail", "E-Mail"),
+          new Pair("pump", "'auf Pump': umgangssprachlich für 'auf Kredit'", "pumpe", "Gerät zur Beförderung von Flüssigkeiten"),
           new Pair("mitte", "zentral", "mittel", "Methode, um etwas zu erreichen"),
           new Pair("fein", "feinkörnig, genau, gut", "feind", "Gegner"),
           new Pair("traum", "Erleben während des Schlafes", "trauma", "Verletzung"),
