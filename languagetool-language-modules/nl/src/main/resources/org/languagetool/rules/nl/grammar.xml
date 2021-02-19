@@ -9290,10 +9290,67 @@ onwaarschijnlijk
 			</rule>			
 		</rulegroup>
 	
-		<rulegroup id="SAMENSTELLING_STAM_ZNW" name="lees ervaring" default="temp_off">
+		<rulegroup id="DE_ALLE_EERSTE" name="Alle eerste/ allereerste" >
 			<rule>
 				<pattern>
-					<token>de</token>
+					<token regexp="yes">de|mijn|zijn|hun|haar</token>
+					<marker>
+						<token>alle</token>
+						<token postag="BNW:OVR:VRB"/>
+					</marker>
+				</pattern>
+				<message>Waarschijnlijk staat hier een spatie te veel, en een letter te weinig.</message>
+				<suggestion>\2r\3</suggestion>
+				<example correction="allerbeste">Dit is de <marker>alle beste</marker> regel.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token regexp="yes">de|mijn|zijn|hun|haar</token>
+					<marker>
+						<token>alle</token>
+						<token regexp="yes">eerste|laatste</token>
+					</marker>
+				</pattern>
+				<message>Waarschijnlijk staat hier een spatie te veel, en een letter te weinig.</message>
+				<suggestion>\2r\3</suggestion>
+				<example correction="allereerste">Dit is de <marker>alle eerste</marker> regel.</example>
+			</rule>			
+			
+		</rulegroup>
+		<rulegroup id="DE_ALLES_IN_EEN_DING" name="De alles in een aanpak" >
+			<rule>
+				<pattern>
+					<token regexp="yes">de|een|geen|het</token>
+					<marker>
+						<token>alles</token>
+						<token>in</token>
+						<token regexp="yes">1|een|één</token>
+						<token postag_regexp="yes" postag="ZNW.*"/>
+					</marker>
+				</pattern>
+				<message>Woorden die eigenlijk een zinnetje zijn, voorzie je van koppeltekens.</message>
+				<suggestion>\2-\3-\4-\5</suggestion>
+				<example correction="alles-in-een-aanpak">Ze kozen voor een <marker>alles in een aanpak</marker>.</example>
+			</rule>			
+		</rulegroup>
+		<rulegroup id="DE_WKW_DE" name="lees ervaring" >
+			<rule>
+				<pattern>
+					<token regexp="yes">de|een|geen|het</token>
+					<marker>
+						<token postag="WKW:TGW:INF"/>
+						<token>de</token>
+					</marker>
+				</pattern>
+				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
+				<suggestion>\2\3</suggestion>
+				<example correction="aanhangende">Kook in het <marker>aanhangen de</marker> water.</example>
+			</rule>			
+		</rulegroup>
+		<rulegroup id="SAMENSTELLING_STAM_ZNW" name="lees ervaring" >
+			<rule>
+				<pattern>
+					<token regexp="yes">de|een|geen</token>
 					<marker>
 						<token postag="WKW:TGW:1EP"/>
 						<token postag_regexp="yes" postag="ZNW.*DE_|ZNW:EKV"/>
@@ -9305,7 +9362,7 @@ onwaarschijnlijk
 			</rule>			
 			<rule>
 				<pattern>
-					<token regexp="yes">het|dit|dat</token>
+					<token regexp="yes">het|dit|dat|een|geen</token>
 					<marker>
 						<token postag="WKW:TGW:1EP"/>
 						<token postag_regexp="yes" postag="ZNW.*HET"/>
@@ -10661,6 +10718,26 @@ onwaarschijnlijk
 				<example correction="art-deco-gevels">De kroonlijst is een nadrukkelijk onderdeel van de <marker>art deco-gevels</marker>.</example>
 				<example correction="art-decogebouw">Het <marker>art decogebouw</marker> van de schoenenfabrikant wordt de eindbestemming van de dag.</example>
 				<example correction="art-decostijl">Een voorbeeld van vroege <marker>art decostijl</marker> met gemengde inbreng.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">[aA]rt</token>
+					<token regexp="yes">[dD]eco</token>
+					<token postag_regexp="yes" postag="ZNW.*" regexp="yes">^[eiou].*</token>
+				</pattern>
+				<message>Dit moet vast zijn: <suggestion>art-<match no="2" case_conversion="startlower"/>-\3</suggestion>.</message>
+				<url/>
+				<example correction="art-deco-ornaat">Het gebouw is in <marker>art deco ornaat</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">[aA]rt</token>
+					<token regexp="yes">[dD]eco</token>
+					<token postag_regexp="yes" postag="ZNW.*" regexp="yes">^[^eiou].*</token>
+				</pattern>
+				<message>Dit moet vast zijn: <suggestion>art-<match no="2" case_conversion="startlower"/>\3</suggestion>.</message>
+				<url/>
+				<example correction="art-decostijl">Het gebouw is in <marker>art deco stijl</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="BIJNA_DOOD_ERVARING" name="bijna dood ervaring → bijna-doodervaring">
