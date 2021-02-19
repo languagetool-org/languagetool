@@ -1049,6 +1049,69 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+      <rulegroup id="PART_OU_PAR" name="part ou par" default="temp_off">
+          <rule>
+              <pattern>
+                  <token>de</token>
+                  <marker>
+                      <token>part</token>
+                  </marker>
+                  <token regexp="yes">le|la|les</token>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée.</message>
+              <suggestion>par</suggestion>
+              <url>https://www.lalanguefrancaise.com/orthographe/de-par-ou-de-part-orthographe/</url>
+              <example correction="par">Il a vécu de <marker>part</marker> le monde.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>de</token>
+                  <token>la</token>
+                  <marker>
+                      <token>par</token>
+                  </marker>
+                  <token regexp="yes">d[eu]?</token>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée.</message>
+              <suggestion>part</suggestion>
+              <example correction="part">Voici le cadeau de la <marker>par</marker> de ton frère.</example>
+              <example correction="part">Voici le cadeau de la <marker>par</marker> du frère.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token>de</token>
+                  <token>part</token>
+                  <token regexp="yes">le|la|les</token>
+              </antipattern>
+              <antipattern>
+                  <token>part</token>
+                  <token postag="P.*" postag_regexp="yes"/>
+              </antipattern>
+              <antipattern>
+                  <token>de</token>
+                  <token>part</token>
+                  <token>et</token>
+                  <token min="0">d'</token>
+                  <token>autre</token>
+              </antipattern>
+              <antipattern>
+                  <token>de</token>
+                  <token>part</token>
+                  <token>en</token>
+                  <token>part</token>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token>de</token>
+                      <token regexp="yes">par|part</token>
+                  </marker>
+                  <token regexp="yes">[mts](on|a|es)|leurs?</token>
+              </pattern>
+              <message>Cette expression n'est plus couramment utilisée. Souhaitez-vous la remplacer par <suggestion>grâce à</suggestion> ?</message>
+              <url>https://www.lalanguefrancaise.com/orthographe/de-par-ou-de-part-orthographe/</url>
+              <example correction="grâce à">Il a réussi <marker>de par</marker> sa pugnacité.</example>
+          </rule>
+      </rulegroup>
     <rule id="GENTE_GENT" name="gente → gent">
       <pattern>
         <token>la</token>
