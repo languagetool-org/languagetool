@@ -9338,7 +9338,7 @@ onwaarschijnlijk
 				<pattern>
 					<token regexp="yes">de|een|geen|het</token>
 					<marker>
-						<token postag="WKW:TGW:INF"/>
+						<token postag="WKW:TGW:INF"><exception postag_regexp="yes" postag=".*DE_"/></token>
 						<token>de</token>
 					</marker>
 				</pattern>
@@ -9347,7 +9347,40 @@ onwaarschijnlijk
 				<example correction="aanhangende">Kook in het <marker>aanhangen de</marker> water.</example>
 			</rule>			
 		</rulegroup>
+		<rulegroup id="TE_ZNW" name="te man" default="temp_off">
+			<rule>
+				<pattern>
+					<token>te</token>
+					<token postag_regexp="yes" postag=".*DE_"><exception postag_regexp="yes" postag="BNW.*"/></token>
+				</pattern>
+				<message>Voor een zelfstandig naamwoord hoort 'de'.</message>
+				<suggestion>de \2</suggestion>
+				<example correction="de leeservaring">Zij heeft <marker>te leeservaring</marker>.</example>
+			</rule>			
+		</rulegroup>
+		<rulegroup id="TE_VLT" name="te fietsten" default="temp_off">
+			<rule>
+				<pattern>
+					<token>te</token>
+					<marker>
+						<token postag_regexp="yes" postag="WKW:VLT:INF.*"><exception postag_regexp="yes" postag="WKW:TGW:INF.*|BNW.*"/></token>
+					</marker>
+				</pattern>
+				<message>Het werkwoord na 'te' moet tegenwoordige tijd zijn.</message>
+				<suggestion><match no="2" postag_regexp="yes" postag="WKW:TGW:INF.*"/></suggestion>
+				<example correction="fietsen">Ze heeft geleerd te <marker>fietsten</marker>.</example>
+			</rule>			
+		</rulegroup>
+		<!--
 		<rulegroup id="SAMENSTELLING_STAM_ZNW" name="lees ervaring" >
+			<antipattern>
+				<token postag_regexp="yes" postag="ZNW:EKV.*"/>
+				<token postag_regexp="yes" postag="WKW:TGW:INF"/></token>
+			</antipattern>
+			<antipattern>
+				<token postag_regexp="yes" postag="BNW.*"/>
+				<token postag_regexp="yes" postag="ZNW.*"/></token>
+			</antipattern>
 			<rule>
 				<pattern>
 					<token regexp="yes">de|een|geen</token>
@@ -9373,7 +9406,7 @@ onwaarschijnlijk
 				<example correction="leesboek">Zij heeft het <marker>lees boek</marker>.</example>
 			</rule>			
 		</rulegroup>
-
+		-->
 		<rulegroup id="GAAN_ERVAN_UIT" name="Gaan ervan uit">
 			<rule>
 				<pattern>
