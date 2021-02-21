@@ -183,8 +183,8 @@ class UserLimits {
 
   static class Account {
 
-    private String username;
-    private String password;
+    private final String username;
+    private final String password;
 
     Account(String username, String password) {
       this.username = Objects.requireNonNull(username);
