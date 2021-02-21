@@ -9289,7 +9289,22 @@ onwaarschijnlijk
 				<example correction="veel meer|liever">Het zijn <marker>veelmeer</marker> dingen.</example>
 			</rule>			
 		</rulegroup>
-	
+		<rulegroup id="DE_DIT_ARTIKEL" name="de_dit / dit" default="temp_off">
+			<rule>
+				<pattern>
+					<marker>
+						<token>de</token>
+						<token>dit</token>
+					</marker>
+					<token postag_regexp="yes" postag="ZNW.*"/>
+					<token><exception regexp="yes">.*ende$</exception></token>
+				</pattern>
+				<message>Hier staat vast een woord te veel.</message>
+				<suggestion>dit</suggestion>
+				<example correction="Dit"><marker>De dit</marker> artikel is slecht.</example>
+				<example>De dit artikel verkopende man is goed.</example>
+			</rule>			
+		</rulegroup>
 		<rulegroup id="DE_ALLE_EERSTE" name="Alle eerste/ allereerste" >
 			<rule>
 				<pattern>
@@ -9333,14 +9348,15 @@ onwaarschijnlijk
 				<example correction="alles-in-een-aanpak">Ze kozen voor een <marker>alles in een aanpak</marker>.</example>
 			</rule>			
 		</rulegroup>
-		<rulegroup id="DE_WKW_DE" name="lees ervaring" >
+		<rulegroup id="DE_WKW_DE" name="lees ervaring" default="temp_off">
 			<rule>
 				<pattern>
 					<token regexp="yes">de|een|geen|het</token>
 					<marker>
-						<token postag="WKW:TGW:INF"><exception postag_regexp="yes" postag=".*DE_"/></token>
+						<token postag="WKW:TGW:INF"/>
 						<token>de</token>
 					</marker>
+					<token postag_regexp="yes" postag="ZNW.*"/>
 				</pattern>
 				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
 				<suggestion>\2\3</suggestion>
