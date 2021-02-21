@@ -9351,7 +9351,7 @@ onwaarschijnlijk
 			<rule>
 				<pattern>
 					<marker>
-						<token postag_regexp="yes" postag="WKW:TGW:1EP"/>
+						<token postag="WKW:TGW:1EP"/>
 						<token regexp="yes">baar|bare</token>
 					</marker>
 				</pattern>
@@ -9361,6 +9361,7 @@ onwaarschijnlijk
 			</rule>			
 		</rulegroup>
 		<rulegroup id="BEIDEN_BRUGGEN" name="beiden / beide" default="temp_off">
+			<antipattern><token>beiden</token><token postag_regexp="yes" postag="WKW:(TGW|VLT):INF.*"/></antipattern>
 			<rule>
 				<pattern>
 					<token>beiden</token>
@@ -9368,7 +9369,7 @@ onwaarschijnlijk
 				</pattern>
 				<message>Voor een meervoud moet het 'beide' zijn.</message>
 				<suggestion>beide \2</suggestion>
-				<example correction="beide bruggen">Ik zie dat <marker>beiden bruggen</marker> dicht zijn.</example>
+				<example correction="beide deuren">Ik zie dat <marker>beiden deuren</marker> dicht zijn.</example>
 			</rule>			
 			<rule>
 				<pattern>
@@ -9385,7 +9386,7 @@ onwaarschijnlijk
 			<rule>
 				<pattern>
 					<token>te</token>
-					<token postag_regexp="yes" postag=".*DE_"><exception postag_regexp="yes" postag="BNW.*"/></token>
+					<token postag_regexp="yes" postag=".*DE_"><exception postag_regexp="yes" postag="BNW.*|WKW:TGW:INF.*"/><exception regexp="yes">koop|huur|voer|Den|baat|beurt|gast|hulp|pas|pletter|schande|voet|vondeling|vriend|weer|paard</exception></token>
 				</pattern>
 				<message>Voor een zelfstandig naamwoord hoort 'de'.</message>
 				<suggestion>de \2</suggestion>
@@ -9405,15 +9406,14 @@ onwaarschijnlijk
 				<example correction="fietsen">Ze heeft geleerd te <marker>fietsten</marker>.</example>
 			</rule>			
 		</rulegroup>
-		<!--
 		<rulegroup id="SAMENSTELLING_STAM_ZNW" name="lees ervaring" >
 			<antipattern>
 				<token postag_regexp="yes" postag="ZNW:EKV.*"/>
-				<token postag_regexp="yes" postag="WKW:TGW:INF"/></token>
+				<token postag="WKW:TGW:INF"/>
 			</antipattern>
 			<antipattern>
 				<token postag_regexp="yes" postag="BNW.*"/>
-				<token postag_regexp="yes" postag="ZNW.*"/></token>
+				<token postag_regexp="yes" postag="ZNW.*"/>
 			</antipattern>
 			<rule>
 				<pattern>
@@ -9440,7 +9440,6 @@ onwaarschijnlijk
 				<example correction="leesboek">Zij heeft het <marker>lees boek</marker>.</example>
 			</rule>			
 		</rulegroup>
-		-->
 		<rulegroup id="GAAN_ERVAN_UIT" name="Gaan ervan uit">
 			<rule>
 				<pattern>
