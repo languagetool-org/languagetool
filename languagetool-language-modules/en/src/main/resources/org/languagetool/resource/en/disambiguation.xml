@@ -13788,4 +13788,28 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="masks[mask/NNS,mask/VBZ]" outputform="masks[mask/NNS]">Just how well can <marker>masks</marker> block the, even smaller than pollen, yellow sand dust?</example>
         <example type="untouched">How good can his become?</example>
     </rule>
+
+    <rulegroup id="LIVE_VB" name="VB on 'live'">
+        <rule>
+            <pattern>
+                <token postag="PRP|MD|TO" postag_regexp="yes" />
+                <marker>
+                    <token chunk_re=".-VP">live</token>
+                </marker>
+                <token postag="IN|DT" postag_regexp="yes" />
+            </pattern>
+            <disambig action="remove" postag="RB"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="PRP|MD|TO" postag_regexp="yes" />
+                <token postag="RB" chunk_re=".-VP|B-ADVP" />
+                <marker>
+                    <token chunk_re=".-VP">live</token>
+                </marker>
+                <token postag="IN|DT" postag_regexp="yes" />
+            </pattern>
+            <disambig action="remove" postag="RB"/>
+        </rule>
+    </rulegroup>
 </rules>
