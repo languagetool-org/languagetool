@@ -34131,7 +34131,7 @@ though, and has since been slightly modified)-->
                   <token skip="-1">est</token>
                   <token>,</token>
                   <token regexp="yes" skip="-1">qu[ei]?</token>
-                  <token regexp="yes">qu[ei]?</token>
+                  <token regexp="yes">qu[ei]</token>
               </antipattern>
               <pattern>
                   <token>c'</token>
@@ -34144,26 +34144,26 @@ though, and has since been slightly modified)-->
               <message>La virgule doit être omise dans ce contexte.</message>
               <suggestion>\4</suggestion>
               <example correction="qui">C'est lui<marker>, qui</marker> part demain.</example>
-              <example correction="que">C’est l’eau laissée dans la piscine<marker>, que</marker> j'ai vidée.</example>
+              <example correction="que">C’est le sac laissé dans la cuisine<marker>, que</marker> j'ai vidé.</example>
           </rule>
           <rule>
               <antipattern>
                   <token postag="SENT_START"/>
-                  <token regexp="yes">lui-même|elle-même|eux-mêmes?|nous-mêmes?|vous-mêmes?|elles-mêmes?</token>
+                  <token regexp="yes">lui-même|elles?-mêmes?|eux-mêmes?|nous-mêmes?|vous-mêmes?</token>
+                  <token>,</token>
+                  <token regexp="yes" skip="-1">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
                   <token>,</token>
                   <token postag="V.*" postag_regexp="yes"/>
-                  <token regexp="yes">[^,‘’–)—."\/;\]\|:(\…'«»“”-]+</token>
-                  <token>,</token>
               </antipattern>
               <antipattern>
                   <token postag="SENT_START"/>
-                  <token regexp="yes">lui-même|elle-même|eux-mêmes?|nous-mêmes?|vous-mêmes?|elles-mêmes?</token>
+                  <token regexp="yes">lui-même|elles?-mêmes?|eux-mêmes?|nous-mêmes?|vous-mêmes?</token>
                   <token>,</token>
                   <token postag="V.*" postag_regexp="yes"/>
                   <token>-t-il</token>
               </antipattern>
               <antipattern>
-                  <token regexp="yes">lui-même|elle-même|eux-mêmes?|nous-mêmes?|vous-mêmes?|elles-mêmes?</token>
+                  <token regexp="yes">lui-même|elles?-mêmes?|eux-mêmes?|nous-mêmes?|vous-mêmes?</token>
                   <token>,</token>
                   <token  min="0" postag="R pers obj.*" postag_regexp="yes"/>
                   <token postag="C sub.*|C coor.*" postag_regexp="yes"/>
@@ -34171,7 +34171,7 @@ though, and has since been slightly modified)-->
               <pattern>
                   <token postag="SENT_START"/>
                   <marker>
-                      <token regexp="yes">lui-même|elle-même|eux-mêmes?|nous-mêmes?|vous-mêmes?|elles-mêmes?</token>
+                      <token regexp="yes">lui-même|elles?-mêmes?|eux-mêmes?|nous-mêmes?|vous-mêmes?</token>
                       <token>,</token>
                       <token  min="0" postag="R pers obj.*" postag_regexp="yes"/>
                       <token postag="V.*" postag_regexp="yes"/>
@@ -34189,7 +34189,7 @@ though, and has since been slightly modified)-->
                   <token regexp="yes">seule?s?</token>
                   <token>,</token>
                   <token postag="V.*" postag_regexp="yes"/>
-                  <token regexp="yes">[^,‘’–)—."\/;\]\|:(\…'«»“”-]+</token>
+                  <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
                   <token>,</token>
               </antipattern>
               <antipattern>
@@ -34246,31 +34246,7 @@ though, and has since been slightly modified)-->
               </pattern>
               <message>La virgule doit être omise dans ce contexte.</message>
               <suggestion>\1 \2 \4</suggestion>
-              <example correction="autrement dit son">Sa maison <marker>autrement dit, son</marker> lieu de résidence,  ne se trouve pas en France.</example>
-          </rule>
-          <rule>
-              <antipattern>
-                  <token>,</token>
-                  <token>mais</token>
-                  <token>bon</token>
-              </antipattern>
-              <pattern>
-                  <token postag="SENT_START"/>
-                  <token regexp="yes" min="1" max="2">[^,‘’–)—."\/;\]\|:(\…'«»“”-]+</token>
-                  <marker>
-                      <token postag="V.*" postag_regexp="yes"/>
-                      <token regexp="yes" min="0" max="2">[^,‘’–)—."\/;\]\|:(\…'«»“”-]+</token>
-                      <token>,</token>
-                      <token regexp="yes">mais|car</token>
-                  </marker>
-                  <token regexp="yes" min="0" max="3">[^,‘’–)—."\/;\]\|:(\…'«»“”-]+</token>
-                  <token postag="[VJ].*" postag_regexp="yes"/>
-                  <token regexp="yes" min="0" max="2">[^,‘’–)—."\/;\]\|:(\…'«»“”-]+</token>
-                  <token postag="SENT_END"/>
-              </pattern>
-              <message>La virgule peut être facultative dans ce contexte.</message>
-              <suggestion>\3 \6</suggestion>
-              <example correction="dit car">Je le <marker>dit, car</marker> je le pense vraiment.</example>
+              <example correction="autrement dit son">Sa maison <marker>autrement dit, son</marker> lieu de résidence, ne se trouve pas en France.</example>
           </rule>
       </rulegroup>
     <rulegroup id="ESPACE_APRES_POINT" name="Vérifiez l'espace après le point.">
