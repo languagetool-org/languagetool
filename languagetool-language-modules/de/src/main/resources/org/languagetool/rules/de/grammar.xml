@@ -3968,7 +3968,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token regexp="yes">(.*)-(und|oder|bzw)<exception>Entweder-oder</exception></token>
             </pattern>
-            <message>Möglicherweise fehlt ein Leerzeichen nach dem Bindestrich: <suggestion><match no="1" regexp_match="(.*)-(und|oder|bzw)" regexp_replace="$1- $2"/></suggestion>.</message>
+            <message>Möglicherweise fehlt ein Leerzeichen nach dem Bindestrich.</message>
+            <suggestion><match no="1" regexp_match="(.*)-(und|oder|bzw)" regexp_replace="$1- $2"/></suggestion>
             <example>Das ist keine Frage des <marker>Entweder-oder</marker>.</example>
             <example correction="Haus- bzw">Das ist <marker>Haus-bzw</marker>. Grundbesitz.</example>
             <example correction="Haus- und">Das ist <marker>Haus-und</marker> Grundbesitz.</example>
@@ -11849,7 +11850,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token>.</token>
                 </pattern>
-                <message>Fehlt hier ein Leerzeichen vor 'zu': <suggestion>zu lassen</suggestion>?</message>
+                <message>Fehlt hier ein Leerzeichen vor 'zu'?</message>
+                <suggestion>zu lassen</suggestion>
                 <example correction="zu lassen">Es ist besser, das sein <marker>zulassen</marker>.</example>
             </rule>
         </rulegroup>
@@ -11964,7 +11966,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>inne</token>
                 <token regexp="yes" inflected="yes">haben|halten|wohnen|werden</token>
             </pattern>
-            <message>Die Verben 'innehaben', 'innewohnen', 'innehalten' und 'innewerden' werden zusammengeschrieben: <suggestion>\1\2</suggestion></message>
+            <message>Die Verben 'innehaben', 'innewohnen', 'innehalten' und 'innewerden' werden zusammengeschrieben.</message>
+            <suggestion>\1\2</suggestion>
             <url>https://www.korrekturen.de/beliebte_fehler/inne_haben.shtml</url>
             <example correction="innehaben">Bald wird er das Amt des Bürgermeisters <marker>inne haben</marker>.</example>
             <example correction="innehat">Das Amt, das er <marker>inne hat</marker>.</example>
@@ -19448,7 +19451,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token negate="yes">Jahren</token>
                 </pattern>
-                <message>'Zwischen' steht mit 'und', nicht mit 'bis': <suggestion>zwischen \2 und \4</suggestion>, <suggestion>von \2 bis \4</suggestion>.</message>
+                <message>'Zwischen' steht mit 'und', nicht mit 'bis'.</message>
+                <suggestion>zwischen \2 und \4</suggestion>
+                <suggestion>von \2 bis \4</suggestion>
                 <short>'Zwischen' steht mit 'und', nicht mit 'bis'.</short>
                 <example><marker>Von 9 bis 10</marker> Uhr.</example>
                 <example><marker>Seit 3000 bis 4000</marker> Jahren gibt es Häuser.</example>
@@ -19457,14 +19462,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <regexp>(seit|zwischen) (&wochentage;) bis (&wochentage;)</regexp>
-                <message>'Zwischen' steht mit 'und', nicht mit 'bis': <suggestion>zwischen \2 und \3</suggestion>, <suggestion>von \2 bis \3</suggestion>.</message>
+                <message>'Zwischen' steht mit 'und', nicht mit 'bis'.</message>
+                <suggestion>zwischen \2 und \3</suggestion>
+                <suggestion>von \2 bis \3</suggestion>
                 <short>'Zwischen' steht mit 'und', nicht mit 'bis'.</short>
                 <example correction="Zwischen Montag und Freitag|Von Montag bis Freitag"><marker>Zwischen Montag bis Freitag</marker>.</example>
                 <example correction="Zwischen Montag und Freitag|Von Montag bis Freitag"><marker>Seit Montag bis Freitag</marker>.</example>
             </rule>
             <rule>
                 <regexp>(seit|zwischen) (&monate;) bis (&monate;)</regexp>
-                <message>'Zwischen' steht mit 'und', nicht mit 'bis': <suggestion>zwischen \2 und \3</suggestion>, <suggestion>von \2 bis \3</suggestion>.</message>
+                <message>'Zwischen' steht mit 'und', nicht mit 'bis'.</message>
+                <suggestion>zwischen \2 und \3</suggestion>
+                <suggestion>von \2 bis \3</suggestion>
                 <short>'Zwischen' steht mit 'und', nicht mit 'bis'.</short>
                 <example correction="Zwischen März und Juli|Von März bis Juli"><marker>Zwischen März bis Juli</marker>.</example>
                 <example correction="Zwischen März und Juli|Von März bis Juli"><marker>Seit März bis Juli</marker>.</example>
@@ -33388,7 +33397,8 @@ Andere Projekte</example>
                     <token>und</token>
                     <token>mühen</token>
                 </pattern>
-                <message>Bitte prüfen Sie die Kleinschreibung: <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="alllower" no="2"/> <match case_conversion="startupper" no="3"/></suggestion>.</message>
+                <message>Bitte prüfen Sie die Kleinschreibung.</message>
+                <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="alllower" no="2"/> <match case_conversion="startupper" no="3"/></suggestion>
                 <short>&prgk;.</short>
                 <example correction="Kosten und Mühen">Wir haben keine <marker>kosten und mühen</marker> gescheut.</example>
             </rule>
@@ -33398,7 +33408,8 @@ Andere Projekte</example>
                     <token>und</token>
                     <token>mühen</token>
                 </pattern>
-                <message>Bitte prüfen Sie die Kleinschreibung: <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="alllower" no="2"/> <match case_conversion="startupper" no="3"/></suggestion>.</message>
+                <message>Bitte prüfen Sie die Kleinschreibung.</message>
+                <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="alllower" no="2"/> <match case_conversion="startupper" no="3"/></suggestion>
                 <short>&prgk;.</short>
                 <example correction="Kosten und Mühen">Wir haben keine <marker>Kosten und mühen</marker> gescheut.</example>
             </rule>
@@ -33408,7 +33419,8 @@ Andere Projekte</example>
                     <token>und</token>
                     <token>Mühen</token>
                 </pattern>
-                <message>Bitte prüfen Sie die Kleinschreibung: <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="alllower" no="2"/> <match case_conversion="startupper" no="3"/></suggestion>.</message>
+                <message>Bitte prüfen Sie die Kleinschreibung.</message>
+                <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="alllower" no="2"/> <match case_conversion="startupper" no="3"/></suggestion>
                 <short>&prgk;.</short>
                 <example correction="Kosten und Mühen">Wir haben keine <marker>kosten und Mühen</marker> gescheut.</example>
             </rule>
@@ -33419,7 +33431,8 @@ Andere Projekte</example>
                     <token>noch</token>
                     <token>mühen</token>
                 </pattern>
-                <message>Bitte prüfen Sie die Kleinschreibung: <suggestion><match no="1"/> <match case_conversion="startupper" no="2"/> <match case_conversion="alllower" no="3"/> <match case_conversion="startupper" no="4"/></suggestion>.</message>
+                <message>Bitte prüfen Sie die Kleinschreibung.</message>
+                <suggestion><match no="1"/> <match case_conversion="startupper" no="2"/> <match case_conversion="alllower" no="3"/> <match case_conversion="startupper" no="4"/></suggestion>
                 <short>&prgk;.</short>
                 <example correction="weder Kosten noch Mühen">Wir haben <marker>weder kosten noch mühen</marker> gescheut.</example>
             </rule>
@@ -33430,7 +33443,8 @@ Andere Projekte</example>
                     <token>noch</token>
                     <token>Mühen</token>
                 </pattern>
-                <message>Bitte prüfen Sie die Kleinschreibung: <suggestion><match no="1"/> <match case_conversion="startupper" no="2"/> <match case_conversion="alllower" no="3"/> <match case_conversion="startupper" no="4"/></suggestion>.</message>
+                <message>Bitte prüfen Sie die Kleinschreibung.</message>
+                <suggestion><match no="1"/> <match case_conversion="startupper" no="2"/> <match case_conversion="alllower" no="3"/> <match case_conversion="startupper" no="4"/></suggestion>
                 <short>&prgk;.</short>
                 <example correction="weder Kosten noch Mühen">Wir haben <marker>weder kosten noch Mühen</marker> gescheut.</example>
             </rule>
@@ -33441,7 +33455,8 @@ Andere Projekte</example>
                     <token>noch</token>
                     <token>mühen</token>
                 </pattern>
-                <message>Bitte prüfen Sie die Kleinschreibung: <suggestion><match no="1"/> <match case_conversion="startupper" no="2"/> <match case_conversion="alllower" no="3"/> <match case_conversion="startupper" no="4"/></suggestion>.</message>
+                <message>Bitte prüfen Sie die Kleinschreibung.</message>
+                <suggestion><match no="1"/> <match case_conversion="startupper" no="2"/> <match case_conversion="alllower" no="3"/> <match case_conversion="startupper" no="4"/></suggestion>
                 <short>&prgk;.</short>
                 <example correction="weder Kosten noch Mühen">Wir haben <marker>weder Kosten noch mühen</marker> gescheut.</example>
             </rule>
@@ -36047,7 +36062,8 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">(As?|Es?|B|F|C|G|D|H|Fis|Cis|Gis|Dis|Ais)\-Moll</token>
                 </pattern>
-                <message>Bei Molltonarten wird der Buchstabe zur Bezeichnung der Tonart kleingeschrieben: <suggestion><match case_conversion="startlower" no="1"/></suggestion>.</message>
+                <message>Bei Molltonarten wird der Buchstabe zur Bezeichnung der Tonart kleingeschrieben.</message>
+                <suggestion><match case_conversion="startlower" no="1"/></suggestion>
                 <url>https://www.duden.de/rechtschreibung/Moll_Tongeschlecht</url>
                 <short>&prgk;.</short>
                 <example correction="a-Moll">Das Stück ist in <marker>A-Moll</marker>.</example>
@@ -36056,7 +36072,8 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">(ces|ges|des|as|es|b|f|c|g|d|a|e|h|fis|cis)\-Dur</token>
                 </pattern>
-                <message>Bei Durtonarten wird der Buchstabe zur Bezeichnung der Tonart großgeschrieben: <suggestion><match case_conversion="startupper" no="1"/></suggestion>.</message>
+                <message>Bei Durtonarten wird der Buchstabe zur Bezeichnung der Tonart großgeschrieben.</message>
+                <suggestion><match case_conversion="startupper" no="1"/></suggestion>
                 <url>https://www.duden.de/rechtschreibung/Dur</url>
                 <short>&prgk;.</short>
                 <example correction="C-Dur">Das Stück ist in <marker>c-Dur</marker>.</example>
@@ -36089,7 +36106,8 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">I\-Punkt(e[ns]?)?|I\-Tüpfelchen|I\-Pünktchen</token>
                 </pattern>
-                <message>In dem Wort 'i-Punkt' wird entgegen sonstigen Regeln das i kleingeschrieben, weil es sich um einen ikonischen Gebrauch handelt: <suggestion><match case_conversion="startlower" no="1"/></suggestion>.</message>
+                <message>In dem Wort 'i-Punkt' wird entgegen sonstigen Regeln das i kleingeschrieben, weil es sich um einen ikonischen Gebrauch handelt.</message>
+                <suggestion><match case_conversion="startlower" no="1"/></suggestion>
                 <url>https://www.duden.de/suchen/dudenonline/i-Punkt</url>
                 <short>&prgk;.</short>
                 <example>Da fehlt der <marker>i-Punkt</marker>.</example>
@@ -36099,7 +36117,8 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">P[Hh]\-Wert(e[ns]?)?</token>
                 </pattern>
-                <message>In dem Wort 'pH-Wert' wird entgegen sonstigen Regeln das p kleingeschrieben: <suggestion><match no="1" regexp_match="Ph|PH" regexp_replace="pH" case_conversion="startlower"/></suggestion>.</message>
+                <message>In dem Wort 'pH-Wert' wird entgegen sonstigen Regeln das p kleingeschrieben.</message>
+                <suggestion><match no="1" regexp_match="Ph|PH" regexp_replace="pH" case_conversion="startlower"/></suggestion>
                 <url>https://www.duden.de/rechtschreibung/pH_Wert</url>
                 <short>&prgk;.</short>
                 <example>Bestimme den <marker>pH-Wert</marker>.</example>
@@ -36109,7 +36128,8 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[XYZ]\-Achse</token>
                 </pattern>
-                <message>Bei der Bezeichnung von Achsen des Koordinatensystems wird entgegen sonstigen Regeln der erste Buchstabe kleingeschrieben: <suggestion><match no="1" case_conversion="startlower"/></suggestion>.</message>
+                <message>Bei der Bezeichnung von Achsen des Koordinatensystems wird entgegen sonstigen Regeln der erste Buchstabe kleingeschrieben.</message>
+                <suggestion><match no="1" case_conversion="startlower"/></suggestion>
                 <url>https://www.duden.de/rechtschreibung/x_Achse</url>
                 <short>&prgk;.</short>
                 <example correction="x-Achse">Die <marker>X-Achse</marker> oder Abszissenachse</example>
@@ -37163,7 +37183,8 @@ Andere Projekte</example>
                 <token skip="-1"/>
                 <token regexp="yes">[?!.]</token>
             </pattern>
-            <message>Hier scheint der Artikel zu fehlen: <suggestion><match case_conversion="startlower" no="2" regexp_match="^(.*)$" regexp_replace="der $1"/></suggestion></message>
+            <message>Hier scheint der Artikel zu fehlen.</message>
+            <suggestion><match case_conversion="startlower" no="2" regexp_match="^(.*)$" regexp_replace="der $1"/></suggestion>
             <example correction="der Unterschied">Was ist <marker>Unterschied</marker> zwischen "gratis" und "kostenlos"?</example>
             <example>Ratsmitgliedern ist <marker>Unterschied</marker> zwischen Amts- und leichter Sprache oft unbekannt</example><!-- typical headline -->
             <example>Die Farbe ist <marker>Unterschied</marker> genug</example>
@@ -37310,7 +37331,8 @@ Andere Projekte</example>
                     </marker>
                     <token postag="SUB:.*:SIN:(MAS|NEU).*" postag_regexp="yes"><exception postag="SUB:.*:PLU:.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Auf 'beharren auf' folgt der Dativ: <suggestion><match no="3" regexp_replace="" regexp_match="n$"/>m</suggestion></message>
+                <message>Auf 'beharren auf' folgt der Dativ.</message>
+                <suggestion><match no="3" regexp_replace="" regexp_match="n$"/>m</suggestion>
                 <example correction="seinem">Er beharrte auf <marker>seinen</marker> Recht.</example>
                 <example>Sie beharrte auf <marker>ihrer</marker> Meinung.</example>
                 <example correction="meinem">Ich beharre auf <marker>meine</marker> Standpunkt.</example>
@@ -37328,7 +37350,8 @@ Andere Projekte</example>
                     </marker>
                     <token postag="SUB:.*:SIN:FEM.*" postag_regexp="yes"/>
                 </pattern>
-                <message>Auf 'beharren auf' folgt der Dativ: <suggestion><match no="3" regexp_replace="" regexp_match="n$"/>r</suggestion></message>
+                <message>Auf 'beharren auf' folgt der Dativ.</message>
+                <suggestion><match no="3" regexp_replace="" regexp_match="n$"/>r</suggestion>
                 <example correction="seiner">Er beharrte auf <marker>seine</marker> Meinung dazu.</example>
                 <example correction="einer">Diese Entscheidung beruhte auf <marker>eine</marker> Information, die sich als falsch erwies.</example>
                 <example>Sie beharrte auf <marker>ihrer</marker> Meinung.</example>
@@ -39045,7 +39068,8 @@ Andere Projekte</example>
         <rule id="WIDER_BESSEREN_WISSENS" name="'wider besseren Wissens (wider besseres Wissen)'">
             <!-- TODO: allgemeines Pattern -->
             <regexp>wider besseren Wissens</regexp>
-            <message>'wider' benötigt den Akkusativ: <suggestion>wider besseres Wissen</suggestion></message>
+            <message>'wider' benötigt den Akkusativ.</message>
+            <suggestion>wider besseres Wissen</suggestion>
             <url>https://www.korrekturen.de/beliebte_fehler/wider-besseren-wissens.shtml</url>
             <short>'wider' erfordert den Akkusativ</short>
             <example correction="wider besseres Wissen">Der Bundestag beschloss das Gesetz <marker>wider besseren Wissens</marker>.</example>
@@ -40336,7 +40360,10 @@ Andere Projekte</example>
                     <token regexp="yes">bei|von|nahe|nebst|samt|mit(samt)?|zu</token>
                     <marker><token regexp="yes" case_sensitive="yes">die|das</token></marker>
                 </pattern>
-                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion>dem</suggestion>, <suggestion>den</suggestion> oder <suggestion>der</suggestion></message>
+                <message>Die Präposition '\1' erfordert in der Regel den Dativ.</message>
+                <suggestion>dem</suggestion>
+                <suggestion>den</suggestion>
+                <suggestion>der</suggestion>
                 <example correction="dem|den|der">Es ist nur gerecht, wenn er bei <marker>die</marker> Prüfung durchfällt.</example>
                 <example>Butter bei die Fische!</example>
                 <example>Das ist mit das Dümmste, was ich je gehört habe.</example>
@@ -40356,7 +40383,8 @@ Andere Projekte</example>
                         <token case_sensitive="yes">einen</token>
                     </marker>
                 </pattern>
-                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion>einem</suggestion></message>
+                <message>Die Präposition '\1' erfordert in der Regel den Dativ.</message>
+                <suggestion>einem</suggestion>
                 <example correction="einem">Sie ging zu <marker>einen</marker> Arzt.</example>
                 <example correction="einem">Mit <marker>einen</marker> anderen Arzt spreche ich nicht.</example>
                 <example correction="einem">Er änderte die Meinung von <marker>einen</marker> Moment auf den anderen.</example>
@@ -40378,7 +40406,8 @@ Andere Projekte</example>
                     <token min="0" spacebefore="no">.</token>
                     <token postag_regexp="yes" postag="SUB:...:SIN:(MAS|NEU).*"><exception postag_regexp="yes" postag="SUB:...:PLU:.*"/></token>
                 </pattern>
-                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion></message>
+                <message>Die Präposition '\1' erfordert in der Regel den Dativ.</message>
+                <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion>
                 <example correction="ihrem">Sie ging zu <marker>ihren</marker> Arzt.</example>
                 <example correction="seinem">Mit <marker>seinen</marker> Arzt spreche ich nicht.</example>
                 <example correction="ihrem">Er ging von <marker>ihren</marker> Mann zu einem anderen.</example>
@@ -40393,7 +40422,8 @@ Andere Projekte</example>
                         <token regexp="yes">ihn|mich|dich</token>
                     </marker>
                 </pattern>
-                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion><match no="2" postag="PRO:PER:AKK:SIN:(.*)" postag_regexp="yes" postag_replace="PRO:PER:DAT:SIN:$1"/></suggestion></message>
+                <message>Die Präposition '\1' erfordert in der Regel den Dativ.</message>
+                <suggestion><match no="2" postag="PRO:PER:AKK:SIN:(.*)" postag_regexp="yes" postag_replace="PRO:PER:DAT:SIN:$1"/></suggestion>
                 <example correction="ihm">Sie ging zu <marker>ihn</marker> Arzt.</example>
                 <example correction="mir">Komm mit zu <marker>mich</marker>!</example>
             </rule>
@@ -40404,7 +40434,8 @@ Andere Projekte</example>
                         <token regexp="yes">keinen|niemanden</token>
                     </marker>
                 </pattern>
-                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion></message>
+                <message>Die Präposition '\1' erfordert in der Regel den Dativ.</message>
+                <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion>
                 <example correction="keinem">Sie sprach mit <marker>keinen</marker> der Ärzte.</example>
                 <example correction="niemandem">Sie spricht mit <marker>niemanden</marker>!</example>
             </rule>
@@ -40513,7 +40544,8 @@ Andere Projekte</example>
                         <exception postag="SUB:.+:MAS" postag_regexp="yes"/>
                     </token>
                 </pattern>
-                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion><match no="2" regexp_match="n$" regexp_replace="r"/></suggestion>.</message>
+                <message>Die Präposition '\1' erfordert in der Regel den Dativ.</message>
+                <suggestion><match no="2" regexp_match="n$" regexp_replace="r"/></suggestion>
                 <example correction="voller">Mit <marker>vollen</marker> Absicht zerstörte er ihr Gewächshaus.</example>
             </rule>
             <rule>
@@ -40526,7 +40558,8 @@ Andere Projekte</example>
                         <exception scope="next" postag="SUB:DAT:PLU:.+" postag_regexp="yes" />
                     </token>
                 </pattern>
-                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion>.</message>
+                <message>Die Präposition '\1' erfordert in der Regel den Dativ.</message>
+                <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion>
                 <example correction="ernstem">Mit <marker>ernsten</marker> Blick starrte er sie an.</example>
                 <example>Er hatte ein Gewicht von <marker>wenigen</marker> Kilogramm.</example>
             </rule>
@@ -40540,7 +40573,8 @@ Andere Projekte</example>
                     <token>seit</token>
                     <marker><token regexp="yes">[dms]?eine|d(ie|as)|unsere|ihre|eure</token></marker>
                 </pattern>
-                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion><match no="2" postag="(.+)AKK(.*)" postag_regexp="yes" postag_replace="$1DAT$2"/></suggestion></message>
+                <message>Die Präposition '\1' erfordert in der Regel den Dativ.</message>
+                <suggestion><match no="2" postag="(.+)AKK(.*)" postag_regexp="yes" postag_replace="$1DAT$2"/></suggestion>
                 <example correction="deiner|ihrer|meiner|seiner|unserer">Sie ist seit <marker>ihre</marker> Kindheit sehr schüchtern.</example>
                 <example>Er ist sehr glücklich, seit <marker>seine</marker> Mutter zurück ist.</example>
             </rule>
@@ -40814,7 +40848,8 @@ Andere Projekte</example>
                     <token min="0">nicht</token>
                     <marker><token postag="(ART|PA[12]|ADJ):DAT:SIN:.+" postag_regexp="yes" regexp="yes">.+em</token></marker>
                 </pattern>
-                <message>Auf die Präposition '\2' folgt in der Regel der Akkusativ: <suggestion><match no="4" regexp_match="m$" regexp_replace="n"/></suggestion></message>
+                <message>Auf die Präposition '\2' folgt in der Regel der Akkusativ.</message>
+                <suggestion><match no="4" regexp_match="m$" regexp_replace="n"/></suggestion>
                 <example correction="verschwindenden">Für <marker>verschwindendem</marker> Imaginärteil erhalten wir eine Nulllösung.</example>
                 <example correction="verschwindenden">Für nicht <marker>verschwindendem</marker> Imaginärteil erhalten wir eine Nulllösung.</example>
                 <example>In was für einem Land leben wir denn?</example>
@@ -41163,7 +41198,8 @@ Andere Projekte</example>
                         <token regexp="yes">ge(seh|lass)en</token>
                     </marker>
                 </pattern>
-                <message>Einige Verben der sinnlichen Wahrnehmung und Hilfsverben erfordern statt des Partizips mit 'ge-' den Infinitiv: <suggestion><match no="3" regexp_match="^ge" regexp_replace=""/></suggestion>.</message>
+                <message>Einige Verben der sinnlichen Wahrnehmung und Hilfsverben erfordern statt des Partizips mit 'ge-' den Infinitiv.</message>
+                <suggestion><match no="3" regexp_match="^ge" regexp_replace=""/></suggestion>
                 <!-- <message>Einige Verben der sinnlichen Wahrnehmung und Hilfsverben erfordern statt des Partizips mit 'ge-' den Infinitiv: <suggestion><match no="2" postag="PA2:PRD:GRU:VER" postag_regexp="yes" postag_replace="VER:INF:SFT"/></suggestion>.</message> -->
                 <short>Evtl. Ersatzinfinitiv statt Partizip Perfekt erforderlich.</short>
                 <example>Ich habe es kommen <marker>sehen</marker>.</example>
@@ -43307,7 +43343,8 @@ Andere Projekte</example>
             <url>https://www.duden.de/rechtschreibung/_jaehrig</url>
             <rule>
                 <regexp>(\d+jährige[rsnm]?)</regexp>
-                <message>Die Kombination Zahl und 'jährig' wird mit Bindestrich geschrieben: <suggestion><match no="0" regexp_match="([Jj])ährig" regexp_replace="-$1ährig"/></suggestion></message>
+                <message>Die Kombination Zahl und 'jährig' wird mit Bindestrich geschrieben.</message>
+                <suggestion><match no="0" regexp_match="([Jj])ährig" regexp_replace="-$1ährig"/></suggestion>
                 <short>Fehlender Bindestrich</short>
                 <example correction="46-jährige">Der <marker>46jährige</marker> Diplom-Kaufmann</example>
                 <example correction="46-jähriger">Ein <marker>46jähriger</marker> Diplom-Kaufmann</example>
@@ -43315,7 +43352,8 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <regexp>(\d+) (jährige[rsnm]?)</regexp>
-                <message>Die Kombination Zahl und 'jährig' wird mit Bindestrich geschrieben: <suggestion>\1-\2</suggestion></message>
+                <message>Die Kombination Zahl und 'jährig' wird mit Bindestrich geschrieben.</message>
+                <suggestion>\1-\2</suggestion>
                 <short>Fehlender Bindestrich</short>
                 <example correction="46-jähriger">Ein <marker>46 jähriger</marker> Diplom-Kaufmann</example>
             </rule>
@@ -44591,7 +44629,8 @@ Andere Projekte</example>
                     <token regexp="yes">'|’</token>
                     <token>s</token>
                 </pattern>
-                <message>Normalerweise wird im Deutschen vor einem Genitiv-s kein Apostroph gesetzt: <suggestion>\1s</suggestion>. In Ausnahmefällen wie bei dem Firmennamen 'McDonald’s' oder 'Andrea’s Blumenladen' kann der Apostroph aber richtig sein.</message>
+                <message>Normalerweise wird im Deutschen vor einem Genitiv-s kein Apostroph gesetzt. Ausnahmen sind möglich bei Firmennamen wie 'McDonald’s' oder 'Andrea’s Blumenladen'.</message>
+                <suggestion>\1s</suggestion>
                 <short>Normalerweise wird im Deutschen vor einem Genitiv-s kein Apostroph gesetzt.</short>
                 <example><marker>Andrea's</marker> Blumenladen</example>
                 <example correction="Peters"><marker>Peter's</marker> Bude.</example>
@@ -44608,7 +44647,8 @@ Andere Projekte</example>
                         <token>s</token>
                     </marker>
                 </pattern>
-                <message>Normalerweise wird im Deutschen vor einem Genitiv-s kein Apostroph gesetzt: <suggestion>\2s</suggestion>. In Ausnahmefällen wie bei dem Firmennamen 'Kaiser’s' kann der Apostroph aber richtig sein.</message>
+                <message>Normalerweise wird im Deutschen vor einem Genitiv-s kein Apostroph gesetzt. Ausnahmen sind möglich bei Firmennamen wie 'McDonald’s' oder 'Andrea’s Blumenladen'.</message>
+                <suggestion>\2s</suggestion>
                 <short>Normalerweise wird im Deutschen vor einem Genitiv-s kein Apostroph gesetzt.</short>
                 <example correction="Kaisers">Des <marker>Kaiser's</marker> neue Kleider.</example>
                 <example correction="Müllers">Das Wandern ist des <marker>Müller’s</marker> Lust.</example>
@@ -44682,7 +44722,9 @@ Andere Projekte</example>
                     <token>)</token>
                 </marker>
             </pattern>
-            <message>Bitte verwenden Sie in Aufzählungen entweder Punkt oder Klammer, nicht beides: <suggestion>\2.</suggestion> oder <suggestion>\2)</suggestion>.</message>
+            <message>Bitte verwenden Sie in Aufzählungen entweder Punkt oder Klammer, nicht beides.</message>
+            <suggestion>\2.</suggestion>
+            <suggestion>\2)</suggestion>
             <short>Bitte verwenden Sie in Aufzählungen entweder Punkt oder Klammer, nicht beides.</short>
             <example><marker>1)</marker> Element der Aufzählung.</example>
             <example><marker>2.</marker> Element der Aufzählung.</example>
@@ -44824,7 +44866,8 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <regexp case_sensitive='yes'>([0-9]+°K)</regexp>
-                <message>'°K' (Grad Kelvin) wird seit 1967 nicht mehr verwendet. Vorschlag: <suggestion><match no="1" regexp_match="([0-9]*)°K" regexp_replace="$1 K"/></suggestion></message>
+                <message>'°K' (Grad Kelvin) wird seit 1967 nicht mehr verwendet.</message>
+                <suggestion><match no="1" regexp_match="([0-9]*)°K" regexp_replace="$1 K"/></suggestion>
                 <example>Es ist <marker>25 K</marker> warm.</example>
                 <example correction="25 K">Es ist <marker>25°K</marker> warm.</example>
             </rule>
@@ -45096,7 +45139,8 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <regexp>\b(teils\s[^,]+\steils)\b</regexp>
-                <message>Gleichrangige Wortgruppen grenzt man mit einem Komma voneinander ab: <suggestion><match no="1" regexp_match="\steils$" regexp_replace=", teils"/></suggestion></message>
+                <message>Gleichrangige Wortgruppen grenzt man mit einem Komma voneinander ab.</message>
+                <suggestion><match no="1" regexp_match="\steils$" regexp_replace=", teils"/></suggestion>
                 <example correction="teils lustig, teils">Der Film war <marker>teils lustig teils</marker> traurig.</example>
                 <example correction="teils bei seinem Vater, teils">Er lebt <marker>teils bei seinem Vater teils</marker> bei seiner Mutter.</example>
             </rule>
@@ -45360,7 +45404,8 @@ Andere Projekte</example>
         </rule>
         <rule id="ZWISCHEN_BISSTRICH" name="'zwischen' mit Bis-Strich">
             <regexp>(seit|zwischen) (([0-9]{1,5})(\-|–)([0-9]{1,5}))</regexp>
-            <message>'Zwischen' steht in der Regel mit 'und', nicht mit dem Bis-Strich: <suggestion><match no="1"/> <match no="2" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 und $3"/></suggestion>.</message>
+            <message>'Zwischen' steht in der Regel mit 'und', nicht mit dem Bis-Strich.</message>
+            <suggestion><match no="1"/> <match no="2" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 und $3"/></suggestion>
             <example correction="Zwischen 9 und 10"><marker>Zwischen 9–10</marker> Uhr.</example>
         </rule>
         <rulegroup id="VON_BIS" name="'von' mit Bis-Strich">
@@ -45373,7 +45418,8 @@ Andere Projekte</example>
                     </marker>
                     <token negate="yes">bis</token>
                 </pattern>
-                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>A bis Z</suggestion>.</message>
+                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</message>
+                <suggestion>A bis Z</suggestion>
                 <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
                 <example><marker>Pilze von A bis Z</marker>.</example>
                 <example>Die Buchstaben <marker>A–Z</marker>.</example>
@@ -45389,7 +45435,8 @@ Andere Projekte</example>
                     </marker>
                     <token negate="yes">bis</token>
                 </pattern>
-                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\2 bis \4</suggestion>.</message>
+                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</message>
+                <suggestion>\2 bis \4</suggestion>
                 <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
                 <example><marker>Pilze von A bis Z</marker>.</example>
                 <example>Die Buchstaben <marker>A–Z</marker>.</example>
@@ -45405,7 +45452,8 @@ Andere Projekte</example>
                         <token regexp="yes">([0-9]{1,5})(\-|–)([0-9]{1,5})</token>
                     </marker>
                 </pattern>
-                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion><match no="2"/> <match no="3" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3"/></suggestion>.</message>
+                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</message>
+                <suggestion><match no="2"/> <match no="3" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3"/></suggestion>
                 <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
                 <example><marker>9–10</marker> Stunden lang.</example>
                 <example>Temperaturen von <marker>9–10</marker> Grad.</example>
@@ -45424,7 +45472,8 @@ Andere Projekte</example>
                         <token regexp="yes">[0-9]{1,5}</token>
                     </marker>
                 </pattern>
-                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\2 \3 bis \5</suggestion>.</message>
+                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</message>
+                <suggestion>\2 \3 bis \5</suggestion>
                 <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
                 <example><marker>9–10</marker> Stunden lang.</example>
                 <example>Temperaturen von <marker>9–10</marker> Grad.</example>
@@ -45432,21 +45481,24 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <regexp case_sensitive='yes'>([vV]o[nm]) (Band|Blatt|Seite|Zeile) (([0-9]{1,5})(\-|–)([0-9]{1,5}))</regexp>
-                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion><match no="1"/> <match no="2"/> <match no="3" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3"/></suggestion>.</message>
+                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</message>
+                <suggestion><match no="1"/> <match no="2"/> <match no="3" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3"/></suggestion>
                 <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
                 <example correction="Von Zeile 7 bis 11"><marker>Von Zeile 7-11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
                 <example correction="Von Zeile 7 bis 11"><marker>Von Zeile 7–11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
             </rule>
             <rule>
                 <regexp case_sensitive='yes'>([vV]o[nm]) (Band|Bänden?|Blatt|Blättern?|Seiten?|Zeilen?) ([0-9]{1,5}) (\-|–) ([0-9]{1,5})</regexp>
-                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\1 \2 \3 bis \5</suggestion>.</message>
+                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</message>
+                <suggestion>\1 \2 \3 bis \5</suggestion>
                 <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
                 <example correction="Von Zeile 7 bis 11"><marker>Von Zeile 7 - 11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
                 <example correction="Von Zeile 7 bis 11"><marker>Von Zeile 7 – 11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
             </rule>
             <rule>
                 <regexp>(vo[nm]) ([0-9]{1,5})\.(\-|–)([0-9]{1,5})\.</regexp>
-                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\1 \2. bis \4.</suggestion>.</message>
+                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</message>
+                <suggestion>\1 \2. bis \4.</suggestion>
                 <example><marker>Vom 9. bis 10.</marker> April.</example>
                 <example correction="Vom 7. bis 10."><marker>Vom 7.-10.</marker> März.</example>
             </rule>
@@ -45460,7 +45512,8 @@ Andere Projekte</example>
                     <token regexp="yes">[0-9]{1,5}</token>
                     <token>.</token>
                 </pattern>
-                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\1 \2\3 bis \5\6</suggestion>.</message>
+                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</message>
+                <suggestion>\1 \2\3 bis \5\6</suggestion>
                 <example><marker>Vom 9. bis 10.</marker> April.</example>
                 <example correction="Vom 9. bis 10."><marker>Vom 9. – 10.</marker> April.</example>
                 <example correction="vom 9. bis 10.">Und <marker>vom 9. – 10.</marker> April.</example>
@@ -45848,7 +45901,8 @@ Andere Projekte</example>
                 <token>und</token>
                 <token>zwar</token>
             </pattern>
-            <message>Wird eine nachgestellte Erläuterung mit 'und zwar' eingeleitet, so ist sie mit Komma abzutrennen: <suggestion>\1,</suggestion></message>
+            <message>Wird eine nachgestellte Erläuterung mit 'und zwar' eingeleitet, so ist sie mit Komma abzutrennen.</message>
+            <suggestion>\1,</suggestion>
             <url>https://www.duden.de/sprachwissen/rechtschreibregeln/komma#D105</url>
             <example correction="gebrochen,">Sein Arm ist <marker>gebrochen</marker> und zwar mehrfach.</example>
             <example correction="kommt,">Er <marker>kommt</marker> und zwar in einer Stunde.</example>
@@ -46743,7 +46797,7 @@ Andere Projekte</example>
                     <token spacebefore="yes" regexp="yes">»|«|"|“|‹|›|‘|’|'</token>
                     <token spacebefore="yes"/>
                 </pattern>
-                <message>Eines der beiden Leerzeichen ist überflüssig. Sie sollten es löschen.</message>
+                <message>Eines der beiden Leerzeichen scheint überflüssig.</message>
                 <suggestion>\1\2 \3</suggestion>
                 <suggestion>\1 \2\3</suggestion>
                 <example correction="ist' wirklich|ist 'wirklich">Der Garten <marker>ist ' wirklich</marker>' schön.</example>
@@ -47660,7 +47714,8 @@ Andere Projekte</example>
                     </token>
                     <token postag="VER:.*" postag_regexp="yes"><exception scope="previous">und</exception></token>
                 </pattern>
-                <message>Hier fehlt ein Komma vor 'das', das vermutlich durch 'dass' zu ersetzen ist: <suggestion>\1, dass</suggestion></message>
+                <message>Hier fehlt ein Komma vor 'das', das vermutlich durch 'dass' zu ersetzen ist.</message>
+                <suggestion>\1, dass</suggestion>
                 <example correction="beklagt, dass">Er hat <marker>beklagt das</marker> sie zu lange schläft.</example>
                 <example correction="überzeugt, dass">Er war davon <marker>überzeugt das</marker> er gewonnen hatte.</example>
                 <example correction="sagte, dass">Sie <marker>sagte das</marker> er krank sei.</example>
