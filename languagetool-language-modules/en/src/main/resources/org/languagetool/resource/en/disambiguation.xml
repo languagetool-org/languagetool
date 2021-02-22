@@ -183,6 +183,26 @@
             </pattern>
             <disambig action="replace"><wd lemma="be" pos="VBP"/></disambig>
         </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">who|which|that</token>
+                <marker>
+                    <token>ai</token>    
+                </marker>
+                <token>n't</token>
+            </pattern>
+            <disambig action="replace"><wd lemma="be" pos="VBP"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">who|which|that</token>
+                <marker>
+                    <token>ai</token>    
+                </marker>
+                <token>n't</token>
+            </pattern>
+            <disambig action="add"><wd lemma="be" pos="VBZ"/></disambig>
+        </rule>
     </rulegroup>
 
     <rulegroup id="DIGIT_HYPHENATED_ADJECTIVES" name="hyphenated adjectives (e.g. 10-part)">
@@ -9226,7 +9246,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">still|long</token>
             <token regexp="yes">(is|was)n?</token>
           </antipattern>
-          <pattern>
+            <antipattern>
+                <token>too</token>
+                <token>long</token>
+                <token>to</token>
+            </antipattern>
+            <pattern>
             <marker>
               <and>
                 <token regexp="yes">
