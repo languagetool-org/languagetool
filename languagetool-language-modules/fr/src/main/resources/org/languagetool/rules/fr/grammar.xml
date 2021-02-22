@@ -37243,6 +37243,120 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rulegroup id="IL_Y_A" name="il y a" default="temp_off">
+          <rule>
+              <antipattern>
+                  <token>y</token>
+                  <token skip="-1">a</token>
+                  <token regexp="yes">pas|plus|aucun|personne|rien|qu|que|place</token>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes">si|n|II|que|n'|,|l'</token>
+                  <token>y</token>
+                  <token>a</token>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes">[^,–)!?.";:\/\]\|(«»-]+</token>
+                  <token case_sensitive="yes">Y</token>
+                  <token>a</token>
+              </antipattern>
+              <antipattern>
+                  <token postag="UNKNOWN" skip="-1"/>
+                  <token>y</token>
+                  <token>a</token>
+              </antipattern>
+              <antipattern>
+                  <token>y</token>
+                  <token>a</token>
+                  <token min="0" max="1" postag="A"/>
+                  <token regexp="yes">pas|plus|aucun|personne|rien|qu'|que|jamais|lieu|accès|recours|cours|il|-t-il|-t-on|t'|t</token>
+              </antipattern>
+              <antipattern>
+                  <token postag="[JNZ].*|R pers suj.*|C coor.*|UNKNOWN" postag_regexp="yes"/>
+                  <token>y</token>
+                  <token>a</token>
+              </antipattern>
+              <antipattern>
+                  <token>y</token>
+                  <token skip="-1">a</token>
+                  <token postag="V avoir ppa.*|V etre ppa.*|V ppa.*|UNKNOWN|M fin inte" postag_regexp="yes"/>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token>y</token>
+                      <token>a<exception scope="next" postag="V avoir ppa.*|V etre ppa.*|V ppa.*|V inf" postag_regexp="yes"/></token>
+                  </marker>
+              </pattern>
+              <message>Cette expression est considérée comme familière.</message>
+              <suggestion>il \1 \2</suggestion>
+              <example correction="il y a">Il a vu qu'<marker>y a</marker> un problème.</example>
+              <example>L'énergie libre <marker>y a</marker> un rôle central.</example>
+              <example>Le recensement, <marker>y a</marker>  dénombré les habitants.</example>
+              <example>Elle y a étudié et <marker>y a</marker> vécu les plus belles années de sa vie.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token>il</token>
+                  <token>y</token>
+                  <token>a</token>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes">si|n|n'|en|l'|qu</token>
+                  <token>y</token>
+                  <token>a</token>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes">[^,–)!?.";:\/\]\|(«»-]+</token>
+                  <token case_sensitive="yes">Y</token>
+                  <token>a</token>
+              </antipattern>
+              <antipattern>
+                  <token postag="UNKNOWN" skip="-1"/>
+                  <token>y</token>
+                  <token>a</token>
+              </antipattern>
+              <antipattern>
+                  <token>y</token>
+                  <token>a</token>
+                  <token min="0" max="1" postag="A"/>
+                  <token>pas</token>
+                  <token>mal</token>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token>y</token>
+                      <token>a</token>
+                  </marker>
+                  <token min="0" max="1" postag="A"/>
+                  <token regexp="yes">pas|aucun|personne|rien|jamais</token>
+              </pattern>
+              <message>Cette expression est considérée comme familière.</message>
+              <suggestion>il n'\1 \2</suggestion>
+              <example correction="il n'y a">Selon lui, <marker>y a</marker> pas de problème.</example>
+              <example>Selon lui, <marker>y a</marker> plus intéressant.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token>y</token>
+                  <token>a</token>
+                  <token min="0" max="1" postag="A"/>
+                  <token>pas</token>
+                  <token>mal</token>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token>il</token>
+                      <token>y</token>
+                      <token>a</token>
+                  </marker>
+                  <token min="0" max="1" postag="A"/>
+                  <token regexp="yes">pas|aucun|personne|rien|jamais</token>
+              </pattern>
+              <message>Cette expression est considérée comme familière.</message>
+              <suggestion>\1 n'\2 \3</suggestion>
+              <example correction="il n'y a">Selon lui, <marker>il y a</marker> pas de problème.</example>
+          </rule>
+      </rulegroup>
       <rulegroup id="C_EST_QUOI" name="c'est quoi" default="temp_off">
           <rule>
               <pattern>
