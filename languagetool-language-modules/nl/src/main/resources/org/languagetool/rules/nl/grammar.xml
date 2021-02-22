@@ -9330,7 +9330,6 @@ onwaarschijnlijk
 				<suggestion>\2r\3</suggestion>
 				<example correction="allereerste">Dit is de <marker>alle eerste</marker> regel.</example>
 			</rule>			
-			
 		</rulegroup>
 		<rulegroup id="DE_ALLES_IN_EEN_DING" name="De alles in een aanpak" >
 			<rule>
@@ -9348,12 +9347,28 @@ onwaarschijnlijk
 				<example correction="alles-in-een-aanpak">Ze kozen voor een <marker>alles in een aanpak</marker>.</example>
 			</rule>			
 		</rulegroup>
+		<rulegroup id="DOE_HET_ZELF_ZAAK" name="Doe het zelf / doe-het-zelf" >
+			<rule>
+				<pattern>
+					<marker>
+						<token>doe</token>
+						<token>het</token>
+						<token>zelf</token>
+						<token postag_regexp="yes" postag="ZNW.*"/>
+					</marker>
+				</pattern>
+				<message>Woorden die eigenlijk een zinnetje zijn, voorzie je van koppeltekens.</message>
+				<suggestion>\1-\2-\3\4</suggestion>
+				<example correction="doe-het-zelfzaak">Het staat in de <marker>doe het zelf zaak</marker>.</example>
+			</rule>			
+		</rulegroup>
+		<!--
 		<rulegroup id="DE_WKW_DE" name="lees ervaring" default="temp_off">
 			<rule>
 				<pattern>
-					<token regexp="yes">de|een|geen|het</token>
+					<token regexp="yes">de|een|geen</token>
 					<marker>
-						<token postag="WKW:TGW:INF"/>
+						<token postag="WKW:TGW:INF"><exception postag="ZNW.*"/></token>
 						<token>de</token>
 					</marker>
 					<token postag_regexp="yes" postag="ZNW.*"/>
@@ -9363,6 +9378,7 @@ onwaarschijnlijk
 				<example correction="aanhangende">Kook in het <marker>aanhangen de</marker> water.</example>
 			</rule>			
 		</rulegroup>
+		-->
 		<rulegroup id="STAM_BAAR" name="beschik baar" >
 			<rule>
 				<pattern>
@@ -9422,14 +9438,27 @@ onwaarschijnlijk
 				<example correction="fietsen">Ze heeft geleerd te <marker>fietsten</marker>.</example>
 			</rule>			
 		</rulegroup>
-		<rulegroup id="SAMENSTELLING_STAM_ZNW" name="lees ervaring" >
+		<!--
+		<rulegroup id="SAMENSTELLING_STAM_ZNW" name="lees ervaring" default="temp_off">
 			<antipattern>
 				<token postag_regexp="yes" postag="ZNW:EKV.*"/>
 				<token postag="WKW:TGW:INF"/>
 			</antipattern>
 			<antipattern>
-				<token postag_regexp="yes" postag="BNW.*"/>
+					<token postag="WKW:TGW:1EP"/>
+					<token regexp="yes">om</token>
+			</antipattern>
+			<antipattern>
+					<token regexp="yes">acht</token>
+					<token postag_regexp="yes" postag="ZNW.*DE_|ZNW:EKV"/>
+			</antipattern>
+			<antipattern>
+				<token postag_regexp="yes" postag="BNW.*|WKW:VTD.*"/>
 				<token postag_regexp="yes" postag="ZNW.*"/>
+			</antipattern>
+			<antipattern>
+				<token postag_regexp="yes" postag="ZNW.*"/>
+				<token postag="WKW.*|BNW.*"/>
 			</antipattern>
 			<rule>
 				<pattern>
@@ -9438,6 +9467,7 @@ onwaarschijnlijk
 						<token postag="WKW:TGW:1EP"/>
 						<token postag_regexp="yes" postag="ZNW.*DE_|ZNW:EKV"/>
 					</marker>
+					<token postag_regexp="yes" postag="WKW.*|VRZ.*/>
 				</pattern>
 				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
 				<suggestion>\2\3</suggestion>
@@ -9450,12 +9480,14 @@ onwaarschijnlijk
 						<token postag="WKW:TGW:1EP"/>
 						<token postag_regexp="yes" postag="ZNW.*HET"/>
 					</marker>
+					<token postag_regexp="yes" postag="WKW.*|VRZ.*/>
 				</pattern>
 				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
 				<suggestion>\2\3</suggestion>
 				<example correction="leesboek">Zij heeft het <marker>lees boek</marker>.</example>
 			</rule>			
 		</rulegroup>
+		-->
 		<rulegroup id="GAAN_ERVAN_UIT" name="Gaan ervan uit">
 			<rule>
 				<pattern>
