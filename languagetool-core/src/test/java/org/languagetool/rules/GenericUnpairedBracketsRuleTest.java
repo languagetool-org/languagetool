@@ -63,6 +63,7 @@ public class GenericUnpairedBracketsRuleTest {
     assertMatches(0, "This is a), not b)");
     assertMatches(0, "This is it (a, not b) some more test");
     assertMatches(0, "This is »not an error yet");
+    assertMatches(0, "See https://de.wikipedia.org/wiki/Schlammersdorf_(Adelsgeschlecht)");
 
     assertMatches(1, "This is not correct«");
     assertMatches(1, "This is »not correct.");
