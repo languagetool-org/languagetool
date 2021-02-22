@@ -9391,6 +9391,18 @@ onwaarschijnlijk
 				<example correction="eiwitachtige">De <marker>eiwitachtigs</marker> materie klontert.</example>
 			</rule>			
 		</rulegroup>
+		<rulegroup id="FREELANCE_ZNW" name="freelance journalist/freelancejournalist" default="temp_off">
+			<rule>
+				<pattern>
+					<token>freelance</token>
+					<token postag_regexp="yes" postag="ZNW.*"/>
+				</pattern>
+				<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2"/>
+				<message>Deze twee woorden schrijf je bij voorkeur aan elkaar.</message>
+				<suggestion>\1\2</suggestion>
+				<example correction="freelancejournalist">Hij is <marker>freelance journalist</marker>.</example>
+			</rule>			
+		</rulegroup>
 		<rulegroup id="DE_WKW3EP" name="De loopt" default="temp_off">
 			<rule>
 				<pattern>
