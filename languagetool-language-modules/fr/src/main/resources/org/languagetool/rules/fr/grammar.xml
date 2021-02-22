@@ -1049,7 +1049,7 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
-      <rule id="FEUS_OU_FEUX" name="feus ou feux" default="temp_off">
+      <rule id="FEUS_OU_FEUX" name="feus ou feux">
           <antipattern>
               <token regexp="yes">feus?</token>
               <token postag="[NZ].*|UNKNOWN" postag_regexp="yes"/>
@@ -1065,7 +1065,7 @@ though, and has since been slightly modified)-->
           <example correction="feux">Ce sont des <marker>feu</marker> de forêt.</example>
           <example correction="feux">La voiture a des <marker>feu</marker> de croisement.</example>
       </rule>
-      <rulegroup id="PART_OU_PAR" name="part ou par" default="temp_off">
+      <rulegroup id="PART_OU_PAR" name="part ou par"><!-- replaces CONFUSION_PAR_PART -->
           <rule>
               <pattern>
                   <token>de</token>
@@ -10228,7 +10228,7 @@ though, and has since been slightly modified)-->
               <example correction="aimé">Elles auraient <marker>aimer</marker> pouvoir t'aider.</example>
           </rule>
       </rulegroup>
-      <rulegroup id="QUELLE_QUE" name="quelle que" default="temp_off">
+      <rulegroup id="QUELLE_QUE" name="quelle que">
           <rule>
               <pattern>
                   <token postag="N f s" skip="-1"/>
@@ -10341,7 +10341,7 @@ though, and has since been slightly modified)-->
               <example correction="qu'elles">Donne-moi tes billes, quelles <marker>quelles</marker> soient.</example>
           </rule>
       </rulegroup>
-      <rulegroup id="ACCORD_TOUT_ADJECTIF" name="accord tout adjectif" default="temp_off">
+      <rulegroup id="ACCORD_TOUT_ADJECTIF" name="accord tout adjectif">
           <rule>
               <antipattern>
                   <token postag="(P\+)?D.*" postag_regexp="yes"/>
@@ -11365,18 +11365,6 @@ though, and has since been slightly modified)-->
         <example>Plusieurs d'entre eux sont morts.</example>
       </rule>
     </rulegroup>
-    <rule id="CONFUSION_PAR_PART" name="Confusion part/par expression de par">
-      <pattern>
-        <token>de</token>
-        <marker>
-          <token>part</token>
-        </marker>
-        <token regexp="yes" postag_regexp="yes"> sa|ses|son|leur|leurs </token>
-      </pattern>
-      <message>L'expression « de par \3 » s'écrit sans « t ».</message>
-      <suggestion>par</suggestion>
-      <example correction="par">De <marker>part</marker> ses multiples expériences, Jacques avait déjà créé des sites internets.</example>
-    </rule>
     <rule id="CONFUSION_PPA_IND_2E_GROUPE" name="confusion entre participe passé et indicatif du deuxième groupe">
       <pattern>
         <token postag="D.*" postag_regexp="yes"/>
@@ -34471,7 +34459,7 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TYPOGRAPHIE" name="Typographie" type="typographical">
-      <rulegroup id="VIRGULE_DEBUT_DE_PHRASE" name="virgule debut de phrase" default="temp_off">
+      <rulegroup id="VIRGULE_DEBUT_DE_PHRASE" name="virgule début de phrase" default="temp_off">
           <rule>
               <pattern>
                   <token postag="SENT_START"/>
@@ -34638,7 +34626,7 @@ though, and has since been slightly modified)-->
               <example><marker>Combien il</marker> en a pris ?</example>
           </rule>
       </rulegroup>
-      <rulegroup id="PLACE_DE_LA_VIRGULE" name="place de la virgule" default="temp_off">
+      <rulegroup id="PLACE_DE_LA_VIRGULE" name="place de la virgule">
           <rule>
               <antipattern>
                   <token postag="M fin.*" postag_regexp="yes"/>
