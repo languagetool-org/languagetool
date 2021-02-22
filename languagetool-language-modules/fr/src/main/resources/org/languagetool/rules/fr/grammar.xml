@@ -34600,6 +34600,14 @@ though, and has since been slightly modified)-->
       </rulegroup>
       <rulegroup id="VIRGULE_DEBUT_DE_PHRASE" name="virgule début de phrase" default="temp_off">
           <rule>
+              <antipattern>
+                  <token regexp="yes">cependant|néanmoins|pourtant|toutefois</token>
+                  <token>en</token>
+              </antipattern>
+              <antipattern>
+                  <token>pourtant</token>
+                  <token postag="V ppa.*" postag_regexp="yes"/>
+              </antipattern>
               <pattern>
                   <token postag="SENT_START"/>
                   <marker>
@@ -34608,7 +34616,7 @@ though, and has since been slightly modified)-->
                           <exception scope="next" postag="SENT_END"/>
                       </token>
                   </marker>
-                  <token regexp="yes">[^,‘’–)—."\/;\]\|:(\…'«»“”-]+</token>
+                  <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
               </pattern>
               <message>Une virgule semble être requise dans ce contexte.</message>
               <suggestion>\2,</suggestion>
@@ -34616,13 +34624,15 @@ though, and has since been slightly modified)-->
               <example correction="Pourtant,"><marker>Pourtant</marker> manger entre les repas est nocif pour la santé.</example>
               <example correction="Néanmoins,"><marker>Néanmoins</marker> Marie n'en pensait pas moins.</example>
               <example correction="Toutefois,"><marker>Toutefois</marker> le maire était d'humeur généreuse aujourd'hui.</example>
+              <example><marker>Pourtant</marker> en difficulté dans le jeu, il réussi à gagner.</example>
+              <example><marker>Pourtant</marker> restée non loin de la plage, elle se noya.</example>
           </rule>
           <rule>
               <antipattern>
                   <token postag="SENT_START"/>
                   <token>en</token>
                   <token regexp="yes">effet|conséquence</token>
-                  <token postag="UNKNOWN"/>
+                  <token postag="UNKNOWN|N.*" postag_regexp="yes"/>
               </antipattern>
               <antipattern>
                   <token postag="SENT_START"/>
@@ -34641,12 +34651,13 @@ though, and has since been slightly modified)-->
                   <marker>
                       <token regexp="yes">effet|conséquence</token>
                   </marker>
-                  <token regexp="yes">[^,‘’–)—."\/;\]\|:(\…'«»“”-]+</token>
+                  <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
               </pattern>
               <message>Une virgule semble être requise dans ce contexte.</message>
               <suggestion>\3,</suggestion>
               <example correction="effet,">En <marker>effet</marker> il ne le remarqua pas.</example>
               <example>En <marker>effet</marker>.</example>
+              <example>En <marker>effet</marker> mobile, cela permet de profiter d'une belle après-midi shopping.</example>
           </rule>
           <rule>
               <antipattern>
@@ -34661,7 +34672,7 @@ though, and has since been slightly modified)-->
                   <marker>
                       <token regexp="yes">conséquent|contre</token>
                   </marker>
-                  <token regexp="yes">[^,‘’–)—."\/;\]\|:(\…'«»“”-]+</token>
+                  <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
               </pattern>
               <message>Une virgule semble être requise dans ce contexte.</message>
               <suggestion>\3,</suggestion>
@@ -34671,7 +34682,7 @@ though, and has since been slightly modified)-->
               <antipattern>
                   <token postag="SENT_START"/>
                   <token regexp="yes" skip="-1">moi|toi</token>
-                  <token postag="Y.*" regexp="yes"/>
+                  <token postag="Y"/>
               </antipattern>
               <antipattern>
                   <token postag="SENT_START"/>
@@ -34699,7 +34710,7 @@ though, and has since been slightly modified)-->
               </antipattern>
               <antipattern>
                   <token regexp="yes">moi|toi</token>
-                  <token regexp="yes">aussi|non|et|qui|absolu|ou|seule?|même</token>
+                  <token regexp="yes">aussi|non|et|qui|absolu|ou|seule?|même|alors</token>
               </antipattern>
               <antipattern>
                   <token regexp="yes">moi|toi</token>
@@ -34711,7 +34722,7 @@ though, and has since been slightly modified)-->
                   <marker>
                       <token regexp="yes">moi|toi</token>
                   </marker>
-                  <token regexp="yes">[^,‘’–)—."\/;\]\|:(\…'«»“”-]+</token>
+                  <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
               </pattern>
               <message>Une virgule semble être requise dans ce contexte.</message>
               <suggestion>\2,</suggestion>
