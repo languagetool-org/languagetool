@@ -9378,6 +9378,33 @@ onwaarschijnlijk
 				<example correction="het doorverbinden|de ___ doorverbinden|de doorverbinding">En <marker>de doorverbinden</marker> doet u zo.</example>
 			</rule>			
 		</rulegroup>
+		<rulegroup id="DE_LELIJKS" name="De lelijks/de lelijke" default="temp_off">
+			<rule>
+				<pattern>
+					<token regexp="yes">de|een</token>
+					<marker>
+						<token postag="BNW:STL:IET"><exception postag="BNW:STL:ONV"/></token>
+					</marker>
+				</pattern>
+				<message>Dit is vast een tikfout.</message>
+				<suggestion><match no="2" regexp_match="s$" regexp_replace="e"/></suggestion>
+				<example correction="eiwitachtige">De <marker>eiwitachtigs</marker> materie klontert.</example>
+			</rule>			
+		</rulegroup>
+		<rulegroup id="DE_WKW3EP" name="De loopt" default="temp_off">
+			<rule>
+				<pattern>
+					<token>de</token>
+					<token postag="WKW:TGW:3EP"/>
+				</pattern>
+				<message>Hier is vast iets mis.</message>
+				<suggestion>ze \2</suggestion>
+				<suggestion>je \2</suggestion>
+				<suggestion>het \2</suggestion>
+				<suggestion>de ___ \2</suggestion>
+				<example correction="ze loopt|je loopt|het loopt|de ___ loopt">Kijk hoe <marker>de loopt</marker>.</example>
+			</rule>			
+		</rulegroup>
 		<rulegroup id="DE_WKW_DE" name="lees ervaring" default="temp_off">
 			<rule>
 				<pattern>
