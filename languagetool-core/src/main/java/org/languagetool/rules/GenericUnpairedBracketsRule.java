@@ -323,7 +323,23 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
         }
       }
     }
-    return new RuleMatch(this, sentence, startPos, startPos + symbol.symbol.length(), message);
+    RuleMatch match = new RuleMatch(this, sentence, startPos, startPos + symbol.symbol.length(), message);
+    List<String> repl = getSuggestions(sentence, startPos, startPos + symbol.symbol.length());
+    if (repl != null) {
+      match.setSuggestedReplacements(repl);
+    }
+    return match;
+  }
+
+  private List<String> getSuggestions(AnalyzedSentence sentence, int startPos, int endPos) {
+    if (startPos > 0 && endPos <= sentence.getText().length()) {  // TODO: show suggestion also when quote is the first character
+      String prevCh = sentence.getText().substring(startPos-1, endPos-1);
+      String ch = sentence.getText().substring(startPos, endPos);
+      if (prevCh.equals(" ") && ch.equals("“")) {
+        return Arrays.asList("„");
+      }
+    }
+    return null;
   }
 
   private String findCorrespondingSymbol(Symbol symbol) {
