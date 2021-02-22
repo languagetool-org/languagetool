@@ -9362,23 +9362,37 @@ onwaarschijnlijk
 				<example correction="doe-het-zelfzaak">Het staat in de <marker>doe het zelf zaak</marker>.</example>
 			</rule>			
 		</rulegroup>
-		<!--
+		<rulegroup id="DE_WKW" name="de fantaseren" default="temp_off">
+			<rule>
+				<pattern>
+					<marker>
+						<token>de</token>
+						<token postag="WKW:TGW:INF"><exception postag_regexp="yes" postag="ZNW.*"/></token>
+					</marker>
+					<token><exception>de</exception></token>
+				</pattern>
+				<message>Hier is iets het lidwoord fout, of er ontbreekt een woord.</message>
+				<suggestion>het \2</suggestion>
+				<suggestion>de ___ \2</suggestion>
+				<suggestion>de <match no="2" regexp_match="en$" regexp_replace="ing"/></suggestion>
+				<example correction="het doorverbinden|de ___ doorverbinden|de doorverbinding">En <marker>de doorverbinden</marker> doet u zo.</example>
+			</rule>			
+		</rulegroup>
 		<rulegroup id="DE_WKW_DE" name="lees ervaring" default="temp_off">
 			<rule>
 				<pattern>
-					<token regexp="yes">de|een|geen</token>
+					<token regexp="yes">de|een|geen|het</token>
 					<marker>
-						<token postag="WKW:TGW:INF"><exception postag="ZNW.*"/></token>
+						<token postag="WKW:TGW:INF"><exception postag_regexp="yes" postag="ZNW.*"/></token>
 						<token>de</token>
 					</marker>
 					<token postag_regexp="yes" postag="ZNW.*"/>
 				</pattern>
 				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
 				<suggestion>\2\3</suggestion>
-				<example correction="aanhangende">Kook in het <marker>aanhangen de</marker> water.</example>
+				<example correction="opwarmende">Kook in het <marker>opwarmen de</marker> water.</example>
 			</rule>			
 		</rulegroup>
-		-->
 		<rulegroup id="STAM_BAAR" name="beschik baar" >
 			<rule>
 				<pattern>
