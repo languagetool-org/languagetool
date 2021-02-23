@@ -12458,6 +12458,21 @@ onwaarschijnlijk
 		</rulegroup>
 	</category>
 	<category id="CASING" name="Hoofdlettergebruik">
+		
+		<rulegroup id="KOERDEN" name="De koerden/Koerden" type="misspelling">
+			<rule>
+				<pattern>
+						<token>de</token>
+						<marker>
+							<token regexp="yes" case_sensitive="yes">koerden|letten|meden|perzen</token>
+						</marker>
+				</pattern>
+				<message>Het volk hoort met een hoofdletter geschreven te worden.</message>
+				<suggestion><match no="2" case_conversion="startupper"/></suggestion>
+				<short>Geen hoofdletter</short>
+				<example correction="Koerden">De <marker>koerden</marker> worden onderdrukt.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="AN" name="an/An" type="misspelling">
 			<rule>
 				<antipattern><token>an</token><token>sich</token></antipattern>
