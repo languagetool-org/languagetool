@@ -64473,7 +64473,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="P0.0.*" postag_regexp="yes" skip="3"><exception scope="next" postag="P0.0.*" postag_regexp="yes"/><exception regexp="yes">['-].*</exception><exception regexp="yes" scope="next">['-].*</exception></token>
+                    <token postag="P0.0.*" postag_regexp="yes" skip="3"><exception scope="next" postag="P0.0.*" postag_regexp="yes"/><exception regexp="yes">['-].*</exception><exception regexp="yes" scope="next">.*['-].*</exception></token>
                     <and>
                         <!--|saltar-->
                         <token inflected="yes" regexp="yes">baixar|caure|callar|marxar|albergar|olorar|seure|postular<exception inflected="yes">segar</exception></token>
@@ -64535,6 +64535,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Els ha caigut"><marker>Se'ls ha caigut</marker> això.</example>
                 <example>Se'ns va fer callar.</example>
                 <example>Se'ls ha de fer callar.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="P0.0.*" postag_regexp="yes"/>
+                    <token regexp="yes" skip="3">[mtl]'<exception scope="next" postag="P.*" postag_regexp="yes"/></token>
+                    <and>
+                        <token inflected="yes" regexp="yes">baixar|caure|callar|marxar|albergar|olorar|seure|postular<exception inflected="yes">segar</exception></token>
+                        <token postag="_reflexiu"><exception postag="_reflexiu_complement"/></token>
+                    </and>
+                </pattern>
+                <message>Aquest verb no és pronominal. Probablement sobra un pronom.</message>
+                <suggestion><match no="2" include_skipped="all"/> \3</suggestion>
+                <example correction="M'ha caigut"><marker>Se m'ha caigut</marker> la cara de vergonya</example>
             </rule>
             <rule>
                 <pattern>
