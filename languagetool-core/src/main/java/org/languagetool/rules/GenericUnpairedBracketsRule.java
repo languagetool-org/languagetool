@@ -334,14 +334,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     return match;
   }
 
-  private List<String> getSuggestions(Supplier<String> text, int startPos, int endPos) {
-    if (startPos > 0 && endPos <= text.get().length()) {  // TODO: show suggestion also when quote is the first character
-      String prevCh = text.get().substring(startPos-1, endPos-1);
-      String ch = text.get().substring(startPos, endPos);
-      if (prevCh.equals(" ") && ch.equals("“")) {
-        return Arrays.asList("„");
-      }
-    }
+  protected List<String> getSuggestions(Supplier<String> text, int startPos, int endPos) {
     return null;
   }
 
