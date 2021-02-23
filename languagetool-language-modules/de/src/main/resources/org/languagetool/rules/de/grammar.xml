@@ -44995,7 +44995,7 @@ Andere Projekte</example>
             <example correction="·|×|∗">a = 5x <marker>*</marker> 5 + 7</example>
             <example correction="·|×|∗">a <marker>*</marker> b</example>
         </rule>
-        <rule id="LEERZEICHEN_RECHENZEICHEN" name="Leerzeichen vor Rechenzeichen">
+        <rule id="LEERZEICHEN_RECHENZEICHEN" name="Leerzeichen vor Rechenzeichen" default="off">
             <!-- Zwischen Zahlen werden Rechenzeichen durch kleine, feste Zwischenräume (Duden) oder ganze Leerschritte (DIN 5008) von den Zahlen abgetrennt -->
             <antipattern>
                 <!-- vermutlich Uhrzeit: -->
@@ -45036,7 +45036,7 @@ Andere Projekte</example>
                     <token regexp="yes">([0-9]+[a-z]*)
                         <exception scope="previous" regexp="yes">\d\d\d\d-\d\d-\d\d</exception>
                     </token>
-                    <token spacebefore="no" regexp="yes">[\*×∗·\+÷:=]</token>
+                    <token spacebefore="no" regexp="yes">[\*×∗·\+÷=]</token>
                     <token spacebefore="no" regexp="yes">(([0-9]+[a-z]*))+<exception regexp="yes">\d\dh</exception></token>
                 </marker>
                 <token negate="yes" regexp="yes">Uhr|gegen|für|unentschieden</token>
@@ -45060,6 +45060,8 @@ Andere Projekte</example>
             <example correction="3a = 2"><marker>3a=2</marker>.</example>
             <example correction="5 * 5"><marker>5*5</marker>.</example>
             <example>Das Spiel endete <marker>3:5</marker>.</example>
+            <example>Wir hatten ein 1:1.</example>
+            <example>Rudi gewann mit 3:0 Sätzen (11:5, 11:9, 11:3) gegen Steffen.</example>
         </rule>
         <rule id="APRIL_APRIL" name="Komma in 'April April'">
             <pattern>
