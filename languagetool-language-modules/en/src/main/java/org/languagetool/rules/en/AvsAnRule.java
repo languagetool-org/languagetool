@@ -110,9 +110,13 @@ public class AvsAnRule extends Rule {
           ruleMatches.add(match);
         }
       }
+      String nextToken = "";
+      if (i + 1 < tokens.length) {
+        nextToken = tokens[i + 1].getToken();
+      }
       if (token.hasPosTag("DT")) {
         prevTokenIndex = i;
-      } else if (token.getToken().matches("[-\"()\\[\\]]+")) {
+      } else if (token.getToken().matches("[-\"()\\[\\]]+") && nextToken.length() > 1) {
         // skip e.g. the quote in >>an "industry party"<<
       } else {
         prevTokenIndex = 0;

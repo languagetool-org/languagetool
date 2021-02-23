@@ -4389,6 +4389,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rule id="NNP_NNS_VBZ_NNP" name="NNP/NNS -> NNP if followed by singular verb">
+        <!-- TODO: move after POS_ADD to disambiguate 's ? -->
         <pattern>
             <marker>
             <and>
@@ -4396,7 +4397,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag="NNS"/>
             </and>
             </marker>
-            <token postag="VBZ"><exception postag="NNS"/></token>
+            <token postag="VBZ"><exception postag="NNS|POS" postag_regexp="yes"/></token>
         </pattern>
         <disambig postag="NNP"/>
         <example type="untouched">Badlands heights</example>
@@ -6092,6 +6093,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <antipattern> <!--tomorrow's calloused hands-->
                 <token>'s</token>
                 <token chunk="I-NP-plural"/>
+            </antipattern>
+            <antipattern>
+                <!-- People's United Party -->
+                <token>people</token>
+                <token>'s</token>
             </antipattern>
             <pattern>
                 <token postag="NN:UN?" postag_regexp="yes"/>
