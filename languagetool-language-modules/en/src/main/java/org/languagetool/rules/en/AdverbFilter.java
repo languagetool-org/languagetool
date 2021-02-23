@@ -502,6 +502,9 @@ public class AdverbFilter extends RuleFilter {
     put("ineludibly", "ineludible");
     put("tenderly", "tender");
     put("arguably", "arguable");
+    put("comparably", "comparable");
+    put("procedurally", "procedural");
+    put("twice", "second"); // special case
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
   }};
