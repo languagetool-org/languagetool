@@ -116,7 +116,15 @@ class SingleCheck {
    *   get the result for a check of a single document 
    */
   public SingleProofreadingError[] getCheckResults(String paraText, int[] footnotePositions, Locale locale, SwJLanguageTool langTool, 
-      int paraNum, int startOfSentence, boolean textIsChanged, int changeFrom, int changeTo, String lastSinglePara, boolean isIntern) {
+      int paraNum, int startOfSentence, boolean textIsChanged, int changeFrom, int changeTo, String lastSinglePara, int lastChangedPara, boolean isIntern) {
+    if (lastChangedPara >= 0) {
+      if (docCursor == null) {
+        docCursor = new DocumentCursorTools(xComponent);
+      }
+      List<Integer> changedParas = new ArrayList<Integer>();
+      changedParas.add(lastChangedPara);
+      remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara);
+    }
     this.lastSinglePara = lastSinglePara;
     if (numParasToCheck != 0 && paraNum >= 0) {
       //  test real flat paragraph rather then the one given by Proofreader - it could be changed meanwhile
@@ -135,7 +143,8 @@ class SingleCheck {
         if (docCursor == null) {
           docCursor = new DocumentCursorTools(xComponent);
         }
-        if (useQueue && (!isDialogRequest && textLevelCacheNotEmpty(paraNum)) || (isDialogRequest && textIsChanged)) {
+//        if (useQueue && (!isDialogRequest && textLevelCacheNotEmpty(paraNum)) || (isDialogRequest && textIsChanged)) {
+        if (isDialogRequest && textIsChanged) {
           List<Integer> changedParas = new ArrayList<Integer>();
           changedParas.add(paraNum);
           remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara);
@@ -301,6 +310,9 @@ class SingleCheck {
     flatPara.markParagraphs(changedParasMap, docCache, true, cursor);
   }
   
+  /**
+   *  return last single paragraph (not text paragraph)
+   */
   public String getLastSingleParagraph () {
     return lastSinglePara;
   }

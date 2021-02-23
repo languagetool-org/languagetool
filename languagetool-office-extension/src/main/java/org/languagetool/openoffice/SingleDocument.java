@@ -90,6 +90,7 @@ class SingleDocument {
   private int changeFrom = 0;                     //  Change result cache from paragraph
   private int changeTo = 0;                       //  Change result cache to paragraph
   private int paraNum;                            //  Number of current checked paragraph
+  private int lastChangedPara;                    //  lastPara which was detected as changed
   private IgnoredMatches ignoredMatches;          //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called
   private boolean disposed = false;               //  true: document with this docId is disposed - SingleDocument shall be removed
   private boolean resetDocCache = false;          //  true: the cache of the document should be reseted before the next check
@@ -209,11 +210,12 @@ class SingleDocument {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, 
           docLanguage, ignoredMatches, numParasToCheck, isDialogRequest);
       paRes.aErrors = singleCheck.getCheckResults(paraText, footnotePositions, locale, langTool, paraNum, 
-          paRes.nStartOfSentencePosition, textIsChanged, changeFrom, changeTo, lastSinglePara, isIntern);
+          paRes.nStartOfSentencePosition, textIsChanged, changeFrom, changeTo, lastSinglePara, lastChangedPara, isIntern);
       lastSinglePara = singleCheck.getLastSingleParagraph();
       paRes.nStartOfSentencePosition = paragraphsCache.get(0).getStartSentencePosition(paraNum, paRes.nStartOfSentencePosition);
       paRes.nStartOfNextSentencePosition = paragraphsCache.get(0).getNextSentencePosition(paraNum, paRes.nStartOfSentencePosition);
       paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
+      lastChangedPara = textIsChanged ? paraNum : -1;
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }
