@@ -12038,6 +12038,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ" name="concordancia de adjetivo pospuesto a sustantivos">
             <antipattern>
+                <token>igual</token>
+                <token>o</token>
+                <token regexp="yes">más|menos</token>
+                <token>que</token>
+            </antipattern>
+            <antipattern>
                 <!-- símbols that break the sentence -->
                 <token>&gt;</token>
                 <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
@@ -12797,6 +12803,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>justo</token>
                 <token regexp="yes">medianoche|mediodía</token>
             </antipattern>
+            <antipattern>
+                <token>lo</token>
+                <token skip="6">mismo</token>
+                <token>que</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -12936,6 +12947,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Lo único constante en este mundo.</example>
                 <example>Mi esposo y yo solíamos escalar montañas juntos.</example>
                 <example>Son relativamente autónomos gracias, al menos en parte, a la generalización de Internet.</example>
+                <example>No es lo mismo producción que productividad.</example>
             </rule>
             <rule>
                 <pattern>
