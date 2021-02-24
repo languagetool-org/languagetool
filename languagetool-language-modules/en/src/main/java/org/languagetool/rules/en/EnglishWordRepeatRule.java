@@ -54,7 +54,9 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     // I'm very very happy
     String word = tokens[position].getToken();
 
-    if (repetitionOf ("did", tokens, position) && (position + 1 < tokens.length) && tokens[position + 1].getToken().equalsIgnoreCase("n't")) {
+    if ((repetitionOf("did", tokens, position) || repetitionOf("do", tokens, position)
+        || repetitionOf("does", tokens, position)) && (position + 1 < tokens.length)
+        && tokens[position + 1].getToken().equalsIgnoreCase("n't")) {
       return true;
     } else if (repetitionOf("had", tokens, position) && posIsIn(tokens, position - 2, "PRP", "NN")) {
       return true;   // "If I had had time, I would have gone to see him."
