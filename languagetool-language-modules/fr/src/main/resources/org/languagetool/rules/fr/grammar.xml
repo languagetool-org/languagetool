@@ -10088,14 +10088,15 @@ though, and has since been slightly modified)-->
       <rule id="ADJ_AVANT_OU_ARRIERE" name="adj avant ou arrière" default="temp_off">
       <pattern>
              <token postag="N.*" postag_regexp="yes"/>
-    <marker>
-        <token regexp="yes">avants|arrières</token>
-    </marker>
-</pattern>
-<message>Une erreur d’orthographe semble être détectée.</message>
-<suggestion suppress_misspelled="yes"><match no="2" regexp_match="(?iu)s" regexp_replace=""/></suggestion>
-<example correction="avant">Il regarde les roues <marker>avants</marker> de la voiture.</example>
-        </rule>
+          <marker>
+              <token regexp="yes">avants|arrières</token>
+          </marker>
+      </pattern>
+      <message>Quand l'adverbe \2 est employé en tant qu'adjectif, il reste invariable.</message>
+      <suggestion suppress_misspelled="yes"><match no="2" regexp_match="(?iu)s" regexp_replace=""/></suggestion>
+      <url>https://www.projet-voltaire.fr/regles-orthographe/les-roues-arriere-ou-les-roues-arrieres/</url>
+      <example correction="avant">Il regarde les roues <marker>avants</marker> de la voiture.</example>
+  </rule>
       <rulegroup id="IL_FAUT" name="Il faut" default="temp_off">
               <antipattern>
                   <token>faille</token>
