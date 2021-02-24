@@ -10164,6 +10164,18 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
+      <rule id="ADJ_AVANT_OU_ARRIERE" name="adj avant ou arrière" default="temp_off">
+          <pattern>
+              <token postag="N.*" postag_regexp="yes"/>
+              <marker>
+                  <token regexp="yes">avants|arrières</token>
+              </marker>
+          </pattern>
+          <message>Quand l'adverbe \2 est employé en tant qu'adjectif, il reste invariable.</message>
+          <suggestion suppress_misspelled="yes"><match no="2" regexp_match="(?iu)s" regexp_replace=""/></suggestion>
+          <url>https://www.projet-voltaire.fr/regles-orthographe/les-roues-arriere-ou-les-roues-arrieres/</url>
+          <example correction="avant">Il regarde les roues <marker>avants</marker> de la voiture.</example>
+      </rule>
       <rulegroup id="AUX_PPA_INF" name="avoir/être suivi de deux INF ou PPA" default="temp_off">
           <rule>
               <antipattern>
@@ -37308,6 +37320,66 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rulegroup id="POSER_UNE_QUESTION" name="poser une question" default="temp_off">
+          <rule>
+              <antipattern>
+                  <token postag="R pers suj.*" postag_regexp="yes"/>
+                  <token postag="R pers obj.*" postag_regexp="yes"/>
+                  <token postag="V.*" postag_regexp="yes"/>
+                  <token postag="A inte"/>
+                  <token postag="M fin inte"/>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes">-tu|-ils?|-elles?|-vous|-nous|-je</token>
+                  <token postag="V.*" postag_regexp="yes"/>
+                  <token postag="A inte"/>
+                  <token postag="M fin inte"/>
+              </antipattern>
+              <antipattern>
+                  <token postag="R pers suj.*" postag_regexp="yes"/>
+                  <token postag="V.*" postag_regexp="yes" regexp="yes">.*[aeiou]$</token>
+                  <token postag="A inte"/>
+                  <token postag="M fin inte"/>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token postag="R pers suj.*" postag_regexp="yes">
+                          <exception regexp="yes">j'</exception>
+                          <exception scope="previous">l'</exception></token>
+                      <token postag="V.*" postag_regexp="yes"/>
+                      <token postag="A inte"><exception>pourquoi</exception></token>
+                      <token postag="M fin inte"/>
+                  </marker>
+              </pattern>
+              <message>Cette formulation peut être considérée comme familière. Voulez-vous écrire <suggestion>\3 \2-<match no="1" case_conversion="startlower"/> \4</suggestion> ?</message>
+              <example correction="où êtes-vous ?"><marker>vous êtes où ?</marker></example>
+              <example>Cela <marker>vous fait combien ?</marker></example>
+              <example>Quelqu'un pourrait<marker>-il indiquer où ?</marker></example>
+              <example>Ils l'<marker>on mis où ?</marker></example>
+              <example><marker>Il gagne combien ?</marker></example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token regexp="yes">-tu|-ils?|-elles?|-vous|-nous|-je</token>
+                  <token postag="V.*" postag_regexp="yes"/>
+                  <token postag="A inte"/>
+                  <token postag="M fin inte"/>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">il?|elles?|on<exception scope="previous">l'</exception></token>
+                      <token postag="V.*" postag_regexp="yes" regexp="yes">.*[aeiou]$</token>
+                      <token postag="A inte"><exception>pourquoi</exception></token>
+                      <token postag="M fin inte"/>
+                  </marker>
+              </pattern>
+              <message>Cette formulation peut être considérée comme familière. Voulez-vous écrire <suggestion>\3 \2-t-<match no="1" case_conversion="startlower"/> \4</suggestion> ?</message>
+              <example correction="où va-t-il ?"><marker>il va où ?</marker></example>
+              <example correction="combien gagne-t-il ?"><marker>il gagne combien ?</marker></example>
+              <example>Quelqu'un pourrait<marker>-il indiquer où ?</marker></example>
+              <example>Ils l'<marker>on mis où ?</marker></example>
+          </rule>
+      </rulegroup>
       <rulegroup id="IL_Y_A" name="il y a" default="temp_off">
           <rule>
               <antipattern>
