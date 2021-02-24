@@ -7,6 +7,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 -->
   <!DOCTYPE rules [
     <!ENTITY zal_adj "(?-i)(\d+-|(ein|zw(ei|an)|dreiß?|vier|fünf|s(echs?|ieb(en)?)|acht|neun)(zehn|zig)?)(jähr|bänd|seit|monat|täg|köpf)">
+    <!ENTITY apostrophe "['’`´‘]">
 ]>
 
 <rules lang="de" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -3778,8 +3779,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token regexp="yes">Adjutant|Montana|Jack|Jacob|Manhattan</token>
+                <token regexp="yes">Adjutant|Montana|Jack|Jacob|Manhattan|Sirius</token>
                 <token regexp="yes">Blacks?</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token>Black</token>
+                <token regexp="yes">[Aau]nd|&amp;</token>
+                <token>White</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
@@ -4066,7 +4075,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <!-- https://de.wikipedia.org/wiki/Click_and_Collect -->
         <pattern case_sensitive="yes">
             <token>Click</token>
-            <token regexp="yes">&amp;|and</token>
+            <token regexp="yes">&amp;|[ua]nd</token>
             <token>Collect</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -4208,6 +4217,26 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern>
             <token>alle</token>
             <marker><token case_sensitive="yes">neune</token></marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="SCHNICK_SCHNACK_SCHNUCK" name="ignore spelling of 'Schnick, Schnack, Schnuck'">
+        <pattern case_sensitive="yes">
+            <token>Schnick</token>
+            <token min="0">,</token>
+            <token>Schnack</token>
+            <token min="0">,</token>
+            <token>Schnuck</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="DOS_AND_DONTS" name="Dos and Don'ts">
+        <pattern case_sensitive="yes">
+            <token>Dos</token>
+            <token regexp="yes">and|&amp;</token>
+            <token>Don</token>
+            <token regexp="yes">&apostrophe;</token>
+            <token>ts</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

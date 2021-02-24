@@ -36,6 +36,9 @@ public class SpanishSentenceTokenizerTest {
     // Simple sentences
     testSplit("Esto es una frase. ", "Esto es otra frase.");
     testSplit("Esto es una frase.[34] ", "Esto es otra frase.");
+    testSplit("¿Nos vamos? ", "Hay que irse.");
+    testSplit("¿Vamos? ", "Hay que irse.");
+    testSplit("¡Corre! ", "Hay que irse.");
     
     // Ellipsis
     testSplit("Entonces... apareció él.");

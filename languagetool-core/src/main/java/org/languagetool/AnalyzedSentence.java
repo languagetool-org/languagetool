@@ -32,6 +32,7 @@ import java.util.*;
  */
 public final class AnalyzedSentence {
 
+  // objects of this type are cached, so everything needs to be immutable
   private final AnalyzedTokenReadings[] tokens;
   private final AnalyzedTokenReadings[] preDisambigTokens;
   private final AnalyzedTokenReadings[] nonBlankTokens;

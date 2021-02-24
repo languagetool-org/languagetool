@@ -26,6 +26,8 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Streams;
 import io.grpc.ManagedChannel;
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NegotiationType;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
@@ -34,7 +36,6 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.ml.MLServerGrpc;
 import org.languagetool.rules.ml.MLServerProto;
 import org.slf4j.Logger;
@@ -45,6 +46,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -197,7 +200,7 @@ public abstract class GRPCRule extends RemoteRule {
   }
 
   @Override
-  protected RemoteRule.RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText, @Nullable Long textSessionId) {
+  protected RemoteRule.RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, @Nullable Long textSessionId) {
     List<String> text = sentences.stream().map(AnalyzedSentence::getText).collect(Collectors.toList());
     List<Long> ids = Collections.emptyList();
     if (textSessionId != null) {
@@ -213,11 +216,26 @@ public abstract class GRPCRule extends RemoteRule {
   }
 
   @Override
-  protected Callable<RemoteRuleResult> executeRequest(RemoteRule.RemoteRequest request) {
+  protected Callable<RemoteRuleResult> executeRequest(RemoteRequest request, long timeoutMilliseconds) throws TimeoutException {
     return () -> {
       MLRuleRequest req = (MLRuleRequest) request;
 
-      MLServerProto.MatchResponse response = conn.stub.match(req.request);
+      MLServerProto.MatchResponse response;
+      try {
+        if (timeoutMilliseconds > 0) {
+          response = conn.stub
+            .withDeadlineAfter(timeoutMilliseconds, TimeUnit.MILLISECONDS)
+            .match(req.request);
+        } else {
+          response = conn.stub.match(req.request);
+        }
+      } catch (StatusRuntimeException e) {
+        if (e.getStatus().getCode() == Status.DEADLINE_EXCEEDED.getCode()) {
+          throw new TimeoutException(e.getMessage());
+        } else {
+          throw e;
+        }
+      }
       List<RuleMatch> matches = Streams.zip(response.getSentenceMatchesList().stream(), req.sentences.stream(), (matchList, sentence) ->
         matchList.getMatchesList().stream().map(match -> {
             GRPCSubRule subRule = new GRPCSubRule(match.getSubId(), match.getRuleDescription());

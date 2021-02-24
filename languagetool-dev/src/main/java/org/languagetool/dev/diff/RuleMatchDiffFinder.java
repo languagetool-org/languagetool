@@ -35,7 +35,7 @@ public class RuleMatchDiffFinder {
 
   private static final String MARKER_START = "<span class='marker'>";
   private static final String MARKER_END = "</span>";
-  private static final int IFRAME_MAX = 150;
+  private static final int IFRAME_MAX = -1;
 
   List<RuleMatchDiff> getDiffs(List<LightRuleMatch> l1, List<LightRuleMatch> l2) {
     System.out.println("Comparing result 1 (" + l1.size() + " matches) to result 2 (" + l2.size() + " matches), step 1");
@@ -148,6 +148,7 @@ public class RuleMatchDiffFinder {
     fw.write("<br>\n");
     printTableBegin(fw);
     int iframeCount = 0;
+    int i = 1;
     for (RuleMatchDiff diff : diffs) {
       if (diff.getStatus() == RuleMatchDiff.Status.ADDED) {
         fw.write("<tr style='background-color: #c7ffd0'>\n");
@@ -156,7 +157,8 @@ public class RuleMatchDiffFinder {
       } else {
         fw.write("<tr>\n");
       }
-      fw.write("  <td>" + diff.getStatus().name().substring(0, 3) + " </td>\n");
+      fw.write("  <td>" + diff.getStatus().name().substring(0, 3) + "<br>#" + i + " </td>\n");
+      i++;
       LightRuleMatch oldMatch = diff.getOldMatch();
       LightRuleMatch newMatch = diff.getNewMatch();
       if (diff.getOldMatch() != null) {
@@ -311,6 +313,7 @@ public class RuleMatchDiffFinder {
   private String showTrimSpace(String s) {
     s = s.replaceFirst("^\\s", "<span class='whitespace'>&nbsp;</span>");
     s = s.replaceFirst("\\s$", "<span class='whitespace'>&nbsp;</span>");
+    s = s.replaceAll("\u00A0", "<span class='nbsp' title='non-breaking space'>&nbsp;</span>");
     return s;
   }
 
@@ -379,6 +382,7 @@ public class RuleMatchDiffFinder {
       fw.write("  <td>MOD</td>");
       fw.write("  <td>Source</td>");
       fw.write("  <td>ID</td>");
+      fw.write("  <td>Message of first match</td>");
       fw.write("</tr>");
       fw.write("</thead>");
       fw.write("<tbody>\n");
@@ -386,8 +390,10 @@ public class RuleMatchDiffFinder {
         String file = outputFile.file.getName();
         fw.write("<tr>");
         fw.write("<td>" + outputFile.items.size() + "</td>");
-        fw.write("<td>" + outputFile.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.ADDED).count() + "</td>");
-        fw.write("<td>" + outputFile.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.REMOVED).count() + "</td>");
+        long added = outputFile.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.ADDED).count();
+        fw.write("<td " + (added > 0 ? "style='background-color: #c7ffd0'" : "") + ">" + added + "</td>");
+        long removed = outputFile.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.REMOVED).count();
+        fw.write("<td " + (removed > 0 ? "style='background-color: #ffd2d8'" : "") + ">" + removed + "</td>");
         fw.write("<td>" + outputFile.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.MODIFIED).count() + "</td>");
         fw.write("<td>");
         fw.write(file.replaceFirst("result_", "").replaceFirst("_.*", ""));
@@ -395,6 +401,13 @@ public class RuleMatchDiffFinder {
         fw.write("<td>");
         fw.write("  <a href='" + file + "'>" + file.replaceFirst("result_.*?_", "").replace(".html", "") + "</a>");
         fw.write("</td>");
+        if (outputFile.items.size() > 0 && outputFile.items.get(0).getNewMatch() != null) {
+          fw.write("<td class='msg'>" + escapeSentence(outputFile.items.get(0).getNewMatch().getMessage()) + "</td>");
+        } else if (outputFile.items.size() > 0 && outputFile.items.get(0).getOldMatch() != null) {
+          fw.write("<td class='msg'>" + escapeSentence(outputFile.items.get(0).getOldMatch().getMessage()) + "</td>");
+        } else {
+          fw.write("<td></td>");
+        }
         fw.write("</tr>\n");
       }
       fw.write("</tbody>");
@@ -451,7 +464,9 @@ public class RuleMatchDiffFinder {
     fw.write("    .source { color: #999; }\n");
     fw.write("    .status { color: #999; }\n");
     fw.write("    .whitespace { background-color: #ccc; }\n");
+    fw.write("    .nbsp { background-color: #ccc; }\n");
     fw.write("    .id { color: #666; }\n");
+    fw.write("    .msg { color: #666; }\n");
     fw.write("  </style>\n");
     fw.write("</head>\n");
     fw.write("<body>\n\n");

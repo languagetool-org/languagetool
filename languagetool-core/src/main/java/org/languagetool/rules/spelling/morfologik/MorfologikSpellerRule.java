@@ -26,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.noop.NoopLanguage;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
@@ -121,6 +122,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
     if (initSpellers()) return toRuleMatchArray(ruleMatches);
     int idx = -1;
+    long sentLength = Arrays.stream(sentence.getTokensWithoutWhitespace()).filter(k -> !k.isNonWord()).count() - 1;  // -1 for the SENT_START token
     for (AnalyzedTokenReadings token : tokens) {
       idx++;
       if (canBeIgnored(tokens, idx, token)) {
@@ -159,6 +161,13 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
             }
             ruleMatch.setOffsetPosition(ruleMatch.getFromPos(), ruleMatch.getToPos()+hiddenCharOffset);
           }
+        }
+      }
+
+      if (sentLength > 3) {
+        float errRatio = (float)ruleMatches.size() / sentLength;
+        if (errRatio >= 0.5) {
+          ruleMatches.get(0).setErrorLimitLang(NoopLanguage.SHORT_CODE);
         }
       }
 

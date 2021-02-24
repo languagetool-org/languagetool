@@ -107,12 +107,14 @@ public class EnglishUnpairedBracketsRuleTest {
     //assertIncorrect("&'");
     //assertIncorrect("!'");
     //assertIncorrect("What?'");
-    assertIncorrect("This is not so (neither a nor b");
+    assertCorrect("This is not so (neither a nor b");
+    assertIncorrect("This is not so (neither a nor b.");
     assertIncorrect("This is not so neither a nor b)");
     assertIncorrect("This is not so neither foo nor bar)");
 
     // this is currently considered incorrect... although people often use smileys this way:
-    assertIncorrect("Some text (and some funny remark :-) with more text to follow");
+    assertCorrect("Some text (and some funny remark :-) with more text to follow");
+    assertIncorrect("Some text (and some funny remark :-) with more text to follow!");
 
     RuleMatch[] matches;
     matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence("(This is a test” sentence.")));

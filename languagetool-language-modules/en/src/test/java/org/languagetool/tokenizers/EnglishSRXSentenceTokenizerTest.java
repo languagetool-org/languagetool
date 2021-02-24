@@ -47,6 +47,8 @@ public class EnglishSRXSentenceTokenizerTest {
 
     testSplit("This is a sentence. ");
     testSplit("This is a sentence. ", "And this is another one.");
+    testSplit("This is it. ", "and this is another sentence.");
+    testSplit("This is a sentence. ", "and this is another sentence.");
     testSplit("This is a sentence.", "Isn't it?", "Yes, it is.");
     testSplit("This is e.g. Mr. Smith, who talks slowly...",
             "But this is another sentence.");

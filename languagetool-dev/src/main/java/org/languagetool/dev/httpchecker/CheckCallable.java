@@ -100,6 +100,10 @@ class CheckCallable implements Callable<File> {
             CheckResult result = checkByPost(url, postData);
             //printOut(threadName + " - answered by " + result.backendServer);
             JsonNode jsonNode = mapper.readTree(result.json);
+            //if (result.json.contains("SET_RULE_ID_HERE")) {
+            //  System.out.println("-----------------------------");
+            //  System.out.println(text);
+            //}
             ((ObjectNode)jsonNode).put("title", pseudoFileName);  // needed for MatchKey to be specific enough
             fw.write(jsonNode + "\n");
             break;

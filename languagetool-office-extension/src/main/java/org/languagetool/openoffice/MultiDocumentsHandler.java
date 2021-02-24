@@ -164,6 +164,7 @@ public class MultiDocumentsHandler {
       PropertyValue[] propertyValues, boolean docReset) {
     
     if (!hasLocale(locale)) {
+      MessageHandler.printToLogFile("Sorry, don't have locale: " + OfficeTools.localeToString(locale));
       return paRes;
     }
     if (!noBackgroundCheck) {
@@ -841,7 +842,7 @@ public class MultiDocumentsHandler {
     for (SingleDocument document : documents) {
       if (menuDocId.equals(document.getDocID())) {
         deactivateRule(document.deactivateRule(), false);
-        break;
+        return;
       }
     }
   }
@@ -977,6 +978,9 @@ public class MultiDocumentsHandler {
           } else {
             locale = new Locale(lang.getShortCode(), "", "");
           }
+          if (locales != null && !OfficeTools.containsLocale(locales, locale)) {
+            locales.add(locale);
+          }
         } else {
           for (String country : lang.getCountries()) {
             if (lang.getVariant() != null) {
@@ -984,13 +988,13 @@ public class MultiDocumentsHandler {
             } else {
               locale = new Locale(lang.getShortCode(), country, "");
             }
+            if (locales != null && !OfficeTools.containsLocale(locales, locale)) {
+              locales.add(locale);
+            }
           }
         }
-        if (locales != null && !OfficeTools.containsLocale(locales, locale)) {
-          locales.add(locale);
-        }
       }
-      return locales.toArray(new Locale[0]);
+      return locales == null ? new Locale[0] : locales.toArray(new Locale[0]);
     } catch (Throwable t) {
       MessageHandler.showError(t);
       return new Locale[0];
@@ -1186,9 +1190,9 @@ public class MultiDocumentsHandler {
       }
       if (!linguServices.setLtAsGrammarService(xContext, locale)) {
         if (showMessage) {
-          MessageHandler.showMessage("LinguisticServices failed! LanguageTool can not be started!");
+          MessageHandler.showMessage("Can not set LT as grammar check service! LanguageTool can not be started!");
         } else {
-          MessageHandler.printToLogFile("LinguisticServices failed! LanguageTool can not be started!");
+          MessageHandler.printToLogFile("Can not set LT as grammar check service! LanguageTool can not be started!");
         }
         return false;
       }

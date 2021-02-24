@@ -487,6 +487,24 @@ public class AdverbFilter extends RuleFilter {
     put("ecologically", "ecological");
     put("irrepressibly", "irrepressible");
     put("repressibly", "repressible");
+    put("heartily", "hearty");
+    put("smoothly", "smooth");
+    put("dreamily", "dreamy");
+    put("indirectly", "indirect");
+    put("fascinatingly", "fascinating");
+    put("scientifically", "scientific");
+    put("unhappily", "unhappy");
+    put("publicly", "public");
+    put("healthfully", "healthful");
+    put("characteristically", "characteristic");
+    put("uncharacteristically", "uncharacteristic");
+    put("genially", "genial");
+    put("ineludibly", "ineludible");
+    put("tenderly", "tender");
+    put("arguably", "arguable");
+    put("comparably", "comparable");
+    put("procedurally", "procedural");
+    put("twice", "second"); // special case
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
   }};
