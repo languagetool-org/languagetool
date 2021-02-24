@@ -9053,7 +9053,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <pattern>
             <marker>
               <and>
-                <token regexp="yes">still|further|long<exception scope="previous" regexp="yes">an?|the</exception></token>
+                <token regexp="yes">
+                    still|further|long
+                    <exception scope="previous" postag="DT|PRP\$" postag_regexp="yes" />
+                </token>
                 <token postag="NN.*|VB.*" postag_regexp="yes"/>
               </and>
             </marker>
