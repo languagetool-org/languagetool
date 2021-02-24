@@ -112,7 +112,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY verbs_colloquials "digue|vulgue|estigue|sigue|tingue|sàpigue|dugue">
     <!ENTITY verbs_balears_ES "adès|avès|exprès|ingrès|procès|profès|progrès|regrès|reingrès|revès|travès">
     <!ENTITY vocabulari_menjar "xocolata|xocolate|allioli|aliment|all|amanida|arròs|bolet|carn|carxofa|cep|coriandre|fava|fetge|foie|formatge|gamba|j[ou]livert|llamàntol|llobregant|lluç|macarró|magret|mandonguilla|mango|menjar|mongeta|p[éè]sol|pa|pastís|porc|r[eo]nyó|safrà|tofu|verdura|vi|ànec">
-    <!ENTITY pronom_feble "P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|PP2CP000">
+    <!ENTITY pronom_feble "P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00">
     <!ENTITY pronom_no_determinant "et|em|es|li|ens|us|vos|hi|m'|t'|s'">
     <!ENTITY os_animal "caverna|bru|grizzly|polar|hibern.*">
     <!ENTITY os_anatomia "moll|medul·la">
@@ -31242,6 +31242,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Hi, hi, hi</example>
                 <example>i ens en fem càrrec</example>
                 <example>No sé com ho fem.</example>
+                <example>Vosaltres, els amos ens heu fet així!</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRONOMS_FEBLES_TEMPS_VERBAL" name="Comprova temps verbal (infinitiu, gerundi, imperatiu): *diguéssim-li-ho">
@@ -62160,6 +62161,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>A és igual a B</example>
                 <example>-A és igual a B?</example>
                 <example>A l’era internet trobo molt romàntic i ridícul.</example>
+                <example>Algú de vosaltres compra les cistelles de verdura ecològiques?</example>
             </rule>
             <rule>
                 <pattern>
@@ -64472,6 +64474,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es creix per inèrcia.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>se</token>
+                    <token regexp="yes">us|vos</token>
+                </antipattern>
                 <pattern>
                     <token postag="P0.0.*" postag_regexp="yes" skip="3"><exception scope="next" postag="P0.0.*" postag_regexp="yes"/><exception regexp="yes">['-].*</exception><exception regexp="yes" scope="next">.*['-].*</exception></token>
                     <and>
@@ -64500,7 +64506,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Vàrem marxar"><marker>Ens vàrem marxar</marker> amb tren.</example>
                 <example correction="callen">Comenten l'afer i <marker>es callen</marker>, tanmateix, els noms.</example>
                 <example correction="va seure">I <marker>es va seure</marker>.</example>
-                <example correction="Us ha caigut"><marker>Se us ha caigut</marker> això.</example>
+                <example correction="Heu caigut"><marker>Vos heu caigut</marker></example>
                 <example>Se li va fer callar.</example>
                 <example>L'altre s'olora les mans.</example>
                 <example>Quan es baixa a l'ordinador de l'usuari.</example>
@@ -64521,7 +64527,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="P0.0.*" postag_regexp="yes"/>
-                    <token regexp="yes" skip="3">'([mntl]|ns|ls)<exception scope="next" postag="P.*" postag_regexp="yes"/></token>
+                    <token regexp="yes" skip="3">'([mntl]|ns|ls)|us|vos<exception scope="next" postag="P.*" postag_regexp="yes"/></token>
                     <and>
                         <token inflected="yes" regexp="yes">baixar|caure|callar|marxar|albergar|olorar|seure|postular<exception inflected="yes">segar</exception></token>
                         <token postag="_reflexiu"><exception postag="_reflexiu_complement"/></token>
@@ -64533,6 +64539,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="em va caure">A mi <marker>se'm va caure</marker> la cara de vergonya</example>
                 <example correction="Ens va callar"><marker>Se'ns va callar</marker>.</example>
                 <example correction="Els ha caigut"><marker>Se'ls ha caigut</marker> això.</example>
+                <example correction="Us ha caigut"><marker>Se us ha caigut</marker> això.</example>
+                <example correction="Vos va caure"><marker>Se vos va caure</marker> això.</example>
                 <example>Se'ns va fer callar.</example>
                 <example>Se'ls ha de fer callar.</example>
             </rule>
