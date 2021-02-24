@@ -34461,17 +34461,62 @@ though, and has since been slightly modified)-->
   <category id="CAT_TYPOGRAPHIE" name="Typographie" type="typographical">
       <rulegroup id="PAS_DE_VIRGULE" name="pas de virgule" default="temp_off">
           <rule>
+              <antipattern>
+                  <token postag="[NJVA].*" postag_regexp="yes"/>
+                  <token>,</token>
+                  <token regexp="yes">et|ou</token>
+                  <token postag="V.*" postag_regexp="yes"/>
+                  <token regexp="yes">-elles?|-je|-tu|-ils?|-on|-nous|-vous</token>
+              </antipattern>
+              <antipattern>
+                  <token postag="[NJVA].*" postag_regexp="yes"/>
+                  <token>,</token>
+                  <token regexp="yes">et|ou</token>
+                  <token>cette</token>
+                  <token>fois</token>
+              </antipattern>
+              <antipattern>
+                  <token>bien</token>
+                  <token>sûr</token>
+                  <token>,</token>
+                  <token regexp="yes">et|ou</token>
+                  <token postag="[DNJV].*" postag_regexp="yes" skip="-1"/>
+              </antipattern>
+              <antipattern>
+                  <token postag="[NJVA].*" postag_regexp="yes"/>
+                  <token>,</token>
+                  <token regexp="yes">et|ou</token>
+                  <token postag="[DNJV].*" postag_regexp="yes" skip="-1"/>
+                  <token postag="M fin inte"/>
+              </antipattern>
+              <antipattern>
+                  <token postag="[NJVA].*" postag_regexp="yes"/>
+                  <token>,</token>
+                  <token regexp="yes">et|ou</token>
+                  <token postag="[DNJV].*" postag_regexp="yes"/>
+                  <token regexp="yes" skip="-1">et|ou</token>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes" skip="-1">et|ou|ô</token>
+                  <token postag="[NJVA].*" postag_regexp="yes"/>
+                  <token>,</token>
+                  <token regexp="yes">et|ou</token>
+                  <token postag="[DNJV].*" postag_regexp="yes"/>
+              </antipattern>
               <pattern>
                   <token postag="[NJVA].*" postag_regexp="yes"><exception regexp="yes">^[a-z]$</exception></token>
                   <marker>
                       <token>,</token>
-                      <token regexp="yes">et|ou</token>
+                      <token regexp="yes">et|ou<exception scope="next">ce</exception></token>
                   </marker>
                   <token postag="[DNJV].*" postag_regexp="yes"/>
               </pattern>
               <message>La virgule doit être omise dans ce contexte.</message>
               <suggestion>\3</suggestion>
               <example correction="et">Elle a acheté des radis<marker>, et</marker> des choux.</example>
+              <example>Elle veut travailler à la retraite<marker>, et</marker> puis quoi encore ?</example>
+              <example>Elle veut vivre en ville<marker>, et</marker> ce toute sa vie.</example>
+              <example>Elle veut voyager<marker>, et</marker> dit-il, trouver le prince charmant.</example>
               <example>Les voyelles a, e, i, o, u<marker>, ou</marker> sont couramment utilisées dans la langue française.</example>
           </rule>
           <rule>
@@ -34480,7 +34525,14 @@ though, and has since been slightly modified)-->
                   <token skip="-1">est</token>
                   <token>,</token>
                   <token regexp="yes" skip="-1">qu[ei]?</token>
-                  <token regexp="yes">qu[ei]</token>
+                  <token>,</token>
+              </antipattern>
+              <antipattern>
+                  <token>c'</token>
+                  <token skip="-1">est</token>
+                  <token>,</token>
+                  <token regexp="yes" skip="-1">qu[ei]?</token>
+                  <token postag="M fin inte"/>
               </antipattern>
               <pattern>
                   <token>c'</token>
@@ -34494,6 +34546,8 @@ though, and has since been slightly modified)-->
               <suggestion>\4</suggestion>
               <example correction="qui">C'est lui<marker>, qui</marker> part demain.</example>
               <example correction="que">C’est le sac laissé dans la cuisine<marker>, que</marker> j'ai vidé.</example>
+              <example>Le problème c’est d'accélérer lorsque les gens veulent vous doubler<marker>, que</marker> ce soit à pied, à cheval ou en voiture.</example>
+              <example>C'est ma fille qui part<marker>, que</marker> me reste-t-il maintenant ?</example>
           </rule>
           <rule>
               <antipattern>
