@@ -36630,18 +36630,20 @@ though, and has since been slightly modified)-->
               </antipattern>
               <pattern>
                   <marker>
-                      <token postag="R pers suj.*" postag_regexp="yes"><exception regexp="yes">j'</exception><exception scope="previous">l'</exception></token>
+                      <token postag="R pers suj.*" postag_regexp="yes">
+                          <exception regexp="yes">j'</exception>
+                          <exception scope="previous">l'</exception></token>
                       <token postag="V.*" postag_regexp="yes"/>
                       <token postag="A inte"><exception>pourquoi</exception></token>
                       <token postag="M fin inte"/>
                   </marker>
               </pattern>
-              <message>Cette formulation peut être considérée comme familière. Voulez-vous écrire <suggestion>\3 \2-\1 \4</suggestion> ?</message>
+              <message>Cette formulation peut être considérée comme familière. Voulez-vous écrire <suggestion>\3 \2-<match no="1" case_conversion="startlower"/> \4</suggestion> ?</message>
               <example correction="où êtes-vous ?"><marker>vous êtes où ?</marker></example>
               <example>Cela <marker>vous fait combien ?</marker></example>
               <example>Quelqu'un pourrait<marker>-il indiquer où ?</marker></example>
-              <example>ils l'<marker>on mis où ?</marker></example>
-              <example><marker>il gagne combien ?</marker></example>
+              <example>Ils l'<marker>on mis où ?</marker></example>
+              <example><marker>Il gagne combien ?</marker></example>
           </rule>
           <rule>
               <antipattern>
@@ -36652,17 +36654,17 @@ though, and has since been slightly modified)-->
               </antipattern>
               <pattern>
                   <marker>
-                      <token postag="R pers suj.*" postag_regexp="yes"><exception scope="previous">l'</exception></token>
+                      <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">il?|elles?|on<exception scope="previous">l'</exception></token>
                       <token postag="V.*" postag_regexp="yes" regexp="yes">.*[aeiou]$</token>
                       <token postag="A inte"><exception>pourquoi</exception></token>
                       <token postag="M fin inte"/>
                   </marker>
               </pattern>
-              <message>Cette formulation peut être considérée comme familière. Voulez-vous écrire <suggestion>\3 \2-t-\1 \4</suggestion> ?</message>
+              <message>Cette formulation peut être considérée comme familière. Voulez-vous écrire <suggestion>\3 \2-t-<match no="1" case_conversion="startlower"/> \4</suggestion> ?</message>
               <example correction="où va-t-il ?"><marker>il va où ?</marker></example>
               <example correction="combien gagne-t-il ?"><marker>il gagne combien ?</marker></example>
               <example>Quelqu'un pourrait<marker>-il indiquer où ?</marker></example>
-              <example>ils l'<marker>on mis où ?</marker></example>
+              <example>Ils l'<marker>on mis où ?</marker></example>
           </rule>
       </rulegroup>
       <rulegroup id="HISTOIRE_DE_V" name="histoire de (afin de)" type="style">
