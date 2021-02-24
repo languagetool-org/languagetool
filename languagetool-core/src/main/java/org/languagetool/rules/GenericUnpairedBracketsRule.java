@@ -118,7 +118,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
                                   boolean precSpace,
                                   boolean follSpace, UnsyncStack<SymbolLocator> symbolStack) {
     String tokenStr = tokens[i].getToken();
-    if (i > 0 && (tokens[i-1].getToken().startsWith("http://") || tokens[i-1].getToken().startsWith("https://"))) {
+    if (i > 0 && tokens[i-1].getToken().matches("https?://.+") && tokens[i-1].getToken().contains("(")) {
       return false;
     }
     if (i >= 2) {
