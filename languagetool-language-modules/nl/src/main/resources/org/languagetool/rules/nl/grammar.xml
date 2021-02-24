@@ -9289,7 +9289,7 @@ onwaarschijnlijk
 				<example correction="veel meer|liever">Het zijn <marker>veelmeer</marker> dingen.</example>
 			</rule>			
 		</rulegroup>
-		<rulegroup id="DE_DIT_ARTIKEL" name="de_dit / dit" default="temp_off">
+		<rulegroup id="DE_DIT_ARTIKEL" name="de_dit / dit">
 			<rule>
 				<pattern>
 					<marker>
@@ -9375,10 +9375,12 @@ onwaarschijnlijk
 				<suggestion>het \2</suggestion>
 				<suggestion>de ___ \2</suggestion>
 				<suggestion>de <match no="2" regexp_match="en$" regexp_replace="ing"/></suggestion>
-				<example correction="het doorverbinden|de ___ doorverbinden|de doorverbinding">En <marker>de doorverbinden</marker> doet u zo.</example>
+				<suggestion>de <match no="2" regexp_match="en$" regexp_replace="ingen"/></suggestion>
+				<suggestion>te \2</suggestion>
+				<example correction="het doorverbinden|de ___ doorverbinden|de doorverbinding|de doorverbindingen|te doorverbinden">En <marker>de doorverbinden</marker> doet u zo.</example>
 			</rule>			
 		</rulegroup>
-		<rulegroup id="DE_LELIJKS" name="De lelijks/de lelijke" default="temp_off">
+		<rulegroup id="DE_LELIJKS" name="De lelijks/de lelijke" >
 			<rule>
 				<pattern>
 					<token regexp="yes">de|een</token>
@@ -9391,7 +9393,7 @@ onwaarschijnlijk
 				<example correction="eiwitachtige">De <marker>eiwitachtigs</marker> materie klontert.</example>
 			</rule>			
 		</rulegroup>
-		<rulegroup id="FREELANCE_ZNW" name="freelance journalist/freelancejournalist" default="temp_off">
+		<rulegroup id="FREELANCE_ZNW" name="freelance journalist/freelancejournalist" >
 			<rule>
 				<pattern>
 					<token>freelance</token>
@@ -9420,14 +9422,26 @@ onwaarschijnlijk
 			<rule>
 				<pattern>
 					<token>de</token>
-					<token postag="WKW:TGW:3EP"><exception postag_regexp="yes" postag="ZNW.*|BNW.*"/></token>
+					<token postag_regexp="yes" postag="WKW:TGW:3EP.*"><exception postag_regexp="yes" postag="ZNW.*|BNW.*"/></token>
 				</pattern>
 				<message>Hier is vast iets mis.</message>
 				<suggestion>ze \2</suggestion>
 				<suggestion>je \2</suggestion>
 				<suggestion>het \2</suggestion>
 				<suggestion>de ___ \2</suggestion>
-				<example correction="ze loopt|je loopt|het loopt|de ___ loopt">Kijk hoe <marker>de loopt</marker>.</example>
+				<suggestion>de <match no="2" regexp_match="t$" regexp_replace=""/></suggestion>
+				<example correction="ze loopt|je loopt|het loopt|de ___ loopt|de loop">Kijk hoe <marker>de loopt</marker>.</example>
+			</rule>			
+		</rulegroup>
+		<rulegroup id="AANZWEL_LENDE" name="Aanzwel lende/aanzwellende" default="temp_off">
+			<rule>
+				<pattern>
+					<token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">.*l$</token>
+					<token>lende</token>
+				</pattern>
+				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
+				<suggestion>\1\2</suggestion>
+				<example correction="aanzwellende">Kook in het <marker>aanzwel lende</marker> water.</example>
 			</rule>			
 		</rulegroup>
 		<rulegroup id="DE_WKW_DE" name="lees ervaring" default="temp_off">
@@ -9450,7 +9464,7 @@ onwaarschijnlijk
 				<pattern>
 					<marker>
 						<token postag="WKW:TGW:1EP"/>
-						<token regexp="yes">baar|bare</token>
+						<token regexp="yes">baar|bare|baarheid|baarder|baardere|baars|baarders|baarst|baarste</token>
 					</marker>
 				</pattern>
 				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
@@ -9458,7 +9472,33 @@ onwaarschijnlijk
 				<example correction="beschikbaar">Ik ben <marker>beschik baar</marker>.</example>
 			</rule>			
 		</rulegroup>
-		<rulegroup id="BEIDEN_BRUGGEN" name="beiden / beide" default="temp_off">
+		<rulegroup id="STAM_DING" name="beschik baar" >
+			<rule>
+				<pattern>
+					<marker>
+						<token postag_regexp="yes" postag="WKW:TGW:1EP.*"/>
+						<token regexp="yes">ding|dingen</token>
+					</marker>
+				</pattern>
+				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
+				<suggestion>\1\2</suggestion>
+				<example correction="aanvaarding">De <marker>aanvaar ding</marker> klopt niet.</example>
+			</rule>			
+		</rulegroup>
+		<rulegroup id="DOORRIJD_DING" name="Achteruitrijd camera/achteruitrijcamera" default="temp_off">
+			<rule>
+				<pattern>
+					<marker>
+						<token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">.*rijd$</token>
+						<token postag_regexp="yes" postag="ZNW.*"/>
+					</marker>
+				</pattern>
+				<message>Hier staat vast een sptaie te veel, en bovendien hoort de 'd' niet in de samenstelling.</message>
+				<suggestion><match no="1" regexp_match="d$" regexp_replace=""/>\2</suggestion>
+				<example correction="doorrijbotsing">Het was een vreemde <marker>doorrijd botsing</marker>.</example>
+			</rule>			
+		</rulegroup>
+		<rulegroup id="BEIDEN_BRUGGEN" name="beiden / beide" >
 			<antipattern><token>beiden</token><token postag_regexp="yes" postag="WKW:(TGW|VLT):INF.*"/></antipattern>
 			<rule>
 				<pattern>
@@ -9480,7 +9520,7 @@ onwaarschijnlijk
 				<example correction="beide hoge bruggen">Ik zie dat <marker>beiden hoge bruggen</marker> dicht zijn.</example>
 			</rule>			
 		</rulegroup>
-		<rulegroup id="TE_ZNW" name="te man" default="temp_off">
+		<rulegroup id="TE_ZNW" name="te man" >
 			<rule>
 				<pattern>
 					<token>te</token>
@@ -9491,7 +9531,7 @@ onwaarschijnlijk
 				<example correction="de leeservaring">Zij heeft <marker>te leeservaring</marker>.</example>
 			</rule>			
 		</rulegroup>
-		<rulegroup id="TE_VLT" name="te fietsten" default="temp_off">
+		<rulegroup id="TE_VLT" name="te fietsten" >
 			<rule>
 				<pattern>
 					<token>te</token>
@@ -11507,7 +11547,7 @@ onwaarschijnlijk
 			</rule>
 		</rulegroup>
 		
-		<rulegroup id="TE_VERLEDEN" name="te duidden => te duiden" default="temp_off">
+		<rulegroup id="TE_VERLEDEN" name="te duidden => te duiden" >
 			<rule>
 				<pattern>
 					<token>te</token>
@@ -16993,7 +17033,7 @@ steenwijk;Steenwijk
 				<example>Je moet <marker>instorten</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="CHECKEN" name="checken → controleren">
+		<rulegroup id="CHECKEN" name="checken → controleren" >
 			<!-- 2014-08-21 TaalTik -->
 			<rule>
                 <antipattern><token>in</token><token>te</token><token>checken</token></antipattern>
