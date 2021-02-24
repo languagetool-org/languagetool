@@ -3607,6 +3607,21 @@ Tendo os seus tripulantes conseguido ser resgatados.
 		<token postag='SPS.+|SP0.+|DA0.S.+|VMN0000' postag_regexp='yes'/>
       </antipattern> 
 <!-- MARCOAGPINTO 2021-02-04 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-02-24 (1-JAN-2021+) *START* -->
+<!--
+O editor de armas mostra os disparos necessários.
+A Organização do Turismo das Caraíbas estima que cerca de 12 milhões de turistas visitam a região.
+A atividade de nascimento de estrelas dura normalmente cerca de dez milhões de anos.
+-->
+      <antipattern>
+	    <token postag='NC.S.+|AQ0.S.+' postag_regexp='yes'/>
+		<token postag='SPS.+' postag_regexp='yes'/>
+		<token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+		<token postag='VMIP3S0|VMM02S0' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='NC.P.+|AQ0.P.+|VMP00S.+'/>
+		</token>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-02-24 (1-JAN-2021+) *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -3659,6 +3674,10 @@ Tendo os seus tripulantes conseguido ser resgatados.
 	  <example>Tendo os seus <marker>protestos caído</marker> em saco-roto, preencheu os formulários do imposto.</example>
 	  <example>Ele é relacionado aos ciclos lunares a qual em suas fases expressa a harmonia do universo.</example>
 	  <example>Tendo os seus tripulantes conseguido ser resgatados.</example>
+	  
+	  <example>O editor de <marker>armas mostra</marker> os disparos necessários.</example>
+	  <example>A Organização do Turismo das Caraíbas estima que cerca de 12 milhões de turistas visitam a região.</example>
+	  <example>A atividade de nascimento de estrelas dura normalmente cerca de dez milhões de anos.</example>
     </rule>
     <rule>
       <antipattern>
