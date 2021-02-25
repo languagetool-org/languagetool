@@ -203,8 +203,16 @@
             </pattern>
             <disambig action="add"><wd lemma="be" pos="VBZ"/></disambig>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes"/>    
+                </marker>
+                <token spacebefore="no">n't</token>
+            </pattern>
+            <disambig action="filter" postag="V.*"/>
+        </rule>
     </rulegroup>
-
     <rulegroup id="DIGIT_HYPHENATED_ADJECTIVES" name="hyphenated adjectives (e.g. 10-part)">
         <rule>
             <pattern>
@@ -6115,6 +6123,18 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 </and>
                 <token chunk="E-NP-singular"/>
                 <token regexp="yes">is|was</token>
+            </pattern>
+            <disambig action="filter" postag="POS"/>
+        </rule>
+        <rule>
+            <!-- enterprise names: Enron Corps.'s biggest division -->
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                    <token>.</token>
+                    <marker>
+                        <token spacebefore="no" postag="POS">'s</token>
+                    </marker>
+                <token postag="N.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="POS"/>
         </rule>

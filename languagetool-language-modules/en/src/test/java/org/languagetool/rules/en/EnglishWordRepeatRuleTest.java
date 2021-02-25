@@ -75,6 +75,7 @@ public class EnglishWordRepeatRuleTest {
     assertGood("What Tom did didn't seem to bother Mary at all.");
     assertGood("Whatever you do don't leave the lid up on the toilet!");
     assertGood("Keep your chin up and whatever you do don't doubt yourself or your actions.");
+    assertGood("I know that that can't really happen.");
   }
 
   private void assertGood(String sentence) throws IOException {
