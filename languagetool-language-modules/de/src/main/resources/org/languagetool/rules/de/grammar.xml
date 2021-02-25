@@ -9996,9 +9996,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- ähnlich wie MEIN_KLEIN_HAUS, nur dass Vorschläge für spezielle/häufige Fälle geliefert werden -->
             <!-- candidates:
                 * falsch Meldung
-                * eigen Geruch
-                * eigen Interesse
-                * eigen Saft
                 * schwach Stelle
                 * frei Zeit
                 * schwer Punkt
@@ -10179,6 +10176,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Geheim<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Geheimrezept">Das <marker>geheim Rezept</marker> meiner Großmutter kennt keiner.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>eigen</token>
+                    <token case_sensitive="yes" regexp="yes">Saft(es|s)?|Geruch(es|s)?|Interesse|Marken?|Produktion|Initiative|Verbrauch|Dynamik|Bedarfs?|Geschmack(es|s)?|Verantwortung|Antrieb|Wille|Lebens?|Gewicht(es|s)?|Gewächs|Brötlers?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Eigen<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Eigengeruch">Der <marker>eigen Geruch</marker> ist einzigartig.</example>
             </rule>
         </rulegroup>
         <rule id="GEGEN_CHECKEN" name="gegen checken (gegenchecken)">
