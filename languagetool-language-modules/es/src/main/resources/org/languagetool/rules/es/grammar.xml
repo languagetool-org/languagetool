@@ -6785,6 +6785,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
+        <rulegroup id="DEMAS" name="demás/de más" default="temp_off">
+            <url>https://www.fundeu.es/recomendacion/de-mas-demas/</url>
+            <rule>
+                <pattern>
+                    <token postag="NC.[PN].*" postag_regexp="yes"/>
+                    <marker>
+                        <token>demás</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>de más</suggestion> (de sobra, en demasía)?</message>
+                <example correction="de más">Los años <marker>demás</marker> implicaban mucho cansancio.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">estar</token>
+                    <marker>
+                        <token>demás</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>de más</suggestion> (de sobra, en demasía)?</message>
+                <example correction="de más">Todo esto estaba <marker>demás</marker> aquí.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>y</token>
+                    <marker>
+                        <token>de</token>
+                        <token>más</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>demás</suggestion> (el resto de personas o cosas)?</message>
+                <example correction="demás">Vinieron Juan, Antonio y <marker>de más</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PLURAL_SEPARADO" name="marca de plural separada">
             <antipattern>
                 <token>los</token>
