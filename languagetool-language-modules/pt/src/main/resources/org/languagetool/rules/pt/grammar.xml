@@ -5625,10 +5625,24 @@ A seguinte frase de Wishart a seus amigos é bem conhecida.
 		  <token postag='V.+' postag_regexp='yes'/>
       </antipattern> 
 <!-- MARCOAGPINTO 2021-01-19 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-02-25 (1-JAN-2021+) *START* -->
+<!--
+Ao utilizar o discurso oral surgem interferências ou ruído.
+Ao utilizar o discurso oral podem surgir interferências ou ruído.
+-->
+      <antipattern>
+		<token postag='DA0.S.+|SPS.+' postag_regexp='yes'/>
+		<token postag='NC.S.+|AQ0.S.+' postag_regexp='yes'/>
+		<token postag='NC.S.+|AQ0.S.+' postag_regexp='yes'/>
+		<token postag='V....P.+' postag_regexp='yes'/>
+		<token min="0" max="1" postag='VMN0000' postag_regexp='no'/>
+		<token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+      </antipattern> 
+<!-- MARCOAGPINTO 2021-02-25 (1-JAN-2021+) *END* -->
       <pattern>
 <!-- MARCOAGPINTO 2020-05-09 *START* -->
 <!-- "As pessoas no meu trabalho infelizmente não falam Alemão, apenas português." -->	  
-		  <token negate_pos='yes' postag_regexp='yes' postag='NC[FMC]P000'></token>
+		  <token negate_pos='yes' postag_regexp='yes' postag='NC.P.+'></token>
 		  <token negate_pos='yes' postag_regexp='no' postag='SPS00'></token>
 <!-- MARCOAGPINTO 2020-05-09 *END* -->	
 <marker>
@@ -5668,6 +5682,9 @@ A seguinte frase de Wishart a seus amigos é bem conhecida.
 	  <example>Até as vossas amigas começaram a ver com outros olhos.</example>	  
 	  <example>É contra os meus princípios pedir dinheiro emprestado.</example>
 	  <example>A seguinte frase de Wishart a seus amigos é bem conhecida.</example>
+	  
+	  <example>Ao utilizar <marker>o discurso oral surgem</marker> interferências ou ruído.</example>
+	  <example>Ao utilizar o discurso oral podem surgir interferências ou ruído.</example>
     </rule>
 	
     <!-- 	VERBO_SER + EU fui eu -->
