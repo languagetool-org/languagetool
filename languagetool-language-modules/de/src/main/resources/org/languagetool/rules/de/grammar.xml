@@ -9972,15 +9972,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Zusammenschreibung</short>
             <example correction="10er-Schlüssel">Mit dem <marker>10er Schlüssel</marker> konnte ich die Schraube lösen.</example>
         </rule>
-        <rule id="SOZIAL_MEDIA" name="sozial Media" default="temp_off">
+        <rule id="SOZIAL_MEDIA" name="sozial Media">
             <pattern>
                 <token>sozial</token>
-                <token regexp="yes">Media|Medien</token>
+                <token>Media</token>
             </pattern>
             <message>Meinten Sie <suggestion>Social Media</suggestion>?</message>
             <example correction="Social Media">Du kannst mir auf <marker>sozial Media</marker> folgen.</example>
         </rule>
-        <rule id="IM_VERGANGEN_JAHR" name="vergangen vs vergangenen" default="temp_off">
+        <rule id="IM_VERGANGEN_JAHR" name="vergangen vs vergangenen">
             <pattern>
                 <token postag="PRP:.+" postag_regexp="yes" />
                 <marker>
@@ -10732,7 +10732,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie das Nomen <suggestion>Rundum-sorglos-<match no="4" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="Rundum-sorglos-Paket">Sie buchten das <marker>Rund um Sorglos Paket</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">rundum-?sorg(en)?los</token>
                     <token regexp="yes">paket(en?|s|es)?</token>
@@ -11354,6 +11354,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example correction='hineinfressen'>Man kann nicht alles in sich <marker>hinein fressen</marker>.</example>
         </rule>
         <rulegroup id="N_TEILIG" name="fünf teilig (fünfteilig) etc.">
+            <antipattern>
+                <token regexp="yes">eckige.*</token>
+                <token regexp="yes">Klammer.*</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">1|2</token>
+                <token regexp="yes">eckig.*</token>
+            </antipattern>
+            <antipattern>
+                <token skip="1">eckige</token>
+                <token postag="SUB:.+:PLU.*" postag_regexp="yes" />
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">[0-9]+</token>
@@ -11364,6 +11376,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction='7-teiliges'>Ich biete ein <marker>7 teiliges</marker> Set zum Verkauf an.</example>
                 <example correction="8-seitigen">Ich arbeite an einem <marker>8 Seitigen</marker> Aufsatz.</example>
                 <example correction="6-stelliges">Ich verdiene ein <marker>6 stelliges</marker> Gehalt!</example>
+                <example>Ich habe 2 eckige Klammern verwendet.</example>
+                <example>Ich habe 5 eckige Kartons besorgt.</example>
             </rule>
             <rule>
                 <pattern>
