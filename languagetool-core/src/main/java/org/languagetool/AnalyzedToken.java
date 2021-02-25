@@ -18,6 +18,7 @@
  */
 package org.languagetool;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -51,6 +52,7 @@ public final class AnalyzedToken {
         || JLanguageTool.PARAGRAPH_END_TAGNAME.equals(posTag));
   }
 
+  @NotNull
   public String getToken() {
     return token;
   }

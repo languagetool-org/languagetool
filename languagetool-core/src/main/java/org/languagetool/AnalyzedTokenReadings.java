@@ -43,6 +43,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   private final boolean isWhitespace;
   private final boolean isLinebreak;
   private final boolean isSentStart;
+  private final boolean isPosTagUnknown;
 
   private AnalyzedToken[] anTokReadings;
   private int startPos;
@@ -53,7 +54,6 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   private boolean isSentEnd;
   private boolean isParaEnd;
   private boolean isWhitespaceBefore;
-  private boolean isPosTagUnknown;
   private String whitespaceBeforeChar;
 
   // If true, then the token is marked up as immune against tests:
