@@ -7121,6 +7121,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NN.*|PRP" postag_regexp="yes" />
             <token postag="VB" />
         </antipattern>
+        <antipattern><!-- .. and there is an auto parts store close by call them ask if they test charging systems. -->
+            <token regexp="yes" chunk_re="B-NP.*">an?|another|one</token>
+            <token regexp="yes" postag="NN.*|JJ.*" postag_regexp="yes" chunk_re="I-NP.*" />
+            <token regexp="yes" postag="NNP?S" postag_regexp="yes" chunk_re="E-NP.*" />
+            <token postag="NN(:UN)?" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <and>
                 <token chunk="E-NP-plural"/>
@@ -7165,6 +7171,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">It is estimated that by 2050, a 3 feet rise in sea levels will inundate some 20 percent of the land and displace more than 30 million people.</example>
         <example type="untouched">... has become a 68 matches grind with a 38% loss rate ...</example>
         <example type="untouched">This is not a five minutes task to solve.</example>
+        <example type="untouched">.. and there is an auto parts store close by call them ask if they test charging systems.</example>
+        <example type="untouched">Your best bet is a VW parts counter that might have a diagram for what you want.</example>
         <example type="untouched">Only at the very end of the chain of actions can we expect the outcome to change.</example>
     </rule>
 
