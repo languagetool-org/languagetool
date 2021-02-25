@@ -36975,28 +36975,26 @@ Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
       <example correction="cujo objetivo era">Assim surgiu o Estado Islâmico <marker>que tinha como objetivo</marker> criar um califado mundial.</example>
     </rule>
 	
-	<!-- PROCURA PROVAR prova provará -->
-    <rule id='TESE_PHD_PROCURAR_PROVAR_PROVARÁ' name="Tese Doutoramento: Evitar expressões do tipo 'procura provar'">
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-12 (1-JAN-2021+)      -->
-<!--
-A nossa tese procura provar a métrica. → A nossa tese provará a métrica.
-Na nossa tese procuro provar a métrica. → Na nossa tese provarei a métrica.
-Na nossa tese procuramos provar a métrica. → Na nossa tese provaremos a métrica.
--->
-      <pattern>
-		<and>
-			<token regexp='yes' inflected="yes">procurar|buscar|pretender|tentar</token>
-			<token postag='VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes'/>
-		</and>
-		<token postag='VMN0000' postag_regexp='no'/>
-      </pattern>
-	  <message>Se for uma tese de doutoramento utilize o estilo próprio de redação.</message>
-	  <suggestion><match no='2' postag='VMN0000' postag_regexp="yes" postag_replace='VMI[FP][13]S0|VMIF1P0'/></suggestion>
-      <example correction="prova|provarei|provaremos|provará|provo">(N)a nossa tese <marker>procura provar</marker> a métrica.</example>
-	  <example>Na nossa tese provo que a métrica é eficaz.</example>
-	  <example>Na nossa tese provarei que a métrica é eficaz.</example>
-	  <example>Na nossa tese provaremos que a métrica é eficaz.</example>
-    </rule>
+   <!-- PROCURA PROVAR prova provará -->
+   <rule id='TESE_PHD_PROCURAR_PROVAR_PROVARA' name="Tese Doutoramento: Evitar expressões do tipo 'procura provar'" default="temp_off">
+     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-12 + 2021-02-25 (1-JAN-2021+)      -->
+     <pattern>
+       <and>
+         <token regexp='yes' inflected="yes">procurar|buscar|pretender|tentar</token>
+         <token postag='VMIP[13]S0|VMM02S0|VMIP1P0|VMIS1[SP]0' postag_regexp='yes'/>
+       </and>
+       <token postag='VMN0000' postag_regexp='no'/>
+     </pattern>
+     <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).  postagReplace:V\a1IF\b1."/>
+     <message>Se for uma tese de doutoramento utilize o estilo próprio de redação.</message>
+     <suggestion>{suggestion}</suggestion>
+     <example correction="provará">(N)a nossa tese <marker>procura provar</marker> a métrica.</example>
+     <example correction="provaremos">(N)a nossa tese <marker>procuramos provar</marker> a métrica.</example>
+     <example correction="provarei">(N)a nossa tese <marker>procuro provar</marker> a métrica.</example>
+     <example>Na nossa tese provo que a métrica é eficaz.</example>
+     <example>Na nossa tese provarei que a métrica é eficaz.</example>
+     <example>Na nossa tese provaremos que a métrica é eficaz.</example>
+   </rule>
 	
  </category>
 
