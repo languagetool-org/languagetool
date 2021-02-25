@@ -107,7 +107,7 @@ public class French extends Language implements AutoCloseable {
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
-            new LongSentenceRule(messages, userConfig, 35, true, true),
+            new LongSentenceRule(messages, userConfig, 40, true, true),
             new LongParagraphRule(messages, this, userConfig),
             // specific to French:
             new CompoundRule(messages),

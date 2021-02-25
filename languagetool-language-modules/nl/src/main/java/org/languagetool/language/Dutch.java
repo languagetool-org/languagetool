@@ -118,7 +118,7 @@ public class Dutch extends Language {
             new DutchWrongWordInContextRule(messages),
             new WordCoherencyRule(messages),
             new SimpleReplaceRule(messages),
-            new LongSentenceRule(messages, userConfig, 35, true, true),
+            new LongSentenceRule(messages, userConfig, 40, true, true),
             new LongParagraphRule(messages, this, userConfig),
             new PreferredWordRule(messages),
             new SpaceInCompoundRule(messages),
