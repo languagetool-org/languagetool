@@ -49,6 +49,10 @@ public class GenericUnpairedBracketsRuleTest {
     assertMatches("Das ist ein Satz mit Smiley :(", 0);
     assertMatches("Die URL lautet https://de.wikipedia.org/wiki/Schlammersdorf_(Adelsgeschlecht)", 0);
     assertMatches("Die URL lautet https://de.wikipedia.org/wiki/Schlammersdorf_(Adelsgeschlecht).", 0);
+    assertMatches("(Die URL lautet https://de.wikipedia.org/wiki/Schlammersdorf_(Adelsgeschlecht))", 0);
+    assertMatches("(Die URL lautet https://de.wikipedia.org/wiki/Schlammersdorf)", 0);
+    assertMatches("(Die URL lautet https://de.wikipedia.org/wiki/Schlammersdorf oder so)", 0);
+    assertMatches("(Die URL lautet: http://www.pariscinema.org/).", 0);
     // incorrect sentences:
     assertMatches("Die „Sätze zum Testen.", 1);
     assertMatches("Die «Sätze zum Testen.", 1);

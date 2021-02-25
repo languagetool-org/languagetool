@@ -236,6 +236,7 @@ public class French extends Language implements AutoCloseable {
       case "Y_A": return 1; // needs to be higher than spell checker for style suggestion
       case "A_A_ACCENT": return 1; // triggers false alarms for IL_FAUT_INF if there is no a/à correction
       case "JE_M_APPEL": return 1;  // override NON_V
+      case "ACCORD_R_PERS_VERBE": return 1;  // match before POSER_UNE_QUESTION
       case "JE_SUI": return 1;  // needs higher priority than spell checker
       case "CONFUSION_PAR_PART": return -1;  // turn off completely when PART_OU_PAR is activated
       case "TOO_LONG_PARAGRAPH": return -15;

@@ -9965,12 +9965,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ZAL_ER_NUSS_COMPOUND" name="Ein 10er Steckschlüssel (10er-Steckschlüssel)">
             <pattern>
                 <token regexp="yes">\d+er</token>
-                <token case_sensitive="yes" regexp="yes">Nuss|Nüsse|Langnuss|Langnüssen?|Schlüsseln?|Steckschlüsseln?|Tickets?|Dübeln?|Bohrern?|Schrauben?</token>
+                <token case_sensitive="yes" regexp="yes">Nuss|Nüssen?|Langnuss|Langnüssen?|Schlüsseln?|Steckschlüsseln?|Tickets?|Dübeln?|Bohrern?|Schrauben?|Sets?|Packs?|Träger[ns]?</token>
             </pattern>
             <message>Dieses Nomen wird in der Regel mit Bindestrich geschrieben.</message>
             <suggestion>\1-\2</suggestion>
             <short>Zusammenschreibung</short>
             <example correction="10er-Schlüssel">Mit dem <marker>10er Schlüssel</marker> konnte ich die Schraube lösen.</example>
+        </rule>
+        <rule id="SOZIAL_MEDIA" name="sozial Media">
+            <pattern>
+                <token>sozial</token>
+                <token>Media</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Social Media</suggestion>?</message>
+            <example correction="Social Media">Du kannst mir auf <marker>sozial Media</marker> folgen.</example>
+        </rule>
+        <rule id="IM_VERGANGEN_JAHR" name="vergangen vs vergangenen">
+            <pattern>
+                <token postag="PRP:.+" postag_regexp="yes" />
+                <marker>
+                    <token>vergangen</token>
+                </marker>
+                <token regexp="yes">Jahr|Woche|Monat|&wochentage;|&monate;|Sommer|Winter|Frühling|Herbst|Wochenende</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>vergangenen</suggestion>?</message>
+            <example correction="vergangenen">Da war ich im <marker>vergangen</marker> Jahr.</example>
         </rule>
         <rulegroup id="EINE_ORIGINAL_RECHNUNG" name="Eine original Rechnung (Originalrechnung)">
             <short>Zusammenschreibung</short>
@@ -9978,6 +9997,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- candidates:
                 * falsch Meldung
                 * eigen Geruch
+                * eigen Interesse
+                * eigen Saft
                 * schwach Stelle
                 * frei Zeit
                 * schwer Punkt
@@ -9990,7 +10011,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 * frontal Aufnahme
                 * nieder Lage
                 * kurz Vorstellung
+                * kurz Abfrage
+                * kurz Text
                 * klein Kinder
+                * komplett Preis
+                * digital Form
+                * digital Druck
+                * psychisch Kranke
+                * national Galerie
+                * normal Zustand
+                * alternativ Termin
             -->
             <rule>
                 <antipattern>
@@ -9999,7 +10029,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token>direkt</token>
-                    <token regexp="yes">verkauf(es|s)?|vertriebs?|nachricht|akquise|bestellung|buchung|lieferung|versicherung|versicherers?|bank|kandidat(es|s)?|kandidatur|mandat(es|s)?|saft(es|s)?|vergabe|vermarktung|marketings?|investition|werbung|verbindung|bezug(es|s)?|hilfe|vergleich(es|s)?|kauf(es|s)?|einspritzers?|wahl|beteiligung|zahlung|wahlkreis(es)?|abnahme</token>
+                    <token regexp="yes">verkauf(es|s)?|vertriebs?|nachricht|akquise|bestellung|buchung|lieferung|versicherung|versicherers?|bank|kandidat(es|s)?|kandidatur|mandat(es|s)?|saft(es|s)?|vergabe|vermarktung|marketings?|investition|werbung|verbindung|bezug(es|s)?|hilfe|vergleich(es|s)?|kauf(es|s)?|einspritzers?|wahl|beteiligung|zahlung|wahlkreis(es)?|abnahme|bestätigung</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Direkt<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Direktvertrieb">Das Unternehmen bot auch einen <marker>direkt Vertrieb</marker> an.</example>
@@ -10012,7 +10042,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token>original</token>
-                    <token regexp="yes" case_sensitive="yes">Verpackung|Zubehörs?|Zustand(es|s)?|Rechnung|Angebot(es|s)?|Werk(es|s)?|Kaufurkunde|Urkunde|Unterlagen?|Grö(ß|ss)e|Aufnahme|Ausgabe|Beitrag(es|s)?|Besetzung|Bild(es|s)?|Videos?|Dokument(es|s)?|Datei|Fassung|Packung|Rezept(es|s)?|Text(es|s)?|Titels?|Tons?|Version|Zeichnung|Kartons?|Hülle|Inhalt(es|s)?|Bauteils?|Teils?|Plans?|Kaufpreis(es)?|Verkaufspreis(es)?</token>
+                    <token regexp="yes" case_sensitive="yes">Verpackung|Zubehörs?|Zustand(es|s)?|Rechnung|Angebot(es|s)?|Werk(es|s)?|Kaufurkunde|Urkunde|Unterlagen?|Grö(ß|ss)e|Aufnahme|Ausgabe|Beitrag(es|s)?|Besetzung|Bild(es|s)?|Videos?|Dokument(es|s)?|Datei|Fassung|Packung|Rezept(es|s)?|Text(es|s)?|Titels?|Tons?|Version|Zeichnung|Kartons?|Hülle|Inhalt(es|s)?|Bauteils?|Teils?|Plans?|Kaufpreis(es)?|Verkaufspreis(es)?|Blatt(es|s)?|Bestellung</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Original<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Originalrechnung">Sie hatte die <marker>original Rechnung</marker> nicht mehr, um das Produkt umzutauschen.</example>
@@ -10020,7 +10050,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>gesamt</token>
-                    <token regexp="yes" case_sensitive="yes">Kunstwerk(es|s)?|Werk(es|s)?|Bei?trags?|Kosten|Kaufpreis(es)?|Verkaufspreis(es)?|Preis(es)?|Umsatz(es)?|Gewinns?|Schule|Schulden|Volumen|Bevölkerung|Einkommens?|Höhe|Jahr(es|s)?|Menge|Paket(es|s)?|Länge|Situation|Wert(es|s)?|Fläche|Schadens?|Produktion|Gewicht(es|s)?|Betriebsrat(es|s)?|Unterricht(es|s)?|Auflage|Bild(es|s)?|Eindruck(es|s)?|Ergebnis(ses)?|Erscheinung|Interesses?|Wertung|Mannschaft|Zahl|Vergrö(ß|ss)erung|Budget|Laufleistung|Leistung|Niederschlags?|Ausgaben|Einnahmen|Anteils?</token>
+                    <token regexp="yes" case_sensitive="yes">Kunstwerk(es|s)?|Werk(es|s)?|Bei?trags?|Kosten|Kaufpreis(es)?|Verkaufspreis(es)?|Preis(es)?|Umsatz(es)?|Gewinns?|Schule|Schulden|Volumen|Bevölkerung|Einkommens?|Höhe|Jahr(es|s)?|Menge|Paket(es|s)?|Länge|Situation|Ausgangssituation|Wert(es|s)?|Fläche|Schadens?|Produktion|Gewicht(es|s)?|Betriebsrat(es|s)?|Unterricht(es|s)?|Auflage|Bild(es|s)?|Eindruck(es|s)?|Ergebnis(ses)?|Erscheinung|Interesses?|Wertung|Mannschaft|Zahl|Vergrö(ß|ss)erung|Budget|Laufleistung|Leistung|Niederschlags?|Ausgaben|Einnahmen|Anteils?|Objekt(es|s)?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Gesamt<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Gesamtkunstwerk">Sie betrachtete das <marker>gesamt Kunstwerk</marker>.</example>
@@ -10044,7 +10074,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>neu</token>
-                    <token regexp="yes" case_sensitive="yes">Bestellung|Erwerb(es|s)?|Installation|Baus?|Lands?|Aufnahme|Einsteiger(s|in)|Verpflichtung|Preis(es)?|Abschluss(es)?|Beginns?|Fassung|Wagens?|Fahrzeugs?|Geburt|Mitglied(es|s)?|Aufbaus?|Auftrag(es|s)?|Anfangs?|([Kk]unden)?[Gg]eschäft(es|s)?|Kunde|Kundin|Kauf|Anfertigung|Einkauf|Anschaffung|Zugang(es|s)?|Gründung|Zulassung|Verschuldung|Entwicklung|Ware</token>
+                    <token regexp="yes" case_sensitive="yes">Bestellung|Erwerb(es|s)?|Installation|Baus?|Lands?|Aufnahme|Einsteiger(s|in)|Verpflichtung|Preis(es)?|Abschluss(es)?|Beginns?|Fassung|Wagens?|Fahrzeugs?|Geburt|Mitglied(es|s)?|Aufbaus?|Auftrag(es|s)?|Anfangs?|([Kk]unden)?[Gg]eschäft(es|s)?|Kunde|Kundin|Kauf|Anfertigung|Einkauf|Anschaffung|Zugang(es|s)?|Gründung|Zulassung|Verschuldung|Entwicklung|Ware|Gerät(es|s)?|Starts?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Neu<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Neuwagen">Er bestellte sich einen <marker>neu Wagen</marker>.</example>
@@ -10088,7 +10118,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>extrem</token>
-                    <token regexp="yes" case_sensitive="yes">Situation|Fall|Fälle</token>
+                    <token regexp="yes" case_sensitive="yes">Situation|Fall|Fälle|Kälte</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Extrem<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Extremsituation">Er befindet sich in einer <marker>extrem Situation</marker>.</example>
@@ -10682,14 +10712,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="RUNDUM_SORGLOS_PAKET" name="Rundum-sorglos-Paket">
             <url>https://www.duden.de/rechtschreibung/Rundum_sorglos_Paket</url>
+            <short>Zusammenschreibung</short>
             <rule>
                 <pattern>
                     <token>rundum</token>
                     <token regexp="yes">sorg(en)?los</token>
-                    <token regexp="yes">paket(en?|s)?</token>
+                    <token regexp="yes">paket(en?|s|es)?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Rundum-sorglos-<match no="3" case_conversion="startupper" /></suggestion>?</message>
-                <short>Zusammenschreibung</short>
                 <example correction="Rundum-sorglos-Paket">Sie buchten das <marker>Rundum Sorglos Paket</marker>.</example>
             </rule>
             <rule>
@@ -10697,11 +10727,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>rund</token>
                     <token>um</token>
                     <token regexp="yes">sorg(en)?los</token>
-                    <token regexp="yes">paket(en?|s)?</token>
+                    <token regexp="yes">paket(en?|s|es)?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Rundum-sorglos-<match no="4" case_conversion="startupper" /></suggestion>?</message>
-                <short>Zusammenschreibung</short>
                 <example correction="Rundum-sorglos-Paket">Sie buchten das <marker>Rund um Sorglos Paket</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">rundum-?sorg(en)?los</token>
+                    <token regexp="yes">paket(en?|s|es)?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Rundum-sorglos-<match no="2" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="Rundum-sorglos-Paket">Sie buchten das <marker>rundum-sorglos Paket</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="SCHNICK_SCHNACK" name="Schnickschnack">
@@ -11030,10 +11067,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>Champions</token>
                 <token>Cup</token>
             </antipattern>
+            <antipattern>
+                <token>Ernährungs</token>
+                <token>Umschau</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">0|Zero</token>
+                <token>Emissions</token>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]{2,}(ung|schaft|sicht|heit|keit|ion|tät)s
-                    <exception regexp="yes">.+yungs|Jisungs|.*federations|Akarions|Samsungs|.*ctions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
+                    <exception regexp="yes">.+yo?ungs|Jisungs|.*federations|Akarions|Samsungs|.*ctions|Connexions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
                 </token>
                 <token postag=".*SUB.*" postag_regexp="yes" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]+
@@ -11309,20 +11354,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example correction='hineinfressen'>Man kann nicht alles in sich <marker>hinein fressen</marker>.</example>
         </rule>
         <rulegroup id="N_TEILIG" name="fünf teilig (fünfteilig) etc.">
+            <antipattern>
+                <token regexp="yes">eckige.*</token>
+                <token regexp="yes">Klammer.*</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">1|2</token>
+                <token regexp="yes">eckig.*</token>
+            </antipattern>
+            <antipattern>
+                <token skip="1">eckige</token>
+                <token postag="SUB:.+:PLU.*" postag_regexp="yes" />
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">[0-9]+</token>
-                    <token regexp="yes">(wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag|seit|stell)ig(e[mnrs]?)?</token>
+                    <token regexp="yes">(wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag|seit|stell|spur|eck)ig(e[mnrs]?)?</token>
                 </pattern>
                 <message><suggestion>\1-<match no="2" case_conversion="alllower" /></suggestion> wird mit Bindestrich geschrieben.</message>
                 <short>Zusammenschreibung</short>
                 <example correction='7-teiliges'>Ich biete ein <marker>7 teiliges</marker> Set zum Verkauf an.</example>
                 <example correction="8-seitigen">Ich arbeite an einem <marker>8 Seitigen</marker> Aufsatz.</example>
                 <example correction="6-stelliges">Ich verdiene ein <marker>6 stelliges</marker> Gehalt!</example>
+                <example>Ich habe 2 eckige Klammern verwendet.</example>
+                <example>Ich habe 5 eckige Kartons besorgt.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">\d+(wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag|seit|stell)ig(e[mnrs]?)?</token>
+                    <token regexp="yes">\d+(wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag|seit|stell|spur|eck)ig(e[mnrs]?)?</token>
                 </pattern>
                 <message><suggestion><match no="1" regexp_match="^(\d+).+" regexp_replace="$1" />-<match no="1" regexp_match="^\d+(.+)$" regexp_replace="$1" case_conversion="alllower" /></suggestion> wird mit Bindestrich geschrieben.</message>
                 <short>Zusammenschreibung</short>
@@ -11333,7 +11392,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="ZAL"/>
-                    <token regexp="yes">(schicht|zähn|wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag|stellig)ig(e[mnrs]?)?</token>
+                    <token regexp="yes">(schicht|zähn|wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag|stell|spur|eck)ig(e[mnrs]?)?</token>
                 </pattern>
                 <message><suggestion>\1\2</suggestion> wird zusammengeschrieben.</message>
                 <short>Zusammenschreibung</short>
@@ -39432,7 +39491,7 @@ Andere Projekte</example>
             </antipattern>
             <antipattern>
                 <token>Global</token>
-                <token>Location</token>
+                <token regexp="yes">Location|Player</token>
             </antipattern>
             <antipattern>
                 <token>Human</token>
@@ -39444,7 +39503,7 @@ Andere Projekte</example>
             </antipattern>
             <antipattern>
                 <token>Urban</token>
-                <token>Sports</token>
+                <token regexp="yes">Sports|Classics</token>
             </antipattern>
             <antipattern>
                 <token>International</token>
@@ -39497,7 +39556,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token>ohne</token>
-                    <token regexp="yes">gleich|mühsam|ständig|wirklich</token>
+                    <token regexp="yes">gleich|mühsam|ständig|wirklich|unnötig</token>
                     <token postag="SUB:.+" postag_regexp="yes" skip="2"/>
                     <token>zu</token>
                 </antipattern>

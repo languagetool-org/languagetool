@@ -504,6 +504,7 @@ public class AdverbFilter extends RuleFilter {
     put("arguably", "arguable");
     put("comparably", "comparable");
     put("procedurally", "procedural");
+    put("interchangeably", "interchangeable");
     put("twice", "second"); // special case
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

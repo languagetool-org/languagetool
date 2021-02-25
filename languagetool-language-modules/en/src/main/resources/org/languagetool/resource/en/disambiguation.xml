@@ -6866,6 +6866,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VB.*" postag_regexp="yes" />
             <token postag="IN|RB.*|JJ.*" postag_regexp="yes" />
         </antipattern>
+        <antipattern>
+            <token chunk="B-SBAR" />
+            <token postag="NN.*|DT|PRP\$|JJ.*|CD" postag_regexp="yes" chunk_re=".-NP.*" />
+            <token postag="NN.*" postag_regexp="yes" chunk_re=".-NP.*" />
+            <token postag="VBP" />
+            <token postag="JJ" chunk="B-ADJP" />
+            <token>than</token>
+            <token>that</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -7024,6 +7033,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Did you know that many start earlier and leave later?</example><!-- #3574 -->
         <example type="untouched">Incorrect grammar (ether/either): You can ether type in the address bar or click on a bookmark.</example>
         <example type="untouched">It's shameful; few start at the right times and then they go home early.</example><!-- #3574 -->
+        <example type="untouched">At Tatoeba, it is more important that a translation sound natural than that it be strictly faithful to the original.</example>
 <!-- Refer to the counter example        <example type="untouched">If any professional want to know the new practices of their field...</example>Premium #1564 -->
         <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
         <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
@@ -8064,9 +8074,20 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </antipattern>
             <antipattern><!-- Its set to English (incorrect grammar) -->
                 <token postag="CC|SENT_START|PCT" postag_regexp="yes" />
-                <token>its</token>
-                <token postag="VB[NG]" postag_regexp="yes" />
+                <token regexp="yes">its|your</token>
+                <token postag="VB.*" postag_regexp="yes" />
                 <token postag="IN|TO" postag_regexp="yes" />
+            </antipattern>
+            <antipattern><!-- I think its set to English (incorrect grammar) -->
+                <token inflected="yes" regexp="yes">think|hope|doubt|assume</token>
+                <token regexp="yes">its|your</token>
+                <token postag="VB.*" postag_regexp="yes" />
+                <token postag="IN|TO" postag_regexp="yes" />
+            </antipattern>
+            <antipattern><!-- I think its set to English (incorrect grammar) -->
+                <token regexp="yes">its|your</token>
+                <token>still</token>
+                <token postag="VB.*" postag_regexp="yes" />
             </antipattern>
             <pattern>
                 <token postag="PRP$"/>
@@ -8086,6 +8107,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">The very fact that you suddenly thought about her <marker>makes</marker> it obvious that you like her.</example><!-- #2520 -->
             <example type="untouched">Awesome, had her <marker>make</marker> it bigger for the hood.</example><!-- #2605 -->
             <example type="untouched">He, that is, the manager, had her <marker>make</marker> it bigger for the test.</example><!-- #2605 -->
+            <example type="untouched">Incorrect grammar: I do think its still overvalued without a definite weather forecast</example>
             <example type="untouched">Incorrect grammar: Its set to British.</example>
             <example type="ambiguous" inputform="minds[mind/NNS,mind/VBZ]" outputform="minds[mind/NNS]">They should make up their <marker>minds</marker>!</example>
             <example type="ambiguous" inputform="will[will/MD,will/NN:UN,will/VB,will/VBP]" outputform="will[will/NN:UN]">Don't do anything against my <marker>will</marker>.</example>
@@ -8185,8 +8207,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </antipattern>
         <antipattern>
             <token regexp="yes">its|your</token>
-            <token postag="VBG" />
-            <token postag="IN" />
+            <token postag="VBG" postag_regexp="yes" />
+            <token postag="IN|DT|PCT" postag_regexp="yes" />
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">its|your</token>
+            <token postag="RB" />
+            <token postag="JJ" postag_regexp="yes" />
         </antipattern>
         <pattern>
             <token postag="PRP$"/>
@@ -8207,6 +8234,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">His last view of the land he had inhabited was by moonlight...</example><!-- Chunker error: view/E-NP-plural -->
         <example type="untouched">I really like our great team</example><!-- #2441 -->
         <example type="untouched">It is in our economic best interest.</example><!-- #3037 -->
+        <example type="untouched">Incorrect grammar: I do think its still overvalued without a definite weather forecast</example>
         <example type="ambiguous" inputform="business[business/JJ,business/NN:UN]" outputform="business[business/NN:UN]">I hope my <marker>business</marker> takes its next steps soon.</example>
     </rule>
 
@@ -9053,7 +9081,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <pattern>
             <marker>
               <and>
-                <token regexp="yes">still|further|long<exception scope="previous" regexp="yes">an?|the</exception></token>
+                <token regexp="yes">
+                    still|further|long
+                    <exception scope="previous" postag="DT|PRP\$" postag_regexp="yes" />
+                </token>
                 <token postag="NN.*|VB.*" postag_regexp="yes"/>
               </and>
             </marker>

@@ -4150,6 +4150,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Здорово живешь, соседка, - поздоровался Иван.</example>
             <example correction=", -">Здорово живешь, соседка<marker> -,</marker> поздоровался Иван.</example>
         </rule>
+        <rule default="temp_off" id="COMMA_DEFIS" name="Запятая и дефис">
+            <pattern>
+                <token spacebefore="no">,</token>   
+                <token spacebefore="yes">-</token>
+            </pattern>
+            <message>После запятой должно стоять тире: <suggestion>\1 —</suggestion></message>
+            <url>http://ru.wikipedia.org/wiki/%D0%94%D0%B5%D1%84%D0%B8%D1%81</url>
+            <short>Тире?</short>
+            <example>Здорово живешь, соседка, — поздоровался Иван.</example>
+            <example correction=", —">Здорово живешь, соседка<marker>, -</marker> поздоровался Иван.</example>
+        </rule>
         
         <rulegroup default="on" id="Hyphen_and_spaces" name="Пробелы перед и после дефиса">
             <rule>
