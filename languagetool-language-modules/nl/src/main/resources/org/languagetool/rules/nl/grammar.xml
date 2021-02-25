@@ -9401,7 +9401,7 @@ onwaarschijnlijk
 				<pattern>
 					<token regexp="yes">de|een</token>
 					<marker>
-						<token postag="BNW:STL:IET"><exception postag_regexp="yes" postag="BNW:STL:ONV|ZNW.*"/><exception regexp="yes">slechts|dichts|alerts</exception></token>
+						<token postag="BNW:STL:IET"><exception postag_regexp="yes" postag="BNW:STL:ONV|ZNW.*"/><exception regexp="yes">slechts|dichts|alerts|langs</exception></token>
 					</marker>
 				</pattern>
 				<message>Dit is vast een tikfout.</message>
@@ -9421,12 +9421,23 @@ onwaarschijnlijk
 				<example correction="freelancejournalist">Hij is <marker>freelance journalist</marker>.</example>
 			</rule>			
 		</rulegroup>
+		<rulegroup id="DEGENE_DE" name="Degene de/degene die" >
+			<rule>
+				<pattern>
+					<token>degene</token>
+					<token>de</token>
+				</pattern>
+				<message>Hier is vast een letter weggevallen.</message>
+				<suggestion>degene die</suggestion>
+				<example correction="degene die">Hij is <marker>degene de</marker> een fout maakt.</example>
+			</rule>			
+		</rulegroup>
 		<rulegroup id="DE_VLT1EP" name="De aanlegde" >
 			<rule>
 				<pattern>
 					<token>de</token>
 					<marker>
-						<token postag_regexp="yes" postag="WKW:VLT:1EP.*"><exception postag_regexp="yes" postag="WKW:VTD:VRB|BNW.*VRB"/></token>
+						<token postag_regexp="yes" postag="WKW:VLT:1EP.*" regexp="yes" case_sensitive="yes">^[a-z].*<exception postag_regexp="yes" postag="WKW:VTD:VRB|BNW.*VRB|GET:RNG"/></token>
 					</marker>
 				</pattern>
 				<message>Hier is vast 'ge' weggevallen, of het moet nog anders.</message>
