@@ -9558,7 +9558,7 @@ onwaarschijnlijk
 				<pattern>
 					<token>te</token>
 					<marker>
-						<token postag_regexp="yes" postag="WKW:VLT:INF.*"><exception postag_regexp="yes" postag="WKW:TGW:INF.*|BNW.*"/></token>
+						<token postag_regexp="yes" postag="WKW:VLT:INF.*"><exception postag_regexp="yes" postag="WKW:TGW:INF.*|BNW.*|WKW:VTD:ONV"/></token>
 					</marker>
 				</pattern>
 				<message>Het werkwoord na 'te' moet tegenwoordige tijd zijn.</message>
@@ -9566,17 +9566,44 @@ onwaarschijnlijk
 				<example correction="fietsen">Ze heeft geleerd te <marker>fietsten</marker>.</example>
 			</rule>			
 		</rulegroup>
-		<rulegroup id="SAMENSTELLING_STAM_ZNW" name="lees ervaring" default="temp_off">
+		<rulegroup id="SAMENSTELLING_STAM_ZNW" name="lees ervaring">
 			<rule>
+				<antipattern>
+					<token skip="-1">plaats</token>
+					<token inflected="yes" regexp="yes">nemen|vinden</token>
+				</antipattern>
+				<antipattern>
+					<token skip="-1" inflected="yes" regexp="yes">nemen|vinden</token>
+					<token>plaats</token>
+				</antipattern>
+				<antipattern>
+					<!-- bos bloemen -->
+					<token regexp="yes">blik|bos|stel|pak|doos|fles</token>
+					<token postag_regexp="yes" postag=".*MRV.*|ZNW:EKV.*"/>
+				</antipattern>
+				<antipattern>
+					<!-- pak melk -->
+					<token regexp="yes">pak|fles|blok|vel</token>
+					<token postag_regexp="yes" postag="ZNW:EKV.*"/>
+				</antipattern>
+				<antipattern>
+					<token>in</token>
+					<token>geen</token>
+					<token>geval</token>
+				</antipattern>
+				<antipattern>
+					<token>nummer</token>
+					<token postag_regexp="yes" postag="GET.*"/>
+				</antipattern>
 				<pattern>
 					<token regexp="yes">de|een|geen</token>
 					<marker>
-						<token postag="WKW:TGW:1EP"><exception>acht</exception><exception postag_regexp="yes" postag="BNW.*"></exception></token>
-						<token postag_regexp="yes" postag="ZNW.*DE_|ZNW:EKV"><exception postag_regexp="yes" postag="BNW.*"/></token>
+						<token postag="WKW:TGW:1EP" regexp="yes" case_sensitive="yes">^[a-z].*<exception regexp="yes">acht|kan|moet|wil|uit|vier|was|wel</exception><exception postag_regexp="yes" postag="BNW.*"></exception></token>
+						<token postag_regexp="yes" postag="ZNW.*DE_|ZNW:EKV" regexp="yes">[a-z].*<exception postag_regexp="yes" postag="BNW.*|BYW|WKW:TGW:INF.*|WKW:VTD.*|WKW:VLT.*"/><exception regexp="yes">bent|zult|zo|kan|moet|wil|was|over|staat|weer|tegen|niets|at</exception></token>
 					</marker>
 					<token postag_regexp="yes" postag="WKW.*|VRZ.*|SENT_END"/>
 				</pattern>
-				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
+				<message>De kans is groot dat u dit aan elkaar moet schrijven omdat het een enkel begrip is.</message>
 				<suggestion>\2\3</suggestion>
 				<example correction="leeservaring">Zij heeft de <marker>lees ervaring</marker> van een tweejarige.</example>
 			</rule>			
@@ -9584,8 +9611,8 @@ onwaarschijnlijk
 				<pattern>
 					<token regexp="yes">het|dit|dat|een|geen</token>
 					<marker>
-						<token postag="WKW:TGW:1EP"><exception>acht</exception><exception postag_regexp="yes" postag="BNW.*"></exception></token>
-						<token postag_regexp="yes" postag="ZNW.*HET"><exception>om</exception><exception postag_regexp="yes" postag="BNW.*"/></token>
+						<token postag="WKW:TGW:1EP"><exception regexp="yes">jij|jouw|haar|acht|genoeg|kan|maar|mag|men|mijn|moet|niet|pas|uit|vier|was|wel</exception><exception postag_regexp="yes" postag="BNW.*|ZNW:EKV.*|WKW:VTD.*"></exception></token>
+						<token postag_regexp="yes" postag="ZNW.*HET"><exception regexp="yes">om|weer|tegen|niets</exception><exception postag_regexp="yes" postag="BNW.*|WKW:VTD.*|BYW"/></token>
 					</marker>
 					<token postag_regexp="yes" postag="WKW.*|VRZ.*|SENT_END"/>
 				</pattern>
