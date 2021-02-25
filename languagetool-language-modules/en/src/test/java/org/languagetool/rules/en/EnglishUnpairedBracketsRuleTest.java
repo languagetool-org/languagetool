@@ -102,6 +102,8 @@ public class EnglishUnpairedBracketsRuleTest {
     assertCorrect("This is not so (neither a nor b)");
     assertCorrect("I think that Liszt's \"Forgotten Waltz No.3\" is a hidden masterpiece.");
     assertCorrect("I think that Liszt's \"Forgotten Waltz No. 3\" is a hidden masterpiece.");
+    assertCorrect("Turkish distinguishes between dotted and dotless \"I\"s.");
+    assertCorrect("It has recognized no \"bora\"-like pattern in his behaviour.");
 
     // incorrect sentences:
     assertIncorrect("(This is a test sentence.");
@@ -113,6 +115,8 @@ public class EnglishUnpairedBracketsRuleTest {
     assertIncorrect("This is not so (neither a nor b.");
     assertIncorrect("This is not so neither a nor b)");
     assertIncorrect("This is not so neither foo nor bar)");
+    assertIncorrect("He is making them feel comfortable all along.\"");
+    assertIncorrect("\"He is making them feel comfortable all along.");
 
     // this is currently considered incorrect... although people often use smileys this way:
     assertCorrect("Some text (and some funny remark :-) with more text to follow");
