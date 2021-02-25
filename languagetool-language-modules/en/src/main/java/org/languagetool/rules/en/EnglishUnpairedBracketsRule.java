@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.Example;
@@ -53,6 +54,15 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   @Override
   public String getId() {
     return "EN_UNPAIRED_BRACKETS";
+  }
+
+  @Override
+  protected boolean preventMatch(AnalyzedSentence sentence) {
+    String text = sentence.getText();
+    if (text.matches(".*\\d\".*")) {    // could be >>3"<< (3 inch) or a quote that ends with a number
+      return true;
+    }
+    return false;
   }
 
   @Override

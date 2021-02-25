@@ -100,6 +100,8 @@ public class EnglishUnpairedBracketsRuleTest {
                       "B) Boston\n" +
                       "C) Foo\n");
     assertCorrect("This is not so (neither a nor b)");
+    assertCorrect("I think that Liszt's \"Forgotten Waltz No.3\" is a hidden masterpiece.");
+    assertCorrect("I think that Liszt's \"Forgotten Waltz No. 3\" is a hidden masterpiece.");
 
     // incorrect sentences:
     assertIncorrect("(This is a test sentence.");

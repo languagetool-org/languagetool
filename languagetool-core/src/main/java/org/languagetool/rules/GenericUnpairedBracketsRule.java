@@ -326,12 +326,19 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
         }
       }
     }
+    if (preventMatch(sentence)) {
+      return null;
+    }
     RuleMatch match = new RuleMatch(this, sentence, startPos, startPos + symbol.symbol.length(), message);
     List<String> repl = getSuggestions(lazyFullText, startPos, startPos + symbol.symbol.length());
     if (repl != null) {
       match.setSuggestedReplacements(repl);
     }
     return match;
+  }
+
+  protected boolean preventMatch(AnalyzedSentence sentence) {
+    return false;
   }
 
   protected List<String> getSuggestions(Supplier<String> text, int startPos, int endPos) {
