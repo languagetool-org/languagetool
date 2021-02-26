@@ -50,11 +50,11 @@ public class CatalanUnpairedBracketsRuleTest {
     // correct sentences:
     assertMatches("L'«home és així»", 0);
     assertMatches("l'«home»", 0);
-    assertMatches("«\"És així\" o no»", 0);
-    assertMatches("«\"És així\", va dir.»", 0);
-    assertMatches("«És \"així\" o no»", 0);
-    assertMatches("(l'execució a mans d'\"especialistes\")", 0);
-    assertMatches("(L'\"especialista\")", 0);
+    assertMatches("«\"És així\" o no»", 1);
+    assertMatches("«\"És així\", va dir.»", 1);
+    assertMatches("«És \"així\" o no»", 1);
+    assertMatches("(l'execució a mans d'\"especialistes\")", 1);
+    assertMatches("(L'\"especialista\")", 1);
     assertMatches("\"Vine\", li va dir.", 0);
     assertMatches("(Una frase de prova).", 0);
     assertMatches("Aquesta és la paraula 'prova'.", 0);
