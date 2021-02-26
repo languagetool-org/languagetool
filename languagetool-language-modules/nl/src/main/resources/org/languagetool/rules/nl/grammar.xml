@@ -9432,12 +9432,12 @@ onwaarschijnlijk
 				<example correction="degene die">Hij is <marker>degene de</marker> een fout maakt.</example>
 			</rule>			
 		</rulegroup>
-		<rulegroup id="DE_VLT1EP" name="De aanlegde" >
+		<rulegroup id="DE_WKWVLT3EP" name="De aanlegde" >
 			<rule>
 				<pattern>
 					<token>de</token>
 					<marker>
-						<token postag_regexp="yes" postag="WKW:VLT:1EP.*" regexp="yes" case_sensitive="yes">^[a-z].*<exception postag_regexp="yes" postag="WKW:VTD:VRB|BNW.*VRB|GET:RNG"/></token>
+						<token postag_regexp="yes" postag="WKW:VLT:1EP.*" regexp="yes" case_sensitive="yes">^[a-z].*<exception postag_regexp="yes" postag="WKW:VTD:VRB|BNW.*VRB|GET:RNG"/><exception regexp="yes">laste|look</exception></token>
 					</marker>
 				</pattern>
 				<message>Hier is vast 'ge' weggevallen, of het moet nog anders.</message>
@@ -9569,6 +9569,18 @@ onwaarschijnlijk
 		<rulegroup id="SAMENSTELLING_STAM_ZNW" name="lees ervaring">
 			<rule>
 				<antipattern>
+					<token skip="10">ik</token>
+					<token postag="WKW:TGW:1EP"/>
+					<token postag_regexp="yes" postag="ZNW.*DE_|ZNW:EKV" />
+				</antipattern>
+				<antipattern>
+					<token postag="WKW:TGW:1EP"/>
+					<token regexp="yes">de|een|geen</token>
+					<token postag_regexp="yes" postag="ZNW:EKV.*"/>
+					<token postag_regexp="yes"  postag="ZNW:EKV.*"/>
+					<token postag_regexp="yes" postag="WKW.*"/>
+				</antipattern>
+				<antipattern>
 					<token skip="-1">plaats</token>
 					<token inflected="yes" regexp="yes">nemen|vinden</token>
 				</antipattern>
@@ -9578,7 +9590,7 @@ onwaarschijnlijk
 				</antipattern>
 				<antipattern>
 					<!-- bos bloemen -->
-					<token regexp="yes">blik|bos|stel|pak|doos|fles</token>
+					<token regexp="yes">blik|bos|stel|pak|doos|fles|groep|berg</token>
 					<token postag_regexp="yes" postag=".*MRV.*|ZNW:EKV.*"/>
 				</antipattern>
 				<antipattern>
@@ -9596,10 +9608,10 @@ onwaarschijnlijk
 					<token postag_regexp="yes" postag="GET.*"/>
 				</antipattern>
 				<pattern>
-					<token regexp="yes">de|een|geen</token>
+					<token regexp="yes">de|een|geen|deze|menige?|elke?|iedere?|sommige?</token>
 					<marker>
-						<token postag="WKW:TGW:1EP" regexp="yes" case_sensitive="yes">^[a-z].*<exception regexp="yes">acht|kan|moet|wil|uit|vier|was|wel</exception><exception postag_regexp="yes" postag="BNW.*"></exception></token>
-						<token postag_regexp="yes" postag="ZNW.*DE_|ZNW:EKV" regexp="yes">[a-z].*<exception postag_regexp="yes" postag="BNW.*|BYW|WKW:TGW:INF.*|WKW:VTD.*|WKW:VLT.*"/><exception regexp="yes">bent|zult|zo|kan|moet|wil|was|over|staat|weer|tegen|niets|at</exception></token>
+						<token postag="WKW:TGW:1EP" regexp="yes" case_sensitive="yes">^[a-z].*<exception regexp="yes">weer|geval|haar|jouw|acht|kan|moet|wil|uit|vier|was|wel</exception><exception postag_regexp="yes" postag="BNW.*|WKW:VTD:ONV"></exception></token>
+						<token postag_regexp="yes" postag="ZNW.*DE_|ZNW:EKV" regexp="yes">[a-z].*<exception postag_regexp="yes" postag="BNW.*|BYW.*|WKW:TGW:INF.*|WKW:VTD.*|WKW:VLT.*|GET.*"/><exception regexp="yes">bent|zult|zo|kan|moet|wil|was|over|staat|weer|tegen|niets|at</exception></token>
 					</marker>
 					<token postag_regexp="yes" postag="WKW.*|VRZ.*|SENT_END"/>
 				</pattern>
@@ -9609,19 +9621,54 @@ onwaarschijnlijk
 			</rule>			
 			<rule>
 				<pattern>
-					<token regexp="yes">het|dit|dat|een|geen</token>
+					<token regexp="yes">het|dit|dat|een|geen|menige?|elke?|iedere?|sommige</token>
 					<marker>
-						<token postag="WKW:TGW:1EP"><exception regexp="yes">jij|jouw|haar|acht|genoeg|kan|maar|mag|men|mijn|moet|niet|pas|uit|vier|was|wel</exception><exception postag_regexp="yes" postag="BNW.*|ZNW:EKV.*|WKW:VTD.*"></exception></token>
-						<token postag_regexp="yes" postag="ZNW.*HET"><exception regexp="yes">om|weer|tegen|niets</exception><exception postag_regexp="yes" postag="BNW.*|WKW:VTD.*|BYW"/></token>
+						<token postag="WKW:TGW:1EP"><exception regexp="yes">weer|geval|jij|jouw|haar|acht|genoeg|kan|maar|mag|men|mijn|moet|niet|pas|uit|vier|was|wel</exception><exception postag_regexp="yes" postag="BNW.*|ZNW:EKV.*|WKW:VTD.*"></exception></token>
+						<token postag_regexp="yes" postag="ZNW.*HET"><exception regexp="yes">om|weer|tegen|niets</exception><exception postag_regexp="yes" postag="BNW.*|WKW:VTD.*|BYW.*|GET.*"/></token>
 					</marker>
 					<token postag_regexp="yes" postag="WKW.*|VRZ.*|SENT_END"/>
 				</pattern>
-				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
+				<message>De kans is groot dat u dit aan elkaar moet schrijven omdat het een enkel begrip is.</message>
 				<suggestion>\2\3</suggestion>
 				<example correction="leesboek">Zij heeft het <marker>lees boek</marker> laten liggen.</example>
 			</rule>			
 		</rulegroup>
-
+		<rulegroup id="DE_AH" name="de ah / de AH">
+			<rule>
+				<pattern>
+					<token>de</token>
+					<token case_sensitive="yes">ah</token>
+				</pattern>
+				<message>U bedoelt vast de grootgrutter.</message>
+				<suggestion>de AH</suggestion>
+				<example correction="de AH">Het is niet zo voordelig bij <marker>de ah</marker>.</example>
+			</rule>			
+		</rulegroup>
+		<rulegroup id="DE_ALLE" name="de alle / alle">
+			<rule>
+				<pattern>
+					<token>de</token>
+					<token>alle</token>
+				</pattern>
+				<message>Dit is nogal ongebruikelijk.</message>
+				<suggestion>alle</suggestion>
+				<example correction="alle">Het zijn <marker>de alle</marker> fouten.</example>
+			</rule>			
+		</rulegroup>
+		<rulegroup id="DE_AFTELLEN_BUTTON" name="de aftellen button/de aftelbutton">
+			<rule>
+				<pattern>
+					<token regexp="yes">de|een|geen</token>
+					<marker>
+						<token postag_regexp="yes" postag="WKW:TGW:INF.*"><exception regexp="yes">zijn|beiden|bergen</exception><exception postag_regexp="yes" postag=".*MRV.*|BNW.*|WKW:VTD:ONV|ZNW.*"/></token>
+						<token postag_regexp="yes" postag="ZNW:EKV.*"><exception regexp="yes">moet|goed|waar|was|waard|kan|bent|he|want|tegen|over</exception><exception postag_regexp="yes" postag="BYW.*|BNW.*"/></token>
+					</marker>
+				</pattern>
+				<message>Dit is taalkundig wat krom.</message>
+				<suggestion><match no="2" postag="WKW:TGW:1EP"/>\3</suggestion>
+				<example correction="aftelknop">Ik zie de <marker>aftellen knop</marker>.</example>
+			</rule>			
+		</rulegroup>
 		<rulegroup id="GAAN_ERVAN_UIT" name="Gaan ervan uit">
 			<rule>
 				<pattern>
