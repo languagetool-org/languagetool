@@ -103,7 +103,7 @@ public class EnglishUnpairedBracketsRuleTest {
     assertCorrect("I think that Liszt's \"Forgotten Waltz No.3\" is a hidden masterpiece.");
     assertCorrect("I think that Liszt's \"Forgotten Waltz No. 3\" is a hidden masterpiece.");
     assertCorrect("Turkish distinguishes between dotted and dotless \"I\"s.");
-    assertCorrect("It has recognized no \"bora\"-like pattern in his behaviour.");
+    // assertCorrect("It has recognized no \"bora\"-like pattern in his behaviour."); It's fixed with the new tokenizer
 
     // incorrect sentences:
     assertIncorrect("(This is a test sentence.");

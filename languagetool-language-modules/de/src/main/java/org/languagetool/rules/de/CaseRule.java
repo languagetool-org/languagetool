@@ -167,6 +167,10 @@ public class CaseRule extends Rule {
       token("’"),
       regex(".*")
     ),
+    Arrays.asList( // wrong quote used as opening quote, leave to UNPAIRED_BRACKETS etc.
+      token("“"),
+      csRegex("[A-ZÖÜÄ].*")
+    ),
     Arrays.asList( // => Hallo test
       SENT_START,
       regex("=|-"),

@@ -180,6 +180,7 @@ public class CaseRuleTest {
     assertGood("Unser Wärmestrom-Tarif WärmeKompakt im Detail");  // ignore so we don't suggest "wärmeKompakt" (#3779)
     assertGood("Autohaus Dornig GmbH");
     assertGood("Hans Pries GmbH");
+    assertGood("Das Gedicht “Der Panther”.");  // quotes are not correct, but leave that to the quotes rule
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");
@@ -267,7 +268,7 @@ public class CaseRuleTest {
     assertBad("Er sagt, dass Geistliche und weltliche Würdenträger davon betroffen sind.");
     assertBad("Er ist begeistert Von der Fülle.");
     assertBad("Er wohnt Über einer Garage.");
-    assertBad("„Weißer Rauch“ Über Athen");
+    //assertBad("„Weißer Rauch“ Über Athen");   // could be title/quote, so not detected
     assertBad("Die Anderen 90 Prozent waren krank.");
 
     assertGood("Man sagt, Liebe mache blind.");
