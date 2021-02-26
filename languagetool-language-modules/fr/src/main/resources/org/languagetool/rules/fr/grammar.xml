@@ -34564,7 +34564,7 @@ though, and has since been slightly modified)-->
               <example correction="monte, descend, recule">Elle <marker>monte descend recule</marker>.</example>
           </rule>
       </rulegroup>
-      <rulegroup id="ENUMERATION" name="enumeration" default="temp_off">
+      <rulegroup id="ENUMERATION" name="virgules dans énumérations" default="temp_off">
           <rule>
               <pattern>
                   <unify>
@@ -34589,6 +34589,17 @@ though, and has since been slightly modified)-->
               <example>Ce sont <marker>des parasites des mollusques</marker> et des vertébrés d'eau douce.</example>
           </rule>
           <rule>
+              <antipattern>
+                  <token postag="(P\+)?D .*" postag_regexp="yes"/>
+                  <token postag="N.*" postag_regexp="yes"/>
+                  <token postag="(P\+)?D .*" postag_regexp="yes"/>
+                  <token postag="N.*" postag_regexp="yes"/>
+                  <token postag="J.*" postag_regexp="yes"/>
+                  <token postag="J.*" postag_regexp="yes"/>
+                  <token postag="J.*" postag_regexp="yes"/>
+                  <token>et</token>
+                  <token postag="J.*" postag_regexp="yes"/>
+              </antipattern>
               <pattern>
                   <unify>
                       <feature id="gender"/>
@@ -34608,6 +34619,7 @@ though, and has since been slightly modified)-->
               <message>Des virgules semblent être requises dans ce contexte.</message>
               <suggestion>\2, \3, \4</suggestion>
               <example correction="gris, noirs, roux">Elle a des chats <marker>gris noirs roux</marker> et blancs.</example>
+              <example>Cela favorise le développement des forces <marker>nucléaires armées françaises</marker>.</example>
           </rule>
           <rule>
               <pattern>
