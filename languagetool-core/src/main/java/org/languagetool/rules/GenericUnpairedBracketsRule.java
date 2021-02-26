@@ -275,8 +275,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       precededByWhitespace = tokens[i - 1].isSentenceStart()
           || tokens[i].isWhitespaceBefore()
           || PUNCTUATION_NO_DOT.matcher(tokens[i - 1].getToken()).matches()
-          || startSymbols.contains(tokens[i - 1].getToken())
-          || (tokens[i].getToken().equals("\"") && ! tokens[i].isSentenceEnd());  // e.g. >>"I"s<< has and needs no space
+          || startSymbols.contains(tokens[i - 1].getToken());
     }
     return precededByWhitespace;
   }
@@ -286,7 +285,8 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     if (i < tokens.length - 1 && startSymbols.get(j).equals(endSymbols.get(j))) {
       followedByWhitespace = tokens[i + 1].isWhitespaceBefore()
               || PUNCTUATION.matcher(tokens[i + 1].getToken()).matches()
-              || endSymbols.contains(tokens[i + 1].getToken());
+              || endSymbols.contains(tokens[i + 1].getToken())
+              || "s".equals(tokens[i + 1].getToken());// e.g. >>"I"s<< has and needs no space
     }
     return followedByWhitespace;
   }
