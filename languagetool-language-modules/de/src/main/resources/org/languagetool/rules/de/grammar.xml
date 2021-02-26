@@ -44167,7 +44167,7 @@ Andere Projekte</example>
         </rulegroup>
         <rulegroup id="FRAGEZEICHEN_STATT_PUNKT" name="Fragezeichen statt einem Punkt am Ende einer Frage">
             <url>https://www.duden.de/sprachwissen/rechtschreibregeln/fragezeichen</url>
-            <rule>
+            <rule><!-- 1 -->
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="PRP.+" postag_regexp="yes" min="0" max="1"/>
@@ -44187,7 +44187,7 @@ Andere Projekte</example>
                 <example correction="?">Wann denn endlich<marker>.</marker></example>
                 <example correction="?">Wohin denn überhaupt<marker>.</marker></example>
             </rule>
-            <rule>
+            <rule><!-- 2 -->
                 <pattern>
                     <token postag="SENT_START"/>
                     <token regexp="yes" min="0" max="1">Und|Aber</token>
@@ -44213,7 +44213,7 @@ Andere Projekte</example>
                 <example correction="?">Und wer ist das<marker>.</marker></example>
                 <example correction="?">Wie geht es <marker>dir</marker></example>
             </rule>
-            <rule>
+            <rule><!-- 3 -->
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="PRP.+" postag_regexp="yes" min="0" max="1"/>
@@ -44234,7 +44234,7 @@ Andere Projekte</example>
                 <example correction="">Wessen Auto ist das<marker>.</marker></example>
                 <example correction="">An welchem Tag starb Cäsar<marker>.</marker></example>
             </rule>
-            <rule>
+            <rule><!-- 4 -->
                 <pattern>
                     <token postag="SENT_START"/>
                     <token>Wie</token>
@@ -44257,7 +44257,7 @@ Andere Projekte</example>
                 <example correction="?">Wie oft passierte das<marker>.</marker></example>
                 <example correction="?">Wie viel kostet das<marker>.</marker></example>
             </rule>
-            <rule>
+            <rule><!-- 5 -->
                 <pattern>
                     <token postag="SENT_START"/>
                     <token regexp="yes">Bis|Seit|Ab|Von</token>
@@ -44279,7 +44279,7 @@ Andere Projekte</example>
                 <example correction="?">Ab wann gilt das<marker>!</marker></example>
                 <example correction="?">Bis wann schläft er<marker>.</marker></example>
             </rule>
-            <rule>
+            <rule><!-- 6 -->
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="VER:(AUX:)?2:SIN:.+" postag_regexp="yes"/>
@@ -44296,7 +44296,7 @@ Andere Projekte</example>
                 <short>Möglicherweise falsches Satzzeichen</short>
                 <example correction="?">Bist du blöd<marker>.</marker></example>
             </rule>
-            <rule>
+            <rule><!-- 7 -->
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="VER:(AUX:)?3:SIN:.+" postag_regexp="yes"/>
@@ -44314,7 +44314,7 @@ Andere Projekte</example>
                 <example correction="?">Ist er blöd<marker>.</marker></example>
                 <example correction="?">Ist Peter blöd<marker>.</marker></example>
             </rule>
-            <rule>
+            <rule><!-- 8 -->
                 <pattern>
                     <token postag="SENT_START"/>
                     <token>Wie</token>
@@ -44332,7 +44332,23 @@ Andere Projekte</example>
                 <short>Möglicherweise falsches Satzzeichen</short>
                 <example correction="?">Wie geht es dir<marker>.</marker></example>
             </rule>
-            <rule>
+            <rule><!-- 9 -->
+                <antipattern>
+                    <token>Sollten</token>
+                    <token regexp="yes">Sie|Ihr</token>
+                </antipattern>
+                <antipattern>
+                    <!-- "Kann sich beinahe mühelos spontan und fließend ausdrücken." -->
+                    <token postag="VER:MOD:.*" postag_regexp="yes"/>
+                    <token>sich</token>
+                    <token postag="ADV:MOD" />
+                </antipattern>
+                <antipattern>
+                    <!-- "Kann sich mühelos spontan und fließend ausdrücken." -->
+                    <token postag="VER:MOD:.*" postag_regexp="yes"/>
+                    <token>sich</token>
+                    <token postag="ADJ:PRD:GRU" />
+                </antipattern>
                 <antipattern>
                     <token postag="VER:MOD:.*" postag_regexp="yes"/>
                     <token skip="-1" />
@@ -44341,7 +44357,7 @@ Andere Projekte</example>
                     <token min="0" regexp="yes">so|dann</token>
                     <token postag="VER:.+" postag_regexp="yes"/>
                 </antipattern>
-                   <antipattern>
+                <antipattern>
                     <token postag="VER:MOD:.*" postag_regexp="yes"/>
                     <token skip="-1" />
                     <token postag="VER:INF:.+" postag_regexp="yes"/>
@@ -44363,6 +44379,7 @@ Andere Projekte</example>
                     <token postag="VER:MOD:.*" postag_regexp="yes"><exception regexp="yes">Lass|Lasse|Lassen|Lasst|möge</exception></token>
                     <token skip="-1" postag="PRO:.*|SUB:.*|EIG:.*|ADJ:.*" postag_regexp="yes">
                         <exception scope="next" regexp="yes">\?|!|:|“|»|«|"</exception>
+                        <exception scope="next">jedenfalls</exception>
                         <exception>wohl</exception>
                         <exception>andere</exception>
                     </token>
@@ -44386,8 +44403,12 @@ Andere Projekte</example>
                 <example>Kann sein, hab da noch nie was geändert.</example>
                 <example>Sollte das Separieren eines Tieres notwendig sein, so steht ein abgetrenntes rund 40 Quadratmeter großes Gehege zur Verfügung, das auch Klettern und Verstecken ermöglicht.</example>
                 <example>Solltest du eine Frage haben, schreib gern eine E-Mail an den Support.</example>
+                <example>Sollten Sie keine E-Mail mit Bestätigung bekommen haben, kontaktieren Sie unseren Manager per E-Mail.</example>
+                <example>Kann ich jedenfalls von meinen Söhnen und Schwiegersöhnen behaupten.</example>
+                <example>Kann sich beinahe mühelos spontan und fließend ausdrücken</example>
+                <example>Kann sich mühelos spontan und fließend ausdrücken</example>
             </rule>
-            <rule>
+            <rule><!-- 10 -->
                 <antipattern>
                     <token postag="VER:MOD:.*" postag_regexp="yes"/>
                     <token skip="-1"/>
@@ -44413,9 +44434,16 @@ Andere Projekte</example>
                     <token postag="VER:.*" postag_regexp="yes"/>
                     <token skip="-1"/>
                     <token>,</token>
-                   <token postag="ART:.+" postag_regexp="yes"/>
+                    <token postag="ART:.+" postag_regexp="yes"/>
                     <token postag="SUB:.+" postag_regexp="yes"/>
                     <token postag="VER:(1|2|3):.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token min="0">so</token>
+                    <token postag="VER:(1|2|3):.+" postag_regexp="yes"/>
+                    <token skip="-1"/>
+                    <token>.</token>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -44441,8 +44469,10 @@ Andere Projekte</example>
                 <example>Ist Adenosin gebunden, ist das ein Signal für die Zelle, etwas weniger zu arbeiten.</example>
                 <example>Ist dein Feind auch eine Ameise, betrachte ihn als Elefanten.</example>
                 <example>Ist die Lüge noch so schnell, die Wahrheit holt sie doch ein.</example>
+                <example>Ist die Hydroxygruppe an ein Kohlenstoffatom gebunden, werden die Verbindungen als Phenole bezeichnet.</example>
+                <example>Ist die Hydroxygruppe an ein Kohlenstoffatom gebunden, das Teil eines aromatischen Ringes ist, so werden die Verbindungen als Phenole bezeichnet.</example>
             </rule>
-            <rule>
+            <rule><!-- 11 -->
                 <antipattern>
                     <token postag=".*ZAN.*|.*ABK.*|UNKNOWN" postag_regexp="yes"/>
                     <token>.</token>
@@ -44508,7 +44538,7 @@ Andere Projekte</example>
                 <example correction="?|!">"Wohin ist er gegangen<marker>.</marker></example>
                 <example correction="?|!">"Aber wohin ist er gegangen<marker>.</marker></example>
             </rule>
-            <rule>
+            <rule><!-- 12 -->
                 <pattern>
                     <token>,</token>
                     <marker>
@@ -44520,7 +44550,7 @@ Andere Projekte</example>
                 <suggestion>\2?</suggestion>
                 <example correction='oder?'>Er ist schon nach Hause, <marker>oder.</marker></example>
             </rule>
-            <rule>
+            <rule><!-- 13 -->
                 <pattern>
                     <token>,</token>
                     <marker>
@@ -44533,7 +44563,7 @@ Andere Projekte</example>
                 <suggestion>\2 \3?</suggestion>
                 <example correction='oder nicht?'>Er ist schon nach Hause, <marker>oder nicht.</marker></example>
             </rule>
-            <rule>
+            <rule><!-- 14 -->
                 <pattern>
                     <token>,</token>
                     <marker>
@@ -44546,7 +44576,7 @@ Andere Projekte</example>
                 <suggestion>\2 \3?</suggestion>
                 <example correction='nicht wahr?'>Er ist schon nach Hause, <marker>nicht wahr.</marker></example>
             </rule>
-            <rule>
+            <rule><!-- 15 -->
                 <antipattern>
                     <token skip="-1">,</token>
                     <token>,</token>
