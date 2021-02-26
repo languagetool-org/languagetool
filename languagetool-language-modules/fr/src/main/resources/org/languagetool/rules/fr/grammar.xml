@@ -37493,6 +37493,57 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rule id="A_OU_EN_MOYEN_DE_TRANSPORT" name="a ou en moyen de transport" default="temp_off">
+          <antipattern>
+              <token>en</token>
+              <token regexp="yes">vélo|byciclette|moto|cheval|skis</token>
+              <token postag="Y"/>
+          </antipattern>
+          <antipattern>
+              <token>en</token>
+              <token regexp="yes">vélo|byciclette|moto|cheval|skis</token>
+              <token regexp="yes">(?-i)[A-Z].*</token>
+          </antipattern>
+          <antipattern>
+              <token>en</token>
+              <token regexp="yes">vélo|byciclette|moto|cheval|skis</token>
+              <token postag="J.*" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes" skip="-1">transformer|déguiser|métamorphoser|changer</token>
+              <token>en</token>
+              <token regexp="yes">vélo|byciclette|moto|cheval|skis</token>
+          </antipattern>
+          <antipattern>
+              <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">transformer|déguiser|métamorphoser|changer</token>
+              <token>en</token>
+              <token regexp="yes">vélo|byciclette|moto|cheval|skis</token>
+          </antipattern>
+          <antipattern>
+              <token>en</token>
+              <token regexp="yes">vélo|byciclette|moto|cheval|skis</token>
+              <token regexp="yes">de|d'|cross|neige|trial|freeride|freestyle|rando|racing</token>
+          </antipattern>
+          <antipattern>
+              <token>en</token>
+              <token regexp="yes">vélo|byciclette|moto|cheval|skis</token>
+              <token regexp="yes">tout|à</token>
+              <token regexp="yes">chemin|terrain|cailloux</token>
+          </antipattern>
+          <pattern>
+              <marker>
+                  <token>en</token>
+              </marker>
+              <token regexp="yes">vélo|byciclette|moto|cheval|skis</token>
+          </pattern>
+          <message>Une erreur de préposition semble être détectée car il s'agit d'un moyen de transport sur lequel on prend place.</message>
+          <suggestion>à</suggestion>
+          <example correction="à">C'est <marker>en</marker> moto que je l'ai vu.</example>
+          <example>C'est <marker>en</marker> moto GP que je l'ai vu.</example>
+          <example>C'est <marker>en</marker> moto cross je l'ai vu.</example>
+          <example>C'est transformé <marker>en</marker> vélo que tu vas finir !</example>
+          <example>C'est <marker>en</marker> skis courts que nous avons dévalé la pente.</example>
+      </rule>
       <rulegroup id="POSER_UNE_QUESTION" name="poser une question">
           <rule>
               <antipattern>
