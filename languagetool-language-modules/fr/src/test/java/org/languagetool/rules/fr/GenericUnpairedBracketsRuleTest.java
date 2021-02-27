@@ -40,6 +40,9 @@ public class GenericUnpairedBracketsRuleTest {
     rule = org.languagetool.rules.GenericUnpairedBracketsRuleTest.getBracketsRule(langTool);
     // correct sentences:
     assertMatches("(Qu'est ce que c'est ?)", 0);
+    // Saxon genitive
+    assertMatches("Harper's Dictionary of Classical Antiquities", 0);
+    assertMatches("Harper’s Dictionary of Classical Antiquities", 0);
     // incorrect sentences:
     assertMatches("(Qu'est ce que c'est ?", 1);
   }

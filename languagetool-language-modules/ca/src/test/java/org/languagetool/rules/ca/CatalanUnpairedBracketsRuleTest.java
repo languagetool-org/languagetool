@@ -96,6 +96,9 @@ public class CatalanUnpairedBracketsRuleTest {
     //assertMatches("Paradise lost to the alleged water needs of Texas' big cities Thursday.", 0);
     assertMatches ("Porta'l cap ací.", 0);
     assertMatches ("Porta-me'n cinquanta!", 0);
+    // Saxon genitive
+    assertMatches("Harper's Dictionary of Classical Antiquities", 0);
+    assertMatches("Harper’s Dictionary of Classical Antiquities", 0);
 
     // incorrect sentences:
     assertMatches("(aquesta 'és la solució)", 1);
