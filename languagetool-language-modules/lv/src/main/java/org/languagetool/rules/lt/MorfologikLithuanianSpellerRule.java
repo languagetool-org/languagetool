@@ -17,7 +17,7 @@
  * USA
  */
 
-package org.languagetool.rules.lt;
+package org.languagetool.rules.lv;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,7 +29,7 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 public final class MorfologikLithuanianSpellerRule extends MorfologikSpellerRule {
 
-  private static final String RESOURCE_FILENAME = "/lt/hunspell/lt_LT.dict";
+  private static final String RESOURCE_FILENAME = "/lv/hunspell/lv_LT.dict";
 
   public MorfologikLithuanianSpellerRule(ResourceBundle messages,
                                          Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
@@ -43,7 +43,7 @@ public final class MorfologikLithuanianSpellerRule extends MorfologikSpellerRule
 
   @Override
   public String getId() {
-    return "MORFOLOGIK_RULE_LT_LT";
+    return "MORFOLOGIK_RULE_lv_LT";
   }
 
 }

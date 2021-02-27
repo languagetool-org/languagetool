@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
-import org.languagetool.rules.lt.MorfologikLithuanianSpellerRule;
+import org.languagetool.rules.lv.MorfologikLithuanianSpellerRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -44,12 +44,12 @@ public class Lithuanian extends Language {
 
   @Override
   public String[] getCountries() {
-    return new String[]{"LT"};
+    return new String[]{"lv"};
   }
   
   @Override
   public String getShortCode() {
-    return "lt";
+    return "lv";
   }
 
   @Override
