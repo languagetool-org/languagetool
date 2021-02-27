@@ -22933,6 +22933,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag_regexp="yes" postag="PRO:REF:.+"/>
                     <token case_sensitive="yes" regexp="yes">scheiße|scheisse</token>
                 </antipattern>
+                <antipattern>
+                    <token inflected="yes">tun</token>
+                    <token skip="-1"/>
+                    <token case_sensitive="yes" regexp="yes">gut|weh</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">tun</token>
+                    <token inflected="yes">sein</token>
+                    <token>Übriges</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" negate="yes">ich|e[rs]|sie|ihr|und|man</token>
                     <marker>
@@ -22973,6 +22983,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich warte kurz und düse los.</example>
                 <example>Zudem schau mal, ob das auch ein Fehler ist.</example>
                 <example>Tim sagte, er backe anscheinend auch andere Dinge außer Brötchen.</example>
+                <example>Und das tat verdammt gut.</example>
+                <example>Der dort gelagerte Müll tat sein Übriges.</example>
             </rule>
             <rule>
                 <pattern>
@@ -22980,7 +22992,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="VER:3:SIN:KJ1:NON" regexp="yes" case_sensitive="yes">[a-zäöüß].+e
                             <exception postag="ADJ:.+" postag_regexp="yes"/>
-                            <exception>bitte</exception>
+                            <exception regexp="yes">bitte|nehme|kenne</exception>
                         </token>
                     </marker>
                     <token postag="VER:.+|SENT_END" postag_regexp="yes"/>
@@ -22990,6 +23002,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Biege">Er hat die <marker>biege</marker> machen wollen.</example>
                 <example correction="Biege">Er fragte, ob sie die <marker>biege</marker> mache.</example>
                 <example>Ich nehme die heiße.</example>
+                <example>Da recherchiere ich lieber nochmal, bevor ich die nehme.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HUELLE_UND_FUELLE" name="'in hülle (Hülle) und fülle (Fülle)'">
