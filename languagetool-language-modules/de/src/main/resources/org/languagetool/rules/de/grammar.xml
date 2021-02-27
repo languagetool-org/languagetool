@@ -39717,6 +39717,13 @@ Andere Projekte</example>
                     <token/>
                     <token regexp="yes">.+en</token>
                 </antipattern>
+                <antipattern>
+                    <!-- "Das bereitet einem auch echt Bauchschmerzen" -->
+                    <token regexp="yes">mir|uns|einem</token>
+                    <token min="0">auch</token>
+                    <token regexp="yes">echt</token>
+                    <token postag="SUB:.+" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes">m?ein
                         <exception>ihr</exception>
@@ -39739,6 +39746,7 @@ Andere Projekte</example>
                 <example>Sein erst Anfang 1978 in Angriff genommenes Projekt</example>
                 <example>Ihre Rolle einer psychisch Kranken in dem Film</example>
                 <example>Er war Schüler einer Berliner Schule.</example>
+                <example>Das bereitet einem auch echt Bauchschmerzen.</example><!-- ugs. -->
             </rule>
             <rule>
                 <antipattern>
