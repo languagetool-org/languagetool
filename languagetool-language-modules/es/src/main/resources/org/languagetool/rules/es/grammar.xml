@@ -6794,7 +6794,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>demás</token>
                     </marker>
                 </pattern>
-                <message>¿Quería decir <suggestion>de más</suggestion> (de sobra, en demasía)?</message>
+                <message>¿Quería decir <suggestion>de más</suggestion> (de sobra, en demasía)? Es correcto si significa "el resto".</message>
                 <example correction="de más">Los años <marker>demás</marker> implicaban mucho cansancio.</example>
             </rule>
             <rule>
@@ -6804,19 +6804,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>demás</token>
                     </marker>
                 </pattern>
-                <message>¿Quería decir <suggestion>de más</suggestion> (de sobra, en demasía)?</message>
+                <message>¿Quería decir <suggestion>de más</suggestion> (de sobra, en demasía)? Es correcto si significa "el resto".</message>
                 <example correction="de más">Todo esto estaba <marker>demás</marker> aquí.</example>
             </rule>
             <rule>
+                <!-- very difficult with singular nouns -->
+                <antipattern>
+                    <token skip="-1" inflected="yes">récord</token>
+                    <token>de</token>
+                    <token>más</token>
+                </antipattern>
                 <pattern>
                     <token>y</token>
                     <marker>
                         <token>de</token>
                         <token>más</token>
                     </marker>
+                    <token postag="_PUNCT.*|NC.P.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">bajo|alto|elevar|profundo|hondo</exception><exception postag="_QM_OPEN"/></token>
                 </pattern>
-                <message>¿Quería decir <suggestion>demás</suggestion> (el resto de personas o cosas)?</message>
-                <example correction="demás">Vinieron Juan, Antonio y <marker>de más</marker></example>
+                <message>¿Quería decir <suggestion>demás</suggestion> (el resto de personas o cosas)? Es correcto si significa "de sobra".</message>
+                <example correction="demás">Vinieron Juan, Antonio y <marker>de más</marker>.</example>
+                <example correction="demás">designar las localidades y <marker>de más</marker> divisiones administrativas</example>
+                <!--TODO: <example correction="demás">abogados y <marker>de más</marker> personal auxiliar</example>-->
+                <example>menos de 75 centímetros en el sur y de más de 180 centímetros en el norte</example>
+                <example>una de las conexiones más caras y de más baja velocidad</example>
+                <example>de más vista y de más pulso</example>
+                <example>de lujo y de más categoría</example>
+                <example>la institución más prestigiosa y de más altos estudios en Filipinas.</example>
+                <example>la puntuación de una canción por radio fue mayor y de más "peso" que sus ventas</example>
             </rule>
         </rulegroup>
         <rulegroup id="PLURAL_SEPARADO" name="marca de plural separada">
