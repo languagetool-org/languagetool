@@ -19,12 +19,12 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.Lithuanian;
+import org.languagetool.language.Latvian;
 
-public class LithuanianConcurrencyTest extends AbstractLanguageConcurrencyTest {
+public class LatvianConcurrencyTest extends AbstractLanguageConcurrencyTest {
   @Override
   protected Language createLanguage() {
-    return new Lithuanian();
+    return new Latvian();
   }
 
   @Override

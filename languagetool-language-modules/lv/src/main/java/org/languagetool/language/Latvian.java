@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
-import org.languagetool.rules.lv.MorfologikLithuanianSpellerRule;
+import org.languagetool.rules.lv.MorfologikLatvianSpellerRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -35,11 +35,11 @@ import java.util.*;
  * @deprecated this language hasn't been maintained for years, it will be removed from LanguageTool after release 3.6
  */
 @Deprecated
-public class Lithuanian extends Language {
+public class Latvian extends Language {
 
   @Override
   public String getName() {
-    return "Lithuanian";
+    return "Latvian";
   }
 
   @Override
@@ -74,7 +74,7 @@ public class Lithuanian extends Language {
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages),
-            new MorfologikLithuanianSpellerRule(messages, this, userConfig, altLanguages),
+            new MorfologikLatvianSpellerRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this)
     );

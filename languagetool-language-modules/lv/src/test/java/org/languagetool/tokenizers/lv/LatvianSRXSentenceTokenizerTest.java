@@ -20,12 +20,12 @@ package org.languagetool.tokenizers.lv;
 
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.Lithuanian;
+import org.languagetool.language.Latvian;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
-public class LithuanianSRXSentenceTokenizerTest {
+public class LatvianSRXSentenceTokenizerTest {
 
-  private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Lithuanian());
+  private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Latvian());
 
   @Test
   public void testTokenize() {
