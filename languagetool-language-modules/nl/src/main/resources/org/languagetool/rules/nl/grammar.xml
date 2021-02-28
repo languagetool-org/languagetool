@@ -9568,6 +9568,17 @@ onwaarschijnlijk
 		</rulegroup>
 		<rulegroup id="SAMENSTELLING_STAM_ZNW" name="lees ervaring">
 			<rule>
+				<antipattern><token>tas</token><token>zit</token></antipattern>
+				<antipattern><token>deze</token><token>tand</token><token>pijn</token></antipattern>
+				<antipattern><token regexp="yes">je|hij|ik|zij|men</token><token>deze</token><token>brief</token><token>post</token></antipattern>
+				<antipattern>
+					<!-- Elke avond en elk weekend vakantie! -->
+					<token postag="VGW"/>
+					<token postag="VNW:OBP:ONV"/>
+					<token>weekend</token>
+					<token postag="ZNW:EKV:DE_"/>
+					<token>!</token>
+				</antipattern>				
 				<antipattern>
 					<token skip="10">ik</token>
 					<token postag="WKW:TGW:1EP"/>
@@ -9657,10 +9668,15 @@ onwaarschijnlijk
 		</rulegroup>
 		<rulegroup id="DE_AFTELLEN_BUTTON" name="de aftellen button/de aftelbutton">
 			<rule>
+				<antipattern>
+					<!-- een niet-roken bord -->
+					<token>niet-roken</token>
+					<token postag="ZNW:EKV:HET"/>
+				</antipattern>
 				<pattern>
 					<token regexp="yes">de|een|geen</token>
 					<marker>
-						<token postag_regexp="yes" postag="WKW:TGW:INF.*"><exception regexp="yes">zijn|beiden|bergen</exception><exception postag_regexp="yes" postag=".*MRV.*|BNW.*|WKW:VTD:ONV|ZNW.*"/></token>
+						<token postag_regexp="yes" postag="WKW:TGW:INF.*"><exception regexp="yes">zijn|beiden|bergen|wenen</exception><exception postag_regexp="yes" postag=".*MRV.*|BNW.*|WKW:VTD:ONV|ZNW.*"/></token>
 						<token postag_regexp="yes" postag="ZNW:EKV.*"><exception regexp="yes">moet|goed|waar|was|waard|kan|bent|he|want|tegen|over</exception><exception postag_regexp="yes" postag="BYW.*|BNW.*"/></token>
 					</marker>
 				</pattern>
