@@ -9391,8 +9391,9 @@ onwaarschijnlijk
 				<suggestion>de ___ \2</suggestion>
 				<suggestion>de <match no="2" regexp_match="en$" regexp_replace="ing"/></suggestion>
 				<suggestion>de <match no="2" regexp_match="en$" regexp_replace="ingen"/></suggestion>
+				<suggestion>de <match no="2" regexp_match="en$" regexp_replace="r"/></suggestion>
 				<suggestion>te \2</suggestion>
-				<example correction="het doorverbinden|de ___ doorverbinden|de doorverbinding|de doorverbindingen|te doorverbinden">En <marker>de doorverbinden</marker> doet u zo.</example>
+				<example correction="het doorverbinden|de ___ doorverbinden|de doorverbinding|de doorverbindingen|te doorverbinden|de doorverbinder">En <marker>de doorverbinden</marker> doet u zo.</example>
 			</rule>			
 		</rulegroup>
 		<rulegroup id="DE_LELIJKS" name="De lelijks/de lelijke" >
@@ -9505,6 +9506,41 @@ onwaarschijnlijk
 				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
 				<suggestion>\1\2</suggestion>
 				<example correction="aanvaarding">De <marker>aanvaar ding</marker> klopt niet.</example>
+			</rule>			
+		</rulegroup>
+		<rulegroup id="STAM_KING" name="bedek king" >
+			<rule>
+				<pattern>
+					<marker>
+						<token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">.*k</token>
+						<token regexp="yes">kings?</token>
+					</marker>
+				</pattern>
+				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
+				<suggestion>\1\2</suggestion>
+				<example correction="bedekking">De <marker>bedek king</marker> klopt niet.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<marker>
+						<token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">.*p</token>
+						<token regexp="yes">pings?|pingen</token>
+					</marker>
+				</pattern>
+				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
+				<suggestion>\1\2</suggestion>
+				<example correction="verstopping">De <marker>verstop ping</marker> klopt niet.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<marker>
+						<token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">.*t</token>
+						<token regexp="yes">tings?|tingen</token>
+					</marker>
+				</pattern>
+				<message>De kans is groot dat u een spatie hebt gezet waar dat niet hoort.</message>
+				<suggestion>\1\2</suggestion>
+				<example correction="bezetting">De <marker>bezet ting</marker> klopt niet.</example>
 			</rule>			
 		</rulegroup>
 		<rulegroup id="DOORRIJD_DING" name="Achteruitrijd camera/achteruitrijcamera" >
