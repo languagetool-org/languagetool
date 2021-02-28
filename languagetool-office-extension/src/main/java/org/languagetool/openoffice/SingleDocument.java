@@ -227,7 +227,7 @@ class SingleDocument {
    */
   void setConfigValues(Configuration config) {
     this.config = config;
-    numParasToCheck = mDocHandler.isTestMode() ? 0 : config.getNumParasToCheck();
+    numParasToCheck = (mDocHandler.isTestMode() || mDocHandler.heapLimitIsReached()) ? 0 : config.getNumParasToCheck();
     defaultParaCheck = PARA_CHECK_DEFAULT;
     if (ltMenus != null) {
       ltMenus.setConfigValues(config);
@@ -345,7 +345,7 @@ class SingleDocument {
     return docCache;
   }
   
-  /** Get document cache of the document
+  /** Set document cache of the document
    */
   void setDocumentCache(DocumentCache docCache) {
     this.docCache = docCache;

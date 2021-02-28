@@ -51,6 +51,7 @@ class MessageHandler {
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(OfficeTools.getLogFilePath()))) {
       Date date = new Date();
       bw.write("LT office integration log from " + date + logLineBreak);
+      bw.write(OfficeTools.getJavaInformation() + logLineBreak);
     } catch (Throwable t) {
       showError(t);
     }

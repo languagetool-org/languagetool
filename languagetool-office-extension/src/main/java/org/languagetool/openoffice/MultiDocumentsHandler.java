@@ -71,6 +71,8 @@ public class MultiDocumentsHandler {
   
   private static final ResourceBundle messages = JLanguageTool.getMessageBundle();
 
+  private static final int HEAP_CHECK_INTERVAL = 500;
+
   private final List<XLinguServiceEventListener> xEventListeners;
 
   private boolean docReset = false;
@@ -101,6 +103,9 @@ public class MultiDocumentsHandler {
   private XComponent goneContext = null;      //  save component of closed document
   private boolean recheck = true;             //  if true: recheck the whole document at next iteration
   private int docNum;                         //  number of the current document
+  
+  private int numSinceHeapTest = 0;           //  number of checks since last heap test
+  private boolean heapLimitReached = false;   //  heap limit is reached
 
   private boolean noBackgroundCheck = false;  //  is LT switched off by config
   private boolean useQueue = true;            //  will be overwritten by config
@@ -191,6 +196,7 @@ public class MultiDocumentsHandler {
     if (noBackgroundCheck) {
       return paRes;
     }
+    testHeapSpace();
     paRes = documents.get(docNum).getCheckResults(paraText, locale, paRes, propertyValues, docReset, langTool);
     if (langTool.doReset()) {
       // langTool.doReset() == true: if server connection is broken ==> switch to internal check
@@ -470,11 +476,11 @@ public class MultiDocumentsHandler {
   private void setConfigValues(Configuration config, SwJLanguageTool langTool) {
     this.config = config;
     this.langTool = langTool;
-    if (textLevelQueue != null && config.getNumParasToCheck() == 0) {
+    if (textLevelQueue != null && (heapLimitReached || config.getNumParasToCheck() == 0)) {
       textLevelQueue.setStop();
       textLevelQueue = null;
     }
-    useQueue = noBackgroundCheck || testMode || config.getNumParasToCheck() == 0 ? false : config.useTextLevelQueue();
+    useQueue = noBackgroundCheck || heapLimitReached || testMode || config.getNumParasToCheck() == 0 ? false : config.useTextLevelQueue();
     for (SingleDocument document : documents) {
       document.setConfigValues(config);
     }
@@ -1232,7 +1238,47 @@ public class MultiDocumentsHandler {
     }
     return true;
   }
+  
+  /**
+   * heap limit is reached
+   */
+  public boolean heapLimitIsReached() {
+    return heapLimitReached;
+  }
 
+  /**
+   * Test if enough heap space is left
+   * Change to single paragraph mode if not
+   * return false if heap space is to small 
+   */
+  public boolean runHeapSpaceTest() {
+    if (OfficeTools.isHeapLimitReached()) {
+      heapLimitReached = true;
+      setConfigValues(config, langTool);
+      MessageHandler.showMessage(messages.getString("loExtHeapMessage"));
+      for (SingleDocument document : documents) {
+        document.resetCache();
+        document.setDocumentCache(null);
+      }
+      return false;
+    }
+    return true;
+  }
+  
+  /**
+   * run heap space test, in intervals
+   */
+  private void testHeapSpace() {
+    if (!heapLimitReached && config.getNumParasToCheck() != 0) {
+      if (numSinceHeapTest > HEAP_CHECK_INTERVAL) {
+        runHeapSpaceTest();
+        numSinceHeapTest = 0;
+      } else {
+        numSinceHeapTest++;
+      }
+    }
+  }
+  
   /**
    * class to run the about dialog
    */

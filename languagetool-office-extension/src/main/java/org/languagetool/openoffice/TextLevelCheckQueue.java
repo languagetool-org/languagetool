@@ -39,6 +39,8 @@ public class TextLevelCheckQueue {
   public static final int DISPOSE_FLAG = 3;
 
   private static final int MAX_WAIT = 2000;
+  
+  private static final int HEAP_CHECK_INTERVAL = 50;
 
   private List<QueueEntry> textRuleQueue = Collections.synchronizedList(new ArrayList<QueueEntry>());  //  Queue to check text rules in a separate thread
   private Object queueWakeup = new Object();
@@ -54,6 +56,8 @@ public class TextLevelCheckQueue {
   private boolean interruptCheck = false;
   private boolean queueRuns = false;
   private boolean queueWaits = false;
+  
+  private int numSinceHeapTest = 0;
 
   private static boolean debugMode = false;   //  should be false except for testing
   
@@ -310,6 +314,22 @@ public class TextLevelCheckQueue {
   }
   
   /**
+   * run heap space test, in intervals
+   */
+  private boolean testHeapSpace() {
+    if (numSinceHeapTest > HEAP_CHECK_INTERVAL) {
+      numSinceHeapTest = 0;
+      if (!multiDocHandler.runHeapSpaceTest()) {
+        return false;
+      }
+    } else {
+      numSinceHeapTest++;
+    }
+    return true;
+  }
+
+  
+  /**
    * Internal class to store queue entries
    */
   class QueueEntry {
@@ -403,9 +423,11 @@ public class TextLevelCheckQueue {
      *  run a queue entry for the specific document
      */
     void runQueueEntry(MultiDocumentsHandler multiDocHandler, SwJLanguageTool langTool) {
-      SingleDocument document = getSingleDocument(docId);
-      if (document != null) {
-        document.runQueueEntry(nStart, nEnd, nCache, nCheck, overrideRunning, langTool);
+      if (testHeapSpace()) {
+        SingleDocument document = getSingleDocument(docId);
+        if (document != null) {
+          document.runQueueEntry(nStart, nEnd, nCache, nCheck, overrideRunning, langTool);
+        }
       }
     }
     
