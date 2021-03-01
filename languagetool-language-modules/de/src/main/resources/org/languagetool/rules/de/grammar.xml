@@ -15959,7 +15959,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">\d\d?</token>
                 <token>.</token>
             </antipattern>
-            <rule> <!-- haben am DD.MM.JJJJ -->
+            <rule> <!-- 1) haben am DD.MM.JJJJ -->
                  <antipattern>
                     <token regexp="yes" skip="-1">w(ird|erden?)<exception scope="next" regexp="yes">:|,|&anfauf;</exception></token>
                     <token postag="VER:PA2:.*" postag_regexp="yes"/>
@@ -15981,7 +15981,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich habe mich zum 1.1.2020 beworben.</example>
                 <example>Ich habe Ihr Abo jetzt gekündigt: Es wird nach dem 21.03.2021 nicht mehr automatisch verlängert.</example>
             </rule>
-            <rule><!-- Waren am DD.MM.JJJJ  -->
+            <rule><!-- 2) Waren am DD.MM.JJJJ  -->
                 <pattern>
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">sein
                         <exception scope="next">und</exception>
@@ -16002,7 +16002,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wir werden am 7.8.2025 den Kunden informiert haben.</example>
                 <example>Ihr Abo ist jetzt gekündigt und wird nach dem 15.04.2020 nicht mehr automatisch verlängert.</example>
             </rule>
-            <rule><!-- VER:PRT am DD.MM.JJJJ -->
+            <rule><!-- 3) VER:PRT am DD.MM.JJJJ -->
                 <pattern>
                     <token postag="VER:.*:PRT.*" postag_regexp="yes" skip="-1"/>
                     &date_allnumbers_skip;
@@ -16015,7 +16015,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich bin am 7.8.2025 im Urlaub.</example>
                 <example>Ich war gestern Kuchen essen.</example>
             </rule>
-            <rule> <!-- am DD.MM.JJJJ haben -->
+            <rule> <!-- 4) am DD.MM.JJJJ haben -->
                 <pattern>
                     &date_allnumbers_skip;
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">haben</token>
@@ -16031,7 +16031,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Am 7.8.2025 werden wir den Kunden informieren.</example>
                 <example>Am 7.8.2025 werden wir den Kunden informiert haben.</example>
             </rule>
-            <rule><!-- am DD.MM.JJJJ waren/sind -->
+            <rule><!-- 5) am DD.MM.JJJJ waren/sind -->
                 <pattern>
                     &date_allnumbers_skip;
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">sein</token>
@@ -16050,7 +16050,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Am 7.8.2025 werden wir den Kunden informiert haben.</example>
                 <example>Am 12.12.2023 wird es unter Umständen möglich sein. </example>
             </rule>
-            <rule><!-- am DD.MM.JJJJ VER:PRT -->
+            <rule><!-- 6) am DD.MM.JJJJ VER:PRT -->
                 <pattern>
                     &date_allnumbers_skip;
                     <token postag="VER:.*:PRT.*" postag_regexp="yes" skip="-1"/>
@@ -16063,7 +16063,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Am 7.8.2025 bin ich im Urlaub.</example>
                 <example>Ich war gestern Kuchen essen.</example>
             </rule>
-            <rule><!-- haben am 23. Feb. 2020 -->
+            <rule><!-- 7) haben am 23. Feb. 2020 -->
                 <pattern>
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">haben</token>
                     &date_month_shortened_skip;
@@ -16079,7 +16079,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wir werden am 7. Feb. 2025 den Kunden informieren.</example>
                 <example>Wir werden am 7. Feb. 2025 den Kunden informiert haben.</example>
             </rule>
-            <rule><!-- waren/sind am 23. Feb. 2020  -->
+            <rule><!-- 8) waren/sind am 23. Feb. 2020  -->
                 <pattern>
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">sein</token>
                     &date_month_shortened_skip;
@@ -16096,7 +16096,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wir werden am 7. Feb. 2025 den Kunden informieren.</example>
                 <example>Wir werden am 7. Feb. 2025 den Kunden informiert haben.</example>
             </rule>
-            <rule><!-- am 23. Feb. VER:PRT -->
+            <rule><!-- 9) am 23. Feb. VER:PRT -->
                 <pattern>
                     <token postag="VER:.*:PRT.*" postag_regexp="yes" skip="-1"/>
                     &date_month_shortened_skip;
@@ -16109,7 +16109,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich bin am 7. Aug. 2025 im Urlaub.</example>
                 <example>Ich war gestern Kuchen essen.</example>
             </rule>
-            <rule><!-- am 23. Feb. 2020 haben -->
+            <rule><!-- 10) am 23. Feb. 2020 haben -->
                 <pattern>
                     &date_month_shortened_skip;
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">haben</token>
@@ -16125,7 +16125,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Am 7. Feb. 2025 werden wir den Kunden informieren.</example>
                 <example>Am 7. Feb. 2025 werden wir den Kunden informiert haben.</example>
             </rule>
-            <rule><!-- am 23. Feb. 2020 waren/sind -->
+            <rule><!-- 11) am 23. Feb. 2020 waren/sind -->
                 <pattern>
                     &date_month_shortened_skip;
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">sein</token>
@@ -16143,7 +16143,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Am 7. Feb. 2025 werden wir den Kunden informiert haben.</example>
                 <example>Am 12. Dez. 2023 wird es unter Umständen möglich sein. </example>
             </rule>
-            <rule><!-- am 23. Feb. VER:PRT -->
+            <rule><!-- 12) am 23. Feb. VER:PRT -->
                 <pattern>
                     &date_month_shortened_skip;
                     <token postag="VER:.*:PRT.*" postag_regexp="yes" skip="-1"/>
@@ -16156,7 +16156,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Am 7. Aug. 2025 bin ich im Urlaub.</example>
                 <example>Ich war gestern Kuchen essen.</example>
             </rule>
-            <rule><!-- haben am 23. Februar 2020 -->
+            <rule><!-- 13) haben am 23. Februar 2020 -->
                 <pattern>
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">haben</token>
                     &date_month_full_skip;
@@ -16172,7 +16172,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wir werden am 7. Februar 2025 den Kunden informieren.</example>
                 <example>Wir werden am 7. Februar 2025 den Kunden informiert haben.</example>
             </rule>
-            <rule><!-- waren/sind am 23. Februar 2020  -->
+            <rule><!-- 14) waren/sind am 23. Februar 2020  -->
                 <pattern>
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">sein</token>
                     &date_month_full_skip;
@@ -16191,7 +16191,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wir werden am 7. Februar 2025 den Kunden informieren.</example>
                 <example>Wir werden am 7. Februar 2025 den Kunden informiert haben.</example>
             </rule>
-            <rule><!-- am 23. Februar VER:PRT -->
+            <rule><!-- 15) am 23. Februar VER:PRT -->
                 <pattern>
                     &date_month_full_skip;
                     <token postag="VER:.*:PRT.*" postag_regexp="yes" skip="-1"/>
@@ -16204,7 +16204,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Am 7. August 2025 bin ich im Urlaub.</example>
                 <example>Ich war gestern Kuchen essen.</example>
             </rule>
-            <rule><!-- am 23. Februar 2020 haben -->
+            <rule><!-- 16) am 23. Februar 2020 haben -->
                 <pattern>
                     &date_month_full_skip;
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">haben</token>
@@ -16220,7 +16220,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Am 7. Februar 2025 werden wir den Kunden informieren.</example>
                 <example>Am 7. Februar 2025 werden wir den Kunden informiert haben.</example>
             </rule>
-            <rule><!-- am 23. Februar 2020 waren/sind -->
+            <rule><!-- 17) am 23. Februar 2020 waren/sind -->
+                <antipattern>
+                    &date_month_full_skip;
+                    <token regexp="yes">wird|werden</token>
+                </antipattern>
                 <pattern>
                     &date_month_full_skip;
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">sein</token>
@@ -16239,8 +16243,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Am 7. Februar 2025 werden wir den Kunden informieren.</example>
                 <example>Am 7. Februar 2025 werden wir den Kunden informiert haben.</example>
                 <example>Am 12. Dezember 2023 wird es unter Umständen möglich sein.</example>
+                <example>Durch den Asteroiden Leona am 12. Dezember 2023 wird es möglich sein, die Verteilung zu berechnen.</example>
             </rule>
-            <rule><!-- am 23. Februar VER:PRT -->
+            <rule><!-- 18) am 23. Februar VER:PRT -->
                 <pattern>
                     &date_month_full_skip;
                     <token postag="VER:.*:PRT.*" postag_regexp="yes" skip="-1"/>
