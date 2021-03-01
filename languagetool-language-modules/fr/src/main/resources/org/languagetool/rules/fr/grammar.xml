@@ -37493,6 +37493,110 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rulegroup id="CONFUSION_DANS_UNE_EXPRESSION" name="confusion dans une expression" default="temp_off">
+          <rule>
+              <pattern>
+                  <marker>
+                      <token regexp="yes">(?-i)sans</token>
+                  </marker>
+                  <token>dessus</token>
+                  <token>dessous</token>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée.</message>
+              <suggestion suppress_misspelled="yes"><match no="1" regexp_match="a" regexp_replace="e"/></suggestion>
+              <example correction="sens">Il a mis sa chambre <marker>sans</marker> dessus dessous pour retrouver son sac.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>je</token>
+                  <token>vous</token>
+                  <marker>
+                      <token regexp="yes">serais?</token>
+                  </marker>
+                  <token>gré</token>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée.</message>
+              <suggestion suppress_misspelled="yes"><match no="3" regexp_match="serais?" regexp_replace="saurais"/></suggestion>
+              <example correction="saurais">Je vous <marker>serais</marker> gré de bien vouloir répondre à ce courrier.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token>de</token>
+                  <token>suite</token>
+                  <token regexp="yes">à|entières?</token>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes" skip="-1">pas|jamais|plus</token>
+                  <token>de</token>
+                  <token>suite</token>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes">toute?s?|ainsi|pas|jamais|plus|formes?|beaucoup|faute|défaites?</token>
+                  <token>de</token>
+                  <token>suite</token>
+              </antipattern>
+              <pattern>
+                  <token postag="[VPA].*" postag_regexp="yes"/>
+                  <marker>
+                      <token>de</token>
+                      <token regexp="yes">(?-i)suite</token>
+                  </marker>
+              </pattern>
+              <message>Cette expression peut être considérée comme familière.</message>
+              <suggestion>tout \2 \3</suggestion>
+              <example correction="tout de suite">Je reviens <marker>de suite</marker>.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>d'</token>
+                  <marker>
+                      <token>attention</token>
+                  </marker>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée.</message>
+              <suggestion>inattention</suggestion>
+              <example correction="inattention">Cette faute d'<marker>attention</marker> n'est pas permise.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token regexp="yes">(?-i)J'</token>
+                  <token>appuie</token>
+                  <token>sur</token>
+                  <token>la</token>
+                  <token>gâchette</token>
+              </antipattern>
+              <pattern>
+                  <token inflected="yes">appuyer</token>
+                  <token min="0" max="1">pas</token>
+                  <token>sur</token>
+                  <token>la</token>
+                  <marker>
+                      <token>gâchette</token>
+                  </marker>
+              </pattern>
+              <message>Cette expression familière est fautive.</message>
+              <suggestion>détente</suggestion>
+              <example correction="détente">Il a appuyé sur la <marker>gâchette</marker>.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>s'</token>
+                  <token inflected="yes">accaparer</token>
+              </pattern>
+              <message>Une erreur semble être détectée car \2 n'est pas un verbe pronominal.</message>
+              <suggestion>\2</suggestion>
+              <example correction="accapare">Il <marker>s'accapare</marker> la victoire.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>s'</token>
+                  <token inflected="yes">empirer</token>
+              </pattern>
+              <message>Une erreur semble être détectée car \2 n'est pas un verbe pronominal.</message>
+              <suggestion>\2</suggestion>
+              <example correction="empire">La situation <marker>s'empire</marker>.</example>
+          </rule>
+      </rulegroup>
       <rulegroup id="POSER_UNE_QUESTION" name="poser une question">
           <rule>
               <antipattern>
