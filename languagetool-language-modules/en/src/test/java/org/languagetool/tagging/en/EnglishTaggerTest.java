@@ -23,7 +23,7 @@ import org.junit.Test;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
-import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tokenizers.en.EnglishWordTokenizer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,12 +34,12 @@ import static org.junit.Assert.assertEquals;
 public class EnglishTaggerTest {
 
   private EnglishTagger tagger;
-  private WordTokenizer tokenizer;
+  private EnglishWordTokenizer tokenizer;
   
   @Before
   public void setUp() {
     tagger = new EnglishTagger();
-    tokenizer = new WordTokenizer();
+    tokenizer = new EnglishWordTokenizer();
   }
 
   @Test
@@ -58,9 +58,13 @@ public class EnglishTaggerTest {
     TestTools.myAssert("This is a bigger house.",
         "This/[this]DT|This/[this]PDT -- is/[be]VBZ -- a/[a]DT -- bigger/[big]JJR -- house/[house]NN|house/[house]VB|house/[house]VBP", tokenizer, tagger);
     TestTools.myAssert("He doesn't believe me.",
-        "He/[he]PRP -- doesn/[do]VBZ -- t/[null]null -- believe/[believe]VB|believe/[believe]VBP -- me/[I]PRP", tokenizer, tagger);
+        "He/[he]PRP -- does/[do]VBZ|does/[doe]NNS -- n't/[not]RB -- believe/[believe]VB|believe/[believe]VBP -- me/[I]PRP", tokenizer, tagger);
     TestTools.myAssert("It has become difficult.",
-        "It/[it]PRP -- has/[have]VBZ -- become/[become]VB|become/[become]VBN|become/[become]VBP -- difficult/[difficult]JJ", tokenizer, tagger); 
+        "It/[it]PRP -- has/[have]VBZ -- become/[become]VB|become/[become]VBN|become/[become]VBP -- difficult/[difficult]JJ", tokenizer, tagger);
+    TestTools.myAssert("You haven't.",
+        "You/[you]PRP -- have/[have]NN|have/[have]VB|have/[have]VBP -- n't/[not]RB", tokenizer, tagger);
+    TestTools.myAssert("You haven’t.",
+        "You/[you]PRP -- have/[have]NN|have/[have]VB|have/[have]VBP -- n't/[not]RB", tokenizer, tagger);
   }
 
   @Test

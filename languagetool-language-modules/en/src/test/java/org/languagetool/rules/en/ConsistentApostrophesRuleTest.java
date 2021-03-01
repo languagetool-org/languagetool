@@ -38,11 +38,11 @@ public class ConsistentApostrophesRuleTest {
     RuleMatch[] matches = rule.match(lt.analyzeText("It's a nice idea. But it doesn’t work."));
     assertThat(matches.length, is(2));
     assertThat(matches[0].getFromPos(), is(2));
-    assertThat(matches[0].getToPos(), is(3));
-    assertThat(matches[0].getSuggestedReplacements().toString(), is("[’]"));
-    assertThat(matches[1].getFromPos(), is(30));
-    assertThat(matches[1].getToPos(), is(31));
-    assertThat(matches[1].getSuggestedReplacements().toString(), is("[']"));
+    assertThat(matches[0].getToPos(), is(4));
+    assertThat(matches[0].getSuggestedReplacements().toString(), is("[’s]"));
+    assertThat(matches[1].getFromPos(), is(29));
+    assertThat(matches[1].getToPos(), is(32));
+    assertThat(matches[1].getSuggestedReplacements().toString(), is("[n't]"));
 
     assertThat(rule.match(lt.analyzeText("It’s a nice idea. But it doesn't work.")).length, is(2));
     assertThat(rule.match(lt.analyzeText("It's a nice idea. But it doesn't work.")).length, is(0));
