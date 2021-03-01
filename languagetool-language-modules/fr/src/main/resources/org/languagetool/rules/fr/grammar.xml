@@ -36090,19 +36090,57 @@ though, and has since been slightly modified)-->
       <example correction=","><marker>dans ce cas</marker> il est certain</example>
       <example><marker>dans ce cas</marker>, il est certain</example>
     </rule>
-    <rule default="off" id="ET_CE" name="et ce (sans virgule après)">
-      <pattern>
-        <marker>
-          <token>et</token>
-          <token>ce</token>
-        </marker>
-        <token>
-          <exception regexp="yes">[,.;!:\-?n]</exception></token>
-      </pattern>
-      <message>« Et ce » (sans virgule après) peut être une faute de typographie. Employez une virgule (<suggestion>,</suggestion>) au besoin.</message>
-      <example correction=","><marker>et ce</marker> blah blah</example>
-      <example><marker>et ce</marker>,</example>
-    </rule>
+      <rule default="off" id="VIRGULE_ET_CE" name="virgule et ce">
+          <antipattern>
+              <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+              <token>et</token>
+              <token>ce</token>
+              <token postag="SENT_END"/>
+          </antipattern>
+          <antipattern>
+              <token postag="[ACPD].*" postag_regexp="yes"/>
+              <token>et</token>
+              <token>ce</token>
+              <token postag="[PA].*" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+              <token>et</token>
+              <token>ce</token>
+              <token postag="[PA].*" postag_regexp="yes"/>
+              <token postag="SENT_END"/>
+          </antipattern>
+          <antipattern>
+              <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+              <token>et</token>
+              <token>ce</token>
+              <token regexp="yes">ne|n(&apostrophe;)|passage|n</token>
+          </antipattern>
+          <antipattern>
+              <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+              <token>et</token>
+              <token>ce</token>
+              <token postag="[PA].*" postag_regexp="yes" min="0" max="1"/>
+              <token regexp="yes">pourquoi|quoi|qu(&apostrophe;)</token>
+          </antipattern>
+          <pattern>
+              <marker>
+                  <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+<exception postag="[PD].*" postag_regexp="yes"/></token>
+                  <token case_sensitive="yes">et</token>
+                  <token  case_sensitive="yes">ce</token>
+              </marker>
+              <token postag="[PA].*" postag_regexp="yes"><exception regexp="yes">qu[ie]?</exception></token>
+          </pattern>
+          <message>Des virgules sont conseillées dans ce contexte.</message>
+          <suggestion>\1, \2 \3,</suggestion>
+          <example correction="ville, et ce,">Elle veut vivre en <marker>ville et ce</marker> jusqu'à la fin de sa vie.</example>
+          <example>Elle veut vivre en <marker>ville et ce</marker> .</example>
+          <example>Ce n'est rien de bien <marker>grave et ce</marker> n´est pas une priorité.</example>
+          <example>Il en reste parfois un <marker>peu et ce</marker> peu est mélangé.</example>
+          <example>Je n'avais pas lu le <marker>guide et ce</marker> passage est difficile.</example>
+          <example>Fait-<marker>le et ce</marker> n'est pas négociable.</example>
+          <example>Cela donne une indication sur le <marker>terme et ce</marker> de quoi il est composé.</example>
+      </rule>
     <rule id="PAR-LA" name="par-là">
       <pattern>
         <token regexp="yes">par[-‑‐]là
