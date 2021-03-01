@@ -48,13 +48,15 @@ public class ContractionSpellingRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("It wasn't me.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("I'm ill.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Staatszerfall im südlichen Afrika.")).length);
-
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("by IVE")).length);
+    
     // incorrect sentences:
 
     // at the beginning of a sentence
     checkSimpleReplaceRule("Wasnt this great", "Wasn't");
     checkSimpleReplaceRule("YOURE WRONG", "YOU'RE");
     checkSimpleReplaceRule("Dont do this", "Don't");
+    checkSimpleReplaceRule("Ive been doing", "I've");
     // inside sentence
     checkSimpleReplaceRule("It wasnt me", "wasn't");
     checkSimpleReplaceRule("You neednt do this", "needn't");

@@ -77,9 +77,9 @@ public class EnglishChunkerTest {
     AnalyzedSentence analyzedSentence = langTool.getAnalyzedSentence("I'll be there");
     AnalyzedTokenReadings[] tokens = analyzedSentence.getTokens();
     assertThat(tokens[1].getChunkTags().get(0), is(new ChunkTag("B-NP-singular")));
-    assertThat(tokens[2].getChunkTags().size(), is(0));  // "'" cannot be mapped as we tokenize differently
-    assertThat(tokens[3].getChunkTags().size(), is(0));  // "ll" cannot be mapped as we tokenize differently
-    assertThat(tokens[5].getChunkTags().get(0), is(new ChunkTag("I-VP")));
+    assertThat(tokens[2].getChunkTags().get(0), is(new ChunkTag("B-VP"))); 
+    assertThat(tokens[4].getChunkTags().get(0), is(new ChunkTag("I-VP"))); 
+    assertThat(tokens[6].getChunkTags().get(0), is(new ChunkTag("I-VP")));
   }
 
   @Test
