@@ -37493,6 +37493,110 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rulegroup id="CONFUSION_ORTHOGRAPHIQUE" name="confusion orthographique" default="temp_off">
+          <rule>
+              <pattern>
+                  <token>filigramme</token>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée.</message>
+              <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)mme" regexp_replace="ne"/></suggestion>
+              <example correction="filigrane">Il me l'a fait comprendre en <marker>filigramme</marker>.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token regexp="yes">rassénér.*</token>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée.</message>
+              <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)nér" regexp_replace="rén"/></suggestion>
+              <example correction="rasséréné">A cette bonne nouvelle, il s'est soudain <marker>rassénéré</marker>.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token regexp="yes">omnibul.*</token>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée.</message>
+              <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)mnibul" regexp_replace="bnubil"/></suggestion>
+              <example correction="obnubiler">Elle va <marker>omnibuler</marker> son frère.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token regexp="yes">omnubil.*</token>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée.</message>
+              <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)mnubil" regexp_replace="bnubil"/></suggestion>
+              <example correction="obnubiler">Elle va <marker>omnubiler</marker> sa fille.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token>«</token>
+                  <token>scénette</token>
+                  <token>»</token>
+              </antipattern>
+              <pattern>
+                  <token>scénette</token>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée.</message>
+              <suggestion suppress_misspelled="yes"><match no="1" regexp_match="scénette" regexp_replace="saynète"/></suggestion>
+              <example correction="saynète">Cette <marker>scénette</marker> est intéressante.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token skip="-1">jours</token>
+                  <marker>
+                      <token>bimestriel</token>
+                  </marker>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée.</message>
+              <suggestion><match no="2" regexp_match="bimestriel" regexp_replace="bimensuel"/></suggestion>
+              <example correction="bimensuel">Tous les quinze jours, je reçois mon magasine <marker>bimestriel</marker>.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token postag="UNKNOWN"/>
+                  <token inflected="yes">solutionner</token>
+              </antipattern>
+              <antipattern>
+                  <token>«</token>
+                  <token inflected="yes">solutionner</token>
+                  <token>»</token>
+              </antipattern>
+              <pattern>
+                  <token inflected="yes">solutionner</token>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée.</message>
+              <suggestion><match no="1" regexp_match="solutionner" regexp_replace="résoudre"/></suggestion>
+              <example correction="résoudre">Il a réussi à <marker>solutionner</marker> le problème.</example>
+              <example>Il a réussi avec Galinette <marker>Solutionnée</marker> à résoudre le problème.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token skip="-1">maline</token>
+                  <token>maligne</token>
+              </antipattern>
+              <antipattern>
+                  <token skip="-1">maligne</token>
+                  <token>maline</token>
+              </antipattern>
+              <antipattern>
+                  <token postag="UNKNOWN"/>
+                  <token>maline</token>
+              </antipattern>
+              <antipattern>
+                  <token>maline</token>
+                  <token postag="UNKNOWN"/>
+              </antipattern>
+              <antipattern>
+                  <token postag="[DJ].*" postag_regexp="yes"/>
+                  <token>maline</token>
+              </antipattern>
+              <pattern>
+                  <token case_sensitive="yes">maline</token>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée.</message>
+              <suggestion suppress_misspelled="yes"><match no="2" regexp_match="maline" regexp_replace="maligne"/></suggestion>
+              <example correction="maligne">Ton idée n'est vraiment pas <marker>maline</marker> !</example>
+          </rule>
+      </rulegroup>
       <rulegroup id="POSER_UNE_QUESTION" name="poser une question">
           <rule>
               <antipattern>
