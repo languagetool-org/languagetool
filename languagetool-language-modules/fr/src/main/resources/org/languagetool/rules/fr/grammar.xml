@@ -10166,62 +10166,104 @@ though, and has since been slightly modified)-->
   <category id="CAT_GRAMMAIRE" name="Grammaire">
       <rule id="ADJ_F_ET_F" name="adj f et f" default="temp_off">
           <antipattern>
-              <token postag="N f s"/>
               <token postag="J f s"/>
               <token>et</token>
-              <marker>
-                  <token postag="V ppa m s"/>
-              </marker>
-              <token postag="V.*" postag_regexp="yes"/>
+              <token regexp="yes">&gentiles;</token>
           </antipattern>
           <antipattern>
-              <token postag="N f s"/>
-              <token postag="J f s"/>
+              <token regexp="yes" skip="1">noirs?|blancs?|verts?|bleus?|gris</token>
               <token>et</token>
-              <marker>
-                  <token postag="J m s"/>
-              </marker>
-              <token postag="N [me] s" postag_regexp="yes"/>
+              <token postag="J m sp?" postag_regexp="yes"/>
           </antipattern>
           <antipattern>
-              <token postag="N f s"/>
-              <token postag="J f s"/>
+              <token regexp="yes">noire|blanche|verte|bleue|grise</token>
               <token>et</token>
-              <marker>
-                  <token postag="J m s"/>
-              </marker>
-              <token postag="V ppa m s|V ppr" postag_regexp="yes"/>
+              <token postag="J m sp?" postag_regexp="yes"/>
           </antipattern>
           <antipattern>
-              <token postag="N f s"/>
+              <token postag="N [me] sp?" postag_regexp="yes" skip="-1"/>
               <token postag="J f s"/>
               <token>et</token>
-              <marker>
-                  <token postag="J m s" regexp="yes">.*[er$]|.*[ant$]</token>
-              </marker>
-              <token postag="V.*" postag_regexp="yes"/>
+              <token postag="J m sp?" postag_regexp="yes"/>
           </antipattern>
           <antipattern>
-              <token postag="N f s"/>
               <token postag="J f s"/>
               <token>et</token>
-              <marker>
-                  <token postag="J m s">fait</token>
-              </marker>
-              <token postag="V.*" postag_regexp="yes"/>
+              <token postag="N [me] sp?" postag_regexp="yes"/>
+              <token postag="J [me] sp?" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token postag="R pers suj 3 m sp?" postag_regexp="yes" skip="3"/>
+              <token postag="J f s"/>
+              <token>et</token>
+              <token postag="J m sp?" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token regexp="yes">tous|tout</token>
+              <token>deux</token>
+              <token postag="J f s"/>
+              <token>et</token>
+              <token postag="J m sp?" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token regexp="yes">entre|deux|en</token>
+              <token postag="J f s"/>
+              <token>et</token>
+              <token postag="J m sp?" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token postag="J f s"/>
+              <token>et</token>
+              <token postag="J m sp?" postag_regexp="yes"/>
+              <token regexp="yes">de|d'|média</token>
+          </antipattern>
+          <antipattern>
+              <token postag="N [me] sp?" postag_regexp="yes" skip="3"/>
+              <token postag="J f s"/>
+              <token>et</token>
+              <token postag="J m sp?" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token regexp="yes">\p{Lu}.*</token>
+              <token>et</token>
+              <token postag="J m sp?" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token postag="J f s"/>
+              <token>et</token>
+              <token regexp="yes">\p{Lu}.*</token>
+          </antipattern>
+          <antipattern>
+              <token postag="J f s"/>
+              <token>et</token>
+              <token postag="J m sp?" postag_regexp="yes"/>
+              <token postag="N [me] sp?" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token postag="J f s"/>
+              <token>et</token>
+              <token postag="J m s" regexp="yes">.*[er$]|.*[ant$]</token>
+          </antipattern>
+          <antipattern>
+              <token postag="J f s"/>
+              <token>et</token>
+              <token postag="V ppa [me] sp?|Z.*|J m sp" postag_regexp="yes"></token>
           </antipattern>
           <pattern>
-              <token postag="N f s"/>
               <token postag="J f s"/>
               <token>et</token>
               <marker>
-                  <token postag="J m s"/>
+                  <token postag="J m sp?" postag_regexp="yes"><exception regexp="yes">antipersonnel|mousseux|vaudou|second|seul|bel|différentiel</exception></token>
               </marker>
-              <token postag="V.*" postag_regexp="yes"/>
           </pattern>
           <message>L'accord entre le nom et les adjectifs qui le suivent semble être erroné.</message>
-          <suggestion><match no="4" postag="J m s" postag_regexp="yes" postag_replace="J f s"/></suggestion>
-          <example correction="grande">Une femme intelligente et <marker>grand</marker> arrive.</example>
+          <suggestion><match no="4" postag="J m sp?" postag_regexp="yes" postag_replace="J f sp?"/></suggestion>
+          <example correction="belle">Une femme grande et <marker>beau</marker> arrive.</example>
+          <example>Une robe bleu foncée et <marker>noir</marker> n'est pas tendance.</example>
+          <example>Elle porte une robe noire et <marker>feu</marker>.</example>
+          <example>Il était colérique, avare et <marker>brutal</marker>.</example>
+          <example>Histoire du musée et <marker>descriptif</marker> de ses collections.</example>
+          <example>L'hiver, brute et <marker>final</marker> arrive.</example>
           <example>Elle porte une robe resplendissante et <marker>fait</marker> ravir ses soeurs.</example>
           <example>Il porte une chemise bleu et <marker>allant</marker> avec sa veste.</example>
           <example>La Révolution française et <marker>Premier</marker> Empire.</example>
