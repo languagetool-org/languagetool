@@ -37498,7 +37498,7 @@ though, and has since been slightly modified)-->
               <pattern>
                   <token>filigramme</token>
               </pattern>
-              <message>Une erreur d’orthographe semble être détectée.</message>
+              <message>Une erreur d’orthographe semble être détectée car ce terme n'existe pas dans la langue française.</message>
               <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)mme" regexp_replace="ne"/></suggestion>
               <example correction="filigrane">Il me l'a fait comprendre en <marker>filigramme</marker>.</example>
           </rule>
@@ -37506,7 +37506,7 @@ though, and has since been slightly modified)-->
               <pattern>
                   <token regexp="yes">rassénér.*</token>
               </pattern>
-              <message>Une erreur d’orthographe semble être détectée.</message>
+              <message>Une erreur d’orthographe semble être détectée car ce terme n'existe pas dans la langue française.</message>
               <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)nér" regexp_replace="rén"/></suggestion>
               <example correction="rasséréné">A cette bonne nouvelle, il s'est soudain <marker>rassénéré</marker>.</example>
           </rule>
@@ -37514,7 +37514,7 @@ though, and has since been slightly modified)-->
               <pattern>
                   <token regexp="yes">omnibul.*</token>
               </pattern>
-              <message>Une erreur d’orthographe semble être détectée.</message>
+              <message>Une erreur d’orthographe semble être détectée car ce terme n'existe pas dans la langue française.</message>
               <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)mnibul" regexp_replace="bnubil"/></suggestion>
               <example correction="obnubiler">Elle va <marker>omnibuler</marker> son frère.</example>
           </rule>
@@ -37522,7 +37522,7 @@ though, and has since been slightly modified)-->
               <pattern>
                   <token regexp="yes">omnubil.*</token>
               </pattern>
-              <message>Une erreur d’orthographe semble être détectée.</message>
+              <message>Une erreur d’orthographe semble être détectée car ce terme n'existe pas dans la langue française.</message>
               <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)mnubil" regexp_replace="bnubil"/></suggestion>
               <example correction="obnubiler">Elle va <marker>omnubiler</marker> sa fille.</example>
           </rule>
@@ -37535,18 +37535,19 @@ though, and has since been slightly modified)-->
               <pattern>
                   <token>scénette</token>
               </pattern>
-              <message>Une erreur d’orthographe semble être détectée.</message>
+              <message>Une erreur d’orthographe semble être détectée car ce terme n'existe pas dans la langue française.</message>
               <suggestion suppress_misspelled="yes"><match no="1" regexp_match="scénette" regexp_replace="saynète"/></suggestion>
+              <url>https://www.projet-voltaire.fr/regles-orthographe/scenette-ou-saynete/</url>
               <example correction="saynète">Cette <marker>scénette</marker> est intéressante.</example>
           </rule>
           <rule>
               <pattern>
                   <token skip="-1">jours</token>
                   <marker>
-                      <token>bimestriel</token>
+                      <token inflected="yes">bimestriel</token>
                   </marker>
               </pattern>
-              <message>Une erreur d’orthographe semble être détectée.</message>
+              <message>Une erreur d’orthographe est possible dans ce contexte car '\2' se produit tous les deux mois.</message>
               <suggestion><match no="2" regexp_match="bimestriel" regexp_replace="bimensuel"/></suggestion>
               <example correction="bimensuel">Tous les quinze jours, je reçois mon magasine <marker>bimestriel</marker>.</example>
           </rule>
@@ -37563,8 +37564,7 @@ though, and has since been slightly modified)-->
               <pattern>
                   <token inflected="yes">solutionner</token>
               </pattern>
-              <message>Une erreur d’orthographe semble être détectée.</message>
-              <suggestion><match no="1" regexp_match="solutionner" regexp_replace="résoudre"/></suggestion>
+              <message>Ce terme peut être considéré comme familier. Souhaitez-vous écrire <suggestion><match no="1" regexp_match="solutionner" regexp_replace="résoudre"/></suggestion> employé dans le langage formel ?</message>
               <example correction="résoudre">Il a réussi à <marker>solutionner</marker> le problème.</example>
               <example>Il a réussi avec Galinette <marker>Solutionnée</marker> à résoudre le problème.</example>
           </rule>
@@ -37592,7 +37592,7 @@ though, and has since been slightly modified)-->
               <pattern>
                   <token case_sensitive="yes">maline</token>
               </pattern>
-              <message>Une erreur d’orthographe semble être détectée.</message>
+              <message>Une erreur d’orthographe semble être détectée car le féminin de l'adjectif 'malin' est '\1'.</message>
               <suggestion suppress_misspelled="yes"><match no="2" regexp_match="maline" regexp_replace="maligne"/></suggestion>
               <example correction="maligne">Ton idée n'est vraiment pas <marker>maline</marker> !</example>
           </rule>
