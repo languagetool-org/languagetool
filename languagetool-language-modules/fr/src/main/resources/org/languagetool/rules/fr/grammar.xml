@@ -34590,6 +34590,14 @@ though, and has since been slightly modified)-->
           </rule>
           <rule>
               <antipattern>
+                  <token regexp="yes">réseaux?</token>
+                  <token regexp="yes">social|sociaux</token>
+                  <token postag="J.*" postag_regexp="yes"/>
+                  <token postag="J.*" postag_regexp="yes"/>
+                  <token>et</token>
+                  <token postag="J.*" postag_regexp="yes"/>
+              </antipattern>
+              <antipattern>
                   <token postag="(P\+)?D .*" postag_regexp="yes"/>
                   <token postag="N.*" postag_regexp="yes"/>
                   <token postag="(P\+)?D .*" postag_regexp="yes"/>
@@ -34619,6 +34627,7 @@ though, and has since been slightly modified)-->
               <message>Des virgules semblent être requises dans ce contexte.</message>
               <suggestion>\2, \3, \4</suggestion>
               <example correction="gris, noirs, roux">Elle a des chats <marker>gris noirs roux</marker> et blancs.</example>
+              <example>C'est un réseau <marker>social libre décentralisé</marker> et Open Source.</example>
               <example>Cela favorise le développement des forces <marker>nucléaires armées françaises</marker>.</example>
           </rule>
           <rule>
