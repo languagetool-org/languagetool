@@ -5916,6 +5916,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token chunk="I-NP-singular" postag_regexp="yes" postag="JJR?|NN(:UN?)?"/>
                 <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
             </antipattern>
+            <antipattern>
+                <token inflected="yes">be</token>
+                <token regexp="yes">an?|the</token>
+                <token></token>
+                <token>'s</token>
+            </antipattern>
             <pattern>
                 <token><exception postag_regexp="yes" postag="NN.*|VBP|CD|UNKNOWN|\."/></token>
                 <marker>
@@ -6142,6 +6148,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                         <token spacebefore="no" postag="POS">'s</token>
                     </marker>
                 <token postag="N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="POS"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>be</token>
+                <token regexp="yes">an?|the</token>
+                <token/>
+                <marker>
+                    <token spacebefore="no" postag="POS">'s</token>
+                </marker>
             </pattern>
             <disambig action="filter" postag="POS"/>
         </rule>
