@@ -533,7 +533,7 @@ public class FlatParagraphTools {
 
   public void markParagraphs(Map<Integer, SingleProofreadingError[]> changedParas, DocumentCache docCache, boolean override, XParagraphCursor cursor) {
     try {
-      if (changedParas == null || changedParas.isEmpty()) {
+      if (changedParas == null || changedParas.isEmpty() || docCache == null) {
         return;
       }
       XFlatParagraph xFlatPara = getLastFlatParagraph();
