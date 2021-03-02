@@ -3077,8 +3077,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rulegroup>
 
     <rule name="be + verb progressive/jj + noun countable => verb progressive" id="BE_VBGJJ_NN_VBG">
+        <antipattern>
+            <token postag="NNP" />
+            <token>'s</token>
+        </antipattern>
       <pattern>
-        <token inflected="yes">be</token>
+        <token inflected="yes">
+            be
+        </token>
         <marker>
           <and>
           <token postag="VBG"/>
@@ -3090,6 +3096,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <disambig postag="VBG"/>
       <example type="untouched">They are fine.</example>
       <example type="ambiguous" inputform="playing[play/VBG,playing/JJ,playing/NN:UN]" outputform="playing[play/VBG]">They were <marker>playing</marker> ball.</example>
+      <example type="untouched">A majority of FERC's governing board believes that price caps would deter investors from building</example>
     </rule>
 
 
