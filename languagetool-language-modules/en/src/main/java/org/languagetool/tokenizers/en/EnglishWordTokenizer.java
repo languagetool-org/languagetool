@@ -49,7 +49,7 @@ public class EnglishWordTokenizer extends WordTokenizer {
     tagger = new EnglishTagger();
 
     // words not to be split
-    patterns[0] = Pattern.compile("^(fo['’]c['’]sle)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    patterns[0] = Pattern.compile("^(fo['’]c['’]sle|rec['’]d|OK['’]d)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     // + not
     patterns[1] = Pattern.compile(
         "^(are|is|were|was|do|does|did|have|has|had|wo|would|ca|could|sha|should|must|ai)(n['’]t)$",
