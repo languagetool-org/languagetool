@@ -36976,26 +36976,51 @@ Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
     </rule>
 	
    <!-- PROCURA PROVAR prova provará -->
-   <rule id='TESE_PHD_PROCURAR_PROVAR_PROVARA' name="Tese Doutoramento: Evitar expressões do tipo 'procura provar'" default="temp_off">
-     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-12 + 2021-02-25 (1-JAN-2021+)      -->
+   <rulegroup id='TESE_PHD_PROCURAR_PROVAR_PROVARA' name="Tese Doutoramento: Evitar expressões do tipo 'procura provar'">
+     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-12 + 2021-02-25 + 2021-03-02 (1-JAN-2021+)      -->
+<!--
+A nossa tese procura provar a métrica. → A nossa tese provará a métrica.
+Na nossa tese procuramos provar a métrica. → Na nossa tese provaremos a métrica.
+Na nossa tese procuro provar a métrica. → Na nossa tese provarei a métrica.
+-->
+	<rule> 
      <pattern>
        <and>
-         <token regexp='yes' inflected="yes">procurar|buscar|pretender|tentar</token>
-         <token postag='VMIP[13]S0|VMM02S0|VMIP1P0|VMIS1[SP]0' postag_regexp='yes'/>
+         <token regexp='yes' inflected="yes">procurar|buscar|pretender|tentar|ir</token>
+         <token postag='VMIF1S0|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes'/>
        </and>
        <token postag='VMN0000' postag_regexp='no'/>
      </pattern>
-     <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).  postagReplace:V\a1IF\b1."/>
+     <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).  postagReplace:V\a1(IP|IF)\b1."/>
      <message>Se for uma tese de doutoramento utilize o estilo próprio de redação.</message>
-     <suggestion>{suggestion}</suggestion>
-     <example correction="provará">(N)a nossa tese <marker>procura provar</marker> a métrica.</example>
-     <example correction="provaremos">(N)a nossa tese <marker>procuramos provar</marker> a métrica.</example>
-     <example correction="provarei">(N)a nossa tese <marker>procuro provar</marker> a métrica.</example>
-     <example>Na nossa tese provo que a métrica é eficaz.</example>
-     <example>Na nossa tese provarei que a métrica é eficaz.</example>
-     <example>Na nossa tese provaremos que a métrica é eficaz.</example>
-   </rule>
-	
+     <suggestion>{suggestion}</suggestion>	 
+     <example correction="provará|prova">A nossa tese <marker>procura provar</marker> a métrica.</example>
+     <example correction="provaremos|provamo|provamos">Na nossa tese <marker>procuramos provar</marker> a métrica.</example>
+     <example correction="provarei|provo">Na nossa tese <marker>procuro provar</marker> a métrica.</example>
+	</rule>
+<!--
+A nossa tese procurou provar a métrica. → A nossa tese provou a métrica.
+Na nossa tese procurámos provar a métrica. → Na nossa tese provámos a métrica.
+Na nossa tese procurei provar a métrica. → Na nossa tese provei a métrica.
+-->	
+	<rule> 
+     <pattern>
+       <and>
+         <token regexp='yes' inflected="yes">procurar|buscar|pretender|tentar|ir</token>
+         <token postag='VMIS3S0|VMIS1[SP]0' postag_regexp='yes'>
+            <exception postag_regexp='no' postag='VMIF1S0'/>
+		 </token>
+       </and>
+       <token postag='VMN0000' postag_regexp='no'/>
+     </pattern>
+     <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).  postagReplace:V\a1IS\b1."/>
+     <message>Se for uma tese de doutoramento utilize o estilo próprio de redação.</message>
+     <suggestion>{suggestion}</suggestion>	 
+     <example correction="provou">A nossa tese <marker>procurou provar</marker> a métrica.</example>
+     <example correction="provámo|provámos">Na nossa tese <marker>procurámos provar</marker> a métrica.</example>
+     <example correction="provei">Na nossa tese <marker>procurei provar</marker> a métrica.</example>
+	</rule>
+   </rulegroup>
  </category>
 
  <category id='TRANSLATION_ERRORS' name="Erros de Tradução" type="mistranslation">
