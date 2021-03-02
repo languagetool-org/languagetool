@@ -215,7 +215,7 @@ class SingleDocument {
       paRes.nStartOfSentencePosition = paragraphsCache.get(0).getStartSentencePosition(paraNum, paRes.nStartOfSentencePosition);
       paRes.nStartOfNextSentencePosition = paragraphsCache.get(0).getNextSentencePosition(paraNum, paRes.nStartOfSentencePosition);
       paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
-      lastChangedPara = textIsChanged ? paraNum : -1;
+      lastChangedPara = (textIsChanged && numParasToCheck != 0) ? paraNum : -1;
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }
@@ -496,7 +496,7 @@ class SingleDocument {
    * run a text level check from a queue entry (initiated by the queue)
    */
   public void runQueueEntry(int nStart, int nEnd, int cacheNum, int nCheck, boolean doReset, SwJLanguageTool langTool) {
-    if (docCache.isFinished()) {
+    if (flatPara != null && docCache.isFinished()) {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, false);
       singleCheck.addParaErrorsToCache(docCache.getFlatParagraphNumber(nStart), langTool, cacheNum, nCheck, doReset, false, hasFootnotes);
     }
