@@ -378,6 +378,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&typo;</short>
                 <example correction="Vielen Dank"><marker>Viele Dank</marker></example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">vielen|besten|herzlichen</token>
+                        <token>danke</token>
+                    </marker>
+                    <token regexp="yes">für|dir|im|schon|erst(mal)?|und|ihnen|lieber?|herr|frau|[ae]uch|\.|\!|\,|\?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>\1 Dank</suggestion>?</message>
+                <short>&typo;</short>
+                <example correction="Vielen Dank"><marker>Vielen danke</marker> für die Hilfe!</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">vielen|besten|herzlichen</token>
+                        <token postag="SENT_END">danke</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>\1 Dank</suggestion>?</message>
+                <short>&typo;</short>
+                <example correction="Vielen Dank"><marker>Vielen Danke</marker></example>
+            </rule>
         </rulegroup>
         <!-- this is an example rule: -->
         <rule id="GILBT" name="gilbt (gilt/gibt)">
