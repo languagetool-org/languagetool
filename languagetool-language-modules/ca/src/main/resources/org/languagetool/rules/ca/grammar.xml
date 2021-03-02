@@ -34751,6 +34751,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="NP.*" postag_regexp="yes"/>
                 <token regexp="yes" inflected="yes" case_sensitive="yes">&carrecs;</token>
             </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>Observatori</token>
+                <token>Fiscal</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <and>
@@ -46403,6 +46407,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="aire|aspecte|aparença">L'entrevista va agafar <marker>visos</marker> de paròdia.</example>
         </rule>
         <rulegroup id="RARE_WORDS" name="paraules molt infreqüents">
+            <rule>
+                <pattern>
+                    <token>enant</token>
+                </pattern>
+                <message>Paraula antiga poc comuna. ¿Volíeu dir <suggestion>anant</suggestion>?</message>
+                <suggestion>abans</suggestion>
+                <suggestion>avant</suggestion>
+                <example correction="anant|abans|avant">Hem estat <marker>enant</marker> enrere.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>enans</token>
+                </pattern>
+                <message>Paraula antiga poc comuna. ¿Volíeu dir <suggestion>anant</suggestion>?</message>
+                <suggestion>abans</suggestion>
+                <suggestion>avant</suggestion>
+                <example correction="anant|abans|avant">Hem estat <marker>enans</marker> enrere.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token>amb</token>
@@ -58331,6 +58353,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" inflected="yes">&parts_dia;|&unitats_temps;|cop|colp|vegada|volta|pic</token>
                 <token postag="V...3P.." postag_regexp="yes" inflected="yes" regexp="yes">ser|semblar|parèixer</token>
             </antipattern>
+            <antipattern>
+                <token>tots</token>
+                <token>els</token>
+                <token>matins</token>
+                <token>de</token>
+                <token>l</token>
+                <token>món</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">tots|totes</token>
                 <token regexp="yes">els|les</token>
@@ -61724,6 +61754,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>dones</token>
                 <token postag="NCFP000"/>
+            </antipattern>
+            <antipattern>
+                <token>mida</token>
+                <token>carnet</token>
             </antipattern>
             <rule>
                 <pattern>
