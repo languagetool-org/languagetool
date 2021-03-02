@@ -37502,6 +37502,73 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rule id="CONFUSION_EST_ET" name="confusion est et" default="temp_off">
+          <antipattern>
+              <token postag="R pers suj 3 [fm] s" postag_regexp="yes"/>
+              <token>et</token>
+              <token regexp="yes">qu(&apostrophe;)</token>
+          </antipattern>
+          <antipattern>
+              <token regexp="yes">qu(&apostrophe;)</token>
+              <token postag="R pers suj 3 [fm] s" postag_regexp="yes"/>
+              <token>et</token>
+          </antipattern>
+          <antipattern>
+              <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+></token>
+              <token postag="R pers suj 3 [fm] s" case_sensitive="yes">Elle</token>
+              <token>et</token>
+          </antipattern>
+          <antipattern>
+              <token postag="R pers suj 3 [fm] s" postag_regexp="yes"/>
+              <token>et</token>
+              <token regexp="yes" min="0" max="1">ne|n'</token>
+              <token postag="V ind.*|V sub.*|V etre.*|V avoir.*" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token postag="P.*|C coor" postag_regexp="yes"/>
+              <token postag="R pers suj 3 [fm] s" postag_regexp="yes"/>
+              <token>et</token>
+          </antipattern>
+          <antipattern>
+              <token postag="R pers suj 3 [fm] s" postag_regexp="yes"/>
+              <token>et</token>
+              <token regexp="yes">(?-i)[A-Z].*</token>
+          </antipattern>
+          <antipattern>
+              <token regexp="yes">elle-même|lui-même|eux-mêmes?|elles-mêmes?|moi-même|toi-même|nous-mêmes?|vous-mêmes?</token>
+              <token>et</token>
+          </antipattern>
+          <antipattern>
+              <token postag="R pers suj 3 [fm] s" postag_regexp="yes"/>
+              <token>et</token>
+              <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+></token>
+          </antipattern>
+          <antipattern>
+              <token postag="R pers suj 3 [fm] s" postag_regexp="yes"/>
+              <token>et</token>
+              <token postag="[ZRDP].*|UNKNOWN" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token postag="R pers suj 3 [fm] s" postag_regexp="yes"/>
+              <token>et</token>
+              <token regexp="yes">tout|beaucoup</token>
+          </antipattern>
+          <pattern>
+              <token postag="R pers suj 3 [fm] s" postag_regexp="yes"><exception scope="previous">t'</exception></token>
+              <marker>
+                  <token>et</token>
+              </marker>
+          </pattern>
+          <message>Une confusion semble être détectée.</message>
+          <suggestion>est</suggestion>
+          <example correction="est">Elle <marker>et</marker> allée au parc.</example>
+          <example>Elle est directrice de derrière elle <marker>et</marker> présidente d'une association.</example>
+          <example>Que se passe t'il <marker>et</marker> pourquoi est-il là ?</example>
+          <example>Elle <marker>et</marker> est allée en ville.</example>
+          <example>Elle <marker>et</marker> moi au parc.</example>
+          <example>Elle <marker>et</marker> Mrs. Smith sont là.</example>
+          <example>Elle est rentrée chez elle <marker>et</marker> fait à manger.</example>
+      </rule>
       <rulegroup id="POSER_UNE_QUESTION" name="poser une question">
           <rule>
               <antipattern>
