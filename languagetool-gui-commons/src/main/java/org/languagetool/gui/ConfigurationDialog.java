@@ -1092,8 +1092,9 @@ public class ConfigurationDialog implements ActionListener {
     List<String> profiles = new ArrayList<>();
     String defaultOptions = messages.getString("guiDefaultOptions");
     String userOptions = messages.getString("guiUserProfile");
-    profiles.add(userOptions);
     profiles.addAll(config.getDefinedProfiles());
+    profiles.sort(null);
+    profiles.add(0, userOptions);
     String currentProfile = config.getCurrentProfile();
     JComboBox<String> profileBox = new JComboBox<>(profiles.toArray(new String[0]));
     if(currentProfile == null || currentProfile.isEmpty()) {
