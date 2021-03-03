@@ -9941,6 +9941,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="NONSTOP_FLUG" name="Nonstop-Flug" default="temp_off">
+            <pattern>
+                <token regexp="yes">non-?stop</token>
+                <token regexp="yes">flug(s|es)?|flüge</token>
+            </pattern>
+            <message>Das Nomen <suggestion>Nonstop-<match no="2" case_conversion="startupper" /></suggestion> wird zusammengeschrieben.</message>
+            <example correction="Nonstop-Flug">Er buchte einen <marker>nonstop Flug</marker> nach Thailand.</example>
+        </rule>
         <rule id="DURCH_SCHAUEN" name="durch + Verb">
             <antipattern>
                 <token skip="2" regexp="yes">dort|hier|da|quer|oben|unten</token>
@@ -11119,7 +11127,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]{2,}(ung|schaft|sicht|heit|keit|ion|tät)s
-                    <exception regexp="yes">.+yo?ungs|Jisungs|.*federations|Akarions|Samsungs|.*ctions|Connexions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
+                    <exception regexp="yes">.+yo?ungs|Jisungs|.*federations|Akarions|Didions|Samsungs|.*ctions|Connexions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
                 </token>
                 <token postag=".*SUB.*" postag_regexp="yes" regexp="yes">
                     [A-ZÜÄÖ][a-zäöüß]+
