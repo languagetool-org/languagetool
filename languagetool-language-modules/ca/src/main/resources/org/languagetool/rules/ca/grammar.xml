@@ -6029,6 +6029,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>Gàmbia no és gaire bonic</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AGREEMENT_SER_ADJ_PL" name="concordança: som conscients" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="V.[SIM]..P.." postag_regexp="yes" regexp="yes" inflected="yes">ser|estar|parèixer|semblar</token>
+                    <marker>
+                        <token postag="AQ..S.|V.P..S.." postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Possible falta de concordança.</message>
+                <suggestion suppress_misspelled="yes"><match no="2" postag="(AQ..|V.P..)S(.*)" postag_regexp="yes" postag_replace="$1P$2"></match></suggestion>
+                <example correction="conscients">Som <marker>conscient</marker> de la situació.</example>
+                <example correction="conscients">Siguem <marker>conscient</marker> de la situació.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.[SIM]..P.." postag_regexp="yes"/>
+                    <token min="0" regexp="yes">a|de|d'|que|en|per</token>
+                    <token postag="V.[NPG].*" postag_regexp="yes" regexp="yes" inflected="yes">ser|estar|parèixer|semblar</token>
+                    <token min="0" postag="&pronom_feble;" postag_regexp="yes" spacebefore="no"/>
+                    <marker>
+                        <token postag="AQ..S.|V.P..S.." postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Possible falta de concordança.</message>
+                <suggestion suppress_misspelled="yes"><match no="5" postag="(AQ..|V.P..)S(.*)" postag_regexp="yes" postag_replace="$1P$2"></match></suggestion>
+                <example correction="conscients">Hem de ser-ne <marker>conscient</marker>.</example>
+                <example correction="conscients">N'hem de ser <marker>conscient</marker>.</example>
+                <example correction="conscients">Acabaran per ser <marker>conscient</marker> de la situació.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CONCORDANCES_PRONOM_VERB" name="Concordances pronom verb: nosaltres *penseu/pensem">
             <antipattern>
                 <token>hi</token>
