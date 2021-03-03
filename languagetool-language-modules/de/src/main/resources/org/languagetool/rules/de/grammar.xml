@@ -11418,7 +11418,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">[0-9]+</token>
-                    <token regexp="yes">(wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag|seit|stell|spur|eck)ig(e[mnrs]?)?</token>
+                    <token regexp="yes">(wöch|[zt]eil|bändig|räum|köpf|täg|monat|jähr|stünd|sekünd|mal|lag|seit|stell|spur|eck)ig(e[mnrs]?)?</token>
                 </pattern>
                 <message><suggestion>\1-<match no="2" case_conversion="alllower" /></suggestion> wird mit Bindestrich geschrieben.</message>
                 <short>Zusammenschreibung</short>
@@ -11430,7 +11430,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">\d+(wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag|seit|stell|spur|eck)ig(e[mnrs]?)?</token>
+                    <token regexp="yes">\d+(wöch|[zt]eil|bändig|räum|köpf|täg|monat|jähr|stünd|sekünd|mal|lag|seit|stell|spur|eck)ig(e[mnrs]?)?</token>
                 </pattern>
                 <message><suggestion><match no="1" regexp_match="^(\d+).+" regexp_replace="$1" />-<match no="1" regexp_match="^\d+(.+)$" regexp_replace="$1" case_conversion="alllower" /></suggestion> wird mit Bindestrich geschrieben.</message>
                 <short>Zusammenschreibung</short>
@@ -11441,7 +11441,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="ZAL"/>
-                    <token regexp="yes">(schicht|zähn|wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag|stell|spur|eck)ig(e[mnrs]?)?</token>
+                    <!-- ohne 'lich' wg. Fällen wie "1869 verkehrten vier tägliche Zugpaare": -->
+                    <token regexp="yes">(schicht|zähn|wöch|[zt]eil|bändig|räum|köpf|täg|monat|jähr|stünd|sekünd|mal|lag|stell|spur|eck)ig(e[mnrs]?)?</token>
                 </pattern>
                 <message><suggestion>\1\2</suggestion> wird zusammengeschrieben.</message>
                 <short>Zusammenschreibung</short>
