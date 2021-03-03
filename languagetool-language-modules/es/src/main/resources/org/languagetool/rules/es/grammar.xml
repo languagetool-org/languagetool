@@ -13189,6 +13189,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="AGREEMENT_VERBS" name="Concordancia sujeto/predicado" type="inconsistency" default="on">
+        <rulegroup id="AGREEMENT_SER_ADJ_PL" name="concordnacia: somos conscientes" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="V.[SIM]..P." postag_regexp="yes" regexp="yes" inflected="yes">ser|estar|parecer</token>
+                    <marker>
+                        <token postag="AQ..S.|V.P..S." postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion suppress_misspelled="yes"><match no="2" postag="(AQ..|V.P..)S(.*)" postag_regexp="yes" postag_replace="$1P$2"></match></suggestion>
+                <example correction="conscientes">Somos <marker>consciente</marker> de ello.</example>
+                <example correction="conscientes">Seamos <marker>consciente</marker> de ello.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.[SIM]..P." postag_regexp="yes"/>
+                    <token min="0" regexp="yes">a|de|que|en|por</token>
+                    <token postag="V.[NPG].*" postag_regexp="yes" regexp="yes" inflected="yes">ser|estar|parecer</token>
+                    <marker>
+                        <token postag="AQ..S.|V.P..S." postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion suppress_misspelled="yes"><match no="4" postag="(AQ..|V.P..)S(.*)" postag_regexp="yes" postag_replace="$1P$2"></match></suggestion>
+                <example correction="conscientes">Tenemos que ser <marker>consciente</marker> de ello.</example>
+                <example correction="conscientes">Debíamos ser <marker>consciente</marker> de ello.</example>
+                <example correction="conscientes">Debemos ser <marker>consciente</marker> de ello.</example>
+                <example correction="conscientes">Acabarán por ser <marker>consciente</marker> de ello.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AGREEMENT_VERB_PARTICIPLE" name="*están hecho/hechos">
             <!--<antipattern>
                 <token inflected="yes">ser</token>
