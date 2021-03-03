@@ -113,6 +113,7 @@ public class MultiDocumentsHandler {
   private String menuDocId = null;            //  Id of document at which context menu was called 
   private TextLevelCheckQueue textLevelQueue = null; // Queue to check text level rules
   
+  private boolean useOrginalCheckDialog = false;  // use original spell and grammar dialog (LT check dialog does not work for OO)
   private boolean testMode = false;
 
   MultiDocumentsHandler(XComponentContext xContext, XProofreader xProofreader, XEventListener xEventListener) {
@@ -192,7 +193,7 @@ public class MultiDocumentsHandler {
         }
       }
     }
-    docNum = getNumDoc(paRes.aDocumentIdentifier);
+    docNum = getNumDoc(paRes.aDocumentIdentifier, propertyValues);
     if (noBackgroundCheck) {
       return paRes;
     }
@@ -505,7 +506,7 @@ public class MultiDocumentsHandler {
    * Get or Create a Number from docID
    * Return -1 if failed
    */
-  private int getNumDoc(String docID) {
+  private int getNumDoc(String docID, PropertyValue[] propertyValues) {
     if (goneContext != null ) {
       removeDoc(docID);
     }
@@ -562,6 +563,7 @@ public class MultiDocumentsHandler {
     }
     SingleDocument newDocument = new SingleDocument(xContext, config, docID, xComponent, this);
     documents.add(newDocument);
+    testFootnotes(propertyValues);
     if (!testMode) {              //  xComponent == null for test cases 
       newDocument.setLanguage(docLanguage);
       newDocument.setLtMenus(new LanguageToolMenus(xContext, newDocument, config));
@@ -716,15 +718,7 @@ public class MultiDocumentsHandler {
         langTool.disableRule(id);
       }
     }
-    if (config.useLtDictionary()) {
-      if (dictionary.setLtDictionary(xContext, locale, linguServices)) {
-        resetCheck();
-      }
-    } else {
-      if (dictionary.removeLtDictionaries(xContext)) {
-        resetCheck();
-      }
-    }
+    handleLtDictionary();
   }
   
   /**
@@ -818,6 +812,32 @@ public class MultiDocumentsHandler {
    */
   public void setMenuDocId(String docId) {
     menuDocId = docId;
+  }
+
+  /**
+   * Set use original spell und grammar dialog (for OO and old LO)
+   */
+  public void setUseOriginalCheckDialog() {
+    useOrginalCheckDialog = true;
+  }
+  
+  /**
+   * Set use original spell und grammar dialog (for OO and old LO)
+   */
+  public boolean useOriginalCheckDialog() {
+    return useOrginalCheckDialog;
+  }
+  
+  /**
+   * Is true if footnotes exist (tests if OO or very old LO) 
+   */
+  private void testFootnotes(PropertyValue[] propertyValues) {
+    for (PropertyValue propertyValue : propertyValues) {
+      if ("FootnotePositions".equals(propertyValue.Name)) {
+        return;
+      }
+    }
+    this.useOrginalCheckDialog = true;
   }
 
   /**
@@ -1105,6 +1125,14 @@ public class MultiDocumentsHandler {
         deactivateRule();
         resetDocument();
       } else if ("checkDialog".equals(sEvent) || "checkAgainDialog".equals(sEvent)) {
+        if (useOrginalCheckDialog) {
+          if ("checkDialog".equals(sEvent) ) {
+            OfficeTools.dispatchCmd(".uno:SpellingAndGrammarDialog", xContext);
+          } else {
+            OfficeTools.dispatchCmd(".uno:RecheckDocument", xContext);
+          }
+          return;
+        }
         if (ltDialog != null) {
           ltDialog.closeDialog();
         } 
@@ -1343,6 +1371,33 @@ public class MultiDocumentsHandler {
       goneContext.removeEventListener(xEventListener);
     }
   }
+  
+  /**
+   *  start a separate thread to add or remove the internal LT dictionary
+   */
+  
+  private void handleLtDictionary() {
+    HandleLtDictionary handleDictionary = new HandleLtDictionary();
+    handleDictionary.start();
+  }
+
+  /**
+   *  class to start a separate thread to add or remove the internal LT dictionary
+   */
+  private class HandleLtDictionary extends Thread {
+    @Override
+    public void run() {
+      if (config.useLtDictionary()) {
+        if (dictionary.setLtDictionary(xContext, locale, linguServices)) {
+          resetCheck();
+        }
+      } else {
+        if (dictionary.removeLtDictionaries(xContext)) {
+          resetCheck();
+        }
+      }
+    }
+  }
 
   /** class to start a separate thread to switch grammar check to LT
    * Experimental currently not used 
@@ -1357,7 +1412,6 @@ public class MultiDocumentsHandler {
       } catch (InterruptedException e) {
         MessageHandler.showError(e);
       }
-
     }
   }
 

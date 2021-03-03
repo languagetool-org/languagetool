@@ -120,6 +120,9 @@ class SingleDocument {
     if (config != null && config.saveLoCache() && xComponent != null && !mDocHandler.isTestMode()) {
       readCaches();
     }
+    if (xComponent != null) {
+      setFlatParagraphTools(xComponent);
+    }
   }
   
   /**  get the result for a check of a single document 
@@ -158,21 +161,24 @@ class SingleDocument {
       }
     }
     hasFootnotes = footnotePositions != null;
-    if (!hasFootnotes && numParasToCheck != 0) {
+    if (!hasFootnotes) {
       //  OO and LO < 4.3 do not support 'FootnotePositions' property and other advanced features
       //  switch back to single paragraph check mode - save settings in configuration
-      if (config.useTextLevelQueue()) {
-        mDocHandler.getTextLevelCheckQueue().setStop();
+      if (numParasToCheck != 0) {
+        if (config.useTextLevelQueue()) {
+          mDocHandler.getTextLevelCheckQueue().setStop();
+        }
+        numParasToCheck = 0;
+        config.setNumParasToCheck(numParasToCheck);
+        config.setUseTextLevelQueue(false);
+        try {
+          config.saveConfiguration(docLanguage);
+        } catch (IOException e) {
+          MessageHandler.showError(e);
+        }
+        MessageHandler.printToLogFile("Single paragraph check mode set!");
       }
-      numParasToCheck = 0;
-      config.setNumParasToCheck(numParasToCheck);
-      config.setUseTextLevelQueue(false);
-      try {
-        config.saveConfiguration(docLanguage);
-      } catch (IOException e) {
-        MessageHandler.showError(e);
-      }
-      MessageHandler.printToLogFile("Single paragraph check mode set!");
+      mDocHandler.setUseOriginalCheckDialog();
     }
 
     if (resetDocCache && nPara >= 0) {

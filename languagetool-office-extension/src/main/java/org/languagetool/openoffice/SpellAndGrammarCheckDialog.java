@@ -1200,6 +1200,11 @@ public class SpellAndGrammarCheckDialog extends Thread {
       dialog.setEnabled(false);
       initCursor();
       gotoNextError(false);
+      if (documents.useOriginalCheckDialog()) {
+        OfficeTools.dispatchCmd(".uno:SpellingAndGrammarDialog", xContext);
+        closeDialog();
+        return;
+      }
       dialog.setEnabled(true);
       Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
       Dimension frameSize = dialog.getSize();
