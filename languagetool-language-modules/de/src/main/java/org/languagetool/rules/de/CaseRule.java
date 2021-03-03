@@ -711,7 +711,7 @@ public class CaseRule extends Rule {
       csRegex("Gmb[Hh]|AG|KG|UG")
     ),
     Arrays.asList( // Klicke auf Home > Mehr > Team
-      csToken(">")
+      csToken(">"),
       csRegex("[A-ZÄÜÖ].+"),
       csToken(">")
     )
