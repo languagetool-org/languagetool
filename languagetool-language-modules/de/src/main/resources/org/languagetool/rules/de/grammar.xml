@@ -46265,6 +46265,30 @@ Andere Projekte</example>
     <!-- Typographie -->
     <!-- ====================================================================== -->
     <category id="TYPOGRAPHY" name="Typografie">
+        <rulegroup id="TYPOGRAPHIC_QUOTES" name="Anführungszeichen: “xyz” -> „xyz“" default="temp_off">
+            <rule>
+                <!-- wird auch von UNPAIRED_BRACKETS gefunden, aber hier mit besserer suggestion -->
+                <pattern>
+                    <token>“</token>
+                    <token spacebefore="no"/>
+                    <token spacebefore="no">”</token>
+                </pattern>
+                <message>Möchten Sie die typografisch korrekten deutschen Anführungszeichen benutzen?</message>
+                <suggestion>„\2“</suggestion>
+                <example correction="„AGB“"><marker>“AGB”</marker> ist die Abkürzung für allgemeine Geschäftsbedingungen.</example>
+            </rule>
+            <rule>
+                <!-- wird auch von UNPAIRED_BRACKETS gefunden, aber hier mit besserer suggestion -->
+                <pattern>
+                    <token>"</token>
+                    <token spacebefore="no" />
+                    <token spacebefore="no">"</token>
+                </pattern>
+                <message>Möchten Sie die typografisch korrekten deutschen Anführungszeichen benutzen?</message>
+                <suggestion>„\2“</suggestion>
+                <example correction="„AGB“"><marker>"AGB"</marker> ist die Abkürzung für allgemeine Geschäftsbedingungen.</example>
+            </rule>
+        </rulegroup>
         <rule id="TRADEMARK" name="(TM) statt ™">
             <pattern case_sensitive='yes'>
                 <token regexp='yes'>\p{Lu}.*</token>
