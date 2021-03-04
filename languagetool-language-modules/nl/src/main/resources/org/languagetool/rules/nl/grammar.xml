@@ -9279,11 +9279,44 @@ onwaarschijnlijk
 	</category>
 	<category id="COMPOUNDING" name="Aaneen of los">
 		<!-- samenstellingen die vaak los worden geschreven staan in compounds.txt -->
-		
+
+		<rulegroup id="EN_OF_KOPPELTEKEN" name="eet - en drinkgelegenheden/ eet- en drinkgelegenheden" default="temp_off">
+			<rule>
+				<pattern>
+					<token postag="WKW:TGW:1EP"/>
+					<token>-</token>
+					<token regexp="yes">en|of</token>
+					<token postag_regexp="yes" postag="ZNW.*"/>
+				</pattern>
+				<message>De - hoort daar waar het woord is ingekort.</message>
+				<suggestion>\1\2 \3 \4</suggestion>
+				<example correction="eet- en drinkgelegenheid">Het is een <marker>eet - en drinkgelegenheid</marker>.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token postag="WKW:TGW:1EP"/>
+					<token regexp="yes">-(en|of)</token>
+					<token postag_regexp="yes" postag="ZNW.*"/>
+				</pattern>
+				<message>De - hoort daar waar het woord is ingekort.</message>
+				<suggestion>\1- <match no="2" regexp_match="^-" regexp_replace=""/> \3</suggestion>
+				<example correction="eet- en drinkgelegenheid">Het is een <marker>eet -en drinkgelegenheid</marker>.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token postag="WKW:TGW:1EP"/>
+					<token regexp="yes">(en|of)-</token>
+					<token postag_regexp="yes" postag="ZNW.*"/>
+				</pattern>
+				<message>De - hoort daar waar het woord is ingekort.</message>
+				<suggestion>\1- <match no="2" regexp_match="-$" regexp_replace=""/> \3</suggestion>
+				<example correction="eet- en drinkgelegenheid">Het is een <marker>eet en- drinkgelegenheid</marker>.</example>
+			</rule>			
+		</rulegroup>
 		<rulegroup id="SAMENSTELLING_EIGENNAAM" name="eBay ding / eBayding" default="temp_off">
 			<rule>
 				<pattern>
-					<token postag_regexp="yes" postag="ENM:ORG"/>
+					<token postag="ENM:ORG"/>
 					<token postag_regexp="yes" postag="ZNW.*"/>
 				</pattern>
 				<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2"/>
