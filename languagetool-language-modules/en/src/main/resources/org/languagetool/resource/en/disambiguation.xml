@@ -14226,4 +14226,33 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="remove" postag="NNS"/>
     </rule>
+
+    <rulegroup id="SPELLING_DE_AND_ET" name="ignore spelling of 'de/et/el/un' in Spanish names/expressions">
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[Dd]e|[Ee]t|[Ee]l|[Uu]n</token>
+                </marker>
+                <token postag="UNKNOWN|NNP" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="UNKNOWN|NNP" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[Dd]e|[Ee]t</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+
+    <rule id="DE_FACTO" name="ignore spelling of 'de facto'">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">[Dd]e|DE</token>
+            <token regexp="yes">[Ff]acto|FACTO</token>
+        </pattern>
+        <disambig action="remove" postag="DT"/>
+    </rule>
 </rules>
