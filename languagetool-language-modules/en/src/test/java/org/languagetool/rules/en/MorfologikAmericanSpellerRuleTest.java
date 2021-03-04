@@ -106,6 +106,7 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Yes ma'am.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Yes ma’am.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("fo'c'sle")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("O'Connell, O’Connell, O'Connor, O’Neill")).length);
     
     // test words in language-specific spelling_en-US.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("USTestWordToBeIgnored")).length);
