@@ -36090,37 +36090,58 @@ though, and has since been slightly modified)-->
       <example correction=","><marker>dans ce cas</marker> il est certain</example>
       <example><marker>dans ce cas</marker>, il est certain</example>
     </rule>
-      <rulegroup default="off" id="VIRGULES_ET_CE" name="virgules et ce">
+      <rulegroup id="VIRGULES_ET_CE" name="virgules et ce" default="off">
           <rule>
               <antipattern>
                   <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
                   <token>et</token>
-                  <token>ce</token>
+                  <token>cela</token>
+                  <token inflected="yes">passer</token>
+                  <token>inaperçu</token>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                  <token>et</token>
+                  <token>cela</token>
+                  <token postag="A.*" postag_regexp="yes" min="0" max="1"/>
+                  <token postag="V ppa.*|V inf|UNKNOWN" postag_regexp="yes"/>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                  <token>et</token>
+                  <token>cela</token>
+                  <token regexp="yes">a|à</token>
+                  <token postag="V ppa.*|V inf|UNKNOWN" postag_regexp="yes"/>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+                  <token>et</token>
+                  <token regexp="yes">ce(la)?</token>
                   <token postag="SENT_END"/>
               </antipattern>
               <antipattern>
                   <token postag="[ACPD].*" postag_regexp="yes"/>
                   <token>et</token>
-                  <token>ce</token>
+                  <token regexp="yes">ce(la)?</token>
                   <token postag="[PA].*" postag_regexp="yes"/>
               </antipattern>
               <antipattern>
                   <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
                   <token>et</token>
-                  <token>ce</token>
+                  <token regexp="yes">ce(la)?</token>
                   <token postag="[PA].*" postag_regexp="yes"/>
                   <token postag="SENT_END"/>
               </antipattern>
               <antipattern>
                   <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
                   <token>et</token>
-                  <token>ce</token>
+                  <token regexp="yes">ce(la)?</token>
                   <token regexp="yes">ne|n(&apostrophe;)|passage|n</token>
               </antipattern>
               <antipattern>
                   <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
                   <token>et</token>
-                  <token>ce</token>
+                  <token regexp="yes">ce(la)?</token>
                   <token postag="[PA].*" postag_regexp="yes" min="0" max="1"/>
                   <token regexp="yes">pourquoi|quoi|qu(&apostrophe;)</token>
               </antipattern>
@@ -36128,14 +36149,17 @@ though, and has since been slightly modified)-->
                   <marker>
                       <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+<exception postag="[PD].*" postag_regexp="yes"/></token>
                       <token case_sensitive="yes">et</token>
-                      <token  case_sensitive="yes">ce</token>
+                      <token  case_sensitive="yes" regexp="yes">ce(la)?</token>
                   </marker>
-                  <token postag="[PA].*" postag_regexp="yes"><exception regexp="yes">qu[ie]?</exception></token>
+                  <token postag="[PA].*" postag_regexp="yes">
+                      <exception regexp="yes">qu[ie]?|aussi|peut-être</exception>
+                      <exception scope="next">entend</exception>
+                  </token>
               </pattern>
               <message>Des virgules sont conseillées dans ce contexte.</message>
               <suggestion>\1, \2 \3,</suggestion>
-              <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1505#:~:text=Les%20expressions%20et%20ce%20et%20et%20cela%20s%27emploient,%C3%A9videmment%2C%20qu%E2%80%99ils%20ne%20soient%20en%20t%C3%AAte%20de%20phrase.</url>
-              <example correction="ville, et ce,">Elle veut vivre en <marker>ville et ce</marker> jusqu'à la fin de sa vie.</example>
+              <url>http://www.la-ponctuation.com/virgule.html</url>
+              <example correction="ville, et cela,">Elle veut vivre en <marker>ville et cela</marker> jusqu'à la fin de sa vie.</example>
               <example>Elle veut vivre en <marker>ville et ce</marker> .</example>
               <example>Ce n'est rien de bien <marker>grave et ce</marker> n´est pas une priorité.</example>
               <example>Il en reste parfois un <marker>peu et ce</marker> peu est mélangé.</example>
@@ -36147,14 +36171,14 @@ though, and has since been slightly modified)-->
               <antipattern>
                   <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
                   <token>et</token>
-                  <token>ce</token>
+                  <token regexp="yes">ce(la)</token>
                   <token>,</token>
                   <token postag="SENT_END"/>
               </antipattern>
               <antipattern>
                   <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
                   <token>et</token>
-                  <token>ce</token>
+                  <token regexp="yes">ce(la)</token>
                   <token>,</token>
                   <token postag="[PA].*" postag_regexp="yes"/>
                   <token postag="SENT_END"/>
@@ -36162,50 +36186,66 @@ though, and has since been slightly modified)-->
               <antipattern>
                   <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
                   <token>et</token>
-                  <token>ce</token>
+                  <token regexp="yes">ce(la)</token>
                   <token>,</token>
                   <token postag="[PA].*" postag_regexp="yes" min="0" max="1"/>
                   <token regexp="yes">pourquoi|quoi|qu(&apostrophe;)</token>
               </antipattern>
               <pattern>
                   <marker>
-                      <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+<exception postag="[PD].*" postag_regexp="yes"/></token>
+                      <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+
+                          <exception postag="[PD].*" postag_regexp="yes"/>
+                          <exception>ceci</exception>
+                      </token>
                       <token case_sensitive="yes">et</token>
-                      <token  case_sensitive="yes">ce</token>
+                      <token  case_sensitive="yes" regexp="yes">ce(la)?</token>
                   </marker>
                   <token>,</token>
                   <token postag="[PA].*" postag_regexp="yes"><exception regexp="yes">qu[ie]?</exception></token>
               </pattern>
               <message>Une virgule précédant cette expression est conseillée dans ce contexte.</message>
               <suggestion>\1, \2 \3</suggestion>
-              <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1505#:~:text=Les%20expressions%20et%20ce%20et%20et%20cela%20s%27emploient,%C3%A9videmment%2C%20qu%E2%80%99ils%20ne%20soient%20en%20t%C3%AAte%20de%20phrase.</url>
-              <example correction="ville, et ce">Elle veut vivre en <marker>ville et ce</marker>, jusqu'à la fin de sa vie.</example>
+              <url>http://www.la-ponctuation.com/virgule.html</url>
+              <example correction="ville, et cela">Elle veut vivre en <marker>ville et cela</marker>, jusqu'à la fin de sa vie.</example>
               <example>Elle veut vivre en <marker>ville et ce</marker> .</example>
-              <example>Cela donne une indication sur le <marker>terme et ce</marker>, de quoi il est composé.</example>
           </rule>
           <rule>
               <antipattern>
                   <token>,</token>
                   <token>et</token>
-                  <token>ce</token>
+                  <token regexp="yes">ce(la)?</token>
+                  <token>en</token>
+                  <token>fait</token>
+              </antipattern>
+              <antipattern>
+                  <token>,</token>
+                  <token>et</token>
+                  <token regexp="yes">ce(la)?</token>
+                  <token postag="A.*" postag_regexp="yes"/>
+                  <token postag="A.*" postag_regexp="yes"/>
+              </antipattern>
+              <antipattern>
+                  <token>,</token>
+                  <token>et</token>
+                  <token regexp="yes">ce(la)?</token>
                   <token postag="SENT_END"/>
               </antipattern>
               <antipattern>
                   <token>,</token>
                   <token>et</token>
-                  <token>ce</token>
+                  <token regexp="yes">ce(la)?</token>
                   <token regexp="yes">ne|n(&apostrophe;)|passage|n</token>
               </antipattern>
               <antipattern>
                   <token>et</token>
-                  <token>ce</token>
+                  <token regexp="yes">ce(la)?</token>
                   <token postag="[PA].*" postag_regexp="yes"/>
                   <token postag="SENT_END"/>
               </antipattern>
               <antipattern>
                   <token>,</token>
                   <token>et</token>
-                  <token>ce</token>
+                  <token regexp="yes">ce(la)?</token>
                   <token postag="[PA].*" postag_regexp="yes" min="0" max="1"/>
                   <token regexp="yes">pourquoi|quoi|qu(&apostrophe;)</token>
               </antipattern>
@@ -36214,14 +36254,14 @@ though, and has since been slightly modified)-->
                   <marker>
                       <token>,</token>
                       <token case_sensitive="yes">et</token>
-                      <token  case_sensitive="yes">ce</token>
+                      <token  case_sensitive="yes" regexp="yes">ce(la)?</token>
                   </marker>
-                  <token postag="[PA].*" postag_regexp="yes"><exception regexp="yes">qu[ie]?</exception></token>
+                  <token postag="[PA].*" postag_regexp="yes"><exception regexp="yes">qu[ie]?|aussi|peut-être</exception></token>
               </pattern>
               <message>Une virgule suivant cette expression est conseillée dans ce contexte.</message>
               <suggestion>\2 \3 \4,</suggestion>
-              <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1505#:~:text=Les%20expressions%20et%20ce%20et%20et%20cela%20s%27emploient,%C3%A9videmment%2C%20qu%E2%80%99ils%20ne%20soient%20en%20t%C3%AAte%20de%20phrase.</url>
-              <example correction=", et ce,">Elle veut vivre en ville<marker>, et ce</marker> jusqu'à la fin de sa vie.</example>
+              <url>http://www.la-ponctuation.com/virgule.html</url>
+              <example correction=", et cela,">Elle veut vivre en ville<marker>, et cela</marker> jusqu'à la fin de sa vie.</example>
               <example>Elle veut vivre en <marker>ville et ce</marker> .</example>
               <example>Ce n'est rien de bien <marker>grave et ce</marker> n´est pas une priorité.</example>
               <example>Il en reste parfois un <marker>peu et ce</marker> peu est mélangé.</example>
