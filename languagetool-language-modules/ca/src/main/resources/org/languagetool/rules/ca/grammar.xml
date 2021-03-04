@@ -1371,19 +1371,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token postag="NC.[SN].*|V.P.*|AQ0CN0" postag_regexp="yes" regexp="yes" inflected="yes">&denominacio;|denominar|anomenar</token>
-                <token min="0" postag="_cometes_obertura"/>
+                <token min="0" postag="_QM_OPEN"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token postag="NC.[PN].*" postag_regexp="yes" regexp="yes" inflected="yes">&denominacio;|denominar|anomenar</token>
-                <token min="0" postag="_cometes_obertura"/>
+                <token min="0" postag="_QM_OPEN"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
                 <token postag="CC|_PUNCT_CONT" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*|NC.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token regexp="yes" inflected="yes">&denominacio;|denominar|anomenar</token>
-                <token postag="_cometes_obertura"/>
+                <token postag="_QM_OPEN"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -3503,7 +3503,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <!-- regla d'apostrofació -->
                     <token spacebefore="no">l</token>
-                    <token postag="_cometes_obertura" min="0"/>
+                    <token postag="_QM_OPEN" min="0"/>
                     <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </antipattern>
                 <pattern>
@@ -10555,7 +10555,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>tan<exception postag="_possible_nompropi"/></token>
                     </marker>
-                    <token postag="_PUNCT.*" postag_regexp="yes"><exception postag="_trespunts|_PUNCT_OBRE" postag_regexp="yes"/><exception regexp="yes">[‘“«¡¿]</exception></token>
+                    <token postag="_PUNCT.*" postag_regexp="yes"><exception postag="_trespunts|_QM_OPEN" postag_regexp="yes"/><exception regexp="yes">[‘“«¡¿]</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>tant</suggestion>.</message>
                 <example correction="tant">M'agrada <marker>tan</marker>!</example>
@@ -12437,7 +12437,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>en</token>
                     </marker>
-                    <token postag="_cometes_obertura" min="0"/>
+                    <token postag="_QM_OPEN" min="0"/>
                     <token min="0">no</token>
                     <token postag="V.N.*" postag_regexp="yes"><exception postag="_GN_MS"/></token>
                 </pattern>
@@ -22266,7 +22266,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>sobre</suggestion>?</message>
-                <short>Possible confusió</short>
                 <example correction="sobre">Em va mirar per <marker>sobra</marker>.</example>
                 <example>Ho vaig mirar per sobre.</example>
             </rule>
@@ -22277,12 +22276,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="_GN_.*" postag_regexp="yes"/>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>sobre</suggestion>?</message>
-                <short>Possible confusió</short>
+                <message>¿Volíeu dir <suggestion>sobre</suggestion> (preposició)?</message>
                 <example correction="sobre">Que estigués <marker>sobra</marker> la cintura.</example>
                 <example correction="sobre">És <marker>sobra</marker> la mentida.</example>
                 <example>Aquí sobra la mentida.</example>
                 <example>Com si no sabés de sobra aquella història.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token><exception postag="&pronom_feble;" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>sobra<exception scope="previous">de</exception></token>
+                    </marker>
+                    <token postag="P[DI].*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>sobre</suggestion> (preposició)?</message>
+                <example correction="Sobre"><marker>Sobra</marker> això no podem fer res.</example>
+                <example>Li sobra això.</example>
+                <example>Ens sobra tot això.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DARRERA" name="darrera/darrere">
@@ -22421,7 +22432,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>relació</token>
                         <token regexp="yes">de|d'</token>
                     </marker>
-                    <token><exception postag="NC.*" postag_regexp="yes"/><exception postag="_cometes_obertura"/></token>
+                    <token><exception postag="NC.*" postag_regexp="yes"/><exception postag="_QM_OPEN"/></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>en relació amb</suggestion>?</message>
                 <suggestion>en relació a</suggestion>
@@ -23685,14 +23696,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">publica|publiques</token>
-                    <token min="0" postag="_cometes_obertura"/>
+                    <token min="0" postag="_QM_OPEN"/>
                     <token postag="[DAN].*" postag_regexp="yes"><exception regexp="yes">número|núm</exception></token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">publica|publiques</token>
                     <token skip="-1" regexp="yes">[,-—–]</token>
                     <token><match no="1"/></token>
-                    <token min="0" postag="_cometes_obertura"/>
+                    <token min="0" postag="_QM_OPEN"/>
                     <token postag="[DAN].*" postag_regexp="yes"><exception regexp="yes">número|núm</exception></token>
                 </antipattern>
                 <antipattern>
@@ -23722,7 +23733,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">publica|publiques</token>
-                    <token min="0" postag="RN|_cometes_obertura" postag_regexp="yes"/>
+                    <token min="0" postag="RN|_QM_OPEN" postag_regexp="yes"/>
                     <token postag="V.G.*|RG|UNKNOWN" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
@@ -25225,13 +25236,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token regexp="yes">sentit|significat|derivat</token>
                 <token>de</token>
-                <token postag="_cometes_obertura"/>
+                <token postag="_QM_OPEN"/>
             </antipattern>
             <antipattern>
                 <token>en</token>
                 <token regexp="yes">comptes?|lloc</token>
                 <token>de</token>
-                <token postag="_cometes_obertura"/>
+                <token postag="_QM_OPEN"/>
             </antipattern>
             <antipattern>
                 <marker>
@@ -25264,7 +25275,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>de</token>
-                    <token postag="_cometes_obertura" min="0"/>
+                    <token postag="_QM_OPEN" min="0"/>
                     <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|hosts?|ouija|el|els|&noms_lletres;|iure|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;|oro</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|V.[MSI].*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
@@ -25286,7 +25297,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>el<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
-                    <token postag="_cometes_obertura" min="0"/>
+                    <token postag="_QM_OPEN" min="0"/>
                     <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|o|i|host|ió|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception inflected="yes" regexp="yes">&verbs_no_apostrofen;</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
@@ -25328,7 +25339,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>de</token>
                         <token spacebefore="no">l</token>
-                        <token postag="_cometes_obertura" min="0"/>
+                        <token postag="_QM_OPEN" min="0"/>
                         <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -25348,7 +25359,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>a</token>
                     <token spacebefore="no">l</token>
-                    <token postag="_cometes_obertura" min="0"/>
+                    <token postag="_QM_OPEN" min="0"/>
                     <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
@@ -25364,7 +25375,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>pe</token>
                     <token spacebefore="no">l</token>
-                    <token postag="_cometes_obertura" min="0"/>
+                    <token postag="_QM_OPEN" min="0"/>
                     <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
@@ -25691,7 +25702,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>l'</token>
-                    <token postag="_cometes_obertura" min="0"/>
+                    <token postag="_QM_OPEN" min="0"/>
                     <token postag="N.F.*|A..F.*|_GN_F." postag_regexp="yes" regexp="yes">h?[ui].+|host|ouija<exception regexp="yes">&mots_femenins_apostrofen;</exception><exception postag="_GN_M.*|_GV_" postag_regexp="yes"/></token>
                 </pattern>
                 <message>No s'apostrofa.</message>
@@ -25716,7 +25727,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token>l'</token>
-                        <token postag="_cometes_obertura" min="0"/>
+                        <token postag="_QM_OPEN" min="0"/>
                         <and>
                             <token postag="_GN_FS" regexp="yes">h?[ui].+|host|ouija<exception regexp="yes">&mots_femenins_apostrofen;</exception></token>
                             <token postag="_GN_MS"/>
@@ -25755,7 +25766,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token>la<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
-                    <token postag="_cometes_obertura" min="0"/>
+                    <token postag="_QM_OPEN" min="0"/>
                     <token regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+([aeiou]s?|[ei]n)|urbs|URSS|UJI|11a<exception regexp="yes">ouija|host|ira|inxa|[aeiou]|efa|hac|ela|ema|en|ena|ene|er|erra|erre|essa|una|&mots_HAC_ASPIRADA;</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/><exception regexp="yes" case_sensitive="yes">Haia|UdA|HAIA</exception></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
@@ -28698,7 +28709,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token>se</token>
-                    <token postag="_cometes_obertura"/>
+                    <token postag="_QM_OPEN"/>
                     <token postag="V...3S.*" postag_regexp="yes"/>
                 </marker>
             </antipattern>
@@ -28778,7 +28789,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <marker>
                         <token>us</token>
-                        <token min="0" postag="_cometes_obertura"/>
+                        <token min="0" postag="_QM_OPEN"/>
                         <token postag="V.[IS].*" postag_regexp="yes"/>
                     </marker>
                 </antipattern>
@@ -31185,14 +31196,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token postag="&pronom_feble;" postag_regexp="yes"/>
-                    <token min="0" postag="_cometes_obertura"/>
+                    <token min="0" postag="_QM_OPEN"/>
                     <token postag="V.[SI].*" postag_regexp="yes"/>
                 </marker>
             </antipattern>
             <antipattern>
                 <marker>
                     <token postag="&pronom_feble;" postag_regexp="yes"/>
-                    <token min="0" postag="_cometes_obertura"/>
+                    <token min="0" postag="_QM_OPEN"/>
                     <token regexp="yes">dona|dones</token>
                 </marker>
             </antipattern>
@@ -43398,7 +43409,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"><exception postag="_cometes_obertura"/></token>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"><exception postag="_QM_OPEN"/></token>
                     <marker>
                         <token>com</token>
                         <token postag="VMS.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">poder|voler|arpegi|preferir|estimar</exception><exception postag="V.I.*|_possible_nompropi" postag_regexp="yes"/></token>
@@ -43421,7 +43432,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="_PUNCT.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"><exception postag="_cometes_obertura"/></token>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"><exception postag="_QM_OPEN"/></token>
                     <marker>
                         <token skip="4">com<exception postag="RN|PP.*|P0.*|V.*|SENT_END|PARA_END|DA.*|_GV_|_reflexiu|_perfet|_es_.*" scope="next" postag_regexp="yes" negate_pos="yes"/></token>
                         <token postag="VMS.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">poder|voler|arpegi|preferir|estimar</exception><exception postag="V.I.*|_possible_nompropi" postag_regexp="yes"/></token>
@@ -54944,7 +54955,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <marker>
-                    <token>el<exception scope="previous" regexp="yes">sinó|que|i|o|ni|en|com</exception><exception scope="previous" postag="V.[MSI].*|_cometes_obertura" postag_regexp="yes"/></token>
+                    <token>el<exception scope="previous" regexp="yes">sinó|que|i|o|ni|en|com</exception><exception scope="previous" postag="V.[MSI].*|_QM_OPEN" postag_regexp="yes"/></token>
                     <token>que</token>
                 </marker>
                 <token min="0" regexp="yes">em|m'|et|t'|li|ens|us|vos|els</token>
@@ -61586,9 +61597,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="JA_QUE" name="'ja que' va precedit de coma">
             <pattern>
                 <token><exception postag="SENT_START"/></token>
-                <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception><exception regexp="yes" spacebefore="yes">[—–-]</exception><exception postag="_cometes_obertura"/></token>
+                <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception><exception regexp="yes" spacebefore="yes">[—–-]</exception><exception postag="_QM_OPEN"/></token>
                 <marker>
-                    <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception><exception regexp="yes" spacebefore="yes">[—–-]</exception><exception postag="_cometes_obertura"/></token>
+                    <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception><exception regexp="yes" spacebefore="yes">[—–-]</exception><exception postag="_QM_OPEN"/></token>
                     <token>ja</token>
                     <token>que</token>
                 </marker>
@@ -64785,12 +64796,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token inflected="yes">anar</token>
                 <token postag="P.*" postag_regexp="yes" spacebefore="no" max="2"/>
-                <token postag="RG|LOC_ADV|_cometes_obertura" postag_regexp="yes" min="0" max="4"/>
+                <token postag="RG|LOC_ADV|_QM_OPEN" postag_regexp="yes" min="0" max="4"/>
                 <token postag="V.G.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token inflected="yes" regexp="yes">anar|venir</token>
-                <token postag="RG|LOC_ADV|_cometes_obertura" postag_regexp="yes" min="0" max="4"/>
+                <token postag="RG|LOC_ADV|_QM_OPEN" postag_regexp="yes" min="0" max="4"/>
                 <token postag="V.G.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
