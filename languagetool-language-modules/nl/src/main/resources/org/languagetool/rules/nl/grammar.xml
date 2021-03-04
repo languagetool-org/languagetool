@@ -9279,9 +9279,18 @@ onwaarschijnlijk
 	</category>
 	<category id="COMPOUNDING" name="Aaneen of los">
 		<!-- samenstellingen die vaak los worden geschreven staan in compounds.txt -->
-
-
 		
+		<rulegroup id="SAMENSTELLING_EIGENNAAM" name="eBay ding / eBayding" default="temp_off">
+			<rule>
+				<pattern>
+					<token postag_regexp="yes" postag="ENM:ORG"/>
+					<token postag_regexp="yes" postag="ZNW.*"/>
+				</pattern>
+				<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2"/>
+				<message>Samenstellingne met een eigennaam worden aaneengeschreven.</message>
+				<example correction="eBayobject">Het is een <marker>eBay object</marker>.</example>
+			</rule>			
+		</rulegroup>
 		<rulegroup id="VEELMEER" name="veelmeer / veel meer">
 			<rule>
 				<pattern>
