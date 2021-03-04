@@ -9279,7 +9279,18 @@ onwaarschijnlijk
 	</category>
 	<category id="COMPOUNDING" name="Aaneen of los">
 		<!-- samenstellingen die vaak los worden geschreven staan in compounds.txt -->
-
+		
+		<rulegroup id="SAMENSTELLING_EIGENNAAM" name="eBay ding / eBayding" default="temp_off">
+			<rule>
+				<pattern>
+					<token postag_regexp="yes" postag="ENM:ORG"/>
+					<token postag_regexp="yes" postag="ZNW.*"/>
+				</pattern>
+				<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2"/>
+				<message>Samenstellingne met een eigennaam worden aaneengeschreven.</message>
+				<example correction="eBayobject">Het is een <marker>eBay object</marker>.</example>
+			</rule>			
+		</rulegroup>
 		<rulegroup id="VEELMEER" name="veelmeer / veel meer">
 			<rule>
 				<pattern>
@@ -9347,19 +9358,27 @@ onwaarschijnlijk
 				<example correction="alles-in-een-aanpak">Ze kozen voor een <marker>alles in een aanpak</marker>.</example>
 			</rule>			
 		</rulegroup>
-		<rulegroup id="DOE_HET_ZELF_ZAAK" name="Doe het zelf / doe-het-zelf" >
+		<rulegroup id="DOE_HET_ZELF_ZAAK" name="doe het zelf zaak/doe-het-zelf-zaak">
 			<rule>
 				<pattern>
-					<marker>
-						<token>doe</token>
-						<token>het</token>
-						<token>zelf</token>
-						<token postag_regexp="yes" postag="ZNW.*"/>
-					</marker>
+					<token>doe</token>
+					<token>het</token>
+					<token>zelf</token>
+					<token postag_regexp="yes" postag="ZNW.*"><exception regexp="yes">niet|wel</exception></token>
 				</pattern>
-				<message>Woorden die eigenlijk een zinnetje zijn, voorzie je van koppeltekens.</message>
+				<message>Bij 'minizinnen' worden de woorden gecombineerd met een koppelteken.</message>
 				<suggestion>\1-\2-\3\4</suggestion>
-				<example correction="doe-het-zelfzaak">Het staat in de <marker>doe het zelf zaak</marker>.</example>
+				<example correction="doe-het-zelfzaak">Ik mag de <marker>doe het zelf zaak</marker> niet meer in.</example>
+			</rule>			
+			<rule>
+				<pattern>
+					<token>doe</token>
+					<token>het</token>
+					<token regexp="yes">zelf..+</token>
+				</pattern>
+				<message>Bij 'minizinnen' worden de woorden gecombineerd met een koppelteken.</message>
+				<suggestion>\1-\2-\3</suggestion>
+				<example correction="doe-het-zelfzaak">Ik mag de <marker>doe het zelfzaak</marker> niet meer in.</example>
 			</rule>			
 		</rulegroup>
 		<rulegroup id="DE_WKW_DE" name="De benauwen de" >
@@ -9393,7 +9412,8 @@ onwaarschijnlijk
 				<suggestion>de <match no="2" regexp_match="en$" regexp_replace="ingen"/></suggestion>
 				<suggestion>te \2</suggestion>
 				<suggestion>de <match no="2" regexp_match="en$" regexp_replace="er"/></suggestion>
-				<example correction="het doorverbinden|de ___ doorverbinden|de doorverbinding|de doorverbindingen|te doorverbinden|de doorverbinder">En <marker>de doorverbinden</marker> doet u zo.</example>
+				<suggestion>de <match no="2" regexp_match="en$" regexp_replace="ende"/></suggestion>
+				<example correction="het doorverbinden|de ___ doorverbinden|de doorverbinding|de doorverbindingen|te doorverbinden|de doorverbinder|de doorverbindende">En <marker>de doorverbinden</marker> doet u zo.</example>
 			</rule>			
 		</rulegroup>
 		<rulegroup id="DE_LELIJKS_TE" name="De lelijks te/de lelijkste" >

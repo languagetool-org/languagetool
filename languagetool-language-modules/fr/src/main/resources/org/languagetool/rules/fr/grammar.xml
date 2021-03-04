@@ -37669,6 +37669,265 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rulegroup id="CONFUSION_ORTHOGRAPHIQUE" name="confusion orthographique" default="temp_off">
+          <rule>
+              <pattern>
+                  <token>filigramme</token>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée car ce terme n'existe pas dans la langue française.</message>
+              <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)mme" regexp_replace="ne"/></suggestion>
+              <example correction="filigrane">Il me l'a fait comprendre en <marker>filigramme</marker>.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token regexp="yes">rassénér.*</token>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée car ce terme n'existe pas dans la langue française.</message>
+              <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)nér" regexp_replace="rén"/></suggestion>
+              <example correction="rasséréné">A cette bonne nouvelle, il s'est soudain <marker>rassénéré</marker>.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token regexp="yes">omnibul.*</token>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée car ce terme n'existe pas dans la langue française.</message>
+              <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)mnibul" regexp_replace="bnubil"/></suggestion>
+              <example correction="obnubiler">Elle va <marker>omnibuler</marker> son frère.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token regexp="yes">omnubil.*</token>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée car ce terme n'existe pas dans la langue française.</message>
+              <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)mnubil" regexp_replace="bnubil"/></suggestion>
+              <example correction="obnubiler">Elle va <marker>omnubiler</marker> sa fille.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token>«</token>
+                  <token>scénette</token>
+                  <token>»</token>
+              </antipattern>
+              <pattern>
+                  <token>scénette</token>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée car ce terme n'existe pas dans la langue française.</message>
+              <suggestion suppress_misspelled="yes"><match no="1" regexp_match="scénette" regexp_replace="saynète"/></suggestion>
+              <url>https://www.projet-voltaire.fr/regles-orthographe/scenette-ou-saynete/</url>
+              <example correction="saynète">Cette <marker>scénette</marker> est intéressante.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token skip="-1">jours</token>
+                  <marker>
+                      <token inflected="yes">bimestriel</token>
+                  </marker>
+              </pattern>
+              <message>Une erreur d’orthographe est possible dans ce contexte car '\2' se produit tous les deux mois.</message>
+              <suggestion><match no="2" regexp_match="bimestriel" regexp_replace="bimensuel"/></suggestion>
+              <example correction="bimensuel">Tous les quinze jours, je reçois mon magasine <marker>bimestriel</marker>.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token postag="UNKNOWN"/>
+                  <token inflected="yes">solutionner</token>
+              </antipattern>
+              <antipattern>
+                  <token>«</token>
+                  <token inflected="yes">solutionner</token>
+                  <token>»</token>
+              </antipattern>
+              <pattern>
+                  <token inflected="yes">solutionner</token>
+              </pattern>
+              <message>Ce terme peut être considéré comme familier. Souhaitez-vous écrire <suggestion><match no="1" regexp_match="solutionner" regexp_replace="résoudre"/></suggestion> employé dans le langage formel ?</message>
+              <example correction="résoudre">Il a réussi à <marker>solutionner</marker> le problème.</example>
+              <example>Il a réussi avec Galinette <marker>Solutionnée</marker> à résoudre le problème.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token skip="-1">maline</token>
+                  <token>maligne</token>
+              </antipattern>
+              <antipattern>
+                  <token skip="-1">maligne</token>
+                  <token>maline</token>
+              </antipattern>
+              <antipattern>
+                  <token postag="UNKNOWN"/>
+                  <token>maline</token>
+              </antipattern>
+              <antipattern>
+                  <token>maline</token>
+                  <token postag="UNKNOWN"/>
+              </antipattern>
+              <antipattern>
+                  <token postag="[DJ].*" postag_regexp="yes"/>
+                  <token>maline</token>
+              </antipattern>
+              <pattern>
+                  <token case_sensitive="yes">maline</token>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée car le féminin de l'adjectif 'malin' est '\1'.</message>
+              <suggestion suppress_misspelled="yes"><match no="2" regexp_match="maline" regexp_replace="maligne"/></suggestion>
+              <example correction="maligne">Ton idée n'est vraiment pas <marker>maline</marker> !</example>
+          </rule>
+      </rulegroup>
+      <rulegroup id="CONFUSION_DANS_UNE_EXPRESSION" name="confusion dans une expression" default="temp_off">
+          <rule>
+              <pattern>
+                  <marker>
+                      <token regexp="yes">(?-i)sans</token>
+                  </marker>
+                  <token>dessus</token>
+                  <token>dessous</token>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée.</message>
+              <suggestion suppress_misspelled="yes"><match no="1" regexp_match="a" regexp_replace="e"/></suggestion>
+              <example correction="sens">Il a mis sa chambre <marker>sans</marker> dessus dessous pour retrouver son sac.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>je</token>
+                  <token>vous</token>
+                  <marker>
+                      <token regexp="yes">serais?</token>
+                  </marker>
+                  <token>gré</token>
+              </pattern>
+              <message>Une confusion entre les verbes être et savoir semble être détectée.</message>
+              <suggestion suppress_misspelled="yes"><match no="3" regexp_match="serais?" regexp_replace="saurais"/></suggestion>
+              <example correction="saurais">Je vous <marker>serais</marker> gré de bien vouloir répondre à ce courrier.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token>de</token>
+                  <token>suite</token>
+                  <token regexp="yes">à|entières?</token>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes" skip="-1">pas|jamais|plus</token>
+                  <token>de</token>
+                  <token>suite</token>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes">toute?s?|ainsi|pas|jamais|plus|formes?|beaucoup|faute|défaites?|fois</token>
+                  <token>de</token>
+                  <token>suite</token>
+              </antipattern>
+              <pattern>
+                  <token postag="[VPA].*" postag_regexp="yes"/>
+                  <marker>
+                      <token>de</token>
+                      <token regexp="yes">(?-i)suite</token>
+                  </marker>
+              </pattern>
+              <message>Cette expression peut être considérée comme familière.</message>
+              <suggestion>tout \2 \3</suggestion>
+              <example correction="tout de suite">Je reviens <marker>de suite</marker>.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>d'</token>
+                  <marker>
+                      <token>attention</token>
+                  </marker>
+              </pattern>
+              <message>Une erreur d’orthographe semble être détectée.</message>
+              <suggestion>inattention</suggestion>
+              <example correction="inattention">Cette faute d'<marker>attention</marker> n'est pas permise.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token regexp="yes">(?-i)J'</token>
+                  <token>appuie</token>
+                  <token>sur</token>
+                  <token>la</token>
+                  <token>gâchette</token>
+              </antipattern>
+              <pattern>
+                  <token inflected="yes">appuyer</token>
+                  <token min="0" max="1">pas</token>
+                  <token>sur</token>
+                  <token>la</token>
+                  <marker>
+                      <token>gâchette</token>
+                  </marker>
+              </pattern>
+              <message>Cette expression familière est fautive.</message>
+              <suggestion>détente</suggestion>
+              <example correction="détente">Il a appuyé sur la <marker>gâchette</marker>.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>s'</token>
+                  <token inflected="yes">accaparer</token>
+              </pattern>
+              <message>Une erreur semble être détectée car '\2' n'est pas un verbe pronominal.</message>
+              <suggestion>\2</suggestion>
+              <example correction="accapare">Il <marker>s'accapare</marker> la victoire.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>s'</token>
+                  <token inflected="yes">empirer</token>
+              </pattern>
+              <message>Une erreur semble être détectée car '\2' n'est pas un verbe pronominal.</message>
+              <suggestion>\2</suggestion>
+              <example correction="empire">La situation <marker>s'empire</marker>.</example>
+          </rule>
+      </rulegroup>
+      <rule id="A_OU_EN_MOYEN_DE_TRANSPORT" name="a ou en moyen de transport" default="temp_off">
+          <antipattern>
+              <token>en</token>
+              <token regexp="yes">vélo|byciclette|moto|cheval|skis</token>
+              <token postag="Y"/>
+          </antipattern>
+          <antipattern>
+              <token>en</token>
+              <token regexp="yes">vélo|byciclette|moto|cheval|skis</token>
+              <token regexp="yes">(?-i)[A-Z].*</token>
+          </antipattern>
+          <antipattern>
+              <token>en</token>
+              <token regexp="yes">vélo|byciclette|moto|cheval|skis</token>
+              <token postag="J.*" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes" skip="-1">transformer|déguiser|métamorphoser|changer</token>
+              <token>en</token>
+              <token regexp="yes">vélo|byciclette|moto|cheval|skis</token>
+          </antipattern>
+          <antipattern>
+              <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">transformer|déguiser|métamorphoser|changer</token>
+              <token>en</token>
+              <token regexp="yes">vélo|byciclette|moto|cheval|skis</token>
+          </antipattern>
+          <antipattern>
+              <token>en</token>
+              <token regexp="yes">vélo|byciclette|moto|cheval|skis</token>
+              <token regexp="yes">de|d'|cross|neige|trial|freeride|freestyle|rando|racing</token>
+          </antipattern>
+          <antipattern>
+              <token>en</token>
+              <token regexp="yes">vélo|byciclette|moto|cheval|skis</token>
+              <token regexp="yes">tout|à</token>
+              <token regexp="yes">chemin|terrain|cailloux</token>
+          </antipattern>
+          <pattern>
+              <marker>
+                  <token>en</token>
+              </marker>
+              <token regexp="yes">vélo|byciclette|moto|cheval|skis</token>
+          </pattern>
+          <message>Une erreur de préposition semble être détectée car il s'agit d'un moyen de transport sur lequel on prend place.</message>
+          <suggestion>à</suggestion>
+          <example correction="à">C'est <marker>en</marker> moto que je l'ai vu.</example>
+          <example>C'est <marker>en</marker> moto GP que je l'ai vu.</example>
+          <example>C'est <marker>en</marker> moto cross je l'ai vu.</example>
+          <example>C'est transformé <marker>en</marker> vélo que tu vas finir !</example>
+          <example>C'est <marker>en</marker> skis courts que nous avons dévalé la pente.</example>
+      </rule>
       <rulegroup id="POSER_UNE_QUESTION" name="poser une question">
           <rule>
               <antipattern>

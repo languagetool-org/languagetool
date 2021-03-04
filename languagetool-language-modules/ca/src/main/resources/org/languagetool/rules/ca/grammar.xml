@@ -6029,6 +6029,66 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>Gàmbia no és gaire bonic</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AGREEMENT_SER_ADJ_PL" name="concordança: som conscients" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="V.[SIM]..P.." postag_regexp="yes" regexp="yes" inflected="yes">ser|estar|parèixer|semblar</token>
+                    <marker>
+                        <token postag="AQ..S.|V.P..S.." postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Possible falta de concordança.</message>
+                <suggestion suppress_misspelled="yes"><match no="2" postag="(AQ..|V.P..)S(.*)" postag_regexp="yes" postag_replace="$1P$2"></match></suggestion>
+                <example correction="conscients">Som <marker>conscient</marker> de la situació.</example>
+                <example correction="conscients">Siguem <marker>conscient</marker> de la situació.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.[SIM]..P.." postag_regexp="yes"/>
+                    <token min="0" regexp="yes">a|de|d'|que|en|per</token>
+                    <token postag="V.[NPG].*" postag_regexp="yes" regexp="yes" inflected="yes">ser|estar|parèixer|semblar</token>
+                    <token min="0" postag="&pronom_feble;" postag_regexp="yes" spacebefore="no"/>
+                    <marker>
+                        <token postag="AQ..S.|V.P..S.." postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Possible falta de concordança.</message>
+                <suggestion suppress_misspelled="yes"><match no="5" postag="(AQ..|V.P..)S(.*)" postag_regexp="yes" postag_replace="$1P$2"></match></suggestion>
+                <example correction="conscients">Hem de ser-ne <marker>conscient</marker>.</example>
+                <example correction="conscients">N'hem de ser <marker>conscient</marker>.</example>
+                <example correction="conscients">Acabaran per ser <marker>conscient</marker> de la situació.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AGREEMENT_SER_ADJ_SG" name="concordança: és conscient" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="V.[SIM]..S.." postag_regexp="yes" regexp="yes" inflected="yes">ser|estar|parèixer|semblar</token>
+                    <marker>
+                        <token postag="AQ..P.|V.P..P.." postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Possible falta de concordança.</message>
+                <suggestion suppress_misspelled="yes"><match no="2" postag="(AQ..|V.P..)P(.*)" postag_regexp="yes" postag_replace="$1S$2"></match></suggestion>
+                <example correction="conscient">Sóc <marker>conscients</marker> de la situació.</example>
+                <example correction="conscient">És <marker>conscients</marker> de la situació.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.[SIM]..S.." postag_regexp="yes"/>
+                    <token min="0" regexp="yes">a|de|d'|que|en|per</token>
+                    <token postag="V.[NPG].*" postag_regexp="yes" regexp="yes" inflected="yes">ser|estar|parèixer|semblar</token>
+                    <token min="0" postag="&pronom_feble;" postag_regexp="yes" spacebefore="no"/>
+                    <marker>
+                        <token postag="AQ..P.|V.P..P.." postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Possible falta de concordança.</message>
+                <suggestion suppress_misspelled="yes"><match no="5" postag="(AQ..|V.P..)P(.*)" postag_regexp="yes" postag_replace="$1S$2"></match></suggestion>
+                <example correction="conscient">Has de ser-ne <marker>conscients</marker>.</example>
+                <example correction="conscient">N'he de ser <marker>conscients</marker>.</example>
+                <example correction="conscient">Acabarà per ser <marker>conscients</marker> de la situació.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CONCORDANCES_PRONOM_VERB" name="Concordances pronom verb: nosaltres *penseu/pensem">
             <antipattern>
                 <token>hi</token>
@@ -34751,6 +34811,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="NP.*" postag_regexp="yes"/>
                 <token regexp="yes" inflected="yes" case_sensitive="yes">&carrecs;</token>
             </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>Observatori</token>
+                <token>Fiscal</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <and>
@@ -46404,6 +46468,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="RARE_WORDS" name="paraules molt infreqüents">
             <rule>
+                <pattern>
+                    <token>enant</token>
+                </pattern>
+                <message>Paraula antiga poc comuna. ¿Volíeu dir <suggestion>anant</suggestion>?</message>
+                <suggestion>abans</suggestion>
+                <suggestion>avant</suggestion>
+                <example correction="anant|abans|avant">Hem estat <marker>enant</marker> enrere.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>enans</token>
+                </pattern>
+                <message>Paraula antiga poc comuna. ¿Volíeu dir <suggestion>anant</suggestion>?</message>
+                <suggestion>abans</suggestion>
+                <suggestion>avant</suggestion>
+                <example correction="anant|abans|avant">Hem estat <marker>enans</marker> enrere.</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <token>amb</token>
                     <token min="0">molta</token>
@@ -48141,7 +48223,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" max="4" postag="RG|A.*|.*LOC_ADV.*" postag_regexp="yes"/>
                     <token inflected="yes">de</token>
                     <token min="0" max="2" postag="D.*|A.*" postag_regexp="yes"/>
-                    <token inflected="yes" regexp="yes">actuació|causa|cas|instrucció|investigació|querella|denúncia|diligència|expedient|procés|indagació<exception postag=".*LOC.*" postag_regexp="yes"/></token>
+                    <token inflected="yes" regexp="yes">queixa|actuació|causa|cas|instrucció|investigació|querella|denúncia|diligència|expedient|procés|indagació<exception postag=".*LOC.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>En el sentit de 'acció d'arxivar' cal dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">arxivament</match></suggestion>.</message>
                 <example correction="arxivament">Va demanar l'<marker>arxiu</marker> urgent de la causa.</example>
@@ -58331,6 +58413,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" inflected="yes">&parts_dia;|&unitats_temps;|cop|colp|vegada|volta|pic</token>
                 <token postag="V...3P.." postag_regexp="yes" inflected="yes" regexp="yes">ser|semblar|parèixer</token>
             </antipattern>
+            <antipattern>
+                <token>tots</token>
+                <token>els</token>
+                <token>matins</token>
+                <token>de</token>
+                <token>l</token>
+                <token>món</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">tots|totes</token>
                 <token regexp="yes">els|les</token>
@@ -61724,6 +61814,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>dones</token>
                 <token postag="NCFP000"/>
+            </antipattern>
+            <antipattern>
+                <token>mida</token>
+                <token>carnet</token>
             </antipattern>
             <rule>
                 <pattern>

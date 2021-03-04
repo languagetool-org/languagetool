@@ -709,6 +709,11 @@ public class CaseRule extends Rule {
       new PatternTokenBuilder().posRegex("EIG:.+|SUB:.+").csTokenRegex("[A-Z].+").build(),
       csRegex("[A-ZÄÜÖ].+"),
       csRegex("Gmb[Hh]|AG|KG|UG")
+    ),
+    Arrays.asList( // Klicke auf Home > Mehr > Team
+      csToken(">"),
+      csRegex("[A-ZÄÜÖ].+"),
+      csToken(">")
     )
   );
 
@@ -1041,6 +1046,9 @@ public class CaseRule extends Rule {
     "Hu", // name
     "Jenseits",
     "Abends",
+    "Alleinerziehende",
+    "Alleinerziehenden",
+    "Alleinerziehender",
     "Abgeordneter",
     "Abgeordnete",
     "Abgeordneten",

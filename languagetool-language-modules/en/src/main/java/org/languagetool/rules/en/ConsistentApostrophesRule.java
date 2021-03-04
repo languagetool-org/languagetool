@@ -62,25 +62,24 @@ public class ConsistentApostrophesRule extends TextLevelRule {
       return toRuleMatchArray(matches);
     }
     for (AnalyzedSentence sentence : sentences) {
-      AnalyzedTokenReadings prevToken = null;
       AnalyzedTokenReadings[] tokens = sentence.getTokens();
       for (AnalyzedTokenReadings token : tokens) {
         String message = null;
         String repl = null;
-        if (prevToken != null && prevToken.getToken().equals("'") && token.getToken().matches(contractionRegex)) {
-          message = "Use used a typewriter-style apostrophe here, but a typographic apostrophe elsewhere in this text.";
-          repl = "’";
-        } else if (prevToken != null && prevToken.getToken().equals("’") && token.getToken().matches(contractionRegex)) {
-          message = "Use used a typographic apostrophe here, but a typewriter-style apostrophe elsewhere in this text.";
-          repl = "'";
+        if (token != null && token.getToken().contains("'") && !token.hasTypographicApostrophe()) {
+          message = "You used a typewriter-style apostrophe here, but a typographic apostrophe elsewhere in this text.";
+          repl = token.getToken().replace("'", "’");
+        } else if (token != null && token.getToken().contains("'") && token.hasTypographicApostrophe()) {
+          message = "You used a typographic apostrophe here, but a typewriter-style apostrophe elsewhere in this text.";
+          repl = token.getToken();
         }
         if (message != null) {
-          RuleMatch match = new RuleMatch(this, sentence, pos + prevToken.getStartPos(), pos + prevToken.getEndPos(),
+          RuleMatch match = new RuleMatch(this, sentence, pos + token.getStartPos(), pos + token.getEndPos(),
                               message + " Both are correct, but consider using the same type everywhere in your text.");
           match.setSuggestedReplacement(repl);
           matches.add(match);
         }
-        prevToken = token;
+        
       }
       pos += sentence.getCorrectedTextLength();
     }
@@ -91,18 +90,16 @@ public class ConsistentApostrophesRule extends TextLevelRule {
     boolean hasTypewriterStyle = false;
     boolean hasTypographicStyle = false;
     for (AnalyzedSentence sentence : sentences) {
-      AnalyzedTokenReadings prevToken = null;
       AnalyzedTokenReadings[] tokens = sentence.getTokens();
       for (AnalyzedTokenReadings token : tokens) {
-        if (prevToken != null && prevToken.getToken().equals("'") && token.getToken().matches(contractionRegex)) {
+        if (token != null && token.getToken().contains("'") && !token.hasTypographicApostrophe()) {
           hasTypewriterStyle = true;
-        } else if (prevToken != null && prevToken.getToken().equals("’") && token.getToken().matches(contractionRegex)) {
+        } else if (token != null && token.getToken().contains("'") && token.hasTypographicApostrophe()) {
           hasTypographicStyle = true;
         }
         if (hasTypewriterStyle && hasTypographicStyle) {
           return true;
         }
-        prevToken = token;
       }
     }
     return false;

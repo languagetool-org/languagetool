@@ -224,6 +224,7 @@ public class LanguageToolMenus {
     private void setProfileItems() {
       currentProfile = config.getCurrentProfile();
       definedProfiles = config.getDefinedProfiles();
+      definedProfiles.sort(null);
       if (xProfileMenu != null) {
         xProfileMenu.removeItem((short)0, xProfileMenu.getItemCount());
         short nId = (short) (switchOffId + 21);

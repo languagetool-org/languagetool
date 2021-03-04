@@ -52,6 +52,7 @@ public class AgreementRule2 extends Rule {
     asList(csRegex("Überraschend"), posRegex("SUB:.*"), posRegex("VER:.*")),  // "Überraschend Besuch bekommt er dann von ..."
     asList(regex("Nachhaltig"), posRegex("SUB:NOM:.*"), pos("VER:INF:SFT")),  // 'nachhaltig Yoga praktizieren'
     asList(regex("\\d0er"), regex("Jahren?")),
+    asList(token("Schwäbisch"), token("Hall")),
     asList(token("Voller"), token("Mitleid")),
     asList(token("Smart"), token("Updates")),
     asList(token("Intelligent"), token("Design")),
