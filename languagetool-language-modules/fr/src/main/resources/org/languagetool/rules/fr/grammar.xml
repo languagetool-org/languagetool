@@ -424,7 +424,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 (the rule on "ajouter en plus"
 was already there before the category was created,
 though, and has since been slightly modified)-->
-    <rulegroup id="PLUS_MAUVAIS" name="plus mauvais" default="temp_off">
+    <rulegroup id="PLUS_MAUVAIS" name="plus mauvais">
       <rule>
         <pattern>
           <token postag="SENT_START" skip="-1">
@@ -470,14 +470,14 @@ though, and has since been slightly modified)-->
         <example correction="faible">C'est le plus <marker>mauvais</marker> score de ce jeu.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="PLUS_MIEUX" name="plus mieux" default="temp_off">
+    <rulegroup id="PLUS_MIEUX" name="plus mieux">
       <rule>
         <pattern>
           <token>plus</token>
           <token regexp="yes">mieux?
             <exception postag="J.*" postag_regexp="yes" scope="next"/></token>
         </pattern>
-        <message>« Plus mieux » est une collocation inadéquate. Voulez-vous écrire <suggestion>bien mieux</suggestion> ou <suggestion>meilleur</suggestion> ? </message>
+        <message>'Plus mieux' est une expression considérée comme fautive dans le langage formel. Voulez-vous écrire <suggestion>bien mieux</suggestion> ou <suggestion>meilleur</suggestion> ? </message>
         <example correction="bien mieux|meilleur">C'est <marker>plus mieux</marker> que ce j'ai fait.</example>
       </rule>
       <rule>
@@ -488,7 +488,7 @@ though, and has since been slightly modified)-->
           </marker>
           <token postag="J.*" postag_regexp="yes"/>
         </pattern>
-        <message>« Plus mieux » est une collocation inadéquate. Voulez-vous écrire <suggestion>mieux</suggestion> ?</message>
+        <message>'Plus mieux' est une collocation inadéquate. Voulez-vous écrire <suggestion>mieux</suggestion> ?</message>
         <example correction="mieux">Les sanctuaires les <marker>plus mieux</marker> classés.</example>
         <example correction="mieux">Les miss les <marker>plus mieux</marker> habillées.</example>
         <example correction="mieux">Son tableau le <marker>plus mieux</marker> connu.</example>
@@ -502,7 +502,7 @@ though, and has since been slightly modified)-->
             <token regexp="yes">mieux?</token>
           </marker>
         </pattern>
-        <message>« Plus mieux » est une collocation inadéquate. Voulez-vous écrire <suggestion>\1 meilleurs \2</suggestion> ?</message>
+        <message>'Plus mieux' est une collocation inadéquate. Voulez-vous écrire <suggestion>\1 meilleurs \2</suggestion> ?</message>
         <example correction="Les meilleurs sites"><marker>Les sites plus mieux</marker> de France.</example>
         <example correction="Les meilleurs enfants"><marker>Les enfants plus mieux</marker> du monde.</example>
       </rule>
@@ -10181,19 +10181,19 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
-      <rule id="ADJ_AVANT_OU_ARRIERE" name="adj avant ou arrière" default="temp_off">
+      <rule id="ADJ_AVANT_OU_ARRIERE" name="adj avant ou arrière">
           <pattern>
               <token postag="N.*" postag_regexp="yes"/>
               <marker>
                   <token regexp="yes">avants|arrières</token>
               </marker>
           </pattern>
-          <message>Quand l'adverbe \2 est employé en tant qu'adjectif, il reste invariable.</message>
+          <message>Quand l'adverbe '\2' est employé en tant qu'adjectif, il reste invariable.</message>
           <suggestion suppress_misspelled="yes"><match no="2" regexp_match="(?iu)s" regexp_replace=""/></suggestion>
           <url>https://www.projet-voltaire.fr/regles-orthographe/les-roues-arriere-ou-les-roues-arrieres/</url>
           <example correction="avant">Il regarde les roues <marker>avants</marker> de la voiture.</example>
       </rule>
-      <rulegroup id="AUX_PPA_INF" name="avoir/être suivi de deux INF ou PPA" default="temp_off">
+      <rulegroup id="AUX_PPA_INF" name="avoir/être suivi de deux INF ou PPA">
           <rule>
               <antipattern>
                   <token postag="R pers suj.*" postag_regexp="yes"/>
@@ -10430,7 +10430,7 @@ though, and has since been slightly modified)-->
               <example>Rocher des abeilles <marker>toute</marker> petite barre difficile d'accès.</example>
           </rule>
       </rulegroup>
-      <rulegroup id="IL_FAUT" name="Il faut" default="temp_off">
+      <rulegroup id="IL_FAUT" name="Il faut">
           <rule>
               <antipattern>
                   <token>faille</token>
@@ -10469,7 +10469,7 @@ though, and has since been slightly modified)-->
               <example correction="Il ne faut"><marker>Faut</marker> plus bouger.</example>
           </rule>
       </rulegroup>
-      <rule id="PLU_OU_PLUS" name="plu ou plus" default="temp_off">
+      <rule id="PLU_OU_PLUS" name="plu ou plus">
           <pattern>
               <token postag="V.*" postag_regexp="yes"><exception postag="V avoir.*|V etre.*" postag_regexp="yes"/></token>
               <marker>
@@ -10480,7 +10480,7 @@ though, and has since been slightly modified)-->
           <suggestion>plus</suggestion>
           <example correction="plus">Il faut qu'il fasse <marker>plu</marker> attention.</example>
       </rule>
-      <rule id="ELLES_VERBE_TOUTES" name="elles verbe toutes" default="temp_off">
+      <rule id="ELLES_VERBE_TOUTES" name="elles verbe toutes">
           <pattern>
               <token postag="R.* f p" postag_regexp="yes"/>
               <token postag="V.*" postag_regexp="yes"/>
@@ -10492,11 +10492,11 @@ though, and has since been slightly modified)-->
                   <exception regexp="yes">temps|droits|ans|jours|années</exception>
               </token>
           </pattern>
-          <message>Vérifiez l’accord entre les pronoms « \1 » et « \3 ».</message>
+          <message>Vérifiez l’accord entre les pronoms '\1' et '\3'.</message>
           <suggestion>toutes</suggestion>
           <example correction="toutes">Elles ont <marker>toute</marker> des poupées.</example>
       </rule>
-      <rulegroup id="TOUTES_OU_TOUS_V_PPA" name="toutes ou tous v ppa" default="temp_off">
+      <rulegroup id="TOUTES_OU_TOUS_V_PPA" name="toutes ou tous v ppa">
           <rule>
               <pattern>
                   <token postag="R.* pers.* suj.* 3 m p" postag_regexp="yes"/>
@@ -10508,7 +10508,7 @@ though, and has since been slightly modified)-->
                       <exception postag="V.* ppa.* m sp" postag_regexp="yes" regexp="yes">^[aeiou].*|&H_ASPIRE;</exception>
                       <exception>par</exception></token>
               </pattern>
-              <message>Vérifiez l’accord entre les pronoms « \1 » et « \3 ».</message>
+              <message>Vérifiez l’accord entre les pronoms '\1' et '\3'.</message>
               <suggestion>tous</suggestion>
               <example correction="tous">Ils seront <marker>toute</marker> pris.</example>
               <example correction="tous">Ils vont <marker>toutes</marker> en ville.</example>
@@ -10522,13 +10522,13 @@ though, and has since been slightly modified)-->
                   </marker>
                   <token postag="V.* ppa.*" postag_regexp="yes"><exception regexp="yes">^[aeiou].*|&H_ASPIRE;</exception></token>
               </pattern>
-              <message>Vérifiez l’accord entre les pronoms « \1 » et « \3 ».</message>
+              <message>Vérifiez l’accord entre les pronoms '\1' et '\3'.</message>
               <suggestion>toutes</suggestion>
               <example correction="toutes">Elles seront <marker>toute</marker> prises.</example>
               <example correction="toutes">Elles auront <marker>tous</marker> mangé de la tarte.</example>
           </rule>
       </rulegroup>
-      <rule id="QUELLE_OU_QU_ELLE" name="quelle ou qu'elle" default="temp_off">
+      <rule id="QUELLE_OU_QU_ELLE" name="quelle ou qu'elle">
           <pattern>
               <token postag="SENT_START"/>
               <marker>
@@ -10542,7 +10542,7 @@ though, and has since been slightly modified)-->
           <example correction="Quelle"><marker>Qu'elle</marker> est ta question ?</example>
           <example correction="Quelles"><marker>Qu'elles</marker> sont nos options ?</example>
       </rule>
-      <rulegroup id="QUELLE_OU_QUELLES_GROUPE_NOMINAL" name="quelle ou quelles groupe nominal" default="temp_off">
+      <rulegroup id="QUELLE_OU_QUELLES_GROUPE_NOMINAL" name="quelle ou quelles groupe nominal">
           <rule>
               <pattern>
                   <marker>
@@ -10571,7 +10571,7 @@ though, and has since been slightly modified)-->
               <example correction="quelles">Il m'a raconté <marker>qu'elles</marker> grandes aventures il souhaitait vivre.</example>
           </rule>
       </rulegroup>
-      <rule id="PLURIEL_AL" name="pluriel al" default="temp_off">
+      <rule id="PLURIEL_AL" name="pluriel al">
           <pattern>
               <marker>
                   <token regexp="yes" case_sensitive="yes">\p{L}.*als
@@ -10582,7 +10582,7 @@ though, and has since been slightly modified)-->
           <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)als" regexp_replace="aux"/></suggestion>
           <example correction="chevaux">Des <marker>chevals</marker> blancs.</example>
       </rule>
-      <rule id="QUELLES_OU_QU_ELLES" name="quelles ou qu'elles" default="temp_off">
+      <rule id="QUELLES_OU_QU_ELLES" name="quelles ou qu'elles">
           <pattern>
               <token postag="SENT_START"/>
               <marker>
@@ -10606,7 +10606,7 @@ though, and has since been slightly modified)-->
           <suggestion>tout</suggestion>
           <example correction="tout">Dis-moi si <marker>tous</marker> ce que tu dis est vrai.</example>
       </rule>
-      <rule id="ILS_VERBE_TOUS" name="ils verbe tous" default="temp_off">
+      <rule id="ILS_VERBE_TOUS" name="ils verbe tous">
           <pattern>
               <token postag="R.* m p" postag_regexp="yes"/>
               <token postag="V.*" postag_regexp="yes"/>
@@ -10616,7 +10616,7 @@ though, and has since been slightly modified)-->
               <token postag="D.* e p" postag_regexp="yes"><exception regexp="yes">leurs|deux|trois</exception></token>
               <token postag="N.*" postag_regexp="yes"/>
           </pattern>
-          <message>Vérifiez l’accord entre les pronoms « \1 » et « \3 ».</message>
+          <message>Vérifiez l’accord entre les pronoms '\1' et '\3'.</message>
           <suggestion>tous</suggestion>
           <example correction="tous">Ils ont <marker>tout</marker> des vestes.</example>
       </rule>
@@ -10631,7 +10631,7 @@ though, and has since been slightly modified)-->
                       <token>toute</token>
                   </marker>
               </pattern>
-              <message>Dans cette expression, \5 s'accorde implicitement avec "toutes les fois". </message>
+              <message>Dans cette expression, '\5' s'accorde implicitement avec 'toutes les fois'. </message>
               <suggestion>toutes</suggestion>
               <example correction="toutes">Il faudra que tu règles ce problème une bonne fois pour <marker>toute</marker>.</example>
           </rule>
@@ -10661,13 +10661,13 @@ though, and has since been slightly modified)-->
                   <token>à</token>
                   <token regexp="yes">fait|coup</token>
               </pattern>
-              <message>Dans cette expression, "tout" est invariable.</message>
+              <message>Dans cette expression, 'tout' est invariable.</message>
               <suggestion>tout</suggestion>
               <example correction="tout">Il rentrait et <marker>toute</marker> à coup l'orage éclata.</example>
               <example correction="tout">C'est <marker>toute</marker> à fait mon domaine.</example>
           </rule>
       </rulegroup>
-    <rule id="LA_OU_LES_PLUS" name="la ou les plus" default="temp_off">
+    <rule id="LA_OU_LES_PLUS" name="la ou les plus">
       <pattern>
         <token postag="V.*" postag_regexp="yes"/>
         <marker>
@@ -10691,7 +10691,7 @@ though, and has since been slightly modified)-->
         <token>de</token>
         <token postag="N.*" postag_regexp="yes"/>
       </pattern>
-      <message>Dans l'expression le \2 \3, l'article est toujours <suggestion>le</suggestion>.</message>
+      <message>Dans l'expression 'le \2 \3', l'article est toujours <suggestion>le</suggestion>.</message>
       <example correction="le">C'est ici qu'il y a <marker>la</marker> plus de chance de gagner.</example>
       <example correction="le">C'est ici qu'il y a <marker>les</marker> moins de voitures.</example>
     </rule>
@@ -37821,7 +37821,7 @@ though, and has since been slightly modified)-->
               <example>Ils l'<marker>on mis où ?</marker></example>
           </rule>
       </rulegroup>
-      <rulegroup id="IL_Y_A" name="il y a" default="temp_off">
+      <rulegroup id="IL_Y_A" name="il y a">
           <rule>
               <antipattern>
                   <token>y</token>
@@ -37935,7 +37935,7 @@ though, and has since been slightly modified)-->
               <example correction="il n'y a">Selon lui, <marker>il y a</marker> pas de problème.</example>
           </rule>
       </rulegroup>
-      <rulegroup id="C_EST_QUOI" name="c'est quoi" default="temp_off">
+      <rulegroup id="C_EST_QUOI" name="c'est quoi">
           <rule>
               <pattern>
                   <marker>
@@ -38082,7 +38082,7 @@ though, and has since been slightly modified)-->
               <example correction="afin d'|pour ">...des crampons, du piolet, de la corde, etc ... <marker>histoire d'</marker>être autonome.</example>
           </rule>
       </rulegroup>
-    <rulegroup id="ARGOT_BEAUF_ET_BOF" name="argot beauf et bof" default="temp_off">
+    <rulegroup id="ARGOT_BEAUF_ET_BOF" name="argot beauf et bof">
         <rule>
             <antipattern>
                 <token regexp="yes">un|mon|quel|[cl]e|[da]u</token>
@@ -38116,7 +38116,7 @@ though, and has since been slightly modified)-->
         <example correction="une personne obtuse">Si tu veux tout savoir, c'est <marker>un beauf</marker> !</example>
         </rule>
     </rulegroup>
-    <rule id="IN_EXTREMISTE" name="In extremiste" default="temp_off">
+    <rule id="IN_EXTREMISTE" name="In extremiste">
       <pattern>
           <token>in</token>
           <marker>
@@ -38169,7 +38169,7 @@ though, and has since been slightly modified)-->
           <example correction="risque">Il <marker>a des chances</marker> d'échouer à son examen.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="JE_M_EXCUSE " name="Je m’excuse" type="style">
+    <rulegroup id="JE_M_EXCUSE" name="Je m’excuse" type="style">
       <rule>
           <pattern>
               <token postag="SENT_START|M nonfin" postag_regexp="yes"/>
@@ -38199,7 +38199,7 @@ though, and has since been slightly modified)-->
           <example correction="excuse-moi">Je ne voulais pas te déranger, <marker>je m'excuse</marker>.</example>
       </rule>
     </rulegroup>
-    <rule id="CA_VA_MAL_SE_FINIR" name="ça va mal se finir" default="temp_off">
+    <rule id="CA_VA_MAL_SE_FINIR" name="ça va mal se finir">
       <pattern>
         <token>ça</token>
         <token>va</token>
@@ -38215,7 +38215,7 @@ though, and has since been slightly modified)-->
       <example correction="finir">Je pense que ça va très mal <marker>se finir</marker>.</example>
       <example correction="finir">Je pense que ça va mal <marker>se finir</marker>.</example>
     </rule>
-    <rule id="LE_COVID" name="la Covid et le Covid" type="style" tags="picky" default="temp_off">
+    <rule id="LE_COVID" name="la Covid et le Covid" type="style">
       <pattern>
         <token postag="(P\+)?D m s" postag_regexp="yes"/>
         <token regexp="yes">covid(-19)?</token>
@@ -38228,7 +38228,7 @@ though, and has since been slightly modified)-->
       <example correction="de la Covid">Les répercussions économiques <marker>du Covid</marker> ne se sauront pas avant 2022.</example>
       <example correction="à la COVID">Les dommages humains et économiques dus <marker>au COVID</marker> sont considérables.</example>
     </rule>
-    <rule id="ALTERNATIVE_OU_POSSIBILITE" name="alternative ou possibilité" default="temp_off">
+    <rule id="ALTERNATIVE_OU_POSSIBILITE" name="alternative ou possibilité">
       <pattern>
         <token regexp="yes">autre|deux</token>
         <marker>
