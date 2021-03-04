@@ -6104,17 +6104,67 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token spacebefore="no">'s</token>
                 <token postag="JJ"><exception>own</exception></token>
             </antipattern>
+            <antipattern> <!-- #4542 my hair's messed up [hair is] / you mother's brought [mother has] -->
+                <token postag="PRP$"/>
+                <token postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token spacebefore="no">'s</token>
+                <token postag="VBN"/>
+            </antipattern>
+            <antipattern> <!-- #4542 John's had to -->
+                <token postag_regexp="yes" postag="NN(P|:UN?)?"/>
+                <token spacebefore="no">'s</token>
+                <token>had</token>
+                <token>to</token>
+            </antipattern>
+            <antipattern> <!-- #4542 engineer's broken the -->
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token spacebefore="no">'s</token>
+                <token postag="VBN"/>
+                <token postag="DT"/>
+            </antipattern>
+            <antipattern> <!-- #4542 computer's broken is -->
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token spacebefore="no">'s</token>
+                <token postag="VBN"/>
+                <token regexp="yes">is|was|are|were</token>
+            </antipattern>
+            <antipattern> <!-- #4542 Incorrect grammar: consists of one's designated as -->
+                <token chunk_re="[BIE]-VP" postag_regexp="yes" postag="VB.*"/>
+                <token>of</token>
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token spacebefore="no">'s</token>
+                <token postag="VBN"/>
+                <token postag="IN"/>
+            </antipattern>
             <pattern>
                 <token postag_regexp="yes" postag="NN.*"/>
                 <marker>
                     <token spacebefore="no">'s<exception inflected="yes">have</exception></token>
                 </marker>
+                <token>
+                    <exception postag="IN"/><!-- Not: Bill's unusually large and expensive house. -->
+                    </token>
             </pattern>
             <disambig action="replace"><wd lemma="'s" pos="POS"/></disambig>
             <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s['s/POS]">This is Bill<marker>'s</marker> house.</example>
+            <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s['s/POS]">This is Bill<marker>'s</marker> unusually large and expensive house.</example>
+            <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s['s/POS]">It is dominated by the center-left People<marker>'s</marker> United Party.</example>
+            <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s['s/POS]">Anyone on a Major League team<marker>'s</marker> forty man roster.</example>
+            <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s['s/POS]">This sequence consists of one<marker>'s</marker> designated code followed by the daily one-time code.</example>
             <example type="untouched">Let's go!</example>
-        <example type="untouched">Other CFD's charge a higher fee.</example><!-- #2845 -->
-        <example type="untouched">Although larger company's charge a higher fee, we...</example><!-- #2845 -->
+            <example type="untouched">Other CFD's charge a higher fee.</example><!-- #2845 -->
+            <example type="untouched">Although larger company's charge a higher fee, we...</example><!-- #2845 -->
+            <example type="untouched">I'm sure her car's in the garage.</example><!-- #4542 -->
+            <example type="untouched">My hair's messed up this morning.</example><!-- #4542 -->
+            <example type="untouched">Your mother's brought each of you something.</example><!-- #4542 -->
+            <example type="untouched">I think her car's seen better days.</example><!-- #4542 -->
+            <example type="untouched">Because of the complexity, John's had to work carefully.</example><!-- #4542 -->
+            <example type="untouched">Because of the deadline, the engineer's had to work overtime.</example><!-- #4542 -->
+            <example type="untouched">Because of the deadline, the engineer's had to (unfortunately) work overtime.</example><!-- #4542 -->
+            <example type="untouched">The useless engineer's broken the machine again!</example><!-- #4542 -->
+            <example type="untouched">The reason I think the computer's broken is that the little red light is flashing.</example><!-- #4542 -->
+            <example type="untouched"><!-- Incorrect grammar -->The sequence consists of one's designated as TRUE and...</example><!-- #4542 -->
+<!--             <example type="untouched">7 reasons why <marker>teacher's</marker> found us top class</example>#4542 This sentence is ambiguous. Possibly incorrect apostrophe, but possibly = ... why teacher [zero-article job role] has found ... -->
         </rule>
         <rule> <!--  add to Texas' or Armenians' -->
             <pattern>
