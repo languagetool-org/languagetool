@@ -22266,7 +22266,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>sobre</suggestion>?</message>
-                <short>Possible confusió</short>
                 <example correction="sobre">Em va mirar per <marker>sobra</marker>.</example>
                 <example>Ho vaig mirar per sobre.</example>
             </rule>
@@ -22277,12 +22276,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="_GN_.*" postag_regexp="yes"/>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>sobre</suggestion>?</message>
-                <short>Possible confusió</short>
+                <message>¿Volíeu dir <suggestion>sobre</suggestion> (preposició)?</message>
                 <example correction="sobre">Que estigués <marker>sobra</marker> la cintura.</example>
                 <example correction="sobre">És <marker>sobra</marker> la mentida.</example>
                 <example>Aquí sobra la mentida.</example>
                 <example>Com si no sabés de sobra aquella història.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token><exception postag="&pronom_feble;" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>sobra<exception scope="previous">de</exception></token>
+                    </marker>
+                    <token postag="P[DI].*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>sobre</suggestion> (preposició)?</message>
+                <example correction="Sobre"><marker>Sobra</marker> això no podem fer res.</example>
+                <example>Li sobra això.</example>
+                <example>Ens sobra tot això.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DARRERA" name="darrera/darrere">
