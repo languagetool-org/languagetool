@@ -14153,4 +14153,27 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="remove" postag="DT"/>
     </rule>
+
+    <rule id="DOES_REMOVE_NNS" name="remove 'NNS' from 'does'">
+        <pattern>
+            <token>how</token>
+            <token>much</token>
+            <marker>
+                <token>does</token>
+            </marker>
+            <token postag="PRP|NNP|UNKNOWN|NN:UN?" postag_regexp="yes" />
+            <token postag="VB" />
+        </pattern>
+        <disambig action="remove" postag="NNS"/>
+    </rule>
+
+    <rule id="HIS_REMOVE_NNS" name="remove 'NNS' from 'his'">
+        <pattern>
+            <marker>
+                <token chunk_re="B-NP.*">his</token>
+            </marker>
+            <token chunk_re="[EI]-NP.*" postag="JJ.*|CD|NN.*" postag_regexp="yes" />
+        </pattern>
+        <disambig action="remove" postag="NNS"/>
+    </rule>
 </rules>
