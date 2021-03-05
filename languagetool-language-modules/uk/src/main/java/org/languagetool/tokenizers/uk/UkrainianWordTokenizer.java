@@ -39,7 +39,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final String SPLIT_CHARS =
             "!{2,3}|\\?{2,3}|\\.{3}|[!?][!?.]{1,2}"
             + "|[\u0020\u00A0\\n\\r\\t"
-            + ",.;!?:()\\[\\]{}<>/|\\\\…=¿¡]"
+            + ",.;!?\u2014:()\\[\\]{}<>/|\\\\…=¿¡]"
             + "|(?<!\uE109)[\"«»„”“]"                       // quotes have special cases
             + "|[\u2000-\u200F"
             + "\u201A\u2020-\u202F\u2030\u2031\u2033-\u206F"
@@ -73,6 +73,12 @@ public class UkrainianWordTokenizer implements Tokenizer {
   // space between digits
   private static final Pattern DECIMAL_SPACE_PATTERN = Pattern.compile("(?<=^|[\\h\\v(])\\d{1,3}([\\h][\\d]{3})+(?=[\\h\\v(]|$)", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
+  // numbers with n-dash
+  private static final Pattern DASH_NUMBERS_PATTERN = Pattern.compile("([IVXІХ]+)([\u2013-])([IVXІХ]+)");
+  private static final String DASH_NUMBERS_REPL = "$1" + BREAKING_PLACEHOLDER + "$2" + BREAKING_PLACEHOLDER + "$3";
+  private static final Pattern N_DASH_SPACE_PATTERN = Pattern.compile("([а-яіїєґa-z0-9])(\u2013\\h)(?!(та|чи|і|й)[\\h\\v])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern N_DASH_SPACE_PATTERN2 = Pattern.compile("([\\h.,;!?]\u2013)([а-яіїєґa-z])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final String N_DASH_SPACE_REPL = "$1" + BREAKING_PLACEHOLDER + "$2";
 
   // dots in numbers
   private static final Pattern DOTTED_NUMBERS_PATTERN = Pattern.compile("([\\d])\\.([\\d])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
@@ -87,7 +93,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final String DATE_PATTERN_REPL = "$1" + NON_BREAKING_DOT_SUBST + "$2" + NON_BREAKING_DOT_SUBST + "$3";
 
   // braces in words
-  private static final Pattern BRACE_IN_WORD_PATTERN = Pattern.compile("([а-яіїєґ'])\\(([а-яіїєґ']+)\\)", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern BRACE_IN_WORD_PATTERN = Pattern.compile("([а-яіїєґ])\\(([а-яіїєґ']+)\\)", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   // abbreviation dot
   private static final Pattern ABBR_DOT_VO_PATTERN1 = Pattern.compile("([вВу])\\.([\\h\\v]*о)\\.");
@@ -247,6 +253,15 @@ public class UkrainianWordTokenizer implements Tokenizer {
       text = text.replaceAll("\u2014([\\h\\v])", BREAKING_PLACEHOLDER + "\u2014$1");
     }
 
+    boolean nDashPresent = text.indexOf('\u2013') != -1;
+    if( text.indexOf('-') != -1 || nDashPresent ) {
+      text = DASH_NUMBERS_PATTERN.matcher(text).replaceAll(DASH_NUMBERS_REPL);
+      if( nDashPresent ) {
+        text = N_DASH_SPACE_PATTERN.matcher(text).replaceAll(N_DASH_SPACE_REPL);
+        text = N_DASH_SPACE_PATTERN2.matcher(text).replaceAll(N_DASH_SPACE_REPL);
+      }
+    }
+
     if( text.indexOf("с/г") != -1 ) {
       text = text.replaceAll("с/г", "с" +NON_BREAKING_SLASH_SUBST + "г");
     }
@@ -352,6 +367,10 @@ public class UkrainianWordTokenizer implements Tokenizer {
       text = APOSTROPHE_END_PATTER.matcher(text).replaceAll("$1" + BREAKING_PLACEHOLDER + "'$2");
     }
 
+    if( text.contains("+") ) {
+      text = text.replaceAll("\\+(?=[а-яіїєґА-ЯІЇЄҐ])", BREAKING_PLACEHOLDER + "+" + BREAKING_PLACEHOLDER);
+    }
+    
     text = NUMBER_MISSING_SPACE.matcher(text).replaceAll("$1" + BREAKING_PLACEHOLDER + "$2");
     return text;
   }

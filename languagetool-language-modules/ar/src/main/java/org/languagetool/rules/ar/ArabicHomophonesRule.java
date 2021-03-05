@@ -73,7 +73,7 @@ public class ArabicHomophonesRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getSuggestion() {
+  public String getMessage() {
     return "قل $suggestions";
   }
 

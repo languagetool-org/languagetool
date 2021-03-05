@@ -239,8 +239,8 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.contains("This is a test.\n\n" +
-        "This is a test of language tool.\n\n" +
-        "This is a test of language tool.")); // \r\n in Windows tests at the end...
+        "This is a test of LanguageTool.\n\n" +
+        "This is a test of LanguageTool.")); // \r\n in Windows tests at the end...
   }
 
   @Test

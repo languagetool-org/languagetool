@@ -18,6 +18,8 @@
  */
 package org.languagetool.tagging.de;
 
+import com.google.common.base.Suppliers;
+import gnu.trove.THashMap;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
@@ -25,13 +27,18 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.spelling.CachingWordListLoader;
+import org.languagetool.synthesis.GermanSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
-import org.languagetool.tagging.*;
+import org.languagetool.tagging.BaseTagger;
+import org.languagetool.tagging.CombiningTagger;
+import org.languagetool.tagging.ManualTagger;
+import org.languagetool.tagging.TaggedWord;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Supplier;
 
 /**
  * German part-of-speech tagger, requires data file in <code>de/german.dict</code> in the classpath.
@@ -41,8 +48,6 @@ import java.util.*;
  * @author Marcin Milkowski, Daniel Naber
  */
 public class GermanTagger extends BaseTagger {
-
-  private static final Synthesizer synthesizer = new GermanyGerman().getSynthesizer();
 
   private static final List<String> allAdjGruTags = new ArrayList<>();
   static {
@@ -79,17 +84,19 @@ public class GermanTagger extends BaseTagger {
   }
 
   private final ManualTagger removalTagger;
-  private final Map<String, PrefixInfixVerb> verbInfos = new HashMap<>();
+  private static final Supplier<Map<String, PrefixInfixVerb>> verbInfos = Suppliers.memoize(GermanTagger::initVerbInfos);
 
   private GermanCompoundTokenizer compoundTokenizer;
 
   public GermanTagger() {
     super("/de/german.dict", Locale.GERMAN);
     removalTagger = (ManualTagger) ((CombiningTagger) getWordTagger()).getRemovalTagger();
-    initVerbInfos();
   }
 
-  private void initVerbInfos() {
+  private static Map<String, PrefixInfixVerb> initVerbInfos() {
+    Synthesizer synthesizer = new GermanSynthesizer(new GermanyGerman());
+
+    Map<String, PrefixInfixVerb> verbInfos = new THashMap<>();
     List<String> spellingWords = new CachingWordListLoader().loadWords("de/hunspell/spelling.txt");
     for (String line : spellingWords) {
       if (!line.contains("_")) {
@@ -110,6 +117,7 @@ public class GermanTagger extends BaseTagger {
       }
       verbInfos.put(prefix + "zu" + verbBaseform, new PrefixInfixVerb(prefix, "zu", verbBaseform));  //  "zu<verb>" is not part of forms from synthesizer
     }
+    return verbInfos;
   }
 
   private List<TaggedWord> addStem(List<TaggedWord> analyzedWordResults, String stem) {
@@ -220,7 +228,7 @@ public class GermanTagger extends BaseTagger {
       if (taggerTokens.size() > 0) { //Word known, just add analyzed token to readings
         readings.addAll(getAnalyzedTokens(taggerTokens, word));
       } else { // Word not known, try to decompose it and use the last part for POS tagging:
-        PrefixInfixVerb verbInfo = verbInfos.get(word);
+        PrefixInfixVerb verbInfo = verbInfos.get().get(word);
         //String prefixVerbLastPart = prefixedVerbLastPart(word);   // see https://github.com/languagetool-org/languagetool/issues/2740
         if (verbInfo != null) {   // e.g. "herumgeben" with "herum_geben" in spelling.txt
           String noPrefixForm = word.substring(verbInfo.prefix.length() + verbInfo.infix.length());   // infix can be "zu"

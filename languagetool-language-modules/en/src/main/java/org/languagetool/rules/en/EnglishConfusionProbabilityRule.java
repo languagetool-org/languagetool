@@ -91,14 +91,27 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "he most likely",
       "good cause",
       "big butt",
+      "news story",
+      "news stories",
       "news debate",
       "news debates",
       "news leader", // vs new
       "news leaders",
+      "news person",
+      "news spokesperson",
+      "news spokespersons",
       "news teller",
       "news tellers",
       "news outlet",
       "news outlets",
+      "news portal",
+      "news portals",
+      "news company",
+      "news companies",
+      "news consumption",
+      "news consumptions",
+      "news topics",
+      "news media",
       "news event",
       "news events",
       "news station",
@@ -435,7 +448,21 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "the invite", // vs to invite
       "is there way to", // vs was
       "a way doing", // vs was
-      "way different" // vs was
+      "way different", // vs was
+      "way too often", // vs was
+      "I for one think", // vs thing
+      "device insurance", // vs devise
+      "the worst way",
+      "the best way",
+      "the first way",
+      "'s way",
+      "all four", // vs for
+      "in year four", // vs for
+      "in week four", // vs for
+      "in month four", // vs for
+      "s day four", // vs for
+      "is day four", // vs for
+      "the powers that be" // vs we
     );
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
@@ -446,6 +473,12 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       posRegex("NNS")
     ),
     Arrays.asList(
+      // "I just can't tell them no when they look at me with those puppy dog eyes"
+      tokenRegex("tells?|told|telling|answers?|answering|answered|reply|replies|replied|replying"),
+      tokenRegex("them|him|her"),
+      token("no")
+    ),
+    Arrays.asList(
       // way vs was: This way a person could learn ....
       token("this"),
       token("way"),
@@ -453,10 +486,54 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       posRegex("NN.*")
     ),
     Arrays.asList(
+      // way vs was
+      token("in"),
+      token("a"),
+      tokenRegex("more|less"),
+      posRegex("JJ"),
+      token("way")
+    ),
+    Arrays.asList(
+      // he wondered what way the country is ...
+      token("what"),
+      token("way"),
+      posRegex("DT|PRP\\$"),
+      posRegex("NN.*"),
+      tokenRegex("is|was|were|has|have|had")
+    ),
+    Arrays.asList(
+      // This way Columbus could do ...
+      token("this"),
+      token("way"),
+      posRegex("NNP|PRP"),
+      posRegex("VB.*|MD")
+    ),
+    Arrays.asList(
+      // This way only he ...
+      token("this"),
+      token("way"),
+      token("only"),
+      posRegex("DT|PRP.*")
+    ),
+    Arrays.asList(
+      // This way neither of you ...
+      token("this"),
+      token("way"),
+      tokenRegex("none|neither"),
+      token("of")
+    ),
+    Arrays.asList(
+      // This way Christopher Columbus could do ...
+      token("this"),
+      token("way"),
+      posRegex("NNP"),
+      posRegex("NNP"),
+      posRegex("VB.*|MD")
+    ),
+    Arrays.asList(
       // way vs was: This way a person could learn ....
       token("way"),
-      token("too"),
-      posRegex("JJ")
+      token("too")
     ),
     Arrays.asList(
       // "from ... to ..." (to/the)

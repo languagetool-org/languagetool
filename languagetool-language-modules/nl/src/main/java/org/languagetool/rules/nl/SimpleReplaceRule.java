@@ -81,7 +81,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getSuggestion() {
+  public String getMessage() {
     return "'$match' zou fout kunnen zijn. Misschien bedoelt u: $suggestions";
   }
 

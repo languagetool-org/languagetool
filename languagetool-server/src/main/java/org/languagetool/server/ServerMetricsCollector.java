@@ -21,6 +21,7 @@ package org.languagetool.server;
 import com.google.common.cache.Cache;
 import io.prometheus.client.Counter;
 import io.prometheus.client.Gauge;
+import io.prometheus.client.Info;
 import io.prometheus.client.Histogram;
 import io.prometheus.client.exporter.HTTPServer;
 import io.prometheus.client.guava.cache.CacheMetricsCollector;
@@ -29,6 +30,8 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class ServerMetricsCollector {
 
@@ -110,6 +113,9 @@ public class ServerMetricsCollector {
     .build("languagetool_hidden_matches_server_requests_total", "Number of hidden server requests by status")
     .labelNames("status").register();
 
+  private final Info buildInfo = Info
+    .build("languagetool_build", "Build information").register();
+
   private final CacheMetricsCollector cacheMetrics = new CacheMetricsCollector().register();
 
 
@@ -125,6 +131,11 @@ public class ServerMetricsCollector {
   public static ServerMetricsCollector getInstance() {
     return collector;
   }
+
+  public ServerMetricsCollector() {
+    buildInfo.info("version", Objects.toString(JLanguageTool.VERSION), "buildDate", Objects.toString(JLanguageTool.BUILD_DATE), "revision", Objects.toString(JLanguageTool.GIT_SHORT_ID), "premium", Objects.toString(String.valueOf(JLanguageTool.isPremiumVersion())));
+  }
+
 
   public void monitorCache(String name, Cache cache) {
     cacheMetrics.addCache(name, cache);

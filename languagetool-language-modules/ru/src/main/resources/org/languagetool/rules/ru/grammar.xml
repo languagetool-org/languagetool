@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 Russian grammar and typo rules for LanguageTool.
 See resource/ru/russian_tags.txt for the meaning of the POS tags.
 
-Copyright © 2008-2020 Yakov Reztsov
+Copyright © 2008-2021 Yakov Reztsov
 http://www.languagetool.org
 
 This library is free software; you can redistribute it and/or
@@ -44,7 +44,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY ne_pril_short_inoe "готов|готова|готово|готовы|должен|должна|должны|должно|намерен|намерена|намерено|намерены|обязан|обязана|обязано|обязаны|рад|рада|рады|радо|склонен|склонна|склонно|склонны|расположен|расположена|расположено|расположены">
 <!ENTITY ne_pril_short_double "богата|богат|богато|богаты|бедна|беден|бедны|бедно|красива|красив|красиво|красивы|известен|известна|известно|известны|велика|велик|велико|велики|нужен|нужна|нужно|нужны|прав|права|право|правы|согласен|согласна|согласно|согласны|способен|способна|способно|способны">
 <!ENTITY verb "должен|должна|должно|должны|обязана|обязано|обязаны|обязан|необходимо"> <!-- TODO:check in dict -->
-<!ENTITY rost "количество|количественный|качество|качественный|показатель|показательный|экономика|экономический|преступность|преступный|смертность|безработица|безработный|численность|рождаемость|выработка|прибыль|стоимость|долг|госдолг|доход|расход|протяжённость|продолжительность|ассигнование|урожайность|популярность|напряжённость|ВВП|коралл|темп|продукт|возможность|замедление|результат|десятилетие|сравнение|объём|автомобилизация|вид|сбыт|цена|противоречие|мера|урожай|инвестиция|производство|сила|потребность|точка|процесс|тело|концентрация|время|стимулятор|регулятор|благосостояние|причина|предпосылка|сезон|политика|период|тенденция|ожидание|национализм|зарплата|микроорганизм|бактерия|потенциал|система|поощрение|производительность|самосознание|сознательность|импорт|экспорт|добыча">
+<!ENTITY rost "количество|количественный|качество|качественный|показатель|показательный|экономика|экономический|преступность|преступный|смертность|безработица|безработный|численность|рождаемость|выработка|прибыль|стоимость|долг|госдолг|доход|расход|протяжённость|продолжительность|ассигнование|урожайность|популярность|напряжённость|ВВП|коралл|темп|продукт|возможность|замедление|результат|десятилетие|сравнение|объём|автомобилизация|вид|сбыт|цена|противоречие|мера|урожай|инвестиция|производство|сила|потребность|точка|процесс|тело|концентрация|время|стимулятор|регулятор|благосостояние|причина|предпосылка|сезон|политика|период|тенденция|ожидание|национализм|зарплата|микроорганизм|бактерия|потенциал|система|поощрение|производительность|самосознание|сознательность|импорт|экспорт|добыча|запас">
 <!ENTITY defis_libo "какая|какие|какое|какой|какому|кому|кто|такому|такая|такое|такой|вообще|всего|где|зачем|когда|куда|откуда|отчего|почему|сколько|тогда|так|туда|чего|что">
 ]>
 <!-- «» -->
@@ -226,6 +226,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Конференция состоится во <marker>вторник, 7.10.2014</marker> г.</example>
             </rule>
         </rulegroup>
+        <rule id="zadat_test" name="Опечатка: «задать тест»">
+            <pattern>
+		<token>задать</token>
+                <token>тест</token>
+            </pattern>
+            <message>Опечатка: <suggestion>предложить тест</suggestion></message>
+            <short>Опечатка</short>
+            <example correction="предложить тест"><marker>задать тест</marker></example>
+        </rule>
         <rule id="perehodny_peshehod" name="Опечатка: «пешеходный переход»">
             <pattern>
 		<token>переходный</token>
@@ -2604,7 +2613,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="смеётся, радуется|смеётся и радуется">Он <marker>смеётся радуется</marker> жизни.</example>
             </rule>                                                                                                      
         </rulegroup>                 
-    	<rule default="on" id="takim_obrazom_chto" name="Запятая после «таким образом»">
+    	<rule  id="takim_obrazom_chto" name="Запятая после «таким образом»">
     	    <pattern case_sensitive="no">
             	<token>таким</token>
     	        <token>образом</token>
@@ -2615,6 +2624,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     	    <example correction="таким образом, что">Это сделано <marker>таким образом что</marker> и не найти.</example>
     	    <example>Таким образом, что слово есть, что его нет - без разницы.</example>
     	</rule>
+        <rule id="takim_obrazom" name="Запятая после «таким образом» 2" >  <!-- tags="picky" --> <!-- set temp_off -->
+            <pattern>
+                <token>таким<exception postag="VB:.*|DPT:.*|PT:.*|PT_Short:.*|PREP|PRDC|NN:.*" postag_regexp="yes" scope="previous"></exception>
+                    <exception regexp="yes" scope="previous">[,.-;:—]</exception>
+                    <exception scope="previous" postag_regexp="yes" postag="SENT_START" />
+                    <exception scope="previous" regexp="yes">что|чтобы|как</exception>
+                </token>
+                <token>образом</token>
+                <token postag="VB:.*|DPT:.*|PT:.*|PT_Short:.*|PREP" postag_regexp="yes" negate_pos="yes">
+                    <exception regexp="yes">[,!;:.«(]</exception><exception scope="next" regexp="yes">что|чтобы|как</exception>
+                </token>
+            </pattern>
+            <message>Пропущена запятая</message>
+            <url>https://github.com/languagetool-org/languagetool/issues/1121</url>
+            <example correction="">И <marker>таким образом мы</marker></example>
+            <example>И,таким образом, мы</example>
+        </rule>
         <rule default="on" id="comma_and_to_jest" name="Запятая перед «то есть»">
     	    <pattern case_sensitive="no">
             	<token regexp="yes" negate="yes">[,;)»]|тогда|[\p{Punct}]|-|—|–<exception postag="SENT_START" /></token>
@@ -4124,6 +4150,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Здорово живешь, соседка, - поздоровался Иван.</example>
             <example correction=", -">Здорово живешь, соседка<marker> -,</marker> поздоровался Иван.</example>
         </rule>
+        <rule default="temp_off" id="COMMA_DEFIS" name="Запятая и дефис">
+            <pattern>
+                <token spacebefore="no">,</token>   
+                <token spacebefore="yes">-</token>
+            </pattern>
+            <message>После запятой должно стоять тире: <suggestion>\1 —</suggestion></message>
+            <url>http://ru.wikipedia.org/wiki/%D0%94%D0%B5%D1%84%D0%B8%D1%81</url>
+            <short>Тире?</short>
+            <example>Здорово живешь, соседка, — поздоровался Иван.</example>
+            <example correction=", —">Здорово живешь, соседка<marker>, -</marker> поздоровался Иван.</example>
+        </rule>
         
         <rulegroup default="on" id="Hyphen_and_spaces" name="Пробелы перед и после дефиса">
             <rule>
@@ -4153,7 +4190,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup default="on" id="Tire_and_spaces" name="Тире и пробелы">
             <rule>
                 <pattern>
-                    <token regexp="yes" >.*[а-яёa-z]</token>
+                    <token regexp="yes" >.*[а-яёa-z]|[.!,;?]</token>
                     <token spacebefore="no">—</token>
                     <token regexp="yes" >[а-яё].*</token>
                 </pattern>
@@ -4165,7 +4202,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes"  >.*[а-яёa-z]</token>
+                    <token regexp="yes"  >.*[а-яёa-z]|[.!,;?]</token>
                     <token spacebefore="yes">—</token>
                     <token regexp="yes" spacebefore="no" >[а-яё].*</token>
                 </pattern>
@@ -5664,11 +5701,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         
         <rule default="on" id="TIRE" name="Дефис вместо тире">
             <pattern>
-                <token regexp="yes">[а-я][а-я].*</token>
+                <token regexp="yes">[а-яё][а-яё].*</token>
                 <marker>
                     <token spacebefore="yes">-</token>
                 </marker>
-                <token spacebefore="yes" regexp="yes">[а-я][а-я].*</token>
+                <token spacebefore="yes" regexp="yes">[а-яёЁА-Я][а-яё].*</token>
             </pattern>
             <message>Дефис вместо тире <suggestion>—</suggestion></message>
             <short>Тире</short>
@@ -6844,8 +6881,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Традиционно первым Германским государством принято считать восточно-франкское государство.</example>
                     <example>Он каждые полчаса бежит в лабораторию.</example>
                     <example correction="">Они думали о <marker>родного доме</marker>.</example>
-                </rule>
+                </rule>               
         </rulegroup>
+        <rule  id="Adj_NN_number_Software" name="«Программное обеспечение»"> 
+            <pattern> <!-- Need more unification -->
+                <marker>
+                    <token inflected="yes">программный<exception regexp="yes">программного|программные</exception></token>
+                    <token>обеспечения</token>
+                </marker>                     
+            </pattern>
+            <message>Прилагательное не согласуется с существительным.</message>
+            <example>С помощью коммерчески доступного программного обеспечения, основанного на разных методах.</example>
+            <example correction="">С помощью коммерчески доступного <marker>программных обеспечения</marker>, основанного на разных методах.</example>
+        </rule>            
         <rulegroup  id="EAdj_NN_number_2_4" name="Определение при существительном, зависящем от числительных «два, три, четыре»">
             <!-- Розенталь ЛИТЕРАТУРНОЕ РЕДАКТИРОВАНИЕ ТЕКСТА $193 -->
             <rule>
@@ -8263,8 +8311,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         
   -->
                 <pattern case_sensitive="no">
-                    <token regexp= "yes" negate="yes" inflected="yes">иметь|имелось|иметься</token>
-                    <marker>
+                    <token><exception inflected="yes" regexp="yes">иметь|имелось|иметься</exception><exception scope="previous" inflected="yes" regexp="yes">иметь|имелось|иметься</exception></token> 
+                      <marker>
                         <token>в</token>
                         <token>виду</token>
                     </marker>
@@ -8274,6 +8322,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Много  оборудования не использовалось в учреждении <marker>ввиду</marker> отсутствия расходных материалов.</example>
                 <example>Он имел <marker>в виду</marker> совсем другое событие.</example>
                 <example>Имелось в виду:</example>
+                <example>Имея это в виду</example>
                 <example correction="ввиду">Много оборудования не использовалось в учреждении <marker>в виду</marker> отсутствия расходных материалов.</example>
             </rule>
             
@@ -9297,7 +9346,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
 
         <rulegroup default="on" id="Verb_tsa_and_ttsya" name="Правописание «-тся» и «-ться» в глаголах">
-             <rule>        
+          <rule>        
             <pattern>
                 <!--     VB:.*         -->
                 <token skip="-1" regexp="yes">нужно|надо|необходимо<exception  scope="next" regexp="yes">[,:;]|и|или</exception><exception postag="PNN:.*" postag_regexp="yes" scope="next" /></token>
@@ -9315,9 +9364,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="суетиться">Не надо <marker>суетится</marker>!</example>
             <example correction="перепрыгнуть">Толику необходимо <marker>перепрыгнул</marker> через барьер.</example>
             <example correction="строиться">Нужно <marker>строится</marker> на этом месте.</example>
-        </rule>    
+          </rule>
+          <rule>
+            <pattern>
+                <!--  NN:.*:Nom|PNN:.*:Nom:.* +  же + не  + VB:INF:.*  .(.*ться)       -->
+                <token postag_regexp="yes" postag="NN:.*:Nom|PNN:.*:Nom:.*"></token>
+                <token>же</token>
+                <token>не</token>
+                <marker>
+                 <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception postag_regexp="yes" negate_pos="yes" postag="VB:INF:.*"></exception><exception postag_regexp="yes" scope="next" postag="VB:.*"></exception></token>
+                </marker>          
+            </pattern>
+             <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
+                args="no:4 regexp:(.*)ься postag_regexp:UNKNOWN   negate_pos:yes"/>     <!-- Test if word without "ь" exist -->
+            <message>Глагол должен быть в личной форме, мягкий знак не нужен: <suggestion><match no="4" postag="VB:INF:.*" postag_regexp="yes" postag_replace="VB:.*:.*:Sin:P3"/></suggestion></message>
+            <url>http://tsya.ru/</url>
+            <short>Мягкий знак не нужен</short>
+            <example>Парень же не справится.</example>
+           <example correction="справится">Парень же не <marker>справиться</marker>.</example>
+          </rule>        
         </rulegroup>
-
+        
         <rulegroup id="Verb_INF_OR_3P" default="on" name="Инфинитив вместо личной формы глагола">
             <!-- need test on big data -->
         <rule>    
@@ -9378,7 +9445,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            <example correction="относится">Проблема может возникнуть при наличии собственных резонансов в модели, что <marker>относиться</marker> и к нашему случаю, где частота падающей волны приходится на максимум дипольного отклика частицы.</example>
         </rule>        
         </rulegroup>                
-        <rule id="Verb_INF_OR_3P_2" default="temp_off" name="Инфинитив вместо личной формы глагола"> <!-- set temp off -->
+        <rule id="Verb_INF_OR_3P_2" default="off" name="Инфинитив вместо личной формы глагола" tags="picky"> <!-- set temp off -->  <!-- tags="picky" -->
             <antipattern>
                  <token postag="SENT_START" skip="-1" />
                  <token postag="VB:.*" skip="-1" postag_regexp="yes" ><exception   postag="VB:.*"  postag_regexp="yes"  negate_pos="yes"    /></token>
@@ -9427,7 +9494,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="относится">Но вот мой друг очень положительно <marker>относиться</marker> к спорту. </example>
         </rule>
 
-        <rule default="on" id="Verb_3P_and_inf" name="Правописание «-т» и «-ть» в глаголах – однородных членах предложения">
+        <rulegroup default="on" id="Verb_3P_and_inf" name="Правописание «-т» и «-ть» в глаголах – однородных членах предложения">
+          <rule>        
             <pattern>
                 <!--     VB:.* (-т) и    VB:INF: (-ть)      -->
                 <token postag="VB:Real:.*:P3" postag_regexp="yes" ><exception postag_regexp="yes"  postag="VB:INF:.*"></exception></token>
@@ -9439,11 +9507,63 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Оба глагола должны быть в личной форме: <suggestion><match no="3" postag_regexp="yes" postag="VB:INF:(.*):(.*)"  postag_replace="VB:Real:$1:$2:Sin:P3"></match></suggestion></message>
             <url>http://tsya.ru/</url>
-            <short>Глагол должен быть в в личной форме</short>
+            <short>Глагол должен быть в личной форме</short>
             <example>Она сидит и кормит ребёнка.</example>
             <example correction="кормит">Она сидит и <marker>кормить</marker> ребёнка.</example>
-        </rule>
-        
+          </rule>
+          <rule>        
+              <pattern>
+                  <!--     VB:.* (-т) и    VB:INF: (-ть)      -->
+                  <marker>
+                      <token postag_regexp="yes"  postag="VB:INF:.*" > <exception scope="previous"  postag_regexp="yes" postag="VB:.*:.*:.*|PT_Short:.*"></exception></token>
+                  </marker>
+                  <token postag="NN:.*:.*:.*:.*" postag_regexp="yes">
+                      <exception postag_regexp="yes" postag="NN:.*:.*:.*:Nom"></exception>
+                      <exception negate_pos="yes" postag_regexp="yes" postag="NN:.*:.*:.*:.*"></exception>
+                  </token>
+                  <token>и</token>
+                  <token postag="VB:Real:.*:P3" postag_regexp="yes" >
+                      <exception postag_regexp="yes"  postag="VB:INF:.*"></exception>
+                  </token>
+              </pattern>
+              <message>Оба глагола должны быть в личной форме: <suggestion><match no="1" postag_regexp="yes" postag="VB:INF:(.*):(.*)"  postag_replace="VB:Real:$1:$2:Sin:P3"></match></suggestion></message>
+              <url>http://tsya.ru/</url>
+              <short>Глагол должен быть в личной форме</short>
+              <example>Она кормит ребёнка и смотрит телевизор.</example>
+              <example>Король Кристиан X вынужден подписать капитуляцию и приказывает армии сложить оружие.</example>
+              <example correction="кормит">Она <marker>кормить</marker> ребёнка и смотрит телевизор.</example>
+          </rule>
+          <rule>
+            <pattern>
+                <!--     VB:.* (-т) и    VB:INF: (-ть)      -->
+                <token regexp="yes">должны|хотите|можете</token>
+                <marker>
+                    <token postag="VB:INF:.*" postag_regexp="yes"><exception postag_regexp="yes"  postag="VB:.*:Sin:P3"></exception></token>
+                    <token regexp="yes">и|или</token>
+                    <token postag_regexp="yes"  postag="VB:.*:Sin:P3" ><exception postag_regexp="yes"  postag="VB:INF:.*"></exception></token>
+                </marker>                
+            </pattern>
+            <message>Оба глагола должны быть в неопределённой форме. <suggestion><match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="VB:(.*):(.*):(.*):Sin:P3"  postag_replace="VB:INF:$2:$3"></match></suggestion></message>
+            <short>Оба глагола должны быть в неопределённой форме</short>
+            <example>Вы должны прочитать и согласиться с правилами.</example>
+            <example correction="прочитать и согласиться">Вы должны <marker>прочитать и согласится</marker> с правилами.</example>
+          </rule>
+          <rule>
+            <pattern>
+                <!--     VB:.* (-т) и    VB:INF: (-ть)      -->
+                <token regexp="yes">должны|хотите|можете</token>
+                <marker>
+                    <token postag_regexp="yes"  postag="VB:.*:Sin:P3" ><exception postag_regexp="yes"  postag="VB:INF:.*"></exception></token>
+                    <token regexp="yes">и|или</token>
+                    <token postag="VB:INF:.*" postag_regexp="yes"><exception postag_regexp="yes"  postag="VB:.*:Sin:P3"></exception></token>
+                </marker>                
+            </pattern>
+            <message>Оба глагола должны быть в неопределённой форме. <suggestion><match no="2" postag_regexp="yes" postag="VB:(.*):(.*):(.*):Sin:P3"  postag_replace="VB:INF:$2:$3"></match> <match no="3"/> <match no="4"/></suggestion></message>
+            <short>Оба глагола должны быть в неопределённой форме</short>
+            <example>Вы должны прочитать и согласиться с правилами.</example>
+            <example correction="согласиться и прочитать">Вы должны <marker>согласится и прочитать</marker> правила.</example>
+          </rule>
+        </rulegroup>        
         <rule default="on" id="PREP_and_DPT" name="Деепричастие и предлог">
             <pattern case_sensitive="no">
                 <!--              PREP :.*    -->
@@ -9595,14 +9715,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="избежал встречи">Он <marker>избежал встречу</marker>.</example>
         </rule>
         
-        <rule id="Verb_and_PNN_Nom" name="Глагольное управление (местоимение)" default="temp_off">
+        <rule id="Verb_and_PNN_Nom" name="Глагольное управление (местоимение)" > <!-- default="temp_off   -->
+            <antipattern>
+                <token postag="VB:Real:TRANS:IMPFV:.*:P1"  postag_regexp="yes"></token>
+                <token postag="PNN:.*:Nom:P3|PNN:.*:Nom:P2" postag_regexp="yes" ></token>
+                <token postag_regexp="yes" postag="PARTICLE|PNN:.*:R:.*|VB:.*" ></token>
+            </antipattern>
             <pattern>
-                <token postag="VB:Real:TRANS:IMPFV:.*:.*"  postag_regexp="yes"></token>
-                <token postag="PNN:.*:Nom:P3" postag_regexp="yes" ></token>
+                <token postag="VB:Real:TRANS:IMPFV:.*:P1"  postag_regexp="yes"><exception scope="previous" postag_regexp="yes" postag="PNN:.*:.*" ></exception></token>
+                <token postag="PNN:.*:Nom:P3|PNN:.*:Nom:P2" postag_regexp="yes" ><exception scope="next" regexp="yes">[,;.!]</exception><exception scope="next" postag_regexp="yes" postag="PARTICLE|PNN:.*:R:.*" ></exception></token>
             </pattern>
             <message>Неверное управление</message>
-            <example correction=""><marker>Люблю он</marker></example>
+            <example correction=""><marker>Люблю он</marker></example>          
+            <example>Мир, цинично добавляет он, стал слишком тесен.</example>
+            <example>Вот я чувствую вы меня ими досыта и накормите.</example>
+            <example>Вот я чувствую: вы меня ими досыта и накормите.</example> 
+            <example>Я вижу ты патриот.</example>
             <example>Люблю его</example>
+            
         </rule>
         <rule id="Verb_and_wo_P" name="Глагольное управление (падеж)">
         <!--TODO   необходимо использовать грамматические характеристики глагола (переходный/непереходный) -->            
@@ -11336,7 +11466,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule> 
             <!-- TODO: check suggestion in message!!!!!!!!!!! -->
             <!-- comment rule, many false positives используется как множественное, так и единственное число
-        <rule default="temp_off" id="Num_plus_Noun2" name="Сочетание числительных с существительными 2"> 
+        <rule default="off" id="Num_plus_Noun2" name="Сочетание числительных с существительными 2"> 
                 <pattern>
                     <token postag="NumD_P" ><exception scope="previous" regexp="yes">по|–|—</exception>
                     <exception scope="previous" spacebefore="no">-</exception>

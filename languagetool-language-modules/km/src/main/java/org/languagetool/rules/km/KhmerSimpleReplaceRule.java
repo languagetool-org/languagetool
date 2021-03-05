@@ -66,7 +66,7 @@ public class KhmerSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getSuggestion() {
+  public String getMessage() {
     return " Consider following the spelling of Chuon Nath ";
   }
 

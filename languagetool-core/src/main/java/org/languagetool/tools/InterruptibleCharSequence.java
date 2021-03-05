@@ -34,7 +34,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class InterruptibleCharSequence implements CharSequence {
 
-  private CharSequence inner;
+  private final CharSequence inner;
 
   public InterruptibleCharSequence(CharSequence inner) {
     super();

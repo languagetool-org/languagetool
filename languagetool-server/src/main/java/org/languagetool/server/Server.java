@@ -92,9 +92,12 @@ abstract class Server {
     int requestLimit = config.getRequestLimit();
     int requestLimitInBytes = config.getRequestLimitInBytes();
     int requestLimitPeriodInSeconds = config.getRequestLimitPeriodInSeconds();
-    int ipFingerprintFactor = config.getIpFingerprintFactor();
-    if ((requestLimit > 0 || requestLimitInBytes > 0) && requestLimitPeriodInSeconds > 0 && ipFingerprintFactor >= 1) {
-      return new RequestLimiter(requestLimit, requestLimitInBytes, requestLimitPeriodInSeconds, ipFingerprintFactor);
+    int ipFingerprintFactor = config.getIpFingerprintFactor(); // can be <= 0, means fingerprinting is disabled
+    List<String> requestLimitWhitelistUsers = config.getRequestLimitWhitelistUsers();
+    int requestLimitWhitelistLimit = config.getRequestLimitWhitelistLimit();
+    if ((requestLimit > 0 || requestLimitInBytes > 0) && requestLimitPeriodInSeconds > 0) {
+      return new RequestLimiter(requestLimit, requestLimitInBytes, requestLimitPeriodInSeconds, ipFingerprintFactor,
+        requestLimitWhitelistUsers, requestLimitWhitelistLimit);
     }
     return null;
   }
@@ -123,6 +126,7 @@ abstract class Server {
                        "                                            affects Hunspell-based languages only)");
     System.out.println("                 'maxCheckThreads' - maximum number of threads working in parallel (optional)");
     System.out.println("                 'cacheSize' - size of internal cache in number of sentences (optional, default: 0)");
+    System.out.println("                 'cacheTTLSeconds' - how many seconds sentences are kept in cache (optional, default: 300 if 'cacheSize' is set)");
     System.out.println("                 'requestLimit' - maximum number of requests per requestLimitPeriodInSeconds (optional)");
     System.out.println("                 'requestLimitInBytes' - maximum aggregated size of requests per requestLimitPeriodInSeconds (optional)");
     System.out.println("                 'timeoutRequestLimit' - maximum number of timeout request (optional)");

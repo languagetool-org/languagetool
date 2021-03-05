@@ -55,7 +55,7 @@ public class SimpleReplaceRuleTest {
   @Test
   public void testInvalidSuggestion()  {
     final List<String> invalidSuggestions = new ArrayList<>();
-    final List<Map<String, SuggestionWithMessage>> wrongWords = rule.getWrongWords();
+    final List<Map<String, SuggestionWithMessage>> wrongWords = rule.getWrongWords(false);
     for (Map<String, SuggestionWithMessage> ruleEntry : wrongWords) {
       for (Map.Entry<String,SuggestionWithMessage> entry : ruleEntry.entrySet()) {
         final String fromWord = entry.getKey();

@@ -25,14 +25,13 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.rules.AbstractUnitConversionRule;
 import org.languagetool.rules.UnitConversionRuleTestHelper;
 
 import java.io.IOException;
 
 public class UnitConversionRuleTest {
 
-  private final UnitConversionRuleTestHelper unitConversionRuleTestHelper = new UnitConversionRuleTestHelper();
+  private final UnitConversionRuleTestHelper helper = new UnitConversionRuleTestHelper();
 
   /* still problematic:
   16 kilometers (10 miles)
@@ -53,25 +52,22 @@ public class UnitConversionRuleTest {
     Language lang = Languages.getLanguageForShortCode("en");
     JLanguageTool lt = new JLanguageTool(lang);
     UnitConversionRule rule = new UnitConversionRule(JLanguageTool.getMessageBundle(lang));
-    unitConversionRuleTestHelper.assertMatches("I am 6 feet tall.", 1, "1.83 m", rule, lt);
-    unitConversionRuleTestHelper.assertMatches("I am 6 feet (2.02 m) tall.", 1, "1.83 m", rule, lt);
-    unitConversionRuleTestHelper.assertMatches("I am 6 feet (1.82 m) tall.", 0, null, rule, lt);
-    unitConversionRuleTestHelper.assertMatches("The path is 100 miles long.", 1, "160.93 km", rule, lt);
-    unitConversionRuleTestHelper.assertMatches("The path is 100 miles (160.93 km) long.", 0, null, rule, lt);
-    unitConversionRuleTestHelper.assertMatches("The shipment weighs 10,000.75 pounds.", 1, "4.54 t", rule, lt);
-    unitConversionRuleTestHelper.assertMatches("She is 5'6\".", 1, "1.68 m", rule, lt);
-    unitConversionRuleTestHelper.assertMatches("My new apartment is 500 sq ft.", 1, "46.45 m²", rule, lt);
-    unitConversionRuleTestHelper.assertMatches("It is 100 degrees Fahrenheit outside.", 1, "37.78 °C", rule, lt);
-    unitConversionRuleTestHelper.assertMatches("It is 100 °F outside.", 1, "37.78 °C", rule, lt);
+    helper.assertMatches("I am 6 feet tall.", 1, "1.83 m", rule, lt);
+    helper.assertMatches("I am 6 feet (2.02 m) tall.", 1, "1.83 m", rule, lt);
+    helper.assertMatches("I am 6 feet (1.82 m) tall.", 0, null, rule, lt);
+    helper.assertMatches("The path is 100 miles long.", 1, "160.93 km", rule, lt);
+    helper.assertMatches("The path is 100 miles (160.93 km) long.", 0, null, rule, lt);
+    helper.assertMatches("The shipment weighs 10,000.75 pounds.", 1, "4.54 t", rule, lt);
+    helper.assertMatches("She is 5'6\".", 1, "1.68 m", rule, lt);
+    helper.assertMatches("My new apartment is 500 sq ft.", 1, "46.45 m²", rule, lt);
+    helper.assertMatches("It is 100 degrees Fahrenheit outside.", 1, "37.78 °C", rule, lt);
+    helper.assertMatches("It is 100 °F outside.", 1, "37.78 °C", rule, lt);
 
     // https://github.com/languagetool-org/languagetool/issues/2357
-    unitConversionRuleTestHelper.assertMatches("Millions watched the 1989's Superbowl.", 0, null, rule, lt);
+    helper.assertMatches("Millions watched the 1989's Superbowl.", 0, null, rule, lt);
 
     // https://github.com/languagetool-org/languagetool/issues/2255
-    unitConversionRuleTestHelper.assertMatches("Coordinates: 34°09′22″N 118°7′55″W", 0, null, rule, lt);
+    helper.assertMatches("Coordinates: 34°09′22″N 118°7′55″W", 0, null, rule, lt);
   }
 
-  private void assertMatches(String input, int expectedMatches, String converted, AbstractUnitConversionRule rule, JLanguageTool lt) throws IOException {
-    unitConversionRuleTestHelper.assertMatches(input, expectedMatches, converted, rule, lt);
-  }
 }

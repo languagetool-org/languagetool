@@ -26,8 +26,8 @@ import org.languagetool.Languages;
 import java.io.IOException;
 import java.util.Arrays;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 
 public class GermanSynthesizerTest {
 
@@ -59,7 +59,9 @@ public class GermanSynthesizerTest {
     assertThat(synth("Regelsystem", "SUB:NOM:PLU:NEU"), is("[Regelsysteme]"));
     assertThat(synth("Regelsystem", "SUB:DAT:PLU:NEU"), is("[Regelsystemen]"));
     assertThat(synth("Regelsystem", ".*:PLU:.*", true), is("[Regelsysteme, Regelsystemen]"));
+    assertThat(synth("Regel-System", ".*:PLU:.*", true), is("[Regelsysteme, Regelsystemen]"));
     assertThat(synth("Kühlschrankversuch", ".*:PLU:.*", true), is("[Kühlschrankversuche, Kühlschrankversuchen]"));
+    assertThat(synth("Kühlschrank-Versuch", ".*:PLU:.*", true), is("[Kühlschrankversuche, Kühlschrankversuchen]"));
   }
 
   @Test

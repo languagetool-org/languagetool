@@ -18,13 +18,6 @@
  */
 package org.languagetool.rules.de;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
@@ -35,8 +28,14 @@ import org.languagetool.rules.Category.Location;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 
@@ -52,7 +51,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
 
   private static final German GERMAN = new GermanyGerman();
 
-  private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+  private static final List<DisambiguationPatternRule> ANTI_PATTERNS = makeAntiPatterns(Arrays.asList(
       Arrays.asList(
         regex("gerade|wenn"),
         token("das")
@@ -74,7 +73,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
         posRegex("PRP:.+"),
         regex("d(e[mnr]|ie|as|e([nr]|ss)en)")
       )
-  );
+  ), GERMAN);
 
   public MissingCommaRelativeClauseRule(ResourceBundle messages) {
     this(messages, false);
@@ -84,7 +83,6 @@ public class MissingCommaRelativeClauseRule extends Rule {
     super(messages);
     super.setCategory(new Category(new CategoryId("HILFESTELLUNG_KOMMASETZUNG"),
         "Kommasetzung", Location.INTERNAL, true));
-    super.makeAntiPatterns(ANTI_PATTERNS, GERMAN);
     this.behind = behind;
   }
 
@@ -700,6 +698,6 @@ public class MissingCommaRelativeClauseRule extends Rule {
 
   @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
-    return makeAntiPatterns(ANTI_PATTERNS, GERMAN);
+    return ANTI_PATTERNS;
   }
 }

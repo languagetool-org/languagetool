@@ -305,6 +305,10 @@ public class MorfologikCatalanSpellerRuleTest {
         //assertEquals("Chicago", matches[0].getSuggestedReplacements().get(1));
         matches = rule.match(langTool.getAnalyzedSentence("Chile"));
         assertEquals("Xile", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("transment"));
+        assertEquals("transmet", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("nordment"));
+        assertEquals("normant", matches[0].getSuggestedReplacements().get(0));
         
         //matches = rule.match(langTool.getAnalyzedSentence("transtors"));
         //assertEquals("trastorns", matches[0].getSuggestedReplacements().get(0));
@@ -475,8 +479,6 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("sol·licitud", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("La sol-licitud"));
         assertEquals("sol·licitud", matches[0].getSuggestedReplacements().get(0));
-        matches = rule.match(langTool.getAnalyzedSentence("SOL.LICITUD"));
-        assertEquals("Sol·licitud", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("La sol⋅licitud"));
         assertEquals("sol·licitud", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("La sol∙licitud"));
@@ -556,6 +558,14 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("multiindisciplina")); 
         assertEquals(1, matches.length);
         assertEquals(0, matches[0].getSuggestedReplacements().size());
+        
+        //Casing
+        matches = rule.match(langTool.getAnalyzedSentence("SOL.LICITUD"));
+        assertEquals("SOL·LICITUD", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("PROBATURA")); 
+        assertEquals(1, matches.length);
+        assertEquals(1, matches[0].getSuggestedReplacements().size());
+        assertEquals("PROVATURA", matches[0].getSuggestedReplacements().get(0));
         
     }
 }

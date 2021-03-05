@@ -127,6 +127,9 @@ public class VerbAgreementRuleTest {
     assertGood("Tom werde ich nicht noch mal um Hilfe bitten.");
     assertGood("Tom konnte ich überzeugen, nicht aber Maria.");
     assertGood("Mach du mal!");
+    assertGood("Das bekomme ich nicht hin.");
+    assertGood("Dies betreffe insbesondere Nietzsches Aussagen zu Kant und der Evolutionslehre.");
+    assertGood("❌Du fühlst Dich unsicher?");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");

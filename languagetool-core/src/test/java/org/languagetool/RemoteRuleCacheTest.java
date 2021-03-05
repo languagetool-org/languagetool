@@ -23,6 +23,7 @@ package org.languagetool;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.languagetool.language.Demo;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
@@ -34,6 +35,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -52,7 +54,7 @@ public class RemoteRuleCacheTest {
       "TEST_REMOTE_RULE", "example.com", 1234, 0, 0L, 0.0f, 1, 10L, Collections.emptyMap());
 
     TestRemoteRule() {
-      super(JLanguageTool.getMessageBundle(), testConfig, false);
+      super(new Demo(), JLanguageTool.getMessageBundle(), testConfig, false);
     }
 
     class TestRemoteRequest extends RemoteRequest {
@@ -64,7 +66,7 @@ public class RemoteRuleCacheTest {
     }
 
     @Override
-    protected RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText, Long textSessionId) {
+    protected RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, Long textSessionId) {
       return new TestRemoteRequest(sentences);
     }
 
@@ -73,17 +75,18 @@ public class RemoteRuleCacheTest {
     }
 
     @Override
-    protected Callable<RemoteRuleResult> executeRequest(RemoteRequest request) {
+    protected Callable<RemoteRuleResult> executeRequest(RemoteRequest request, long timeoutMilliseconds) throws TimeoutException {
       return () -> {
         TestRemoteRequest req = (TestRemoteRequest) request;
         List<RuleMatch> matches = req.sentences.stream().map(this::testMatch).collect(Collectors.toList());
-        return new RemoteRuleResult(true, true, matches);
+        return new RemoteRuleResult(true, true, matches, req.sentences);
       };
     }
 
     @Override
     protected RemoteRuleResult fallbackResults(RemoteRequest request) {
-      return new RemoteRuleResult(false, false, Collections.emptyList());
+      TestRemoteRequest req = (TestRemoteRequest) request;
+      return new RemoteRuleResult(false, false, Collections.emptyList(), req.sentences);
     }
 
     @Override

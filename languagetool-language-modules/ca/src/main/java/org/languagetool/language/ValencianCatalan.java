@@ -33,15 +33,16 @@ import org.languagetool.rules.LongSentenceRule;
 import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
-import org.languagetool.rules.ca.AccentuationCheckRule;
 import org.languagetool.rules.ca.CatalanUnpairedBracketsRule;
 import org.languagetool.rules.ca.CatalanUnpairedExclamationMarksRule;
 import org.languagetool.rules.ca.CatalanUnpairedQuestionMarksRule;
 import org.languagetool.rules.ca.CatalanWordRepeatRule;
 import org.languagetool.rules.ca.CatalanWrongWordInContextRule;
+import org.languagetool.rules.ca.CheckCaseRule;
 import org.languagetool.rules.ca.MorfologikCatalanSpellerRule;
 import org.languagetool.rules.ca.PronomFebleDuplicateRule;
 import org.languagetool.rules.ca.ReplaceOperationNamesRule;
+import org.languagetool.rules.ca.SimpleReplaceAdverbsMent;
 import org.languagetool.rules.ca.SimpleReplaceAnglicism;
 import org.languagetool.rules.ca.SimpleReplaceBalearicRule;
 import org.languagetool.rules.ca.SimpleReplaceDNVColloquialRule;
@@ -86,19 +87,20 @@ public class ValencianCatalan extends Catalan {
             new MorfologikCatalanSpellerRule(messages, this, userConfig, altLanguages),
             new CatalanUnpairedQuestionMarksRule(messages, this),
             new CatalanUnpairedExclamationMarksRule(messages, this),
-            new AccentuationCheckRule(messages),
             new CatalanWrongWordInContextRule(messages),
             new SimpleReplaceVerbsRule(messages, this),
             new SimpleReplaceBalearicRule(messages),
             new SimpleReplaceRule(messages),
             new ReplaceOperationNamesRule(messages, this),
+            new CheckCaseRule(messages, this),
             // Valencian DNV
             new SimpleReplaceDNVRule(messages, this),
             new SimpleReplaceDNVColloquialRule(messages, this),
             new SimpleReplaceDNVSecondaryRule(messages, this),
             new SimpleReplaceDiacriticsIEC(messages),
             new SimpleReplaceAnglicism(messages),
-            new PronomFebleDuplicateRule(messages)
+            new PronomFebleDuplicateRule(messages),
+            new SimpleReplaceAdverbsMent(messages)
     );
   }
 

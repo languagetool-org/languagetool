@@ -33,19 +33,11 @@ public class EnglishTest extends LanguageSpecificTest {
   
   @Test
   public void testLanguage() throws IOException {
-    // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "LanguageTool offers spell and grammar checking. Just paste your text here and click the 'Check Text' button. Click the colored phrases for details on potential errors. or use this text too see an few of of the problems that LanguageTool can detecd. What do you thinks of grammar checkers? Please not that they are not perfect. Style issues get a blue marker: It's 5 P.M. in the afternoon. The weather was nice on Thursday, 27 June 2017.";
+    // NOTE: this text needs to be kept in sync with config.ts -> DEMO_TEXTS:
+    String s = "Write or paste your text here too have it checked continuously. Errors will be underlined in different colours: we will mark seplling errors with red underilnes. Furthermore grammar error's are highlighted in yellow. LanguageTool also marks style issues in a reliable manner by underlining them in blue. did you know that you can sea synonyms by double clicking a word? Its a impressively versatile tool, e.g. if youd like to tell a colleague from over sea's about what happened at 5 PM in the afternoon on Monday, 27 May 2007.";
     Language lang = Languages.getLanguageForShortCode("en-US");
     testDemoText(lang, s,
-      Arrays.asList("UPPERCASE_SENTENCE_START",
-                    "TOO_TO",
-                    "EN_A_VS_AN",
-                    "ENGLISH_WORD_REPEAT_RULE",
-                    "MORFOLOGIK_RULE_EN_US",
-                    "DO_VBZ",
-                    "PLEASE_NOT_THAT",
-                    "PM_IN_THE_EVENING",
-                    "DATE_WEEKDAY")
+      Arrays.asList("TOO_TO", "MORFOLOGIK_RULE_EN_US", "MORFOLOGIK_RULE_EN_US", "MORFOLOGIK_RULE_EN_US", "SENT_START_CONJUNCTIVE_LINKING_ADVERB_COMMA", "APOS_ARE", "IN_A_X_MANNER", "UPPERCASE_SENTENCE_START", "DOUBLE_HYPHEN", "IT_IS", "EN_A_VS_AN", "EN_CONTRACTION_SPELLING", "OVER_SEAS", "PM_IN_THE_EVENING", "DATE_WEEKDAY")
     );
     runTests(lang, null, "ÆæāýÅåøšùçıčćö");
   }

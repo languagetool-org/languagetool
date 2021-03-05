@@ -1132,7 +1132,7 @@
 </rule>
 <rule break="no"><!-- Subdomains without "www." (e.g. foo.MyDomain.com)-->
 <beforebreak>\b[A-Za-z0-9\-]+\.</beforebreak>
-<afterbreak>[A-Za-z0-9\-]+\.(com|net|org|info|de|es|edu|co|eu|nl|io|cn|uk|gov|biz|ca|tk|ru|br|jp|pl)(\.|\b)</afterbreak>
+<afterbreak>[A-Za-z0-9\-]+\.(com|net|org|info|de|es|edu|co|eu|nl|io|cn|uk|gov|biz|ca|tk|ru|br|jp|pl|be|dev|co|fr|dk|se)(\.|\b)</afterbreak>
 </rule>
 <rule break="no"><!-- No. 5 -->
 <beforebreak>\b[nN]o\.\s</beforebreak>
@@ -1143,12 +1143,16 @@
 <afterbreak>D\.?</afterbreak>
 </rule>
 <rule break="no"><!-- min. -->
-<beforebreak>\b(pp|[Vv]iz|i\.?\s*e|[Vvol]|[Rr]col|maj|Lt|[Ff]ig|[Ff]igs|[Vv]iz|[Vv]ols|[Aa]pprox|[Ii]ncl?|[Aa]cc|Pres|[Dd]ept|min|max|[Gg]ovt|lb|lbf|ft|c\.?\s*f|vs|dia|lbs|\d+-(:?oz|kc|in|h[rp]|ml)|M?sec)\.\s</beforebreak>
+<beforebreak>\b([Ee]d|pp|[Vv]iz|i\.?\s*e|[Vvol]|[Rr]col|maj|Lt|[Ff]ig|[Ff]igs|[Vv]iz|[Vv]ols|[Aa]pprox|[Ii]ncl?|[Aa]cc|Pres|[Cc]orp|[Ee]x|[Cc]onn|[Dd]ept|[Mm]in|max|[Gg]ovt|lb|lbf|ft|c\.?\s*f|vs|dia|lbs|\d+-(:?oz|kc|in|h[rp]|ml)|M?sec)\.\s</beforebreak>
+<afterbreak>[^\p{Lu}]|I</afterbreak>
+</rule>
+<rule break="no"><!-- hr. -->
+<beforebreak>\b(hr)\.\s</beforebreak>
 <afterbreak>[^\p{Lu}]|I</afterbreak>
 </rule>
 <rule break="no"><!-- Fig. 8 -->
-<beforebreak>\b([Ff]ig|[Dd]ef|[Ee]q|[Ll]em|[Pp]rop|[Tt]hm)s?\.\s</beforebreak>
-<afterbreak>\p{N}</afterbreak>
+<beforebreak>\b([Vv]ol|[Ff]ig|[Dd]ef|[Ee]q|[Ll]em|[Pp]rop|[Tt]hm)s?\.\s</beforebreak>
+<afterbreak>\p{N}|[IXV]+</afterbreak>
 </rule>
 <rule break="no"><!-- Fig. (8) -->
 <beforebreak>\b([Ff]ig|[Dd]ef|[Ee]q|[Ll]em|[Pp]rop|[Tt]hm)s?\.\s</beforebreak>
@@ -1364,7 +1368,7 @@
 <afterbreak>\p{Ll}+</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>[\.\s]\p{L}{1,2}\.\s</beforebreak>
+<beforebreak>[\.\s](?!(on|it|of|to|be|by|at|he|we|so|do|if|up|my|me|us|go|am))\p{L}{1,2}\.\s</beforebreak><!-- not 'no'/'in', these could be abbreviations-->
 <afterbreak>[\p{N}\p{Ll}]</afterbreak>
 </rule>
 <rule break="no">
@@ -1700,6 +1704,14 @@
 <rule break="no">
 <beforebreak>\bmax\.\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[?!.]['"\u00BB\u2019\u201D\u203A\u00AB\p{Pe}\u0002]\s</beforebreak>
+<afterbreak>[A-Z][a-z]</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[?!.]\s</beforebreak>
+<afterbreak>['"\u00BB\u2019\u201D\u203A\u00AB\p{Pe}\u0002][A-Z][a-z]</afterbreak>
 </rule>
 </languagerule>
 <languagerule languagerulename="Slovak">
@@ -4534,6 +4546,10 @@
 <beforebreak>\w['’][nNtT]\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
+<rule break="yes">
+<beforebreak>\.\[\d+\]\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
 <!-- initials: A. C. Jones. Problem: [...] d'Alfons I. Ell era [...] -->
 <rule break="no">
 <beforebreak>\b[A-ZÀÉÈÍÓÒÚ]\.\s</beforebreak>
@@ -4558,8 +4574,8 @@
 <afterbreak>[XIV\d]+\b</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(\d+(r|n|t|è|é|ns|es)|masc|fem|sing|pl|adj|adv|g|kg|m|km|cm|ha|u|h|hrs|s|ss|alt|cant|cast|cert|com|dir|gr|nom|parc|pres|set|Sr|Jr|Admón|Adm|Inc|Co|Hnos|Vda|[VU]d[s]?)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
-<afterbreak>\p{Ll}</afterbreak>
+<beforebreak>\b([Ee]ds?|[Cc]oords?|\d+(r|n|t|è|é|ns|es)|masc|fem|sing|pl|adj|adv|g|kg|m|km|cm|ha|u|h|hrs|s|ss|alt|cant|cast|cert|com|dir|gr|nom|parc|pres|set|Sr|Jr|Admón|Adm|Inc|Co|Hnos|Vda|[VU]d[s]?)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<afterbreak>[\-¡¿«»"'\u2018\u201C\p{Ps}\u2012\u2013\u2014\u2015\u2053]*\p{Ll}</afterbreak>
 </rule>
 <!-- Any word in acronyms like U.S.A.F or F. B. I. or C. or c.s.p. or p. e. -->
 <rule break="no">
@@ -4629,6 +4645,10 @@
 <beforebreak>Yahoo!\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
+<rule break="yes">
+<beforebreak>\.\[\d+\]\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
 <!-- initials: A. C. Jones. Problem: [...] de Alfons I. Él era [...] -->
 <rule break="no">
 <beforebreak>\b[A-ZÀÉÈÍÓÒÚ]\.\s</beforebreak>
@@ -4654,12 +4674,12 @@
 <afterbreak>[0-9]+\b</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b([Cc]ap|[Aa]rts?|pp|[Vv]ol)\.\s</beforebreak>
+<beforebreak>\b([Cc]ap|[Aa]rts?|pp|[Vv]ol|p|[Pp][aá]gs?|ps)\.\s</beforebreak>
 <afterbreak>[XIV\d]+\b</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\b(\d+(r|er|n|ero|era|mo|ma|vo|va|no|na|to|ta|do|da|h|hr|gr|grs|o|a)s?|g|kg|m|km|cm|ha|u|h|hrs|H|HR|HRS|s|ss|alt|cant|cast|cert|com|dir|gr|nom|parc|pres|set|Sr|Jr|Admón|Adm|Inc|Co|Hnos|Vda|[VU]d[s]?)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
-<afterbreak>\p{Ll}</afterbreak>
+<afterbreak>[\-¡¿«»"'\u2018\u201C\p{Ps}\u2012\u2013\u2014\u2015\u2053]*\p{Ll}</afterbreak>
 </rule>
 <rule break="no">
 <!-- URLs without "www."-->
@@ -4694,8 +4714,8 @@
 </rule>
 <!-- Abbreviations that can finish sentences -->
 <rule break="no">
-<beforebreak>\b(grs?|Sr|Jr|Admón|Inc|Co|Hnos|Vda|[VU]d[s]?)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
-<afterbreak>\p{Ll}</afterbreak>
+<beforebreak>\b([Ee]ds?|[Cc]oords?|grs?|Sr|Jr|Admón|Inc|Co|Hnos|Vda|[VU]d[s]?)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<afterbreak>[\-¡¿«»"'\u2018\u201C\p{Ps}\u2012\u2013\u2014\u2015\u2053]*\p{Ll}</afterbreak>
 </rule>
 <!-- Any word in acronyms like U.S.A.F or F. B. I. or C. or c.s.p. or p. e. -->
 <rule break="no">
@@ -4732,11 +4752,16 @@
 </rule>
 <rule break="yes">
 <beforebreak>[\.…][\u00BB\u2019\u201D\u203A"'\u0002]*\s</beforebreak>
-<afterbreak/>
+<afterbreak></afterbreak>
 </rule>
-<rule break="yes"> <!--do not break if the space is missing!! -->
-<beforebreak>\s\p{L}+[\p{Pf}\p{Pe}\u00BB\u2019\u201D\u203A"'\u0002]*[\.:!?…]+\s</beforebreak>
-<afterbreak>[¡¿«»"'\p{Ps}]*\p{Lu}\p{L}*</afterbreak>
+<rule break="yes">
+<beforebreak>\b[\p{L}'’·\-]+[\p{Pf}\p{Pe}\u00BB\u2019\u201D\u203A"'\u0002]*[\.:!?…]+\s</beforebreak>
+<afterbreak>[¡¿«»"'\u2018\u201C"\p{Ps}]*\p{Lu}\p{L}*</afterbreak>
+</rule>
+<!-- paragraphs with opening "»" in dialogs-->
+<rule break="yes">
+<beforebreak>[\.:!?…»]+\s</beforebreak>
+<afterbreak>»[^\s\.:!?…]</afterbreak>
 </rule>
 </languagerule>
 <languagerule languagerulename="German">
@@ -5144,6 +5169,10 @@
 <rule break="no">
 <beforebreak>Yahoo!\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>\.\[\d+\]\s</beforebreak>
+<afterbreak></afterbreak>
 </rule>
 <rule break="no"><!-- URLs without "www."-->
 <beforebreak>\b(https?|ftp|file|chrome|chromium|android|(chrome|moz)\-extension):///?[A-Za-z0-9\-]+\.</beforebreak>

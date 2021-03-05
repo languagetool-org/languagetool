@@ -59,14 +59,14 @@ class PipelinePool {
     private final Language lang;
     private final Language motherTongue;
     private final TextChecker.QueryParams query;
-    private final UserConfig user;
+    private final UserConfig userConfig;
     private final GlobalConfig globalConfig;
     
     PipelineSettings(Language lang, Language motherTongue, TextChecker.QueryParams params, GlobalConfig globalConfig, UserConfig userConfig) {
       this.lang = lang;
       this.motherTongue = motherTongue;
       this.query = params;
-      this.user = userConfig;
+      this.userConfig = userConfig;
       this.globalConfig = globalConfig;
     }
 
@@ -77,7 +77,7 @@ class PipelinePool {
         .append(motherTongue)
         .append(query)
         .append(globalConfig)
-        .append(user)
+        .append(userConfig)
         .toHashCode();
     }
 
@@ -93,7 +93,7 @@ class PipelinePool {
         .append(motherTongue, other.motherTongue)
         .append(query, other.query)
         .append(globalConfig, other.globalConfig)
-        .append(user, other.user)
+        .append(userConfig, other.userConfig)
         .isEquals();
     }
 
@@ -104,7 +104,7 @@ class PipelinePool {
         .append("motherTongue", motherTongue)
         .append("query", query)
         .append("globalConfig", globalConfig)
-        .append("user", user)
+        .append("user", userConfig)
         .build();
     }
   }
@@ -168,14 +168,14 @@ class PipelinePool {
       Pipeline pipeline = pipelines.poll();
       if (pipeline == null) {
         //ServerTools.print(String.format("No prepared pipeline found for %s; creating one.", settings));
-        pipeline = createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.user, config.getDisabledRuleIds());
+        pipeline = createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.userConfig, config.getDisabledRuleIds());
       } else {
         pipelinesUsed++;
         //ServerTools.print(String.format("Prepared pipeline found for %s; using it.", settings));
       }
       return pipeline;
     } else {
-      return createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.user, config.getDisabledRuleIds());
+      return createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.userConfig, config.getDisabledRuleIds());
     }
   }
 

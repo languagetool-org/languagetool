@@ -68,7 +68,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getSuggestion() {
+  public String getMessage() {
     return "'$match' este incorect sau ieșit din uz, folosiți $suggestions";
   }
 

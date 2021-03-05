@@ -40,6 +40,12 @@ public class MultipleWhitespaceRuleTest {
 
     // correct sentences:
     assertGood("This is a test sentence.", lt);
+    assertGood("This\uFEFF is a test sentence.", lt);
+    assertGood("This\uFEFF\uFEFF is a test sentence.", lt);
+    assertGood("This \uFEFFis a test sentence.", lt);
+    assertGood("This\uFEFF\u2060 is a test sentence.", lt);
+    assertGood("This\uFEFF\u2060 is a test sentence.", lt);
+    assertGood("\uFEFF\uFEFFThis is a\n\u2060\ntest sentence...", lt);
     assertGood("This is a test sentence...", lt);
     assertGood("\n\tThis is a test sentence...", lt);
     assertGood("Multiple tabs\t\tare okay", lt);

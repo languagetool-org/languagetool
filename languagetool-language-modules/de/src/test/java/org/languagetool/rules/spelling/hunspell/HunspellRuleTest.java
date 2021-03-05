@@ -24,12 +24,9 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.AustrianGerman;
 import org.languagetool.language.German;
-import org.languagetool.language.SwissGerman;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.de.GermanSpellerRule;
-import static org.hamcrest.CoreMatchers.is;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -37,6 +34,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
@@ -176,7 +174,7 @@ public class HunspellRuleTest {
     //HunspellRule rule = new HunspellRule(messages, Language.GERMANY_GERMAN);
     //fast:
     CompoundAwareHunspellRule rule = new GermanSpellerRule(messages, (German) Languages.getLanguageForShortCode("de-DE"));
-    rule.init();
+    rule.ensureInitialized();
     String[] words = {"foo", "warmup", "Rechtschreipreform", "Theatrekasse", "Zoobesuck", "Handselvertreter", "Mückenstick", "gewönlich", "Traprennen", "Autoverkehrr"};
     for (String word : words) {
       long startTime = System.currentTimeMillis();

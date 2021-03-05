@@ -127,13 +127,16 @@ public class German extends Language implements AutoCloseable {
             new CommaWhitespaceRule(messages,
                     Example.wrong("Die Partei<marker> ,</marker> die die letzte Wahl gewann."),
                     Example.fixed("Die Partei<marker>,</marker> die die letzte Wahl gewann.")),
-            new GenericUnpairedBracketsRule(messages,
-                    Arrays.asList("[", "(", "{", "„", "»", "«", "\""),
-                    Arrays.asList("]", ")", "}", "“", "«", "»", "\"")),
+            new GermanUnpairedBracketsRule(messages, this),
             new UppercaseSentenceStartRule(messages, this,
                     Example.wrong("Das Haus ist alt. <marker>es</marker> wurde 1950 gebaut."),
                     Example.fixed("Das Haus ist alt. <marker>Es</marker> wurde 1950 gebaut.")),
             new MultipleWhitespaceRule(messages, this),
+            new WhiteSpaceBeforeParagraphEnd(messages, this),
+            new WhiteSpaceAtBeginOfParagraph(messages),
+            new EmptyLineRule(messages, this),
+            new LongParagraphRule(messages, this, userConfig),
+            new PunctuationMarkAtParagraphEnd(messages, this),
             // specific to German:
             new SimpleReplaceRule(messages),
             new OldSpellingRule(messages),
@@ -152,16 +155,13 @@ public class German extends Language implements AutoCloseable {
             new WordCoherencyRule(messages),
             new SimilarNameRule(messages),
             new WiederVsWiderRule(messages),
-            new WhiteSpaceBeforeParagraphEnd(messages, this),
-            new WhiteSpaceAtBeginOfParagraph(messages),
-            new EmptyLineRule(messages, this),
             new GermanStyleRepeatedWordRule(messages, this, userConfig),
             new CompoundCoherencyRule(messages),
-            new LongSentenceRule(messages, userConfig, 35, true, true),
-            new LongParagraphRule(messages, this, userConfig),
+            new LongSentenceRule(messages, userConfig, 40, true, true),
             new GermanFillerWordsRule(messages, this, userConfig),
+            new NonSignificantVerbsRule(messages, this, userConfig),
+            new UnnecessaryPhraseRule(messages, this, userConfig),
             new GermanParagraphRepeatBeginningRule(messages, this),
-            new PunctuationMarkAtParagraphEnd(messages, this),
             new DuUpperLowerCaseRule(messages),
             new UnitConversionRule(messages),
             new MissingCommaRelativeClauseRule(messages),
@@ -169,7 +169,7 @@ public class German extends Language implements AutoCloseable {
             new GermanReadabilityRule(messages, this, userConfig, true),
             new GermanReadabilityRule(messages, this, userConfig, false),
             new CompoundInfinitivRule(messages, this, userConfig),
-            new StyleRepeatedVeryShortSentences(messages),
+            new StyleRepeatedVeryShortSentences(messages, this),
             new StyleRepeatedSentenceBeginning(messages)
     );
   }
@@ -284,6 +284,7 @@ public class German extends Language implements AutoCloseable {
     
     //non-breaking space
     output = output.replaceAll("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)", "$1\u00a0$2");
+    output = output.replaceAll("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)", "$1\u00a0$2");
     return output;
   }
   
@@ -305,30 +306,40 @@ public class German extends Language implements AutoCloseable {
       case "DE_PROHIBITED_COMPOUNDS": return 1;  // a more detailed error message than from spell checker
       case "ANS_OHNE_APOSTROPH": return 1;
       case "DIESEN_JAHRES": return 1;
+      case "WERT_SEIN": return 1; // prefer over DE_AGREEMENT
       case "EBEN_FALLS": return 1;
       case "UST_ID": return 1;
+      case "AUF_BITTEN": return 1; // prefer over ZUSAMMENGESETZTE_VERBEN
       case "FUER_INBESONDERE": return 1; // prefer over KOMMA_VOR_ERLAEUTERUNG
       case "COVID_19": return 1; // prefer over PRAEP_GEN and DE_AGREEMENT
+      case "KLEINSCHREIBUNG_MAL": return 1; // prefer over DE_AGREEMENT
+      case "VERINF_DAS_DASS_SUB": return 1; // prefer over DE_AGREEMENT
+      case "DASS_DAS_PA2_DAS_PROIND": return 1; // prefer over DE_AGREEMENT
       case "IM_ALTER": return 1; // prefer over ART_ADJ_SOL
       case "DAS_ALTER": return 1; // prefer over ART_ADJ_SOL
       case "VER_INF_PKT_VER_INF": return 1; // prefer over DE_CASE
       case "DASS_MIT_VERB": return 1; // prefer over SUBJUNKTION_KOMMA ("Dass wird Konsequenzen haben.")
       case "AB_TEST": return 1; // prefer over spell checker and agreement
       case "BZGL_ABK": return 1; // prefer over spell checker
-      case "DURCH_WACHSEN": return 1; // prefer over SUBSTANTIVIERUNG_NACH_DURCHs
+      case "DURCH_WACHSEN": return 1; // prefer over SUBSTANTIVIERUNG_NACH_DURCH
       case "RUNDUM_SORGLOS_PAKET": return 1; // higher prio than DE_CASE
       case "MIT_FREUNDLICHEN_GRUESSE": return 1; // higher prio than MEIN_KLEIN_HAUS
+      case "EINE_ORIGINAL_RECHNUNG": return 1; // higher prio than DE_CASE, DE_AGREEMENT and MEIN_KLEIN_HAUS
+      case "TYPOGRAPHIC_QUOTES": return 1; // higher prio than UNPAIRED_BRACKETS
       // default is 0
+      case "DE_COMPOUND_COHERENCY": return -1;  // prefer EMAIL
       case "DE_AGREEMENT": return -1;  // prefer RECHT_MACHEN, MONTAGS, KONJUNKTION_DASS_DAS, DESWEITEREN, DIES_BEZUEGLICH and other
       case "MEIN_KLEIN_HAUS": return -1; // prefer more specific rules that offer a suggestion (e.g. DIES_BEZÜGLICH)
       case "COMMA_IN_FRONT_RELATIVE_CLAUSE": return -1; // prefer other rules (KONJUNKTION_DASS_DAS)
       case "MODALVERB_FLEKT_VERB": return -1;
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
-      case "GERMAN_WORD_REPEAT_RULE": return -1; // prefer other more specific rules
+      case "DOPPELTER_NOMINATIV": return -2;  // give precedence to wie-wir-wird confusion rules
+      case "GERMAN_WORD_REPEAT_RULE": return -3; // prefer other more specific rules
       case "GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "AUSTRIAN_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "SWISS_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "PUNCTUATION_PARAGRAPH_END": return -4;  // don't hide spelling mistakes
+      case "TEST_F_ANSTATT_PH": return -4;  // don't hide spelling mistakes
       case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
       case "KOMMA_VOR_RELATIVSATZ": return -10;
@@ -352,8 +363,8 @@ public class German extends Language implements AutoCloseable {
       messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages, inputLogging));
 
     // no description needed - matches based on automatically created rules with descriptions provided by remote server
-    rules.addAll(GRPCRule.createAll(configs, inputLogging, "AI_DE_",
-      "INTERNAL - dynamically loaded rule supported by remote server"));
+    rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
+            "AI_DE_", "INTERNAL - dynamically loaded rule supported by remote server"));
 
     return rules;
   }

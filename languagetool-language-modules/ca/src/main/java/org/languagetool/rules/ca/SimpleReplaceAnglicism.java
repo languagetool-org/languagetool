@@ -81,13 +81,8 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getSuggestion() {
+  public String getMessage() {
     return "Anglicisme innecessari. Considereu fer servir una altra paraula.";
-  }
-
-  @Override
-  public String getSuggestionsSeparator() {
-    return " o ";
   }
 
   @Override

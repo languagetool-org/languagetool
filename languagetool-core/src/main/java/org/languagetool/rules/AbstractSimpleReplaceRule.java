@@ -126,6 +126,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
       if( JLanguageTool.SENTENCE_START_TAGNAME.equals(tokenReadings.getAnalyzedToken(0).getPOSTag()) ||
           tokenReadings.isImmunized() ||        //this rule is used mostly for spelling, so ignore both immunized
           tokenReadings.isIgnoredBySpeller() || //and speller-ignorable rules
+          isTokenException(tokenReadings) ||
           (ignoreTaggedWords && isTagged(tokenReadings))
       ) {
         continue;
@@ -141,6 +142,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
     String originalTokenStr = tokenReadings.getToken();
     String tokenString = cleanup(originalTokenStr);
+    boolean isAllUppercase = StringTools.isAllUppercase(originalTokenStr);
 
     // try first with the original word, then with the all lower-case version
     List<String> possibleReplacements = getWrongWords().get(originalTokenStr);
@@ -183,7 +185,14 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     }
 
     if (possibleReplacements != null && possibleReplacements.size() > 0) {
-      List<String> replacements = new ArrayList<>(possibleReplacements);
+      List<String> replacements = new ArrayList<>();
+      if (isAllUppercase) {
+        for (String s: possibleReplacements) {
+          replacements.add(s.toUpperCase());
+        }
+      } else {
+        replacements = new ArrayList<>(possibleReplacements);  
+      }
       replacements.remove(originalTokenStr);
       if (replacements.size() > 0) {
         RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, sentence);
@@ -243,5 +252,12 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   @Nullable
   public Synthesizer getSynthesizer() {
     return null;
+  }
+
+  /*
+   * @since 5.2
+   */
+  protected boolean isTokenException(AnalyzedTokenReadings atr) {
+    return false;
   }
 }

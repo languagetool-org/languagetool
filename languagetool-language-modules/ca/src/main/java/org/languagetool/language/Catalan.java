@@ -82,7 +82,6 @@ public class Catalan extends Language {
             new MorfologikCatalanSpellerRule(messages, this, userConfig, altLanguages),
             new CatalanUnpairedQuestionMarksRule(messages, this),
             new CatalanUnpairedExclamationMarksRule(messages, this),
-            new AccentuationCheckRule(messages),
             new CatalanWrongWordInContextRule(messages),
             new SimpleReplaceVerbsRule(messages, this),
             new SimpleReplaceBalearicRule(messages),
@@ -91,7 +90,9 @@ public class Catalan extends Language {
             new SimpleReplaceDNVRule(messages, this), // can be removed here after updating dictionaries
             new SimpleReplaceDiacriticsIEC(messages),
             new SimpleReplaceAnglicism(messages), 
-            new PronomFebleDuplicateRule(messages)
+            new PronomFebleDuplicateRule(messages),
+            new CheckCaseRule(messages, this),
+            new SimpleReplaceAdverbsMent(messages)
             //REMEMBER TO ADD RULES TO ValencianCatalan!!
     );
   }
@@ -175,6 +176,7 @@ public class Catalan extends Language {
     switch (id) {
       case "CA_SIMPLE_REPLACE_BALEARIC": return 100;
       case "INCORRECT_EXPRESSIONS": return 50;
+      case "PERSONATGES_FAMOSOS": return 50;
       case "MOTS_NO_SEPARATS": return 40;
       case "REPETEAD_ELEMENTS": return 40;
       case "ESPAIS_SOBRANTS": return 40; // greater than L
@@ -197,7 +199,9 @@ public class Catalan extends Language {
       case "CONCORDANCES_DET_NOM": return 5;
       case "DET_GN": return 5; // greater than DE_EL_S_APOSTROFEN
       case "VENIR_NO_REFLEXIU": return 5;
+      case "PEL_QUE": return -10; // lesser than PEL_QUE_FA
       case "REGIONAL_VERBS": return -10;
+      case "PRONOMS_FEBLES_SOLTS": return -10; //lesser than SPELLING
       case "AGREEMENT_POSTPONED_ADJ": return -15;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
       case "MUNDAR": return -50;
@@ -208,6 +212,8 @@ public class Catalan extends Language {
       case "SUBSTANTIUS_JUNTS": return -150;
       case "FALTA_ELEMENT_ENTRE_VERBS": return -200;
       case "UPPERCASE_SENTENCE_START": return -500;
+      case "MAJUSCULA_IMPROBABLE": return -500;
+      case "ELA_GEMINADA_WIKI": return -200;
     }
     return super.getPriorityForId(id);
   }

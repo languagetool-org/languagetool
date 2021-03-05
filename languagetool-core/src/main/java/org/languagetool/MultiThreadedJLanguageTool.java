@@ -23,6 +23,7 @@ import com.google.common.collect.Lists;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.RuleSet;
 
 import java.io.IOException;
 import java.util.*;
@@ -161,23 +162,41 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   
   
   @Override
-  protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentenceTexts,
-                                         List<Rule> allRules, ParagraphHandling paraMode,
+  protected CheckResults performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentenceTexts,
+                                         RuleSet ruleSet, ParagraphHandling paraMode,
                                          AnnotatedText annotatedText, RuleMatchListener listener, Mode mode, Level level, boolean checkRemoteRules) {
+    List<Rule> allRules = ruleSet.allRules();
     List<SentenceData> sentences = computeSentenceData(analyzedSentences, sentenceTexts);
+
+    Map<Rule, BitSet> map = new HashMap<>();
+    for (int i = 0; i < sentences.size(); i++) {
+      for (Rule rule : ruleSet.rulesForSentence(sentences.get(i).analyzed)) {
+        map.computeIfAbsent(rule, __ -> new BitSet()).set(i);
+      }
+    }
+
     AtomicInteger ruleIndex = new AtomicInteger();
     Map<Integer, List<RuleMatch>> ruleMatches = new TreeMap<>();
+    List<Range> ignoreRanges = new ArrayList<>();
     List<Future<?>> futures = IntStream.range(0, getThreadPoolSize()).mapToObj(__ -> getExecutorService().submit(() -> {
       while (true) {
         int index = ruleIndex.getAndIncrement();
         if (index >= allRules.size()) return null;
 
+        Rule rule = allRules.get(index);
+        BitSet applicable = map.get(rule);
+        if (applicable == null) continue;
+
         // less need for special treatment of remote rules when execution is already parallel
-        List<RuleMatch> matches = new TextCheckCallable(Collections.singletonList(allRules.get(index)), sentences,
+        CheckResults res = new TextCheckCallable(RuleSet.plain(Collections.singletonList(rule)),
+          RuleSet.filterList(applicable, sentences),
           paraMode, annotatedText, listener, mode, level, true).call();
-        if (!matches.isEmpty()) {
+        if (!res.getRuleMatches().isEmpty()) {
           synchronized (ruleMatches) {
-            ruleMatches.put(index, matches);
+            ruleMatches.put(index, res.getRuleMatches());
+          }
+          synchronized (ignoreRanges) {
+            ignoreRanges.addAll(res.getIgnoredRanges());
           }
         }
       }
@@ -191,7 +210,8 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
       throw new RuntimeException(e);
     }
 
-    return applyCustomFilters(Lists.newArrayList(Iterables.concat(ruleMatches.values())), annotatedText);
+    List<RuleMatch> rm = applyCustomFilters(Lists.newArrayList(Iterables.concat(ruleMatches.values())), annotatedText);
+    return new CheckResults(rm, ignoreRanges);
   }
 
   private class AnalyzeSentenceCallable implements Callable<AnalyzedSentence> {

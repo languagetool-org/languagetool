@@ -1,6 +1,6 @@
 /*
  *  LanguageTool, a natural language style checker
- *  * Copyright (C) 2018 Fabian Richter
+ *  * Copyright (C) 2020 Fabian Richter
  *  *
  *  * This library is free software; you can redistribute it and/or
  *  * modify it under the terms of the GNU Lesser General Public
@@ -19,29 +19,30 @@
  *
  */
 
-package org.languagetool.rules;
+package org.languagetool.rules.en;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.rules.ml.MLServerProto;
+import org.junit.Test;
+import org.languagetool.Language;
+import org.languagetool.rules.RemoteRuleFilterTest;
 
-import java.util.ResourceBundle;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
-public class GRPCConfusionRule extends GRPCRule {
+public class EnglishRemoteRuleFilterTest extends RemoteRuleFilterTest {
 
-  public GRPCConfusionRule(ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
-    super(messages, config, inputLogging);
+  @Test
+  public void testRules() throws IOException {
+    runGrammarRulesFromXmlTest();
   }
 
   @Override
-  protected String getMessage(MLServerProto.Match match, AnalyzedSentence sentence) {
-    // fallback, should be provided by server
-    String covered = sentence.getText().substring(match.getOffset(), match.getOffset() + match.getLength());
-    return "You might be confusing '" + covered + "' with another word.";
-  }
-
-  @Override
-  public String getDescription() {
-    // fallback, should be provided by server
-    return "This rule discerns confusion pairs.";
+  protected List<String> getGrammarFileNames(Language lang) {
+    // no variant support included for now
+    if (lang.isVariant()) {
+      return Collections.emptyList();
+    } else {
+      return super.getGrammarFileNames(lang);
+    }
   }
 }

@@ -47,6 +47,8 @@ public class EnglishSRXSentenceTokenizerTest {
 
     testSplit("This is a sentence. ");
     testSplit("This is a sentence. ", "And this is another one.");
+    testSplit("This is it. ", "and this is another sentence.");
+    testSplit("This is a sentence. ", "and this is another sentence.");
     testSplit("This is a sentence.", "Isn't it?", "Yes, it is.");
     testSplit("This is e.g. Mr. Smith, who talks slowly...",
             "But this is another sentence.");
@@ -113,6 +115,13 @@ public class EnglishSRXSentenceTokenizerTest {
     testSplit("Yahoo!", "What is it?");
     
     testSplit("This is a sentence.\u0002 ", "And this is another one.");  // footnotes in LibOO/OOo look like this
+    
+    testSplit("Other good editions are in vol. 4.");
+    testSplit("Other good editions are in vol. IX.");
+    testSplit("Other good editions are in vol. I think."); // ambiguous
+    testSplit("Who Shall I Say is Calling & Other Stories S. Deziemianowicz, ed. (2009)");
+    testSplit("Who Shall I Say is Calling & Other Stories S. Deziemianowicz, ed. ", "And this is another one.");
+    testSplit("This is a sentence written by Ed. ", "And this is another one.");
   }
 
   private void testSplit(String... sentences) {
@@ -120,3 +129,4 @@ public class EnglishSRXSentenceTokenizerTest {
   }
   
 }
+

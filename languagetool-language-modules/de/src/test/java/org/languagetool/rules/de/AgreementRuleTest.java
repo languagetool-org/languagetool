@@ -69,7 +69,7 @@ public class AgreementRuleTest {
   @Test
   public void testDetNounRule() throws IOException {
     // correct sentences:
-	  assertGood("Die Einen sagen dies, die Anderen das.");
+    assertGood("Die Einen sagen dies, die Anderen das.");
     assertGood("So ist es in den USA.");
     assertGood("Das ist der Tisch.");
     assertGood("Das ist das Haus.");
@@ -152,7 +152,29 @@ public class AgreementRuleTest {
     assertGood("Die Customer Journey.");
     assertGood("Für dich gehört Radfahren zum perfekten Urlaub dazu?");
     assertGood(":D:D Leute, bitte!");
-    //assertGood("... der zu dieser Zeit aber ohnehin schon allen Einfluss verloren hatte.");
+    assertGood("Es genügt, wenn ein Mann sein eigenes Geschäft versteht und sich nicht in das anderer Leute einmischt.");
+    assertGood("Ich habe das einige Male versucht.");
+    assertGood("Und keine Märchen erzählst, die dem anderen Hoffnungen machen können.");
+    assertGood("Um diese Körpergrößen zu erreichen, war das Wachstum der Vertreter der Gattung Dinornis offenbar gegenüber dem anderer Moa-Gattungen beschleunigt");
+    assertGood("Der Schädel entspricht in den Proportionen dem anderer Vulpes-Arten, besitzt aber sehr große Paukenhöhlen, ein typisches Merkmal von Wüstenbewohnern.");
+    assertGood("Deuterium lässt sich aufgrund des großen Massenunterschieds leichter anreichern als die Isotope der anderer Elemente wie z. B. Uran.");
+    assertGood("Unklar ist, ob er zwischen der Atemseele des Menschen und der anderer Lebewesen unterschied.");
+    assertGood("Die Liechtensteiner Grenze ist im Verhältnis zu der anderer Länder kurz, da Liechtenstein ein eher kleines Land ist.");
+    assertGood("Picassos Kunstwerke werden häufiger gestohlen als die anderer Künstler.");
+    assertGood("Schreibe einen Artikel über deine Erfahrungen im Ausland oder die anderer Leute in deinem Land.");
+    assertGood("Die Bevölkerungen Chinas und Indiens lassen die anderer Staaten als Zwerge erscheinen.");
+    assertGood("Der eine mag Obst, ein anderer Gemüse, wieder ein anderer mag Fisch; allen kann man es nicht recht machen.");
+    assertGood("Mittels eines Bootloaders und zugehöriger Software kann nach jedem Anstecken des Adapters eine andere Firmware-Varianten geladen werden");
+    assertGood("Wenn sie eine andere Größe benötigen, teilen uns ihre speziellen Wünsche mit und wir unterbreiten ihnen ein Angebot über Preis und Lieferung.");
+    assertGood("Dabei wird in einer Vakuumkammer eine einige Mikrometer dicke CVD-Diamantschicht auf den Substraten abgeschieden.");
+    assertGood("1916 versuchte Gilbert Newton Lewis, die chemische Bindung durch Wechselwirkung der Elektronen eines Atoms mit einem anderen Atomen zu erklären.");
+    assertGood("Vom einen Ende der Straße zum anderen.");
+    assertGood("Er war müde vom vielen Laufen.");
+    assertGood("Sind das echte Diamanten?");
+    assertGood("Es wurde eine Verordnung erlassen, der zufolge jeder Haushalt Energie einsparen muss.");
+    assertGood("Im Jahr 1922 verlieh ihm König George V. den erblichen Titel eines Baronet. ");
+    assertGood("... der zu dieser Zeit aber ohnehin schon allen Einfluss verloren hatte.");
+    assertGood("Ein Geschenk, das Maßstäbe setzt");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");
@@ -228,6 +250,8 @@ public class AgreementRuleTest {
     assertGood("Ein Trainer, der zum einen Fußballspiele sehr gut lesen und analysieren kann");
     assertGood("Eine Massengrenze, bis zu der Lithium nachgewiesen werden kann.");
     assertGood("Bei uns im Krankenhaus betrifft das Operationssäle.");
+    assertGood("Macht dir das Freude?");
+    assertGood("Das macht jedem Angst.");
 
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");
@@ -240,7 +264,7 @@ public class AgreementRuleTest {
     assertBad("Gutenberg, die Genie.");
     //assertBad("Gutenberg, die größte Genie.");
     //assertBad("Gutenberg, die größte Genie aller Zeiten.");
-    //assertGood("Die wärmsten Monate sind August und September, die kältesten Januar und Februar.");
+    assertGood("Die wärmsten Monate sind August und September, die kältesten Januar und Februar.");
     // some of these used to cause false alarms:
     assertGood("Das Münchener Fest.");
     assertGood("Das Münchner Fest.");
@@ -271,7 +295,7 @@ public class AgreementRuleTest {
     assertGood("Stell dich dem Leben lächelnd!");
     assertGood("Die Messe wird auf das vor der Stadt liegende Ausstellungsgelände verlegt.");
     assertGood("Sie sind ein den Frieden liebendes Volk.");
-    //assertGood("Zum Teil sind das Krebsvorstufen.");
+    assertGood("Zum Teil sind das Krebsvorstufen.");
     assertGood("Er sagt, dass das Rache bedeutet.");
     assertGood("Wenn das Kühe sind, bin ich ein Elefant.");
     assertGood("Karl sagte, dass sie niemandem Bescheid gegeben habe.");
@@ -300,7 +324,35 @@ public class AgreementRuleTest {
     assertGood("Das letzte Mal war das Anfang der 90er Jahre des vergangenen Jahrhunderts");
     assertGood("Der vom Rat der Justizminister gefasste Beschluss zur Aufnahme von Vertriebenen...");
     assertGood("Der letzte Woche vom Rat der Justizminister gefasste Beschluss zur Aufnahme von Vertriebenen...");
-
+    assertGood("Was war sie nur für eine dumme Person!");
+    assertGood("Was war ich für ein Idiot!");
+    assertGood("Was für ein Idiot!");
+    assertGood("Was für eine blöde Kuh!");
+    assertGood("Was ist sie nur für eine blöde Kuh!");
+    assertGood("Wie viele Paar Stiefel brauche ich eigentlich?");
+    assertGood("Dieses versuchten Mathematiker 400 Jahre lang vergeblich zu beweisen.");
+    //assertGood("Bei dem Papierabzüge von Digitalbildern bestellt werden.");
+    assertGood("Gemälde informieren uns über das Leben von den vergangenen Jahrhunderten…");
+    assertGood("Die Partei, die bei den vorangegangenen Wahlen noch seine Politik unterstützt hatte.");
+    assertGood("Bei Zunahme der aufgelösten Mineralstoffe, bei denen...");
+    assertGood("Je mehr Muskelspindeln in einem Muskel vorhanden sind, desto feiner können die mit diesem verbundenen Bewegungen abgestimmt werden.");
+    assertGood("Diese datentechnischen Operationen werden durch Computerprogramme ausgelöst, d. h. über entsprechende, in diesen enthaltene Befehle (als Teil eines implementierten Algorithmus') vorgegeben.");
+    assertGood("Aus diesen resultierten Konflikte wie der Bauernkrieg und der Pfälzische Erbfolgekrieg.");
+    assertGood("Die Staatshandlungen einer Mikronation und von dieser herausgegebene Ausweise, Urkunden und Dokumente gelten im Rechtsverkehr als unwirksam");
+    assertGood("Auf der Hohen See und auf den mit dieser verbundenen Gewässern gelten die internationalen Kollisionsverhütungsregeln.");
+    assertGood("Art. 11 Abs. 2 GGV setzt dem bestimmte Arten der außergemeinschaftlichen Zugänglichmachung gleich");
+    assertGood("Grundsätzlich sind die Heilungschancen von Männern mit Brustkrebs nicht schlechter als die betroffener Frauen.");
+    assertGood("In diesem Viertel bin ich aufgewachsen.");
+    assertGood("Im November wurde auf dem Gelände der Wettbewerb ausgetragen.");
+    assertGood("Er ist Eigentümer des gleichnamigen Schemas und stellt dieses interessierten Domänen zur Verfügung.");
+    assertGood("Dort finden sie viele Informationen rund um die Themen Schwangerschaft, Geburt, Stillen, Babys und Kinder.");
+    assertGood("Die Galerie zu den Bildern findet sich hier.");
+    assertGood("Ganz im Gegensatz zu den Blättern des Brombeerstrauches.");
+    assertGood("Er erzählte von den Leuten und den Dingen, die er auf seiner Reise gesehen hatte.");
+    assertGood("Diese Partnerschaft wurde 1989 nach dem Massaker auf dem Platz des Himmlischen Friedens eingefroren.");
+    assertGood("Die Feuergefahr hingegen war für für die Londoner Teil des Alltags.");
+    assertGood("Was ist, wenn ein Projekt bei den Berliner Type Awards mit einem Diplom ausgezeichnet wird?");
+    assertGood("Was ist mit dem Liechtensteiner Kulturleben los?");
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");
     assertBad("Meiner Chef raucht.");
@@ -317,17 +369,36 @@ public class AgreementRuleTest {
     assertBad("Das Auto einem Mannes.", "einem Mann", "einem Manne", "eines Mannes");
     assertBad("Das Auto einer Mannes.", "eines Mannes");
     assertBad("Das Auto einen Mannes.", "einen Mann", "eines Mannes");
-
+    assertBad("Die Galerie zu den Bilder findet sich hier.");
+    assertBad("Ganz im Gegensatz zu den Blätter des Brombeerstrauches.");
     //assertBad("Das erwähnt Auto bog nach rechts ab.");    // TODO
     assertGood("Das erlaubt Forschern, neue Versuche durchzuführen.");
     assertGood("Dies ermöglicht Forschern, neue Versuche durchzuführen.");
+    assertGood("Je länger zugewartet wird, desto schwieriger dürfte es werden, die Jungtiere von den Elterntieren zu unterscheiden.");
+    assertGood("Er schrieb ein von 1237 bis 1358 reichendes Geschichtswerk, dessen Schwerpunkt auf den Ereignissen in der Lombardei liegt.");
     assertBad("Die erwähnt Konferenz ist am Samstag.");
     assertBad("Die erwähntes Konferenz ist am Samstag.");
     assertBad("Die erwähnten Konferenz ist am Samstag.");
     assertBad("Die erwähnter Konferenz ist am Samstag.");
     assertBad("Die erwähntem Konferenz ist am Samstag.");
-
+    assertBad("Die gemessen Werte werden in die länderspezifische Höhe über dem Meeresspiegel umgerechnet.");
+    assertBad("Darüber hinaus haben wir das berechtigte Interessen, diese Daten zu verarbeiten.");
+    assertBad("Eine Amnestie kann den Hingerichteten nicht das Leben und dem heimgesuchten Familien nicht das Glück zurückgeben.");
+    //assertBad("Zu den gefährdete Vögeln Malis gehören der Strauß, Großtrappen und Perlhuhn.");
+    //assertBad("Zu den gefährdete Vögel Malis gehören der Strauß, Großtrappen und Perlhuhn.");
+    assertBad("Z. B. therapeutisches Klonen, um aus den gewonnen Zellen in vitro Ersatzorgane für den Patienten zu erzeugen");
+    //assertBad("Gemälde informieren uns über das Leben von den vergangenen Jahrhunderte…");
+    assertBad("Die Partei, die bei den vorangegangen Wahlen noch seine Politik unterstützt hatte.");
+    assertBad("Bei Zunahme der aufgelösten Mineralstoffen, bei denen...");
+    assertBad("Durch die große Vielfalt der verschiedene Linien ist für jeden Anspruch die richtige Brille im Portfolio.");
+    assertBad("In diesen Viertel bin ich aufgewachsen.");
+    assertBad("Im November wurde auf den Gelände der Wettbewerb ausgetragen.");
+    assertBad("Dort finden sie Testberichte und viele Informationen rund um das Themen Schwangerschaft, Geburt, Stillen, Babys und Kinder.");
+    assertBad("Je länger zugewartet wird, desto schwieriger dürfte es werden, die Jungtiere von den Elterntiere zu unterscheiden.");
+    assertBad("Er schrieb ein von 1237 bis 1358 reichendes Geschichtswerk, dessen Schwerpunkt auf den Ereignisse in der Lombardei liegt.");
     assertBad("Des großer Mannes.");
+    assertBad("Er erzählte von den Leute und den Dingen, die er gesehen hatte.");
+    assertBad("Diese Partnerschaft wurde 1989 nach den Massaker auf dem Platz des Himmlischen Friedens eingefroren.");
 
     assertBad("Das Dach von meine Auto.", "mein Auto", "meine Autos", "meinem Auto");
     assertBad("Das Dach von meinen Auto.", "mein Auto", "meinem Auto", "meinen Autos");
@@ -391,13 +462,18 @@ public class AgreementRuleTest {
     assertBad("Hier steht Ihre Text.");
     assertBad("Hier steht ihre Text.");
 
+    assertBad("Das ist doch lächerlich, was ist denn das für ein Klinik?");
+    assertGood("Das ist doch lächerlich, was ist denn das für eine Klinik?");
+    assertGood("Was ist denn das für ein Typ?");
+
     assertBad("Ich weiß nicht mehr, was unser langweiligen Thema war.");
     assertGood("Aber mein Wissen über die Antike ist ausbaufähig.");
     assertBad("Er ging ins Küche.");
     assertBad("Er ging ans Luft.");
     assertBad("Eine Niereninsuffizienz führt zur Störungen des Wasserhaushalts.");
     assertBad("Er stieg durchs Fensters.");
-
+    assertBad("Ich habe heute ein Krankenwagen gesehen.");
+    assertGood("Sie werden merken, dass das echte Nutzer sind.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");
@@ -409,6 +485,21 @@ public class AgreementRuleTest {
     //assertBad("Das interessiert der Mann.");
     //assertBad("Das gehört den Mann."); // detected by DEN_DEM
     //assertBad("Es sind der Frau.");
+  }
+
+  @Test
+  public void testZurReplacement() throws IOException {
+    assertBad("Hier geht's zur Schrank.", "zum Schrank");
+    assertBad("Hier geht's zur Schränken.", "zu den Schränken", "zum Schränken");
+    assertBad("Hier geht's zur Männern.", "zu den Männern");
+    assertBad("Hier geht's zur Portal.", "zum Portal");
+    assertBad("Hier geht's zur Portalen.", "zu den Portalen");
+    assertBad("Sie gehen zur Frauen.", "zu Frauen", "zu den Frauen", "zur Frau");
+    assertBad("Niereninsuffizienz führt zur Störungen des Wasserhaushalts.", "zu Störungen", "zu den Störungen", "zur Störung");
+    assertBad("Das Motiv wird in der Klassik auch zur Darstellungen übernommen.", "zu Darstellungen", "zu den Darstellungen", "zur Darstellung");
+    assertGood("Hier geht's zur Sonne.");
+    assertGood("Hier geht's zum Schrank.");
+    assertGood("Niereninsuffizienz führt zu Störungen des Wasserhaushalts.");
   }
 
   @Test
@@ -434,8 +525,6 @@ public class AgreementRuleTest {
     assertBadWithMessage("Das Fahrräder.", "des Numerus");
     assertBadWithMessage("Die Tischen sind eckig.", "des Kasus");
     assertBadWithMessage("Die Tischen sind eckig.", "und Genus");
-    //TODO: input is actually correct
-    assertBadWithMessage("Bei dem Papierabzüge von Digitalbildern bestellt werden.", "des Kasus, Genus oder Numerus.");
   }
 
   @Test
@@ -462,6 +551,13 @@ public class AgreementRuleTest {
     assertGood("An der roten Ampel.");
     assertGood("Dann hat das natürlich Nachteile.");
     assertGood("Ihre erste Nr. 1");
+    assertGood("Wir bedanken uns bei allen Teams.");
+    assertGood("Als Heinrich versuchte, seinen Kandidaten für den Mailänder Bischofssitz durchzusetzen, reagierte der Papst sofort.");
+    assertGood("Den neuen Finanzierungsweg wollen sie daher Hand in Hand mit dem Leser gehen.");
+    assertGood("Lieber den Spatz in der Hand...");
+    assertGood("Wir wollen sein ein einzig Volk von Brüdern");
+    assertGood("Eine Zeitreise durch die 68er Revolte");
+    assertGood("Ich besitze ein Modell aus der 300er Reihe.");
 
     // incorrect sentences:
     assertBad("Es sind die riesigen Tisch.");
@@ -478,7 +574,11 @@ public class AgreementRuleTest {
     assertBad("Er hatte eine sehr schweren Infektion.");
     assertBad("Ein fast 5 Meter hohem Haus.");
     assertBad("Ein fünf Meter hohem Haus.");
-    // TODO: not yet detected:
+    assertBad("Es wurden Karavellen eingesetzt, da diese für die flachen Gewässern geeignet waren.");
+    assertBad("Wir bedanken uns bei allem Teams.");
+    assertBad("Dabei geht es um das altbekannte Frage der Dynamiken der Eigenbildung..");
+    assertBad("Den neue Finanzierungsweg wollen sie daher Hand in Hand mit dem Leser gehen.");
+    assertBad("Den neuen Finanzierungsweg wollen sie daher Hand in Hand mit dem Lesern gehen.");
     //assertBad("An der rot Ampel.");
   }
 

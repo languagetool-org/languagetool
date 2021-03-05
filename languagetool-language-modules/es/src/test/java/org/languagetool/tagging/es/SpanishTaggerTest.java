@@ -66,6 +66,8 @@ public class SpanishTaggerTest {
     TestTools.myAssert("autorralentizan", "autorralentizan/[autorralentizar]VMIP3P0", tokenizer, tagger);
     TestTools.myAssert("autoralentizan", "autoralentizan/[null]null", tokenizer, tagger);
     TestTools.myAssert("autoretratarán", "autoretratarán/[null]null", tokenizer, tagger);
+    TestTools.myAssert("económico-sociales", "económico-sociales/[económico-social]AQ0CP0", tokenizer, tagger);
+    TestTools.myAssert("jurídico-económicas", "jurídico-económicas/[jurídico-económico]AQ0FP0", tokenizer, tagger);
 
   }
 }

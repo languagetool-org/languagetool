@@ -25,10 +25,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.noop.NoopLanguage;
 import org.languagetool.rules.Categories;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
+import org.languagetool.rules.spelling.RuleWithLanguage;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -50,21 +55,22 @@ import java.util.stream.Collectors;
  * @author Marcin Miłkowski
  */
 public class HunspellRule extends SpellingCheckRule {
+
   public static final String RULE_ID = "HUNSPELL_RULE";
 
   protected static final String FILE_EXTENSION = ".dic";
 
-  protected boolean needsInit = true;
-  protected Hunspell hunspell = null;
+  private volatile boolean needsInit = true;
+  protected volatile Hunspell hunspell = null;
 
+  private static final Logger logger = LoggerFactory.getLogger(HunspellRule.class);
   private static final ConcurrentLinkedQueue<String> activeChecks = new ConcurrentLinkedQueue<>();
   private static final String NON_ALPHABETIC = "[^\\p{L}]";
 
   private static final boolean monitorRules = System.getProperty("monitorActiveRules") != null;
 
   //300 most common Portuguese words. They are used to avoid wrong split suggestions
-  private final List<String> commonPortuguesehWords = Arrays.asList(new String[]{"de", "e", "a", "o", "da", "do", "em", "que", "uma", "um", "com", "no", "se", "na", "para", "por", "os", "foi", "como", "dos", "as", "ao", "mais", "sua", "das", "não", "ou", "km", "seu", "pela", "ser", "pelo", "são", "também", "anos", "cidade", "entre", "era", "tem", "mas", "habitantes", "nos", "seus", "área", "até", "ele", "onde", "foram", "população", "região", "sobre", "nas", "nome", "parte", "quando", "ano", "aos", "grande", "mesmo", "pode", "primeiro", "segundo", "sendo", "suas", "ainda", "dois", "estado", "está", "família", "já", "muito", "outros", "americano", "depois", "durante", "maior", "primeira", "forma", "apenas", "banda", "densidade", "dia", "então", "município", "norte", "tempo", "após", "duas", "num", "pelos", "qual", "século", "ter", "todos", "três", "vez", "água", "acordo", "cobertos", "comuna", "contra", "ela", "grupo", "principal", "quais", "sem", "tendo", "às", "álbum", "alguns", "assim", "asteróide", "bem", "brasileiro", "cerca", "desde", "este", "localizada", "mundo", "outras", "período", "seguinte", "sido", "vida", "através", "cada", "conhecido", "final", "história", "partir", "país", "pessoas", "sistema", "terra", "teve", "tinha", "época", "administrativa", "censo", "departamento", "dias", "esta", "filme", "francesa", "música", "província", "série", "vezes", "além", "antes", "eles", "eram", "espécie", "governo", "podem", "vários", "censos", "distrito", "estão", "exemplo", "hoje", "início", "jogo", "lhe", "lugar", "muitos", "média", "novo", "numa", "número", "pois", "possui", "sob", "só", "todo", "tornou", "trabalho", "algumas", "devido", "estava", "fez", "filho", "fim", "grandes", "há", "isso", "lado", "local", "morte", "orbital", "outro", "passou", "países", "quatro", "representa", "seja", "sempre", "sul", "várias", "capital", "chamado", "começou", " enquanto", "fazer", "lançado", "meio", "nova", "nível", "pelas", "poder", "presidente", "redor", "rio", "tarde", "todas", "carreira", "casa", "década", "estimada", "guerra", "havia", "livro", "localidades", "maioria", "muitas", "obra", "origem", "pai", "pouco", "principais", "produção", "programa", "qualquer", "raio", "seguintes", "sucesso", "título", "aproximadamente", "caso", "centro", "conhecida", "construção", "desta", "diagrama", "faz", "ilha", "importante", "mar", "melhor", "menos", "mesma", "metros", "mil", "nacional", "populacional", "quase", "rei", "sede", "segunda", "tipo", "toda", "uso", "velocidade", "vizinhança", "volta", "base", "brasileira", "clube", "desenvolvimento", "deste", "diferentes", "diversos", "empresa", "entanto", "futebol", "geral", "junto", "longo", "obras", "outra", "pertencente", "política", "português", "principalmente", "processo", "quem", "seria", "têm", "versão", "TV", "acima", "atual", "bairro", "chamada", "cinco", "conta", "corpo", "dentro", "deve"});
-
+  private final List<String> commonPortugueseWords = Arrays.asList("de", "e", "a", "o", "da", "do", "em", "que", "uma", "um", "com", "no", "se", "na", "para", "por", "os", "foi", "como", "dos", "as", "ao", "mais", "sua", "das", "não", "ou", "km", "seu", "pela", "ser", "pelo", "são", "também", "anos", "cidade", "entre", "era", "tem", "mas", "habitantes", "nos", "seus", "área", "até", "ele", "onde", "foram", "população", "região", "sobre", "nas", "nome", "parte", "quando", "ano", "aos", "grande", "mesmo", "pode", "primeiro", "segundo", "sendo", "suas", "ainda", "dois", "estado", "está", "família", "já", "muito", "outros", "americano", "depois", "durante", "maior", "primeira", "forma", "apenas", "banda", "densidade", "dia", "então", "município", "norte", "tempo", "após", "duas", "num", "pelos", "qual", "século", "ter", "todos", "três", "vez", "água", "acordo", "cobertos", "comuna", "contra", "ela", "grupo", "principal", "quais", "sem", "tendo", "às", "álbum", "alguns", "assim", "asteróide", "bem", "brasileiro", "cerca", "desde", "este", "localizada", "mundo", "outras", "período", "seguinte", "sido", "vida", "através", "cada", "conhecido", "final", "história", "partir", "país", "pessoas", "sistema", "terra", "teve", "tinha", "época", "administrativa", "censo", "departamento", "dias", "esta", "filme", "francesa", "música", "província", "série", "vezes", "além", "antes", "eles", "eram", "espécie", "governo", "podem", "vários", "censos", "distrito", "estão", "exemplo", "hoje", "início", "jogo", "lhe", "lugar", "muitos", "média", "novo", "numa", "número", "pois", "possui", "sob", "só", "todo", "tornou", "trabalho", "algumas", "devido", "estava", "fez", "filho", "fim", "grandes", "há", "isso", "lado", "local", "morte", "orbital", "outro", "passou", "países", "quatro", "representa", "seja", "sempre", "sul", "várias", "capital", "chamado", "começou", " enquanto", "fazer", "lançado", "meio", "nova", "nível", "pelas", "poder", "presidente", "redor", "rio", "tarde", "todas", "carreira", "casa", "década", "estimada", "guerra", "havia", "livro", "localidades", "maioria", "muitas", "obra", "origem", "pai", "pouco", "principais", "produção", "programa", "qualquer", "raio", "seguintes", "sucesso", "título", "aproximadamente", "caso", "centro", "conhecida", "construção", "desta", "diagrama", "faz", "ilha", "importante", "mar", "melhor", "menos", "mesma", "metros", "mil", "nacional", "populacional", "quase", "rei", "sede", "segunda", "tipo", "toda", "uso", "velocidade", "vizinhança", "volta", "base", "brasileira", "clube", "desenvolvimento", "deste", "diferentes", "diversos", "empresa", "entanto", "futebol", "geral", "junto", "longo", "obras", "outra", "pertencente", "política", "português", "principalmente", "processo", "quem", "seria", "têm", "versão", "TV", "acima", "atual", "bairro", "chamada", "cinco", "conta", "corpo", "dentro", "deve");
 
   public static Queue<String> getActiveChecks() {
     return activeChecks;
@@ -79,6 +85,7 @@ public class HunspellRule extends SpellingCheckRule {
   protected Pattern nonWordPattern;
 
   private final UserConfig userConfig;
+  private final List<RuleWithLanguage> enSpellRules;
 
   public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig) {
     this(messages, language, userConfig, Collections.emptyList());
@@ -96,6 +103,32 @@ public class HunspellRule extends SpellingCheckRule {
     super(messages, language, userConfig, altLanguages, languageModel);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     this.userConfig = userConfig;
+    enSpellRules = getEnglishSpellingRules();
+  }
+
+  private List<RuleWithLanguage> getEnglishSpellingRules() {
+    List<RuleWithLanguage> spellingRules = new ArrayList<>();
+    Language en;
+    try {
+      en = Languages.getLanguageForShortCode("en-US");
+    } catch (IllegalArgumentException e) {
+      logger.warn("Could not create en-US language for spell-check fallback, multi-lingual spell checking is not available");
+      return spellingRules;
+    }
+    List<Rule> rules;
+    try {
+      rules = new ArrayList<>(en.getRelevantRules(messages, userConfig, null, Collections.emptyList()));
+      rules.addAll(en.getRelevantLanguageModelCapableRules(messages, null,
+              null, userConfig, null, Collections.emptyList()));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+    for (Rule rule : rules) {
+      if (rule.isDictionaryBasedSpellingRule()) {
+        spellingRules.add(new RuleWithLanguage(rule, en));
+      }
+    }
+    return spellingRules;
   }
 
   @Override
@@ -119,14 +152,13 @@ public class HunspellRule extends SpellingCheckRule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    if (needsInit) {
-      init();
-    }
+    ensureInitialized();
     if (hunspell == null) {
       // some languages might not have a dictionary, be silent about it
       return toRuleMatchArray(ruleMatches);
     }
 
+    long sentLength = Arrays.stream(sentence.getTokensWithoutWhitespace()).filter(k -> !k.isNonWord()).count() - 1;  // -1 for the SENT_START token
     String monitoringText = getClass().getName() + ":" + getId() + ":" + sentence.getText();
     try {
       if (monitorRules) {
@@ -142,6 +174,7 @@ public class HunspellRule extends SpellingCheckRule {
         len = sentence.getTokens()[0].getStartPos();
       }
       int prevStartPos = -1;
+      int misspelledButEnglish = 0;
       for (int i = 0; i < tokens.length; i++) {
         String word = tokens[i];
         if ((ignoreWord(Arrays.asList(tokens), i) || ignoreWord(word)) && !isProhibited(cutOffDot(word))) {
@@ -150,11 +183,14 @@ public class HunspellRule extends SpellingCheckRule {
           continue;
         }
         if (isMisspelled(word)) {
+          if (isEnglish(word)) {
+            misspelledButEnglish++;
+          }
           String cleanWord = word.endsWith(".") ? word.substring(0, word.length() - 1) : word;
           if (i > 0 && prevStartPos != -1) {
             String prevWord = tokens[i-1];
             boolean ignoreSplitting = false;
-            if (this.language.getShortCode().equals("pt") && commonPortuguesehWords.contains(prevWord.toLowerCase())) {
+            if (this.language.getShortCode().equals("pt") && commonPortugueseWords.contains(prevWord.toLowerCase())) {
               ignoreSplitting = true;
             }
             if (!ignoreSplitting && prevWord.length() > 0) {
@@ -197,6 +233,23 @@ public class HunspellRule extends SpellingCheckRule {
             ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));
           }
           ruleMatches.add(ruleMatch);
+          if (sentLength > 3) {
+            float enRatio = (float)misspelledButEnglish / sentLength;
+            //System.out.println("ER en??: " + enRatio + ": " + misspelledButEnglish + " /  " + sentLength + " - " + sentence.getText());
+            if (enRatio > 0.66) {
+              //System.out.println("ER en!!: " + enRatio + ": " + misspelledButEnglish + " /  " + sentLength + " - " + sentence.getText());
+              ruleMatch.setErrorLimitLang("en");
+              //break; -- don't stop to keep current behaviour
+            } else {
+              float otherRatio = (float)ruleMatches.size() / sentLength;
+              //System.out.println("ER other??: " + otherRatio + ": " + ruleMatches.size() + " /  " + sentLength + " - " + sentence.getText());
+              if (otherRatio > 0.66) {
+                //System.out.println("ER other!!: " + otherRatio + ": " + ruleMatches.size() + " /  " + sentLength + " - " + sentence.getText());
+                ruleMatch.setErrorLimitLang(NoopLanguage.SHORT_CODE);
+                //break; -- don't stop to keep current behaviour
+              }
+            }
+          }
         }
         prevStartPos = len;
         len += word.length() + 1;
@@ -206,7 +259,28 @@ public class HunspellRule extends SpellingCheckRule {
         activeChecks.remove(monitoringText);
       }
     }
+    /*if (sentence.getErrorLimitReached()) {
+      return toRuleMatchArray(Collections.emptyList());
+    }*/
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private boolean isEnglish(String word) throws IOException {
+    for (RuleWithLanguage altRule : enSpellRules) {
+      AnalyzedToken token = new AnalyzedToken(word, null, null);
+      AnalyzedToken sentenceStartToken = new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, null);
+      AnalyzedTokenReadings startTokenReadings = new AnalyzedTokenReadings(sentenceStartToken, 0);
+      AnalyzedTokenReadings atr = new AnalyzedTokenReadings(token, 0);
+      RuleMatch[] matches = altRule.getRule().match(new AnalyzedSentence(new AnalyzedTokenReadings[]{startTokenReadings, atr}));
+      if (matches.length == 0) {
+        return true;
+      } else {
+        if (word.endsWith(".")) {
+          return isEnglish(word.substring(0, word.length() - 1));
+        }
+      }
+    }
+    return false;
   }
 
   private List<SuggestedReplacement> calcSuggestions(String word, String cleanWord) throws IOException {
@@ -275,9 +349,7 @@ public class HunspellRule extends SpellingCheckRule {
   @Override
   public boolean isMisspelled(String word) {
     try {
-      if (needsInit) {
-        init();
-      }
+      ensureInitialized();
       boolean isAlphabetic = true;
       if (word.length() == 1) { // hunspell dictionaries usually do not contain punctuation
         isAlphabetic = Character.isAlphabetic(word.charAt(0));
@@ -294,9 +366,7 @@ public class HunspellRule extends SpellingCheckRule {
   }
 
   public List<String> getSuggestions(String word) throws IOException {
-    if (needsInit) {
-      init();
-    }
+    ensureInitialized();
     return hunspell.suggest(word);
   }
 
@@ -340,6 +410,20 @@ public class HunspellRule extends SpellingCheckRule {
     return sb.toString();
   }
 
+  protected final void ensureInitialized() throws IOException {
+    if (needsInit) {
+      synchronized (this) {
+        if (needsInit) {
+          try {
+            init();
+          } finally {
+            needsInit = false;
+          }
+        }
+      }
+    }
+  }
+
   @Override
   protected synchronized void init() throws IOException {
     super.init();
@@ -380,7 +464,6 @@ public class HunspellRule extends SpellingCheckRule {
       
     }
     nonWordPattern = Pattern.compile(wordChars + NON_ALPHABETIC);
-    needsInit = false;
   }
 
   @NotNull

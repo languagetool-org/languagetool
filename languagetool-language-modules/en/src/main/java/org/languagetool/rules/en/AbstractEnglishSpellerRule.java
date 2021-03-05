@@ -140,51 +140,93 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     return ruleMatch.getSuggestedReplacementObjects().stream()
       .filter(k -> !k.getReplacement().startsWith("re ") &&
                    !k.getReplacement().startsWith("en ") &&
-                   !k.getReplacement().startsWith("co ") &&
-                   !k.getReplacement().startsWith("de ") &&
-                   !k.getReplacement().startsWith("mid ") &&
+                   !k.getReplacement().toLowerCase().startsWith("co ") &&
+                   !k.getReplacement().toLowerCase().startsWith("de ") &&
+                   !k.getReplacement().toLowerCase().startsWith("mid ") &&
                    !k.getReplacement().toLowerCase().startsWith("non ") &&
                    !k.getReplacement().toLowerCase().startsWith("bio ") &&
-                   !k.getReplacement().startsWith("con ") &&
+                   !k.getReplacement().toLowerCase().startsWith("con ") &&
                    !k.getReplacement().startsWith("ins ") && // instable (ins table)
                    !k.getReplacement().toLowerCase().startsWith("pre ") &&
                    !k.getReplacement().toLowerCase().startsWith("inter ") &&
+                   !k.getReplacement().toLowerCase().startsWith("uni ") &&
                    !k.getReplacement().toLowerCase().startsWith("anti ") &&
+                   !k.getReplacement().toLowerCase().startsWith("necro ") &&
                    !k.getReplacement().toLowerCase().startsWith("photo ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ma ") &&
-                   !k.getReplacement().startsWith("sub ") &&
+                   !k.getReplacement().toLowerCase().startsWith("post ") &&
+                   !k.getReplacement().toLowerCase().startsWith("sub ") &&
                    !k.getReplacement().toLowerCase().startsWith("auto ") &&
                    !k.getReplacement().startsWith("sh ") &&
                    !k.getReplacement().startsWith("li ") &&
                    !k.getReplacement().startsWith("ha ") &&
+                   !k.getReplacement().startsWith("st ") &&
                    !k.getReplacement().toLowerCase().startsWith("dis ") &&
                    !k.getReplacement().toLowerCase().startsWith("mono ") &&
                    !k.getReplacement().toLowerCase().startsWith("trans ") &&
+                   !k.getReplacement().toLowerCase().startsWith("neuro ") &&
                    !k.getReplacement().toLowerCase().startsWith("ultra ") &&
                    !k.getReplacement().toLowerCase().startsWith("mini ") &&
                    !k.getReplacement().toLowerCase().startsWith("hyper ") &&
+                   !k.getReplacement().toLowerCase().startsWith("micro ") &&
                    !k.getReplacement().toLowerCase().startsWith("counter ") &&
+                   !k.getReplacement().toLowerCase().startsWith("cyber ") &&
+                   !k.getReplacement().toLowerCase().startsWith("ergo ") &&
                    !k.getReplacement().toLowerCase().startsWith("fore ") &&
+                   !k.getReplacement().toLowerCase().startsWith("geo ") &&
                    !k.getReplacement().toLowerCase().startsWith("pseudo ") &&
+                   !k.getReplacement().toLowerCase().startsWith("psycho ") &&
+                   !k.getReplacement().toLowerCase().startsWith("nano ") &&
+                   !k.getReplacement().toLowerCase().startsWith("ans ") &&
+                   !k.getReplacement().toLowerCase().startsWith("semi ") &&
+                   !k.getReplacement().toLowerCase().startsWith("infra ") &&
                    !k.getReplacement().toLowerCase().startsWith("lo ") &&
-                   !k.getReplacement().startsWith("mu ") &&
-                   !k.getReplacement().startsWith("e ") &&
-                   !k.getReplacement().startsWith("c ") &&
+                   !k.getReplacement().toLowerCase().startsWith("ed ") &&
+                   !k.getReplacement().toLowerCase().startsWith("al ") &&
+                   !k.getReplacement().toLowerCase().startsWith("mu ") &&
+                   !k.getReplacement().toLowerCase().startsWith("ma ") &&
+                   !k.getReplacement().toLowerCase().startsWith("bis ") &&
+                   !k.getReplacement().toLowerCase().startsWith("k ") &&
+                   !k.getReplacement().toLowerCase().startsWith("e ") &&
+                   !k.getReplacement().toLowerCase().startsWith("c ") &&
+                   !k.getReplacement().toLowerCase().startsWith("v ") &&
+                   !k.getReplacement().toLowerCase().startsWith("s ") &&
+                   !k.getReplacement().toLowerCase().startsWith("h ") &&
+                   !k.getReplacement().toLowerCase().startsWith("r ") &&
+                   !k.getReplacement().toLowerCase().startsWith("um ") &&
                    !k.getReplacement().endsWith(" able") &&
                    !k.getReplacement().endsWith(" less") && // (e.g. permissionless)
-                   !k.getReplacement().endsWith(" sly") && // uneccesary suggestion (e.g. for continuesly)
-                   !k.getReplacement().endsWith(" OO") && // unecessary suggestion (e.g. for "HELLOOO")
-                   !k.getReplacement().endsWith(" HHH") && // unecessary suggestion (e.g. for "OHHHH")
+                   !k.getReplacement().endsWith(" sly") && // unnecessary suggestion (e.g. for continuesly)
+                   !k.getReplacement().endsWith(" OO") && // unnecessary suggestion (e.g. for "HELLOOO")
+                   !k.getReplacement().endsWith(" HHH") && // unnecessary suggestion (e.g. for "OHHHH")
                    !k.getReplacement().endsWith(" ally") && // adverbs ending in "ally" that LT doesn't know (yet)
                    !k.getReplacement().endsWith(" ize") && // "advertize"
                    !k.getReplacement().endsWith(" sh") &&
+                   !k.getReplacement().endsWith(" st") &&
                    !k.getReplacement().endsWith(" ward") &&
+                   !k.getReplacement().endsWith(" ting") && // someting
+                   !k.getReplacement().endsWith(" ion") && // presention
+                   !k.getReplacement().endsWith(" ions") && // sealions
+                   !k.getReplacement().endsWith(" cal") &&
+                   !k.getReplacement().endsWith(" ted") && // "bursted"
+                   !k.getReplacement().endsWith(" sphere") &&
+                   !k.getReplacement().endsWith(" con") &&
+                   !k.getReplacement().endsWith(" sis") &&
                    !k.getReplacement().endsWith(" like") && // "ribbonlike"
+                   !k.getReplacement().endsWith(" full") && // do not suggest "use full" for "useful"
                    !k.getReplacement().endsWith(" en") && // "Antwerpen" suggests "Antwerp en"
                    !k.getReplacement().endsWith(" ed") &&
                    !k.getReplacement().endsWith(" al") &&
+                   !k.getReplacement().endsWith(" ans") &&
+                   !k.getReplacement().endsWith(" ti") &&
                    !k.getReplacement().endsWith(" de") &&
                    !k.getReplacement().endsWith(" re") &&
+                   !k.getReplacement().endsWith(" e") &&
+                   !k.getReplacement().endsWith(" c") &&
+                   !k.getReplacement().endsWith(" v") &&
+                   !k.getReplacement().endsWith(" h") &&
+                   !k.getReplacement().endsWith(" s") &&
+                   !k.getReplacement().endsWith(" r") &&
+                   !k.getReplacement().endsWith(" um") &&
                    !k.getReplacement().endsWith(" ma"))
       .collect(Collectors.toList());
   }
@@ -303,16 +345,51 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("playstation", Arrays.asList("PlayStation"));
     s.put("iam", Arrays.asList("I am", "I'm"));
     s.put("kpop", Arrays.asList("K-pop"));
+    s.put("trumpian", Arrays.asList("Trumpist"));
+    s.put("trumpians", Arrays.asList("Trumpists"));
     return s;
   }
 
   protected static Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
+    s.put("differently-abled", Arrays.asList("differently abled"));
+    s.put("Differently-abled", Arrays.asList("Differently abled"));
+    s.put("Ppl", Arrays.asList("People"));
+    s.put("constits", Arrays.asList("consists"));
+    s.put("fastly", Arrays.asList("fast"));
+    s.put("carrie", Arrays.asList("carry"));
+    s.put("bare-bone", Arrays.asList("bare-bones", "bare-boned"));
+    s.put("Bare-bone", Arrays.asList("Bare-bones", "Bare-boned"));
+    s.put("mae", Arrays.asList("make", "MAE", "may", "May", "man"));
+    s.put("transportion", Arrays.asList("transportation"));
+    s.put("Transportion", Arrays.asList("Transportation"));
+    s.put("presention", Arrays.asList("presentation"));
+    s.put("Presention", Arrays.asList("Presentation"));
+    s.put("presension", Arrays.asList("presentation"));
+    s.put("Presension", Arrays.asList("Presentation"));
+    s.put("realtime", Arrays.asList("real-time"));
+    s.put("Realtime", Arrays.asList("Real-time"));
+    s.put("morphium", Arrays.asList("morphine"));
+    s.put("Morphium", Arrays.asList("Morphine"));
+    s.put("morphiums", Arrays.asList("morphines"));
+    s.put("Morphiums", Arrays.asList("Morphines"));
+    s.put("approvement", Arrays.asList("approval"));
+    s.put("Approvement", Arrays.asList("Approval"));
+    s.put("approvements", Arrays.asList("approvals"));
+    s.put("Approvements", Arrays.asList("Approvals"));
     s.put("pro-bono", Arrays.asList("pro bono"));
     s.put("Pro-bono", Arrays.asList("Pro bono"));
+    s.put("probono", Arrays.asList("pro bono"));
+    s.put("Probono", Arrays.asList("Pro bono"));
+    s.put("pro-rata", Arrays.asList("pro rata"));
+    s.put("Pro-rata", Arrays.asList("Pro rata"));
+    s.put("prorata", Arrays.asList("pro rata"));
+    s.put("Prorata", Arrays.asList("Pro rata"));
     s.put("electronical", Arrays.asList("electronic", "electronically"));
     s.put("Electronical", Arrays.asList("Electronic", "Electronically"));
     s.put("unpolite", Arrays.asList("impolite"));
+    s.put("armys", Arrays.asList("armies"));
+    s.put("Armys", Arrays.asList("Armies"));
     s.put("tarrif", Arrays.asList("tariff"));
     s.put("Tarrif", Arrays.asList("Tariff"));
     s.put("tarrifs", Arrays.asList("tariffs"));
@@ -329,6 +406,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Ensuite", Arrays.asList("En suite"));
     s.put("insite", Arrays.asList("insight"));
     s.put("insites", Arrays.asList("insights"));
+    s.put("Insite", Arrays.asList("Insight"));
+    s.put("Insites", Arrays.asList("Insights"));
     s.put("thouraly", Arrays.asList("thoroughly"));
     s.put("heiaracky", Arrays.asList("hierarchy"));
     s.put("on-prem", Arrays.asList("on-premise"));
@@ -347,8 +426,16 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("endevors", Arrays.asList("endeavors"));
     s.put("endevour", Arrays.asList("endeavour"));
     s.put("endevor", Arrays.asList("endeavor"));
+    s.put("industrys", Arrays.asList("industries", "industry's", "industry"));
+    s.put("Industrys", Arrays.asList("Industries", "Industry's", "Industry"));
+    s.put("partys", Arrays.asList("parties", "party's", "party"));
+    s.put("Partys", Arrays.asList("Parties", "Party's", "Party"));
     s.put("countrys", Arrays.asList("countries", "country's", "country"));
     s.put("Countrys", Arrays.asList("Countries", "Country's", "Country"));
+    s.put("bodys", Arrays.asList("bodies", "body's", "body"));
+    s.put("Bodys", Arrays.asList("Bodies", "Body's", "Body"));
+    s.put("ladys", Arrays.asList("ladies", "lady's", "lady"));
+    s.put("Ladys", Arrays.asList("Ladies", "Lady's", "Lady"));
     s.put("citys", Arrays.asList("cities", "city's", "city"));
     s.put("Citys", Arrays.asList("Cities", "City's", "City"));
     s.put("batterys", Arrays.asList("batteries", "battery's", "battery"));
@@ -561,7 +648,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("heros", Arrays.asList("heroes"));
     s.put("indexs", Arrays.asList("indices", "indexes"));
     s.put("lifes", Arrays.asList("lives"));
-    s.put("mans", Arrays.asList("men"));
+    s.put("mans", Arrays.asList("men", "man's"));
+    s.put("mens", Arrays.asList("men", "men's"));
     s.put("matrixs", Arrays.asList("matrices"));
     s.put("meanses", Arrays.asList("means"));
     s.put("mediums", Arrays.asList("media"));
@@ -687,8 +775,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Fablet", Arrays.asList("Phablet", "Tablet"));
     s.put("companys", Arrays.asList("companies", "company's", "company"));
     s.put("Companys", Arrays.asList("Companies", "Company's", "Company"));
-    s.put("partys", Arrays.asList("parties", "party's", "party"));
-    s.put("Partys", Arrays.asList("Parties", "Party's", "Party"));
     s.put("unencode", Arrays.asList("decode"));
     s.put("unencodes", Arrays.asList("decodes"));
     s.put("unencoded", Arrays.asList("decoded"));
@@ -736,7 +822,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
         return SuggestedReplacement.convert(Arrays.asList(suggestion));
       }
     }
-
     return super.getAdditionalTopSuggestions(suggestions, word);
   }
 

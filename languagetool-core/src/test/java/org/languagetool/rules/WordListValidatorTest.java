@@ -63,6 +63,7 @@ public class WordListValidatorTest {
           "Łukasz",
           "Čakavian",
           "Erdoğan",
+          "Rădulescu",
           "Štokavian",
           "Veliko Tărnovo",
           "Brāhmaṇa",
@@ -85,6 +86,7 @@ public class WordListValidatorTest {
           "chef-d’œuvre",
           "chefs-d’œuvre",
           "Brač",
+          "Forlì",
           "Qur’an",
           "Djuveč",
           "Djuvečreis",
@@ -116,6 +118,10 @@ public class WordListValidatorTest {
           "Łódź",
           "Ørsted",
           "Mirotić",
+          "dtª",  // for PT
+          "dtº",  // for PT
+          "ª",  // for PT
+          "º",  // for PT
           // Greek letters / Mathematics and physics variables
           "Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο", "Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω", 
           "α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι", "κ", "λ", "μ", "ν", "ξ", "ο", "π", "ρ", "σ", "τ", "υ", "φ", "χ", "ψ", "ω"          

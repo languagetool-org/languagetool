@@ -171,7 +171,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
   }
 
   @NotNull
-  private static MultiThreadedJLanguageTool createToolForTesting(Language lang) {
+  protected static MultiThreadedJLanguageTool createToolForTesting(Language lang) {
     MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(lang);
     if (CHECK_WITH_SENTENCE_SPLITTING) {
       disableSpellingRules(lt);
@@ -179,7 +179,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     return lt;
   }
 
-  private void validatePatternFile(Language lang) throws IOException {
+  protected void validatePatternFile(Language lang) throws IOException {
     validatePatternFile(getGrammarFileNames(lang));
   }
   
@@ -210,13 +210,16 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     }
   }
 
-  private void validateRuleIds(Language lang, JLanguageTool lt) {
+  protected void validateRuleIds(Language lang, JLanguageTool lt) {
     List<Rule> allRules = lt.getAllRules();
     Set<String> categoryIds = new HashSet<>();
     new RuleIdValidator(lang).validateUniqueness();
     for (Rule rule : allRules) {
       if (rule.getId().equalsIgnoreCase("ID")) {
         System.err.println("WARNING: " + lang.getShortCodeWithCountryAndVariant() + " has a rule with id 'ID', this should probably be changed");
+      }
+      if (rule.getId().length() > 79) {  // limit needed so the Grafana import script works
+        fail("Rule ID too long, keep it <= 79 chars: " + rule.getId());
       }
       Category category = rule.getCategory();
       if (category != null && category.getId() != null) {
@@ -232,7 +235,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
   /*
    * A <marker> that covers the SENT_START can lead to obscure offset issues, so warn about that. 
    */
-  private void validateSentenceStartNotInMarker(JLanguageTool lt) {
+  protected void validateSentenceStartNotInMarker(JLanguageTool lt) {
     System.out.println("Check that sentence start tag is not included in <marker>....");
     List<Rule> rules = lt.getAllRules();
     for (Rule rule : rules) {
@@ -260,7 +263,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     }
   }
 
-  private void testRegexSyntax(Language lang, List<AbstractPatternRule> rules) {
+  protected void testRegexSyntax(Language lang, List<AbstractPatternRule> rules) {
     System.out.println("Checking regexp syntax of " + rules.size() + " rules for " + lang + "...");
     for (AbstractPatternRule rule : rules) {
       // Test the rule pattern.
@@ -286,7 +289,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     }
   }
 
-  private void testExamplesExist(List<AbstractPatternRule> rules) {
+  protected void testExamplesExist(List<AbstractPatternRule> rules) {
     for (AbstractPatternRule rule : rules) {
       if (rule.getCorrectExamples().isEmpty()) {
         boolean correctionExists = false;
@@ -311,7 +314,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     }
   }
 
-  private void testGrammarRulesFromXML(List<AbstractPatternRule> rules, JLanguageTool allRulesLt, Language lang) {
+  protected void testGrammarRulesFromXML(List<AbstractPatternRule> rules, JLanguageTool allRulesLt, Language lang) {
     System.out.println("Checking example sentences of " + rules.size() + " rules for " + lang + "...");
 
     int threadCount = Math.max(1, Runtime.getRuntime().availableProcessors() / 2);
@@ -538,8 +541,12 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     if (!expectedCorrections.isEmpty()) {
       boolean expectedNonEmptyCorrection = expectedCorrections.get(0).length() > 0;
       if (expectedNonEmptyCorrection) {
-        if (!(rule.getMessage().contains("<suggestion>") || rule.getSuggestionsOutMsg().contains("<suggestion>")) && rule.getFilter() == null) {
-          addError(rule, "You specified a correction, but your message has no suggestions.");
+        if (!(rule.getMessage().contains("<suggestion>") || rule.getSuggestionsOutMsg().contains("<suggestion>"))
+            && rule.getFilter() == null) {
+          addError(rule,
+              "You specified a correction, but your message has no suggestions. rule.getMessage(): " + rule.getMessage()
+                  + ", rule.getSuggestionsOutMsg(): " + rule.getSuggestionsOutMsg() + ", rule.getFullId():"
+                  + rule.getFullId());
         }
       }
       List<String> realSuggestions = matches.get(0).getSuggestedReplacements();

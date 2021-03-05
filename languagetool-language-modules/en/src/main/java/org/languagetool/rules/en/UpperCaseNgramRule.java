@@ -28,12 +28,14 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ngrams.Probability;
 import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.rules.spelling.CachingWordListLoader;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Supplier;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.pos;
@@ -49,7 +51,7 @@ public class UpperCaseNgramRule extends Rule {
   public static final int THRESHOLD = 50;
   private static MorfologikAmericanSpellerRule spellerRule;
   private static LinguServices linguServices = null;
-  private static Set<String> exceptions = new HashSet<>(Arrays.asList(
+  private static final Set<String> exceptions = new HashSet<>(Arrays.asList(
     "Bin", "Spot",  // names
     "Go",           // common usage, as in "Go/No Go decision"
     "French", "Roman", "Hawking", "Square", "Japan", "Premier", "Allied"
@@ -87,7 +89,13 @@ public class UpperCaseNgramRule extends Rule {
     ),
     Arrays.asList(
       csRegex("[A-Z].+"),
+      new PatternTokenBuilder().token("-").min(0).build(),
       token(">"),
+      csRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      csRegex("[A-Z].+"),
+      tokenRegex("[→⇾⇉⇒]"),
       csRegex("[A-Z].+")
     ),
     Arrays.asList(
@@ -426,6 +434,7 @@ public class UpperCaseNgramRule extends Rule {
 
   private final Language lang;
   private final LanguageModel lm;
+  private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
   public UpperCaseNgramRule(ResourceBundle messages, LanguageModel lm, Language lang, UserConfig userConfig) {
     super(messages);
@@ -435,6 +444,8 @@ public class UpperCaseNgramRule extends Rule {
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("This <marker>Prototype</marker> was developed by Miller et al."),
                    Example.fixed("This <marker>prototype</marker> was developed by Miller et al."));
+    antiPatterns = cacheAntiPatterns(lang, ANTI_PATTERNS);
+
     if (userConfig != null && linguServices == null) {
       linguServices = userConfig.getLinguServices();
       initTrie();
@@ -465,7 +476,7 @@ public class UpperCaseNgramRule extends Rule {
 
   @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
-    return makeAntiPatterns(ANTI_PATTERNS, lang);
+    return antiPatterns.get();
   }
 
   @Override

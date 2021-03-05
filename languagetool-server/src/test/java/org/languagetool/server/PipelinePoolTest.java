@@ -21,10 +21,12 @@
 
 package org.languagetool.server;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.*;
 import org.languagetool.markup.AnnotatedTextBuilder;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
 import static org.junit.Assert.assertTrue;
@@ -34,6 +36,34 @@ import static org.mockito.Mockito.*;
 public class PipelinePoolTest {
 
   private final GlobalConfig gConfig = new GlobalConfig();
+
+  @Ignore("Interactive use only")
+  @Test
+  /**
+   * run server, allow to test performance of requests with prewarmed pipelines
+   * stop afterwards using GET http://localhost:8081/v2/stop
+   * then tests if requests created new pipelines
+   */
+  public void testPipelinePrewarming() throws Exception {
+    HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort());
+    config.setPipelineCaching(true);
+    config.setPipelineExpireTime(Integer.MAX_VALUE);
+    config.setPipelinePrewarming(true);
+    config.stoppable = true;
+    HTTPServer server = new HTTPServer(config);
+    LanguageToolHttpHandler handler = server.httpHandler;
+    Field checkerField = LanguageToolHttpHandler.class.getDeclaredField("textCheckerV2");
+    checkerField.setAccessible(true);
+    TextChecker checker = (TextChecker) checkerField.get(handler);
+    PipelinePool pool = spy(checker.pipelinePool);
+    checker.pipelinePool = pool;
+    verify(pool, never()).createPipeline(any(), any(), any(), any(), any(), any());
+    server.run();
+    while (server.isRunning()) {
+      Thread.sleep(1000);
+    }
+    verify(pool, never()).createPipeline(any(), any(), any(), any(), any(), any());
+  }
 
   @Test
   public void testPipelineCreatedAndUsed() throws Exception {

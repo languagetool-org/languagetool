@@ -22,6 +22,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.WordRepeatBeginningRule;
+import org.languagetool.tools.StringTools;
 
 import java.util.*;
 
@@ -59,6 +60,19 @@ public class EnglishWordRepeatBeginningRule extends WordRepeatBeginningRule {
   @Override
   protected boolean isAdverb(AnalyzedTokenReadings token) {
     return ADVERBS.contains(token.getToken());
+  }
+
+  @Override
+  protected List<String> getSuggestions(AnalyzedTokenReadings token) {
+    if (token.hasPosTag("PRP")) {
+      String tok = token.getToken();
+      String adaptedToken = tok.equals("I") ? tok : tok.toLowerCase();
+      return Arrays.asList(
+              "Furthermore, " + adaptedToken,
+              "Likewise, " + adaptedToken,
+              "Not only that, but " + adaptedToken);
+    }
+    return Collections.emptyList();
   }
 
 }

@@ -43,6 +43,7 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "If they're educated people, they will know.");
     check(0, "Tiffany & Co chairman has to say something important");
     check(0, "Another one bites the dust");
+    check(0, "We well received your email");
     // incorrect sentences:
     check(1, "case sensitive", "case-sensitive");
     check(1, "Young criminals must be re educated.");

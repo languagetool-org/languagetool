@@ -4,12 +4,12 @@
     <parent>
         <groupId>org.languagetool</groupId>
         <artifactId>languagetool-parent</artifactId>
-        <version>5.2-SNAPSHOT</version>
+        <version>5.3-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
     <artifactId>languagetool-core</artifactId>
-    <url>http://www.languagetool.org</url>
+    <url>https://www.languagetool.org</url>
     <name>LanguageTool Style and Grammar Checker Core</name>
     <description>LanguageTool is an Open Source proofreading software for English, French, German, Polish, Romanian, and more than 20 other languages. It finds many errors that a simple spell checker cannot detect like mixing up there/their and it detects some grammar problems.</description>
 
@@ -121,7 +121,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>28.1-jre</version>
+            <version>30.1-jre</version>
         </dependency>
         <dependency>
             <groupId>org.carrot2</groupId>
@@ -153,7 +153,7 @@
             <!-- needed for building the Morfologik dict at runtime (for ignore.txt) -->
             <groupId>com.carrotsearch</groupId>
             <artifactId>hppc</artifactId>
-            <version>0.8.1</version>
+            <version>0.8.2</version>
         </dependency>
         <dependency>
             <groupId>net.loomchild</groupId>
@@ -210,11 +210,13 @@
         <dependency>
             <groupId>javax.measure</groupId>
             <artifactId>unit-api</artifactId>
+            <!-- see https://github.com/languagetool-org/languagetool/issues/4088 before you upgrade this -->
             <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>tech.units</groupId>
             <artifactId>indriya</artifactId>
+            <!-- see https://github.com/languagetool-org/languagetool/issues/4088 before you upgrade this -->
             <version>1.3</version>
         </dependency>
 
@@ -238,7 +240,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.25</version>
+            <version>1.7.30</version>
         </dependency>
 
         <dependency>
@@ -252,6 +254,12 @@
             <artifactId>logback-classic</artifactId>
             <version>1.2.3</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -259,12 +267,6 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-csv</artifactId>
-            <version>1.8</version>
         </dependency>
 
         <dependency>
@@ -278,12 +280,12 @@
         <dependency>
             <groupId>io.prometheus</groupId>
             <artifactId>simpleclient</artifactId>
-            <version>0.6.0</version>
+            <version>0.10.0</version>
         </dependency>
         <dependency>
             <groupId>io.prometheus</groupId>
             <artifactId>simpleclient_guava</artifactId>
-            <version>0.6.0</version>
+            <version>0.10.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.guava</groupId>
@@ -352,14 +354,14 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>2.28.2</version>
+            <version>3.6.28</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.jetbrains.intellij.deps</groupId>
             <artifactId>trove4j</artifactId>
-            <version>1.0.20190514</version>
+            <version>1.0.20200330</version>
         </dependency>
 
         <dependency>

@@ -29,7 +29,6 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.regex.Pattern;
 
 /**
  * A part of a pattern, represents the 'token' element of the {@code grammar.xml}.
@@ -336,7 +335,7 @@ public class PatternToken implements Cloneable {
     if (tokenPos == null) {
       return false;
     }
-    return pos.posPattern != null ? pos.posPattern.matcher(tokenPos).matches() : pos.posTag.equals(tokenPos);
+    return pos.posPattern != null ? pos.posPattern.matches(tokenPos) : pos.posTag.equals(tokenPos);
   }
 
   private String getTestToken(AnalyzedToken token) {
@@ -404,7 +403,7 @@ public class PatternToken implements Cloneable {
       throw new IllegalArgumentException("maxOccurrences may not be 0");
     }
     if (i < -1 || i > Byte.MAX_VALUE) {
-      throw new IllegalArgumentException("maxOccurrences should be between -1 and " + Byte.MAX_VALUE);
+      throw new IllegalArgumentException("maxOccurrences should be between -1 and " + Byte.MAX_VALUE + " but was: " + i);
     }
     maxOccurrence = (byte) i;
   }
@@ -677,15 +676,28 @@ public class PatternToken implements Cloneable {
    * This is used internally for performance optimizations.
    */
   @Nullable
-  public Set<String> calcFormHints() {
-    Set<String> result = inflected ? null : calcOwnPossibleStringValues();
+  Set<String> calcFormHints() {
+    return calcStringHints(false);
+  }
+
+  /**
+   * @return all possible forms that this token pattern can accept, or {@code null} if such set is unknown/unbounded.
+   * This is used internally for performance optimizations.
+   */
+  @Nullable
+  Set<String> calcLemmaHints() {
+    return calcStringHints(true);
+  }
+
+  private Set<String> calcStringHints(boolean inflected) {
+    Set<String> result = inflected != this.inflected ? null : calcOwnPossibleStringValues();
     if (result == null) return null;
 
     if (andGroupList != null) {
       result = new HashSet<>(result);
 
       for (PatternToken token : andGroupList) {
-        Set<String> hints = token.calcFormHints();
+        Set<String> hints = token.calcStringHints(inflected);
         if (hints != null) {
           result.retainAll(hints);
         }
@@ -694,14 +706,14 @@ public class PatternToken implements Cloneable {
       result = new HashSet<>(result);
 
       for (PatternToken token : orGroupList) {
-        Set<String> hints = token.calcFormHints();
+        Set<String> hints = token.calcStringHints(inflected);
         if (hints == null) return null;
 
         result.addAll(hints);
       }
     }
 
-    return result;
+    return result.isEmpty() ? null : result;
   }
 
   @Nullable
@@ -748,15 +760,15 @@ public class PatternToken implements Cloneable {
 
     private final String posTag;
     private final boolean negation;
-    private final Pattern posPattern;
+    private final StringMatcher posPattern;
     private final boolean posUnknown;
 
     public PosToken(String posTag, boolean regExp, boolean negation) {
       this.posTag = posTag;
       this.negation = negation;
       if (regExp) {
-        posPattern = Pattern.compile(posTag);
-        posUnknown = posPattern.matcher(UNKNOWN_TAG).matches();
+        posPattern = StringMatcher.create(posTag, true, true);
+        posUnknown = posPattern.matches(UNKNOWN_TAG);
       } else {
         posPattern = null;
         posUnknown = UNKNOWN_TAG.equals(posTag);

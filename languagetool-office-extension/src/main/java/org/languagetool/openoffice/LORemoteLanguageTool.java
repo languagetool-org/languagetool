@@ -91,6 +91,9 @@ class LORemoteLanguageTool {
     }
   }
   
+  /**
+   * check a text by a remote LT server
+   */
   List<RuleMatch> check(String text, ParagraphHandling paraMode) throws IOException {
     if (!remoteRun) {
       return null;
@@ -148,18 +151,30 @@ class LORemoteLanguageTool {
     return ruleMatches;
   }
   
+  /**
+   * Get the language the check will done for
+   */
   Language getLanguage() {
     return language;
   }
   
+  /**
+   * Get all rules 
+   */
   List<Rule> getAllRules() {
     return allRules;
   }
   
+  /**
+   * true if the check should be done by a remote server
+   */
   boolean remoteRun() {
     return remoteRun;
   }
   
+  /**
+   * true if the rule should be ignored
+   */
   private boolean ignoreRule(Rule rule) {
     Category ruleCategory = rule.getCategory();
     boolean isCategoryDisabled = (disabledRuleCategories.contains(ruleCategory.getId()) || rule.getCategory().isDefaultOff()) 
@@ -175,7 +190,10 @@ class LORemoteLanguageTool {
     return isDisabled;
   }
 
- public List<Rule> getAllActiveOfficeRules() {
+  /**
+   * get all active office rules
+   */
+  public List<Rule> getAllActiveOfficeRules() {
     List<Rule> rulesActive = new ArrayList<>();
     for (Rule rule : allRules) {
       if (!ignoreRule(rule) && !rule.isOfficeDefaultOff()) {
@@ -190,25 +208,40 @@ class LORemoteLanguageTool {
     return rulesActive;
   }
   
- public Set<String> getDisabledRules() {
-   return disabledRules;
- }
+  /**
+   * Get disabled rules
+   */
+  public Set<String> getDisabledRules() {
+    return disabledRules;
+  }
   
+  /**
+   * Enable the rule
+   */
   void enableRule (String ruleId) {
     disabledRules.remove(ruleId);
     enabledRules.add(ruleId);
   }
   
+  /**
+   * Disable the rule
+   */
   void disableRule (String ruleId) {
     disabledRules.add(ruleId);
     enabledRules.remove(ruleId);
   }
   
+  /**
+   * Disable the category
+   */
   public void disableCategory(CategoryId id) {
     disabledRuleCategories.add(id);
     enabledRuleCategories.remove(id);
   }
   
+  /**
+   * Set the values for rules
+   */
   private void setRuleValues(Map<String, Integer> configurableValues) {
     ruleValues.clear();
     Set<String> rules = configurableValues.keySet();
@@ -218,6 +251,9 @@ class LORemoteLanguageTool {
     }
   }
   
+  /**
+   * Convert a remote rule match to a LT rule match 
+   */
   private RuleMatch toRuleMatch(RemoteRuleMatch remoteMatch, int nOffset) throws MalformedURLException {
     Rule matchRule = null;
     for (Rule rule : allRules) {
@@ -237,6 +273,9 @@ class LORemoteLanguageTool {
     return ruleMatch;
   }
   
+  /**
+   * Convert a list of remote rule matches to a list of LT rule matches
+   */
   private List<RuleMatch> toRuleMatches(List<RemoteRuleMatch> remoteRulematches, int nOffset) throws MalformedURLException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     if (remoteRulematches == null || remoteRulematches.isEmpty()) {
@@ -249,6 +288,9 @@ class LORemoteLanguageTool {
     return ruleMatches;
   }
   
+  /**
+   * store all rules in a list
+   */
   private void storeAllRules(List<Map<String,String>> listRuleMaps) {
     allRules.clear();
     for (Map<String,String> ruleMap : listRuleMaps) {
@@ -262,6 +304,9 @@ class LORemoteLanguageTool {
     }
   }
 
+  /**
+   * Class to define remote (sentence level) rules
+   */
   static class RemoteRule extends Rule {
     
     private final String ruleId;
@@ -354,6 +399,9 @@ class LORemoteLanguageTool {
     
   }
   
+  /**
+   * Class to define remote text level rules
+   */
   static class RemoteTextLevelRule extends TextLevelRule {
     
     private final String ruleId;

@@ -63,6 +63,7 @@ public class AvsAnRuleTest {
     assertCorrect("See an:Grammatica");
     assertCorrect("See http://www.an.com");
     assertCorrect("Station A equals station B.");
+    assertCorrect("e.g., the case endings -a -i -u and mood endings -u -a");
 
     // errors:
     assertIncorrect("It was a hour ago.");

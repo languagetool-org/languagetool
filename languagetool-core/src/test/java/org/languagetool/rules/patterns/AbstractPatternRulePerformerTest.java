@@ -37,7 +37,7 @@ public class AbstractPatternRulePerformerTest {
     PatternRule simpleRule = new PatternRule("FAKE", new Demo(), Collections.singletonList(patternToken1), "descr", "message", "short");
     PatternTokenMatcher elemMatcher = new PatternTokenMatcher(patternToken1);
 
-    AbstractPatternRulePerformer p = new MockAbstractPatternRulePerformer(simpleRule, new Unifier(null, null));
+    AbstractPatternRulePerformer p = new AbstractPatternRulePerformer(simpleRule, new Unifier(null, null)){};
 
     assertTrue(p.testAllReadings(tokenReadings("foo", null), elemMatcher, null, 0, 0, 0));
     assertFalse(p.testAllReadings(tokenReadings("bar", null), elemMatcher, null, 0, 0, 0));
@@ -52,7 +52,7 @@ public class AbstractPatternRulePerformerTest {
     PatternRule simpleRule = new PatternRule("FAKE", new Demo(), Collections.singletonList(chunkPatternToken), "descr", "message", "short");
     PatternTokenMatcher elemMatcher = new PatternTokenMatcher(chunkPatternToken);
 
-    AbstractPatternRulePerformer p = new MockAbstractPatternRulePerformer(simpleRule, new Unifier(null, null));
+    AbstractPatternRulePerformer p = new AbstractPatternRulePerformer(simpleRule, new Unifier(null, null)){};
 
     assertFalse(p.testAllReadings(tokenReadings("bar", null), elemMatcher, null, 0, 0, 0));
     assertTrue(p.testAllReadings(tokenReadings("bar", "myChunk"), elemMatcher, null, 0, 0, 0));
@@ -67,9 +67,4 @@ public class AbstractPatternRulePerformerTest {
     return new AnalyzedTokenReadings[] { tokenReadings1 };
   }
 
-  static class MockAbstractPatternRulePerformer extends AbstractPatternRulePerformer {
-    protected MockAbstractPatternRulePerformer(AbstractPatternRule rule, Unifier unifier) {
-      super(rule, unifier);
-    }
-  }
 }

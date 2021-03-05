@@ -110,9 +110,13 @@ public class AvsAnRule extends Rule {
           ruleMatches.add(match);
         }
       }
+      String nextToken = "";
+      if (i + 1 < tokens.length) {
+        nextToken = tokens[i + 1].getToken();
+      }
       if (token.hasPosTag("DT")) {
         prevTokenIndex = i;
-      } else if (token.getToken().matches("[-\"()\\[\\]]+")) {
+      } else if (token.getToken().matches("[-\"()\\[\\]]+") && nextToken.length() > 1) {
         // skip e.g. the quote in >>an "industry party"<<
       } else {
         prevTokenIndex = 0;
@@ -139,7 +143,7 @@ public class AvsAnRule extends Rule {
     }
   }
 
-  Determiner getCorrectDeterminerFor(AnalyzedTokenReadings token) {
+  static Determiner getCorrectDeterminerFor(AnalyzedTokenReadings token) {
     String word = token.getToken();
     Determiner determiner = Determiner.UNKNOWN;
     String[] parts = word.split("[-']");  // for example, in "one-way" only "one" is relevant
@@ -177,7 +181,7 @@ public class AvsAnRule extends Rule {
     return determiner;
   }
 
-  private boolean isVowel(char c) {
+  private static boolean isVowel(char c) {
     char lc = Character.toLowerCase(c);
     return lc == 'a' || lc == 'e' || lc == 'i' || lc == 'o' || lc == 'u';
   }

@@ -35,6 +35,9 @@ public class UppercaseSentenceStartRuleTest {
     assertEquals(0, lt.check("www.languagetool.org is a website.").size());
     assertEquals(0, lt.check("Languagetool.org is a website.").size());
     assertEquals(0, lt.check("1. an item in a list\n2. another item.").size());
+    assertEquals(0, lt.check("This is a sentence. microRNA is the start of another sentence.").size());
+    assertEquals(0, lt.check("This is a sentence. mRNA is the start of another sentence.").size());
+    assertEquals(0, lt.check("This is a sentence. iDeal is the start of another sentence.").size());
     assertEquals(1, lt.check("languagetool.org is a website.").size());
     assertEquals(1, lt.check("a sentence.").size());
     assertEquals(1, lt.check("a sentence!").size());

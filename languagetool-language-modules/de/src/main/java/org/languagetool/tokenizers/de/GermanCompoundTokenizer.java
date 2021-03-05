@@ -48,6 +48,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
     static Set<String> extendedList() {
       Set<String> words = new HashSet<>(EmbeddedGermanDictionary.getWords());
       // add compound parts here so we don't need to update JWordSplitter for every missing word we find:
+      words.add("tool");
       words.add("online");
       words.add("affin");
       words.add("affine");
@@ -132,6 +133,10 @@ public class GermanCompoundTokenizer implements Tokenizer {
       words.add("rechercheurin");
       words.add("poseurin");
       words.add("auskommentieren");
+      words.add("impfung");
+      words.add("impfungen");
+      words.add("call");
+      words.add("cloud");
       return words;
     }
   }
@@ -181,6 +186,14 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Kinderecken", asList("Kinder", "ecken"));
     wordSplitter.addException("Silberecke", asList("Silber", "ecke"));
     wordSplitter.addException("Silberecken", asList("Silber", "ecken"));
+    wordSplitter.addException("Schreibart", asList("Schreib", "art"));
+    wordSplitter.addException("Prüfungsorte", asList("Prüfungs", "orte"));
+    wordSplitter.addException("Prüfungsorten", asList("Prüfungs", "orten"));
+    wordSplitter.addException("Ölsorte", asList("Öl", "sorte"));
+    wordSplitter.addException("Ölsorten", asList("Öl", "sorten"));
+    wordSplitter.addException("Pflanzenölsorte", asList("Pflanzenöl", "sorte"));
+    wordSplitter.addException("Pflanzenölsorten", asList("Pflanzenöl", "sorten"));
+    wordSplitter.addException("Damenshorts", asList("Damen", "shorts"));
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }

@@ -7,6 +7,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 -->
   <!DOCTYPE rules [
     <!ENTITY zal_adj "(?-i)(\d+-|(ein|zw(ei|an)|dreiß?|vier|fünf|s(echs?|ieb(en)?)|acht|neun)(zehn|zig)?)(jähr|bänd|seit|monat|täg|köpf)">
+    <!ENTITY apostrophe "['’`´‘]">
 ]>
 
 <rules lang="de" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -494,9 +495,9 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule>
             <antipattern>
                 <!-- "Es gibt ein Sprichwort, dem zufolge der tägliche Genuss einer Mandel dem Gedächtnis förderlich sei." -->
-                <token>dem</token>
+                <token regexp="yes">de[mr]</token>
                 <token>zufolge</token>
-                <token>der</token>
+                <token inflected="yes" regexp="yes">der|jed</token>
             </antipattern>
             <antipattern>
                 <!-- "Was ist denn das für ein ungewöhnlicher Name?" -->
@@ -547,7 +548,12 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="unify"/>
     </rule>
     <rule name="NP unify 1b" id="UNIFY_DET_SUB2">
-        <pattern>
+        <antipattern>
+            <token postag="ART:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[ED].+</token>
+            <token postag="ADJ:.*" postag_regexp="yes"></token>
+            <token postag="SUB:.*" postag_regexp="yes"></token>
+        </antipattern>
+         <pattern>
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
                 <!--"beiden Filmen", but: "dass sie Geliebte waren"-->
@@ -556,6 +562,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </unify>
         </pattern>
         <disambig action="unify"/>
+        <example type="untouched">Das andere Gebäude war um ein Beträchtliches höher.</example>
     </rule>
     <!-- TODO: this would fix false alarm for 'die ältere der beiden Töchter' but causes other problems
     <rule name="NP unify 1c" id="UNIFY_DET_ADJ">
@@ -702,16 +709,28 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="add"><wd pos="SUB:DAT:PLU:FEM"/></disambig>
     </rule>
     <rule name="60er -> SUB" id="NUMBER_COMPOUND_NOUN_3">
+        <antipattern>
+            <token postag="ART:.+" postag_regexp="yes"/>
+            <token regexp="yes">\d{2,4}er</token>
+            <token postag="SUB:.+" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <token regexp="yes">\d{2,4}er</token>
         </pattern>
         <disambig action="add"><wd pos="SUB:NOM:PLU:FEM"/></disambig>
+        <example type="untouched">Er sprach über die 80er Jahre.</example>
     </rule>
     <rule name="60er -> SUB" id="NUMBER_COMPOUND_NOUN_4">
+       <antipattern>
+            <token postag="ART:.+" postag_regexp="yes"/>
+            <token regexp="yes">\d{2,4}er</token>
+            <token postag="SUB:.+" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <token regexp="yes">\d{2,4}er</token>
         </pattern>
         <disambig action="add"><wd pos="SUB:GEN:PLU:FEM"/></disambig>
+        <example type="untouched">Er sprach über die 80er Jahre.</example>
     </rule>
     <!-- Treat "60er" in "in den 60er Jahren" as adjective -->
     <rule name="60er -> ADJ" id="NUMBER_COMPOUND_ADJ_1">
@@ -770,18 +789,46 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                     <token postag="VER:.*1:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
                 </marker>
             </pattern>
-            <disambig action="remove" postag="VER.*:(3|IMP):.+"/>
+            <disambig action="remove" postag="VER.*:(3|IMP):.+|PRO:POS:.+"/>
             <example type="ambiguous" inputform="sage[sagen/VER:1:SIN:KJ1:SFT,sagen/VER:1:SIN:PRÄ:SFT,sagen/VER:3:SIN:KJ1:SFT,sagen/VER:IMP:SIN:SFT]" outputform="sage[sagen/VER:1:SIN:KJ1:SFT,sagen/VER:1:SIN:PRÄ:SFT]">Ich <marker>sage</marker> ihr die Wahrheit.</example>
         </rule>
         <rule name="Ich am Satzanfang" id="ICH_SENT_START">
             <pattern case_sensitive="yes">
                 <token postag="SENT_START"/>
                 <marker>
-                    <token>Ich</token>
+                    <token regexp="yes">Ich|Wir</token>
                 </marker>
                 <token postag="VER:1:.+" postag_regexp="yes"/>
             </pattern>
             <disambig action="remove" postag="SUB:.*:NEU"/>
+        </rule>
+        <!-- similar: werte, reiche, vertraute -->
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">Ich|Wir</token>
+                <marker>
+                    <and>
+                        <token regexp="yes" postag="VER:1.+" postag_regexp="yes">[a-zäöüß]+e</token>
+                        <token regexp="yes" postag="PA2.+|ADJ.+" postag_regexp="yes"/>
+                    </and>
+                 </marker>
+            </pattern>
+            <disambig action="remove" postag="ADJ:.+|PA2:.+"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"></token>
+                <token case_sensitive="yes" regexp="yes">D(a|ie)s</token>
+                <marker>
+                    <and>
+                        <token postag="VER:.*1:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
+                        <token postag="VER:.*3:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes"></token>
+                    </and>
+                </marker>
+                <token>ich</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*:(3|IMP):.+|PRO:POS:.+"/>
+            <example type="ambiguous" inputform="sage[sagen/VER:1:SIN:KJ1:SFT,sagen/VER:1:SIN:PRÄ:SFT,sagen/VER:3:SIN:KJ1:SFT,sagen/VER:IMP:SIN:SFT]" outputform="sage[sagen/VER:1:SIN:KJ1:SFT,sagen/VER:1:SIN:PRÄ:SFT]">Das <marker>sage</marker> ich dir nicht.</example>
         </rule>
     </rulegroup>
     <rulegroup name="VER -> PA2" id="VER_PA2">
@@ -843,6 +890,37 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </pattern>
             <disambig action="filter" postag="KON:INF"/>
             <example type="ambiguous" inputform="um[um/ADV:TMP+MOD,um/KON:INF,um/KON:PRI,um/PRP:LOK+TMP+CAU:AKK,um/ZUS]" outputform="um[um/KON:INF]">Sie tat dies, <marker>um</marker> seine Freilassung sicherzustellen.</example>
+        </rule>
+    </rulegroup>
+    <rulegroup name="kein Nominativ nach 'Ich habe'/'Du hast'" id="KEIN_NOMINATIV">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token postag="SENT_START"></token>
+                <token postag="PRO:PER:NOM:.+" postag_regexp="yes"><exception postag="PRO:PER:NOM:.+" postag_regexp="yes" negate_pos="yes"/></token>
+                <token inflected="yes">haben</token>
+                <token postag="ADV.*" postag_regexp="yes" min="0"></token>
+                <marker>
+                    <and>
+                        <token postag="ART.*:NOM:.+" postag_regexp="yes"></token>
+                        <token postag="ART.*:(DAT|AKK).+" postag_regexp="yes"></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="ART.*NOM.+"/>
+        </rule>
+    </rulegroup>
+    <rulegroup name="Dativ Singular für Pronomen" id="PRP_DAT_PRO_IND">
+        <rule>
+            <pattern>
+                <token regexp="yes">am|dem|im|vom</token>
+                <marker>
+                    <token case_sensitive="yes" postag="PRO:IND:.*" postag_regexp="yes" regexp="yes">
+                        [a-zäöü]+en<exception postag="PRO:IND:DAT:SIN.*" postag_regexp="yes"/>
+                    </token>
+                </marker>
+                <token postag="SUB:DAT:SIN:NEU.*" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="add"><wd pos="PRO:IND:DAT:SIN:NEU"/></disambig>
         </rule>
     </rulegroup>
     <rulegroup name="Präposition / Verbzusatz" id="PRP_ZUS">
@@ -939,11 +1017,20 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern case_sensitive="yes">
             <token postag="VER:.+" postag_regexp="yes" skip="5"><exception scope="next" postag="PKT"/></token>
             <marker>
-                <token>einige</token>
+                <token regexp="yes">einige|Versuche</token>
             </marker>
         </pattern>
         <disambig action="remove" postag="VER:.+"/>
         <!-- Sie hat <marker>einige</marker> wichtige Dokumente vorbeigebracht-->
+        <!-- Er unternahm verzweifelte <marker>Versuche</marker>, ...-->
+    </rule>
+    <rule id="ALTBEKANNTE" name="kein Partizip: altbekannte">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>altbekannte</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="(PA2|VER):.+"/>
     </rule>
     <rule id="RECHTSCHAFFEN" name="kein Verb: rechtschaffen">
         <pattern case_sensitive="yes">
@@ -1135,7 +1222,9 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern>
                 <token regexp="yes">e[rs]|sie</token>
                 <marker>
-                    <token postag="VER:.*3:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
+                    <token postag="VER:.*3:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e
+                        <exception scope="next">ich</exception><!-- für sie würde ich durchs Feuer gehen -->
+                    </token>
                 </marker>
             </pattern>
             <disambig action="remove" postag="VER.*:1:.+"/>
@@ -1196,13 +1285,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="remove" postag="SUB:.*:MAS"/>
         </rule>
     </rulegroup>
-    <rulegroup id="ICH_LIEBE" name="ich liebe ... (liebe als Verb)">
+    <rulegroup id="REICHEN" name="Entferne Adjektivform von 'reiche'">
         <rule>
             <pattern case_sensitive="yes">
-                <token>Ich</token>
-                <marker><token regexp="yes">liebe|vertraute</token></marker>
+                <token postag_regexp="yes" postag="ART:.+"/>
+                <marker><token>reiche</token></marker>
+                <token regexp="yes">aus|von</token>
             </pattern>
-            <disambig action="remove" postag="ADJ:.+|PA2:.+"/>
+            <disambig action="remove" postag="ADJ:.+"/>
         </rule>
     </rulegroup>
     <rulegroup id="KEIN_IMPERATIV" name="Entferne Imperativ am Satzende langer Sätze">
@@ -1222,7 +1312,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern case_sensitive="yes">
                 <token regexp="yes">(Rettungs|Kranken)wagen|[A-Z][a-zäöüß]{4,}(schmerzen|strecken)</token>
             </pattern>
-            <disambig action="remove" postag="SUB:.+:SIN:NEU:INF"/>
+            <disambig action="remove" postag="SUB:.+:SIN:NEU.*"/>
         </rule>
     </rulegroup>
     <rulegroup id="PRP_NOM" name="kein Nominativ nach Präposition">
@@ -1303,6 +1393,47 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <example type="ambiguous" inputform="Abstand[Abstand/SUB:AKK:SIN:MAS,Abstand/SUB:DAT:SIN:MAS,Abstand/SUB:NOM:SIN:MAS,abstehen/VER:1:SIN:PRT:NON:NEB,abstehen/VER:3:SIN:PRT:NON:NEB]" outputform="Abstand[Abstand/SUB:AKK:SIN:MAS,Abstand/SUB:DAT:SIN:MAS,Abstand/SUB:NOM:SIN:MAS]">Ich habe Verständnis und halte <marker>Abstand</marker>.</example>
         </rule>
     </rulegroup>
+    <rulegroup id="SUB_BEAMTE" name="Substantiv: Justiz-/Vollzugs-/Schalterbeamte">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[A-ZÄÖÜ][a-zäöüß]{3,}beamte</token>
+            </pattern>
+            <disambig postag="SUB:NOM:SIN:MAS"></disambig>
+            <example type="ambiguous" inputform="Schalterbeamte[Schalterbeamte/SUB:NOM:SIN:MAS:ADJ]" outputform="Schalterbeamte[Schalterbeamte/SUB:NOM:SIN:MAS]">Beamte, <marker>Schalterbeamte</marker>.</example>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[A-ZÄÖÜ][a-zäöüß]{3,}beamte</token>
+            </pattern>
+            <disambig action="add"><wd pos="SUB:AKK:PLU:MAS"/></disambig>
+            <example type="ambiguous" inputform="Schalterbeamte[Schalterbeamte/SUB:NOM:SIN:MAS:ADJ]" outputform="Schalterbeamte[Schalterbeamte/SUB:AKK:PLU:MAS,Schalterbeamte/SUB:NOM:SIN:MAS:ADJ]">Beamte, <marker>Schalterbeamte</marker>.</example>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[A-ZÄÖÜ][a-zäöüß]{3,}beamte</token>
+            </pattern>
+            <disambig action="add"><wd pos="SUB:NOM:PLU:MAS"/></disambig>
+            <example type="ambiguous" inputform="Schalterbeamte[Schalterbeamte/SUB:NOM:SIN:MAS:ADJ]" outputform="Schalterbeamte[Schalterbeamte/SUB:NOM:PLU:MAS,Schalterbeamte/SUB:NOM:SIN:MAS:ADJ]">Beamte, <marker>Schalterbeamte</marker>.</example>
+        </rule>
+    </rulegroup>
+    <rulegroup id="WEISS" name="Verb/Adjektiv: weiß">
+        <rule>
+            <pattern>
+                <token regexp="yes">ich|er|sie<exception scope="previous" inflected="yes" regexp="yes">werden|sein</exception></token>
+                <marker><token case_sensitive="yes">weiß<exception scope="next" postag="VER:.*(INF|1|3).*" postag_regexp="yes"></exception></token></marker>
+            </pattern>
+            <disambig action="remove" postag="ADJ:PRD:GRU"/>
+            <example type="untouched">Ich glaube, dass er weiß streichen wird.</example>
+            <example type="untouched">Wir lesen beide Tag und Nacht die Bibel, aber Sie lesen dort schwarz, wo ich weiß lese.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">sein</token>
+                <marker><token case_sensitive="yes">weiß</token></marker>
+            </pattern>
+            <disambig action="remove" postag="VER:[13]:.+"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="PA2_PRT_VERB" name="Entferne Präteritum von Partizip">
         <rule>
             <pattern case_sensitive="yes">
@@ -1359,6 +1490,24 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token><exception>ihr</exception></token>
             </pattern>
             <disambig action="remove" postag="VER:.+"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="VER_3" name="Entferne 1./2. Person von Verb">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token postag="SENT_START"></token>
+                <token regexp="yes">D(a|ie)s|E[rs]|Sie</token>
+                <marker>
+                    <and>
+                       <token postag="VER:3:SIN.+" postag_regexp="yes"/>
+                       <token postag="VER:([12]|IMP):.+" postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token><exception regexp="yes">ich|du|wir</exception></token>
+            </pattern>
+            <disambig action="remove" postag="VER:(IMP|[12]):.+"/>
+            <example type="ambiguous" inputform="geht[gehen/VER:2:PLU:PRÄ:NON,gehen/VER:3:SIN:PRÄ:NON,gehen/VER:IMP:PLU:NON]" outputform="geht[gehen/VER:3:SIN:PRÄ:NON]">Das <marker>geht</marker> selten gut aus.</example>
+            <example type="untouched">Das dachte ich mir schon.</example>
         </rule>
     </rulegroup>
     <!-- ============================================================================================================== -->
@@ -1875,7 +2024,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern>
             <!-- http://canoonet.eu/blog/2008/11/14/zum-einen-zum-anderen/ -->
             <token>Ein</token>
-            <token>und</token>
+            <token regexp="yes">und|&amp;</token>
             <token>Alles</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -2519,6 +2668,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="University of" id="UNIVERSITY_OF">
         <pattern case_sensitive="yes">
             <token>University</token>
+            <token>of</token>
+            <token regexp="yes">[A-Z][a-z]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Journal of" id="JOURNAL_OF">
+        <pattern case_sensitive="yes">
+            <token>Journal</token>
             <token>of</token>
             <token regexp="yes">[A-Z][a-z]+</token>
         </pattern>
@@ -3377,7 +3534,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
     <rule name="-köpfig" id="KOEPFIG">
       <pattern case_sensitive="yes">
-        <token regexp="yes">\d+-(köpf|mal|zeil|lag|stünd|minüt|geschoss|stöck|wöch|teil|räum)ig(e[mnsr]?)?</token>
+        <token regexp="yes">\d+-(köpf|mal|zeil|lag|stünd|minüt|geschoss|stöck|wöch|teil|räum|stell|spur)ig(e[mnsr]?)?</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
@@ -3622,8 +3779,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token regexp="yes">Adjutant|Montana|Jack|Jacob|Manhattan</token>
+                <token regexp="yes">Adjutant|Montana|Jack|Jacob|Manhattan|Sirius</token>
                 <token regexp="yes">Blacks?</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token>Black</token>
+                <token regexp="yes">[Aau]nd|&amp;</token>
+                <token>White</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
@@ -3910,7 +4075,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <!-- https://de.wikipedia.org/wiki/Click_and_Collect -->
         <pattern case_sensitive="yes">
             <token>Click</token>
-            <token regexp="yes">&amp;|and</token>
+            <token regexp="yes">&amp;|[ua]nd</token>
             <token>Collect</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -4052,6 +4217,26 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern>
             <token>alle</token>
             <marker><token case_sensitive="yes">neune</token></marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="SCHNICK_SCHNACK_SCHNUCK" name="ignore spelling of 'Schnick, Schnack, Schnuck'">
+        <pattern case_sensitive="yes">
+            <token>Schnick</token>
+            <token min="0">,</token>
+            <token>Schnack</token>
+            <token min="0">,</token>
+            <token>Schnuck</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="DOS_AND_DONTS" name="Dos and Don'ts">
+        <pattern case_sensitive="yes">
+            <token>Dos</token>
+            <token regexp="yes">and|&amp;</token>
+            <token>Don</token>
+            <token regexp="yes">&apostrophe;</token>
+            <token>ts</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

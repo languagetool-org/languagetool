@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
+import com.google.common.primitives.Ints;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.*;
@@ -52,14 +53,12 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
           + SUGGESTION_END_TAG);
 
   private final boolean useList;
-  private final List<PatternTokenMatcher> patternTokenMatchers;
   //private final Integer slowMatchThreshold;
   private static final boolean monitorRules = System.getProperty("monitorActiveRules") != null;
 
   PatternRuleMatcher(PatternRule rule, boolean useList) {
     super(rule, rule.getLanguage().getUnifier());
     this.useList = useList;
-    this.patternTokenMatchers = createElementMatchers();
     //String slowMatchThresholdStr = System.getProperty("slowMatchThreshold");
     //slowMatchThreshold = slowMatchThresholdStr != null ? Integer.parseInt(slowMatchThresholdStr) : null;
   }
@@ -77,95 +76,15 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
       currentlyActiveRules.compute(key, (k, v) -> v == null ? 1 : v + 1);
     }
     try {
-      boolean isPreDisambigMatch = rule instanceof PatternRule && ((PatternRule)rule).isInterpretPosTagsPreDisambiguation();
-      AnalyzedTokenReadings[] tokens = isPreDisambigMatch ? sentence.getPreDisambigTokensWithoutWhitespace() : sentence.getTokensWithoutWhitespace();
-      List<Integer> tokenPositions = new ArrayList<>(tokens.length + 1);
-      int patternSize = patternTokenMatchers.size();
-      int limit = Math.max(0, tokens.length - patternSize + 1);
-      PatternTokenMatcher pTokenMatcher = null;
-      int i = 0;
-      int minOccurCorrection = getMinOccurrenceCorrection();
-      while (i < limit + minOccurCorrection && !(rule.isSentStart() && i > 0)) {
-        int skipShiftTotal = 0;
-        boolean allElementsMatch = false;
-        int firstMatchToken = -1;
-        int lastMatchToken = -1;
-        int firstMarkerMatchToken = -1;
-        int lastMarkerMatchToken = -1;
-        int prevSkipNext = 0;
-        if (rule.isTestUnification()) {
-          unifier.reset();
+      AnalyzedTokenReadings[] tokens = isInterpretPosTagsPreDisambiguation()
+                                       ? sentence.getPreDisambigTokensWithoutWhitespace()
+                                       : sentence.getTokensWithoutWhitespace();
+      doMatch(sentence, tokens, (tokenPositions, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken) -> {
+        RuleMatch ruleMatch = createRuleMatch(tokenPositions, tokens, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken, sentence);
+        if (ruleMatch != null) {
+          ruleMatches.add(ruleMatch);
         }
-        tokenPositions.clear();
-        int minOccurSkip = 0;
-        for (int k = 0; k < patternSize; k++) {
-          PatternTokenMatcher prevTokenMatcher = pTokenMatcher;
-          pTokenMatcher = patternTokenMatchers.get(k);
-          pTokenMatcher.resolveReference(firstMatchToken, tokens, rule.getLanguage());
-          int nextPos = i + k + skipShiftTotal - minOccurSkip;
-          prevMatched = false;
-          if (prevSkipNext + nextPos >= tokens.length || prevSkipNext < 0) { // SENT_END?
-            prevSkipNext = tokens.length - (nextPos + 1);
-          }
-          int maxTok = Math.min(nextPos + prevSkipNext, tokens.length - (patternSize - k) + minOccurCorrection);
-          for (int m = nextPos; m <= maxTok; m++) {
-            allElementsMatch = !tokens[m].isImmunized() && testAllReadings(tokens, pTokenMatcher, prevTokenMatcher, m, firstMatchToken, prevSkipNext);
-
-            if (pTokenMatcher.getPatternToken().getMinOccurrence() == 0) {
-              boolean foundNext = false;
-              for (int k2 = k + 1; k2 < patternSize; k2++) {
-                PatternTokenMatcher nextElement = patternTokenMatchers.get(k2);
-                boolean nextElementMatch = !tokens[m].isImmunized() && testAllReadings(tokens, nextElement, pTokenMatcher, m,
-                  firstMatchToken, prevSkipNext);
-                if (nextElementMatch) {
-                  // this element doesn't match, but it's optional so accept this and continue
-                  allElementsMatch = true;
-                  minOccurSkip++;
-                  tokenPositions.add(0);
-                  foundNext = true;
-                  break;
-                } else if (nextElement.getPatternToken().getMinOccurrence() > 0) {
-                  break;
-                }
-              }
-              if (foundNext) {
-                break;
-              }
-            }
-
-            if (allElementsMatch) {
-              int skipForMax = skipMaxTokens(tokens, pTokenMatcher, firstMatchToken, prevSkipNext,
-                prevTokenMatcher, m, patternSize - k - 1);
-              lastMatchToken = m + skipForMax;
-              int skipShift = lastMatchToken - nextPos;
-              tokenPositions.add(skipShift + 1);
-              prevSkipNext = translateElementNo(pTokenMatcher.getPatternToken().getSkipNext());
-              skipShiftTotal += skipShift;
-              if (firstMatchToken == -1) {
-                firstMatchToken = lastMatchToken - skipForMax;
-              }
-              if (firstMarkerMatchToken == -1 && pTokenMatcher.getPatternToken().isInsideMarker()) {
-                firstMarkerMatchToken = lastMatchToken - skipForMax;
-              }
-              if (pTokenMatcher.getPatternToken().isInsideMarker()) {
-                lastMarkerMatchToken = lastMatchToken;
-              }
-              break;
-            }
-          }
-          if (!allElementsMatch) {
-            break;
-          }
-        }
-        if (allElementsMatch && tokenPositions.size() == patternSize) {
-          RuleMatch ruleMatch = createRuleMatch(tokenPositions,
-            tokens, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken, sentence);
-          if (ruleMatch != null) {
-            ruleMatches.add(ruleMatch);
-          }
-        }
-        i++;
-      }
+      });
       RuleMatchFilter maxFilter = new RuleWithMaxFilter();
       List<RuleMatch> filteredMatches = maxFilter.filter(ruleMatches);
       /*if (slowMatchThreshold != null) {
@@ -181,8 +100,15 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
     }
   }
 
+  @Override
+  protected boolean testAllReadings(AnalyzedTokenReadings[] tokens, PatternTokenMatcher matcher, PatternTokenMatcher prevElement, int tokenNo, int firstMatchToken, int prevSkipNext) throws IOException {
+    if (tokens[tokenNo].isImmunized()) return false;
+
+    return super.testAllReadings(tokens, matcher, prevElement, tokenNo, firstMatchToken, prevSkipNext);
+  }
+
   @Nullable
-  private RuleMatch createRuleMatch(List<Integer> tokenPositions,
+  private RuleMatch createRuleMatch(int[] tokenPositions,
                                     AnalyzedTokenReadings[] tokens, int firstMatchToken,
                                     int lastMatchToken, int firstMarkerMatchToken, int lastMarkerMatchToken,
                                     AnalyzedSentence sentence) throws IOException {
@@ -195,8 +121,8 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
             firstMatchToken, rule.getSuggestionsOutMsg(), rule.getSuggestionMatchesOutMsg());
     int correctedStPos = 0;
     if (rule.startPositionCorrection > 0) {
-      for (int l = 0; l <= Math.min(rule.startPositionCorrection, tokenPositions.size() - 1); l++) {
-        correctedStPos += tokenPositions.get(l);
+      for (int l = 0; l <= Math.min(rule.startPositionCorrection, tokenPositions.length - 1); l++) {
+        correctedStPos += tokenPositions[l];
       }
       correctedStPos--;
     }
@@ -249,7 +175,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
         if (rule.getFilter() != null) {
           RuleFilterEvaluator evaluator = new RuleFilterEvaluator(rule.getFilter());
           AnalyzedTokenReadings[] patternTokens = Arrays.copyOfRange(tokens, firstMatchToken, lastMatchToken + 1);
-          return evaluator.runFilter(rule.getFilterArguments(), ruleMatch, patternTokens, firstMatchToken, tokenPositions);
+          return evaluator.runFilter(rule.getFilterArguments(), ruleMatch, patternTokens, firstMatchToken, Ints.asList(tokenPositions));
         } else {
           return ruleMatch; 
         }
@@ -283,7 +209,8 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
    * @param i Current element index.
    * @return int Index translated into XML element no.
    */
-  private int translateElementNo(int i) {
+  @Override
+  int translateElementNo(int i) {
     if (!useList || i < 0) {
       return i;
     }
@@ -305,7 +232,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
    * @return String Formatted message.
    */
   private String formatMatches(AnalyzedTokenReadings[] tokenReadings,
-      List<Integer> positions, int firstMatchTok, String errorMsg,
+      int[] positions, int firstMatchTok, String errorMsg,
       List<Match> suggestionMatches) throws IOException {
     String errorMessage = errorMsg;
     int matchCounter = 0;
@@ -336,11 +263,11 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
             + numLen)) - 1;
         int repTokenPos = 0;
         int nextTokenPos = 0;
-        for (int l = 0; l <= Math.min(j, positions.size() - 1); l++) {
-          repTokenPos += positions.get(l);
+        for (int l = 0; l <= Math.min(j, positions.length - 1); l++) {
+          repTokenPos += positions[l];
         }
-        if (j + 1 < positions.size()) {
-          nextTokenPos = firstMatchTok + repTokenPos + positions.get(j + 1);
+        if (j + 1 < positions.length) {
+          nextTokenPos = firstMatchTok + repTokenPos + positions[j + 1];
         }
 
         if (suggestionMatches != null && suggestionMatches.size() > 0) {
@@ -348,9 +275,9 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
             numbersToMatches[j] = matchCounter;
             // if token is optional remove it from suggestions:
             String[] matches;
-            if (j >= positions.size()) {
+            if (j >= positions.length) {
               matches = concatMatches(matchCounter, j, firstMatchTok + repTokenPos, tokenReadings, nextTokenPos, suggestionMatches);
-            } else if (positions.get(j) != 0) {
+            } else if (positions[j] != 0) {
               matches = concatMatches(matchCounter, j, firstMatchTok + repTokenPos, tokenReadings, nextTokenPos, suggestionMatches);
             } else {
               matches = new String[] { "" };
@@ -396,7 +323,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
         numberFollows = StringTools.isPositiveNumber(errorMessage.charAt(errMarker + 1));
       }
     }
-    return removeSupressMisspelled(errorMessage);
+    return removeSuppressMisspelled(errorMessage);
   }
 
   private static String concatWithoutExtraSpace(String leftSide, String rightSide) {
@@ -410,7 +337,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
     return leftSide + rightSide;
   }
 
-  static String removeSupressMisspelled(String s) {
+  private static String removeSuppressMisspelled(String s) {
     String result = s;
     // remove suggestions not synthesized: <suggestion><pleasespellme/>...(...)...</suggestion>
     // remove misspelled words: <suggestion><pleasespellme/>...<mistake/>...</suggestion>

@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
 public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
 
   private static final Pattern PREFIX_WITH_WHITESPACE = Pattern.compile(
-      "^(auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans|re) (..+)$",
+      "^(auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|hiper|trans|re) (..+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern PARTICULA_FINAL = Pattern.compile("^(..+) (que|cual)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);

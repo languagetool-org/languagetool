@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2018 Oleg Serikov
+ * Copyright (C) 2021 Daniel Naber (www.danielnaber.de)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,21 +16,32 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.languagemodel;
+package org.languagetool;
 
-import org.languagetool.rules.ngrams.Probability;
+import org.languagetool.rules.RuleMatch;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
- * Produces zero probability for any passed text.
+ * @since 5.3
  */
-public class MockLanguageModel implements LanguageModel {
-  @Override
-  public Probability getPseudoProbability(List<String> context) {
-    return new Probability(0, 0);
+public class CheckResults {
+
+  private final List<RuleMatch> ruleMatches;
+  private final List<Range> ignoredRanges;
+
+  public CheckResults(List<RuleMatch> ruleMatches, List<Range> ignoredRanges) {
+    this.ruleMatches = Objects.requireNonNull(ruleMatches);
+    this.ignoredRanges = Objects.requireNonNull(ignoredRanges);
   }
 
-  @Override
-  public void close() {}
+  public List<Range> getIgnoredRanges() {
+    return ignoredRanges;
+  }
+
+  public List<RuleMatch> getRuleMatches() {
+    return ruleMatches;
+  }
+
 }

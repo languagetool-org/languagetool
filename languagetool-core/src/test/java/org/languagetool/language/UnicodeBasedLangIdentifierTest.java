@@ -28,12 +28,14 @@ public class UnicodeBasedLangIdentifierTest {
   private final UnicodeBasedLangIdentifier ident = new UnicodeBasedLangIdentifier(100);
 
   @Test
-  public void testGetAdditionalLangCodes() {
+  public void testGetDominantLangCodes() {
     String arabic = "[ar, fa]";
     String cyrillic = "[ru, uk, be]";
     String cjk = "[zh, ja]";
     String devanagari = "[hi, mr]";
     String thai = "[th]";
+    String hebrew = "[he]";
+    String korean = "[ko]";
 
     assertThat(codes(""), is("[]"));
     assertThat(codes(" "), is("[]"));
@@ -91,9 +93,21 @@ public class UnicodeBasedLangIdentifierTest {
     // Thai:
     assertThat(codes("ลินุกซ์ (อังกฤษ: Linux) และรู้จักในชื่อ กะนู/ลินุกซ์"), is(thai));
     assertThat(codes("ลินุกซ์มีสัญญาอนุญาตแบบ GPL ซึ่งเป็นสัญญาอนุญาตที่กำหนด"), is(thai));
+
+    // Hebrew:
+    assertThat(codes("לינוקס (באנגלית: Linux) היא משפחה של מערכות הפעלה המבוססות"), is(hebrew));
+    assertThat(codes("לינוקס היא דוגמה"), is(hebrew));
+
+    // Korean:
+    assertThat(codes("리눅스(Linux)[4]는 1991년 9월 17일 리누스 토르발스가 처음 출시한"), is(korean));
+    assertThat(codes("리눅스(Linux)[4]는 1991년 9월 17일 리누"), is(korean));
+    assertThat(codes("배포판에는 리눅스 커널과 지원"), is(korean));
+    assertThat(codes("저명한 리눅스 배포판"), is(korean));
+    assertThat(codes("리눅스는 또한 일반적으로"), is(korean));
+    assertThat(codes("리눅스는 자유-"), is(korean));
   }
 
   private String codes(String s) {
-    return ident.getAdditionalLangCodes(s).toString();
+    return ident.getDominantLangCodes(s).toString();
   }
 }

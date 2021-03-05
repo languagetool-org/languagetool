@@ -5,12 +5,12 @@
     <parent>
         <artifactId>languagetool-parent</artifactId>
         <groupId>org.languagetool</groupId>
-        <version>5.2-SNAPSHOT</version>
+        <version>5.3-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>languagetool-dev</artifactId>
-    <url>http://www.languagetool.org</url>
+    <url>https://www.languagetool.org</url>
     <name>LanguageTool development tools</name>
     <description>Developer tools for working with and evaluating LanguageTool</description>
 
@@ -30,7 +30,7 @@
                 <!-- call with: mvn clean compile assembly:single -->
                 <!-- may need to call `mvn install` in parent folder for this to work -->
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>${maven.assemby.plugin}</version>
+                <version>${maven.assembly.plugin}</version>
                 <configuration>
                     <descriptor>src/main/assembly/zip.xml</descriptor>
                 </configuration>
@@ -39,7 +39,7 @@
                 <!-- build one big JAR named languagetool-dev-x.y-SNAPSHOT-shaded.jar -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>3.2.4</version>
                 <executions>
                     <execution>
                         <goals>
@@ -80,6 +80,11 @@
             <groupId>org.languagetool</groupId>
             <artifactId>languagetool-wikipedia</artifactId>
             <version>${languagetool.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.8</version>
         </dependency>
 
         <dependency>

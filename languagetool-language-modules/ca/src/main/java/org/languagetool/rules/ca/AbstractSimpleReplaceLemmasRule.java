@@ -23,8 +23,6 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
-import org.languagetool.rules.Categories;
-import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 

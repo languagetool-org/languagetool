@@ -46,13 +46,12 @@ public class ConfusionCheckFilter extends RuleFilter {
     Pattern desiredGenderNumberPattern = null;
     String replacement = null;
     String postag = getRequired("postag", arguments);
-    String form = getRequired("form", arguments).toLowerCase();
-    /*if (form.equals("titulo")) {
-      form = form + "";
-    }*/
-    String gendernumber_from = getOptional("gendernumber_from", arguments);
-    if (gendernumber_from != null) {
-      int i = Integer.parseInt(gendernumber_from);
+    String originalForm = getRequired("form", arguments);
+    boolean isAllUppercase = StringTools.isAllUppercase(originalForm);
+    String form = originalForm.toLowerCase();
+    String gendernumberFrom = getOptional("gendernumberFrom", arguments);
+    if (gendernumberFrom != null) {
+      int i = Integer.parseInt(gendernumberFrom);
       if (i < 1 || i > patternTokens.length) {
         throw new IllegalArgumentException(
             "ConfusionCheckFilter: Index out of bounds in " + match.getRule().getFullId() + ", value: " + i);
@@ -74,7 +73,7 @@ public class ConfusionCheckFilter extends RuleFilter {
             return null;
           }
           replacement = relevantWords.get(form).getToken();
-        } else if (gendernumber_from == null) {
+        } else if (gendernumberFrom == null) {
           // there is no desired gender number defined
           replacement = relevantWords.get(form).getToken();
         }
@@ -89,6 +88,9 @@ public class ConfusionCheckFilter extends RuleFilter {
       RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
           message, match.getShortMessage());
       ruleMatch.setType(match.getType());
+      if (isAllUppercase) {
+        replacement = replacement.toUpperCase();
+      }
       String suggestion = match.getSuggestedReplacements().get(0).replace("{suggestion}", replacement);
       suggestion = suggestion.replace("{Suggestion}", StringTools.uppercaseFirstChar(replacement));
       ruleMatch.setSuggestedReplacement(suggestion);

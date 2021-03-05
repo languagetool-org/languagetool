@@ -76,7 +76,7 @@ public class AbstractSimpleReplaceRule2Test {
       return "internal test rule";
     }
     @Override
-    public String getSuggestion() {
+    public String getMessage() {
       return "fake suggestion";
     }
     @Override

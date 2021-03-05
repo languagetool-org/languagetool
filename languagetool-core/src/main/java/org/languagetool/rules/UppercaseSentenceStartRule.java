@@ -42,37 +42,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
   private static final Pattern WHITESPACE_OR_QUOTE = Pattern.compile("[ \"'„«»‘’“”\\n]"); //only ending quote is necessary?
   private static final Pattern SENTENCE_END1 = Pattern.compile("[.?!…]|");
   private static final Set<String> EXCEPTIONS = new HashSet<>(Arrays.asList(
-          "iPhone",
-          "iPhones",
-          "iOS",
-          "iBook",
-          "iDEAL",
-          "iDeal",
-          "iMovie",
-          "iLife",
-          "iWork",
-          "iMac",
-          "iMacs",
-          "eBay",
-          "fMRI",
-          "iPad",
-          "iPadOS",
-          "iPads",
-          "iPod",
-          "iPods",
-          "iCloud",
-          "iRobot",
-          "iRobots",
-          "iTunes",
-          "macOS",
-          "watchOS",
-          "tvOS",
-          "mRNA",
-          "iHeartRadio",
-          "iMessage",
-          "iFood",
-          "x86",
-          "reCAPTCHA"
+          "x86"
   ));
 
   private final Language language;
@@ -174,7 +144,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
 
       if (checkToken.length() > 0) {
         char firstChar = checkToken.charAt(0);
-        if (!preventError && Character.isLowerCase(firstChar) && !EXCEPTIONS.contains(checkToken)) {
+        if (!preventError && Character.isLowerCase(firstChar) && !EXCEPTIONS.contains(checkToken) && !StringTools.isCamelCase(checkToken)) {
           RuleMatch ruleMatch = new RuleMatch(this, sentence,
                   pos+tokens[matchTokenPos].getStartPos(),
                   pos+tokens[matchTokenPos].getEndPos(),

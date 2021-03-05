@@ -50,6 +50,7 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("We <marker>havent</marker> earned anything."),
                    Example.fixed("We <marker>haven't</marker> earned anything."));
+    super.setCheckLemmas(false);
   }
 
   @Override

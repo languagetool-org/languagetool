@@ -19,6 +19,7 @@
 package org.languagetool.rules.de;
 
 import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.broker.ResourceDataBroker;
@@ -48,6 +49,11 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("rune", "Schriftzeichen der Germanen", "runde", "Rundstrecke"),
+          new Pair("mai", "Monat nach April", "mail", "E-Mail"),
+          new Pair("pump", "'auf Pump': umgangssprachlich für 'auf Kredit'", "pumpe", "Gerät zur Beförderung von Flüssigkeiten"),
+          new Pair("mitte", "zentral", "mittel", "Methode, um etwas zu erreichen"),
+          new Pair("fein", "feinkörnig, genau, gut", "feind", "Gegner"),
           new Pair("traum", "Erleben während des Schlafes", "trauma", "Verletzung"),
           new Pair("name", "Bezeichnung (z.B. 'Vorname')", "nahme", "zu 'nehmen' (z.B. 'Teilnahme')"),
           new Pair("bart", "Haarbewuchs im Gesicht", "dart", "Wurfpfeil"),
@@ -90,7 +96,8 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("punk", "Jugendkultur", "punkt", "Satzzeichen"),
           new Pair("reis", "Nahrungsmittel", "eis", "gefrorenes Wasser"),
           new Pair("balkan", "Region in Südosteuropa", "balkon", "Plattform, die aus einem Gebäude herausragt"),
-          new Pair("haft", "Freiheitsentzug", "schaft", "-schaft (Element zur Wortbildung)")
+          new Pair("haft", "Freiheitsentzug", "schaft", "-schaft (Element zur Wortbildung)"),
+          new Pair("stande", "zu 'Stand'", "stange", "länglicher Gegenstand")
   );
   public static final GermanyGerman german = new GermanyGerman();
   private static GermanSpellerRule spellerRule;
@@ -101,11 +108,143 @@ public class ProhibitedCompoundRule extends Rule {
     "gra(ph|f)ische[rsnm]",  // kosmografischen etc.
     "gra(ph|f)s?$",  // Elektrokardiograph
     "gra(ph|f)en",  // Elektrokardiographen
+    "gra(ph|f)in",  // Demographin/Demografin
     "gra(ph|f)ik",  // Kunstgrafik
     "gra(ph|f)ie",  // Geographie
     "Gra(ph|f)it"   // Grafit/Graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Datenspende",
+          "Datenspenden",
+          "Designermaske",
+          "Designermasken",
+          "Herdenschutz",
+          "Maskendisziplin",
+          "Maskenmode",
+          "Maskenmoden",
+          "Maskenmoral",
+          "Impfvorrang",
+          "Volksmaske",
+          "Volksmasken",
+          "Testmeilen",  // vs Testteilen
+          "Hauptstrand",  // vs Hauptstand
+          "Hauptstrands",
+          "Hauptstrandes",
+          "Hüttenschuhe",
+          "Hüttenschuhen",
+          "Hüttenschuhs",
+          "Mietbedingung",
+          "Mietbedingungen",
+          "Modeltyp",
+          "Modeltyps",
+          "Modeltypen",
+          "Musikversand",
+          "Musikversands",
+          "Musikversandes",
+          "Paragrafzeichen",
+          "Paragrafzeichens",
+          "Pflanzenmarkt",
+          "Pflanzenmarkts",
+          "Pflanzenmarktes",
+          "Privatstrand",
+          "Privatstrands",
+          "Privatstrände",
+          "Privatstränden",
+          "Privatstrandes",
+          "Reisessig",
+          "Reisessigs",
+          "Reiswein",
+          "Reisweins",
+          "Reisweine",
+          "Schuhabteilung",
+          "Schuhabteilungen",
+          "Schulfirma",
+          "Schulfirmen",
+          "Schulmagazin",
+          "Schulmagazins",
+          "Schulmagazinen",
+          "Schulmagazinen",
+          "Segelschuhe",
+          "Segelschuhen",
+          "Spitzenhaus",
+          "Spitzenhauses",
+          "Spitzenhäuser",
+          "Spitzenhäusern",
+          "Standgebläse",
+          "Standgebläsen",
+          "Standgebläses",
+          "Standstreifen",
+          "Standstreifens",
+          "Strandfigur",
+          "Strandfoto",
+          "Strandfotos",
+          "Strandkonzert",
+          "Strandkonzerts",
+          "Strandkonzertes",
+          "Strandkonzerte",
+          "Strandkonzerten",
+          "Strandverlust",
+          "Strandverluste",
+          "Strandverlusten",
+          "Tierversand",
+          "Tierversands",
+          "Treppenart",
+          "Treppenarten",
+          "Winterflucht",
+          "Nachtmitte",  // vs. Nachtmittel
+          "Gemeindemitte", // vs. Gemeindemittel
+          "Feinbeurteilung",  // vs. Feindbeurteilung
+          "Bremssand",
+          "Bratform",
+          "Devisenspritze",
+          "Einkaufszielen",
+          "einnähmt",
+          "hinübernähmen",
+          "maschinennäher",
+          "zentrumsnäher",
+          "Einzelversandes",
+          "Eisbällchen",
+          "Eisenbahnrades",
+          "Eisläufer",
+          "Eisläufern",
+          "Eisläufers",
+          "Fachversand",
+          "Fachversandes",
+          "Feinwahrnehmung",
+          "Feinwahrnehmungen",
+          "Fluchtkapsel",
+          "Fluchtkapseln",
+          "Fluchtschiffe",
+          "Fluchtschiffes",
+          "Fluchtschiffs",
+          "Fluchtschiffen",
+          "Flügeltreppe",
+          "Flügeltreppen",
+          "Fruchtspiel",
+          "Gletschersand",
+          "Gletschersands",
+          "Gletschersandes",
+          "Grafem",
+          "Grafems",
+          "Grafeme",
+          "Grafemen",
+          "grafitgrau",
+          "grafithaltig",
+          "grafithaltige",
+          "grafithaltiger",
+          "grafithaltigen",
+          "grafithaltigem",
+          "grafithaltiges",
+          "grafithaltigeren",
+          "grafithaltigerem",
+          "Reitschuhe",
+          "Reitschuhen",
+          "Nordbalkon",
+          "Ostbalkon",
+          "Südbalkon",
+          "Westbalkon",
+          "Zahngel",
+          "Reinigungsgel",
           "Schutzname",
           "Schutznamen",
           "Gebrauchsname",
@@ -400,6 +539,164 @@ public class ProhibitedCompoundRule extends Rule {
           "Vorzelte",
           "Supportleitung", // vs leistung
           "Kursname",
+          "Schmucksorte",
+          "Schmucksorten",
+          "Farbsorte",
+          "Farbsorten",
+          "Donaublick",
+          "Rundhals",
+          "Trittschutz",
+          "Laufhaus",
+          "Wickeltasche",
+          "Bayernliga",
+          "Badsanierung",
+          "Laufbereitschaft",
+          "Geschenkkarten",
+          "Landesklasse",
+          "Firmenlauf",
+          "Satzverlust",
+          "Satzgewinn",
+          "Monatslinsen",
+          "Tageslinsen",
+          "Sexstellung",
+          "Traumbad",
+          "Schlafsystem",
+          "Startspieler",
+          "Tabellenrang",
+          "Heimerfolg",
+          "Dachboxen",
+          "Videotest",
+          "Zugbindung",
+          "Badplanung",
+          "Badschrank",
+          "Reiturlaub",
+          "Zeittraining",
+          "Dichtungssatz",
+          "Wettbörsen",
+          "Bildungspaket",
+          "anklickst",
+          "Frauenlauf",
+          "Problemhaut",
+          "Absperrpfosten",
+          "Regenhülle",
+          "Satzball",
+          "Auswärtsfahrt",
+          "Dichtsatz",
+          "Nutzungserlebnis",
+          "Saumabschluss",
+          "Rundengewinn",
+          "Haussteuerung",
+          "Unterfederung",
+          "Sterneküche",
+          "Wickeltaschen",
+          "Jahreslinsen",
+          "Blutmond",
+          "Badeplattform",
+          "Wettquote",
+          "Haarmaske",
+          "Schlussgang",
+          "Damengrößen",
+          "Hautanalyse",
+          "Außenkamera",
+          "Kuscheldecken",
+          "Feinhefe",
+          "Radstation",
+          "Satzbälle",
+          "gelinkter",
+          "Nacktbild",
+          "Bücherbär",
+          "Winzerhof",
+          "Laufhäuser",
+          "Verbandsklasse",
+          "Rennrunde",
+          "Luftmasche",
+          "Suchfiltern",
+          "Wohndecke",
+          "bespaßt",
+          "Endrohren",
+          "ablutschte",
+          "Waldkatzen",
+          "Sicherheitsweste",
+          "Gelbsperre",
+          "Kopfdichtung",
+          "Wurfzelt",
+          "Gemeinschaftskarten",
+          "Kornkreis",
+          "Bronzerang",
+          "Fensterfolien",
+          "einköpfen",
+          "Einkaufsnacht",
+          "Reiserad",
+          "Leistungsspange",
+          "Ladepunkten",
+          "Breitbänder",
+          "Wochenplaner",
+          "Leserunden",
+          "Königsleiten",
+          "Hochlader",
+          "Lauferlebnis",
+          "Radstrecken",
+          "Kinderlauf",
+          "Bettsystem",
+          "Reifentests",
+          "Fettleder",
+          "Bildungsstreik",
+          "Satzrückstand",
+          "Bürstenköpfe",
+          "Werbegesicht",
+          "Bassreflex",
+          "Postrock",
+          "gelaserten",
+          "Ohrbügel",
+          "Bestweite",
+          "Golfschuhe",
+          "Genussreise",
+          "Barkultur",
+          "Ladepunkt",
+          "Sportreifen",
+          "Begleitdamen",
+          "Tauchgebiet",
+          "Stadttouren",
+          "vermixen",
+          "Suchvorschläge",
+          "Damenmodell",
+          "Putzkittel",
+          "Eistees",
+          "Begleitdame",
+          "Frontmanns",
+          "Katzenbett",
+          "Pizzaöfen",
+          "Sitzerhöhungen",
+          "Golfkurse",
+          "Ventilkappen",
+          "Kinderuhr",
+          "Bachblüte",
+          "rockigem",
+          "Kinderpreis",
+          "Massivhauses",
+          "Golfstar",
+          "Herstellerwertung",
+          "Herznoten",
+          "Geldklammer",
+          "Einzelkatze",
+          "Fellwechsels",
+          "Duftreis",
+          "Jugendpokal",
+          "Werbelüge",
+          "Superzoom",
+          "Inselpark",
+          "Golfschuh",
+          "Schuhwahl",
+          "Schwingtor",
+          "Sexabenteuern",
+          "Insektenhaus",
+          "Ramschniveau",
+          "Verbrenners",
+          "Doppelklingen",
+          "Clubkonzert",
+          "pullert",
+          "Meisterchor",
+          "Bienenfarm",
           "Feuchtmann" //name
   ));
 
@@ -562,6 +859,7 @@ public class ProhibitedCompoundRule extends Rule {
       addAllCaseVariants(candidatePairs, confusionPair);
     }
 
+    List<WeightedRuleMatch> weightedMatches = new ArrayList<>();
     for (Pair pair : candidatePairs) {
       String variant = null;
       if (wordPart.contains(pair.part1)) {
@@ -588,11 +886,14 @@ public class ProhibitedCompoundRule extends Rule {
         int fromPos = readings.getStartPos() + partsStartPos;
         int toPos = fromPos + wordPart.length() + toPosCorrection;
         String id = getId() + "_" + cleanId(pair.part1) + "_" + cleanId(pair.part2);
-        RuleMatch match = new RuleMatch(new SpecificIdRule(id, pair.part1, pair.part2, messages, lm), sentence, fromPos, toPos, msg);
+        RuleMatch match = new RuleMatch(new SpecificIdRule(id, pair.part1, pair.part2, messages), sentence, fromPos, toPos, msg);
         match.setSuggestedReplacement(variant);
-        ruleMatches.add(match);
-        break;
+        weightedMatches.add(new WeightedRuleMatch(variantCount, match));
       }
+    }
+    if (weightedMatches.size() > 0) {
+      Collections.sort(weightedMatches);  // sort by most popular alternative
+      ruleMatches.add(weightedMatches.get(0).match);
     }
     partsStartPos += wordPart.length() + 1;
     return partsStartPos;
@@ -630,6 +931,19 @@ public class ProhibitedCompoundRule extends Rule {
     return null;
   }
 
+  static class WeightedRuleMatch implements Comparable<WeightedRuleMatch> {
+    long weight;
+    RuleMatch match;
+    WeightedRuleMatch(long weight, RuleMatch match) {
+      this.weight = weight;
+      this.match = match;
+    }
+    @Override
+    public int compareTo(@NotNull WeightedRuleMatch other) {
+      return Long.compare(other.weight, weight);
+    }
+  }
+
   public static class Pair {
     private final String part1;
     private final String part1Desc;
@@ -647,13 +961,13 @@ public class ProhibitedCompoundRule extends Rule {
     }
   }
 
-  static class SpecificIdRule extends ProhibitedCompoundRule {
+  static private class SpecificIdRule extends Rule {  // don't extend ProhibitedCompoundRule for performance reasons (speller would get re-initialized a lot)
     private final String id;
     private final String desc;
-    SpecificIdRule(String id, String part1, String part2, ResourceBundle messages, LanguageModel lm) {
-      super(messages, lm, null);
+    SpecificIdRule(String id, String part1, String part2, ResourceBundle messages) {
       this.id = Objects.requireNonNull(id);
       this.desc = "Markiert wahrscheinlich falsche Komposita mit Teilwort '" + uppercaseFirstChar(part1) + "' statt '" + uppercaseFirstChar(part2) + "' und umgekehrt";
+      setCategory(Categories.TYPOS.getCategory(messages));
     }
     @Override
     public String getId() {
@@ -662,6 +976,10 @@ public class ProhibitedCompoundRule extends Rule {
     @Override
     public String getDescription() {
       return desc;
+    }
+    @Override
+    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+      return RuleMatch.EMPTY_ARRAY;
     }
   }
 }

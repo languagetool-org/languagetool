@@ -36,14 +36,6 @@ public class CatalanWrongWordInContextRuleTest {
     CatalanWrongWordInContextRule rule = new CatalanWrongWordInContextRule(null);
     JLanguageTool langTool = new JLanguageTool(new Catalan());
     
-    // rendible/rentable
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Una empresa molt rendible.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Una empresa molt rentable.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Uns cultius rentables.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Es venen bé i són rentables.")).length);
-    assertEquals("rendibles", rule.match(langTool.getAnalyzedSentence("Uns projectes molt rentables."))[0].getSuggestedReplacements().get(0));
-    //assertEquals("rentable", rule.match(langTool.getAnalyzedSentence("Un teixit rendible."))[0].getSuggestedReplacements().get(0));
-    
     //assertEquals(1, rule.match(langTool.getAnalyzedSentence("La policia feia d'escolta.")).length);
     //assertEquals(0, rule.match(langTool.getAnalyzedSentence("La policia feia escoltes telefòniques.")).length);
     //assertEquals(0, rule.match(langTool.getAnalyzedSentence("La policia feia escoltes il·legals.")).length);

@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.en;
 
+import com.google.common.base.Suppliers;
 import org.languagetool.Languages;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Example;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.function.Supplier;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests
@@ -42,7 +44,7 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
   public static final String BRITISH_SIMPLE_REPLACE_RULE = "EN_GB_SIMPLE_REPLACE";
 
   private static final Map<String, List<String>> wrongWords = loadFromPath("/en/en-GB/replace.txt");
-  private static final Synthesizer synth = new EnglishSynthesizer(Languages.getLanguageForShortCode("en"));
+  private static final Supplier<Synthesizer> synth = Suppliers.memoize(() -> new EnglishSynthesizer(Languages.getLanguageForShortCode("en")));
   private static final Locale EN_GB_LOCALE = new Locale("en-GB");
 
   @Override
@@ -89,6 +91,6 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
 
   @Override
   public Synthesizer getSynthesizer() {
-    return synth;
+    return synth.get();
   }
 }

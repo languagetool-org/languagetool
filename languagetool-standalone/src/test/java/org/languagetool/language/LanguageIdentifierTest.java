@@ -73,6 +73,10 @@ public class LanguageIdentifierTest {
     langAssert("km", "អ្នក\u200Bអាច\u200Bជួយ\u200Bលើក\u200Bស្ទួយ\u200Bវិគីភីឌាភាសាខ្មែរ\u200Bនេះ\u200Bឱ្យ\u200Bមាន\u200Bលក្ខណៈ");
     // not yet in language-detector 0.5:
     langAssert("eo", "Imperiestraj pingvenoj manĝas ĉefe krustacojn kaj malgrandajn ...");
+    // detected as not supported by the unicode characters used:
+    langAssert("zz", "ลินุกซ์ (อังกฤษ: Linux)");  // Thai
+    langAssert("zz", "यूएसबी (अंग्रेज़ी: Live ...)");  // Hindi
+    langAssert("zz", "लिनक्स (इंग्लिश: Linux)");  // Marathi
   }
 
   @Test
@@ -192,8 +196,8 @@ public class LanguageIdentifierTest {
     List<String> noop = Arrays.asList();
     ident.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
 
-    // neither en nor de, so we get null:
-    langAssert(null, "Зараз десь когось нема", ident, noop, enDePreferred);
+    // short, but has a specific character set that helps detection:
+    langAssert("uk", "Зараз десь когось нема", ident, noop, enDePreferred);
     // long enough to ignore the preferred languages:
     langAssert("da", "En to meter lang levende krokodille er blevet fundet i et drivhus i en have i Sveriges tredje største by", ident, noop, enDePreferred);
     langAssert("da", "Elektriske lamper, gemt bag et loft af mælkehvidt, gennemskinneligt glas, kastede et mildt lys på museets skatt", ident, noop, enDePreferred);

@@ -107,7 +107,7 @@ public class French extends Language implements AutoCloseable {
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
-            new LongSentenceRule(messages, userConfig, 35, true, true),
+            new LongSentenceRule(messages, userConfig, 40, true, true),
             new LongParagraphRule(messages, this, userConfig),
             // specific to French:
             new CompoundRule(messages),
@@ -226,6 +226,8 @@ public class French extends Language implements AutoCloseable {
   @Override
   protected int getPriorityForId(String id) {
     switch (id) { 
+      case "SA_CA": return 10; // greater than D_N
+      case "A_INFINITIF": return 10;
       case "DU_DU": return 10; // greater than DU_LE
       case "ACCORD_CHAQUE": return 10; // greater than ACCORD_NOMBRE
       case "CEST_A_DIRE": return 10; // greater than A_A_ACCENT
@@ -233,14 +235,17 @@ public class French extends Language implements AutoCloseable {
       case "BYTES": return 1; // needs to be higher than spell checker for 10MB style matches
       case "Y_A": return 1; // needs to be higher than spell checker for style suggestion
       case "A_A_ACCENT": return 1; // triggers false alarms for IL_FAUT_INF if there is no a/à correction
-      case "FRENCH_WHITESPACE_STRICT": return 1;  // default off, but if on, it should overwrite FRENCH_WHITESPACE 
-      case "FRENCH_WHITESPACE": return 0;
+      case "JE_M_APPEL": return 1;  // override NON_V
+      case "ACCORD_R_PERS_VERBE": return 1;  // match before POSER_UNE_QUESTION
       case "JE_SUI": return 1;  // needs higher priority than spell checker
+      case "CONFUSION_PAR_PART": return -1;  // turn off completely when PART_OU_PAR is activated
       case "TOO_LONG_PARAGRAPH": return -15;
       case "VERB_PRONOUN": return -50; // greater than FR_SPELLING_RULE; less than ACCORD_V_QUESTION
       case "FR_SPELLING_RULE": return -100;
       case "ELISION": return -200; // should be lower in priority than spell checker
       case "UPPERCASE_SENTENCE_START": return -300;
+      case "FRENCH_WHITESPACE_STRICT": return -350; // picky; if on, it should overwrite FRENCH_WHITESPACE
+      case "FRENCH_WHITESPACE": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
     }
     if (id.startsWith("grammalecte_")) {
       return -150;

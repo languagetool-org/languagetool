@@ -85,7 +85,7 @@ public class AnglicismReplaceRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getSuggestion() {
+  public String getMessage() {
     return "Alternatives possibles pour cet anglicisme :";
   }
 

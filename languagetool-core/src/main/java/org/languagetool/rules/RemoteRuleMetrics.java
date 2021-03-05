@@ -42,6 +42,10 @@ public final class RemoteRuleMetrics {
 
   // TODO: provide configuration as info?
 
+  private static final double[] WAIT_BUCKETS = {
+    .05, .1, .2, .3, .4, .5, .75, 1., 2., 5., 7.5, 10., 15.
+  };
+
   private static final double[] LATENCY_BUCKETS = {
     0.025, 0.05, .1, .25, .5, .75, 1., 2., 4., 6., 8., 10., 15.
   };
@@ -55,6 +59,12 @@ public final class RemoteRuleMetrics {
 
   private static final Counter downtime = Counter.build("languagetool_remote_rule_downtime_seconds_total",
     "Time remote rules were deactivated because of errors").labelNames("rule_id").register();
+
+  private static final Histogram wait = Histogram
+    .build("languagetool_remote_rule_wait_seconds", "Time spent waiting on remote rule results/timeouts")
+    .labelNames("language")
+    .buckets(WAIT_BUCKETS)
+    .register();
 
   private static final Histogram requestLatency = Histogram
     .build("languagetool_remote_rule_request_latency_seconds", "Request duration summary")
@@ -78,6 +88,10 @@ public final class RemoteRuleMetrics {
     requestLatency.labels(rule, result.name().toLowerCase()).observe((double) nanoseconds / 1e9);
     requestThroughput.labels(rule, result.name().toLowerCase()).observe(characters);
     retries.labels(rule).inc(numRetries);
+  }
+
+  public static void wait(String langCode, long milliseconds) {
+    wait.labels(langCode).observe(milliseconds / 1000.0);
   }
 
   public static void failures(String rule, int count) {

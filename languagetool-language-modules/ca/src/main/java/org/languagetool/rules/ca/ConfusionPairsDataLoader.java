@@ -31,7 +31,7 @@ import java.util.Scanner;
  * Load data for {@link AccentuationCheckRule}.
  * @since 3.3
  */
-class AccentuationDataLoader {
+class ConfusionPairsDataLoader {
 
   private static final String FILE_ENCODING = "utf-8";
 
@@ -51,7 +51,13 @@ class AccentuationDataLoader {
                   + parts.length);
         }
         final AnalyzedToken analyzedToken = new AnalyzedToken(parts[1], parts[2], null);
-        map.put(parts[0], new AnalyzedTokenReadings(analyzedToken, 0));
+        if (!map.containsKey(parts[0])) {
+          map.put(parts[0], new AnalyzedTokenReadings(analyzedToken, 0));
+        } else {
+          AnalyzedTokenReadings atrs = map.get(parts[0]);
+          atrs.addReading(analyzedToken, "");
+          map.replace(parts[0], atrs);
+        }
       }
     }
     return map;

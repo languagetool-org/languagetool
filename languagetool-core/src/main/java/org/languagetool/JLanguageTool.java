@@ -27,10 +27,7 @@ import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
-import org.languagetool.rules.patterns.AbstractPatternRule;
-import org.languagetool.rules.patterns.FalseFriendRuleLoader;
-import org.languagetool.rules.patterns.PatternRule;
-import org.languagetool.rules.patterns.PatternRuleLoader;
+import org.languagetool.rules.patterns.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +68,7 @@ public class JLanguageTool {
   private static final Logger logger = LoggerFactory.getLogger(JLanguageTool.class);
 
   /** LanguageTool version as a string like {@code 2.3} or {@code 2.4-SNAPSHOT}. */
-  public static final String VERSION = "5.2-SNAPSHOT";
+  public static final String VERSION = "5.3-SNAPSHOT";
   /** LanguageTool build date and time like {@code 2013-10-17 16:10} or {@code null} if not run from JAR. */
   @Nullable public static final String BUILD_DATE = getBuildDate();
   /**
@@ -190,7 +187,7 @@ public class JLanguageTool {
 
   private PrintStream printStream;
   private boolean listUnknownWords;
-  private Set<String> unknownWords;
+  private Set<String> unknownWords = new HashSet<>();
   private boolean cleanOverlappingMatches;
 
   /**
@@ -899,20 +896,36 @@ public class JLanguageTool {
    */
   public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener,
       Mode mode, Level level, @Nullable ExecutorService remoteRulesThreadPool, @Nullable Long textSessionID) throws IOException {
-      List<String> sentences;
+    List<String> sentences = getSentences(annotatedText, tokenizeText);
+    List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
+    return checkInternal(annotatedText, paraMode, listener, mode, level, remoteRulesThreadPool, textSessionID, sentences, analyzedSentences).getRuleMatches();
+  }
+
+  public CheckResults check2(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener,
+                             Mode mode, Level level, @Nullable ExecutorService remoteRulesThreadPool, @Nullable Long textSessionID) throws IOException {
+    List<String> sentences = getSentences(annotatedText, tokenizeText);
+    List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
+    return checkInternal(annotatedText, paraMode, listener, mode, level, remoteRulesThreadPool, textSessionID, sentences, analyzedSentences);
+  }
+
+  private List<String> getSentences(AnnotatedText annotatedText, boolean tokenizeText) {
+    List<String> sentences;
     if (tokenizeText) {
       sentences = sentenceTokenize(annotatedText.getPlainText());
     } else {
       sentences = new ArrayList<>();
       sentences.add(annotatedText.getPlainText());
     }
-    List<Rule> allRules = getActiveRulesForLevel(level);
-    if (printStream != null) {
-      printIfVerbose(allRules.size() + " rules activated for language " + language);
-    }
+    return sentences;
+  }
 
-    unknownWords = new HashSet<>();
-    List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
+  private CheckResults checkInternal(AnnotatedText annotatedText, ParagraphHandling paraMode, RuleMatchListener listener,
+                                        Mode mode, Level level, @Nullable ExecutorService remoteRulesThreadPool,
+                                        @Nullable Long textSessionID, List<String> sentences, List<AnalyzedSentence> analyzedSentences) throws IOException {
+    RuleSet rules = getActiveRulesForLevel(level);
+    if (printStream != null) {
+      printIfVerbose(rules.allRules().size() + " rules activated for language " + language);
+    }
 
     List<RuleMatch> remoteMatches = new LinkedList<>();
     List<FutureTask<RemoteRuleResult>> remoteRuleTasks = null;
@@ -925,22 +938,26 @@ public class JLanguageTool {
     if (remoteRulesThreadPool != null && mode != Mode.TEXTLEVEL_ONLY) {
       // trigger remote rules to run on whole text at once, at the start, then we wait for the results
       remoteRuleTasks = new LinkedList<>();
-      checkRemoteRules(remoteRulesThreadPool, allRules, analyzedSentences, mode, level,
+      checkRemoteRules(remoteRulesThreadPool, rules.allRules(), analyzedSentences, mode, level,
         remoteRuleTasks, remoteRules, cachedResults, matchOffset, textSessionID);
     }
 
     long textCheckStart = System.currentTimeMillis();
-    List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules,
-      paraMode, annotatedText, listener, mode, level, remoteRulesThreadPool == null);
+    CheckResults res = performCheck(analyzedSentences, sentences, rules,
+            paraMode, annotatedText, listener, mode, level, remoteRulesThreadPool == null);
     long textCheckEnd = System.currentTimeMillis();
 
     fetchRemoteRuleResults(mode, level, analyzedSentences, remoteMatches, remoteRuleTasks, remoteRules,
       cachedResults, matchOffset, annotatedText, textSessionID);
     long remoteRuleCheckEnd = System.currentTimeMillis();
     if (remoteRules.size() > 0) {
+      long wait = remoteRuleCheckEnd - textCheckEnd;
       logger.info("Local checks took {}ms, remote checks {}ms; waited {}ms on remote results",
-        textCheckEnd - textCheckStart, remoteRuleCheckEnd - remoteRuleCheckStart, remoteRuleCheckEnd - textCheckEnd);
+        textCheckEnd - textCheckStart, remoteRuleCheckEnd - remoteRuleCheckStart, wait);
+      RemoteRuleMetrics.wait(language.getShortCode(), wait);
     }
+
+    List<RuleMatch> ruleMatches = res.getRuleMatches();
 
     ruleMatches.addAll(remoteMatches);
 
@@ -958,15 +975,15 @@ public class JLanguageTool {
 
     ruleMatches = applyCustomFilters(ruleMatches, annotatedText);
 
-    return ruleMatches;
+    return new CheckResults(ruleMatches, res.getIgnoredRanges());
   }
 
-  private final Map<Level, List<Rule>> ruleSetCache = new ConcurrentHashMap<>();
+  private final Map<Level, RuleSet> ruleSetCache = new ConcurrentHashMap<>();
 
-  private List<Rule> getActiveRulesForLevel(Level level) {
+  private RuleSet getActiveRulesForLevel(Level level) {
     return ruleSetCache.computeIfAbsent(level, l -> {
       List<Rule> allRules = getAllActiveRules();
-      return l == Level.DEFAULT ? allRules.stream().filter(rule -> !rule.hasTag(Tag.picky)).collect(Collectors.toList()) : allRules;
+      return RuleSet.textLemmaHinted(l == Level.DEFAULT ? allRules.stream().filter(rule -> !rule.hasTag(Tag.picky)).collect(Collectors.toList()) : allRules);
     });
   }
 
@@ -1008,15 +1025,7 @@ public class JLanguageTool {
             // match objects could be relevant to multiple (duplicate) sentences at different offsets
             List<RuleMatch> adjustedMatches = matches.stream().map(RuleMatch::new).collect(Collectors.toList());
             for (RuleMatch match : adjustedMatches) {
-              int fromPos, toPos;
-              if (annotatedText != null) {
-                fromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos() + offset, false);
-                toPos = annotatedText.getOriginalTextPositionFor(match.getToPos() + offset - 1, true) + 1;
-              } else {
-                fromPos = match.getFromPos() + offset;
-                toPos = match.getToPos() + offset;
-              }
-              match.setOffsetPosition(fromPos, toPos);
+              adjustOffset(annotatedText, offset, match);
             }
             remoteMatches.addAll(adjustedMatches);
           }
@@ -1031,15 +1040,7 @@ public class JLanguageTool {
         for (RuleMatch cachedMatch : cachedMatches) {
           // clone so that we don't adjust match position for cache
           RuleMatch match = new RuleMatch(cachedMatch);
-          int fromPos, toPos;
-          if (annotatedText != null) {
-            fromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos() + sentenceOffset, false);
-            toPos = annotatedText.getOriginalTextPositionFor(match.getToPos() + sentenceOffset - 1, true) + 1;
-          } else {
-            fromPos = match.getFromPos() + sentenceOffset;
-            toPos = match.getToPos() + sentenceOffset;
-          }
-          match.setOffsetPosition(fromPos, toPos);
+          adjustOffset(annotatedText, sentenceOffset, match);
           remoteMatches.add(match);
         }
       }
@@ -1048,6 +1049,19 @@ public class JLanguageTool {
         match.setSuggestedReplacementObjects(extendSuggestions(match.getSuggestedReplacementObjects()));
       }
     }
+  }
+
+  private void adjustOffset(AnnotatedText annotatedText, int offset, RuleMatch match) {
+    int fromPos;
+    int toPos;
+    if (annotatedText != null) {
+      fromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos() + offset, false);
+      toPos = annotatedText.getOriginalTextPositionFor(match.getToPos() + offset - 1, true) + 1;
+    } else {
+      fromPos = match.getFromPos() + offset;
+      toPos = match.getToPos() + offset;
+    }
+    match.setOffsetPosition(fromPos, toPos);
   }
 
   protected void checkRemoteRules(@NotNull ExecutorService remoteRulesThreadPool,
@@ -1122,6 +1136,7 @@ public class JLanguageTool {
   }
 
   protected List<AnalyzedSentence> analyzeSentences(List<String> sentences) throws IOException {
+    unknownWords = new HashSet<>();
     List<AnalyzedSentence> analyzedSentences = new ArrayList<>();
     int j = 0;
     for (String sentence : sentences) {
@@ -1156,22 +1171,31 @@ public class JLanguageTool {
   }
 
   /**
-   * @deprecated use {@link #performCheck(List, List, List, ParagraphHandling, AnnotatedText, RuleMatchListener, Mode, Level, boolean)}
+   * @deprecated use {@link #performCheck(List, List, RuleSet, ParagraphHandling, AnnotatedText, RuleMatchListener, Mode, Level, boolean)}
    */
   @Deprecated
-  protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
+  protected CheckResults performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
                                          List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, Mode mode, Level level) throws IOException {
     List<Rule> nonIgnored = allRules.stream().filter(r -> !ignoreRule(r)).collect(Collectors.toList());
     return performCheck(analyzedSentences, sentences, nonIgnored, paraMode, annotatedText, null, mode, level, true);
   }
 
   /**
+   * @deprecated use {@link #performCheck(List, List, RuleSet, ParagraphHandling, AnnotatedText, RuleMatchListener, Mode, Level, boolean)}
    * @since 3.7
    */
-  protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentenceTexts,
+  protected CheckResults performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentenceTexts,
                                          List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, RuleMatchListener listener, Mode mode, Level level, boolean checkRemoteRules) throws IOException {
+    return performCheck(analyzedSentences, sentenceTexts, RuleSet.plain(allRules), paraMode, annotatedText, listener, mode, level, checkRemoteRules);
+  }
+
+  /**
+   * @since 5.2
+   */
+  protected CheckResults performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentenceTexts,
+                                         RuleSet ruleSet, ParagraphHandling paraMode, AnnotatedText annotatedText, RuleMatchListener listener, Mode mode, Level level, boolean checkRemoteRules) throws IOException {
     List<SentenceData> sentences = computeSentenceData(analyzedSentences, sentenceTexts);
-    Callable<List<RuleMatch>> matcher = new TextCheckCallable(allRules, sentences, paraMode, annotatedText, listener, mode, level, checkRemoteRules);
+    Callable<CheckResults> matcher = new TextCheckCallable(ruleSet, sentences, paraMode, annotatedText, listener, mode, level, checkRemoteRules);
     try {
       return matcher.call();
     } catch (IOException e) {
@@ -1266,11 +1290,11 @@ public class JLanguageTool {
     Category ruleCategory = rule.getCategory();
     boolean isCategoryDisabled = (disabledRuleCategories.contains(ruleCategory.getId()) || rule.getCategory().isDefaultOff())
       && !enabledRuleCategories.contains(ruleCategory.getId());
-    boolean isRuleDisabled = disabledRules.contains(rule.getId())
-      || (rule.isDefaultOff() && !enabledRules.contains(rule.getId()));
+    boolean isRuleDisabled = disabledRules.contains(rule.getFullId()) || disabledRules.contains(rule.getId())
+      || (rule.isDefaultOff() && !(enabledRules.contains(rule.getFullId()) || enabledRules.contains(rule.getId())));
     boolean isDisabled;
     if (isCategoryDisabled) {
-      isDisabled = !enabledRules.contains(rule.getId());
+      isDisabled = !(enabledRules.contains(rule.getFullId()) || enabledRules.contains(rule.getId()));
     } else {
       isDisabled = isRuleDisabled;
     }
@@ -1327,7 +1351,6 @@ public class JLanguageTool {
     thisMatch.setColumn(column);
     thisMatch.setEndColumn(endColumn);
     return thisMatch;
-
   }
 
   private List<SuggestedReplacement> extendSuggestions(List<SuggestedReplacement> replacements) {
@@ -1417,6 +1440,7 @@ public class JLanguageTool {
       this.cleanToken = cleanToken;
     }
   }
+
   /**
    * Tokenizes the given {@code sentence} into words and analyzes it.
    * This is the same as {@link #getAnalyzedSentence(String)} but it does not run
@@ -1670,7 +1694,7 @@ public class JLanguageTool {
   }
 
   static class SentenceData {
-    private final AnalyzedSentence analyzed;
+    final AnalyzedSentence analyzed;
     private final String text;
     private final int startOffset;
     private final int startLine;
@@ -1687,8 +1711,8 @@ public class JLanguageTool {
     }
   }
 
-  class TextCheckCallable implements Callable<List<RuleMatch>> {
-    private final List<Rule> rules;
+  class TextCheckCallable implements Callable<CheckResults> {
+    private final RuleSet rules;
     private final boolean checkRemoteRules;
     private final ParagraphHandling paraMode;
     private final AnnotatedText annotatedText;
@@ -1697,7 +1721,7 @@ public class JLanguageTool {
     private final Mode mode;
     private final Level level;
 
-    TextCheckCallable(List<Rule> rules, List<SentenceData> sentences,
+    TextCheckCallable(RuleSet rules, List<SentenceData> sentences,
                       ParagraphHandling paraMode, AnnotatedText annotatedText,
                       RuleMatchListener listener, Mode mode, Level level, boolean checkRemoteRules) {
       this.rules = rules;
@@ -1711,13 +1735,18 @@ public class JLanguageTool {
     }
 
     @Override
-    public List<RuleMatch> call() throws Exception {
+    public CheckResults call() throws Exception {
       List<RuleMatch> ruleMatches = new ArrayList<>();
+      List<Range> ignoreRanges = new ArrayList<>();
       if (mode == Mode.ALL) {
         ruleMatches.addAll(getTextLevelRuleMatches());
-        ruleMatches.addAll(getOtherRuleMatches());
+        CheckResults otherRuleMatches = getOtherRuleMatches();
+        ruleMatches.addAll(otherRuleMatches.getRuleMatches());
+        ignoreRanges.addAll(otherRuleMatches.getIgnoredRanges());
       } else if (mode == Mode.ALL_BUT_TEXTLEVEL_ONLY) {
-        ruleMatches.addAll(getOtherRuleMatches());
+        CheckResults otherRuleMatches = getOtherRuleMatches();
+        ruleMatches.addAll(otherRuleMatches.getRuleMatches());
+        ignoreRanges.addAll(otherRuleMatches.getIgnoredRanges());
       } else if (mode == Mode.TEXTLEVEL_ONLY) {
         ruleMatches.addAll(getTextLevelRuleMatches());
       } else {
@@ -1725,13 +1754,13 @@ public class JLanguageTool {
       }
       // can't call applyCustomRuleFilters here, done in performCheck ->
       // should run just once w/ complete list of matches
-      return ruleMatches;
+      return new CheckResults(ruleMatches, ignoreRanges);
     }
 
     private List<RuleMatch> getTextLevelRuleMatches() throws IOException {
       List<RuleMatch> ruleMatches = new ArrayList<>();
       List<AnalyzedSentence> analyzedSentences = null;
-      for (Rule rule : rules) {
+      for (Rule rule : rules.allRules()) {
         if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) {
           break;
         }
@@ -1772,8 +1801,9 @@ public class JLanguageTool {
       return ruleMatches;
     }
 
-    private List<RuleMatch> getOtherRuleMatches() {
+    private CheckResults getOtherRuleMatches() {
       List<RuleMatch> ruleMatches = new ArrayList<>();
+      List<Range> ignoreRanges = new ArrayList<>();
       int wordCounter = 0;
       for (SentenceData sentence : sentences) {
         if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) {
@@ -1794,7 +1824,7 @@ public class JLanguageTool {
             sentenceMatches = cache.getIfPresent(cacheKey);
           }
           if (sentenceMatches == null) {
-            sentenceMatches = checkAnalyzedSentence(paraMode, rules, sentence.analyzed, checkRemoteRules);
+            sentenceMatches = checkAnalyzedSentence(paraMode, rules.rulesForSentence(sentence.analyzed), sentence.analyzed, checkRemoteRules);
           }
           if (cache != null) {
             cache.put(cacheKey, sentenceMatches);
@@ -1802,6 +1832,9 @@ public class JLanguageTool {
           if (!sentenceMatches.isEmpty()) {
             for (RuleMatch elem : sentenceMatches) {
               RuleMatch thisMatch = adjustRuleMatchPos(elem, sentence.startOffset, sentence.startColumn, sentence.startLine, sentence.text, annotatedText);
+              if (elem.getErrorLimitLang() != null) {
+                ignoreRanges.add(new Range(sentence.startOffset, sentence.startOffset + sentence.text.length(), elem.getErrorLimitLang()));
+              }
               ruleMatches.add(thisMatch);
               if (listener != null) {
                 listener.matchFound(thisMatch);
@@ -1824,7 +1857,7 @@ public class JLanguageTool {
                   + StringUtils.abbreviate(sentence.analyzed.toTextString(), 500) + "</sentcontent>", e);
         }
       }
-      return ruleMatches;
+      return new CheckResults(ruleMatches, ignoreRanges);
     }
 
     private LineColumnPosition findLineColumn(int offset) {
