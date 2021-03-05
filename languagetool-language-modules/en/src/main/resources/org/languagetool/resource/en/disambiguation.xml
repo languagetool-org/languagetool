@@ -6136,6 +6136,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag="VBN"/>
                 <token postag="IN"/>
             </antipattern>
+            <antipattern> <!-- #4542 Incorrect grammar: Oneok's attorney's approve -->
+                <token chunk="E-NP-singular" postag="NNP"/>
+                <token spacebefore="no">'s</token>
+                <token chunk_re="[IE]-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token spacebefore="no">'s</token>
+                <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]"/>
+            </antipattern>
             <pattern>
                 <token postag_regexp="yes" postag="NN.*"/>
                 <marker>
@@ -6164,6 +6171,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">The useless engineer's broken the machine again!</example><!-- #4542 -->
             <example type="untouched">The reason I think the computer's broken is that the little red light is flashing.</example><!-- #4542 -->
             <example type="untouched"><!-- Incorrect grammar -->The sequence consists of one's designated as TRUE and...</example><!-- #4542 -->
+            <example type="untouched"><!-- Incorrect grammar -->Steve will fax me a copy of the notice they received if Oneok's attorney<marker>'s</marker> approve.</example><!-- #4542 -->
 <!--             <example type="untouched">7 reasons why <marker>teacher's</marker> found us top class</example>#4542 This sentence is ambiguous. Possibly incorrect apostrophe, but possibly = ... why teacher [zero-article job role] has found ... -->
         </rule>
         <rule> <!--  add to Texas' or Armenians' -->
