@@ -25,6 +25,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,6 +49,8 @@ public class EnglishSynthesizer extends BaseSynthesizer {
   private static final String RESOURCE_FILENAME = "/en/english_synth.dict";
   private static final String TAGS_FILE_NAME = "/en/english_tags.txt";
   private static final String SOR_FILE_NAME = "/en/en.sor";
+  
+  private static final List<String> exceptions = Arrays.asList("e'er", "o'er", "ol'", "ma'am", "n't");
 
   // A special tag to add determiners.
   private static final String ADD_DETERMINER = "+DT";
@@ -133,7 +136,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
   
   private boolean isException(String w) {
     // remove: 've, 's, 're...
-    return w.startsWith("'");
+    return w.startsWith("'") || exceptions.contains(w);  
   }
   
   private String[] removeExceptions(String words[]) {
