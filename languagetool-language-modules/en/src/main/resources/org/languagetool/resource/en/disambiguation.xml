@@ -63,7 +63,7 @@
     </rule>
     
     <rulegroup id="CONTRACTIONS" name="contractions: special cases">
-        <!--TODO: should be done before the chunker -->
+        <!--TODO: should be done before the chunker to get better results? -->
         <rule>
             <pattern>
                 <marker>
@@ -220,6 +220,24 @@
                 <token spacebefore="no">n't</token>
             </pattern>
             <disambig action="filter" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>'t</token>
+                </marker>
+                <token spacebefore="no">was</token>
+            </pattern>
+            <disambig action="replace"><wd lemma="it" pos="PRP"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>'t</token>
+                </marker>
+                <token spacebefore="no">was</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
     <rulegroup id="DIGIT_HYPHENATED_ADJECTIVES" name="hyphenated adjectives (e.g. 10-part)">

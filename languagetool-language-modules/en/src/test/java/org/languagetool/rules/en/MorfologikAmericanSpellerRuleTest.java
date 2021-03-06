@@ -105,6 +105,7 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(0, rule.match(lt.getAnalyzedSentence("This is English text 🗺.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Yes ma'am.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Yes ma’am.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("'twas but a dream of thee")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("fo'c'sle")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("O'Connell, O’Connell, O'Connor, O’Neill")).length);
     
