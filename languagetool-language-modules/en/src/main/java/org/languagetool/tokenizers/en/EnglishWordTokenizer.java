@@ -35,7 +35,7 @@ import org.languagetool.tokenizers.WordTokenizer;
  */
 public class EnglishWordTokenizer extends WordTokenizer {
 
-  private static final int maxPatterns = 3;
+  private static final int maxPatterns = 4;
   private final Pattern[] patterns = new Pattern[maxPatterns];
   private final EnglishTagger tagger;
 
@@ -52,9 +52,12 @@ public class EnglishWordTokenizer extends WordTokenizer {
     patterns[0] = Pattern.compile("^(fo['’]c['’]sle|rec['’]d|OK['’]d)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     // + not
     patterns[1] = Pattern.compile(
-        "^(are|is|were|was|do|does|did|have|has|had|wo|would|ca|could|sha|should|must|ai)(n['’]t)$",
+        "^(are|is|were|was|do|does|did|have|has|had|wo|would|ca|could|sha|should|must|ai|ought|might|need)(n['’]t)$",
         Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[2] = Pattern.compile("^(.+)(['’]m|['’]re|['’]ll|['’]ve|['’]d|['’]s)(['’-]?)$",
+        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    // split in two tokens
+    patterns[3] = Pattern.compile("^(['’]t)(was)$",
         Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   }
 
