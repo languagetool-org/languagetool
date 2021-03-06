@@ -105,6 +105,8 @@ public class ProhibitedCompoundRule extends Rule {
   private static LinguServices linguServices;
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<String> blacklistRegex = Arrays.asList(
+    "reisender",  // Ägyptenreisender etc.
+    "[a-zöäüß]+sender",  // wg. sende/sender, z.B. bremsender, abzulassender
     "gra(ph|f)ische?",  // kosmografisch etc.
     "gra(ph|f)ische[rsnm]",  // kosmografischen etc.
     "gra(ph|f)s?$",  // Elektrokardiograph
