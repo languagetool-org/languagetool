@@ -424,6 +424,136 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 (the rule on "ajouter en plus"
 was already there before the category was created,
 though, and has since been slightly modified)-->
+      <rulegroup id="PLEONASMES_DIVERS" name="pléonasmes divers" default="temp_off">
+         <rule>
+          <pattern>
+              <token>autrement</token>
+              <token>plus</token>
+          </pattern>
+          <message>Cette expression est un pléonasme.</message>
+          <suggestion>\1</suggestion>
+          <url>https://www.projet-voltaire.fr/regles-orthographe/autrement-ou-autrement-plus/</url>
+          <example correction="autrement">Il est <marker>autrement plus</marker> lent.</example>
+      </rule>
+      <rule>
+          <pattern>
+              <token>bip</token>
+              <token>sonore</token>
+          </pattern>
+          <message>Cette expression est un pléonasme.</message>
+          <suggestion>\1</suggestion>
+          <suggestion>signal sonore</suggestion>
+          <example correction="bip|signal sonore">Ton téléphone a émis un <marker>bip sonore</marker>.</example>
+      </rule>
+      <rule>
+          <pattern>
+              <token>krach</token>
+              <token>boursier</token>
+          </pattern>
+          <message>Cette expression peut être considérée comme un pléonasme.</message>
+          <suggestion>\1</suggestion>
+          <example correction="krach">En 1929, il y a eu un terrible <marker>krach boursier</marker>.</example>
+      </rule>
+      <rule>
+          <pattern>
+              <token>légère</token>
+              <token>collation</token>
+          </pattern>
+          <message>Cette expression est un pléonasme.</message>
+          <suggestion>\2</suggestion>
+          <example correction="collation">J'ai pris une <marker>légère collation</marker> dans l'après-midi.</example>
+      </rule>
+      <rule>
+          <pattern>
+              <token inflected="yes">sortir</token>
+              <token>dehors</token>
+          </pattern>
+          <message>Cette expression est un pléonasme.</message>
+          <suggestion>\1</suggestion>
+          <example correction="sorti">Je suis <marker>sorti dehors</marker>.</example>
+      </rule>
+      <rule>
+          <pattern>
+              <token inflected="yes">sortir</token>
+              <token>à</token>
+              <token>l'</token>
+              <token>extérieur</token>
+          </pattern>
+          <message>Cette expression est un pléonasme.</message>
+          <suggestion>\1</suggestion>
+          <example correction="sorti">Je suis <marker>sorti à l'extérieur</marker>.</example>
+      </rule>
+      <rule>
+          <pattern>
+              <token inflected="yes">rentrer</token>
+              <token>à</token>
+              <token>l'</token>
+              <token>intérieur</token>
+          </pattern>
+          <message>Cette expression est un pléonasme.</message>
+          <suggestion>\1</suggestion>
+          <example correction="rentré">Je suis <marker>rentré à l'intérieur</marker>.</example>
+      </rule>
+      <rule>
+          <pattern>
+              <token>topographie</token>
+              <token>de</token>
+              <token>lieux</token>
+          </pattern>
+          <message>Cette expression est un pléonasme.</message>
+          <suggestion>\1</suggestion>
+          <example correction="topographie">La <marker>topographie de lieux</marker> est très utile pour concevoir des cartes.</example>
+      </rule>
+      <rule>
+          <pattern>
+              <token inflected="yes">suffire</token>
+              <token regexp="yes" min="0" max="1">pas|plus</token>
+              <token regexp="yes">juste|seulement</token>
+          </pattern>
+          <message>Cette expression est un pléonasme.</message>
+          <suggestion>\1</suggestion>
+          <example correction="suffit">Il <marker>suffit juste</marker> que tu prennes un manteau.</example>
+      </rule>
+      <rule>
+          <pattern>
+              <token regexp="yes">ne|n'</token>
+              <token postag="V.*" postag_regexp="yes"/>
+              <token>seulement</token>
+              <token>que</token>
+          </pattern>
+          <message>Cette expression est un pléonasme.</message>
+          <suggestion>\2 \3</suggestion>
+          <suggestion>\1\2 \4</suggestion>
+          <example correction="est seulement|n'est que">Il <marker>n'est seulement que</marker> midi.</example>
+      </rule>
+      <rule>
+          <antipattern>
+              <token>dans</token>
+              <token regexp="yes">laquelle|lequel|lesquel(le)?s</token>
+              <token>il</token>
+              <token>y</token>
+              <token inflected="yes">avoir</token>
+          </antipattern>
+          <pattern>
+              <token>dans</token>
+              <token regexp="yes">laquelle|lequel|lesquel(le)?s</token>
+              <token postag="R pers suj.*" postag_regexp="yes"/>
+              <token>y</token>
+          </pattern>
+          <message>Cette expression est un pléonasme.</message>
+          <suggestion>\1 \2 \3</suggestion>
+          <example correction="dans laquelle elle">Je n'ai pas regardé la série <marker>dans laquelle elle y</marker> joue.</example>
+      </rule>
+      <rule>
+          <pattern>
+              <token inflected="yes">pouvoir</token>
+              <token>peut-être</token>
+          </pattern>
+          <message>Cette expression peut être considérée comme un pléonasme.</message>
+          <suggestion>\1</suggestion>
+          <example correction="peux">Je <marker>peux peut-être</marker> l'aider.</example>
+      </rule>
+  </rulegroup>
       <rulegroup id="PLUS_MAUVAIS" name="plus mauvais" default="temp_off">
           <rule>
               <antipattern>
