@@ -424,7 +424,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 (the rule on "ajouter en plus"
 was already there before the category was created,
 though, and has since been slightly modified)-->
-      <rulegroup id="PLUS_MAUVAIS" name="plus mauvais" default="temp_off">
+      <rulegroup id="PLUS_MAUVAIS" name="plus mauvais">
           <rule>
               <antipattern>
                   <token postag="D.*" postag_regexp="yes"/>
@@ -10633,7 +10633,7 @@ though, and has since been slightly modified)-->
               <example correction="Il ne faut"><marker>Faut</marker> plus bouger.</example>
           </rule>
       </rulegroup>
-      <rule id="PLU_OU_PLUS" name="plu ou plus" default="temp_off">
+      <rule id="PLU_OU_PLUS" name="plu ou plus">
           <pattern>
               <token postag="V.*" postag_regexp="yes"><exception postag="V avoir.*|V etre.*" postag_regexp="yes"/></token>
               <marker>
@@ -10741,7 +10741,7 @@ though, and has since been slightly modified)-->
               <example correction="quelles">Il m'a raconté <marker>qu'elles</marker> grandes aventures il souhaitait vivre.</example>
           </rule>
       </rulegroup>
-      <rule id="PLURIEL_AL" name="pluriel al" default="temp_off">
+      <rule id="PLURIEL_AL" name="pluriel al">
           <antipattern>
               <token postag="V etre.*" postag_regexp="yes"/>
               <token regexp="yes">.*als$</token>
@@ -10749,7 +10749,7 @@ though, and has since been slightly modified)-->
           <antipattern>
               <token regexp="yes">(?-i)[A-Z].*als$</token>
           </antipattern>
-          <pattern>
+          <pattern case_sensitive="yes">
           <marker>
               <token regexp="yes">.*als$
                   <exception regexp="yes">millenials|naguals|spirituals|reals|rentals|revivals|ritals|serials|musicals|avals|bals|chacals|corrals|finals|festivals|récitals|régals|cals|cérémonials|futals|emmentals|gavials|graals|narvals|étals|vals|bancals|fatals|glacials|natals|carnavals|tonals|caracals|rorquals|servals|marshals|causals|fractals|cantals|banals</exception></token>
@@ -34653,7 +34653,7 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TYPOGRAPHIE" name="Typographie" type="typographical">
-      <rulegroup id="VIRGULE_TEMPS" name="virgule temps" default="temp_off">
+      <rulegroup id="VIRGULE_TEMPS" name="virgule temps">
           <rule>
               <pattern>
                   <token postag="R pers suj.*" postag_regexp="yes"><exception regexp="yes">vous|nous</exception></token>
@@ -34729,7 +34729,7 @@ though, and has since been slightly modified)-->
               <example correction="monte, descend, recule">Elle <marker>monte descend recule</marker>.</example>
           </rule>
       </rulegroup>
-      <rulegroup id="ENUMERATION" name="virgules dans énumérations" default="temp_off">
+      <rulegroup id="ENUMERATION" name="virgules dans énumération">
           <rule>
               <pattern>
                   <unify>
@@ -36260,7 +36260,7 @@ though, and has since been slightly modified)-->
       <example correction=","><marker>dans ce cas</marker> il est certain</example>
       <example><marker>dans ce cas</marker>, il est certain</example>
     </rule>
-      <rulegroup id="VIRGULE_ET_CE" name="virgule et ce" default="off">
+      <rulegroup id="VIRGULE_ET_CE" name="virgule et ce">
           <rule>
               <antipattern>
                   <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
@@ -37839,7 +37839,7 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
-      <rulegroup id="CONFUSION_ORTHOGRAPHIQUE" name="confusion orthographique" default="temp_off">
+      <rulegroup id="CONFUSION_ORTHOGRAPHIQUE" name="confusion orthographique">
           <rule>
               <pattern>
                   <token>filigramme</token>
@@ -37938,12 +37938,12 @@ though, and has since been slightly modified)-->
               <pattern>
                   <token case_sensitive="yes">maline</token>
               </pattern>
-              <message>Une erreur d’orthographe semble être détectée, car le féminin de l'adjectif 'malin' est '\1'.</message>
+              <message>Une erreur d’orthographe semble être détectée, car le féminin de l'adjectif 'malin' est 'maligne'.</message>
               <suggestion suppress_misspelled="yes"><match no="2" regexp_match="maline" regexp_replace="maligne"/></suggestion>
               <example correction="maligne">Ton idée n'est vraiment pas <marker>maline</marker> !</example>
           </rule>
       </rulegroup>
-      <rulegroup id="CONFUSION_DANS_UNE_EXPRESSION" name="confusion dans une expression" default="temp_off">
+      <rulegroup id="CONFUSION_DANS_UNE_EXPRESSION" name="confusion dans une expression">
           <rule>
               <pattern>
                   <marker>
@@ -38037,7 +38037,7 @@ though, and has since been slightly modified)-->
                   <token>s'</token>
                   <token inflected="yes">accaparer</token>
               </pattern>
-              <message>Une erreur semble être détectée, car '\2' n'est pas un verbe pronominal.</message>
+              <message>Une erreur semble être détectée, car 'accaparer' n'est pas un verbe pronominal.</message>
               <suggestion>\2</suggestion>
               <example correction="accapare">Il <marker>s'accapare</marker> la victoire.</example>
           </rule>
@@ -38046,7 +38046,7 @@ though, and has since been slightly modified)-->
                   <token>s'</token>
                   <token inflected="yes">empirer</token>
               </pattern>
-              <message>Une erreur semble être détectée, car '\2' n'est pas un verbe pronominal.</message>
+              <message>Une erreur semble être détectée, car 'empirer' n'est pas un verbe pronominal.</message>
               <suggestion>\2</suggestion>
               <example correction="empire">La situation <marker>s'empire</marker>.</example>
           </rule>
@@ -38163,7 +38163,7 @@ though, and has since been slightly modified)-->
               <example>Ils l'<marker>on mis où ?</marker></example>
           </rule>
       </rulegroup>
-      <rulegroup id="IL_Y_A" name="il y a" default="temp_off">
+      <rulegroup id="IL_Y_A" name="il y a">
           <rule>
               <antipattern>
                   <token inflected="yes">aller</token>
@@ -38590,7 +38590,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">alternative(s)?</token>
         </marker>
       </pattern>
-      <message>Cette expression est probablement redondante. Le terme <suggestion>possibilité</suggestion> semble plus approprié car une alternative est un choix entre deux possibilités.</message>
+      <message>Cette expression est probablement redondante. Le terme <suggestion>possibilité</suggestion> semble plus approprié, car une alternative est un choix entre deux possibilités.</message>
       <url>http://academie-francaise.fr/solutions-alternatives</url>
       <example correction="possibilité">Y a-t-il une autre <marker>alternative</marker> ?</example>
       <example correction="possibilité">Il faut choisir ente deux <marker>alternatives</marker>.</example>
