@@ -10210,6 +10210,68 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
+      <rulegroup id="CONFUSION_QUEL" name="confusion quel" default="temp_off">
+          <rule>
+              <pattern>
+                  <token postag="N [em] s" postag_regexp="yes" skip="-1"/>
+                  <marker>
+                      <token regexp="yes">quelles?|quels|qu(&apostrophe;)</token>
+                      <token min="0">elle</token>
+                  </marker>
+                  <token regexp="yes">qu(&apostrophe;)</token>
+                  <token>il</token>
+              </pattern>
+              <message>Une erreur semble être détectée dans cette phrase. Souhaitez-vous écrire <suggestion>quel</suggestion> ?</message>
+              <example correction="quel">On trouvera le destinataire, <marker>qu'elle</marker> qu'il soit.</example>
+              <example correction="quel">On trouvera le problème, <marker>quelle</marker> qu'il soit.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token postag="N [em] p" postag_regexp="yes" skip="-1"/>
+                  <marker>
+                      <token regexp="yes">quelles?|quel|qu(&apostrophe;)</token>
+                      <token regexp="yes" min="0">elle|elles</token>
+                  </marker>
+                  <token regexp="yes">qu(&apostrophe;)</token>
+                  <token>ils</token>
+              </pattern>
+              <message>Une erreur semble être détectée dans cette phrase. Souhaitez-vous écrire <suggestion>quels</suggestion> ?</message>
+              <example correction="quels">On trouvera les destinataires, <marker>qu'elle</marker> qu'ils soient.</example>
+              <example correction="quels">On trouvera les facteurs de risque, <marker>quelle</marker> qu'ils soient.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token regexp="yes">quelle|quels|quelles|qu(&apostrophe;)</token>
+                      <token min="0">elle</token>
+                  </marker>
+                  <token regexp="yes">que|qu(&apostrophe;)</token>
+                  <token min="0">en</token>
+                  <token>soit</token>
+                  <token postag="D [me] s" postag_regexp="yes"/>
+                  <token postag="N m s"/>
+              </pattern>
+              <message>Une erreur semble être détectée dans cette phrase. Souhaitez-vous écrire <suggestion>quel</suggestion> ?</message>
+              <example correction="quel">Il le fera <marker>qu'elle</marker> que soit son statut.</example>
+              <example correction="quel">Il le fera <marker>quelle</marker> qu'en soit son problème.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token regexp="yes">quelle|quel|quelles|qu(&apostrophe;)</token>
+                      <token regexp="yes" min="0">elle|elles</token>
+                  </marker>
+                  <token regexp="yes">que|qu(&apostrophe;)</token>
+                  <token min="0">en</token>
+                  <token>soient</token>
+                  <token postag="D [me] p" postag_regexp="yes"/>
+                  <token postag="N m p"><exception postag="N f p"/></token>
+              </pattern>
+              <message>Une erreur semble être détectée dans cette phrase. Souhaitez-vous écrire <suggestion>quels</suggestion> ?</message>
+              <example correction="quels">Ils les supprimeront <marker>qu'elle</marker> que soient les noms.</example>
+              <example correction="quels">Il le fera <marker>quelles</marker> qu'en soient leurs problèmes.</example>
+          </rule>
+      </rulegroup>
       <rulegroup id="VOUS_EZ_OU_ER" name="Vous ez ou er" default="temp_off">
           <rule>
               <antipattern>
