@@ -127,8 +127,10 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
       if (!SENTENCE_END1.matcher(lastParagraphString).matches() && !isSentenceEnd(lastToken)) {
         preventError = true;
       }
-
-      lastParagraphString = lastToken;
+      
+      if (!sentence.getText().replace('\u00A0', ' ').trim().isEmpty()) {
+        lastParagraphString = lastToken;
+      }
 
       //allows enumeration with lowercase letters: a), iv., etc.
       if (matchTokenPos+1 < tokens.length
