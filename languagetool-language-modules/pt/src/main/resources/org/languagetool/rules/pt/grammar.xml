@@ -22134,7 +22134,14 @@ Sinto frio mesmo com dois pares de meias.
 	 </rule>
 	 <rule>
 	  <antipattern>
-	    <token postag='V.+|SPS.+|NP.+' postag_regexp='yes'/>
+	    <token postag='V.+|SP.+|NP.+|CC|DI.+' postag_regexp='yes'/>
+	    <token postag='NC.+|AQ0.+' postag_regexp='yes'/>	    
+		<token min="1" max="3" postag='RG' postag_regexp='no'>
+			<exception postag_regexp='yes' postag='NC.+|AQ0.+'/>
+		</token>		
+	  </antipattern>	 
+	  <antipattern>
+	    <token postag='V.+|SP.+|NP.+|CC|DI.+' postag_regexp='yes'/>
 		<token min="1" max="3" postag='RG' postag_regexp='no'>
 			<exception postag_regexp='yes' postag='NC.+|AQ0.+'/>
 		</token>		
@@ -22156,6 +22163,7 @@ Sinto frio mesmo com dois pares de meias.
 	  <example>A parede é branca por dentro e verde por fora.</example>
 	  <example>A literatura do Esperanto é já imensa e com enorme rapidez cresce a cada dia e hora.</example>
 	  <example>Anda com calma e gravidade, rodeado por suas mulheres e seus dignitários.</example>
+	  <example>O Tom toma suco de laranja e café à noite e vinho ou cerveja de manhã.</example>	  
 	 </rule>	 
     </rulegroup>
 
