@@ -37031,6 +37031,24 @@ Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
 
  <category id='REDACTION_TIPS' name='Dicas de redação' type='style'>
 
+	<!-- PARA SABER QUAL A para delinear a -->
+    <rule id='DELINEAR' name="saber qual a → delinear a">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-09 (1-JAN-2021+)      -->
+      <pattern>
+	  <token regexp='yes'>para|permite</token>	
+		<marker>
+			<token>saber</token>
+			<token regexp='yes'>qual|quais</token>			
+		</marker>
+		<token regexp='yes'>[ao]s?</token>
+		<token regexp='yes'>melhor|melhores|pior|piores|maior|maiores|menor|menores</token>	
+		<token postag='NC.+|AQ0.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Melhore a redação.</message>
+	  <suggestion>delinear</suggestion>
+      <example correction="delinear">Isto para <marker>saber qual</marker> a melhor técnica de ataque.</example>
+    </rule>
+
     <rule id='NA_MEDIDA_DO_POSSÍVEL' name="Na medida do possível" default='off'>
     <!--     Created by Marco A.G. Pinto, 2017-03-19   -->
       <pattern>
