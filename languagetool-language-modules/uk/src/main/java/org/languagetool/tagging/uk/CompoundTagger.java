@@ -102,7 +102,7 @@ class CompoundTagger {
       "турнір", "універсіада", "фестиваль", "форум", "чемпіонат", "чемпіон", "чемпіонка", "ярмарок");
   private static final List<String> WORDS_WITH_NUM = Arrays.asList("Формула", "Карпати", "Динамо", "Шахтар", "Фукусіма", 
       "омега", "плутоній", "полоній", "стронцій", "уран", "потік"); //TODO: потік-2 - prop
-  private static final List<String> NAME_SUFFIX = Arrays.asList("ага", "ефенді");
+  private static final List<String> NAME_SUFFIX = Arrays.asList("ага", "ефенді", "бек");
   private static final Pattern SKY_PATTERN = Pattern.compile(".*[сзц]ьки");
   private static final Pattern SKYI_PATTERN = Pattern.compile(".*[сзц]ький");
 
