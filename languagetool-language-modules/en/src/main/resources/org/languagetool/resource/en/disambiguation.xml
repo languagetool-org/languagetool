@@ -1382,6 +1382,13 @@
             <token chunk="B-NP-singular">'s</token>
             <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
         </antipattern>
+        <antipattern><!-- #4572 been to Mark's, but -->
+            <token>been</token>
+            <token>to</token>
+            <token chunk="E-NP-singular" postag="NNP"/>
+            <token>'s</token>
+            <token postag="PCT"/>
+        </antipattern>
         <pattern>
             <token inflected="yes">be</token>
             <token>to</token>
@@ -1396,6 +1403,7 @@
         <example type="untouched">So far, the main damage has been to Bush's image.</example><!-- #4572 -->
         <example type="untouched">Have you ever been to Chuck's Diner for brunch?</example><!-- #4572 -->
         <example type="untouched">I have been to Wade's WIN site free for a week.</example><!-- #4572 Win/E-NP-singular -->
+        <example type="untouched">You sat down to eat, not because you have never been to Mark's, but because you...</example><!-- #4573 -->
     </rule>
 
     <rule id="DO_VBNN_VB" name="do/did/does + verb/noun -> VB">
