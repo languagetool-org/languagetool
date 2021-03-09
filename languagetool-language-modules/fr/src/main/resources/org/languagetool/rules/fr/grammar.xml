@@ -20168,6 +20168,23 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="SUBJ_SUBOR" name="subjonctif dans la proposition subordonnée">
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|suggérer|vouloir</token>
+                <token min="0" max="1" regexp="yes">pas|plus</token>
+                <token>qu'</token>
+                <token regexp="yes">il|elle|on</token>
+                <token min="0" max="1">n'</token>
+                <marker>
+                    <token postag="V etre ind pres 3.*" postag_regexp="yes" inflected="yes">être</token>
+                </marker>
+            </pattern>
+            <message>Le verbe 'être' doit être au subjonctif. Une confusion avec le verbe 'avoir' est aussi possible.</message>
+            <suggestion><match no="6" postag="(V etre) (ind) (pres) (3) (s)" postag_regexp="yes" postag_replace="(V avoir) (sub) $3 $4 $5">avoir</match></suggestion>
+            <suggestion><match no="6" postag="(V etre) (ind) (pres) (3) (s)" postag_regexp="yes" postag_replace="$1 (sub) $3 $4 $5">être</match></suggestion>
+            <example correction="ait|soit">Il faut qu'il <marker>est</marker> la bonne solution.</example>
+            <example correction="ait|soit">Il faut qu'il <marker>est</marker> un homme.</example>
+        </rule>
       <rule>
         <antipattern>
           <token regexp="yes">les?|la</token>
