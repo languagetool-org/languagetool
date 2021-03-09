@@ -1369,6 +1369,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="27°C">температура знизиться до <marker>27оC</marker>.</example>
       <example>20 ОС</example>
     </rule>
+
+    <rule id="vytupaye" name="Витупає і виступає">
+      <pattern>
+        <token regexp="yes">витупа(є|ють|ємо?)</token>
+      </pattern>
+      <message>Можливо, ви мали на увазі <suggestion><match no="1" regexp_match="витупа(є|ють|ємо?)" regexp_replace="виступа$1"/></suggestion>?</message>
+      <example correction="виступає">він <marker>витупає</marker> завтра.</example>
+    </rule>
   </category>
 
 </rules>
