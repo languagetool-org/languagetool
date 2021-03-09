@@ -1375,6 +1375,13 @@
     </rule>
 
     <rule name="be + to + verb/... -&gt;be + to + verb" id="BE_TO_VB">
+        <antipattern><!-- #4572 been to Bush's image -->
+            <token>been</token>
+            <token>to</token>
+            <token chunk="E-NP-singular" postag="NNP"/>
+            <token chunk="B-NP-singular">'s</token>
+            <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+        </antipattern>
         <pattern>
             <token inflected="yes">be</token>
             <token>to</token>
@@ -1386,6 +1393,9 @@
             </marker>
         </pattern>
         <disambig postag="VB"/>
+        <example type="untouched">So far, the main damage has been to Bush's image.</example><!-- #4572 -->
+        <example type="untouched">Have you ever been to Chuck's Diner for brunch?</example><!-- #4572 -->
+        <example type="untouched">I have been to Wade's WIN site free for a week.</example><!-- #4572 Win/E-NP-singular -->
     </rule>
 
     <rule id="DO_VBNN_VB" name="do/did/does + verb/noun -> VB">
@@ -5998,6 +6008,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">... containing an unequal number of a's and b's: This is...</example><!-- #4567 -->
             <example type="untouched">... all strings with the same number of a's as b's, the nonterminal U generates all...</example><!-- #4567 -->
             <example type="untouched">... generates all strings with more a's than b's and the nonterminal V generate...</example><!-- #4567 -->
+            <example type="untouched">So far, the main damage has been to Bush's image.</example><!-- #4572 -->
+            <example type="untouched">Have you ever been to Chuck's Diner for brunch?</example><!-- #4572 -->
+            <example type="untouched">I have been to Wade's WIN site free for a week.</example><!-- #4572 -->
             <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s[be/VBZ]">There<marker>'s</marker> no milk in the fridge.</example>
             <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s[be/VBZ]">One person closed the door and another<marker>'s</marker> opened it again.</example>
             <example type="ambiguous" inputform="'s['s/POS,be/VBZ]" outputform="'s[be/VBZ]">One opportunity closed, but another<marker>'s</marker> opened.</example>
