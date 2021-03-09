@@ -121,6 +121,9 @@ public class EnglishUnpairedBracketsRuleTest {
     // this is currently considered incorrect... although people often use smileys this way:
     assertCorrect("Some text (and some funny remark :-) with more text to follow");
     assertIncorrect("Some text (and some funny remark :-) with more text to follow!");
+    assertCorrect("Some text. This is \"12345\", a number.");
+    assertCorrect("Some text.\n\nThis is \"12345\", a number.");
+    assertCorrect("Some text. This is 12345\", a number.");  // could be "inch", so no error
 
     RuleMatch[] matches;
     matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence("(This is a test” sentence.")));
