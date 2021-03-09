@@ -37689,7 +37689,7 @@ though, and has since been slightly modified)-->
           <antipattern>
               <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir</token>
               <token postag="V etre ppa.*" postag_regexp="yes" inflected="yes">être</token>
-              <token regexp="yes">au</token>
+              <token>au</token>
               <token regexp="yes">le|les|l'</token>
           </antipattern>
           <antipattern>
@@ -37708,17 +37708,17 @@ though, and has since been slightly modified)-->
               <token regexp="yes">hauteur|peine|étude|place|avantage|transition|tour|mode|hausse|œuvre|apogée|moment|honneur|direction|suite|titre|côtés|fins|rue|époque|premières?|premiers?|initiative|fin|oeuvre|jour|tête|affiche|reprises?|essai|radio|télévision|charge|base|blé</token>
           </antipattern>
           <pattern>
-              <marker>
-                  <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir<exception scope="previous" postag="J.*" postag_regexp="yes"/></token>
-                  <token postag="V etre ppa.*" postag_regexp="yes" inflected="yes">être</token>
-              </marker>
+                  <marker>
+                      <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir<exception scope="previous" postag="J.*" postag_regexp="yes"/></token>
+                      <token postag="V etre ppa.*" postag_regexp="yes" inflected="yes">être</token>
+                  </marker>
               <token regexp="yes">à|au</token>
               <token postag="[NZD].*" postag_regexp="yes"><exception>de</exception></token>
           </pattern>
-          <message>Cette expression peut être considérée comme familière.</message>
-          <suggestion><match no="1" postag="(V avoir) (ind) (.*)" postag_regexp="yes" postag_replace="(V etre) $2 $3">être</match> <match no="2" postag="(V etre) (ppa)(.*)" postag_regexp="yes" postag_replace="V $2.*">aller</match></suggestion>
+          <message>Une erreur d’orthographe semble être détectée.</message>
+          <suggestion><match no="1" postag="(V avoir) (ind) (.*)" postag_regexp="yes" postag_replace="(V etre) $2 $3">être</match> <match no="1" postag="(V avoir) (.* [123]) ([sp])" postag_regexp="yes" postag_replace="V ppa . $3">aller</match></suggestion>
           <url> https://www.projet-voltaire.fr/regles-orthographe/j-ai-ete-ou-je-suis-alle/</url>
-          <example correction="suis allé|suis allée|suis allées|suis allés">J'<marker>ai été</marker> à la boulangerie.</example>
+          <example correction="sont allées|sont allés">Elles <marker>ont été</marker> à la boulangerie.</example>
           <example>J'<marker>ai été</marker> au gouvernement en 1987.</example>
           <example>Lui aussi <marker>a été</marker> à la direction de l'entreprise.</example>
       </rule>
