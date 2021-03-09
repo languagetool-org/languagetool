@@ -5356,12 +5356,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Para Él vivo.</example>
                 <example>Él vino muy rápido.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>él</token>
                     </marker>
                     <token>uno</token>
+                    <token postag="SP.*" postag_regexp="yes"/>
                 </pattern>
                 <message>No se escribe con tilde si no es un pronombre.</message>
                 <suggestion>el</suggestion>
@@ -11769,6 +11770,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Error de concordancia.</message>
             <example correction="">Es de <marker>un media</marker> alta.</example>
         </rule>
+        <rule id="TODO_EL" name="concordancia: todo el" default="temp_off">
+            <antipattern>
+                <token postag="SPS00"/>
+                <token inflected="yes">todo</token>
+            </antipattern>
+            <pattern>
+                <unify negate="yes">
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token inflected="yes">todo</token>
+                    <token postag="D[AD].*" postag_regexp="yes"/>
+                </unify>
+            </pattern>
+            <message>Posible falta de concordancia.</message>
+            <suggestion><match no="2" postag="D[AD].(..)." postag_regexp="yes" postag_replace="PI0$1000">todo</match> \2</suggestion>
+            <example correction="Todas las"><marker>Toda las</marker> frases del párrafo.</example>
+            <example correction="Todas estas"><marker>Toda estas</marker> frases del párrafo.</example>
+            <example>Ante todo los mejores son ellos.</example>
+            <example>Debemos dar a todos las gracias por su presencia.</example>
+        </rule>
         <rulegroup id="AGREEMENT_PARTICULAR_CASES" name="otros casos de concordancia">
             <rule id="LAS_NUMBER_MALE" name="'las tres preceptos' etcétera">
                 <pattern>
@@ -14679,6 +14700,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="LEE_LE" name="confusión *lee/le" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>lee</token>
+                </marker>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+            </pattern>
+            <message>Posible confusión. ¿Quería decir <suggestion>le</suggestion>?</message>
+            <example correction="Le"><marker>Lee</marker> enseñó la casa.</example>
+        </rule>
         <rulegroup id="SABER_SABES_" name="confusión saber/sabes">
             <antipattern>
                 <token>tu</token>
