@@ -1095,6 +1095,89 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+      <rulegroup id="DANS_OU_D_EN" name="dans ou d'en" default="temp_off">
+          <rule>
+          <antipattern>
+              <token regexp="yes">si|s'</token>
+              <token postag="R pers suj.*" postag_regexp="yes"/>
+              <token postag="V.*" postag_regexp="yes"/>
+              <token>dans</token>
+          </antipattern>
+          <antipattern>
+              <token postag="R pers suj.*" postag_regexp="yes"/>
+              <token postag="V.*" postag_regexp="yes"/>
+              <token>dans</token>
+              <token postag="V ppa.*" postag_regexp="yes" regexp="yes">.*e?s?$</token>
+          </antipattern>
+              <antipattern>
+                  <token postag="R pers suj.*" postag_regexp="yes"/>
+                  <token postag="V.*" postag_regexp="yes"/>
+                  <token>dans</token>
+                  <token postag="V ind|V sub.*" postag_regexp="yes"/>
+              </antipattern>
+          <antipattern>
+              <token postag="R pers suj.*" postag_regexp="yes"/>
+              <token postag="V.*" postag_regexp="yes"/>
+              <token>dans</token>
+              <token postag="V.*" postag_regexp="yes"/>
+              <token regexp="yes">et|de|a</token>
+          </antipattern>
+          <pattern>
+              <token postag="R pers suj.*" postag_regexp="yes"/>
+              <token postag="V.*" postag_regexp="yes"/>
+              <marker>
+                  <token>dans</token>
+              </marker>
+              <token postag="V.*" postag_regexp="yes"><exception case_sensitive="yes" regexp="yes">[A-Z].*|puis|a</exception></token>
+          </pattern>
+          <message>Une erreur semble être détectée. Souhaitez-vous écrire <suggestion>d'en</suggestion> ?</message>
+          <example correction="d'en">Je viens <marker>dans</marker> prendre !</example>
+          <example>Je vais <marker>dans</marker> coordonnées.</example>
+          <example>Je vais <marker>dans</marker> liste puis affichage.</example>
+          <example>Je pars <marker>dans</marker> a Moscou.</example>
+      </rule>
+      <rule>
+          <antipattern>
+              <token>dans</token>
+              <token regexp="yes">haut|bas|face</token>
+              <token postag="N.*" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token>dans</token>
+              <token regexp="yes">haut|bas|face</token>
+              <token regexp="yes">à|aux?</token>
+          </antipattern>
+          <antipattern>
+              <token case_sensitive="yes" regexp="yes">^[A-Z].*</token>
+              <token>dans</token>
+              <token regexp="yes">haut|bas|face</token>
+          </antipattern>
+          <pattern>
+              <marker>
+                  <token>dans</token>
+              </marker>
+              <token regexp="yes">haut|bas|face
+                  <exception case_sensitive="yes" regexp="yes">[A-Z].*</exception>
+                  <exception scope="next">"</exception>
+              </token>
+          </pattern>
+          <message>Une erreur semble être détectée. Souhaitez-vous écrire <suggestion>d'en</suggestion> ?</message>
+          <example correction="d'en">C'est la maison <marker>dans</marker> haut !</example>
+          <example>C'est la maison <marker>dans</marker> face nord !</example>
+          <example>C'est la vie <marker>dans</marker> face aux problèmes !</example>
+      </rule>
+      <rule>
+          <pattern>
+              <marker>
+                  <token>d'</token>
+                  <token>en</token>
+              </marker>
+              <token postag="[DN].*" postag_regexp="yes"/>
+          </pattern>
+          <message>Une erreur semble être détectée. Souhaitez-vous écrire <suggestion>dans</suggestion> ?</message>
+          <example correction="dans">Ils sont tous <marker>d'en</marker> la maison !</example>
+      </rule>
+  </rulegroup>
       <rule id="FEUS_OU_FEUX" name="feus ou feux">
           <antipattern>
               <token regexp="yes">feus?</token>
