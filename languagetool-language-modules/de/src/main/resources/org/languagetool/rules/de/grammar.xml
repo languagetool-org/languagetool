@@ -16004,6 +16004,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">\d\d?</token>
                 <token>.</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">bis|zum</token>
+                &date_allnumbers_skip;
+                <token inflected="yes">verlängern</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">Version|Version|Fälligkeitszeitpunkt</token>
+                &date_allnumbers_skip;
+            </antipattern>
             <rule> <!-- 1) haben am DD.MM.JJJJ -->
                  <antipattern>
                     <token regexp="yes" skip="-1">w(ird|erden?)<exception scope="next" regexp="yes">:|,|&anfauf;</exception></token>
@@ -16015,7 +16024,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:PA2:.*" postag_regexp="yes"/>
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
-                <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
+                <message>Das Datum liegt in der Zukunft, aber das Verb steht in der Vergangenheitsform.</message>
                 <example correction="">Wir haben am <marker>7.8.2025</marker> den Kunden informiert.</example>
                 <example correction="">Ich habe am <marker>7.8.2025</marker> den Kunden informiert.</example>
                 <example correction="">Wir haben am <marker>7.8.2025</marker> um 12:00 Uhr den Kunden informiert.</example>
@@ -16026,19 +16035,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich habe mich zum 1.1.2020 beworben.</example>
                 <example>Ich habe Ihr Abo jetzt gekündigt: Es wird nach dem 21.03.2021 nicht mehr automatisch verlängert.</example>
             </rule>
-            <rule><!-- 2) Waren am DD.MM.JJJJ  -->
+            <rule><!-- 2) sind am DD.MM.JJJJ gewesen  -->
                 <pattern>
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">sein
                         <exception scope="next">und</exception>
                     </token>
                     &date_allnumbers_skip;
-                    <token postag="VER:(INF|PA2):.*" postag_regexp="yes"/>
+                    <token postag="VER:PA2:.*" postag_regexp="yes"/>
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
-                <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
+                <message>Das Datum liegt in der Zukunft, aber das Verb steht in der Vergangenheitsform.</message>
                 <example correction="">Wir sind am <marker>7.8.2025</marker> zum Kunden geflogen.</example>
                 <example correction="">Ich bin am <marker>7.8.2025</marker> schwimmen gewesen.</example>
                 <example correction="">Wir sind am <marker>7.8.2025</marker> um 12:00 Uhr zum Kunden geflogen.</example>
+                <!--<example correction="">Er war am <marker>7.8.2025</marker> um 12:00 Uhr schwimmen.</example>-->
+                <example>Wir waren am 7.8.2010 zum Kunden geflogen.</example>
+                <example>Ich bin am 7.8.2025 im Urlaub.</example>
+                <example>Gestern war ich Kuchen essen.</example>
+                <example>Wir werden am 7.8.2025 den Kunden informieren.</example>
+                <example>Wir werden am 7.8.2025 den Kunden informiert haben.</example>
+                <example>Ihr Abo ist jetzt gekündigt und wird nach dem 15.04.2020 nicht mehr automatisch verlängert.</example>
+                <example>Es ist angedacht, über eine Absage bis zu den Ferien (31.05.2021) zu entscheiden.</example>
+            </rule>
+            <rule><!-- 3) waren am DD.MM.JJJJ  -->
+                <pattern>
+                    <token inflected="yes" postag="VER:AUX:.*:PRT" postag_regexp="yes" skip="-1">sein
+                        <exception scope="next">und</exception>
+                    </token>
+                    &date_allnumbers_skip;
+                    <token postag="VER:INF:.*" postag_regexp="yes"/>
+                </pattern>
+                <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
+                <message>Das Datum liegt in der Zukunft, aber das Verb steht in der Vergangenheitsform.</message>
                 <example correction="">Er war am <marker>7.8.2025</marker> um 12:00 Uhr schwimmen.</example>
                 <example>Wir waren am 7.8.2010 zum Kunden geflogen.</example>
                 <example>Ich bin am 7.8.2025 im Urlaub.</example>
@@ -16046,28 +16074,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wir werden am 7.8.2025 den Kunden informieren.</example>
                 <example>Wir werden am 7.8.2025 den Kunden informiert haben.</example>
                 <example>Ihr Abo ist jetzt gekündigt und wird nach dem 15.04.2020 nicht mehr automatisch verlängert.</example>
+                <example>Es ist angedacht, über eine Absage bis zu den Ferien (31.05.2021) zu entscheiden.</example>
             </rule>
-            <rule><!-- 3) VER:PRT am DD.MM.JJJJ -->
+            <rule><!-- 4) VER:PRT am DD.MM.JJJJ -->
                 <pattern>
                     <token postag="VER:.*:PRT.*" postag_regexp="yes" skip="-1"/>
                     &date_allnumbers_skip;
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
-                <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
+                <message>Das Datum liegt in der Zukunft, aber das Verb steht in der Vergangenheitsform.</message>
                 <example correction="">Ich war am <marker>7.8.2025</marker> im Pool.</example>
                 <example correction="">Ich schwamm am <marker>7.8.2025</marker> um 12 Uhr im Pool.</example>
                 <example>Ich war am 7.8.2010 im Pool.</example>
                 <example>Ich bin am 7.8.2025 im Urlaub.</example>
                 <example>Ich war gestern Kuchen essen.</example>
             </rule>
-            <rule> <!-- 4) am DD.MM.JJJJ haben -->
+            <rule> <!-- 5) am DD.MM.JJJJ haben -->
                 <pattern>
                     &date_allnumbers_skip;
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">haben</token>
                     <token postag="VER:PA2:.*" postag_regexp="yes"/>
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\5 month:\3 day:\1"/>
-                <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
+                <message>Das Datum liegt in der Zukunft, aber das Verb steht in der Vergangenheitsform.</message>
                 <example correction="">Am <marker>7.8.2025</marker> haben wir den Kunden informiert.</example>
                 <example correction="">Am <marker>7.8.2025</marker> habe ich den Kunden informiert.</example>
                 <example correction="">Am <marker>7.8.2025</marker> um 12:00 Uhr haben wir den Kunden informiert.</example>
@@ -16076,14 +16105,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Am 7.8.2025 werden wir den Kunden informieren.</example>
                 <example>Am 7.8.2025 werden wir den Kunden informiert haben.</example>
             </rule>
-            <rule><!-- 5) am DD.MM.JJJJ waren/sind -->
+            <rule><!-- 6) am DD.MM.JJJJ waren/sind -->
                 <pattern>
                     &date_allnumbers_skip;
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">sein</token>
                     <token postag="VER:(INF|PA2):.*" postag_regexp="yes"/>
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\5 month:\3 day:\1"/>
-                <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
+                <message>Das Datum liegt in der Zukunft, aber das Verb steht in der Vergangenheitsform.</message>
                 <example correction="">Am <marker>7.8.2025</marker> sind wir zum Kunden geflogen.</example>
                 <example correction="">Am <marker>7.8.2025</marker> war ich schwimmen.</example>
                 <example correction="">Am <marker>7.8.2025</marker> um 12:00 Uhr sind wir zum Kunden geflogen.</example>
@@ -16095,27 +16124,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Am 7.8.2025 werden wir den Kunden informiert haben.</example>
                 <example>Am 12.12.2023 wird es unter Umständen möglich sein. </example>
             </rule>
-            <rule><!-- 6) am DD.MM.JJJJ VER:PRT -->
+            <rule><!-- 7) am DD.MM.JJJJ VER:PRT -->
                 <pattern>
                     &date_allnumbers_skip;
                     <token postag="VER:.*:PRT.*" postag_regexp="yes" skip="-1"/>
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\5 month:\3 day:\1"/>
-                <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
+                <message>Das Datum liegt in der Zukunft, aber das Verb steht in der Vergangenheitsform.</message>
                 <example correction="">Am <marker>7.8.2025</marker> war ich im Pool.</example>
                 <example correction="">Am <marker>7.8.2025</marker> um 12 Uhr schwamm ich im Pool.</example>
                 <example>Am 7.8.2010 war ich im Pool.</example>
                 <example>Am 7.8.2025 bin ich im Urlaub.</example>
                 <example>Ich war gestern Kuchen essen.</example>
             </rule>
-            <rule><!-- 7) haben am 23. Feb. 2020 -->
+            <rule><!-- 8) haben am 23. Feb. 2020 -->
                 <pattern>
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">haben</token>
                     &date_month_shortened_skip;
                     <token postag="VER:PA2:.*" postag_regexp="yes"/>
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
-                <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
+                <message>Das Datum liegt in der Zukunft, aber das Verb steht in der Vergangenheitsform.</message>
                 <example correction="">Wir haben am <marker>7. Feb. 2025</marker> den Kunden informiert.</example>
                 <example correction="">Wir haben am <marker>7. Aug. 2025</marker> den Kunden informiert.</example>
                 <example correction="">Wir haben am <marker>7. Sep. 2025</marker> um 12:00 Uhr den Kunden informiert.</example>
@@ -16124,14 +16153,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wir werden am 7. Feb. 2025 den Kunden informieren.</example>
                 <example>Wir werden am 7. Feb. 2025 den Kunden informiert haben.</example>
             </rule>
-            <rule><!-- 8) waren/sind am 23. Feb. 2020  -->
+            <rule><!-- 9) waren/sind am 23. Feb. 2020  -->
                 <pattern>
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">sein</token>
                     &date_month_shortened_skip;
                     <token postag="VER:(INF|PA2):.*" postag_regexp="yes"/>
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
-                <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
+                <message>Das Datum liegt in der Zukunft, aber das Verb steht in der Vergangenheitsform.</message>
                 <example correction="">Wir sind am <marker>7. Feb. 2025</marker> zum Kunden geflogen.</example>
                 <example correction="">Ich war am <marker>7. Aug. 2025</marker> in den Urlaub geflogen.</example>
                 <example correction="">Wir waren am <marker>7. Sep. 2025</marker> um 12:00 Uhr zum Kunden geflogen.</example>
@@ -16141,27 +16170,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wir werden am 7. Feb. 2025 den Kunden informieren.</example>
                 <example>Wir werden am 7. Feb. 2025 den Kunden informiert haben.</example>
             </rule>
-            <rule><!-- 9) am 23. Feb. VER:PRT -->
+            <rule><!-- 10) am 23. Feb. VER:PRT -->
                 <pattern>
                     <token postag="VER:.*:PRT.*" postag_regexp="yes" skip="-1"/>
                     &date_month_shortened_skip;
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
-                <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
+                <message>Das Datum liegt in der Zukunft, aber das Verb steht in der Vergangenheitsform.</message>
                 <example correction="">Ich war am <marker>7. Feb. 2025</marker> im Pool.</example>
                 <example correction="">Ich schwamm am <marker>7. Feb. 2025</marker> um 12 Uhr im Pool.</example>
                 <example>Ich war am 7. Aug. 2010 im Pool.</example>
                 <example>Ich bin am 7. Aug. 2025 im Urlaub.</example>
                 <example>Ich war gestern Kuchen essen.</example>
             </rule>
-            <rule><!-- 10) am 23. Feb. 2020 haben -->
+            <rule><!-- 11) am 23. Feb. 2020 haben -->
                 <pattern>
                     &date_month_shortened_skip;
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">haben</token>
                     <token postag="VER:PA2:.*" postag_regexp="yes"/>
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\5 month:\3 day:\1"/>
-                <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
+                <message>Das Datum liegt in der Zukunft, aber das Verb steht in der Vergangenheitsform.</message>
                 <example correction="">Am <marker>7. Feb. 2025</marker> haben wir den Kunden informiert.</example>
                 <example correction="">Am <marker>7. Aug. 2025</marker> habe ich den Kunden informiert.</example>
                 <example correction="">Am <marker>7. Sep. 2025</marker> um 12:00 Uhr haben wir den Kunden informiert.</example>
@@ -16170,14 +16199,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Am 7. Feb. 2025 werden wir den Kunden informieren.</example>
                 <example>Am 7. Feb. 2025 werden wir den Kunden informiert haben.</example>
             </rule>
-            <rule><!-- 11) am 23. Feb. 2020 waren/sind -->
+            <rule><!-- 12) am 23. Feb. 2020 waren/sind -->
                 <pattern>
                     &date_month_shortened_skip;
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">sein</token>
                     <token postag="VER:(INF|PA2):.*" postag_regexp="yes"/>
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\5 month:\3 day:\1"/>
-                <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
+                <message>Das Datum liegt in der Zukunft, aber das Verb steht in der Vergangenheitsform.</message>
                 <example correction="">Am <marker>7. Feb. 2025</marker> sind wir zum Kunden geflogen.</example>
                 <example correction="">Am <marker>7. Aug. 2025</marker> war ich in Urlaub geflogen.</example>
                 <example correction="">Am <marker>7. Sep. 2025</marker> um 12:00 Uhr waren wir zum Kunden geflogen.</example>
@@ -16188,27 +16217,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Am 7. Feb. 2025 werden wir den Kunden informiert haben.</example>
                 <example>Am 12. Dez. 2023 wird es unter Umständen möglich sein. </example>
             </rule>
-            <rule><!-- 12) am 23. Feb. VER:PRT -->
+            <rule><!-- 13) am 23. Feb. VER:PRT -->
                 <pattern>
                     &date_month_shortened_skip;
                     <token postag="VER:.*:PRT.*" postag_regexp="yes" skip="-1"/>
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\5 month:\3 day:\1"/>
-                <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
+                <message>Das Datum liegt in der Zukunft, aber das Verb steht in der Vergangenheitsform.</message>
                 <example correction="">Am <marker>7. Feb. 2025</marker> war ich im Pool.</example>
                 <example correction="">Am <marker>7. Feb. 2025</marker> um 12 Uhr schwamm ich im Pool.</example>
                 <example>Am 7. Aug. 2010 war ich im Pool.</example>
                 <example>Am 7. Aug. 2025 bin ich im Urlaub.</example>
                 <example>Ich war gestern Kuchen essen.</example>
             </rule>
-            <rule><!-- 13) haben am 23. Februar 2020 -->
+            <rule><!-- 14) haben am 23. Februar 2020 -->
                 <pattern>
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">haben</token>
                     &date_month_full_skip;
                     <token postag="VER:PA2:.*" postag_regexp="yes"/>
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\5 month:\4 day:\2"/>
-                <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
+                <message>Das Datum liegt in der Zukunft, aber das Verb steht in der Vergangenheitsform.</message>
                 <example correction="">Wir haben am <marker>7. Februar 2025</marker> den Kunden informiert.</example>
                 <example correction="">Ich habe den Kunden am <marker>7. Februar 2025</marker> informiert.</example>
                 <example correction="">Wir haben am <marker>7. Februar 2025</marker> um 12:00 Uhr den Kunden informiert.</example>
@@ -16217,14 +16246,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wir werden am 7. Februar 2025 den Kunden informieren.</example>
                 <example>Wir werden am 7. Februar 2025 den Kunden informiert haben.</example>
             </rule>
-            <rule><!-- 14) waren/sind am 23. Februar 2020  -->
+            <rule><!-- 15) waren/sind am 23. Februar 2020  -->
                 <pattern>
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">sein</token>
                     &date_month_full_skip;
                     <token postag="VER:(INF|PA2):.*" postag_regexp="yes"><exception>geplant</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\5 month:\4 day:\2"/>
-                <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
+                <message>Das Datum liegt in der Zukunft, aber das Verb steht in der Vergangenheitsform.</message>
                 <example correction="">Wir sind am <marker>7. Februar 2025</marker> zum Kunden geflogen.</example>
                 <example correction="">Ich war am <marker>7. August 2025</marker> in den Urlaub geflogen.</example>
                 <example correction="">Wir waren am <marker>7. September 2025</marker> um 12:00 Uhr zum Kunden geflogen.</example>
@@ -16236,27 +16265,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wir werden am 7. Februar 2025 den Kunden informieren.</example>
                 <example>Wir werden am 7. Februar 2025 den Kunden informiert haben.</example>
             </rule>
-            <rule><!-- 15) am 23. Februar VER:PRT -->
+            <rule><!-- 16) am 23. Februar VER:PRT -->
                 <pattern>
                     &date_month_full_skip;
                     <token postag="VER:.*:PRT.*" postag_regexp="yes" skip="-1"/>
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\4 month:\3 day:\1"/>
-                <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
+                <message>Das Datum liegt in der Zukunft, aber das Verb steht in der Vergangenheitsform.</message>
                 <example correction="">Am <marker>7. Februar 2025</marker> war ich im Pool.</example>
                 <example correction="">Am <marker>7. Februar 2025</marker> um 12 Uhr schwamm ich im Pool.</example>
                 <example>Am 7. August 2010 war ich im Pool.</example>
                 <example>Am 7. August 2025 bin ich im Urlaub.</example>
                 <example>Ich war gestern Kuchen essen.</example>
             </rule>
-            <rule><!-- 16) am 23. Februar 2020 haben -->
+            <rule><!-- 17) am 23. Februar 2020 haben -->
                 <pattern>
                     &date_month_full_skip;
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">haben</token>
                     <token postag="VER:PA2:.*" postag_regexp="yes"/>
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\4 month:\3 day:\1"/>
-                <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
+                <message>Das Datum liegt in der Zukunft, aber das Verb steht in der Vergangenheitsform.</message>
                 <example correction="">Am <marker>7. Februar 2025</marker> haben wir den Kunden informiert.</example>
                 <example correction="">Am <marker>7. Februar 2025</marker> habe ich den Kunden informiert.</example>
                 <example correction="">Am <marker>7. Februar 2025</marker> um 12:00 Uhr haben wir den Kunden informiert.</example>
@@ -16265,7 +16294,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Am 7. Februar 2025 werden wir den Kunden informieren.</example>
                 <example>Am 7. Februar 2025 werden wir den Kunden informiert haben.</example>
             </rule>
-            <rule><!-- 17) am 23. Februar 2020 waren/sind -->
+            <rule><!-- 18) am 23. Februar 2020 waren/sind -->
                 <antipattern>
                     &date_month_full_skip;
                     <token regexp="yes">wird|werden</token>
@@ -16276,7 +16305,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:(INF|PA2):.*" postag_regexp="yes"/>
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\4 month:\3 day:\1"/>
-                <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
+                <message>Das Datum liegt in der Zukunft, aber das Verb steht in der Vergangenheitsform.</message>
                 <example correction="">Am <marker>7. Februar 2025</marker> sind wir zum Kunden geflogen.</example>
                 <example correction="">Am <marker>7. August 2025</marker> war ich in den Urlaub geflogen.</example>
                 <example correction="">Am <marker>7. September 2025</marker> um 12:00 Uhr waren wir zum Kunden geflogen.</example>
@@ -16290,13 +16319,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Am 12. Dezember 2023 wird es unter Umständen möglich sein.</example>
                 <example>Durch den Asteroiden Leona am 12. Dezember 2023 wird es möglich sein, die Verteilung zu berechnen.</example>
             </rule>
-            <rule><!-- 18) am 23. Februar VER:PRT -->
+            <rule><!-- 19) am 23. Februar VER:PRT -->
                 <pattern>
                     &date_month_full_skip;
                     <token postag="VER:.*:PRT.*" postag_regexp="yes" skip="-1"/>
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\4 month:\3 day:\1"/>
-                <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
+                <message>Das Datum liegt in der Zukunft, aber das Verb steht in der Vergangenheitsform.</message>
                 <example correction="">Am <marker>7. Februar 2025</marker> war ich im Pool.</example>
                 <example correction="">Am <marker>7. Februar 2025</marker> um 12 Uhr schwamm ich im Pool.</example>
                 <example>Am 7. August 2010 war ich im Pool.</example>
