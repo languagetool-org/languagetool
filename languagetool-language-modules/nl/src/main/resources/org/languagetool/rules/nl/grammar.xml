@@ -9278,6 +9278,7 @@ onwaarschijnlijk
 		</rulegroup>
 	</category>
 	<category id="COMPOUNDING" name="Aaneen of los">
+		
 		<!-- samenstellingen die vaak los worden geschreven staan in compounds.txt -->
 
 		<rulegroup id="EN_OF_KOPPELTEKEN" name="eet - en drinkgelegenheden/ eet- en drinkgelegenheden" default="temp_off">
@@ -31922,6 +31923,18 @@ steenwijk;Steenwijk
 	</category>
 	<category id="CONFUSED_WORDS" name="Woordverwarring">
 
+		<rulegroup id="BUTTON" name="Button/knop">
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">.*button</token>
+					</marker>
+				</pattern>
+				<message>Een button (voor op je trui) is in het Nederlands iets anders dan een drukknop. Staat het hier correct?</message>
+				<suggestion><match no="1" regexp_match="button" regexp_replace="knop"/></suggestion>
+				<example correction="annuleerknop">Druk op de <marker>annuleerbutton</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="OVALEN" name="ovalen / ovale">
 			<rule>
 				<pattern>
