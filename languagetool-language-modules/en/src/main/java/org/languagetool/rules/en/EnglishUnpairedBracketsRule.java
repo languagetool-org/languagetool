@@ -98,8 +98,6 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
       if ("\"".equals(tokenStr)) {
         if (!symbolStack.empty() && "\"".equals(symbolStack.peek().getSymbol())) {
           return true;
-        } else if (NUMBER.matcher(prevToken.getToken()).matches()) {
-          return false;
         }
       }
       // Exception for English plural Saxon genitive
