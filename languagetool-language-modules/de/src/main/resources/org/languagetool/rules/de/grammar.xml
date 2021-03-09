@@ -16010,7 +16010,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes">verlängern</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">Version|Version|Fälligkeitszeitpunkt</token>
+                <token regexp="yes">Version|Fälligkeitszeitpunkt</token>
                 &date_allnumbers_skip;
             </antipattern>
             <rule> <!-- 1) haben am DD.MM.JJJJ -->
@@ -20336,6 +20336,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="IHN" name="Kleinschreibung 'ihn/ihm'" default="temp_off">
+            <antipattern>
+                <token postag="SENT_START" />
+                <token case_sensitive="yes" regexp="yes">Ih[mn]</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START" />
+                <token regexp="yes" min="1" max="4">\p{P}</token>
+                <token case_sensitive="yes" regexp="yes">Ih[mn]</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&anf;|:</token>
+                <token case_sensitive="yes" regexp="yes">Ih[mn]</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START" />
+                <token postag="UNKNOWN" />
+                <token case_sensitive="yes" regexp="yes">Ih[mn]</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="-1">Gott|Jesus|Christ|Wallerfangens?|Ortsteils?</token>
+                <token case_sensitive="yes" regexp="yes">Ih[mn]</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes" regexp="yes" skip="-1">Ih[mn]</token>
+                <token regexp="yes">Gott|Jesus|Christ|Wallerfangens?|Ortsteils?</token>
+            </antipattern>
+            <antipattern>
+                <token postag="EIG:.+:(VOR|NAC)" postag_regexp="yes" />
+                <token>Ihm</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">prof|mrs?|ms|dr|med|rer|nat|doktor|professor|hr|fr|herr|frau|fräulein|kardinal|pfarrer</token>
+                <token min="0">.</token>
+                <token>Ihm</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">preise?t|gebet</token>
+                <token>Ihn</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes" regexp="yes">Ih[mn]</token>
+            </pattern>
+            <message>Der Akkusativ/Dativ von "er" wird in der Regel kleingeschrieben.</message>
+            <suggestion><match no="1" case_conversion="alllower" /></suggestion>
+            <example correction="ihn">Ich möchte <marker>Ihn</marker> nicht verschrecken.</example>
+            <example correction="ihn">Dein Gegner muss den Schlag erst spüren, dann darf er <marker>Ihn</marker> sehen.</example>
+            <example>Man sagt, Gott sei allgegenwärtig, und doch stellen wir Ihn uns als eine Art Einsiedler vor.</example>
+            <example>Es gibt keinen Gott außer Ihm, und Mohammed ist sein Prophet.</example>
+            <example>1929: Ihm geht's an den Kragen.</example>
+            <example>1909: Max Ihm, deutscher Altphilologe</example>
+            <example>1886: Carl Albert Ihm, Ingenieur</example>
+            <example>Ihn ist ein Ortsteil (Gemeindebezirk) der Gemeinde Wallerfangen.</example>
+        </rule>
         <rule id="ALLE" name="Alle vs. alle">
             <antipattern>
                 <token>Alles</token>
@@ -20444,6 +20498,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>13. August: Allen Blairman, US-amerikanischer Schlagzeuger des Modern Jazz</example>
             <example>Tom sagt zu Maria, sie sei sein Ein und Alles.</example>
             <example>Richard B. Allen - Kris Defoort</example>
+            <example>Er sagte: "Alle sind glücklich!"</example>
             <example>Sie ist mein Ein und Alles.</example>
             <example>1924 gelang M. T. Allen die Welterstzucht in England.</example>
             <example>12. September: Henry Wilson Allen, US-amerikanischer Schriftsteller und Drehbuchautor</example>
