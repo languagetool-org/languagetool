@@ -4138,6 +4138,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rule name="Simple gazetteer/proper name rule" id="gazetteer">
+        <antipattern>
+            <token postag="MD|TO|PRP" postag_regexp="yes" />
+            <token>port</token>
+            <token postag="IN|DT|PRP\$" postag_regexp="yes" />
+        </antipattern>
         <pattern case_sensitive="yes">
             <marker>
                 <token regexp="yes">Lake|Fort|Port|Mount</token>
