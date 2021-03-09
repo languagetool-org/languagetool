@@ -37657,8 +37657,7 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
-      <rulegroup id="BARBARISMES_QUESTION" name="barbarismes question" default="temp_off">
-        <rule>
+      <rule id="BARBARISME_QUESTION" name="barbarisme question" default="temp_off">
           <pattern>
               <token>est</token>
               <token>-ce</token>
@@ -37673,23 +37672,6 @@ though, and has since been slightly modified)-->
           <suggestion></suggestion>
           <example correction="">Est-ce que le repas <marker>est-il</marker> prêt ?</example>
       </rule>
-      <rule>
-          <pattern>
-              <marker>
-                  <token>qu'</token>
-                  <token>est</token>
-                  <token>-ce</token>
-                  <token regexp="yes">qu'|que</token>
-                  <token postag="R pers suj.*" postag_regexp="yes"/>
-                  <token min="0" max="1" postag="R pers obj.*" postag_regexp="yes"/>
-                  <token postag="V.*" postag_regexp="yes"/>
-              </marker>
-              <token postag="M fin (inte)?" postag_regexp="yes"/>
-          </pattern>
-          <message>Dans le langage courant, cette question indirecte devrait être introduite par <suggestion>que \6 \7-\5</suggestion>.</message>
-          <example correction="Que fait-il"><marker>Qu'est-ce qu'il fait</marker> ?</example>
-      </rule>
-  </rulegroup>
       <rulegroup id="CONFUSION_ORTHOGRAPHIQUE" name="confusion orthographique" default="temp_off">
           <rule>
               <pattern>
