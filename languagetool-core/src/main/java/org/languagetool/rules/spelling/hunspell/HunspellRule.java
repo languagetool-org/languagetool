@@ -262,6 +262,18 @@ public class HunspellRule extends SpellingCheckRule {
     /*if (sentence.getErrorLimitReached()) {
       return toRuleMatchArray(Collections.emptyList());
     }*/
+    if (language.getShortCode().equals("de")) {
+      for (RuleMatch ruleMatch : ruleMatches) {
+        int i = 1;
+        for (String repl : ruleMatch.getSuggestedReplacements()) {
+          if (i <= 5 && repl.matches("[A-ZÖÄÜ][a-zöäüß]+ [a-zöäüß]+")) {
+            // potential word with "Deppenleerzeichen":
+            System.out.println("repl: " + sentence.getText().substring(ruleMatch.getFromPos(), ruleMatch.getToPos()) + " => " +  repl + " - " + i);
+          }
+          i++;
+        }
+      }
+    }
     return toRuleMatchArray(ruleMatches);
   }
 
