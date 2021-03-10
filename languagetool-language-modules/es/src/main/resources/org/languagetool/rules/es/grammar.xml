@@ -17280,6 +17280,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREPOSITIONS" name="Preposiciones">
+        <rule id="EQUIVALENTE_A" name="equivalente a" default="temp_off">
+            <antipattern>
+                <token regexp="yes" skip="-1">equivalentes?</token>
+                <token regexp="yes">al|a|y|e|o</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">equivalentes?</token>
+                </marker>
+                <token postag="V.N.*|D.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Posible confusión. ¿Quería decir <suggestion>\1 a</suggestion></message>
+            <example correction="equivalente a">Bailar es <marker>equivalente</marker> caminar deprisa.</example>
+            <example correction="equivalente a">La multiplicación no es <marker>equivalente</marker> la división.</example>
+            <example>Es equivalente bailar y caminar deprisa.</example>
+            <example>No es equivalente la división a la multiplicación</example>
+            <example>No es equivalente la división y la multiplicación</example>
+        </rule>
         <rule id="DEPENDER_DE" name="depender *en/de">
             <pattern>
                 <token inflected="yes" regexp="yes">depender|dudar</token>
