@@ -8035,7 +8035,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="fisico$1"/></suggestion>
                 <example correction="fisicoquímicas">Las características <marker>físico químicas</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>astro</token>
                     <token min="0">-</token>
@@ -11770,17 +11770,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Error de concordancia.</message>
             <example correction="">Es de <marker>un media</marker> alta.</example>
         </rule>
-        <rule id="TODO_EL" name="concordancia: todo el" default="temp_off">
+        <rule id="TODO_EL" name="concordancia: todo el">
             <antipattern>
                 <token postag="SPS00"/>
                 <token inflected="yes">todo</token>
+            </antipattern>
+            <antipattern>
+                <token>toda</token>
+                <token>el</token>
+                <token regexp="yes">&nombre_fem_el;</token>
             </antipattern>
             <pattern>
                 <unify negate="yes">
                     <feature id="genero"/>
                     <feature id="numero"/>
                     <token inflected="yes">todo</token>
-                    <token postag="D[AD].*" postag_regexp="yes"/>
+                    <token postag="D[AD].*" postag_regexp="yes"><exception>lo</exception></token>
                 </unify>
             </pattern>
             <message>Posible falta de concordancia.</message>
@@ -11790,6 +11795,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ante todo los mejores son ellos.</example>
             <example>Debemos dar a todos las gracias por su presencia.</example>
             <example>Se eliminan del todo las diferencias.</example>
+            <example>Era todo lo que quería.</example>
+            <example>No uses toda el agua caliente.</example>
+        </rule>
+        <rule id="TODA_EL_AGUA" name="toda el agua" default="temp_off">
+            <antipattern>
+                <token postag="SPS00"/>
+                <token inflected="yes">todo</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">todo|todos|todas</token>
+                </marker>
+                <token>el</token>
+                <token regexp="yes">&nombre_fem_el;</token>
+            </pattern>
+            <message>Error de concordancia. Debe usarse la forma femenina <suggestion>toda</suggestion> delante de "\2 \3".</message>
+            <url>https://www.fundeu.es/recomendacion/esta-agua-no-este-agua-1506/</url>
+            <example correction="toda">No uses <marker>todo</marker> el agua.</example>
         </rule>
         <rulegroup id="AGREEMENT_PARTICULAR_CASES" name="otros casos de concordancia">
             <rule id="LAS_NUMBER_MALE" name="'las tres preceptos' etcétera">
@@ -14701,7 +14724,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="LEE_LE" name="confusión *lee/le" default="temp_off">
+        <rule id="LEE_LE" name="confusión *lee/le">
             <pattern>
                 <marker>
                     <token>lee</token>
