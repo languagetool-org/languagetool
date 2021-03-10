@@ -10525,7 +10525,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>vor</token>
                 <token>ort</token>
-                <token regexp="yes">termin[es]?|service</token>
+                <token regexp="yes">termin[es]?|service|einsatz(es)?|einsätze</token>
             </pattern>
             <message>Das Nomen <suggestion>Vor-Ort-<match no="3" case_conversion="startupper" /></suggestion> wird mit Bindestrichen geschrieben.</message>
             <url>https://www.dwds.de/wb/Vor-Ort-Termin</url>
@@ -18239,13 +18239,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="WEGEN_DIR" name="'wegen dir (deinetwegen)' etc.">
             <rule>
-                <regexp>\b(wegen) (mir)</regexp>
+                <regexp>\b(wegen) (mir)\b</regexp>
                 <message>'\1 \2' ist möglicherweise umgangssprachlich.</message>
                 <suggestion>meinetwegen</suggestion>
                 <example correction="Meinetwegen"><marker>Wegen mir</marker> ist sie zu spät gekommen.</example>
             </rule>
             <rule>
-                <regexp>\b(wegen) (dir)</regexp>
+                <regexp>\b(wegen) (dir)\b</regexp>
                 <message>'\1 \2' ist möglicherweise umgangssprachlich.</message>
                 <suggestion>deinetwegen</suggestion>
                 <example correction="Deinetwegen"><marker>Wegen dir</marker> komme ich zu spät.</example>
@@ -18257,16 +18257,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Ihretwegen"><marker>Wegen ihr</marker> komme ich zu spät.</example>
             </rule>
             <rule>
-                <regexp>\b(wegen) (ihnen)</regexp>
+                <regexp>\b(wegen) (ihnen)\b</regexp>
                 <message>'\1 \2' ist möglicherweise umgangssprachlich.</message>
                 <suggestion>ihretwegen</suggestion>
                 <example correction="Ihretwegen"><marker>Wegen Ihnen</marker> komme ich zu spät.</example>
             </rule>
             <rule>
-                <regexp>\b(wegen) (ihm)</regexp>
+                <regexp>\b(wegen) (ihm)\b</regexp>
                 <message>'\1 \2' ist möglicherweise umgangssprachlich.</message>
                 <suggestion>seinetwegen</suggestion>
                 <example correction="Seinetwegen"><marker>Wegen ihm</marker> komme ich zu spät.</example>
+            </rule>
+            <rule default="temp_off">
+                <regexp>\b(wegen) (uns)\b</regexp>
+                <message>'\1 \2' ist möglicherweise umgangssprachlich.</message>
+                <suggestion>unseretwegen</suggestion>
+                <example correction="Unseretwegen"><marker>Wegen uns</marker> kommt er zu spät.</example>
             </rule>
         </rulegroup>
         <!-- Jan: TODO – Add more stuff like "Haarfrisur, Fußpedal, Altveteran, langsam kriechen, schnell rasen ..." -->
@@ -18645,11 +18651,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>ist \2 sinnvoll</suggestion>
                 <example correction="Ergibt es Sinn|Stiftet es Sinn|Ist es sinnvoll"><marker>Macht es Sinn</marker>, dass wir das schon heute erledigen?</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>machte</token>
+                    <token regexp="yes">es|das|dies</token>
+                    <token min="0">einen</token>
+                    <token>Sinn</token>
+                </pattern>
+                <message>&sinnmachen;</message>
+                <suggestion>ergab \2 \3 Sinn</suggestion>
+                <suggestion>stiftete \2 \3 Sinn</suggestion>
+                <suggestion>war \2 sinnvoll</suggestion>
+                <example correction="Ergab es Sinn|Stiftete es Sinn|War es sinnvoll"><marker>Machte es Sinn</marker>, dass wir das schon heute erledigen?</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>macht</token>
                     <token regexp="yes">es|das|dies</token>
-                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total|vielleicht|möglicherweise|natürlich|durchaus|allerdings|wohl</token>
+                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total|vielleicht|möglicherweise|natürlich|durchaus|allerdings|wohl|womöglich</token>
                     <token regexp="yes">keinen|wenig|kaum</token>
                     <token>Sinn</token>
                 </pattern>
@@ -18659,11 +18678,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>ist \2 sinnlos</suggestion>
                 <example correction="ergibt das keinen Sinn|stiftet das keinen Sinn|ist das sinnlos">Bis jetzt <marker>macht das keinen Sinn</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>machte</token>
+                    <token regexp="yes">es|das|dies</token>
+                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total|vielleicht|möglicherweise|natürlich|durchaus|allerdings|wohl|womöglich</token>
+                    <token regexp="yes">keinen|wenig|kaum</token>
+                    <token>Sinn</token>
+                </pattern>
+                <message>&sinnmachen;</message>
+                <suggestion>ergab \2 \3 \4 Sinn</suggestion>
+                <suggestion>stiftete \2 \3 \4 Sinn</suggestion>
+                <suggestion>war \2 sinnlos</suggestion>
+                <example correction="ergab das keinen Sinn|stiftete das keinen Sinn|war das sinnlos">Bis jetzt <marker>machte das keinen Sinn</marker>.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>macht</token>
                     <token regexp="yes">es|das|dies</token>
-                    <token min="0" regexp="yes">vielleicht|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|natürlich|durchaus|allerdings|wohl</token>
+                    <token min="0" regexp="yes">vielleicht|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|natürlich|durchaus|allerdings|wohl|viel|total|womöglich</token>
                     <token>Sinn</token>
                 </pattern>
                 <message>&sinnmachen;</message>
@@ -18672,11 +18705,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>ist \2 \3 sinnvoll</suggestion>
                 <example correction="Ergibt es vielleicht Sinn|Stiftet es vielleicht Sinn|Ist es vielleicht sinnvoll"><marker>Macht es vielleicht Sinn</marker>, dass wir das schon heute erledigen?</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>machte</token>
+                    <token regexp="yes">es|das|dies</token>
+                    <token min="0" regexp="yes">vielleicht|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|natürlich|durchaus|allerdings|wohl|viel|total|womöglich</token>
+                    <token>Sinn</token>
+                </pattern>
+                <message>&sinnmachen;</message>
+                <suggestion>ergab \2 \3 Sinn</suggestion>
+                <suggestion>stiftete \2 \3 Sinn</suggestion>
+                <suggestion>war \2 \3 sinnvoll</suggestion>
+                <example correction="Ergab es vielleicht Sinn|Stiftete es vielleicht Sinn|War es vielleicht sinnvoll"><marker>Machte es vielleicht Sinn</marker>, dass wir das schon heute erledigen?</example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">es|das|dies</token>
                     <token>macht</token>
-                    <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|total|schon|natürlich|durchaus|allerdings|wohl</token>
+                    <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|total|schon|natürlich|durchaus|allerdings|wohl|viel|vielleicht|möglicherweise|womöglich</token>
                     <token>Sinn</token>
                 </pattern>
                 <message>&sinnmachen;</message>
@@ -18685,11 +18731,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1 ist \3 sinnvoll</suggestion>
                 <example correction="Das ergibt Sinn|Das stiftet Sinn|Das ist sinnvoll"><marker>Das macht Sinn</marker>!</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">es|das|dies</token>
+                    <token>machte</token>
+                    <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|total|schon|natürlich|durchaus|allerdings|wohl|viel|vielleicht|möglicherweise|womöglich</token>
+                    <token>Sinn</token>
+                </pattern>
+                <message>&sinnmachen;</message>
+                <suggestion>\1 ergab \3 Sinn</suggestion>
+                <suggestion>\1 stiftete \3 Sinn</suggestion>
+                <suggestion>\1 war \3 sinnvoll</suggestion>
+                <example correction="Das ergab Sinn|Das stiftete Sinn|Das war sinnvoll"><marker>Das machte Sinn</marker>!</example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">es|das|dies</token>
                     <token regexp="yes">würde|könnte|müsste|sollte|wird|kann|muss|soll</token>
-                    <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|vielleicht|möglicherweise|total|schon|keinen|natürlich|durchaus|allerdings|wohl</token>
+                    <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|vielleicht|möglicherweise|total|schon|keinen|natürlich|durchaus|allerdings|wohl|viel</token>
                     <token>Sinn</token>
                     <token>machen</token>
                 </pattern>
@@ -18702,8 +18761,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">es|das|dies</token>
                     <token>macht</token>
-                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total|möglicherweise|natürlich|durchaus|allerdings|wohl</token>
-                    <token regexp="yes">keinen|wenig|kaum</token>
+                    <token min="0" regexp="yes">einfach|überhaupt|gar|wirklich|jetzt|total|möglicherweise|natürlich|durchaus|allerdings|wohl</token>
+                    <token regexp="yes">keinen|wenig|kaum|nicht</token>
                     <token>Sinn</token>
                 </pattern>
                 <message>&sinnmachen;</message>
@@ -18713,24 +18772,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1 ist sinnlos</suggestion>
                 <example correction="Das ergibt keinen Sinn|Das stiftet keinen Sinn|Das ist nicht sinnvoll|Das ist sinnlos"><marker>Das macht keinen Sinn</marker>!</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <pattern>
                     <token regexp="yes">es|das|dies</token>
-                    <token>macht</token>
-                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total|natürlich|durchaus|allerdings|wohl</token>
-                    <token>keinen</token>
+                    <token>machte</token>
+                    <token min="0" regexp="yes">einfach|überhaupt|gar|wirklich|jetzt|total|möglicherweise|natürlich|durchaus|allerdings|wohl</token>
+                    <token regexp="yes">keinen|wenig|kaum|nicht</token>
                     <token>Sinn</token>
                 </pattern>
                 <message>&sinnmachen;</message>
-                <suggestion>\1 ergibt \3 \4 Sinn</suggestion>
-                <suggestion>\1 stiftet \3 \4 Sinn</suggestion>
-                <suggestion>\1 ist \3 nicht sinnvoll</suggestion>
-                <suggestion>\1 ist sinnlos</suggestion>
-                <example correction="Das ergibt keinen Sinn|Das stiftet keinen Sinn|Das ist nicht sinnvoll|Das ist sinnlos"><marker>Das macht keinen Sinn</marker>!</example>
+                <suggestion>\1 ergab \3 \4 Sinn</suggestion>
+                <suggestion>\1 stiftete \3 \4 Sinn</suggestion>
+                <suggestion>\1 war \3 nicht sinnvoll</suggestion>
+                <suggestion>\1 war sinnlos</suggestion>
+                <example correction="Das ergab keinen Sinn|Das stiftete keinen Sinn|Das war nicht sinnvoll|Das war sinnlos"><marker>Das machte keinen Sinn</marker>!</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">keinen|wenig</token>
+                    <token regexp="yes">keinen|wenig|nicht|kaum</token>
                     <token>Sinn</token>
                     <token>macht</token>
                 </pattern>
@@ -18773,6 +18832,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1 gestiftet</suggestion>
                 <short>'Sinn machen' ist umgangssprachlich.</short>
                 <example correction="Sinn ergeben|Sinn gestiftet">Er sagt, dass es keinen <marker>Sinn gemacht</marker> hat.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>macht</token>
+                    <token>für</token>
+                    <token regexp="yes">mich|ihn|dich|sie|die|den|das|uns|euch</token>
+                    <token min="0" regexp="yes">vielleicht|womöglich|natürlich|gar|durchaus|allerdings|jetzt|nun</token>
+                    <token regexp="yes">nicht|wenig|keinen|kaum</token>
+                    <token>Sinn</token>
+                </pattern>
+                <message>&sinnmachen;</message>
+                <suggestion>ergibt für \3 \4 \5 \6</suggestion>
+                <suggestion>ist für \3 \4 nicht sinnvoll</suggestion>
+                <suggestion>stiftet für \3 \4 \5 \6</suggestion>
+                <short>'Sinn machen' ist umgangssprachlich.</short>
+                <example correction="ergibt für mich wenig Sinn|ist für mich nicht sinnvoll|stiftet für mich wenig Sinn">Das <marker>macht für mich wenig Sinn</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>machte</token>
+                    <token>für</token>
+                    <token regexp="yes">mich|ihn|dich|sie|die|den|das|uns|euch</token>
+                    <token min="0" regexp="yes">vielleicht|womöglich|natürlich|gar|durchaus|allerdings|jetzt|nun</token>
+                    <token regexp="yes">nicht|wenig|keinen|kaum</token>
+                    <token>Sinn</token>
+                </pattern>
+                <message>&sinnmachen;</message>
+                <suggestion>ergab für \3 \4 \5 \6</suggestion>
+                <suggestion>war für \3 \4 nicht sinnvoll</suggestion>
+                <suggestion>stiftete für \3 \4 \5 \6</suggestion>
+                <short>'Sinn machen' ist umgangssprachlich.</short>
+                <example correction="ergab für mich wenig Sinn|war für mich nicht sinnvoll|stiftete für mich wenig Sinn">Das <marker>machte für mich wenig Sinn</marker>.</example>
             </rule>
             <rule tags="picky">
                 <pattern>
@@ -19393,7 +19484,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Stil -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
-        <rulegroup id="MEHR_ALS_ZAL_PLUS" name="mehr als 10+ (10)" default="temp_off">
+        <rulegroup id="MEHR_ALS_ZAL_PLUS" name="mehr als 10+ (10)">
             <rule>
                 <pattern>
                     <token>mehr</token>
