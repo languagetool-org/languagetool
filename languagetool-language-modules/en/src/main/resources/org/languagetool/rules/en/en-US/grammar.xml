@@ -103,6 +103,28 @@ USA
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Possible Typo" type="misspelling">
+        <rule id="FOR_EVER_US" name="for ever (forever)">
+            <antipattern>
+                <token>ever</token>
+                <token regexp="yes">since|one|body|thing|glades?|bloomers?|changing</token>
+            </antipattern>
+            <antipattern>
+                <token>ever</token>
+                <token postag="JJR" />
+            </antipattern>
+            <antipattern>
+                <token>ever</token>
+                <token regexp="yes">and|&amp;|or</token>
+                <token>ever</token>
+            </antipattern>
+            <pattern>
+                <token>for</token>
+                <token>ever</token>
+            </pattern>
+            <message>The adverb <suggestion>forever</suggestion> is spelled as one word.</message>
+            <url>https://www.merriam-webster.com/dictionary/forever</url>
+            <example correction="forever">Your texts are stored <marker>for ever</marker>.</example>
+        </rule>
         <rule id="TRAD_TRADE" name="trad vs trade">
             <antipattern>
                 <token skip="5">trad</token>
