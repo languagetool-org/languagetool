@@ -20336,7 +20336,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="IHN" name="Kleinschreibung 'ihn/ihm'" default="temp_off">
+        <rule id="IHN" name="Kleinschreibung 'ihn/ihm'">
             <antipattern>
                 <token postag="SENT_START" />
                 <token case_sensitive="yes" regexp="yes">Ih[mn]</token>
@@ -20373,8 +20373,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>Ihm</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">preise?t|gebet</token>
-                <token>Ihn</token>
+                <token regexp="yes">preise?t|gebet|lobpreise?[tn]</token>
+                <token regexp="yes">Ih[mn]</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\.|…</token>
+                <token regexp="yes">Ih[mn]</token>
             </antipattern>
             <pattern>
                 <token case_sensitive="yes" regexp="yes">Ih[mn]</token>
@@ -20389,6 +20393,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>1909: Max Ihm, deutscher Altphilologe</example>
             <example>1886: Carl Albert Ihm, Ingenieur</example>
             <example>Ihn ist ein Ortsteil (Gemeindebezirk) der Gemeinde Wallerfangen.</example>
+            <example>Er überquerte 1,70 m. Ihm folgte Krause mit 1,65 m und Ole Wilkening (MTV Wolfenbüttel) mit 1,60 m. Den zweiten Sieg errang Kulp im Weitsprung.</example>
         </rule>
         <rule id="ALLE" name="Alle vs. alle">
             <antipattern>
