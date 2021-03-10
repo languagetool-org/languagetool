@@ -37901,6 +37901,57 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rulegroup id="ACCORD_JOURS_DE_LA_SEMAINE" name="accord jours de la semaine" default="temp_off">
+          <rule>
+              <antipattern>
+                  <token regexp="yes">l?d?es|tous|certains|quelques|plusieurs</token>
+                  <token min="0" max="1">les</token>
+                  <token regexp="yes" skip="-1">lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche</token>
+                  <token>de</token>
+                  <token>chaque</token>
+                  <token>semaine</token>
+              </antipattern>
+              <pattern>
+                  <token regexp="yes">l?d?es|tous|certains|quelques|plusieurs</token>
+                  <token min="0" max="1">les</token>
+                  <marker>
+                      <token regexp="yes">lundi$|mardi$|mercred$|jeudi$|vendredi$|samedi$|dimanche$</token>
+                  </marker>
+              </pattern>
+              <message>Une erreur d'accord semble être détectée, car les jours de la semaine s'accordent en nombre.</message>
+              <suggestion><match no="3" regexp_match="(?iu)$" regexp_replace="s"/></suggestion>
+              <url>https://leconjugueur.lefigaro.fr/frplurieljour.php</url>
+              <example correction="lundis">Il joue aux cartes avec ses amis tous les <marker>lundi</marker>.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token regexp="yes">l?d?es|tous|certains|quelques|plusieurs</token>
+                  <token min="0" max="1">les</token>
+                  <marker>
+                      <token regexp="yes" skip="-1">lundis|mardis|mercredis|jeudis|vendredis|samedis|dimanches</token>
+                  </marker>
+                  <token>de</token>
+                  <token>chaque</token>
+                  <token>semaine</token>
+              </pattern>
+              <message>Une erreur d'accord semble être détectée, car il ne peut y avoir qu'un '\1' dans une semaine.</message>
+              <suggestion><match no="3" regexp_match="(?-iu)s" regexp_replace=""/></suggestion>
+              <url>https://leconjugueur.lefigaro.fr/frplurieljour.php</url>
+              <example correction="lundi">Il fait du sport tous les <marker>lundis</marker> et jeudi de chaque semaine.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token regexp="yes">lundis?|mardis?|mercredis?|jeudis?|vendredis?|samedis?|dimanches?</token>
+                  <marker>
+                      <token>midis</token>
+                  </marker>
+              </pattern>
+              <message>Une erreur d'accord semble être détectée, car le nom '\2' est un adverbe invariable dans ce contexte.</message>
+              <suggestion><match no="3" regexp_match="(?-iu)s" regexp_replace=""/></suggestion>
+              <url>https://leconjugueur.lefigaro.fr/frplurieljour.php</url>
+              <example correction="midi">Il va au restaurant tous les lundis <marker>midis</marker>.</example>
+          </rule>
+      </rulegroup>
       <rule id="CONFUSION_EST_ET" name="confusion est et" default="temp_off">
           <antipattern>
               <token postag="A inte"/>
