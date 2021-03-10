@@ -90,7 +90,7 @@ class OfficeTools {
   private static final String MENU_BAR = "private:resource/menubar/menubar";
   private static final String LOG_DELIMITER = ",";
   
-  private static final double LT_HEAP_LIMIT_FACTOR = 0.95;
+  private static final double LT_HEAP_LIMIT_FACTOR = 0.9;
   private static double MAX_HEAP_SPACE = -1;
   private static double LT_HEAP_LIMIT = -1;
 
