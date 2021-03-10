@@ -124,6 +124,9 @@ public class EnglishUnpairedBracketsRuleTest {
     assertCorrect("Some text. This is \"12345\", a number.");
     assertCorrect("Some text.\n\nThis is \"12345\", a number.");
     assertCorrect("Some text. This is 12345\", a number.");  // could be "inch", so no error
+    assertCorrect("Some text. This is 12345\", a number.");  // could be "inch", so no error
+    assertCorrect("\"When you bring someone,\" he said.\n" +
+      "Gibson introduced the short-scale (30.5\") bass in 1961.");  // could be "inch", so no error
 
     RuleMatch[] matches;
     matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence("(This is a test” sentence.")));
