@@ -10616,6 +10616,44 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
+      <rulegroup id="ACCORD_PRONOM_POSSESSIF_LEUR" name="accord pronom posséssif leur" default="temp_off">
+          <rule>
+              <pattern>
+                  <token>que</token>
+                  <token>les</token>
+                  <marker>
+                      <token>leur</token>
+                  </marker>
+              </pattern>
+              <message>Une erreur d'accord semble être détectée, car le pronom posséssif '\3' s'accorde avec l'article défini qui le précède.</message>
+              <suggestion>leurs</suggestion>
+              <example correction="leurs">Ils ont dit que mes chaussures étaient plus belles que les <marker>leur</marker>.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>les</token>
+                  <marker>
+                      <token>leur</token>
+                  </marker>
+                  <token postag="SENT_END"/>
+              </pattern>
+              <message>Une erreur d'accord semble être détectée, car le pronom posséssif '\2' s'accorde avec l'article défini qui le précède.</message>
+              <suggestion>leurs</suggestion>
+              <example correction="leurs">Ils ont dit que les chaussures étaient les <marker>leur</marker>.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token postag="SENT_START"/>
+                  <token>les</token>
+                  <marker>
+                      <token>leur</token>
+                  </marker>
+              </pattern>
+              <message>Une erreur d'accord semble être détectée, car le pronom posséssif '\3' s'accorde avec l'article défini qui le précède.</message>
+              <suggestion>leurs</suggestion>
+              <example correction="leurs">Les <marker>leur</marker> sont très belles.</example>
+          </rule>
+      </rulegroup>
       <rulegroup id="ACCORD_DE_LA_QUANTITE" name="accord de la quantité" default="temp_off">
           <rule>
               <antipattern>
