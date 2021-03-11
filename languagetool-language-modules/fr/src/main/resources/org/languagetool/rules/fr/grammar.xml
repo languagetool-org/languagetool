@@ -26353,9 +26353,15 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PARTICIPER_DANS" name="participer dans">
       <pattern>
-        <token inflected="yes" skip="2">participer</token>
+        <token inflected="yes" skip="2">
+          participer
+          <exception scope="next" regexp="yes">[….,;:\)"”»]</exception>
+        </token>
         <marker>
-          <token>dans</token>
+          <token>
+            dans
+            <exception scope="next">?</exception>
+          </token>
         </marker>
       </pattern>
       <message>« Participer dans » peut être considéré comme un anglicisme (to participate in).</message>
