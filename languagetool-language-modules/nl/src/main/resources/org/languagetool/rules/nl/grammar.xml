@@ -61,7 +61,7 @@ regexp case-insensitive maken : (?i)
 
 
 <!-- definieer macro voor gespelde afkortingen als cd -->
-<!ENTITY gespeld "abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|ftp|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ov|ozb|p2p|pc|pcb|pdf|pk|pps|pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp">
+<!ENTITY gespeld "abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|ftp|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ov|ozb|p2p|pc|pcb|pdf|pk|pps|pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp|km">
 <!ENTITY apostrof "[`'‘’]">
 <!ENTITY quote "[&quot;“]">
 
@@ -39162,6 +39162,18 @@ steenwijk;Steenwijk
 				<suggestion>de <match no="2" regexp_match="en$" regexp_replace="er"/></suggestion>
 				<suggestion>de <match no="2" regexp_match="en$" regexp_replace="ende"/></suggestion>
 				<example correction="het doorverbinden|de ___ doorverbinden|de doorverbinding|de doorverbindingen|te doorverbinden|de doorverbinder|de doorverbindende">En <marker>de doorverbinden</marker> doet u zo.</example>
+			</rule>			
+		</rulegroup>
+		<rulegroup id="DE_STAM" name="de kokhals" default="temp_off">
+			<rule>
+				<pattern>
+					<token>de</token>
+					<marker>
+						<token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="ZNW.*|WKW:VLT.*"/></token>
+					</marker>
+				</pattern>
+				<message>De stam van een werkwoord wordt soms als zelfstandig naamwoord gebruikt, maar \2 is niet erkend als zelfstandig naamwoord. Of is dit een spatiefout?</message>
+				<example type="incorrect">Kijk eens naar de <marker>koffiezet</marker>.</example>
 			</rule>			
 		</rulegroup>
 		<rulegroup id="DE_LELIJKS_TE" name="De lelijks te/de lelijkste" >
