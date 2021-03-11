@@ -1186,7 +1186,7 @@ though, and has since been slightly modified)-->
           <pattern>
               <token postag="D e p"/>
               <marker>
-                  <token regexp="yes">feu</token>
+                  <token>feu</token>
               </marker>
           </pattern>
           <message>Une erreur d'orthographe semble être détectée.</message>
@@ -10563,7 +10563,7 @@ though, and has since been slightly modified)-->
                   <token>vous</token>
                   <token regexp="yes" min="0" max="1">ne|n'</token>
                   <marker>
-                      <token postag="V inf" postag_regexp="yes"><exception scope="next">que</exception></token>
+                      <token postag="V inf"><exception scope="next">que</exception></token>
                   </marker>
               </pattern>
               <message>Une erreur d'accord entre le verbe et le sujet semble être détectée.</message>
@@ -10613,7 +10613,7 @@ though, and has since been slightly modified)-->
                   <token postag="R pers suj.*" postag_regexp="yes"/>
                   <token postag="V.*" postag_regexp="yes">
                       <exception postag="V inf"/>
-                      <exception regexp="yes">si</exception></token>
+                      <exception>si</exception></token>
                   <token>vous</token>
                   <marker>
                       <token postag="V ind pres 2 p">
@@ -36623,14 +36623,14 @@ though, and has since been slightly modified)-->
               <antipattern>
                   <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
                   <token>et</token>
-                  <token regexp="yes">ce(la)</token>
+                  <token regexp="yes">ce(la)?</token>
                   <token>,</token>
                   <token postag="SENT_END"/>
               </antipattern>
               <antipattern>
                   <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
                   <token>et</token>
-                  <token regexp="yes">ce(la)</token>
+                  <token regexp="yes">ce(la)?</token>
                   <token>,</token>
                   <token postag="[PA].*" postag_regexp="yes"/>
                   <token postag="SENT_END"/>
@@ -36638,7 +36638,7 @@ though, and has since been slightly modified)-->
               <antipattern>
                   <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
                   <token>et</token>
-                  <token regexp="yes">ce(la)</token>
+                  <token regexp="yes">ce(la)?</token>
                   <token>,</token>
                   <token postag="[PA].*" postag_regexp="yes" min="0" max="1"/>
                   <token regexp="yes">pourquoi|quoi|qu(&apostrophe;)</token>
@@ -38121,6 +38121,71 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rulegroup id="CONSTRUCTION_DANS_LES_EXPRESSIONS" name="erreurs dans la construction de ces expressions" default="temp_off">
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>d'</token>
+                      <token>ici</token>
+                      <token postag="K|D.*|Y" postag_regexp="yes"/>
+                  </marker>
+              </pattern>
+              <message>Cette expression peut être considérée comme familière en raison de l'omission de la préposition 'à'.</message>
+              <suggestion>\1\2 à \3</suggestion>
+              <example correction="d'ici à une">Il partira <marker>d'ici une</marker> heure.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>sans</token>
+                  <token regexp="yes">qu'|que</token>
+                  <marker>
+                      <token postag="R pers suj.*" postag_regexp="yes"/>
+                      <token inflected="yes">ne</token>
+                      <token postag="V.*" postag_regexp="yes"/>
+                  </marker>
+              </pattern>
+              <message>Une double négation semble être détectée.</message>
+              <suggestion>\3 \5</suggestion>
+              <example correction="on soit">Il a agit sans qu'<marker>on ne soit</marker> là.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token postag="D.*" postag_regexp="yes"/>
+                  <token regexp="yes">plus|meilleure?s?</token>
+                  <token postag="J.*" postag_regexp="yes" min="0" max="2"/>
+                  <token postag="N.*" postag_regexp="yes"/>
+                  <token regexp="yes">qu'|que</token>
+                  <marker>
+                      <token postag="R pers suj.*" postag_regexp="yes"><exception>je</exception></token>
+                      <token regexp="yes">ne|n'</token>
+                      <token postag="V avoir.*|V etre.*" postag_regexp="yes"/>
+                  </marker>
+                  <token>jamais</token>
+                  <token postag="V.*" postag_regexp="yes"/>
+              </pattern>
+              <message>Un contresens semble être détectée, car le terme 'jamais' à le sens de 'déjà' dans ce contexte.</message>
+              <suggestion>\6 \8</suggestion>
+              <example correction="tu as">C'est la plus belle voiture que <marker>tu n'as</marker> jamais vue.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token postag="D.*" postag_regexp="yes"/>
+                  <token regexp="yes">plus|meilleure?s?</token>
+                  <token postag="J.*" postag_regexp="yes" min="0" max="2"/>
+                  <token postag="N.*" postag_regexp="yes"/>
+                  <token regexp="yes">qu'|que</token>
+                  <marker><token>je</token>
+                      <token regexp="yes">ne|n'</token>
+                      <token postag="V avoir.*|V etre.*" postag_regexp="yes"/>
+                  </marker>
+                  <token>jamais</token>
+                  <token postag="V.*" postag_regexp="yes"/>
+              </pattern>
+              <message>Un contresens semble être détectée, car le terme 'jamais' à le sens de 'déjà' dans ce contexte.</message>
+              <suggestion>j'\8</suggestion>
+              <example correction="j'ai">C'est la plus belle voiture que <marker>je n'ai</marker> jamais vue.</example>
+          </rule>
+      </rulegroup>
       <rule id="CONFUSION_DANS_SUR" name="confusion dans ou sur" default="temp_off">
           <antipattern>
               <token>dans</token>
@@ -38684,7 +38749,7 @@ though, and has since been slightly modified)-->
               <pattern>
                   <marker>
                       <token postag="R pers suj.*" postag_regexp="yes">
-                          <exception regexp="yes">j'</exception>
+                          <exception>j'</exception>
                           <exception scope="previous">l'</exception></token>
                       <token postag="V.*" postag_regexp="yes"/>
                       <token postag="A inte"><exception>pourquoi</exception></token>
