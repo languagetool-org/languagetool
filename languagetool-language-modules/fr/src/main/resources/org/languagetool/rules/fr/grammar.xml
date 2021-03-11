@@ -38189,6 +38189,70 @@ though, and has since been slightly modified)-->
           <example correction="Qu'en fait-il"><marker>Qu'est-ce qu'il en fait</marker> ?</example>
       </rule>
   </rulegroup>
+      <rule id="ETRE_ALLE_A" name="être allé à" default="temp_off">
+          <antipattern>
+              <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir</token>
+              <token postag="V etre ppa.*" postag_regexp="yes" inflected="yes">être</token>
+              <token regexp="yes">à|au</token>
+              <token regexp="yes">moyen-âge|gouvernement|blé|commandement|coeur|cœur|niveau|chant|égalité|catalogue|leur|part|sens|service|début|risque|menu|classement|programme|pouvoir|centre|siècle|talon|palmarès|bonne|chaque|premiers?|premières?|pied|disposition|rendez-vous|proximité|départ|contraire|top|téléphone|tord|prédominance|moyen|diverse?s?|titre|plusieurs|travers|sommet|fond</token>
+          </antipattern>
+          <antipattern>
+              <token regexp="yes">l(&apostrophe;)|la|lui|leur</token>
+              <token postag="A" postag_regexp="yes" min="0"/>
+              <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir</token>
+              <token postag="V etre ppa.*" postag_regexp="yes" inflected="yes">être</token>
+              <token regexp="yes">à|au</token>
+              <token postag="[NZD].*" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir</token>
+              <token postag="V etre ppa.*" postag_regexp="yes" inflected="yes">être</token>
+              <token regexp="yes" skip="-1">à|au</token>
+              <token regexp="yes">de|d(&apostrophe;)|du|des</token>
+          </antipattern>
+          <antipattern>
+              <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir</token>
+              <token postag="V etre ppa.*" postag_regexp="yes" inflected="yes">être</token>
+              <token regexp="yes">à|au</token>
+              <token postag="[NZD].*" postag_regexp="yes" skip="-1"/>
+              <token postag="V ppa.*" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir</token>
+              <token postag="V etre ppa.*" postag_regexp="yes" inflected="yes">être</token>
+              <token>au</token>
+              <token regexp="yes">le|les|l(&apostrophe;)</token>
+          </antipattern>
+          <antipattern>
+              <token>ce</token>
+              <token skip="-1" regexp="yes">qu[ei]?</token>
+              <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir</token>
+              <token postag="V etre ppa.*" postag_regexp="yes" inflected="yes">être</token>
+              <token regexp="yes">à|au</token>
+              <token postag="[NZD].*" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir</token>
+              <token postag="V etre ppa.*" postag_regexp="yes" inflected="yes">être</token>
+              <token>à</token>
+              <token postag="[NZD].*" postag_regexp="yes"/>
+              <token regexp="yes">hauteur|peine|étude|place|avantage|transition|tour|mode|hausse|œuvre|apogée|moment|honneur|direction|suite|titre|côtés|fins|rue|époque|premières?|premiers?|initiative|fin|oeuvre|jour|tête|affiche|reprises?|essai|radio|télévision|charge|base|blé</token>
+          </antipattern>
+          <pattern>
+              <marker>
+                  <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir<exception scope="previous" postag="J.*" postag_regexp="yes"/></token>
+                  <token postag="V etre ppa.*" postag_regexp="yes" inflected="yes">être</token>
+              </marker>
+              <token regexp="yes">à|au</token>
+              <token postag="[NZD].*" postag_regexp="yes"><exception>de</exception></token>
+          </pattern>
+          <message>Une erreur d’orthographe semble être détectée.</message>
+          <suggestion><match no="1" postag="(V avoir) (ind) (.*)" postag_regexp="yes" postag_replace="(V etre) $2 $3">être</match> <match no="1" postag="(V avoir) (.* [123]) ([sp])" postag_regexp="yes" postag_replace="V ppa . $3">aller</match></suggestion>
+          <url> https://www.projet-voltaire.fr/regles-orthographe/j-ai-ete-ou-je-suis-alle/</url>
+          <example correction="sont allées|sont allés">Elles <marker>ont été</marker> à la boulangerie.</example>
+          <example>J'<marker>ai été</marker> au gouvernement en 1987.</example>
+          <example>Lui aussi <marker>a été</marker> à la direction de l'entreprise.</example>
+      </rule>
       <rule id="CONFUSION_EST_ET" name="confusion est et" default="temp_off">
           <antipattern>
               <token postag="A inte"/>
