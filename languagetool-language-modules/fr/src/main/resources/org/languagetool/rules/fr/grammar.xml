@@ -38400,6 +38400,18 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_TOURS_CRITIQUES" name="Tours critiqués divers (barbarismes, impropriétés, solécismes, etc.)">
+      <rule id="ACCORD_ETRE_LEGION" name="accord être légion" default="temp_off">
+          <pattern>
+              <token postag="V etre.*" postag_regexp="yes"/>
+              <marker>
+                  <token>légions</token>
+              </marker>
+          </pattern>
+          <message>Une erreur d'accord semble être détectée dans cette expression, car le terme 'légion' est toujours singulier après le verbe être.</message>
+          <suggestion><match no="2" regexp_match="(?-iu)s" regexp_replace=""/></suggestion>
+          <url>https://www.projet-voltaire.fr/regles-orthographe/ils-sont-legions-ou-ils-sont-legion</url>
+          <example correction="légion">Les idées sont <marker>légions</marker>.</example>
+      </rule>
       <rulegroup id="ACCORD_JOURS_DE_LA_SEMAINE" name="accord jours de la semaine" default="temp_off">
           <rule>
               <antipattern>
