@@ -11780,11 +11780,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>el</token>
                 <token regexp="yes">&nombre_fem_el;</token>
             </antipattern>
+            <antipattern>
+                <token postag="V....P." postag_regexp="yes"/>
+                <token regexp="yes" skip="-1">todos|todas</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V....P." postag_regexp="yes"/>
+                <token regexp="yes" min="0">a|que|de</token>
+                <token postag="V.N.*|V.P.*" postag_regexp="yes"/>
+                <token regexp="yes" skip="-1">todos|todas</token>
+            </antipattern>
             <pattern>
                 <unify negate="yes">
                     <feature id="genero"/>
                     <feature id="numero"/>
-                    <token inflected="yes">todo</token>
+                    <token inflected="yes">todo<exception postag="LOC_ADV"></exception></token>
                     <token postag="D[AD].*" postag_regexp="yes"><exception>lo</exception></token>
                 </unify>
             </pattern>
@@ -11792,13 +11802,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="2" postag="D[AD].(..)." postag_regexp="yes" postag_replace="PI0$1000">todo</match> \2</suggestion>
             <example correction="Todas las"><marker>Toda las</marker> frases del párrafo.</example>
             <example correction="Todas estas"><marker>Toda estas</marker> frases del párrafo.</example>
+            <example correction="todas las">Sueño con vos <marker>todos las</marker> noches.</example>
             <example>Ante todo los mejores son ellos.</example>
             <example>Debemos dar a todos las gracias por su presencia.</example>
             <example>Se eliminan del todo las diferencias.</example>
             <example>Era todo lo que quería.</example>
             <example>No uses toda el agua caliente.</example>
+            <example>Eran sobre todo las charlas del profesor.</example>
+            <example>¿Tienen todos el mismo precio?</example>
+            <example>Los productos tienen todos la garantía que marca la ley vigente</example>
+            <example>Vamos a emborracharnos todos esta noche.</example>
+            <example>Queremos emborracharnos todos esta noche.</example>
         </rule>
-        <rule id="TODA_EL_AGUA" name="toda el agua" default="temp_off">
+        <rule id="TODA_EL_AGUA" name="toda el agua">
             <antipattern>
                 <token postag="SPS00"/>
                 <token inflected="yes">todo</token>
@@ -11808,11 +11824,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">todo|todos|todas</token>
                 </marker>
                 <token>el</token>
-                <token regexp="yes">&nombre_fem_el;</token>
+                <token regexp="yes">&nombre_fem_el;<exception postag="N.[MC]S.*" postag_regexp="yes"/></token>
             </pattern>
             <message>Error de concordancia. Debe usarse la forma femenina <suggestion>toda</suggestion> delante de "\2 \3".</message>
             <url>https://www.fundeu.es/recomendacion/esta-agua-no-este-agua-1506/</url>
             <example correction="toda">No uses <marker>todo</marker> el agua.</example>
+            <example>Casi todo el arte románico.</example>
         </rule>
         <rulegroup id="AGREEMENT_PARTICULAR_CASES" name="otros casos de concordancia">
             <rule id="LAS_NUMBER_MALE" name="'las tres preceptos' etcétera">
@@ -14727,12 +14744,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="LEE_LE" name="confusión *lee/le">
             <pattern>
                 <marker>
-                    <token>lee</token>
+                    <token>lee<exception postag="_possible_NP"/></token>
                 </marker>
                 <token postag="V.[SI].*" postag_regexp="yes"/>
             </pattern>
             <message>Posible confusión. ¿Quería decir <suggestion>le</suggestion>?</message>
             <example correction="Le"><marker>Lee</marker> enseñó la casa.</example>
+            <example correction="Le"><marker>Lee</marker> llevaba su mejor ropa.</example>
+            <example>Tormenta tropical Lee toca tierra en Luisiana</example>
+            <example>La señora Lee es una gran conversadora.</example>
+            <example>No lee nada o casi nada.</example>
+            <example>No lee revistas.</example>
+            <example>Solo lee novelas.</example>
+            <example>No lee chistes.</example>
         </rule>
         <rulegroup id="SABER_SABES_" name="confusión saber/sabes">
             <antipattern>
