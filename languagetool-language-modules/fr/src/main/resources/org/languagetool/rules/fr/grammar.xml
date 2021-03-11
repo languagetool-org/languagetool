@@ -9802,6 +9802,67 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_ELISION" name="Élision">
+      <rulegroup id="JUSQUE" name="jusque" default="temp_off">
+          <rule>
+              <antipattern>
+                  <token>jusque</token>
+                  <token>la</token>
+                  <token regexp="yes">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+              </antipattern>
+              <antipattern>
+                  <token>jusque</token>
+                  <token regexp="yes">là|tard(ivement)?|bien|tôt|très|si|fort|assez|loin|ont|les?</token>
+              </antipattern>
+              <antipattern>
+                  <token>jusque</token>
+                  <token regexp="yes">^[aàâeéèêioôœuhy].*</token>
+              </antipattern>
+              <antipattern>
+                  <token>jusque</token>
+                  <token  postag="P"/>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token>jusque</token>
+                  </marker>
+              </pattern>
+              <message>Une contraction est nécessaire car, la préposition 'jusque' est généralement suivie de 'à'.</message>
+              <suggestion>jusqu'à</suggestion>
+              <example correction="jusqu'à">Il reste <marker>jusque</marker> demain.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token>jusque</token>
+                  <token>le</token>
+                  <token regexp="yes">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token>jusque</token>
+                      <token>le<exception postag="V.*" postag_regexp="yes"/></token>
+                  </marker>
+              </pattern>
+              <message>Une contraction est nécessaire car, cette expression est incorrecte dans le langage formel.</message>
+              <suggestion>jusqu'au</suggestion>
+              <example correction="jusqu'au">Il va <marker>jusque le</marker> centre historique.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token>jusque</token>
+                  <token>les</token>
+                  <token regexp="yes">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token>jusque</token>
+                      <token>les</token>
+                  </marker>
+              </pattern>
+              <message>Une contraction est nécessaire car, cette expression est incorrecte dans le langage formel.</message>
+              <suggestion>jusqu'aux</suggestion>
+              <example correction="jusqu'aux">Il reste <marker>jusque les</marker> monts puis il bifurque vers le refuge.</example>
+          </rule>
+      </rulegroup>
     <rulegroup id="PAS_D_ELISION" name="pas d'élision">
       <antipattern>
         <token regexp="yes">Hugo|Hugues|Henri|Henry|Harvard|ouates?|ya|hindie?s?</token>
