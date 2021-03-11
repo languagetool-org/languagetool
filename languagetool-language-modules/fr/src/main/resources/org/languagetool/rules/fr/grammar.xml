@@ -1216,6 +1216,147 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
+      <rulegroup id="EXPRESSIONS_VU" name="expressions comprenant le terme vu" default="temp_off">
+          <rule>
+              <antipattern>
+                  <token>à</token>
+                  <token regexp="yes" case_sensitive="yes">Vus?e?s?|VUS?E?S?</token>
+              </antipattern>
+              <antipattern>
+                  <token>à</token>
+                  <token regexp="yes">vus?|vues</token>
+                  <token>le</token>
+                  <token>jour</token>
+              </antipattern>
+              <antipattern>
+                  <token skip="-1">quiquonque</token>
+                  <token>à</token>
+                  <token regexp="yes">vus?|vues</token>
+              </antipattern>
+              <antipattern>
+                  <token postag="R pers.*|C coor" postag_regexp="yes"/>
+                  <token>à</token>
+                  <token regexp="yes">vus?|vues</token>
+              </antipattern>
+              <antipattern>
+                  <token>à</token>
+                  <token regexp="yes">vus?|vues</token>
+                  <token postag="[JD].*|V inf" postag_regexp="yes"/>
+              </antipattern>
+              <antipattern>
+                  <token>à</token>
+                  <token regexp="yes">vus?|vues</token>
+                  <token>de</token>
+                  <token>nez</token>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token>à<exception scope="previous" regexp="yes">gardes?|quelq(u)?'un|machines?|de|qu[ei]?|qu'|lentilles?|tirs?|lenticulaires?|lunettes|jusqu'</exception></token>
+                      <token regexp="yes">vus?|vues<exception scope="next" regexp="yes">juste|qu'|au|du|qu[ei]?|plus|moins|directe?s?|politiques?|humaine?s?|colorée?s?</exception></token>
+                  </marker>
+              </pattern>
+              <message>Une confusion entre le participe passé du verbe voir et le nom 'vue' semble être détectée.</message>
+              <suggestion>\1 vue</suggestion>
+              <example correction="à vue">Il le sait <marker>à vu</marker> d'oeil.</example>
+              <example correction="à vue">Selon lui, <marker>à vu</marker> il y a quatre mètres de distance.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>nombre</token>
+                  <marker>
+                      <token>de</token>
+                      <token regexp="yes">vus?e?</token>
+                  </marker>
+              </pattern>
+              <message>Dans l'expression le '\1 \2', le nom suivant est toujours pluriel.</message>
+              <suggestion>\2 vues</suggestion>
+              <example correction="de vues">Le nombre <marker>de vu</marker> est important.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token postag="SENT_START"/>
+                  <marker>
+                      <token>de</token>
+                      <token regexp="yes">vus?|vues</token>
+                  </marker>
+                  <token>,</token>
+              </pattern>
+              <message>Une confusion entre le participe passé du verbe voir et le nom 'vue' semble être détectée.</message>
+              <suggestion>\2 vue</suggestion>
+              <example correction="De vue"><marker>De vu</marker>, il n'a pas l'air grand.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token regexp="yes">gardes?</token>
+                      <token>à</token>
+                      <token regexp="yes">vus?|vues</token>
+                  </marker>
+              </pattern>
+              <message>Dans cette expression, le terme 'vue' est toujours au féminin singulier.</message>
+              <suggestion>\1 \2 vue</suggestion>
+              <example correction="garde à vue">Il a été placé en <marker>garde à vu</marker>.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token>en</token>
+                  <token regexp="yes">vus?|vues</token>
+                  <token regexp="yes" skip="1">de|du</token>
+                  <token regexp="yes">région|ville|pays</token>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token>en</token>
+                      <token regexp="yes">vus?|vues</token>
+                      <token regexp="yes">de|du<exception scope="next" regexp="yes">dess(o)?us|face|profil</exception></token>
+                  </marker>
+              </pattern>
+              <message>Une confusion entre le participe passé du verbe voir et le nom 'vue' semble être détectée.</message>
+              <suggestion>\1 vue \3</suggestion>
+              <url>https://www.projet-voltaire.fr/regles-orthographe/vu-ou-vue/</url>
+              <example correction="en vue de">Il me l'a dit <marker>en vu de</marker> cet événement.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token inflected="yes">avoir</token>
+                      <token>des</token>
+                      <token regexp="yes">vus?e?</token>
+                  </marker>
+              </pattern>
+              <message>Une confusion entre le participe passé du verbe voir et le nom 'vue' semble être détectée.</message>
+              <suggestion>\1 \2 vues</suggestion>
+              <url>https://www.projet-voltaire.fr/regles-orthographe/vu-ou-vue/</url>
+              <example correction="a des vues">Il <marker>a des vus</marker> sur cet homme.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>hors</token>
+                      <token>de</token>
+                      <token regexp="yes">vu(es)?</token>
+                  </marker>
+              </pattern>
+              <message>Une confusion entre le participe passé du verbe voir et le nom 'vue' semble être détectée.</message>
+              <suggestion>\1 \2 vue</suggestion>
+              <url>https://www.projet-voltaire.fr/regles-orthographe/vu-ou-vue/</url>
+              <example correction="hors de vue">Il est <marker>hors de vues</marker>.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <marker>
+                      <token>à</token>
+                      <token>perte</token>
+                      <token>de</token>
+                      <token regexp="yes">vus?|vues</token>
+                  </marker>
+              </pattern>
+              <message>Une confusion entre le participe passé du verbe voir et le nom 'vue' semble être détectée.</message>
+              <suggestion>\1 \2 \3 vue</suggestion>
+              <url>https://www.projet-voltaire.fr/regles-orthographe/vu-ou-vue/</url>
+              <example correction="à perte de vue">Il le voit <marker>à perte de vu</marker>.</example>
+          </rule>
+      </rulegroup>
       <rulegroup id="CONFUSION_DANS_OU_D_EN" name="confusion dans ou d'en" default="temp_off">
           <rule>
           <antipattern>
