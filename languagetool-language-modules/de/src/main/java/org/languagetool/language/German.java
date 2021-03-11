@@ -328,6 +328,7 @@ public class German extends Language implements AutoCloseable {
       case "TYPOGRAPHIC_QUOTES": return 1; // higher prio than UNPAIRED_BRACKETS
       // default is 0
       case "DE_COMPOUND_COHERENCY": return -1;  // prefer EMAIL
+      case "GEFEATURED": return -1; // prefer over spell checker
       case "DE_AGREEMENT": return -1;  // prefer RECHT_MACHEN, MONTAGS, KONJUNKTION_DASS_DAS, DESWEITEREN, DIES_BEZUEGLICH and other
       case "MEIN_KLEIN_HAUS": return -1; // prefer more specific rules that offer a suggestion (e.g. DIES_BEZÜGLICH)
       case "COMMA_IN_FRONT_RELATIVE_CLAUSE": return -1; // prefer other rules (KONJUNKTION_DASS_DAS)
