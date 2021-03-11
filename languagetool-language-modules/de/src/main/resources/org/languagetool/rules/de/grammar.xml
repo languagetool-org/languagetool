@@ -50039,5 +50039,17 @@ Andere Projekte</example>
             <message>Sätze mit der indirekten Leseransprache '\1' sind stilistisch wenig elegant formuliert. Lässt sich das Wort vermeiden?</message>
             <example correction=""><marker>Man</marker> sollte genauer hinsehen.</example>
         </rule>
+        <rule id="PASSIV_SAETZE" name="Passiv Sätze">
+           	<pattern>
+                <marker>
+   	                <token skip="-1" inflected="yes">werden
+                        <exception scope="next" regexp="yes">,|;|–|-|\?|\!</exception>
+                    </token>
+                </marker>
+                <token postag="VER:PA2:.*" postag_regexp="yes"/>
+           	</pattern>
+            <message>Passivsatz: Aktiv formulierte Sätze sprechen im Regelfall den Leser stärker an.</message>
+   	        <example correction="">Der Kuchen <marker>wird</marker> gebacken.</example>
+        </rule>
     </category>
 </rules>
